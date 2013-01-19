@@ -1,43 +1,43 @@
 Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TwhSv-0007e2-DB
+	(envelope-from <ross.burton@intel.com>) id 1TwhSx-0007e2-BZ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 00:04:46 +0100
-Received: from mail-bk0-f71.google.com ([209.85.214.71])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2013 14:49:16 -0800
-Received: by mail-bk0-f71.google.com with SMTP id jm19so5348668bkc.6
+	Sun, 20 Jan 2013 00:04:47 +0100
+Received: from mail-wi0-f197.google.com ([209.85.212.197])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2013 14:49:22 -0800
+Received: by mail-wi0-f197.google.com with SMTP id hm6so5957079wib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
+	Sat, 19 Jan 2013 14:49:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=6CbMrLOGVcUB0oeeuYXrehUEY9bS7cEmSRiitpukj+M=;
-	b=kvje/OzEPYLmuYBGtLyJ969XRaRanMJuYW3OcIYa0/ZZR1xBK3Qa78KO3yWRMSTrqf
-	9mreuOOzp07jkyaJ0Rv/oEFMtiDJQA/eMuU3c53YeDSrOaWJyvPM5WLpbDpIvfNvZuOt
-	004585uOeBAe7BgBwEnuOzo+9dOqfxCAmKMr4AaEsGHGDu/g2F47lwPyI9RFNYQWSGju
-	aeOlBPiBr35lebs58JpNqJ3FZ856XSz470Fk2RpvTBnSBDHsuwhiDugzinHY/WDK065k
-	sli58E6ZdB6L0hTKGNhhOdG6A8vKQIjWRdn5GjWYLo2UGVjbXvYTElLaBrrKLw1PSdgR
-	02mg==
-X-Received: by 10.180.78.226 with SMTP id e2mr9312656wix.1.1358635755134;
-	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
-X-Received: by 10.180.78.226 with SMTP id e2mr9312653wix.1.1358635755077;
-	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
+	bh=XdIUCauGoAvtsfWVrr8yKoY4JaPEATB7iTujO1Q8MYg=;
+	b=SpiaTxTK4Je4JQ/j13iYo10x9lZ/CkopTI1KfWNesNN9GkwTm/eb4C578THKZOXCX+
+	Bwxw2UzmI4WOq+Q6K61z/iMWEktBKG1ckhFFTv/smcRiKMYXeErB0UPXJyzhMwpEutfm
+	ilfATLcjIQJvDcQzDSGjcNQtZwEv89M3KShT1MnhihjJtFdFkbRkdBYfS5U2AG7svYm2
+	bSPgjUz7tuVCOppJ5NxVOypJg97ZoMROG/eOVgsxNKqRhtbKfDaP0LTvi4mfR1DzqWIM
+	Db5Q/oy5q76rpJ8UxWQgVc30l3NEKF1PQ4egA6C0gVMqUNxvW17mYBrO1sv7EThdHEmO
+	5u+g==
+X-Received: by 10.194.87.200 with SMTP id ba8mr20078188wjb.22.1358635759979;
+	Sat, 19 Jan 2013 14:49:19 -0800 (PST)
+X-Received: by 10.194.87.200 with SMTP id ba8mr20078186wjb.22.1358635759936;
+	Sat, 19 Jan 2013 14:49:19 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p2sm10967931wic.7.2013.01.19.14.49.13
+	by mx.google.com with ESMTPS id p2sm10967931wic.7.2013.01.19.14.49.18
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 19 Jan 2013 14:49:14 -0800 (PST)
+	Sat, 19 Jan 2013 14:49:19 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Jan 2013 22:47:05 +0000
-Message-Id: <7c26b8f7417dfbe245926137acfa61d0f659488c.1358635193.git.ross.burton@intel.com>
+Date: Sat, 19 Jan 2013 22:47:08 +0000
+Message-Id: <91837ad46ab5696d3fa63c4aba9ffa92c4a74ff9.1358635193.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
 References: <cover.1358635193.git.ross.burton@intel.com>
 In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
 References: <cover.1358635193.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnPukHr1tu6NNK+w1PXaO/3FONwAFNUyOzCa4u1j3ANwWPOOJryrNVPtfg10yAopa5/4euAz2+A+0Cv/GdY8JrVVZ0nHh8RZef522ywO/Up3y9nzWC0KQ8gHf2Cbr3Bj1gyfpaSwyAxUOLFy3jS7mqCM/omJfLZQpIpXQ8WUblfRujVdenGqgZ2UKmfF+VxKYSwpevS
-Subject: [PATCH 02/10] default-providers: Automatically set PREFERRED_PROVIDER_udev
+X-Gm-Message-State: ALoCoQkJLQTDQ0XRTQgrrfZrkCwzJzwaZWchPFSqTpLGYVOj/D5j7n93YtX4OoljG6/cdN1h4wAfWsuaAjnNi80N2AwKMxngymRTb2dhP74GIA/gDanirfwbK1w3J8XiQhvIs+OsGYLsw0UAvxTeqVOC+JwhdRaAFsZgVKT84zi2GK/cdeP57691L4vkZFgTf8hfHthfE8+T
+Subject: [PATCH 05/10] default-providers: Add systemd option to PREFERRED_PROVIDER_udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,30 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jan 2013 23:04:46 -0000
+X-List-Received-Date: Sat, 19 Jan 2013 23:04:47 -0000
 
 From: Radu Moisan <radu.moisan@intel.com>
-
-This is a more generic way to set preferred provider for udev.
-We expect to have multiple choices once we integrate other init
-managers, and this way we can automatically set it considering
-distro settings.
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/default-providers.inc |    1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/distro/include/default-providers.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 8ed703c..89b6465 100644
+index 89b6465..12a581d 100644
 --- a/meta/conf/distro/include/default-providers.inc
 +++ b/meta/conf/distro/include/default-providers.inc
-@@ -37,3 +37,4 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
+@@ -37,4 +37,4 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
  PREFERRED_PROVIDER_console-tools ?= "kbd"
  PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
  PREFERRED_PROVIDER_make ?= "make"
-+PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','sysvinit','udev','',d)}"
+-PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','sysvinit','udev','',d)}"
++PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','sysvinit','udev','',d)}${@base_contains('DISTRO_FEATURES','systemd','systemd','',d)}"
 -- 
 1.7.10.4
 
