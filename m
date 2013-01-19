@@ -1,27 +1,29 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TwLN5-0007zU-St
+	(envelope-from <Rongqing.Li@windriver.com>) id 1TwQQj-0006zK-3Z
 	for openembedded-core@lists.openembedded.org;
-	Sat, 19 Jan 2013 00:29:22 +0100
+	Sat, 19 Jan 2013 05:53:27 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0INDpLa002750
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2013 15:13:51 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Fri, 18 Jan 2013 15:13:48 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Jan 2013 17:13:38 -0600
-Message-ID: <392a0740fdf2e435aef68924757d3372015380a9.1358550581.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1358550581.git.mark.hatle@windriver.com>
-References: <cover.1358550581.git.mark.hatle@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0J4brkU000345
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Jan 2013 20:37:53 -0800 (PST)
+Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Fri, 18 Jan 2013 20:37:53 -0800
+Message-ID: <50FA2323.5060305@windriver.com>
+Date: Sat, 19 Jan 2013 12:37:55 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 2/2] update-alternatives: Add a build-time dependency
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1358477598.git.rongqing.li@windriver.com>
+	<101e3bb96160957183aaa5770f989757916edaa9.1358477598.git.rongqing.li@windriver.com>
+	<20130118082611.GC3091@jama>
+In-Reply-To: <20130118082611.GC3091@jama>
+Cc: openembedded-core@lists.openembedded.org, joe.macdonald@windriver.com
+Subject: Re: [PATCH 1/2] xinetd: enable tcp-wrappers support by DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,72 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 23:29:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 19 Jan 2013 04:53:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We need to add a build time dependency on virtual/update-alternatives,
-however we can't just do DEPENDS +=, or we end up with various problems.  To
-work around this, in the anonymous python space we ensure we only do the
-addition when the package does not provide virtual/update-alternatives and
-it is a target package.
 
-Also the system wide PREFERRED_PROVIDER was incorrect.  It references a
-runtime package, and not the recipe it should have.  This has been corrected.
 
-[YOCTO #3691]
+On 01/18/2013 04:26 PM, Martin Jansa wrote:
+> On Fri, Jan 18, 2013 at 10:56:22AM +0800, rongqing.li@windriver.com wrote:
+>> From: "Roy.Li" <rongqing.li@windriver.com>
+>>
+>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>> ---
+>>   meta/recipes-extended/xinetd/xinetd_2.3.15.bb |    5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+>> index 3bde512..9278cc2 100644
+>> --- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+>> +++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+>> @@ -7,7 +7,7 @@ LICENSE = "BSD"
+>>   LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
+>>
+>>   DEPENDS = ""
+>> -PR = "r1"
+>> +PR = "r2"
+>>
+>>   SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
+>>         file://xinetd.init \
+>> @@ -28,6 +28,9 @@ INITSCRIPT_PARAMS = "defaults"
+>>
+>>   EXTRA_OECONF="--disable-nls"
+>>
+>> +DEPENDS += "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers', 'tcp-wrappers', '', d)}"
+>> +EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers', '--with-libwrap', '', d)}"
+>> +
+>
+> Why not use PACKAGECONFIG here?
+>
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Tested-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/update-alternatives.bbclass       |   13 +++++++++++++
- meta/conf/distro/include/default-providers.inc |    2 +-
- 2 files changed, 14 insertions(+), 1 deletions(-)
+Enabling tcp-wrapper is not a random thing for some customer,
+it is a must. So I think feature is more suitable
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index 556ee7c..a75e282 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -167,12 +167,25 @@ def gen_updatealternativesvardeps(d):
-                     continue
-                 d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s_%s' % (v,p), flag, False)))
- 
-+def ua_extend_depends(d):
-+    if not 'virtual/update-alternatives' in d.getVar('PROVIDES', True):
-+        d.appendVar('DEPENDS', ' virtual/update-alternatives')
-+
- python __anonymous() {
-+    # Update Alternatives only works on target packages...
-+    if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or \
-+       bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or \
-+       bb.data.inherits_class('cross-canadian', d):
-+        return
-+
-     # deprecated stuff...
-     update_alternatives_after_parse(d)
- 
-     # compute special vardeps
-     gen_updatealternativesvardeps(d)
-+
-+    # extend the depends to include virtual/update-alternatives
-+    ua_extend_depends(d)
- }
- 
- def gen_updatealternativesvars(d):
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 8ed703c..93752b3 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -8,7 +8,7 @@ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
- PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
-+PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
- PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+-Roy
+
+> Cheers,
+>
+>>   do_configure() {
+>>   	# Looks like configure.in is broken, so we are skipping
+>>   	# rebuilding configure and are just using the shipped one
+>> --
+>> 1.7.10.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 -- 
-1.7.1
-
+Best Reagrds,
+Roy | RongQing Li
 
 
