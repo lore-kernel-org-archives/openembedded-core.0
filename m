@@ -1,25 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-lb0-f169.google.com ([209.85.217.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TwzxS-0004u0-V5
-	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 19:49:31 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 20 Jan 2013 10:34:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,501,1355126400"; d="scan'208";a="246216802"
-Received: from unknown (HELO [10.255.15.40]) ([10.255.15.40])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jan 2013 10:34:01 -0800
-Message-ID: <50FC3899.5000202@linux.intel.com>
-Date: Sun, 20 Jan 2013 10:34:01 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	(envelope-from <kergoth@gmail.com>)
+	id 1Tx1QV-0007iW-5P; Sun, 20 Jan 2013 21:23:36 +0100
+Received: by mail-lb0-f169.google.com with SMTP id m4so2693601lbo.28
+	for <multiple recipients>; Sun, 20 Jan 2013 12:08:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=4l9YTa7MXoMZnmwT/0TZpn8PUhm030FUyMsyPvGOobM=;
+	b=p1OLM8QVWEwQ43B9xb8n1klBTrcZn45pJpa0AO+a2Gf7pUcWQzanT7ItVlAjuyFkOC
+	FedJoRSgp+GbrRGhLsHezH5DcRbrgSuJOotz1ZbaP8sOv8QTyDYePLHTFHINLF+JANrR
+	80rf85AhVz2un1BdKS1BmelHSiTAp6Uz8Li8pZXDXNm5vrjUUpOoyD/g29Nx+mNjAuhT
+	4dMui1lcc6uH4VWo1Sw/ilMpSnpoXg+cJzOTdetJgAVmaxxz52uQs2Xt1kcqzBmfzeOC
+	jW6FnwdRyz1jHpeUWE86VZBwTDxB3z6XjP1nOj+9kAlxlEd1GaffMTmhNRBkj/dghRqS
+	v7+g==
+X-Received: by 10.152.133.130 with SMTP id pc2mr1118854lab.51.1358712487393;
+	Sun, 20 Jan 2013 12:08:07 -0800 (PST)
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <cover.1358635193.git.ross.burton@intel.com>
-In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/10] Initial systemd integration
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Sun, 20 Jan 2013 12:07:47 -0800 (PST)
+In-Reply-To: <13c58476de5.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+References: <CAHsH0E96h=aT6t-u-ACY7MGFHJv4_TTqSMfCmMpSKiq3NBjciw@mail.gmail.com>
+	<CABcZANkpo5qMnPkL903SQjfkPhwUF-7rK+i5LaqxTFUdqE3H2Q@mail.gmail.com>
+	<CAHsH0E_9kaYC0_9rv+zHR8FwxXyU=7vTj2eL85_jJ=uRtb0aSw@mail.gmail.com>
+	<13c58476de5.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sun, 20 Jan 2013 13:07:47 -0700
+X-Google-Sender-Auth: OteXTR4ir44bjPO9iPMrWN1YMGM
+Message-ID: <CABcZANnOFkS61xKs=ZzeTKFUBa=sYZpR-5jXdzf6oHYhdtpU_Q@mail.gmail.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Cc: "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] git address in SRC_URI, doesn't works for me
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,212 +46,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 18:49:31 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 20 Jan 2013 20:23:50 -0000
+Content-Type: multipart/alternative; boundary=f46d042dfc8729b81104d3bde756
 
-On 01/19/2013 02:47 PM, Ross Burton wrote:
-> Hi,
->
-> This series has the goal of enabling core-image-minimal to boot using systemd.
-> As such it touches no real services, just the infrastructural tweaks to make the
-> init manager a distribution choice, systemd itself, and a few low-level changes.
->
-> 95% of the credit obviously must go to the contributors of meta-systemd:
->
->      Andreas Müller <schnitzeltony@googlemail.com>
->      Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
->      Holger Hans Peter Freyther <holger@moiji-mobile.com>
->      Khem Raj <raj.khem@gmail.com>
->      Koen Kooi <koen@dominion.thruhere.net>
->      Martin Jansa <Martin.Jansa@gmail.com>
->
-> And thanks to Radu Moisan <radu.moisan@intel.com> for the work pulling together
-> a series for merging into oe-core.
->
-> Confirmed that this series using sysvinit results in a zero-delta in
-> core-image-minimal.
->
+--f46d042dfc8729b81104d3bde756
+Content-Type: text/plain; charset=UTF-8
 
-This change introduced a new warning about un-packaged files:
+As I already explained, the url scheme determines the tool to be used.
+http:// will call wget. git:// will call git. protocol= controls the
+underlying protocol it's fetched over. Not that complex. The alternative
+would be to reverse them, meaning you'd have to tell bitbake not to use
+wget for a http:// uri. Neither will magically know that a given
+http://uri is a git repository.
+-- 
+Christopher Larson
 
-> WARNING: QA Issue: connman: Files/directories were installed but not shipped
->   /lib
->   /lib/systemd
->   /lib/systemd/system
->   /lib/systemd/system/connman.service
+--f46d042dfc8729b81104d3bde756
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">As I already explained, the url scheme determines the tool=
+ to be used. http:// will call wget. git:// will call git. protocol=3D cont=
+rols the underlying protocol it&#39;s fetched over. Not that complex. The a=
+lternative would be to reverse them, meaning you&#39;d have to tell bitbake=
+ not to use wget for a http:// uri. Neither will magically know that a give=
+n http:// uri is a git repository.<div class=3D"gmail_extra">
 
-Sau!
+-- <br>Christopher Larson</div></div>
 
-
-> Cheers,
-> Ross
->
-> The following changes since commit 349e5bea53b02cabf836b8943541a002ce9ba682:
->
->    guilt: add git 1.8.x support (2013-01-18 13:28:10 +0000)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib ross/systemd-minimal
->
-> for you to fetch changes up to 2a93db0fd8302290ac0f2c6c83ea640ad273c3e2:
->
->    libpam: register PAM session with logind (2013-01-19 22:35:52 +0000)
->
-> ----------------------------------------------------------------
-> Koen Kooi (1):
->        libpam: register PAM session with logind
->
-> Martin Donnelly (1):
->        base-files: add fstab for systemd based systems
->
-> Radu Moisan (5):
->        default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
->        default-providers: Automatically set PREFERRED_PROVIDER_udev
->        systemd: add systemd recipes
->        default-providers: Add systemd option to PREFERRED_PROVIDER_udev
->        update-rc.d: disable update-rc.d.bbclass when systemd enabled
->
-> Ross Burton (3):
->        dbus: respect systemd distro feature
->        packagegroup-core-boot: install systemd-compat-units on systemd images
->        packagegroup-core-boot: only install initscripts if we're using sysvinit
->
->   meta/classes/update-rc.d.bbclass                   |   90 +-----
->   meta/classes/update-rc.d_real.bbclass              |   89 ++++++
->   meta/conf/distro/include/default-distrovars.inc    |    3 +-
->   meta/conf/distro/include/default-providers.inc     |    1 +
->   .../base-files/base-files/fstab.systemd            |    9 +
->   meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
->   meta/recipes-core/dbus/dbus.inc                    |   27 +-
->   .../packagegroups/packagegroup-core-boot.bb        |    7 +-
->   meta/recipes-core/systemd/systemd-compat-units.bb  |   58 ++++
->   .../systemd/systemd-compat-units/machineid.service |   16 +
->   .../systemd-compat-units/run-postinsts.service     |   17 +
->   meta/recipes-core/systemd/systemd-serialgetty.bb   |   45 +++
->   .../systemd-serialgetty/serial-getty@.service      |   32 ++
->   .../systemd/systemd-systemctl-native.bb            |   15 +
->   .../systemd/systemd-systemctl/systemctl            |  126 ++++++++
->   .../systemd/systemd/00-create-volatile.conf        |   10 +
->   ...emd-analyze-use-argparse-instead-of-getop.patch |  103 ++++++
->   ...-analyze-use-GDBus-instead-of-dbus-python.patch |   91 ++++++
->   meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
->   .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
->   .../systemd-pam-configure-check-uclibc.patch       |   26 ++
->   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
->   .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
->   .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
->   .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
->   .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 ++++++++++++++++++++
->   .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
->   .../systemd/systemd/use-rootlibdir.patch           |  107 +++++++
->   meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
->   meta/recipes-core/systemd/systemd_196.bb           |  249 +++++++++++++++
->   .../pam/libpam/pam.d/common-session                |    4 +-
->   31 files changed, 1726 insertions(+), 108 deletions(-)
->   create mode 100644 meta/classes/update-rc.d_real.bbclass
->   create mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
->   create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
->   create mode 100755 meta/recipes-core/systemd/systemd-systemctl/systemctl
->   create mode 100644 meta/recipes-core/systemd/systemd/00-create-volatile.conf
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-systemd-analyze-use-argparse-instead-of-getop.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0002-Revert-analyze-use-GDBus-instead-of-dbus-python.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/use-rootlibdir.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
->   create mode 100644 meta/recipes-core/systemd/systemd_196.bb
->
-> Koen Kooi (1):
->    libpam: register PAM session with logind
->
-> Martin Donnelly (1):
->    base-files: add fstab for systemd based systems
->
-> Radu Moisan (5):
->    default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
->    default-providers: Automatically set PREFERRED_PROVIDER_udev
->    systemd: add systemd recipes
->    default-providers: Add systemd option to PREFERRED_PROVIDER_udev
->    update-rc.d: disable update-rc.d.bbclass when systemd enabled
->
-> Ross Burton (3):
->    dbus: respect systemd distro feature
->    packagegroup-core-boot: install systemd-compat-units on systemd
->      images
->    packagegroup-core-boot: only install initscripts if we're using
->      sysvinit
->
->   meta/classes/update-rc.d.bbclass                   |   90 +-----
->   meta/classes/update-rc.d_real.bbclass              |   89 ++++++
->   meta/conf/distro/include/default-distrovars.inc    |    3 +-
->   meta/conf/distro/include/default-providers.inc     |    1 +
->   .../base-files/base-files/fstab.systemd            |    9 +
->   meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
->   meta/recipes-core/dbus/dbus.inc                    |   27 +-
->   .../packagegroups/packagegroup-core-boot.bb        |    7 +-
->   meta/recipes-core/systemd/systemd-compat-units.bb  |   58 ++++
->   .../systemd/systemd-compat-units/machineid.service |   16 +
->   .../systemd-compat-units/run-postinsts.service     |   17 +
->   meta/recipes-core/systemd/systemd-serialgetty.bb   |   45 +++
->   .../systemd-serialgetty/serial-getty@.service      |   32 ++
->   .../systemd/systemd-systemctl-native.bb            |   15 +
->   .../systemd/systemd-systemctl/systemctl            |  126 ++++++++
->   .../systemd/systemd/00-create-volatile.conf        |   10 +
->   ...emd-analyze-use-argparse-instead-of-getop.patch |  103 ++++++
->   ...-analyze-use-GDBus-instead-of-dbus-python.patch |   91 ++++++
->   meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
->   .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
->   .../systemd-pam-configure-check-uclibc.patch       |   26 ++
->   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
->   .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
->   .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
->   .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
->   .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 ++++++++++++++++++++
->   .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
->   .../systemd/systemd/use-rootlibdir.patch           |  107 +++++++
->   meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
->   meta/recipes-core/systemd/systemd_196.bb           |  249 +++++++++++++++
->   .../pam/libpam/pam.d/common-session                |    4 +-
->   31 files changed, 1726 insertions(+), 108 deletions(-)
->   create mode 100644 meta/classes/update-rc.d_real.bbclass
->   create mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
->   create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
->   create mode 100755 meta/recipes-core/systemd/systemd-systemctl/systemctl
->   create mode 100644 meta/recipes-core/systemd/systemd/00-create-volatile.conf
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-systemd-analyze-use-argparse-instead-of-getop.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/0002-Revert-analyze-use-GDBus-instead-of-dbus-python.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/use-rootlibdir.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
->   create mode 100644 meta/recipes-core/systemd/systemd_196.bb
->
-
-
+--f46d042dfc8729b81104d3bde756--
