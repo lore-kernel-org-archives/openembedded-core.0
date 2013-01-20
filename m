@@ -1,36 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TwvRd-0005KM-OX for Openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 15:00:23 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0KDioCs008904;
-	Sun, 20 Jan 2013 13:44:50 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04722-05; Sun, 20 Jan 2013 13:44:46 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0KDihQB008898
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sun, 20 Jan 2013 13:44:44 GMT
-Message-ID: <1358689484.14265.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Date: Sun, 20 Jan 2013 13:44:44 +0000
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C3F0BCFC9@ORSMSX106.amr.corp.intel.com>
-References: <cover.1358365495.git.nitin.a.kamble@intel.com>
-	<9ab00cdffdd81cbdcd68ac03aafd925372f25ad7.1358365495.git.nitin.a.kamble@intel.com>
-	<50F983F9.4020708@linux.intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C3F0BCF8A@ORSMSX106.amr.corp.intel.com>
-	<50F98857.809@linux.intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C3F0BCFC9@ORSMSX106.amr.corp.intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto_3.4: use ${KSRC_linux_yocto_3_4_repo} based SRC_URI
+Received: from mail-ea0-f173.google.com ([209.85.215.173])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rep.dot.nop@gmail.com>)
+	id 1Twvk1-0005oy-Mg; Sun, 20 Jan 2013 15:19:34 +0100
+Received: by mail-ea0-f173.google.com with SMTP id i1so1717852eaa.32
+	for <multiple recipients>; Sun, 20 Jan 2013 06:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:date:message-id:in-reply-to:references
+	:user-agent:subject:mime-version:content-type
+	:content-transfer-encoding;
+	bh=m8HC6rwluQftI/IU7PWeoOwc08FfcmYweWGCSz34WnA=;
+	b=EiwctVdOGS7/w8MX6K5O9ubooBSV4jnhQZCn+LYJRiPoJKn4YQ9HEorfudNOsHcIIf
+	8WJqlaG138hIfsMqYzyP7LDiObPAD4meNmyUH0JaPD+CvJFP27ScEY3XVS4hu383ziw4
+	9MxvvThVOvfdiWHpPd+SBSPEbHLlCA/qyXacJVnpUs7abDMWdfm1ZvIUoGqSJZ2mOJqD
+	WAH4myWzxwX/juCtJS72p+2N5CScCC3vn6Gb85NccALw0uZHxgqhS+CiZn5HeSZlLrQm
+	1n/ggbQFEn/phCuHOmsKa4JqhoFfcHW3kR6HGDzG5IMxaFHr+Arp6uF1QN3LgoJ874R6
+	DeQQ==
+X-Received: by 10.14.224.199 with SMTP id x47mr49008169eep.19.1358690634394;
+	Sun, 20 Jan 2013 06:03:54 -0800 (PST)
+Received: from [92.248.13.66] (092248013066.atmpu0037.highway.a1.net.
+	[92.248.13.66])
+	by mx.google.com with ESMTPS id 46sm17503045eeg.4.2013.01.20.06.03.47
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 20 Jan 2013 06:03:53 -0800 (PST)
+From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
+To: lei yang <yanglei.fage@gmail.com>, Chris Larson <clarson@kergoth.com>
+Date: Sun, 20 Jan 2013 15:05:48 +0100
+Message-ID: <13c58476de5.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <CAHsH0E_9kaYC0_9rv+zHR8FwxXyU=7vTj2eL85_jJ=uRtb0aSw@mail.gmail.com>
+References: <CAHsH0E96h=aT6t-u-ACY7MGFHJv4_TTqSMfCmMpSKiq3NBjciw@mail.gmail.com>
+	<CABcZANkpo5qMnPkL903SQjfkPhwUF-7rK+i5LaqxTFUdqE3H2Q@mail.gmail.com>
+	<CAHsH0E_9kaYC0_9rv+zHR8FwxXyU=7vTj2eL85_jJ=uRtb0aSw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.1.2 (build:
+	2100174)
+MIME-Version: 1.0
+Cc: "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] git address in SRC_URI, doesn't works for me
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,132 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 14:00:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 20 Jan 2013 14:19:35 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2013-01-18 at 17:43 +0000, Kamble, Nitin A wrote:
-> 
-> > -----Original Message-----
-> > From: Saul Wold [mailto:sgw@linux.intel.com]
-> > Sent: Friday, January 18, 2013 9:37 AM
-> > To: Kamble, Nitin A
-> > Cc: Openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 1/1] linux-yocto_3.4: use
-> > ${KSRC_linux_yocto_3_4_repo} based SRC_URI
-> > 
-> > On 01/18/2013 09:23 AM, Kamble, Nitin A wrote:
-> > >
-> > >
-> > >> -----Original Message-----
-> > >> From: Saul Wold [mailto:sgw@linux.intel.com]
-> > >> Sent: Friday, January 18, 2013 9:19 AM
-> > >> To: Kamble, Nitin A
-> > >> Cc: Openembedded-core@lists.openembedded.org
-> > >> Subject: Re: [OE-core] [PATCH 1/1] linux-yocto_3.4: use
-> > >> ${KSRC_linux_yocto_3_4_repo} based SRC_URI
-> > >>
-> > >> On 01/16/2013 11:46 AM, nitin.a.kamble@intel.com wrote:
-> > >>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > >>>
-> > >>> This makes replacing kernel git repository easy.
-> > >>> For example you can add the following line in your local.conf to use
-> > >>> your own local kernel repository:
-> > >>>
-> > >>> KSRC_linux_yocto_3_4_repo = "/home/nitin/linux-yocto-
-> > >> 3.4.git/;protocol=file"
-> > >>>
-> > >>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > >>> ---
-> > >>>    meta/recipes-kernel/linux/linux-yocto_3.4.bb |    3 ++-
-> > >>>    1 files changed, 2 insertions(+), 1 deletions(-)
-> > >>>
-> > >>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> > >>> b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> > >>> index 70ed967..92129b6 100644
-> > >>> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> > >>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> > >>> @@ -11,7 +11,8 @@ SRCREV_machine_qemux86-64 ?=
-> > >> "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
-> > >>>    SRCREV_machine ?= "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
-> > >>>    SRCREV_meta ?= "7e0cd2990798aae80565baa17d3b6c771874f284"
-> > >>>
-> > >>> -SRC_URI = "git://git.yoctoproject.org/linux-yocto-
-> > >>
-> > 3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},${KMETA};name=ma
-> > >> chine,meta"
-> > >>> +KSRC_linux_yocto_3_4_repo ?= "git.yoctoproject.org/linux-yocto-
-> > >> 3.4.git;protocol=git"
-> > >>> +SRC_URI =
-> > >>
-> > "git://${KSRC_linux_yocto_3_4_repo};nocheckout=1;branch=${KBRANCH},${
-> > >> KMETA};name=machine,meta"
-> > >>>
-> > >>
-> > >> Nitin,
-> > >>
-> > >> Can't the same be accomplished by setting SRC_URI-yocto-linux in your
-> > >> local.conf file:
-> > >>
-> > >>> SRC_URI_linux-yocto =
-> > >>> "/home/nitin/linux-yocto-3.4.git/;protocol=file
-> > >> ;nocheckout=1;branch=${KBRANCH},${KMETA};name=machine,meta"
-> > >>
-> > >> Yes, it might require a little cut paste of the nocheck... part.
-> > >>
-> > >> Sau!
-> > >>
-> > >
-> > >
-> > > Saul,
-> > >     This way same settings can be used for any BSP. And shouldn't we make
-> > life of YP developer easy?
-> > >
-> > This just seems like an extra variable that then needs to be documented
-> > when the SRC_URI already exists for this purpose.
-> 
-> And this new variable is going to make kernel developer's life easy to just replace the kernel repository
-> while keeping all the kernel repo branch names same. 
-> 
-> As a kernel/BSP developer it definitely makes my life easier.
+On 20 January 2013 07:08:35 lei yang <yanglei.fage@gmail.com> wrote:
+> On Sun, Jan 20, 2013 at 10:15 AM, Chris Larson <clarson@kergoth.com> wrote:
+> >
+> > On Sat, Jan 19, 2013 at 2:13 AM, lei yang <yanglei.fage@gmail.com> wrote:
+> >>
+> >> SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
+> >> it doe noting,and trying to find COPING,but it doesn't clone it
+> >
+> >
+> > This is the correct syntax. The URL scheme (git://) determines what bitbake
+> > fetcher, and therefore what tool, is used to fetch. If you use http://,
+> > it'll try to download it with wget, not git.
+> > -
+>
+>
+> Correct, now it works for me, what protocol determines, , I thought
+> SRC_URS="address;protocol=*"
+> The address should be a real address, now I know it's not , a strange usage
 
-I'm not taking things like this which solve a given specialist use case
-but would need to result in every recipe changing where someone wanted
-to do this. To be blunt, your choice of variable name also sucks.
-
-Embrace the power of the scripting we have, there are much more
-interesting ways to solve this problem generically. For example, I wrote
-this piece of code in a few minutes (admittedly untested):
+Yes, it is very counterintuitive (but cannot be corrected easily due to 
+gazillions of recipes that use this unfortunate scheme).
 
 
-urlremapper.bbclass:
-
-python () {
-    mod = False
-    newsrcuri = []
-    srcuri = (d.getVar("SRC_URI", True) or "").split()
-    maps = d.getVarFlags("URLREMAP")
-    for uri in srcuri:
-        for u in maps: 
-        if uri.startswith(u):
-            uri.replace(u, maps[u])
-            mod = True
-        newsrcuri.append(uri)
-    if mod:
-        d.setVar("SRC_URI", " ".join(newsrcuri))
-}
-
-
-URLREMAP[git://git.yoctoproject.org/linux-yocto-3.4.git] = "git:///home/nitin/linux-yocto-3.4.git/;protocol=file"
-
-which should do what you want but in a generic way which doesn't require
-us to hack each recipe. You can do it completely locally if you create a
-classes directory alongside your conf directory and place the .bbclass
-there, then add INHERIT += "urlremapper" in local.conf.
-
-Cheers,
-
-Richard
+Sent with AquaMail for Android
+http://www.aqua-mail.com
 
 
 
