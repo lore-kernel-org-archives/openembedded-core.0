@@ -1,19 +1,21 @@
 Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TwvFH-0004g1-W4
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TwvKe-0004pQ-N1
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 14:47:42 +0100
+	Sun, 20 Jan 2013 14:53:10 +0100
 Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 7A573D22CD;
-	Sun, 20 Jan 2013 14:32:13 +0100 (CET)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id BDFCBD22CD;
+	Sun, 20 Jan 2013 14:37:47 +0100 (CET)
 From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Jan 2013 14:32:03 +0100
-Message-Id: <1358688723-6271-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Date: Sun, 20 Jan 2013 14:37:28 +0100
+Message-Id: <1358689048-10799-1-git-send-email-marcin.juszkiewicz@linaro.org>
 X-Mailer: git-send-email 1.8.0
+In-Reply-To: <1358688723-6271-1-git-send-email-marcin.juszkiewicz@linaro.org>
+References: <1358688723-6271-1-git-send-email-marcin.juszkiewicz@linaro.org>
 Subject: [PATCH] xorg-minimal-fonts: depend on font-alias instead of shipping fonts.alias
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -27,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 13:47:43 -0000
+X-List-Received-Date: Sun, 20 Jan 2013 13:53:10 -0000
 
 | Collected errors:
 |  * check_data_file_clashes: Package font-alias wants to install file /home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/core-image-lsb-dev/1.0-r0/rootfs/usr/share/fonts/X11/misc/fonts.alias
