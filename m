@@ -1,22 +1,39 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tx2Vf-0001D6-2O
+	(envelope-from <ross.burton@intel.com>) id 1Tx3wg-0005k5-4j
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 22:33:02 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 94764D22CD;
-	Sun, 20 Jan 2013 22:17:36 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+	Mon, 21 Jan 2013 00:04:58 +0100
+Received: from mail-ee0-f70.google.com ([74.125.83.70])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 20 Jan 2013 14:49:29 -0800
+Received: by mail-ee0-f70.google.com with SMTP id l10so6459134eei.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Jan 2013 14:49:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=z7bnOkZ6zCY+57QcPWye11OWu2LgUcbnPvikQXK6OdQ=;
+	b=Tpv/4jVcs/P/um3/i+z8ojEV2q7eEDhxET6pQqA3mmsT/3VoIe5DheG7Nz4PpvUIHp
+	GRPXvFTxb0wu+bmL8OW0qupYDUy3WLinkhmGGqszhBMLKabaGutN5zpmQu9wr1AyVBFY
+	bL0OIZKkxKWyhNlONL445pxr3KjHw+cQYUq6OCh5b5+35YsrSh9ruDutSv0FDoRFdXaW
+	vFqbErtwwQKNKfqrWp2FWUaKbHQhWWonkT2xp6YQAq7FMHd+R14Cys09vm3a+fEFGBS7
+	ogadAG2G61EUygMpHKYgCqhR1Q1M7+edpW/2G71iD0T02rwln3iWM4qszUOBhinZzkoK
+	3eig==
+X-Received: by 10.180.99.227 with SMTP id et3mr12460011wib.6.1358722167898;
+	Sun, 20 Jan 2013 14:49:27 -0800 (PST)
+X-Received: by 10.180.99.227 with SMTP id et3mr12460009wib.6.1358722167825;
+	Sun, 20 Jan 2013 14:49:27 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fv2sm14351817wib.4.2013.01.20.14.49.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 20 Jan 2013 14:49:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Jan 2013 22:17:28 +0100
-Message-Id: <1358716648-30339-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1358689048-10799-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <1358689048-10799-1-git-send-email-marcin.juszkiewicz@linaro.org>
-Subject: [PATCH] xorg-minimal-fonts: depend on font-alias instead of shipping fonts.alias
+Date: Sun, 20 Jan 2013 22:47:28 +0000
+Message-Id: <1358722048-1865-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnUB3miovPiOeAVHMfRp8y14A6lhcvzZCURbWRtTX0SimcLmkOUKsWUIdBrF8zCQ0QcxVruCPynM3C44CtdEdxC/dOIjJjQYuEtVi8zcuUrsQjot33shi4ARbini8RvX02Xf9UIu7oTfQ4zKkt9odVq+FZYMGKoJci20mHFfNLb+UTmc/9QrZlCg0/DZ7jqC1FK6Dva
+Subject: [PATCH] gtk+3: refresh cross.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,142 +46,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 21:33:02 -0000
+X-List-Received-Date: Sun, 20 Jan 2013 23:04:58 -0000
 
-| Collected errors:
-|  * check_data_file_clashes: Package font-alias wants to install file /home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/core-image-lsb-dev/1.0-r0/rootfs/usr/share/fonts/X11/misc/fonts.alias
-|       But that file is already provided by package  * xorg-minimal-fonts
-|  * opkg_install_cmd: Cannot install package packagegroup-core-lsb-dev.
-| ERROR: Function failed: do_rootfs (see /home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/core-image-lsb-dev/1.0-r0/temp/log.do_rootfs.7564 for further information)
+cross.patch was accepted upstream, so update this patch with the commit that was
+merged.
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-font/xorg-minimal-fonts.bb                |  8 +--
- .../xorg-font/xorg-minimal-fonts/misc/fonts.alias  | 80 ----------------------
- 2 files changed, 3 insertions(+), 85 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
+ meta/recipes-gnome/gtk+/gtk+3/cross.patch |   63 ++++++++++++++++-------------
+ 1 file changed, 36 insertions(+), 27 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-index b1a65e7..5e33f14 100644
---- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-+++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-@@ -6,19 +6,19 @@ BUGTRACKER = "n/a"
- SECTION = "x11/fonts"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/cross.patch b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
+index 7b2a158..f2ea99b 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3/cross.patch
++++ b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
+@@ -1,7 +1,7 @@
+-Upstream-Status: Submitted [#691301]
++Upstream-Status: Backport [SHA 53083ea7b423482b203372f02d097edbef894a7d]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- LICENSE = "PD"
--LIC_FILES_CHKSUM = "file://../misc/fonts.alias;md5=bbe8d3c0e4e74af96e3ac393985c4fbb \
--                    file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519ab \
-+LIC_FILES_CHKSUM = "file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519ab \
-                     file://../misc/cursor.pcf.gz;md5=40bc81001fef4c21ca08df4305014a2a"
+-From 2ce72e5d53e84a2eba8c3f2cb6af25ffffc46ea9 Mon Sep 17 00:00:00 2001
++From b670abe861e8dde067f544b9131edc28575d63ab Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 7 Jan 2013 12:49:27 +0000
+ Subject: [PATCH] build: support cross-compilation by natively building
+@@ -17,16 +17,16 @@ assumes that you'd set PKG_CONFIG_FOR_BUILD to a host pkg-config binary.
  
- SRC_URI = "file://misc"
+ https://bugzilla.gnome.org/show_bug.cgi?id=691301
+ ---
+- configure.ac               |   25 +++++++--
++ configure.ac               |   39 ++++++++++----
+  gtk/Makefile.am            |   12 ++++-
+  gtk/native/Makefile.am     |   12 +++++
+  m4/ax_prog_cc_for_build.m4 |  125 ++++++++++++++++++++++++++++++++++++++++++++
+- 4 files changed, 168 insertions(+), 6 deletions(-)
++ 4 files changed, 177 insertions(+), 11 deletions(-)
+  create mode 100644 gtk/native/Makefile.am
+  create mode 100644 m4/ax_prog_cc_for_build.m4
  
- PE = "1"
--PR = "r1"
-+PR = "r2"
- 
- inherit allarch
- 
- PACKAGES = "${PN}"
- FILES_${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
-+RDEPENDS_${PN} += "font-alias"
- 
- do_install() {
- 	install -d ${D}/${datadir}/fonts/X11/misc
-@@ -26,5 +26,3 @@ do_install() {
- 	install -d ${D}/${libdir}/X11
- 	ln -sf ${datadir}/fonts/X11/ ${D}/${libdir}/X11/fonts -s
- }
--
--
-diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
-deleted file mode 100644
-index 3900036..0000000
---- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
-+++ /dev/null
-@@ -1,80 +0,0 @@
--!! fonts.alias -- automatically generated file.  DO NOT EDIT.
--!! To modify, see update-fonts-alias(8).
--!! /etc/X11/fonts/misc/xfonts-base.alias
--! $Xorg: fonts.alias,v 1.3 2000/08/21 16:42:31 coskrey Exp $
--fixed        -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
--variable     -*-helvetica-bold-r-normal-*-*-120-*-*-*-*-iso8859-1
--5x7          -misc-fixed-medium-r-normal--7-70-75-75-c-50-iso8859-1
--5x8          -misc-fixed-medium-r-normal--8-80-75-75-c-50-iso8859-1
--6x9          -misc-fixed-medium-r-normal--9-90-75-75-c-60-iso8859-1
--6x10         -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
--6x12         -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso8859-1
--6x13         -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
--6x13bold     -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
--7x13         -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1
--7x13bold     -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-1
--7x13euro     -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-15
--7x13eurobold -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-15
--7x14         -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
--7x14bold     -misc-fixed-bold-r-normal--14-130-75-75-c-70-iso8859-1
--8x13         -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1
--8x13bold     -misc-fixed-bold-r-normal--13-120-75-75-c-80-iso8859-1
--8x16         -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1
--9x15         -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
--9x15bold     -misc-fixed-bold-r-normal--15-140-75-75-c-90-iso8859-1
--10x20        -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1
--12x24        -sony-fixed-medium-r-normal--24-170-100-100-c-120-iso8859-1
--nil2         -misc-nil-medium-r-normal--2-20-75-75-c-10-misc-fontspecific
--
--heb6x13      -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-8
--heb8x13      -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-8
--
--k14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-0
--a14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-iso8859-1
--r14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
--rk14         -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
--r16          -sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0
--rk16         -sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0
--r24          -sony-fixed-medium-r-normal--24-*-*-*-*-*-jisx0201.1976-0
--rk24         -sony-fixed-medium-r-normal--24-*-*-*-*-*-jisx0201.1976-0
--kana14       -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
--8x16kana     -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
--8x16romankana -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
--12x24kana     -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
--12x24romankana -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
--kanji16      -jis-fixed-medium-r-normal--16-*-*-*-*-*-jisx0208.1983-0
--kanji24      -jis-fixed-medium-r-normal--24-*-*-*-*-*-jisx0208.1983-0
--
--hanzigb16st "-isas-song ti-medium-r-normal--16-160-72-72-c-160-gb2312.1980-0"
--hanzigb24st "-isas-song ti-medium-r-normal--24-240-72-72-c-240-gb2312.1980-0"
--hanzigb16fs "-isas-fangsong ti-medium-r-normal--16-160-72-72-c-160-gb2312.1980-0"
--
--olcursor   "-sun-open look cursor-----12-120-75-75-p-160-sunolcursor-1"
--olglyph-10 "-sun-open look glyph-----10-100-75-75-p-101-sunolglyph-1"
--olglyph-12 "-sun-open look glyph-----12-120-75-75-p-113-sunolglyph-1"
--olglyph-14 "-sun-open look glyph-----14-140-75-75-p-128-sunolglyph-1"
--olglyph-19 "-sun-open look glyph-----19-190-75-75-p-154-sunolglyph-1"
--
---misc-fixed-medium-r-normal--7-50-100-100-c-50-iso8859-1 -misc-fixed-medium-r-normal--7-70-75-75-c-50-iso8859-1
---misc-fixed-medium-r-normal--8-60-100-100-c-50-iso8859-1 -misc-fixed-medium-r-normal--8-80-75-75-c-50-iso8859-1
---misc-fixed-medium-r-normal--9-80-100-100-c-60-iso8859-1 -misc-fixed-medium-r-normal--9-90-75-75-c-60-iso8859-1
---misc-fixed-medium-r-normal--10-70-100-100-c-60-iso8859-1 -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
---misc-fixed-medium-r-semicondensed--12-90-100-100-c-60-iso8859-1 -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso8859-1
---misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-1 -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
---misc-fixed-bold-r-semicondensed--13-100-100-100-c-60-iso8859-1 -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
---misc-fixed-medium-r-normal--13-100-100-100-c-70-iso8859-1 -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1
---misc-fixed-bold-r-normal--13-100-100-100-c-70-iso8859-1 -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-1
---misc-fixed-medium-r-normal--13-100-100-100-c-80-iso8859-1 -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1
---misc-fixed-bold-r-normal--13-100-100-100-c-80-iso8859-1 -misc-fixed-bold-r-normal--13-120-75-75-c-80-iso8859-1
---misc-fixed-medium-r-normal--14-110-100-100-c-70-iso8859-1 -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
---misc-fixed-medium-r-normal--15-120-100-100-c-90-iso8859-1 -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
---misc-fixed-bold-r-normal--15-120-100-100-c-90-iso8859-1 -misc-fixed-bold-r-normal--15-140-75-75-c-90-iso8859-1
---misc-fixed-medium-r-normal--20-140-100-100-c-100-iso8859-1 -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1
---misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-8 -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-8
---misc-fixed-medium-r-normal--13-100-100-100-c-80-iso8859-8 -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-8
---sony-fixed-medium-r-normal--16-150-75-75-c-80-iso8859-1 -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1
---sony-fixed-medium-r-normal--16-150-75-75-c-80-jisx0201.1976-0 -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
---sony-fixed-medium-r-normal--24-230-75-75-c-120-iso8859-1 -sony-fixed-medium-r-normal--24-170-100-100-c-120-iso8859-1
---sony-fixed-medium-r-normal--24-230-75-75-c-120-jisx0201.1976-0 -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
---jis-fixed-medium-r-normal--16-110-100-100-c-160-jisx0208.1983-0 -jis-fixed-medium-r-normal--16-150-75-75-c-160-jisx0208.1983-0
---jis-fixed-medium-r-normal--24-170-100-100-c-240-jisx0208.1983-0 -jis-fixed-medium-r-normal--24-230-75-75-c-240-jisx0208.1983-0
+ diff --git a/configure.ac b/configure.ac
+-index 0069a9f..35b5f27 100644
++index 0069a9f..f502e06 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -29,6 +29,9 @@ AC_CONFIG_SRCDIR([gdk/gdktypes.h])
+@@ -56,38 +56,47 @@ index 0069a9f..35b5f27 100644
+  MATH_LIB=-lm
+  AC_MSG_CHECKING([for native Win32])
+  LIB_EXE_MACHINE_FLAG=X86
+-@@ -868,14 +870,28 @@ dnl Look for a host system's gdk-pixbuf-csource if we are cross-compiling
++@@ -868,14 +870,32 @@ dnl Look for a host system's gdk-pixbuf-csource if we are cross-compiling
+  
+  AM_CONDITIONAL(CROSS_COMPILING, test $cross_compiling = yes)
+  
+ -if test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes; then
+-+if test "x$enable_gtk2_dependency" = xyes; then
+-   AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache, no)
+-   if test x$GTK_UPDATE_ICON_CACHE = xno; then
+-     REBUILD_PNGS=#
+-   fi
+-+elif test "x$cross_compiling" = xyes; then
+-+  # If no GTK+2 dependency and cross compiling, we need to find a host gdk-pixbuf.
+-+  # pkg.m4 blocks all variable starting with PKG, so allow this one
+-+  m4_pattern_allow([PKG_CONFIG_FOR_BUILD])
+-+  AC_MSG_CHECKING([for native gdk-pixbuf])
+-+  if AC_RUN_LOG([$PKG_CONFIG_FOR_BUILD --exists --print-errors gdk-pixbuf-2.0]); then
+-+    AC_MSG_RESULT([yes])
+-+  else
+-+    AC_MSG_ERROR([native gdk-pixbuf not found])
+-+  fi
+-+  NATIVE_GDKPIXBUF_CFLAGS=`$PKG_CONFIG_FOR_BUILD --cflags gdk-pixbuf-2.0`
+-+  NATIVE_GDKPIXBUF_LIBS=`$PKG_CONFIG_FOR_BUILD --libs gdk-pixbuf-2.0`
+-+  AC_SUBST(NATIVE_GDKPIXBUF_CFLAGS)
+-+  AC_SUBST(NATIVE_GDKPIXBUF_LIBS)
+- fi
++-  AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache, no)
++-  if test x$GTK_UPDATE_ICON_CACHE = xno; then
++-    REBUILD_PNGS=#
++-  fi
++-fi
+++AS_IF([test "x$enable_gtk2_dependency" = xyes],
+++      [AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache, no)
+++       if test x$GTK_UPDATE_ICON_CACHE = xno; then
+++         REBUILD_PNGS=#
+++       fi],
+++
+++      [test "x$cross_compiling" = xyes],
+++      [# If no GTK+2 dependency and cross compiling, we need to find a host gdk-pixbuf.
+++       # pkg.m4 blocks all variable starting with PKG, so allow this one
+++       m4_pattern_allow([PKG_CONFIG_FOR_BUILD])
+++
+++       AS_IF([test x$PKG_CONFIG_FOR_BUILD = x],
+++             [AC_MSG_ERROR([You must define PKG_CONFIG_FOR_BUILD when cross compiling])])
+++
+++       AC_MSG_CHECKING([for native gdk-pixbuf])
+++       AS_IF([AC_RUN_LOG([$PKG_CONFIG_FOR_BUILD --exists --print-errors gdk-pixbuf-2.0])],
+++             [AC_MSG_RESULT([yes])],
+++             [AC_MSG_ERROR([native gdk-pixbuf not found])])
+++
+++       NATIVE_GDKPIXBUF_CFLAGS=`$PKG_CONFIG_FOR_BUILD --cflags gdk-pixbuf-2.0`
+++       NATIVE_GDKPIXBUF_LIBS=`$PKG_CONFIG_FOR_BUILD --libs gdk-pixbuf-2.0`
+++       AC_SUBST(NATIVE_GDKPIXBUF_CFLAGS)
+++       AC_SUBST(NATIVE_GDKPIXBUF_LIBS)]
+++)
+  
+ -AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes])
+ +AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$enable_gtk2_dependency" = xyes])
+  
+  AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, no)
+  
+-@@ -1742,6 +1758,7 @@ gtk/makefile.msc
++@@ -1742,6 +1762,7 @@ gtk/makefile.msc
+  gtk/gtkversion.h
+  gtk/gtk-win32.rc
+  gtk/a11y/Makefile
 -- 
-1.8.0
+1.7.10.4
 
 
 
