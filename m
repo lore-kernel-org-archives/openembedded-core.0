@@ -1,40 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tx1dc-00083D-Jo
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tx2Vf-0001D6-2O
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Jan 2013 21:37:13 +0100
-Received: from mail-vc0-f199.google.com ([209.85.220.199])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 20 Jan 2013 12:20:32 -0800
-Received: by mail-vc0-f199.google.com with SMTP id fo13so845479vcb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Jan 2013 12:21:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=sgisb9EgjAl5/2YxCb1y83+BAOBXi6uy6KudMRPLC5o=;
-	b=LjI9CwhoLH7KsK9QW8vAWyQb3dEHRhrZnWi8+PtZ0OYlHPBjaIGAtaro/5SzsbfGYk
-	9nYMEAs4lPWxw3SCdT1aOLjFRfu4NcN8xruvA1MRZExeXfaP08ar17pI4jqNhdyGHCse
-	CMA7Lk+md7SnIMyeeEpvaOmXhK9waGBETdpqJaeiGYnFBEx1Mu7nDNEszZSLBbZXn4Ma
-	0+4XVGkY1X8DQXSR3kY4gJXdP8nap1jRoE3ikoW6Me3S7nvwIc79+UD34yR9f14FmBzf
-	lMBK/U48NvUR0tCZ1TfrnTa+Yt+b1vcuXg614/2ExltA/F00Omi75rvOGAiHvtBsyaUO
-	tBGw==
-X-Received: by 10.52.35.20 with SMTP id d20mr15043373vdj.50.1358713299027;
-	Sun, 20 Jan 2013 12:21:39 -0800 (PST)
-X-Received: by 10.52.35.20 with SMTP id d20mr15043370vdj.50.1358713298914;
-	Sun, 20 Jan 2013 12:21:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.152.232 with HTTP; Sun, 20 Jan 2013 12:21:18 -0800 (PST)
-In-Reply-To: <50FC3899.5000202@linux.intel.com>
-References: <cover.1358635193.git.ross.burton@intel.com>
-	<50FC3899.5000202@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 20 Jan 2013 20:21:18 +0000
-Message-ID: <CAJTo0LaL3vCw52_h-Ab3J9oBHwZwxn_WjUj3D8iivundKypfHQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkH8WpsfSTfnqAfW/FPfBI2rM2YpVBi26a9fTRzHQOzqvIbhTejdQc0hR2Ue6iPlPbnU+sz0S7xlJ3bjT0Uc9PKyu3IfkFRFOmo/Y6LBM+4+bS8nzrsk8Vm4HHYfs+PstOyBEqOyo6F4Oye8y/QyiV/ZwCnCzWAVYiUJhSxbmjm+vGEJ937zm2PFFAcemGFkM4E2ijM
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/10] Initial systemd integration
+	Sun, 20 Jan 2013 22:33:02 +0100
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 94764D22CD;
+	Sun, 20 Jan 2013 22:17:36 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 20 Jan 2013 22:17:28 +0100
+Message-Id: <1358716648-30339-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.0
+In-Reply-To: <1358689048-10799-1-git-send-email-marcin.juszkiewicz@linaro.org>
+References: <1358689048-10799-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Subject: [PATCH] xorg-minimal-fonts: depend on font-alias instead of shipping fonts.alias
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,26 +29,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 20:37:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 20 Jan 2013 21:33:02 -0000
 
-On 20 January 2013 18:34, Saul Wold <sgw@linux.intel.com> wrote:
-> This change introduced a new warning about un-packaged files:
->
->> WARNING: QA Issue: connman: Files/directories were installed but not
->> shipped
->>   /lib
->>   /lib/systemd
->>   /lib/systemd/system
->>   /lib/systemd/system/connman.service
+| Collected errors:
+|  * check_data_file_clashes: Package font-alias wants to install file /home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/core-image-lsb-dev/1.0-r0/rootfs/usr/share/fonts/X11/misc/fonts.alias
+|       But that file is already provided by package  * xorg-minimal-fonts
+|  * opkg_install_cmd: Cannot install package packagegroup-core-lsb-dev.
+| ERROR: Function failed: do_rootfs (see /home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/core-image-lsb-dev/1.0-r0/temp/log.do_rootfs.7564 for further information)
 
-That will be connman detecting the systemd pkgconfig files in the
-sysroot and enabling the integration automatically.  To avoid either
-a) enabling systemd integration in every service that does this or b)
-disabling systemd in every service that does this, can we ignore these
-warnings knowing that they'll be resolved when the rest of the
-integration lands?
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ .../xorg-font/xorg-minimal-fonts.bb                |  8 +--
+ .../xorg-font/xorg-minimal-fonts/misc/fonts.alias  | 80 ----------------------
+ 2 files changed, 3 insertions(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
 
-Ross
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index b1a65e7..5e33f14 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -6,19 +6,19 @@ BUGTRACKER = "n/a"
+ SECTION = "x11/fonts"
+ 
+ LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://../misc/fonts.alias;md5=bbe8d3c0e4e74af96e3ac393985c4fbb \
+-                    file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519ab \
++LIC_FILES_CHKSUM = "file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519ab \
+                     file://../misc/cursor.pcf.gz;md5=40bc81001fef4c21ca08df4305014a2a"
+ 
+ SRC_URI = "file://misc"
+ 
+ PE = "1"
+-PR = "r1"
++PR = "r2"
+ 
+ inherit allarch
+ 
+ PACKAGES = "${PN}"
+ FILES_${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
++RDEPENDS_${PN} += "font-alias"
+ 
+ do_install() {
+ 	install -d ${D}/${datadir}/fonts/X11/misc
+@@ -26,5 +26,3 @@ do_install() {
+ 	install -d ${D}/${libdir}/X11
+ 	ln -sf ${datadir}/fonts/X11/ ${D}/${libdir}/X11/fonts -s
+ }
+-
+-
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
+deleted file mode 100644
+index 3900036..0000000
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts/misc/fonts.alias
++++ /dev/null
+@@ -1,80 +0,0 @@
+-!! fonts.alias -- automatically generated file.  DO NOT EDIT.
+-!! To modify, see update-fonts-alias(8).
+-!! /etc/X11/fonts/misc/xfonts-base.alias
+-! $Xorg: fonts.alias,v 1.3 2000/08/21 16:42:31 coskrey Exp $
+-fixed        -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
+-variable     -*-helvetica-bold-r-normal-*-*-120-*-*-*-*-iso8859-1
+-5x7          -misc-fixed-medium-r-normal--7-70-75-75-c-50-iso8859-1
+-5x8          -misc-fixed-medium-r-normal--8-80-75-75-c-50-iso8859-1
+-6x9          -misc-fixed-medium-r-normal--9-90-75-75-c-60-iso8859-1
+-6x10         -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
+-6x12         -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso8859-1
+-6x13         -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
+-6x13bold     -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
+-7x13         -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1
+-7x13bold     -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-1
+-7x13euro     -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-15
+-7x13eurobold -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-15
+-7x14         -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
+-7x14bold     -misc-fixed-bold-r-normal--14-130-75-75-c-70-iso8859-1
+-8x13         -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1
+-8x13bold     -misc-fixed-bold-r-normal--13-120-75-75-c-80-iso8859-1
+-8x16         -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1
+-9x15         -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
+-9x15bold     -misc-fixed-bold-r-normal--15-140-75-75-c-90-iso8859-1
+-10x20        -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1
+-12x24        -sony-fixed-medium-r-normal--24-170-100-100-c-120-iso8859-1
+-nil2         -misc-nil-medium-r-normal--2-20-75-75-c-10-misc-fontspecific
+-
+-heb6x13      -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-8
+-heb8x13      -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-8
+-
+-k14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-0
+-a14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-iso8859-1
+-r14          -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
+-rk14         -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
+-r16          -sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0
+-rk16         -sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0
+-r24          -sony-fixed-medium-r-normal--24-*-*-*-*-*-jisx0201.1976-0
+-rk24         -sony-fixed-medium-r-normal--24-*-*-*-*-*-jisx0201.1976-0
+-kana14       -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-0
+-8x16kana     -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
+-8x16romankana -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
+-12x24kana     -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
+-12x24romankana -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
+-kanji16      -jis-fixed-medium-r-normal--16-*-*-*-*-*-jisx0208.1983-0
+-kanji24      -jis-fixed-medium-r-normal--24-*-*-*-*-*-jisx0208.1983-0
+-
+-hanzigb16st "-isas-song ti-medium-r-normal--16-160-72-72-c-160-gb2312.1980-0"
+-hanzigb24st "-isas-song ti-medium-r-normal--24-240-72-72-c-240-gb2312.1980-0"
+-hanzigb16fs "-isas-fangsong ti-medium-r-normal--16-160-72-72-c-160-gb2312.1980-0"
+-
+-olcursor   "-sun-open look cursor-----12-120-75-75-p-160-sunolcursor-1"
+-olglyph-10 "-sun-open look glyph-----10-100-75-75-p-101-sunolglyph-1"
+-olglyph-12 "-sun-open look glyph-----12-120-75-75-p-113-sunolglyph-1"
+-olglyph-14 "-sun-open look glyph-----14-140-75-75-p-128-sunolglyph-1"
+-olglyph-19 "-sun-open look glyph-----19-190-75-75-p-154-sunolglyph-1"
+-
+--misc-fixed-medium-r-normal--7-50-100-100-c-50-iso8859-1 -misc-fixed-medium-r-normal--7-70-75-75-c-50-iso8859-1
+--misc-fixed-medium-r-normal--8-60-100-100-c-50-iso8859-1 -misc-fixed-medium-r-normal--8-80-75-75-c-50-iso8859-1
+--misc-fixed-medium-r-normal--9-80-100-100-c-60-iso8859-1 -misc-fixed-medium-r-normal--9-90-75-75-c-60-iso8859-1
+--misc-fixed-medium-r-normal--10-70-100-100-c-60-iso8859-1 -misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
+--misc-fixed-medium-r-semicondensed--12-90-100-100-c-60-iso8859-1 -misc-fixed-medium-r-semicondensed--12-110-75-75-c-60-iso8859-1
+--misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-1 -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
+--misc-fixed-bold-r-semicondensed--13-100-100-100-c-60-iso8859-1 -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
+--misc-fixed-medium-r-normal--13-100-100-100-c-70-iso8859-1 -misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1
+--misc-fixed-bold-r-normal--13-100-100-100-c-70-iso8859-1 -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-1
+--misc-fixed-medium-r-normal--13-100-100-100-c-80-iso8859-1 -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1
+--misc-fixed-bold-r-normal--13-100-100-100-c-80-iso8859-1 -misc-fixed-bold-r-normal--13-120-75-75-c-80-iso8859-1
+--misc-fixed-medium-r-normal--14-110-100-100-c-70-iso8859-1 -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
+--misc-fixed-medium-r-normal--15-120-100-100-c-90-iso8859-1 -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
+--misc-fixed-bold-r-normal--15-120-100-100-c-90-iso8859-1 -misc-fixed-bold-r-normal--15-140-75-75-c-90-iso8859-1
+--misc-fixed-medium-r-normal--20-140-100-100-c-100-iso8859-1 -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1
+--misc-fixed-medium-r-semicondensed--13-100-100-100-c-60-iso8859-8 -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-8
+--misc-fixed-medium-r-normal--13-100-100-100-c-80-iso8859-8 -misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-8
+--sony-fixed-medium-r-normal--16-150-75-75-c-80-iso8859-1 -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1
+--sony-fixed-medium-r-normal--16-150-75-75-c-80-jisx0201.1976-0 -sony-fixed-medium-r-normal--16-120-100-100-c-80-jisx0201.1976-0
+--sony-fixed-medium-r-normal--24-230-75-75-c-120-iso8859-1 -sony-fixed-medium-r-normal--24-170-100-100-c-120-iso8859-1
+--sony-fixed-medium-r-normal--24-230-75-75-c-120-jisx0201.1976-0 -sony-fixed-medium-r-normal--24-170-100-100-c-120-jisx0201.1976-0
+--jis-fixed-medium-r-normal--16-110-100-100-c-160-jisx0208.1983-0 -jis-fixed-medium-r-normal--16-150-75-75-c-160-jisx0208.1983-0
+--jis-fixed-medium-r-normal--24-170-100-100-c-240-jisx0208.1983-0 -jis-fixed-medium-r-normal--24-230-75-75-c-240-jisx0208.1983-0
+-- 
+1.8.0
+
 
 
