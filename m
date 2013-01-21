@@ -1,35 +1,27 @@
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fahad.usman@gmail.com>) id 1TxKe9-00016D-Jf
+	(envelope-from <sgw@linux.intel.com>) id 1TxKvf-00022C-0s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 17:54:57 +0100
-Received: by mail-wg0-f44.google.com with SMTP id dr12so3883113wgb.35
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 08:39:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=Hl1fiKEiKzqc75K1svFUhJ56b6n6sz9UpBjLZJv6s60=;
-	b=XmUVJNXQUesE4oudTtFtpG08Sj5v7U2zjp7m5nJeUtY0oBagUiQobx+ZVjPMVth9RZ
-	Ux6wSHgEZzqKegupcw9BXRMqJohdNCjQbdyS+976gvXvA1Vf0FwwB3UlYZa63CTAqjrv
-	DY9xJqt6t4hHB49f25F9Y1gMFvy0YRpg9rA8qpuNspxMQ17u3i3e7U9SJg+XzzVpqTqf
-	2sXBnmidCH0Nvmj6pt+YiUAGYNyF1i87+Fou/Dy0M0cEud6QsZB8hbl93ivb5gluOHdz
-	LABIqc1+gOI/N3HMhm7DL7+4H/NrsuDu5lXFBKSpUOj9EbMrwE/thQdE0WpuuPgcmBJ7
-	oCwQ==
-X-Received: by 10.180.108.236 with SMTP id hn12mr16547908wib.6.1358786368743; 
-	Mon, 21 Jan 2013 08:39:28 -0800 (PST)
-Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
-	by mx.google.com with ESMTPS id ex6sm19441797wid.3.2013.01.21.08.39.26
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 08:39:27 -0800 (PST)
-Sender: Fahad Usman <fahad.usman@gmail.com>
-From: Fahad Usman <fahad_usman@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 21:39:11 +0500
-Message-Id: <1358786351-20789-1-git-send-email-fahad_usman@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Fahad Usman <fahad_usman@mentor.com>
-Subject: [meta-browser][PATCH] nss: fix access to https websites
+	Mon, 21 Jan 2013 18:13:21 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 21 Jan 2013 08:57:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,507,1355126400"; d="scan'208";a="274728153"
+Received: from unknown (HELO [10.255.15.40]) ([10.255.15.40])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2013 08:57:32 -0800
+Message-ID: <50FD737C.9030003@linux.intel.com>
+Date: Mon, 21 Jan 2013 08:57:32 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1358635193.git.ross.burton@intel.com>
+	<1358739008.2945.29.camel@jethro.cheepee.homedns.org>
+	<CAJTo0LarPUYHTJBWqi3ze3=aN5+HvizyVvw3V-V+YmxtS4786g@mail.gmail.com>
+In-Reply-To: <CAJTo0LarPUYHTJBWqi3ze3=aN5+HvizyVvw3V-V+YmxtS4786g@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/10] Initial systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,37 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 16:54:58 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 17:13:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
----
- recipes-support/nss/nss_3.13.3.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 01/21/2013 04:12 AM, Burton, Ross wrote:
+> On 21 January 2013 03:30, Ciprian Ciubotariu <cheepeero@gmx.net> wrote:
+>> However, with oe-core/meta providing a default embedded policy, higher
+>> layers need to remove sysvinit or systemd stuff from base recipes, which is
+>> against bitbake's additive language design (only append/prepend functions,
+>> no -= operator) and against separating concerns.
+>
+> If you don't do a systemd build, you won't get any of the systemd
+> files.  Ditto, sysvinit (well, that's the goal - as it was an
+> assumption until now that needs work still).
+>
+> An oe-core without *any* init system will be very cumbersome - every
+> service will need a bbappend to actually work, with the subsequent
+> maintenance costs.
+>
+Ouch, I thought that this was one of the goals of the select your init 
+system, ie don't use either sysvinit or systemd.  Poky-Tiny has a single 
+file rc.local script to do the initialization of the system.
 
-diff --git a/recipes-support/nss/nss_3.13.3.bb b/recipes-support/nss/nss_3.13.3.bb
-index bb602b1..a841397 100644
---- a/recipes-support/nss/nss_3.13.3.bb
-+++ b/recipes-support/nss/nss_3.13.3.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Mozilla's SSL and TLS implementation"
- HOMEPAGE = "http://www.mozilla.org/projects/security/pki/nss/"
- 
--PR = "r1"
-+PR = "r2"
- 
- LICENSE = "MPL1.1 GPL LGPL"
- LIC_FILES_CHKSUM = "file://security/nss/manifest.mn;md5=d71978748f23eae3156c38ac2a691924"
-@@ -66,6 +66,8 @@ do_install() {
- 		NS_USE_GCC=1 \
- 		NSS_USE_SYSTEM_SQLITE=1 \
- 		NSS_ENABLE_ECC=1 \
-+		FREEBL_CHILD_BUILD=1 \ 
-+		CC="${CC}" \
- 		SOURCE_LIB_DIR="${TD}/${libdir}" \
- 		SOURCE_BIN_DIR="${TD}/${bindir}"
- 
--- 
-1.7.9.5
+Sau!
 
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
