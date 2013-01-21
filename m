@@ -1,43 +1,43 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TxGYl-0005pK-AF
+	(envelope-from <ross.burton@intel.com>) id 1TxGYo-0005pR-Te
 	for openembedded-core@lists.openembedded.org;
 	Mon, 21 Jan 2013 13:33:36 +0100
-Received: from mail-bk0-f71.google.com ([209.85.214.71])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 04:17:37 -0800
-Received: by mail-bk0-f71.google.com with SMTP id jm19so6571832bkc.6
+Received: from mail-lb0-f200.google.com ([209.85.217.200])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 04:17:40 -0800
+Received: by mail-lb0-f200.google.com with SMTP id k6so1827488lbo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 04:17:35 -0800 (PST)
+	Mon, 21 Jan 2013 04:17:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=K2M9dpBFf0R7N1vAHdgNX8HkMWdL684CYtDhNoPPma0=;
-	b=KGHX2hhfMPDbvdtjPqOyiD+peEcNLCceRh4AwSf7P/yFtwwZK+Y/PMj7OASa1Ku4d1
-	YDRzklje4ewRnoMXSZXJax/4mIIHtzhCBOFyqf5wwU7FvLLMc7l2/jaNsyQY5qM7a+KO
-	eidJL5sptoZbcaRNO5VnqRoE50gMX/Q8HrmdU+tJaBEg3K5iXyaGhWvPL8jDndhMKqOV
-	tryWykfNKUHu17E18+vhzQ7+o6YkNGrl+NKaml2J4q7iG5omHJd+cWs2HKkVeJyzT1tf
-	dadasUUAidnUzSg9ct5FDTF0LVZ6jAvmtR8AfOvbtZKEjvIeLAnhPHD9VCTdIZb63JOR
-	LgJA==
-X-Received: by 10.180.79.194 with SMTP id l2mr15135011wix.22.1358770654996;
-	Mon, 21 Jan 2013 04:17:34 -0800 (PST)
-X-Received: by 10.180.79.194 with SMTP id l2mr15134998wix.22.1358770654918;
-	Mon, 21 Jan 2013 04:17:34 -0800 (PST)
+	bh=cwlF7DCBE4rOFHjD3l8y9gQE9F0rRx7cW0S0Nbpv9t8=;
+	b=c40KZGqNr9LQ1s0mFVQBBQ4L0/rxJZ17e1JMVqA/S7HnKyfdQxTz0r9jsXTg1436Vr
+	wMhHiMd2NYs8H+gNSPWO6nmsZ2r9gCEUNUm6yOmlf+Yn3Qp9/bGaePfxuRdRzJk5ZNha
+	nyXds35Jf+8LYPMIC9r6OgqUwrGSza5wm5BzipLKWmEW3BqOPF+zA/4LVyT+6elnFcCG
+	xY7mUG1fuf8UjbS50AKRVs+bqHAQSTCY/Ia/+u2uBt4B/9+R7C43kBIAHPpB1UqPHD/g
+	tybTyJdIYrjjdOVa5zhpp2wFwXptPP34VP6IqXfAtyevtyQ8Qu9ex6Ko+uVqs21ml7mN
+	ry+w==
+X-Received: by 10.194.171.198 with SMTP id aw6mr26080762wjc.3.1358770657909;
+	Mon, 21 Jan 2013 04:17:37 -0800 (PST)
+X-Received: by 10.194.171.198 with SMTP id aw6mr26080743wjc.3.1358770657607;
+	Mon, 21 Jan 2013 04:17:37 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id s10sm18415972wiw.4.2013.01.21.04.17.33
+	by mx.google.com with ESMTPS id s10sm18415972wiw.4.2013.01.21.04.17.36
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 04:17:34 -0800 (PST)
+	Mon, 21 Jan 2013 04:17:36 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 12:15:31 +0000
-Message-Id: <986f484dfe24209632a147a8133192ec7c743f0d.1358770449.git.ross.burton@intel.com>
+Date: Mon, 21 Jan 2013 12:15:33 +0000
+Message-Id: <5906d647655a847ec142325e3ac758275a0790a3.1358770449.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <53d6b4110f4e12cfde4dcfbef992cc44d8c58c1e.1358770449.git.ross.burton@intel.com>
 References: <53d6b4110f4e12cfde4dcfbef992cc44d8c58c1e.1358770449.git.ross.burton@intel.com>
 In-Reply-To: <cover.1358770449.git.ross.burton@intel.com>
 References: <cover.1358770449.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnwtEaVy5RPlB+sxRWFPVaPJ2Fw0peNhPsvuac2JahwfSUkBrRMi5hNOg8f4hvCL3gEMSditZ2/FVOoDKWEndH5O3sSuULyXuzE/MkkXeAy5PUFKygRukqOiM8O4oEtp9TFRfYiZWB0A+VRDNM2x3gea/MU5Azn7R9vNpCVUV+IgyI5IkPMs2fgLHt6QVT4mqweimAD
-Subject: [PATCH 2/5] udev: skip in systemd distros, to fix world builds
+X-Gm-Message-State: ALoCoQn9bIynPRoYvdtBWF+Tx//fatG4e0EaZG4rKbJnWhlXANmyvGMA0Z0lEGqq9XbaitvVc1WPrh8lhqI/Qubx1/1F5MdjSUo0fAHLcs0WpK8xP/JsxboivWCv0ecqXv1VlgXJs8ClRqgxgCruAOZPMtMjIpCOrTAWdeTG8snxjNfedhZ/ncI+GaKM4b6aAUsDGJ8YXAwA
+Subject: [PATCH 4/5] gtk-doc: parameterise the documentation directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,26 +52,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 21 Jan 2013 12:33:39 -0000
 
+Not every package puts the gtk-doc infrastructure into ${S}, so allow this to be
+overridden.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/udev/udev.inc |    6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/gtk-doc.bbclass |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 9f60b17..facad0c 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -99,3 +99,9 @@ do_install_append () {
+diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
+index eaa1385..f7ba788 100644
+--- a/meta/classes/gtk-doc.bbclass
++++ b/meta/classes/gtk-doc.bbclass
+@@ -6,6 +6,9 @@
+ # re-generation of documentation.  For now, we'll make do with this which
+ # packages up any existing documentation (so from tarball builds).
  
- 	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
- }
++# The documentation directory, where the infrastructure will be copied.
++GTKDOC_DOCDIR ?= "${S}"
 +
-+# As systemd also builds udev, skip this package if we're doing a systemd build.
-+python () {
-+    if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
-+        raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
-+}
+ DEPENDS_append = " gtk-doc-stub-native"
+ 
+ EXTRA_OECONF_append = "\
+@@ -15,5 +18,5 @@ EXTRA_OECONF_append = "\
+ "
+ 
+ do_configure_prepend () {
+-	( cd ${S} && gtkdocize )
++	gtkdocize --docdir ${GTKDOC_DOCDIR}
+ }
 -- 
 1.7.10.4
 
