@@ -1,28 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TxJzt-0007zt-9o for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 17:13:30 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LFvoX1017650;
-	Mon, 21 Jan 2013 15:57:50 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16855-01; Mon, 21 Jan 2013 15:57:45 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LFvdQ0017643
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 21 Jan 2013 15:57:40 GMT
-Message-ID: <1358783859.14265.66.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 21 Jan 2013 15:57:39 +0000
-In-Reply-To: <cover.1358782098.git.ross.burton@intel.com>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TxKFM-00007B-CK
+	for openembedded-core@lists.openembedded.org;
+	Mon, 21 Jan 2013 17:29:21 +0100
+Received: from mail-vb0-f70.google.com ([209.85.212.70])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 08:12:41 -0800
+Received: by mail-vb0-f70.google.com with SMTP id s24so7039551vbi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jan 2013 08:13:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=knol/fifxDBDNGo5mNGfj+XPtEBv7/ntRL/LNgXTFhE=;
+	b=EhD6gqS8MlvDtuDfQWCpIaDp1qZ+fCG79d9j5k+2OHyQj0e/XdF1j9BDd+XxgOB816
+	wLVExZDNIVdMMy9d/EPkKjGLA1UszEbCegyQljdn9ZFcAfAkw3RGac+/w2SxaigNAg8c
+	ur+CDJ4kgU322pv9LYIg3NcvOYYUha1WGKdlN874jvYKWbuIbi64zBu4Y/jUKAcf1Xz0
+	mCCXri2SkOucpvSOoZH06SGI2WrQoxtcz/H/+N6aYRQ8bbOlQMQAOdUoK1BzqUOLAnZK
+	WMA4LUWVhn0uqYe1bBKhZy27/4xYfMB0nRFddr2yJ36inePaGpywAVrPdQT/Cmd68rk5
+	ijng==
+X-Received: by 10.221.9.137 with SMTP id ow9mr12297176vcb.22.1358784828324;
+	Mon, 21 Jan 2013 08:13:48 -0800 (PST)
+X-Received: by 10.221.9.137 with SMTP id ow9mr12297166vcb.22.1358784828234;
+	Mon, 21 Jan 2013 08:13:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.152.232 with HTTP; Mon, 21 Jan 2013 08:13:27 -0800 (PST)
+In-Reply-To: <1358783859.14265.66.camel@ted>
 References: <cover.1358782098.git.ross.burton@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1358783859.14265.66.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Jan 2013 16:13:27 +0000
+Message-ID: <CAJTo0LawOifGyQ_c1bgik6u-xA8Y7_d35zkBAE3AHPCfLZ4DQw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQk//UoLfi43kB5Ep3WaNndsN3rCgWqwRMKEcx7zAH17441rLuJcRdhFOudsV8dl2qXJbXqtnFqs9iohRUd7nArV/KxIy+5CVKkKSunMrpCgdcQTNYpygmE/kdrlFDRU4+fybCbnTjcABjQTXMgdhyt9IKLqSXC66tNTvkhZ57YCba+amc97k4SGlmnCFB1xIUvLgadA
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/2] Remove GUPnP
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,38 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 16:13:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jan 2013 16:29:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-01-21 at 15:29 +0000, Ross Burton wrote:
-> GUPnP is great, but it's untested in oe-core.  It's now in meta-multimedia where
-> it's been upgraded and live alongside companion projects such as dLeyna and
-> Rygel.
+On 21 January 2013 15:57, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> There is a trend at the moment to remove things from OE-Core. That is
+> well and good but the question is where to draw the line. I do want to
+> ensure we keep at least some cross section of software in the core so
+> that the core can be stressed in a variety of environments.
+>
+> I'm not saying gupnp shouldn't move out however I do want to figure out
+> what is going to stay in the core that we can test with. Obviously
+> things remaining the core really do need end user apps that we can
+> stress them with.
+>
+> I was a little sad to see gthumb being removed for example as we now
+> have no image viewer in the core. It was also a larger gtk app so
+> stressed more of that side of the apis. I took the patches as it
+> probably does belong in meta-gnome. How do we test the various image
+> decoding libraries are in fact working though?
 
-There is a trend at the moment to remove things from OE-Core. That is
-well and good but the question is where to draw the line. I do want to
-ensure we keep at least some cross section of software in the core so
-that the core can be stressed in a variety of environments.
+On the whole, agreed.
 
-I'm not saying gupnp shouldn't move out however I do want to figure out
-what is going to stay in the core that we can test with. Obviously
-things remaining the core really do need end user apps that we can
-stress them with.
+Regarding image decoding, were QA actually testing the decoding
+libraries in gthumb?  If we want to verify that libpng/libjpeg/etc
+work then there are many options that don't involve a desktop image
+editor and looking at the screen as that doesn't catch subtle decoding
+problems.  This can be part of the automated tests - decode a sample
+PNG, md5 the raw data, compare with reference md5sum.
 
-I was a little sad to see gthumb being removed for example as we now
-have no image viewer in the core. It was also a larger gtk app so
-stressed more of that side of the apis. I took the patches as it
-probably does belong in meta-gnome. How do we test the various image
-decoding libraries are in fact working though?
+Regarding GUPnP, as fond of it as I am, we were only compile-testing
+it in world builds.  Who knows if the libraries were actually worked
+because it was never actually linked to.  Now that it and related
+projects have a new home we need to work with community members who
+also use GUPnP to ensure that there is one canonical location, even if
+they prefer to work with copies of the recipes instead of including
+meta-oe (which is understandable).
 
-Food for thought...
-
-Cheers,
-
-Richard
-
-
-
+Ross
 
 
