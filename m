@@ -1,43 +1,35 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-ie0-f169.google.com ([209.85.223.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TxM5S-0004JZ-OE
+	(envelope-from <raj.khem@gmail.com>) id 1TxMaW-0005Ow-O3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 19:27:16 +0100
-Received: from mail-bk0-f71.google.com ([209.85.214.71])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 10:11:29 -0800
-Received: by mail-bk0-f71.google.com with SMTP id jm19so6949375bkc.6
+	Mon, 21 Jan 2013 19:59:21 +0100
+Received: by mail-ie0-f169.google.com with SMTP id c14so10499538ieb.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 10:11:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=woCAIaVHLst6ZoDIZlMmPgMX5t6XIcy9NL83U+YWJAc=;
-	b=Xkf8z3mn3qw716lrPL7/im0dCCZm5h4hZeVmoxO77h6saeRmKL3b8tkSGSz93QgsTB
-	6AO+CJ3Odhge+or4WGPeGqZuMY8zFHMZhiPCujJ5TxnciDhPDNtACbr6JWzgk66eOa8A
-	EPTF/OSdMF7Y8H8sa9lknhtjQIwJtKk+2hJwUq5UN03SEBehu5w9MGijyUcyh8L71w5t
-	8/mtbD13m/s5cp37TIbZ8OfJkjxbmf4AFPYjBE04TtzQBli+6uSQFeJ0yaDmMHJ9LKV9
-	nZJIN+8osah1s+70kafdMCN4qNb+WJb1WV3LztQe7/fwvK24H8qgijJXJzYumkaxkAfL
-	KaNg==
-X-Received: by 10.180.77.35 with SMTP id p3mr16932064wiw.18.1358791887299;
-	Mon, 21 Jan 2013 10:11:27 -0800 (PST)
-X-Received: by 10.180.77.35 with SMTP id p3mr16932052wiw.18.1358791887140;
-	Mon, 21 Jan 2013 10:11:27 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t17sm19814796wiv.6.2013.01.21.10.11.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 10:11:26 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 18:09:21 +0000
-Message-Id: <0d1c6df01c4757e227008fc1dee37f225354ebf0.1358791697.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <f386eed9181846f0e51aff0f128fc52291106b35.1358791697.git.ross.burton@intel.com>
-References: <f386eed9181846f0e51aff0f128fc52291106b35.1358791697.git.ross.burton@intel.com>
-In-Reply-To: <cover.1358791697.git.ross.burton@intel.com>
-References: <cover.1358791697.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnfAM4h4V3IptUIcsP0A2WqkOoxs0zUsAQ/0XpUI5Qbdjra9VqvypWB3ySlxGsk5qup8tFlqg1KWG+cTHUrUyyJZ8uCyXjRzZQmucwPlDhQTGAsYZ1Jx7urd7WidIitIjKQMiSyQSzxV1/cLrYE2310+PrqFKY723rA/fe03w8vZ3/Eo3V+y+I/S4beKUrdLSHWJvw2
-Subject: [PATCH 4/4] systemd: remove unused SERIAL_CONSOLE variable
+	Mon, 21 Jan 2013 10:43:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=G+v4Oy6W61xf7b/1t0DoJmSnsgVgS5ukAYwfW1wiuOo=;
+	b=WeHqn1GZBh3Z2BT5eVzWqoZxR6IKCQcwvGktGxx3uvjl6xbDbP4bwusimEa4RpfCR8
+	pmEAB2Z8TCL8yB5FDRNkoa0vXe9tXbtf13BZqQSedzw2NbrnQ9uvnPYgSiR0O+4ionNI
+	s3FfcJh5uqefmbOpS9dQN2bZl2XDLPThBnQCH3VB0Hxrs9PzpCdF3Ix8w+iuvrj9C35W
+	kYXGKhu6vkTOzZEP5cq5QtReaNSJhGtS2MsFN0pbvID/T3LszqWOMtPclsS7owI1OMfs
+	foyqUUlWa+iPAmi/69GZMKZKw4bn99/2pISLaKPnc7DhDAr5lStxX8+ouKLHDHa8tmJ8
+	kuFw==
+X-Received: by 10.50.56.232 with SMTP id d8mr9845261igq.112.1358793831336;
+	Mon, 21 Jan 2013 10:43:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.64.18.169 with HTTP; Mon, 21 Jan 2013 10:43:21 -0800 (PST)
+In-Reply-To: <50FCBF25.8040905@linux.intel.com>
+References: <613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
+	<45d894b5a00300841877376b868fc820a3070043.1358634922.git.raj.khem@gmail.com>
+	<50FCBF25.8040905@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Jan 2013 10:43:21 -0800
+Message-ID: <CAMKF1sqcM-XyhGCXRsskAPoiVY1kgAWP997M0+JvX4geGSAouQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Khem Raj <kraj@juniper.net>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] nfs-utils: Upgrade 1.2.3 -> 1.2.8-rc2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,28 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 18:27:18 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 18:59:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_196.bb |    2 --
- 1 file changed, 2 deletions(-)
+On Sun, Jan 20, 2013 at 8:08 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 01/19/2013 02:40 PM, Khem Raj wrote:
+>>
+>> From: Khem Raj <kraj@juniper.net>
+>>
+>> Disable nfsv4l since it needs LVM2 which
+>> is not available in OE-Core
+>>
+>> Disable nfsdcltrack since its configure time check
+>> for sqlite3 is not cross compiling safe
+>>
+>> It can support ipv6 but thats disabled since
+>> we disable libtirpc which is needed for ipv6
+>> support in nfs-utils
+>>
+>> Patches imported from fedora to take us to 1.2.8-rc2
+>>
+>> Signed-off-by: Khem Raj <kraj@juniper.net>
+>> ---
+>>   .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         |   37 +-
+>>   .../nfs-utils-1.2.1-exp-subtree-warn-off.patch     |   12 +
+>>   .../nfs-utils/nfs-utils-1.2.1-statdpath-man.patch  |   58 +++
+>>   .../nfs-utils-1.2.3-sm-notify-res_init.patch       |   21 +
+>>   .../nfs-utils/nfs-utils-1.2.5-idmap-errmsg.patch   |   12 +
+>>   .../nfs-utils/nfs-utils-nfsctl-x32-fix.patch       |   30 --
+>>   .../nfs-utils/nfs-utils/nfs-utils.1.2.8.rc2.patch  |  535
+>> ++++++++++++++++++++
+>>   .../nfs-utils/nfs-utils.1.2.8.rc2.patch.1          |  535
+>> ++++++++++++++++++++
+>>   .../{nfs-utils_1.2.3.bb => nfs-utils_1.2.7.bb}     |   28 +-
+>>   9 files changed, 1210 insertions(+), 58 deletions(-)
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.1-exp-subtree-warn-off.patch
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.1-statdpath-man.patch
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.5-idmap-errmsg.patch
+>>   delete mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc2.patch
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc2.patch.1
+>>   rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.2.3.bb =>
+>> nfs-utils_1.2.7.bb} (63%)
+>>
+>
+> Some of these patches do not have the proper Signed-off-by: and
+> Upstream-Status: tags.
+>
 
-diff --git a/meta/recipes-core/systemd/systemd_196.bb b/meta/recipes-core/systemd/systemd_196.bb
-index 5242b5a..a78a8a6 100644
---- a/meta/recipes-core/systemd/systemd_196.bb
-+++ b/meta/recipes-core/systemd/systemd_196.bb
-@@ -11,8 +11,6 @@ PROVIDES = "udev"
- DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers usbutils glib-2.0 libgcrypt"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
--SERIAL_CONSOLE ?= "115200 /dev/ttyS0"
--
- SECTION = "base/shell"
- 
- inherit gtk-doc useradd pkgconfig autotools perlnative
--- 
-1.7.10.4
-
+Ignore this one, I have since updated to later RC3 and will do cleanups
+and resend
 
 
