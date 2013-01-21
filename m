@@ -1,39 +1,41 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mo3.mail-out.ovh.net ([178.32.228.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TxCg3-00033r-PN
+	(envelope-from <eric@eukrea.com>) id 1TxCyj-0003d0-Dq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 09:24:24 +0100
-Received: from mail-vb0-f72.google.com ([209.85.212.72])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 00:08:54 -0800
-Received: by mail-vb0-f72.google.com with SMTP id ft2so8853277vbb.11
+	Mon, 21 Jan 2013 09:44:07 +0100
+Received: from mail176.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo3.mail-out.ovh.net (Postfix) with SMTP id 567D4FF8E31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 00:08:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=AdRBYRI0LxMgZgkc+8RBLUjKo5ggDPIkd0QIWpIsYt8=;
-	b=eZ/b0ktPu3qUDsAz/FCih6StCPKVa+IYSrhxncsuXvyMv10EJjAAS4wgGQrpifPrLD
-	x7bub8vYRjA85YY7fw2962BiSdZNJYl4GDu4AhVxjmf72BibR+8+j5NEAZE2tkMcIBJv
-	2j+hlBL3fqudDwXqrz1ktHvG2SM2mrYAjq7OtEXDOAbEkJ001p2sVXX/zx+fKlc26D6k
-	3buclI7azVnI492WT1dO34D18mIw7YwwcD63bP0aDCEKpupuWt1LgBTfPa/xxJrkQ8At
-	TMn6xBs7i+WI07b1TA2025Jav615Fk0XgsYKI+Km/CInvi141ls2fEWULecD6xoo7pps
-	NZ/w==
-X-Received: by 10.52.66.71 with SMTP id d7mr16187613vdt.121.1358755733318;
-	Mon, 21 Jan 2013 00:08:53 -0800 (PST)
-X-Received: by 10.52.66.71 with SMTP id d7mr16187611vdt.121.1358755733206;
-	Mon, 21 Jan 2013 00:08:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.152.232 with HTTP; Mon, 21 Jan 2013 00:08:32 -0800 (PST)
-In-Reply-To: <50FCBCB7.8060201@linux.intel.com>
+	Mon, 21 Jan 2013 09:33:27 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 21 Jan 2013 10:19:43 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO e6520eb)
+	(eric%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 21 Jan 2013 10:19:43 +0200
+Date: Mon, 21 Jan 2013 09:19:42 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Ovh-Mailout: 178.32.228.3 (mo3.mail-out.ovh.net)
+Message-ID: <20130121091942.5a6c5a82@e6520eb>
+In-Reply-To: <CAJTo0LYU0-1EEZfE8LdTDSmGmgprHbmZ-g00O-8+Qv1MmcaQTg@mail.gmail.com>
 References: <cover.1358635193.git.ross.burton@intel.com>
 	<50FC3899.5000202@linux.intel.com>
 	<50FCBCB7.8060201@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Jan 2013 08:08:32 +0000
-Message-ID: <CAJTo0LYU0-1EEZfE8LdTDSmGmgprHbmZ-g00O-8+Qv1MmcaQTg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQlsBTPQY3TrtH8RJEOoTT/iZFS67ub/R/AD7hAkmgxhYU9TUFGpTpH9M7cEGc+14bezfGYqum1bgmUnCC4TXLKJij94Yzvw47I+n5xKDKKophFxdSbOwPJjr2Gbe1haYiuynCRCXGDuipHAKgwwrNdmqFTY/+d+RqD9qAnFXX1Zc0vlTLXNysUBT9Km/YNsO88zeNrN
+	<CAJTo0LYU0-1EEZfE8LdTDSmGmgprHbmZ-g00O-8+Qv1MmcaQTg@mail.gmail.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 18023124234623298873
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/10] Initial systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,17 +49,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 08:24:26 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 08:44:09 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The autobuilder hit this last night:
+Hi Ross,
 
-ERROR: Multiple .bb files are due to be built which each provide udev
-(/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-core/udev/udev_182.bb
-/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-core/systemd/systemd_196.bb).
+Le Mon, 21 Jan 2013 08:08:32 +0000,
+"Burton, Ross" <ross.burton@intel.com> a =C3=A9crit :
 
-Which I realised would happen not long after hitting send.   I'll sort this too.
+> The autobuilder hit this last night:
+>=20
+> ERROR: Multiple .bb files are due to be built which each provide udev
+> (/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/me=
+ta/recipes-core/udev/udev_182.bb
+> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/met=
+a/recipes-core/systemd/systemd_196.bb).
+>=20
+> Which I realised would happen not long after hitting send.   I'll sort th=
+is too.
+>=20
+we had the same problem in meta-oe's denzil branch.
 
-Ross
+The workaround is here :
+http://patches.openembedded.org/patch/41669/
+http://patches.openembedded.org/patch/41667/
+http://patches.openembedded.org/patch/41671/
+
+What should work in OE-Core when using systemd is :
+PREFERRED_PROVIDER_udev =3D "systemd"
+
+Eric
 
 
