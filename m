@@ -1,20 +1,20 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TxQ7n-0005kO-Of
+	(envelope-from <sgw@linux.intel.com>) id 1TxQMk-0006Tu-0Y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 23:46:05 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2013 14:30:25 -0800
+	Tue, 22 Jan 2013 00:01:22 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2013 14:45:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,508,1355126400"; d="scan'208";a="276669937"
+X-IronPort-AV: E=Sophos;i="4.84,508,1355126400"; d="scan'208";a="280111669"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.40])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jan 2013 14:30:25 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2013 14:44:42 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 14:30:24 -0800
-Message-Id: <1358807424-10570-1-git-send-email-sgw@linux.intel.com>
+Date: Mon, 21 Jan 2013 14:44:42 -0800
+Message-Id: <1358808282-11495-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] blktrace: fix install issue
+Subject: [PATCH v2] blktrace: add back do_install method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,7 +27,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 22:46:06 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 23:01:27 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 23:01:27 -0000
+
+The recent change to blktrace removed the do_install method,
+since this recipe does not use autotools it needs to specifiy
+a do_install activity.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
