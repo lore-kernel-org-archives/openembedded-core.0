@@ -1,43 +1,39 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TxGYq-0005pS-SN
+	(envelope-from <ross.burton@intel.com>) id 1TxGYe-0005p6-0U
 	for openembedded-core@lists.openembedded.org;
 	Mon, 21 Jan 2013 13:33:36 +0100
-Received: from mail-la0-f70.google.com ([209.85.215.70])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 04:17:42 -0800
-Received: by mail-la0-f70.google.com with SMTP id eb20so5769738lab.9
+Received: from mail-bk0-f70.google.com ([209.85.214.70])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 04:17:29 -0800
+Received: by mail-bk0-f70.google.com with SMTP id ji2so1021468bkc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 04:17:40 -0800 (PST)
+	Mon, 21 Jan 2013 04:17:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=ItKkke5tSAq//qq6uUlUOlObYOSqFT02rZjayuPf1PQ=;
-	b=T7ipHHYpt0co7lzDTUxnZvXPH3ihqgi5jvi1gmTSz02MyK5aHBVnM9Y0qNe0qfXZmP
-	ar+r3EYvdCqq3oMe0TRaviAg9j4pbE9+z4YzekRQUn/6tf+w4+L3bsITYow+0W6U+50S
-	1igq548D764UsJom8fS+L/AOTTERVgILlAAQdZyf2oEqRJUsMBFpU6U0qz/VV5985fDG
-	dRAxrUVfopAVAbV+2Apv7RnJ56nOw+DHn8KKkedY8WO251Bl1LtnrbLqF5gDYY7vlKSW
-	TeEQKlF+yGIghunF/9v2lR1hbNtb26wbjxz/NvRN07Unb41iuTMYU7ys+k2guBSxDxCw
-	lHmQ==
-X-Received: by 10.194.90.238 with SMTP id bz14mr26122536wjb.9.1358770660595;
-	Mon, 21 Jan 2013 04:17:40 -0800 (PST)
-X-Received: by 10.194.90.238 with SMTP id bz14mr26122372wjb.9.1358770658917;
-	Mon, 21 Jan 2013 04:17:38 -0800 (PST)
+	h=x-received:x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=dF0W8rigaMvFvPsbLoQEacvFxH2VsnRztjXvFyE9PHE=;
+	b=j0qgv1g1SoffFUL/w1I6RVvak3hY5aVLCWbT+A7JJAqthmN4C4AGooNle+vHM1AG4T
+	ff7yxqoEzeaeDBXres+tnClzitqPBkEbr4HgOv+a7ml3f2Jg3bUYSWDZ4boM8t9ua1cT
+	G0pCL1HKvj/MUmVIuugDIzz4+ZuK7vFByIe6me5E5uiIm0droE+7QRIC3LKFD2+9EiXy
+	mt6tbgfq1IgBscbdEE4hHoLB7l6QqOsdmIDgdWtkGJNDgsyARy9RpqQ6c0PolpF5UBKr
+	7JBQ1JytWHk7XOhF3PTSFG6K+E+NpN195x3Ddn+8dIv5vFEfio9NxAugD3Gw7kdcUmmV
+	rSwA==
+X-Received: by 10.194.109.10 with SMTP id ho10mr26206336wjb.16.1358770647875; 
+	Mon, 21 Jan 2013 04:17:27 -0800 (PST)
+X-Received: by 10.194.109.10 with SMTP id ho10mr26206318wjb.16.1358770647727; 
+	Mon, 21 Jan 2013 04:17:27 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id s10sm18415972wiw.4.2013.01.21.04.17.37
+	by mx.google.com with ESMTPS id e6sm18420527wiz.1.2013.01.21.04.17.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 04:17:38 -0800 (PST)
+	Mon, 21 Jan 2013 04:17:26 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 12:15:34 +0000
-Message-Id: <f669e40a7f7bb2a8de0c6da4f6fdac21a0676b0d.1358770449.git.ross.burton@intel.com>
+Date: Mon, 21 Jan 2013 12:15:27 +0000
+Message-Id: <cover.1358770449.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <53d6b4110f4e12cfde4dcfbef992cc44d8c58c1e.1358770449.git.ross.burton@intel.com>
-References: <53d6b4110f4e12cfde4dcfbef992cc44d8c58c1e.1358770449.git.ross.burton@intel.com>
-In-Reply-To: <cover.1358770449.git.ross.burton@intel.com>
-References: <cover.1358770449.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnhztgpZ8XT/ZH4Km7gwZ87k3e5qcFXv7gcsu60s/snErU8mXymk9xwDEofv/RddMsqrKKnZkVX9iI6uMGskQ0e6Emfz8GC/DIbJQ7xofB2nVhwY7FFUFfTveX5uAc9pjTlA7rTqRBJUyIwIJP2Crre5res2qxbPVd39O60P4S4kEw1//YzE20cgaPH6AsruIoxwf/5
-Subject: [PATCH 5/5] systemd: use new GTKDOC_DOCDIR and clean up
+X-Gm-Message-State: ALoCoQmYMZQIWz/jbMy5uBvLD65CKGVx8Rb+g/EVN6Wj0om79/WRkHwH2uGzbD9cnINOWFz0GLxOGkWGV4jwhmPA94c8awRWQL1cZm0A1WLOjxIZMSa2Vx6/EGOk8VYh6iCYU41Eew0bEXPIM4AxoUH+MnbP5OgBnuQpG77SD2kpCfP8PI1R5EGPT/44I9QMsvATum1eQK4D
+Subject: [PATCH 0/5] systemd fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,66 +48,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 21 Jan 2013 12:33:39 -0000
 
-Now that gtk-doc.bbclass supports overriding the documentation directory,
-systemd can just inherit gtk-doc and all of the manual operations can be
-removed.
+Some fixes for systemd:
+- skip udev/systemd so world builds work
+- fix typo in FILES
+- clean up gtk-doc invocation
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_196.bb |   10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Ross
 
-diff --git a/meta/recipes-core/systemd/systemd_196.bb b/meta/recipes-core/systemd/systemd_196.bb
-index ba42a40..5242b5a 100644
---- a/meta/recipes-core/systemd/systemd_196.bb
-+++ b/meta/recipes-core/systemd/systemd_196.bb
-@@ -8,14 +8,14 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- 
- PROVIDES = "udev"
- 
--DEPENDS = "xz kmod gtk-doc-stub-native docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers usbutils glib-2.0 libgcrypt"
-+DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers usbutils glib-2.0 libgcrypt"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SERIAL_CONSOLE ?= "115200 /dev/ttyS0"
- 
- SECTION = "base/shell"
- 
--inherit useradd pkgconfig autotools perlnative
-+inherit gtk-doc useradd pkgconfig autotools perlnative
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://0001-Revert-systemd-analyze-use-argparse-instead-of-getop.patch \
-@@ -47,6 +47,8 @@ CACHED_CONFIGUREVARS = "ac_cv_file__usr_share_pci_ids=no \
-                         ac_cv_file__usr_share_hwdata_pci_ids=no \
-                         ac_cv_file__usr_share_misc_pci_ids=yes"
- 
-+GTKDOC_DOCDIR = "${S}/docs/"
-+
- # The gtk+ tools should get built as a separate recipe e.g. systemd-tools
- EXTRA_OECONF = " --with-distro=${SYSTEMDDISTRO} \
-                  --with-rootprefix=${base_prefix} \
-@@ -59,7 +61,6 @@ EXTRA_OECONF = " --with-distro=${SYSTEMDDISTRO} \
-                  --disable-coredump \
-                  --disable-introspection \
-                  --with-pci-ids-path=/usr/share/misc \
--                 --disable-gtk-doc-html \
-                  --disable-tcpwrap \
-                  --enable-split-usr \
-                  --disable-microhttpd \
-@@ -69,12 +70,9 @@ EXTRA_OECONF = " --with-distro=${SYSTEMDDISTRO} \
- # There's no docbook-xsl-native, so for the xsltproc check to false
- do_configure_prepend() {
- 	export CPP="${HOST_PREFIX}cpp ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
--	sed -i /xsltproc/d configure.ac
- 
- 	# we only have /home/root, not /root
- 	sed -i -e 's:=/root:=/home/root:g' units/*.service*
--
--	gtkdocize --docdir ${S}/docs/
- }
- 
- do_install() {
+The following changes since commit bac53df5e53ebe26cf2d267a30ab1bbdccd3b541:
+
+  dbus: upgrade to 1.6.8 (2013-01-21 10:22:09 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/systemd
+
+for you to fetch changes up to f669e40a7f7bb2a8de0c6da4f6fdac21a0676b0d:
+
+  systemd: use new GTKDOC_DOCDIR and clean up (2013-01-21 12:13:22 +0000)
+
+----------------------------------------------------------------
+Ross Burton (5):
+      systemd: skip in non-systemd distros to fix world builds
+      udev: skip in systemd distros, to fix world builds
+      systemd: fix typo in FILES
+      gtk-doc: parameterise the documentation directory
+      systemd: use new GTKDOC_DOCDIR and clean up
+
+ meta/classes/gtk-doc.bbclass             |    5 ++++-
+ meta/recipes-core/systemd/systemd_196.bb |   20 +++++++++++++-------
+ meta/recipes-core/udev/udev.inc          |    6 ++++++
+ 3 files changed, 23 insertions(+), 8 deletions(-)
+
+Ross Burton (5):
+  systemd: skip in non-systemd distros to fix world builds
+  udev: skip in systemd distros, to fix world builds
+  systemd: fix typo in FILES
+  gtk-doc: parameterise the documentation directory
+  systemd: use new GTKDOC_DOCDIR and clean up
+
+ meta/classes/gtk-doc.bbclass             |    5 ++++-
+ meta/recipes-core/systemd/systemd_196.bb |   20 +++++++++++++-------
+ meta/recipes-core/udev/udev.inc          |    6 ++++++
+ 3 files changed, 23 insertions(+), 8 deletions(-)
+
 -- 
 1.7.10.4
 
