@@ -1,40 +1,31 @@
-Received: from mail-da0-f49.google.com ([209.85.210.49])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1TxFg5-00038K-Vy
-	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 12:36:39 +0100
-Received: by mail-da0-f49.google.com with SMTP id v40so2660015dad.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 03:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=9qKYdE7BakLi0NTIZeHTTHSTXrEQSkmlcv8C2d63Qas=;
-	b=O4DxW4poMYyB0kexRa5/nmtsbazjTPvlThjoaLcQCChN8E+7ILqPGLa8chIbP/1k73
-	WWscbz9fZ3uzIzZHjSVO1V1pU0ZPiA4fKqzC8OTdw6Fcmb13ooGV3w4VP0FuIc/xGN5a
-	A+8s+hcCHBHl//fzBcktLOzmRMH6KNGwqzrmZB914G2Mhc8K+oJb57J5cFUMWuRA35JM
-	j5ZxzPpJzK/IHSHLIt0/igTZ8Eihpe2u4mhMzdbR2DMdoxXaYWvxKTSz8FFLhLL6SDjv
-	vB94ZPVn66A1mLW9mMDeHt+8/7kziawmANcK5/B37k4gFy0kL4Em2ny2MX4EKPTRCEiS
-	Yhig==
-MIME-Version: 1.0
-X-Received: by 10.68.251.233 with SMTP id zn9mr47442686pbc.7.1358767268667;
-	Mon, 21 Jan 2013 03:21:08 -0800 (PST)
-Received: by 10.68.230.196 with HTTP; Mon, 21 Jan 2013 03:21:08 -0800 (PST)
-In-Reply-To: <CACW_hTab1ALUqN8GnaMZ2+tJ0fOq4qg9Zt8m6SnMW1j+V-vMjg@mail.gmail.com>
-References: <CACW_hTbcpzGuQw3HfNc1bL+a7L6oGcJWfhE5=YKyXR6fwQeVfg@mail.gmail.com>
-	<1357751835.13022.103.camel@ted>
-	<CAAQYJAsygkKtJiu7QFSM2o+5iNx7GSmwvOZ6E+LBkoAh4ChQzA@mail.gmail.com>
-	<CACW_hTZdivwbMO8jskuhPNefEL2riDfQ6_XWdG7bkpZJNOmnzQ@mail.gmail.com>
-	<CACW_hTaR+s1OyZFCseA1Nx0kxwi_W0NHzpBw7r-8jinKeBA21w@mail.gmail.com>
-	<20130111094825.13615ca8@e6520eb>
-	<CACW_hTab1ALUqN8GnaMZ2+tJ0fOq4qg9Zt8m6SnMW1j+V-vMjg@mail.gmail.com>
-Date: Mon, 21 Jan 2013 12:21:08 +0100
-Message-ID: <CACW_hTb4gjraMLqEyY_MZf_8F4SgvmyScVM33Et9qZtn615GQg@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TxFlg-0003Mb-MA for openembedded-core@lists.openembedded.org;
+	Mon, 21 Jan 2013 12:42:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LBQulu016002;
+	Mon, 21 Jan 2013 11:26:56 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04712-09; Mon, 21 Jan 2013 11:26:52 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LBQiP9015996
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 21 Jan 2013 11:26:48 GMT
+Message-ID: <1358767605.14265.53.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 21 Jan 2013 11:26:45 +0000
+In-Reply-To: <A551BDF323A45B48ACE6A404AA16A1C4127970C8@TOP-EX01.TOPIC.LOCAL>
+References: <A551BDF323A45B48ACE6A404AA16A1C4127970C8@TOP-EX01.TOPIC.LOCAL>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: split mtd-utils
+Subject: (No subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,103 +38,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 11:36:48 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e06c961a1ce04d3caa857
+X-List-Received-Date: Mon, 21 Jan 2013 11:42:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7b2e06c961a1ce04d3caa857
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2013-01-21 at 10:49 +0000, Mike Looijmans wrote:
+> This mail bounced so the v2 patch overtook it...
+> 
+> >> From: Mike Looijmans <mike.looijmans@topic.nl>
+> >>
+> >> Multicore embedded systems are getting more and more common.
+> >>
+> >> Remove "--disable-openmp" from the GCC configuration options and
+> >> always build libgomp. This only creates a "bigger" compiler but
+> >> has no effect on the compiled binaries that don't use openmp.
+> >>
+> >> Tested a clean build on mips32el and arm7a, no problems encountered.
+> >>
+> >> Autoconf will not detect OpenMP after this change, because it will
+> >> build and run a target binary on the build system. In order to use
+> >> OpenMP, the variable ac_cv_prog_c_openmp=-fopenmp must be set.
+> >> ---
+> >>  meta/recipes-devtools/gcc/gcc-4.7.inc              |    9 +++------
+> >>  .../recipes-devtools/gcc/gcc-configure-runtime.inc |    4 +---
+> >>  .../recipes-devtools/gcc/gcc-cross-canadian_4.7.bb |    2 +-
+> >>  3 files changed, 5 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> >> b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> >> index 08a0103..a7aa4a4 100644
+> >> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> >> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> >> @@ -88,7 +88,6 @@ JAVA = ""
+> >>  EXTRA_OECONF_BASE = " --enable-lto \
+> >>                       --enable-libssp \
+> >>                       --disable-bootstrap \
+> >> -                     --disable-libgomp \
+> >>                       --disable-libmudflap \
+> >>                       --with-system-zlib \
+> >> --with-linker-hash-style=${LINKER_HASH_STYLE} \
+> >> @@ -99,7 +98,6 @@ EXTRA_OECONF_BASE = " --enable-lto \
+> >>                       --enable-cheaders=c_global "
+> >>
+> >>  EXTRA_OECONF_INITIAL = "--disable-libmudflap \
+> >> -                     --disable-libgomp \
+> >>                       --disable-libssp \
+> >>                       --disable-libquadmath \
+> >>                       --with-system-zlib \
+> >> @@ -108,7 +106,6 @@ EXTRA_OECONF_INITIAL = "--disable-libmudflap \
+> >>                       --enable-decimal-float=no"
+> >>
+> >>  EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
+> >> -                             --disable-libgomp \
+> >>                               --disable-libquadmath \
+> >>                               --with-system-zlib \
+> >>                               --disable-lto \
+> >
+> >
+> > I nearly took this however you still want this disabled in the
+> > INITIAL/INTERMEDIATE versions, you're just wasting compile time there sa
+> > nothing would use it.
+> 
+> I don't see the harm in allowing OpenMP usage in build tools (e.g. image
+> processing on the build machine), but if it gets the patch through
+> sooner, I'll happily remove it. I tend to run unit tests on my build
+> system, using OE's compiler version, so it's nice if both host and build
+> compilers accept the same options.
 
-patch submitted.
-Enjoy.
-Frans
+The initial/intermediate compiles are only used to build libc and the
+final "proper" cross compiler. Since none of these use or benefit from
+libgomp, its simply wasting build time having this enabled there.
+
+I'm ok with enabling things where there is a use for them but I also
+perfer having an efficient build process where we can. This is why there
+are various things disabled above for initial/intermediate.
+
+> >> b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
+> >> index 53c4632..6c048c0 100644
+> >> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
+> >> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
+> >> @@ -13,7 +13,7 @@ SYSTEMLIBS = "${target_base_libdir}/"
+> >>  SYSTEMLIBS1 = "${target_libdir}/"
+> >>
+> >>  EXTRA_OECONF += "--disable-libunwind-exceptions --disable-libssp \
+> >> -             --disable-libgomp --disable-libmudflap \
+> >> +             --disable-libmudflap \
+> >
+> >
+> > Again, I'm wondering if you mean this here. The library would have been
+> > built as part of the target build? Does the library need gcc support as
+> > well as its presence?
+> >
+> 
+> Same motivation as above actually, I see no harm in allowing it. Again,
+> I'll remove it for quickness, I'm quite eager to see OpenMP support in OE.
+
+It leads to inconsistencies with other libraries and behaviour so I'm
+happier with this being left disabled here, unless someone can point me
+at a good reason why we should enable it.
+
+> I'll post a much smaller V2 patch.
+
+Thanks. This will likely go in after M3. I don't fancy changing the
+compiler this close to the M3 build (feature freeze for M3 was
+yesterday). I will queue it in master-next for now.
+
+Cheers,
+
+Richard
 
 
-2013/1/11 Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 
->
->
->
-> 2013/1/11 Eric B=E9nard <eric@eukrea.com>
->
->> Hi Frans,
->>
->> [...]
->
->> IIRC sumtol is used for jffs2 images (to create the erase block
->> summary) so that may better fit into mtd-utils-jffs2
->>
->> Also, nftl* rfd* doc* ftl* serve_image may go into a separate packate
->> (mtd-utils-misc ?) as I believe those tools are not very usefull in
->> most configurations using mtd with nowadays's flashs.
->>
->> Eric
->>
-> Hi Eric,
->
-> Thanks for the feedback. I'm not into the details of all tools in the
-> package (I typically only use the flash* mtd* and jffs2 things)
-> Seems a good plan to me to put these in a misc package
-> (actually I also considered moving all other stuff that is in my proposal
-> in mtd-utils into a differently named package, e.g. mtd-utils-core) and
-> have mtd-utils as an umbrella package dragging in what it does now (so it
-> should RDEPEND on the meta-utils-* packages but have no other stuff in it=
-).
->
-> Best regards, Frans.
->
-> PS: partially related: I have filed yocto bug 3702 asking for more
-> fine-grained control on what is included in an image.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3702
->
-
---047d7b2e06c961a1ce04d3caa857
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div>patch submitted.<br></div>Enjoy.<br></div>Frans<=
-br></div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">2013=
-/1/11 Frans Meulenbroeks <span dir=3D"ltr">&lt;<a href=3D"mailto:fransmeule=
-nbroeks@gmail.com" target=3D"_blank">fransmeulenbroeks@gmail.com</a>&gt;</s=
-pan><br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_ext=
-ra"><br><br><div class=3D"gmail_quote">2013/1/11 Eric B=E9nard <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:eric@eukrea.com" target=3D"_blank">eric@eukrea.=
-com</a>&gt;</span><br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-Hi Frans,<br>
-<br></blockquote><div>[...] <br></div><div class=3D"im"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-IIRC sumtol is used for jffs2 images (to create the erase block<br>
-summary) so that may better fit into mtd-utils-jffs2<br>
-<br>
-Also, nftl* rfd* doc* ftl* serve_image may go into a separate packate<br>
-(mtd-utils-misc ?) as I believe those tools are not very usefull in<br>
-most configurations using mtd with nowadays&#39;s flashs.<br>
-<span><font color=3D"#888888"><br>
-Eric<br>
-</font></span></blockquote></div></div>Hi Eric,<br><br>Thanks for the feedb=
-ack. I&#39;m not into the details of all tools in the package (I typically =
-only use the flash* mtd* and jffs2 things)<br></div><div class=3D"gmail_ext=
-ra">
-
-Seems a good plan to me to put these in a misc package<br></div><div class=
-=3D"gmail_extra">(actually I also considered moving all other stuff that is=
- in my proposal in mtd-utils into a differently named package, e.g. mtd-uti=
-ls-core) and have mtd-utils as an umbrella package dragging in what it does=
- now (so it should RDEPEND on the meta-utils-* packages but have no other s=
-tuff in it).<br>
-
-<br></div><div class=3D"gmail_extra">Best regards, Frans.<br><br>PS: partia=
-lly related: I have filed yocto bug 3702 asking for more fine-grained contr=
-ol on what is included in an image.<br><a href=3D"https://bugzilla.yoctopro=
-ject.org/show_bug.cgi?id=3D3702" target=3D"_blank">https://bugzilla.yoctopr=
-oject.org/show_bug.cgi?id=3D3702</a> <br>
-
-</div></div>
-</blockquote></div><br></div>
-
---047d7b2e06c961a1ce04d3caa857--
