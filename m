@@ -1,22 +1,35 @@
-Received: from afflict.kos.to ([92.243.29.197])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <riku.voipio@linaro.org>) id 1TxEG1-0007IR-6k
-	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 11:05:37 +0100
-Received: from aimless.elisa-laajakaista.fi
-	(a91-156-58-157.elisa-laajakaista.fi [91.156.58.157])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id 8BB97264BE;
-	Mon, 21 Jan 2013 10:50:09 +0100 (CET)
-From: Riku Voipio <riku.voipio@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 11:50:03 +0200
-Message-Id: <1358761803-2475-1-git-send-email-riku.voipio@linaro.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <50F97FDC.2060405@linux.intel.com>
-References: <50F97FDC.2060405@linux.intel.com>
-Subject: [PATCH] libaio: add aarch64 support
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TxEge-0008Ea-Qr for openembedded-core@lists.openembedded.org;
+	Mon, 21 Jan 2013 11:33:13 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LAF6cW015552;
+	Mon, 21 Jan 2013 10:15:06 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04712-07; Mon, 21 Jan 2013 10:15:02 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LAEuXt015538
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 21 Jan 2013 10:14:57 GMT
+Message-ID: <1358763296.14265.43.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
+Date: Mon, 21 Jan 2013 10:14:56 +0000
+In-Reply-To: <20130121091942.5a6c5a82@e6520eb>
+References: <cover.1358635193.git.ross.burton@intel.com>
+	<50FC3899.5000202@linux.intel.com> <50FCBCB7.8060201@linux.intel.com>
+	<CAJTo0LYU0-1EEZfE8LdTDSmGmgprHbmZ-g00O-8+Qv1MmcaQTg@mail.gmail.com>
+	<20130121091942.5a6c5a82@e6520eb>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	r0LAF6cW015552
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/10] Initial systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,143 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 10:05:46 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 10:33:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Picking up a patch from gentoo and adding aarch64 defines
-is enough to fix libaio and pass the harness testsuite
+On Mon, 2013-01-21 at 09:19 +0100, Eric B=C3=A9nard wrote:
+> Hi Ross,
+>=20
+> Le Mon, 21 Jan 2013 08:08:32 +0000,
+> "Burton, Ross" <ross.burton@intel.com> a =C3=A9crit :
+>=20
+> > The autobuilder hit this last night:
+> >=20
+> > ERROR: Multiple .bb files are due to be built which each provide udev
+> > (/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/buil=
+d/meta/recipes-core/udev/udev_182.bb
+> > /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build=
+/meta/recipes-core/systemd/systemd_196.bb).
+> >=20
+> > Which I realised would happen not long after hitting send.   I'll sor=
+t this too.
+> >=20
+> we had the same problem in meta-oe's denzil branch.
+>=20
+> The workaround is here :
+> http://patches.openembedded.org/patch/41669/
+> http://patches.openembedded.org/patch/41667/
+> http://patches.openembedded.org/patch/41671/
+>=20
+> What should work in OE-Core when using systemd is :
+> PREFERRED_PROVIDER_udev =3D "systemd"
 
-Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
----
- .../libaio/libaio/libaio-aarch64.patch             |   28 +++++++++
- .../libaio/libaio/libaio-generic.patch             |   65 ++++++++++++++++++++
- meta/recipes-extended/libaio/libaio_0.3.109.bb     |    5 +-
- 3 files changed, 97 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
+This isn't enough to prevent warnings for "bitbake world". We need to
+detect which is enabled and then SkipPackage in the one that isn't
+needed, or at least exclude it from the world build.
 
-diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-new file mode 100644
-index 0000000..e3d1058
---- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-+
-+---
-+ harness/cases/16.t |    2 ++
-+ src/libaio.h       |   10 ++++++++++
-+ 2 files changed, 12 insertions(+)
-+
-+--- a/src/libaio.h
-++++ b/src/libaio.h
-+@@ -107,6 +107,16 @@
-+ #  else
-+ #    error "neither mipseb nor mipsel?"
-+ #  endif
-++#elif defined(__aarch64__)
-++#  if defined (__AARCH64EB__) /* big endian, 64 bits */
-++#define PADDED(x, y)    unsigned y; x
-++#define PADDEDptr(x,y)  x
-++#define PADDEDul(x, y)  unsigned long x
-++#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
-++#define PADDED(x, y)    x, y
-++#define PADDEDptr(x, y) x
-++#define PADDEDul(x, y)  unsigned long x
-++#  endif
-+ #else
-+ #error	endian?
-+ #endif
-diff --git a/meta/recipes-extended/libaio/libaio/libaio-generic.patch b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-new file mode 100644
-index 0000000..3fcf541
---- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-@@ -0,0 +1,65 @@
-+From 5e96c73d5dfbdea8d0be82b7f3fc8d6735e5dfa7 Mon Sep 17 00:00:00 2001
-+From: Mike Frysinger <vapier@gentoo.org>
-+Date: Sun, 17 Jan 2010 17:07:48 -0500
-+Subject: [PATCH] add a generic syscall() fallback
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
-+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-+---
-+ src/syscall-generic.h |   29 +++++++++++++++++++++++++++++
-+ src/syscall.h         |    3 ++-
-+ 2 files changed, 31 insertions(+), 1 deletions(-)
-+ create mode 100644 src/syscall-generic.h
-+
-+diff --git a/src/syscall-generic.h b/src/syscall-generic.h
-+new file mode 100644
-+index 0000000..24d7c7c
-+--- /dev/null
-++++ b/src/syscall-generic.h
-+@@ -0,0 +1,29 @@
-++#include <errno.h>
-++#include <unistd.h>
-++#include <sys/syscall.h>
-++
-++#define _body_io_syscall(sname, args...) \
-++{ \
-++   int ret = syscall(__NR_##sname, ## args); \
-++   return ret < 0 ? -errno : ret; \
-++}
-++
-++#define io_syscall1(type,fname,sname,type1,arg1) \
-++type fname(type1 arg1) \
-++_body_io_syscall(sname, (long)arg1)
-++
-++#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
-++type fname(type1 arg1,type2 arg2) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2)
-++
-++#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
-++type fname(type1 arg1,type2 arg2,type3 arg3) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3)
-++
-++#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
-++type fname (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4)
-++
-++#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, type5,arg5) \
-++type fname (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4, (long)arg5)
-+diff --git a/src/syscall.h b/src/syscall.h
-+index 78becfe..d954af0 100644
-+--- a/src/syscall.h
-++++ b/src/syscall.h
-+@@ -25,5 +25,6 @@
-+ #elif defined(__arm__)
-+ #include "syscall-arm.h"
-+ #else
-+-#error "add syscall-arch.h"
-++#warning "using generic syscall method"
-++#include "syscall-generic.h"
-+ #endif
-+-- 
-+1.7.3.1
-+
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-index 0712d04..afe9adf 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-@@ -11,7 +11,10 @@ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://00_arches.patch \
-            file://toolchain.patch \
-            file://destdir.patch \
--           file://libaio_fix_for_x32.patch"
-+           file://libaio_fix_for_x32.patch \
-+           file://libaio-generic.patch \
-+           file://libaio-aarch64.patch \
-+"
- 
- SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
- SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
--- 
-1.7.10.4
+Cheers,
+
+Richard
 
 
 
