@@ -1,39 +1,41 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TxFtb-0003iq-2S
+	(envelope-from <ross.burton@intel.com>) id 1TxGPX-0005Km-EO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 12:50:36 +0100
-Received: from mail-wg0-f72.google.com ([74.125.82.72])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 03:35:05 -0800
-Received: by mail-wg0-f72.google.com with SMTP id fg15so6390442wgb.11
+	Mon, 21 Jan 2013 13:23:50 +0100
+Received: from mail-yh0-f69.google.com ([209.85.213.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 21 Jan 2013 04:06:46 -0800
+Received: by mail-yh0-f69.google.com with SMTP id w68so675234yhw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 03:35:03 -0800 (PST)
+	Mon, 21 Jan 2013 04:07:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=K2M9dpBFf0R7N1vAHdgNX8HkMWdL684CYtDhNoPPma0=;
-	b=nrmeeCTwkLp3al7wanSHEpw5ZpjBrw7Mv51JnRX46R7EHJq+3GKEPUmVWcnZzqtlHT
-	1Ki5ENYOAZPxZ4l6GnE327HfAgxElPo/YMACWTca8LhEsU/Xuz7geARLJvSQlCx2GA4z
-	awcFJMLov+FjZYE9YUC4qKPm7UVW5CoGAMgp4jdjBGrLO3YoF6SD7HD7oH2yVmMba3Wa
-	TXQiCi4KU/SbT4HXhphTQtf7zDnbbrfIIloMt+HccgGoALUz/UJh2wlpjWbV/20sGSyM
-	wOiiTttpUuyIb0TuXsWvLbhUXCSRRqZ4ab5/ZOhX7trbVozrdHVeJdUJCdjtv3VMrMmM
-	lniQ==
-X-Received: by 10.194.88.202 with SMTP id bi10mr25761736wjb.5.1358768103145;
-	Mon, 21 Jan 2013 03:35:03 -0800 (PST)
-X-Received: by 10.194.88.202 with SMTP id bi10mr25761713wjb.5.1358768102952;
-	Mon, 21 Jan 2013 03:35:02 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l5sm18239777wia.10.2013.01.21.03.35.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 03:35:02 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 11:33:05 +0000
-Message-Id: <1358767985-7045-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQlaPKiFbrQlOH7VSYEVwnWQFWRQP/pMTF8x9tSJJMawp5gcmeQmdIgLo3QOORyJHW5Ahf5PnRIOfO45agVhZhvaFC5O5KhTaOt3Fz0xNir8PAnimFyrV9a7Se+c9z9P10BpMrkx/QRQGiCJdsQwVM3t8mLoChfO91N3VpWLEpTOTVoosjT86CKy5b5nZGuvjQS7f/E2
-Subject: [PATCH] udev: skip in systemd distros, to fix world builds
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=mrQdh1EcxxJtqSDavDfdsIeSruLzgZySUHRBNSArw5Y=;
+	b=jsW87rz4dbYYJB3M/Yd+eo9tu7Y3yXTA6jsEic2g8pa99U68dNyAWvmXKos2DVR+TR
+	cWZ3r1ElJZFsScHEczTAxqCkzwTyYvc+UDASwS574u3K4/HoFZ5esOQmcXJiWPmB0nXG
+	CqSBOKPpL4MK1X5mVdttLc/Ek7SFtu5XZhZOQ5MVtHgpR5QbnZBS4CEHeKgGMl7E1uq0
+	juKmhUZReZeyxkhotaqA9mOOc9WH9MxeY+VlOKK8K6Xy63Izjo/2fhCgypn/xWreRhq7
+	zQJMM0CXZLkbk7j7JvRt41cEfQ39F+Y2xtPRbmxumIeZqZzZ/M0odpqcbk1jTMRrWDtj
+	ATHw==
+X-Received: by 10.52.28.44 with SMTP id y12mr13491978vdg.19.1358770073112;
+	Mon, 21 Jan 2013 04:07:53 -0800 (PST)
+X-Received: by 10.52.28.44 with SMTP id y12mr13491974vdg.19.1358770073048;
+	Mon, 21 Jan 2013 04:07:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.152.232 with HTTP; Mon, 21 Jan 2013 04:07:31 -0800 (PST)
+In-Reply-To: <20130120231106.GI29386@jama.palm1.palmone.com>
+References: <cover.1358635193.git.ross.burton@intel.com>
+	<99d5574cd12a8ed68886120775aec583b2941684.1358635193.git.ross.burton@intel.com>
+	<20130120231106.GI29386@jama.palm1.palmone.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Jan 2013 12:07:31 +0000
+Message-ID: <CAJTo0LZymaq0U0ct0TN-E_=Wg8tPW4ahv9PXGzi6b094SQWoqg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQlVknTxPdzScyQ59SUYeBU5nq8rFkDC9tJ8CcZ6xZrMuleaeDPK6t69okBpsHMBSRtMs2AUD/HyouJsmnQxD5+b2DotUQ+sSzU3rqkXT8K96lrA1gWOFz+mi5Rp8teXNX3eWgJBX9W4kCgKqPyfoxyXhQ1w+ebxLdk0Te7xLJnSj6UkPSwq9SlRA66m05oVxuMeTsZA
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/10] systemd: add systemd recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 11:50:40 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 12:23:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 20 January 2013 23:11, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Looking at diff between oe-core systemd recipe and meta-systemd, can you
+> explain why python support got disabled.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/udev/udev.inc |    6 ++++++
- 1 file changed, 6 insertions(+)
+I'll delegate that to Radu who did the bulk of the systemd recipe
+integration...  if it's actually useful we can bring it back.
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 9f60b17..facad0c 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -99,3 +99,9 @@ do_install_append () {
- 
- 	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
- }
-+
-+# As systemd also builds udev, skip this package if we're doing a systemd build.
-+python () {
-+    if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
-+        raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
-+}
--- 
-1.7.10.4
+> And why are there diffs like:
+> -               /libstemd-udevd \
+> +               /lib/udev/udevd \
+> +               /lib/systemd/systemd-udevd \
+> (the later is meta-systemd).
 
+Clearly a typo from backspacing a little too much...  Patch sent to
+fix this.  Note that I removed the compat symlink as the initramfs
+handles the systemd udev now.
+
+> Is there some plan to send patches for meta-systemd to remove bits merged
+> to oe-core? Right now a lot of stuff is not parsing due to removed
+> dbus-systemd package.
+
+I see you've already sent a patch for this - anything else massively breaking?
+
+Ross
 
 
