@@ -1,20 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TxQMk-0006Tu-0Y
-	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 00:01:22 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2013 14:45:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,508,1355126400"; d="scan'208";a="280111669"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.40])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2013 14:44:42 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 14:44:42 -0800
-Message-Id: <1358808282-11495-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH v2] blktrace: add back do_install method
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TxQQ0-0006a6-OE for openembedded-core@lists.openembedded.org;
+	Tue, 22 Jan 2013 00:04:53 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LMnFbf020860
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jan 2013 22:49:15 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17112-02 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jan 2013 22:49:11 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0LMn7nr020854
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jan 2013 22:49:08 GMT
+Message-ID: <1358808548.14265.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Jan 2013 22:49:08 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] sanity.bbclass: Ensure tmpdir exists when running the check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,43 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 23:01:27 -0000
-X-List-Received-Date: Mon, 21 Jan 2013 23:01:27 -0000
+X-List-Received-Date: Mon, 21 Jan 2013 23:04:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The recent change to blktrace removed the do_install method,
-since this recipe does not use autotools it needs to specifiy
-a do_install activity.
+This avoids tracebacks from bitbake if the directory doesn't already
+exist.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+[YOCTO #3640]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/blktrace/blktrace_git.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 0ffa52d..8ca0b68 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -571,6 +571,7 @@ def check_sanity(sanity_data):
+             messages = messages + "Error, TMPDIR has changed location.
+You need to either move it back to %s or rebuild\n" % saved_tmpdir
+     else:
+         f = file(checkfile, "w")
++        bb.utils.mkdirhier(tmpdir)
+         f.write(tmpdir)
+     f.close()
+ 
 
-diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-index 80cb14c..a318f0e 100644
---- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-@@ -6,7 +6,7 @@ DEPENDS = "libaio"
- 
- SRCREV = "d6918c8832793b4205ed3bfede78c2f915c23385"
- 
--PR = "r5"
-+PR = "r6"
- PV = "1.0.5+git${SRCPV}"
- 
- SRC_URI = "git://git.kernel.dk/blktrace.git;protocol=git \
-@@ -20,3 +20,9 @@ EXTRA_OEMAKE = "\
-     'LDFLAGS=${LDFLAGS}' \
- "
- PARALLEL_MAKE = ""
-+
-+do_install() {
-+	oe_runmake ARCH="${ARCH}" prefix=${prefix} \
-+		mandir=${mandir} DESTDIR=${D} install
-+}
-+
--- 
-1.8.0.2
 
 
 
