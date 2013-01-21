@@ -1,39 +1,40 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tx4M4-0006Qp-Di
-	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 00:31:18 +0100
-Received: by mail-we0-f178.google.com with SMTP id k14so166801wer.23
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Jan 2013 15:15:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=IbRXwAk/s7p83l0FM+lTf7K+N5VK6gKkQsmuAxhHhPQ=;
-	b=07/bpizTrhKWgK3r2RZyHvc3PomdCpamypRmcxKnGQhApi9UflvCBd8jUy3JpxKBps
-	S1+HowAX+uUiYiyykLLkNTvzMRP3WF/eQ/i3ducpH2U6TPS9ddVH1zrVnK7q5yA48fN0
-	0Zvm3T2jS6ULyqmqRtk7B6DOm1wDtP1peI/5MRNNH2B9JjXG6w51efRiwZmYS+XjZdJK
-	84uy1aAbNiLLHjaM8ceJ8T7185cmLku8Kaco6Um1TBAMn7IbDjWXRBRKddFl1bxY9QeF
-	CqmkEm0hgwi5pyzjXVS+B9Ig1ig7kfSQc6hBLmTow/sA+0DcztB5L5g/R4T1Yw4zk1tj
-	lDeg==
-X-Received: by 10.194.71.244 with SMTP id y20mr23276221wju.19.1358723744885;
-	Sun, 20 Jan 2013 15:15:44 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id bd6sm14419279wib.10.2013.01.20.15.15.44
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 20 Jan 2013 15:15:44 -0800 (PST)
-Date: Mon, 21 Jan 2013 00:15:46 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130120231546.GK29386@jama.palm1.palmone.com>
-References: <cover.1358635193.git.ross.burton@intel.com>
-	<7c26b8f7417dfbe245926137acfa61d0f659488c.1358635193.git.ross.burton@intel.com>
-	<20130120231240.GJ29386@jama.palm1.palmone.com>
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Tx5S9-0008Lz-TI
+	for Openembedded-core@lists.openembedded.org;
+	Mon, 21 Jan 2013 01:41:45 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 20 Jan 2013 16:25:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,501,1355126400"; d="scan'208";a="193252340"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Jan 2013 16:25:46 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.5]) by
+	ORSMSX103.amr.corp.intel.com ([169.254.2.214]) with mapi id
+	14.01.0355.002; Sun, 20 Jan 2013 16:25:46 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 1/1] linux-yocto_3.4: use
+	${KSRC_linux_yocto_3_4_repo} based SRC_URI
+Thread-Index: AQHN9CJIK2y0V8nG90isWTBaahiWJJhP3ZqA//96GMCAAIscgP//ehXAgANpkACAACuR4A==
+Date: Mon, 21 Jan 2013 00:25:45 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C3F0BE5D1@ORSMSX106.amr.corp.intel.com>
+References: <cover.1358365495.git.nitin.a.kamble@intel.com>
+	<9ab00cdffdd81cbdcd68ac03aafd925372f25ad7.1358365495.git.nitin.a.kamble@intel.com>
+	<50F983F9.4020708@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C3F0BCF8A@ORSMSX106.amr.corp.intel.com>
+	<50F98857.809@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C3F0BCFC9@ORSMSX106.amr.corp.intel.com>
+	<1358689484.14265.40.camel@ted>
+In-Reply-To: <1358689484.14265.40.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-In-Reply-To: <20130120231240.GJ29386@jama.palm1.palmone.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/10] default-providers: Automatically set PREFERRED_PROVIDER_udev
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] linux-yocto_3.4: use ${KSRC_linux_yocto_3_4_repo} based SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,64 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jan 2013 23:31:20 -0000
-X-Groupsio-MsgNum: 34115
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="q6mBvMCt6oafMx9a"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 21 Jan 2013 00:41:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---q6mBvMCt6oafMx9a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+PiBFbWJyYWNlIHRoZSBwb3dlciBvZiB0aGUgc2NyaXB0aW5nIHdlIGhhdmUsIHRoZXJlIGFyZSBt
+dWNoIG1vcmUNCj4gaW50ZXJlc3Rpbmcgd2F5cyB0byBzb2x2ZSB0aGlzIHByb2JsZW0gZ2VuZXJp
+Y2FsbHkuIEZvciBleGFtcGxlLCBJIHdyb3RlIHRoaXMNCj4gcGllY2Ugb2YgY29kZSBpbiBhIGZl
+dyBtaW51dGVzIChhZG1pdHRlZGx5IHVudGVzdGVkKToNCj4gDQo+IA0KPiB1cmxyZW1hcHBlci5i
+YmNsYXNzOg0KPiANCj4gcHl0aG9uICgpIHsNCj4gICAgIG1vZCA9IEZhbHNlDQo+ICAgICBuZXdz
+cmN1cmkgPSBbXQ0KPiAgICAgc3JjdXJpID0gKGQuZ2V0VmFyKCJTUkNfVVJJIiwgVHJ1ZSkgb3Ig
+IiIpLnNwbGl0KCkNCj4gICAgIG1hcHMgPSBkLmdldFZhckZsYWdzKCJVUkxSRU1BUCIpDQo+ICAg
+ICBmb3IgdXJpIGluIHNyY3VyaToNCj4gICAgICAgICBmb3IgdSBpbiBtYXBzOg0KPiAgICAgICAg
+IGlmIHVyaS5zdGFydHN3aXRoKHUpOg0KPiAgICAgICAgICAgICB1cmkucmVwbGFjZSh1LCBtYXBz
+W3VdKQ0KPiAgICAgICAgICAgICBtb2QgPSBUcnVlDQo+ICAgICAgICAgbmV3c3JjdXJpLmFwcGVu
+ZCh1cmkpDQo+ICAgICBpZiBtb2Q6DQo+ICAgICAgICAgZC5zZXRWYXIoIlNSQ19VUkkiLCAiICIu
+am9pbihuZXdzcmN1cmkpKSB9DQo+IA0KPiANCj4gVVJMUkVNQVBbZ2l0Oi8vZ2l0LnlvY3RvcHJv
+amVjdC5vcmcvbGludXgteW9jdG8tMy40LmdpdF0gPQ0KPiAiZ2l0Oi8vL2hvbWUvbml0aW4vbGlu
+dXgteW9jdG8tMy40LmdpdC87cHJvdG9jb2w9ZmlsZSINCj4gDQo+IHdoaWNoIHNob3VsZCBkbyB3
+aGF0IHlvdSB3YW50IGJ1dCBpbiBhIGdlbmVyaWMgd2F5IHdoaWNoIGRvZXNuJ3QgcmVxdWlyZSB1
+cw0KPiB0byBoYWNrIGVhY2ggcmVjaXBlLiBZb3UgY2FuIGRvIGl0IGNvbXBsZXRlbHkgbG9jYWxs
+eSBpZiB5b3UgY3JlYXRlIGEgY2xhc3Nlcw0KPiBkaXJlY3RvcnkgYWxvbmdzaWRlIHlvdXIgY29u
+ZiBkaXJlY3RvcnkgYW5kIHBsYWNlIHRoZSAuYmJjbGFzcyB0aGVyZSwgdGhlbiBhZGQNCj4gSU5I
+RVJJVCArPSAidXJscmVtYXBwZXIiIGluIGxvY2FsLmNvbmYuDQo+IA0KPiBDaGVlcnMsDQo+IA0K
+PiBSaWNoYXJkDQo+IA0KUmljaGFyZCwNCiAgSSB1bmRlcnN0YW5kIHlvdXIgcG9pbnQuIEFuZCB0
+aGlzIG5ld2VyIHNvbHV0aW9uIHNob3VsZCB3b3JrLiBJZiBwb3NzaWJsZSBJIHdvdWxkIGxpa2Ug
+dG8gcHVzaCB0aGlzIGNsYXNzIGluIHRoZSBvZWNvcmUgbGF5ZXIgc28gdGhhdCBJIGRvbid0IGhh
+dmUgdG8gbWFpbnRhaW4gaXQgbXlzZWxmLiBBbHNvIGNhbiB0aGlzIGJlIGRvbmUgc2VsZWN0aXZl
+bHkgZm9yIGEgQlNQIGJ5IHVzaW5nIHRoZSBic3BuYW1lIG92ZXJyaWRlPw0KDQpUaGFua3MsDQpO
+aXRpbg0KIA0K
 
-On Mon, Jan 21, 2013 at 12:12:40AM +0100, Martin Jansa wrote:
-> On Sat, Jan 19, 2013 at 10:47:05PM +0000, Ross Burton wrote:
-> > From: Radu Moisan <radu.moisan@intel.com>
-> >=20
-> > This is a more generic way to set preferred provider for udev.
-> > We expect to have multiple choices once we integrate other init
-> > managers, and this way we can automatically set it considering
-> > distro settings.
-> >=20
-> > Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >  meta/conf/distro/include/default-providers.inc |    1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf=
-/distro/include/default-providers.inc
-> > index 8ed703c..89b6465 100644
-> > --- a/meta/conf/distro/include/default-providers.inc
-> > +++ b/meta/conf/distro/include/default-providers.inc
-> > @@ -37,3 +37,4 @@ PREFERRED_PROVIDER_nativesdk-opkg ?=3D "nativesdk-opk=
-g"
-> >  PREFERRED_PROVIDER_console-tools ?=3D "kbd"
-> >  PREFERRED_PROVIDER_gzip-native ?=3D "pigz-native"
-> >  PREFERRED_PROVIDER_make ?=3D "make"
-> > +PREFERRED_PROVIDER_udev ?=3D "${@base_contains('DISTRO_FEATURES','sysv=
-init','udev','',d)}"
->=20
-> 'systemd' missing in 4th param? or another
-> "${@base_contains('DISTRO_FEATURES','systemd','systemd','',d)}"
-> ?
 
-Ah ignore this, it's added in 05/10.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---q6mBvMCt6oafMx9a
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlD8eqIACgkQN1Ujt2V2gByU1gCfc+htEbfOPyb2LV1LERbhzIX+
-KkAAn0PXiGQ++KwtNHxngw2tIBhtkuVM
-=mcsm
------END PGP SIGNATURE-----
-
---q6mBvMCt6oafMx9a--
