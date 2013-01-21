@@ -1,39 +1,20 @@
-Received: from mail-wi0-f180.google.com ([209.85.212.180])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TxDSw-0004wV-SZ
+	(envelope-from <cristian.iorga@intel.com>) id 1TxDmi-0005cH-DV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Jan 2013 10:14:55 +0100
-Received: by mail-wi0-f180.google.com with SMTP id hj13so4709034wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 00:59:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=wrv2MoCOi54hZ2BiB8Zpt1Nigt2IEXgFCadjq1KSNyM=;
-	b=rcDhQM3c9HYikjJDLoelPzfah8R3ML8jXbCWFhk95u0NWlizmGOa/zFHR6K7tnHaxb
-	i7hlwkwNzN7BYXllb6ixinp5lybI6pFs3dzxs7GECSrgS/7JpB+44kkzC53vVZ6voQIZ
-	q2Nu4mLolAcCeyqGX1L6Ms4BYrJfnKkMqcUEN0xi3MBw0t2vfqJggUMS6s7ggLD5GFxk
-	cBnQ7ADaW22hG9HCSOG45+b7oZBG9NhPMKdW3m1yPQ1Oy+jRI+nuYsXyi3uuHgl5CDPc
-	FGbQBwvtrA2LdcgLxbRSenWduQvfYdn6f5hdtPRto8fcW/u2qSYdTKQmBXI3SwMXWedP
-	dc4w==
-X-Received: by 10.194.108.101 with SMTP id hj5mr24992982wjb.6.1358758766607;
-	Mon, 21 Jan 2013 00:59:26 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ex6sm17648540wid.3.2013.01.21.00.59.25
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 00:59:25 -0800 (PST)
-Date: Mon, 21 Jan 2013 09:59:28 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130121085928.GL29386@jama.palm1.palmone.com>
-References: <cover.1358635193.git.ross.burton@intel.com>
-	<50FC3899.5000202@linux.intel.com>
-	<CAJTo0LaL3vCw52_h-Ab3J9oBHwZwxn_WjUj3D8iivundKypfHQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaL3vCw52_h-Ab3J9oBHwZwxn_WjUj3D8iivundKypfHQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/10] Initial systemd integration
+	Mon, 21 Jan 2013 10:35:32 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2013 01:18:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,505,1355126400"; d="scan'208";a="250039776"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2013 01:19:48 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jan 2013 11:19:59 +0200
+Message-Id: <1358759999-15091-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V2] alsa-utils: upgrade to 1.0.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,54 +27,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jan 2013 09:14:57 -0000
-X-Groupsio-MsgNum: 34134
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Xb8pJpF45Qg/t7GZ"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 21 Jan 2013 09:35:32 -0000
 
---Xb8pJpF45Qg/t7GZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ncursesfix.patch is no longer necessary,
+build system fixed upstream.
+ncursesfix.patch removed.
 
-On Sun, Jan 20, 2013 at 08:21:18PM +0000, Burton, Ross wrote:
-> On 20 January 2013 18:34, Saul Wold <sgw@linux.intel.com> wrote:
-> > This change introduced a new warning about un-packaged files:
-> >
-> >> WARNING: QA Issue: connman: Files/directories were installed but not
-> >> shipped
-> >>   /lib
-> >>   /lib/systemd
-> >>   /lib/systemd/system
-> >>   /lib/systemd/system/connman.service
->=20
-> That will be connman detecting the systemd pkgconfig files in the
-> sysroot and enabling the integration automatically.  To avoid either
-> a) enabling systemd integration in every service that does this or b)
-> disabling systemd in every service that does this, can we ignore these
-> warnings knowing that they'll be resolved when the rest of the
-> integration lands?
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../alsa/alsa-utils-1.0.25/ncursesfix.patch        |   44 --------------------
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch |    0
+ .../obsolete_automake_macros.patch                 |    0
+ .../uclibc-exp10-replacement.patch                 |    0
+ .../{alsa-utils_1.0.25.bb => alsa-utils_1.0.26.bb} |    7 ++--
+ 5 files changed, 3 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils-1.0.25/ncursesfix.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.25 => alsa-utils}/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.25 => alsa-utils}/obsolete_automake_macros.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-1.0.25 => alsa-utils}/uclibc-exp10-replacement.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.25.bb => alsa-utils_1.0.26.bb} (95%)
 
-Why weren't changes from
-meta-systemd/oe-core/recipes-connectivity/connman/connman_1.10.bbappend
-merged to oe-core?
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/ncursesfix.patch b/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/ncursesfix.patch
+deleted file mode 100644
+index 9936ded..0000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/ncursesfix.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-Rebase the patch to fit 1.0.24.2
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-diff -ruN alsa-utils-1.0.24.2-orig//configure.in alsa-utils-1.0.24.2/configure.in
+---- alsa-utils-1.0.24.2-orig//configure.in	2011-04-13 13:51:20.337665010 +0800
+-+++ alsa-utils-1.0.24.2/configure.in	2011-04-13 13:51:54.437664986 +0800
+-@@ -127,34 +127,16 @@
+-   NCURSESLIBSUFFIX=""
+-   CURSES_NLS="no"
+-   if test "$curseslib" = "ncursesw" -o \( "$curseslib" = "auto" -a "$USE_NLS" = "yes" \); then
+--    AC_CHECK_PROG([ncursesw5_config], [ncursesw5-config], [yes])
+--    if test "$ncursesw5_config" = "yes"; then
+--      CURSESINC="<ncurses.h>"
+--      CURSESLIB=`ncursesw5-config --libs`
+--      CURSESLIBDIR=`ncursesw5-config --libdir`
+--      CURSES_CFLAGS=`ncursesw5-config --cflags`
+--      curseslib="ncursesw"
+--    else
+-       AC_CHECK_LIB(ncursesw, initscr,
+-                  [ CURSESINC='<ncurses.h>'; CURSESLIB='-lncursesw'; curseslib="ncursesw"])
+--    fi
+-     if test -n "$CURSESINC"; then
+-       NCURSESLIBSUFFIX="w"
+-       CURSES_NLS="yes"
+-     fi
+-   fi
+-   if test "$curseslib" = "ncurses" -o "$curseslib" = "auto"; then
+--    AC_CHECK_PROG([ncurses5_config], [ncurses5-config], [yes])
+--    if test "$ncurses5_config" = "yes"; then
+--      CURSESINC="<ncurses.h>"
+--      CURSESLIB=`ncurses5-config --libs`
+--      CURSESLIBDIR=`ncurses5-config --libdir`
+--      CURSES_CFLAGS=`ncurses5-config --cflags`
+--      curseslib="ncurses"
+--    else
+-       AC_CHECK_LIB(ncurses, initscr,
+-                  [ CURSESINC='<ncurses.h>'; CURSESLIB='-lncurses'; curseslib="ncurses"])
+--    fi
+-   fi
+-   if test "$curseslib" = "curses" -o "$curseslib" = "auto"; then
+-     AC_CHECK_LIB(curses, initscr,
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-1.0.25/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+rename to meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/obsolete_automake_macros.patch b/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-1.0.25/obsolete_automake_macros.patch
+rename to meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.25/uclibc-exp10-replacement.patch b/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-1.0.25/uclibc-exp10-replacement.patch
+rename to meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
+similarity index 95%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
+index ab8d845..1c537af 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
+@@ -6,17 +6,16 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
+ DEPENDS = "alsa-lib ncurses libsamplerate0"
+-PR = "r4"
++PR = "r0"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://ncursesfix.patch \
+            file://uclibc-exp10-replacement.patch \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
+            file://obsolete_automake_macros.patch \
+           "
+ 
+-SRC_URI[md5sum] = "f81f9dcb9a014fd32cb3a70066a5b9a9"
+-SRC_URI[sha256sum] = "2e676a2f634bbfe279b260e10a96f617cb72ee63c5bbf6c5f96bb615705b302c"
++SRC_URI[md5sum] = "4dcf1017fafc91603af96705c073eca9"
++SRC_URI[sha256sum] = "f85f2a3aa6e78475bbe35b0cad3a8cabb99f45ebc5f37962f2137b8df8b081e7"
+ 
+ # lazy hack. needs proper fixing in gettext.m4, see
+ # http://bugs.openembedded.org/show_bug.cgi?id=2348
+-- 
+1.7.10.4
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Xb8pJpF45Qg/t7GZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlD9A3AACgkQN1Ujt2V2gBxW5gCfWvvbudlyydSqasvv+BGx0OF+
-WGIAn0ewnvH2AzEUNLq940F1rckRP5AQ
-=SI+L
------END PGP SIGNATURE-----
-
---Xb8pJpF45Qg/t7GZ--
