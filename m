@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TxXhp-0002rE-V5
+	(envelope-from <Qi.Chen@windriver.com>) id 1TxY7d-0004Qz-09
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 07:51:43 +0100
+	Tue, 22 Jan 2013 08:18:21 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0M6a8t9017359
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0M72Wcx005176
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 22:36:08 -0800 (PST)
+	Mon, 21 Jan 2013 23:02:32 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 21 Jan 2013 22:36:07 -0800
+	14.2.318.4; Mon, 21 Jan 2013 23:02:32 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jan 2013 14:36:11 +0800
-Message-ID: <cover.1358836314.git.Qi.Chen@windriver.com>
+Date: Tue, 22 Jan 2013 15:02:41 +0800
+Message-ID: <cover.1358838027.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V8 0/6] read-only rootfs support
+Subject: [PATCH V2 0/1] sysvinit & initscripts: use update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,47 +32,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 06:51:45 -0000
-X-List-Received-Date: Tue, 22 Jan 2013 06:51:45 -0000
-X-List-Received-Date: Tue, 22 Jan 2013 06:51:45 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 07:18:22 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The series of patches add support to read-only rootfs.
-
-The main idea is to use symbolic links to create the illuion that some
-directories are writable in case of a read-only rootfs.
-
-This set of patches have been tested on minimal images with and without
-'read-only-rootfs' image feature enabled. Everything is OK.
-
-For sato images, everything is the same as before if 'read-only-rootfs' is not enabled.
-With 'read-only-rootfs' enabled, sato image could work if graphic interface is diabled.
-When all postinstall problems are resolved, sato image should work well (maybe with some
-small changes in volatiles-readonly-sato conf file).
-
-Changes for Version 4:
-1) Improve the commit messages to be clearer.
-2) Use 'sed -i' to replace 'sed' and 'mv' operations to cut down the exec overhead.
-
-Changes for Version 5:
-Fix the problem of failing to build the live images
-
-Changes for Version 6:
-1) Let the image recipes provide the corresponding conf files for read-only rootfs.
-   The config files are closely related to the image types, so it's more reasonable
-   to let these image recipes provide the config files.
-2) Support customized conf files for customized images.
-
-Changes for Version 7:
-1) Separate read-only-rootfs specific conf files from image recipes.
-   Create recipes for them and let image recipes depend on the them.
-2) 'choose_volatiel_conf' is no more need, thus removed.
-
-Changes for Version 8:
-Rebase these patches against the latest master branch (after the systemd integration)
-
+V2 rebases this patch against the latest master branch (after systemd integration).
 
 The following changes since commit 37e025f6f9c410005e0f1dee0767e38eaec01cbd:
 
@@ -80,36 +45,15 @@ The following changes since commit 37e025f6f9c410005e0f1dee0767e38eaec01cbd:
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib ChenQi/readonly-rootfs
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/readonly-rootfs
+  git://git.pokylinux.org/poky-contrib ChenQi/init-updatercd
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/init-updatercd
 
-Chen Qi (6):
-  sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
-  image.bbclass: add a hook funtion to support readonly rootfs
-  core-image.bbclass: support read-only rootfs
-  initscripts: support read-only rootfs
-  volatile-conf-minimal: add recipe
-  volatile-conf-sato: add recipe
+Chen Qi (1):
+  sysvinit & initscripts: use update-rc.d
 
- meta/classes/core-image.bbclass                    |    4 +
- meta/classes/image.bbclass                         |   18 ++
- meta/recipes-core/images/core-image-minimal.bb     |    3 +
- .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
- .../initscripts-1.0/populate-volatile.sh           |  281 ++++++++++----------
- .../initscripts/initscripts-1.0/volatiles          |    1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- .../files/volatiles-readonly-minimal               |    8 +
- .../volatile-conf-minimal_1.0.bb                   |   15 ++
- meta/recipes-core/sysvinit/sysvinit/rcS-default    |    4 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
- meta/recipes-sato/images/core-image-sato.bb        |    3 +
- .../files/volatiles-readonly-sato                  |   14 +
- .../volatile-conf-sato_1.0.bb                      |   15 ++
- 14 files changed, 226 insertions(+), 153 deletions(-)
- create mode 100644 meta/recipes-core/readonly-volatile-conf/files/volatiles-readonly-minimal
- create mode 100644 meta/recipes-core/readonly-volatile-conf/volatile-conf-minimal_1.0.bb
- create mode 100644 meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
- create mode 100644 meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
+ meta/recipes-core/initscripts/initscripts_1.0.bb |   57 +++++++++-------------
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb   |   15 +++---
+ 2 files changed, 32 insertions(+), 40 deletions(-)
 
 -- 
 1.7.9.5
