@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-qc0-f171.google.com ([209.85.216.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TxfOK-0000xI-0Y
+	(envelope-from <philip.balister@gmail.com>) id 1TxfWf-0001E6-QD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 16:04:13 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2013 06:47:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,514,1355126400"; d="scan'208";a="275185600"
-Received: from unknown (HELO [10.252.123.181]) ([10.252.123.181])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2013 06:48:09 -0800
-Message-ID: <50FEA6A8.8090201@intel.com>
-Date: Tue, 22 Jan 2013 16:48:08 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Tue, 22 Jan 2013 16:12:42 +0100
+Received: by mail-qc0-f171.google.com with SMTP id d1so954296qca.16
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jan 2013 06:57:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=C44ZPYbyeOPgKFzvEfxhR0KkdWLmeU+Bll9k+Clz2x8=;
+	b=K2FyFeKWQXp6JYmS46Dis10urBIHFGYFXx4ZepTNwMv30zcQVruvMljUvh6L/FaNf4
+	annVR7HkVvKhsUaUY1jDtFSFIJDXpW8hzFzNOW4WfyaAAnTtE/LuI9w1EavBKblLzjQP
+	fsxTdRMxW9Mr+27qjAvIVtKuVqPZl7Yt4UPATh70XUV2HbckKfhU/0mApbBUity1LNMF
+	g7clqKeo9oPGsHQSMAU1mpleu8rmPPJJEsO2dj8020fIzBLkRq9qDxNMwuGBM9GoAef1
+	56qtFBn9bpy/3EK9RLi24Bpbl1gdVDFklQfIQ4p0KJwUtOmY2VVWiaN6xa6Ib+63G0gW
+	RxFA==
+X-Received: by 10.224.185.148 with SMTP id co20mr23544786qab.94.1358866627319; 
+	Tue, 22 Jan 2013 06:57:07 -0800 (PST)
+Received: from localhost.localdomain
+	(pool-96-240-188-95.ronkva.east.verizon.net. [96.240.188.95])
+	by mx.google.com with ESMTPS id fv7sm11184437qab.3.2013.01.22.06.57.06
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 22 Jan 2013 06:57:06 -0800 (PST)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
 To: openembedded-core@lists.openembedded.org
-References: <50FE8DCF.8050704@communistcode.co.uk>
-In-Reply-To: <50FE8DCF.8050704@communistcode.co.uk>
-Subject: Re: Boot Breakage (systemd inclusion related?)
+Date: Tue, 22 Jan 2013 09:57:02 -0500
+Message-Id: <1358866622-12739-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] base.bblass : Add support for cmake to PACKAGECONFIG.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 15:04:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jan 2013 15:12:42 -0000
 
-On 01/22/2013 03:02 PM, Jack Mitchell wrote:
-> So I attempted to build with the latest head today and my system won't 
-> boot, Here is the output:
->
-> INIT: version 2.88 booting
-> Starting Bootlog daemon: bootlogd: cannot allocate pseudo tty: No such 
-> file or directory
-> bootlogd.
-> Collected errors:
->  * opkg_conf_load: Could not create lock file /var/lib/opkg/lock: 
-> Read-only file system.
-> INIT: Entering runlevel: 5S.d/S98run-postinsts': Re
-> Stopping Bootlog daemon: bootlogd.
->
-> dB Linux 1.0-20130122 (none) ttyO0
->
-> (none) login:
->
-> Does this mean much to anyone? I assume it is do with the new init 
-> manager changes but I can't be certain...
->
+The cmake class uses EXTRA_OECMAKE to adjust the cmake configuration. This
+patch adds support for this, if the cmake class is used by the recipe.
 
-If you didn't enable systemd then it shouldn't interfere, sysvinit 
-should work as it previously worked.
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/classes/base.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Radu
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index f7b6fb8..bedbc4d 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -467,7 +467,10 @@ python () {
+                     extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+         appendVar('RDEPENDS_${PN}', extrardeps)
+-        appendVar('EXTRA_OECONF', extraconf)
++        if bb.data.inherits_class('cmake', d):
++            appendVar('EXTRA_OECMAKE', extraconf)
++        else:
++            appendVar('EXTRA_OECONF', extraconf)
+ 
+     # If PRINC is set, try and increase the PR value by the amount specified
+     princ = d.getVar('PRINC', True)
+-- 
+1.7.11.7
+
 
 
