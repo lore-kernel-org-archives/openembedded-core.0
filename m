@@ -1,26 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TxhQ7-0006XF-JI
+	(envelope-from <sgw@linux.intel.com>) id 1Txhqq-0007Dp-6v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 18:13:59 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Jan 2013 08:58:28 -0800
+	Tue, 22 Jan 2013 18:41:37 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2013 09:24:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,515,1355126400"; d="scan'208";a="193972699"
+X-IronPort-AV: E=Sophos;i="4.84,515,1355126400"; d="scan'208";a="250777657"
 Received: from unknown (HELO [10.255.15.40]) ([10.255.15.40])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Jan 2013 08:58:27 -0800
-Message-ID: <50FEC533.10403@linux.intel.com>
-Date: Tue, 22 Jan 2013 08:58:27 -0800
+	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2013 09:26:04 -0800
+Message-ID: <50FECBAC.90307@linux.intel.com>
+Date: Tue, 22 Jan 2013 09:26:04 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Kang Kai <kai.kang@windriver.com>
-References: <cover.1358853878.git.kai.kang@windriver.com>
-	<0d6ea9677eea7e35d709f802f646a8dbf5971250.1358853878.git.kai.kang@windriver.com>
-In-Reply-To: <0d6ea9677eea7e35d709f802f646a8dbf5971250.1358853878.git.kai.kang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] external-python-tarball: code refactoring
+To: Kevin Strasser <kevin.strasser@linux.intel.com>
+References: <cover.1358463028.git.kevin.strasser@linux.intel.com>
+	<5a984e485eb1b568d4fdaa82675dbc5d5e77d8a9.1358463028.git.kevin.strasser@linux.intel.com>
+In-Reply-To: <5a984e485eb1b568d4fdaa82675dbc5d5e77d8a9.1358463028.git.kevin.strasser@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] archiver: remove create_diff_gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,124 +33,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 17:14:00 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 17:41:37 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/22/2013 03:30 AM, Kang Kai wrote:
-> external-python-tarball only can be built when inherit package_ipk now.
-> Update it to reuse existed populate sdk code that it could be built for
-> rpm and deb too.
->
-> [Yocto 3006]
->
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->   meta/recipes-core/meta/external-python-tarball.bb |   69 ++-------------------
->   1 files changed, 6 insertions(+), 63 deletions(-)
->
-> diff --git a/meta/recipes-core/meta/external-python-tarball.bb b/meta/recipes-core/meta/external-python-tarball.bb
-> index 2085acc..186bf50 100644
-> --- a/meta/recipes-core/meta/external-python-tarball.bb
-> +++ b/meta/recipes-core/meta/external-python-tarball.bb
-> @@ -3,19 +3,16 @@ LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
->                       file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->
-> -DEPENDS = "opkg-native opkg-utils-native virtual/fakeroot-native sed-native"
-> +DEPENDS = "virtual/fakeroot-native sed-native"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   inherit meta
-> +inherit populate_sdk
->
-> -SDK_DIR = "${WORKDIR}/sdk"
-> -SDK_OUTPUT = "${SDK_DIR}/image"
-> -SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
-> +TOOLCHAIN_TARGET_TASK = ""
->
-> -IPKG_HOST = "opkg-cl -f ${IPKGCONF_SDK} -o ${SDK_OUTPUT}"
-> -
-> -TOOLCHAIN_HOST_TASK ?= "\
-> +TOOLCHAIN_HOST_TASK = "\
->       nativesdk-python-core \
->       nativesdk-python-textutils \
->       nativesdk-python-sqlite3 \
-> @@ -37,62 +34,8 @@ TOOLCHAIN_HOST_TASK ?= "\
->       nativesdk-chrpath \
->       "
->
-> -TOOLCHAIN_OUTPUTNAME ?= "python-nativesdk-standalone-${SDKMACHINE}"
-> +TOOLCHAIN_OUTPUTNAME = "python-nativesdk-standalone-${SDKMACHINE}"
->
-Why are you changing the above two from being overriden to straight 
-assignments?  Don't we want these to possibly be overriden with 
-additional TASK info or allow the name to change?
+On 01/17/2013 02:55 PM, Kevin Strasser wrote:
+> create_diff_gz creates a diff file of the entire 'S' directory.
+> This file isn't needed and is bloating the archiver output directory.
 
-This is not explained in the commit message
+Why is the diff file not needed?  This was requested by the community at 
+some point, is the diff including object and binaries?  Can we exclude 
+those instead?
 
+Have you been talking with muhammad_shakeel@mentor.com, who is also 
+doing work in the archiver?
 
 Sau!
 
->   RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
+> Also, cleaning up some comments.
 >
->   EXCLUDE_FROM_WORLD = "1"
+> Signed-off-by: Kevin Strasser <kevin.strasser@linux.intel.com>
+> ---
+>   meta/classes/archive-configured-source.bbclass |   17 +++----
+>   meta/classes/archive-original-source.bbclass   |   17 +++----
+>   meta/classes/archive-patched-source.bbclass    |   17 +++----
+>   meta/classes/archiver.bbclass                  |   62 ++----------------------
+>   4 files changed, 25 insertions(+), 88 deletions(-)
+>
+> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+> index 1eaaf4c..415d9c1 100644
+> --- a/meta/classes/archive-configured-source.bbclass
+> +++ b/meta/classes/archive-configured-source.bbclass
+> @@ -1,17 +1,14 @@
+> -# This file is for getting archiving packages with configured
+> -# sources(archive ${S} after configure stage), logs(archive 'temp' after
+> -# package_write_rpm), dump data and creating diff file(get all
+> -# environment variables and functions in building and mapping all
+> -# content in ${S} including patches to xxx.diff.gz. All archived
+> -# packages will be deployed in ${DEPLOY_DIR}/sources
+> +# Archive configured sources (${S} after do_configure), patches, dump data,
+> +# scripts (.bb and .inc files), logs ('temp' before do_package_write_rpm).
+> +# All archived packages will be deployed in ${DEPLOY_DIR}/sources.
+>
+>   inherit archiver
+>
+> -# Get archiving package with configured sources including patches
+> +# Archive configured sources and patches
+>   do_configure[postfuncs] += "do_archive_configured_sources "
+>
+> -# Get archiving package with temp(logs) and scripts(.bb and inc files)
+> +# Archive scripts (.bb and .inc files) and logs (temp)
+>   do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
+>
+> -# Get dump date and create diff file
+> -do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
+> +# Get dump data
+> +do_package_write_rpm[postfuncs] += "do_dumpdata "
+> diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+> index 1b3f8d0..a42a508 100644
+> --- a/meta/classes/archive-original-source.bbclass
+> +++ b/meta/classes/archive-original-source.bbclass
+> @@ -1,17 +1,14 @@
+> -# This file is for getting archiving packages with original
+> -# sources(archive ${S} after unpack stage), patches, logs(archive 'temp'
+> -# after package_write_rpm), dump data and creating diff file(get all
+> -# environment variables and functions in building and mapping all
+> -# content in ${S} including patches to xxx.diff.gz. All archived packages
+> -# will be deployed in ${DEPLOY_DIR}/sources
+> +# Archive original sources (${S} after do_unpack), patches, dump data
+> +# scripts (.bb and .inc files), and logs ('temp' before do_package_write_rpm).
+> +# All archived packages will be deployed in ${DEPLOY_DIR}/sources.
+>
+>   inherit archiver
+>
+> -# Get original sources archiving package with patches
+> +# Archive original sources and patches
+>   do_unpack[postfuncs] += "do_archive_original_sources_patches "
+>
+> -# Get archiving package with temp(logs) and scripts(.bb and inc files)
+> +# Archive scripts (.bb and .inc files) and logs (temp)
+>   do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
+>
+> -# Get dump date and create diff file
+> -do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
+> +# Get dump data
+> +do_package_write_rpm[postfuncs] += "do_dumpdata "
+> diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+> index 40b2dcb..36598c0 100644
+> --- a/meta/classes/archive-patched-source.bbclass
+> +++ b/meta/classes/archive-patched-source.bbclass
+> @@ -1,17 +1,14 @@
+> -# This file is for getting archiving packages with patched
+> -# sources(archive ${S} before do_patch stage), logs(archive 'temp' after
+> -# package_write_rpm), dump data and creating diff file(get all
+> -# environment variables and functions in building and mapping all
+> -# content in ${S} including patches to xxx.diff.gz. All archived
+> -# packages will be deployed in ${DEPLOY_DIR}/sources
+> +# Archive patched sources (${S} after do_patch), patches, dump data,
+> +# scripts (.bb and .inc files), and logs ('temp' before do_package_write_rpm).
+> +# All archived packages will be deployed in ${DEPLOY_DIR}/sources.
+>
+>   inherit archiver
+>
+> -# Get archiving package with patched sources including patches
+> +# Archive patched sources and patches
+>   do_patch[postfuncs] += "do_archive_patched_sources "
+>
+> -# Get archiving package with logs(temp) and scripts(.bb and .inc files)
+> +# Archive scripts (.bb and .inc files) and logs (temp)
+>   do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
+>
+> -# Get dump date and create diff file
+> -do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
+> +# Get dump data
+> +do_package_write_rpm[postfuncs] += "do_dumpdata "
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index a4a2158..611c8f2 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -1,10 +1,5 @@
+> -# ex:ts=4:sw=4:sts=4:et
+> -# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+> -#
+> -# This file is used for archiving sources, patches, and logs to a
+> -# tarball.  It also output building environment to xxx.dump.data and
+> -# create xxx.diff.gz to record all content in ${S} to a diff file.
+> -#
+> +# This file is used for archiving sources, patches, scripts, and logs
+> +# to a tarball. It also outputs the build environment to xxx.dump.data.
+>
+>   ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
+>   ARCHIVE_TYPE ?= "tar srpm"
+> @@ -435,7 +430,7 @@ def archive_scripts_logs(d):
+>       else:
+>           store_package(d, tarlog)
+>
+> -def dumpdata(d):
+> +python do_dumpdata(){
+>       """
+>       dump environment to "${P}-${PR}.showdata.dump" including all
+>       kinds of variables and functions when running a task
+> @@ -464,49 +459,7 @@ def dumpdata(d):
+>           if bb.data.getVarFlag(e, 'python', d):
+>               f.write("\npython %s () {\n%s}\n" % (e, bb.data.getVar(e, d, 1)))
+>       f.close()
 > -
-> -do_populate_sdk() {
-> -	rm -rf ${SDK_OUTPUT}
-> -	mkdir -p ${SDK_OUTPUT}
-> -	mkdir -p ${SDK_OUTPUT}${localstatedir}/lib/opkg/
+> -def create_diff_gz(d):
+> -    """
+> -    creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.g gz for
+> -    mapping all content in 's' including patches to  xxx.diff.gz
+> -    """
+> -    import shutil
+> -    import subprocess
 > -
-> -	rm -f ${IPKGCONF_TARGET}
-> -	touch ${IPKGCONF_TARGET}
-> -	rm -f ${IPKGCONF_SDK}
-> -	touch ${IPKGCONF_SDK}
+> -    if tar_filter(d):
+> -        return
+> -    work_dir = d.getVar('WORKDIR', True)
+> -    exclude_from = d.getVar('ARCHIVE_EXCLUDE_FROM', True).split()
+> -    pf = d.getVar('PF', True)
+> -    licenses = get_licenses(d)
+> -    target_sys = d.getVar('TARGET_SYS', True)
+> -    diff_dir = d.getVar('DEPLOY_DIR', True) + '/sources/' + target_sys + '/' + licenses + '/' + pf
+> -    diff_file = os.path.join(diff_dir, bb.data.expand("${P}-${PR}.diff.gz",d))
 > -
-> -	package_update_index_ipk
-> -	package_generate_ipkg_conf
+> -    f = open(os.path.join(work_dir,'temp/exclude-from-file'), 'a')
+> -    for i in exclude_from:
+> -        f.write(i)
+> -        f.write("\n")
+> -    f.close()
 > -
-> -	for arch in ${PACKAGE_ARCHS}; do
-> -		revipkgarchs="$arch $revipkgarchs"
-> -	done
+> -    s=d.getVar('S', True)
+> -    distro = d.getVar('DISTRO',True) or ""
+> -    dest = s + '/' + distro + '/files'
+> -    if not os.path.exists(dest):
+> -        bb.mkdirhier(dest)
+> -    for i in os.listdir(os.getcwd()):
+> -        if os.path.isfile(i):
+> -            try:
+> -                shutil.copy(i, dest)
+> -            except IOError:
+> -                subprocess.call('fakeroot cp -rf ' + i + " " + dest, shell=True)
 > -
-> -	${IPKG_HOST} update
-> -	${IPKG_HOST} install ${TOOLCHAIN_HOST_TASK}
-> -
-> -	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg
-> -	mv ${SDK_OUTPUT}/var/lib/opkg/* ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg/
-> -	rm -Rf ${SDK_OUTPUT}/var
-> -
-> -	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}
-> -	install -m 0644 ${IPKGCONF_SDK} ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}/
-> -
-> -	rm -f ${SDK_OUTPUT}/${SDKPATHNATIVE}${libdir_nativesdk}/*.la
-> -
-> -	# Link the ld.so.cache file into the hosts filesystem
-> -	ln -s /etc/ld.so.cache ${SDK_OUTPUT}/${SDKPATHNATIVE}/etc/ld.so.cache
-> -
-> -	# Add version information
-> -	versionfile=${SDK_OUTPUT}/${SDKPATH}/version-${MULTIMACH_TARGET_SYS}
-> -	touch $versionfile
-> -	echo 'Distro: ${DISTRO}' >> $versionfile
-> -	echo 'Distro Version: ${DISTRO_VERSION}' >> $versionfile
-> -	echo 'Metadata Revision: ${METADATA_REVISION}' >> $versionfile
-> -	echo 'Timestamp: ${DATETIME}' >> $versionfile
-> -
-> -	# Package it up
-> -	mkdir -p ${SDK_DEPLOY}
-> -	cd ${SDK_OUTPUT}
-> -	tar  --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+> -    bb.note("Creating .diff.gz in ${DEPLOY_DIR_SRC}/${P}-${PR}.diff.gz")
+> -    cmd = "LC_ALL=C TZ=UTC0 diff --exclude-from=" + work_dir + "/temp/exclude-from-file -Naur " + s + '.org' + ' ' +  s + " | gzip -c > " + diff_file
+> -    d.setVar('DIFF', cmd + "\n")
+> -    d.setVarFlag('DIFF', 'func', '1')
+> -    bb.build.exec_func('DIFF', d)
+> -    shutil.rmtree(s + '.org', ignore_errors=True)
+> +}
+>
+>   # This function will run when user want to get tarball for sources and
+>   # patches after do_unpack
+> @@ -532,13 +485,6 @@ python do_archive_scripts_logs(){
+>       archive_scripts_logs(d)
+>   }
+>
+> -# This function will run when user want to know what variable and
+> -# functions in a running task are and also can get a diff file including
+> -# all content a package should include.
+> -python do_dumpdata_create_diff_gz(){
+> -    dumpdata(d)
+> -    create_diff_gz(d)
 > -}
-> -
-> -do_populate_sdk[nostamp] = "1"
-> -do_populate_sdk[recrdeptask] = "do_package_write"
-> -addtask populate_sdk before do_build after do_install
-> -
-> -inherit blacklist
-> -
-> -PNBLACKLIST[external-python-tarball] = "${@base_contains('PACKAGE_CLASSES', 'package_ipk', '', 'This recipe requires \'package_ipk\' support to be enabled in PACKAGE_CLASSES.', d)}"
+>
+>   # This functions prepare for archiving "linux-yocto" because this
+>   # package create directory 's' before do_patch instead of after
 >
 
 
