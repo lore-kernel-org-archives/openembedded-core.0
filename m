@@ -1,27 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ia0-f178.google.com ([209.85.210.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Txl0Y-0000YG-SU
+	(envelope-from <raj.khem@gmail.com>) id 1TxltN-000720-JY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 22:03:54 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2013 12:48:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,516,1355126400"; d="scan'208";a="275335168"
-Received: from unknown (HELO envy.home) ([10.255.15.13])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2013 12:48:19 -0800
-Message-ID: <50FEFB12.5060905@linux.intel.com>
-Date: Tue, 22 Jan 2013 12:48:18 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 22 Jan 2013 23:00:32 +0100
+Received: by mail-ia0-f178.google.com with SMTP id y26so3662021iab.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jan 2013 13:44:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=/UaigrtjpTicOeCf0WHtEkpgu6pTpbHUs2d+nKFQnaU=;
+	b=ji9xySz952R6a1oHe3hDP8OnjkzuG2txRtXhPQlD4SYYDsv+P8N/x/dR7KP+nNJWyt
+	H4BbmaKmvUfsTxCsvLqfTXxxIG+ua/0mXEVyPEkprmA33cPHbSIs25sInM1haf8B8Wvw
+	jeE3Q9YCzdnwJul7pyfx1riULM2XJhqVgnqeryqBwbeopTh9TiW2UHE/Uhb25+wzELhk
+	jQc5jIxJ+ilWXahOnokl83MteAY288mmg9xtMt09pUpj6Im+nn3OMme+igFYMVkqgUQu
+	5xytOXIOp8xe7nrusLFke1v3JgKjNLz9tqsdhYUWR5L9tuWWMT9v7YKIuKuayZiShvdO
+	9C+A==
+X-Received: by 10.50.184.199 with SMTP id ew7mr13232126igc.84.1358891098579;
+	Tue, 22 Jan 2013 13:44:58 -0800 (PST)
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1358432402.git.laurentiu.palcu@intel.com>
-	<81a1810d4c60fe2648c4e34d64c63ced7e0a7296.1358432402.git.laurentiu.palcu@intel.com>
-In-Reply-To: <81a1810d4c60fe2648c4e34d64c63ced7e0a7296.1358432402.git.laurentiu.palcu@intel.com>
-X-Enigmail-Version: 1.5
+Received: by 10.64.18.169 with HTTP; Tue, 22 Jan 2013 13:44:28 -0800 (PST)
+In-Reply-To: <50FEFA22.2090008@linux.intel.com>
+References: <cover.1358634922.git.raj.khem@gmail.com>
+	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
+	<50FEFA22.2090008@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Jan 2013 13:44:28 -0800
+Message-ID: <CAMKF1spq_du8mB2nAvqcYQG7izORFHTkZFTBhUCE3SrJZ3KU2Q@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] kernel.bbclass: remove references to update-modules
+Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 21:03:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jan 2013 22:00:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Jan 22, 2013 at 12:44 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>
+> Makes me nervous... only because I'm not well versed enough across the
+> architectures to catch some little gotchas. How much testing has this
+> seen? Which architectures?
 
-
-On 01/17/2013 06:58 AM, Laurentiu Palcu wrote:
-> Since update-modules is now obsolete, remove it from the bbclass.
-> 
-> [YOCTO #3598]
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/kernel.bbclass |   36 +++++++++++++++++-------------------
->  1 file changed, 17 insertions(+), 19 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 46ba55f..4893cf2 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -1,7 +1,7 @@
->  inherit linux-kernel-base module_strip
->  
->  PROVIDES += "virtual/kernel"
-> -DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
-> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX}"
->  
-
-...
-
-> -    use_update_modules = oe.utils.contains('DISTRO_FEATURES', 'update-modules', True, False, d)
-> -    if use_update_modules:
-> -        postinst = d.getVar('pkg_postinst_modules', True)
-> -        postrm = d.getVar('pkg_postrm_modules', True)
-> -    else:
-> -        postinst = None
-> -        postrm = None
-> +    postinst = d.getVar('pkg_postinst_modules', True)
-> +    postrm = d.getVar('pkg_postrm_modules', True)
-
-This seems to be inverted logic from the original. If update-modules is
-removed, then use_update_modules should be false right? Which would have
-previously set postinst and postrm to None.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+little but then I did not propose it for inclusion into master yet so
+why worry ?
 
 
