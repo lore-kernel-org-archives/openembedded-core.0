@@ -1,32 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TxTG8-00052G-15
+	(envelope-from <Kai.Kang@windriver.com>) id 1TxTbp-0005uA-8I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 03:06:47 +0100
+	Tue, 22 Jan 2013 03:29:10 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0M1p3uP004509
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0M2DeaE015452
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Jan 2013 17:51:03 -0800 (PST)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Mon, 21 Jan 2013 17:51:02 -0800
-Message-ID: <50FDF0D5.8000105@windriver.com>
-Date: Tue, 22 Jan 2013 09:52:21 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Mon, 21 Jan 2013 18:13:40 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Mon, 21 Jan 2013 18:13:38 -0800
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Jan 2013 10:14:50 +0800
+Message-ID: <53cc3cb23ccc5ef1cd28196b42c260c9236fdc0f.1358763272.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1358763271.git.kai.kang@windriver.com>
+References: <cover.1358763271.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1358754984.git.kai.kang@windriver.com>
-	<36a8eaeb4853ea8ce5faa235e106e496b69bf356.1358754984.git.kai.kang@windriver.com>
-	<1358763940.14265.45.camel@ted>
-In-Reply-To: <1358763940.14265.45.camel@ted>
 X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	r0M1p3uP004509
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] external-python-tarball: code refactoring
+Cc: Zhenfeng.Zhao@windriver.com, scott.a.garman@intel.com
+Subject: [PATCH 1/2] perl-native: update to 5.14.3:
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 02:06:49 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 Jan 2013 02:29:11 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 02:29:11 -0000
+Content-Type: text/plain
 
-On 2013=E5=B9=B401=E6=9C=8821=E6=97=A5 18:25, Richard Purdie wrote:
-> On Mon, 2013-01-21 at 15:59 +0800, Kang Kai wrote:
->> external-python-tarball only can be built when inherit package_ipk now.
->> Update it and split the populate python operation to separated bbclass
->> according the value of PACKAGE_CLASSES, then it could be built for rpm
->> and deb too.
->>
->> [Yocto 3006]
->>
->> Signed-off-by: Kang Kai<kai.kang@windriver.com>
->> ---
->>   meta/classes/populate_python_deb.bbclass          |   42 +++++++++++=
-+++
->>   meta/classes/populate_python_ipk.bbclass          |   43 +++++++++++=
-++++
->>   meta/classes/populate_python_rpm.bbclass          |   59 +++++++++++=
-+++++++++
->>   meta/recipes-core/meta/external-python-tarball.bb |   61 ++++-------=
-----------
->>   4 files changed, 155 insertions(+), 50 deletions(-)
->>   create mode 100644 meta/classes/populate_python_deb.bbclass
->>   create mode 100644 meta/classes/populate_python_ipk.bbclass
->>   create mode 100644 meta/classes/populate_python_rpm.bbclass
-> No, sorry but this isn't right. We already have package specific
-> functions to do these things, we should be trying to reuse those. If we
-> can't reuse the functions, we need to improve them so we can.
+There is a securty issue:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5195
+Update perl to 5.14.3 could resolve this problem. And update perl-native
+first.
 
-OK, I'll try to use the existed function.
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ .../Configure-multilib.patch                       |    0
+ .../{perl-5.14.2 => perl-5.14.3}/MM_Unix.pm.patch  |    0
+ .../native-nopacklist.patch                        |    0
+ .../native-perlinc.patch                           |    0
+ .../perl-build-in-t-dir.patch                      |    0
+ .../perl-configpm-switch.patch                     |    0
+ ...perl-native_5.14.2.bb => perl-native_5.14.3.bb} |    6 +++---
+ 7 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/Configure-multilib.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/MM_Unix.pm.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/native-nopacklist.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/native-perlinc.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/perl-build-in-t-dir.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.2 => perl-5.14.3}/perl-configpm-switch.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-native_5.14.2.bb => perl-native_5.14.3.bb} (96%)
 
-Thanks,
-Kai
->
-> Cheers,
->
-> Richard
->
->
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/Configure-multilib.patch b/meta/recipes-devtools/perl/perl-5.14.3/Configure-multilib.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/Configure-multilib.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/Configure-multilib.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/MM_Unix.pm.patch b/meta/recipes-devtools/perl/perl-5.14.3/MM_Unix.pm.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/MM_Unix.pm.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/MM_Unix.pm.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/native-nopacklist.patch b/meta/recipes-devtools/perl/perl-5.14.3/native-nopacklist.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/native-nopacklist.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/native-nopacklist.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/native-perlinc.patch b/meta/recipes-devtools/perl/perl-5.14.3/native-perlinc.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/native-perlinc.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/native-perlinc.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch b/meta/recipes-devtools/perl/perl-5.14.3/perl-build-in-t-dir.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/perl-build-in-t-dir.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/perl-configpm-switch.patch b/meta/recipes-devtools/perl/perl-5.14.3/perl-configpm-switch.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.14.2/perl-configpm-switch.patch
+rename to meta/recipes-devtools/perl/perl-5.14.3/perl-configpm-switch.patch
+diff --git a/meta/recipes-devtools/perl/perl-native_5.14.2.bb b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
+similarity index 96%
+rename from meta/recipes-devtools/perl/perl-native_5.14.2.bb
+rename to meta/recipes-devtools/perl/perl-native_5.14.3.bb
+index 9f6a077..9416005 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ 		    file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+-PR = "r1"
++PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+@@ -20,8 +20,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://MM_Unix.pm.patch \
+            file://perl-build-in-t-dir.patch"
+ 
+-SRC_URI[md5sum] = "3306fbaf976dcebdcd49b2ac0be00eb9"
+-SRC_URI[sha256sum] = "6488359573bd7d41761bf935f66f827dc220fb3df961ef9b775d51fbd66548d3"
++SRC_URI[md5sum] = "f6a3d878c688d111b495c87db56c5be5"
++SRC_URI[sha256sum] = "03638a4f01bc26b81231233671524b4163849a3a9ea5cc2397293080c4ea339f"
+ 
+ S = "${WORKDIR}/perl-${PV}"
+ 
+-- 
+1.7.5.4
 
 
 
