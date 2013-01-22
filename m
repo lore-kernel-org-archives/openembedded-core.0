@@ -1,27 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TxcHS-0000Bh-HX
+	(envelope-from <Kai.Kang@windriver.com>) id 1TxcHQ-0000Bf-VT
 	for openembedded-core@lists.openembedded.org;
 	Tue, 22 Jan 2013 12:44:46 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0MBTAS4013982
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0MBT9F8023082
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jan 2013 03:29:10 -0800 (PST)
+	Tue, 22 Jan 2013 03:29:09 -0800 (PST)
 Received: from localhost.localdomain (128.224.162.205) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Tue, 22 Jan 2013 03:29:10 -0800
+	(TLS) id 14.2.318.4; Tue, 22 Jan 2013 03:29:08 -0800
 From: Kang Kai <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 22 Jan 2013 19:30:22 +0800
-Message-ID: <8d07e3586ff422823b1fbd1353694cb5d58b8078.1358853878.git.kai.kang@windriver.com>
+Date: Tue, 22 Jan 2013 19:30:21 +0800
+Message-ID: <cover.1358853878.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1358853878.git.kai.kang@windriver.com>
-References: <cover.1358853878.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.205]
 Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] createrepo-native: update dependency
+Subject: [PATCH 0/2] V2: Refactor external-python-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +35,25 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 22 Jan 2013 11:44:52 -0000
 Content-Type: text/plain
 
-"RDEPENDS_${PN}_class-native" doesn't work for native recipe because no
--native package will be created. Then the dependencies listed here are
-not built when bitbake createrepo-native.
-Update and use DEPENDS_class-native instead.
+V2:
+Reuse the populate_sdk_base code to update external-python-tarball.
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../createrepo/createrepo_0.4.11.bb                |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 37e025f6f9c410005e0f1dee0767e38eaec01cbd:
 
-diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-index 227ebcb..c977c2e 100644
---- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-+++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-@@ -4,9 +4,9 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
- 
--RDEPENDS_${PN}_class-native += "libxml2-native rpm-native"
-+DEPENDS_class-native += "libxml2-native rpm-native"
- 
--PR = "r8"
-+PR = "r9"
- 
- SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
-           file://fix-native-install.patch \
+  bitbake: hob: Hob should display warnings generated during parsing (2013-01-21 19:05:31 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/external-python
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/external-python
+
+Kang Kai (2):
+  createrepo-native: update dependency
+  external-python-tarball: code refactoring
+
+ meta/recipes-core/meta/external-python-tarball.bb  |   69 ++------------------
+ .../createrepo/createrepo_0.4.11.bb                |    4 +-
+ 2 files changed, 8 insertions(+), 65 deletions(-)
+
 -- 
 1.7.5.4
 
