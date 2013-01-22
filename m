@@ -1,38 +1,19 @@
-Received: from mail-pa0-f42.google.com ([209.85.220.42])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Txcts-0002EH-HM
+Received: from nat-lmt.mentorg.com ([139.181.28.34]
+	helo=gemini.alm.mentorg.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <muhammad_shakeel@mentor.com>) id 1Txcw3-0002LO-RW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 13:24:57 +0100
-Received: by mail-pa0-f42.google.com with SMTP id rl6so4033133pac.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 04:08:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=nEzbNhkqN/Sqy+RUQOYe5RUlX8P3KHpX3JUsS5M1VRo=;
-	b=bmt7VApiJL2Wr9PiFZKkz7AQ1AcMXKSrRtr+yFlf0XlhdjATiR6zg9uyZg2C65mcTS
-	l8z4iyTfNUl8ik1jApiuXjmMOpDRFQ9yfK+8jc1dzdobR3xIEDPz3DhnnH4mQ9P52z+S
-	/jnM+ebRwuPr0/9cYQj3g2TSfeviIfgIHAgJtgFWCA3Jp6xFXtLyU5DUKq+Y3skg1VIU
-	DyOUFGQHFIx57JQYiTQWF9a219ntc7RMOQxWa45PERfMl5apG2F+Dp3KHt/GgE3SVouN
-	3ErdhI0qnSNCsJ/Vb1QsCx6VglGSQCoOkAKkdRTAaXfoPKLFNjIPb3k8M0mNhxNcqBEf
-	OlYw==
-X-Received: by 10.68.196.133 with SMTP id im5mr39100135pbc.16.1358856533676;
-	Tue, 22 Jan 2013 04:08:53 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id
-	pl10sm10641362pbc.60.2013.01.22.04.08.50
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 22 Jan 2013 04:08:52 -0800 (PST)
-Date: Tue, 22 Jan 2013 13:08:51 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130122120851.GP29386@jama.palm1.palmone.com>
-References: <1358808590.14265.73.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1358808590.14265.73.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagedata: Add warnings if multiple recipes try to write the same package
+	Tue, 22 Jan 2013 13:26:47 +0100
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
+	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r0MCB5iN020833; 
+	Tue, 22 Jan 2013 06:11:07 -0600
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jan 2013 17:10:52 +0500
+Message-Id: <1358856653-17049-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/2 v3] archiver class: Use tasks instead of pre/post funcs with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,87 +26,314 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 12:24:59 -0000
-X-Groupsio-MsgNum: 34220
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EkxpYdHiqGHPYbUt"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Jan 2013 12:26:52 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 12:26:52 -0000
 
---EkxpYdHiqGHPYbUt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-On Mon, Jan 21, 2013 at 10:49:50PM +0000, Richard Purdie wrote:
-> If multiple recipes try and write the same package it resulted in a
-> rather confusing traceback and unintuitive error. This patch
-> prints a human readable error instead.
+* Add tasks to move sources, script/logs and diff/env files in
+  deploy directory.
+* Enable SSTATE for 'do_archive_scripts_logs' task
+* Enable SSTATE for 'do_dumpdata_create_diff_gz' task
+* SSTATE is not used for sources/patches archiver task because source
+  archive package can result into a very large file. It will be an
+  unnecessary overhead to keep sources in DL_DIR and cached-binaries.
+* If 'SOURCE_ARCHIVE_PACKAGE_TYPE' is 'srpm' then use pre/post functions
+  because in this case we do not want to use tasks to move sources/logs
+  in DEPLOY_DIR. 'do_package_write_rpm' is responsible for handling
+  archiver packages.
 
-bitbake world found 2 more recipes creating the same package:
-vim/gvim in meta-oe
-gnome-panel3_3.0.2.bb/gnome-panel_2.32.1.b in meta-gnome
+[YOCTO #3449]
 
-But this error is a lot better then that traceback, maybe change commit
-message to say fatal errors instead of warnings.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/archive-configured-source.bbclass |   47 ++++++++++++++++++++++--
+ meta/classes/archive-original-source.bbclass   |   47 ++++++++++++++++++++++--
+ meta/classes/archive-patched-source.bbclass    |   47 ++++++++++++++++++++++--
+ meta/classes/archiver.bbclass                  |   40 ++++++++++++++------
+ 4 files changed, 161 insertions(+), 20 deletions(-)
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+index 1eaaf4c..ae70be3 100644
+--- a/meta/classes/archive-configured-source.bbclass
++++ b/meta/classes/archive-configured-source.bbclass
+@@ -8,10 +8,51 @@
+ inherit archiver
+ 
+ # Get archiving package with configured sources including patches
+-do_configure[postfuncs] += "do_archive_configured_sources "
++addtask do_archive_configured_sources after do_configure
+ 
+ # Get archiving package with temp(logs) and scripts(.bb and inc files)
+-do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
++addtask do_archive_scripts_logs after do_package_write_rpm
+ 
+ # Get dump date and create diff file 
+-do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
++addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
++
++python () {
++    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
++        """
++        If package type is not 'srpm' then add tasks to move archive packages of
++        configured sources and scripts/logs in ${DEPLOY_DIR}/sources.
++        """
++        d.appendVarFlag('do_compile', 'deps', ['do_archive_configured_sources'])
++        d.appendVarFlag('do_build', 'recrdeptask', ' do_archive_configured_sources')
++        d.appendVarFlag('do_build', 'deps', ['do_archive_scripts_logs'])
++
++    else:
++        d.prependVarFlag('do_configure', 'postfuncs', "do_archive_configured_sources")
++        d.prependVarFlag('do_package_write_rpm', 'prefuncs', "do_archive_scripts_logs")
++}
++
++ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
++ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
++ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
++
++SSTATETASKS += "do_archive_scripts_logs"
++do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
++do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
++do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_archive_scripts_logs_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_archive_scripts_logs_setscene
++
++SSTATETASKS += "do_dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
++do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_dumpdata_create_diff_gz_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+index 1b3f8d0..f668f3e 100644
+--- a/meta/classes/archive-original-source.bbclass
++++ b/meta/classes/archive-original-source.bbclass
+@@ -8,10 +8,51 @@
+ inherit archiver
+ 
+ # Get original sources archiving package with patches
+-do_unpack[postfuncs] += "do_archive_original_sources_patches "
++addtask do_archive_original_sources_patches after do_unpack
+ 
+ # Get archiving package with temp(logs) and scripts(.bb and inc files)
+-do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
++addtask do_archive_scripts_logs after do_package_write_rpm
+ 
+ # Get dump date and create diff file 
+-do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
++addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
++
++python () {
++    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
++        """
++        If package type is not 'srpm' then add tasks to move archive packages of
++        original sources and scripts/logs in ${DEPLOY_DIR}/sources.
++        """
++        d.appendVarFlag('do_patch', 'deps', ['do_archive_original_sources_patches'])
++        d.appendVarFlag('do_build', 'recrdeptask', ' do_archive_original_sources_patches')
++        d.appendVarFlag('do_build', 'deps', ['do_archive_scripts_logs'])
++
++    else:
++        d.prependVarFlag('do_unpack', 'postfuncs', "do_archive_original_sources_patches")
++        d.prependVarFlag('do_package_write_rpm', 'prefuncs', "do_archive_scripts_logs")
++}
++
++ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
++ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
++ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
++
++SSTATETASKS += "do_archive_scripts_logs"
++do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
++do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
++do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_archive_scripts_logs_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_archive_scripts_logs_setscene
++
++SSTATETASKS += "do_dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
++do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_dumpdata_create_diff_gz_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+index 40b2dcb..daadaae 100644
+--- a/meta/classes/archive-patched-source.bbclass
++++ b/meta/classes/archive-patched-source.bbclass
+@@ -8,10 +8,51 @@
+ inherit archiver
+ 
+ # Get archiving package with patched sources including patches
+-do_patch[postfuncs] += "do_archive_patched_sources "
++addtask do_archive_patched_sources after do_patch
+ 
+ # Get archiving package with logs(temp) and scripts(.bb and .inc files)
+-do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
++addtask do_archive_scripts_logs after do_package_write_rpm
+ 
+ # Get dump date and create diff file 
+-do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
++addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
++
++python () {
++    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
++        """
++        If package type is not 'srpm' then add tasks to move archive packages of
++        patched sources and scripts/logs in ${DEPLOY_DIR}/sources.
++        """
++        d.appendVarFlag('do_configure', 'deps', ['do_archive_patched_sources'])
++        d.appendVarFlag('do_build', 'recrdeptask', ' do_archive_patched_sources')
++        d.appendVarFlag('do_build', 'deps', ['do_archive_scripts_logs'])
++
++    else:
++        d.prependVarFlag('do_patch', 'postfuncs', "do_archive_patched_sources")
++        d.prependVarFlag('do_package_write_rpm', 'prefuncs', "do_archive_scripts_logs")
++}
++
++ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
++ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
++ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
++
++SSTATETASKS += "do_archive_scripts_logs"
++do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
++do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
++do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_archive_scripts_logs_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_archive_scripts_logs_setscene
++
++SSTATETASKS += "do_dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
++do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_dumpdata_create_diff_gz_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index a4a2158..4323827 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -94,9 +94,11 @@ def get_bb_inc(d):
+     work_dir = d.getVar('WORKDIR', True)
+     bbfile = d.getVar('FILE', True)
+     bbdir = os.path.dirname(bbfile)
+-    script_logs = os.path.join(work_dir, 'script-logs')
++    target_sys = d.getVar('TARGET_SYS', True)
++    pf = d.getVar('PF', True)
++    licenses = get_licenses(d)
++    script_logs = os.path.join(work_dir, 'script-logs/'+ target_sys + '/' + licenses + '/' + pf + '/script-logs')
+     bb_inc = os.path.join(script_logs, 'bb_inc')
+-    bb.mkdirhier(script_logs)
+     bb.mkdirhier(bb_inc)
+ 
+     def find_file(dir, file):
+@@ -124,6 +126,18 @@ def get_bb_inc(d):
+     for bbincfile in bbinc:
+         shutil.copy(bbincfile, bb_inc)
+ 
++    return script_logs
++
++def get_logs(d):
++    """
++    create a directory "script-logs" in ${WORKDIR}
++    """
++    work_dir = d.getVar('WORKDIR', True)
++    target_sys = d.getVar('TARGET_SYS', True)
++    pf = d.getVar('PF', True)
++    licenses = get_licenses(d)
++    script_logs = os.path.join(work_dir, 'script-logs/'+ target_sys + '/' + licenses + '/' + pf + '/script-logs')
++
+     try:
+         bb.mkdirhier(os.path.join(script_logs, 'temp'))
+         oe.path.copytree(os.path.join(work_dir, 'temp'), os.path.join(script_logs, 'temp'))
+@@ -309,7 +323,8 @@ def archive_logs(d, logdir, bbinc=False):
+     work_dir = d.getVar('WORKDIR', True)
+     log_dir =  os.path.basename(logdir)
+     tarname = pf + '-' + log_dir + ".tar.gz"
+-    tarname = do_tarball(work_dir, log_dir, tarname)
++    archive_dir = os.path.join( logdir, '..' )
++    tarname = do_tarball(archive_dir, log_dir, tarname)
+     if bbinc:
+         shutil.rmtree(logdir, ignore_errors=True)
+     return tarname
+@@ -414,6 +429,7 @@ def archive_scripts_logs(d):
+     archive scripts and logs. scripts include .bb and .inc files and
+     logs include stuff in "temp".
+     """
++    import shutil
+ 
+     if tar_filter(d):
+         return
+@@ -421,18 +437,20 @@ def archive_scripts_logs(d):
+     temp_dir = os.path.join(work_dir, 'temp')
+     source_archive_log_with_scripts = d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True)
+     if source_archive_log_with_scripts == 'logs_with_scripts':
++        logdir = get_logs(d)
+         logdir = get_bb_inc(d)
+-        tarlog = archive_logs(d, logdir, True)
+     elif source_archive_log_with_scripts == 'logs':
+-        if os.path.exists(temp_dir):
+-            tarlog = archive_logs(d, temp_dir, False)
++        logdir = get_logs(d)
+     else:
+         return
+ 
+-    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
+-        move_tarball_deploy(d, [tarlog])
++    tarlog = archive_logs(d, logdir, True)
+ 
+-    else:
++    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
++        if os.path.exists(work_dir+ '/' + tarlog):
++            os.remove(work_dir+ '/' + tarlog)
++        shutil.move(os.path.join(logdir, '..', tarlog), work_dir)
++        shutil.rmtree(os.path.join(work_dir,'script-logs'))
+         store_package(d, tarlog)
+ 
+ def dumpdata(d):
+@@ -449,7 +467,7 @@ def dumpdata(d):
+     pf = d.getVar('PF', True)
+     target_sys = d.getVar('TARGET_SYS', True)
+     licenses = get_licenses(d)
+-    dumpdir = d.getVar('DEPLOY_DIR', True) + '/sources/' + target_sys + '/' + licenses + '/' + pf
++    dumpdir = os.path.join(workdir, 'diffgz-envdata/'+ target_sys + '/' + licenses + '/' + pf )
+     if not os.path.exists(dumpdir):
+         bb.mkdirhier(dumpdir)
+ 
+@@ -480,7 +498,7 @@ def create_diff_gz(d):
+     pf = d.getVar('PF', True)
+     licenses = get_licenses(d)
+     target_sys = d.getVar('TARGET_SYS', True)
+-    diff_dir = d.getVar('DEPLOY_DIR', True) + '/sources/' + target_sys + '/' + licenses + '/' + pf
++    diff_dir = os.path.join(work_dir, 'diffgz-envdata/'+ target_sys + '/' + licenses + '/' + pf )
+     diff_file = os.path.join(diff_dir, bb.data.expand("${P}-${PR}.diff.gz",d))
+ 
+     f = open(os.path.join(work_dir,'temp/exclude-from-file'), 'a')
+-- 
+1.7.9.5
 
-Cheers,
 
->=20
-> [YOCTO #3645]
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/packagedata.bbclass b/meta/classes/packagedata.=
-bbclass
-> index 790d874..120cd64 100644
-> --- a/meta/classes/packagedata.bbclass
-> +++ b/meta/classes/packagedata.bbclass
-> @@ -1,7 +1,8 @@
->  python read_subpackage_metadata () {
->      import oe.packagedata
-> =20
-> -    data =3D oe.packagedata.read_pkgdata(d.getVar('PN', True), d)
-> +    pn =3D d.getVar('PN', True)
-> +    data =3D oe.packagedata.read_pkgdata(pn, d)
-> =20
->      for key in data.keys():
->          d.setVar(key, data[key])
-> @@ -9,5 +10,9 @@ python read_subpackage_metadata () {
->      for pkg in d.getVar('PACKAGES', True).split():
->          sdata =3D oe.packagedata.read_subpkgdata(pkg, d)
->          for key in sdata.keys():
-> +            if key =3D=3D "PN":
-> +                if sdata[key] !=3D pn:
-> +                    bb.fatal("Recipe %s is trying to create package %s w=
-hich was already written by recipe %s. This will cause corruption, please r=
-esolve this and only provide the package from one recipe or the other or on=
-ly build one of the recipes." % (pn, pkg, sdata[key]))
-> +                continue
->              d.setVar(key, sdata[key])
->  }
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EkxpYdHiqGHPYbUt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlD+gVMACgkQN1Ujt2V2gBxqKACfY0HoXHqrKhivm2PZmLOVsdKJ
-QGoAn1YENv9kWzWX0DFHc+HNi3CLPqoN
-=z0L5
------END PGP SIGNATURE-----
-
---EkxpYdHiqGHPYbUt--
