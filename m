@@ -1,33 +1,27 @@
-Received: from mail-ia0-f178.google.com ([209.85.210.178])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TxltN-000720-JY
+	(envelope-from <dvhart@linux.intel.com>) id 1Txlya-00076i-T0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 23:00:32 +0100
-Received: by mail-ia0-f178.google.com with SMTP id y26so3662021iab.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 13:44:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=/UaigrtjpTicOeCf0WHtEkpgu6pTpbHUs2d+nKFQnaU=;
-	b=ji9xySz952R6a1oHe3hDP8OnjkzuG2txRtXhPQlD4SYYDsv+P8N/x/dR7KP+nNJWyt
-	H4BbmaKmvUfsTxCsvLqfTXxxIG+ua/0mXEVyPEkprmA33cPHbSIs25sInM1haf8B8Wvw
-	jeE3Q9YCzdnwJul7pyfx1riULM2XJhqVgnqeryqBwbeopTh9TiW2UHE/Uhb25+wzELhk
-	jQc5jIxJ+ilWXahOnokl83MteAY288mmg9xtMt09pUpj6Im+nn3OMme+igFYMVkqgUQu
-	5xytOXIOp8xe7nrusLFke1v3JgKjNLz9tqsdhYUWR5L9tuWWMT9v7YKIuKuayZiShvdO
-	9C+A==
-X-Received: by 10.50.184.199 with SMTP id ew7mr13232126igc.84.1358891098579;
-	Tue, 22 Jan 2013 13:44:58 -0800 (PST)
+	Tue, 22 Jan 2013 23:06:03 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2013 13:50:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,516,1355126400"; d="scan'208";a="275356928"
+Received: from unknown (HELO envy.home) ([10.255.15.29])
+	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2013 13:50:20 -0800
+Message-ID: <50FF099C.5080203@linux.intel.com>
+Date: Tue, 22 Jan 2013 13:50:20 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.64.18.169 with HTTP; Tue, 22 Jan 2013 13:44:28 -0800 (PST)
-In-Reply-To: <50FEFA22.2090008@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1358634922.git.raj.khem@gmail.com>
 	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
 	<50FEFA22.2090008@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 22 Jan 2013 13:44:28 -0800
-Message-ID: <CAMKF1spq_du8mB2nAvqcYQG7izORFHTkZFTBhUCE3SrJZ3KU2Q@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
+	<CAMKF1spq_du8mB2nAvqcYQG7izORFHTkZFTBhUCE3SrJZ3KU2Q@mail.gmail.com>
+In-Reply-To: <CAMKF1spq_du8mB2nAvqcYQG7izORFHTkZFTBhUCE3SrJZ3KU2Q@mail.gmail.com>
+X-Enigmail-Version: 1.5
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,16 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 22:00:32 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 22:06:04 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 22, 2013 at 12:44 PM, Darren Hart <dvhart@linux.intel.com> wrote:
->
-> Makes me nervous... only because I'm not well versed enough across the
-> architectures to catch some little gotchas. How much testing has this
-> seen? Which architectures?
 
-little but then I did not propose it for inclusion into master yet so
-why worry ?
+
+On 01/22/2013 01:44 PM, Khem Raj wrote:
+> On Tue, Jan 22, 2013 at 12:44 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>>
+>> Makes me nervous... only because I'm not well versed enough across the
+>> architectures to catch some little gotchas. How much testing has this
+>> seen? Which architectures?
+> 
+> little but then I did not propose it for inclusion into master yet so
+> why worry ?
+
+I assumed that would be the target eventually - is that not the case?
+
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
