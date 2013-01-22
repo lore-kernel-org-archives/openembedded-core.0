@@ -1,23 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1Txatt-0004Sc-VE; Tue, 22 Jan 2013 11:16:37 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jan 2013 02:00:46 -0800
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TxbSw-00064F-4J
+	for openembedded-core@lists.openembedded.org;
+	Tue, 22 Jan 2013 11:52:38 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2013 02:35:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,513,1355126400"; d="scan'208";a="280448682"
+X-IronPort-AV: E=Sophos;i="4.84,513,1355126400"; d="scan'208";a="275107547"
 Received: from unknown (HELO helios.localnet) ([10.252.123.171])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2013 02:00:45 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2013 02:36:57 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-devel@lists.openembedded.org
-Date: Tue, 22 Jan 2013 10:00:44 +0000
-Message-ID: <5641515.xznArOJtN8@helios>
+To: lei yang <yanglei.fage@gmail.com>
+Date: Tue, 22 Jan 2013 10:36:56 +0000
+Message-ID: <3325513.8ZibJSvNVU@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9.4 (Linux/3.5.0-22-generic; KDE/4.9.4; i686; ; )
+In-Reply-To: <CAHsH0E96h=aT6t-u-ACY7MGFHJv4_TTqSMfCmMpSKiq3NBjciw@mail.gmail.com>
+References: <CAHsH0E96h=aT6t-u-ACY7MGFHJv4_TTqSMfCmMpSKiq3NBjciw@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-members@lists.openembedded.org,
+Cc: bitbake-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-Subject: FOSDEM OE stand - call for volunteers/attendees
+Subject: Re: git address in SRC_URI, doesn't works for me
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,21 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 10:16:51 -0000
+X-List-Received-Date: Tue, 22 Jan 2013 10:52:39 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi folks,
+On Saturday 19 January 2013 17:13:01 lei yang wrote:
+> One git address's prefix is "http" --->
+> http://git.opensvc.com/multipath-tools/.git,
+> 
+> it means
+> 
+> git clone  http://git.opensvc.com/multipath-tools/.git  ---------> works
+> git clone git://git.opensvc.com/multipath-tools/.git ---------> doesn't work
+> 
+> I tried SRC_URI with below, both failed
+> 
+> SRC_URI = "http://git.opensvc.com/multipath-tools/.git;protocol=git"
+> it tells
+> fatal: reference is not a tree: c23c0d33ed98a1dcee40115018b73cb3d4cda8d7
+> 
+> 
+> SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
+> it doe noting,and trying to find COPING,but it doesn't clone it
 
-OpenEmbedded will have a stand at FOSDEM 2013 (Brussels, Feb 2-3). If you'd 
-like to help out behind the stand we'd really appreciate it! If you're 
-volunteering or even just attending the conference and interested in meeting 
-up with other OE community members, please add your name to the appropriate 
-place in the following wiki page:
+I think you already got this answered on IRC, but for reference you need to 
+use git://....;protocol=http and not http://.....;protocol=git. BitBake uses 
+the prefix to determine which fetcher to use (matching the type of repository 
+being fetched from) and then each individual fetcher decides the meaning of 
+the protocol argument. In this case you're fetching from a git repository 
+using the HTTP transport protocol.
 
-http://www.openembedded.org/wiki/FOSDEM_2013
-
-Thanks!
+Cheers,
 Paul
 
 -- 
