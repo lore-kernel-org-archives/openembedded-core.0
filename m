@@ -1,30 +1,37 @@
-Received: from mout.gmx.net ([212.227.17.21])
+Received: from mail-ie0-f182.google.com ([209.85.223.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cheepeero@gmx.net>) id 1TxmCi-0007KZ-0V
+	(envelope-from <raj.khem@gmail.com>) id 1TxmKc-0003yt-UF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 23:20:50 +0100
-Received: from mailout-de.gmx.net ([10.1.76.4]) by mrigmx.server.lan
-	(mrigmx001) with ESMTP (Nemesis) id 0M7FY8-1T19Go35SI-00x4Vd for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 23:04:56 +0100
-Received: (qmail invoked by alias); 22 Jan 2013 22:04:56 -0000
-Received: from unknown (EHLO pink.localnet) [78.96.83.205]
-	by mail.gmx.net (mp004) with SMTP; 22 Jan 2013 23:04:56 +0100
-X-Authenticated: #14774724
-X-Provags-ID: V01U2FsdGVkX1/SfRVshz7SlQdv1BLkkK4N0bY2rJXOBMf+2XWdHm
-	OprmLAb2eK+kth
-From: Ciprian Ciubotariu <cheepeero@gmx.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jan 2013 00:04:55 +0200
-Message-ID: <2738897.RqdcWyXQgT@pink>
-User-Agent: KMail/4.9.3 (Linux/3.6.11-gentoo; KDE/4.9.3; x86_64; ; )
-In-Reply-To: <CAJTo0LarPUYHTJBWqi3ze3=aN5+HvizyVvw3V-V+YmxtS4786g@mail.gmail.com>
-References: <cover.1358635193.git.ross.burton@intel.com>
-	<1358739008.2945.29.camel@jethro.cheepee.homedns.org>
-	<CAJTo0LarPUYHTJBWqi3ze3=aN5+HvizyVvw3V-V+YmxtS4786g@mail.gmail.com>
+	Tue, 22 Jan 2013 23:28:45 +0100
+Received: by mail-ie0-f182.google.com with SMTP id s9so12588043iec.27
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jan 2013 14:13:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding;
+	bh=Xd+N4daFkl7aVDS/RD6PGtUT9exxiS2ryYrBkrcNOBY=;
+	b=dUa2dv8ft5PPTYIi+9pybjvxE+AtTPn+xzPIVDhISAv8W3/570ABfODqsj4yDPwKxJ
+	gLOr5UP3ON5AijHIq8n6ka7KTq6SxufhNH8uQC/NN7AgaIiy/SbplLvXYDtQCqzKUsWD
+	ilYtDlT3GkDvpH3ugg4/77n0fPebOZA6bop3mrBnc7sI9UQ0LQCR0SWrW+4gvSCdzOWg
+	270DuUCxgf8aGlDhcRY7ltZqRpK/CoeTJno49gBd3MGc48/DjX0b6JHUMwISoV+JlS4Q
+	2Zxr1qFjls1g2HFEvDtadsEHjO2s4eaWs0PHJLVmflFWM7+esA7ZdE4zdtD34bpE9Duf
+	TsYw==
+X-Received: by 10.50.150.239 with SMTP id ul15mr12944909igb.93.1358892788049; 
+	Tue, 22 Jan 2013 14:13:08 -0800 (PST)
 MIME-Version: 1.0
-X-Y-GMX-Trusted: 0
-Subject: Re: [PATCH 00/10] Initial systemd integration
+Received: by 10.64.18.169 with HTTP; Tue, 22 Jan 2013 14:12:37 -0800 (PST)
+In-Reply-To: <50FF099C.5080203@linux.intel.com>
+References: <cover.1358634922.git.raj.khem@gmail.com>
+	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
+	<50FEFA22.2090008@linux.intel.com>
+	<CAMKF1spq_du8mB2nAvqcYQG7izORFHTkZFTBhUCE3SrJZ3KU2Q@mail.gmail.com>
+	<50FF099C.5080203@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Jan 2013 14:12:37 -0800
+Message-ID: <CAMKF1soo9U1WiGG8S4uyP0V-k2wvHDOvWiX+RsEd6SiPRYH3wA@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,52 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 22:20:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 22 Jan 2013 22:28:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 21 January 2013 12:12:14 Burton, Ross wrote:
-> On 21 January 2013 03:30, Ciprian Ciubotariu <cheepeero@gmx.net> wrote:
-> > However, with oe-core/meta providing a default embedded policy, higher
-> > layers need to remove sysvinit or systemd stuff from base recipes, which
-> > is
-> > against bitbake's additive language design (only append/prepend functions,
-> > no -= operator) and against separating concerns.
-> 
-> If you don't do a systemd build, you won't get any of the systemd
-> files.  Ditto, sysvinit (well, that's the goal - as it was an
-> assumption until now that needs work still).
-> 
+On Tue, Jan 22, 2013 at 1:50 PM, Darren Hart <dvhart@linux.intel.com> wrote=
+:
+> I assumed that would be the target eventually - is that not the case?
 
-Does that mean that I can disable the default init manager somehow, and 
-provide my own?
-
-> An oe-core without *any* init system will be very cumbersome - every
-> service will need a bbappend to actually work, with the subsequent
-> maintenance costs.
-> 
-
-I fail to see the overhead of maintaining a feature in one file, and the init-
-manager part of the same feature in another file. The actual complexity is the 
-same as when adding an use-flag like configuration variable in a single-file 
-recipe; perhaps one avoids hitting "Open..." on the editor.
-
-However, if I understand correctly, one can disable the default OE policy for 
-an init manager, though not by choice of different layers, but via having 
-systemd or not in DISTRO_FEATURES. 
-
-Does this means that 
-
-- having DISTRO_FEATURES += "systemd" we get a system with systemd;
-- DISTRO_FEATURES += "sysvinit" makes a system with sysvinit, and 
-- leaving DISTRO_FEATURES blank leaves us with a system with no init manager, 
-to which we can add our own?
-
-I guess the most important aspect I am trying to communicate is: please do not 
-provide any by default.
-
-Cipi
-
-> Ross
+yes when we have tested it
+However, I don=E2=80=99t see any other better way of coping with the case w=
+here we
+would like to use gold as default linker distrowide. One could cook up
+a patch for kernel
+to demand ld.bfd always like I did for uboot but we have way too many kerne=
+ls
+to patch. I am open for other suggestions.
 
 
