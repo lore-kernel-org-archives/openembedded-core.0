@@ -1,35 +1,26 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TxgD8-0002oG-MD
+	(envelope-from <constantinx.musca@intel.com>) id 1TxgDc-0002ob-Nb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 16:56:35 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0MFevc9009946
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 22 Jan 2013 16:40:58 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1TxfyE-00030a-Ik; Tue, 22 Jan 2013 16:41:06 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1358634922.git.raj.khem@gmail.com>
-	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
-Date: Tue, 22 Jan 2013 16:41:06 +0100
-In-Reply-To: <613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
-	(Khem Raj's message of "Sat, 19 Jan 2013 14:40:03 -0800")
-Message-ID: <lyobghp6nh.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Tue, 22 Jan 2013 16:57:01 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 22 Jan 2013 07:41:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,515,1355126400"; d="scan'208";a="193943710"
+Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Jan 2013 07:41:12 -0800
+Message-ID: <50FEB34D.7080307@intel.com>
+Date: Tue, 22 Jan 2013 17:42:05 +0200
+From: Constantin Musca <constantinx.musca@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1358847570-7398-1-git-send-email-constantinx.musca@intel.com>
+	<20130122141527.GV29386@jama.palm1.palmone.com>
+In-Reply-To: <20130122141527.GV29386@jama.palm1.palmone.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] prs: add LOCALCOUNT to AUTOINCs migration feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,21 +33,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 15:56:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Jan 2013 15:57:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+On 01/22/2013 04:15 PM, Martin Jansa wrote:
+> On Tue, Jan 22, 2013 at 11:39:30AM +0200, Constantin Musca wrote:
+>> - use migrate_localcount.bbclass to generate AUTOINC entries
+>> which are exported to LOCALCOUNT_DUMPFILE
+>> - import the generated AUTOINC entries
+>> - one can migrate LOCALCOUNT to AUTOINC by executing:
+>>      bitbake-prserv-tool migrate_localcount
+> Those 2 bitbake patches are probably against poky not bitbake, had to
+> apply them manually.
+>
+>> [YOCTO #3071]
+>>
+>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>> ---
+>>   meta/classes/migrate_localcount.bbclass | 47 +++++++++++++++++++++++++++++++++
+>>   meta/conf/migrate_localcount.conf       |  1 +
+>>   scripts/bitbake-prserv-tool             | 32 ++++++++++++++++++++++
+>>   3 files changed, 80 insertions(+)
+>>   create mode 100644 meta/classes/migrate_localcount.bbclass
+>>   create mode 100644 meta/conf/migrate_localcount.conf
+>>
+>> diff --git a/meta/classes/migrate_localcount.bbclass b/meta/classes/migrate_localcount.bbclass
+>> new file mode 100644
+>> index 0000000..59f14e8
+>> --- /dev/null
+>> +++ b/meta/classes/migrate_localcount.bbclass
+>> @@ -0,0 +1,47 @@
+>> +PRSERV_DUMPDIR ??= "${LOG_DIR}/db"
+>> +LOCALCOUNT_DUMPFILE ??= "${PRSERV_DUMPDIR}/prserv-localcount-exports.inc"
+>> +
+>> +python migrate_localcount_handler () {
+>> +    import bb.event
+>> +    if not e.data:
+>> +        return
+>> +
+>> +    if isinstance(e, bb.event.RecipeParsed):
+>> +        pv = e.data.getVar('PV', True)
+>> +        if not 'AUTOINC' in pv:
+>> +            return
+>> +
+>> +        localcounts = bb.persist_data.persist('BB_URI_LOCALCOUNT', e.data)
+>> +        pn = e.data.getVar('PN', True)
+>> +        revs = localcounts.get_by_pattern('%%-%s_rev' % pn)
+>> +        counts = localcounts.get_by_pattern('%%-%s_count' % pn)
+> why not query for right key directly?
+>
+> BB_URI_LOCALCOUNT key appends branch since
+> http://git.openembedded.org/bitbake/commit/lib/bb/fetch?id=8c0afc13ad5eefea62b0b136f5b66792ba4e44cb
+> and you can probably create key from SRC_URI like git fetcher does.
+>
+> Then you can show error when more then 1 entry matches instead of
+> counting max(LOCALCOUNT) from multiple entries.
+Because AUTOINCs don't include branch information. I have considered the 
+approach you proposed but I think this method
+is a straightforward solution.
+>
+> Also this 'bitbake-prserv-tool migrate_localcount' needs to be executed
+> for all supported MACHINEs right? To fill prs db with all possible
+> PACKAGE_ARCH values.
+That's right.
 
-> +KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
-> ...
-> -KERNEL_LD = "${HOST_PREFIX}ld${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}${TOOLCHAIN_OPTIONS}"
-
-that's bad... gold linker has serious problems to compile stuff like
-kernel or bootloaders and setting 'KERNEL_LDSUFFIX = .bfd' was a good
-way to workaround these problems.
-
-
-
-Enrico
+>
+> Cheers,
+>
+>> +        if not revs or not counts:
+>> +            return
+>> +
+>> +        srcrev = bb.fetch2.get_srcrev(e.data)
+>> +        bpv = pv[:pv.find(srcrev)]
+>> +
+>> +        if len(revs) != len(counts):
+>> +            bb.warn("The number of revs and localcounts don't match in %s" % pn)
+>> +            return
+>> +
+>> +        version = 'AUTOINC-%s-%s' % (pn, bpv)
+>> +        pkgarch = e.data.getVar('PACKAGE_ARCH', True)
+>> +        value = max(int(count) for count in counts)
+>> +
+>> +        if len(revs) == 1:
+>> +            if srcrev != ('AUTOINC+%s' % revs[0]):
+>> +                value += 1
+>> +        else:
+>> +            value += 1
+>> +
+>> +        bb.utils.mkdirhier(e.data.getVar('PRSERV_DUMPDIR', True))
+>> +        df = e.data.getVar('LOCALCOUNT_DUMPFILE', True)
+>> +        flock = bb.utils.lockfile("%s.lock" % df)
+>> +        with open(df, 'a') as fd:
+>> +            fd.write('PRAUTO$%s$%s$%s = "%s"\n' %
+>> +                    (version, pkgarch, srcrev, str(value)))
+>> +        bb.utils.unlockfile(flock)
+>> +}
+>> +
+>> +addhandler migrate_localcount_handler
+>> diff --git a/meta/conf/migrate_localcount.conf b/meta/conf/migrate_localcount.conf
+>> new file mode 100644
+>> index 0000000..e486e03
+>> --- /dev/null
+>> +++ b/meta/conf/migrate_localcount.conf
+>> @@ -0,0 +1 @@
+>> +INHERIT += "migrate_localcount"
+>> diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
+>> index f3855df..4654e6d 100755
+>> --- a/scripts/bitbake-prserv-tool
+>> +++ b/scripts/bitbake-prserv-tool
+>> @@ -47,6 +47,35 @@ do_import ()
+>>       return $ret
+>>   }
+>>   
+>> +do_migrate_localcount ()
+>> +{
+>> +    df=`bitbake -R conf/migrate_localcount.conf -e | \
+>> +                grep ^LOCALCOUNT_DUMPFILE= | cut -f2 -d\"`
+>> +    if [ "x${df}" == "x" ];
+>> +    then
+>> +        echo "LOCALCOUNT_DUMPFILE is not defined!"
+>> +        return 1
+>> +    fi
+>> +
+>> +    rm -rf $df
+>> +    clean_cache
+>> +    echo "Exporting LOCALCOUNT to AUTOINCs..."
+>> +    bitbake -R conf/migrate_localcount.conf -p
+>> +    [ ! $? -eq 0 ] && echo "Exporting failed!" && exit 1
+>> +
+>> +    echo "Importing generated AUTOINC entries..."
+>> +    [ -e $df ] && do_import $df
+>> +
+>> +    if [ ! $? -eq 0 ]
+>> +    then
+>> +        echo "Migration from LOCALCOUNT to AUTOINCs failed!"
+>> +        return 1
+>> +    fi
+>> +
+>> +    echo "Migration from LOCALCOUNT to AUTOINCs succeeded!"
+>> +    return 0
+>> +}
+>> +
+>>   [ $# -eq 0 ] && help  && exit 1
+>>   
+>>   case $1 in
+>> @@ -56,6 +85,9 @@ export)
+>>   import)
+>>       do_import $2
+>>       ;;
+>> +migrate_localcount)
+>> +    do_migrate_localcount
+>> +    ;;
+>>   *)
+>>       help
+>>       exit 1
+>> -- 
+>> 1.7.11.7
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Constantin
 
 
