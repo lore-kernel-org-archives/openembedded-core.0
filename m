@@ -1,31 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pa0-f42.google.com ([209.85.220.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TxcoZ-00020H-3B
+	(envelope-from <martin.jansa@gmail.com>) id 1Txcts-0002EH-HM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 13:19:17 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:33864 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TxcZa-0000iC-CA for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 07:03:26 -0500
-Date: Tue, 22 Jan 2013 07:03:22 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1301220659280.5920@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 22 Jan 2013 13:24:57 +0100
+Received: by mail-pa0-f42.google.com with SMTP id rl6so4033133pac.15
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jan 2013 04:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=nEzbNhkqN/Sqy+RUQOYe5RUlX8P3KHpX3JUsS5M1VRo=;
+	b=bmt7VApiJL2Wr9PiFZKkz7AQ1AcMXKSrRtr+yFlf0XlhdjATiR6zg9uyZg2C65mcTS
+	l8z4iyTfNUl8ik1jApiuXjmMOpDRFQ9yfK+8jc1dzdobR3xIEDPz3DhnnH4mQ9P52z+S
+	/jnM+ebRwuPr0/9cYQj3g2TSfeviIfgIHAgJtgFWCA3Jp6xFXtLyU5DUKq+Y3skg1VIU
+	DyOUFGQHFIx57JQYiTQWF9a219ntc7RMOQxWa45PERfMl5apG2F+Dp3KHt/GgE3SVouN
+	3ErdhI0qnSNCsJ/Vb1QsCx6VglGSQCoOkAKkdRTAaXfoPKLFNjIPb3k8M0mNhxNcqBEf
+	OlYw==
+X-Received: by 10.68.196.133 with SMTP id im5mr39100135pbc.16.1358856533676;
+	Tue, 22 Jan 2013 04:08:53 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id
+	pl10sm10641362pbc.60.2013.01.22.04.08.50
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 22 Jan 2013 04:08:52 -0800 (PST)
+Date: Tue, 22 Jan 2013 13:08:51 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130122120851.GP29386@jama.palm1.palmone.com>
+References: <1358808590.14265.73.camel@ted>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: any further developments on that git "index pack failed" issue?
+In-Reply-To: <1358808590.14265.73.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagedata: Add warnings if multiple recipes try to write the same package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +45,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 12:19:18 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 22 Jan 2013 12:24:59 -0000
+X-Groupsio-MsgNum: 34220
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EkxpYdHiqGHPYbUt"
+Content-Disposition: inline
 
+--EkxpYdHiqGHPYbUt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  recently, there were a few git repos what were uncloneable with the
-error "early EOF, index-pack failed" error that's nicely described
-here:
+On Mon, Jan 21, 2013 at 10:49:50PM +0000, Richard Purdie wrote:
+> If multiple recipes try and write the same package it resulted in a
+> rather confusing traceback and unintuitive error. This patch
+> prints a human readable error instead.
 
-http://stackoverflow.com/questions/1943914/git-clone-fails-with-index-pack-failed
+bitbake world found 2 more recipes creating the same package:
+vim/gvim in meta-oe
+gnome-panel3_3.0.2.bb/gnome-panel_2.32.1.b in meta-gnome
 
-at first, it seemed to be purely associated with github, but i could
-swear i had it happen to me with a different URL (can't remember which
-one, dang).
+But this error is a lot better then that traceback, maybe change commit
+message to say fatal errors instead of warnings.
 
-  someone suggested it had something to do with compression and it was
-something github needed to resolve.  my solution was to just do a
-manual "git clone" of the affected repo, then adjust my recipe(s) to
-point to my local clone.
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-  any further developments on this?  is there a known
-error/workaround?
+Cheers,
 
-rday
+>=20
+> [YOCTO #3645]
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/packagedata.bbclass b/meta/classes/packagedata.=
+bbclass
+> index 790d874..120cd64 100644
+> --- a/meta/classes/packagedata.bbclass
+> +++ b/meta/classes/packagedata.bbclass
+> @@ -1,7 +1,8 @@
+>  python read_subpackage_metadata () {
+>      import oe.packagedata
+> =20
+> -    data =3D oe.packagedata.read_pkgdata(d.getVar('PN', True), d)
+> +    pn =3D d.getVar('PN', True)
+> +    data =3D oe.packagedata.read_pkgdata(pn, d)
+> =20
+>      for key in data.keys():
+>          d.setVar(key, data[key])
+> @@ -9,5 +10,9 @@ python read_subpackage_metadata () {
+>      for pkg in d.getVar('PACKAGES', True).split():
+>          sdata =3D oe.packagedata.read_subpkgdata(pkg, d)
+>          for key in sdata.keys():
+> +            if key =3D=3D "PN":
+> +                if sdata[key] !=3D pn:
+> +                    bb.fatal("Recipe %s is trying to create package %s w=
+hich was already written by recipe %s. This will cause corruption, please r=
+esolve this and only provide the package from one recipe or the other or on=
+ly build one of the recipes." % (pn, pkg, sdata[key]))
+> +                continue
+>              d.setVar(key, sdata[key])
+>  }
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--EkxpYdHiqGHPYbUt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlD+gVMACgkQN1Ujt2V2gBxqKACfY0HoXHqrKhivm2PZmLOVsdKJ
+QGoAn1YENv9kWzWX0DFHc+HNi3CLPqoN
+=z0L5
+-----END PGP SIGNATURE-----
 
+--EkxpYdHiqGHPYbUt--
