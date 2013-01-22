@@ -1,35 +1,40 @@
-Received: from mail-oa0-f48.google.com ([209.85.219.48])
+Received: from mail-oa0-f46.google.com ([209.85.219.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TxWHN-0004JF-6i
+	(envelope-from <raj.khem@gmail.com>) id 1TxWHN-0004JG-6q
 	for openembedded-core@lists.openembedded.org;
 	Tue, 22 Jan 2013 06:20:14 +0100
-Received: by mail-oa0-f48.google.com with SMTP id h2so6702378oag.7
+Received: by mail-oa0-f46.google.com with SMTP id h16so6883136oag.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jan 2013 21:04:41 -0800 (PST)
+	Mon, 21 Jan 2013 21:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=sGR+CjV9ZdzI3Po475uVdxjeEkZk5WZ+wcqQtOv9vKg=;
-	b=kj/B5TuYaMp9yvaWom2qzmwJbwAY/LJQ9Wt95dsYdEefReI5+2al3f83Y4t1T/m+s9
-	o/zc+7HQJefFtPGNqAb3yg3XkKTCUKJ3UW+amYdhyplJ467XlygC2MqxOWpcVrAGd2EB
-	gnf/BvHx/1DcM8qmgUMweZnTGbATe2l18PLxKBSG4X+vm58P/GCbO8JAna9XloYMLfJ8
-	MaUOQy7LQfNrSFFroV1lm1bqfj5WzuPkKKUT6NunSWu2S6qYj0uQlTgU59gQO9r0plNO
-	7FJlYY4nSGBoNndkpbdiMgrv8F4dhm/aVcUS33Mw0x0IU/MLEWLFHXF9kRLChMai2F4O
-	orjw==
-X-Received: by 10.60.169.133 with SMTP id ae5mr15518408oec.74.1358831081440;
-	Mon, 21 Jan 2013 21:04:41 -0800 (PST)
+	:references:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding;
+	bh=kLwHTyERQEq5P7cmuBo4HuAu1f4jOqY/vTT3bnPHMGQ=;
+	b=rz16j0BRVCrmh4IZf3HadzqtXoGpzT0o107/4FiXTeXP3bcHaVNoh6Gz8+bqJ9N91m
+	b1lPmWAtXtlMR+VzgrlvTF7aGBHFtV39AdwlDnfdUDes0wjJ7xliMdj2I8nhGNzs8P2M
+	2wGQ+tzRPpQ8rE4+ShVy1xQ4PADED64+NzsY2uv+1ER68Pwp7Yx0m+S/RO/Q224IX8Vp
+	jnpmO9bGOFWE35k4dQ45RLdZd3qAcbWmtr5Z8coSwcE1wet25o/L+Xy5Un9VfKDm2P5f
+	fY6RWDoSI4Vk/FneVti+Go1XEVIaT/JSTj/G+GGskv9EPtvGEumkkGGWBMMp5tA2j00r
+	xXCA==
+X-Received: by 10.60.3.168 with SMTP id d8mr15756740oed.112.1358831082681;
+	Mon, 21 Jan 2013 21:04:42 -0800 (PST)
 Received: from leo.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id zz6sm12729989oeb.1.2013.01.21.21.04.40
+	by mx.google.com with ESMTPS id zz6sm12729989oeb.1.2013.01.21.21.04.41
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Jan 2013 21:04:40 -0800 (PST)
+	Mon, 21 Jan 2013 21:04:42 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jan 2013 21:04:26 -0800
-Message-Id: <e9f39209e9fdf88a6205eb59b482c830eda83aa6.1358830857.git.raj.khem@gmail.com>
+Date: Mon, 21 Jan 2013 21:04:27 -0800
+Message-Id: <f2afd56d955a56e412bf9d50a915402c2e513c62.1358830857.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.0
+In-Reply-To: <e9f39209e9fdf88a6205eb59b482c830eda83aa6.1358830857.git.raj.khem@gmail.com>
+References: <e9f39209e9fdf88a6205eb59b482c830eda83aa6.1358830857.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1358830857.git.raj.khem@gmail.com>
 References: <cover.1358830857.git.raj.khem@gmail.com>
-Subject: [PATCH 1/4] nfs-utils: Upgrade 1.2.3 -> 1.2.8-rc3
+MIME-Version: 1.0
+Subject: [PATCH 2/4] uclibc-git: Upgrades to latest git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,823 +48,687 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Jan 2013 05:20:17 -0000
-X-List-Received-Date: Tue, 22 Jan 2013 05:20:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Disable nfsv4l since it needs LVM2 which
-is not available in OE-Core
-
-Disable nfsdcltrack since its configure time check
-for sqlite3 is not cross compiling safe
-
-It can support ipv6 but thats disabled since
-we disable libtirpc which is needed for ipv6
-support in nfs-utils
-
-Patches imported from fedora to take us to 1.2.8-rc3
+Drop upstream accepted patches
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         |   39 +-
- .../nfs-utils-1.2.3-sm-notify-res_init.patch       |   36 ++
- .../nfs-utils/nfs-utils-nfsctl-x32-fix.patch       |   30 -
- .../nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch  |  599 ++++++++++++++++++++
- .../{nfs-utils_1.2.3.bb => nfs-utils_1.2.7.bb}     |   25 +-
- 5 files changed, 671 insertions(+), 58 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.2.3.bb => nfs-utils_1.2.7.bb} (67%)
+ meta/recipes-core/uclibc/uclibc-git.inc            |    5 +-
+ ...nt.c-wtent.c-move-functions-from-utxent.c.patch |   78 ++++++++--------
+ ...-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch |   30 +++----
+ .../uclibc-git/define-MSG_CMSG_CLOEXEC.patch       |   25 ------
+ meta/recipes-core/uclibc/uclibc-git/dup3.patch     |   37 --------
+ .../uclibc/uclibc-git/mount.h-update.patch         |   83 -----------------
+ .../uclibc/uclibc-git/powerpc_copysignl.patch      |   16 ++--
+ .../uclibc-git/remove_attribute_optimize_Os.patch  |   95 ++++++--------------
+ 8 files changed, 89 insertions(+), 280 deletions(-)
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/define-MSG_CMSG_CLOEXEC.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/dup3.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/mount.h-update.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-index 6d46d3a..c344238 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-@@ -1,22 +1,27 @@
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- Upstream-Status: Inappropriate [embedded specific]
+diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
+index 4da9c58..ed9b5fd 100644
+--- a/meta/recipes-core/uclibc/uclibc-git.inc
++++ b/meta/recipes-core/uclibc/uclibc-git.inc
+@@ -1,4 +1,4 @@
+-SRCREV="cb43f2afba0633400387fa7c55dda3396517f58a"
++SRCREV="9591091f150e8a86c47efbea5def21fa67fffb07"
  
--Index: nfs-utils-1.2.3/support/nfs/svc_socket.c
-+Index: nfs-utils-1.2.6/support/nfs/svc_socket.c
- ===================================================================
----- nfs-utils-1.2.3.orig/support/nfs/svc_socket.c
--+++ nfs-utils-1.2.3/support/nfs/svc_socket.c
--@@ -67,6 +67,7 @@ svc_socket (u_long number, int type, int
--   memset (&addr, 0, sizeof (addr));
--   addr.sin_family = AF_INET;
-+--- nfs-utils-1.2.6.orig/support/nfs/svc_socket.c	2012-05-14 07:40:52.000000000 -0700
-++++ nfs-utils-1.2.6/support/nfs/svc_socket.c	2012-10-28 02:42:50.179222457 -0700
-+@@ -40,8 +40,9 @@
-+ 	char rpcdata[1024], servdata[1024];
-+ 	struct rpcent rpcbuf, *rpcp;
-+ 	struct servent servbuf, *servp = NULL;
-+-	int ret;
-++	int ret = 0;
+ DEFAULT_PREFERENCE = "-1"
+ 
+@@ -18,14 +18,11 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
+ 	file://compile-arm-fork-with-O2.patch \
+ 	file://uclibc-execvpe.patch \
+ 	file://orign_path.patch \
+-	file://dup3.patch \
+-	file://define-MSG_CMSG_CLOEXEC.patch \
+ 	file://posix_fallocate.patch \
+ 	file://0001-atexit_old-Do-not-add-it-to-shared-libc.patch \
+ 	file://0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch \
+ 	file://0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch \
+ 	file://0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch \
+-	file://mount.h-update.patch \
+ 	file://0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch \
+ 	"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
+index 8c202ac..4ac765c 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
++++ b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
+@@ -13,18 +13,18 @@ This reverts commit 84135275cfeebc0b233c1c96eeada4d4178a0b18.
+  libc/misc/utmp/wtent.c  |   14 ++-------
+  4 files changed, 30 insertions(+), 76 deletions(-)
+ 
+-diff --git a/include/utmp.h b/include/utmp.h
+-index cb8e08f..10b75c9 100644
+---- a/include/utmp.h
+-+++ b/include/utmp.h
+-@@ -57,29 +57,37 @@ extern void logwtmp (__const char *__ut_line, __const char *__ut_name,
++Index: git/include/utmp.h
++===================================================================
++--- git.orig/include/utmp.h	2013-01-21 16:37:18.000000000 -0800
+++++ git/include/utmp.h	2013-01-21 16:40:56.987583099 -0800
++@@ -56,30 +56,37 @@
+  /* Append entry UTMP to the wtmp-like file WTMP_FILE.  */
+- extern void updwtmp (__const char *__wtmp_file, __const struct utmp *__utmp)
++ extern void updwtmp (const char *__wtmp_file, const struct utmp *__utmp)
+       __THROW;
+ +libc_hidden_proto(updwtmp)
   
--+#ifndef __UCLIBC__	/* neither getrpcbynumber() nor getrpcbynumber_r() is SuSv3 */
--   ret = getrpcbynumber_r (number, &rpcbuf, rpcdata, sizeof rpcdata,
-- 			  &rpcp);
--   if (ret == 0 && rpcp != NULL)
--@@ -100,6 +101,7 @@ svc_socket (u_long number, int type, int
-++#ifndef __UCLIBC__     /* neither getrpcbynumber() nor getrpcbynumber_r() is SuSv3 */
-+ 	ret = getrpcbynumber_r(number, &rpcbuf, rpcdata, sizeof rpcdata,
-+ 				&rpcp);
-+ 	if (ret == 0 && rpcp != NULL) {
-+@@ -60,6 +61,7 @@
-+ 			}
-+ 		}
+  /* Change name of the utmp file to be examined.  */
+- extern int utmpname (__const char *__file) __THROW;
++ extern int utmpname (const char *__file) __THROW;
+ +libc_hidden_proto(utmpname)
+  
+  /* Read next entry from a utmp-like file.  */
+@@ -41,24 +41,25 @@ index cb8e08f..10b75c9 100644
+  
+  /* Search forward from the current point in the utmp file until the
+     next entry with a ut_type matching ID->ut_type.  */
+- extern struct utmp *getutid (__const struct utmp *__id) __THROW;
++ extern struct utmp *getutid (const struct utmp *__id) __THROW;
+ +libc_hidden_proto(getutid)
+  
+  /* Search forward from the current point in the utmp file until the
+     next entry with a ut_line matching LINE->ut_line.  */
+- extern struct utmp *getutline (__const struct utmp *__line) __THROW;
++ extern struct utmp *getutline (const struct utmp *__line) __THROW;
+ +libc_hidden_proto(getutline)
+  
+  /* Write out entry pointed to by UTMP_PTR into the utmp file.  */
+- extern struct utmp *pututline (__const struct utmp *__utmp_ptr) __THROW;
++ extern struct utmp *pututline (const struct utmp *__utmp_ptr) __THROW;
++-
+ +libc_hidden_proto(pututline)
+  
+- 
+  #if 0 /* def	__USE_MISC */
+-diff --git a/libc/misc/utmp/utent.c b/libc/misc/utmp/utent.c
+-index a35bb2b..07ca44e 100644
+---- a/libc/misc/utmp/utent.c
+-+++ b/libc/misc/utmp/utent.c
++ /* Reentrant versions of the file for handling utmp files.  */
++Index: git/libc/misc/utmp/utent.c
++===================================================================
++--- git.orig/libc/misc/utmp/utent.c	2013-01-21 16:37:18.000000000 -0800
+++++ git/libc/misc/utmp/utent.c	2013-01-21 16:38:14.035578638 -0800
+ @@ -19,9 +19,6 @@
+  #include <errno.h>
+  #include <string.h>
+@@ -69,7 +70,7 @@ index a35bb2b..07ca44e 100644
+  #include <not-cancel.h>
+  
+  #include <bits/uClibc_mutex.h>
+-@@ -34,7 +31,7 @@ static const char default_file_name[] = _PATH_UTMP;
++@@ -34,7 +31,7 @@
+  static const char *static_ut_name = default_file_name;
+  
+  /* This function must be called with the LOCK held */
+@@ -78,7 +79,7 @@ index a35bb2b..07ca44e 100644
+  {
+      if (static_fd < 0) {
+  	static_fd = open_not_cancel_2(static_ut_name, O_RDWR | O_CLOEXEC);
+-@@ -53,24 +50,19 @@ static void __setutent_unlocked(void)
++@@ -53,24 +50,19 @@
+      lseek(static_fd, 0, SEEK_SET);
+  }
+  #if defined __UCLIBC_HAS_THREADS__
+@@ -107,7 +108,7 @@ index a35bb2b..07ca44e 100644
+  {
+      if (static_fd < 0) {
+  	__setutent();
+-@@ -86,27 +78,19 @@ static struct utmp *__getutent_unlocked(void)
++@@ -86,27 +78,19 @@
+      return NULL;
+  }
+  #if defined __UCLIBC_HAS_THREADS__
+@@ -138,7 +139,7 @@ index a35bb2b..07ca44e 100644
+  
+  static void __endutent(void)
+  {
+-@@ -117,13 +101,10 @@ static void __endutent(void)
++@@ -117,13 +101,10 @@
+      __UCLIBC_MUTEX_UNLOCK(utmplock);
+  }
+  strong_alias(__endutent,endutent)
+@@ -154,7 +155,7 @@ index a35bb2b..07ca44e 100644
+  {
+      struct utmp *lutmp;
+      unsigned type;
+-@@ -133,7 +114,7 @@ static struct utmp *__getutid_unlocked(const struct utmp *utmp_entry)
++@@ -133,7 +114,7 @@
+      type = utmp_entry->ut_type - 1;
+      type /= 4;
+  
+@@ -163,7 +164,7 @@ index a35bb2b..07ca44e 100644
+  	if (type == 0 && lutmp->ut_type == utmp_entry->ut_type)	{
+  	    /* one of RUN_LVL, BOOT_TIME, NEW_TIME, OLD_TIME */
+  	    return lutmp;
+-@@ -147,34 +128,26 @@ static struct utmp *__getutid_unlocked(const struct utmp *utmp_entry)
++@@ -147,34 +128,26 @@
+      return NULL;
+  }
+  #if defined __UCLIBC_HAS_THREADS__
+@@ -202,7 +203,7 @@ index a35bb2b..07ca44e 100644
+  	if (lutmp->ut_type == USER_PROCESS || lutmp->ut_type == LOGIN_PROCESS) {
+  	    if (strncmp(lutmp->ut_line, utmp_entry->ut_line, sizeof(lutmp->ut_line)) == 0) {
+  		break;
+-@@ -185,13 +158,7 @@ static struct utmp *__getutline(const struct utmp *utmp_entry)
++@@ -185,13 +158,7 @@
+      return lutmp;
+  }
+  strong_alias(__getutline,getutline)
+@@ -217,7 +218,7 @@ index a35bb2b..07ca44e 100644
+  
+  static struct utmp *__pututline(const struct utmp *utmp_entry)
+  {
+-@@ -200,7 +167,7 @@ static struct utmp *__pututline(const struct utmp *utmp_entry)
++@@ -200,7 +167,7 @@
+         the file pointer where they want it, everything will work out. */
+      lseek(static_fd, (off_t) - sizeof(struct utmp), SEEK_CUR);
+  
+@@ -226,7 +227,7 @@ index a35bb2b..07ca44e 100644
+  	lseek(static_fd, (off_t) - sizeof(struct utmp), SEEK_CUR);
+      else
+  	lseek(static_fd, (off_t) 0, SEEK_END);
+-@@ -211,13 +178,7 @@ static struct utmp *__pututline(const struct utmp *utmp_entry)
++@@ -211,13 +178,7 @@
+      return (struct utmp *)utmp_entry;
+  }
+  strong_alias(__pututline,pututline)
+@@ -241,7 +242,7 @@ index a35bb2b..07ca44e 100644
+  
+  static int __utmpname(const char *new_ut_name)
+  {
+-@@ -241,7 +202,4 @@ static int __utmpname(const char *new_ut_name)
++@@ -241,7 +202,4 @@
+      return 0; /* or maybe return -(static_ut_name != new_ut_name)? */
+  }
+  strong_alias(__utmpname,utmpname)
+@@ -250,10 +251,10 @@ index a35bb2b..07ca44e 100644
+ -strong_alias(__utmpname,utmpxname)
+ -#endif
+ +libc_hidden_def(utmpname)
+-diff --git a/libc/misc/utmp/utxent.c b/libc/misc/utmp/utxent.c
+-index 71157cc..a0e80a6 100644
+---- a/libc/misc/utmp/utxent.c
+-+++ b/libc/misc/utmp/utxent.c
++Index: git/libc/misc/utmp/utxent.c
++===================================================================
++--- git.orig/libc/misc/utmp/utxent.c	2013-01-21 16:37:18.000000000 -0800
+++++ git/libc/misc/utmp/utxent.c	2013-01-21 16:38:14.035578638 -0800
+ @@ -13,7 +13,6 @@
+  #include <utmpx.h>
+  #include <utmp.h>
+@@ -262,7 +263,7 @@ index 71157cc..a0e80a6 100644
+  void setutxent(void)
+  {
+  	setutent ();
+-@@ -49,12 +48,10 @@ int utmpxname (const char *new_ut_name)
++@@ -49,12 +48,10 @@
+  	return utmpname (new_ut_name);
+  }
+  
+@@ -275,15 +276,15 @@ index 71157cc..a0e80a6 100644
+  
+  /* Copy the information in UTMPX to UTMP. */
+  void getutmp (const struct utmpx *utmpx, struct utmp *utmp)
+-@@ -107,3 +104,4 @@ void getutmpx (const struct utmp *utmp, struct utmpx *utmpx)
++@@ -107,3 +104,4 @@
+  	utmpx->ut_time = utmp->ut_time;
+  #endif
+  }
+ +
+-diff --git a/libc/misc/utmp/wtent.c b/libc/misc/utmp/wtent.c
+-index 9b3ad50..b5e4ee5 100644
+---- a/libc/misc/utmp/wtent.c
+-+++ b/libc/misc/utmp/wtent.c
++Index: git/libc/misc/utmp/wtent.c
++===================================================================
++--- git.orig/libc/misc/utmp/wtent.c	2013-01-21 16:37:18.000000000 -0800
+++++ git/libc/misc/utmp/wtent.c	2013-01-21 16:38:14.035578638 -0800
+ @@ -11,9 +11,6 @@
+  #include <time.h>
+  #include <unistd.h>
+@@ -294,7 +295,7 @@ index 9b3ad50..b5e4ee5 100644
+  #include <fcntl.h>
+  #include <sys/file.h>
+  #include <not-cancel.h>
+-@@ -36,7 +33,7 @@ void logwtmp (const char *line, const char *name, const char *host)
++@@ -36,7 +33,7 @@
+  }
+  #endif
+  
+@@ -303,7 +304,7 @@ index 9b3ad50..b5e4ee5 100644
+  {
+      int fd;
+  
+-@@ -49,11 +46,4 @@ static void __updwtmp(const char *wtmp_file, const struct utmp *lutmp)
++@@ -49,11 +46,4 @@
   	}
--     }
--   else
--+#endif
--     {
-- 	  addr.sin_port = 0;
-- 	  if (bind (sock, (struct sockaddr *) &addr, len) < 0)
-++#endif /* __UCLIBC__ */
-+ 
-+ 	if (ret == 0 && servp != NULL)
-+ 		return ntohs(servp->s_port);
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-new file mode 100644
-index 0000000..d8f8181
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-@@ -0,0 +1,36 @@
-+Fixes errors like
-+sm-notify[1070]: DNS resolution of a.b.c.d..com failed; retrying later
-+This error will occur anytime sm-notify is run before the network if fully up,
-+which is happening more and more with parallel startup systems.
-+The res_init() call is simple, safe, quick, and a patch to use it should be
-+able to go upstream.  Presumably the whole reason sm-notify tries several
-+times is to wait for possible changes to the network configuration, but without
-+calling res_init() it will never be aware of those changes
-+
-+Backported drom Fedora
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+
-+diff -up nfs-utils-1.2.3/utils/statd/sm-notify.c.orig nfs-utils-1.2.3/utils/statd/sm-notify.c
-+--- nfs-utils-1.2.3/utils/statd/sm-notify.c.orig	2010-09-28 08:24:16.000000000 -0400
-++++ nfs-utils-1.2.3/utils/statd/sm-notify.c	2010-10-15 16:44:43.487119601 -0400
-+@@ -28,6 +28,9 @@
-+ #include <netdb.h>
-+ #include <errno.h>
-+ #include <grp.h>
-++#include <netinet/in.h>
-++#include <arpa/nameser.h>
-++#include <resolv.h>
-+ 
-+ #include "sockaddr.h"
-+ #include "xlog.h"
-+@@ -84,6 +87,7 @@ smn_lookup(const char *name)
-+ 	};
-+ 	int error;
-+ 
-++	res_init();
-+ 	error = getaddrinfo(name, NULL, &hint, &ai);
-+ 	if (error != 0) {
-+ 		xlog(D_GENERAL, "getaddrinfo(3): %s", gai_strerror(error));
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+      }
+  }
+@@ -316,6 +317,3 @@ index 9b3ad50..b5e4ee5 100644
+ -}
+ -#endif
+ +libc_hidden_def(updwtmp)
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch b/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
+index bf6f2c8..407beb6 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
++++ b/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
+@@ -11,21 +11,19 @@ Upstream-Status: Pending
+  libc/sysdeps/linux/arm/Makefile.arch |    4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+-diff --git a/libc/sysdeps/linux/arm/Makefile.arch b/libc/sysdeps/linux/arm/Makefile.arch
+-index 5fc3e54..8285b9b 100644
+---- a/libc/sysdeps/linux/arm/Makefile.arch
+-+++ b/libc/sysdeps/linux/arm/Makefile.arch
+-@@ -13,7 +13,9 @@ SSRC := \
++Index: git/libc/sysdeps/linux/arm/Makefile.arch
++===================================================================
++--- git.orig/libc/sysdeps/linux/arm/Makefile.arch	2013-01-21 16:29:25.000000000 -0800
+++++ git/libc/sysdeps/linux/arm/Makefile.arch	2013-01-21 16:33:11.575571091 -0800
++@@ -12,7 +12,10 @@
++ 	bsd-_setjmp.S sigrestorer.S mmap64.S \
+  	vfork.S clone.S
+  
+- ifeq ($(UCLIBC_HAS_THREADS_NATIVE),y)
+--SSRC += libc-aeabi_read_tp.S libc-thumb_atomics.S
+-+SSRC += libc-thumb_atomics.S
+-+libc-nonshared-y += $(ARCH_OUT)/libc-aeabi_read_tp.os
+-+libc-static-y += $(ARCH_OUT)/libc-aeabi_read_tp.o
+- endif
+- 
+- ifeq ($(UCLIBC_HAS_ADVANCED_REALTIME),y)
+--- 
+-1.7.9.5
+-
++-SSRC-$(UCLIBC_HAS_THREADS_NATIVE) += libc-aeabi_read_tp.S libc-thumb_atomics.S
+++SSRC-$(UCLIBC_HAS_THREADS_NATIVE) += libc-thumb_atomics.S
+++libc-nonshared-$(UCLIBC_HAS_THREADS_NATIVE) += $(ARCH_OUT)/libc-aeabi_read_tp.os
+++libc-static-$(UCLIBC_HAS_THREADS_NATIVE) += $(ARCH_OUT)/libc-aeabi_read_tp.o
+++
++ CSRC-$(UCLIBC_HAS_ADVANCED_REALTIME) += posix_fadvise.c
++ CSRC-$(UCLIBC_HAS_CONTEXT_FUNCS) += makecontext.c
++ SSRC-$(UCLIBC_HAS_CONTEXT_FUNCS) += getcontext.S setcontext.S swapcontext.S
+diff --git a/meta/recipes-core/uclibc/uclibc-git/define-MSG_CMSG_CLOEXEC.patch b/meta/recipes-core/uclibc/uclibc-git/define-MSG_CMSG_CLOEXEC.patch
 deleted file mode 100644
-index 26b4631..0000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+index 4e900f3..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/define-MSG_CMSG_CLOEXEC.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
+@@ -1,25 +0,0 @@
+-Add definition of MSG_WAITFORONE and MSG_CMSG_CLOEXEC
 -
 -Upstream-Status: Pending
 -
--Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+-Index: git/libc/sysdeps/linux/common/bits/socket.h
+-===================================================================
+---- git.orig/libc/sysdeps/linux/common/bits/socket.h	2012-01-26 23:23:21.537456132 -0800
+-+++ git/libc/sysdeps/linux/common/bits/socket.h	2012-01-26 23:25:10.125461388 -0800
+-@@ -235,8 +235,15 @@
+- #define	MSG_ERRQUEUE	MSG_ERRQUEUE
+-     MSG_NOSIGNAL	= 0x4000, /* Do not generate SIGPIPE.  */
+- #define	MSG_NOSIGNAL	MSG_NOSIGNAL
+--    MSG_MORE		= 0x8000  /* Sender will send more.  */
+-+    MSG_MORE		= 0x8000,  /* Sender will send more.  */
+- #define	MSG_MORE	MSG_MORE
+-+    MSG_WAITFORONE      = 0x10000, /* Wait for at least one packet to return.*/
+-+#define MSG_WAITFORONE  MSG_WAITFORONE
+-+
+-+    MSG_CMSG_CLOEXEC    = 0x40000000    /* Set close_on_exit for file
+-+                                           descriptor received through
+-+                                           SCM_RIGHTS.  */
+-+#define MSG_CMSG_CLOEXEC MSG_CMSG_CLOEXEC
+-   };
+- 
+- 
+diff --git a/meta/recipes-core/uclibc/uclibc-git/dup3.patch b/meta/recipes-core/uclibc/uclibc-git/dup3.patch
+deleted file mode 100644
+index 481f23b..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/dup3.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Implement dup3()
 -
----- nfs-utils-1.2.3/support/nfs/nfsctl.c.x32	2010-09-28 05:24:16.000000000 -0700
--+++ nfs-utils-1.2.3/support/nfs/nfsctl.c	2011-11-30 13:34:09.369917161 -0800
--@@ -12,15 +12,22 @@
-- 
-- #include <unistd.h>
-- #include <asm/unistd.h>
--+#include <errno.h>
-- #include "nfslib.h"
-- 
-- /* compatibility hack... */
-- #ifndef __NR_nfsctl
--+#ifdef __NR_nfsservctl
-- #define __NR_nfsctl	__NR_nfsservctl
-- #endif
--+#endif
-- 
-- int
-- nfsctl (int cmd, struct nfsctl_arg * argp, union nfsctl_res * resp)
-- {
--+#ifdef __NR_nfsctl
--   return syscall (__NR_nfsctl, cmd, argp, resp);
--+#else
--+  return -ENOSYS;
--+#endif
-- }
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
-new file mode 100644
-index 0000000..0411b47
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
-@@ -0,0 +1,599 @@
-+Backported from Fedora
-+
-+This is a cumulative fixes patch between 1.2.7 and 1.2.8 latest rc
-+
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+diff --git a/support/export/rmtab.c b/support/export/rmtab.c
-+index 31c0f50..d16b3b3 100644
-+--- a/support/export/rmtab.c
-++++ b/support/export/rmtab.c
-+@@ -1,7 +1,7 @@
-+ /*
-+- * support/export/rmntab.c
-++ * support/export/rmtab.c
-+  *
-+- * Interface to the rmnt file.
-++ * Interface to the rmtab file.
-+  *
-+  */
-+ 
-+@@ -12,7 +12,7 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <errno.h>
-+-#include "xmalloc.h"
-++
-+ #include "misc.h"
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+diff --git a/support/export/xtab.c b/support/export/xtab.c
-+index 2a43193..e953071 100644
-+--- a/support/export/xtab.c
-++++ b/support/export/xtab.c
-+@@ -14,7 +14,7 @@
-+ #include <unistd.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+-#include "xmalloc.h"
-++
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+ #include "xio.h"
-+diff --git a/support/nfs/cacheio.c b/support/nfs/cacheio.c
-+index e641c45..61e07a8 100644
-+--- a/support/nfs/cacheio.c
-++++ b/support/nfs/cacheio.c
-+@@ -162,11 +162,16 @@ int qword_eol(FILE *f)
-+ {
-+ 	int err;
-+ 
-+-	fprintf(f,"\n");
-+-	err = fflush(f);
-+-	if (err) {
-+-		xlog_warn("qword_eol: fflush failed: errno %d (%s)",
-++	err = fprintf(f,"\n");
-++	if (err < 0) {
-++		xlog_warn("qword_eol: fprintf failed: errno %d (%s)",
-+ 			    errno, strerror(errno));
-++	} else {
-++		err = fflush(f);
-++		if (err) {
-++			xlog_warn("qword_eol: fflush failed: errno %d (%s)",
-++				  errno, strerror(errno));
-++		}
-+ 	}
-+ 	/*
-+ 	 * We must send one line (and one line only) in a single write
-+diff --git a/utils/gssd/gssd_proc.c b/utils/gssd/gssd_proc.c
-+index ec251fa..d01ba2f 100644
-+--- a/utils/gssd/gssd_proc.c
-++++ b/utils/gssd/gssd_proc.c
-+@@ -52,6 +52,7 @@
-+ #include <sys/socket.h>
-+ #include <arpa/inet.h>
-+ #include <sys/fsuid.h>
-++#include <sys/resource.h>
-+ 
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+@@ -250,21 +251,10 @@ read_service_info(char *info_file_name, char **servicename, char **servername,
-+ 	if ((p = strstr(buf, "port")) != NULL)
-+ 		sscanf(p, "port: %127s\n", port);
-+ 
-+-	/* check service, program, and version */
-+-	if (memcmp(service, "nfs", 3) != 0)
-+-		return -1;
-++	/* get program, and version numbers */
-+ 	*prog = atoi(program + 1); /* skip open paren */
-+ 	*vers = atoi(version);
-+ 
-+-	if (strlen(service) == 3 ) {
-+-		if ((*prog != 100003) || ((*vers != 2) && (*vers != 3) &&
-+-		    (*vers != 4)))
-+-			goto fail;
-+-	} else if (memcmp(service, "nfs4_cb", 7) == 0) {
-+-		if (*vers != 1)
-+-			goto fail;
-+-	}
-+-
-+ 	if (!addrstr_to_sockaddr(addr, address, port))
-+ 		goto fail;
-+ 
-+@@ -398,10 +388,10 @@ process_clnt_dir_files(struct clnt_info * clp)
-+ static int
-+ get_poll_index(int *ind)
-+ {
-+-	int i;
-++	unsigned int i;
-+ 
-+ 	*ind = -1;
-+-	for (i=0; i<FD_ALLOC_BLOCK; i++) {
-++	for (i=0; i<pollsize; i++) {
-+ 		if (pollarray[i].events == 0) {
-+ 			*ind = i;
-+ 			break;
-+@@ -483,9 +473,13 @@ fail_keep_client:
-+ void
-+ init_client_list(void)
-+ {
-++	struct rlimit rlim;
-+ 	TAILQ_INIT(&clnt_list);
-+ 	/* Eventually plan to grow/shrink poll array: */
-+ 	pollsize = FD_ALLOC_BLOCK;
-++	if (getrlimit(RLIMIT_NOFILE, &rlim) < 0 &&
-++	    rlim.rlim_cur != RLIM_INFINITY)
-++		pollsize = rlim.rlim_cur;
-+ 	pollarray = calloc(pollsize, sizeof(struct pollfd));
-+ }
-+ 
-+@@ -567,9 +561,8 @@ process_pipedir(char *pipe_name)
-+ 
-+ 	update_old_clients(namelist, j, pipe_name);
-+ 	for (i=0; i < j; i++) {
-+-		if (i < FD_ALLOC_BLOCK
-+-				&& !strncmp(namelist[i]->d_name, "clnt", 4)
-+-				&& !find_client(namelist[i]->d_name, pipe_name))
-++		if (!strncmp(namelist[i]->d_name, "clnt", 4)
-++		    && !find_client(namelist[i]->d_name, pipe_name))
-+ 			process_clnt_dir(namelist[i]->d_name, pipe_name);
-+ 		free(namelist[i]);
-+ 	}
-+@@ -962,12 +955,6 @@ process_krb5_upcall(struct clnt_info *clp, uid_t uid, int fd, char *tgtname,
-+ 
-+ 	printerr(1, "handling krb5 upcall (%s)\n", clp->dirname);
-+ 
-+-	if (tgtname) {
-+-		if (clp->servicename) {
-+-			free(clp->servicename);
-+-			clp->servicename = strdup(tgtname);
-+-		}
-+-	}
-+ 	token.length = 0;
-+ 	token.value = NULL;
-+ 	memset(&pd, 0, sizeof(struct authgss_private_data));
-+@@ -1016,7 +1003,8 @@ process_krb5_upcall(struct clnt_info *clp, uid_t uid, int fd, char *tgtname,
-+ 			int success = 0;
-+ 			do {
-+ 				gssd_refresh_krb5_machine_credential(clp->servername,
-+-								     NULL, service);
-++								     NULL, service,
-++								     tgtname);
-+ 				/*
-+ 				 * Get a list of credential cache names and try each
-+ 				 * of them until one works or we've tried them all
-+diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
-+index 60ba594..aeb8f70 100644
-+--- a/utils/gssd/krb5_util.c
-++++ b/utils/gssd/krb5_util.c
-+@@ -774,12 +774,16 @@ gssd_search_krb5_keytab(krb5_context context, krb5_keytab kt,
-+ }
-+ 
-+ /*
-+- * Find a keytab entry to use for a given target hostname.
-++ * Find a keytab entry to use for a given target realm.
-+  * Tries to find the most appropriate keytab to use given the
-+  * name of the host we are trying to connect with.
-++ *
-++ * Note: the tgtname contains a hostname in the realm that we
-++ * are authenticating to. It may, or may not be the same as
-++ * the server hostname.
-+  */
-+ static int
-+-find_keytab_entry(krb5_context context, krb5_keytab kt, const char *hostname,
-++find_keytab_entry(krb5_context context, krb5_keytab kt, const char *tgtname,
-+ 		  krb5_keytab_entry *kte, const char **svcnames)
-+ {
-+ 	krb5_error_code code;
-+@@ -795,7 +799,7 @@ find_keytab_entry(krb5_context context, krb5_keytab kt, const char *hostname,
-+ 
-+ 
-+ 	/* Get full target hostname */
-+-	retval = get_full_hostname(hostname, targethostname,
-++	retval = get_full_hostname(tgtname, targethostname,
-+ 				   sizeof(targethostname));
-+ 	if (retval)
-+ 		goto out;
-+@@ -1128,7 +1132,7 @@ gssd_get_krb5_machine_cred_list(char ***list)
-+ 		if (ple->ccname) {
-+ 			/* Make sure cred is up-to-date before returning it */
-+ 			retval = gssd_refresh_krb5_machine_credential(NULL, ple,
-+-				NULL);
-++				NULL, NULL);
-+ 			if (retval)
-+ 				continue;
-+ 			if (i + 1 > listsize) {
-+@@ -1219,7 +1223,8 @@ gssd_destroy_krb5_machine_creds(void)
-+ int
-+ gssd_refresh_krb5_machine_credential(char *hostname,
-+ 				     struct gssd_k5_kt_princ *ple, 
-+-					 char *service)
-++					 char *service,
-++					 char *tgtname)
-+ {
-+ 	krb5_error_code code = 0;
-+ 	krb5_context context;
-+@@ -1258,7 +1263,10 @@ gssd_refresh_krb5_machine_credential(char *hostname,
-+ 	if (ple == NULL) {
-+ 		krb5_keytab_entry kte;
-+ 
-+-		code = find_keytab_entry(context, kt, hostname, &kte, svcnames);
-++		if (tgtname == NULL)
-++			tgtname = hostname;
-++
-++		code = find_keytab_entry(context, kt, tgtname, &kte, svcnames);
-+ 		if (code) {
-+ 			printerr(0, "ERROR: %s: no usable keytab entry found "
-+ 				 "in keytab %s for connection with host %s\n",
-+diff --git a/utils/gssd/krb5_util.h b/utils/gssd/krb5_util.h
-+index cd6e107..9f41625 100644
-+--- a/utils/gssd/krb5_util.h
-++++ b/utils/gssd/krb5_util.h
-+@@ -31,7 +31,8 @@ void gssd_setup_krb5_machine_gss_ccache(char *servername);
-+ void gssd_destroy_krb5_machine_creds(void);
-+ int  gssd_refresh_krb5_machine_credential(char *hostname,
-+ 					  struct gssd_k5_kt_princ *ple, 
-+-					  char *service);
-++					  char *service,
-++					  char *tgtname);
-+ char *gssd_k5_err_msg(krb5_context context, krb5_error_code code);
-+ void gssd_k5_get_default_realm(char **def_realm);
-+ 
-+diff --git a/utils/gssd/svcgssd_krb5.c b/utils/gssd/svcgssd_krb5.c
-+index 6c34faf..1d44d34 100644
-+--- a/utils/gssd/svcgssd_krb5.c
-++++ b/utils/gssd/svcgssd_krb5.c
-+@@ -38,6 +38,7 @@
-+ 
-+ #include <stdio.h>
-+ #include <errno.h>
-++#include <ctype.h>
-+ #include <gssapi/gssapi.h>
-+ #include <krb5.h>
-+ 
-+@@ -98,6 +99,12 @@ parse_enctypes(char *enctypes)
-+ 	if (n == 0)
-+ 		return ENOENT;
-+ 
-++	/* Skip pass any non digits */
-++	while (*enctypes && isdigit(*enctypes) == 0)
-++		enctypes++;
-++	if (*enctypes == '\0')
-++		return EINVAL;
-++
-+ 	/* Allocate space for enctypes array */
-+ 	if ((parsed_enctypes = (int *) calloc(n, sizeof(int))) == NULL) {
-+ 		return ENOMEM;
-+diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
-+index e80efb4..beba9c4 100644
-+--- a/utils/idmapd/idmapd.c
-++++ b/utils/idmapd/idmapd.c
-+@@ -145,7 +145,6 @@ static void svrreopen(int, short, void *);
-+ static int  nfsopen(struct idmap_client *);
-+ static void nfscb(int, short, void *);
-+ static void nfsdcb(int, short, void *);
-+-static int  validateascii(char *, u_int32_t);
-+ static int  addfield(char **, ssize_t *, char *);
-+ static int  getfield(char **, char *, size_t);
-+ 
-+@@ -425,7 +424,8 @@ dirscancb(int UNUSED(fd), short UNUSED(which), void *data)
-+ 			    pipefsdir, ents[i]->d_name);
-+ 
-+ 			if ((ic->ic_dirfd = open(path, O_RDONLY, 0)) == -1) {
-+-				xlog_warn("dirscancb: open(%s): %s", path, strerror(errno));
-++				if (verbose > 0)
-++					xlog_warn("dirscancb: open(%s): %s", path, strerror(errno));
-+ 				free(ic);
-+ 				goto out;
-+ 			}
-+@@ -642,6 +642,8 @@ out:
-+ static void
-+ imconv(struct idmap_client *ic, struct idmap_msg *im)
-+ {
-++	u_int32_t len;
-++
-+ 	switch (im->im_conv) {
-+ 	case IDMAP_CONV_IDTONAME:
-+ 		idtonameres(im);
-+@@ -652,10 +654,10 @@ imconv(struct idmap_client *ic, struct idmap_msg *im)
-+ 			    im->im_id, im->im_name);
-+ 		break;
-+ 	case IDMAP_CONV_NAMETOID:
-+-		if (validateascii(im->im_name, sizeof(im->im_name)) == -1) {
-+-			im->im_status |= IDMAP_STATUS_INVALIDMSG;
-++		len = strnlen(im->im_name, IDMAP_NAMESZ - 1);
-++		/* Check for NULL termination just to be careful */
-++		if (im->im_name[len+1] != '\0')
-+ 			return;
-+-		}
-+ 		nametoidres(im);
-+ 		if (verbose > 1)
-+ 			xlog_warn("%s %s: (%s) name \"%s\" -> id \"%d\"",
-+@@ -855,25 +857,6 @@ nametoidres(struct idmap_msg *im)
-+ }
-+ 
-+ static int
-+-validateascii(char *string, u_int32_t len)
-+-{
-+-	u_int32_t i;
-+-
-+-	for (i = 0; i < len; i++) {
-+-		if (string[i] == '\0')
-+-			break;
-+-
-+-		if (string[i] & 0x80)
-+-			return (-1);
-+-	}
-+-
-+-	if ((i >= len) || string[i] != '\0')
-+-		return (-1);
-+-
-+-	return (i + 1);
-+-}
-+-
-+-static int
-+ addfield(char **bpp, ssize_t *bsizp, char *fld)
-+ {
-+ 	char ch, *bp = *bpp;
-+diff --git a/utils/mount/error.c b/utils/mount/error.c
-+index 83ad1d2..f8fc13f 100644
-+--- a/utils/mount/error.c
-++++ b/utils/mount/error.c
-+@@ -225,7 +225,7 @@ void mount_error(const char *spec, const char *mount_point, int error)
-+ 	case ENOENT:
-+ 		if (spec)
-+ 			nfs_error(_("%s: mounting %s failed, "
-+-				"reason given by server:\n  %s"),
-++				"reason given by server: %s"),
-+ 				progname, spec, strerror(error));
-+ 		else
-+ 			nfs_error(_("%s: mount point %s does not exist"),
-+diff --git a/utils/mount/stropts.c b/utils/mount/stropts.c
-+index 9b4197b..8ee3024 100644
-+--- a/utils/mount/stropts.c
-++++ b/utils/mount/stropts.c
-+@@ -666,6 +666,7 @@ static int nfs_try_mount_v3v2(struct nfsmount_info *mi)
-+ 		case EOPNOTSUPP:
-+ 		case EHOSTUNREACH:
-+ 		case ETIMEDOUT:
-++		case EACCES:
-+ 			continue;
-+ 		default:
-+ 			goto out;
-+@@ -761,6 +762,7 @@ static int nfs_try_mount_v4(struct nfsmount_info *mi)
-+ 		case ECONNREFUSED:
-+ 		case EHOSTUNREACH:
-+ 		case ETIMEDOUT:
-++		case EACCES:
-+ 			continue;
-+ 		default:
-+ 			goto out;
-+diff --git a/utils/mountd/auth.c b/utils/mountd/auth.c
-+index 508040a..330cab5 100644
-+--- a/utils/mountd/auth.c
-++++ b/utils/mountd/auth.c
-+@@ -10,10 +10,12 @@
-+ #include <config.h>
-+ #endif
-+ 
-++#include <sys/types.h>
-+ #include <sys/stat.h>
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ #include <errno.h>
-++#include <fcntl.h>
-+ #include <unistd.h>
-+ 
-+ #include "sockaddr.h"
-+@@ -21,7 +23,6 @@
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+ #include "mountd.h"
-+-#include "xmalloc.h"
-+ #include "v4root.h"
-+ 
-+ enum auth_error
-+diff --git a/utils/mountd/cache.c b/utils/mountd/cache.c
-+index e950ec6..45012be 100644
-+--- a/utils/mountd/cache.c
-++++ b/utils/mountd/cache.c
-+@@ -29,7 +29,6 @@
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+ #include "mountd.h"
-+-#include "xmalloc.h"
-+ #include "fsloc.h"
-+ #include "pseudoflavors.h"
-+ 
-+@@ -109,12 +108,10 @@ static void auth_unix_ip(FILE *f)
-+ 		struct addrinfo *ai = NULL;
-+ 
-+ 		ai = client_resolve(tmp->ai_addr);
-+-		if (ai == NULL)
-+-			goto out;
-+-		client = client_compose(ai);
-+-		freeaddrinfo(ai);
-+-		if (!client)
-+-			goto out;
-++		if (ai) {
-++			client = client_compose(ai);
-++			freeaddrinfo(ai);
-++		}
-+ 	}
-+ 	qword_print(f, "nfsd");
-+ 	qword_print(f, ipaddr);
-+@@ -127,7 +124,6 @@ static void auth_unix_ip(FILE *f)
-+ 	xlog(D_CALL, "auth_unix_ip: client %p '%s'", client, client?client: "DEFAULT");
-+ 
-+ 	free(client);
-+-out:
-+ 	freeaddrinfo(tmp);
-+ 
-+ }
-+@@ -347,6 +343,30 @@ static char *next_mnt(void **v, char *p)
-+ 	return me->mnt_dir;
-+ }
-+ 
-++static int is_subdirectory(char *child, char *parent)
-++{
-++	size_t l = strlen(parent);
-++
-++	if (strcmp(parent, "/") == 0)
-++		return 1;
-++
-++	return strcmp(child, parent) == 0
-++		|| (strncmp(child, parent, l) == 0 && child[l] == '/');
-++}
-++
-++static int path_matches(nfs_export *exp, char *path)
-++{
-++	if (exp->m_export.e_flags & NFSEXP_CROSSMOUNT)
-++		return is_subdirectory(path, exp->m_export.e_path);
-++	return strcmp(path, exp->m_export.e_path) == 0;
-++}
-++
-++static int
-++export_matches(nfs_export *exp, char *dom, char *path, struct addrinfo *ai)
-++{
-++	return path_matches(exp, path) && client_matches(exp, dom, ai);
-++}
-++
-+ /* True iff e1 is a child of e2 and e2 has crossmnt set: */
-+ static bool subexport(struct exportent *e1, struct exportent *e2)
-+ {
-+@@ -354,8 +374,7 @@ static bool subexport(struct exportent *e1, struct exportent *e2)
-+ 	size_t l2 = strlen(p2);
-+ 
-+ 	return e2->e_flags & NFSEXP_CROSSMOUNT
-+-	       && strncmp(p1, p2, l2) == 0
-+-	       && p1[l2] == '/';
-++		&& is_subdirectory(p1, p2);
-+ }
-+ 
-+ struct parsed_fsid {
-+@@ -756,27 +775,6 @@ static int dump_to_cache(FILE *f, char *domain, char *path, struct exportent *ex
-+ 	return qword_eol(f);
-+ }
-+ 
-+-static int is_subdirectory(char *child, char *parent)
-+-{
-+-	size_t l = strlen(parent);
-+-
-+-	return strcmp(child, parent) == 0
-+-		|| (strncmp(child, parent, l) == 0 && child[l] == '/');
-+-}
-+-
-+-static int path_matches(nfs_export *exp, char *path)
-+-{
-+-	if (exp->m_export.e_flags & NFSEXP_CROSSMOUNT)
-+-		return is_subdirectory(path, exp->m_export.e_path);
-+-	return strcmp(path, exp->m_export.e_path) == 0;
-+-}
-+-
-+-static int
-+-export_matches(nfs_export *exp, char *dom, char *path, struct addrinfo *ai)
-+-{
-+-	return path_matches(exp, path) && client_matches(exp, dom, ai);
-+-}
-+-
-+ static nfs_export *
-+ lookup_export(char *dom, char *path, struct addrinfo *ai)
-+ {
-+@@ -830,6 +828,7 @@ lookup_export(char *dom, char *path, struct addrinfo *ai)
-+ 
-+ #ifdef HAVE_NFS_PLUGIN_H
-+ #include <dlfcn.h>
-++#include <link.h>
-+ #include <nfs-plugin.h>
-+ 
-+ /*
-+@@ -1094,6 +1093,7 @@ static struct exportent *lookup_junction(char *dom, const char *pathname,
-+ 		struct addrinfo *ai)
-+ {
-+ 	struct exportent *exp;
-++	struct link_map *map;
-+ 	void *handle;
-+ 
-+ 	handle = dlopen("libnfsjunct.so", RTLD_NOW);
-+@@ -1101,6 +1101,11 @@ static struct exportent *lookup_junction(char *dom, const char *pathname,
-+ 		xlog(D_GENERAL, "%s: dlopen: %s", __func__, dlerror());
-+ 		return NULL;
-+ 	}
-++
-++	if (dlinfo(handle, RTLD_DI_LINKMAP, &map) == 0)
-++		xlog(D_GENERAL, "%s: loaded plug-in %s",
-++			__func__, map->l_name);
-++
-+ 	(void)dlerror();	/* Clear any error */
-+ 
-+ 	exp = invoke_junction_ops(handle, dom, pathname, ai);
-+diff --git a/utils/nfsdcltrack/nfsdcltrack.c b/utils/nfsdcltrack/nfsdcltrack.c
-+index 9801b9c..4334340 100644
-+--- a/utils/nfsdcltrack/nfsdcltrack.c
-++++ b/utils/nfsdcltrack/nfsdcltrack.c
-+@@ -379,6 +379,17 @@ cltrack_legacy_gracedone(void)
-+ 	while ((entry = readdir(v4recovery))) {
-+ 		int len;
-+ 
-++		/* skip "." and ".." */
-++		if (entry->d_name[0] == '.') {
-++			switch (entry->d_name[1]) {
-++			case '\0':
-++				continue;
-++			case '.':
-++				if (entry->d_name[2] == '\0')
-++					continue;
-++			}
-++		}
-++
-+ 		/* borrow the clientid blob for this */
-+ 		len = snprintf((char *)blob, sizeof(blob), "%s/%s", dirname,
-+ 				entry->d_name);
-+diff --git a/utils/statd/rmtcall.c b/utils/statd/rmtcall.c
-+index 4ecb03c..fd576d9 100644
-+--- a/utils/statd/rmtcall.c
-++++ b/utils/statd/rmtcall.c
-+@@ -68,21 +68,19 @@ statd_get_socket(void)
-+ {
-+ 	struct sockaddr_in	sin;
-+ 	struct servent *se;
-+-	int loopcnt = 100;
-++	const int loopcnt = 100;
-++	int i, tmp_sockets[loopcnt];
-+ 
-+ 	if (sockfd >= 0)
-+ 		return sockfd;
-+ 
-+-	while (loopcnt-- > 0) {
-+-
-+-		if (sockfd >= 0) close(sockfd);
-++	for (i = 0; i < loopcnt; ++i) {
-+ 
-+ 		if ((sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
-+ 			xlog(L_ERROR, "%s: Can't create socket: %m", __func__);
-+-			return -1;
-++			break;
-+ 		}
-+ 
-+-
-+ 		memset(&sin, 0, sizeof(sin));
-+ 		sin.sin_family = AF_INET;
-+ 		sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-+@@ -96,7 +94,16 @@ statd_get_socket(void)
-+ 		if (se == NULL)
-+ 			break;
-+ 		/* rather not use that port, try again */
-++
-++		tmp_sockets[i] = sockfd;
-+ 	}
-++
-++	while (--i >= 0)
-++		close(tmp_sockets[i]);
-++
-++	if (sockfd < 0)
-++		return -1;
-++
-+ 	FD_SET(sockfd, &SVC_FDSET);
-+ 	return sockfd;
-+ }
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
-similarity index 67%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
-index 84b8e76..5bad6f1 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
-@@ -4,24 +4,23 @@ NFS server and related tools."
- HOMEPAGE = "http://nfs.sourceforge.net/"
- SECTION = "console/network"
- 
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-+LICENSE = "MIT & GPLv2+ & BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
- 
- # util-linux for libblkid
--DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
-+DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers sqlite3"
- RDEPENDS_${PN} = "rpcbind"
- RRECOMMENDS_${PN} = "kernel-module-nfsd"
- 
--PR = "r5"
+-Upstream-Status: Pending
 -
--SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
-+           file://nfs-utils.1.2.8.rc3.patch \
-            file://nfs-utils-1.0.6-uclibc.patch \
-            file://nfs-utils-1.2.3-uclibc-libio.h.patch \
--           file://nfs-utils-nfsctl-x32-fix.patch \
-+           file://nfs-utils-1.2.3-sm-notify-res_init.patch \
-            file://nfsserver"
+-Index: git/libc/sysdeps/linux/common/dup3.c
+-===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ git/libc/sysdeps/linux/common/dup3.c	2012-01-27 07:40:52.802900849 -0800
+-@@ -0,0 +1,15 @@
+-+/* vi: set sw=4 ts=4: */
+-+/*
+-+ * dup3() for uClibc
+-+ *
+-+ * Copyright (C) 2000-2006 Erik Andersen <andersen@uclibc.org>
+-+ *
+-+ * Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
+-+ */
+-+
+-+#include <sys/syscall.h>
+-+#include <unistd.h>
+-+
+-+
+-+_syscall3(int, dup3, int, oldfd, int, newfd, int, flags)
+-+libc_hidden_def(dup3)
+-Index: git/include/unistd.h
+-===================================================================
+---- git.orig/include/unistd.h	2012-01-27 01:19:17.521792781 -0800
+-+++ git/include/unistd.h	2012-01-27 07:40:03.106898447 -0800
+-@@ -512,6 +512,8 @@
+- /* Duplicate FD to FD2, closing FD2 and making it open on the same file.  */
+- extern int dup2 (int __fd, int __fd2) __THROW;
+- libc_hidden_proto(dup2)
+-+extern int dup3 (int __fd, int __fd2, int __flags) __THROW;
+-+libc_hidden_proto(dup3)
+- 
+- /* NULL-terminated array of "NAME=VALUE" environment variables.  */
+- extern char **__environ;
+diff --git a/meta/recipes-core/uclibc/uclibc-git/mount.h-update.patch b/meta/recipes-core/uclibc/uclibc-git/mount.h-update.patch
+deleted file mode 100644
+index 41a410c..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/mount.h-update.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-sync mount.h with glibc
+-
+-Index: git/include/sys/mount.h
+-===================================================================
+---- git.orig/include/sys/mount.h	2012-08-23 21:26:51.038825295 -0700
+-+++ git/include/sys/mount.h	2012-08-23 21:27:09.914826014 -0700
+-@@ -1,5 +1,5 @@
+- /* Header file for mounting/unmount Linux filesystems.
+--   Copyright (C) 1996,1997,1998,1999,2000,2004 Free Software Foundation, Inc.
+-+   Copyright (C) 1996-2000, 2004, 2010 Free Software Foundation, Inc.
+-    This file is part of the GNU C Library.
+- 
+-    The GNU C Library is free software; you can redistribute it and/or
+-@@ -47,23 +47,46 @@
+- #define MS_REMOUNT	MS_REMOUNT
+-   MS_MANDLOCK = 64,		/* Allow mandatory locks on an FS.  */
+- #define MS_MANDLOCK	MS_MANDLOCK
+--  S_WRITE = 128,		/* Write on file/directory/symlink.  */
+--#define S_WRITE		S_WRITE
+--  S_APPEND = 256,		/* Append-only file.  */
+--#define S_APPEND	S_APPEND
+--  S_IMMUTABLE = 512,		/* Immutable file.  */
+--#define S_IMMUTABLE	S_IMMUTABLE
+-+  MS_DIRSYNC = 128,		/* Directory modifications are synchronous.  */
+-+#define MS_DIRSYNC	MS_DIRSYNC
+-   MS_NOATIME = 1024,		/* Do not update access times.  */
+- #define MS_NOATIME	MS_NOATIME
+-   MS_NODIRATIME = 2048,		/* Do not update directory access times.  */
+- #define MS_NODIRATIME	MS_NODIRATIME
+-   MS_BIND = 4096,		/* Bind directory at different place.  */
+- #define MS_BIND		MS_BIND
+-+  MS_MOVE = 8192,
+-+#define MS_MOVE		MS_MOVE
+-+  MS_REC = 16384,
+-+#define MS_REC		MS_REC
+-+  MS_SILENT = 32768,
+-+#define MS_SILENT	MS_SILENT
+-+  MS_POSIXACL = 1 << 16,	/* VFS does not apply the umask.  */
+-+#define MS_POSIXACL	MS_POSIXACL
+-+  MS_UNBINDABLE = 1 << 17,	/* Change to unbindable.  */
+-+#define MS_UNBINDABLE	MS_UNBINDABLE
+-+  MS_PRIVATE = 1 << 18,		/* Change to private.  */
+-+#define MS_PRIVATE	MS_PRIVATE
+-+  MS_SLAVE = 1 << 19,		/* Change to slave.  */
+-+#define MS_SLAVE	MS_SLAVE
+-+  MS_SHARED = 1 << 20,		/* Change to shared.  */
+-+#define MS_SHARED	MS_SHARED
+-+  MS_RELATIME = 1 << 21,	/* Update atime relative to mtime/ctime.  */
+-+#define MS_RELATIME	MS_RELATIME
+-+  MS_KERNMOUNT = 1 << 22,	/* This is a kern_mount call.  */
+-+#define MS_KERNMOUNT	MS_KERNMOUNT
+-+  MS_I_VERSION =  1 << 23,	/* Update inode I_version field.  */
+-+#define MS_I_VERSION	MS_I_VERSION
+-+  MS_STRICTATIME = 1 << 24,	/* Always perform atime updates.  */
+-+#define MS_STRICTATIME	MS_STRICTATIME
+-+  MS_ACTIVE = 1 << 30,
+-+#define MS_ACTIVE	MS_ACTIVE
+-+  MS_NOUSER = 1 << 31
+-+#define MS_NOUSER	MS_NOUSER
+- };
+- 
+- /* Flags that can be altered by MS_REMOUNT  */
+--#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_NOATIME \
+--		     |MS_NODIRATIME)
+-+#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_I_VERSION)
+- 
+- 
+- /* Magic mount flag number. Has to be or-ed to the flag values.  */
+-@@ -100,8 +123,10 @@
+- #define MNT_FORCE MNT_FORCE
+-   MNT_DETACH = 2,		/* Just detach from the tree.  */
+- #define MNT_DETACH MNT_DETACH
+--  MNT_EXPIRE = 4		/* Mark for expiry.  */
+-+  MNT_EXPIRE = 4,		/* Mark for expiry.  */
+- #define MNT_EXPIRE MNT_EXPIRE
+-+  UMOUNT_NOFOLLOW = 8		/* Don't follow symlink on umount.  */
+-+#define UMOUNT_NOFOLLOW UMOUNT_NOFOLLOW
+- };
+- 
+- 
+diff --git a/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch b/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch
+index 3fa10af..ce58583 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch
++++ b/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch
+@@ -6,21 +6,21 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
--SRC_URI[md5sum] = "1131dc5f27c4f3905a6e7ee0d594fd4d"
--SRC_URI[sha256sum] = "5575ece941097cbfa67fbe0d220dfa11b73f5e6d991e7939c9339bd72259ff19"
-+SRC_URI[md5sum] = "3b5ca797197765dc0c3a4122720c7716"
-+SRC_URI[sha256sum] = "7ef8e0a8b22cd7ff33f3afd28e770d45643fae303468a180640c2967833fe75e"
+ Index: git/libc/sysdeps/linux/powerpc/Makefile.arch
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/powerpc/Makefile.arch
+-+++ git/libc/sysdeps/linux/powerpc/Makefile.arch
++--- git.orig/libc/sysdeps/linux/powerpc/Makefile.arch	2013-01-21 16:18:22.000000000 -0800
+++++ git/libc/sysdeps/linux/powerpc/Makefile.arch	2013-01-21 16:21:25.363552429 -0800
+ @@ -5,7 +5,7 @@
+  # Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
+  #
+  
+--CSRC := __syscall_error.c pread_write.c ioctl.c
+-+CSRC := __syscall_error.c pread_write.c ioctl.c copysignl.c
++-CSRC-y := __syscall_error.c pread_write.c ioctl.c
+++CSRC-y := __syscall_error.c pread_write.c ioctl.c copysignl.c
+  
+- ifeq ($(UCLIBC_HAS_ADVANCED_REALTIME),y)
+- CSRC += posix_fadvise.c posix_fadvise64.c
++ SSRC-y := \
++ 	__longjmp.S setjmp.S bsd-setjmp.S bsd-_setjmp.S brk.S \
+ Index: git/libc/sysdeps/linux/powerpc/copysignl.c
+ ===================================================================
+---- /dev/null
+-+++ git/libc/sysdeps/linux/powerpc/copysignl.c
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ git/libc/sysdeps/linux/powerpc/copysignl.c	2013-01-21 16:20:46.807552554 -0800
+ @@ -0,0 +1,89 @@
+ +/* s_copysignl.c -- long double version of s_copysign.c.
+ + * Conversion to long double by Ulrich Drepper,
+diff --git a/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch b/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
+index bee251c..d2a8a81 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
++++ b/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
+@@ -5,9 +5,9 @@ Upstream-Status: Pending
  
- PARALLEL_MAKE = ""
- 
-@@ -38,11 +37,15 @@ inherit autotools update-rc.d
- 
- # --enable-uuid is need for cross-compiling
- EXTRA_OECONF = "--with-statduser=nobody \
--                --enable-nfsv41 \
-+                --enable-mountconfig \
-+                --enable-libmount-mount \
-+                --disable-nfsv41 \
-                 --enable-uuid \
-                 --disable-gss \
-                 --disable-tirpc \
--                --with-statedir=/var/lib/nfs"
-+                --disable-nfsdcltrack \
-+                --with-statdpath=/var/lib/nfs/statd \
-+               "
- 
- INHIBIT_AUTO_STAGE = "1"
- 
+ Index: git/libpthread/nptl/pthread_mutex_timedlock.c
+ ===================================================================
+---- git.orig/libpthread/nptl/pthread_mutex_timedlock.c
+-+++ git/libpthread/nptl/pthread_mutex_timedlock.c
+-@@ -29,7 +29,9 @@
++--- git.orig/libpthread/nptl/pthread_mutex_timedlock.c	2013-01-21 16:22:20.000000000 -0800
+++++ git/libpthread/nptl/pthread_mutex_timedlock.c	2013-01-21 16:24:12.275557670 -0800
++@@ -28,7 +28,9 @@
+   * error: can't find a register in class ‘GENERAL_REGS’ while reloading ‘asm’
+   */
+  int
+@@ -19,9 +19,9 @@ Index: git/libpthread/nptl/pthread_mutex_timedlock.c
+       const struct timespec *abstime)
+ Index: git/libc/sysdeps/linux/powerpc/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/powerpc/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/powerpc/bits/mathinline.h
+-@@ -27,7 +27,7 @@
++--- git.orig/libc/sysdeps/linux/powerpc/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/powerpc/bits/mathinline.h	2013-01-21 16:24:12.275557670 -0800
++@@ -26,7 +26,7 @@
+  #ifdef __cplusplus
+  # define __MATH_INLINE __inline
+  #else
+@@ -32,9 +32,9 @@ Index: git/libc/sysdeps/linux/powerpc/bits/mathinline.h
+  #if defined __GNUC__ && !defined _SOFT_FLOAT
+ Index: git/libc/sysdeps/linux/alpha/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/alpha/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/alpha/bits/mathinline.h
+-@@ -25,7 +25,7 @@
++--- git.orig/libc/sysdeps/linux/alpha/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/alpha/bits/mathinline.h	2013-01-21 16:24:12.275557670 -0800
++@@ -24,7 +24,7 @@
+  #ifdef __cplusplus
+  # define __MATH_INLINE __inline
+  #else
+@@ -43,24 +43,11 @@ Index: git/libc/sysdeps/linux/alpha/bits/mathinline.h
+  #endif
+  
+  #if defined __USE_ISOC99 && defined __GNUC__ && !__GNUC_PREREQ(3,0)
+-Index: git/libc/sysdeps/linux/common/bits/socket.h
+-===================================================================
+---- git.orig/libc/sysdeps/linux/common/bits/socket.h
+-+++ git/libc/sysdeps/linux/common/bits/socket.h
+-@@ -302,7 +302,7 @@ extern struct cmsghdr *__cmsg_nxthdr (st
+- libc_hidden_proto(__cmsg_nxthdr)
+- #ifdef __USE_EXTERN_INLINES
+- # ifndef _EXTERN_INLINE
+--#  define _EXTERN_INLINE extern __inline
+-+#  define _EXTERN_INLINE __extern_inline
+- # endif
+- _EXTERN_INLINE struct cmsghdr *
+- __NTH (__cmsg_nxthdr (struct msghdr *__mhdr, struct cmsghdr *__cmsg))
+ Index: git/libc/sysdeps/linux/i386/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/i386/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/i386/bits/mathinline.h
+-@@ -26,7 +26,7 @@
++--- git.orig/libc/sysdeps/linux/i386/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/i386/bits/mathinline.h	2013-01-21 16:24:12.275557670 -0800
++@@ -25,7 +25,7 @@
+  #ifdef __cplusplus
+  # define __MATH_INLINE __inline
+  #else
+@@ -71,9 +58,9 @@ Index: git/libc/sysdeps/linux/i386/bits/mathinline.h
+  
+ Index: git/libc/sysdeps/linux/ia64/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/ia64/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/ia64/bits/mathinline.h
+-@@ -24,7 +24,7 @@
++--- git.orig/libc/sysdeps/linux/ia64/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/ia64/bits/mathinline.h	2013-01-21 16:24:12.275557670 -0800
++@@ -23,7 +23,7 @@
+  #ifdef __cplusplus
+  # define __MATH_INLINE __inline
+  #else
+@@ -84,9 +71,9 @@ Index: git/libc/sysdeps/linux/ia64/bits/mathinline.h
+  #if defined __USE_ISOC99 && defined __GNUC__ && __GNUC__ >= 2
+ Index: git/libc/sysdeps/linux/m68k/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/m68k/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/m68k/bits/mathinline.h
+-@@ -92,7 +92,7 @@
++--- git.orig/libc/sysdeps/linux/m68k/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/m68k/bits/mathinline.h	2013-01-21 16:24:12.275557670 -0800
++@@ -91,7 +91,7 @@
+  # ifdef __cplusplus
+  #  define __m81_inline		__inline
+  # else
+@@ -95,7 +82,7 @@ Index: git/libc/sysdeps/linux/m68k/bits/mathinline.h
+  # endif
+  # define __M81_MATH_INLINES	1
+  #endif
+-@@ -351,14 +351,14 @@ __inline_functions (long double,l)
++@@ -350,14 +350,14 @@
+  /* Note that there must be no whitespace before the argument passed for
+     NAME, to make token pasting work correctly with -traditional.  */
+  # define __inline_forward_c(rettype, name, args1, args2)	\
+@@ -112,24 +99,11 @@ Index: git/libc/sysdeps/linux/m68k/bits/mathinline.h
+  {							\
+    return __CONCAT(__,name) args2;			\
+  }
+-Index: git/libc/sysdeps/linux/mips/bits/socket.h
+-===================================================================
+---- git.orig/libc/sysdeps/linux/mips/bits/socket.h
+-+++ git/libc/sysdeps/linux/mips/bits/socket.h
+-@@ -307,7 +307,7 @@ extern struct cmsghdr *__cmsg_nxthdr (st
+- libc_hidden_proto(__cmsg_nxthdr)
+- #ifdef __USE_EXTERN_INLINES
+- # ifndef _EXTERN_INLINE
+--#  define _EXTERN_INLINE extern __inline
+-+#  define _EXTERN_INLINE __extern_inline
+- # endif
+- _EXTERN_INLINE struct cmsghdr *
+- __NTH (__cmsg_nxthdr (struct msghdr *__mhdr, struct cmsghdr *__cmsg))
+ Index: git/libc/sysdeps/linux/mips/sys/tas.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/mips/sys/tas.h
+-+++ git/libc/sysdeps/linux/mips/sys/tas.h
+-@@ -30,7 +30,7 @@ extern int _test_and_set (int *p, int v)
++--- git.orig/libc/sysdeps/linux/mips/sys/tas.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/mips/sys/tas.h	2013-01-21 16:24:12.275557670 -0800
++@@ -29,7 +29,7 @@
+  #ifdef __USE_EXTERN_INLINES
+  
+  # ifndef _EXTERN_INLINE
+@@ -140,9 +114,9 @@ Index: git/libc/sysdeps/linux/mips/sys/tas.h
+  _EXTERN_INLINE int
+ Index: git/libc/sysdeps/linux/sparc/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/sparc/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/sparc/bits/mathinline.h
+-@@ -131,7 +131,7 @@
++--- git.orig/libc/sysdeps/linux/sparc/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/sparc/bits/mathinline.h	2013-01-21 16:24:12.279557671 -0800
++@@ -130,7 +130,7 @@
+  # ifdef __cplusplus
+  #  define __MATH_INLINE __inline
+  # else
+@@ -151,24 +125,11 @@ Index: git/libc/sysdeps/linux/sparc/bits/mathinline.h
+  # endif  /* __cplusplus */
+  
+  /* The gcc, version 2.7 or below, has problems with all this inlining
+-Index: git/libc/sysdeps/linux/sparc/bits/socket.h
+-===================================================================
+---- git.orig/libc/sysdeps/linux/sparc/bits/socket.h
+-+++ git/libc/sysdeps/linux/sparc/bits/socket.h
+-@@ -292,7 +292,7 @@ extern struct cmsghdr *__cmsg_nxthdr (st
+- libc_hidden_proto(__cmsg_nxthdr)
+- #ifdef __USE_EXTERN_INLINES
+- # ifndef _EXTERN_INLINE
+--#  define _EXTERN_INLINE extern __inline
+-+#  define _EXTERN_INLINE __extern_inline
+- # endif
+- _EXTERN_INLINE struct cmsghdr *
+- __NTH (__cmsg_nxthdr (struct msghdr *__mhdr, struct cmsghdr *__cmsg))
+ Index: git/libc/sysdeps/linux/x86_64/bits/mathinline.h
+ ===================================================================
+---- git.orig/libc/sysdeps/linux/x86_64/bits/mathinline.h
+-+++ git/libc/sysdeps/linux/x86_64/bits/mathinline.h
+-@@ -25,7 +25,7 @@
++--- git.orig/libc/sysdeps/linux/x86_64/bits/mathinline.h	2013-01-21 16:22:20.000000000 -0800
+++++ git/libc/sysdeps/linux/x86_64/bits/mathinline.h	2013-01-21 16:24:12.279557671 -0800
++@@ -24,7 +24,7 @@
+  #ifdef __cplusplus
+  # define __MATH_INLINE __inline
+  #else
 -- 
 1.7.9.5
 
