@@ -1,26 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TxgDc-0002ob-Nb
-	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 16:57:01 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Jan 2013 07:41:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,515,1355126400"; d="scan'208";a="193943710"
-Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Jan 2013 07:41:12 -0800
-Message-ID: <50FEB34D.7080307@intel.com>
-Date: Tue, 22 Jan 2013 17:42:05 +0200
-From: Constantin Musca <constantinx.musca@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1358847570-7398-1-git-send-email-constantinx.musca@intel.com>
-	<20130122141527.GV29386@jama.palm1.palmone.com>
-In-Reply-To: <20130122141527.GV29386@jama.palm1.palmone.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] prs: add LOCALCOUNT to AUTOINCs migration feature
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TxgMa-0003Y0-KR for openembedded-core@lists.openembedded.org;
+	Tue, 22 Jan 2013 17:06:17 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0MFjJAZ025601; Tue, 22 Jan 2013 15:45:19 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GGHVa0Istqp7; Tue, 22 Jan 2013 15:45:19 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0MFO8TJ023916
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 22 Jan 2013 15:45:13 GMT
+Message-ID: <1358869272.6356.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Date: Tue, 22 Jan 2013 15:41:12 +0000
+In-Reply-To: <1358856653-17049-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1358856653-17049-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2 v3] archiver class: Use tasks instead of pre/post funcs with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,170 +38,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 15:57:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 22 Jan 2013 16:06:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/22/2013 04:15 PM, Martin Jansa wrote:
-> On Tue, Jan 22, 2013 at 11:39:30AM +0200, Constantin Musca wrote:
->> - use migrate_localcount.bbclass to generate AUTOINC entries
->> which are exported to LOCALCOUNT_DUMPFILE
->> - import the generated AUTOINC entries
->> - one can migrate LOCALCOUNT to AUTOINC by executing:
->>      bitbake-prserv-tool migrate_localcount
-> Those 2 bitbake patches are probably against poky not bitbake, had to
-> apply them manually.
->
->> [YOCTO #3071]
->>
->> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> ---
->>   meta/classes/migrate_localcount.bbclass | 47 +++++++++++++++++++++++++++++++++
->>   meta/conf/migrate_localcount.conf       |  1 +
->>   scripts/bitbake-prserv-tool             | 32 ++++++++++++++++++++++
->>   3 files changed, 80 insertions(+)
->>   create mode 100644 meta/classes/migrate_localcount.bbclass
->>   create mode 100644 meta/conf/migrate_localcount.conf
->>
->> diff --git a/meta/classes/migrate_localcount.bbclass b/meta/classes/migrate_localcount.bbclass
->> new file mode 100644
->> index 0000000..59f14e8
->> --- /dev/null
->> +++ b/meta/classes/migrate_localcount.bbclass
->> @@ -0,0 +1,47 @@
->> +PRSERV_DUMPDIR ??= "${LOG_DIR}/db"
->> +LOCALCOUNT_DUMPFILE ??= "${PRSERV_DUMPDIR}/prserv-localcount-exports.inc"
->> +
->> +python migrate_localcount_handler () {
->> +    import bb.event
->> +    if not e.data:
->> +        return
->> +
->> +    if isinstance(e, bb.event.RecipeParsed):
->> +        pv = e.data.getVar('PV', True)
->> +        if not 'AUTOINC' in pv:
->> +            return
->> +
->> +        localcounts = bb.persist_data.persist('BB_URI_LOCALCOUNT', e.data)
->> +        pn = e.data.getVar('PN', True)
->> +        revs = localcounts.get_by_pattern('%%-%s_rev' % pn)
->> +        counts = localcounts.get_by_pattern('%%-%s_count' % pn)
-> why not query for right key directly?
->
-> BB_URI_LOCALCOUNT key appends branch since
-> http://git.openembedded.org/bitbake/commit/lib/bb/fetch?id=8c0afc13ad5eefea62b0b136f5b66792ba4e44cb
-> and you can probably create key from SRC_URI like git fetcher does.
->
-> Then you can show error when more then 1 entry matches instead of
-> counting max(LOCALCOUNT) from multiple entries.
-Because AUTOINCs don't include branch information. I have considered the 
-approach you proposed but I think this method
-is a straightforward solution.
->
-> Also this 'bitbake-prserv-tool migrate_localcount' needs to be executed
-> for all supported MACHINEs right? To fill prs db with all possible
-> PACKAGE_ARCH values.
-That's right.
+On Tue, 2013-01-22 at 17:10 +0500, Shakeel, Muhammad wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> 
+> * Add tasks to move sources, script/logs and diff/env files in
+>   deploy directory.
+> * Enable SSTATE for 'do_archive_scripts_logs' task
+> * Enable SSTATE for 'do_dumpdata_create_diff_gz' task
+> * SSTATE is not used for sources/patches archiver task because source
+>   archive package can result into a very large file. It will be an
+>   unnecessary overhead to keep sources in DL_DIR and cached-binaries.
+> * If 'SOURCE_ARCHIVE_PACKAGE_TYPE' is 'srpm' then use pre/post functions
+>   because in this case we do not want to use tasks to move sources/logs
+>   in DEPLOY_DIR. 'do_package_write_rpm' is responsible for handling
+>   archiver packages.
+> 
+> [YOCTO #3449]
+> 
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/archive-configured-source.bbclass |   47 ++++++++++++++++++++++--
+>  meta/classes/archive-original-source.bbclass   |   47 ++++++++++++++++++++++--
+>  meta/classes/archive-patched-source.bbclass    |   47 ++++++++++++++++++++++--
+>  meta/classes/archiver.bbclass                  |   40 ++++++++++++++------
+>  4 files changed, 161 insertions(+), 20 deletions(-)
+> 
+> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+> index 1eaaf4c..ae70be3 100644
+> --- a/meta/classes/archive-configured-source.bbclass
+> +++ b/meta/classes/archive-configured-source.bbclass
+> @@ -8,10 +8,51 @@
+>  inherit archiver
+>  
+>  # Get archiving package with configured sources including patches
+> -do_configure[postfuncs] += "do_archive_configured_sources "
+> +addtask do_archive_configured_sources after do_configure
+>  
+>  # Get archiving package with temp(logs) and scripts(.bb and inc files)
+> -do_package_write_rpm[prefuncs] += "do_archive_scripts_logs "
+> +addtask do_archive_scripts_logs after do_package_write_rpm
+>  
+>  # Get dump date and create diff file 
+> -do_package_write_rpm[postfuncs] += "do_dumpdata_create_diff_gz "
+> +addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
+> +
+> +python () {
+> +    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
+> +        """
+> +        If package type is not 'srpm' then add tasks to move archive packages of
+> +        configured sources and scripts/logs in ${DEPLOY_DIR}/sources.
+> +        """
+> +        d.appendVarFlag('do_compile', 'deps', ['do_archive_configured_sources'])
+> +        d.appendVarFlag('do_build', 'recrdeptask', ' do_archive_configured_sources')
+> +        d.appendVarFlag('do_build', 'deps', ['do_archive_scripts_logs'])
+> +
 
->
-> Cheers,
->
->> +        if not revs or not counts:
->> +            return
->> +
->> +        srcrev = bb.fetch2.get_srcrev(e.data)
->> +        bpv = pv[:pv.find(srcrev)]
->> +
->> +        if len(revs) != len(counts):
->> +            bb.warn("The number of revs and localcounts don't match in %s" % pn)
->> +            return
->> +
->> +        version = 'AUTOINC-%s-%s' % (pn, bpv)
->> +        pkgarch = e.data.getVar('PACKAGE_ARCH', True)
->> +        value = max(int(count) for count in counts)
->> +
->> +        if len(revs) == 1:
->> +            if srcrev != ('AUTOINC+%s' % revs[0]):
->> +                value += 1
->> +        else:
->> +            value += 1
->> +
->> +        bb.utils.mkdirhier(e.data.getVar('PRSERV_DUMPDIR', True))
->> +        df = e.data.getVar('LOCALCOUNT_DUMPFILE', True)
->> +        flock = bb.utils.lockfile("%s.lock" % df)
->> +        with open(df, 'a') as fd:
->> +            fd.write('PRAUTO$%s$%s$%s = "%s"\n' %
->> +                    (version, pkgarch, srcrev, str(value)))
->> +        bb.utils.unlockfile(flock)
->> +}
->> +
->> +addhandler migrate_localcount_handler
->> diff --git a/meta/conf/migrate_localcount.conf b/meta/conf/migrate_localcount.conf
->> new file mode 100644
->> index 0000000..e486e03
->> --- /dev/null
->> +++ b/meta/conf/migrate_localcount.conf
->> @@ -0,0 +1 @@
->> +INHERIT += "migrate_localcount"
->> diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
->> index f3855df..4654e6d 100755
->> --- a/scripts/bitbake-prserv-tool
->> +++ b/scripts/bitbake-prserv-tool
->> @@ -47,6 +47,35 @@ do_import ()
->>       return $ret
->>   }
->>   
->> +do_migrate_localcount ()
->> +{
->> +    df=`bitbake -R conf/migrate_localcount.conf -e | \
->> +                grep ^LOCALCOUNT_DUMPFILE= | cut -f2 -d\"`
->> +    if [ "x${df}" == "x" ];
->> +    then
->> +        echo "LOCALCOUNT_DUMPFILE is not defined!"
->> +        return 1
->> +    fi
->> +
->> +    rm -rf $df
->> +    clean_cache
->> +    echo "Exporting LOCALCOUNT to AUTOINCs..."
->> +    bitbake -R conf/migrate_localcount.conf -p
->> +    [ ! $? -eq 0 ] && echo "Exporting failed!" && exit 1
->> +
->> +    echo "Importing generated AUTOINC entries..."
->> +    [ -e $df ] && do_import $df
->> +
->> +    if [ ! $? -eq 0 ]
->> +    then
->> +        echo "Migration from LOCALCOUNT to AUTOINCs failed!"
->> +        return 1
->> +    fi
->> +
->> +    echo "Migration from LOCALCOUNT to AUTOINCs succeeded!"
->> +    return 0
->> +}
->> +
->>   [ $# -eq 0 ] && help  && exit 1
->>   
->>   case $1 in
->> @@ -56,6 +85,9 @@ export)
->>   import)
->>       do_import $2
->>       ;;
->> +migrate_localcount)
->> +    do_migrate_localcount
->> +    ;;
->>   *)
->>       help
->>       exit 1
->> -- 
->> 1.7.11.7
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Did you try using deptask instead of deps as I suggested in the previous
+feedback?
+
 Cheers,
-Constantin
+
+Richard
+
+
+
 
 
