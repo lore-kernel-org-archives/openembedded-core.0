@@ -1,25 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TxbeU-0006tf-L2
+	(envelope-from <Kai.Kang@windriver.com>) id 1TxcHT-0000Bj-Bc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 12:04:27 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Jan 2013 02:48:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,513,1355126400"; d="scan'208";a="275110776"
-Received: from unknown (HELO [10.255.15.32]) ([10.255.15.32])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jan 2013 02:48:50 -0800
-Message-ID: <50FE6E90.5090009@intel.com>
-Date: Tue, 22 Jan 2013 12:48:48 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Tue, 22 Jan 2013 12:44:46 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0MBTDWp023085
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Jan 2013 03:29:13 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Tue, 22 Jan 2013 03:29:11 -0800
+From: Kang Kai <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 22 Jan 2013 19:30:23 +0800
+Message-ID: <0d6ea9677eea7e35d709f802f646a8dbf5971250.1358853878.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1358853878.git.kai.kang@windriver.com>
+References: <cover.1358853878.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1358635193.git.ross.burton@intel.com>
-	<50FE5C29.7060102@windriver.com>
-In-Reply-To: <50FE5C29.7060102@windriver.com>
-Subject: Re: [PATCH 00/10] Initial systemd integration
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] external-python-tarball: code refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,53 +34,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 11:04:28 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Jan 2013 11:44:52 -0000
+Content-Type: text/plain
 
-On 01/22/2013 11:30 AM, ChenQi wrote:
-> On 01/20/2013 06:47 AM, Ross Burton wrote:
->> Hi,
->>
->> This series has the goal of enabling core-image-minimal to boot using 
->> systemd.
->> As such it touches no real services, just the infrastructural tweaks 
->> to make the
->> init manager a distribution choice, systemd itself, and a few 
->> low-level changes.
->>
->> 95% of the credit obviously must go to the contributors of meta-systemd:
->>
->>      Andreas Müller <schnitzeltony@googlemail.com>
->>      Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
->>      Holger Hans Peter Freyther <holger@moiji-mobile.com>
->>      Khem Raj <raj.khem@gmail.com>
->>      Koen Kooi <koen@dominion.thruhere.net>
->>      Martin Jansa <Martin.Jansa@gmail.com>
->>
->> And thanks to Radu Moisan <radu.moisan@intel.com> for the work 
->> pulling together
->> a series for merging into oe-core.
->>
->> Confirmed that this series using sysvinit results in a zero-delta in
->> core-image-minimal.
->>
->> Cheers,
->> Ross
->>
->>
->
-> Maybe we need to add something like below to 
-> meta-yocto/conf/local.conf.sample ?
->
-> # set default init manager: sysvinit or systemd
-> DISTRO_FEATURES_INITMAN ?= "sysvinit"
->
-> This may help make it clearer how to choose an init manager in 
-> conf/local.conf file.
+external-python-tarball only can be built when inherit package_ipk now.
+Update it to reuse existed populate sdk code that it could be built for
+rpm and deb too.
 
-Sounds good to me.
+[Yocto 3006]
 
-Radu
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ meta/recipes-core/meta/external-python-tarball.bb |   69 ++-------------------
+ 1 files changed, 6 insertions(+), 63 deletions(-)
+
+diff --git a/meta/recipes-core/meta/external-python-tarball.bb b/meta/recipes-core/meta/external-python-tarball.bb
+index 2085acc..186bf50 100644
+--- a/meta/recipes-core/meta/external-python-tarball.bb
++++ b/meta/recipes-core/meta/external-python-tarball.bb
+@@ -3,19 +3,16 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-DEPENDS = "opkg-native opkg-utils-native virtual/fakeroot-native sed-native"
++DEPENDS = "virtual/fakeroot-native sed-native"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ inherit meta
++inherit populate_sdk
+ 
+-SDK_DIR = "${WORKDIR}/sdk"
+-SDK_OUTPUT = "${SDK_DIR}/image"
+-SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
++TOOLCHAIN_TARGET_TASK = ""
+ 
+-IPKG_HOST = "opkg-cl -f ${IPKGCONF_SDK} -o ${SDK_OUTPUT}"
+-
+-TOOLCHAIN_HOST_TASK ?= "\
++TOOLCHAIN_HOST_TASK = "\
+     nativesdk-python-core \
+     nativesdk-python-textutils \
+     nativesdk-python-sqlite3 \
+@@ -37,62 +34,8 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-chrpath \
+     "
+ 
+-TOOLCHAIN_OUTPUTNAME ?= "python-nativesdk-standalone-${SDKMACHINE}"
++TOOLCHAIN_OUTPUTNAME = "python-nativesdk-standalone-${SDKMACHINE}"
+ 
+ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+-
+-do_populate_sdk() {
+-	rm -rf ${SDK_OUTPUT}
+-	mkdir -p ${SDK_OUTPUT}
+-	mkdir -p ${SDK_OUTPUT}${localstatedir}/lib/opkg/
+-
+-	rm -f ${IPKGCONF_TARGET}
+-	touch ${IPKGCONF_TARGET}
+-	rm -f ${IPKGCONF_SDK}
+-	touch ${IPKGCONF_SDK}
+-
+-	package_update_index_ipk
+-	package_generate_ipkg_conf
+-
+-	for arch in ${PACKAGE_ARCHS}; do
+-		revipkgarchs="$arch $revipkgarchs"
+-	done
+-
+-	${IPKG_HOST} update
+-	${IPKG_HOST} install ${TOOLCHAIN_HOST_TASK}
+-
+-	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg
+-	mv ${SDK_OUTPUT}/var/lib/opkg/* ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg/
+-	rm -Rf ${SDK_OUTPUT}/var
+-
+-	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}
+-	install -m 0644 ${IPKGCONF_SDK} ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}/
+-
+-	rm -f ${SDK_OUTPUT}/${SDKPATHNATIVE}${libdir_nativesdk}/*.la
+-
+-	# Link the ld.so.cache file into the hosts filesystem
+-	ln -s /etc/ld.so.cache ${SDK_OUTPUT}/${SDKPATHNATIVE}/etc/ld.so.cache
+-
+-	# Add version information
+-	versionfile=${SDK_OUTPUT}/${SDKPATH}/version-${MULTIMACH_TARGET_SYS}
+-	touch $versionfile
+-	echo 'Distro: ${DISTRO}' >> $versionfile
+-	echo 'Distro Version: ${DISTRO_VERSION}' >> $versionfile
+-	echo 'Metadata Revision: ${METADATA_REVISION}' >> $versionfile
+-	echo 'Timestamp: ${DATETIME}' >> $versionfile
+-
+-	# Package it up
+-	mkdir -p ${SDK_DEPLOY}
+-	cd ${SDK_OUTPUT}
+-	tar  --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+-}
+-
+-do_populate_sdk[nostamp] = "1"
+-do_populate_sdk[recrdeptask] = "do_package_write"
+-addtask populate_sdk before do_build after do_install
+-
+-inherit blacklist
+-
+-PNBLACKLIST[external-python-tarball] = "${@base_contains('PACKAGE_CLASSES', 'package_ipk', '', 'This recipe requires \'package_ipk\' support to be enabled in PACKAGE_CLASSES.', d)}"
+-- 
+1.7.5.4
+
 
 
