@@ -1,34 +1,30 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TxZjY-00019u-4h
+	(envelope-from <Qi.Chen@windriver.com>) id 1TxaQF-0002km-5h
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 10:01:33 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id D97D4D22E9; Tue, 22 Jan 2013 09:46:00 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 05D55D22CD
+	Tue, 22 Jan 2013 10:45:44 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0M9U8pq026106
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 09:45:35 +0100 (CET)
-Message-ID: <50FE51A6.9020700@linaro.org>
-Date: Tue, 22 Jan 2013 09:45:26 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
+	Tue, 22 Jan 2013 01:30:08 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 22 Jan 2013 01:30:08 -0800
+Message-ID: <50FE5C29.7060102@windriver.com>
+Date: Tue, 22 Jan 2013 17:30:17 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1358824498.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1358824498.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/4]support incremental deb image generation
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1358635193.git.ross.burton@intel.com>
+In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
+X-Originating-IP: [128.224.163.154]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r0M9U8pq026106
+Subject: Re: [PATCH 00/10] Initial systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,17 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 09:01:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jan 2013 09:45:44 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
+On 01/20/2013 06:47 AM, Ross Burton wrote:
+> Hi,
+>
+> This series has the goal of enabling core-image-minimal to boot using s=
+ystemd.
+> As such it touches no real services, just the infrastructural tweaks to=
+ make the
+> init manager a distribution choice, systemd itself, and a few low-level=
+ changes.
+>
+> 95% of the credit obviously must go to the contributors of meta-systemd=
+:
+>
+>      Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+>      Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
+>      Holger Hans Peter Freyther <holger@moiji-mobile.com>
+>      Khem Raj <raj.khem@gmail.com>
+>      Koen Kooi <koen@dominion.thruhere.net>
+>      Martin Jansa <Martin.Jansa@gmail.com>
+>
+> And thanks to Radu Moisan <radu.moisan@intel.com> for the work pulling =
+together
+> a series for merging into oe-core.
+>
+> Confirmed that this series using sysvinit results in a zero-delta in
+> core-image-minimal.
+>
+> Cheers,
+> Ross
+>
+>
 
-You work with deb packages so I have a question/request.
+Maybe we need to add something like below to=20
+meta-yocto/conf/local.conf.sample ?
 
-Can you update APT to 0.9.x line? Current 0.7 one is failing for AArch64
-and there is no way that I can get someone looking at it (due to version
-being old).
+# set default init manager: sysvinit or systemd
+DISTRO_FEATURES_INITMAN ?=3D "sysvinit"
 
-I can create newer recipes but prefer not to test deb images.
+This may help make it clearer how to choose an init manager in=20
+conf/local.conf file.
+
+Cheers,
+Chen Qi
 
 
