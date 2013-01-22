@@ -1,28 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f41.google.com ([209.85.160.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TxgiE-0004yG-Ci
+	(envelope-from <raj.khem@gmail.com>) id 1Txh2G-0005Ty-Kt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jan 2013 17:28:39 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0MGD8uH026657
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Jan 2013 17:49:21 +0100
+Received: by mail-pb0-f41.google.com with SMTP id xa7so4066488pbc.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 08:13:08 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Tue, 22 Jan 2013 08:13:06 -0800
-Message-ID: <50FEBA91.7060804@windriver.com>
-Date: Tue, 22 Jan 2013 10:13:05 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
+	Tue, 22 Jan 2013 08:33:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=6pmYV33nlanJ0jy6TEUl7DIPywrmxPuyrR744b3qvtM=;
+	b=F7vo95pGTaFMcZLzl58Yy6PuhUX2PICrZ62B8L5UmLqHFext2pGAr84NyFt4alpc7j
+	kG3BtTRfFEeHK9eXLd0mloU5xKgBZIMhKoADGfzG5uu8BBZlMrUWPsvZSChcm5sxsqKz
+	5JpAOu8Iy+tpQdP/fxDrjUnHPd0uOnUeHvPpf9zdIwALa3omuLY6LYmw4V9NElKtnIRv
+	67IbLqYhEtwVwpvkDBV2eoElmmLOCLBlBIKcfkhfenqHnIR+wJEWBR6LfkSqPYsypyz7
+	OQx4EPyScrRo5f/TdXNh3z55Jj3gK9Khdnp5N6f8IPnCx8a3rjTZEIJL2/XsvtU8h5bW
+	8Lig==
+X-Received: by 10.66.82.67 with SMTP id g3mr57345685pay.58.1358872429618;
+	Tue, 22 Jan 2013 08:33:49 -0800 (PST)
+Received: from [172.23.9.30] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id tq4sm11005205pbc.50.2013.01.22.08.33.47
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 22 Jan 2013 08:33:48 -0800 (PST)
+Message-ID: <50FEBF6A.40305@gmail.com>
+Date: Tue, 22 Jan 2013 08:33:46 -0800
+From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1358857085-16549-1-git-send-email-wd@denx.de>
-In-Reply-To: <1358857085-16549-1-git-send-email-wd@denx.de>
-Subject: Re: [PATCH] populate_sdk_base.bbclass: Allow installation of ix86 SDK on x86_64 host
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+References: <cover.1358634922.git.raj.khem@gmail.com>
+	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
+	<lyobghp6nh.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lyobghp6nh.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,58 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 16:28:39 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 22 Jan 2013 16:49:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/22/13 6:18 AM, Wolfgang Denk wrote:
-> Commit c04f5435 "populate_sdk_base.bbclass: use SDK_ARCH instead
-> of SDKMACHINE" prevents not only the installation of 64 bit SDK
-> configurations on 32 bit hosts (which indeed cannot work), but also
-> the legitimate installation of a 32 bit SDK on a 64 bit host.
+On 1/22/13 7:41 AM, Enrico Scholz wrote:
+> Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 >
-> Fix this.
+>> +KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
+>> ...
+>> -KERNEL_LD = "${HOST_PREFIX}ld${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}${TOOLCHAIN_OPTIONS}"
 >
-> While there, also make sure we use the same patterns ("i[3-6]86" resp.
-> "x86[-_]64" to get unified strings for both INST_ARCH and SDK_ARCH.
+> that's bad... gold linker has serious problems to compile stuff like
+> kernel or bootloaders and setting 'KERNEL_LDSUFFIX = .bfd' was a good
+> way to workaround these problems.
+>
 
-As far as I am aware, this is intentional.  For various SDK items 
-pseudo/libpseudo may be used.  On a 32-bit SDK, only a 32-bit pseudo/libpseudo 
-is available.  This will prevent it from working with any host system binaries 
-that are x86_64.
+This was not the intended use of KERNEL_LD IMO.
+There are is than kernel that does not go well when using gold, I think 
+the right approach would be to check ld-is-gold being present in 
+DISTRO_FEATURES and appending '.bfd' to LD variable like other recipes do
 
-If you don't care, the "workaround" is to use setarch and install it by telling 
-the system you are an ix86 target.
-
---Mark
-
-> Signed-off-by: Wolfgang Denk <wd@denx.de>
-> ---
->   meta/classes/populate_sdk_base.bbclass | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index da846b4..c587af8 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -122,11 +122,14 @@ fakeroot create_shar() {
->   #!/bin/bash
 >
->   INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
-> -SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[5-6]86/ix86/")
-> +SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
->
->   if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
-> -	echo "Error: Installation machine not supported!"
-> -	exit 1
-> +	# Allow for installation of ix86 SDK on x86_64 host
-> +	if [ "$INST_ARCH" != x86_64 -o "$SDK_ARCH" != ix86 ]; then
-> +		echo "Error: Installation machine not supported!"
-> +		exit 1
-> +	fi
->   fi
->
->   DEFAULT_INSTALL_DIR="${SDKPATH}"
+> Enrico
 >
 
 
