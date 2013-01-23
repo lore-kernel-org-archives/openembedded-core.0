@@ -1,27 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Txtk6-0002pN-19
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Txvqk-0005jh-2t
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 07:23:28 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0N67tpO007363
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 22:07:55 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Tue, 22 Jan 2013 22:07:54 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jan 2013 14:08:04 +0800
-Message-ID: <3f7ab91ee6c5f7e36bfbd0e600d4aaf6c3fbedd7.1358919866.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1358919866.git.Qi.Chen@windriver.com>
-References: <cover.1358919866.git.Qi.Chen@windriver.com>
+	Wed, 23 Jan 2013 09:38:26 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Jan 2013 00:22:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,520,1355126400"; d="scan'208";a="281039497"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2013 00:22:52 -0800
+Message-ID: <50FF9DDB.7040807@intel.com>
+Date: Wed, 23 Jan 2013 10:22:51 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] init-live.sh: move /media/xxx over to the real root filesystem
+To: Darren Hart <dvhart@linux.intel.com>
+References: <cover.1358432402.git.laurentiu.palcu@intel.com>
+	<81a1810d4c60fe2648c4e34d64c63ced7e0a7296.1358432402.git.laurentiu.palcu@intel.com>
+	<50FEFB12.5060905@linux.intel.com>
+In-Reply-To: <50FEFB12.5060905@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/6] kernel.bbclass: remove references to update-modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 06:23:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Jan 2013 08:38:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
 
-Previously, the /media/xxx which contains the root image was not
-moved to be under the real root filesystem. Because of this, the
-output of the 'mount' command is somewhat confusing, that is, it
-has some mount point that is not even in the filesystem.
 
-Besides, on some machine, it caused the recovery procedure when we
-booted it next time.
+On 01/22/2013 10:48 PM, Darren Hart wrote:
+>> -    use_update_modules = oe.utils.contains('DISTRO_FEATURES', 'update-modules', True, False, d)
+>> > -    if use_update_modules:
+>> > -        postinst = d.getVar('pkg_postinst_modules', True)
+>> > -        postrm = d.getVar('pkg_postrm_modules', True)
+>> > -    else:
+>> > -        postinst = None
+>> > -        postrm = None
+>> > +    postinst = d.getVar('pkg_postinst_modules', True)
+>> > +    postrm = d.getVar('pkg_postrm_modules', True)
+> This seems to be inverted logic from the original. If update-modules is
+> removed, then use_update_modules should be false right? Which would have
+> previously set postinst and postrm to None.
+I believe both the previous and current logic are right:
+  * Before, the update-modules script was called in the postinst/postrm.
+So, when the update-modules package was not part of the build, the
+postinst/postrm could not call update-modules anymore. As a consequence,
+they were set to none.
+  * After update-modules has been removed, we are not constrained by
+calling update-modules anymore in postinst/postrm but we can safely call
+depmod to have the dependencies computed.
 
-This patches fixes this issue by moving the /media/xxx over to be
-under the real root filesystem.
+So, is there anything wrong with the current logic?
 
-[YOCTO #2064]
-[YOCTO #3705]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index f0d4f22..4f8618b 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -82,6 +82,8 @@ boot_live_root() {
-     mount -n --move /proc ${ROOT_MOUNT}/proc
-     mount -n --move /sys ${ROOT_MOUNT}/sys
-     mount -n --move /dev ${ROOT_MOUNT}/dev
-+    # Move /media/$i over to the real root filesystem
-+    mount -n --move /media/$i ${ROOT_MOUNT}/media/realroot
- 
-     cd $ROOT_MOUNT
-     exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
--- 
-1.7.9.5
-
+Thanks,
+Laurentiu
 
 
