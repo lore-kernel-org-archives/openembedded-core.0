@@ -1,39 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Ty3Ph-0006b8-GO
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Ty3wC-0007WT-FB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 17:43:12 +0100
-Received: from mail-wi0-f197.google.com ([209.85.212.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 23 Jan 2013 08:26:20 -0800
-Received: by mail-wi0-f197.google.com with SMTP id hm6so1201219wib.4
+	Wed, 23 Jan 2013 18:16:53 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id C05B6D22E9; Wed, 23 Jan 2013 18:01:11 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2C048D22CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2013 08:27:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=92wTryR7muY0AVy5EHKmK36GRu/g6o1Euv4D/P2M8OY=;
-	b=WcLSGWa6dnyFusIjPgvfI0pH3cXAcDtkOiQMTPIhXhPRDsYPBJBcMOFYbkNtNKjOTU
-	hKR+0785FrojSC4eKUiiPjxuYjjrtIBPkHzXdjQN5IC0UUEIeByapKKfyZzqvIPE0K58
-	l8q2Wgv6dXFB7yql5HC6iqI/QN52jttMHKvrKibgHX0+vfvZtVhMjul3C6Lq0w+K4pSV
-	4x+w1RtXmZoKlLotO/KUBJvTd2g9rcaeLxLqrC6Ct3kpaB2s+vMu956n080BzbUeSETG
-	LaG6xd2E+KATFE8U9tLbFqLi1GBSxqXltQwVsBRju7UrhMLPbn5Jp0nkFr+utl0Z8kiY
-	o5IA==
-X-Received: by 10.180.90.106 with SMTP id bv10mr3650728wib.12.1358958447032;
-	Wed, 23 Jan 2013 08:27:27 -0800 (PST)
-X-Received: by 10.180.90.106 with SMTP id bv10mr3650713wib.12.1358958446849;
-	Wed, 23 Jan 2013 08:27:26 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l5sm30300597wia.10.2013.01.23.08.27.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 23 Jan 2013 08:27:25 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 23 Jan 2013 18:00:39 +0100 (CET)
+Message-ID: <5100172F.8030001@linaro.org>
+Date: Wed, 23 Jan 2013 18:00:31 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jan 2013 16:24:15 +0000
-Message-Id: <1358958255-16099-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQlQ8EXSv8fx866Pr84Y+zT4wPPRv/hfTRBgTu4hq4/rUeNpO/fiS4cUZd99DzcMwtbZ8BAFpaDi1f75Jv3/FOseDUHSbFj8EsfH/GQlasM+y2LF21AIV5iwkKMy7bGWipHhQPq21FYH/OYNxgACt1mK3Cn4m5Tr6nOLqMNrNd0b7pK3f8bRVW1tofbGODAuodoCQmRp
-Subject: [PATCH] meta: remove all mention of PCMCIA_MANAGER
+References: <1358958255-16099-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1358958255-16099-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH] meta: remove all mention of PCMCIA_MANAGER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,68 +41,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 16:43:13 -0000
+X-List-Received-Date: Wed, 23 Jan 2013 17:16:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Nothing appears to use this anymore, and it's been a very long time since there
-was anyone expressing an interest in the alternatives.
+W dniu 23.01.2013 17:24, Ross Burton pisze:
+> Nothing appears to use this anymore, and it's been a very long time since there
+> was anyone expressing an interest in the alternatives.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf                          |    1 -
- meta/conf/distro/include/default-distrovars.inc |    2 --
- meta/conf/documentation.conf                    |    2 --
- meta/conf/machine/include/qemu.inc              |    1 -
- 4 files changed, 6 deletions(-)
+OMG... it was so long time ago... pcmciautils started with 2.6.13-rc1
+kernel. Ah those first months when I had to deal with OZ users which
+noticed that their Prism2 cards no longer connect to WPA networks...
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2dc50ca..ad03bdb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -707,7 +707,6 @@ DL_DIR ?= "${TOPDIR}/downloads"
- SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
- IMAGE_FSTYPES ?= "tar.gz"
- INITRAMFS_FSTYPES ?= "cpio.gz"
--PCMCIA_MANAGER ?= "pcmciautils"
- DEFAULT_TASK_PROVIDER ?= "packagegroup-base"
- MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
- IMAGE_ROOTFS_SIZE ?= "65536"
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f073547..1169ca5 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -4,8 +4,6 @@ OEINCLUDELOGS ?= "yes"
- KERNEL_CONSOLE ?= "ttyS0"
- KEEPUIMAGE ??= "yes"
- 
--PCMCIA_MANAGER ?= "pcmciautils"
--
- IMAGE_LINGUAS ?= "en-us en-gb"
- LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
- ENABLE_BINARY_LOCALE_GENERATION ?= "1"
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index e8a1811..0e7c395 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -109,8 +109,6 @@ T[doc]       = "Temporary directory within the WORKDIR."
- GROUP_locale[doc] = "Locale generation of the GNU libc implementation"
- ENABLE_BINARY_LOCALE_GENERATION[doc] = "Enable the use of qemu to generate locale information during build time on the host instead of runtime on the target. If you have trouble with qemu-native you should make this an empty var. @group locale"
- 
--PCMCIA_MANAGER[doc] = "Specify which package(s) to install to handle PCMCIA slots (currently, pcmciautils)."
--
- SYSVINIT_ENABLED_GETTYS[doc] = "Specify which VTs should be running a getty, the default is 1"
- 
- IPK_FEED_URIS[doc] = "List of ipkg feed records to put into generated image."
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index de694bd..f68bf32 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -1,4 +1,3 @@
--PCMCIA_MANAGER = "pcmciautils"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
--- 
-1.7.10.4
+My first kernel submissions, then my first accepted ones. At one moment
+I even wrote script which converted 'pccardctl ident' output into kernel
+source lines.
+
+Definitely PCMCIA_MANAGER has to die.
 
 
 
