@@ -1,36 +1,39 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Txz2p-0007WP-AB
+	(envelope-from <ross.burton@intel.com>) id 1TxzFN-0007mB-2g
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 13:03:08 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id EF955D22E8; Wed, 23 Jan 2013 12:47:41 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 018D3D22CD;
-	Wed, 23 Jan 2013 12:47:18 +0100 (CET)
-Message-ID: <50FFCDBE.7090202@linaro.org>
-Date: Wed, 23 Jan 2013 12:47:10 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+	Wed, 23 Jan 2013 13:16:10 +0100
+Received: from mail-qa0-f72.google.com ([209.85.216.72])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 23 Jan 2013 04:00:32 -0800
+Received: by mail-qa0-f72.google.com with SMTP id d13so1189367qak.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jan 2013 04:00:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=d5tL06HF4BlRvmb4wA0BM67Bp7IMLPMT22ZVMIHK5Hk=;
+	b=OWCCSNY/24JYfsZigJ5GtJZKP+DAu25whgOWZG9em1xfT3u9ccJJE7VkjRBJ84E6Yl
+	ExynM1isTVBx1rhXdD6068EwtuKkWEik0OTmINqveSKPOk6gxdn1oHBaNdBX9i4Be8FY
+	PjY9avyNsCz8rPJh/F2es243CVQTSBjpp7UuznZfrlH2wDHGXaogPtiGKEB24A/QXjI8
+	4Io9v9JPuw2M9W/AFOvLqh34XL83O+d3zRjyXVVSFT3mQhWpCKBu4nCFW4Uc9+VY/3h4
+	Qb/gaxuD93ITf37m5wggcXm8fYLmHNSU9Q403TrGbyYUZ7K+NUxsEOc8xrBBF2Z6/GVv
+	/mSQ==
+X-Received: by 10.220.154.201 with SMTP id p9mr918350vcw.35.1358942431076;
+	Wed, 23 Jan 2013 04:00:31 -0800 (PST)
+X-Received: by 10.220.154.201 with SMTP id p9mr918346vcw.35.1358942430993;
+	Wed, 23 Jan 2013 04:00:30 -0800 (PST)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <807c839e2a2d9236e4b5a1425d6ca47e200aaebc.1358635193.git.ross.burton@intel.com>
-	<1358941121-12772-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<CAJTo0LacJmaNqVTTbctN5Up7r65prWDeE5X9eyNn1Ar8Fo-+kw@mail.gmail.com>
-In-Reply-To: <CAJTo0LacJmaNqVTTbctN5Up7r65prWDeE5X9eyNn1Ar8Fo-+kw@mail.gmail.com>
+Received: by 10.58.152.232 with HTTP; Wed, 23 Jan 2013 04:00:10 -0800 (PST)
+In-Reply-To: <1358908276-14786-1-git-send-email-Xin.Ouyang@windriver.com>
+References: <1358908276-14786-1-git-send-email-Xin.Ouyang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Jan 2013 12:00:10 +0000
+Message-ID: <CAJTo0Lbg6OyQ=eWun_fp_01AbX8Ybcf+Cmw+9MKPVk7tLxoZqA@mail.gmail.com>
+To: Xin Ouyang <Xin.Ouyang@windriver.com>
+X-Gm-Message-State: ALoCoQmhOOfv0uhfhJwqovpuPgFfl3vOtnjjLU0rJv+ydw7NkkPKAhZpdKctpLetsuvVVp2iCxGedwJXGvPhhjdhdf7gowY9rHWocA1hzVnNpVvavxP1Tq8ib2/K0hnmoX64Hejhn1tEoxlFu/b4fUaaPc7NripK3OwJGnLY1/pSx3bjm1g3fClkznECQ0S58h+ERqAYSZhu
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: unbreak all builds with custom DISTRO_FEATURES
+Subject: Re: [PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,30 +46,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 12:03:08 -0000
+X-List-Received-Date: Wed, 23 Jan 2013 12:16:10 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-W dniu 23.01.2013 12:43, Burton, Ross pisze:
-> On 23 January 2013 11:38, Marcin Juszkiewicz
-> <marcin.juszkiewicz@linaro.org> wrote:
->> Commit 9e7c64ca9afbf27edd0d35a1830ce55ee6d778ab broke all builds where
->> custom DISTRO_FEATURES were used.
->>
->> Resulting images ended in non-bootable state due to lack of initscripts
->> (unless someone had sysvinit or systemd in D_E already).
->>
->> https://bugs.launchpad.net/linaro-oe/+bug/1102910
->> https://bugs.launchpad.net/linaro-oe/+bug/1099405/comments/12
->>
->> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> 
-> Wow, it's like you're reading my mind.  When I next realise what the
-> problem is and what the solution is, I'll await eagerly your fix.
+On 23 January 2013 02:31, Xin Ouyang <Xin.Ouyang@windriver.com> wrote:
+> pam modules in ${base_libdir}/security/ should be binary .so files,
+> not symlinks. So fix this QA issue.
 
-Without help from Paul Eggleton and Martin Jansa I would not get to this
-fix.
+The short log should explain the problem more than just "fix QA issue".
+
+The commit log also doesn't say anything about moving libcgroup from
+/usr/lib to /lib.  Also isn't just setting --libdir in EXTRA_OEMAKE
+cleaner?
+
+Finally, no PR bumps are needed in oe-core.
+
+Ross
 
 
