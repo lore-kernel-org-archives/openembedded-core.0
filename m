@@ -1,33 +1,24 @@
-Received: from mail-wi0-f180.google.com ([209.85.212.180])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>) id 1Txp4q-0008Gq-8f
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1TxqMT-0001qB-7d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 02:24:33 +0100
-Received: by mail-wi0-f180.google.com with SMTP id hj13so242412wib.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 17:09:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:date:x-google-sender-auth:message-id
-	:subject:from:to:content-type;
-	bh=WVy0Kl4OCHChBAyWe1jHSNOLwUg6a2yhugntMrnV9o0=;
-	b=D2moOlHLnUHWWjlPFDu+Y/x3Sq+jN9L/l1KNPFcTaZzjyerxyUs976W+xaLyuDRFRw
-	C97uJV5mw5Sh8Ze4EHbLGXu8wcHybG47uNZWclDwDozd/xCVIck/lasy3ZOTt387LSbz
-	club7IYwVxfin9d2gfILG0OZdqtg1+8hwUghvS1+kDEVcR1FSjK9bkGLsTcnDEgg0rrh
-	XNs03owTzdFFcE/GofokJujq3SkhMd5XZKaxA5/UFs9tXUbxrRfIF+yT2Q//yNC09I8J
-	5T+rMYz5bmlOGRNfjFD1XErgO7i3zIx22bALy7gPYozfUrd23hvp3V5cIBfmgHNH8V4H
-	zLdw==
+	Wed, 23 Jan 2013 03:46:49 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0N2VIib005477
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Jan 2013 18:31:18 -0800 (PST)
+Received: from Xouyang-Ubuntu-Desktop.eelinux.com (128.224.162.207) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 22 Jan 2013 18:31:16 -0800
+From: Xin Ouyang <Xin.Ouyang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<openembedded-core@www.linuxtogo.org>
+Date: Wed, 23 Jan 2013 10:31:16 +0800
+Message-ID: <1358908276-14786-1-git-send-email-Xin.Ouyang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.180.19.136 with SMTP id f8mr24504098wie.0.1358903341422;
-	Tue, 22 Jan 2013 17:09:01 -0800 (PST)
-Sender: jefro.net@gmail.com
-Received: by 10.180.147.198 with HTTP; Tue, 22 Jan 2013 17:09:01 -0800 (PST)
-Date: Tue, 22 Jan 2013 17:09:01 -0800
-X-Google-Sender-Auth: s1eBEUcqyYWQDQkYCgSEibIO9cg
-Message-ID: <CA+YB3rbgWYcfo586d3WJfaCqnGMaw0+Z-JVdWVgj6STPFi7bvQ@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: Yocto Project <yocto@yoctoproject.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Developer at Embedded Linux Conference US
+Subject: [PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,67 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 01:24:33 -0000
-Content-Type: multipart/alternative; boundary=bcaec53d5aa3f31a7504d3ea569e
+X-List-Received-Date: Wed, 23 Jan 2013 02:46:50 -0000
+Content-Type: text/plain
 
---bcaec53d5aa3f31a7504d3ea569e
-Content-Type: text/plain; charset=ISO-8859-1
+pam modules in ${base_libdir}/security/ should be binary .so files,
+not symlinks. So fix this QA issue.
 
-Hi all & happy new year
+Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+---
+ meta/recipes-core/libcgroup/libcgroup_0.37.1.bb |   17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-The conference season starts early this year with several open source
-conferences worldwide, including FOSDEM in Brussels, linux.conf.au in
-Canberra, several regional Linux conferences including SCaLE in southern
-California, and of course the Embedded Linux Conference (ELC), February
-20-22 in San Francisco, CA.
-
-This year the Yocto Project is focusing once again on ELC and will again be
-hosting a Developer Day (
-http://events.linuxfoundation.org/events/embedded-linux-conference/yocto-project-developer-day)
-on Tuesday, February 19.
-
-Developer Day features talks and demos from Yocto Project engineers as well
-as an opportunity to connect one-on-one with those engineers to discuss
-issues you may be having with your own development process.
-
-The Yocto Project is also pleased to participate in ELC. We are preparing a
-booth and a BoF, and there are several talks on the schedule which mention
-the Yocto Project. If you are coming to the conference, please stop by and
-say hello, and consider joining us for Developer Day.
-
+diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+index e74f831..5f2201a 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+@@ -3,7 +3,7 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit autotools pkgconfig
+ 
+@@ -23,5 +23,16 @@ FILES_cgroups-pam-plugin = "${base_libdir}/security/pam_cgroup.so*"
+ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la"
+ 
+-# We really need the symlink so :(
+-INSANE_SKIP_cgroups-pam-plugin = "dev-so"
++do_install_append() {
++	# Moving libcgroup to base_libdir
++	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
++		mkdir -p ${D}/${base_libdir}/
++		mv -f ${D}${libdir}/libcgroup.so.* ${D}${base_libdir}/
++		ln -sf ${D}${base_libdir}/libcgroup.so.1 ${D}${libdir}/libcgroup.so
++	fi
++	# pam modules in ${base_libdir}/security/ should be binary .so files, not symlinks.
++	if [ -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ]; then
++		mv -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ${D}${base_libdir}/security/pam_cgroup.so
++		rm -f ${D}${base_libdir}/security/pam_cgroup.so.*
++	fi
++}
 -- 
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+1.7.10.4
 
---bcaec53d5aa3f31a7504d3ea569e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi all &amp; happy new year<div><br></div><div>The confere=
-nce season starts early this year with several open source conferences worl=
-dwide, including FOSDEM in Brussels, <a href=3D"http://linux.conf.au">linux=
-.conf.au</a> in Canberra, several regional Linux conferences including SCaL=
-E in southern California, and of course the Embedded Linux Conference (ELC)=
-, February 20-22 in San Francisco, CA.=A0</div>
-<div><br></div><div>This year the Yocto Project is focusing once again on E=
-LC and will again be hosting a Developer Day (<a href=3D"http://events.linu=
-xfoundation.org/events/embedded-linux-conference/yocto-project-developer-da=
-y">http://events.linuxfoundation.org/events/embedded-linux-conference/yocto=
--project-developer-day</a>) on Tuesday, February 19.<br clear=3D"all">
-<div><br></div><div style>Developer Day features talks and demos from Yocto=
- Project engineers as well as an opportunity to connect one-on-one with tho=
-se engineers to discuss issues you may be having with your own development =
-process.=A0</div>
-<div style><br></div><div style>The Yocto Project is also pleased to partic=
-ipate in ELC. We are preparing a booth and a BoF, and there are several tal=
-ks on the schedule which mention the Yocto Project. If you are coming to th=
-e conference, please stop by and say hello, and consider joining us for Dev=
-eloper Day.</div>
-<div style><br></div><div style>--=A0<br></div>Jeff Osier-Mixon <a href=3D"=
-http://jefro.net/blog" target=3D"_blank">http://jefro.net/blog</a><div>Yoct=
-o Project Community Manager @Intel <a href=3D"http://yoctoproject.org" targ=
-et=3D"_blank">http://yoctoproject.org</a></div>
 
-</div></div>
-
---bcaec53d5aa3f31a7504d3ea569e--
