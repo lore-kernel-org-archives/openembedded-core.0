@@ -1,27 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Txqzz-0003BM-Q6
+	(envelope-from <Qi.Chen@windriver.com>) id 1TxrCD-0003af-RV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 04:28:01 +0100
+	Wed, 23 Jan 2013 04:40:24 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0N3C52B027684
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0N3OlZl005926
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jan 2013 19:12:05 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Tue, 22 Jan 2013 19:12:05 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Wed, 23 Jan 2013 11:13:14 +0800
-Message-ID: <dedb9db8a69ed1d9ea6fef2b274611a0fe27ddb0.1358910000.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1358910000.git.kai.kang@windriver.com>
-References: <cover.1358910000.git.kai.kang@windriver.com>
+	Tue, 22 Jan 2013 19:24:47 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 22 Jan 2013 19:24:45 -0800
+Message-ID: <50FF5805.3070509@windriver.com>
+Date: Wed, 23 Jan 2013 11:24:53 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1358836314.git.Qi.Chen@windriver.com>
+	<55f028c6a820eca153b31716bc7b8516a77ef06f.1358836314.git.Qi.Chen@windriver.com>
+	<50FF195D.6020604@linux.intel.com>
+In-Reply-To: <50FF195D.6020604@linux.intel.com>
+X-Originating-IP: [128.224.163.154]
 Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] external-python-tarball: code refactoring
+Subject: Re: [PATCH V8 5/6] volatile-conf-minimal: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,108 +37,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 03:28:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Jan 2013 03:40:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-external-python-tarball only can be built when inherit package_ipk now.
-Update it to reuse existed populate sdk code that it could be built for
-rpm and deb too.
+On 01/23/2013 06:57 AM, Saul Wold wrote:
+> On 01/21/2013 10:36 PM, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> This recipe provides a config file for core-image-minimal.
+>> This config file is used for volatile storage handling in case of a
+>> readonly rootfs.
+>>
+>> Also, let core-image-minimal depend on this recipe.
+>>
+>> [YOCTO #3406]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/recipes-core/images/core-image-minimal.bb     |    3 +++
+>>   .../files/volatiles-readonly-minimal               |    8 ++++++++
+>>   .../volatile-conf-minimal_1.0.bb                   |   15 
+>> +++++++++++++++
+>>   3 files changed, 26 insertions(+)
+>>   create mode 100644 
+>> meta/recipes-core/readonly-volatile-conf/files/volatiles-readonly-minimal
+>>   create mode 100644 
+>> meta/recipes-core/readonly-volatile-conf/volatile-conf-minimal_1.0.bb
+>>
+>> diff --git a/meta/recipes-core/images/core-image-minimal.bb 
+>> b/meta/recipes-core/images/core-image-minimal.bb
+>> index 0d2613e..f6baeae 100644
+>> --- a/meta/recipes-core/images/core-image-minimal.bb
+>> +++ b/meta/recipes-core/images/core-image-minimal.bb
+>> @@ -6,6 +6,9 @@ IMAGE_LINGUAS = " "
+>>
+>>   LICENSE = "MIT"
+>>
+>> +RDEPENDS += "volatile-conf-minimal"
+> This needs to be RDEPENDS_${PN}
+>
+>> +IMAGE_INSTALL += "volatile-conf-minimal"
+>> +
+> I am still digging into this idea of having a image specific volatile 
+> package, RP is not wild about it either.  What's different now from 
+> before is the minimal version cut down from the orignal version?  Is 
+> there any reason we can't use a larger volatile conf?
+>
+> Sau!
+>
+Hi Saul,
 
-Remove var DEPENDS, SDK_* and flags of do_populate_sdk because they are
-already defined in populate_sdk bbclasses.
+I thought about this, but didn't dig deep into it because I thought one 
+conf file for one image would be clearer.
+On a second thought, maybe we could use a config file like below.
 
-[Yocto 3006]
+<pkg1>
+readonly specific config items for pkg1
+</pkg1>
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-core/meta/external-python-tarball.bb |   67 +-------------------
- 1 files changed, 4 insertions(+), 63 deletions(-)
+<pkg2>
+readonly specific config items for pkg2
+</pkg2>
 
-diff --git a/meta/recipes-core/meta/external-python-tarball.bb b/meta/recipes-core/meta/external-python-tarball.bb
-index 2085acc..2513cf6 100644
---- a/meta/recipes-core/meta/external-python-tarball.bb
-+++ b/meta/recipes-core/meta/external-python-tarball.bb
-@@ -3,17 +3,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--DEPENDS = "opkg-native opkg-utils-native virtual/fakeroot-native sed-native"
-+PR = "r2"
- 
--PR = "r1"
--
--inherit meta
--
--SDK_DIR = "${WORKDIR}/sdk"
--SDK_OUTPUT = "${SDK_DIR}/image"
--SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
--
--IPKG_HOST = "opkg-cl -f ${IPKGCONF_SDK} -o ${SDK_OUTPUT}"
-+TOOLCHAIN_TARGET_TASK ?= ""
- 
- TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-python-core \
-@@ -43,56 +35,5 @@ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
--do_populate_sdk() {
--	rm -rf ${SDK_OUTPUT}
--	mkdir -p ${SDK_OUTPUT}
--	mkdir -p ${SDK_OUTPUT}${localstatedir}/lib/opkg/
--
--	rm -f ${IPKGCONF_TARGET}
--	touch ${IPKGCONF_TARGET}
--	rm -f ${IPKGCONF_SDK}
--	touch ${IPKGCONF_SDK}
--
--	package_update_index_ipk
--	package_generate_ipkg_conf
--
--	for arch in ${PACKAGE_ARCHS}; do
--		revipkgarchs="$arch $revipkgarchs"
--	done
--
--	${IPKG_HOST} update
--	${IPKG_HOST} install ${TOOLCHAIN_HOST_TASK}
--
--	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg
--	mv ${SDK_OUTPUT}/var/lib/opkg/* ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg/
--	rm -Rf ${SDK_OUTPUT}/var
--
--	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}
--	install -m 0644 ${IPKGCONF_SDK} ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}/
--
--	rm -f ${SDK_OUTPUT}/${SDKPATHNATIVE}${libdir_nativesdk}/*.la
--
--	# Link the ld.so.cache file into the hosts filesystem
--	ln -s /etc/ld.so.cache ${SDK_OUTPUT}/${SDKPATHNATIVE}/etc/ld.so.cache
--
--	# Add version information
--	versionfile=${SDK_OUTPUT}/${SDKPATH}/version-${MULTIMACH_TARGET_SYS}
--	touch $versionfile
--	echo 'Distro: ${DISTRO}' >> $versionfile
--	echo 'Distro Version: ${DISTRO_VERSION}' >> $versionfile
--	echo 'Metadata Revision: ${METADATA_REVISION}' >> $versionfile
--	echo 'Timestamp: ${DATETIME}' >> $versionfile
--
--	# Package it up
--	mkdir -p ${SDK_DEPLOY}
--	cd ${SDK_OUTPUT}
--	tar  --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
--}
--
--do_populate_sdk[nostamp] = "1"
--do_populate_sdk[recrdeptask] = "do_package_write"
--addtask populate_sdk before do_build after do_install
--
--inherit blacklist
--
--PNBLACKLIST[external-python-tarball] = "${@base_contains('PACKAGE_CLASSES', 'package_ipk', '', 'This recipe requires \'package_ipk\' support to be enabled in PACKAGE_CLASSES.', d)}"
-+inherit meta
-+inherit populate_sdk
--- 
-1.7.5.4
+....
+(Let's denote it as the original config file.)
+
+In this way, all config items are centred into one place.
+And the strategy would be like:
+1. get a list of pkgs that are to be installed on target
+     L = [pkg1, pkg2, ..., pkgn]
+2. original config file -- [select items according to L] --> final 
+config file
+     The selecting procedure is simply something like:
+      for pkg in $pkgs; do cat origin | sed -ne "/<$pkg>/,/<\/$pkg>/ { 
+/<$pkg>/n; /<\/$pkg>/n; p; }" ; done > final
+     The final config file should look like the ones that we use for now 
+so that we can still use populate-volatile.sh to create the dirs and links.
+3. Parse the final config file with populate-volatile.sh to create the 
+proper directories and links.
+
+The problem is that I don't know how to get the pkg list.
+Could somebody help me?
+
+What do you think about this strategy?
+
+Cheers,
+Chen Qi
+
+
+
 
 
 
