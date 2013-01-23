@@ -1,30 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TxtjO-0002mv-Bx
+	(envelope-from <Qi.Chen@windriver.com>) id 1Txtk5-0002pK-7j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 07:22:43 +0100
+	Wed, 23 Jan 2013 07:23:26 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0N67ApP007360
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0N67rwY016080
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jan 2013 22:07:11 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 22 Jan 2013 22:07:10 -0800
-Message-ID: <50FF7E18.4020803@windriver.com>
-Date: Wed, 23 Jan 2013 14:07:20 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Tue, 22 Jan 2013 22:07:53 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 22 Jan 2013 22:07:52 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1358836314.git.Qi.Chen@windriver.com>
-	<3d6b90b5ad79166eda3883ad4e9d5ca1ed937f10.1358836314.git.Qi.Chen@windriver.com>
-	<50FED7A0.1060200@topic.nl>
-In-Reply-To: <50FED7A0.1060200@topic.nl>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH V8 2/6] image.bbclass: add a hook funtion to support readonly rootfs
+Date: Wed, 23 Jan 2013 14:08:03 +0800
+Message-ID: <cover.1358919866.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] init-live.sh: move /media/xxx over to the real root filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 06:22:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Jan 2013 06:23:26 -0000
+X-List-Received-Date: Wed, 23 Jan 2013 06:23:26 -0000
+Content-Type: text/plain
 
-On 01/23/2013 02:17 AM, Mike Looijmans wrote:
-> On 01/22/2013 07:36 AM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> read_only_rootfs_hook: this funtion is invoked only if 
->> 'read-only-rootfs'
->> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
->> volatile.sh script run at rootfs time.
->
-> To me, it seems running populate-volatile at rootfs is a good thing 
-> for writable rootfs as well, it reduces the writing at first boot. Why 
-> not ALWAYS do this?
->
-Hi Mike,
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The reason I didn't make it *always* run at rootfs is that it's not 
-*necessary*.
-Besides, I want to encapsulate all all necessary tweaks at rootfs time 
-into one function -- read-only-rootfs-hook.
-In this way, I can ensure that it doesn't mess up with other components.
+The following changes since commit 37e025f6f9c410005e0f1dee0767e38eaec01cbd:
 
-Thanks,
-Chen Qi
+  bitbake: hob: Hob should display warnings generated during parsing (2013-01-21 19:05:31 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/live-image-move-media
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/live-image-move-media
+
+Chen Qi (1):
+  init-live.sh: move /media/xxx over to the real root filesystem
+
+ meta/recipes-core/initrdscripts/files/init-live.sh |    2 ++
+ 1 file changed, 2 insertions(+)
+
+-- 
+1.7.9.5
+
 
 
