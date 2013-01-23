@@ -1,22 +1,32 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail-qa0-f42.google.com ([209.85.216.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1Ty2JN-0004Jh-9c
+	(envelope-from <kirgene@gmail.com>) id 1Ty2Jx-0004MS-0N
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Jan 2013 16:32:26 +0100
-Message-ID: <50FFFEE4.2090204@communistcode.co.uk>
-Date: Wed, 23 Jan 2013 15:16:52 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130109 Thunderbird/17.0.2
+	Wed, 23 Jan 2013 16:33:10 +0100
+Received: by mail-qa0-f42.google.com with SMTP id hg5so606880qab.15
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jan 2013 07:17:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=FbjgFBkpt5z+BkcX/wr0IjDk4FDWQK9iT3FDy8403wk=;
+	b=dMhu8BVVMR2Wnfujh3gWrOWemAneKaNhSLlSVbeyyTffVAAjtSktVxDy9NCfPLOwCy
+	pl56AU2wF/ffp1GAfeDzjtBntwiG0CfUqfQNKzgb4XoIpUEPF588UAoRCpyYj/OPHct2
+	+3HseApr5xL7z9IFBqvnaNAr+Xi4MWhR8l4hEuTQzn0mBb7I4NUBpDCGtPKYxe2LKA9i
+	VInIXndQgukfAXIVn4Xz3wmS1aEOqOtIju+QLZltJG5SPmGyt8Z0BDZohD/wH++OTTyx
+	0vylDBFdHFhsR9IhxeacR1hlzMgj2h5UcGobvirow588hWmFm5J4vYm33V+R2Iky9NVp
+	S6Mw==
 MIME-Version: 1.0
+X-Received: by 10.224.76.206 with SMTP id d14mr2213625qak.5.1358954249166;
+	Wed, 23 Jan 2013 07:17:29 -0800 (PST)
+Received: by 10.49.106.5 with HTTP; Wed, 23 Jan 2013 07:17:29 -0800 (PST)
+Date: Wed, 23 Jan 2013 17:17:29 +0200
+Message-ID: <CADV-EXEOBjzSEtxPGzPr9wRfKB_SE3kwOX++L9qLQmmV4_tSKw@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <50FE8DCF.8050704@communistcode.co.uk> <50FEA6A8.8090201@intel.com>
-In-Reply-To: <50FEA6A8.8090201@intel.com>
-Subject: Re: Boot Breakage (systemd inclusion related?)
+Subject: Failure building Yocto 3.0 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -26,54 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jan 2013 15:32:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Jan 2013 15:33:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 22/01/13 14:48, Radu Moisan wrote:
-> On 01/22/2013 03:02 PM, Jack Mitchell wrote:
->> So I attempted to build with the latest head today and my system 
->> won't boot, Here is the output:
->>
->> INIT: version 2.88 booting
->> Starting Bootlog daemon: bootlogd: cannot allocate pseudo tty: No 
->> such file or directory
->> bootlogd.
->> Collected errors:
->>  * opkg_conf_load: Could not create lock file /var/lib/opkg/lock: 
->> Read-only file system.
->> INIT: Entering runlevel: 5S.d/S98run-postinsts': Re
->> Stopping Bootlog daemon: bootlogd.
->>
->> dB Linux 1.0-20130122 (none) ttyO0
->>
->> (none) login:
->>
->> Does this mean much to anyone? I assume it is do with the new init 
->> manager changes but I can't be certain...
->>
->
-> If you didn't enable systemd then it shouldn't interfere, sysvinit 
-> should work as it previously worked.
->
-> Radu
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Hi!
 
-This was fixed by explicity adding "sysvinit" to DISTRO_FEATURES.
+When building linux-yocto_3.0 kernel for cedartrail, I'm getting
+numerous errors:
+SSE instruction set disabled, using 387 arithmetics [enabled by default]
 
-Cheers,
+How can I fix it?
 
--- 
+P.S.
+I'm using following revisions of meta packages:
+meta              = "master:751c11e998431613389f094264f096fac5a1c1ae"
+meta-cedartrail   = "master:d92dd091397b4c77000c2db152bb621a62b76cf9"
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Best regards,
+Yevhen
 
 
