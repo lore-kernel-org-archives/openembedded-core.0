@@ -1,30 +1,41 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1TyLoL-0000yG-47 for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:22:01 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Jan 2013 04:05:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="194669823"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Jan 2013 04:05:02 -0800
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.82]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.218]) with mapi id
-	14.01.0355.002; Thu, 24 Jan 2013 12:05:01 +0000
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Meta-web-kiosk Layer
-Thread-Index: Ac36KwkedgWuxsgKTRCww92yjPskEQ==
-Date: Thu, 24 Jan 2013 12:05:00 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.135]
+	(envelope-from <ross.burton@intel.com>) id 1TyLuH-00017t-91
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 13:27:49 +0100
+Received: from mail-pa0-f70.google.com ([209.85.220.70])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 04:12:15 -0800
+Received: by mail-pa0-f70.google.com with SMTP id hz11so10885113pad.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 04:12:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=FS6y9GgdFdBUsbvaiaOD3B6zK1ZN1lFQ7STcvC6VtIM=;
+	b=FX07o1Wmyu/RF2TMR+P8MPnnWmCLLGAuz2BsuZDvWKeyQes9zy10wH5PSu+8IxkkXc
+	7L2I/U8qJXBeq/4SNApx9vWlw0rkx+a6Ha2j5AJIEb1uxfygGkG+Rk5oUNsXPQTDYV1f
+	ui2CwYy0MKE9Pxsc5cZIlr7+Jm1LU3puSabTuR/2BaWws6deSuVsTlTvLREKyq+QOEU5
+	IRc9r1ENo7Sc+6a/hA2JBUT96teyEkVe2LbnuRa3x988ohKirLO/DXL2UGutvWR/C09M
+	q5aCEUyTc3ySeakswej166N0O3ypC8j1UNhHM6Gy3aDrYCfJTivXKgUq9AK6Efuomc9R
+	Bvfw==
+X-Received: by 10.66.90.72 with SMTP id bu8mr3984235pab.69.1359029535084;
+	Thu, 24 Jan 2013 04:12:15 -0800 (PST)
+X-Received: by 10.66.90.72 with SMTP id bu8mr3984215pab.69.1359029534972; Thu,
+	24 Jan 2013 04:12:14 -0800 (PST)
 MIME-Version: 1.0
-Subject: Meta-web-kiosk Layer
+Received: by 10.66.253.233 with HTTP; Thu, 24 Jan 2013 04:11:54 -0800 (PST)
+In-Reply-To: <510124FE.6040901@intel.com>
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 12:11:54 +0000
+Message-ID: <CAJTo0LZFc-daEcuS0gGYsRsL5DfUH3kwkPK49bv+74xTmp30vg@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQlkGLHO15ptz+kLTtr2VhyEAE8xp53P5kCki4WQ6sF49P90s+KvcahnTkJJZp/1eErRImxA9+5m4mbCD8tpccglgNdBLZ256mlJYaq1qD1NhVqQPm0+eLJ7RtTDMd9PFEVroPWT3Ft4wEoL86GvWf2A4KoGZS2Pm2UXXzOwQdWRB1WHLvgq1B42ay44MjLOWFpBgTRS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +48,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 12:22:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Jan 2013 12:27:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On 24 January 2013 12:11, Radu Moisan <radu.moisan@intel.com> wrote:
+> This is exactly what I was looking for. /run shouldn't be there, yet somehow
+> it is. I was looking into how/where systemd is creating /run but no lead for
+> now.
 
-I've created a new layer that can be used for kiosk devices.
-You can check it out at:
-    http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/
+As far as I'm aware systemd will mount a tmpfs on /run itself on
+startup, but the directory needs to exist first.
 
-It contains a new bitbake target that automatically
-starts a web browser right after boot and enables the
-use of a virtual keyboard if there is support for it.
-
-The layer currently includes recipes for the web browser,
-and bsp configurations.
-
-I'm open to receiving feedback, patches and any suggestions.
-
-Thanks,
-Emilia Ciobanu
+Ross
 
 
