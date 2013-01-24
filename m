@@ -1,29 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TyTD2-0004j3-Gu
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 21:15:41 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0OGBrj9007017
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 08:11:53 -0800 (PST)
-Received: from msp-dhcp30.wrs.com (172.25.34.30) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 24 Jan 2013 08:11:52 -0800
-Message-ID: <51015D42.1060008@windriver.com>
-Date: Thu, 24 Jan 2013 10:11:46 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1359014474.git.Qi.Chen@windriver.com>
-	<202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
-In-Reply-To: <202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 08/12] initscripts: let populate-volatile.sh create the /tmp link
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TyTIb-00058k-W5 for Openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 21:21:27 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0OKA0pq015743; Thu, 24 Jan 2013 20:10:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3eIHPie7Yqvb; Thu, 24 Jan 2013 20:10:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0OK9s3O015708
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 24 Jan 2013 20:09:57 GMT
+Message-ID: <1359057938.3616.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Thu, 24 Jan 2013 20:05:38 +0000
+In-Reply-To: <20130123144320.191c91a3@e6410-2>
+References: <20130123144320.191c91a3@e6410-2>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: Is this a bug? Installed-but-not-packaged warning for a file which is in a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,81 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 20:15:41 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 24 Jan 2013 20:21:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 1/24/13 2:16 AM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, the /tmp link (/tmp -> /var/tmp) was created by the
-> bootmisc.sh script. So in case of a read-only rootfs, this symlink
-> would not be created correctly.
->
-> The populate-volatile.sh script is intended to handle all directories
-> and files related to volatile storage, so we should let it create
-> the /tmp link.
->
-> In addition, because of the improments of populate-volatile.sh, the data
-> loss problem of bug#3404 is also resolved by this patch.
->
-> [YOCTO #3406]
-> [YOCTO #3404]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +--------
->   .../initscripts/initscripts-1.0/volatiles          |    1 +
->   2 files changed, 2 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> index 4f76cb4..3b5a47f 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> @@ -54,14 +54,7 @@ fi
->
->   #
->   # This is as good a place as any for a sanity check
-> -# /tmp should be a symlink to /var/tmp to cut down on the number
-> -# of mounted ramdisks.
-> -if test ! -L /tmp && test -d /var/tmp
-> -then
-> -	rm -rf /tmp
-> -	ln -sf /var/tmp /tmp
-> -fi
-> -
+On Wed, 2013-01-23 at 14:43 -0600, Peter Seebach wrote:
+> FILES_${PN} = "fascinating"
+> 
+> do_install() {
+> 	touch ${D}/fascinating
+> }
+> 
+> At least in our local copy of oe-core, this results in:
+> 
+> 1. A package which contains a /fascinating file.
+> 2. An installed-but-unpackaged warning for /fascinating.
+> 
+> This confused the heck out of me. I eventually figured it out: The "not
+> in seen" test is not aware of the possibility of differing path names.
+> In general, all path names in FILES_* are being written as absolute
+> paths by convention; in the actual code, this is silently corrected by
+> the addition of a leading period.
+> 
+> But an unqualified path works; it's treated as relative to the
+> sysroot/image/whatever, and it has the expected behavior. But then we
+> insert "fascinating" in seen, and check for "./fascinating" in the next
+> phase.
+> 
+> Possible solution:
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index b06cca5..9d50a61 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -981,6 +981,8 @@ python populate_packages () {
+>                  file.replace("//", "/")
+>              if os.path.isabs(file):
+>                  file = '.' + file
+> +            if not file.startswith("./")
+> +                fle = './' + file
+>              if not os.path.islink(file):
+>                  if os.path.isdir(file):
+> 
+> Before I send this as an actual patch and such: Is this behavior a bug?
+> If it is a bug, is this the right fix, or should we do something else,
+> like reject non-absolute paths?
+> 
+> Note that just adding a / to files that don't start with one doesn't
+> work; there appear to be at least *some* non-absolute paths in some
+> packages.
 
-I saw this the other day.  It seems like the wrong solution, if the expectation 
-is that all systems want this linked behavior.  Instead the link should be 
-configured in the meta/files/fs-perms.txt
+It is a bug and that would appear to be a reasonable fix or fix the
+unshipped list construction so it handles items without a . correctly.
+I'd take the above patch...
 
-Something like:
+Cheers,
 
--/tmp                            01777   root    root    false - - -
-+/tmp                            link    /var/tmp
-
-Making that change would avoid this patch, and then all of the filesystems could 
-inherit this behavior.  (Other distributions that don't want it can provide 
-their own custom fs-perms.txt file, and simply set the older value, which will 
-append to the default.)
-
-> +#
->   # Set the system clock from hardware clock
->   # If the timestamp is more recent than the current time,
->   # use the timestamp instead.
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> index e0741aa..f7e2ef7 100644
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> @@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
->   l root root 0755 /var/log /var/volatile/log
->   l root root 0755 /var/run /var/volatile/run
->   l root root 1777 /var/tmp /var/volatile/tmp
-> +l root root 1777 /tmp /var/tmp
->   d root root 0755 /var/lock/subsys none
->   f root root 0664 /var/log/wtmp none
->   f root root 0664 /var/run/utmp none
->
+Richard
 
 
 
