@@ -1,35 +1,40 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TyLux-0001Bf-MR
+	(envelope-from <ross.burton@intel.com>) id 1TyM0F-0001Of-Cv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:28:31 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0OCCrXS018390
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 24 Jan 2013 13:12:55 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1TyLg1-0007Hp-2z; Thu, 24 Jan 2013 13:13:05 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1358634922.git.raj.khem@gmail.com>
-	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
-	<lyobghp6nh.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<50FEBF6A.40305@gmail.com>
-Date: Thu, 24 Jan 2013 13:13:05 +0100
-Message-ID: <lyham6g4oe.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Thu, 24 Jan 2013 13:33:59 +0100
+Received: from mail-da0-f70.google.com ([209.85.210.70])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 04:18:25 -0800
+Received: by mail-da0-f70.google.com with SMTP id t11so9390836daj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 04:18:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=eUvGJEYIyZbpbZ7bQbnlalDgdMMjPIrmjiZN4jKRB9M=;
+	b=SCp6R1RAb4AwEG1s+zBa+W2n5UUT5JTKkwBibvtYNa3AI/4sl5yLstYKze9dgMWxR8
+	5xJSW/nkiD37L3FFBboTaJZEtDXWWR45uyT7q/s5O7vFiX83DdiMl89Zx04AjKxtqw+Z
+	BzECudol/tSsioCXvSDOpSVEVzUVTuHChchiPv8irOZFjqIWttyCwzuBGexHLe9NnMlx
+	vlot0pzpS0py5hAVNuavCRYXMhfiMzfGjMLi80Cxq5ioQrHSDkwahBIKcGKR/Ka0y4Gy
+	R7eC98m30G2jR3Gt3lMviTSa3yoDdCBcEcjNdh7k5L9Mgs4KzbcjOTv4wMTkQqpZKww1
+	Lnag==
+X-Received: by 10.68.203.137 with SMTP id kq9mr4179186pbc.115.1359029905326;
+	Thu, 24 Jan 2013 04:18:25 -0800 (PST)
+X-Received: by 10.68.203.137 with SMTP id kq9mr4179175pbc.115.1359029905234;
+	Thu, 24 Jan 2013 04:18:25 -0800 (PST)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Changing between gold and bfd linker (was: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC)
+Received: by 10.66.253.233 with HTTP; Thu, 24 Jan 2013 04:18:05 -0800 (PST)
+In-Reply-To: <1358974076-25725-1-git-send-email-jstashluk@dekaresearch.com>
+References: <1358974076-25725-1-git-send-email-jstashluk@dekaresearch.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 12:18:05 +0000
+Message-ID: <CAJTo0LZ+i05u1pqSQris2-GmX87r6LytgY2T8AYdvtQA9M8x=A@mail.gmail.com>
+To: Jeremy Stashluk <stashluk@gmail.com>
+X-Gm-Message-State: ALoCoQm0HZ05fDVUEq0cJ844dhU2NlKDRNdYzab/Ly5tXqpzp7VfcdICrdqw/7nBk6rZAZ9ya/fF18dBoW09ThWMaTjE/3q009YhNwA/QuBhtUWRgVDsgdcgAFz5tb4Fj3iZzRS6VQyv1glgfThzP0ILmt48Hcj6b4rUb30V/f/sdZ0wyM2ab2sUSN44UPIDBOtwTzT59XS+
+Cc: Jeremy Stashluk <jstashluk@dekaresearch.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gst-plugins-gl: add package recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,85 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 12:28:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jan 2013 12:33:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+On 23 January 2013 20:47, Jeremy Stashluk <stashluk@gmail.com> wrote:
+> +EXTRA_OECONF += "--x-includes= --x-libraries= NM=nm"
 
->>> +KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
->>> ...
->>> -KERNEL_LD = "${HOST_PREFIX}ld${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}${TOOLCHAIN_OPTIONS}"
->>
->> that's bad... gold linker has serious problems to compile stuff like
->> kernel or bootloaders and setting 'KERNEL_LDSUFFIX = .bfd' was a good
->> way to workaround these problems.
->>
->
-> This was not the intended use of KERNEL_LD IMO.
+--without-x is a shorter way of disabling X, but unless there's a good
+reason to you should respect the x11 distro feature.
 
-ok; then I abused it for this purpose and stuff failed more or less
-silently with recent oe ;)
+Why do you need to set NM?   bitbake.conf sets it already.
 
-Me wonders whether we should implement a more generic way to select
-between .bfd and .gold linker.  Overriding LD works well when LD is used
-by the build system, but when it is called through gcc -> collect there
-is no way to select the linker.
+I also don't see any dependency on virtual/libgl which you'll
+presumably need for GL use.
 
-For grub2 I use
+To be honest I do prefer grabbing tarballs instead of git if you're
+making a versioned package.
 
-------
-PATH_prepend = "${S}/.bin:"
-CC_prepend = "env COMPILER_PATH=${S}/.bin/gcc "
-
-do_configure_prepend() {
-    mkdir -p .bin/gcc
-    { echo "#!/bin/sh"
-      echo 'exec ${TARGET_PREFIX}ld.bfd "$@"'
-    } > .bin/${TARGET_PREFIX}ld
-    chmod +x .bin/${TARGET_PREFIX}ld
-    ln -s ../${TARGET_PREFIX}ld .bin/gcc/ld
-}
-------
-
-which might go into a more general .bbclass.
-
-Modifying binutils or gcc to select the wanted linker is probably the
-2nd best solution (after fixing gold linker). E.g. for binutils, the
-'arm-linux-gnueabi-ld' binary (or however it is called) which is a copy
-of .bfd or .gold atm can be replaced by a oe specific program which
-calls the corresponding linker depending on an environment variable.
-
-Changing gcc seems to be more difficultly because name of ld is determined
-at multiple locations.
-
-So we have to following options:
-
-1. keep things as is; when problems with gold arise[1], people have to turn
-   it of globally
-
-2. create a 'custom-ld.bbclass' which is inherited on demand
-
-3. create custom 'ld' program evaluating '${OE_LDSUFFIX}' which is set
-   on demand
-
-4. patch gcc/collect to call a linker specified by environment
-
-
-I favor 3; what do you think?
-
-
-
-Enrico
-
-Footnotes: 
-[1]  I am aware of
-     * kernel (--> '--march=all' object file mismatch)
-     * barebox (--> optimizing away constructors with '--gc-shared')
-     * grub2 (--> disfunctional with gold; no further details)
-
--- 
-SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-09128 Chemnitz
+Ross
 
 
