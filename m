@@ -1,24 +1,40 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1TyLB5-00074z-Ke
+	(envelope-from <ross.burton@intel.com>) id 1TyLIU-0007RA-7v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 12:41:07 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0OBPYOM003342
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Jan 2013 03:25:34 -0800 (PST)
-Received: from Xouyang-Ubuntu-Desktop.eelinux.com (128.224.162.207) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 24 Jan 2013 03:25:32 -0800
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<openembedded-core@www.linuxtogo.org>
-Date: Thu, 24 Jan 2013 19:25:33 +0800
-Message-ID: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Thu, 24 Jan 2013 12:48:48 +0100
+Received: from mail-pb0-f72.google.com ([209.85.160.72])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 03:33:12 -0800
+Received: by mail-pb0-f72.google.com with SMTP id wz7so10694311pbc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=PhgvWJXmFStJm/RT/kn6LsUsSysXEsDopxq1bsVQRzM=;
+	b=ZjFt4x4IDoFVf4YwwJyONZNr1Dkgxu/32HTRKvIDVl5UaHJopxD8AEMV+GExyMQI3R
+	ath0ickL8OXfwggu+iiw/SThGBI3zlFccFbdQmFY5dLY7V4oqsAsMMdOR5KujyKNG4M8
+	2CfGW9qIyAP+3mcM9cFZOYyD4Gwxx27uvlMjH/zbUKarI/DJERjwKdsViBm3lrqkfKZz
+	twWsixWc8Jjtm7OGCpE5Q5fNW3W32Gdbj+aFr/hpOi5nKWYOiR1NL2wZLDch2DRmEkrG
+	EvDiLF/c/xugtEZKpof4UDW76noVYVtxSG5SwE5XEtWWPqiRH9ew+HVemEXvSD+dqFQg
+	Wf6w==
+X-Received: by 10.69.0.199 with SMTP id ba7mr3760321pbd.165.1359027191724;
+	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
+X-Received: by 10.69.0.199 with SMTP id ba7mr3760307pbd.165.1359027191610;
+	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
 MIME-Version: 1.0
-Subject: [V2 PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
+Received: by 10.66.253.233 with HTTP; Thu, 24 Jan 2013 03:32:51 -0800 (PST)
+In-Reply-To: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
+References: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 11:32:51 +0000
+Message-ID: <CAJTo0LZ6W0V-8hVGbcoytABhi+++cKwDL4UPL27G9M7F-Nv-CA@mail.gmail.com>
+To: Xin Ouyang <Xin.Ouyang@windriver.com>
+X-Gm-Message-State: ALoCoQnpXH3UOc2J5mTveEmyaBmcY6Se9PWnG/dGFM434AqAp8yYE4C1vImZIULtz4+OLY4S+SlO6SmcU85iU1/lcMXHe9Ev9I3tf8eRS/rFE2P7b7eAeCiDlIO8SiW2ePzkVX3VYBW6rKA+XUcPgs90QATTgyHIalxLCnS3ZuU2YUqVQpJ3THNnxyiWhQ0q+uGUV9uhuWFv
+Cc: openembedded-core@www.linuxtogo.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [V2 PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,44 +47,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 11:41:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jan 2013 11:48:48 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 11:48:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-PAM modules in ${base_libdir}/security/ should be binary .so files,
-not symlinks, so fix this. Since pam_cgroup.so is installed into
-${base_libdir}/security, move libcgroup.so.* to ${base_libdir} to
-avoid "unsafe-references-in-binaries" QA issue.
+On 24 January 2013 11:25, Xin Ouyang <Xin.Ouyang@windriver.com> wrote:
+> PAM modules in ${base_libdir}/security/ should be binary .so files,
+> not symlinks, so fix this. Since pam_cgroup.so is installed into
+> ${base_libdir}/security, move libcgroup.so.* to ${base_libdir} to
+> avoid "unsafe-references-in-binaries" QA issue.
+>
+> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/recipes-core/libcgroup/libcgroup_0.37.1.bb |   15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+Acked-by: Ross Burton <ross.burton@intel.com>
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-index e74f831..d217f7b 100644
---- a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-@@ -23,5 +23,16 @@ FILES_cgroups-pam-plugin = "${base_libdir}/security/pam_cgroup.so*"
- FILES_${PN}-dbg += "${base_libdir}/security/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la"
- 
--# We really need the symlink so :(
--INSANE_SKIP_cgroups-pam-plugin = "dev-so"
-+do_install_append() {
-+	# Moving libcgroup to base_libdir
-+	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-+		mkdir -p ${D}/${base_libdir}/
-+		mv -f ${D}${libdir}/libcgroup.so.* ${D}${base_libdir}/
-+		ln -sf ${D}${base_libdir}/libcgroup.so.1 ${D}${libdir}/libcgroup.so
-+	fi
-+	# pam modules in ${base_libdir}/security/ should be binary .so files, not symlinks.
-+	if [ -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ]; then
-+		mv -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ${D}${base_libdir}/security/pam_cgroup.so
-+		rm -f ${D}${base_libdir}/security/pam_cgroup.so.*
-+	fi
-+}
--- 
-1.7.10.4
+(Why doesn't upstream fix their build...)
 
+Ross
 
 
