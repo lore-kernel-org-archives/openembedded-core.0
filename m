@@ -1,40 +1,32 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TyLIU-0007RA-7v
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 12:48:48 +0100
-Received: from mail-pb0-f72.google.com ([209.85.160.72])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 03:33:12 -0800
-Received: by mail-pb0-f72.google.com with SMTP id wz7so10694311pbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=PhgvWJXmFStJm/RT/kn6LsUsSysXEsDopxq1bsVQRzM=;
-	b=ZjFt4x4IDoFVf4YwwJyONZNr1Dkgxu/32HTRKvIDVl5UaHJopxD8AEMV+GExyMQI3R
-	ath0ickL8OXfwggu+iiw/SThGBI3zlFccFbdQmFY5dLY7V4oqsAsMMdOR5KujyKNG4M8
-	2CfGW9qIyAP+3mcM9cFZOYyD4Gwxx27uvlMjH/zbUKarI/DJERjwKdsViBm3lrqkfKZz
-	twWsixWc8Jjtm7OGCpE5Q5fNW3W32Gdbj+aFr/hpOi5nKWYOiR1NL2wZLDch2DRmEkrG
-	EvDiLF/c/xugtEZKpof4UDW76noVYVtxSG5SwE5XEtWWPqiRH9ew+HVemEXvSD+dqFQg
-	Wf6w==
-X-Received: by 10.69.0.199 with SMTP id ba7mr3760321pbd.165.1359027191724;
-	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
-X-Received: by 10.69.0.199 with SMTP id ba7mr3760307pbd.165.1359027191610;
-	Thu, 24 Jan 2013 03:33:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.66.253.233 with HTTP; Thu, 24 Jan 2013 03:32:51 -0800 (PST)
-In-Reply-To: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
-References: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Jan 2013 11:32:51 +0000
-Message-ID: <CAJTo0LZ6W0V-8hVGbcoytABhi+++cKwDL4UPL27G9M7F-Nv-CA@mail.gmail.com>
-To: Xin Ouyang <Xin.Ouyang@windriver.com>
-X-Gm-Message-State: ALoCoQnpXH3UOc2J5mTveEmyaBmcY6Se9PWnG/dGFM434AqAp8yYE4C1vImZIULtz4+OLY4S+SlO6SmcU85iU1/lcMXHe9Ev9I3tf8eRS/rFE2P7b7eAeCiDlIO8SiW2ePzkVX3VYBW6rKA+XUcPgs90QATTgyHIalxLCnS3ZuU2YUqVQpJ3THNnxyiWhQ0q+uGUV9uhuWFv
-Cc: openembedded-core@www.linuxtogo.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [V2 PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TyLMd-0007y0-UJ for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 12:53:19 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0OBeeT6005293; Thu, 24 Jan 2013 11:41:35 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gA7bfSVD6GV8; Thu, 24 Jan 2013 11:41:35 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0OBfRMZ005345
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 24 Jan 2013 11:41:30 GMT
+Message-ID: <1359027432.3616.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 24 Jan 2013 11:37:12 +0000
+In-Reply-To: <20130124103150.GA3012@jama>
+References: <cover.1359014474.git.Qi.Chen@windriver.com>
+	<c60b41bd635d38aa01ffdd5c6221fd1a9c34b68f.1359014474.git.Qi.Chen@windriver.com>
+	<20130124103150.GA3012@jama>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 05/12] volatiles.bbclass: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,22 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 11:48:48 -0000
-X-List-Received-Date: Thu, 24 Jan 2013 11:48:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Jan 2013 11:53:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 24 January 2013 11:25, Xin Ouyang <Xin.Ouyang@windriver.com> wrote:
-> PAM modules in ${base_libdir}/security/ should be binary .so files,
-> not symlinks, so fix this. Since pam_cgroup.so is installed into
-> ${base_libdir}/security, move libcgroup.so.* to ${base_libdir} to
-> avoid "unsafe-references-in-binaries" QA issue.
->
-> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+On Thu, 2013-01-24 at 11:31 +0100, Martin Jansa wrote:
+> On Thu, Jan 24, 2013 at 04:16:45PM +0800, Qi.Chen@windriver.com wrote:
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> > 
+> > All recipes that need to tweak their directories need to inherit this
+> > class and set VOLATILE_DIR, VOLATILE_LINK and VOLATILE_PKGS.
+> > 
+> > [YOCTO #3406]
+> > 
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> >  meta/classes/volatiles.bbclass |   11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >  create mode 100644 meta/classes/volatiles.bbclass
+> > 
+> > diff --git a/meta/classes/volatiles.bbclass b/meta/classes/volatiles.bbclass
+> > new file mode 100644
+> > index 0000000..f27e598
+> > --- /dev/null
+> > +++ b/meta/classes/volatiles.bbclass
+> > @@ -0,0 +1,11 @@
+> > +# This bbclass is for read-only-rootfs support. All recipes that may tweak their
+> > +# own directories in order to run correctly in a read-only rootfs enviroment
+> > +# should inherit this class and set VOLATILE_DIR, VOLATILE_LINK, VOLATILE_PKGS.
+> > +
+> > +# For each package, the net result is a read-only specific conf file generated
+> > +# and packaged, which has the name of readonly-${VOLATILESPN}.
+> > +
+> > +# All these config files are then parsed by populate-volatile.sh to create proper
+> > +# directories and links.
+> > +
+> > +inherit ${@base_contains('DISTRO_FEATURES','sysvinit','volatiles_sysvinit','',d)}
+> 
+> Does "inherit " work?
+> 
+> I mean empty inherit when DISTRO_FEATURES don't contain sysvinit? IIRC
+> it will fail to parse.
 
-Acked-by: Ross Burton <ross.burton@intel.com>
+The above syntax does now work. A plain "inherit " won't but something
+with an expression in does get handled correctly. It did not used to
+work with older bitbake versions.
 
-(Why doesn't upstream fix their build...)
+Cheers,
 
-Ross
+Richard
+
 
 
