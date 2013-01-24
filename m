@@ -1,19 +1,19 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TySy3-00048n-2O
+	(envelope-from <mark.hatle@windriver.com>) id 1TyTD2-0004j3-Gu
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 21:00:15 +0100
+	Thu, 24 Jan 2013 21:15:41 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0OJiahq005405
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0OGBrj9007017
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 11:44:36 -0800 (PST)
+	Thu, 24 Jan 2013 08:11:53 -0800 (PST)
 Received: from msp-dhcp30.wrs.com (172.25.34.30) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 24 Jan 2013 11:44:35 -0800
-Message-ID: <51018F26.104@windriver.com>
-Date: Thu, 24 Jan 2013 13:44:38 -0600
+	Thu, 24 Jan 2013 08:11:52 -0800
+Message-ID: <51015D42.1060008@windriver.com>
+Date: Thu, 24 Jan 2013 10:11:46 -0600
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
@@ -21,9 +21,9 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
 References: <cover.1359014474.git.Qi.Chen@windriver.com>
-	<3d6b90b5ad79166eda3883ad4e9d5ca1ed937f10.1359014474.git.Qi.Chen@windriver.com>
-In-Reply-To: <3d6b90b5ad79166eda3883ad4e9d5ca1ed937f10.1359014474.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 02/12] image.bbclass: add a hook funtion to support readonly rootfs
+	<202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
+In-Reply-To: <202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 08/12] initscripts: let populate-volatile.sh create the /tmp link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,64 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 20:00:15 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 20:15:41 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 1/24/13 2:16 AM, Qi.Chen@windriver.com wrote:
 > From: Chen Qi <Qi.Chen@windriver.com>
 >
-> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
-> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
-> volatile.sh script run at rootfs time.
+> Previously, the /tmp link (/tmp -> /var/tmp) was created by the
+> bootmisc.sh script. So in case of a read-only rootfs, this symlink
+> would not be created correctly.
 >
-> For now, it has real effect only if the init system is sysvinit.
+> The populate-volatile.sh script is intended to handle all directories
+> and files related to volatile storage, so we should let it create
+> the /tmp link.
+>
+> In addition, because of the improments of populate-volatile.sh, the data
+> loss problem of bug#3404 is also resolved by this patch.
 >
 > [YOCTO #3406]
+> [YOCTO #3404]
 >
 > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->   meta/classes/image.bbclass |   18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+>   .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +--------
+>   .../initscripts/initscripts-1.0/volatiles          |    1 +
+>   2 files changed, 2 insertions(+), 8 deletions(-)
 >
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 0293d2e..91045fc 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -201,6 +201,24 @@ run_intercept_scriptlets () {
->   	fi
->   }
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> index 4f76cb4..3b5a47f 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+> @@ -54,14 +54,7 @@ fi
 >
-> +# A hook function to support read-only-rootfs IMAGE_FEATURES
-> +# Currently, it only supports sysvinit system.
-> +read_only_rootfs_hook () {
-> +	if ${@base_contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
-> +	        # Tweak the mount option in fstab
-> +		sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+>   #
+>   # This is as good a place as any for a sanity check
+> -# /tmp should be a symlink to /var/tmp to cut down on the number
+> -# of mounted ramdisks.
+> -if test ! -L /tmp && test -d /var/tmp
+> -then
+> -	rm -rf /tmp
+> -	ln -sf /var/tmp /tmp
+> -fi
+> -
 
-There is a slight bug in the above.  Not all configurations will contain an 
-/etc/fstab!  So you need to check for the existence of the file before you try 
-to sed it.
+I saw this the other day.  It seems like the wrong solution, if the expectation 
+is that all systems want this linked behavior.  Instead the link should be 
+configured in the meta/files/fs-perms.txt
 
-(Initramfs is where I hit a problem trying to test this.)
+Something like:
 
---Mark
+-/tmp                            01777   root    root    false - - -
++/tmp                            link    /var/tmp
 
-> +	        # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
-> +		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
-> +			sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
-> +		fi
-> +	        # Run populate-volatile.sh at rootfs time to set up basic files
-> +	        # and directories to support read-only rootfs.
-> +		if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-> +			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-> +		fi
-> +	fi
-> +}
-> +
->   fakeroot do_rootfs () {
->   	#set -x
->   	# When use the rpm incremental image generation, don't remove the rootfs
+Making that change would avoid this patch, and then all of the filesystems could 
+inherit this behavior.  (Other distributions that don't want it can provide 
+their own custom fs-perms.txt file, and simply set the older value, which will 
+append to the default.)
+
+> +#
+>   # Set the system clock from hardware clock
+>   # If the timestamp is more recent than the current time,
+>   # use the timestamp instead.
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> index e0741aa..f7e2ef7 100644
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+> @@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
+>   l root root 0755 /var/log /var/volatile/log
+>   l root root 0755 /var/run /var/volatile/run
+>   l root root 1777 /var/tmp /var/volatile/tmp
+> +l root root 1777 /tmp /var/tmp
+>   d root root 0755 /var/lock/subsys none
+>   f root root 0664 /var/log/wtmp none
+>   f root root 0664 /var/run/utmp none
 >
 
 
