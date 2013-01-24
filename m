@@ -1,27 +1,15 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TyM9U-0001rh-Fp
+	(envelope-from <ml@communistcode.co.uk>) id 1TyMIl-0002CQ-40
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:43:33 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jan 2013 04:26:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="276069497"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2013 04:27:58 -0800
-Message-ID: <51012A68.806@intel.com>
-Date: Thu, 24 Jan 2013 14:34:48 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Thu, 24 Jan 2013 13:53:12 +0100
+From: ml@communistcode.co.uk
 To: openembedded-core@lists.openembedded.org
-References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
-	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
-	<510124FE.6040901@intel.com>
-	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: systemd: /run directory not created
+Date: Thu, 24 Jan 2013 12:37:25 +0000
+Message-Id: <1359031045-5615-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.1.1
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH v2] systemd: remove usbutils dependancy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +22,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 12:43:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jan 2013 12:53:12 -0000
 
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-On 01/24/2013 02:20 PM, Enrico Scholz wrote:
-> Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> writes:
->
->>>> Possibly because /run was a link created by the initscripts which
->>>> are now disabled when systemd is the init manager. I'll look into
->>>> this and update 00-create-volatile.conf so that systemd will handle
->>>> the link creation in stead.
->>> I wonder how my images booted...  initscripts is sysvinit specific,
->>> the systemd startup should handle this somehow.
->>>
->>> (insert standard argument that we should adopt /run across all init
->>> systems)
-> yes; that's the best way.  Make /var/run a symlink pointing to /run.
->
->
->> This is exactly what I was looking for. /run shouldn't be there, yet
->> somehow it is. I was looking into how/where systemd is creating /run
->> but no lead for now.
-> /run is part of systemd's api and mounted very early internally by
-> systemd.  This mountpoint must exist in the filesystem and it will
-> probably not work when it is symlink into /var/volatile which gets
-> mounted later.
->
->
-Isn't systemd looking into fstab.systemd for mount points?
+V2:
 
-Radu
+Dependancy was removed in version 196 according to following systemd commit.
+
+http://cgit.freedesktop.org/systemd/systemd/commit/configure.ac?id=796b06c21b62d13c9021e2fbd9c58a5c6edb2764
+
+V1:
+
+No where in the systemd readme does it specify that usbutils
+is a dependancy of systemd. I can only guess that it was added
+due to an issue elsewhere in the chain or it was brought in
+when udev was merged and the dependancies never checked.
+
+I have build tested this with no issues.
+
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ meta/recipes-core/systemd/systemd_196.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_196.bb b/meta/recipes-core/systemd/systemd_196.bb
+index a78a8a6..9eca25b 100644
+--- a/meta/recipes-core/systemd/systemd_196.bb
++++ b/meta/recipes-core/systemd/systemd_196.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+ 
+ PROVIDES = "udev"
+ 
+-DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers usbutils glib-2.0 libgcrypt"
++DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 libgcrypt"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+-- 
+1.8.1.1
+
 
 
