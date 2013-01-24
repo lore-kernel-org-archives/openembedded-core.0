@@ -1,31 +1,41 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TyLMd-0007y0-UJ for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 12:53:19 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0OBeeT6005293; Thu, 24 Jan 2013 11:41:35 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gA7bfSVD6GV8; Thu, 24 Jan 2013 11:41:35 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0OBfRMZ005345
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 24 Jan 2013 11:41:30 GMT
-Message-ID: <1359027432.3616.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 24 Jan 2013 11:37:12 +0000
-In-Reply-To: <20130124103150.GA3012@jama>
+	(envelope-from <ross.burton@intel.com>) id 1TyLUc-0000EW-Aa
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 13:01:19 +0100
+Received: from mail-da0-f72.google.com ([209.85.210.72])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 03:45:41 -0800
+Received: by mail-da0-f72.google.com with SMTP id r28so9359968daj.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 03:45:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=LqFHzQ+7gYpTzU+JnNwhA0o6ohb2OfEE73MK5DkGNsA=;
+	b=Vd2GonxmZTwzxUftOAebIg5Y9Z51TwcqBa+MQiUAu9RQ5Q7rmJ44w0YVVibQm7ASRE
+	vYf6UH3q6mmi1qhC3LxudC7AMabMNkKo6rB9b4Brznxg71/rSfstjU1R/hoZiL4xhCIH
+	bf3TGKlNla1yMelGS4T0L9fmRuNd0BrFuGEsCFT1OPxGu/rQ/VTKF83B3b/VKwTEL3Ta
+	RkADaD/slQF4bQId6qs2cVhzcG4hMBAFWq9jjZHYrNhv4V8HoxywqcQ+aaU8pLLLLOhc
+	NYeTBnsmD9CUfF96sFngeMGG6APrqDB8f1kvWJMOzIGewqz0lqKV0uqb45SnxVT3X71p
+	1uCA==
+X-Received: by 10.68.130.195 with SMTP id og3mr4192595pbb.10.1359027940931;
+	Thu, 24 Jan 2013 03:45:40 -0800 (PST)
+X-Received: by 10.68.130.195 with SMTP id og3mr4192580pbb.10.1359027940815;
+	Thu, 24 Jan 2013 03:45:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.66.253.233 with HTTP; Thu, 24 Jan 2013 03:45:20 -0800 (PST)
+In-Reply-To: <1359027432.3616.7.camel@ted>
 References: <cover.1359014474.git.Qi.Chen@windriver.com>
 	<c60b41bd635d38aa01ffdd5c6221fd1a9c34b68f.1359014474.git.Qi.Chen@windriver.com>
-	<20130124103150.GA3012@jama>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+	<20130124103150.GA3012@jama> <1359027432.3616.7.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 11:45:20 +0000
+Message-ID: <CAJTo0LY9sXyoe9=rgGtstf3umrA+XeLJ1bDbJkM9S9bsqpA=HQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQlKF7yoUuoISLUXBYjqv4miYRBS/utr40gbw+Uw+akUm4ARuSgLxJPxRwIXIkwMoUio11VhvkkoVaUS933R+201N2EWsl2z1dNA7Df4T+jURJV8iqg9ioNAzT5y1uAN/Flrl7V3Di9hofOUMLd0ngCWqJJg0b57Kg9hRekRy4qsL3eGzcoEmMyzYE2FlJg+XJMJb+fL
+Cc: openembedded-core@lists.openembedded.org,
+	Martin Jansa <martin.jansa@gmail.com>, Zhenfeng.Zhao@windriver.com
 Subject: Re: [PATCH 05/12] volatiles.bbclass: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,55 +49,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 11:53:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jan 2013 12:01:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2013-01-24 at 11:31 +0100, Martin Jansa wrote:
-> On Thu, Jan 24, 2013 at 04:16:45PM +0800, Qi.Chen@windriver.com wrote:
-> > From: Chen Qi <Qi.Chen@windriver.com>
-> > 
-> > All recipes that need to tweak their directories need to inherit this
-> > class and set VOLATILE_DIR, VOLATILE_LINK and VOLATILE_PKGS.
-> > 
-> > [YOCTO #3406]
-> > 
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/classes/volatiles.bbclass |   11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >  create mode 100644 meta/classes/volatiles.bbclass
-> > 
-> > diff --git a/meta/classes/volatiles.bbclass b/meta/classes/volatiles.bbclass
-> > new file mode 100644
-> > index 0000000..f27e598
-> > --- /dev/null
-> > +++ b/meta/classes/volatiles.bbclass
-> > @@ -0,0 +1,11 @@
-> > +# This bbclass is for read-only-rootfs support. All recipes that may tweak their
-> > +# own directories in order to run correctly in a read-only rootfs enviroment
-> > +# should inherit this class and set VOLATILE_DIR, VOLATILE_LINK, VOLATILE_PKGS.
-> > +
-> > +# For each package, the net result is a read-only specific conf file generated
-> > +# and packaged, which has the name of readonly-${VOLATILESPN}.
-> > +
-> > +# All these config files are then parsed by populate-volatile.sh to create proper
-> > +# directories and links.
-> > +
-> > +inherit ${@base_contains('DISTRO_FEATURES','sysvinit','volatiles_sysvinit','',d)}
-> 
-> Does "inherit " work?
-> 
-> I mean empty inherit when DISTRO_FEATURES don't contain sysvinit? IIRC
-> it will fail to parse.
+On 24 January 2013 11:37, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> > +inherit ${@base_contains('DISTRO_FEATURES','sysvinit','volatiles_sysvinit','',d)}
+>>
+>> Does "inherit " work?
+>>
+>> I mean empty inherit when DISTRO_FEATURES don't contain sysvinit? IIRC
+>> it will fail to parse.
+>
+> The above syntax does now work. A plain "inherit " won't but something
+> with an expression in does get handled correctly. It did not used to
+> work with older bitbake versions.
 
-The above syntax does now work. A plain "inherit " won't but something
-with an expression in does get handled correctly. It did not used to
-work with older bitbake versions.
+The syntax works but that expression won't. If sysvinit was backfilled
+(pending patch from Marcin) because the distribution didn't pick
+sysvinit or systemd explicitly, the backfill happens after this
+expression is parsed.
 
-Cheers,
+I'm testing a change where these tests happen against
+DISTRO_FEATURES_INITMAN instead now.
 
-Richard
-
+Ross
 
 
