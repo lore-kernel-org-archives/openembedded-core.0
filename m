@@ -1,38 +1,39 @@
-Received: from mail-ob0-f178.google.com ([209.85.214.178])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TyNg0-0002tf-Vz
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 15:21:13 +0100
-Received: by mail-ob0-f178.google.com with SMTP id eh20so9558851obb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 06:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=IKPV+6QMfQhuwufynFxtbtkzsE/xHurm+ogg5ZLb4IE=;
-	b=Df4ur/3c+cIb5k1HBFi9pfNQsKHmOSfUarkZQ5EEMA6s8yyQ9PgS40aAoqhBbumGIe
-	Tl1uyz/j9xZ4e8z4JPH8T2PDqK0iWhYlXF5SrtquntXytwCKF1+6rLSM47VQkDuUDe5Y
-	nx9TjbZdSdpVRuAEJZkMnOn4qV01cWj60f4Tc+RauMUm+A2pQcKMDW25VIYHfFYvzt7c
-	0BMIfp5jKfDci3jcsVxCO3zyncAWirlWmnSsd3+3pndc8cbOofYDUzeT98oj6TP0o96Q
-	5t1fsTgB5kud9//6tXRklVCMM5tlmJhHb+BpsGzyFe9oJkB8ntwrfzURAIorF8vdaOZP
-	TJfA==
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1TyNlN-000313-0I for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 15:26:45 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jan 2013 06:11:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="194707074"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Jan 2013 06:11:10 -0800
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Thu, 24 Jan 2013 14:11:03 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.82]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.144]) with mapi id
+	14.01.0355.002; Thu, 24 Jan 2013 14:11:03 +0000
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] Meta-web-kiosk Layer
+Thread-Index: Ac36KwkedgWuxsgKTRCww92yjPskEQABVniAAAIntosAAFJ8gAAAkw8B
+Date: Thu, 24 Jan 2013 14:11:02 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3F130C1@IRSMSX102.ger.corp.intel.com>
+References: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
+	<20130124124319.GC3012@jama>
+	<985E5BBDA0968D48ABDF343456A521B3F13082@IRSMSX102.ger.corp.intel.com>,
+	<20130124135415.GE3012@jama>
+In-Reply-To: <20130124135415.GE3012@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-X-Received: by 10.60.31.195 with SMTP id c3mr1528686oei.57.1359036339722; Thu,
-	24 Jan 2013 06:05:39 -0800 (PST)
-Received: by 10.60.54.34 with HTTP; Thu, 24 Jan 2013 06:05:39 -0800 (PST)
-In-Reply-To: <CAGiJk9ca5XZXMamBFOr+syV08WK--2CYONS_0f=rCxrZkm+n-g@mail.gmail.com>
-References: <1359034562-31592-1-git-send-email-radu.moisan@intel.com>
-	<20130124134801.GD3012@jama> <51013F96.80302@intel.com>
-	<CAGiJk9ca5XZXMamBFOr+syV08WK--2CYONS_0f=rCxrZkm+n-g@mail.gmail.com>
-Date: Thu, 24 Jan 2013 15:05:39 +0100
-Message-ID: <CAGiJk9dpU1vpqUZt_+3aS4Bu97_kEkftPrOameF-LAB1qd2qDg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: set default.target to multi-user.target
+Subject: Re: Meta-web-kiosk Layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,60 +46,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 14:21:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Jan 2013 14:26:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-2013/1/24 Samuel Stirtzel <s.stirtzel@googlemail.com>:
-> 2013/1/24 Radu Moisan <radu.moisan@intel.com>:
->>
->> On 01/24/2013 03:48 PM, Martin Jansa wrote:
->>>
->>> On Thu, Jan 24, 2013 at 03:36:02PM +0200, Radu Moisan wrote:
->>>>
->>>> this fixes a service dependency issue;
->>>> while graphical.target is the default mode, systemd
->>>> will try to start display-manager.service which is not
->>>> available.
->>>
->>> what about images with display-manager available?
->>>
->>>
->>> meta-efl/recipes-efl/efl/entrance/entrance.service:Alias=display-manager.service
->>>
->>> meta-gnome/recipes-gnome/gdm/gdm/gdm.service.in:Alias=display-manager.service
->>>
->>> meta-oe/recipes-graphics/xserver-nodm-init/xserver-nodm-init/xserver-nodm.service:Alias=display-manager.service
->>>
->>> ?
->>>
->>> Making this change in global PKG_ARCH recipe doesn't look correct (and
->>> also missing Upstream-Status and SOB line).
->>>
->>> Cheers,
->>>
->> The problem goes both ways. If we leave it as it is, graphical.target as
->> default, what about images that don't need a display manager, like
->> core-image-minimal that is in particular the target, for the time being, for
->> systemd integration.
->>
->> Radu
->
->  ln -sf /lib/systemd/system/multi-user.target
-> /etc/systemd/system/default.target  ?
->
-Send too soon / wrong button :/
-
-you want to change the default do
- ln -sf /lib/systemd/system/multi-user.target
-/etc/systemd/system/default.target  ?
-
-why not do that with .bbappends?
-
-I'd prefer "vanilla" over hacky workarounds
-
-
---
-Regards
-Samuel
+Updated the repository.=0A=
+________________________________________=0A=
+From: Martin Jansa [martin.jansa@gmail.com]=0A=
+Sent: Thursday, January 24, 2013 3:54 PM=0A=
+To: Ciobanu, Emilia Maria Silvia=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] Meta-web-kiosk Layer=0A=
+=0A=
+On Thu, Jan 24, 2013 at 01:46:04PM +0000, Ciobanu, Emilia Maria Silvia wrot=
+e:=0A=
+> Hi,=0A=
+>=0A=
+> I've updated the repository with the dependencies changes.=0A=
+=0A=
+Great, thank you.=0A=
+=0A=
+I'm not sure if this settings will work for everybody, maybe some other=0A=
+default config or generate that from some variables in recipe (easier to=0A=
+override from distro).=0A=
+=0A=
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/tree/recipes-brows=
+er/midori-session/files/config=0A=
+default-encoding=3DISO-8859-1=0A=
+http-proxy=3Dhttps://proxy-ir.intel.com=0A=
+http-proxy-port=3D911=0A=
+=0A=
+Cheers,=0A=
+=0A=
+>=0A=
+> Thanks,=0A=
+> Ema=0A=
+> ________________________________________=0A=
+> From: Martin Jansa [martin.jansa@gmail.com]=0A=
+> Sent: Thursday, January 24, 2013 2:43 PM=0A=
+> To: Ciobanu, Emilia Maria Silvia=0A=
+> Cc: openembedded-core@lists.openembedded.org=0A=
+> Subject: Re: [OE-core] Meta-web-kiosk Layer=0A=
+>=0A=
+> On Thu, Jan 24, 2013 at 12:05:00PM +0000, Ciobanu, Emilia Maria Silvia wr=
+ote:=0A=
+> > Hi,=0A=
+> >=0A=
+> > I've created a new layer that can be used for kiosk devices.=0A=
+> > You can check it out at:=0A=
+> >     http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/=0A=
+> >=0A=
+> > It contains a new bitbake target that automatically=0A=
+> > starts a web browser right after boot and enables the=0A=
+> > use of a virtual keyboard if there is support for it.=0A=
+> >=0A=
+> > The layer currently includes recipes for the web browser,=0A=
+> > and bsp configurations.=0A=
+> >=0A=
+> > I'm open to receiving feedback, patches and any suggestions.=0A=
+>=0A=
+> Why not add dependency on meta-openembedded/meta-oe and meta-gnome?=0A=
+>=0A=
+> At least 4 duplicated recipes could be removed and newer midori from=0A=
+> meta-gnome would be used:=0A=
+>=0A=
+> OE @ ~/meta-openembedded $ find . -name ca-certificates_\*=0A=
+> ./meta-oe/recipes-support/ca-certificates/ca-certificates_20120623.bb=0A=
+> OE @ ~/meta-openembedded $ find . -name vala_\*=0A=
+> ./meta-oe/recipes-devtools/vala/vala_0.16.0.bb=0A=
+> OE @ ~/meta-openembedded $ find . -name midori_\*=0A=
+> ./meta-gnome/recipes-connectivity/midori/midori_0.4.7.bb=0A=
+> OE @ ~/meta-openembedded $ find . -name python-docutils_\*=0A=
+> ./meta-oe/recipes-devtools/python/python-docutils_0.5.bb=0A=
+>=0A=
+> Cheers,=0A=
+>=0A=
+> --=0A=
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com=0A=
+=0A=
+--=0A=
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com=0A=
 
 
