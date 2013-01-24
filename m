@@ -1,38 +1,40 @@
-Received: from mail-da0-f51.google.com ([209.85.210.51])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TyMOP-0002Sz-O9
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TyMXq-0005d9-VS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:58:59 +0100
-Received: by mail-da0-f51.google.com with SMTP id i30so4213920dad.38
+	Thu, 24 Jan 2013 14:08:44 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0OCr6xs029631
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 04:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=24Kht3iZc9jNmMydhpq6s9sBwXdVxGvoevKp93iyQfU=;
-	b=oWYOhihSq5qON0x+5Fint7+3LIHUqfY1LCkzDoz1Cu2QXftne9oNYS6UHTGlx0rxlr
-	QsiUaReP3C/+oAqxBT/nDcciQESs+ICNNhrc6jy1WMk7yvlRyl3ZQcvGFAYLVJcU9XD5
-	laQXW0VxphxJgaAhcfEXQ5kOCpAA53DzVBv1UgF0XoNzL0GB+hU1R1Cx5p0lHLtl2m9R
-	J85ep67Psb9EyshmV6Uimm52jMJzKd3tWRyyMRujL5Ake9UAJQGf58V4vxtyWgB9ESuw
-	fpYhM1s0zCjtRKRfqEJ2zMPUfLZ9mj8WPxKLrrCOQaALQZysirJNd44Rv+BMvyJksHE6
-	khnA==
-X-Received: by 10.66.78.1 with SMTP id x1mr4465139paw.2.1359031404313;
-	Thu, 24 Jan 2013 04:43:24 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id kl5sm14816364pbc.74.2013.01.24.04.43.21
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 24 Jan 2013 04:43:23 -0800 (PST)
-Date: Thu, 24 Jan 2013 13:43:19 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-Message-ID: <20130124124319.GC3012@jama>
-References: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
+	Thu, 24 Jan 2013 13:53:08 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TyMIw-0003CL-4s
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 13:53:18 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+Date: Thu, 24 Jan 2013 13:53:18 +0100
+In-Reply-To: <51012A68.806@intel.com> (Radu Moisan's message of "Thu, 24 Jan
+	2013 14:34:48 +0200")
+Message-ID: <ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Meta-web-kiosk Layer
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,63 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 12:59:00 -0000
-X-Groupsio-MsgNum: 34355
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1SQmhf2mF2YjsYvc"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Jan 2013 13:08:52 -0000
+Content-Type: text/plain
 
---1SQmhf2mF2YjsYvc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-On Thu, Jan 24, 2013 at 12:05:00PM +0000, Ciobanu, Emilia Maria Silvia wrot=
-e:
-> Hi,
->=20
-> I've created a new layer that can be used for kiosk devices.
-> You can check it out at:
->     http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/
->=20
-> It contains a new bitbake target that automatically
-> starts a web browser right after boot and enables the
-> use of a virtual keyboard if there is support for it.
->=20
-> The layer currently includes recipes for the web browser,
-> and bsp configurations.
->=20
-> I'm open to receiving feedback, patches and any suggestions.
+>> /run is part of systemd's api and mounted very early internally by
+>> systemd.  This mountpoint must exist in the filesystem and it will
+>> probably not work when it is symlink into /var/volatile which gets
+>> mounted later.
+>
+> Isn't systemd looking into fstab.systemd for mount points?
 
-Why not add dependency on meta-openembedded/meta-oe and meta-gnome?
+not for /run or /proc or so. In src/core/mount-setup.c there is a
+'mount_table[]' list which is evaluated before fstab is parsed.  You
+can override this by setting $SYSTEMD_SKIP_API_MOUNTS but this will
+create other problems.
 
-At least 4 duplicated recipes could be removed and newer midori from
-meta-gnome would be used:
 
-OE @ ~/meta-openembedded $ find . -name ca-certificates_\*
-=2E/meta-oe/recipes-support/ca-certificates/ca-certificates_20120623.bb
-OE @ ~/meta-openembedded $ find . -name vala_\*
-=2E/meta-oe/recipes-devtools/vala/vala_0.16.0.bb
-OE @ ~/meta-openembedded $ find . -name midori_\*
-=2E/meta-gnome/recipes-connectivity/midori/midori_0.4.7.bb
-OE @ ~/meta-openembedded $ find . -name python-docutils_\*
-=2E/meta-oe/recipes-devtools/python/python-docutils_0.5.bb
+Enrico
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1SQmhf2mF2YjsYvc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlEBLGcACgkQN1Ujt2V2gByvYACfc9HXNb8gcXusO6bIyTyiQnhj
-lvUAnRg9Cb80yY4R0iqZXQx4KGStCgFV
-=q1mr
------END PGP SIGNATURE-----
-
---1SQmhf2mF2YjsYvc--
