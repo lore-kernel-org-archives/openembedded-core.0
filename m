@@ -1,32 +1,21 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TyB7r-0000ln-7Z for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 01:57:11 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0O0jbeD016389; Thu, 24 Jan 2013 00:45:38 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5hC7U2LTTe6i; Thu, 24 Jan 2013 00:45:37 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0O0jVHI016362
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 24 Jan 2013 00:45:34 GMT
-Message-ID: <1358988079.3616.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 24 Jan 2013 00:41:19 +0000
-In-Reply-To: <51008153.6090800@windriver.com>
-References: <20130123172748.GB14381@jama.palm1.palmone.com>
-	<CABcZANkfiefEBNVAswnCrmjPFSiJeijvaJ+o++EH7qtrQfnKMA@mail.gmail.com>
-	<51008153.6090800@windriver.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: File conflicts between PN-doc packages
+	(envelope-from <nitin.a.kamble@intel.com>) id 1TyG2K-0003tn-U4
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 07:11:48 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jan 2013 21:55:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,527,1355126400"; d="scan'208";a="251573110"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2013 21:56:10 -0800
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org, meta-intel@yoctoproject.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 23 Jan 2013 21:55:50 -0800
+Message-Id: <cover.1359005591.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [RFC 0/3] infrastructure changes in oecore hw codecs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 00:57:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jan 2013 06:11:48 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 06:11:48 -0000
 
-On Wed, 2013-01-23 at 18:33 -0600, Mark Hatle wrote:
-> On 1/23/13 6:13 PM, Chris Larson wrote:
-> >
-> > On Wed, Jan 23, 2013 at 10:27 AM, Martin Jansa <martin.jansa@gmail.com
-> > <mailto:martin.jansa@gmail.com>> wrote:
-> >
-> >     |  * check_data_file_clashes: Package gcc-doc wants to install file
-> >     rootfs/usr/share/info/dir
-> 
-> I missed this earlier.  Yes, the 'dir' file in an info (-doc) package should not 
-> be included.  It's existence is an error.  This might be a sanity check we 
-> should be adding.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-autotools_do_install() in autotools.bbclass actually purges those.
-Whether it should be autotools or the base class I'm not so sure but it
-was a common problem for autotools recipes...
+Here are commits for getting feedback from the community on the work
+happening in the oecore for supporting hwcodecs for H/W BSPs properly.
+  The current requirements: we need a mechanism to 
+1. Add accelerated codecs to the images
+2. Exclude the X based codecs automatically for images not including
+   the Xserver
+3. Need a simple config mechanism to exclude all the accelerated
+   codecs for any image of a BSP
 
-Cheers,
+The current mechanism available in the meta-intel BSP configs is failing
+to fulfill the 2nd requirement above. And I could not find any
+meta-intel specific solution to achieve it.
 
-Richard
+Richard and I discussed this matter and came up with the solution
+included in these commits. These commits will lead to BSP config
+changes similar to this commit:
+  http://git.yoctoproject.org/cgit.cgi/meta-intel-contrib/commit/?h=nitin/hwcodec
 
+This work is not final, and also not properly tested yet, but this
+email is written with the intention of sharing the proposed
+infrastructure changes in oecore layer to the community before
+they solidify.
+
+Thanks,
+Nitin
+
+The following changes since commit 8d6e55bf2192524bda84138b5356a2791adbbe61:
+
+  prserv: add LOCALCOUNT to AUTOINCs migration feature (2013-01-22 16:01:32 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Richard Purdie (3):
+  packagegroup-core-x11-xserver: Add XSERVERCODECS variable
+  core-image-lsb-sdk/dev: Inherit the base image instead of duplicating
+  core-image: Add hwcodecs IMAGE_FEATURE
+
+ meta/classes/core-image.bbclass                    |    4 ++++
+ meta/recipes-extended/images/core-image-lsb-dev.bb |   12 +++---------
+ meta/recipes-extended/images/core-image-lsb-sdk.bb |   14 ++++----------
+ meta/recipes-extended/images/core-image-lsb.bb     |    2 +-
+ .../packagegroups/packagegroup-core-x11-xserver.bb |    2 ++
+ meta/recipes-sato/images/core-image-sato.bb        |    2 +-
+ 6 files changed, 15 insertions(+), 21 deletions(-)
+
+-- 
+1.7.3.4
 
 
 
