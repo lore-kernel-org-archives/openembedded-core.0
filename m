@@ -1,26 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TyLnB-0000tT-Ic
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:20:31 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jan 2013 04:04:54 -0800
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1TyLoL-0000yG-47 for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 13:22:01 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jan 2013 04:05:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="276061744"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2013 04:04:52 -0800
-Message-ID: <510124FE.6040901@intel.com>
-Date: Thu, 24 Jan 2013 14:11:42 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="194669823"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Jan 2013 04:05:02 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.82]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.218]) with mapi id
+	14.01.0355.002; Thu, 24 Jan 2013 12:05:01 +0000
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Meta-web-kiosk Layer
+Thread-Index: Ac36KwkedgWuxsgKTRCww92yjPskEQ==
+Date: Thu, 24 Jan 2013 12:05:00 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
-	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: systemd: /run directory not created
+Subject: Meta-web-kiosk Layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 12:20:31 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jan 2013 12:22:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On 01/24/2013 02:01 PM, Burton, Ross wrote:
-> On 24 January 2013 09:46, Radu Moisan <radu.moisan@intel.com> wrote:
->> Possibly because /run was a link created by the initscripts which are now
->> disabled when systemd is the init manager. I'll look into this and update
->> 00-create-volatile.conf so that systemd will handle the link creation in
->> stead.
-> I wonder how my images booted...  initscripts is sysvinit specific,
-> the systemd startup should handle this somehow.
->
-> (insert standard argument that we should adopt /run across all init systems)
->
-This is exactly what I was looking for. /run shouldn't be there, yet 
-somehow it is. I was looking into how/where systemd is creating /run but 
-no lead for now.
+I've created a new layer that can be used for kiosk devices.
+You can check it out at:
+    http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/
 
-Radu
+It contains a new bitbake target that automatically
+starts a web browser right after boot and enables the
+use of a virtual keyboard if there is support for it.
+
+The layer currently includes recipes for the web browser,
+and bsp configurations.
+
+I'm open to receiving feedback, patches and any suggestions.
+
+Thanks,
+Emilia Ciobanu
 
 
