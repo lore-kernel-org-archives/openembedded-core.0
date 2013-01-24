@@ -1,40 +1,45 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1TyNq9-0003EF-6C for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 15:31:41 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jan 2013 06:16:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="276106677"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2013 06:16:03 -0800
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Thu, 24 Jan 2013 14:16:02 +0000
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.82]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.144]) with mapi id
-	14.01.0355.002; Thu, 24 Jan 2013 14:16:02 +0000
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Philip Balister
-	<philip@balister.org>
-Thread-Topic: [OE-core] [yocto] Meta-web-kiosk Layer
-Thread-Index: AQHN+jp6CuaT40LkAEWLRfVss8dAoZhYhhVX
-Date: Thu, 24 Jan 2013 14:16:01 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3F130DF@IRSMSX102.ger.corp.intel.com>
-References: <985E5BBDA0968D48ABDF343456A521B3F1300F@IRSMSX102.ger.corp.intel.com>
-	<CAJTo0Lbjvedo-1YPQmM2uEv_44aUh9eoo45BCpXg6U=rH+f0mw@mail.gmail.com>
-	<51012AE1.7060905@balister.org>,
-	<CAJTo0LbtvKV3V5sKTbZ5j9GDu5xFfLgVicd6o74aW2NT0OArKw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbtvKV3V5sKTbZ5j9GDu5xFfLgVicd6o74aW2NT0OArKw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.135]
+	(envelope-from <ross.burton@intel.com>) id 1TyOPp-0004EQ-Ei
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 16:08:33 +0100
+Received: from mail-gg0-f199.google.com ([209.85.161.199])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 06:52:58 -0800
+Received: by mail-gg0-f199.google.com with SMTP id v5so10089291ggn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 06:52:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=suQgBo0DKbKql13Han19p71ryXPGaQ6S/Vrl6DCjpAU=;
+	b=XT5n9pheEIBN0iX87FaPYUPuvx3vIeGd5uK3IKGi/w1Ja26nYpAW0e6hQiv3gZNb3I
+	U+SCU07Y1HOBkV5H/h00O86NJCLImq0YMIZX76eFBPOGm34piD1bkCmXsNtwKQZkbhl8
+	pl7b83n01ywRJ8Yqq//DHEX3Zp9vs0D8Gel/4A9rFc+ZjgoQ2FwcVoIgWNEbiq5+k7mN
+	bwsjpS3Yai5oaUy83YApenTSIkQbZqPu5K3wbfwcClElbWVljtp0QV/CIzXgNOerKSEB
+	BxZ7wkohoBexT5WLDtvKlPClH5A8vgEspZPRpUEfNtiFZTcIj52Y92thDTqn7gWJZoLt
+	iiAQ==
+X-Received: by 10.52.68.4 with SMTP id r4mr1892419vdt.15.1359039177730;
+	Thu, 24 Jan 2013 06:52:57 -0800 (PST)
+X-Received: by 10.52.68.4 with SMTP id r4mr1892414vdt.15.1359039177575; Thu,
+	24 Jan 2013 06:52:57 -0800 (PST)
 MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Meta-web-kiosk Layer
+Received: by 10.58.151.207 with HTTP; Thu, 24 Jan 2013 06:52:37 -0800 (PST)
+In-Reply-To: <51013136.7040807@intel.com>
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51013136.7040807@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 14:52:37 +0000
+Message-ID: <CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQm33yKwUTGYFBZ/RVTXIRFmr2yY5xEKBjaXY9cRCZzlKrEp1dwQw/uwbfwYFnLocmgYPQHjbqv6XD5ghPianJDClvUXqKnmV9sU+bQrCwdihNEMHiaqLDfi5JxouRQUTcdoPHW0rOfjJIVFWvrPH4/I2cE1LIhq/O5o+QPHoYLER7HCnq/vs1kwo1J8oRorzLxS3lkV
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,48 +52,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 14:31:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Jan 2013 15:08:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,=0A=
-=0A=
-I've updated the wiki.=0A=
-=0A=
-Ema=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Burton, Ross [ross.burton@intel=
-.com]=0A=
-Sent: Thursday, January 24, 2013 3:54 PM=0A=
-To: Philip Balister=0A=
-Cc: yocto@yoctoproject.org; OE-core=0A=
-Subject: Re: [OE-core] [yocto] Meta-web-kiosk Layer=0A=
-=0A=
-On 24 January 2013 12:36, Philip Balister <philip@balister.org> wrote:=0A=
-> On 01/24/2013 07:12 AM, Burton, Ross wrote:=0A=
->> On 24 January 2013 12:03, Ciobanu, Emilia Maria Silvia=0A=
->> <emilia.maria.silvia.ciobanu@intel.com> wrote:=0A=
->>> I've created a new layer that can be used for kiosk devices.=0A=
->>> You can check it out at:=0A=
->>>     http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/=0A=
->>=0A=
->> Excellent, good to see it not hidden away!=0A=
->=0A=
-> It is hidden until it appears on the Layer index :)=0A=
->=0A=
-> http://www.openembedded.org/wiki/LayerIndex=0A=
->=0A=
-> Please add it there.=0A=
-=0A=
-Yes, it should be on the layer index.  Emelia, can you update the wiki?=0A=
-=0A=
-Ross=0A=
-=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=0A=
+On 24 January 2013 13:03, Radu Moisan <radu.moisan@intel.com> wrote:
+> ok, thanks Enrico, this clears the picture for me.
+> Well then it looks like Jack's problems is coming from some other place.
+
+No - /run needs to exist for the mount to happen, and there isn't a
+/run in the filesystem.  Whatever creates the root filesystem
+structure should also create /run I guess.
+
+Ross
 
 
