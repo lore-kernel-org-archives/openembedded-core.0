@@ -1,25 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1TyG2Q-0003tn-SO
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 07:12:03 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jan 2013 21:55:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,527,1355126400"; d="scan'208";a="251573117"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jan 2013 21:56:12 -0800
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org, meta-intel@yoctoproject.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 23 Jan 2013 21:56:10 -0800
-Message-Id: <8b7ff0fd9be25fe9937a97ceebb01d41f440841f.1359005591.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <5d5324f0b338872221a92884543df7e46bae012c.1359005591.git.nitin.a.kamble@intel.com>
-References: <5d5324f0b338872221a92884543df7e46bae012c.1359005591.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1359005591.git.nitin.a.kamble@intel.com>
-References: <cover.1359005591.git.nitin.a.kamble@intel.com>
-Subject: [RFC 2/3] core-image-lsb-sdk/dev: Inherit the base image instead of duplicating
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1TyHyH-0007eK-LS
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 09:15:47 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0O6S6ki011105
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Jan 2013 22:28:06 -0800 (PST)
+Received: from [128.224.162.207] (128.224.162.207) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Wed, 23 Jan 2013 22:28:06 -0800
+Message-ID: <5100D477.9040305@windriver.com>
+Date: Thu, 24 Jan 2013 14:28:07 +0800
+From: Pascal Ouyang <xin.ouyang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1358908276-14786-1-git-send-email-Xin.Ouyang@windriver.com>
+	<CAJTo0Lbg6OyQ=eWun_fp_01AbX8Ybcf+Cmw+9MKPVk7tLxoZqA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbg6OyQ=eWun_fp_01AbX8Ybcf+Cmw+9MKPVk7tLxoZqA@mail.gmail.com>
+X-TagToolbar-Keys: D20130124142807474
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r0O6S6ki011105
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,64 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 06:12:18 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 08:15:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+=E4=BA=8E 2013=E5=B9=B401=E6=9C=8823=E6=97=A5 20:00, Burton, Ross =E5=86=99=
+=E9=81=93:
+> On 23 January 2013 02:31, Xin Ouyang <Xin.Ouyang@windriver.com> wrote:
+>> pam modules in ${base_libdir}/security/ should be binary .so files,
+>> not symlinks. So fix this QA issue.
+>
+> The short log should explain the problem more than just "fix QA issue".
+>
+> The commit log also doesn't say anything about moving libcgroup from
+> /usr/lib to /lib.  Also isn't just setting --libdir in EXTRA_OEMAKE
+> cleaner?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/images/core-image-lsb-dev.bb |   12 +++---------
- meta/recipes-extended/images/core-image-lsb-sdk.bb |   14 ++++----------
- 2 files changed, 7 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-extended/images/core-image-lsb-dev.bb b/meta/recipes-extended/images/core-image-lsb-dev.bb
-index 013efb9..d2dc9e2 100644
---- a/meta/recipes-extended/images/core-image-lsb-dev.bb
-+++ b/meta/recipes-extended/images/core-image-lsb-dev.bb
-@@ -1,13 +1,7 @@
-+require core-image-lsb.bb
-+
- DESCRIPTION = "Basic image without X support suitable for development work. It \
- can be used for customization and implementations that conform to Linux \
- Standard Base (LSB)."
- 
--IMAGE_FEATURES += "splash dev-pkgs ssh-server-openssh"
--
--IMAGE_INSTALL = "\
--    ${CORE_IMAGE_BASE_INSTALL} \
--    packagegroup-core-basic \
--    packagegroup-core-lsb \
--    "
--
--inherit core-image
-+IMAGE_FEATURES += "dev-pkgs"
-diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-index abddb76..da8c250 100644
---- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
-+++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-@@ -1,16 +1,10 @@
-+require core-image-lsb.bb
-+
- DESCRIPTION = "Basic image without X support suitable for Linux Standard Base \
- (LSB) implementations. It includes the full meta-toolchain, plus development \
- headers and libraries to form a standalone SDK."
- 
--IMAGE_FEATURES += "splash tools-sdk dev-pkgs ssh-server-openssh \
--	tools-debug tools-profile tools-testapps debug-tweaks"
--
-+IMAGE_FEATURES += "tools-sdk dev-pkgs tools-debug tools-profile tools-testapps debug-tweaks"
- 
--IMAGE_INSTALL = "\
--    ${CORE_IMAGE_BASE_INSTALL} \
--    packagegroup-core-basic \
--    packagegroup-core-lsb \
--    kernel-dev \
--    "
-+IMAGE_INSTALL += "kernel-dev"
- 
--inherit core-image
--- 
-1.7.3.4
+You know pam_cgroup.so is installed into ${base_libdir}/security, this=20
+will cause "unsafe-references-in-binaries" QA issue if libcgroup.so.0 is=20
+installed into ${libdir}.
 
+I will add this reason in V2.
+
+I do not use --libdir because pkgconfig/dev-so files should always=20
+installed into ${libdir} instead of ${base_libdir}.
+
+>
+> Finally, no PR bumps are needed in oe-core.
+
+Why no PR bumps needed?
+
+Thanks. :)
+
+- Pascal
+
+>
+> Ross
+>
+>
+
+
+--=20
+- Pascal
 
 
