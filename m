@@ -1,41 +1,26 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TyRGA-000847-Di
+	(envelope-from <sgw@linux.intel.com>) id 1TySBt-0001wF-FO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 19:10:47 +0100
-Received: from mail-bk0-f69.google.com ([209.85.214.69])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 09:55:07 -0800
-Received: by mail-bk0-f69.google.com with SMTP id jg9so10713077bkc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 09:54:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references:x-gm-message-state;
-	bh=W9W2XEFInDeGMZvwSENVJbHlPXPpp8g1lzBEAV6PCHA=;
-	b=lOyfF1BODX8Rjxk00c4yrXXKKMEm1rSPFjdvtbXtFqRX0iIKVOTq7wzICiURCLL4uf
-	FCN0p73Il7SeU7U4AAd5dz0mu4qV4+tN+12qMxIVK7lC5xlBSwGNdmo5GxgrtwsmchnJ
-	GgPTddq9/np++W+HvB8ivipDkuaY8e2Z0bHE/NiSg5U+Nm6dZCVaA6sKccQDIw7StELe
-	xP5+pgdoRw72VsitwJx+2g/YMRVYPisqlklYCtbJQqPCRRbZey7eGDErAM2nDqTYYvgV
-	Rv4CJbcG6bXdqdi5zF3T3XzptfAWfHXx5/jphG/fbl/hIGw7xKUfFhgv+fTH9XbThtOT
-	tz4w==
-X-Received: by 10.180.84.193 with SMTP id b1mr4721368wiz.26.1359050096202;
-	Thu, 24 Jan 2013 09:54:56 -0800 (PST)
-X-Received: by 10.180.84.193 with SMTP id b1mr4721360wiz.26.1359050096138;
-	Thu, 24 Jan 2013 09:54:56 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bz12sm3681314wib.5.2013.01.24.09.54.54
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 24 Jan 2013 09:54:55 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jan 2013 17:52:55 +0000
-Message-Id: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1359049755.git.ross.burton@intel.com>
-References: <cover.1359049755.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmWBLQ3bzcFkWKnbhiNJwNEMeypyhLexS7MhU/AGyRoUewdrDsG4tj2vxXp8QhGB24tUO7vGk6TqpD92WAsFkFx9A3tmK88tSiJJiJLYCLBRqscNFp3tWK08gTD6ClbsqghSiAvrPSN4ZRJ+Bm+uwJs3NCuTSaFOdYuMuU3teBujW9CSHjZYUCM/bmv2sRyo5oSHSRP
-Subject: [PATCH 1/2] bitbake.conf: unbreak all builds with custom DISTRO_FEATURES
+	Thu, 24 Jan 2013 20:10:26 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Jan 2013 10:54:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,530,1355126400"; d="scan'208";a="281787759"
+Received: from unknown (HELO [10.255.15.69]) ([10.255.15.69])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2013 10:54:31 -0800
+Message-ID: <51018367.10704@linux.intel.com>
+Date: Thu, 24 Jan 2013 10:54:31 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
+References: <1358512909-14714-1-git-send-email-schnitzeltony@googlemail.com>
+	<1358512909-14714-3-git-send-email-schnitzeltony@googlemail.com>
+In-Reply-To: <1358512909-14714-3-git-send-email-schnitzeltony@googlemail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 2/2] package.bbclass: remove RRECOMMENDS on base packages for locale packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 18:10:48 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 19:10:26 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+On 01/18/2013 04:41 AM, Andreas Müller wrote:
+> As long as we support only one locale package per recipe this leads to unwanted
+> packages in images. This patch was motivated by samba (meta-oe): only wanting
+> libsmbclient one gets full samba server into the image. For my standard image
+> the follwing package were removed by this patch:
+>
+> -acl_2.2.51-r3_armv7a-vfp-neon.ipk
+> -alsa-states_0.2.0-r3_armv7a-vfp-neon.ipk
+> -alsa-utils_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-aconnect_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-alsaconf_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-alsactl_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-alsaloop_1.0.25-r3_armv7a-vfp-neon.ipk
+>   alsa-utils-alsamixer_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-alsaucm_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-amixer_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-aplay_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-aseqdump_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-aseqnet_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-iecset_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-midi_1.0.25-r3_armv7a-vfp-neon.ipk
+> -alsa-utils-speakertest_1.0.25-r3_armv7a-vfp-neon.ipk
+> -attr_2.4.46-r4_armv7a-vfp-neon.ipk
+> -avahi_0.6.31-r7.1_armv7a-vfp-neon.ipk
+> -gtk-engines_2.20.2-r3_armv7a-vfp-neon.ipk
+> -pulseaudio_2.1-r15_armv7a-vfp-neon.ipk
+> -samba_3.6.8-r6_armv7a-vfp-neon.ipk
+> -vte_0.28.2-r5_armv7a-vfp-neon.ipk
+> -xz_5.1.2alpha-r0_armv7a-vfp-neon.ipk
+>
+So what affect does it have on the oe-core images such as 
+core-image-minimal and core-image-sato?
 
-Commit 9e7c64ca9afbf27edd0d35a1830ce55ee6d778ab broke all builds where
-custom DISTRO_FEATURES were used.
 
-Resulting images ended in non-bootable state due to lack of initscripts
-(unless someone had sysvinit or systemd in D_E already).
-
-https://bugs.launchpad.net/linaro-oe/+bug/1102910
-https://bugs.launchpad.net/linaro-oe/+bug/1099405/comments/12
-
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2dc50ca..607fb70 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -738,7 +738,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
- MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- 
--DISTRO_FEATURES_BACKFILL = "pulseaudio"
-+DISTRO_FEATURES_BACKFILL = "pulseaudio ${DISTRO_FEATURES_INITMAN}"
- DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
- 
- MACHINE_FEATURES_BACKFILL = "rtc"
--- 
-1.7.10.4
-
+> Strange effect: For samba buildhistory's depends.dot says:
+> -samba -> libc6;
+> -samba -> libgcc1;
+> -samba -> libreadline6;
+> -samba -> libtalloc2;
+> -samba -> libtdb1;
+> -samba -> libwbclient0;
+> -samba -> libz1;
+> -samba -> update_rc_d;
+> -samba_locale_de -> samba [style=dotted];
+>   samba_locale_de -> virtual_locale_de [style=dotted];
+> -samba_locale_fr -> samba [style=dotted];
+> -samba_locale_fr -> samba [style=dotted];
+>
+> This is conflicts to buildhistory's result on samba package not mentioning
+> any changes for samba package.
+>
+> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> ---
+>   meta/classes/package.bbclass |    3 +--
+>   1 files changed, 1 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index b06cca5..73e8de8 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -455,13 +455,12 @@ python package_do_split_locales() {
+>       description = d.getVar('DESCRIPTION', True) or ""
+>       locale_section = d.getVar('LOCALE_SECTION', True)
+>       mlprefix = d.getVar('MLPREFIX', True) or ""
+> -    pndep = base_contains('PACKAGES', pn, '%s ' % pn, '', d)
+>       for l in sorted(locales):
+>           ln = legitimize_package_name(l)
+>           pkg = pn + '-locale-' + ln
+>           packages.append(pkg)
+>           d.setVar('FILES_' + pkg, os.path.join(datadir, 'locale', l))
+> -        d.setVar('RRECOMMENDS_' + pkg, '%s%svirtual-locale-%s' % (pndep, mlprefix, ln))
+> +        d.setVar('RRECOMMENDS_' + pkg, '%svirtual-locale-%s' % (mlprefix, ln))
+>           d.setVar('RPROVIDES_' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
+>           d.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l))
+>           d.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
+>
 
 
