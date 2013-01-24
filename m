@@ -1,34 +1,25 @@
-Received: from mail-vb0-f49.google.com ([209.85.212.49])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TyIY1-0000eQ-Cc
+	(envelope-from <Kai.Kang@windriver.com>) id 1TyIrQ-0001MC-Oo
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 09:53:08 +0100
-Received: by mail-vb0-f49.google.com with SMTP id s24so6984169vbi.36
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 00:37:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type:content-transfer-encoding;
-	bh=rO6rb+zxjvHg+1YJoQbQxOHvEp5U2mS6ShBvp5LGFC8=;
-	b=M8xQLM61VPLmIEtsqaBZlo9Z0VkYsscyOXqX1zPL5gzSermNUGj3DygIkupXSqIjoj
-	Cfp96nDEeKWKGAfZaYJtyjDRNNGBY5Ht/dGLz5uqeGsvlJ7uuCXEJCc8VYp+AxAWDnCu
-	RebcTIUoJm8CDZhTozzVlD4ipCSAZBx0rsFfK192z2caFuDr44VOIZhZDUnJ3HHeLGxO
-	x1mVZoTpY7UoAyW9ZjFyz0qC9W5CwZU8YYbvx3JobNZxW9ecbcygznbamjFx3kbcTfML
-	7EBcMx1HNoNjScwgXJCDOJiWf1jy89crLuXO8KbKv4rdS29OJSHyDehP898dmpA4cpm3
-	AYFg==
+	Thu, 24 Jan 2013 10:12:42 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0O8v7ZF029040
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 24 Jan 2013 00:57:07 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Thu, 24 Jan 2013 00:57:06 -0800
+From: Kang Kai <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 16:58:14 +0800
+Message-ID: <cover.1359016228.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-X-Received: by 10.52.76.170 with SMTP id l10mr918752vdw.83.1359016624565; Thu,
-	24 Jan 2013 00:37:04 -0800 (PST)
-Received: by 10.52.95.243 with HTTP; Thu, 24 Jan 2013 00:37:04 -0800 (PST)
-In-Reply-To: <1358512909-14714-3-git-send-email-schnitzeltony@googlemail.com>
-References: <1358512909-14714-1-git-send-email-schnitzeltony@googlemail.com>
-	<1358512909-14714-3-git-send-email-schnitzeltony@googlemail.com>
-Date: Thu, 24 Jan 2013 09:37:04 +0100
-Message-ID: <CALbNGRTiQBAc-YwTRdKQz0oG3HxTHNuDhftOK+a4LUdtCn_KCw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 2/2] package.bbclass: remove RRECOMMENDS on base packages for locale packages
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] [danny] fix perl security issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,23 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 08:53:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Jan 2013 09:12:43 -0000
+Content-Type: text/plain
 
-On Fri, Jan 18, 2013 at 1:41 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> As long as we support only one locale package per recipe this leads to un=
-wanted
-> packages in images. This patch was motivated by samba (meta-oe): only wan=
-ting
-> libsmbclient one gets full samba server into the image. For my standard i=
-mage
-> the follwing package were removed by this patch:
->
-I am using this now for a while without issues (except reduced image
-size) - so ping
+The following changes since commit 47b0864fbd65746558d8186450c182d98bac78ca:
 
-Andreas
+  tools: Updated sed file to process links in mega-manual (2013-01-07 14:43:31 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/fix-perl-4danny
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/fix-perl-4danny
+
+Kang Kai (1):
+  perl: fix security issue
+
+ .../perl/perl-5.14.2/perl-fix-CVE-2012-5195.patch  |   41 ++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    3 +-
+ 2 files changed, 43 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/perl-fix-CVE-2012-5195.patch
+
+-- 
+1.7.5.4
+
 
 
