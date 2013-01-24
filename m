@@ -1,40 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TyKYe-0005YU-5y
+	(envelope-from <ross.burton@intel.com>) id 1TyKZk-0005by-U9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 12:01:24 +0100
-Received: from mail-vb0-f70.google.com ([209.85.212.70])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 02:45:49 -0800
-Received: by mail-vb0-f70.google.com with SMTP id s24so11362523vbi.5
+	Thu, 24 Jan 2013 12:02:33 +0100
+Received: from mail-yh0-f70.google.com ([209.85.213.70])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 02:46:58 -0800
+Received: by mail-yh0-f70.google.com with SMTP id z41so2144966yhz.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 02:45:48 -0800 (PST)
+	Thu, 24 Jan 2013 02:46:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=aTVK76qeY2+/a7aliSAS8KUktmPwv/z8RVMEI69eESM=;
-	b=io7TVz6NyazJwvBQ0ink/z7Fh1AQlUor0q/e6G9a527LoI/MvNGh6UDNtwSz4rLFXn
-	sST51RxKSGOq+tPpjlUAPUmut8sGxrO+NXwpF+pz4YzdwG/PDsdWu2tafT0zEWNQV79f
-	mxTPZa9bzpIYf5NjHu43Ulq5rAMGxYBi3ICfX0DOaHSYZ+hs26Wgdd5YlDbIGJzHsySW
-	DABhs5Gz5JlqT5V4++PkTOTLUTZbitgk685yiW4TVVudqRxj8nybmQA461mcyWX2R7FS
-	JXRMRUe7UyriPIhTy59KSfwktjpe6BhazrGeafkOpvifX7cNQlstl1gABOgrzZg6q1Ou
-	ZH8w==
-X-Received: by 10.220.154.76 with SMTP id n12mr1299710vcw.69.1359024348623;
-	Thu, 24 Jan 2013 02:45:48 -0800 (PST)
-X-Received: by 10.220.154.76 with SMTP id n12mr1299705vcw.69.1359024348562;
-	Thu, 24 Jan 2013 02:45:48 -0800 (PST)
+	bh=gPTIVHF6X9k1q7OTk4hOeT4t4SoiHhurA4vg+YV1WzI=;
+	b=Q7Ej8Zt8wBKq1mM4v/yMo4p7BuXSoDvHAbHKOkQIjKKt/X0+/54XczPHyTIUHJt8tR
+	KYRmgmGQawF8ZCgWnawFMYvnCmDpTcSLpSDhF3ZXhSRaM5o92vjjnoRu2yQNCqDj6Wtb
+	lPCMnoBP/yGMvSen8798uzait5W7F/mD42fRrxhIs1YmAAtO+fpudf37LWm6i9P3k8su
+	jje7j72Cv/c4ftJ7Oh+uOS1QLWrn0rhtxuFso+R1niSCxRLYnC8zh8PE267cibnAjTb+
+	QSkMrnbCildOP7VdMNvUZ9cLzC6nT3J9jQiIXb3XJmg3nkyUTJAo5F8G+HJfWL8931cW
+	7fWA==
+X-Received: by 10.52.76.7 with SMTP id g7mr1157423vdw.95.1359024417913;
+	Thu, 24 Jan 2013 02:46:57 -0800 (PST)
+X-Received: by 10.52.76.7 with SMTP id g7mr1157419vdw.95.1359024417837; Thu,
+	24 Jan 2013 02:46:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.151.207 with HTTP; Thu, 24 Jan 2013 02:45:27 -0800 (PST)
-In-Reply-To: <dc49f51db3966ad18b51e6c8c10ee792db58bbc0.1359014474.git.Qi.Chen@windriver.com>
-References: <cover.1359014474.git.Qi.Chen@windriver.com>
-	<dc49f51db3966ad18b51e6c8c10ee792db58bbc0.1359014474.git.Qi.Chen@windriver.com>
+Received: by 10.58.151.207 with HTTP; Thu, 24 Jan 2013 02:46:37 -0800 (PST)
+In-Reply-To: <5100D477.9040305@windriver.com>
+References: <1358908276-14786-1-git-send-email-Xin.Ouyang@windriver.com>
+	<CAJTo0Lbg6OyQ=eWun_fp_01AbX8Ybcf+Cmw+9MKPVk7tLxoZqA@mail.gmail.com>
+	<5100D477.9040305@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Jan 2013 10:45:27 +0000
-Message-ID: <CAJTo0LYpPTLBFczuC-QiPNm7W5u5nwQHf48SO5BKB5S+nHjHUA@mail.gmail.com>
-To: Qi.Chen@windriver.com
-X-Gm-Message-State: ALoCoQl7uz1OJgSJBCA8asI1M/PEcAPI/er17nFhZEdAHLhyHjVEFYPIgRA1KdD2SgcMwMl0C/oUvaPAExasZ2hsCXmfZhvV/ndYrf1OwoHzwHHdKhpSYuLLtIvoBgIPGGn2D42iYrZezf7GnjTTA/HzY3zi7Oul4CGDfExNAkspleAa9Wjk+zbjq+0YsmRtHqzZpQAhhhSQ
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/12] dbus: inherit volatiles to support read-only rootfs
+Date: Thu, 24 Jan 2013 10:46:37 +0000
+Message-ID: <CAJTo0LbOV+zqSf56dokUGD7DePK01F-CP9d=mV7knAhfMPKNoA@mail.gmail.com>
+To: Pascal Ouyang <xin.ouyang@windriver.com>
+X-Gm-Message-State: ALoCoQk4rh73wjLlv6qJ7lXYFb50cKGw5zm/BAOqStXrZZhjJto/NCg5Iaz01xjcM7Mh/Cnq3GbOw5mimQJ9bUEKYlbElgsPTgs7K3RYJanoA/+J4dToBn8QR99Dtsisn5m34TLUfMi5a8ePrZj3iPF8N8+Ew4ZRRedPjS/6lVOF06TXT01tsj3AX1DdHOmfV3yW0Uz+gDQj
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,17 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 11:01:24 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 11:02:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 24 January 2013 08:16,  <Qi.Chen@windriver.com> wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Inherit volatiles.bbclass to support read-only rootfs.
+On 24 January 2013 06:28, Pascal Ouyang <xin.ouyang@windriver.com> wrote:
+> I do not use --libdir because pkgconfig/dev-so files should always installed
+> into ${libdir} instead of ${base_libdir}.
 
-Please explain why DBus needs volatiles.bbclass to support a readonly
-rootfs.  Presumably it's because the machine UUID is written to
-/var/lib, are there any other reasons?
+Good point.
+
+>> Finally, no PR bumps are needed in oe-core.
+>
+> Why no PR bumps needed?
+
+Because oe-core assumes the PR service is being used.  Search the list
+for that term for more background.
 
 Ross
 
