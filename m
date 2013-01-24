@@ -1,20 +1,20 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TyIWK-0000W4-U3
+	(envelope-from <constantinx.musca@intel.com>) id 1TyIXO-0000ap-Um
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 09:50:54 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jan 2013 00:34:08 -0800
+	Thu, 24 Jan 2013 09:52:02 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 Jan 2013 00:35:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,528,1355126400"; d="scan'208";a="251633463"
+X-IronPort-AV: E=Sophos;i="4.84,528,1355126400"; d="scan'208";a="275999755"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jan 2013 00:35:16 -0800
+	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2013 00:35:59 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jan 2013 10:36:06 +0200
-Message-Id: <1359016566-2493-1-git-send-email-constantinx.musca@intel.com>
+Date: Thu, 24 Jan 2013 10:36:51 +0200
+Message-Id: <1359016611-2827-1-git-send-email-constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] puzzles: upgrade to r9751
+Subject: [PATCH] cairo: upgrade to 1.12.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,18 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 08:50:55 -0000
+X-List-Received-Date: Thu, 24 Jan 2013 08:52:03 -0000
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-sato/puzzles/{puzzles_r9733.bb => puzzles_r9751.bb} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-sato/puzzles/{puzzles_r9733.bb => puzzles_r9751.bb} (100%)
+ meta/recipes-graphics/cairo/{cairo_1.12.8.bb => cairo_1.12.10.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.12.8.bb => cairo_1.12.10.bb} (92%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_r9733.bb b/meta/recipes-sato/puzzles/puzzles_r9751.bb
-similarity index 100%
-rename from meta/recipes-sato/puzzles/puzzles_r9733.bb
-rename to meta/recipes-sato/puzzles/puzzles_r9751.bb
+diff --git a/meta/recipes-graphics/cairo/cairo_1.12.8.bb b/meta/recipes-graphics/cairo/cairo_1.12.10.bb
+similarity index 92%
+rename from meta/recipes-graphics/cairo/cairo_1.12.8.bb
+rename to meta/recipes-graphics/cairo/cairo_1.12.10.bb
+index 567a17f..00c0377 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.12.8.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.12.10.bb
+@@ -2,12 +2,12 @@ require cairo.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "8b3dcade859c44fb7e56fc68edfe9a45"
+-SRC_URI[sha256sum] = "8fbb6fc66117ab4100bad830cb4479497e53c6f3facb98bf05c8d298554ebdd9"
++SRC_URI[md5sum] = "bddd5c5b734ab4b9683eb0ba363070d4"
++SRC_URI[sha256sum] = "f1581aef210f6caa9cf42875fb66ab3b47a32db9436bdfa9913b9bbd5034b03b"
+ 
+ PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+ 
 -- 
 1.7.11.7
 
