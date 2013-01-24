@@ -1,28 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TyAzx-0000cS-7A
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 01:48:57 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0O0XPCX023880
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jan 2013 16:33:25 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (147.11.117.44) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 23 Jan 2013 16:33:23 -0800
-Message-ID: <51008153.6090800@windriver.com>
-Date: Wed, 23 Jan 2013 18:33:23 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TyB7r-0000ln-7Z for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jan 2013 01:57:11 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0O0jbeD016389; Thu, 24 Jan 2013 00:45:38 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 5hC7U2LTTe6i; Thu, 24 Jan 2013 00:45:37 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0O0jVHI016362
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 24 Jan 2013 00:45:34 GMT
+Message-ID: <1358988079.3616.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Thu, 24 Jan 2013 00:41:19 +0000
+In-Reply-To: <51008153.6090800@windriver.com>
 References: <20130123172748.GB14381@jama.palm1.palmone.com>
 	<CABcZANkfiefEBNVAswnCrmjPFSiJeijvaJ+o++EH7qtrQfnKMA@mail.gmail.com>
-In-Reply-To: <CABcZANkfiefEBNVAswnCrmjPFSiJeijvaJ+o++EH7qtrQfnKMA@mail.gmail.com>
+	<51008153.6090800@windriver.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: File conflicts between PN-doc packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,36 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 00:48:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 24 Jan 2013 00:57:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 1/23/13 6:13 PM, Chris Larson wrote:
->
-> On Wed, Jan 23, 2013 at 10:27 AM, Martin Jansa <martin.jansa@gmail.com
-> <mailto:martin.jansa@gmail.com>> wrote:
->
->     |  * check_data_file_clashes: Package gcc-doc wants to install file
->     rootfs/usr/share/info/dir
+On Wed, 2013-01-23 at 18:33 -0600, Mark Hatle wrote:
+> On 1/23/13 6:13 PM, Chris Larson wrote:
+> >
+> > On Wed, Jan 23, 2013 at 10:27 AM, Martin Jansa <martin.jansa@gmail.com
+> > <mailto:martin.jansa@gmail.com>> wrote:
+> >
+> >     |  * check_data_file_clashes: Package gcc-doc wants to install file
+> >     rootfs/usr/share/info/dir
+> 
+> I missed this earlier.  Yes, the 'dir' file in an info (-doc) package should not 
+> be included.  It's existence is an error.  This might be a sanity check we 
+> should be adding.
 
-I missed this earlier.  Yes, the 'dir' file in an info (-doc) package should not 
-be included.  It's existence is an error.  This might be a sanity check we 
-should be adding.
+autotools_do_install() in autotools.bbclass actually purges those.
+Whether it should be autotools or the base class I'm not so sure but it
+was a common problem for autotools recipes...
 
---Mark
+Cheers,
 
->
-> In this particular case, I think we can look at how other distros handle this
-> file and follow suit.
-> --
-> Christopher Larson
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Richard
+
 
 
 
