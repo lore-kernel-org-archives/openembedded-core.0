@@ -1,40 +1,41 @@
-Received: from mail-pa0-f45.google.com ([209.85.220.45])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TyNV7-0002J8-1K
+	(envelope-from <ross.burton@intel.com>) id 1TyNVd-0002KH-3J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 15:09:57 +0100
-Received: by mail-pa0-f45.google.com with SMTP id bg2so5504464pad.4
+	Thu, 24 Jan 2013 15:10:29 +0100
+Received: from mail-vc0-f197.google.com ([209.85.220.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 05:53:46 -0800
+Received: by mail-vc0-f197.google.com with SMTP id gb30so14341190vcb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 05:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=4GZzy16aCV5JUMaHPFSKA5q1dfZIjYuC1sEuLABXH1o=;
-	b=06DZGjbfVYHsrwBh/KDjkizEGbmZDG3y3mXkzlbMCtIfb9UxpNkWXnE1zEqiC0gAUr
-	UmMkFA18+UPGXE4mLmKXZifb253FIrsjiTxdqUwsn1TQBJbQfAHoQC63EKNFHxmTsoYq
-	x6f5Ez6fnozrcBgeYGNYz7CjtcpcdQG1D09auFJWAqO1quQf+nC4hjEzVx4vYC0pJfZc
-	dEgKNgVl/PekUXmAwkwIV421Du724K0jt4g37iWVZcBjQv4RCoQL6uaU+A1QlPaiGC1X
-	L3jMa8ZF6mO7KrL303e4twbHUAjqcz/HkzzbwL8/INNT+HciYZ8tsXSbu4WgJgnUTALh
-	leLg==
-X-Received: by 10.69.0.74 with SMTP id aw10mr5028169pbd.87.1359035663382;
-	Thu, 24 Jan 2013 05:54:23 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id o6sm15735930paw.37.2013.01.24.05.54.18
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 24 Jan 2013 05:54:22 -0800 (PST)
-Date: Thu, 24 Jan 2013 14:54:15 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-Message-ID: <20130124135415.GE3012@jama>
-References: <985E5BBDA0968D48ABDF343456A521B3F1301C@IRSMSX102.ger.corp.intel.com>
-	<20130124124319.GC3012@jama>
-	<985E5BBDA0968D48ABDF343456A521B3F13082@IRSMSX102.ger.corp.intel.com>
+	Thu, 24 Jan 2013 05:54:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=ByO/WcCwla63GlHFDuJaqZd+4CgNB7zBbjTXNwSPbz0=;
+	b=JQqHGp3U094hWZj5GaSP1FVmtGVUnTAuBWDpb8twws0Rm4ZydlTYXX2GKRA4bzoiVh
+	VWu1KK0gSLTmTRCglJ7aYZ6nhGR5Puek2PYpL0Ut6OQTjPHIfgT3v2Hfrmw62OyHZGUQ
+	nkiq3sG/uKlJ/rjbg5jOJP5uUdRPWJQ8b7o87yRp9omuD4JgSba8CIegaPPwYIVnT4Ni
+	MWV5M/QBgZdRp+GPoB38ULLcjSlX1dyKU3zCFVnAa3P7iOCfaI5kx/dRvUbeutAWssyz
+	Ih1+Rs1HhbNyfaBL7vgP9zKA7+lzE8EVxq/yCdv3j9OU5L0qDUZAeL/u7WY42iBSzzpb
+	jK9A==
+X-Received: by 10.52.72.137 with SMTP id d9mr1608641vdv.105.1359035694560;
+	Thu, 24 Jan 2013 05:54:54 -0800 (PST)
+X-Received: by 10.52.72.137 with SMTP id d9mr1608630vdv.105.1359035694417;
+	Thu, 24 Jan 2013 05:54:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <985E5BBDA0968D48ABDF343456A521B3F13082@IRSMSX102.ger.corp.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Meta-web-kiosk Layer
+Received: by 10.58.151.207 with HTTP; Thu, 24 Jan 2013 05:54:34 -0800 (PST)
+In-Reply-To: <51012AE1.7060905@balister.org>
+References: <985E5BBDA0968D48ABDF343456A521B3F1300F@IRSMSX102.ger.corp.intel.com>
+	<CAJTo0Lbjvedo-1YPQmM2uEv_44aUh9eoo45BCpXg6U=rH+f0mw@mail.gmail.com>
+	<51012AE1.7060905@balister.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jan 2013 13:54:34 +0000
+Message-ID: <CAJTo0LbtvKV3V5sKTbZ5j9GDu5xFfLgVicd6o74aW2NT0OArKw@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+X-Gm-Message-State: ALoCoQlLux0Nm8XPyeD6VTnrxlsidcHVFkitoyBlNc28J7Q02f1dBSYrISHd8bx/6y9MryhAPMSE0DknOGDgS2FFkHX5Gf5ufEWkTQE2itHmVlC1Fx5eMcICwMcSaULVFswsvmyEBvRwPJB5hhDKx33aZS8ujsAnZaVmzb+IqRNQT5RU60rKD5P+hjZ20zJgCp38TrJos4vu
+Cc: yocto@yoctoproject.org, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Meta-web-kiosk Layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,97 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 14:09:57 -0000
-X-List-Received-Date: Thu, 24 Jan 2013 14:09:57 -0000
-X-Groupsio-MsgNum: 34361
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EgVrEAR5UttbsTXg"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Jan 2013 14:10:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
---EgVrEAR5UttbsTXg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 24 January 2013 12:36, Philip Balister <philip@balister.org> wrote:
+> On 01/24/2013 07:12 AM, Burton, Ross wrote:
+>> On 24 January 2013 12:03, Ciobanu, Emilia Maria Silvia
+>> <emilia.maria.silvia.ciobanu@intel.com> wrote:
+>>> I've created a new layer that can be used for kiosk devices.
+>>> You can check it out at:
+>>>     http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/
+>>
+>> Excellent, good to see it not hidden away!
+>
+> It is hidden until it appears on the Layer index :)
+>
+> http://www.openembedded.org/wiki/LayerIndex
+>
+> Please add it there.
 
-On Thu, Jan 24, 2013 at 01:46:04PM +0000, Ciobanu, Emilia Maria Silvia wrot=
-e:
-> Hi,
->=20
-> I've updated the repository with the dependencies changes.
+Yes, it should be on the layer index.  Emelia, can you update the wiki?
 
-Great, thank you.
+Ross
 
-I'm not sure if this settings will work for everybody, maybe some other
-default config or generate that from some variables in recipe (easier to
-override from distro).
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/tree/recipes-brows=
-er/midori-session/files/config
-default-encoding=3DISO-8859-1
-http-proxy=3Dhttps://proxy-ir.intel.com
-http-proxy-port=3D911
-
-Cheers,
-
->=20
-> Thanks,
-> Ema
-> ________________________________________
-> From: Martin Jansa [martin.jansa@gmail.com]
-> Sent: Thursday, January 24, 2013 2:43 PM
-> To: Ciobanu, Emilia Maria Silvia
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Meta-web-kiosk Layer
->=20
-> On Thu, Jan 24, 2013 at 12:05:00PM +0000, Ciobanu, Emilia Maria Silvia wr=
-ote:
-> > Hi,
-> >
-> > I've created a new layer that can be used for kiosk devices.
-> > You can check it out at:
-> >     http://git.yoctoproject.org/cgit/cgit.cgi/meta-web-kiosk/
-> >
-> > It contains a new bitbake target that automatically
-> > starts a web browser right after boot and enables the
-> > use of a virtual keyboard if there is support for it.
-> >
-> > The layer currently includes recipes for the web browser,
-> > and bsp configurations.
-> >
-> > I'm open to receiving feedback, patches and any suggestions.
->=20
-> Why not add dependency on meta-openembedded/meta-oe and meta-gnome?
->=20
-> At least 4 duplicated recipes could be removed and newer midori from
-> meta-gnome would be used:
->=20
-> OE @ ~/meta-openembedded $ find . -name ca-certificates_\*
-> ./meta-oe/recipes-support/ca-certificates/ca-certificates_20120623.bb
-> OE @ ~/meta-openembedded $ find . -name vala_\*
-> ./meta-oe/recipes-devtools/vala/vala_0.16.0.bb
-> OE @ ~/meta-openembedded $ find . -name midori_\*
-> ./meta-gnome/recipes-connectivity/midori/midori_0.4.7.bb
-> OE @ ~/meta-openembedded $ find . -name python-docutils_\*
-> ./meta-oe/recipes-devtools/python/python-docutils_0.5.bb
->=20
-> Cheers,
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EgVrEAR5UttbsTXg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlEBPQcACgkQN1Ujt2V2gBxOcwCfccy2aMLLPxGfqBbzMwlDSZIl
-yvQAnjG7Kvn2E2aFW3RWu66cs3G9LAzz
-=j2yt
------END PGP SIGNATURE-----
-
---EgVrEAR5UttbsTXg--
