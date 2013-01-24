@@ -1,39 +1,28 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TyMXq-0005d9-VS
+	(envelope-from <radu.moisan@intel.com>) id 1TyMbb-0005pl-0u
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 14:08:44 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0OCr6xs029631
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 13:53:08 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TyMIw-0003CL-4s
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 13:53:18 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Thu, 24 Jan 2013 14:12:37 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jan 2013 04:57:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,529,1355126400"; d="scan'208";a="247893925"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by azsmga001.ch.intel.com with ESMTP; 24 Jan 2013 04:57:00 -0800
+Message-ID: <51013136.7040807@intel.com>
+Date: Thu, 24 Jan 2013 15:03:50 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
 	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
 	<510124FE.6040901@intel.com>
 	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<51012A68.806@intel.com>
-Date: Thu, 24 Jan 2013 13:53:18 +0100
-In-Reply-To: <51012A68.806@intel.com> (Radu Moisan's message of "Thu, 24 Jan
-	2013 14:34:48 +0200")
-Message-ID: <ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.84
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
 Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,25 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 13:08:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jan 2013 13:12:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
 
->> /run is part of systemd's api and mounted very early internally by
->> systemd.  This mountpoint must exist in the filesystem and it will
->> probably not work when it is symlink into /var/volatile which gets
->> mounted later.
+On 01/24/2013 02:53 PM, Enrico Scholz wrote:
+> Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> writes:
 >
-> Isn't systemd looking into fstab.systemd for mount points?
+>>> /run is part of systemd's api and mounted very early internally by
+>>> systemd.  This mountpoint must exist in the filesystem and it will
+>>> probably not work when it is symlink into /var/volatile which gets
+>>> mounted later.
+>> Isn't systemd looking into fstab.systemd for mount points?
+> not for /run or /proc or so. In src/core/mount-setup.c there is a
+> 'mount_table[]' list which is evaluated before fstab is parsed.  You
+> can override this by setting $SYSTEMD_SKIP_API_MOUNTS but this will
+> create other problems.
+>
+>
+ok, thanks Enrico, this clears the picture for me.
+Well then it looks like Jack's problems is coming from some other place.
 
-not for /run or /proc or so. In src/core/mount-setup.c there is a
-'mount_table[]' list which is evaluated before fstab is parsed.  You
-can override this by setting $SYSTEMD_SKIP_API_MOUNTS but this will
-create other problems.
-
-
-Enrico
+Radu
 
 
