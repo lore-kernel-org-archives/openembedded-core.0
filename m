@@ -1,29 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TyR0V-0005IU-Hc
+	(envelope-from <ross.burton@intel.com>) id 1TyRFx-00083B-83
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jan 2013 18:54:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0OHd1Hf012954
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 24 Jan 2013 19:10:33 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 24 Jan 2013 09:54:58 -0800
+Received: by mail-lb0-f197.google.com with SMTP id gg6so9642055lbb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 09:39:01 -0800 (PST)
-Received: from msp-dhcp30.wrs.com (172.25.34.30) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 24 Jan 2013 09:39:01 -0800
-Message-ID: <510171B7.6050000@windriver.com>
-Date: Thu, 24 Jan 2013 11:39:03 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1359014474.git.Qi.Chen@windriver.com>
-	<202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
-In-Reply-To: <202617fa712665192de55285dc8ea3f4699315bc.1359014474.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 08/12] initscripts: let populate-volatile.sh create the /tmp link
+	Thu, 24 Jan 2013 09:54:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=v9YV5hOunsjp+iu2R/7hQKe3+eAuxR3W2q21/CiD2R0=;
+	b=CElGd+3sfAwGv1dJMNhsj4fDfTwqrh6sMQPJ/J828BJA8GAaTIGj8mbNYhCSP+jPUi
+	puG6dzMxEgPdmUWxTyZs/ylz9hVh6Ycxz19St1DKdSxtAcETOA9WpkhJ6ZwSMUSsLU32
+	PcHc/29RgR/LXme9bO9tjZRqsZ+QYBuYz3c4Z7LpczRMnixplNqlB1E7si+xztacQPIV
+	eCj79xSwLxNw4XXHbWT5b9cReq+ulfNlzRVIO4XdLxBnnx/nBiOc3lzRxnqlD6nC5tSd
+	KNIZT/naC+J6KaKlNj+Gd3ayHaQjGtKCuQ9l6yx5gKlcqScMc3uLGwxO2tpyiMfl6gG+
+	xvrw==
+X-Received: by 10.194.172.228 with SMTP id bf4mr4719436wjc.38.1359050092356;
+	Thu, 24 Jan 2013 09:54:52 -0800 (PST)
+X-Received: by 10.194.172.228 with SMTP id bf4mr4719421wjc.38.1359050092219;
+	Thu, 24 Jan 2013 09:54:52 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t17sm3673126wiv.6.2013.01.24.09.54.50
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 24 Jan 2013 09:54:51 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Jan 2013 17:52:49 +0000
+Message-Id: <cover.1359049755.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmKExvV3ZMnLCXu/YLAz2DqKFeHt8/wSaVR8Ksp+LZT4ZFFJnZ73fJo60RL/YZ2Uf9imRULqYNcuWGi/kAI6eQd/6LRyr76+0GeXP2XPZjLOZNk8UUExzwT5ubo4wsMK6wVZ63C00tAc5ZPD/uTgp56/G+cWiXEj+YsqC6RTvCsxneLz7EKSTX8qkhuSA+2SMmrYvcM
+Subject: [PATCH 0/2] DISTRO_FEATURES compatibility fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,81 +46,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jan 2013 17:54:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jan 2013 18:10:33 -0000
 
-On 1/24/13 2:16 AM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, the /tmp link (/tmp -> /var/tmp) was created by the
-> bootmisc.sh script. So in case of a read-only rootfs, this symlink
-> would not be created correctly.
->
-> The populate-volatile.sh script is intended to handle all directories
-> and files related to volatile storage, so we should let it create
-> the /tmp link.
->
-> In addition, because of the improments of populate-volatile.sh, the data
-> loss problem of bug#3404 is also resolved by this patch.
->
-> [YOCTO #3406]
-> [YOCTO #3404]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +--------
->   .../initscripts/initscripts-1.0/volatiles          |    1 +
->   2 files changed, 2 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> index 4f76cb4..3b5a47f 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> @@ -54,14 +54,7 @@ fi
->
->   #
->   # This is as good a place as any for a sanity check
-> -# /tmp should be a symlink to /var/tmp to cut down on the number
-> -# of mounted ramdisks.
-> -if test ! -L /tmp && test -d /var/tmp
-> -then
-> -	rm -rf /tmp
-> -	ln -sf /var/tmp /tmp
-> -fi
-> -
+Hi,
 
-I saw this the other day.  It seems like the wrong solution, if the expectation 
-is that all systems want this linked behavior.  Instead the link should be 
-configured in the meta/files/fs-perms.txt
+This series contains two fixes:
+- make the init manager backfilled into distro features (thanks, Marcin)
+- backfill features earlier in the parse so conditional inherits work with backfilled features (patch as described by Richard over IM)
 
-Something like:
+Between then this makes sysvinit images work again where distributions have set
+DISTRO_FEATURES, instead of appending on oe-core's base.
 
--/tmp                            01777   root    root    false - - -
-+/tmp                            link    /var/tmp
+Ross
 
-Making that change would avoid this patch, and then all of the filesystems could 
-inherit this behavior.  (Other distributions that don't want it can provide 
-their own custom fs-perms.txt file, and simply set the older value, which will 
-append to the default.)
+The following changes since commit 8d6e55bf2192524bda84138b5356a2791adbbe61:
 
-> +#
->   # Set the system clock from hardware clock
->   # If the timestamp is more recent than the current time,
->   # use the timestamp instead.
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> index e0741aa..f7e2ef7 100644
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> @@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
->   l root root 0755 /var/log /var/volatile/log
->   l root root 0755 /var/run /var/volatile/run
->   l root root 1777 /var/tmp /var/volatile/tmp
-> +l root root 1777 /tmp /var/tmp
->   d root root 0755 /var/lock/subsys none
->   f root root 0664 /var/log/wtmp none
->   f root root 0664 /var/run/utmp none
->
+  prserv: add LOCALCOUNT to AUTOINCs migration feature (2013-01-22 16:01:32 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/backfill
+
+for you to fetch changes up to 6d174abd95de70a59f54ca28c965ca72933a3ce7:
+
+  base: make feature backfilling happen earlier (2013-01-24 17:45:38 +0000)
+
+----------------------------------------------------------------
+Marcin Juszkiewicz (1):
+      bitbake.conf: unbreak all builds with custom DISTRO_FEATURES
+
+Richard Purdie (1):
+      base: make feature backfilling happen earlier
+
+ meta/classes/base.bbclass |    2 ++
+ meta/conf/bitbake.conf    |    5 +----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+Marcin Juszkiewicz (1):
+  bitbake.conf: unbreak all builds with custom DISTRO_FEATURES
+
+Richard Purdie (1):
+  base: make feature backfilling happen earlier
+
+ meta/classes/base.bbclass |    2 ++
+ meta/conf/bitbake.conf    |    5 +----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+-- 
+1.7.10.4
 
 
 
