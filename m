@@ -1,38 +1,42 @@
-Received: from mail-pb0-f50.google.com ([209.85.160.50])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tym6O-0005vF-1Z
+	(envelope-from <ross.burton@intel.com>) id 1Tym7E-00060g-7h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 17:26:06 +0100
-Received: by mail-pb0-f50.google.com with SMTP id wz7so291970pbc.23
+	Fri, 25 Jan 2013 17:27:01 +0100
+Received: from mail-qa0-f71.google.com ([209.85.216.71])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 08:11:20 -0800
+Received: by mail-qa0-f71.google.com with SMTP id z4so703497qan.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 08:10:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=O8sBG8J5/ro3hpzkSOPHKsNSiPHMrh+RD9v5XDwQ7lw=;
-	b=cleraAUIkQpiuYzlM8emGin/NIKUp/2M9kj8fm4Im75P7nUTvKfemQsNiCGBko41Zh
-	QWDBy0tCFAMj7OnhdJYbg3gXPG5hwNklhyuJtafigORwNfMwq/JS9PrctGaLxx3oc9hb
-	M4SMmwiSXWFpjMwX9Gbbkp4NlEtIaQbxWmiLmQURPvSFEWKM6pQKY40MuN2zPhEdURJv
-	sTRzyzhnJVNDYs5FBBp26KPYS/6T7de8rYB3r+nIq1SMZtBnvH/ZL6FjGy0bLeQzuA4S
-	9r+pd35lcO2bHIPZQhMmqGY02zc4hIigOL2pzL08rcGa8sEXllDA+syzadNp4BotX73E
-	9LGg==
-X-Received: by 10.68.254.195 with SMTP id ak3mr15435550pbd.37.1359130229027;
-	Fri, 25 Jan 2013 08:10:29 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ot3sm902222pbb.38.2013.01.25.08.10.25
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 08:10:27 -0800 (PST)
-Date: Fri, 25 Jan 2013 17:10:24 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Jeremy Stashluk <stashluk@gmail.com>
-Message-ID: <20130125161024.GL3200@jama>
-References: <1359128238-23401-1-git-send-email-jstashluk@dekaresearch.com>
+	Fri, 25 Jan 2013 08:11:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=Gt4iIcN56j2vSrcCjJqBSuf5AXuPMd0SIXQz65WmwU0=;
+	b=Gf/0TYPuCFjiGtyb+bNsm8IicMMc6avlJ0XvcgGFA9+WxtFNExkfDVSndsddGxxxUt
+	lsHc/5K6T/FENr56Lt63pu7q1aliGBuXesPAiETFTezFFOBBmixqFF00Q1of8bhjyfPv
+	as5RN/Gz61LGFwm87pN1I5zokyBLghKealxlH0eU4j2CHYZbEXBDNHGy972KkGVD2rko
+	vkW95R2y7wicoPMBTq8gR+5sXi/ey7ypsl5C/cmMVAobgzHiTIh7C88DRbfRt88chpUh
+	/SQ9NV1NbVPtszM6uF7rnd9dp2SlxR36g9QWizafF+nO9NZ60JgbI4BF9uSvqltGnqDU
+	RMuw==
+X-Received: by 10.52.68.4 with SMTP id r4mr5696578vdt.15.1359130279926;
+	Fri, 25 Jan 2013 08:11:19 -0800 (PST)
+X-Received: by 10.52.68.4 with SMTP id r4mr5696571vdt.15.1359130279867; Fri,
+	25 Jan 2013 08:11:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1359128238-23401-1-git-send-email-jstashluk@dekaresearch.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Jeremy Stashluk <jstashluk@dekaresearch.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gst-plugins-gl: add package recipe
+Received: by 10.58.151.207 with HTTP; Fri, 25 Jan 2013 08:10:59 -0800 (PST)
+In-Reply-To: <20130125160859.GK3200@jama>
+References: <cover.1359061155.git.raj.khem@gmail.com>
+	<e684d68286657cc9cfce53b0e5b597f79fae1248.1359061155.git.raj.khem@gmail.com>
+	<CAJTo0LaDWt3TArVPU9AVEUbrhK6A9FMN+cNU5muSapL4D5wA0g@mail.gmail.com>
+	<20130125160859.GK3200@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Jan 2013 16:10:59 +0000
+Message-ID: <CAJTo0LZo9rGPQZ4=Voe9HyQcfsz4jKoZtsRUg3pxDvqDeQ-P2A@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQm/sD8fapYiW6solyeh2HuY7zeijZyFFuhAj3QWhsw4MtBfSaNv1lee86XNXMfmHtKOBmImDbPL1X0RMZ966k2sAWgGdNyQPZWJPKiLeC1fYTQjruBegbeg5f5K1r3vPHqsQUP4o5afmsjbi1xjDggRPHOKRnasOwpli6lp7OYGkuP5DdeyKbOjNKqWMBkhP5Yp1vXi
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/11] systemd: Upgrade to 197
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,78 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 16:26:08 -0000
-X-Groupsio-MsgNum: 34450
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="SEFvVLxbW/dEDtN8"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 25 Jan 2013 16:27:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
---SEFvVLxbW/dEDtN8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 25 January 2013 16:08, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> It also renames my laptop's eth0 to enp0s25.  systemd and a static
+>> interfaces file will be fun!
+>
+> Yes, lot of fun:
+> http://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames
 
-On Fri, Jan 25, 2013 at 10:37:18AM -0500, Jeremy Stashluk wrote:
-> ---
->  .../gstreamer/gst-plugins-gl_0.10.3.bb             |   16 ++++++++++++++=
-++
->  1 file changed, 16 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10=
-=2E3.bb
->=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b=
-/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-> new file mode 100644
-> index 0000000..3bafb7c
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-> @@ -0,0 +1,16 @@
-> +require recipes-multimedia/gstreamer/gst-plugins.inc
-> +
-> +LICENSE =3D "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9abc=
-605"
-> +
-> +PR =3D "r2"
-> +
-> +DEPENDS +=3D "gst-plugins-base virtual/libgl"
-> +
-> +SRC_URI[md5sum] =3D "f066943621e9e18dc4b8e27e869a39cf8893aec9"
+Yes, I'd read that before so was expecting renames.  I'm curious how
+the ethernet board ended up on slot *25* though.  Silly HP.
 
-^ You need to provide both checksums
+Ross
 
-> +
-> +inherit gettext gconf
-> +
-> +ARM_INSTRUCTION_SET =3D "arm"
 
-^ why ?
-
-> +
-> +FILES_${PN}-gconfelements +=3D "${sysconfdir}/gconf/schemas/gstreamer-0.=
-10.schemas"
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---SEFvVLxbW/dEDtN8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlECrnAACgkQN1Ujt2V2gBxnJgCfcc7038F00GUzzc9stuQNOvJG
-lFkAniWxTbzmFU95THd4ynpRFFiKxvcC
-=kstp
------END PGP SIGNATURE-----
-
---SEFvVLxbW/dEDtN8--
