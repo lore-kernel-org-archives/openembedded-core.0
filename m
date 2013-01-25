@@ -1,33 +1,39 @@
-Received: from eu1sys200aog102.obsmtp.com ([207.126.144.113])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TynRM-0001Mj-3n
+	(envelope-from <ross.burton@intel.com>) id 1Tyna3-00023N-2b
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 18:51:48 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob102.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUQLCjoE2TUha9fLzU0YvCwV7ZHXgLaYt@postini.com;
-	Fri, 25 Jan 2013 17:36:16 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EA50B1E5;
-	Fri, 25 Jan 2013 14:32:22 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 876BF4D96;
-	Fri, 25 Jan 2013 14:32:22 +0000 (GMT)
-Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
-	by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AWB62542 (AUTH condorg);
-	Fri, 25 Jan 2013 15:32:21 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: "'Marcin Juszkiewicz'" <marcin.juszkiewicz@linaro.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1359124075-3504-1-git-send-email-marcin.juszkiewicz@linaro.org>
-In-Reply-To: <1359124075-3504-1-git-send-email-marcin.juszkiewicz@linaro.org>
-Date: Fri, 25 Jan 2013 15:32:21 +0100
-Message-ID: <094b01cdfb08$c967ddf0$5c3799d0$@st.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQIOH9lnb77hYnQlsquFzORqW7fQgJfZ0T/w
-Subject: Re: [PATCH] eglibc: fix evacuate_scripts for external	toolchains
+	Fri, 25 Jan 2013 19:00:47 +0100
+Received: from mail-ee0-f69.google.com ([74.125.83.69])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 09:45:10 -0800
+Received: by mail-ee0-f69.google.com with SMTP id e49so715107eek.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jan 2013 09:45:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=1mmi7bX3xMSIakEF4+oX0ORkfmrtTo/4iYzI5ymarUI=;
+	b=FmS6tdecRirqctXhpVgWajAq0luWhVqLobDz4Ff4IGFWGSxKPjRDsIdmZgU0yiGt0F
+	doLQI5geMXw4LLfp1436dCSow6nkMmG1Swn7s7MQyBdw3JwvaUePBxQEUd0s1zpyFtwl
+	aYQVnxv+5+GyicvKTKD9EqaAqnSumQJIRG78UpicaTwkOgsVgepXPEUBA4HbB1BBFL/2
+	uN+ovsbeK6jugSRg7+M9B6QKRqJfQVWMuZ4IldFLTBfuzkyK6zgrHyVXyjMrAe9AnEhK
+	Ei2Tlhh9sU0YxiPyxz3O9zZK6MO+RrF35kooBBXes+UQzQUPdxEXs/5iRrq3NxjLQYI4
+	RcyQ==
+X-Received: by 10.180.86.36 with SMTP id m4mr10209588wiz.5.1359135905820;
+	Fri, 25 Jan 2013 09:45:05 -0800 (PST)
+X-Received: by 10.180.86.36 with SMTP id m4mr10209557wiz.5.1359135905474;
+	Fri, 25 Jan 2013 09:45:05 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t17sm2848886wiv.6.2013.01.25.09.45.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 25 Jan 2013 09:45:04 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Jan 2013 17:43:02 +0000
+Message-Id: <1359135782-8953-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmbFF2HHI1UhyjaZ11NYbsHuON+SMj3AC+Vk+5nnwuCGxw9jW2nqogLmeX0K4GXpLMPpdWMcIJuwStyKtag+UdRxi8dn2HlVxcAwjFAV1P848MkB3ui5OkL864EhCwZsUHnz1/dLu6nm0yUE+ahg6MRNHbmdpI+QxleCgPvkK1ka9O9/pGBftjcKjPdpBTUa0O40Gi6
+Subject: [PATCH] scripts/wipe-sysroot: add script to safely wipe the sysroots
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,66 +46,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 17:51:48 -0000
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Content-Language: it
+X-List-Received-Date: Fri, 25 Jan 2013 18:00:47 -0000
 
-Well done Marcin,
-I've just  met this issue working with my local external-toolchain and I =
-had
-to
-locally patch the same .inc for checking. :)
+Add a script to wipe the sysroots and all of the relevant stamps, so that it
+will be correctly re-populated.
 
-Thanks for having highlighted that in the mailing list.
-Regards,
-Giuseppe
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot |   34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100755 scripts/wipe-sysroot
 
->-----Original Message-----
->From: openembedded-core-bounces@lists.openembedded.org
->[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->Of Marcin Juszkiewicz
->Sent: venerd=EC 25 gennaio 2013 15:28
->To: openembedded-core@lists.openembedded.org
->Subject: [OE-core] [PATCH] eglibc: fix evacuate_scripts for external
-toolchains
->
->Not every external toolchain has mtrace/sotruss/xtrace scripts so check
-their
->existance first.
->
->Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
->---
-> meta/recipes-core/eglibc/eglibc-package.inc | 4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
->
->diff --git a/meta/recipes-core/eglibc/eglibc-package.inc =
-b/meta/recipes-
->core/eglibc/eglibc-package.inc
->index 79c43f1..4a4e54a 100644
->--- a/meta/recipes-core/eglibc/eglibc-package.inc
->+++ b/meta/recipes-core/eglibc/eglibc-package.inc
->@@ -113,7 +113,9 @@ do_evacuate_scripts () {
-> 	target=3D${D}${includedir}/eglibc-scripts-internal-
->${MULTIMACH_TARGET_SYS}
-> 	mkdir -p $target
-> 	for i in ${bashscripts}; do
->-		cp ${D}${bindir}/$i $target/
->+	    if [ -f ${D}${bindir}/$i ]; then
->+		    cp ${D}${bindir}/$i $target/
->+		fi
-> 	done
-> }
->
->--
->1.8.0
->
->
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+new file mode 100755
+index 0000000..e751a91
+--- /dev/null
++++ b/scripts/wipe-sysroot
+@@ -0,0 +1,34 @@
++#! /bin/sh
++
++# Wipe out all of the sysroots and all of the stamps that populated it.
++# Author: Ross Burton <ross.burton@intel.com>
++#
++# Copyright (c) 2012 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
++
++if [ -z "$BUILDDIR" ]; then
++    echo >&2 "Error: BUILDDIR is not defined, please initialise the build system."
++    return 1
++fi
++
++# The sysroots themselves
++rm -rf $BUILDDIR/tmp/sysroots/
++
++# The stamps that said the sysroot was populated
++rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot.*
++rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot_setscene.*
++
++# The sstate manifests
++rm -rf $BUILDDIR/tmp/sstate-control/manifest-*.populate-sysroot
+-- 
+1.7.10.4
 
 
 
