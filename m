@@ -1,27 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1TyeYl-0002Pw-HY
+	(envelope-from <radu.moisan@intel.com>) id 1Tyemw-0003mP-3D
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 09:22:52 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0P87GvN009756
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 00:07:16 -0800 (PST)
-Received: from pek-wfan-d2.corp.ad.wrs.com (128.224.162.225) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 25 Jan 2013 00:07:16 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Jan 2013 16:06:56 +0800
-Message-ID: <06cf3d39e3067662d7cd95c7fadee3cab4a1ecb2.1359095007.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1359095007.git.wenzong.fan@windriver.com>
-References: <cover.1359095007.git.wenzong.fan@windriver.com>
+	Fri, 25 Jan 2013 09:37:31 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 25 Jan 2013 00:21:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,536,1355126400"; d="scan'208";a="252237404"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2013 00:21:52 -0800
+Message-ID: <5102423C.4010408@intel.com>
+Date: Fri, 25 Jan 2013 10:28:44 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] git: remove unpackaged perl-native files
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51013136.7040807@intel.com>
+	<CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,64 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 08:22:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Jan 2013 08:37:32 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
 
-${libdir} is not applicable for the install path of perl-native files,
-files are always installed to /usr/lib no matter the target is 32/64
-bits. After installing, remove unpackaged and unneeded perl-native
-files to prevent warnings.
+On 01/24/2013 04:52 PM, Burton, Ross wrote:
+> On 24 January 2013 13:03, Radu Moisan <radu.moisan@intel.com> wrote:
+>> ok, thanks Enrico, this clears the picture for me.
+>> Well then it looks like Jack's problems is coming from some other place.
+> No - /run needs to exist for the mount to happen, and there isn't a
+> /run in the filesystem.  Whatever creates the root filesystem
+> structure should also create /run I guess.
 
-Fix warning:
-    WARNING: For recipe git, the following files/directories were \
-        installed but not shipped in any package:
-    ...
-    WARNING:   /usr/lib/perl-native/perl/5.14.2/Git.pm
-    WARNING:   /usr/lib/perl-native/perl/5.14.2/perllocal.pod
-    WARNING:   /usr/lib/perl-native/perl/5.14.2/Error.pm
-    WARNING:   /usr/lib/perl-native/perl/5.14.2/auto
+I agree, but what I meant was that my initial assumptions were wrong 
+with concern to Jack's problem. I run it on qemu and /run is there. His 
+problem related to /run creation while I was thinking about mounting issue.
 
-[YOCTO#3780]
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-devtools/git/git.inc        |    6 +++++-
- meta/recipes-devtools/git/git_1.8.0.2.bb |    2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 82df6e3..9829eec 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -28,7 +28,11 @@ do_install () {
- 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
- 		template_dir=${datadir}/git-core/templates \
- 		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
--	rm -rf ${D}${libdir}/perl-native
-+
-+	# ${libdir} is not applicable here, perl-native files are always
-+	# installed to /usr/lib on both 32/64 bits targets.
-+	rm -rf ${D}/usr/lib/perl-native
-+	rmdir ${D}/usr/lib || true
- }
- 
- do_install_append_class-native() {
-diff --git a/meta/recipes-devtools/git/git_1.8.0.2.bb b/meta/recipes-devtools/git/git_1.8.0.2.bb
-index 5e5a23e..ae6fc41 100644
---- a/meta/recipes-devtools/git/git_1.8.0.2.bb
-+++ b/meta/recipes-devtools/git/git_1.8.0.2.bb
-@@ -1,6 +1,6 @@
- require git.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
- SRC_URI[md5sum] = "1aca109d4a719fe5bc43d25927fbc7d9"
--- 
-1.7.10.4
-
+Radu
 
 
