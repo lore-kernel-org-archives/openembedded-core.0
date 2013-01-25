@@ -1,26 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TytIf-0001dh-6s
-	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Jan 2013 01:07:13 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 25 Jan 2013 15:50:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,541,1355126400"; d="scan'208";a="276791694"
-Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.79])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jan 2013 15:51:37 -0800
-Message-ID: <51031A87.6030506@linux.intel.com>
-Date: Fri, 25 Jan 2013 15:51:35 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1359157635-2082-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1359157635-2082-1-git-send-email-sgw@linux.intel.com>
-X-Enigmail-Version: 1.5
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] poky-tiny: Update for DISTRO_FEATURES_INITMAN
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TytK4-0001gR-Pu for openembedded-core@lists.openembedded.org;
+	Sat, 26 Jan 2013 01:08:40 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0PNvHr8007222; Fri, 25 Jan 2013 23:57:17 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hqE2RS7o01Vc; Fri, 25 Jan 2013 23:57:17 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r0PNvBEj007212
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 25 Jan 2013 23:57:13 GMT
+Message-ID: <1359157968.13917.26.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Fri, 25 Jan 2013 23:52:48 +0000
+In-Reply-To: <CALbNGRRKxi-DBkBxc2jhdiAEvcZk0YsTs=bk-0mSuKER87P3Bw@mail.gmail.com>
+References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
+	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
+	<20130125151241.GJ3200@jama>
+	<CAJTo0LYW7BJ1WT=+GcHXDDRb+ONuKiUxw0ehEkNJgt=b6HY42Q@mail.gmail.com>
+	<CALbNGRRM2u80Pdbt7XOhbWTDBBceEpmdN-1drCTVTp_Ez7UQFg@mail.gmail.com>
+	<20130125180634.GC16904@jama.palm1.palmone.com>
+	<CALbNGRTUU_jBo4uktmEv+JCKaDnkayRt6oULYX2rUq+ro3aE+g@mail.gmail.com>
+	<20130125193456.GE16904@jama.palm1.palmone.com>
+	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
+	<20130125202657.GF16904@jama.palm1.palmone.com>
+	<CALbNGRRKxi-DBkBxc2jhdiAEvcZk0YsTs=bk-0mSuKER87P3Bw@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r0PNvHr8007222
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2013 00:07:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 26 Jan 2013 00:08:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2013-01-25 at 22:09 +0100, Andreas M=C3=BCller wrote:
+> Please let's remember how it started: avoiding a single warning for
+> missing display-manager.service on console images...
+
+Don't be too quick to trivialise this. You start with accepting one
+warning at boot. Another appears, well its only one more and there was a
+warning anyway, you can't remember which was always there and is safe to
+ignore. Before long you have lots of warnings at boot and its ok, we had
+warnings anyway, right?
+
+Warnings show how much we care about the thing we're producing. Whist
+this is annoying, lets fix it once and for all, properly.
+
+Cheers,
+
+Richard
 
 
 
-On 01/25/2013 03:47 PM, Saul Wold wrote:
-> This patch accounts for the addition of DISTRO_FEATURES_INITMAN which
-> sets the VIRTUAL_RUNTIME_init_manager, so that does not need to be set.
-> 
-
-Thank you Saul!
 
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
->  meta-yocto/conf/distro/poky-tiny.conf |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
-> index 347280a..1ae8242 100644
-> --- a/meta-yocto/conf/distro/poky-tiny.conf
-> +++ b/meta-yocto/conf/distro/poky-tiny.conf
-> @@ -84,6 +84,7 @@ DISTRO_FEATURES_NET = "ipv4"
->  DISTRO_FEATURES_USB = "usbhost"
->  #DISTRO_FEATURES_USBGADGET = "usbgadget"
->  #DISTRO_FEATURES_WIFI = "wifi"
-> +DISTRO_FEATURES_INITMAN = "tiny-init"
->  
->  DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
->                     ${DISTRO_FEATURES_NET} \
-> @@ -96,7 +97,6 @@ DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
->  # Use tmpdevfs and the busybox runtime services
->  VIRTUAL-RUNTIME_dev_manager = ""
->  VIRTUAL-RUNTIME_login_manager = ""
-> -VIRTUAL-RUNTIME_init_manager = "tiny-init"
->  VIRTUAL-RUNTIME_keymaps = ""
->  
->  # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
 
 
