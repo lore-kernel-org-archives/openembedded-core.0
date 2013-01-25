@@ -1,26 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Tyfv7-0000o2-43
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 10:50:13 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 Jan 2013 01:34:26 -0800
+	(envelope-from <radu.moisan@intel.com>) id 1TygPt-0004Zh-Qt
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Jan 2013 11:21:50 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 25 Jan 2013 02:04:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,537,1355126400"; d="scan'208";a="248288437"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jan 2013 01:34:24 -0800
-Message-ID: <5102518C.7000201@intel.com>
-Date: Fri, 25 Jan 2013 11:34:04 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,537,1355126400"; d="scan'208";a="195030018"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Jan 2013 02:04:09 -0800
+Message-ID: <51025A35.1070009@intel.com>
+Date: Fri, 25 Jan 2013 12:11:01 +0200
+From: Radu Moisan <radu.moisan@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: Jason Wessel <jason.wessel@windriver.com>
-References: <1359074326-12029-1-git-send-email-jason.wessel@windriver.com>
-	<1359074326-12029-2-git-send-email-jason.wessel@windriver.com>
-In-Reply-To: <1359074326-12029-2-git-send-email-jason.wessel@windriver.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] populate_sdk_base.bbclass: Improve debugging capabilities for SDK installer
+To: openembedded-core@lists.openembedded.org
+References: <1359034562-31592-1-git-send-email-radu.moisan@intel.com>
+	<20130124134801.GD3012@jama> <51013F96.80302@intel.com>
+	<CAGiJk9ca5XZXMamBFOr+syV08WK--2CYONS_0f=rCxrZkm+n-g@mail.gmail.com>
+	<CAGiJk9dpU1vpqUZt_+3aS4Bu97_kEkftPrOameF-LAB1qd2qDg@mail.gmail.com>
+	<CAJTo0LbN7djNS17qDc60716+uSSgjKbtXHnUvsCWq6Bm_zKigA@mail.gmail.com>
+	<CALbNGRQhr3GGp+Hx2jMOs0sEXCw5PNYdQhfoiHL0Kw1AxWvf6g@mail.gmail.com>
+	<CAJTo0LZR4BjQYHPfaBtGpDe9Oi1qTuv=wAvhCkQ6EtfNkuLKtg@mail.gmail.com>
+	<CAGiJk9ca7C5UWwLW0GTsiqSxH=TjOHfQ_bd4L9YgiKW+151cuw@mail.gmail.com>
+	<CAJTo0LaEiSg-V_kFPLMVDfz51GunE97JwPUHTDW_WWjCXoPOaA@mail.gmail.com>
+	<20130124154325.GB3200@jama>
+	<CAJTo0LZLkLsYfiiQhFXKgBPL6x1AMF5g6EU3dEZ0k9LMSRaf+A@mail.gmail.com>
+In-Reply-To: <CAJTo0LZLkLsYfiiQhFXKgBPL6x1AMF5g6EU3dEZ0k9LMSRaf+A@mail.gmail.com>
+Subject: Re: [PATCH] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +41,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 09:50:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 25 Jan 2013 10:21:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
+On 01/24/2013 05:48 PM, Burton, Ross wrote:
+> On 24 January 2013 15:43, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> I think the point is, keep default default.target for images where it's
+>> OK (gui or warning) and change default.target to something else only for
+>> images where it matters (nogui if you care about warning).
+>>
+>> Changing default value by patch in systemd recipe and then setting
+>> default value back in many image recipes doesn't look sane.
+> Sure, so we make the default graphical, and there's no change as far
+> as the final image is concerned.
 
-On 01/25/2013 02:38 AM, Jason Wessel wrote:
->  executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
-> -$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
-> -if [ $? -ne 0 ]; then
-> -	echo "SDK could not be set up. Relocate script failed. Abort!"
-> -	exit 1
+Thanks guys for your feedback, dropping this and looking for another 
+approach.
 
-
-> +echo "#!/bin/bash" > ${env_setup_script%/*}/relocate_sdk.sh
-> +echo exec $SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> ${env_setup_script%/*}/relocate_sdk.sh
-> +chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
-The last 3 lines will certainly fail if installation takes place in a
-location you don't have rights... So, you'll end up with no
-relocate_sdk.sh script.
-
-Thanks,
-Laurentiu
-> +if [ $relocate = 1 ] ; then
-> +	${env_setup_script%/*}/relocate_sdk.sh
-> +	if [ $? -ne 0 ]; then
-> +		echo "SDK could not be set up. Relocate script failed. Abort!"
-> +		exit 1
-> +	fi
->  fi
+Radu
 
 
