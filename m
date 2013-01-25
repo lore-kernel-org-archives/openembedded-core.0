@@ -1,32 +1,41 @@
-Received: from mail-da0-f49.google.com ([209.85.210.49])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tynak-00027o-LG
+	(envelope-from <ross.burton@intel.com>) id 1Tynfk-0002OK-0q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 19:01:30 +0100
-Received: by mail-da0-f49.google.com with SMTP id v40so271964dad.22
+	Fri, 25 Jan 2013 19:06:40 +0100
+Received: from mail-ye0-f199.google.com ([209.85.213.199])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 09:51:04 -0800
+Received: by mail-ye0-f199.google.com with SMTP id l12so770817yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 09:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=gw7pqQg4NLBLYOkEmONqngSN0UkR1Y7lRC4DzBMY7Cg=;
-	b=0iurU08YM11EPmomqqBgzFV2fyPENDgLe92ahDoUxnH/IPlQDgmFtghDxCWgHLTVX5
-	E8tiVRz3lC/rgUNUKVsV0hEotrFk3varq1/+Pj48wOiW9NAHsjz81TE4aQNNfi+o7zcE
-	MfDDP5hM2+77TJCOAnleZzltBV6u8544WTtBWXD5J+5u6VJETwTIJ0ouruyr2joS2tQj
-	x9mUDc4oGTG79JxyJwSSx5BSrwpwbTD6aK4iq+m0aYszRJGMURLUxYn3RLWhPBjjfhEp
-	+KmsxB1h92J7DTP+bsFmkc9Kr13/1QdbBXFQbrpCfBeKMrjTl7U5MOcX508hmTh1LXTf
-	pAKQ==
-X-Received: by 10.68.135.99 with SMTP id pr3mr16128575pbb.151.1359135955195;
-	Fri, 25 Jan 2013 09:45:55 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id p10sm1235523pax.27.2013.01.25.09.45.52
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 09:45:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2013 18:45:42 +0100
-Message-Id: <1359135942-21309-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.1
-Subject: [PATCH] eglibc-scripts: don't package mtrace, RDEPEND on eglibc-mtrace instead, fix RDEPENDS
+	Fri, 25 Jan 2013 09:51:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=DywCac/zm4sF059Ab5/O2ogtwpYe5+vi11mp4W//Qwc=;
+	b=H26F4bxb6gj67FSOkHxm8LfWeVhGD3LX2mUOlY0XxxA1MIlPdkuG9lpjjShIE+1KlD
+	JZUyjJo7jzNAfaZEvkYHNLhdB78Zuhy/oJrbo/RUyfVwkEvSIuwa2hivem5U+iLkA+TA
+	OZrxvqSgtsBl77hqA6Nwd3ojO1nJPnlnGLLTnogVB7hVGrPkGOhj/WZJFsELUot41RlK
+	ZWuM4oL27YJkrLsjBEVESB8vZDmO27CWU8H8yu1KSWjTwDUCJVVK1qenkBesn2/74WBu
+	av91bAi+BY6Jf8SEc5z6jXEKf0WdYwnlWoU4/ARwMCeNJ8C5dUeB8KtB7Ju0+Fp/dO3V
+	luVA==
+X-Received: by 10.52.72.137 with SMTP id d9mr6001578vdv.105.1359136263370;
+	Fri, 25 Jan 2013 09:51:03 -0800 (PST)
+X-Received: by 10.52.72.137 with SMTP id d9mr6001573vdv.105.1359136263311;
+	Fri, 25 Jan 2013 09:51:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.151.207 with HTTP; Fri, 25 Jan 2013 09:50:43 -0800 (PST)
+In-Reply-To: <20130125151241.GJ3200@jama>
+References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
+	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
+	<20130125151241.GJ3200@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Jan 2013 17:50:43 +0000
+Message-ID: <CAJTo0LYW7BJ1WT=+GcHXDDRb+ONuKiUxw0ehEkNJgt=b6HY42Q@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQlaa+tzwaT7k/dMH1qchVSX4WQDFyWGAeRFUH23FtnhfvdnsTuq9jU/ci6buCyPCYe2sEfHB8KB8FibrumVD4kNulR90BADeaVTA147PoegskzoyD7vnyXBYoGmhrFbmW6y4coGXjYZmqmuCBR/CBxWneeHm04dlZjaNRLCyA/0RGX9NX+quwXCS9cup16TaxIs0LuW
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +48,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 18:01:30 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 18:06:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* eglibc-mtrace and eglibc-scripts provide the same mtrace script
-* remove mtrace from eglibc-scripts and replace it with RDEPENDS
-* mtrace also needs perl (eglibc-mtrace has correct RDEPENDS), bash is
-  for sotruss and xtrace
-* remove invalid RDEPENDS_ldd, ldd is now using /bin/sh and is not
-  packaged by eglibc-scripts
-* fixes error in world-image build:
-  * check_data_file_clashes: Package eglibc-mtrace wants to install file
-    rootfs/usr/bin/mtrace
-    But that file is already provided by package  * eglibc-scripts
+Hi,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/eglibc/eglibc-scripts.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Been chatting to Richard.  How about systemd ships a symlink to
+multi-user, and the X11 init script packages change the symlink to
+graphical in their postinst.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-scripts.inc b/meta/recipes-core/eglibc/eglibc-scripts.inc
-index a020961..9ca6673 100644
---- a/meta/recipes-core/eglibc/eglibc-scripts.inc
-+++ b/meta/recipes-core/eglibc/eglibc-scripts.inc
-@@ -2,12 +2,11 @@ include eglibc-collateral.inc
- 
- SUMMARY = "utility scripts provided by eglibc"
- DESCRIPTION = "utility scripts provided by eglibc"
--RDEPENDS_${PN} = "bash"
--RDEPENDS_ldd = "bash"
-+RDEPENDS_${PN} = "bash eglibc-mtrace"
- 
- SRC = "${STAGING_INCDIR}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}"
- 
--bashscripts = "mtrace sotruss xtrace"
-+bashscripts = "sotruss xtrace"
- 
- do_install() {
- 	install -d -m 0755 ${D}${bindir}
--- 
-1.8.1.1
+(we must remember to put this in the release notes for anyone who has
+a custom X init script)
 
+Ross
 
 
