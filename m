@@ -1,38 +1,31 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-pb0-f54.google.com ([209.85.160.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tyq12-0002VW-Rt
+	(envelope-from <martin.jansa@gmail.com>) id 1Tyq6f-0002op-L9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 21:36:49 +0100
-Received: from mail-fa0-f71.google.com ([209.85.161.71])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 12:21:12 -0800
-Received: by mail-fa0-f71.google.com with SMTP id m1so877394fam.6
+	Fri, 25 Jan 2013 21:42:37 +0100
+Received: by mail-pb0-f54.google.com with SMTP id rr4so413008pbb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 12:21:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
-	:references:subject:x-mailer:mime-version:content-type
-	:content-transfer-encoding:content-disposition:x-gm-message-state;
-	bh=baUBbL7p2Egoyk3BtdK429UsFCXKgd9xkERzCxv3RDI=;
-	b=BhDUkH9zImTmEbJhUfs8NwvZf6FisiVNQ9pXJdlQ8bz+xk7qvD1YDJdcT5I5R9351S
-	0MIvwoJayO1iOc1ux+b9FlUy79uJeguRR0DzB5UIxTv4Tv3/gcF9r2YUK07CY8JYhuyG
-	HpK/IHkYBABWCKN90pwsN90vG87wSVa68R0bdtHDfCr2dzFvhSEg3LvOorJQTH5nE0lj
-	PUyDE3EKIDdbdn5ZaVOpJE1rysucbhSMu9s/PYeW+4vct3yJPobhF9Ucc5qQSenl5EKD
-	Ze8mA6SKJdx7Z3hS0S201BFVZ8P900D/RbeJ0un31+gct27NmisDiSAKbpZEesRE5v5K
-	oV+w==
-X-Received: by 10.194.94.37 with SMTP id cz5mr2072799wjb.49.1359145267188;
-	Fri, 25 Jan 2013 12:21:07 -0800 (PST)
-X-Received: by 10.194.94.37 with SMTP id cz5mr2072789wjb.49.1359145267067;
-	Fri, 25 Jan 2013 12:21:07 -0800 (PST)
-Received: from [192.168.1.7] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id eo10sm3489503wib.9.2013.01.25.12.21.04
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 12:21:05 -0800 (PST)
-Date: Fri, 25 Jan 2013 20:21:05 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
-In-Reply-To: <20130125193456.GE16904@jama.palm1.palmone.com>
+	Fri, 25 Jan 2013 12:27:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=65jLtJ1cjdiDfpyl9BUP08+aEe//x6+1Niy4n+4/V/g=;
+	b=ib7kAZDCrLrF7S3XZYupGjX9Ojzdm8lDn0VRloNVtsY594krLmkr07bThVnN2l7XjY
+	Ji2X1aQ2T4IApAhcIz0NHlsCg7TmUm8J7HayNF1IU3mX/0eNGAUzey4rAdwNEkfRfAuU
+	xNPMf4ZCUNiVe6IWMHOrM8rIT0bcRwtRdfJSWODtCEqwWFUgF2Ehoq+FaSNDifBfkbwk
+	T7yrJqKjibsktGxEveOKmwNzGtjEf+MYdqHTUhrsICCEMhkH7cb80XnvjKcw5H9GVqzv
+	lYhL08uujz173l0H3aS4/bKenPE4LnWAI3XzjY1foh+Dkga6b5fobkdblW+xwgmMgfk/
+	Cwsw==
+X-Received: by 10.68.233.196 with SMTP id ty4mr17341613pbc.23.1359145622281;
+	Fri, 25 Jan 2013 12:27:02 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id vq4sm1220948pbc.67.2013.01.25.12.26.58
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 25 Jan 2013 12:27:00 -0800 (PST)
+Date: Fri, 25 Jan 2013 21:26:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130125202657.GF16904@jama.palm1.palmone.com>
 References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
 	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
 	<20130125151241.GJ3200@jama>
@@ -41,9 +34,10 @@ References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
 	<20130125180634.GC16904@jama.palm1.palmone.com>
 	<CALbNGRTUU_jBo4uktmEv+JCKaDnkayRt6oULYX2rUq+ro3aE+g@mail.gmail.com>
 	<20130125193456.GE16904@jama.palm1.palmone.com>
-X-Mailer: sparrow 1.6.4 (build 1178)
+	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQnr1pwlNRAfn/djyn7QHbK8l79vjyHCq5MkpqSBVQh2LLV6lIzHQr7gUqUzVmzIoel2rjfWe7ZtQG2sZ5JGSmPnkhMcDjlehpWWg5+IOBdI3foXM99jssuOok3bj6bJ267lanPt3WygMsAzRmfBNgkAVFLWe1FfC1IfmzFVzi0fmz+GD0hrRQtAP2d17WKK5zFO0IbI
+In-Reply-To: <16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,34 +52,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 20:36:49 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Jan 2013 20:42:37 -0000
+X-Groupsio-MsgNum: 34478
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vA66WO2vHvL/CRSR"
 Content-Disposition: inline
 
-On Friday, 25 January 2013 at 19:34, Martin Jansa wrote:
-> Something like:
-> 
-> systemd:
-> inherit update-alternatives
-> ALTERNATIVE_${PN} = "systemd-def-target"
-> ALTERNATIVE_TARGET[systemd-def-target] = "${systemd_unitdir}/system/multi-user.target"
-> ALTERNATIVE_LINK_NAME[systemd-def-target] = "${systemd_unitdir}/systemd/system/default.target"
-> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "1"
-> 
-> xserver-nodm-init and DMs:
-> inherit update-alternatives
-> ALTERNATIVE_${PN} = "systemd-def-target"
-> ALTERNATIVE_TARGET[systemd-def-target] = "${systemd_unitdir}/system/graphical.target"
-> ALTERNATIVE_LINK_NAME[systemd-def-target] = "${systemd_unitdir}/systemd/system/default.target"
-> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
+--vA66WO2vHvL/CRSR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you make those conditional on the systemd feature so that we don't get complaints from people using something else?
+On Fri, Jan 25, 2013 at 08:21:05PM +0000, Ross Burton wrote:
+> On Friday, 25 January 2013 at 19:34, Martin Jansa wrote:
+> > Something like:
+> >=20
+> > systemd:
+> > inherit update-alternatives
+> > ALTERNATIVE_${PN} =3D "systemd-def-target"
+> > ALTERNATIVE_TARGET[systemd-def-target] =3D "${systemd_unitdir}/system/m=
+ulti-user.target"
+> > ALTERNATIVE_LINK_NAME[systemd-def-target] =3D "${systemd_unitdir}/syste=
+md/system/default.target"
+> > ALTERNATIVE_PRIORITY[systemd-def-target] ?=3D "1"
+> >=20
+> > xserver-nodm-init and DMs:
+> > inherit update-alternatives
+> > ALTERNATIVE_${PN} =3D "systemd-def-target"
+> > ALTERNATIVE_TARGET[systemd-def-target] =3D "${systemd_unitdir}/system/g=
+raphical.target"
+> > ALTERNATIVE_LINK_NAME[systemd-def-target] =3D "${systemd_unitdir}/syste=
+md/system/default.target"
+> > ALTERNATIVE_PRIORITY[systemd-def-target] ?=3D "10"
+>=20
+> Can you make those conditional on the systemd feature so that we don't ge=
+t complaints from people using something else?
 
-You could use different names and map them to ALTERNATIVE_* inside systemd.bbclass, assuming/enforcing that everyone who wants to set the default target inherits that class I guess.
+xserver-nodm-init:
+ALTERNATIVE_${PN}-systemd =3D "systemd-def-target"
 
-Ross 
+And only people which install xserver-nodm-init-system in image will see
+that.
 
+> You could use different names and map them to ALTERNATIVE_* inside system=
+d.bbclass, assuming/enforcing that everyone who wants to set the default ta=
+rget inherits that class I guess.
 
+I don't understand what you mean.
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--vA66WO2vHvL/CRSR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlEC6pEACgkQN1Ujt2V2gBxUAgCeNlOV+dT2EY8vaLyf7TK63ayB
+tNYAn39Wqbe6HDtqhBSXm345J57QuoIB
+=qoPz
+-----END PGP SIGNATURE-----
+
+--vA66WO2vHvL/CRSR--
