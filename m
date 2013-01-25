@@ -1,33 +1,40 @@
-Received: from mail-vb0-f45.google.com ([209.85.212.45])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stashluk@gmail.com>) id 1TymiV-0007pw-RG
+	(envelope-from <ross.burton@intel.com>) id 1Tymn6-00087R-0k
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 18:05:28 +0100
-Received: by mail-vb0-f45.google.com with SMTP id p1so423616vbi.4
+	Fri, 25 Jan 2013 18:10:12 +0100
+Received: from mail-vc0-f197.google.com ([209.85.220.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 08:54:36 -0800
+Received: by mail-vc0-f197.google.com with SMTP id gb30so694274vcb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 08:49:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=AQZDga3bMiAaKUNXMPpvPKTMc5dh+5fj7EUcUpKBZ/E=;
-	b=nX0CrrzvbIQ+0aE49dX2Pu3MowDnA3orRlVw3JU2uSLVEFk4pd9rx7QZAZKJnQDk7Q
-	7ugDF67sQQr4tqSY8ZhyH0A8dhRBCRrwd8kotIF49XMG1sdDTOg0n075JS/cAoArfxG9
-	cV2LnJ1RtfPgOMcpfvmPNZU34lgPY1hldHxtBNYk3do0RKmLhoD9abZkqhkmDuo6Xksl
-	9NlU6sZ6ryjB7M8r2bq0QTJOzD/xIxYQCWCStobAuG726YrZYy6J5WczeJ++kt++Pw8j
-	F8xT8QB7NpRLZUZNlo8ir3Lho04Ha4nGLO+jCbvYCyUaPioiMudYbpO+MCa7761Hcyhn
-	UaUA==
-X-Received: by 10.52.76.170 with SMTP id l10mr5838309vdw.83.1359132592954;
-	Fri, 25 Jan 2013 08:49:52 -0800 (PST)
-Received: from jstashluk2.deka.local ([208.65.175.197])
-	by mx.google.com with ESMTPS id j16sm758331vdh.6.2013.01.25.08.49.52
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 08:49:52 -0800 (PST)
-From: Jeremy Stashluk <stashluk@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2013 11:49:45 -0500
-Message-Id: <1359132585-31911-1-git-send-email-jstashluk@dekaresearch.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Jeremy Stashluk <jstashluk@dekaresearch.com>
-Subject: [PATCH v5] gst-plugins-gl: add package recipe
+	Fri, 25 Jan 2013 08:54:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=pplGaMaBs/Xd86odJLyarypYLQq1h+UhZ5P51kEUiTI=;
+	b=iwlTKST50RU07e9ZnW7Y7sf3X9OWqT7ouzAH34JXPTHkuoqEOfx+WIyCUzck6tEQh9
+	Q17/u6IcZCtAvljNjtTv7XqITvPY4BsdHccpmRZzaQhG09ADGFzNmHuaVvJCBV81He/p
+	58ava7kfo68BLgYh1X9af5QmCS+cf2GaaJrSY2xz6YBlI8Q5kEF79WLkcaQfoFS2M5V1
+	YYuDy3E+dgmjaBq4RKYQGPNijPy6aAfsbMZerCMa+ozKCPXIAIWtNSAWo9RC0JxkBJYZ
+	YurxtEla/0IRs0LO3uavWyfnznUB7U0WLkmm5hHn6BE3CQxVT6eF784OryNF9Nw1PAFX
+	ebiA==
+X-Received: by 10.220.226.70 with SMTP id iv6mr6768498vcb.9.1359132874904;
+	Fri, 25 Jan 2013 08:54:34 -0800 (PST)
+X-Received: by 10.220.226.70 with SMTP id iv6mr6768493vcb.9.1359132874808;
+	Fri, 25 Jan 2013 08:54:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.151.207 with HTTP; Fri, 25 Jan 2013 08:54:14 -0800 (PST)
+In-Reply-To: <1359130842-21997-1-git-send-email-jstashluk@dekaresearch.com>
+References: <1359130842-21997-1-git-send-email-jstashluk@dekaresearch.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Jan 2013 16:54:14 +0000
+Message-ID: <CAJTo0LaNy=CGKtrEfFwAMJt=FXj99A5u4vTX=L=vSrWcyBG7dw@mail.gmail.com>
+To: Jeremy Stashluk <stashluk@gmail.com>
+X-Gm-Message-State: ALoCoQlX3M5EftAOqBrshh1PJ8flo1aLzgtPIXN7Ai7ZIAxUDBHeNBw/kIezjJn8JEL+XJOjaf3JQdEuyxZ5rtLsqWjvfQAPkgnkYSQqLKZyMJ9WvFBqFvK9tmnIx6fIpBo7X7vLpAlCEbp3l3zb8BcC1TM1mZRPoqPnQ+2FniTS4AwXtSzrreZArHrPv7uCWO8boOS7Z7ty
+Cc: Jeremy Stashluk <jstashluk@dekaresearch.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4] gst-plugins-gl: add package recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 17:05:28 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 17:10:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jeremy Stashluk <jstashluk@dekaresearch.com>
----
- .../gstreamer/gst-plugins-gl_0.10.3.bb             |   11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+On 25 January 2013 16:20, Jeremy Stashluk <stashluk@gmail.com> wrote:
+> +DEPENDS += "gst-plugins-base virtual/libgl"
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-new file mode 100644
-index 0000000..3d5934c
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-@@ -0,0 +1,11 @@
-+require recipes-multimedia/gstreamer/gst-plugins.inc
-+
-+LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
-+LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-+
-+DEPENDS += "gst-plugins-base virtual/libgl"
-+
-+SRC_URI[md5sum] = "ac70ede13f79978d56eaed8abaa3c938"
-+SRC_URI[sha256sum] = "48340b6a4b8abce16344a7bc33e74a94fdcce4f57ef6342cdf2f941c429bf210"
-+
-+inherit gettext gconf
--- 
-1.7.9.5
+You're missing a dependency on GLU:
 
+| configure:22832: error: GLU is required
+
+Ross
 
 
