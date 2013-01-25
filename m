@@ -1,26 +1,40 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ia0-f181.google.com ([209.85.210.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1TyXYm-00055l-4V
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 01:54:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0P0copI014987
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 16:38:50 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 24 Jan 2013 16:38:49 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jan 2013 18:38:46 -0600
-Message-ID: <1359074326-12029-2-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1359074326-12029-1-git-send-email-jason.wessel@windriver.com>
-References: <1359074326-12029-1-git-send-email-jason.wessel@windriver.com>
+	(envelope-from <raj.khem@gmail.com>) id 1TyXtw-0006Yg-F0
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Jan 2013 02:16:16 +0100
+Received: by mail-ia0-f181.google.com with SMTP id k25so5738477iah.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jan 2013 17:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=7hgW2FChagbDHlkFw7vgOEsDk5LecN29ENxyvtkp1f4=;
+	b=I3TJIXeR3cWnXd9cw8duO6UvXxaxnjr3JztluM6aAQFHO+8D2A6BBMWat9cdxWzbuO
+	J+z6STm7i1WrYBoJwbCT5FYUKPRWO4AKaRXIA5oH9NRfz8rALt91u4qOdAH5dbTJ739x
+	AaGGipa6wlZAZ7k9yWj94MUmHMqhiKbNJDwkSLQN4aXgb6ygJvnnPkgPU0hOVgQOHleg
+	ifWPdA2lVFZkBLBrzLwxHKL5704qiNNawmDLwpY4IuIw7y9a9t+Lql1vP0CKWM69G022
+	2mcd9NJMSKCzM2dlNtUSIp5j5FLzTTMxfgt/Y0/3Z7Adt7T0c4w9opa9eLrWsmAfu9yr
+	ql+w==
+X-Received: by 10.50.163.104 with SMTP id yh8mr2936913igb.112.1359075642456;
+	Thu, 24 Jan 2013 17:00:42 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] populate_sdk_base.bbclass: Improve debugging capabilities for SDK installer
+Received: by 10.64.18.169 with HTTP; Thu, 24 Jan 2013 17:00:12 -0800 (PST)
+In-Reply-To: <1359067749.3616.23.camel@ted>
+References: <cover.1359061155.git.raj.khem@gmail.com>
+	<2ba0f6007c1a72e2ee249a47610003031f6c1079.1359061155.git.raj.khem@gmail.com>
+	<1359064215.3616.20.camel@ted>
+	<CAMKF1spCF8ZQ86skFu_V0PHy7_r4n=h3d_6cNF5t3-x36dkoRA@mail.gmail.com>
+	<CABcZANmaExGvf_4Vm-+00nkk905an8atzPPR946KOsOWGpwYvw@mail.gmail.com>
+	<1359067749.3616.23.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 24 Jan 2013 17:00:12 -0800
+Message-ID: <CAMKF1sp5f_XG8PyG=et_4WSdrBaOk_sk0ORn-NaJgo7i+_2XrQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Chris Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/11] libpcap: Add missing libusb dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,110 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 00:54:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Jan 2013 01:16:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-After having to debug the SDK installer a few times in
-addition to the relocation code the following patch was created
-to improve the capabilities around debugging the SDK installer.
+On Thu, Jan 24, 2013 at 2:49 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2013-01-24 at 15:42 -0700, Chris Larson wrote:
+>>
+>> On Thu, Jan 24, 2013 at 3:14 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>         On Thu, Jan 24, 2013 at 1:50 PM, Richard Purdie
+>>         <richard.purdie@linuxfoundation.org> wrote:
+>>         > Do we need libusb support in libpcap? What does this
+>>         dependency buy us
+>>         > and couldn't we force it off instead?
+>>
+>>
+>>         its needed to support canusb in libpcap, I would say yes we
+>>         should
+>>         support it but disabling it would be ok too although all my
+>>         builds
+>>         were silently using libusb so I think unknowingly may be but
+>>         we are
+>>         already shipping with canusb support.
+>>
+>> I'd personally prefer it disabled, but I'd think at the very least it
+>> should be a PACKAGECONFIG entry, whether its included in the default
+>> value of PACKAGECONFIG itself or not.
+>>
+> Agreed, PACKAGECONFIG, default off is the way to go with this IMO too.
 
-1) Add a verbose mode -D which set a set -x to see what
-   the SDK installer is doing.
-
-2) Add a mode -S to save the relocation scripts for the purpose
-   of debugging them in conjunction with -D
-
-3) Add a mode -R to not execute the relocation scripts for the
-   purpose of debugging the relocations.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/classes/populate_sdk_base.bbclass |   40 +++++++++++++++++++++++++++----
- 1 files changed, 34 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index c587af8..9321445 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -136,7 +136,10 @@ DEFAULT_INSTALL_DIR="${SDKPATH}"
- SUDO_EXEC=""
- target_sdk_dir=""
- answer=""
--while getopts ":yd:" OPT; do
-+relocate=1
-+savescripts=0
-+verbose=0
-+while getopts ":yd:DRS" OPT; do
- 	case $OPT in
- 	y)
- 		answer="Y"
-@@ -145,15 +148,33 @@ while getopts ":yd:" OPT; do
- 	d)
- 		target_sdk_dir=$OPTARG
- 		;;
-+	D)
-+		verbose=1
-+		;;
-+	R)
-+		relocate=0
-+		savescripts=1
-+		;;
-+	S)
-+		savescripts=1
-+		;;
- 	*)
- 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
- 		echo "  -y         Automatic yes to all prompts"
- 		echo "  -d <dir>   Install the SDK to <dir>"
-+		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
-+		echo "  -S         Save relocation scripts"
-+		echo "  -R         Do not relocate executables"
-+		echo "  -D         use set -x to see what is going on"
- 		exit 1
- 		;;
- 	esac
- done
- 
-+if [ $verbose = 1 ] ; then
-+	set -x
-+fi
-+
- printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
- if [ "$target_sdk_dir" = "" ]; then
- 	read target_sdk_dir
-@@ -231,10 +252,15 @@ if [ "$dl_path" = "" ] ; then
- 	exit 1
- fi
- executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
--$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
--if [ $? -ne 0 ]; then
--	echo "SDK could not be set up. Relocate script failed. Abort!"
--	exit 1
-+echo "#!/bin/bash" > ${env_setup_script%/*}/relocate_sdk.sh
-+echo exec $SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> ${env_setup_script%/*}/relocate_sdk.sh
-+chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
-+if [ $relocate = 1 ] ; then
-+	${env_setup_script%/*}/relocate_sdk.sh
-+	if [ $? -ne 0 ]; then
-+		echo "SDK could not be set up. Relocate script failed. Abort!"
-+		exit 1
-+	fi
- fi
- 
- # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
-@@ -249,7 +275,9 @@ echo done
- 
- # delete the relocating script, so that user is forced to re-run the installer
- # if he/she wants another location for the sdk
--$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
-+if [ $savescripts = 0 ] ; then
-+	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
-+fi
- 
- echo "SDK has been successfully set up and is ready to be used."
- 
--- 
-1.7.1
-
+yes seems good. idea, I will try to go that route. very least I will disable it
 
 
