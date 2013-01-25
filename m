@@ -1,37 +1,35 @@
-Received: from mail-gh0-f170.google.com ([209.85.160.170])
+Received: from mail-bk0-f45.google.com ([209.85.214.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tyrzy-00087K-3A
+	(envelope-from <cazfi74@gmail.com>) id 1Tys3v-0008Rz-Mg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 23:43:50 +0100
-Received: by mail-gh0-f170.google.com with SMTP id g14so148824ghb.1
+	Fri, 25 Jan 2013 23:47:56 +0100
+Received: by mail-bk0-f45.google.com with SMTP id i18so529986bkv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 14:28:15 -0800 (PST)
+	Fri, 25 Jan 2013 14:32:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=ZuVmwsKLcbYSdEiKIWQWgkT4a+SEdgKM+qaVzFUVPp0=;
-	b=tYZVsFBh+UsGfoPegOA2fgxsMOAOj9OAEZ9HwSwthsky2lYVVILlONAYo0AHyZXDzk
-	JqYK/OHnjv/AEW/Ai6jYtTmuoDUSChFDeLEE190eI4Il2tJ4SNjY2vMSivgxcMzBsKJW
-	DcL12S1ACNEzXYmPLRq5wob2snvfmAAKTF7vEzhAMewVo+qTv+gnjIVg4EhAfz1V2voP
-	e8Rm6TQgDqBncbVuAeyPqGTA7tob0NqpVBy4TLsJnGqnmT1OeUGGG/Z4Dc19JhC095TF
-	H3XEBcWjM8Yl4sWcx76W7QY+jksnuiNZCc1m+h6DiRbJfAB4MRhbXJzPqnvwNU9GJIJV
-	t7YQ==
-X-Received: by 10.236.173.1 with SMTP id u1mr8137485yhl.2.1359152894978;
-	Fri, 25 Jan 2013 14:28:14 -0800 (PST)
-Received: from nano.lab.ossystems.com.br ([177.35.66.48])
-	by mx.google.com with ESMTPS id h4sm2336383yhi.18.2013.01.25.14.28.13
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 14:28:14 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=VZV5I8y3GSSJS8sot/HdPGRQlhgTrrkNsPYwL1EtV/4=;
+	b=HBDFRV3+lL5URJpQwqCCrSKWydUxB/nimJ4MjhfNNIq2OU2pevKEQoXB6upl7GegRO
+	Gwqf8TmIkvHB81NIBrqoRxUL59E6gWq7O6ioDx9L6R5MX6GblMunYOHEzv4hbKxyAsAD
+	J1OPLyNcbHbKyVEcQtk7ZD5pgVW1mPYCsEBsZlPD/jAeTRIgBYG2eM7VRVSB5gj/WPIt
+	RN+t+HUskQ4UD6BPuf+JTmyFxtVaC6ih1iSdB6+R1vKQMYGxPmjw8AoaqVDp4jDljltm
+	nadWbN8oOEJbxrLy2lMwiv7Gv++hqjSntc/s9ODpOQ2ZnuoD5Ss7TmViJS30RlcTpVwE
+	Eyow==
+X-Received: by 10.204.157.26 with SMTP id z26mr2242391bkw.101.1359153140961;
+	Fri, 25 Jan 2013 14:32:20 -0800 (PST)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPS id y11sm2303232bkw.8.2013.01.25.14.32.18
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 25 Jan 2013 14:32:19 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1Tyron-0004Ot-Is; Sat, 26 Jan 2013 00:32:17 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2013 20:32:22 -0200
-Message-Id: <1359153142-13425-3-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.1
-In-Reply-To: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
-References: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] xserver-xorg: Split 'glx' and 'dri' PACKAGECONFIG options
+Date: Sat, 26 Jan 2013 00:32:15 +0200
+Message-Id: <cover.1359152961.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/1] Fix harfbuzz make install error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 22:43:51 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 22:47:56 -0000
 
-Some SoC need 'dri' support even when not building glx; this patch
-splits it in two PACKAGECONFIG options ('glx' and 'dri') but does not
-change the default (both enabled).
+I've not managed to reproduce harfbuzz make install error reported
+from autobuilder, but there seems to be rather obvious error in
+harfbuzz that this patch works around.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 5d5443c..0e3d180 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -13,7 +13,7 @@ PROVIDES = "virtual/xserver-xf86"
- PROVIDES += "virtual/xserver"
- 
- PE = "2"
--INC_PR = "r8"
-+INC_PR = "r9"
- 
- XORG_PN = "xorg-server"
- SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
-@@ -122,11 +122,14 @@ EXTRA_OECONF += "--with-fop=no \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
- "
- 
--PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '', d)}"
-+PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx dri', '', d)}"
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
--PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
--                      --disable-dri --disable-dri2 --disable-glx,\
--                      xf86driproto dri2proto mesa-dri"
-+PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,\
-+                      --disable-glx,\
-+                      virtual/libgl"
-+PACKAGECONFIG[dri] = "--enable-dri --enable-dri2,\
-+                      --disable-dri --disable-dri2,\
-+                      virtual/dri xf86driproto dri2proto"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
+ - ML
+
+The following changes since commit cc490d76aba0a778409ca1a3d0e1f2c308684c9b:
+
+  valgrind: explicitly disable MPI2 support (2013-01-25 16:40:25 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
+
+Marko Lindqvist (1):
+  harfbuzz: fix install of version.h
+
+ .../harfbuzz-0.9.10/avoid_double_version_h.patch         |   14 ++++++++++++++
+ meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb        |    3 ++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/avoid_double_version_h.patch
+
 -- 
-1.8.1
+1.7.10.4
 
 
 
