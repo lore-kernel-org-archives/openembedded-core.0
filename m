@@ -1,27 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1TyWov-0002nr-OR
+	(envelope-from <jason.wessel@windriver.com>) id 1TyXYl-00055f-Ic
 	for Openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 01:07:02 +0100
+	Fri, 25 Jan 2013 01:54:24 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0ONpSuh014347
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0P0cmhm020099
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jan 2013 15:51:28 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	Thu, 24 Jan 2013 16:38:49 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 24 Jan 2013 15:51:27 -0800
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jan 2013 17:51:25 -0600
-Message-ID: <48f475bcf23a8d458fbeb46a96c43f7f09754a34.1359071327.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1359071327.git.peter.seebach@windriver.com>
-References: <cover.1359071327.git.peter.seebach@windriver.com>
+	Thu, 24 Jan 2013 16:38:48 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Jan 2013 18:38:45 -0600
+Message-ID: <1359074326-12029-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] package.bbclass: Consistency between packaging and unpackaged check
+Subject: [PATCH 1/2] relocate_sdk.py: Fix corruption of sdk binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 00:07:02 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 00:54:24 -0000
 Content-Type: text/plain
 
-A path name in FILES_package which has no leading slash can
-work for the packaging code, causing the file to get installed
-correctly as part of a package; however, the check for installed
-but unpackaged files checks against the "./" path, resulting
-in a spurious diagnostic.  Solution: We're already prepending a
-period to every absolute path.  If a path has gotten past that,
-and doesn't start with "./", it's presumably a relative path,
-and adding "./" to it will make it match.
+There are two cases of corruption that the relocate_sdk.py was not correctly
+dealing with.
 
-The test case is to create a file in the root directory,
-and include the file's name with no leading slash in a FILES_*.
-Without this, the file should actually get packaged, but
-generate an installed-but-unpackaged warning anyway.
+1) SDK Extras should be left alone
+   Extra external binaries included in an SDK that were linked against the
+   host's version of /usr/lib/ld-so.so should not get a relocation applied.
+   In the case that was discovered these were LSB compliant binaries that
+   already worked on many hosts.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+2) If the interp section is too small generate an error
+   In the case of the qemu user code, it was using its own .ld file
+   to link the executables which overrides the default in the nativesdk
+   binutils.  This generated host executables which had a interp section
+   that was too small to relocate.
+
+   Now the relocate_sdk.py will print an error and continue on such that
+   the error can be fixed by a developer without having to do the
+   difficult task of debugging why it is crashing or not loading correctly.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/package.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ scripts/relocate_sdk.py |   17 +++++++++++++----
+ 1 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 8e07168..ee18488 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -980,6 +980,8 @@ python populate_packages () {
-                 file.replace("//", "/")
-             if os.path.isabs(file):
-                 file = '.' + file
-+            if not file.startswith("./")
-+                file = './' + file
-             if not os.path.islink(file):
-                 if os.path.isdir(file):
-                     newfiles =  [ os.path.join(file,x) for x in os.listdir(file) ]
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index 74bb7a5..3e3181f 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -66,7 +66,7 @@ def parse_elf_header():
+     e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx =\
+         hdr_struct.unpack(elf_header[16:hdr_size])
+ 
+-def change_interpreter():
++def change_interpreter(elf_file_name):
+     if arch == 32:
+         ph_struct = struct.Struct("<IIIIIIII")
+     else:
+@@ -89,8 +89,17 @@ def change_interpreter():
+         if p_type == 3:
+             # PT_INTERP section
+             f.seek(p_offset)
+-            dl_path = new_dl_path + "\0" * (p_filesz - len(new_dl_path))
+-            f.write(dl_path)
++            dl_path = new_dl_path + "\0"
++            # External SDKs with mixed pre-compiled binaries should not get
++            # relocated so look for some variant of /lib
++            fname = f.read(11)
++            if fname.startswith("/lib/") or fname.startswith("/lib64/") or fname.startswith("/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib64/"):
++                break
++            if (len(dl_path) >= p_memsz):
++                print "ERROR: could not relocate %s, interp size = %i and %i is needed." % (elf_file_name, p_memsz, len(dl_path))
++                break
++            f.seek(p_offset)
++            f.write(dl_path )
+             break
+ 
+ def change_dl_sysdirs():
+@@ -199,7 +208,7 @@ for e in executables_list:
+     arch = get_arch()
+     if arch:
+         parse_elf_header()
+-        change_interpreter()
++        change_interpreter(e)
+         change_dl_sysdirs()
+ 
+     """ change permissions back """
 -- 
-1.7.0.4
+1.7.1
 
 
 
