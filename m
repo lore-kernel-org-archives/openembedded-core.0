@@ -1,30 +1,26 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tysc4-0006pj-4U for openembedded-core@lists.openembedded.org;
-	Sat, 26 Jan 2013 00:23:12 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0PNBobp004221; Fri, 25 Jan 2013 23:11:51 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tr811ZHsh6lB; Fri, 25 Jan 2013 23:11:50 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0PNBhmK004162
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 25 Jan 2013 23:11:46 GMT
-Message-ID: <1359155241.13917.22.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 25 Jan 2013 23:07:21 +0000
-In-Reply-To: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
-References: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	(envelope-from <dvhart@linux.intel.com>) id 1Tystc-0007sJ-GG
+	for openembedded-core@lists.openembedded.org;
+	Sat, 26 Jan 2013 00:41:21 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Jan 2013 15:24:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,541,1355126400"; d="scan'208";a="252655535"
+Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.79])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jan 2013 15:25:44 -0800
+Message-ID: <51031477.3010101@linux.intel.com>
+Date: Fri, 25 Jan 2013 15:25:43 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1359155139-947-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1359155139-947-1-git-send-email-sgw@linux.intel.com>
+X-Enigmail-Version: 1.5
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Improve DRI handling support flexibility
+Subject: Re: [PATCH] poky-tiny: Update for DISTRO_FEATURES_INITMAN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 23:23:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 25 Jan 2013 23:41:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-01-25 at 20:32 -0200, Otavio Salvador wrote:
-> There're some processors which provide binary blobs for DRI and GPU
-> support which need to be build in BSP; to avoid some dirt and ugly
-> hacks in BSP we ought to be flexible.
+On 01/25/2013 03:05 PM, Saul Wold wrote:
+> This patch accounts for the addition of DISTRO_FEATURES_INITMAN which
+> sets the VIRTUAL_RUNTIME_init_manager, so that does not need to be set.
 > 
-> We splitted the glx and dri PACKAGECONFIG options and added a
-> virtual/dri provider so BSP can override it, if need.
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+
+I thought I understood it... until I read the new comment. What is this
+DISTRO_FEATURED_BACKFILL thing?
+
+--
+Darren
+
+> ---
+>  meta-yocto/conf/distro/poky-tiny.conf |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Otavio Salvador (2):
->   mesa: Add virtual/dri provides
->   xserver-xorg: Split 'glx' and 'dri' PACKAGECONFIG options
+> diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+> index 347280a..761844f 100644
+> --- a/meta-yocto/conf/distro/poky-tiny.conf
+> +++ b/meta-yocto/conf/distro/poky-tiny.conf
+> @@ -84,6 +84,8 @@ DISTRO_FEATURES_NET = "ipv4"
+>  DISTRO_FEATURES_USB = "usbhost"
+>  #DISTRO_FEATURES_USBGADGET = "usbgadget"
+>  #DISTRO_FEATURES_WIFI = "wifi"
+> +# This is needed for DISTRO_FEATURES_BACKFILL
+> +DISTRO_FEATURES_INITMAN = "tiny-init"
+>  
+>  DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
+>                     ${DISTRO_FEATURES_NET} \
+> @@ -96,7 +98,6 @@ DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
+>  # Use tmpdevfs and the busybox runtime services
+>  VIRTUAL-RUNTIME_dev_manager = ""
+>  VIRTUAL-RUNTIME_login_manager = ""
+> -VIRTUAL-RUNTIME_init_manager = "tiny-init"
+>  VIRTUAL-RUNTIME_keymaps = ""
+>  
+>  # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
 > 
->  meta/recipes-graphics/mesa/mesa-common.inc          |  4 ++--
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 13 ++++++++-----
->  2 files changed, 10 insertions(+), 7 deletions(-)
 
-I didn't see the patches here but this would suggest the xserver and
-mesa plus anything that depends on them becomes machine specific.
-
-Cheers,
-
-Richard
-
-
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
