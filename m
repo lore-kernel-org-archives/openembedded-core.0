@@ -1,20 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TyktD-0002CQ-Sd
+	(envelope-from <ross.burton@intel.com>) id 1Tyl4o-0002ie-DQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 16:08:24 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 25 Jan 2013 06:52:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,538,1355126400"; d="scan'208";a="195117873"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 25 Jan 2013 06:52:46 -0800
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2013 16:59:36 +0200
-Message-Id: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] systemd: set default.target to multi-user.target
+	Fri, 25 Jan 2013 16:20:24 +0100
+Received: from mail-qa0-f72.google.com ([209.85.216.72])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 07:04:46 -0800
+Received: by mail-qa0-f72.google.com with SMTP id dx4so606549qab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jan 2013 07:04:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=AKJwHh7FQZnyJCYWuk9h1ff788S7ODtzhzrCKkfe6Q4=;
+	b=AeECQ+bcvq9Y8cfJcTUB2aSR/fc2QFFLN9+A4UXrT36flVu+FmzsH6QD6llshz5geZ
+	5suEASsdO3C51NMCWFm0ni90z8hPH8OlV1X3BbIpJ1MNGFOrXaTEikEXeG7T0wybvT8m
+	W0Thr67WqoIH0y4wD7WHrkAPTFZexDfBw94G0X7MR0LGUQd3WAvSSA9s8u4o6MFMePVv
+	Y6tP3pg3OYD2a5yKAdZ9brqi9K7hCjRJxyKzCUHXsrjd9KXsaeIsLw9lUiIuLNqeydek
+	fVPHyqBp7rG/lG3wUNgIeyWHkaoCxQbVOaJ8lLwf/3dNs6z6qLNCT2F/2OuLUR3Wop96
+	CYZg==
+X-Received: by 10.52.177.195 with SMTP id cs3mr5319434vdc.115.1359126285758;
+	Fri, 25 Jan 2013 07:04:45 -0800 (PST)
+X-Received: by 10.52.177.195 with SMTP id cs3mr5319424vdc.115.1359126285648;
+	Fri, 25 Jan 2013 07:04:45 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.151.207 with HTTP; Fri, 25 Jan 2013 07:04:25 -0800 (PST)
+In-Reply-To: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
+References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Jan 2013 15:04:25 +0000
+Message-ID: <CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQndCHbXH/qgNN1hpj5YojExUE15/Qt3ILe7CCrTDmsDVvs2a57j2MBVECW8YqnpIZ+iozP3Je5OOYly11Tbm0HOcJ4QuMWadEnMdmmd9YGAAWCgvvgSZrTbn694wtfh5vkEWmdkiq4ydnX42GgDGVOjzUfmtfcp10NkAkncaViHPo+Wrs65eTbTN0BJxp/X2DXX0KCe
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,51 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 15:08:24 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 15:20:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-this fixes a service dependency issue;
-while graphical.target is the default mode, systemd
-will try to start display-manager.service which is not
-available.
+On 25 January 2013 14:59, Radu Moisan <radu.moisan@intel.com> wrote:
+> +# "multi-user" vs "graphical"
+> +SYSTEMD_DEFAULT_TARGET ?= "multi-user"
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/conf/distro/include/default-distrovars.inc |    3 +++
- meta/recipes-core/systemd/systemd_196.bb        |    5 +++++
- 2 files changed, 8 insertions(+)
+Default to "graphical", so we're not regressing and just introducing a
+warning if someone doesn't set this and doesn't have X.
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f073547..c21d9a3 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -22,6 +22,9 @@ DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
- DISTRO_FEATURES_INITMAN ?= "sysvinit"
- DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g x11 ${DISTRO_FEATURES_LIBC} ${DISTRO_FEATURES_INITMAN}"
- 
-+# "multi-user" vs "graphical"
-+SYSTEMD_DEFAULT_TARGET ?= "multi-user"
-+
- IMAGE_FEATURES ?= ""
- 
- # This is a list of packages that are used by the build system to build the distribution, they are not
-diff --git a/meta/recipes-core/systemd/systemd_196.bb b/meta/recipes-core/systemd/systemd_196.bb
-index a78a8a6..4b97774 100644
---- a/meta/recipes-core/systemd/systemd_196.bb
-+++ b/meta/recipes-core/systemd/systemd_196.bb
-@@ -95,6 +95,11 @@ do_install() {
- 	install -m 0644 ${WORKDIR}/var-run.conf ${D}${sysconfdir}/tmpfiles.d/
- 
- 	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
-+
-+
-+	if [ -n ${SYSTEMD_DEFAULT_TARGET} ]; then
-+		ln -s ${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET}.target ${D}${sysconfdir}/systemd/system/default.target
-+	fi
- }
- 
- python populate_packages_prepend (){
--- 
-1.7.9.5
+> @@ -95,6 +95,11 @@ do_install() {
+>         install -m 0644 ${WORKDIR}/var-run.conf ${D}${sysconfdir}/tmpfiles.d/
+>
+>         install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
+> +
+> +
+> +       if [ -n ${SYSTEMD_DEFAULT_TARGET} ]; then
+> +               ln -s ${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET}.target ${D}${sysconfdir}/systemd/system/default.target
+> +       fi
 
+This will have to happen at image construction time and not package
+generation time, as different images may have different targets but
+share the same systemd package.
+
+A rootfs-time postinstall script would work, but isn't very nice.  I
+wonder if there's a better solution, hooking into the image creation
+should work.
+
+(thinks)
+
+Ross
 
 
