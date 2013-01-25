@@ -1,40 +1,32 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-pb0-f44.google.com ([209.85.160.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TypNr-0007uM-4R
+	(envelope-from <martin.jansa@gmail.com>) id 1TypQ3-00083A-Lo
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 20:56:20 +0100
-Received: from mail-qa0-f69.google.com ([209.85.216.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 25 Jan 2013 11:40:43 -0800
-Received: by mail-qa0-f69.google.com with SMTP id hy16so982403qab.8
+	Fri, 25 Jan 2013 20:58:35 +0100
+Received: by mail-pb0-f44.google.com with SMTP id uo1so393318pbc.31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 11:40:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=GCBe27V1G/O/G73Dn1bSVwAma2C7S7oWsoADND/giqA=;
-	b=PFcfCtemeAO0PBk6nyw+GpLlwSBVTBIYDZPNsLfvWSPZBi9WF+aHReBavOOaDOwal8
-	k8Vp/eJ6sai9XbutZUGQHZG0NABzHEBMSOzxqOciwMVS0EJVs25zldqUrKDgaVVWJS3L
-	CqoWHKO6O0UdCqzzH5pChkhBlzxiTAuds6J+K39fgY6lFpcusZClsOzCGpVmXLAoLPWJ
-	j09K1m09l93d5h74dlJTz3X/wNkHBHXDdcdeHmkeNFidgFajNG+fO8o15zyyZtUbCWRk
-	JYJUKY4qRHk+1iiC+X0UlgXCzedKfrjCofJzaQoPFRkrQk2nS3ApMEYnXJVdQGG7CHy2
-	ZWOQ==
-X-Received: by 10.52.72.232 with SMTP id g8mr6349382vdv.69.1359142841688;
-	Fri, 25 Jan 2013 11:40:41 -0800 (PST)
-X-Received: by 10.52.72.232 with SMTP id g8mr6349375vdv.69.1359142841601; Fri,
-	25 Jan 2013 11:40:41 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.205.236 with HTTP; Fri, 25 Jan 2013 11:40:20 -0800 (PST)
-In-Reply-To: <21577255.rquHYp0Wn6@helios>
-References: <1359135782-8953-1-git-send-email-ross.burton@intel.com>
-	<21577255.rquHYp0Wn6@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Jan 2013 19:40:20 +0000
-Message-ID: <CAJTo0LbUOtmgXVuruj6NmwaMr_x07TPK=nHCceOMd6cBgJKAPg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnzmMqqxEF2iAv5Ceg0gpwHk+etgsueaj0hU081MlkfS3Sh3DMjP0k9psXHuAkz6t6t19ZSU2jJtW+GM1q03wIhILo2BIsVXziu53Wv+qOD1upNxqov/QLETtsMRyKaOGL50FCdDwJCCwEGVOlBaYzbz2bk4CSaayrje8PKi8B5qgvXjR/fDZobNQQx+fCIt8vjWtQP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] scripts/wipe-sysroot: add script to safely wipe the sysroots
+	Fri, 25 Jan 2013 11:43:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer;
+	bh=8Na0tPpIt3picy2G5T9UaumS7rRR5NxK7/dOzo0W8/U=;
+	b=FT97PqArLSRKCDxAceKhgb8F72Dhb84WVywB6S4rDv48b2B5nZsUMkE1CbQk4a3HjC
+	vEkJmwvDf9TeME5Kt5END9tDnIn4smJbEwf/gkchLIT7xQ4fJJzG5/Dda5Njca5HhEP7
+	NPmMTFbJe/oB8071XUDSP6VVTBHN9TxPgUenDe2B/5vv6CYCT0DVQdQ8I/W30wKx2t5d
+	gLn5d9zHlgCp+Zw3eLl9JgcQMGyOFsXFlSDpgtA0t702n3cGO9fTeLX25lszhmVcqFb6
+	dEU3iqY+xgsHVtDlszb2ZlJ3Nd5BfNQRGH8qHJbYQgf3W5zc3kktn5+LrLXW0fYDl64O
+	0LQg==
+X-Received: by 10.68.203.198 with SMTP id ks6mr16900279pbc.35.1359142980395;
+	Fri, 25 Jan 2013 11:43:00 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id i6sm1393458paw.19.2013.01.25.11.42.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 25 Jan 2013 11:42:59 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Jan 2013 20:42:47 +0100
+Message-Id: <cover.1359142768.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.1
+Subject: [PATCH 0/7] world-image fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +39,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 19:56:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 25 Jan 2013 19:58:35 -0000
 
-On 25 January 2013 18:16, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> On Friday 25 January 2013 17:43:02 Ross Burton wrote:
->> Add a script to wipe the sysroots and all of the relevant stamps, so that it
->> will be correctly re-populated.
->
-> What I'm missing from this and/or the script header is when you would need to
-> do this... ?
+This depends on
+http://lists.linuxtogo.org/pipermail/bitbake-devel/2013-January/004091.html
 
-I primarily use it to verify that build dependencies are correct (wipe
-sysroot, build package), but it's also useful if you end up trashing
-your sysroots as it's vastly faster than wiping your entire TMPDIR.
+And world-image is far from building correctly, see
+"File conflicts between PN-doc packages" thread.
 
-Ross
+Later I'll post error log from world-image build including 
+complete oe-core and ~20 more layers.
+
+The following changes since commit 9a43a67993c21cedf6cf71138e3da9c691ebf4a7:
+
+  gawk: Add missing dependency on readline (2013-01-25 14:37:13 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/world
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/world
+
+Martin Jansa (7):
+  console-tools, kbd: add RREPLACES/RPROVIDES/RCONFLICTS combo between
+    PN-dbg
+  initrdscripts: exclude conflicting packages from world-image
+  automake: use autotools_do_install
+  gcc-configure-runtime: always remove info/dir
+  eglibc-scripts: don't package mtrace, RDEPEND on eglibc-mtrace
+    instead, fix RDEPENDS
+  eglibc-package: remove infodir/dir if it exists
+  oe-core: add world-image
+
+ meta/recipes-core/console-tools/console-tools_0.3.2.bb     |  7 +++++++
+ meta/recipes-core/eglibc/eglibc-package.inc                |  4 ++++
+ meta/recipes-core/eglibc/eglibc-scripts.inc                |  5 ++---
+ meta/recipes-core/images/world-image.bb                    | 10 ++++++++++
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb |  2 ++
+ meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb |  2 ++
+ meta/recipes-core/kbd/kbd_1.15.2.bb                        |  3 +++
+ meta/recipes-devtools/automake/automake_1.12.6.bb          |  3 +--
+ meta/recipes-devtools/gcc/gcc-configure-runtime.inc        |  8 +++-----
+ 9 files changed, 34 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-core/images/world-image.bb
+
+-- 
+1.8.1.1
+
 
 
