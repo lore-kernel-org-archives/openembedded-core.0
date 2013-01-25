@@ -1,35 +1,45 @@
-Received: from mail-bk0-f45.google.com ([209.85.214.45])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tys3v-0008Rz-Mg
+	(envelope-from <sgw@bigsur.com>) id 1TysbL-0006ku-RN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jan 2013 23:47:56 +0100
-Received: by mail-bk0-f45.google.com with SMTP id i18so529986bkv.4
+	Sat, 26 Jan 2013 00:22:28 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so525187pad.34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 14:32:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=VZV5I8y3GSSJS8sot/HdPGRQlhgTrrkNsPYwL1EtV/4=;
-	b=HBDFRV3+lL5URJpQwqCCrSKWydUxB/nimJ4MjhfNNIq2OU2pevKEQoXB6upl7GegRO
-	Gwqf8TmIkvHB81NIBrqoRxUL59E6gWq7O6ioDx9L6R5MX6GblMunYOHEzv4hbKxyAsAD
-	J1OPLyNcbHbKyVEcQtk7ZD5pgVW1mPYCsEBsZlPD/jAeTRIgBYG2eM7VRVSB5gj/WPIt
-	RN+t+HUskQ4UD6BPuf+JTmyFxtVaC6ih1iSdB6+R1vKQMYGxPmjw8AoaqVDp4jDljltm
-	nadWbN8oOEJbxrLy2lMwiv7Gv++hqjSntc/s9ODpOQ2ZnuoD5Ss7TmViJS30RlcTpVwE
-	Eyow==
-X-Received: by 10.204.157.26 with SMTP id z26mr2242391bkw.101.1359153140961;
-	Fri, 25 Jan 2013 14:32:20 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id y11sm2303232bkw.8.2013.01.25.14.32.18
+	Fri, 25 Jan 2013 15:06:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer;
+	bh=SJcgfEspbkuLfYxJ2uRx5NaFU/fQGnDKi8NNy984nxA=;
+	b=ISmtw7XBOfjfJcYKAEAK4GzPL5pDVrPBlxKPRDb2UAFkCHKJf5T/ywW+bDtIgYZxYr
+	Daj/TfQFNXqEbKNTHnz0cyEWnDHu3Rb5t9WjMaD7m36+YRILRHUsDTLKQg7+EZby6MK+
+	TXSmhjVExBNJTJg/tC8PPK8h5U81MXor0T9qE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=SJcgfEspbkuLfYxJ2uRx5NaFU/fQGnDKi8NNy984nxA=;
+	b=ncZglA4Mi0AdBoUBQTBL5xicT9RhsAZsvFtLiecHfC2MoZwdNSHmhziT7aWaAYJ+qV
+	NlwQl8VtckJWOYIba4nAO2aDEbT8wIwq9S3sEuojpbXNer5/zl9fCmySHNTCx0+qmfM8
+	gWYs6atvvEkxMQOwON0dIxtqUCA5dM985pvggQcSspuN2eBU7/DRYAbrgIfEybMUEUfZ
+	QdSP4fQIeax0hRGeU4+JevH8pyC8+7FJSbjqmay0StsY2c99uA13FD7HnoeNTqGCUnGC
+	9Y7DD1pu90UBv6wKYpyPTYn0j9xU/4QbykyTgW2vQg459OT3GCdLIUrWtG1t5MwalVh6
+	lCdg==
+X-Received: by 10.68.237.42 with SMTP id uz10mr18009645pbc.118.1359155211983; 
+	Fri, 25 Jan 2013 15:06:51 -0800 (PST)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id x2sm1660048paw.8.2013.01.25.15.06.49
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 14:32:19 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1Tyron-0004Ot-Is; Sat, 26 Jan 2013 00:32:17 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 26 Jan 2013 00:32:15 +0200
-Message-Id: <cover.1359152961.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/1] Fix harfbuzz make install error
+	Fri, 25 Jan 2013 15:06:50 -0800 (PST)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	dvhart@linux.intel.com
+Date: Fri, 25 Jan 2013 15:05:39 -0800
+Message-Id: <1359155139-947-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQnBafbtAzF8uKcPSfIBR5m1vRw5d9GmaPce916Cljg3I/+NZDf9G+8Qlib2huzUJnAOWNAZ
+Subject: [PATCH] poky-tiny: Update for DISTRO_FEATURES_INITMAN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,34 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 22:47:56 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 23:22:28 -0000
 
-I've not managed to reproduce harfbuzz make install error reported
-from autobuilder, but there seems to be rather obvious error in
-harfbuzz that this patch works around.
+This patch accounts for the addition of DISTRO_FEATURES_INITMAN which
+sets the VIRTUAL_RUNTIME_init_manager, so that does not need to be set.
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta-yocto/conf/distro/poky-tiny.conf |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- - ML
-
-The following changes since commit cc490d76aba0a778409ca1a3d0e1f2c308684c9b:
-
-  valgrind: explicitly disable MPI2 support (2013-01-25 16:40:25 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
-
-Marko Lindqvist (1):
-  harfbuzz: fix install of version.h
-
- .../harfbuzz-0.9.10/avoid_double_version_h.patch         |   14 ++++++++++++++
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb        |    3 ++-
- 2 files changed, 16 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/avoid_double_version_h.patch
-
+diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+index 347280a..761844f 100644
+--- a/meta-yocto/conf/distro/poky-tiny.conf
++++ b/meta-yocto/conf/distro/poky-tiny.conf
+@@ -84,6 +84,8 @@ DISTRO_FEATURES_NET = "ipv4"
+ DISTRO_FEATURES_USB = "usbhost"
+ #DISTRO_FEATURES_USBGADGET = "usbgadget"
+ #DISTRO_FEATURES_WIFI = "wifi"
++# This is needed for DISTRO_FEATURES_BACKFILL
++DISTRO_FEATURES_INITMAN = "tiny-init"
+ 
+ DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
+                    ${DISTRO_FEATURES_NET} \
+@@ -96,7 +98,6 @@ DISTRO_FEATURES = "${DISTRO_FEATURES_TINY} \
+ # Use tmpdevfs and the busybox runtime services
+ VIRTUAL-RUNTIME_dev_manager = ""
+ VIRTUAL-RUNTIME_login_manager = ""
+-VIRTUAL-RUNTIME_init_manager = "tiny-init"
+ VIRTUAL-RUNTIME_keymaps = ""
+ 
+ # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
