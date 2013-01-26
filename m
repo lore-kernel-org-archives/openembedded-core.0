@@ -1,37 +1,24 @@
-Received: from mail-oa0-f44.google.com ([209.85.219.44])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tz7jh-0001Ul-QW
+	(envelope-from <Peter.Seebach@windriver.com>) id 1TzAcl-0003oE-5z
 	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Jan 2013 16:32:19 +0100
-Received: by mail-oa0-f44.google.com with SMTP id n5so1508368oag.31
+	Sat, 26 Jan 2013 19:37:09 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0QILTve006393
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jan 2013 07:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ADfKxCSUZsR3f6L3mvrmLHxFWk7e2Fd48RiUDphAh2k=;
-	b=T8yVxaicS5wyOhzXKQ5LtNzSixOQtev7OoTOs9/fd53iAcIiGkZEfO1w+PCKOCog6X
-	8Fk7rlm6T6FP1RsMwkHqD9JgMHt6JMdvxCOKQLXYm+oVZOc4eEcODqOipFXT+2D7xuS1
-	jqu4kyXI/9FnhL0IQN2AWtT3Cm1qPLq8RNGk47TbWknG1Bt+aPqprTc2wj6Ke9QcQrfQ
-	H0ZOnnoTEC1PYcrfzI+llmV42g3lVXZU5obReokLxp120QTdrh0zROnGQlSQjrw45Akq
-	uBnGpmBpvvr45MiHE0Ad7Ro0c3YnTgqVpbA4HGKQERDkcu8ONsSFGZDgs/FR2MQw0Z3Y
-	RiJw==
+	Sat, 26 Jan 2013 10:21:30 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
+	Sat, 26 Jan 2013 10:21:29 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 26 Jan 2013 12:21:27 -0600
+Message-ID: <cover.1359224379.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-X-Received: by 10.182.187.66 with SMTP id fq2mr7235849obc.86.1359213389288;
-	Sat, 26 Jan 2013 07:16:29 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Sat, 26 Jan 2013 07:16:29 -0800 (PST)
-In-Reply-To: <1359155241.13917.22.camel@ted>
-References: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
-	<1359155241.13917.22.camel@ted>
-Date: Sat, 26 Jan 2013 13:16:29 -0200
-X-Google-Sender-Auth: YDewIhJMGwvTsTnhVBuA8ClcmKY
-Message-ID: <CAP9ODKqy6QW08tmPKYDJsuzu444RYOojxtKD4J3pogL=_ay3PA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Improve DRI handling support flexibility
+Subject: [PATCH 0/1] skip filedeps per-package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,29 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2013 15:32:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 26 Jan 2013 18:37:09 -0000
+Content-Type: text/plain
 
-On Fri, Jan 25, 2013 at 9:07 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2013-01-25 at 20:32 -0200, Otavio Salvador wrote:
->> There're some processors which provide binary blobs for DRI and GPU
->> support which need to be build in BSP; to avoid some dirt and ugly
->> hacks in BSP we ought to be flexible.
->>
->> We splitted the glx and dri PACKAGECONFIG options and added a
->> virtual/dri provider so BSP can override it, if need.
-...
->
-> I didn't see the patches here but this would suggest the xserver and
-> mesa plus anything that depends on them becomes machine specific.
+The existing checks for SKIP_FILEDEPS allow it to be turned on and
+off per recipe, but provide no way to turn it on and off per package,
+except by giving packages particular magic names like *-locale-*. Add
+a check against SKIP_FILEDEPS_pkg, parallel to FILES_pkg.
 
-xserver-xorg yes; but not mesa. Mesa will just be one of alternatives
-for virtual/dri. The default used one except if  override by the BSP.
+The following changes since commit cc490d76aba0a778409ca1a3d0e1f2c308684c9b:
+  Paul Eggleton (1):
+        valgrind: explicitly disable MPI2 support
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib seebs/skip_filedeps
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/skip_filedeps
+
+Peter Seebach (1):
+  package.bbclass: Allow per-package SKIP_FILEDEPS
+
+ meta/classes/package.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
 
 
