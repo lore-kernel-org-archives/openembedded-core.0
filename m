@@ -1,33 +1,36 @@
-Received: from mail-pb0-f48.google.com ([209.85.160.48])
+Received: from mail-la0-f51.google.com ([209.85.215.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TyuIp-0005NI-7X
+	(envelope-from <kergoth@gmail.com>) id 1TyuKK-0005mo-Ns
 	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Jan 2013 02:11:30 +0100
-Received: by mail-pb0-f48.google.com with SMTP id wy12so515153pbc.21
+	Sat, 26 Jan 2013 02:13:00 +0100
+Received: by mail-la0-f51.google.com with SMTP id fo13so170298lab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jan 2013 16:55:51 -0800 (PST)
+	Fri, 25 Jan 2013 16:57:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=kVeHDRWVV81sF+4v1AqJ2gMdU2u3mRJytvw1B8Ucuqg=;
-	b=fAVpqRvEattvCDLJNM9trSZw3IZHhIIkT64S8Uccp5uwX0wTuO10Lqovkpqz6byitd
-	IKYv0WsPOrAWT7xPwEMMw6udnzUzb777ek2tjfVYfUF+IKFOnElbNfKLn6uJKXeIKpb/
-	iD6/jW1m6PYUGJsaBdHudkFX0Ou4WFXDfUx6/Wc4PhRe+0ZVsybxw58T21BEfoatvQm/
-	jsJpwxe/ABVDEr2X/w6XilKzPJbOJ9ZmS/S3OQVarJO4bunAz+ugioiV2IXo7/8BpgRV
-	QxbIanOyYtS5HwY+Y6FTHINmGczKwMjPXOS93mgGOAbR2kOKJSYUOS1OlDkzGU00IWL4
-	OJpw==
-X-Received: by 10.68.203.137 with SMTP id kq9mr18257270pbc.115.1359161751575; 
-	Fri, 25 Jan 2013 16:55:51 -0800 (PST)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id ai8sm1575477pbd.14.2013.01.25.16.55.48
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 25 Jan 2013 16:55:50 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jan 2013 17:55:44 -0700
-Message-Id: <1359161744-4193-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.0.3
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=HyOdaz9cZREdY0Ft9ilTQ55Qymst8CqRpYss5srt+Bs=;
+	b=m/m/a7cTFPRNaQ5yx5LgajbLIIJun1Gx1urt/j3QtLcu9aQGAS8N4YVpzszI/y8PCi
+	D47xBfmi+tkqtnlQ6RF6uechnR7iQoopfbEI3MZOLPTfZYS//bmi9lJC72SRKnMa9zf5
+	kq3nMj1bdI83vDCinwDqcFhWsS2krgiMZK4v16VaKp0S0ycCs3nUFUeDgaPmq8/IJDWR
+	n/+hedy910QS4e81yJ2rtwPb/ASVrgQxUVgsAJlAT7admmsskKT7mWvw7xX6xCm6sFSv
+	uhNg8GCqSYfp5ctJ7G1uMNtyCRjQkq//IjK1zNKhXT+A8/o/0XRxdJT+orzaa9aA1g+m
+	08RA==
+X-Received: by 10.152.45.140 with SMTP id n12mr6774747lam.36.1359161845566;
+	Fri, 25 Jan 2013 16:57:25 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Fri, 25 Jan 2013 16:57:05 -0800 (PST)
+In-Reply-To: <1359161744-4193-1-git-send-email-kergoth@gmail.com>
+References: <1359161744-4193-1-git-send-email-kergoth@gmail.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Fri, 25 Jan 2013 17:57:05 -0700
+X-Google-Sender-Auth: UT9W_JDTON_HJlZYflS90yo9IQM
+Message-ID: <CABcZANnHeQ9eWZf2LPh0=UCt0=WLPOEyTk+eKNGWfa=kiCB+Vw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] tinfoil: support other fds, enable color support
+Subject: Re: [PATCH] tinfoil: support other fds, enable color support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2013 01:11:30 -0000
+X-List-Received-Date: Sat, 26 Jan 2013 01:13:00 -0000
+Content-Type: multipart/alternative; boundary=bcaec5524516ff4ebb04d4268666
 
-From: Christopher Larson <chris_larson@mentor.com>
+--bcaec5524516ff4ebb04d4268666
+Content-Type: text/plain; charset=UTF-8
 
-Rather than only handling sys.stdout, also support any arbitrary file object,
-and enable color for the formatter if that file is a tty.
+On Fri, Jan 25, 2013 at 5:55 PM, Christopher Larson <kergoth@gmail.com>wrote:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- lib/bb/tinfoil.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> Rather than only handling sys.stdout, also support any arbitrary file
+> object,
+> and enable color for the formatter if that file is a tty.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
 
-diff --git a/lib/bb/tinfoil.py b/lib/bb/tinfoil.py
-index 73d8fe9..cb53f3e 100644
---- a/lib/bb/tinfoil.py
-+++ b/lib/bb/tinfoil.py
-@@ -29,15 +29,17 @@ from bb.cooker import state
- import bb.fetch2
- 
- class Tinfoil:
--    def __init__(self):
-+    def __init__(self, output=sys.stdout):
-         # Needed to avoid deprecation warnings with python 2.6
-         warnings.filterwarnings("ignore", category=DeprecationWarning)
- 
-         # Set up logging
-         self.logger = logging.getLogger('BitBake')
--        console = logging.StreamHandler(sys.stdout)
--        format = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
-+        console = logging.StreamHandler(output)
-         bb.msg.addDefaultlogFilter(console)
-+        format = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
-+        if output.isatty():
-+            format.enable_color()
-         console.setFormatter(format)
-         self.logger.addHandler(console)
- 
--- 
-1.8.0.3
+Erm, ignore this, wrong list. I fail at navigating my shell history today,
+apparently
+
+--bcaec5524516ff4ebb04d4268666
+Content-Type: text/html; charset=UTF-8
+
+<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Fri, Jan 25, 2013 at 5:55 PM, Christopher Larson <span dir="ltr">&lt;<a href="mailto:kergoth@gmail.com" target="_blank">kergoth@gmail.com</a>&gt;</span> wrote:<br>
+
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1e9">From: Christopher Larson &lt;<a href="mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
 
 
+<br>
+Rather than only handling sys.stdout, also support any arbitrary file object,<br>
+and enable color for the formatter if that file is a tty.<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href="mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>Erm, ignore this, wrong list. I fail at navigating my shell history today, apparently</div>
 
+</div>
+
+--bcaec5524516ff4ebb04d4268666--
