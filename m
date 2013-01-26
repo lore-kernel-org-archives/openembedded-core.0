@@ -1,43 +1,33 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TytK4-0001gR-Pu for openembedded-core@lists.openembedded.org;
-	Sat, 26 Jan 2013 01:08:40 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0PNvHr8007222; Fri, 25 Jan 2013 23:57:17 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hqE2RS7o01Vc; Fri, 25 Jan 2013 23:57:17 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r0PNvBEj007212
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 25 Jan 2013 23:57:13 GMT
-Message-ID: <1359157968.13917.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Fri, 25 Jan 2013 23:52:48 +0000
-In-Reply-To: <CALbNGRRKxi-DBkBxc2jhdiAEvcZk0YsTs=bk-0mSuKER87P3Bw@mail.gmail.com>
-References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
-	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
-	<20130125151241.GJ3200@jama>
-	<CAJTo0LYW7BJ1WT=+GcHXDDRb+ONuKiUxw0ehEkNJgt=b6HY42Q@mail.gmail.com>
-	<CALbNGRRM2u80Pdbt7XOhbWTDBBceEpmdN-1drCTVTp_Ez7UQFg@mail.gmail.com>
-	<20130125180634.GC16904@jama.palm1.palmone.com>
-	<CALbNGRTUU_jBo4uktmEv+JCKaDnkayRt6oULYX2rUq+ro3aE+g@mail.gmail.com>
-	<20130125193456.GE16904@jama.palm1.palmone.com>
-	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
-	<20130125202657.GF16904@jama.palm1.palmone.com>
-	<CALbNGRRKxi-DBkBxc2jhdiAEvcZk0YsTs=bk-0mSuKER87P3Bw@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r0PNvHr8007222
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
+	(envelope-from <kergoth@gmail.com>) id 1TyuIp-0005NI-7X
+	for openembedded-core@lists.openembedded.org;
+	Sat, 26 Jan 2013 02:11:30 +0100
+Received: by mail-pb0-f48.google.com with SMTP id wy12so515153pbc.21
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jan 2013 16:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=kVeHDRWVV81sF+4v1AqJ2gMdU2u3mRJytvw1B8Ucuqg=;
+	b=fAVpqRvEattvCDLJNM9trSZw3IZHhIIkT64S8Uccp5uwX0wTuO10Lqovkpqz6byitd
+	IKYv0WsPOrAWT7xPwEMMw6udnzUzb777ek2tjfVYfUF+IKFOnElbNfKLn6uJKXeIKpb/
+	iD6/jW1m6PYUGJsaBdHudkFX0Ou4WFXDfUx6/Wc4PhRe+0ZVsybxw58T21BEfoatvQm/
+	jsJpwxe/ABVDEr2X/w6XilKzPJbOJ9ZmS/S3OQVarJO4bunAz+ugioiV2IXo7/8BpgRV
+	QxbIanOyYtS5HwY+Y6FTHINmGczKwMjPXOS93mgGOAbR2kOKJSYUOS1OlDkzGU00IWL4
+	OJpw==
+X-Received: by 10.68.203.137 with SMTP id kq9mr18257270pbc.115.1359161751575; 
+	Fri, 25 Jan 2013 16:55:51 -0800 (PST)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id ai8sm1575477pbd.14.2013.01.25.16.55.48
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 25 Jan 2013 16:55:50 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Jan 2013 17:55:44 -0700
+Message-Id: <1359161744-4193-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.8.0.3
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] tinfoil: support other fds, enable color support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,30 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jan 2013 00:08:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 26 Jan 2013 01:11:30 -0000
 
-On Fri, 2013-01-25 at 22:09 +0100, Andreas M=C3=BCller wrote:
-> Please let's remember how it started: avoiding a single warning for
-> missing display-manager.service on console images...
+From: Christopher Larson <chris_larson@mentor.com>
 
-Don't be too quick to trivialise this. You start with accepting one
-warning at boot. Another appears, well its only one more and there was a
-warning anyway, you can't remember which was always there and is safe to
-ignore. Before long you have lots of warnings at boot and its ok, we had
-warnings anyway, right?
+Rather than only handling sys.stdout, also support any arbitrary file object,
+and enable color for the formatter if that file is a tty.
 
-Warnings show how much we care about the thing we're producing. Whist
-this is annoying, lets fix it once and for all, properly.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ lib/bb/tinfoil.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/lib/bb/tinfoil.py b/lib/bb/tinfoil.py
+index 73d8fe9..cb53f3e 100644
+--- a/lib/bb/tinfoil.py
++++ b/lib/bb/tinfoil.py
+@@ -29,15 +29,17 @@ from bb.cooker import state
+ import bb.fetch2
+ 
+ class Tinfoil:
+-    def __init__(self):
++    def __init__(self, output=sys.stdout):
+         # Needed to avoid deprecation warnings with python 2.6
+         warnings.filterwarnings("ignore", category=DeprecationWarning)
+ 
+         # Set up logging
+         self.logger = logging.getLogger('BitBake')
+-        console = logging.StreamHandler(sys.stdout)
+-        format = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
++        console = logging.StreamHandler(output)
+         bb.msg.addDefaultlogFilter(console)
++        format = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
++        if output.isatty():
++            format.enable_color()
+         console.setFormatter(format)
+         self.logger.addHandler(console)
+ 
+-- 
+1.8.0.3
 
 
 
