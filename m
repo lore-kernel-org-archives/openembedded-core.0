@@ -1,31 +1,33 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Tzc4I-00029X-QV
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1Tze01-00057B-5k
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 00:55:23 +0100
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 9E6DA2FD91
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jan 2013 18:39:38 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Jan 2013 15:39:12 -0800
-Message-Id: <4f3d13947720d199ca76a9b2d91adc0db0b2df9b.1359329823.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1359329823.git.scott.a.garman@intel.com>
-References: <cover.1359329823.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1359329823.git.scott.a.garman@intel.com>
-References: <cover.1359329823.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 9E6DA2FD91.996AA
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 4/4] libtasn1: Upgrade to 2.13
+	Mon, 28 Jan 2013 02:59:05 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0S1hObi008165
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 27 Jan 2013 17:43:24 -0800 (PST)
+Received: from [128.224.162.207] (128.224.162.207) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
+	Sun, 27 Jan 2013 17:43:24 -0800
+Message-ID: <5105D7C1.6040700@windriver.com>
+Date: Mon, 28 Jan 2013 09:43:29 +0800
+From: Pascal Ouyang <xin.ouyang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: lei yang <yanglei.fage@gmail.com>
+References: <1359026733-1392-1-git-send-email-Xin.Ouyang@windriver.com>
+	<51039E47.8090701@windriver.com>
+	<CAHsH0E-tkhtD-30XWaLr8AbC-Xn=gi9+aYqWsnoQ06ywVd-isQ@mail.gmail.com>
+In-Reply-To: <CAHsH0E-tkhtD-30XWaLr8AbC-Xn=gi9+aYqWsnoQ06ywVd-isQ@mail.gmail.com>
+X-TagToolbar-Keys: D20130128094329037
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r0S1hObi008165
+Cc: openembedded-core@www.linuxtogo.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [V2 PATCH] libcgroup: fix the QA issue for pam_cgroup.so*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,43 +40,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Jan 2013 23:55:23 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 01:59:05 -0000
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: quoted-printable
 
-From: Saul Wold <sgw@linux.intel.com>
+=D3=DA 2013=C4=EA01=D4=C226=C8=D5 18:33, lei yang =D0=B4=B5=C0:
+> On Sat, Jan 26, 2013 at 5:13 PM, Pascal Ouyang <xin.ouyang@windriver.co=
+m> wrote:
+>> =D3=DA 2013=C4=EA01=D4=C224=C8=D5 19:25, Xin Ouyang =D0=B4=B5=C0:
+>>
+>>> PAM modules in ${base_libdir}/security/ should be binary .so files,
+>>> not symlinks, so fix this. Since pam_cgroup.so is installed into
+>>> ${base_libdir}/security, move libcgroup.so.* to ${base_libdir} to
+>>> avoid "unsafe-references-in-binaries" QA issue.
+>>>
+>>> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+>>> ---
+>>>    meta/recipes-core/libcgroup/libcgroup_0.37.1.bb |   15 +++++++++++=
+++--
+>>>    1 file changed, 13 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+>>> b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+>>> index e74f831..d217f7b 100644
+>>> --- a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+>>> +++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+>>> @@ -23,5 +23,16 @@ FILES_cgroups-pam-plugin =3D
+>>> "${base_libdir}/security/pam_cgroup.so*"
+>>>    FILES_${PN}-dbg +=3D "${base_libdir}/security/.debug"
+>>>    FILES_${PN}-dev +=3D "${base_libdir}/security/*.la"
+>>>
+>>> -# We really need the symlink so :(
+>>> -INSANE_SKIP_cgroups-pam-plugin =3D "dev-so"
+>>> +do_install_append() {
+>>> +       # Moving libcgroup to base_libdir
+>>> +       if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+>>> +               mkdir -p ${D}/${base_libdir}/
+>>> +               mv -f ${D}${libdir}/libcgroup.so.* ${D}${base_libdir}=
+/
+>>> +               ln -sf ${D}${base_libdir}/libcgroup.so.1
+>>> ${D}${libdir}/libcgroup.so
+>>
+>>
+>> I should not use absolute path for this symlink here.
+>>
+>> rel_lib_prefix=3D`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
+>> ln -sf ${rel_lib_prefix}${base_libdir}/libcgroup.so.1 \
+>>
+>=20
+> I think use
+>=20
+> cd ${D}
+> ln -sf libcgroup.so.1 ${D}${libdir}/libcgroup.so
+>=20
+> should be OK, no need sed to handle
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../gnutls/{libtasn1_2.12.bb => libtasn1_2.13.bb}  |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_2.12.bb => libtasn1_2.13.bb} (80%)
+libcgroup.so.1 is now moved to ${base_libdir}, so just sed. :)
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_2.12.bb b/meta/recipes-support/gnutls/libtasn1_2.13.bb
-similarity index 80%
-rename from meta/recipes-support/gnutls/libtasn1_2.12.bb
-rename to meta/recipes-support/gnutls/libtasn1_2.13.bb
-index d0b4191..891c5b6 100644
---- a/meta/recipes-support/gnutls/libtasn1_2.12.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_2.13.bb
-@@ -8,14 +8,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
- 
--PR = "r1"
-+PR = "r0"
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://libtasn1_fix_for_automake_1.12.patch \
-            "
- 
--SRC_URI[md5sum] = "4eba39fb962d6cf5a370267eae8ff52b"
--SRC_URI[sha256sum] = "0e257a8a01c80e464f73262e13c226e04a15165c2ad087a340f53902281a1c5d"
-+SRC_URI[md5sum] = "df27eaddcc46172377e6b907e33ddc83"
-+SRC_URI[sha256sum] = "a56e46483d1d42fe44ba58c9758620844042468d7c2d75f6318cdf3222745a91"
- 
- inherit autotools binconfig lib_package
- 
--- 
-1.7.9.5
+- Pascal
 
+>=20
+>=20
+> Lei
+>=20
+>>         ${D}${libdir}/libcgroup.so
+>>
+>> V3 will be sent. Thanks.
+>>
+>> - Pascal
+>>
+>>
+>>> +       fi
+>>> +       # pam modules in ${base_libdir}/security/ should be binary .s=
+o
+>>> files, not symlinks.
+>>> +       if [ -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0 ]; th=
+en
+>>> +               mv -f ${D}${base_libdir}/security/pam_cgroup.so.0.0.0
+>>> ${D}${base_libdir}/security/pam_cgroup.so
+>>> +               rm -f ${D}${base_libdir}/security/pam_cgroup.so.*
+>>> +       fi
+>>> +}
+>>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+>=20
+
+
+--=20
+- Pascal
 
 
