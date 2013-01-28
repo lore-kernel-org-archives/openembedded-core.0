@@ -1,33 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TzfhA-0006nB-Ir
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TzkeK-0001Wm-8G
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 04:47:44 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0S3W5rU029065
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 27 Jan 2013 19:32:06 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.328.9;
-	Sun, 27 Jan 2013 19:32:04 -0800
-Message-ID: <5105F146.7010009@windriver.com>
-Date: Mon, 28 Jan 2013 11:32:22 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1359014474.git.Qi.Chen@windriver.com>
-	<c60b41bd635d38aa01ffdd5c6221fd1a9c34b68f.1359014474.git.Qi.Chen@windriver.com>
-	<20130124103150.GA3012@jama> <1359027432.3616.7.camel@ted>
-	<CAJTo0LY9sXyoe9=rgGtstf3umrA+XeLJ1bDbJkM9S9bsqpA=HQ@mail.gmail.com>
-	<5102491B.20603@windriver.com>
-	<CAJTo0La_6JU4zLkKYmKT2oe+0CMX6nTr7nxkDT5tb=ZMr9EQzA@mail.gmail.com>
-In-Reply-To: <CAJTo0La_6JU4zLkKYmKT2oe+0CMX6nTr7nxkDT5tb=ZMr9EQzA@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 05/12] volatiles.bbclass: add recipe
+	Mon, 28 Jan 2013 10:05:28 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jan 2013 00:48:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="253466715"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.33])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2013 00:49:10 -0800
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2013 10:50:04 +0200
+Message-Id: <1359363004-31295-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] openssh : upgrade to 6.1p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +27,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 03:47:44 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2013 09:05:32 -0000
 
-On 01/25/2013 10:05 PM, Burton, Ross wrote:
-> On 25 January 2013 08:58, ChenQi <Qi.Chen@windriver.com> wrote:
->> It seems that the backfill happens *before* this expression is parsed.
-> Yes, because of these two patches that I reviewed and submitted yesterday:
->
-> commit 4db8a3daafdedf39e081f4f6130f6cdcde03ed62
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Thu Jan 24 17:52:56 2013 +0000
->
->      base: make feature backfilling happen earlier
->
-> commit c98363450fc4ccab82b34a37a95bd172cf6e115f
-> Author: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> Date:   Thu Jan 24 17:52:55 2013 +0000
->
->      bitbake.conf: unbreak all builds with custom DISTRO_FEATURES
->
-> Ross
->
->
-Ah... Yes.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../openssh/{openssh-6.0p1 => openssh-6.1p1}/init  |    0
+ .../{openssh-6.0p1 => openssh-6.1p1}/nostrip.patch |    0
+ .../openssh-CVE-2011-4327.patch                    |    0
+ .../{openssh-6.0p1 => openssh-6.1p1}/ssh_config    |    0
+ .../openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd  |    0
+ .../{openssh-6.0p1 => openssh-6.1p1}/sshd_config   |    0
+ .../openssh/{openssh_6.0p1.bb => openssh_6.1p1.bb} |    6 +++---
+ 7 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/openssh-CVE-2011-4327.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_6.0p1.bb => openssh_6.1p1.bb} (95%)
 
-Thanks for making things clear for me :)
-
-Best Regards,
-Chen Qi
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/init b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/init
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/init
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-6.1p1/nostrip.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/nostrip.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.1p1/openssh-CVE-2011-4327.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/openssh-CVE-2011-4327.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-6.1p1/ssh_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/ssh_config
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd b/meta/recipes-connectivity/openssh/openssh-6.1p1/sshd
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/sshd
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/sshd
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.1p1/sshd_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config
+rename to meta/recipes-connectivity/openssh/openssh-6.1p1/sshd_config
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
+similarity index 95%
+rename from meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_6.1p1.bb
+index df77040..71d71e4 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+ 
+-PR = "r4"
++PR = "r0"
+ 
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -27,9 +27,9 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+ 
+ PAM_SRC_URI = "file://sshd"
+-SRC_URI[md5sum] = "3c9347aa67862881c5da3f3b1c08da7b"
+-SRC_URI[sha256sum] = "589d48e952d6c017e667873486b5df63222f9133d417d0002bd6429d9bd882de"
+ 
++SRC_URI[md5sum] = "3345cbf4efe90ffb06a78670ab2d05d5"
++SRC_URI[sha256sum] = "d1c157f6c0852e90c191cc7c9018a583b51e3db4035489cb262639d337a1c411"
+ inherit useradd update-rc.d update-alternatives
+ 
+ USERADD_PACKAGES = "${PN}-sshd"
+-- 
+1.7.9.5
 
 
 
