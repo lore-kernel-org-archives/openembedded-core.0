@@ -1,38 +1,36 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-oa0-f45.google.com ([209.85.219.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TzqJK-000829-Fh
+	(envelope-from <otavio.salvador@gmail.com>) id 1TzqR0-0000d5-LK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 16:07:50 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0SEq4gw016890
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 28 Jan 2013 15:52:06 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Tzq4J-0007f6-OW; Mon, 28 Jan 2013 15:52:19 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
-	<1359377661.22371.54.camel@ted>
-	<lypq0pl8ee.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<4710226.v3bfS80rgU@helios>
-Date: Mon, 28 Jan 2013 15:52:19 +0100
-In-Reply-To: <4710226.v3bfS80rgU@helios> (Paul Eggleton's message of "Mon, 28
-	Jan 2013 14:19:57 +0000")
-Message-ID: <ly622hl5r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Mon, 28 Jan 2013 16:15:53 +0100
+Received: by mail-oa0-f45.google.com with SMTP id o6so787456oag.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jan 2013 07:00:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=P6bF0Z6nghSvvujx99RpfDeKVUyMsglBnQBM/bB3oO8=;
+	b=xWsCjA91CqqXbRfhW3XqAFNKmC8ohcGZ1uisxIW9LqEXUJNOMhHC53OP8WM4KXZj6q
+	GUJkmuQz8UcfOGY/7ewe6UDAatO+v5RiEsx5iiEYuBzhhBOCXtz0QjS0HP8e4IO38D79
+	IbQfDNyF7V89H0X8eHRVrD8E2YgAXQw7ul2k2x6g1efB3EFbwcZCe4VRB3JG9T+Q4HKb
+	cqI9ShcT1KFdEdAfgWcCqxrv3k+pGvghNDmVm7GTUUZ2xwtGCSpfY9SWhEnmShSolV+Y
+	E1014b/UDS5clOZZMRafJmykBnnJLYKZBYYXvroNSZCs8pwYtntnhIHs8DJEvZ0suxPg
+	smoQ==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.6
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base: make feature backfilling happen earlier
+X-Received: by 10.60.8.65 with SMTP id p1mr11756966oea.4.1359385207729; Mon,
+	28 Jan 2013 07:00:07 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.2.197 with HTTP; Mon, 28 Jan 2013 07:00:07 -0800 (PST)
+In-Reply-To: <1359383057-2560-1-git-send-email-vakul@freescale.com>
+References: <1359383057-2560-1-git-send-email-vakul@freescale.com>
+Date: Mon, 28 Jan 2013 13:00:07 -0200
+X-Google-Sender-Auth: rT6ftoJFdbAR7VF5_kmZPTuqvqI
+Message-ID: <CAP9ODKokATZBMCOSKDy3-O0LXhJybeA_=ijd57dp-azBYGHg-w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Vakul Garg <vakul@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-dtb: Add extra padding to the blob.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,47 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 15:07:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jan 2013 15:15:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Paul Eggleton <paul.eggleton@linux.intel.com> writes:
+On Mon, Jan 28, 2013 at 12:24 PM, Vakul Garg <vakul@freescale.com> wrote:
+> U-boot patches portal devices for adding new properties in portal nodes.
+> T4 devices such as T4240 have large number of portals. This requires extra
+> space in device tree blob. The large number of portals need more padding
+> space to be added.
+>
+> Signed-off-by: Vakul Garg <vakul@freescale.com>
 
-> Why are you assigning *_FEATURES_BACKFILL at all?
+This might be overridable so it could be overrided in the machine and
+do not change the default for everyone.
 
-There are some implicit relations between features (e.g. when selecting
-'usbhost' I *usually* want 'vfat' or 'ext2' support too). So I have
+What do you think?
 
-  DISTRO_FEATURES_BACKFILL = "\
-    largefile nfsroot modules ld-is-gold ${PROJECT_FEATURES} \
-    ${DISTRO_FEATURES_INITMAN} \
-    ${@base_contains('PROJECT_FEATURES', 'alsa', 'sound', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'directfb', 'screen', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'fb', 'screen', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'mmc', 'ext2 vfat', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'touchscreen', 'screen', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'ubifs', 'mtd', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'jffs2', 'mtd', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'usbclient', 'usb usbgadget', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'usbgadget', 'usb usbclient', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'usbhost', 'ext2 vfat', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'usbhost', 'usb', '', d)} \
-    ${@base_contains('PROJECT_FEATURES', 'x11', 'screen', '', d)} \
-  "
-  
-  DISTRO_FEATURES_BACKFILL_CONSIDERED = "${NO_PROJECT_FEATURES}"
-
-in my distro configuration (I knew; some are machine but no distro
-features but this does not matter for me) and want to allow projects to
-add new features and to remove default ones.
-
-The default 'pulseaudio' in DISTRO_FEATURES_BACKFILL does not sound sane
-to me either...
-
-
-Enrico
--- 
-SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-09128 Chemnitz
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
