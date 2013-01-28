@@ -1,27 +1,20 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1TzqqP-0003R9-73 for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 16:42:01 +0100
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1TzqBq-0001qz-6D; Mon, 28 Jan 2013 16:00:06 +0100
-Message-ID: <1359385200.7131.11.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 28 Jan 2013 15:00:00 +0000
-In-Reply-To: <ly622hl5r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
-	<1359377661.22371.54.camel@ted>
-	<lypq0pl8ee.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<4710226.v3bfS80rgU@helios>
-	<ly622hl5r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base: make feature backfilling happen earlier
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TzquA-0003ya-G7
+	for openembedded-core@lists.openembedded.org;
+	Mon, 28 Jan 2013 16:46:14 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 28 Jan 2013 07:30:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,551,1355126400"; d="scan'208";a="195877101"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Jan 2013 07:30:13 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2013 17:33:29 +0200
+Message-Id: <1359387209-6272-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] python-smartpm: multilib fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 15:42:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2013 15:46:17 -0000
 
-On Mon, 2013-01-28 at 15:52 +0100, Enrico Scholz wrote:
-> There are some implicit relations between features (e.g. when selecting
-> 'usbhost' I *usually* want 'vfat' or 'ext2' support too). So I have
-> 
->   DISTRO_FEATURES_BACKFILL = "\
->     largefile nfsroot modules ld-is-gold ${PROJECT_FEATURES} \
->     ${DISTRO_FEATURES_INITMAN} \
->     ${@base_contains('PROJECT_FEATURES', 'alsa', 'sound', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'directfb', 'screen', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'fb', 'screen', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'mmc', 'ext2 vfat', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'touchscreen', 'screen', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'ubifs', 'mtd', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'jffs2', 'mtd', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'usbclient', 'usb usbgadget', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'usbgadget', 'usb usbclient', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'usbhost', 'ext2 vfat', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'usbhost', 'usb', '', d)} \
->     ${@base_contains('PROJECT_FEATURES', 'x11', 'screen', '', d)} \
->   "
->   
->   DISTRO_FEATURES_BACKFILL_CONSIDERED = "${NO_PROJECT_FEATURES}"
-> 
-> in my distro configuration (I knew; some are machine but no distro
-> features but this does not matter for me) and want to allow projects to
-> add new features and to remove default ones.
+To fix some multilib issues, change the way smart's RPM backend decides
+if two packages can coexist:
 
-This does seem rather like an abuse of DISTRO_FEATURES_BACKFILL.  Can
-you explain why you are doing it this way rather than just setting
-DISTRO_FEATURES directly to what you wanted?
+ - don't test the "multi-version" flag on the packet. In Yocto,
+almost every package can be "multi-version" in a multilib configuration.
+  - let two packages coexist if they have different versions OR different
+architectures (which is fundamental for multilib).
 
-p.
+[YOCTO #3681]
 
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../python-smartpm/smart-multilib-fixes.patch      |   31 ++++++++++++++++++++
+ .../python/python-smartpm_1.4.1.bb                 |    3 +-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
+
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch b/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
+new file mode 100644
+index 0000000..6051ef3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
+@@ -0,0 +1,31 @@
++smart multilib fixes
++
++To fix some multilib issues, change the way the RPM backend decides
++if two packages can coexist:
++
++ - don't test the "multi-version" flag on the packet. In Yocto,
++almost every package can be "multi-version" in a multilib configuration.
++ - let two packages coexist if they have different versions OR different
++architectures (which is fundamental for multilib). 
++
++Upstream-Status: Pending
++
++Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
++
++diff --git a/smart/backends/rpm/base.py b/smart/backends/rpm/base.py
++index 6e83d40..72eb8a9 100644
++--- a/smart/backends/rpm/base.py
+++++ b/smart/backends/rpm/base.py
++@@ -233,9 +233,9 @@ class RPMPackage(Package):
++         if (selfcolor and othercolor and selfcolor != othercolor and
++             not sysconf.get("rpm-strict-multilib")):
++             return True
++-        if not pkgconf.testFlag("multi-version", self):
++-            return False
++-        return selfver != otherver
+++        #if not pkgconf.testFlag("multi-version", self):
+++        #    return False
+++        return selfver != otherver or selfarch != otherarch
++ 
++     def matches(self, relation, version):
++         if not relation:
+diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+index 4d0f96b..06641ad 100644
+--- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
++++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+@@ -11,7 +11,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+ 
+ DEPENDS = "python rpm"
+-PR = "r7"
++PR = "r8"
+ SRCNAME = "smart"
+ 
+ SRC_URI = "\
+@@ -25,6 +25,7 @@ SRC_URI = "\
+           file://smart-tmpdir.patch \
+           file://smart-metadata-match.patch \
+           file://smart-improve-error-reporting.patch \
++          file://smart-multilib-fixes.patch \
+           "
+ 
+ SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
+-- 
+1.7.10.4
 
 
 
