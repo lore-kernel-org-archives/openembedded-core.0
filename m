@@ -1,38 +1,35 @@
-Received: from mail-pa0-f51.google.com ([209.85.220.51])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Tzv5w-0005rD-67
+	(envelope-from <raj.khem@gmail.com>) id 1Tzv5u-0005rB-Vx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 21:14:24 +0100
-Received: by mail-pa0-f51.google.com with SMTP id fb11so1723129pad.24
+	Mon, 28 Jan 2013 21:14:20 +0100
+Received: by mail-pb0-f48.google.com with SMTP id wy12so1686376pbc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 11:58:40 -0800 (PST)
+	Mon, 28 Jan 2013 11:58:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=y/YfoBnGxayWo8Uwim8hr30f4UTVvSXTZZ1ohAGUOWs=;
-	b=v/JyaG3wyUKF5FqIR5tTOC48mlgbX2D6tdOAveBG7fesRAzXOIjxb4nA6ch4BHw7iE
-	9z81HrlDpRDA2W43pVtMZv61qio6nDuAprAoylGDqQia1u5qoI/3+rZKWSQnduWnEzSE
-	LxJ96w7/J2ACdfVIHXMM7a+71Rr4dtB74UEDbS0LG1zBZTFjvbWY+fH0oc3qcARu5JJB
-	S1kCHSll0AXbhcPZJzPVxEXN7smcU0jBaCjTFsd3FBprZ3dkczOBI7+5M/5nCP3kRywX
-	nPhZO6iMehMogQnUfmHnOvompzR5zmOW7exaod3fku+YghZYRSmeOWROO6PqB429FHp5
-	QChg==
-X-Received: by 10.68.204.103 with SMTP id kx7mr40612172pbc.33.1359403120806;
-	Mon, 28 Jan 2013 11:58:40 -0800 (PST)
+	:references; bh=cb50+yjIp2qJYVE173U5QNmTxfDfarBvJHcqGNxgMHU=;
+	b=mjjPjJZUpiwZ3ow58n6Hkm8tL9RnfnbJTF8rd8waSShRrkSkdaDPDVBp1wQcqqIa1P
+	VJlvcmKu3vIoWJck8jSCiK72QsxL1VUNOdHbdKg1pfbMjUK8M0rmc1iNBXKzO73t+i6r
+	jUcl9t/0Xch9jWzYEwE9JaT5Am4puhiBhlQsO24wIkeXJVoAc8HQb3jhYYlH1BkHYLZO
+	73zB+dNVBpI695cyLBMMKAtO4U+HUCLcST84T6QbP08peWYg3DuPr2Q0cBgi6RZzOC6y
+	U9oEw1I/ZgKJGiDnNJjFoTYavOd5PNj3JhAZnxRZ1RgKCn49E8VE0/rAGHitSMzgpybW
+	BeZg==
+X-Received: by 10.66.79.202 with SMTP id l10mr38538006pax.36.1359403119567;
+	Mon, 28 Jan 2013 11:58:39 -0800 (PST)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id bg6sm7306579pab.33.2013.01.28.11.58.39
+	by mx.google.com with ESMTPS id bg6sm7306579pab.33.2013.01.28.11.58.38
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 28 Jan 2013 11:58:40 -0800 (PST)
+	Mon, 28 Jan 2013 11:58:38 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 11:58:27 -0800
-Message-Id: <25339fa58dfb08985df8f6b602e00df5d9d576c9.1359402980.git.raj.khem@gmail.com>
+Date: Mon, 28 Jan 2013 11:58:26 -0800
+Message-Id: <9496d315c6d89dd6e4147cbdfd7b974fa4ed1d43.1359402980.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <9496d315c6d89dd6e4147cbdfd7b974fa4ed1d43.1359402980.git.raj.khem@gmail.com>
-References: <9496d315c6d89dd6e4147cbdfd7b974fa4ed1d43.1359402980.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1359402980.git.raj.khem@gmail.com>
 References: <cover.1359402980.git.raj.khem@gmail.com>
-Subject: [PATCH 2/3] systemd: Drop ppc build breakage patch for test-unit-file
+Subject: [PATCH 1/3] rpcbind: Dont use nss with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,75 +43,141 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 28 Jan 2013 20:14:33 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 20:14:33 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 20:14:33 -0000
 
-its been fixed differently upstream in 197
+Add defines which otherwise are missing in uclibc nss
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...it-file-Add-libsystemd-daemon.la-to-LDADD.patch |   32 --------------------
- meta/recipes-core/systemd/systemd_197.bb           |    3 --
- 2 files changed, 35 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-test-unit-file-Add-libsystemd-daemon.la-to-LDADD.patch
+ .../rpcbind/rpcbind/0001-uclibc-nss.patch          |   30 ++++++++++
+ .../rpcbind/0002-uclibc-rpcsvc-defines.patch       |   60 ++++++++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |    6 ++
+ 3 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-test-unit-file-Add-libsystemd-daemon.la-to-LDADD.patch b/meta/recipes-core/systemd/systemd/0001-test-unit-file-Add-libsystemd-daemon.la-to-LDADD.patch
-deleted file mode 100644
-index 4cd2ee6..0000000
---- a/meta/recipes-core/systemd/systemd/0001-test-unit-file-Add-libsystemd-daemon.la-to-LDADD.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Submitted
--
--From f3e0a95b6b3fe516e43ec72045c2fad239184392 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 22 Jan 2013 18:25:46 -0800
--Subject: [PATCH] test-unit-file: Add libsystemd-daemon.la to LDADD
--
--test-unit-file links with libsystemd-core which needs
--sd_* symbols from libsystemd-daemon
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Makefile.am |    3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index 7d5bd5a..884227a 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1270,7 +1270,8 @@ test_unit_file_CFLAGS = \
-- 	$(DBUS_CFLAGS)
-- 
-- test_unit_file_LDADD = \
---	libsystemd-core.la
--+	libsystemd-core.la \
--+	libsystemd-daemon.la
-- 
-- test_log_SOURCES = \
-- 	src/test/test-log.c
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 500c3ec..d4fee45 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- 
- PROVIDES = "udev"
- 
--PR = "r1"
--
- DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 libgcrypt"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
-@@ -24,7 +22,6 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            ${UCLIBCPATCHES} \
-            file://00-create-volatile.conf \
-            file://0001-systemd-analyze-rewrite-in-C.patch \
--           file://0001-test-unit-file-Add-libsystemd-daemon.la-to-LDADD.patch \
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
+new file mode 100644
+index 0000000..afa55f3
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/0001-uclibc-nss.patch
+@@ -0,0 +1,30 @@
++Upstream-Status: Pending
++
++From b8f0d7b7318ba344c25785d6f5cf3f8de98012d4 Mon Sep 17 00:00:00 2001
++From: Natanael Copa <ncopa@alpinelinux.org>
++Date: Tue, 2 Feb 2010 09:36:03 +0000
++Subject: [PATCH 1/2] uclibc-nss
++
++---
++ src/rpcbind.c |    4 ++++
++ 1 files changed, 4 insertions(+), 0 deletions(-)
++
++diff --git a/src/rpcbind.c b/src/rpcbind.c
++index 525ffba..1fe1a60 100644
++--- a/src/rpcbind.c
+++++ b/src/rpcbind.c
++@@ -67,7 +67,11 @@
++ #include <pwd.h>
++ #include <string.h>
++ #include <errno.h>
+++#if defined(__UCLIBC__)
+++#define __nss_configure_lookup(x,y)
+++#else
++ #include <nss.h>
+++#endif
++ #include "config.h"
++ #include "rpcbind.h"
++ 
++-- 
++1.6.6.1
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch b/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
+new file mode 100644
+index 0000000..c54fc96
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/0002-uclibc-rpcsvc-defines.patch
+@@ -0,0 +1,60 @@
++Upstream-Status: Pending
++
++From 077add040c2e30d3ac507362f4afe350f47be027 Mon Sep 17 00:00:00 2001
++From: Natanael Copa <ncopa@alpinelinux.org>
++Date: Tue, 2 Feb 2010 09:47:57 +0000
++Subject: [PATCH 2/2] uclibc-rpcsvc-defines
++
++---
++ src/security.c |   28 ++++++++++++++++++++++++++++
++ 1 files changed, 28 insertions(+), 0 deletions(-)
++
++diff --git a/src/security.c b/src/security.c
++index 0edeac6..e9fed55 100644
++--- a/src/security.c
+++++ b/src/security.c
++@@ -20,6 +20,32 @@
++ /*
++  * XXX for special case checks in check_callit.
++  */
+++#if defined(__UCLIBC__)
+++
+++#define MOUNTPROC_MNT 1
+++#define MOUNTPROC_UMNT 3
+++
+++#define NFS_PROGRAM	100003
+++#define YPPROG		100004
+++#define MOUNTPROG	100005
+++#define YPBINDPROG	100007
+++#define YPPASSWDPROG	100009
+++#define RQUOTAPROG	100011
+++
+++#define YPPROC_NULL	0
+++#define YPPROC_DOMAIN 	1
+++#define YPPROC_DOMAIN_NONACK 2
+++#define YPPROC_MATCH	3
+++#define YPPROC_FIRST	4
+++#define YPPROC_NEXT	5
+++#define YPPROC_XFR	6
+++#define YPPROC_CLEAR	7
+++#define YPPROC_ALL	8
+++
+++#define YPBINDPROC_SETDOM	2
+++
+++#else
+++
++ #include <rpcsvc/mount.h>
++ #include <rpcsvc/rquota.h>
++ #include <rpcsvc/nfs_prot.h>
++@@ -27,6 +53,8 @@
++ #include <rpcsvc/ypclnt.h>
++ #include <rpcsvc/yppasswd.h>
++ 
+++#endif
+++
++ #include "rpcbind.h"
++ 
++ #ifdef LIBWRAP
++-- 
++1.6.6.1
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+index 9fb4f51..a438063 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+@@ -13,8 +13,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://init.d \
+            file://fix_host_path.patch \
++           ${UCLIBCPATCHES} \
            "
- SRC_URI[md5sum] = "56a860dceadfafe59f40141eb5223743"
- SRC_URI[sha256sum] = "e6857ea21ae24d7056e7b0f4c2aaaba73b8bf57025b8949c0a8af0c1bc9774b5"
+ 
++UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
++                             file://0002-uclibc-rpcsvc-defines.patch \
++                            "
++UCLIBCPATCHES ?= ""
++
+ SRC_URI[md5sum] = "1a77ddb1aaea8099ab19c351eeb26316"
+ SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497a00de3"
+ 
 -- 
 1.7.9.5
 
