@@ -1,29 +1,40 @@
-Received: from mail-qe0-f43.google.com ([209.85.128.43])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kirgene@gmail.com>) id 1TzrSN-0001EJ-6y
+	(envelope-from <ross.burton@intel.com>) id 1TzrVC-0001lc-Oo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 17:21:16 +0100
-Received: by mail-qe0-f43.google.com with SMTP id b10so898636qen.16
+	Mon, 28 Jan 2013 17:24:13 +0100
+Received: from mail-yh0-f71.google.com ([209.85.213.71])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 28 Jan 2013 08:08:30 -0800
+Received: by mail-yh0-f71.google.com with SMTP id m1so4184974yhg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 08:05:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=doY+w7ECLJMhxNjlBCRTgiWkIdL5+soO2vfqIkZ69tY=;
-	b=ywJxEWQwgRfBGXXaHzcoXFvg1A6fkIR6byk2BIISnFe8ujIkWSO8jjiyN12FGwuCp3
-	Ad8gLSdoI1usoV07GYU3t4pKspKHRsPPe6hScrghgci90Kjrq9RURZy/cF4ZEl2iAsKF
-	UUXlcHWgUhxF7E+AZ8EaL8aYKHnvgGKsEMsXnGKm7e+vrRMUVT0WjU0VavtCA6wR1QOW
-	cBp8mWwP2L2Ha7gbXwERvXkJpn/kAd29SadhcsyyhoyQ/VJA8Dx19LcAvYPUlR2X6n3i
-	6VF8L8Q57/o6sIPSfSpJGBka6LuQu+eT9dxD8C+GkNUrC9ZVfvp+aEJdgozQtRYfQInw
-	Cexg==
+	Mon, 28 Jan 2013 08:08:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=gcq31NbZKHbt6oII/P09N3RXSN8YhBfWUjQTIweP+b4=;
+	b=G2+YbRzOk7nPsOev3ekz55nCv1fqlMNU4o4ZYA5+aYSoCu3uyTaSNn5U4Xe73mzdos
+	M9ghJVkgIUPa9vrh7CXhhz+yio5FPAJsAWJ+f+f/QHBpx/Mdec+IrHUYhdcke+qIQo+Y
+	bquR+fGxSHyYG0jFzM9ThvbQrbM2nOfDd2TiOxFZyAk26FyxiENCK1U+mBLs+bSBWYQp
+	96lXOOR9eVPGSAzR7FpTMI/F7UEZFYte39gRj0EkAj3A0TOU69ZxE343tUf34uK0OP44
+	lZko9RH70QbFnVmLOKfPdZAS+pIsueDdEut/gKgprLiuGzA0JByPikdORg3OOFeUKRWA
+	VvPQ==
+X-Received: by 10.52.178.105 with SMTP id cx9mr8528824vdc.31.1359389308940;
+	Mon, 28 Jan 2013 08:08:28 -0800 (PST)
+X-Received: by 10.52.178.105 with SMTP id cx9mr8528819vdc.31.1359389308866;
+	Mon, 28 Jan 2013 08:08:28 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.229.178.232 with SMTP id bn40mr4001660qcb.44.1359389135821; 
-	Mon, 28 Jan 2013 08:05:35 -0800 (PST)
-Received: by 10.49.106.5 with HTTP; Mon, 28 Jan 2013 08:05:35 -0800 (PST)
-Date: Mon, 28 Jan 2013 18:05:35 +0200
-Message-ID: <CADV-EXF+r-Bj08253OJ+Dga5TfgSS7CrLQtAeaTDVc5hSxZbWg@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Do not build initramfs
+Received: by 10.58.205.236 with HTTP; Mon, 28 Jan 2013 08:08:08 -0800 (PST)
+In-Reply-To: <1359153142-13425-2-git-send-email-otavio@ossystems.com.br>
+References: <1359153142-13425-1-git-send-email-otavio@ossystems.com.br>
+	<1359153142-13425-2-git-send-email-otavio@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Jan 2013 16:08:08 +0000
+Message-ID: <CAJTo0LaTsrfr_GES+xjA-veo9uTAvME3-MPzG3uXKPvTCX7Z5w@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQm/5wqXeMrSXgKFz3KcP9s4RMP0lMiY2GNRfRUPr36zdzpWxVqO+Tm1OQ0kTXHJdTGKJm+BDopIwlKtN4VM1vod9SZdVsMz0220G4zLC0rOdEkOsFrCTCsffVh46xzP9IlIDxt0m4LTQBVJk5nOlPTP88sVOEl4q9V2dloI2h+dotVlQkGQuVUd0dZoNQuRS8Jmtrq7
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] mesa: Add virtual/dri provides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,14 +47,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 16:21:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 28 Jan 2013 16:24:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I want to build an image ("core-image-minimal" for example) without
-initramfs support.
-How can I do it?
+On 25 January 2013 22:32, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> -PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
+> +PROVIDES = "virtual/dri virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
 
-When I run "bibake core-image-minimal" I'm getting 2 image types: the
-actual image with needed packages and initramfs image.
+Please also add an entry to default-providers.
+
+Ross
 
 
