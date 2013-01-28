@@ -1,51 +1,27 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TznTc-0002We-Tx
+	(envelope-from <Rongqing.Li@windriver.com>) id 1TznZE-0003AU-El
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 13:06:17 +0100
-Received: from mail-vc0-f199.google.com ([209.85.220.199])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Jan 2013 03:50:37 -0800
-Received: by mail-vc0-f199.google.com with SMTP id fo13so3727252vcb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 03:50:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=79SE5dIUdQVC32LXKgvvWeYb7726xLcKnRInGf7+jug=;
-	b=Zi5Vb6bJpcjG8uxjUcX+PdR2qkCSGEkQ/66nnu23XtxolgJ4MvgCvEB1UAsEMJk97w
-	SGyV2lqis/62OaOXdebpUpGhPtC0J7AsZDu1yEOCalL7YWLvdZkDVglbpG0iXyR7bbJ0
-	G2kr0hd+J7xTKO2/vyjaddBIZB0xhz94OH/yBTXNCkKcdhKZdv7RBXvaITEu/W/Kwn3l
-	T2enBCDLcd2J5MkQGMe2rOHRiLajQenKnZtPyaCxb9pCTtY7ptkq0XIxSDnvHYZeYqFt
-	vANAnS57/WANZpLjNFWw0zuYW4l7c412Qt+H6+3axn1JpPRPzAK369cOy2GzKkeikken
-	Hqmg==
-X-Received: by 10.220.218.197 with SMTP id hr5mr14301327vcb.8.1359373835471;
-	Mon, 28 Jan 2013 03:50:35 -0800 (PST)
-X-Received: by 10.220.218.197 with SMTP id hr5mr14301323vcb.8.1359373835409;
-	Mon, 28 Jan 2013 03:50:35 -0800 (PST)
+	Mon, 28 Jan 2013 13:12:05 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0SBuOcP006802
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 28 Jan 2013 03:56:24 -0800 (PST)
+Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
+	Mon, 28 Jan 2013 03:56:24 -0800
+Message-ID: <51066766.1020105@windriver.com>
+Date: Mon, 28 Jan 2013 19:56:22 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.205.236 with HTTP; Mon, 28 Jan 2013 03:50:15 -0800 (PST)
-In-Reply-To: <CALbNGRSbLSf6oysR-EkR9ojsUNwhZLGfGg6P5Y1s2XKbFf5gYA@mail.gmail.com>
-References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
-	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
-	<20130125151241.GJ3200@jama>
-	<CAJTo0LYW7BJ1WT=+GcHXDDRb+ONuKiUxw0ehEkNJgt=b6HY42Q@mail.gmail.com>
-	<CALbNGRRM2u80Pdbt7XOhbWTDBBceEpmdN-1drCTVTp_Ez7UQFg@mail.gmail.com>
-	<20130125180634.GC16904@jama.palm1.palmone.com>
-	<CALbNGRTUU_jBo4uktmEv+JCKaDnkayRt6oULYX2rUq+ro3aE+g@mail.gmail.com>
-	<20130125193456.GE16904@jama.palm1.palmone.com>
-	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
-	<20130125202657.GF16904@jama.palm1.palmone.com>
-	<CAJTo0LY77_koWo9=y3cYcJo+43-tE7_txf6uW0_pqr7hSi-QMA@mail.gmail.com>
-	<CALbNGRSbLSf6oysR-EkR9ojsUNwhZLGfGg6P5Y1s2XKbFf5gYA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Jan 2013 11:50:15 +0000
-Message-ID: <CAJTo0LbLM+A0+NyNgR5meFgdR1iFcGawz8XhAfHzOvohDjz6aA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQlWYquyJHOyY0koVTItrVemGPHdx37kxZKa20AuKrB0umA/pVgYXVOsqSFWdFAKvdp0+oPTgTlpajnCopNKRGjHjjjaIWpZSWWPiiRNJrJ+/lFIM4pmGHuSRisEfY2bHo0n7MPBzahuuZuEMrl8TMb3iDkdCRUlMlIyt2iWINria8froU1nEQFW0ssZI4rne/K9dT2E
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1358735456.git.rongqing.li@windriver.com>
+In-Reply-To: <cover.1358735456.git.rongqing.li@windriver.com>
+Cc: martin.jansa@gmail.com, joe.macdonald@windriver.com
+Subject: Re: [PATCH 0/2 v2] define and use tcp-wrappers DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,26 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 12:06:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 28 Jan 2013 12:12:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28 January 2013 11:48, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
-> wrote:
-> On Mon, Jan 28, 2013 at 11:44 AM, Burton, Ross <ross.burton@intel.com> wr=
-ote:
->> On 25 January 2013 20:26, Martin Jansa <martin.jansa@gmail.com> wrote:
->>> ALTERNATIVE_${PN}-systemd =3D "systemd-def-target"
->>
->> Let's not introduce packages controlled on distro features whose sole
->> purpose is to contain a single file.  systemd enabled -> units go into
->> $PN.
-> It's more than that: postinst and companions to auto enable/disable servi=
-ces.
+ping !
 
-Which are controlled by a distribution feature, so have no need to be
-in a separate package.
 
-Ross
+On 01/21/2013 10:36 AM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> *** BLURB HERE ***
+> The following changes since commit 5892db9a34c188b8a9bdaa86e19ba62a7f4793b5:
+>
+>    oprofile: set correct kernel path (2013-01-20 13:13:54 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib enable_tcp_wrapper_for_xinetd
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=enable_tcp_wrapper_for_xinetd
+>
+> Roy.Li (2):
+>    xinetd: enable tcp-wrappers support by DISTRO_FEATURE
+>    bitbake.conf: add tcp-wrappers to default DISTRO_FEATURES_BACKFILL
+>
+>   meta/conf/bitbake.conf                        |    2 +-
+>   meta/recipes-extended/xinetd/xinetd_2.3.15.bb |    5 ++++-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
 
