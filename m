@@ -1,20 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TzquA-0003ya-G7
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Tzr7Y-0006fl-Cf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 16:46:14 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 Jan 2013 07:30:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,551,1355126400"; d="scan'208";a="195877101"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Jan 2013 07:30:13 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 17:33:29 +0200
-Message-Id: <1359387209-6272-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] python-smartpm: multilib fixes
+	Mon, 28 Jan 2013 17:00:04 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0SFhxeU023327
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 28 Jan 2013 16:44:00 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TzqsZ-0008NT-3V; Mon, 28 Jan 2013 16:44:15 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Phil Blundell <pb@pbcl.net>
+References: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
+	<1359377661.22371.54.camel@ted>
+	<lypq0pl8ee.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<4710226.v3bfS80rgU@helios>
+	<ly622hl5r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1359385200.7131.11.camel@phil-desktop.brightsign>
+Date: Mon, 28 Jan 2013 16:44:15 +0100
+In-Reply-To: <1359385200.7131.11.camel@phil-desktop.brightsign> (Phil
+	Blundell's message of "Mon, 28 Jan 2013 15:00:00 +0000")
+Message-ID: <ly1ud5l3cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.71
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] base: make feature backfilling happen earlier
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,85 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 15:46:17 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 16:00:07 -0000
+Content-Type: text/plain
 
-To fix some multilib issues, change the way smart's RPM backend decides
-if two packages can coexist:
+Phil Blundell <pb@pbcl.net> writes:
 
- - don't test the "multi-version" flag on the packet. In Yocto,
-almost every package can be "multi-version" in a multilib configuration.
-  - let two packages coexist if they have different versions OR different
-architectures (which is fundamental for multilib).
+> This does seem rather like an abuse of DISTRO_FEATURES_BACKFILL.  Can
+> you explain why you are doing it this way rather than just setting
+> DISTRO_FEATURES directly to what you wanted?
 
-[YOCTO #3681]
+I need a way to:
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../python-smartpm/smart-multilib-fixes.patch      |   31 ++++++++++++++++++++
- .../python/python-smartpm_1.4.1.bb                 |    3 +-
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
+1. set some defaults on distribution base and avoid nasty details like
+   mandatory ${DISTRO_FEATURES_LIBC} flags in the project configuration
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch b/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
-new file mode 100644
-index 0000000..6051ef3
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-multilib-fixes.patch
-@@ -0,0 +1,31 @@
-+smart multilib fixes
-+
-+To fix some multilib issues, change the way the RPM backend decides
-+if two packages can coexist:
-+
-+ - don't test the "multi-version" flag on the packet. In Yocto,
-+almost every package can be "multi-version" in a multilib configuration.
-+ - let two packages coexist if they have different versions OR different
-+architectures (which is fundamental for multilib). 
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-+
-+diff --git a/smart/backends/rpm/base.py b/smart/backends/rpm/base.py
-+index 6e83d40..72eb8a9 100644
-+--- a/smart/backends/rpm/base.py
-++++ b/smart/backends/rpm/base.py
-+@@ -233,9 +233,9 @@ class RPMPackage(Package):
-+         if (selfcolor and othercolor and selfcolor != othercolor and
-+             not sysconf.get("rpm-strict-multilib")):
-+             return True
-+-        if not pkgconf.testFlag("multi-version", self):
-+-            return False
-+-        return selfver != otherver
-++        #if not pkgconf.testFlag("multi-version", self):
-++        #    return False
-++        return selfver != otherver or selfarch != otherarch
-+ 
-+     def matches(self, relation, version):
-+         if not relation:
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index 4d0f96b..06641ad 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -11,7 +11,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
- 
- DEPENDS = "python rpm"
--PR = "r7"
-+PR = "r8"
- SRCNAME = "smart"
- 
- SRC_URI = "\
-@@ -25,6 +25,7 @@ SRC_URI = "\
-           file://smart-tmpdir.patch \
-           file://smart-metadata-match.patch \
-           file://smart-improve-error-reporting.patch \
-+          file://smart-multilib-fixes.patch \
-           "
- 
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
--- 
-1.7.10.4
+2. allow to override these defaults on a per-project base
 
+3. add features support by recipes/classes of my distribution
+
+afaik, DISTRO_FEATURES_BACKFILL + _CONSIDERED exist to allow the first
+two point without an '-=' operator which lacks in bitbake.
+
+Of course, I could reinvent the wheel and write my own _CONSIDERED
+mechanism.  But until now (resp. without the '=' => '?=' change), it
+worked fine with DISTRO_FEATURES_BACKFILL.
+
+
+Enrico
 
 
