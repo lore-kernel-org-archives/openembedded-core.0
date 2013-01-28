@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tzl4z-0003nW-29
+	(envelope-from <sgw@linux.intel.com>) id 1Tzl52-0003nR-SY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 10:32:43 +0100
+	Mon, 28 Jan 2013 10:33:02 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 Jan 2013 01:16:06 -0800
+	by azsmga102.ch.intel.com with ESMTP; 28 Jan 2013 01:16:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="195769996"
+X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="195769992"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.19])
 	by AZSMGA002.ch.intel.com with ESMTP; 28 Jan 2013 01:16:05 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 01:15:58 -0800
-Message-Id: <585121936d16f0916d0edf9e6fb288d096c4aa09.1359364462.git.sgw@linux.intel.com>
+Date: Mon, 28 Jan 2013 01:15:57 -0800
+Message-Id: <df0a6379852d7c47b54a1b2d7f80328b1c928bd9.1359364462.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1359364462.git.sgw@linux.intel.com>
 References: <cover.1359364462.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1359364462.git.sgw@linux.intel.com>
 References: <cover.1359364462.git.sgw@linux.intel.com>
-Subject: [PATCH 11/13] resolvconf: Update to 1.69
+Subject: [PATCH 10/13] util-linux: Update to 2.22.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,28 +35,35 @@ X-List-Received-Date: Mon, 28 Jan 2013 09:33:05 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../resolvconf/{resolvconf_1.68.bb => resolvconf_1.69.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.68.bb => resolvconf_1.69.bb} (88%)
+ .../util-linux/{util-linux_2.22.1.bb => util-linux_2.22.2.bb}       | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux_2.22.1.bb => util-linux_2.22.2.bb} (89%)
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.68.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.69.bb
-similarity index 88%
-rename from meta/recipes-connectivity/resolvconf/resolvconf_1.68.bb
-rename to meta/recipes-connectivity/resolvconf/resolvconf_1.69.bb
-index 971b0f8..a1d6688 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.68.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.69.bb
-@@ -14,8 +14,8 @@ PR = "r0"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.22.1.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+similarity index 89%
+rename from meta/recipes-core/util-linux/util-linux_2.22.1.bb
+rename to meta/recipes-core/util-linux/util-linux_2.22.2.bb
+index d734951..dd95573 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.22.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+@@ -1,5 +1,5 @@
+ MAJOR_VERSION = "2.22"
+-PR = "r3"
++PR = "r0"
+ require util-linux.inc
  
- SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
+ # note that `lscpu' is under GPLv3+
+@@ -12,8 +12,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+ 	    file://fix-configure.patch \
+ "
  
--SRC_URI[md5sum] = "61cca51474ccec74f3de15f44b182666"
--SRC_URI[sha256sum] = "f88fec7e167afce6f6fb4c5304dd625b71521b278b826a857796451753c9a964"
-+SRC_URI[md5sum] = "a5cacf9724f1b79a685cc5dfe2c643c9"
-+SRC_URI[sha256sum] = "e386a6e5ac81d292edbc0d8fbd0cfbbdbb4a76ac06c5f08079a1aa8cc59f3fcb"
+-SRC_URI[md5sum] = "cad23c41a014af766d467b86628bd0fd"
+-SRC_URI[sha256sum] = "4297ea2a560f8839d7b3cde72a5955d1458dbad38fe0e3d99ccb1fde3df751b2"
++SRC_URI[md5sum] = "3e379b4d8b9693948d751c154614c73e"
++SRC_URI[sha256sum] = "7463a17a01a77cee36d8ce845d8148208f553c9abdd67b446324bf42968bc36d"
  
- inherit allarch
- 
+ # Only lscpu part is gplv3; rest of the code is not, 
+ # so take out the lscpu parts while running non-gplv3 build.
 -- 
 1.8.0.2
 
