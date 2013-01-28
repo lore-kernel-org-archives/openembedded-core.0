@@ -1,20 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TzkeK-0001Wm-8G
+	(envelope-from <constantinx.musca@intel.com>) id 1Tzkou-0002Qu-Vk
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 10:05:28 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jan 2013 00:48:18 -0800
+	Mon, 28 Jan 2013 10:16:05 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2013 01:00:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="253466715"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.33])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2013 00:49:10 -0800
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="277383213"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jan 2013 01:00:24 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 10:50:04 +0200
-Message-Id: <1359363004-31295-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] openssh : upgrade to 6.1p1
+Date: Mon, 28 Jan 2013 11:01:20 +0200
+Message-Id: <1359363680-4588-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] migrate_localcount.bbclass: use PRAUTOINX instead of PN & PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,80 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 09:05:32 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 09:16:05 -0000
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+- we need to use PRAUTOINX (it covers all cases)
+- it addresses bumped PE issues
+
+[YOCTO #3071]
+
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- .../openssh/{openssh-6.0p1 => openssh-6.1p1}/init  |    0
- .../{openssh-6.0p1 => openssh-6.1p1}/nostrip.patch |    0
- .../openssh-CVE-2011-4327.patch                    |    0
- .../{openssh-6.0p1 => openssh-6.1p1}/ssh_config    |    0
- .../openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd  |    0
- .../{openssh-6.0p1 => openssh-6.1p1}/sshd_config   |    0
- .../openssh/{openssh_6.0p1.bb => openssh_6.1p1.bb} |    6 +++---
- 7 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/init (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/nostrip.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/openssh-CVE-2011-4327.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/ssh_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.0p1 => openssh-6.1p1}/sshd_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh_6.0p1.bb => openssh_6.1p1.bb} (95%)
+ meta/classes/migrate_localcount.bbclass | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/init b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/init
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/init
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-6.1p1/nostrip.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/nostrip.patch
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.1p1/openssh-CVE-2011-4327.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/openssh-CVE-2011-4327.patch
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-6.1p1/ssh_config
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/ssh_config
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd b/meta/recipes-connectivity/openssh/openssh-6.1p1/sshd
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/sshd
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.1p1/sshd_config
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config
-rename to meta/recipes-connectivity/openssh/openssh-6.1p1/sshd_config
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-similarity index 95%
-rename from meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-index df77040..71d71e4 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-@@ -7,7 +7,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+diff --git a/meta/classes/migrate_localcount.bbclass b/meta/classes/migrate_localcount.bbclass
+index 59f14e8..3916ad4 100644
+--- a/meta/classes/migrate_localcount.bbclass
++++ b/meta/classes/migrate_localcount.bbclass
+@@ -18,14 +18,13 @@ python migrate_localcount_handler () {
+         if not revs or not counts:
+             return
  
--PR = "r4"
-+PR = "r0"
+-        srcrev = bb.fetch2.get_srcrev(e.data)
+-        bpv = pv[:pv.find(srcrev)]
+-
+         if len(revs) != len(counts):
+             bb.warn("The number of revs and localcounts don't match in %s" % pn)
+             return
  
- DEPENDS = "zlib openssl"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-@@ -27,9 +27,9 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+-        version = 'AUTOINC-%s-%s' % (pn, bpv)
++        version = e.data.getVar('PRAUTOINX', True)
++        srcrev = bb.fetch2.get_srcrev(e.data)
++        base_ver = 'AUTOINC-%s' % version[:version.find(srcrev)]
+         pkgarch = e.data.getVar('PACKAGE_ARCH', True)
+         value = max(int(count) for count in counts)
  
- PAM_SRC_URI = "file://sshd"
--SRC_URI[md5sum] = "3c9347aa67862881c5da3f3b1c08da7b"
--SRC_URI[sha256sum] = "589d48e952d6c017e667873486b5df63222f9133d417d0002bd6429d9bd882de"
+@@ -40,7 +39,7 @@ python migrate_localcount_handler () {
+         flock = bb.utils.lockfile("%s.lock" % df)
+         with open(df, 'a') as fd:
+             fd.write('PRAUTO$%s$%s$%s = "%s"\n' %
+-                    (version, pkgarch, srcrev, str(value)))
++                    (base_ver, pkgarch, srcrev, str(value)))
+         bb.utils.unlockfile(flock)
+ }
  
-+SRC_URI[md5sum] = "3345cbf4efe90ffb06a78670ab2d05d5"
-+SRC_URI[sha256sum] = "d1c157f6c0852e90c191cc7c9018a583b51e3db4035489cb262639d337a1c411"
- inherit useradd update-rc.d update-alternatives
- 
- USERADD_PACKAGES = "${PN}-sshd"
 -- 
-1.7.9.5
+1.7.11.7
 
 
 
