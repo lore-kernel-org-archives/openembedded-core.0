@@ -1,27 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TzktE-0002mH-B4
+	(envelope-from <Qi.Chen@windriver.com>) id 1TzktF-0002mJ-GY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 10:20:32 +0100
+	Mon, 28 Jan 2013 10:20:34 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0S94rgs026814
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0S94uhN002175
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 01:04:53 -0800 (PST)
+	Mon, 28 Jan 2013 01:04:56 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.328.9; Mon, 28 Jan 2013 01:04:52 -0800
+	14.2.328.9; Mon, 28 Jan 2013 01:04:54 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jan 2013 17:05:05 +0800
-Message-ID: <c06abba1f2275a15a7bef9c63930938c7dc39ac9.1359362547.git.Qi.Chen@windriver.com>
+Date: Mon, 28 Jan 2013 17:05:06 +0800
+Message-ID: <92c81da2144accfbe17277281e4dd22742664967.1359362547.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1359362547.git.Qi.Chen@windriver.com>
 References: <cover.1359362547.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/6] sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
+Subject: [PATCH 2/6] image.bbclass: add a hook funtion to support readonly rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 09:20:33 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 09:20:34 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-This variable indicates whether the rootfs is intended to be read-only
-or not. Changing this value from 'no' to 'yes' on a currently running
-system with read-write rootfs and rebooting will give the user a working
-system with read-only rootfs.
+read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+volatile.sh script run at rootfs time.
 
-However, it is not suggested to change its value. Normally, if a read-only
-rootfs is required, we should build an image with 'read-only-rootfs' image
-feature.
+For now, it has real effect only if the init system is sysvinit.
 
 [YOCTO #3406]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/rcS-default |    4 ++++
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  |    2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/image.bbclass |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rcS-default b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-index 3c9dea9..709cdf6 100644
---- a/meta/recipes-core/sysvinit/sysvinit/rcS-default
-+++ b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-@@ -23,3 +23,7 @@ FSCKFIX=yes
- #TICKADJ=10000
- # Enable caching in populate-volatile.sh
- VOLATILE_ENABLE_CACHE=yes
-+# Indicate whether the rootfs is intended to be read-only or not.
-+# Setting ROOTFS_READ_ONLY to yes and rebooting will give you a read-only rootfs.
-+# Normally you should not change this value.
-+ROOTFS_READ_ONLY=no
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index de073b8..bf6a29b 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r9"
-+PR = "r10"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 9b4dec8..9c51bf6 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -201,6 +201,24 @@ run_intercept_scriptlets () {
+ 	fi
+ }
  
- RDEPENDS_${PN} = "${PN}-inittab"
- 
++# A hook function to support read-only-rootfs IMAGE_FEATURES
++# Currently, it only supports sysvinit system.
++read_only_rootfs_hook () {
++	if ${@base_contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
++	        # Tweak the mount option in fstab
++		sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
++	        # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
++		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++			sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++		fi
++	        # Run populate-volatile.sh at rootfs time to set up basic files
++	        # and directories to support read-only rootfs.
++		if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
++			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
++		fi
++	fi
++}
++
+ fakeroot do_rootfs () {
+ 	#set -x
+ 	# When use the rpm incremental image generation, don't remove the rootfs
 -- 
 1.7.9.5
 
