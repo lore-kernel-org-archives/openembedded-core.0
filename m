@@ -1,20 +1,39 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TzrM6-0000BB-Ro
+	(envelope-from <ross.burton@intel.com>) id 1TzrOs-0000ig-MK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 17:14:47 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2013 07:59:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,551,1355126400"; d="scan'208";a="253635680"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.33])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2013 07:59:06 -0800
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 18:00:01 +0200
-Message-Id: <1359388802-9440-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] blktool : upgrade to 4-6.1
+	Mon, 28 Jan 2013 17:17:43 +0100
+Received: from mail-gg0-f200.google.com ([209.85.161.200])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 28 Jan 2013 08:01:58 -0800
+Received: by mail-gg0-f200.google.com with SMTP id k6so4008268ggd.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jan 2013 08:01:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=NkJubPz13zQOKN7DeNuQW6NUWj0+Z4FJ6YnFcpBMPsU=;
+	b=dItLuGwuY5RZm5LW8M21LNOml7hR7jpg7/vlFka22c9S8pc+J7LYyBeFs9O4NHccuS
+	kpyISyQI3h88jv4ajZbtye55FoXru2fqulKkM2FOrXe510yYvELhcjBsi8HLdi1iHWzp
+	MyR1clcL81AmkByNk1hbUAB43vZcYWdYZi6RDdnKP1AFzMjHPGyHerqplBfU140+fnQx
+	pPDGkYJ1wBZxC/+wEPxuoDhZPfS+7TIwtEtp55uFkGkoPCKZxRlP4fziPc4WLwFKE5sG
+	H6egtD/5XsMZkcUCiixiVwu7OU3hCUHUKsTM3fdfl2pPLu9+W6RtXy1J568XpvnCohF3
+	X33g==
+X-Received: by 10.52.66.71 with SMTP id d7mr13397488vdt.121.1359388918097;
+	Mon, 28 Jan 2013 08:01:58 -0800 (PST)
+X-Received: by 10.52.66.71 with SMTP id d7mr13397481vdt.121.1359388918019;
+	Mon, 28 Jan 2013 08:01:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.205.236 with HTTP; Mon, 28 Jan 2013 08:01:37 -0800 (PST)
+In-Reply-To: <1359388422-30017-1-git-send-email-cristian.iorga@intel.com>
+References: <1359388422-30017-1-git-send-email-cristian.iorga@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Jan 2013 16:01:37 +0000
+Message-ID: <CAJTo0Lacg32qpbnd3+OzCSxUCaAxF4Szmg2e3CoX_y7cv6i9rQ@mail.gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+X-Gm-Message-State: ALoCoQmFvGAWjovigSRtjdk7W3AlcCMMTW0dyDNjOmQIPZLslaXLosAIj30LqTSRF1WunxLlmjBYDkuad5ZtJvHXJ/jfaI+IyqWCrm7u9vKLHi/8K4tTnSowZhoN4H9Ngiaj9w7ycwVYM+AYpZ/zlsC2JFlbWuJnjK0O0yF90kj6DQ+Tn9j3I+jHOrcaysrqvoeriHDvTQ5w
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] alsa-tools: upgrade to 1.0.26.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,40 +46,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 16:14:47 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 16:17:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- .../blktool/{blktool_4-6.bb => blktool_4-6.1.bb}   |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/blktool/{blktool_4-6.bb => blktool_4-6.1.bb} (77%)
+On 28 January 2013 15:53, Cristian Iorga <cristian.iorga@intel.com> wrote:
+> +    export AUTOMAKE_DIR=${STAGING_DATADIR_NATIVE}/$(ls -1 ${STAGING_DATADIR_NATIVE} | grep automake)
 
-diff --git a/meta/recipes-extended/blktool/blktool_4-6.bb b/meta/recipes-extended/blktool/blktool_4-6.1.bb
-similarity index 77%
-rename from meta/recipes-extended/blktool/blktool_4-6.bb
-rename to meta/recipes-extended/blktool/blktool_4-6.1.bb
-index cc1174c..94a7a10 100644
---- a/meta/recipes-extended/blktool/blktool_4-6.bb
-+++ b/meta/recipes-extended/blktool/blktool_4-6.1.bb
-@@ -11,13 +11,13 @@ DEPENDS = "glib-2.0"
- PR = "r0"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/b/blktool/blktool_4.orig.tar.gz;name=tarball \
--           ${DEBIAN_MIRROR}/main/b/blktool/blktool_4-6.diff.gz;apply=yes;name=patch"
-+           ${DEBIAN_MIRROR}/main/b/blktool/blktool_4-6.1.diff.gz;apply=yes;name=patch"
- 
- SRC_URI[tarball.md5sum] = "62edc09c9908107e69391c87f4f3fd40"
- SRC_URI[tarball.sha256sum] = "b1e6d5912546d2a4b704ec65c2b9664aa3b4663e7d800e06803330335a2cb764"
- 
--SRC_URI[patch.md5sum] = "2d1bc2f2c38b65d47e27da7c7508d17f"
--SRC_URI[patch.sha256sum] = "999f2062203e389327d997724621be37bea9c98fa226238f9f4eb4a6ea25bd4b"
-+RC_URI[patch.md5sum] = "cf605a683d54d1fbcb35b940076ddb0c"
-+SRC_URI[patch.sha256sum] = "d7923527e1a00984620ab307c9047a653d7ae2856cd20a82de8a33328f381ae3"
- 
- S = "${WORKDIR}/${BPN}-4.orig"
- 
--- 
-1.7.9.5
+As far as I can tell, -1 is implicit when piping.
 
+Ross
 
 
