@@ -1,35 +1,23 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TzvXb-00013X-4H
+	(envelope-from <tom.zanussi@intel.com>) id 1Tzvua-0004oa-QO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 21:42:55 +0100
-Received: by mail-ia0-f175.google.com with SMTP id r4so4871116iaj.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 12:27:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=pfVz4Zkq9lhjFk/lT+6NTkyvswcssVammSF1SKI5iIE=;
-	b=QAFdExEMfYVjoHEqjyb/N0S60vRp4B58zQaDi0hCGB+qC01OO85wuB5FudbPyh6zyc
-	6A0pDi5K8bTuPC+ysklmuj4yTaPtuiiNv7O8jFAGLmMHPKaEcJTacf4rN7shvQx2WfUY
-	Ht4qVdshCUH5AzNQr6Vjz3dkfoDuYDF6QO02MNZUGH3YTtZmUeXTbqm71IC0Afdy9O0I
-	LrJGjiriSBMwBmIU9cGJpcnNyLrh2Jf78/OGghQCM04o5dFOA4qt1mQeO3c65UtUXH6w
-	qMUVR595sUo+nCZm3V0XrswxUeAe2UO3jhBr6diZwGTjgTeTiv56PVKhmo2zzGNTnDmL
-	AV9Q==
-X-Received: by 10.50.56.232 with SMTP id d8mr5986381igq.112.1359404835862;
-	Mon, 28 Jan 2013 12:27:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.64.18.169 with HTTP; Mon, 28 Jan 2013 12:26:45 -0800 (PST)
-In-Reply-To: <20130128201023.GH16904@jama.palm1.palmone.com>
-References: <cover.1359402980.git.raj.khem@gmail.com>
-	<25339fa58dfb08985df8f6b602e00df5d9d576c9.1359402980.git.raj.khem@gmail.com>
-	<20130128201023.GH16904@jama.palm1.palmone.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Jan 2013 12:26:45 -0800
-Message-ID: <CAMKF1srszdP1O7x3_vu0kYiciUKEg8gmFjCj1m4gKgxr3+hxzQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] systemd: Drop ppc build breakage patch for test-unit-file
+	Mon, 28 Jan 2013 22:06:41 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2013 12:50:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,554,1355126400"; d="scan'208";a="253767412"
+Received: from unknown (HELO localhost) ([10.255.12.52])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2013 12:50:58 -0800
+From: tom.zanussi@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2013 14:50:56 -0600
+Message-Id: <a0ec6e8cff3eac14c1ed44836efae553e6cf05a8.1359405784.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.4
+In-Reply-To: <cover.1359405784.git.tom.zanussi@linux.intel.com>
+References: <cover.1359405784.git.tom.zanussi@linux.intel.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 1/2] oprofile: add kernel dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,18 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 20:42:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Jan 2013 21:06:42 -0000
 
-On Mon, Jan 28, 2013 at 12:10 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->
->> -PR = "r1"
->> -
->
-> ^ PR going backwards
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-bah merge did not tell me that too bad fixed now in branch
+oprofile-0.9.8 adds 'operf' which depends on the kernel's perf_events
+subsystem to be present when building, which adds the kernel
+dependency that we specify in a new DEPENDS for oprofile-0.9.8.
 
-Thanks
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ meta/recipes-kernel/oprofile/oprofile_0.9.8.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
+index 4491e7d..6075163 100644
+--- a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
++++ b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
+@@ -2,6 +2,8 @@ require oprofile.inc
+ 
+ PR = "${INC_PR}.1"
+ 
++DEPENDS += "virtual/kernel"
++
+ SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+             file://0001-Add-rmb-definition-for-AArch64-architecture.patch \
+             file://0001-OProfile-doesn-t-build-for-32-bit-ppc-the-operf_util.patch \
+-- 
+1.7.11.4
+
 
 
