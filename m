@@ -1,26 +1,34 @@
-Received: from ausxipps301.us.dell.com ([143.166.148.223])
+Received: from mail-ia0-f173.google.com ([209.85.210.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Michael_E_Brown@Dell.com>) id 1TzuMG-0001Ub-Ru
+	(envelope-from <raj.khem@gmail.com>) id 1TzuMd-0001XL-1P
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 20:27:11 +0100
-X-LoopCount0: from 10.170.28.39
-X-IronPort-AV: E=Sophos;i="4.84,554,1355119200"; d="scan'208";a="63951656"
-From: <Michael_E_Brown@Dell.com>
-To: <dvhart@linux.intel.com>
-Date: Mon, 28 Jan 2013 13:09:39 -0600
-Thread-Topic: [OE-core] udev blacklist ineffective
-Thread-Index: Ac39iKAKtGmpAlhtSZO615mYVtsp6QAAU3C0
-Message-ID: <DB6E482E89290547898851B8CC9D8110DC3609E1@AUSX7MCPS302.AMER.DELL.COM>
-References: <DB6E482E89290547898851B8CC9D8110DC3609D8@AUSX7MCPS302.AMER.DELL.COM>,
-	<5106C8D5.9000705@linux.intel.com>
-In-Reply-To: <5106C8D5.9000705@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	Mon, 28 Jan 2013 20:27:34 +0100
+Received: by mail-ia0-f173.google.com with SMTP id l29so4736300iag.32
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jan 2013 11:11:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=qZzpPHPb3V5P6DfDHw5iOCsEgmF/ree5KdR+TaPYl6I=;
+	b=BKpY8E/VKNYPs6x00+/RmA5uqcSYRruXCzklBuqkxtmb6O3XpmnaHidj5nsmG01J9D
+	4yAa0mZwr4XUnedtBRPp+GEl4gu3mSJEWiBdnbgILq+vpu35HMtUx8zfVKw41NzerWTS
+	S8zFwwbBNPvfowetGTEXv/Qcw4eR+JniksjUNXk+Pxtykzp3SgNLRWsk96puAL3FesIT
+	f7vfD/JGpyYDhQfzs/UwrkUqzbcd6KowKq3XXuH7Mexdh7zFISmHZ2Afv2qPN7fW4AMc
+	TrMIn+EgumoVWOBFAgO4Oj/SBZGeMjy6aUI5G1/q7VdgFDre+UeGV/daDnwf5htsAMOC
+	3fSQ==
+X-Received: by 10.50.140.34 with SMTP id rd2mr4890663igb.93.1359400311763;
+	Mon, 28 Jan 2013 11:11:51 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.64.18.169 with HTTP; Mon, 28 Jan 2013 11:11:21 -0800 (PST)
+In-Reply-To: <5106C6ED.2090204@linux.intel.com>
+References: <1359269665-1843-1-git-send-email-raj.khem@gmail.com>
+	<5106C6ED.2090204@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Jan 2013 11:11:21 -0800
+Message-ID: <CAMKF1srOXjd2Pn6dou6zwZhpcJxiOQL2VwA7E6nLLf+GOAGRkQ@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: udev blacklist ineffective
+Subject: Re: [PATCH] module-base.bbclass: Call make instead of oe_runmake in do_make_scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,68 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 19:27:15 -0000
-X-List-Received-Date: Mon, 28 Jan 2013 19:27:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 28 Jan 2013 19:27:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-> _______________________________________
-> From: Darren Hart [dvhart@linux.intel.com]
-> Sent: Monday, January 28, 2013 12:52 PM
-> To: Brown, Michael E
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] udev blacklist ineffective
->=20
-> On 01/28/2013 08:36 AM, Michael_E_Brown@Dell.com wrote:
-> > I have two embedded systems that share some devices over an i2c bus. On=
-ly one system may load the device driver at a time, and loading the device =
-driver is already well-controlled by the HA subsystem.
-> >
-> > Our new yocto build with udev enabled is auto-loading these device driv=
-ers with catastrophic results. We must absolutely prohibit such automatic b=
-ehaviour for our list of devices. I have tried:
-> >
-> > $ cat etc/modprobe.d/blacklist.conf
-> > blacklist seepmtd
-> > ... cut ...
-> >
-> > And this does *NOT* work. I have tried renaming blacklist.conf to
-> > modprobe.conf as well as creating modprobe.conf with these blacklist
-> > entries.
-> >
-> > This is a huge blocking issue and I have been unable to figure out a
-> > workaround for it. I would appreciate any suggestions.
->=20
->=20
-> OK, so... this needs to be addressed.
->=20
-> However, can you just not build/install the drivers for the system that
-> shouldn't be accessing them? Or do you require a more general image?
+On Mon, Jan 28, 2013 at 10:43 AM, Darren Hart <dvhart@linux.intel.com> wrote:
+> On 01/26/2013 10:54 PM, Khem Raj wrote:
+>> This makes the external module compilation a bit more robust for
+>> cases where external module recipes may be passing extra params
+>> to make via EXTRA_OEMAKE, and more that often one needs to pass
+>
+> s/that/than/ (this honestly through me a bit :-)
 
-Both systems have to access these devices. They just cannot load the driver=
-s simultaneously. The driver load is under control of the HA process that e=
-nsures that only one system at a time accesses the devices, and takes care =
-of fencing, etc.
+oh!,
 
-We have a custom FPGA that can switch access to the devices between two sys=
-tems, loading drivers from both systems twiddles bits that ought not to be =
-twiddled and catastrophically crashes one or both systems.
-=20
-> You will need to provide details about the version of oe-core you are
-> using, kmod or modutils, and any relevant DISTRO configurations you have
-> made, which bit of software do you expect to be honoring the blacklist, e=
-tc.
-
-Yocto release 1.3, danny branch + meta-oe/meta-systemd for system startup
-udev_v195-r10
-libkmod2_9-r0.0
-
-Distro is poky + systemd
-
-What is happening is that, on boot, the udev Coldplug startup step is loadi=
-ng drivers that must not be loaded based on i2c discovery.
---
-Michael
+Richard
+should  I send a V2 or would you amend it
 
 
