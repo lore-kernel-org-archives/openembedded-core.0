@@ -1,27 +1,32 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TzlLm-0005tX-CB
+	(envelope-from <martin.jansa@gmail.com>) id 1TzmEg-000270-Fs
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 10:50:09 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jan 2013 01:34:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,550,1355126400"; d="scan'208";a="282979582"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2013 01:34:21 -0800
-Message-ID: <510647BF.5070408@intel.com>
-Date: Mon, 28 Jan 2013 11:41:19 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
-	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
-	<1359126654.13917.13.camel@ted>
-In-Reply-To: <1359126654.13917.13.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
+	Mon, 28 Jan 2013 11:46:46 +0100
+Received: by mail-wi0-f173.google.com with SMTP id hn17so1257226wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jan 2013 02:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=MshWvPr3dqoOOo/sYh4keMYR5bv9WZng5Idtuyk7zCw=;
+	b=Hn5SW8y29ypgHJylFOKlK3BOrOV+olGUQPIAv2kWm4NCXPUFQ8LaLNnT56CI/Ak08E
+	i/uQGeBbdX+filNkMycLjKvTrY8dkt6RPRKJBYKOYzuXPsZaGN5tiGdsf36eT6+a1KG+
+	n5CGmWmI3zyNER5VDYq2VJLmqEdktnVmgK3PG1/TJ5R8zcT7D4HYpFqFmOnpKnnr8Ex8
+	V70uae8AtZ/d7eMBYmVC9+8F47x+EKXZc0rr9XougnPVX9PR8NE20p5uJDWeU0DhTZvG
+	8Bb+XhxjosUDXhiyrd43uaLhoonzPA7E/YCVOdWbOkUwBrUolTh3hduzwfrg1Sc/tbBH
+	zPoA==
+X-Received: by 10.180.20.138 with SMTP id n10mr8933843wie.0.1359369068378;
+	Mon, 28 Jan 2013 02:31:08 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id do1sm12702951wib.7.2013.01.28.02.31.07
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 28 Jan 2013 02:31:07 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jan 2013 11:31:00 +0100
+Message-Id: <1359369060-18964-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.1
+Subject: [PATCH][for-danny] gnomebase: depend on gnome-common-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 09:50:19 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2013 10:46:46 -0000
 
+From: Ross Burton <ross.burton@intel.com>
 
-On 01/25/2013 05:10 PM, Richard Purdie wrote:
-> On Fri, 2013-01-25 at 15:04 +0000, Burton, Ross wrote:
->> On 25 January 2013 14:59, Radu Moisan <radu.moisan@intel.com> wrote:
->>> +# "multi-user" vs "graphical"
->>> +SYSTEMD_DEFAULT_TARGET ?= "multi-user"
->> Default to "graphical", so we're not regressing and just introducing a
->> warning if someone doesn't set this and doesn't have X.
->>
->>> @@ -95,6 +95,11 @@ do_install() {
->>>          install -m 0644 ${WORKDIR}/var-run.conf ${D}${sysconfdir}/tmpfiles.d/
->>>
->>>          install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
->>> +
->>> +
->>> +       if [ -n ${SYSTEMD_DEFAULT_TARGET} ]; then
->>> +               ln -s ${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET}.target ${D}${sysconfdir}/systemd/system/default.target
->>> +       fi
->> This will have to happen at image construction time and not package
->> generation time, as different images may have different targets but
->> share the same systemd package.
->>
->> A rootfs-time postinstall script would work, but isn't very nice.  I
->> wonder if there's a better solution, hooking into the image creation
->> should work.
->>
->> (thinks)
-> The point here is that images shouldn't give errors at runtime. Nothing
-> above does anything to address that.
+gnome-common is a build-only dependency so we should depend on the native
+variant.  This also resolves an (incorrect) GPLv3 license issue in gnome-common
+at build-time.
 
-I don't understand what you mean. The patch addresses exactly that, 
-warning at runtime, to be more specific the warning about 
-display-manager.service
-However though, I understand the issues with this approach, so I'll dig 
-a little more into Martin's approach with update-alternatives.
+This will also remove the pointless gnome-common-dev RRECOMMENDS in any -dev
+package that uses gnomebase.
 
-Radu
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/gnomebase.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
+index 19c7f71..91c476c 100644
+--- a/meta/classes/gnomebase.bbclass
++++ b/meta/classes/gnomebase.bbclass
+@@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?= "bz2"
+ SECTION ?= "x11/gnome"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
+ 
+-DEPENDS += "gnome-common"
++DEPENDS += "gnome-common-native"
+ 
+ FILES_${PN} += "${datadir}/application-registry  \
+ 	${datadir}/mime-info \
+-- 
+1.8.1.1
+
 
 
