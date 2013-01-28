@@ -1,32 +1,48 @@
-Received: from mail-wi0-f173.google.com ([209.85.212.173])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TzmEg-000270-Fs
+	(envelope-from <ross.burton@intel.com>) id 1TzmRj-00044P-84
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 11:46:46 +0100
-Received: by mail-wi0-f173.google.com with SMTP id hn17so1257226wib.6
+	Mon, 28 Jan 2013 12:00:23 +0100
+Received: from mail-gg0-f200.google.com ([209.85.161.200])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Jan 2013 02:44:30 -0800
+Received: by mail-gg0-f200.google.com with SMTP id k6so3641779ggd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 02:31:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=MshWvPr3dqoOOo/sYh4keMYR5bv9WZng5Idtuyk7zCw=;
-	b=Hn5SW8y29ypgHJylFOKlK3BOrOV+olGUQPIAv2kWm4NCXPUFQ8LaLNnT56CI/Ak08E
-	i/uQGeBbdX+filNkMycLjKvTrY8dkt6RPRKJBYKOYzuXPsZaGN5tiGdsf36eT6+a1KG+
-	n5CGmWmI3zyNER5VDYq2VJLmqEdktnVmgK3PG1/TJ5R8zcT7D4HYpFqFmOnpKnnr8Ex8
-	V70uae8AtZ/d7eMBYmVC9+8F47x+EKXZc0rr9XougnPVX9PR8NE20p5uJDWeU0DhTZvG
-	8Bb+XhxjosUDXhiyrd43uaLhoonzPA7E/YCVOdWbOkUwBrUolTh3hduzwfrg1Sc/tbBH
-	zPoA==
-X-Received: by 10.180.20.138 with SMTP id n10mr8933843wie.0.1359369068378;
-	Mon, 28 Jan 2013 02:31:08 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id do1sm12702951wib.7.2013.01.28.02.31.07
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 28 Jan 2013 02:31:07 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jan 2013 11:31:00 +0100
-Message-Id: <1359369060-18964-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.1
-Subject: [PATCH][for-danny] gnomebase: depend on gnome-common-native
+	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=LwcHmRDt933AplDZTp62gC2GUBqzbg3ruYIgCLA+Z3M=;
+	b=LX9nR160fdXZG+q9OM1u3giU4TwpWHDnAExZPx0LJQPVAmYFxiqeK5Ii/vPlQZr+L6
+	wLox03yfYUtCePNEkTcwHlESmRyvEeaIxShz6xk2ILv5o6TMVvfAPhm0JP55MBmJHKV3
+	+cXW+sC5G4iAvwWoACC5lMnSDnvk+gYhUflLG4+EsvWXwEf1QPFPV6uQYy7swZWxj7fA
+	mRR4zFYU/+Esi6E/jmBvXm8HH0Oqqy5D6un8GfK1jhxIXwbOW6TQ79VW2VvlyncvTOnu
+	v3jmYi4CUhERTbj0ObLU6MGcEbiQh3qSj3kM3i/Si9nFi2ZbDxP7xyyKVkmbehnshgVO
+	aZUw==
+X-Received: by 10.52.90.140 with SMTP id bw12mr8313872vdb.50.1359369868191;
+	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
+X-Received: by 10.52.90.140 with SMTP id bw12mr8313868vdb.50.1359369868137;
+	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.205.236 with HTTP; Mon, 28 Jan 2013 02:44:08 -0800 (PST)
+In-Reply-To: <20130125202657.GF16904@jama.palm1.palmone.com>
+References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
+	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
+	<20130125151241.GJ3200@jama>
+	<CAJTo0LYW7BJ1WT=+GcHXDDRb+ONuKiUxw0ehEkNJgt=b6HY42Q@mail.gmail.com>
+	<CALbNGRRM2u80Pdbt7XOhbWTDBBceEpmdN-1drCTVTp_Ez7UQFg@mail.gmail.com>
+	<20130125180634.GC16904@jama.palm1.palmone.com>
+	<CALbNGRTUU_jBo4uktmEv+JCKaDnkayRt6oULYX2rUq+ro3aE+g@mail.gmail.com>
+	<20130125193456.GE16904@jama.palm1.palmone.com>
+	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
+	<20130125202657.GF16904@jama.palm1.palmone.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Jan 2013 10:44:08 +0000
+Message-ID: <CAJTo0LY77_koWo9=y3cYcJo+43-tE7_txf6uW0_pqr7hSi-QMA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQknHk0R3xwkVUR8+A951Lix+ZuRva5qdD+mfX5FpKYt6fADgJjyL5Mo50sKkkVVc5lmF8nwb7Z/6EB3uy7oba/mkMTtx/MvQq/vOY9nsvGz0u49au1ousmHPIkNCXJLTXmoiE5xAvBfMCloNBWZZcv3OOQFv2KoOz8Fgx00OjgrOog5t2hg0EBblQDIhjF+m3xUh7hB
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,38 +55,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 10:46:46 -0000
+X-List-Received-Date: Mon, 28 Jan 2013 11:00:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Ross Burton <ross.burton@intel.com>
+On 25 January 2013 20:26, Martin Jansa <martin.jansa@gmail.com> wrote:
+> ALTERNATIVE_${PN}-systemd = "systemd-def-target"
 
-gnome-common is a build-only dependency so we should depend on the native
-variant.  This also resolves an (incorrect) GPLv3 license issue in gnome-common
-at build-time.
+Let's not introduce packages controlled on distro features whose sole
+purpose is to contain a single file.  systemd enabled -> units go into
+$PN.
 
-This will also remove the pointless gnome-common-dev RRECOMMENDS in any -dev
-package that uses gnomebase.
+Or, if we accept PN-systemd packages, then I expect to see PN-sysvinit packages.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/gnomebase.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index 19c7f71..91c476c 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?= "bz2"
- SECTION ?= "x11/gnome"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
- 
--DEPENDS += "gnome-common"
-+DEPENDS += "gnome-common-native"
- 
- FILES_${PN} += "${datadir}/application-registry  \
- 	${datadir}/mime-info \
--- 
-1.8.1.1
-
+Ross
 
 
