@@ -1,31 +1,27 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-oa0-f41.google.com ([209.85.219.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TzmRj-00044P-84
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tzn0m-0007gl-6L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 12:00:23 +0100
-Received: from mail-gg0-f200.google.com ([209.85.161.200])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Jan 2013 02:44:30 -0800
-Received: by mail-gg0-f200.google.com with SMTP id k6so3641779ggd.3
+	Mon, 28 Jan 2013 12:36:38 +0100
+Received: by mail-oa0-f41.google.com with SMTP id i10so353693oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=LwcHmRDt933AplDZTp62gC2GUBqzbg3ruYIgCLA+Z3M=;
-	b=LX9nR160fdXZG+q9OM1u3giU4TwpWHDnAExZPx0LJQPVAmYFxiqeK5Ii/vPlQZr+L6
-	wLox03yfYUtCePNEkTcwHlESmRyvEeaIxShz6xk2ILv5o6TMVvfAPhm0JP55MBmJHKV3
-	+cXW+sC5G4iAvwWoACC5lMnSDnvk+gYhUflLG4+EsvWXwEf1QPFPV6uQYy7swZWxj7fA
-	mRR4zFYU/+Esi6E/jmBvXm8HH0Oqqy5D6un8GfK1jhxIXwbOW6TQ79VW2VvlyncvTOnu
-	v3jmYi4CUhERTbj0ObLU6MGcEbiQh3qSj3kM3i/Si9nFi2ZbDxP7xyyKVkmbehnshgVO
-	aZUw==
-X-Received: by 10.52.90.140 with SMTP id bw12mr8313872vdb.50.1359369868191;
-	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
-X-Received: by 10.52.90.140 with SMTP id bw12mr8313868vdb.50.1359369868137;
-	Mon, 28 Jan 2013 02:44:28 -0800 (PST)
+	Mon, 28 Jan 2013 03:20:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=YSEMIf+zNDD3YHpMcR3SpeIWIv7hAznzNGVXLOtxdrQ=;
+	b=T3UU00bVfqqhSp4CHVdWXs5nNQ1S/A6CBtNgLuMWjskMB29QqTBzqgBzIB1pUeyl+S
+	8wqOjNZMjKc+52ZNfogqx7XF85Gb1cT06xUoVdNQbXDFUc3TfUbGI2IfH+fAFcuT9wch
+	nb9dHR6U6Yha7qpYnMEXS09qzlx+jLrxiR5VSossedXrnXXUj75HPbeaqARnHHviEGIS
+	3vyZw5QYFM/a1vLFBY3tS99wPljwCrhbEJPkrmaiOAMSf48XiduQc2eSn1PiYn7Ey+AR
+	KqujR2I1Czuwe+FVMh5pgFZFAZpfTWRnw4ANLj3TKID77DcBy9/Ap8MMnwucdZssIFPg
+	Qf4w==
 MIME-Version: 1.0
-Received: by 10.58.205.236 with HTTP; Mon, 28 Jan 2013 02:44:08 -0800 (PST)
-In-Reply-To: <20130125202657.GF16904@jama.palm1.palmone.com>
+X-Received: by 10.182.115.5 with SMTP id jk5mr11027909obb.7.1359372049514;
+	Mon, 28 Jan 2013 03:20:49 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.2.197 with HTTP; Mon, 28 Jan 2013 03:20:49 -0800 (PST)
+In-Reply-To: <CAJTo0LY77_koWo9=y3cYcJo+43-tE7_txf6uW0_pqr7hSi-QMA@mail.gmail.com>
 References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
 	<CAJTo0LanTczb=N=dgA+3DHc=WABsivhsmPzO6riEy9_Neb6DbQ@mail.gmail.com>
 	<20130125151241.GJ3200@jama>
@@ -36,12 +32,15 @@ References: <1359125976-26763-1-git-send-email-radu.moisan@intel.com>
 	<20130125193456.GE16904@jama.palm1.palmone.com>
 	<16274FAC3E3E4296A4BB54A6FC9F6300@intel.com>
 	<20130125202657.GF16904@jama.palm1.palmone.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Jan 2013 10:44:08 +0000
-Message-ID: <CAJTo0LY77_koWo9=y3cYcJo+43-tE7_txf6uW0_pqr7hSi-QMA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQknHk0R3xwkVUR8+A951Lix+ZuRva5qdD+mfX5FpKYt6fADgJjyL5Mo50sKkkVVc5lmF8nwb7Z/6EB3uy7oba/mkMTtx/MvQq/vOY9nsvGz0u49au1ousmHPIkNCXJLTXmoiE5xAvBfMCloNBWZZcv3OOQFv2KoOz8Fgx00OjgrOog5t2hg0EBblQDIhjF+m3xUh7hB
-Cc: openembedded-core@lists.openembedded.org
+	<CAJTo0LY77_koWo9=y3cYcJo+43-tE7_txf6uW0_pqr7hSi-QMA@mail.gmail.com>
+Date: Mon, 28 Jan 2013 09:20:49 -0200
+X-Google-Sender-Auth: GMGId4VazsjidMt-afuwQqLunRs
+Message-ID: <CAP9ODKpg6V9P7P1nNcXV2VqCkv2az1D7dtNXcorCxHDKc5EuYQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -55,18 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 11:00:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Jan 2013 11:36:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 25 January 2013 20:26, Martin Jansa <martin.jansa@gmail.com> wrote:
-> ALTERNATIVE_${PN}-systemd = "systemd-def-target"
+On Mon, Jan 28, 2013 at 8:44 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 25 January 2013 20:26, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> ALTERNATIVE_${PN}-systemd = "systemd-def-target"
+>
+> Let's not introduce packages controlled on distro features whose sole
+> purpose is to contain a single file.  systemd enabled -> units go into
+> $PN.
+>
+> Or, if we accept PN-systemd packages, then I expect to see PN-sysvinit packages.
 
-Let's not introduce packages controlled on distro features whose sole
-purpose is to contain a single file.  systemd enabled -> units go into
-$PN.
+I expect to see PN-sysvinit so we can void them ;-)
 
-Or, if we accept PN-systemd packages, then I expect to see PN-sysvinit packages.
-
-Ross
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
