@@ -1,28 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Tzrby-0002U1-3i for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jan 2013 17:31:10 +0100
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1TzrMl-0001v6-UK; Mon, 28 Jan 2013 17:15:28 +0100
-Message-ID: <1359389722.7131.33.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 28 Jan 2013 16:15:22 +0000
-In-Reply-To: <ly1ud5l3cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Tzrjj-00049j-6n
+	for openembedded-core@lists.openembedded.org;
+	Mon, 28 Jan 2013 17:39:12 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0SGNPxd028266
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 28 Jan 2013 17:23:26 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TzrUi-0000ps-FG; Mon, 28 Jan 2013 17:23:40 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
-	<1359377661.22371.54.camel@ted>
-	<lypq0pl8ee.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<4710226.v3bfS80rgU@helios>
-	<ly622hl5r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1359385200.7131.11.camel@phil-desktop.brightsign>
 	<ly1ud5l3cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
+	<1440434.Jn4S7oh0Xd@helios>
+Date: Mon, 28 Jan 2013 17:23:40 +0100
+In-Reply-To: <1440434.Jn4S7oh0Xd@helios> (Paul Eggleton's message of "Mon, 28
+	Jan 2013 15:58:04 +0000")
+Message-ID: <lywquxjmyb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.82
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] base: make feature backfilling happen earlier
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,45 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2013 16:31:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jan 2013 16:39:12 -0000
+Content-Type: text/plain
 
-On Mon, 2013-01-28 at 16:44 +0100, Enrico Scholz wrote:
-> afaik, DISTRO_FEATURES_BACKFILL + _CONSIDERED exist to allow the first
-> two point without an '-=' operator which lacks in bitbake.
+Paul Eggleton <paul.eggleton@linux.intel.com> writes:
 
-That wasn't really the intention.  The original purpose of
-DISTRO_FEATURES_BACKFILL was to allow behaviour that currently defaults
-to "on" to be brought under the control of a DISTRO_FEATURE without
-breaking existing distros that were relying on it.
+>> 1. set some defaults on distribution base ...
+>> 2. allow to override these defaults on a per-project base
+>> ...
+>> afaik, DISTRO_FEATURES_BACKFILL + _CONSIDERED exist to allow the first
+>> two point without an '-=' operator which lacks in bitbake.
+>
+> No they don't. They exist to allow adding new features that should be enabled 
+> for all existing distro configs without each of those having to be changed, and 
+> provide a means for distros to opt out of that enabling if they wish.
 
-The idea was that DISTROs would set DISTRO_FEATURES_BACKFILL_CONSIDERED
-to list the features that they are aware of but don't want (and would
-never alter the value of DISTRO_FEATURES_BACKFILL).  Any feature that
-ends up in the latter but not in the former is considered to post-date
-the DISTRO and is, consequently, spliced into DISTRO_FEATURES by the
-backwards-compatibility code.
+How is this different from my requirements?  Ok; atm,
+DISTRO_FEATURES_BACKFILL is pretty useless because it contains only
+'pulseaudio' which is probably unwanted on >90% of all embedded devices
+and it is impossible to extend DISTRO_FEATURES_BACKFILL.
 
-Admittedly I'm not sure that this was ever documented anywhere other
-than the mailing list archives so I guess it's understandable that you
-(and quite likely others) are going a bit off-piste with it.  But the
-primary use-case is what I described above, and this is the one that
-needs to take precedence if there is a conflict between differing
-requirements.
-
-Incidentally, regarding your other comment about pulseaudio not
-belonging in DISTRO_FEATURES_BACKFILL, it transpires that pulseaudio was
-in fact the very feature that spurred the creation of this mechanism and
-hence the first to be backfilled.  See:
-
-http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/10941/focus=13033
-
-and the following thread.
-
-p.
+But this variable exists to allow removal of features which are enabled
+by default.
 
 
+>> Of course, I could reinvent the wheel and write my own _CONSIDERED
+>> mechanism.  But until now (resp. without the '=' => '?=' change), it
+>> worked fine with DISTRO_FEATURES_BACKFILL.
+> ...
+> It's still not clear to me why you could not just set DISTRO_FEATURES
+> directly. If you have values you're likely to want to remove, you can
+> put them in separate variables that you can clear out later.
 
+It is very difficultly to do within distro.conf. E.g. having
+
+| DISTRO_FEATURES = "${@subtract_set('DISTRO_FEATURES', 'UNWANTED_FEATURES')}'
+
+will probably result into some error regarding recursive expansion.
+
+Using ':=' will not work here because required operations are not
+available yet.
+
+
+At the end it will reinvent the DISTRO_FEATURES_BACKFILL_CONSIDERED
+wheel by moving it into my-distro.bbclass.
+
+
+
+Enrico
 
 
