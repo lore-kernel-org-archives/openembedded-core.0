@@ -1,38 +1,39 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U09HO-00069x-UD
+	(envelope-from <ross.burton@intel.com>) id 1U09LT-0006Po-Lo
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 12:23:08 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0TB7Dls019002
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 29 Jan 2013 12:07:15 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U092H-0000qy-28; Tue, 29 Jan 2013 12:07:29 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <fdad95c5f7fc287a6b173d5c30447ab05fab0778.1359049755.git.ross.burton@intel.com>
-	<1440434.Jn4S7oh0Xd@helios>
-	<lywquxjmyb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<97105828.GXrr1zfWsR@helios>
-Date: Tue, 29 Jan 2013 12:07:28 +0100
-In-Reply-To: <97105828.GXrr1zfWsR@helios> (Paul Eggleton's message of "Mon, 28
-	Jan 2013 16:34:40 +0000")
-Message-ID: <ly4ni0z1qn.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.6
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base: make feature backfilling happen earlier
+	Tue, 29 Jan 2013 12:27:21 +0100
+Received: from mail-we0-f197.google.com ([74.125.82.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 29 Jan 2013 03:11:38 -0800
+Received: by mail-we0-f197.google.com with SMTP id t44so391685wey.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 03:11:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=ZyR8LAhgC0jkLMLwmt/ehtYNvU/+LP6kCM/POrnrcyw=;
+	b=dSrIcT35HiXhdo2iU0jQT5JDq0+HX7iDg7/0QyD/oGvCc4Bf6qNOaKpo5YyNXdgxMR
+	0mOtEfrzObuufeLQH3shCD+TLxWbBUG6N+Kodz2xvprwiLkyj2sVKcYLCXmVgqg4od1T
+	dcozXVx5lPOxh/cWl73q/GH8ItrUOAzqpAZlwQG5h32Xso26RfQdzNWnjoCgGyFXhoYc
+	ChTtBKfwzq/HSz0LAo/32wcMN0vHc4Kd2QhPmkKfs8+aDRIDfPfsmn48Sep9l5tPXSdF
+	3T7Vd6Y2Hy0dQdxAXbGD7kW5dxLDsauCQ+DXwpKOhZqln93CsaeO0tcS/GkN3RD8kPf6
+	OFNg==
+X-Received: by 10.180.82.41 with SMTP id f9mr1584629wiy.25.1359457896276;
+	Tue, 29 Jan 2013 03:11:36 -0800 (PST)
+X-Received: by 10.180.82.41 with SMTP id f9mr1584539wiy.25.1359457895377;
+	Tue, 29 Jan 2013 03:11:35 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fa15sm2576633wid.7.2013.01.29.03.11.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 29 Jan 2013 03:11:34 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Jan 2013 11:09:29 +0000
+Message-Id: <cover.1359457685.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQm6dAfg9KmTkdZ5EWf4g4VFNySncHpli+PRNIE+paOizZaguDFuW5j5Ncfi+FQ+V6vFiGRREaUkwLreeEt8AiwbzSwn3htDVxTZKCEE1UTc1WRs2AZ4nIwy4puHuIpPJjL7svjIYOtl/edAwXOqLEfzT7cCMs0WmloqugcJbFrr0XJPrVW/dAHITl0mnBvbQ7RwEQon
+Subject: [PATCH 0/2] Remove metacity and libcanberra
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,31 +46,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 11:23:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Jan 2013 11:27:21 -0000
 
-Paul Eggleton <paul.eggleton@linux.intel.com> writes:
+Hi,
 
->> >> 1. set some defaults on distribution base ...
->> >> 2. allow to override these defaults on a per-project base
+Metacity is the GNOME 2 window manager, so unused and untested in oe-core.  It's
+now been moved to meta-gnome so remove it from oe-core.
 
-fwiw, I am using now
+libcanberra was in oe-core solely for metacity, so that's also been moved to
+meta-gnome so remove it from oe-core.
 
-_EXT_PROJECT_FEATURES = "\
-  largefile nfsroot modules ld-is-gold ${PROJECT_FEATURES} \
-  ${DISTRO_FEATURES_INITMAN} ${DISTRO_FEATURES_LIBC} \
-  ${@base_contains('PROJECT_FEATURES', 'alsa', 'sound', '', d)} \
-  ${@base_contains('PROJECT_FEATURES', 'directfb', 'screen', '', d)} \
-  ...
+Ross
 
-DISTRO_FEATURES = "${@' '.join(sorted(list( \
-  set(d.getVar('_EXT_PROJECT_FEATURES', True).split()) - \
-  set(d.getVar('NO_PROJECT_FEATURES', True).split()))))}"
+The following changes since commit b2869b6810728a5f003ddad335fd7f6512181a57:
 
-DISTRO_FEATURES_BACKFILL_CONSIDERED = "${DISTRO_FEATURES_BACKFILL}"
+  ref-manual: Added a general reference and link to kernel-dev (2013-01-27 13:56:06 +0000)
 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib ross/removes
 
-Enrico
+for you to fetch changes up to 1f1304ac51438de46cd47c0fdeb9f7471c77f016:
+
+  metacity: remove, migrated to meta-gnome (2013-01-29 11:05:31 +0000)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      libcanberra: remove, migrated to meta-gnome
+      metacity: remove, migrated to meta-gnome
+
+ .../metacity/remove-yelp-help-rules-var.patch      |   28 -----------------
+ meta/recipes-gnome/gnome/metacity_2.34.13.bb       |   30 ------------------
+ .../pulseaudio/libcanberra_0.29.bb                 |   32 --------------------
+ 3 files changed, 90 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
+ delete mode 100644 meta/recipes-gnome/gnome/metacity_2.34.13.bb
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+
+Ross Burton (2):
+  libcanberra: remove, migrated to meta-gnome
+  metacity: remove, migrated to meta-gnome
+
+ .../metacity/remove-yelp-help-rules-var.patch      |   28 -----------------
+ meta/recipes-gnome/gnome/metacity_2.34.13.bb       |   30 ------------------
+ .../pulseaudio/libcanberra_0.29.bb                 |   32 --------------------
+ 3 files changed, 90 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
+ delete mode 100644 meta/recipes-gnome/gnome/metacity_2.34.13.bb
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+
+-- 
+1.7.10.4
+
 
 
