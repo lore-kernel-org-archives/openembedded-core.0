@@ -1,20 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U0D6F-0008N8-JE
+	(envelope-from <constantinx.musca@intel.com>) id 1U0D6G-0008NB-CJ
 	for openembedded-core@lists.openembedded.org;
 	Tue, 29 Jan 2013 16:27:57 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 07:12:09 -0800
+	by azsmga102.ch.intel.com with ESMTP; 29 Jan 2013 07:12:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="196280506"
+X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="196280512"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 07:11:41 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 07:11:43 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 17:12:33 +0200
-Message-Id: <cover.1359470548.git.constantinx.musca@intel.com>
+Date: Tue, 29 Jan 2013 17:12:34 +0200
+Message-Id: <ec539703f5d43d81606d305dcb431ee1a96a5bb6.1359470548.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH v4 0/3] On-target gcc enhancement
+In-Reply-To: <cover.1359470548.git.constantinx.musca@intel.com>
+References: <cover.1359470548.git.constantinx.musca@intel.com>
+In-Reply-To: <cover.1359470548.git.constantinx.musca@intel.com>
+References: <cover.1359470548.git.constantinx.musca@intel.com>
+Subject: [PATCH v4 1/3] autotools.bbclass: add EXTRACONFFUNCS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,36 +32,30 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Jan 2013 15:28:01 -0000
-X-List-Received-Date: Tue, 29 Jan 2013 15:28:01 -0000
 
-This patchset enables the user to build gcc with configurable multilib options.
-The following changes since commit cfb082961a6c9ac3d65738031c4071210529cd07:
+- add EXTRACONFFUNCS variable in order to make it possible
+to inject tasks after autotools_preconfigure
 
-  bitbake: build.py: Dump out performance data of individual tasks (2013-01-28 14:49:05 +0000)
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/classes/autotools.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib cmuscax/gcc_enhan8
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/gcc_enhan8
-
-Constantin Musca (3):
-  autotools.bbclass: add EXTRACONFFUNCS variable
-  multilib.conf: add TARGET_ARCH & TARGET_SYS to MULTILIB_SAVE_VARNAME
-  gcc: enable multilib for target gcc
-
- meta/classes/autotools.bbclass                     |   4 +-
- meta/conf/multilib.conf                            |   2 +-
- meta/recipes-devtools/gcc/gcc-4.7.inc              |   3 +-
- .../gcc/gcc-4.7/use-ml-conf-files-from-B.patch     |  87 ++++++++++
- meta/recipes-devtools/gcc/gcc-common.inc           |  24 +++
- meta/recipes-devtools/gcc/gcc-configure-common.inc |   3 +-
- meta/recipes-devtools/gcc/gcc-configure-target.inc |   1 +
- meta/recipes-devtools/gcc/gcc-multilib-config.inc  | 190 +++++++++++++++++++++
- meta/recipes-devtools/gcc/libgcc_4.7.bb            |  73 ++++++++
- 9 files changed, 383 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/use-ml-conf-files-from-B.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
-
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 9d1a299..b19a871 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -122,7 +122,9 @@ autotools_postconfigure(){
+ 	fi
+ }
+ 
+-do_configure[prefuncs] += "autotools_preconfigure"
++EXTRACONFFUNCS ??= ""
++
++do_configure[prefuncs] += "autotools_preconfigure ${EXTRACONFFUNCS}"
+ do_configure[postfuncs] += "autotools_postconfigure"
+ 
+ autotools_do_configure() {
 -- 
 1.7.11.7
 
