@@ -1,43 +1,43 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U09Lc-0006R6-M2
+	(envelope-from <ross.burton@intel.com>) id 1U09M4-0006Uv-Ru
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 12:27:36 +0100
+	Tue, 29 Jan 2013 12:28:00 +0100
 Received: from mail-we0-f198.google.com ([74.125.82.198])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Jan 2013 03:11:40 -0800
-Received: by mail-we0-f198.google.com with SMTP id k14so389861wer.9
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Jan 2013 03:11:46 -0800
+Received: by mail-we0-f198.google.com with SMTP id k14so390968wer.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 03:11:38 -0800 (PST)
+	Tue, 29 Jan 2013 03:11:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=13Mizc5U8TSHvrjIGXFkmuo7ggSXNliqCeiDCiMs26E=;
-	b=CIGF1XzgBSA1Eo59KkYUVPrmmEzEp09N6GZ609tdUa3/S2ztpN1lIECTKbDPchXFUA
-	el+3l6m5pm6Xw3PjXJUCraWLnfrDsH/F8aMAHQLgpiSlthRmj1e+uNJl6MjYqXtyYJlS
-	f9kjaElHTeoCOj9sn5vi2cyLMuNuuimL8AuLuCs5qntslOI5c6q62BZClMMssGNH8uVC
-	qwnGE+ZExNs+1ajX5MoQRhUv9E75nVQJ/2BZqJEO9PlsfSyz3mrDu4Dw70yCskMrWEYu
-	0PWW+tFt9lZ9Aczx5K9c6x+TUDBa9ZDtJ4E3rzvoOkX/qS3Nbf1Xp+zyv5JzIEerKegX
-	uQ6Q==
-X-Received: by 10.194.216.66 with SMTP id oo2mr1215411wjc.4.1359457898305;
-	Tue, 29 Jan 2013 03:11:38 -0800 (PST)
-X-Received: by 10.194.216.66 with SMTP id oo2mr1215376wjc.4.1359457897990;
-	Tue, 29 Jan 2013 03:11:37 -0800 (PST)
+	bh=VELQ0NiK4GGsBeEcoVxk4vMCOn5woVJ0d9LfxkybWqI=;
+	b=SAA1Y9rCHN+Q4FHJ6VRC5IohEbhlVd4NZxHmXWiW10q6blHBnwlCSP3+Mx2LDLiD//
+	dnNHR1Ug3mAPvju2ndiRLDhwN7ku0Pz0yNfqWG4zOgA8A0g26I1Ihj6Ju6l+mGrWjR3a
+	x78eCMXf5wnIvtvk1SFQyOLBmzLioruJLt6BBT5YOb+szpGyCuf+/CMKK/UTdFB+QRsU
+	f98fAfYZa4SN3K52LzGShC58AQ8senKO5fggaw8+kFWyZ8Mu6P4P8wyVQZ/5/URVJCpO
+	vbjjql5VpNW7TouxhNLUiax4rEPOHeWlcAKl0nZg7lRFm3+geUekYynASpmyJjJ1S1eY
+	bVog==
+X-Received: by 10.180.104.10 with SMTP id ga10mr1414785wib.23.1359457900377;
+	Tue, 29 Jan 2013 03:11:40 -0800 (PST)
+X-Received: by 10.180.104.10 with SMTP id ga10mr1414471wib.23.1359457896697;
+	Tue, 29 Jan 2013 03:11:36 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fa15sm2576633wid.7.2013.01.29.03.11.36
+	by mx.google.com with ESMTPS id fa15sm2576633wid.7.2013.01.29.03.11.35
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 29 Jan 2013 03:11:37 -0800 (PST)
+	Tue, 29 Jan 2013 03:11:36 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 11:09:31 +0000
-Message-Id: <1f1304ac51438de46cd47c0fdeb9f7471c77f016.1359457685.git.ross.burton@intel.com>
+Date: Tue, 29 Jan 2013 11:09:30 +0000
+Message-Id: <8ff867ae9add11bfebfd8098933f7510a22a491d.1359457685.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1359457685.git.ross.burton@intel.com>
 References: <cover.1359457685.git.ross.burton@intel.com>
 In-Reply-To: <cover.1359457685.git.ross.burton@intel.com>
 References: <cover.1359457685.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQky+C1XlsxsPQJE3OZ85LGRh1jV0DTd/b5hcU2dXyhqQt2Zp1VUsD+9iN2WFH0IhZOtdmXw2vURu2NLnfy+EVXtKC6N7ag9GHNUaupo1o/wcxgoOVnjq8HQExlu7th4s9lrcx7jLi4ceNcqMmFpdIBZhcZ/eUIPeSaf6cPMmiEwO3mJBdjncSMphkXsOBNKXMMa3PvX
-Subject: [PATCH 2/2] metacity: remove, migrated to meta-gnome
+X-Gm-Message-State: ALoCoQnAPjN2GWTeh0TrIXVnUStlAkTMa/UmdPMAgtEf4c5NxGeYjbyORqiTkUU96EJK0yJrddlrrWw0mHFwaBIKGc+Y1dHZ2NySgo6jnoHmbegO3Flc9jyMqSKT8P6E30H2naFgFZQfbBa8Mk3gXM9xLEr/AZwCqt4qBg/22K23SplRBGxbkj4QAthe7ZKC5Tp0f163ZYN2
+Subject: [PATCH 1/2] libcanberra: remove, migrated to meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,86 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 11:27:43 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 11:28:15 -0000
 
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../metacity/remove-yelp-help-rules-var.patch      |   28 ------------------
- meta/recipes-gnome/gnome/metacity_2.34.13.bb       |   30 --------------------
- 2 files changed, 58 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
- delete mode 100644 meta/recipes-gnome/gnome/metacity_2.34.13.bb
+ .../pulseaudio/libcanberra_0.29.bb                 |   32 --------------------
+ 1 file changed, 32 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
 
-diff --git a/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch b/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
+diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
 deleted file mode 100644
-index 1970e9a..0000000
---- a/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
+index b3c0e3d..0000000
+--- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
 +++ /dev/null
-@@ -1,28 +0,0 @@
--Remove unused variable (YELP_HELP_RULES)
+@@ -1,32 +0,0 @@
+-SUMMARY = "Implementation of XDG Sound Theme and Name Specifications"
+-DESCRIPTION = "Libcanberra is an implementation of the XDG Sound Theme and Name Specifications, for generating event sounds on free desktops."
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/canberra.h;beginline=7;endline=24;md5=c616c687cf8da540a14f917e0d23ab03"
 -
--Upstream-Status: Pending
--Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
--
--Index: metacity-2.34.13/doc/creating_themes/Makefile.am
--===================================================================
----- metacity-2.34.13.orig/doc/creating_themes/Makefile.am
--+++ metacity-2.34.13/doc/creating_themes/Makefile.am
--@@ -1,6 +1,5 @@
-- ### This part of Makefile.am can be customized by you.
-- 
---@YELP_HELP_RULES@
-- 
-- # The name of the directory in /usr/share/gnome/help/, 
-- # and the name of the main .xml file:
--Index: metacity-2.34.13/doc/creating_themes/Makefile.in
--===================================================================
----- metacity-2.34.13.orig/doc/creating_themes/Makefile.in
--+++ metacity-2.34.13/doc/creating_themes/Makefile.in
--@@ -455,7 +455,6 @@ uninstall-am:
-- 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am
-- 
-- 
---@YELP_HELP_RULES@
-- 
-- # Tell versions [3.59,3.63) of GNU make to not export all variables.
-- # Otherwise a system limit (for SysV at least) may be exceeded.
-diff --git a/meta/recipes-gnome/gnome/metacity_2.34.13.bb b/meta/recipes-gnome/gnome/metacity_2.34.13.bb
-deleted file mode 100644
-index 3605201..0000000
---- a/meta/recipes-gnome/gnome/metacity_2.34.13.bb
-+++ /dev/null
-@@ -1,30 +0,0 @@
--SECTION = "x11/wm"
--DESCRIPTION = "Metacity is the boring window manager for the adult in you."
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://src/include/main.h;endline=24;md5=c2242df552c880280315989bab626b90"
--
--DEPENDS = "gsettings-desktop-schemas startup-notification gtk+ gconf gdk-pixbuf-native libcanberra gnome-doc-utils"
+-DEPENDS = "gtk+ pulseaudio alsa-lib libtool libvorbis"
 -PR = "r0"
 -
--inherit gnome update-alternatives
+-inherit gconf autotools
 -
--GNOME_COMPRESS_TYPE = "xz"
+-SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.xz"
 -
--SRC_URI += "file://remove-yelp-help-rules-var.patch"
--SRC_URI[archive.md5sum] = "6d89b71672d4fa49fc87f83d610d0ef6"
--SRC_URI[archive.sha256sum] = "8cf4dbf0da0a6f36357ce7db7f829ec685908a7792453c662fb8184572b91075"
+-SRC_URI[md5sum] = "2594093a5d61047bd9cc87e955f86df8"
+-SRC_URI[sha256sum] = "127a5ef07805856d63758e5180ebfb241d1f80094fd301c287591a15b8cfcd72"
 -
--ALTERNATIVE_${PN} = "x-window-manager"
--ALTERNATIVE_TARGET[x-window-manager] = "${bindir}/metacity"
--ALTERNATIVE_PRIORITY = "10"
+-EXTRA_OECONF = " --disable-oss --disable-ltdl-install" 
 -
--EXTRA_OECONF += "--disable-verbose \
--	         --disable-xinerama"
--
--do_configure_prepend() {
--	sed -i -e 's:$ZENITY:$NOZENITY:g' -e 's:-Werror::g' ${S}/configure.in
+-do_configure_prepend () {
+-	rm -f ${S}/libltdl/configure*
 -}
 -
--FILES_${PN} += "${datadir}/themes ${datadir}/gnome-control-center ${datadir}/gnome"
+-PACKAGES += "${PN}-gnome"
+-
+-FILES_${PN} += "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
+-FILES_${PN}-gnome += "${datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop \
+-	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop"
+-FILES_${PN}-dev += "${libdir}/libcanberra-0.29/libcanberra-*.so \
+-		    ${libdir}/libcanberra-0.29/libcanberra-*.la \
+-		    ${datadir}/vala/vapi"
+-FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.29/.debug"
 -
 -- 
 1.7.10.4
