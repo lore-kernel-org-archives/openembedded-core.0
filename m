@@ -1,34 +1,36 @@
-Received: from mail-wi0-f181.google.com ([209.85.212.181])
+Received: from mail-we0-f172.google.com ([74.125.82.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U0Cjk-0005Og-CX
+	(envelope-from <martin.jansa@gmail.com>) id 1U0Csx-0006Em-Cq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 16:04:51 +0100
-Received: by mail-wi0-f181.google.com with SMTP id c10so473430wiw.14
+	Tue, 29 Jan 2013 16:14:07 +0100
+Received: by mail-we0-f172.google.com with SMTP id x10so361902wey.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 06:48:56 -0800 (PST)
+	Tue, 29 Jan 2013 06:58:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=UwUq5paQ2qtgG+zMKju/g2f9QJcNrPTqxlZVowIpkJw=;
-	b=mMx8SWg7YOy1w/FrTR324fuIPEv5mEq4dEHei+4HL+Xrm7VAHOEwVNQh0Rio3z7Rcs
-	jrSyl8zniK98WQcuPYhVTOGZn2KBifYDLc2NRRmnGw+6ouxCy7kuAYX4FaaURqR+LkbW
-	seS+lB2yDDxBuZwC/z1118faEoqLXVpRhJTYfPmEK0Ofk2moJfu+hNfSjgmxiEpJmWMe
-	b3E7hgKBt4BS9Qzc//7l9/RZbeBD1AO5QPI5KxEyL5RVjzlAQuJpCLVmDHUeOmhqxvbY
-	RTxHuksLX+a29mnS7gbM126Bqn7hDBPPmGb85lghrdmUNQDuMUS7+9tg3Ff1TchSn4VK
-	Iq7g==
-X-Received: by 10.180.77.68 with SMTP id q4mr2946070wiw.10.1359470936495;
-	Tue, 29 Jan 2013 06:48:56 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id hb9sm3431600wib.3.2013.01.29.06.48.55
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 29 Jan 2013 06:48:55 -0800 (PST)
-Date: Tue, 29 Jan 2013 15:49:00 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130129144900.GO16904@jama.palm1.palmone.com>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=oeeZeeUqJ8xWSg582TivN9WHFny9vKvQ/KJk2vY1t9c=;
+	b=wmogxWroCe21ynNDBBRNlRI0SH+qwQIiS9S/mShyy+PGpygBK3/B/N5PnO1owoFub3
+	TTVyPR68yd0QTxLcKhBtG3gCsh1017s5JWD+QbhFG9LoH1nyFCWy2+xh8gJ1XIRD6v9D
+	nWmShuUB0pnKxn9paw9PNCsdJBei/1w9Md3ZIA3GJzgVQegPsAuYmcaoq/xYigGxxlED
+	XG+bnJ8bD1QXZjZTA4Jh0jBeyHSSTWWXPbpfyUPZr5mrgyGyk//C5cSWhVSCV3zko+L9
+	hcNwnYT4gXAn6+ZiYtS6Bu6TLTkG50/t9cY5qKvfSQmz0SHGx8jlU1Rw4WWlGYVNVDPK
+	nQIA==
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: OSError: [Errno 7] Argument list too long in sstate_install
+X-Received: by 10.180.90.147 with SMTP id bw19mr3108362wib.28.1359471507674;
+	Tue, 29 Jan 2013 06:58:27 -0800 (PST)
+Received: by 10.194.179.39 with HTTP; Tue, 29 Jan 2013 06:58:27 -0800 (PST)
+In-Reply-To: <CABcZANnz3b5W056P3NX0HktHfOrbE-Mu+88izcQtrTpaUnyszA@mail.gmail.com>
+References: <1359463060-12321-1-git-send-email-Martin.Jansa@gmail.com>
+	<1359464656-27638-1-git-send-email-Martin.Jansa@gmail.com>
+	<CABcZANnz3b5W056P3NX0HktHfOrbE-Mu+88izcQtrTpaUnyszA@mail.gmail.com>
+Date: Tue, 29 Jan 2013 15:58:27 +0100
+Message-ID: <CA+chaQcgMfW3=GxnMDJTgx8C5v3QU8HPNyODwv43JLkCc3-g+w@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] license: fix LICENSE_CREATE_PACKAGE to stay disabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,198 +43,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 15:04:56 -0000
-X-List-Received-Date: Tue, 29 Jan 2013 15:04:56 -0000
-X-Groupsio-MsgNum: 34641
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="G23JYFG0d77Z6i/3"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Jan 2013 15:14:11 -0000
+Content-Type: multipart/alternative; boundary=f46d043892514c147704d46ea05d
 
---G23JYFG0d77Z6i/3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--f46d043892514c147704d46ea05d
+Content-Type: text/plain; charset=UTF-8
+
+Ah, good to know, sending v3.
+
+
+On Tue, Jan 29, 2013 at 3:29 PM, Chris Larson <clarson@kergoth.com> wrote:
+
+>
+> On Tue, Jan 29, 2013 at 6:04 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+>
+>> * as reported by Enrico on #oe
+>>   11:06:50 < ensc|w> JaMa: might this be caused by
+>> dc78ef91a2bf01efb8028c9afbe69e506e016265
+>>   which checks for 'd.getVar('LICENSE_CREATE_PACKAGE', True)' evaluating
+>> to 'True' for every
+>>   string (including the default 0)
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/classes/license.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index d4ebb26..229f755 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -103,7 +103,7 @@ python do_populate_lic() {
+>>  # it would be better to copy them in do_install_append, but
+>> find_license_filesa is python
+>>  python perform_packagecopy_prepend () {
+>>      enabled = d.getVar('LICENSE_CREATE_PACKAGE', True)
+>> -    if d.getVar('CLASSOVERRIDE', True) == 'class-target' and enabled:
+>> +    if d.getVar('CLASSOVERRIDE', True) == 'class-target' and enabled ==
+>> "1":
+>
+>
+> We do have an existing mechanism for handling boolean variables in a sane
+> way, as an FYI.
+>
+> LICENSE_CREATE_PACKAGE[type] = "boolean"
+>
+> LICENSE_CREATE_PACKAGE = "1"
+> oe.data.typed_value(d, 'LICENSE_CREATE_PACKAGE') == True
+> LICENSE_CREATE_PACKAGE = "0"
+> oe.data.typed_value(d, 'LICENSE_CREATE_PACKAGE') == False
+>
+> Available types: boolean, integer (with support for different bases),
+> float (with support for hexadecimal floating point values), regex, choice
+> (which lets you only allow from a set of possible string values), list
+> (which does the (d.getVar() or "").split() crap for you).
+>
+> You can also INHERIT += "type_check", and you'll know immediately at
+> ConfigParsed time if any of the values are invalid for their specified
+> types.
+> --
+> Christopher Larson
+>
+
+--f46d043892514c147704d46ea05d
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-When building bigger world-image I always get this error from
-populate_lic. There is debug output to show what copytree/Popen/execute_chi=
-ld=20
-was calling and it looks OK to me.
-
-Could it be caused by pseudo or something like that? do_populate_lic works =
-fine in other recipes.
-
-Running the same cmdline in shell works fine and running it from small .py =
-file also works fine:
-$ PYTHONPATH=3D"openembedded-core/meta/lib/:bitbake/lib:bitbake/lib/bb" ./c=
-opytree.test.py
-copytree cmd 'tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-=
-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir -ps=
- . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/de=
-ploy/licenses'
-Calling Popen '('tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/t=
-mp-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir =
--ps . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
-/deploy/licenses',)' '{'shell': True, 'stderr': -2}'
-execute_child(args, executable, preexec_fn, close_fds,
-cwd, env, universal_newlines,
-startupinfo, creationflags, shell,
-p2cread, p2cwrite,
-c2pread, c2pwrite,
-errread, errwrite)
-execute_child(tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-=
-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir -ps=
- . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/de=
-ploy/licenses, None, None, False,
-None, None, False,
-None, 0,
-True,
-None, None,
-3, 4,
-None, 4)
-
-$ cat copytree.test.py=20
-#!/usr/bin/env python
-import bb
-import oe.path
-src=3D'/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-=
-oe-linux-gnueabi/world-image/1.0-r0/license-destdir'
-dst=3D'/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/licens=
-es'
-oe.path.copytree(src, dst)
-
-src has only few files, dst has a lot of directories:
-
-$ find /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-=
-oe-linux-gnueabi/world-image/1.0-r0/license-destdir
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linu=
-x-gnueabi/world-image/1.0-r0/license-destdir
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linu=
-x-gnueabi/world-image/1.0-r0/license-destdir/world-image
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linu=
-x-gnueabi/world-image/1.0-r0/license-destdir/world-image/generic_MIT
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linu=
-x-gnueabi/world-image/1.0-r0/license-destdir/world-image/COPYING.MIT
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linu=
-x-gnueabi/world-image/1.0-r0/license-destdir/world-image/LICENSE
-
-$ ls /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/licenses=
- -1 | wc -l
-1696
-
-Complete error as shown in work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0=
-/temp/log.do_populate_lic:
-
-DEBUG: Executing python function sstate_task_prefunc
-DEBUG: Removing manifest: /home/jenkins/oe/shr-core-branches/shr-core/tmp-e=
-glibc/deploy/licenses/world-image/
-DEBUG: Python function sstate_task_prefunc finished
-DEBUG: Executing python function do_populate_lic
-DEBUG: Python function do_populate_lic finished
-DEBUG: Executing python function sstate_task_postfunc
-DEBUG: Staging files from /home/jenkins/oe/shr-core-branches/shr-core/tmp-e=
-glibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir to /=
-home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/licenses
-DEBUG: Staging files from /home/jenkins/oe/shr-core-branches/shr-core/tmp-e=
-glibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir to /=
-home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/licenses
-copytree cmd 'tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-=
-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir -ps=
- . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/de=
-ploy/licenses'
-Calling Popen '('tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/t=
-mp-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir =
--ps . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
-/deploy/licenses',)' '{'shell': True, 'stderr': -2}'
-execute_child(args, executable, preexec_fn, close_fds,
-cwd, env, universal_newlines,
-startupinfo, creationflags, shell,
-p2cread, p2cwrite,
-c2pread, c2pwrite,
-errread, errwrite)
-execute_child(tar -cf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-=
-eglibc/work/qemuarm-oe-linux-gnueabi/world-image/1.0-r0/license-destdir -ps=
- . | tar -xf - -C /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/de=
-ploy/licenses, None, None, False,
-None, None, False,
-None, 0,
-True,
-None, None,
-20, 21,
-None, 21)
-ERROR: Error executing a python function in /home/jenkins/oe/shr-core-branc=
-hes/shr-core/openembedded-core/meta/recipes-core/images/world-image.bb:
-OSError: [Errno 7] Argument list too long
-
-ERROR: The stack trace of python calls that resulted in this exception/fail=
-ure was:
-ERROR:   File "sstate_task_postfunc", line 12, in <module>
-ERROR:
-ERROR:   File "sstate_task_postfunc", line 4, in sstate_task_postfunc
-ERROR:
-ERROR:   File "sstate.bbclass", line 76, in sstate_install
-ERROR:
-ERROR:   File "/home/jenkins/oe/shr-core-branches/shr-core/openembedded-cor=
-e/meta/lib/oe/path.py", line 85, in copytree
-ERROR:     check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STDOUT)
-ERROR:
-ERROR:   File "/home/jenkins/oe/shr-core-branches/shr-core/openembedded-cor=
-e/meta/lib/oe/path.py", line 141, in check_output
-ERROR:     process =3D subprocess.Popen(stdout=3Dsubprocess.PIPE, *popenarg=
-s, **kwargs)
-ERROR:
-ERROR:   File "/usr/lib/python2.7/subprocess.py", line 679, in __init__
-ERROR:     errread, errwrite)
-ERROR:
-ERROR:   File "/usr/lib/python2.7/subprocess.py", line 1249, in _execute_ch=
-ild
-ERROR:     raise child_exception
-ERROR:
-ERROR: The code that was being executed was:
-ERROR:      0008:            bb.build.exec_func(intercept, d)
-ERROR:      0009:        sstate_package(shared_state, d)
-ERROR:      0010:
-ERROR:      0011:
-ERROR:  *** 0012:sstate_task_postfunc(d)
-ERROR:      0013:
-ERROR: [From file: 'sstate_task_postfunc', lineno: 12, function: <module>]
-ERROR:      0001:
-ERROR:      0002:def sstate_task_postfunc(d):
-ERROR:      0003:    shared_state =3D sstate_state_fromvars(d)
-ERROR:  *** 0004:    sstate_install(shared_state, d)
-ERROR:      0005:    enabled =3D d.getVar('SSTATE_CREATE_PKG', True)
-ERROR:      0006:    if enabled and enabled =3D=3D "1":
-ERROR:      0007:        for intercept in shared_state['interceptfuncs']:
-ERROR:      0008:            bb.build.exec_func(intercept, d)
-ERROR: [From file: 'sstate_task_postfunc', lineno: 4, function: sstate_task=
-_postfunc]
-ERROR:      0072:    f.close()
-ERROR:      0073:
-ERROR:      0074:    # Run the actual file install
-ERROR:      0075:    for state in ss['dirs']:
-ERROR:  *** 0076:        oe.path.copytree(state[1], state[2])
-ERROR:      0077:
-ERROR:      0078:    for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True)=
- or '').split():
-ERROR:      0079:        bb.build.exec_func(postinst, d)
-ERROR:      0080:
-ERROR: [From file: 'sstate.bbclass', lineno: 76, function: sstate_install]
-DEBUG: Python function sstate_task_postfunc finished
-ERROR: Function failed: sstate_task_postfunc
+<div dir=3D"ltr">Ah, good to know, sending v3.</div><div class=3D"gmail_ext=
+ra"><br><br><div class=3D"gmail_quote">On Tue, Jan 29, 2013 at 3:29 PM, Chr=
+is Larson <span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@kergoth.com" targ=
+et=3D"_blank">clarson@kergoth.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
+<div class=3D"im"><br><div class=3D"gmail_quote">On Tue, Jan 29, 2013 at 6:=
+04 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gm=
+ail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br>
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div>* as reported by Enrico on #oe<br>
+=C2=A0 11:06:50 &lt; ensc|w&gt; JaMa: might this be caused by dc78ef91a2bf0=
+1efb8028c9afbe69e506e016265<br>
+=C2=A0 which checks for &#39;d.getVar(&#39;LICENSE_CREATE_PACKAGE&#39;, Tru=
+e)&#39; evaluating to &#39;True&#39; for every<br>
+=C2=A0 string (including the default 0)<br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
+arget=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/license.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass<br=
+>
+</div>index d4ebb26..229f755 100644<br>
+<div>--- a/meta/classes/license.bbclass<br>
++++ b/meta/classes/license.bbclass<br>
+@@ -103,7 +103,7 @@ python do_populate_lic() {<br>
+=C2=A0# it would be better to copy them in do_install_append, but find_lice=
+nse_filesa is python<br>
+=C2=A0python perform_packagecopy_prepend () {<br>
+=C2=A0 =C2=A0 =C2=A0enabled =3D d.getVar(&#39;LICENSE_CREATE_PACKAGE&#39;, =
+True)<br>
+- =C2=A0 =C2=A0if d.getVar(&#39;CLASSOVERRIDE&#39;, True) =3D=3D &#39;class=
+-target&#39; and enabled:<br>
+</div>+ =C2=A0 =C2=A0if d.getVar(&#39;CLASSOVERRIDE&#39;, True) =3D=3D &#39=
+;class-target&#39; and enabled =3D=3D &quot;1&quot;:</blockquote></div><br>=
+</div>We do have an existing mechanism for handling boolean variables in a =
+sane way, as an FYI.</div>
 
---G23JYFG0d77Z6i/3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">LICENSE_CRE=
+ATE_PACKAGE[type] =3D &quot;boolean&quot;</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">LICENSE_CREATE_PACKAGE =3D &quot;1&quot=
+;</div>
 
-iEYEARECAAYFAlEH4VwACgkQN1Ujt2V2gBxaKQCgoefFQa93EbVgFbwmNqiXO2RD
-BHsAoLXXGR9XwgTgbdLxkowxEOzfo0Xk
-=PWp4
------END PGP SIGNATURE-----
 
---G23JYFG0d77Z6i/3--
+<div class=3D"gmail_extra">oe.data.typed_value(d, &#39;LICENSE_CREATE_PACKA=
+GE&#39;) =3D=3D True<br><div class=3D"gmail_extra">LICENSE_CREATE_PACKAGE =
+=3D &quot;0&quot;</div><div>oe.data.typed_value(d, &#39;LICENSE_CREATE_PACK=
+AGE&#39;) =3D=3D False</div>
+
+
+<div><br></div><div>Available types: boolean, integer (with support for dif=
+ferent bases), float (with support for hexadecimal floating point values), =
+regex, choice (which lets you only allow from a set of possible string valu=
+es), list (which does the (d.getVar() or &quot;&quot;).split() crap for you=
+).</div>
+
+
+<div><br></div><div>You can also INHERIT +=3D &quot;type_check&quot;, and y=
+ou&#39;ll know immediately at ConfigParsed time if any of the values are in=
+valid for their specified types.</div><span class=3D"HOEnZb"><font color=3D=
+"#888888">-- <br>
+Christopher Larson</font></span></div>
+
+</div>
+</blockquote></div><br></div>
+
+--f46d043892514c147704d46ea05d--
