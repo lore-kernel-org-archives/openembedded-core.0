@@ -1,36 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wg0-f54.google.com ([74.125.82.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1U0HeI-0004QA-L6
+	(envelope-from <martin.jansa@gmail.com>) id 1U0HqE-0005ca-Nn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 21:19:19 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 12:02:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="196386659"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 12:02:31 -0800
-Received: from irsmsx104.ger.corp.intel.com ([169.254.5.20]) by
-	IRSMSX102.ger.corp.intel.com ([169.254.2.82]) with mapi id
-	14.01.0355.002; Tue, 29 Jan 2013 20:02:29 +0000
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in
-	qemu machines
-Thread-Index: AQHN814RAJ4xNlU0GEqIs0yHR+AoEZhK1gaAgBXs40A=
-Date: Tue, 29 Jan 2013 20:02:28 +0000
-Message-ID: <81551E10643BEC4899D6BA2541201B624B2CD5@IRSMSX104.ger.corp.intel.com>
-References: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
-	<1358280527-14078-3-git-send-email-cristian.iorga@intel.com>
-	<20130115202116.GB3002@jama> <50F5BB17.4040709@linux.intel.com>
-In-Reply-To: <50F5BB17.4040709@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Tue, 29 Jan 2013 21:31:39 +0100
+Received: by mail-wg0-f54.google.com with SMTP id fm10so628538wgb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 12:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=TqaK/itfAcedYYsDpEWRBf9ue4PUd5+FlqDfgQdnJyA=;
+	b=uEMnJUUibEkXMy/z9bexUadlBwjSWwjOI3/mQn/Rt5hthy9rdRU0ma4sli7rRnLGys
+	Aa0P7qlWDOAph6Y/QzjlHOTb9UM8pM0tE2HB6YTVPErkcL1CLoi2TD8ySUpYyoPWwgQs
+	2kGbtoJ3Cm8plKqcAMBBw486HWYVRvjr5j5te03d0mqonznnYbpERL/dKN8tr9WcTlXu
+	sv+xwXIGFx6Ft99Z21N3762D5/7xhhiftIDwsquVZErDjwXeIIhUdWWhtxFO/LJAe+HR
+	wbTvRamEuK73XhGs4Va3r0K82oxHa0QLXAmJjV+oH+wepAuT3b6bXx9MyDjZ2HImtPdS
+	NWXw==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.180.90.147 with SMTP id bw19mr4806085wib.28.1359490558560;
+	Tue, 29 Jan 2013 12:15:58 -0800 (PST)
+Received: by 10.194.179.39 with HTTP; Tue, 29 Jan 2013 12:15:58 -0800 (PST)
+In-Reply-To: <CAJTo0LbECxpvBjudGSAGDexYo5FYC4UC_WaOqPq58mvmawOe5w@mail.gmail.com>
+References: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
+	<20130129155615.GP16904@jama.palm1.palmone.com>
+	<CAJTo0LYSwOTCUJ4kF1LtEDuZyKf7LSs+=51WAWv6Q4rDPN9wCw@mail.gmail.com>
+	<CA+chaQdiGJz0+YkM3omFhCHM1NNzyvM_EZUBX2nHBW2=sDtvrw@mail.gmail.com>
+	<CAJTo0LbECxpvBjudGSAGDexYo5FYC4UC_WaOqPq58mvmawOe5w@mail.gmail.com>
+Date: Tue, 29 Jan 2013 21:15:58 +0100
+Message-ID: <CA+chaQeRUDXRJa=XbiBo0=PYjAem2mVKAFtnehQj1MfM3P1hnA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4 2/3] connman-conf: configures connman in qemu machines
+Subject: Re: [PATCH 0/2] Remove -systemd postfix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,154 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 20:19:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 Jan 2013 20:31:40 -0000
+Content-Type: multipart/alternative; boundary=f46d04389251d18ba704d4730f07
+
+--f46d04389251d18ba704d4730f07
+Content-Type: text/plain; charset=UTF-8
+
+Yes by missing PE bump and similar change removing dbus-systemd in oe-core.
+But sofar it's only 30 ERROR messages in bitbake log and 1 package to
+upgrade manualyl.
+
+
+On Tue, Jan 29, 2013 at 5:22 PM, Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 29 January 2013 16:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > There were in meta-systemd for much longer.
+>
+> Isn't the upgrade path from meta-systemd already broken?... :/
+>
+> Ross
+>
+
+--f46d04389251d18ba704d4730f07
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-What about network in Build Appliance image? Blacklisting eth interfaces af=
-fects build appliance image too (because it's built as qemux86-64 machine u=
-sually).
-Or someone who doesn't use the runqemu script and she doesn't pass a static=
- ip to qemu because she wants to use a dhcp server (eg: dnsmasq over a brid=
-ge which contains preconfigured tun/tap devices, think server enviroment wh=
-ere you want to run multiple yocto vms)
-
-An ugly fix for BA can be:
-
-diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recip=
-es-core/images/build-appliance-image.bb
-index 2359eca..b8255ac 100644
---- a/meta/recipes-core/images/build-appliance-image.bb
-+++ b/meta/recipes-core/images/build-appliance-image.bb
-@@ -64,6 +64,8 @@ fakeroot do_populate_poky_src () {
-        # Use Clearlooks GTK+ theme
-        mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
-        echo 'gtk-theme-name =3D "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.=
-0/gtkrc
-+       =20
-+        rm -rf ${IMAGE_ROOTFS}/etc/connman/main.conf
- }
-=20
- IMAGE_PREPROCESS_COMMAND +=3D "do_populate_poky_src; "
-
-
---
-Stefan Stanacar
-Yocto QA
-OTC, SSD
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Saul Wold
-Sent: Tuesday, January 15, 2013 10:25 PM
-To: Martin Jansa
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in q=
-emu machines
-
-On 01/15/2013 12:21 PM, Martin Jansa wrote:
-> On Tue, Jan 15, 2013 at 10:08:46PM +0200, Cristian Iorga wrote:
->> For qemu machines, connman should not configure
->> virtual wired interfaces. Wired interfaces (eth0)
->> are assigned static IP addresses by the virtual machine
->> manager (qemu). This packages places the eth0 interface in
->> a list of blacklisted interfaces, forbiding connman
->> administering wired interfaces for qemu machines.
+<div dir=3D"ltr">Yes by missing PE bump and similar change removing dbus-sy=
+stemd in oe-core. But sofar it&#39;s only 30 ERROR messages in bitbake log =
+and 1 package to upgrade manualyl.</div><div class=3D"gmail_extra"><br><br>=
+<div class=3D"gmail_quote">
+On Tue, Jan 29, 2013 at 5:22 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">On 29 January 2013 16:20, Martin Jansa &lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt; There were in meta-systemd for much longer.<br>
+<br>
+</div>Isn&#39;t the upgrade path from meta-systemd already broken?... :/<br=
 >
-> Again wrong order,
->
-> 3/3 should be 1st
-> 2/3 2nd
-> 1/3 3rd
->
-I have re-ordered this in my consolidated pull MUT staging area, saw=20
-that right away!
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Ross<br>
+</font></span></blockquote></div><br></div>
 
-Sau!
-
-> Cheers,
->
->>
->> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->> ---
->>   meta/conf/layer.conf                                 |    1 +
->>   meta/recipes-connectivity/connman/connman-conf.bb    |   18 ++++++++++=
-++++++++
->>   .../connman/connman-conf/qemuall/main.conf           |    3 +++
->>   3 files changed, 22 insertions(+)
->>   create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
->>   create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemu=
-all/main.conf
->>
->> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->> index 78ceae9..3259e5c 100644
->> --- a/meta/conf/layer.conf
->> +++ b/meta/conf/layer.conf
->> @@ -22,6 +22,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
->>     shadow-securetty \
->>     opkg-config-base \
->>     netbase \
->> +  connman-conf \
->>     formfactor \
->>     xserver-xf86-config \
->>     pointercal \
->> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/re=
-cipes-connectivity/connman/connman-conf.bb
->> new file mode 100644
->> index 0000000..7c7ef26
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
->> @@ -0,0 +1,18 @@
->> +#connman config to ignore wired interfaces on qemu machines
->> +
->> +LICENSE =3D "GPLv2"
->> +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/common-licenses/GPL=
--2.0;md5=3D801f80980d171dd6425610833a22dbe6"
->> +
->> +SRC_URI_append_qemuall =3D " file://main.conf"
->> +
->> +PR =3D "r0"
->> +
->> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
->> +
->> +do_install() {
->> +    #Blacklist ethn network interface in case of qemu* machines
->> +    if test -e ${WORKDIR}/main.conf; then
->> +        install -d ${D}${sysconfdir}/connman
->> +        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
->> +    fi
->> +}
->> diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main=
-.conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
->> new file mode 100644
->> index 0000000..01973e7
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
->> @@ -0,0 +1,3 @@
->> +[General]
->> +
->> +NetworkInterfaceBlacklist =3D eth
->> --
->> 1.7.10.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+--f46d04389251d18ba704d4730f07--
