@@ -1,43 +1,31 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U0ED0-0000Gv-UO
+	(envelope-from <rpjday@crashcourse.ca>) id 1U0EGi-0000df-DG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 17:38:55 +0100
-Received: from mail-ve0-f198.google.com ([209.85.128.198])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Jan 2013 08:22:50 -0800
-Received: by mail-ve0-f198.google.com with SMTP id ox1so701949veb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 08:22:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=pC2jWJIEnIU9tdOsATjYjGimog3q4IxAGQb0a+UE/HE=;
-	b=bJqtLYuhYJfjAeGHgHZKpM5Ml0ppv2igA/7UnLZFo4w06ldeg7incVLFRZWCRTjfx9
-	x9HNSX+Js9lThCFG4F3kjgh6rb8OsCNZ15nGebLKuh15hRBqrLQjzGzLFfYpAkj5O6s+
-	NKB9XgVWvFmp75NiwH6dFOA2w4QaQPK4Sx/IOew3weXYrba+Kas3Awq+MNcpWGr2RMSq
-	dVmlrQZkqlkh594OK4pro8y0k5yLKm1RMdZ9CEjSpskcVVwzkI8N4KZI2MHdbs9Umz4f
-	sXyHwUlAXupagmKsugqpOkInA3kxnxN6rbiqrcVQZk7H6UlKAcInTSiQmeuBBaHU4STk
-	QqXA==
-X-Received: by 10.220.218.197 with SMTP id hr5mr1630412vcb.8.1359476569593;
-	Tue, 29 Jan 2013 08:22:49 -0800 (PST)
-X-Received: by 10.220.218.197 with SMTP id hr5mr1630399vcb.8.1359476569524;
-	Tue, 29 Jan 2013 08:22:49 -0800 (PST)
+	Tue, 29 Jan 2013 17:42:44 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:57517 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1U0E1Z-0002AO-LU for openembedded-core@lists.openembedded.org;
+	Tue, 29 Jan 2013 11:27:05 -0500
+Date: Tue, 29 Jan 2013 11:27:02 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301291118190.12438@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.58.205.236 with HTTP; Tue, 29 Jan 2013 08:22:29 -0800 (PST)
-In-Reply-To: <CA+chaQdiGJz0+YkM3omFhCHM1NNzyvM_EZUBX2nHBW2=sDtvrw@mail.gmail.com>
-References: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
-	<20130129155615.GP16904@jama.palm1.palmone.com>
-	<CAJTo0LYSwOTCUJ4kF1LtEDuZyKf7LSs+=51WAWv6Q4rDPN9wCw@mail.gmail.com>
-	<CA+chaQdiGJz0+YkM3omFhCHM1NNzyvM_EZUBX2nHBW2=sDtvrw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 29 Jan 2013 16:22:29 +0000
-Message-ID: <CAJTo0LbECxpvBjudGSAGDexYo5FYC4UC_WaOqPq58mvmawOe5w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQmHzmvkb4YG1hlxXQIQEYPJV0gJ3tUFlLdOdpbXNTQCvTFFZ5bLI7mjFtTl+LCa2kJ7q5jgHaEvmBDLk3qzZArHHWzxopfrlb5MSL2DiMchF0sU3J7E2udUfcJ62NUYXDMcljmeS3okpEgTWOkGoiGYnSH+iaNrDCbESmJtxF3NnzXKycEjepC8UQNYa/ZJ/G8xrK2V
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Remove -systemd postfix
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: "base_set_filespath()" adds superfluous duplicate directory entry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,14 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 16:38:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 Jan 2013 16:42:44 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 29 January 2013 16:20, Martin Jansa <martin.jansa@gmail.com> wrote:
-> There were in meta-systemd for much longer.
 
-Isn't the upgrade path from meta-systemd already broken?... :/
+  just noticed that the standard call to base_set_filespath() adds two
+entries of the top-level directory if you're doing a distroless build.
+you can see this with bitbake-env:
 
-Ross
+FILESPATH="/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/arm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/am180x-evm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/armv5
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/omapl138
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap-6.0/
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/arm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/am180x-evm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/armv5
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/omapl138
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/portmap/
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/arm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/am180x-evm
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/armv5
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/omapl138
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/
+/home/rpjday/oe/dist/layers/oe-core/meta/recipes-connectivity/portmap/files/"
+
+  note the unnecessary duplication of the top-level directories for
+this example using (randomly) portmap -- the directories portmap-6.0/,
+portmap/ and files/.
+
+  that's because of this code in that routine:
+
+    overrides = ((d.getVar("FILESOVERRIDES", True) or "") + ":").split(":")
+    for p in path:
+        if p != "":
+            for o in overrides:
+                filespath.append(os.path.join(p, o))
+
+and the fact that, if you don't set a DISTRO, what you're using is:
+
+$ bitbake-env -r portmap FILESOVERRIDES
+Parsing recipes..done.
+# FILESOVERRIDES="${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
+FILESOVERRIDES="arm:am180x-evm:armv5:omapl138:"
+
+where you can see that ${DISTROOVERRIDES} is unset and thus gives you
+a null entry, to which the routine adds a *second* (superfluous) null
+entry.  not fatal, just unnecessary.
+
+rday
+
+p.s.  by the way, on the topic of FILESPATH, this doesn't look right:
+
+$ grep -r FILESEXTRAPATHS_append *
+meta/recipes-graphics/mesa/mesa-common.inc:FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
+$
+
+  shouldn't that be "_prepend"?  should i submit a patch?
 
 
