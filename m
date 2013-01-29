@@ -1,20 +1,32 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-pa0-f52.google.com ([209.85.220.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1U0Aar-0006LL-6q
+	(envelope-from <martin.jansa@gmail.com>) id 1U0Ags-0007GV-F0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 13:47:17 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 71A8ED22B4;
-	Tue, 29 Jan 2013 13:31:38 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+	Tue, 29 Jan 2013 13:53:30 +0100
+Received: by mail-pa0-f52.google.com with SMTP id kp6so370788pab.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 04:37:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=4pRQs4TDWPq2dD0mgCyVGbD+/WHrI/YyW/N49oMnEnc=;
+	b=zyutMGEEfV6dYdDrC/DVtCMJgeS/x1NbnUTOxj4qvNv0jrxTDqHARvwXPF4T01sIDD
+	qaUsiYicVGcKCb7KcGkRvzQX6yyXCNCRXWbGRhEzhBYwNxFSreNZTdS+zs/QEyGHlKKd
+	rXjFdC1PAEL7cd/NYDSjlzBxJS19HqFEIof1aa/71JiU9wrPMHXbTmSD/946FljjAMPO
+	oNuShrxYo7xa1SaASxcuDIO6WcdqrxKSdmwXax+BPAXeM+g3pv3qe2O4MExFliXnBy/0
+	cmBAUuWuE/XhrwpUyMUkpe+GbzyfNfYlvwp/wCKAWV+js2UTrVsSK2/BxcOJ/GAcOkGx
+	noHA==
+X-Received: by 10.68.224.227 with SMTP id rf3mr1980715pbc.108.1359463069885;
+	Tue, 29 Jan 2013 04:37:49 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ql9sm8336216pbc.61.2013.01.29.04.37.47
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 29 Jan 2013 04:37:48 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 13:31:26 +0100
-Message-Id: <1359462686-13304-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-Subject: [PATCH] Flex: use proper m4 binary on target
+Date: Tue, 29 Jan 2013 13:37:40 +0100
+Message-Id: <1359463060-12321-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] license: fix LICENSE_CREATE_PACKAGE to stay disabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,55 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 12:47:23 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 12:53:31 -0000
 
-flex tries to execute:
+* as reported by Enrico on #oe
+  11:06:50 < ensc|w> JaMa: might this be caused by dc78ef91a2bf01efb8028c9afbe69e506e016265
+  which checks for 'd.getVar('LICENSE_CREATE_PACKAGE', True)' evaluating to 'True' for every
+  string (including the default 0)
 
-/data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/m4
-
-As workaround you can:
-
-mkdir -p /data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/
-ln -s /usr/bin/m4 /data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/
-
-So this is a bug how OE builds flex.
-
-flex tries to execute:
-
-/data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/m4
-
-As workaround you can:
-
-mkdir -p /data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/
-ln -s /usr/bin/m4 /data/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/
-
-So this is a bug how OE builds flex.
-
-https://bugs.launchpad.net/linaro-aarch64/+bug/1106865
-
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/flex/flex.inc | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/license.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-index 472813b..517db16 100644
---- a/meta/recipes-devtools/flex/flex.inc
-+++ b/meta/recipes-devtools/flex/flex.inc
-@@ -10,6 +10,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 "
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index d4ebb26..9f38221 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -103,7 +103,7 @@ python do_populate_lic() {
+ # it would be better to copy them in do_install_append, but find_license_filesa is python
+ python perform_packagecopy_prepend () {
+     enabled = d.getVar('LICENSE_CREATE_PACKAGE', True)
+-    if d.getVar('CLASSOVERRIDE', True) == 'class-target' and enabled:
++    if d.getVar('CLASSOVERRIDE', True) == 'class-target' and enabled and enabled == "1":
+         lic_files_paths = find_license_files(d)
  
- inherit autotools gettext
- 
--do_install_append_class-native() {
--	create_wrapper ${D}/${bindir}/flex M4=${STAGING_BINDIR_NATIVE}/m4
-+M4 = "${bindir}/m4"
-+M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
-+
-+do_install_append() {
-+	create_wrapper ${D}/${bindir}/flex M4=${M4}
- }
+         # LICENSE_FILES_DIRECTORY starts with '/' so os.path.join cannot be used to join D and LICENSE_FILES_DIRECTORY
 -- 
-1.8.0
+1.8.1.2
 
 
 
