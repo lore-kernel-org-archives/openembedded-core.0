@@ -1,42 +1,21 @@
-Received: from hrndva-omtalb.mail.rr.com ([71.74.56.122])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <hchapman-oecore@3gfp.com>) id 1U0JgF-0004I0-Cg
+	(envelope-from <sgw@linux.intel.com>) id 1U0K3y-0008B7-1r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 23:29:28 +0100
-X-Authority-Analysis: v=2.0 cv=QcjkT7nv c=1 sm=0 a=0BEmelG+NCIkmYz4MtfDKA==:17
-	a=KAMKcUAUZugA:10 a=GlcJdTXvC24A:10 a=h1JwTc6auzgA:10
-	a=wPDyFdB5xvgA:10 a=kj9zAlcOel0A:10 a=cL4bF6sHAAAA:8
-	a=X7dwJZnD9C0A:10 a=pGLkceISAAAA:8 a=UBhn7au_FPf2FxZ8mnkA:9
-	a=CjuIK1q_8ugA:10 a=MSl-tDqOz04A:10
-	a=0BEmelG+NCIkmYz4MtfDKA==:117
-X-Cloudmark-Score: 0
-X-Authenticated-User: 
-X-Originating-IP: 65.34.9.19
-Received: from [65.34.9.19] ([65.34.9.19:44206] helo=blue.3gfp.com)
-	by hrndva-oedge03.mail.rr.com (envelope-from
-	<hchapman-oecore@3gfp.com>) (ecelerity 2.2.3.46 r()) with ESMTP
-	id 4C/6F-06396-A9948015; Tue, 29 Jan 2013 22:13:47 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by blue.3gfp.com (Postfix) with ESMTP id 7025B1080589;
-	Tue, 29 Jan 2013 17:13:46 -0500 (EST)
-X-Virus-Scanned: by amavisd-new-2.6.4 (20090625) (Debian) at 3gfp.com
-Received: from blue.3gfp.com ([127.0.0.1])
-	by localhost (blue.3gfp.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 15IYQrjdZzfE; Tue, 29 Jan 2013 17:13:46 -0500 (EST)
-Received: from [192.168.0.115] (rrcs-71-43-163-130.se.biz.rr.com
-	[71.43.163.130])
-	by blue.3gfp.com (Postfix) with ESMTPSA id D8C0A1080478;
-	Tue, 29 Jan 2013 17:13:45 -0500 (EST)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Harvey Chapman <hchapman-oecore@3gfp.com>
-In-Reply-To: <20130129203953.GS16904@jama.palm1.palmone.com>
-Date: Tue, 29 Jan 2013 17:13:45 -0500
-Message-Id: <F9975BBC-4DD7-41A8-AD7B-601BD66E8A8B@3gfp.com>
-References: <20130129203953.GS16904@jama.palm1.palmone.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1499)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: sstate keeping ipk for every AUTOINC value?
+	Tue, 29 Jan 2013 23:54:13 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 14:38:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,562,1355126400"; d="scan'208";a="196436647"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.123])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 14:38:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	dvhart@linux.intel.com
+Date: Tue, 29 Jan 2013 14:38:11 -0800
+Message-Id: <1359499091-1481-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] module.bbclass: Don't add pkg_postinst/pkg_prerm to all packages in recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,37 +28,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 22:29:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Jan 2013 22:54:17 -0000
 
-On Jan 29, 2013, at 3:39 PM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
+The code in module.bbclass was appending the pkg_postinst and
+pkg_prerm to all packages that are part of a given recipe, meaning
+that the -lic, -dev, -doc, ... packages all got the scriptlet
+This change uses  only which macthes with the RDEPENDS and FILES
+already used in module.bbclass.
 
-> Or why do I have each .ipk 7 times in deploy/ipk/arch?
->=20
-> tmp-eglibc/sstate-control $ grep ncurses_ =
-manifest-armv5te-ncurses.deploy-ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.6_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.8_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.7_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.4_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.3_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.9_armv5te.ipk
-> =
-/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.1_armv5te.ipk
+The failure was that rootfs creation would fail due to the -lic package
+being installed before the kernel and the script would fail.
 
-On that note, I often tweak my PR value when testing a modification to a =
-recipe. Then, I change it back. How do I get rid of all of the files =
-generated for a recipe that no longer exists like all of Martin's old =
-ncurses versions shown above?
+[YOCTO #3803]
 
-Is there some way to have all of the old revisions auto-deleted?=
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/module.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index d477caa..c933d32 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -25,7 +25,7 @@ module_do_install() {
+ 	           modules_install
+ }
+ 
+-pkg_postinst_append () {
++pkg_postinst_${PN}_append () {
+ if [ -z "$D" ]; then
+ 	depmod -a ${KERNEL_VERSION}
+ else
+@@ -33,7 +33,7 @@ else
+ fi
+ }
+ 
+-pkg_postrm_append () {
++pkg_postrm_${PN}_append () {
+ if [ -z "$D" ]; then
+ 	depmod -a ${KERNEL_VERSION}
+ else
+-- 
+1.8.0.2
+
 
 
