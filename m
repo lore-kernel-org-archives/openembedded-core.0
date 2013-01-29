@@ -1,34 +1,42 @@
-Received: from mail-da0-f42.google.com ([209.85.210.42])
+Received: from hrndva-omtalb.mail.rr.com ([71.74.56.122])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U0Inj-0005dE-V9
+	(envelope-from <hchapman-oecore@3gfp.com>) id 1U0JgF-0004I0-Cg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 22:33:15 +0100
-Received: by mail-da0-f42.google.com with SMTP id z17so416557dal.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 13:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=eMHAQL5cDCAFbInSZhiwkum3aTQdKgpwvUkHh7D9nvs=;
-	b=bIZpew6MPIDkV2Hy2JnLVRa2fPGYTh5FkunVe2rn/7BN6YqhPxhFGY1FQFA2De2ugm
-	O0/WejtsTaum8VGieCTIE1otfCfaFw+jQCCS34mDkOkTB1nDXDzg7nZdTzNLMUgWJ2A+
-	boKthVPbtqlzYV9HOB39Vs7YetF8Q2U7cHdT00wJtUc4vSx2WaO3D8rkonSJ2v8gADbo
-	4yaSjMNRcUJ715OSMV9uiAceBNm+9al9nyBKKENJ2ncAgF6bNmHLmvwmH+CHR+Gnn4dl
-	6NWj77P1J1VvPLeZ/bMs4ZyW6iprpzOZzjYcgfc3Trw4jvlNYuCR935KAyhAGSU38o0M
-	CvoA==
-X-Received: by 10.66.77.200 with SMTP id u8mr6006386paw.43.1359494246989;
-	Tue, 29 Jan 2013 13:17:26 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id d1sm9755202pav.6.2013.01.29.13.17.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 29 Jan 2013 13:17:25 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 22:17:20 +0100
-Message-Id: <1359494240-11040-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1359463060-12321-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1359463060-12321-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv3] license: fix LICENSE_CREATE_PACKAGE to stay disabled by default
+	Tue, 29 Jan 2013 23:29:28 +0100
+X-Authority-Analysis: v=2.0 cv=QcjkT7nv c=1 sm=0 a=0BEmelG+NCIkmYz4MtfDKA==:17
+	a=KAMKcUAUZugA:10 a=GlcJdTXvC24A:10 a=h1JwTc6auzgA:10
+	a=wPDyFdB5xvgA:10 a=kj9zAlcOel0A:10 a=cL4bF6sHAAAA:8
+	a=X7dwJZnD9C0A:10 a=pGLkceISAAAA:8 a=UBhn7au_FPf2FxZ8mnkA:9
+	a=CjuIK1q_8ugA:10 a=MSl-tDqOz04A:10
+	a=0BEmelG+NCIkmYz4MtfDKA==:117
+X-Cloudmark-Score: 0
+X-Authenticated-User: 
+X-Originating-IP: 65.34.9.19
+Received: from [65.34.9.19] ([65.34.9.19:44206] helo=blue.3gfp.com)
+	by hrndva-oedge03.mail.rr.com (envelope-from
+	<hchapman-oecore@3gfp.com>) (ecelerity 2.2.3.46 r()) with ESMTP
+	id 4C/6F-06396-A9948015; Tue, 29 Jan 2013 22:13:47 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by blue.3gfp.com (Postfix) with ESMTP id 7025B1080589;
+	Tue, 29 Jan 2013 17:13:46 -0500 (EST)
+X-Virus-Scanned: by amavisd-new-2.6.4 (20090625) (Debian) at 3gfp.com
+Received: from blue.3gfp.com ([127.0.0.1])
+	by localhost (blue.3gfp.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 15IYQrjdZzfE; Tue, 29 Jan 2013 17:13:46 -0500 (EST)
+Received: from [192.168.0.115] (rrcs-71-43-163-130.se.biz.rr.com
+	[71.43.163.130])
+	by blue.3gfp.com (Postfix) with ESMTPSA id D8C0A1080478;
+	Tue, 29 Jan 2013 17:13:45 -0500 (EST)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Harvey Chapman <hchapman-oecore@3gfp.com>
+In-Reply-To: <20130129203953.GS16904@jama.palm1.palmone.com>
+Date: Tue, 29 Jan 2013 17:13:45 -0500
+Message-Id: <F9975BBC-4DD7-41A8-AD7B-601BD66E8A8B@3gfp.com>
+References: <20130129203953.GS16904@jama.palm1.palmone.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1499)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: sstate keeping ipk for every AUTOINC value?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,41 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 21:33:16 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 22:29:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* as reported by Enrico on #oe
-  11:06:50 < ensc|w> JaMa: might this be caused by dc78ef91a2bf01efb8028c9afbe69e506e016265
-  which checks for 'd.getVar('LICENSE_CREATE_PACKAGE', True)' evaluating to 'True' for every
-  string (including the default 0)
+On Jan 29, 2013, at 3:39 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/license.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> Or why do I have each .ipk 7 times in deploy/ipk/arch?
+>=20
+> tmp-eglibc/sstate-control $ grep ncurses_ =
+manifest-armv5te-ncurses.deploy-ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.6_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.8_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.7_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.4_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.3_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.9_armv5te.ipk
+> =
+/OE/oe-core/tmp-eglibc/deploy/ipk/armv5te/ncurses_5.9-r13.1.1_armv5te.ipk
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index d4ebb26..170bdd9 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -7,6 +7,7 @@ LICENSE_DIRECTORY ??= "${DEPLOY_DIR}/licenses"
- LICSSTATEDIR = "${WORKDIR}/license-destdir/"
- 
- # Create extra package with license texts and add it to RRECOMMENDS_${PN}
-+LICENSE_CREATE_PACKAGE[type] = "boolean"
- LICENSE_CREATE_PACKAGE ??= "0"
- LICENSE_PACKAGE_SUFFIX ??= "-lic"
- LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
-@@ -102,7 +103,7 @@ python do_populate_lic() {
- 
- # it would be better to copy them in do_install_append, but find_license_filesa is python
- python perform_packagecopy_prepend () {
--    enabled = d.getVar('LICENSE_CREATE_PACKAGE', True)
-+    enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
-     if d.getVar('CLASSOVERRIDE', True) == 'class-target' and enabled:
-         lic_files_paths = find_license_files(d)
- 
--- 
-1.8.1.2
+On that note, I often tweak my PR value when testing a modification to a =
+recipe. Then, I change it back. How do I get rid of all of the files =
+generated for a recipe that no longer exists like all of Martin's old =
+ncurses versions shown above?
 
+Is there some way to have all of the old revisions auto-deleted?=
 
 
