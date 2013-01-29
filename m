@@ -1,31 +1,30 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1U07Q7-0001wH-5G
+	(envelope-from <mike.looijmans@topic.nl>) id 1U07n0-0004RN-Qm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 10:24:10 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:53802 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1U07Ax-0004cp-5p for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 04:08:19 -0500
-Date: Tue, 29 Jan 2013 04:08:10 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1301290359260.12134@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 29 Jan 2013 10:47:39 +0100
+Received: from atl4mhob08.myregisteredsite.com
+	(atl4mhob08.myregisteredsite.com [209.17.115.46])
+	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r0T9T955014986 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 04:29:10 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob08.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r0T9T8a8029272 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 04:29:08 -0500
+Received: (qmail 25747 invoked by uid 0); 29 Jan 2013 09:29:08 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 29 Jan 2013 09:29:08 -0000
+Message-ID: <51079663.60504@topic.nl>
+Date: Tue, 29 Jan 2013 10:29:07 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: BB_NO_NETWORK = "1" causes fetch to fail for unnecessary u-boot parsing
+To: openembedded-core@lists.openembedded.org
+Subject: Multiple MACHINE building is broken in OE-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,60 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 09:24:14 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 29 Jan 2013 09:47:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+I often have several hardware boards sharing 99% of periferals and 
+configuration. Usually they all have the exact same CPU, and the 
+difference is in the minor details like the screen resolution.
 
-  not sure if this is expected behaviour, but i'm using the meta-ti
-layer to build a core-image-minimal for a am180x-evm.  i'm using
-"own-mirrors" to use my own premirrors directory and i've collected
-all of the necessary tarballs and actually completed the build, after
-which i make sure i have saved all of the tarballs so i don't need
-to download anything for a subsequent build.
+In "classic" OE I was used to sharing the work, by just changing the 
+MACHINE variable I could create an image for a slightly changed board in 
+a matter of minutes.
 
-  as a test, i totally delete my build and start over, but this time
-with
+In OE-core this seems to be horribly broken, unless there's some other 
+procedure to follow.
 
-  BB_NO_NETWORK = "1"
+If I change the MACHINE, it insists on rebuilding all kinds of packages 
+that don't need rebuilding at all. Instead of minutes, it takes an hour 
+to switch machines. And if I change back, the same thing happens all 
+over again.
 
-which i assumed would still work.  instead, i almost immediately got
-this:
+In addition to needlessly rebuilding dozens of packages for the same 
+architecture, it often "starts" halfway through, so it tries to run the 
+"deploy" phase for a package while the workspace has already been 
+removed in the rm_work phase of the previous build. Which fails, so I 
+have to manually reset stamps for that package and let it start over 
+again (while usually the package shouldn't be rebuilt in the first place).
 
-$ bitbake -c fetch core-image-minimal
-Pseudo is not present but is required, building this first before the
-main build
-ERROR: ExpansionError during parsing
-/home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01.bb:
-Failure expanding variable SRCPV, expression was
-${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
-Network access disabled through BB_NO_NETWORK but access requested
-with command git ls-remote
-git://arago-project.org/git/projects/u-boot-keystone.git
-DEV.MCSDK-03.00.00.06 (for url None)
-ERROR: Command execution failed: Exited with 1
-
-  that's not even the version of u-boot that's going to be used, as
-"bitbake -s" shows:
-
-u-boot  :2009.11+r68+gitr5f16b8551b125f16cd8d58f278cb25b94272fd9f-r68
-
-so i'm guessing that what's happening here is that even though the
-u-boot recipe file u-boot_2013.01.bb will contribute nothing to this
-build, its parsing alone requires network access, which makes the
-usage of BB_NO_NETWORK = "1" somewhat useless in this context.
-
-  am i misreading something?  thoughts?
-
-rday
+Is building for several machines no longer supported in OE-core? Or is 
+there some secret way of setting up directories and variables that will 
+make it work as it used to?
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Mike Looijmans - TOPIC Automation
 
 
