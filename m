@@ -1,24 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <phil.staub@windriver.com>) id 1U0H5r-0005EP-EJ
+	(envelope-from <stefanx.stanacar@intel.com>) id 1U0HeI-0004QA-L6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 20:43:44 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0TJS21e005113
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 11:28:02 -0800 (PST)
-Received: from soho-phils-d2.wrs.com (172.25.35.78) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 29 Jan 2013 11:28:01 -0800
-From: Phil Staub <Phil.Staub@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Jan 2013 11:28:01 -0800
-Message-ID: <1359487681-9335-1-git-send-email-Phil.Staub@windriver.com>
-X-Mailer: git-send-email 1.7.7.6
+	Tue, 29 Jan 2013 21:19:19 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 12:02:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="196386659"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 12:02:31 -0800
+Received: from irsmsx104.ger.corp.intel.com ([169.254.5.20]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.82]) with mapi id
+	14.01.0355.002; Tue, 29 Jan 2013 20:02:29 +0000
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in
+	qemu machines
+Thread-Index: AQHN814RAJ4xNlU0GEqIs0yHR+AoEZhK1gaAgBXs40A=
+Date: Tue, 29 Jan 2013 20:02:28 +0000
+Message-ID: <81551E10643BEC4899D6BA2541201B624B2CD5@IRSMSX104.ger.corp.intel.com>
+References: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
+	<1358280527-14078-3-git-send-email-cristian.iorga@intel.com>
+	<20130115202116.GB3002@jama> <50F5BB17.4040709@linux.intel.com>
+In-Reply-To: <50F5BB17.4040709@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-Subject: [PATCH] mips: Fix libaio system call interface
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V4 2/3] connman-conf: configures connman in qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +43,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 19:43:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Jan 2013 20:19:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The io_syscallX wrappers in syscall-mips.h discard error return status
-by overwriting the value returned in v0 from the system call with -1.
+What about network in Build Appliance image? Blacklisting eth interfaces af=
+fects build appliance image too (because it's built as qemux86-64 machine u=
+sually).
+Or someone who doesn't use the runqemu script and she doesn't pass a static=
+ ip to qemu because she wants to use a dhcp server (eg: dnsmasq over a brid=
+ge which contains preconfigured tun/tap devices, think server enviroment wh=
+ere you want to run multiple yocto vms)
 
-Modify this behavior by returning the negative of the return value on
-error (as identified by a3 != 0). This convention is consistent with
-the behavior observed in syscall-ppc.h.
+An ugly fix for BA can be:
 
-For a description of the MIPS system call interface, see:
+diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recip=
+es-core/images/build-appliance-image.bb
+index 2359eca..b8255ac 100644
+--- a/meta/recipes-core/images/build-appliance-image.bb
++++ b/meta/recipes-core/images/build-appliance-image.bb
+@@ -64,6 +64,8 @@ fakeroot do_populate_poky_src () {
+        # Use Clearlooks GTK+ theme
+        mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
+        echo 'gtk-theme-name =3D "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.=
+0/gtkrc
++       =20
++        rm -rf ${IMAGE_ROOTFS}/etc/connman/main.conf
+ }
+=20
+ IMAGE_PREPROCESS_COMMAND +=3D "do_populate_poky_src; "
 
-http://www.linux-mips.org/wiki/Syscall
 
-Signed-off-by: Phil Staub <Phil.Staub@windriver.com>
----
- .../libaio/libaio_fix_for_mips_syscall.patch       |   57 ++++++++++++++++++++
- meta/recipes-extended/libaio/libaio_0.3.109.bb     |    6 ++-
- 2 files changed, 61 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
+--
+Stefan Stanacar
+Yocto QA
+OTC, SSD
 
-diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
-new file mode 100644
-index 0000000..0408865
---- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
-@@ -0,0 +1,57 @@
-+diff -urp libaio-0.3.109.orig/src/syscall-mips.h libaio-0.3.109/src/syscall-mips.h
-+--- libaio-0.3.109.orig/src/syscall-mips.h	2013-01-23 20:17:55.750897706 -0800
-++++ libaio-0.3.109/src/syscall-mips.h	2013-01-23 13:13:34.143660455 -0800
-+@@ -76,7 +76,7 @@ type fname(atype a) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #define io_syscall2(type,fname,sname,atype,a,btype,b) \
-+@@ -100,7 +100,7 @@ type fname(atype a, btype b) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #define io_syscall3(type,fname,sname,atype,a,btype,b,ctype,c) \
-+@@ -125,7 +125,7 @@ type fname(atype a, btype b, ctype c) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #define io_syscall4(type,fname,sname,atype,a,btype,b,ctype,c,dtype,d) \
-+@@ -150,7 +150,7 @@ type fname(atype a, btype b, ctype c, dt
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #if (_MIPS_SIM == _MIPS_SIM_ABI32)
-+@@ -186,7 +186,7 @@ type fname(atype a, btype b, ctype c, dt
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #endif /* (_MIPS_SIM == _MIPS_SIM_ABI32) */
-+@@ -216,7 +216,7 @@ type fname (atype a,btype b,ctype c,dtyp
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) -(__v0); \
-+ }
-+ 
-+ #endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-index 161b712..23641ed 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-@@ -5,13 +5,15 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://00_arches.patch \
-            file://toolchain.patch \
-            file://destdir.patch \
--           file://libaio_fix_for_x32.patch"
-+           file://libaio_fix_for_x32.patch \
-+	   file://libaio_fix_for_mips_syscall.patch \
-+"
- 
- SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
- SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
--- 
-1.7.7.6
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Saul Wold
+Sent: Tuesday, January 15, 2013 10:25 PM
+To: Martin Jansa
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in q=
+emu machines
 
+On 01/15/2013 12:21 PM, Martin Jansa wrote:
+> On Tue, Jan 15, 2013 at 10:08:46PM +0200, Cristian Iorga wrote:
+>> For qemu machines, connman should not configure
+>> virtual wired interfaces. Wired interfaces (eth0)
+>> are assigned static IP addresses by the virtual machine
+>> manager (qemu). This packages places the eth0 interface in
+>> a list of blacklisted interfaces, forbiding connman
+>> administering wired interfaces for qemu machines.
+>
+> Again wrong order,
+>
+> 3/3 should be 1st
+> 2/3 2nd
+> 1/3 3rd
+>
+I have re-ordered this in my consolidated pull MUT staging area, saw=20
+that right away!
+
+Sau!
+
+> Cheers,
+>
+>>
+>> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+>> ---
+>>   meta/conf/layer.conf                                 |    1 +
+>>   meta/recipes-connectivity/connman/connman-conf.bb    |   18 ++++++++++=
+++++++++
+>>   .../connman/connman-conf/qemuall/main.conf           |    3 +++
+>>   3 files changed, 22 insertions(+)
+>>   create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
+>>   create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemu=
+all/main.conf
+>>
+>> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+>> index 78ceae9..3259e5c 100644
+>> --- a/meta/conf/layer.conf
+>> +++ b/meta/conf/layer.conf
+>> @@ -22,6 +22,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
+>>     shadow-securetty \
+>>     opkg-config-base \
+>>     netbase \
+>> +  connman-conf \
+>>     formfactor \
+>>     xserver-xf86-config \
+>>     pointercal \
+>> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/re=
+cipes-connectivity/connman/connman-conf.bb
+>> new file mode 100644
+>> index 0000000..7c7ef26
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
+>> @@ -0,0 +1,18 @@
+>> +#connman config to ignore wired interfaces on qemu machines
+>> +
+>> +LICENSE =3D "GPLv2"
+>> +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/common-licenses/GPL=
+-2.0;md5=3D801f80980d171dd6425610833a22dbe6"
+>> +
+>> +SRC_URI_append_qemuall =3D " file://main.conf"
+>> +
+>> +PR =3D "r0"
+>> +
+>> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>> +
+>> +do_install() {
+>> +    #Blacklist ethn network interface in case of qemu* machines
+>> +    if test -e ${WORKDIR}/main.conf; then
+>> +        install -d ${D}${sysconfdir}/connman
+>> +        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
+>> +    fi
+>> +}
+>> diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main=
+.conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+>> new file mode 100644
+>> index 0000000..01973e7
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+>> @@ -0,0 +1,3 @@
+>> +[General]
+>> +
+>> +NetworkInterfaceBlacklist =3D eth
+>> --
+>> 1.7.10.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
