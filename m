@@ -1,20 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1U08Sq-0000Wk-MG
+	(envelope-from <mike.looijmans@topic.nl>) id 1U08Yc-0001Gs-Aj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 11:30:53 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 02:14:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,559,1355126400"; d="scan'208";a="249644165"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
-	by azsmga001.ch.intel.com with ESMTP; 29 Jan 2013 02:14:53 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 12:15:07 +0200
-Message-Id: <1359454507-21182-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH V2] alsa-tools: upgrade to 1.0.26.1
+	Tue, 29 Jan 2013 11:37:01 +0100
+Received: from atl4mhob09.myregisteredsite.com
+	(atl4mhob09.myregisteredsite.com [209.17.115.47])
+	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r0TALBD5007590 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 05:21:12 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob09.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r0TALADt004184 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 05:21:10 -0500
+Received: (qmail 6769 invoked by uid 0); 29 Jan 2013 10:21:10 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 29 Jan 2013 10:21:10 -0000
+Message-ID: <5107A295.2060307@topic.nl>
+Date: Tue, 29 Jan 2013 11:21:09 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <51079663.60504@topic.nl>
+	<20130129094059.GI16904@jama.palm1.palmone.com>
+In-Reply-To: <20130129094059.GI16904@jama.palm1.palmone.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Multiple MACHINE building is broken in OE-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,88 +41,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 10:30:55 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 10:37:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Removed the following tools:
-- all related to hdsp (required gtk+ and fltk-config)
-- ld10k1, qlo10k1 (required QT)
-- hdajackretask
+On 01/29/2013 10:40 AM, Martin Jansa wrote:
+> On Tue, Jan 29, 2013 at 10:29:07AM +0100, Mike Looijmans wrote:
+>> I often have several hardware boards sharing 99% of periferals and
+>> configuration. Usually they all have the exact same CPU, and the
+>> difference is in the minor details like the screen resolution.
+>>
+>> In "classic" OE I was used to sharing the work, by just changing the
+>> MACHINE variable I could create an image for a slightly changed board in
+>> a matter of minutes.
+>>
+>> In OE-core this seems to be horribly broken, unless there's some other
+>> procedure to follow.
+>>
+>> If I change the MACHINE, it insists on rebuilding all kinds of packages
+>> that don't need rebuilding at all. Instead of minutes, it takes an hour
+>> to switch machines. And if I change back, the same thing happens all
+>> over again.
+>>
+>> In addition to needlessly rebuilding dozens of packages for the same
+>> architecture, it often "starts" halfway through, so it tries to run the
+>> "deploy" phase for a package while the workspace has already been
+>> removed in the rm_work phase of the previous build. Which fails, so I
+>> have to manually reset stamps for that package and let it start over
+>> again (while usually the package shouldn't be rebuilt in the first place).
+>>
+>> Is building for several machines no longer supported in OE-core? Or is
+>> there some secret way of setting up directories and variables that will
+>> make it work as it used to?
+>
+> It's more strict and every machine now has own sysroot (so it's doing a
+> bit more after MACHINE change then it did with OE-Classic), but it still
+> works. I'm using it like this.
 
-Fixed the automake issue for cross-compilation
+How are you using it? Because for me it doesn't work at all, it results 
+in build errors and needless rebuilds on every switch. I've tried in 
+three different environments, and it never works.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../{alsa-tools-1.0.25 => alsa-tools}/autotools.patch     |   13 +++++++------
- .../alsa/{alsa-tools_1.0.25.bb => alsa-tools_1.0.26.1.bb} |   11 +++++++----
- 2 files changed, 14 insertions(+), 10 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-tools-1.0.25 => alsa-tools}/autotools.patch (81%)
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.25.bb => alsa-tools_1.0.26.1.bb} (71%)
+(Needless rebuild: Built package X for machine A. Switch to B, and it 
+will build X again, which isn't needed because they're for the same 
+architecture and the package isn't dependent on the machine. Switch back 
+to A, and it will AGAIN build package X, which is beyond just needless, 
+it's a bug in my opinion.)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-similarity index 81%
-rename from meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch
-rename to meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-index c7bc2d6..294e970 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools-1.0.25/autotools.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-@@ -19,16 +19,17 @@ diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1
- diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
- --- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +0800
- +++ alsa-tools-1.0.24.1/Makefile	2011-07-14 15:08:08.877665009 +0800
--@@ -1,9 +1,8 @@
-- VERSION = 1.0.24.1
-+@@ -1,9 +1,9 @@
-+ VERSION = 1.0.26.1
-  TOP = .
- -SUBDIRS = ac3dec as10k1 envy24control hdsploader hdspconf hdspmixer \
- -	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
- -	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
---	  hwmixvolume
--+SUBDIRS = ac3dec as10k1 hdsploader mixartloader pcxhrloader sb16_csp \
--+          seq sscape_ctl us428control usx2yloader vxloader ld10k1 \
--+          hwmixvolume
-+-	  hwmixvolume hdajackretask hda-verb
-++SUBDIRS = ac3dec as10k1 envy24control \
-++	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
-++	  us428control usx2yloader vxloader echomixer \
-++	  hwmixvolume hda-verb
-  
-  all:
-  	@for i in $(SUBDIRS); do \
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-similarity index 71%
-rename from meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
-rename to meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-index 7d96b85..0fe4bee 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-@@ -1,5 +1,3 @@
--BROKEN = "1"
--
- DESCRIPTION = "Alsa Tools package contains advanced tools for certain sound cards."
- HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
-@@ -15,11 +13,16 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://autotools.patch"
- 
--SRC_URI[md5sum] = "57bfec98a814d12e0f7ab379aaeccd87"
--SRC_URI[sha256sum] = "a974d0f3e837796f67d04df88c783aebcf4ac3c5f9ac31e2b65c10e8cb4b1dca"
-+SRC_URI[md5sum] = "805526ea5d6c40e1f2c94cee86141230"
-+SRC_URI[sha256sum] = "553338693707fe6ddfc430b9edc4cd2677390e200c9e38de82ede3394e733841"
- 
- inherit autotools
- 
- EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
- 
-+do_compile_prepend () {
-+    #Automake dir is not correctly detected in cross compilation case
-+    export AUTOMAKE_DIR=${STAGING_DATADIR_NATIVE}/$(ls ${STAGING_DATADIR_NATIVE} | grep automake)
-+}
-+
- FILES_${PN} += "${datadir}/ld10k1"
--- 
-1.7.10.4
+> Use openembedded-core/scripts/sstate-diff-machines.sh to compare your
+> machines and make sure that different checksums are only for
+> MACHINE_ARCH recipes.
+
+How? The tool only explains its commandline, but doesn't explain what 
+it's supposed to do...
+
+Mike.
 
 
 
