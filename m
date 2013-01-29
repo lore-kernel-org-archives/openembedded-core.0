@@ -1,39 +1,39 @@
-Received: from mail-pb0-f53.google.com ([209.85.160.53])
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U09Xd-0007SK-4I
+	(envelope-from <martin.jansa@gmail.com>) id 1U09aV-0007yf-Vv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 12:39:53 +0100
-Received: by mail-pb0-f53.google.com with SMTP id un1so223539pbc.40
+	Tue, 29 Jan 2013 12:42:55 +0100
+Received: by mail-pb0-f52.google.com with SMTP id uo5so225686pbc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 03:24:12 -0800 (PST)
+	Tue, 29 Jan 2013 03:27:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=4YDKZfvFs8VtpsivwRgTReHKrYhnB8xJW5FXEyAEMtI=;
-	b=U86Ao6jbsfARf7OOWT4qUs6UxecmwIZRfRklbNNUk3w7UWdkbK6nSEwR/yduEz9zPP
-	X9cAU9njJtGTgPz/8uNvhhK1fuSEf94cPjFRtP9TnQQpQjD4rKDU2NX2qLRseK830Mpe
-	fsKOW+GhonTu5vxaaR5xQsrbTk5+7146GvauYM0ItB5TkZfxE27jF/+E+IYGFgSsIEoK
-	xjPvwHjExMZV4iLE7GJ4wgLH7ymGMXMaUwTVWnp0gsvq0TEDjVBP+MEXvjQ8eSwUJg5h
-	Isyg5WkOZfHLXHF1wnZni/JVLIWs22LXh3LAVHwlXkTiYH4W/k1YMuepkzZYn7OYX1oa
-	bHkg==
-X-Received: by 10.66.72.97 with SMTP id c1mr1787680pav.48.1359458652612;
-	Tue, 29 Jan 2013 03:24:12 -0800 (PST)
+	:user-agent; bh=MFz8wpgW8z0WsNT3Cwk0wtnCibcZ4lLpze0EIemX3kk=;
+	b=G77jKnkl4ktf6Sv96kVexItdKlu+f+ZNVMeZvTNgKDsMkQONxJ2CCjfzLXDAckOCMB
+	J4uPWohEaS4fmvD4BZGzi3e2gO/uOJZo/Bn+P2OIomho0bqB9NeJxIk2WAM1G9CH9HXh
+	5Z8ZUq8Q8lLnm3iPAzdbbQfSDgYqFBDF5FeuGyCtgwB88JcaRxx+MzwTXgAit9GaMlan
+	m5nFd4mnN/RfY5mHD3NvaQPPFSxZFVeCCHnIPY0UZaSeGdKobzRxF0jjIOzY/KbQvOlE
+	xIpeO8VDDXcnocGgjd0FR937ZusX62J7yfbXaghakDu2DTgNAf1QXb1eJe9Ay79NauvQ
+	HzLA==
+X-Received: by 10.68.189.163 with SMTP id gj3mr1458875pbc.110.1359458831667;
+	Tue, 29 Jan 2013 03:27:11 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id i1sm8748110pav.35.2013.01.29.03.24.09
+	by mx.google.com with ESMTPS id m3sm8771250pav.4.2013.01.29.03.27.08
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 29 Jan 2013 03:24:11 -0800 (PST)
-Date: Tue, 29 Jan 2013 12:24:06 +0100
+	Tue, 29 Jan 2013 03:27:10 -0800 (PST)
+Date: Tue, 29 Jan 2013 12:27:06 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20130129112406.GK16904@jama.palm1.palmone.com>
-References: <alpine.DEB.2.02.1301290359260.12134@oneiric>
-	<20130129094422.GJ16904@jama.palm1.palmone.com>
-	<alpine.DEB.2.02.1301290453220.12871@oneiric>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Message-ID: <20130129112706.GL16904@jama.palm1.palmone.com>
+References: <51079663.60504@topic.nl>
+	<20130129094059.GI16904@jama.palm1.palmone.com>
+	<5107A295.2060307@topic.nl>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.02.1301290453220.12871@oneiric>
+In-Reply-To: <5107A295.2060307@topic.nl>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: BB_NO_NETWORK = "1" causes fetch to fail for unnecessary u-boot parsing
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Multiple MACHINE building is broken in OE-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,79 +46,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 11:39:56 -0000
-X-Groupsio-MsgNum: 34629
+X-List-Received-Date: Tue, 29 Jan 2013 11:42:55 -0000
+X-Groupsio-MsgNum: 34630
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="x/TyKPcLwmKZr+b7"
+	protocol="application/pgp-signature"; boundary="GviraxgP0A7vmYdC"
 Content-Disposition: inline
 
---x/TyKPcLwmKZr+b7
+--GviraxgP0A7vmYdC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 29, 2013 at 04:54:30AM -0500, Robert P. J. Day wrote:
-> On Tue, 29 Jan 2013, Martin Jansa wrote:
->=20
-> > On Tue, Jan 29, 2013 at 04:08:10AM -0500, Robert P. J. Day wrote:
-> > >
-> > >   not sure if this is expected behaviour, but i'm using the meta-ti
-> > > layer to build a core-image-minimal for a am180x-evm.  i'm using
-> > > "own-mirrors" to use my own premirrors directory and i've collected
-> > > all of the necessary tarballs and actually completed the build, after
-> > > which i make sure i have saved all of the tarballs so i don't need
-> > > to download anything for a subsequent build.
-> > >
-> > >   as a test, i totally delete my build and start over, but this time
-> > > with
-> > >
-> > >   BB_NO_NETWORK =3D "1"
-> > >
-> > > which i assumed would still work.  instead, i almost immediately got
-> > > this:
-> > >
-> > > $ bitbake -c fetch core-image-minimal
-> > > Pseudo is not present but is required, building this first before the
-> > > main build
-> > > ERROR: ExpansionError during parsing
-> > > /home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01=
-=2Ebb:
-> > > Failure expanding variable SRCPV, expression was
-> > > ${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
-> > > Network access disabled through BB_NO_NETWORK but access requested
-> > > with command git ls-remote
-> > > git://arago-project.org/git/projects/u-boot-keystone.git
-> > > DEV.MCSDK-03.00.00.06 (for url None)
-> > > ERROR: Command execution failed: Exited with 1
+On Tue, Jan 29, 2013 at 11:21:09AM +0100, Mike Looijmans wrote:
+> On 01/29/2013 10:40 AM, Martin Jansa wrote:
+> > On Tue, Jan 29, 2013 at 10:29:07AM +0100, Mike Looijmans wrote:
+> >> I often have several hardware boards sharing 99% of periferals and
+> >> configuration. Usually they all have the exact same CPU, and the
+> >> difference is in the minor details like the screen resolution.
+> >>
+> >> In "classic" OE I was used to sharing the work, by just changing the
+> >> MACHINE variable I could create an image for a slightly changed board =
+in
+> >> a matter of minutes.
+> >>
+> >> In OE-core this seems to be horribly broken, unless there's some other
+> >> procedure to follow.
+> >>
+> >> If I change the MACHINE, it insists on rebuilding all kinds of packages
+> >> that don't need rebuilding at all. Instead of minutes, it takes an hour
+> >> to switch machines. And if I change back, the same thing happens all
+> >> over again.
+> >>
+> >> In addition to needlessly rebuilding dozens of packages for the same
+> >> architecture, it often "starts" halfway through, so it tries to run the
+> >> "deploy" phase for a package while the workspace has already been
+> >> removed in the rm_work phase of the previous build. Which fails, so I
+> >> have to manually reset stamps for that package and let it start over
+> >> again (while usually the package shouldn't be rebuilt in the first pla=
+ce).
+> >>
+> >> Is building for several machines no longer supported in OE-core? Or is
+> >> there some secret way of setting up directories and variables that will
+> >> make it work as it used to?
 > >
-> > It's using tag instead of hash in SRCREV, so it behaves the same as
-> > SRC_URI =3D "git://.*;tag=3Dfoo" and tries to access upstream repo to
-> > convert tag name to hash (or check if it's still the same hash as when
-> > you've built it last time.
+> > It's more strict and every machine now has own sysroot (so it's doing a
+> > bit more after MACHINE change then it did with OE-Classic), but it still
+> > works. I'm using it like this.
 >=20
->   ah ... so as a cheap hack to get around this, as long as i don't
-> need that recipe, i guess i could just BBMASK it out.  is that the
-> easiest solution?  thanks.
+> How are you using it? Because for me it doesn't work at all, it results=
+=20
+> in build errors and needless rebuilds on every switch. I've tried in=20
+> three different environments, and it never works.
+>=20
+> (Needless rebuild: Built package X for machine A. Switch to B, and it=20
+> will build X again, which isn't needed because they're for the same=20
+> architecture and the package isn't dependent on the machine. Switch back=
+=20
+> to A, and it will AGAIN build package X, which is beyond just needless,=
+=20
+> it's a bug in my opinion.)
 
-It would be better to change SRCREV to hash corresponding to that tag
-and move tag only to comment above SRCREV. Such patch could be applied
-in upstream...
+There were some bugs (lot of them reported by me in bugzilla) but in
+current state it works correctly as long as checksums are correct.
 
-Cheers,
+Also depends on what you mean by "build",
+do_configure+do_compile+do_install+do_package? or just
+do_populate_sysroot?
+
+> > Use openembedded-core/scripts/sstate-diff-machines.sh to compare your
+> > machines and make sure that different checksums are only for
+> > MACHINE_ARCH recipes.
+>=20
+> How? The tool only explains its commandline, but doesn't explain what=20
+> it's supposed to do...
+
+There is example in script header.
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---x/TyKPcLwmKZr+b7
+--GviraxgP0A7vmYdC
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlEHsVYACgkQN1Ujt2V2gBwDEwCglo00RULLryghJkxJCS1cWDqF
-yx8An0mvKYwaGkdadp+zQ2pjZhETjaaA
-=FOs2
+iEYEARECAAYFAlEHsgoACgkQN1Ujt2V2gBzUAgCghLUULYoRFn2hTROt7wH6GyIk
+n9AAoJUOVNjJsGS+UOowlTbVQdqBLDOw
+=X4EF
 -----END PGP SIGNATURE-----
 
---x/TyKPcLwmKZr+b7--
+--GviraxgP0A7vmYdC--
