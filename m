@@ -1,29 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U07Kk-0001NB-7P
+	(envelope-from <rpjday@crashcourse.ca>) id 1U07Q7-0001wH-5G
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 10:18:57 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0T92kIY022590
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 01:02:46 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 29 Jan 2013 01:02:45 -0800
-Message-ID: <5107904A.3000802@windriver.com>
-Date: Tue, 29 Jan 2013 17:03:06 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Tue, 29 Jan 2013 10:24:10 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:53802 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1U07Ax-0004cp-5p for openembedded-core@lists.openembedded.org;
+	Tue, 29 Jan 2013 04:08:19 -0500
+Date: Tue, 29 Jan 2013 04:08:10 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301290359260.12134@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1358840606.git.Qi.Chen@windriver.com>
-	<5229d2b8caba239e8140288a51b2c9c2d6487567.1358840606.git.Qi.Chen@windriver.com>
-In-Reply-To: <5229d2b8caba239e8140288a51b2c9c2d6487567.1358840606.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH 1/1] rootfs_rpm.bbclass: fix the unexpected postinst error
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: BB_NO_NETWORK = "1" causes fetch to fail for unnecessary u-boot parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 09:19:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Jan 2013 09:24:14 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Really really sorry that this patch introduces a bug :(
-(It built and booted correctly, so I thought everything's OK. I didn't 
-check the do_rootfs log.)
-A follow-up patch has been sent.
-Sorry for the inconvenience.
 
-Chen Qi
+  not sure if this is expected behaviour, but i'm using the meta-ti
+layer to build a core-image-minimal for a am180x-evm.  i'm using
+"own-mirrors" to use my own premirrors directory and i've collected
+all of the necessary tarballs and actually completed the build, after
+which i make sure i have saved all of the tarballs so i don't need
+to download anything for a subsequent build.
 
-On 01/22/2013 04:44 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> If the /etc/rpm-postinsts/ directory was empty, the following error
-> would occur at system startup.
->
->        ERROR: postinst /etc/rpm-postinsts/* failed
->
-> This patch fixes this issue.
->
-> [YOCTO #3767]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/classes/rootfs_rpm.bbclass |    3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-> index 7d789cc..accd7d9 100644
-> --- a/meta/classes/rootfs_rpm.bbclass
-> +++ b/meta/classes/rootfs_rpm.bbclass
-> @@ -108,7 +108,8 @@ fakeroot rootfs_rpm_do_rootfs () {
->   	i=\$i
->   	cat > ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << EOF
->   #!/bin/sh
-> -for i in /etc/rpm-postinsts/*; do
-> +for i in `ls /etc/rpm-postinsts/`; do
-> +	i=/etc/rpm-postinsts/$i
->   	echo "Running postinst $i..."
->   	if [ -f $i ] && $i; then
->   		rm $i
+  as a test, i totally delete my build and start over, but this time
+with
 
+  BB_NO_NETWORK = "1"
+
+which i assumed would still work.  instead, i almost immediately got
+this:
+
+$ bitbake -c fetch core-image-minimal
+Pseudo is not present but is required, building this first before the
+main build
+ERROR: ExpansionError during parsing
+/home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01.bb:
+Failure expanding variable SRCPV, expression was
+${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
+Network access disabled through BB_NO_NETWORK but access requested
+with command git ls-remote
+git://arago-project.org/git/projects/u-boot-keystone.git
+DEV.MCSDK-03.00.00.06 (for url None)
+ERROR: Command execution failed: Exited with 1
+
+  that's not even the version of u-boot that's going to be used, as
+"bitbake -s" shows:
+
+u-boot  :2009.11+r68+gitr5f16b8551b125f16cd8d58f278cb25b94272fd9f-r68
+
+so i'm guessing that what's happening here is that even though the
+u-boot recipe file u-boot_2013.01.bb will contribute nothing to this
+build, its parsing alone requires network access, which makes the
+usage of BB_NO_NETWORK = "1" somewhat useless in this context.
+
+  am i misreading something?  thoughts?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
