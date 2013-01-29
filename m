@@ -1,22 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f179.google.com ([74.125.82.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1U0DIg-0001QA-Un
+	(envelope-from <twoerner@gmail.com>) id 1U0DRu-00023q-Bf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 16:40:55 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jan 2013 07:23:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="278046930"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 29 Jan 2013 07:25:00 -0800
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 17:24:44 +0200
-Message-Id: <1359473084-592-3-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
-References: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
-Subject: [PATCH 2/2] avahi: Remove -systemd postfix
+	Tue, 29 Jan 2013 16:50:20 +0100
+Received: by mail-we0-f179.google.com with SMTP id x43so383854wey.38
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jan 2013 07:34:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type;
+	bh=lF0V7GJ+er6mDBEKYFgO+WgLF9hKyL7W1kx86ee6cDE=;
+	b=Yuk9SoywhW8Nj5/+1g1o9+WrbEV7wK1+yby6GfO81axfB86NxNnDUtVoWD3ncdXPt+
+	9dQL1aAgDzQJWhBGG3Y/i4bjpnRzm8cI+wew3BF57+8smWZhLHq6Qaq6Z/7VYGiWRurw
+	eU9+K06T2GqmkM60013HOXDn+YLVpRRXHXWTKXC6CihVD8svSa+iU3jZ32928PhJ7Fre
+	u0hM6bzCecxFbH0JR/QCTX+YQAPHnABxebT6QmUBgK/kIu9tAMHOKju/FQxA1G0c8wRs
+	XTrpDI3MBLzq0CMXuCT9Ym/sUhIxMXEL8ARf2C2GgvCkzx2d2sapzaRDuYWw8tIINwJR
+	69pA==
+MIME-Version: 1.0
+X-Received: by 10.180.106.34 with SMTP id gr2mr3068019wib.18.1359473672778;
+	Tue, 29 Jan 2013 07:34:32 -0800 (PST)
+Received: by 10.194.166.74 with HTTP; Tue, 29 Jan 2013 07:34:32 -0800 (PST)
+In-Reply-To: <CA+YB3rYnsCwsGuFdb=kxKMDZ9Xia-XQf7UQET2bCz-cwsCPXsw@mail.gmail.com>
+References: <CA+YB3rYnsCwsGuFdb=kxKMDZ9Xia-XQf7UQET2bCz-cwsCPXsw@mail.gmail.com>
+Date: Tue, 29 Jan 2013 10:34:32 -0500
+Message-ID: <CAHUNapRMovm_hpqaKkvDcrw4AGoC_AtiP-LVZCnvn+fSdX9JXg@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE TSC Minutes 4 Dec 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,49 +39,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 15:41:00 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 15:50:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/recipes-connectivity/avahi/avahi.inc |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index d529b37..a02c8a5 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -64,9 +64,8 @@ do_configure_prepend() {
- }
- 
- 
--PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
-+PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
- 
--FILES_avahi-systemd = "${systemd_unitdir}"
- FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/avahi/avahi-autoipd.action \
-                        ${sysconfdir}/dhcp/*/avahi-autoipd \
-@@ -84,7 +83,8 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/avahi-service.dtd \
-                       ${datadir}/avahi/service-types \
-                       ${datadir}/dbus-1/interfaces \
--                      ${datadir}/dbus-1/system-services"
-+                      ${datadir}/dbus-1/system-services \
-+                      ${@base_contains('DISTRO_FEATURES','systemd','${systemd_unitdir}','',d)}"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
- FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
- FILES_avahi-dnsconfd = "${sbindir}/avahi-dnsconfd \
-@@ -94,7 +94,7 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
- FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
- 
--RDEPENDS_avahi-systemd = "avahi-daemon"
-+RDEPENDS_avahi = "avahi-daemon"
- 
- RDEPENDS_avahi-daemon = "sysvinit-pidof"
- 
--- 
-1.7.9.5
-
+I think it would be nice (for us non-inner-circle members) if you
+could link the various IRC handles to the people behind them :-)
 
 
