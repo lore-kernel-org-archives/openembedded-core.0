@@ -1,22 +1,22 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1U0DIb-0001Pq-5t
+	(envelope-from <radu.moisan@intel.com>) id 1U0DIg-0001QA-Un
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 16:40:40 +0100
+	Tue, 29 Jan 2013 16:40:55 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jan 2013 07:23:47 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Jan 2013 07:23:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="278046907"
+X-IronPort-AV: E=Sophos;i="4.84,561,1355126400"; d="scan'208";a="278046930"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 29 Jan 2013 07:24:57 -0800
+	by orsmga002.jf.intel.com with ESMTP; 29 Jan 2013 07:25:00 -0800
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jan 2013 17:24:43 +0200
-Message-Id: <1359473084-592-2-git-send-email-radu.moisan@intel.com>
+Date: Tue, 29 Jan 2013 17:24:44 +0200
+Message-Id: <1359473084-592-3-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
 References: <1359473084-592-1-git-send-email-radu.moisan@intel.com>
-Subject: [PATCH 1/2] systemd: Remove -systemd postfix
+Subject: [PATCH 2/2] avahi: Remove -systemd postfix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,53 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 15:40:42 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 15:41:00 -0000
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- meta/recipes-core/systemd/systemd_196.bb |    9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_196.bb b/meta/recipes-core/systemd/systemd_196.bb
-index 2854aae..69a4387 100644
---- a/meta/recipes-core/systemd/systemd_196.bb
-+++ b/meta/recipes-core/systemd/systemd_196.bb
-@@ -171,7 +171,7 @@ FILES_${PN} = " ${base_bindir}/* \
- FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index d529b37..a02c8a5 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -64,9 +64,8 @@ do_configure_prepend() {
+ }
  
--RDEPENDS_${PN} += "dbus udev-systemd"
-+RDEPENDS_${PN} += "dbus udev"
  
- # kbd -> loadkeys,setfont
- # systemd calls 'modprobe -sab --', which busybox doesn't support due to lack
-@@ -188,7 +188,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
- "
+-PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
++PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
  
--PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils udev-systemd"
-+PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils"
+-FILES_avahi-systemd = "${systemd_unitdir}"
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+                        ${sysconfdir}/dhcp/*/avahi-autoipd \
+@@ -84,7 +83,8 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
+                       ${datadir}/avahi/avahi-service.dtd \
+                       ${datadir}/avahi/service-types \
+                       ${datadir}/dbus-1/interfaces \
+-                      ${datadir}/dbus-1/system-services"
++                      ${datadir}/dbus-1/system-services \
++                      ${@base_contains('DISTRO_FEATURES','systemd','${systemd_unitdir}','',d)}"
+ FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
+ FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
+ FILES_avahi-dnsconfd = "${sbindir}/avahi-dnsconfd \
+@@ -94,7 +94,7 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+ FILES_avahi-utils = "${bindir}/avahi-*"
  
- FILES_udev-dbg += "/lib/udev/.debug"
+-RDEPENDS_avahi-systemd = "avahi-daemon"
++RDEPENDS_avahi = "avahi-daemon"
  
-@@ -218,6 +218,8 @@ FILES_udev += "${base_sbindir}/udevd \
-                /lib/udev/rules.d/95*.rules \
-                ${base_libdir}/udev/hwdb.d \
-                ${sysconfdir}/udev \
-+               ${systemd_unitdir}/system/*udev* \
-+               ${systemd_unitdir}/system/*.wants/*udev* \
-               "
- 
- FILES_udev-consolekit += "/lib/ConsoleKit"
-@@ -225,9 +227,6 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
- 
- FILES_udev-utils = "${bindir}/udevadm"
- 
--FILES_udev-systemd = "${systemd_unitdir}/system/*udev* ${systemd_unitdir}/system/*.wants/*udev*"
--RDEPENDS_udev-systemd = "udev"
--
- # TODO:
- # u-a for runlevel and telinit
+ RDEPENDS_avahi-daemon = "sysvinit-pidof"
  
 -- 
 1.7.9.5
