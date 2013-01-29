@@ -1,39 +1,24 @@
-Received: from mail-la0-f48.google.com ([209.85.215.48])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1U0FGf-0007Yc-R0
+	(envelope-from <phil.staub@windriver.com>) id 1U0H5r-0005EP-EJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Jan 2013 18:46:45 +0100
-Received: by mail-la0-f48.google.com with SMTP id fq13so491205lab.21
+	Tue, 29 Jan 2013 20:43:44 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0TJS21e005113
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jan 2013 09:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=c4iqpf87kkroZOZkTPikegr34dCbw0l3oNTtS5SvBn4=;
-	b=NGzNjDTCYrWQ4da1aGbKhIo2Fp5BiNU+uKRiWzDwDUl9f0LSUzFfmrASWU/PRp+6nK
-	37c3mX1tQw9CfquMqiCRIS5LYSqQqd151GdImhrKr46x2YORDJhwjvH3fobRWuO9AQde
-	hmCpcNgshIRG+hkR7yDk5fELzZkI2iO12e/6QEwNo5ujwTQUI2WiI7Dr+GVXqncQxeaz
-	WZCCI9eduor9I/CVIYq+QUVhAoIYvU36sP+PRTNGwFqA1B1l7AiDnFN54LxYFYmo8ydA
-	jIJrziDG4guDZuxzgPnDAwi1ViocZZOeFj2SqQu2fLVnumkTS+mu2IJzRjMXmgn7GkYH
-	m12A==
-X-Received: by 10.112.30.104 with SMTP id r8mr797615lbh.82.1359480665215; Tue,
-	29 Jan 2013 09:31:05 -0800 (PST)
+	Tue, 29 Jan 2013 11:28:02 -0800 (PST)
+Received: from soho-phils-d2.wrs.com (172.25.35.78) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 29 Jan 2013 11:28:01 -0800
+From: Phil Staub <Phil.Staub@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jan 2013 11:28:01 -0800
+Message-ID: <1359487681-9335-1-git-send-email-Phil.Staub@windriver.com>
+X-Mailer: git-send-email 1.7.7.6
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Tue, 29 Jan 2013 09:30:45 -0800 (PST)
-In-Reply-To: <20130129155930.GQ16904@jama.palm1.palmone.com>
-References: <1359463060-12321-1-git-send-email-Martin.Jansa@gmail.com>
-	<1359464656-27638-1-git-send-email-Martin.Jansa@gmail.com>
-	<CABcZANnz3b5W056P3NX0HktHfOrbE-Mu+88izcQtrTpaUnyszA@mail.gmail.com>
-	<20130129155930.GQ16904@jama.palm1.palmone.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 29 Jan 2013 10:30:45 -0700
-X-Google-Sender-Auth: UrfJP_hK-cZ1x41QO1T4TO4UnIo
-Message-ID: <CABcZANnuYe3YatED33mif0UzahAFtri0V_oWiCJjcsQzsfzzdg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] license: fix LICENSE_CREATE_PACKAGE to stay disabled by default
+Subject: [PATCH] mips: Fix libaio system call interface
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +31,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 17:46:46 -0000
-Content-Type: multipart/alternative; boundary=f46d04016b392113c504d470c2ac
+X-List-Received-Date: Tue, 29 Jan 2013 19:43:45 -0000
+Content-Type: text/plain
 
---f46d04016b392113c504d470c2ac
-Content-Type: text/plain; charset=UTF-8
+The io_syscallX wrappers in syscall-mips.h discard error return status
+by overwriting the value returned in v0 from the system call with -1.
 
-On Tue, Jan 29, 2013 at 8:59 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+Modify this behavior by returning the negative of the return value on
+error (as identified by a3 != 0). This convention is consistent with
+the behavior observed in syscall-ppc.h.
 
-> > We do have an existing mechanism for handling boolean variables in a sane
-> > way, as an FYI.
-> >
-> > LICENSE_CREATE_PACKAGE[type] = "boolean"
-> >
-> > LICENSE_CREATE_PACKAGE = "1"
-> > oe.data.typed_value(d, 'LICENSE_CREATE_PACKAGE') == True
-> > LICENSE_CREATE_PACKAGE = "0"
-> > oe.data.typed_value(d, 'LICENSE_CREATE_PACKAGE') == False
->
-> I did the same and now it's failing with:
-> AttributeError: 'str' object has no attribute 'getVarFlag'
->
-> here is last version
-> http://bpaste.net/show/73667/
+For a description of the MIPS system call interface, see:
 
+http://www.linux-mips.org/wiki/Syscall
 
-Ah, I probably remembered the argument order for typed_value wrong :)
+Signed-off-by: Phil Staub <Phil.Staub@windriver.com>
+---
+ .../libaio/libaio_fix_for_mips_syscall.patch       |   57 ++++++++++++++++++++
+ meta/recipes-extended/libaio/libaio_0.3.109.bb     |    6 ++-
+ 2 files changed, 61 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
+
+diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
+new file mode 100644
+index 0000000..0408865
+--- /dev/null
++++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
+@@ -0,0 +1,57 @@
++diff -urp libaio-0.3.109.orig/src/syscall-mips.h libaio-0.3.109/src/syscall-mips.h
++--- libaio-0.3.109.orig/src/syscall-mips.h	2013-01-23 20:17:55.750897706 -0800
+++++ libaio-0.3.109/src/syscall-mips.h	2013-01-23 13:13:34.143660455 -0800
++@@ -76,7 +76,7 @@ type fname(atype a) \
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #define io_syscall2(type,fname,sname,atype,a,btype,b) \
++@@ -100,7 +100,7 @@ type fname(atype a, btype b) \
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #define io_syscall3(type,fname,sname,atype,a,btype,b,ctype,c) \
++@@ -125,7 +125,7 @@ type fname(atype a, btype b, ctype c) \
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #define io_syscall4(type,fname,sname,atype,a,btype,b,ctype,c,dtype,d) \
++@@ -150,7 +150,7 @@ type fname(atype a, btype b, ctype c, dt
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #if (_MIPS_SIM == _MIPS_SIM_ABI32)
++@@ -186,7 +186,7 @@ type fname(atype a, btype b, ctype c, dt
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #endif /* (_MIPS_SIM == _MIPS_SIM_ABI32) */
++@@ -216,7 +216,7 @@ type fname (atype a,btype b,ctype c,dtyp
++ 	\
++ 	if (__a3 == 0) \
++ 		return (type) __v0; \
++-	return (type) -1; \
+++	return (type) -(__v0); \
++ }
++ 
++ #endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
+diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+index 161b712..23641ed 100644
+--- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
++++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+@@ -5,13 +5,15 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
+            file://00_arches.patch \
+            file://toolchain.patch \
+            file://destdir.patch \
+-           file://libaio_fix_for_x32.patch"
++           file://libaio_fix_for_x32.patch \
++	   file://libaio_fix_for_mips_syscall.patch \
++"
+ 
+ SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
+ SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
 -- 
-Christopher Larson
-
---f46d04016b392113c504d470c2ac
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Tue, Jan 29, 2013 at 8:59 AM, Martin Jansa <span dir="ltr">&lt;<a href="mailto:martin.jansa@gmail.com" target="_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br>
-
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="HOEnZb adM"><div class="im">&gt; We do have an existing mechanism for handling boolean variables in a sane<br>
+1.7.7.6
 
 
-&gt; way, as an FYI.<br>
-&gt;<br>
-&gt; LICENSE_CREATE_PACKAGE[type] = &quot;boolean&quot;<br>
-&gt;<br>
-&gt; LICENSE_CREATE_PACKAGE = &quot;1&quot;<br>
-&gt; oe.data.typed_value(d, &#39;LICENSE_CREATE_PACKAGE&#39;) == True<br>
-&gt; LICENSE_CREATE_PACKAGE = &quot;0&quot;<br>
-&gt; oe.data.typed_value(d, &#39;LICENSE_CREATE_PACKAGE&#39;) == False<br>
-<br>
-</div></div>I did the same and now it&#39;s failing with:<br>
-AttributeError: &#39;str&#39; object has no attribute &#39;getVarFlag&#39;<br>
-<br>
-here is last version<br>
-<a href="http://bpaste.net/show/73667/" target="_blank">http://bpaste.net/show/73667/</a></blockquote></div><br>Ah, I probably remembered the argument order for typed_value wrong :)<br>-- <br>Christopher Larson</div></div>
 
-
---f46d04016b392113c504d470c2ac--
