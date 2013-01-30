@@ -1,25 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U0Pl3-0007tf-LD
+	(envelope-from <radu.moisan@intel.com>) id 1U0SUW-0003cK-2z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jan 2013 05:58:51 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2013 20:43:07 -0800
+	Wed, 30 Jan 2013 08:53:57 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 29 Jan 2013 23:38:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,565,1355126400"; d="scan'208";a="196521591"
-Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Jan 2013 20:43:06 -0800
-Message-ID: <5108A4D9.6010702@linux.intel.com>
-Date: Tue, 29 Jan 2013 20:43:05 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Phil Staub <Phil.Staub@windriver.com>
-References: <1359487681-9335-1-git-send-email-Phil.Staub@windriver.com>
-In-Reply-To: <1359487681-9335-1-git-send-email-Phil.Staub@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mips: Fix libaio system call interface
+X-IronPort-AV: E=Sophos;i="4.84,566,1355126400"; d="scan'208";a="250170082"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
+	by azsmga001.ch.intel.com with ESMTP; 29 Jan 2013 23:38:12 -0800
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Jan 2013 09:38:06 +0200
+Message-Id: <1359531488-3198-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2 v2] Remove -systemd postfix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,119 +27,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 04:58:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Jan 2013 07:54:08 -0000
 
-On 01/29/2013 11:28 AM, Phil Staub wrote:
-> The io_syscallX wrappers in syscall-mips.h discard error return status
-> by overwriting the value returned in v0 from the system call with -1.
->
-> Modify this behavior by returning the negative of the return value on
-> error (as identified by a3 != 0). This convention is consistent with
-> the behavior observed in syscall-ppc.h.
->
-> For a description of the MIPS system call interface, see:
->
-> http://www.linux-mips.org/wiki/Syscall
->
-> Signed-off-by: Phil Staub <Phil.Staub@windriver.com>
-> ---
->   .../libaio/libaio_fix_for_mips_syscall.patch       |   57 ++++++++++++++++++++
->   meta/recipes-extended/libaio/libaio_0.3.109.bb     |    6 ++-
->   2 files changed, 61 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
->
-> diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
-> new file mode 100644
-> index 0000000..0408865
-> --- /dev/null
-> +++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscall.patch
-> @@ -0,0 +1,57 @@
-> +diff -urp libaio-0.3.109.orig/src/syscall-mips.h libaio-0.3.109/src/syscall-mips.h
-> +--- libaio-0.3.109.orig/src/syscall-mips.h	2013-01-23 20:17:55.750897706 -0800
-> ++++ libaio-0.3.109/src/syscall-mips.h	2013-01-23 13:13:34.143660455 -0800
-> +@@ -76,7 +76,7 @@ type fname(atype a) \
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #define io_syscall2(type,fname,sname,atype,a,btype,b) \
-> +@@ -100,7 +100,7 @@ type fname(atype a, btype b) \
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #define io_syscall3(type,fname,sname,atype,a,btype,b,ctype,c) \
-> +@@ -125,7 +125,7 @@ type fname(atype a, btype b, ctype c) \
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #define io_syscall4(type,fname,sname,atype,a,btype,b,ctype,c,dtype,d) \
-> +@@ -150,7 +150,7 @@ type fname(atype a, btype b, ctype c, dt
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #if (_MIPS_SIM == _MIPS_SIM_ABI32)
-> +@@ -186,7 +186,7 @@ type fname(atype a, btype b, ctype c, dt
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #endif /* (_MIPS_SIM == _MIPS_SIM_ABI32) */
-> +@@ -216,7 +216,7 @@ type fname (atype a,btype b,ctype c,dtyp
-> + 	\
-> + 	if (__a3 == 0) \
-> + 		return (type) __v0; \
-> +-	return (type) -1; \
-> ++	return (type) -(__v0); \
-> + }
-> +
-> + #endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
-> diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> index 161b712..23641ed 100644
-> --- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> +++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> @@ -5,13 +5,15 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
->   LICENSE = "LGPLv2.1+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
->              file://00_arches.patch \
->              file://toolchain.patch \
->              file://destdir.patch \
-> -           file://libaio_fix_for_x32.patch"
-> +           file://libaio_fix_for_x32.patch \
-> +	   file://libaio_fix_for_mips_syscall.patch \
-> +"
+rebased so that the patch applies on systemd 197
+removed RDEPENDS for avahi as Ross suggested 
 
-This needs to be rebased to Master.
+Radu Moisan (2):
+  systemd: Remove -systemd postfix
+  avahi: Remove -systemd postfix
 
-Sau!
+ meta/recipes-connectivity/avahi/avahi.inc |    8 +++-----
+ meta/recipes-core/systemd/systemd_197.bb  |    9 ++++-----
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
->
->   SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
->   SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
->
+-- 
+1.7.9.5
+
 
 
