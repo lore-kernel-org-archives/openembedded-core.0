@@ -1,41 +1,42 @@
-Received: from mail-lb0-f181.google.com ([209.85.217.181])
+Received: from mail-pa0-f48.google.com ([209.85.220.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1U0eyc-0002IJ-CN
+	(envelope-from <martin.jansa@gmail.com>) id 1U0f3Q-0002kf-KB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jan 2013 22:13:50 +0100
-Received: by mail-lb0-f181.google.com with SMTP id gm6so2639433lbb.12
+	Wed, 30 Jan 2013 22:19:10 +0100
+Received: by mail-pa0-f48.google.com with SMTP id fa1so1304207pad.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2013 12:58:08 -0800 (PST)
+	Wed, 30 Jan 2013 13:03:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=ZQCjHV4vEOoSbpKraRtIlxIkaQ5JXqmJyUpsJx8O4Io=;
-	b=QtLqGCRIJ8VRpJyKiQu5+pDmBqfzOW2UL//t09JW/8Hr8zX7FkpSliJn9zjeA/ua4d
-	I3ND6sD5yxDn3zHVn1d/iDEQ7blzYsmdqLBYKp0JOwqI2h+oMWjwuVzWSkkiVlkyVsBu
-	vjekHBPLzWGSSJi2cyGYmudtAS4YoC5IEjgTTzlQW5HtG8T4Tfz3fpmFlIilaP25J+ls
-	yOg+0HgD3xkeDVT2u4bt0/lGi3LcAb3si2z+3Oh2tgd5N86uLTNWqUMNqYyMkn/x66hg
-	dq83wzk0iAVhc5sH7lGJnmVvMNN51M4uPweUxW3BkHtZrykbNAopLsnv5ADGTbUunT70
-	DWbQ==
-X-Received: by 10.112.30.104 with SMTP id r8mr2491367lbh.82.1359579488397;
-	Wed, 30 Jan 2013 12:58:08 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Wed, 30 Jan 2013 12:57:48 -0800 (PST)
-In-Reply-To: <3C2BEFD8-C67F-4356-9518-5E91D1B975D4@3gfp.com>
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=6EfNtQFeaecAPr9uaanXh+DyI2IUMQ+S/urkmc8jX/I=;
+	b=Zq6uRf5cWA+WrvKy6AsCCnsPN/3WHykWzcKiZATB+3QIs28s9xDKZp2yzJpOnMz2NO
+	c3xyPHzj5kHTX3utGlJCL+7X9AvZts5+7H68Eo0+PAjvryVL6kkbD/J41Qv3AMtxwqZc
+	u8XZj1+sJntf7u3p0rT8O6NeFMlnrGiUlDU4aMgWaGpqYRuc2jSn/bx+yCx1I9tUN34J
+	CsJIhEZgMvS4HhfgqnNqF7UF6xnPpO3MJkDATlZM2V8KzuTAMnSQPFWYVsN/kK7cN3gy
+	8y9VojZlamqAw7Zz2Cj/QOZxbDujjxwK+NopDWhR2kuquxfy7lVGUnmoGrkQC8Yn8gzW
+	O3Mw==
+X-Received: by 10.68.135.133 with SMTP id ps5mr15501718pbb.132.1359579786131; 
+	Wed, 30 Jan 2013 13:03:06 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id qt2sm2600972pbb.24.2013.01.30.13.03.02
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 30 Jan 2013 13:03:05 -0800 (PST)
+Date: Wed, 30 Jan 2013 22:03:06 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20130130210306.GA2102@jama.dyndns-home.com>
 References: <alpine.DEB.2.02.1301290359260.12134@oneiric>
 	<20130129094422.GJ16904@jama.palm1.palmone.com>
 	<alpine.DEB.2.02.1301290453220.12871@oneiric>
 	<20130129112406.GK16904@jama.palm1.palmone.com>
 	<alpine.DEB.2.02.1301301520430.3650@oneiric>
 	<CABcZANmn_EP_qGszxtsEymkMFe4iHDsWvXGc2wtc0pSieMTjSQ@mail.gmail.com>
-	<CABcZAN=urVqvHFj_EkRXfkDUpbNb51Lr7taPWiPYXqqU__Cigw@mail.gmail.com>
-	<3C2BEFD8-C67F-4356-9518-5E91D1B975D4@3gfp.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 30 Jan 2013 13:57:48 -0700
-X-Google-Sender-Auth: 1uMeGLHQCRxwTM1PLFQiGWNXJTA
-Message-ID: <CABcZANnVrSxSvK2zS+MHGYGr3u3nFr7r8x4VgaFiioG6GxuaKA@mail.gmail.com>
-To: Harvey Chapman <hchapman-oecore@3gfp.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
+	<alpine.DEB.2.02.1301301535390.3782@oneiric>
+MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.02.1301301535390.3782@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Chris Larson <clarson@kergoth.com>,
 	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: BB_NO_NETWORK = "1" causes fetch to fail for unnecessary u-boot parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,85 +51,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 21:13:50 -0000
-Content-Type: multipart/alternative; boundary=f46d04016b39732ba104d487c4ca
+X-List-Received-Date: Wed, 30 Jan 2013 21:19:13 -0000
+X-Groupsio-MsgNum: 34727
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
 
---f46d04016b39732ba104d487c4ca
-Content-Type: text/plain; charset=UTF-8
-
-On Wed, Jan 30, 2013 at 1:49 PM, Harvey Chapman <hchapman-oecore@3gfp.com>wrote:
-
-> On Jan 30, 2013, at 3:34 PM, Chris Larson <clarson@kergoth.com> wrote:
->
-> On Wed, Jan 30, 2013 at 1:34 PM, Chris Larson <clarson@kergoth.com> wrote:
->
->>
->> It's worth bringing up the SRCREV_POLICY variable, which lets you control
->> how bitbake handles caching of srcrevs. By default, it figures it needs to
->> get the mapping every time (value == clear, or unset), which can make sense
->> in certain cases. But you can tell it to go ahead and use the values it has
->> cached from a previous run, as well (value == cache). This can be useful if
->> you know you're moving into an offline state and want to prepare for it
->> above and beyond the -c fetchall.
->
->
-> Erm, s/SRCREV_POLICY/BB_SRCREV_POLICY/
->
->
-> So, should BB_NO_NETWORK=1 automatically set BB_SRCREV_POLICY=cache
-> because the former implies the latter?
->
-
-The latter only works if you've already done a build in that tmpdir and
-therefore got the cache prepopulated. So no, it should only be enabled
-explicitly, indicating the user has at least considered the implications.
--- 
-Christopher Larson
-
---f46d04016b39732ba104d487c4ca
-Content-Type: text/html; charset=UTF-8
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jan 30, 2013 at 1:49 PM, Harvey Chapman <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:hchapman-oecore@3gfp.com" target=3D"_blank">hchapman-oecore@3g=
-fp.com</a>&gt;</span> wrote:<br>
+On Wed, Jan 30, 2013 at 03:37:45PM -0500, Robert P. J. Day wrote:
+> On Wed, 30 Jan 2013, Chris Larson wrote:
+>=20
+> > It's worth bringing up the SRCREV_POLICY variable, which lets you
+> > control how bitbake handles caching of srcrevs. By default, it
+> > figures it needs to get the mapping every time (value =3D=3D clear, or
+> > unset), which can make sense in certain cases. But you can tell it
+> > to go ahead and use the values it has cached from a previous run, as
+> > well (value =3D=3D cache). This can be useful if you know you're moving
+> > into an offline state and want to prepare for it above and beyond
+> > the -c fetchall.
+>=20
+>   i'm not in the least embarrassed to admit i didn't even know that
+> variable existed.  and, yes, that pretty much solves the problem.
+>=20
+>   i'm still creeped out by that comment of using the tag name to deal
+> with rebasing a public commit, though.  :-P
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im"><div>On Jan 30, 2013, at 3=
-:34 PM, Chris Larson &lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_=
-blank">clarson@kergoth.com</a>&gt; wrote:</div>
+There is also rebaseable parameter for git:// fetcher to generate
+versioned snapshot from repository and reuse that in future build
+(like fetcher1 did, see https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D1511).
 
-<br></div><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gmail_ex=
-tra"><div class=3D"gmail_quote"><div class=3D"im">On Wed, Jan 30, 2013 at 1=
-:34 PM, Chris Larson <span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@kergot=
-h.com" target=3D"_blank">clarson@kergoth.com</a>&gt;</span> wrote:</div>
+That should be used in that SRC_URI.
 
-<div class=3D"im"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
-left-style:solid;padding-left:1ex"><div><div><div class=3D"gmail_quote"><br=
-></div>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-</div></div>It&#39;s worth bringing up the SRCREV_POLICY variable, which le=
-ts you control how bitbake handles caching of srcrevs. By default, it figur=
-es it needs to get the mapping every time (value =3D=3D clear, or unset), w=
-hich can make sense in certain cases. But you can tell it to go ahead and u=
-se the values it has cached from a previous run, as well (value =3D=3D cach=
-e). This can be useful if you know you&#39;re moving into an offline state =
-and want to prepare for it above and beyond the -c fetchall.</blockquote>
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlEJiooACgkQN1Ujt2V2gByAHgCgmVT/m7axi2EW0iyEHWZNEXDt
+cO8AnRIB0KdPVJBdyKwntVJ+E43kNeQR
+=UFg6
+-----END PGP SIGNATURE-----
 
-</div></div><br>Erm, s/SRCREV_POLICY/BB_SRCREV_POLICY/<br></div></div></blo=
-ckquote><div><br></div><div>So, should BB_NO_NETWORK=3D1 automatically set =
-BB_SRCREV_POLICY=3Dcache because the former implies the latter?</div></bloc=
-kquote>
-
-</div><br>The latter only works if you&#39;ve already done a build in that =
-tmpdir and therefore got the cache prepopulated. So no, it should only be e=
-nabled explicitly, indicating the user has at least considered the implicat=
-ions.<br>
-
--- <br>Christopher Larson</div></div>
-
---f46d04016b39732ba104d487c4ca--
+--LZvS9be/3tNcYl/X--
