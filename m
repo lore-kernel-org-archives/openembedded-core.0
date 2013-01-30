@@ -1,34 +1,42 @@
-Received: from [8.20.30.154] (helo=mx1.devonhealth.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <igeiser@devonit.com>) id 1U0avg-00054Z-EV
+	(envelope-from <ross.burton@intel.com>) id 1U0bui-0003pm-Rj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jan 2013 17:54:34 +0100
-Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
-	(10.0.20.154) with Microsoft SMTP Server id 8.3.213.0;
-	Wed, 30 Jan 2013 11:38:31 -0500
-Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
-	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
-	(Email Firewall v6.5)); Wed, 30 Jan 2013 11:38:38 -0500
-X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
-Received: from SOUTHSIDE.devonintlgroup.com ([10.0.2.2]) by
-	boddingtons.devonintlgroup.com ([10.0.2.7]) with mapi; Wed, 30 Jan 2013
-	11:38:38 -0500
-From: Ian Geiser <igeiser@devonit.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jan 2013 11:38:36 -0500
-Thread-Topic: [OE-core] [PATCH] mesa-dri: add extra dri drivers
-Thread-Index: Ac3+/MwUJcGsTzRdR4Wfm1jMsEe6qwACuoRQ
-Message-ID: <B57A220D1EE1644685BA9AD5C790D20526BE045DE4@SOUTHSIDE.devonintlgroup.com>
+	Wed, 30 Jan 2013 18:57:37 +0100
+Received: from mail-da0-f70.google.com ([209.85.210.70])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 30 Jan 2013 09:40:40 -0800
+Received: by mail-da0-f70.google.com with SMTP id t11so1725096daj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jan 2013 09:41:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=FTpTQupyNV03CpgTH4lNlvJTi3irwIzpF1BqM6LKpTw=;
+	b=Bh1EThq/3ufB46v1Sxc7Z9dUbIKvWz7vfZhKA7YA3CQ/mq1+XS4g+ei0hZvHqWSzI2
+	Msy9J8tKTrUEDmYRt6TKMe/d9SudZg9L9lRxhVox+65xdll623pw3kdPb2DqmaN8hGMX
+	pTmOz3fqY3xQA6fI4bjRmTLe44RnB2YjEnN+bexNXoXSIK/1aUE0XCz3Rpw+RkYW/mYo
+	KAdjQnakrXi3ZY4jhZswa5lVBOTJ0L/4vhev0eYIJA9W5D9RzxbScD48zeod/x1aLmOn
+	ZCJETnG1YoG7uJqQFznzNAgBJuLZIGiScIvJsLlRBBLabU3TNjJIeQGR8XXGcBGwCg6f
+	5dAg==
+X-Received: by 10.68.202.65 with SMTP id kg1mr14488258pbc.28.1359567712123;
+	Wed, 30 Jan 2013 09:41:52 -0800 (PST)
+X-Received: by 10.68.202.65 with SMTP id kg1mr14488238pbc.28.1359567711960;
+	Wed, 30 Jan 2013 09:41:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.66.193.225 with HTTP; Wed, 30 Jan 2013 09:41:31 -0800 (PST)
+In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE045DE4@SOUTHSIDE.devonintlgroup.com>
 References: <1359552371-27121-1-git-send-email-igeiser@devonit.com>
 	<CAJTo0LbOKe5KhJyKZYPiOkEZdcGM=NJVOsgt8cc_TkqykU99sA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbOKe5KhJyKZYPiOkEZdcGM=NJVOsgt8cc_TkqykU99sA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-X-WSS-ID: 7D1793044CW1009924-01-01
+	<B57A220D1EE1644685BA9AD5C790D20526BE045DE4@SOUTHSIDE.devonintlgroup.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 30 Jan 2013 17:41:31 +0000
+Message-ID: <CAJTo0LbN4r7W2NkDrypzBiM8N1SMs7MiV45brZVRXixZheSyYQ@mail.gmail.com>
+To: Ian Geiser <igeiser@devonit.com>
+X-Gm-Message-State: ALoCoQnEaUz4jK6vp9Me+2OtSj3EBoVgfErRDAa8veSLqU3SyebfGvzgBsL24cbSyL9vrhd528qCYBwB/2gvVHDJEeEIazKPLR0ArbQrFscbYPIFbncV/c0bwxjskePjF5HWmOkzuKJpaGHcKSaO9Xbgotqb2satxhT1ZKpLmDWAo55FbdA1SxNcS+i1BVBc3Q81rmjhtTH2
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa-dri: add extra dri drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,44 +50,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 16:54:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 30 Jan 2013 17:57:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
-bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSAzMCwg
-MjAxMyAxMDoxNiBBTQ0KPiBUbzogSWFuIEdlaXNlcg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0g
-bWVzYS1kcmk6IGFkZCBleHRyYSBkcmkgZHJpdmVycw0KPiANCj4gT24gMzAgSmFudWFyeSAyMDEz
-IDEzOjI2LCAgPGlnZWlzZXJAZGV2b25pdC5jb20+IHdyb3RlOg0KPiA+IE9uIHg4NiB0aGUgQVRJ
-IGFuZCBOVmlkaWEgZHJtIGRyaXZlcnMgYXJlIHZhbGlkIHRvIGJ1aWxkLg0KPiA+IEN1cnJlbnRs
-eSB0aGVyZSBhcmUgX2FwcGVuZF94ODYgYW5kIF9hcHBlbmRfeDY0IGxpbmVzIHRoYXQgZXhwbGlj
-aXRseQ0KPiA+IGFkZCBpOTE1IGFuZCBpOTY1LiAgRm9yIGNvbnNpc3RlbmN5IEkgdGhpbmsgdGhh
-dCB0aGUgQVRJIGFuZCBOVmlkaWENCj4gPiBkcm0gZHJpdmVyIHNob3VsZCBiZSBhZGRlZC4gSW4g
-Y2xhc3NpYyB0aGVzZSB3ZXJlIHR1bmFibGUgdmlhIHRoZQ0KPiA+IG1hY2hpbmUgY29uZmlndXJh
-dGlvbiBmaWxlcy4gSSB3b3VsZCBhcmd1ZSB3ZSBzaG91bGQgZ28gYmFjayB0byB0aGF0DQo+ID4g
-c28gd2Ugc2hvdWxkIG1ha2UgdGhlIERSSURSSVZFUlMgZmllbGQgc29tZXRoaW5nIHRoYXQgY2Fu
-IGJlIGRlZmluZWQNCj4gPiB0aGVyZS4NCj4gPg0KPiA+ICogTWFkZSB0aGUgRFJJRFJJVkVSUyBm
-aWVsZCBvdmVycmlkYWJsZS4NCj4gPiAqIEFkZCBBVEkgYW5kIE5WaWRpYSBEUkkgZHJpdmVycyB0
-byB0aGUgYnVpbGQgbGlzdCBmb3INCj4gPiAgIHg4NiBhbmQgeDg2XzY0Lg0KPiANCj4gSSdtIG5v
-dCBzdXJlIHdoeSB3ZSBuZWVkIHRvIG1ha2UgdGhpcyBtYWNoaW5lLXR1bmFibGUgLSB3ZSBjdXJy
-ZW50bHkNCj4gYnVpbGQgYWxsIGRyaXZlcnMgaW4gbGliZHJtIChidXQgc3BsaXQgdGhlbSBiZXR3
-ZWVuIHBhY2thZ2VzKSwgc28gd2h5DQo+IG5vdCBqdXN0IGVuYWJsZSBhbGwgd29ya2luZyBEUkkg
-ZHJpdmVycyBpbiBNZXNhIGFuZCBzcGxpdCB0aGVtIGJldHdlZW4NCj4gcGFja2FnZXMuDQo+IA0K
-PiBNYWNoaW5lIGNvbmZpZ3VyYXRpb25zIGNhbiBwdWxsIGluIHNwZWNpZmljIGRyaXZlciBwYWNr
-YWdlcyAob3IgYWxsIG9mDQo+IHRoZW0pIHdpdGhvdXQgbWFraW5nIE1lc2EgaXRzZWxmIG1hY2hp
-bmUtc3BlY2lmaWMuDQo+IA0KPiBDYW4geW91IHNlbmQgYSBWMiB3aXRob3V0IHRoZSBjb25kaXRp
-b25hbCBhc3NpZ25tZW50ICh1bmxlc3MgeW91IGhhdmUNCj4gYW4gYXJndW1lbnQgZm9yIGtlZXBp
-bmcgaXQpLCB3aXRoIGEgY29tbWl0IG1lc3NhZ2UgdGhhdCBqdXN0IGRlc2NyaWJlcw0KPiB0aGUg
-cGF0Y2guDQpObywgSSB3YXMganVzdCBleHRlbmRpbmcgd2hhdCB3YXMgdGhlcmUgc28gSSBoYXZl
-IG5vIHJlYWwgcHJlZmVyZW5jZS4gIEkgd2lsbCBuZWVkIHRvIGNoZWNrIGlmIGl0IGltcGFjdHMg
-bm9uLXg4NiBidWlsZHMuICBJIGRvIG5vdCB0aGluayBpdCB3aWxsIGJlIGEgcHJvYmxlbSwgc2lu
-Y2UgbW9zdCBub24teDg2IHN5c3RlbXMgaGF2ZSB0aGVpciBvd24gR0wgaW1wbGVtZW50YXRpb25z
-LiAgSSB0aGluayBpdCB3aWxsIGp1c3QgZW5hYmxlIHN3cmFzdCBvbiBvbmVzIHRoYXQgYXJlIG5v
-dCB4ODYuICBJIHdpbGwgcmVzdWJtaXQgd2l0aCBpdCBzZXQgdG8gYXV0byB3aGVyZSBpdCB3aWxs
-IG9ubHkgYnVpbGQgdGhlIGFwcHJvcHJpYXRlIGRyaXZlcnMgYWZ0ZXIgSSB0ZXN0LiAgVGhhbmtz
-IQ0KDQo=
+On 30 January 2013 16:38, Ian Geiser <igeiser@devonit.com> wrote:
+> No, I was just extending what was there so I have no real preference.  I =
+will need to check if it impacts non-x86 builds.  I do not think it will be=
+ a problem, since most non-x86 systems have their own GL implementations.  =
+I think it will just enable swrast on ones that are not x86.  I will resubm=
+it with it set to auto where it will only build the appropriate drivers aft=
+er I test.  Thanks!
 
+In general explicitly stating things is preferred so the current
+arrangement works nicely, so just adding the extra drivers to the
+append lines is good.
+
+Ross
 
 
