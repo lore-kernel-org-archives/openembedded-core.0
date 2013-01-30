@@ -1,41 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from [8.20.30.154] (helo=mx1.devonhealth.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U0ZHF-0001W8-HZ
+	(envelope-from <igeiser@devonit.com>) id 1U0ZLv-0002Nl-9n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jan 2013 16:08:46 +0100
-Received: from mail-ye0-f197.google.com ([209.85.213.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 30 Jan 2013 06:52:58 -0800
-Received: by mail-ye0-f197.google.com with SMTP id q9so2126475yen.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2013 06:52:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=2FbyKqtH7LOKMP4QwEZLhJOI9dww/TGAKajxTtnsGlA=;
-	b=DXsto5OC7gFLDgTRKxUdzchywWchwQuhENcLilt4hhIZHuUCpe/W78K7eqkjrIupkV
-	J59jHmwwtAtDC1XrLYharZLwHCo0GPhnHcxldjmlF8NIgizMvej9HYBNFnTUW9s5ftj7
-	xDjOrTaKCnuRqP2KKH/m2znHzt5h09fNJ5WsMOKLi0uHIxcZeo0FRMaRxgG7+cDAh56Z
-	LTA4JJSLcRpCAZ5kzng2BdjsjEoUD/5lkhlcJK0TkeD5X60aogJQU6NAcYn+j27uMDNn
-	9pmZ0KKU22Dd0S5iUEAA+O0Na/g+OHyOpX8yMX8ol7xFD7KRH2jrRoItDzMg2yZlZjV+
-	fm8Q==
-X-Received: by 10.52.90.243 with SMTP id bz19mr172527vdb.112.1359557578199;
-	Wed, 30 Jan 2013 06:52:58 -0800 (PST)
-X-Received: by 10.52.90.243 with SMTP id bz19mr172522vdb.112.1359557578081;
-	Wed, 30 Jan 2013 06:52:58 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.205.236 with HTTP; Wed, 30 Jan 2013 06:52:37 -0800 (PST)
-In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE045DD5@SOUTHSIDE.devonintlgroup.com>
+	Wed, 30 Jan 2013 16:13:32 +0100
+Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
+	(10.0.20.154) with Microsoft SMTP Server id 8.3.213.0;
+	Wed, 30 Jan 2013 09:57:36 -0500
+Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
+	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
+	(Email Firewall v6.5)); Wed, 30 Jan 2013 09:57:44 -0500
+X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
+Received: from SOUTHSIDE.devonintlgroup.com ([10.0.2.2]) by
+	boddingtons.devonintlgroup.com ([10.0.2.7]) with mapi; Wed, 30 Jan 2013
+	09:57:44 -0500
+From: Ian Geiser <igeiser@devonit.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Jan 2013 09:57:43 -0500
+Thread-Topic: [OE-core] [PATCH 17/17] directfb: Explictly disable mesa
+Thread-Index: Ac3++YQtqHp/cNjfTQ+sDtRPrMJB8QAAGepg
+Message-ID: <B57A220D1EE1644685BA9AD5C790D20526BE045DD8@SOUTHSIDE.devonintlgroup.com>
 References: <cover.1359554291.git.richard.purdie@linuxfoundation.org>
 	<c9683f65462fdbe2c0f3034f1740fd6bad721bf4.1359554291.git.richard.purdie@linuxfoundation.org>
 	<B57A220D1EE1644685BA9AD5C790D20526BE045DD5@SOUTHSIDE.devonintlgroup.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 Jan 2013 14:52:37 +0000
-Message-ID: <CAJTo0LbHAy3KDLjAL4hxKhPxm--q20R4KS12e_0YKTAykve1MA@mail.gmail.com>
-To: Ian Geiser <igeiser@devonit.com>
-X-Gm-Message-State: ALoCoQkUShIszY/QAgf1M4Pq930daOzs6dsceFN6y8vIfArLveW1VVa1QycySsplk2K2NWkYoBVe3VCD9yRLzxZGnGgh7zFsxkFOG0IB/1rqoGw/0GRMICxr8qegFJo8U8eBpUAREequjYrJPOePEYoJgfANcs7n5s7IqX0nCNjpdc1lNWj9ONJIG4aP+WIcTE+7N9Uvd6oi
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<CAJTo0LbHAy3KDLjAL4hxKhPxm--q20R4KS12e_0YKTAykve1MA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbHAy3KDLjAL4hxKhPxm--q20R4KS12e_0YKTAykve1MA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+X-WSS-ID: 7D17EB624CW1009319-01-01
 Subject: Re: [PATCH 17/17] directfb: Explictly disable mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,24 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 15:08:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 Jan 2013 15:13:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 30 January 2013 14:43, Ian Geiser <igeiser@devonit.com> wrote:
->> Without this, directfb might build with mesa enabled if present.
->>
-> Is it possible to make this tunable?  We use directfb with the mesa dri drivers for opengl.  Maybe enable it only if the distro features contains opengl?
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSAzMCwg
+MjAxMyA5OjUzIEFNDQo+IFRvOiBJYW4gR2Vpc2VyDQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDE3
+LzE3XSBkaXJlY3RmYjogRXhwbGljdGx5IGRpc2FibGUgbWVzYQ0KPiANCj4gT24gMzAgSmFudWFy
+eSAyMDEzIDE0OjQzLCBJYW4gR2Vpc2VyIDxpZ2Vpc2VyQGRldm9uaXQuY29tPiB3cm90ZToNCj4g
+Pj4gV2l0aG91dCB0aGlzLCBkaXJlY3RmYiBtaWdodCBidWlsZCB3aXRoIG1lc2EgZW5hYmxlZCBp
+ZiBwcmVzZW50Lg0KPiA+Pg0KPiA+IElzIGl0IHBvc3NpYmxlIHRvIG1ha2UgdGhpcyB0dW5hYmxl
+PyAgV2UgdXNlIGRpcmVjdGZiIHdpdGggdGhlIG1lc2ENCj4gZHJpIGRyaXZlcnMgZm9yIG9wZW5n
+bC4gIE1heWJlIGVuYWJsZSBpdCBvbmx5IGlmIHRoZSBkaXN0cm8gZmVhdHVyZXMNCj4gY29udGFp
+bnMgb3BlbmdsPw0KPiANCj4gSSB3YXMganVzdCBzYXlpbmcgdG8gUmljaGFyZCB0aGF0IGlmIHNv
+bWVvbmUgd2FudHMgaXQsIHdlIGNhbiBlbmFibGUNCj4gaXQuDQo+IA0KPiBCYXNpbmcgb24gdGhl
+ICJvcGVuZ2wiIGRpc3RybyBmZWF0dXJlIG1ha2VzIHNvbWUgc2Vuc2UsIGFzIGxvbmcgYXMNCj4g
+cGVvcGxlIGFyZSBhd2FyZSBvZiB0aGUgaW50ZXJhY3Rpb24gYmV0d2VlbiBkaXJlY3RmYiBhbmQg
+b3BlbmdsLA0KPiBlc3BlY2lhbGx5IG9uIHBsYXRmb3JtcyB3aGVyZSBNZXNhIG1heSBub3QgYmUg
+dGhlIEdMIGltcGxlbWVudGF0aW9uLg0KPiANCj4gQW4gYWx0ZXJuYXRpdmUgd291bGQgYmUgdG8g
+bWFrZSBpdCBhIG5vbi1kZWZhdWx0IFBBQ0tBR0VDT05GSUcgb3B0aW9uLA0KPiBzbyB5b3UgY2Fu
+IGVuYWJsZSBpdCBiZWNhdXNlIHlvdSBrbm93IHRoYXQgeW91IGhhdmUgTWVzYSBhcyB5b3VyIEdM
+DQo+IHByb3ZpZGVyLg0KDQpOb3cgdGhhdCB5b3Ugc3VnZ2VzdCBpdCBJIGxpa2UgdGhlIFBBQ0tB
+R0VDT05GSUcgb3B0aW9uIGJlY2F1c2UgaXRzIHRyaXZpYWwgdG8gd29yayB3aXRoIGZyb20gdGhl
+IGRpc3RybyB3aXRob3V0IGltcGFjdGluZyBvdGhlciB0aGluZ3MuICBJdCBhbHNvIHN0cmVhbWxp
+bmVzIHRoZSBkZXBlbmRlbmNpZXMgYW5kIGNvbmZpZ3VyZSBvcHRpb25zLiAgVGhhbmtzIQ0KDQo=
 
-I was just saying to Richard that if someone wants it, we can enable it.
-
-Basing on the "opengl" distro feature makes some sense, as long as
-people are aware of the interaction between directfb and opengl,
-especially on platforms where Mesa may not be the GL implementation.
-
-An alternative would be to make it a non-default PACKAGECONFIG option,
-so you can enable it because you know that you have Mesa as your GL
-provider.
-
-Ross
 
 
