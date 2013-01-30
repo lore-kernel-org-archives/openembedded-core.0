@@ -1,43 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U0bui-0003pm-Rj
+	(envelope-from <sgw@linux.intel.com>) id 1U0ckZ-0001x3-OW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jan 2013 18:57:37 +0100
-Received: from mail-da0-f70.google.com ([209.85.210.70])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 30 Jan 2013 09:40:40 -0800
-Received: by mail-da0-f70.google.com with SMTP id t11so1725096daj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jan 2013 09:41:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=FTpTQupyNV03CpgTH4lNlvJTi3irwIzpF1BqM6LKpTw=;
-	b=Bh1EThq/3ufB46v1Sxc7Z9dUbIKvWz7vfZhKA7YA3CQ/mq1+XS4g+ei0hZvHqWSzI2
-	Msy9J8tKTrUEDmYRt6TKMe/d9SudZg9L9lRxhVox+65xdll623pw3kdPb2DqmaN8hGMX
-	pTmOz3fqY3xQA6fI4bjRmTLe44RnB2YjEnN+bexNXoXSIK/1aUE0XCz3Rpw+RkYW/mYo
-	KAdjQnakrXi3ZY4jhZswa5lVBOTJ0L/4vhev0eYIJA9W5D9RzxbScD48zeod/x1aLmOn
-	ZCJETnG1YoG7uJqQFznzNAgBJuLZIGiScIvJsLlRBBLabU3TNjJIeQGR8XXGcBGwCg6f
-	5dAg==
-X-Received: by 10.68.202.65 with SMTP id kg1mr14488258pbc.28.1359567712123;
-	Wed, 30 Jan 2013 09:41:52 -0800 (PST)
-X-Received: by 10.68.202.65 with SMTP id kg1mr14488238pbc.28.1359567711960;
-	Wed, 30 Jan 2013 09:41:51 -0800 (PST)
+	Wed, 30 Jan 2013 19:51:31 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jan 2013 10:35:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,569,1355126400"; d="scan'208";a="280464829"
+Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2013 10:35:24 -0800
+Message-ID: <510967EB.5060700@linux.intel.com>
+Date: Wed, 30 Jan 2013 10:35:23 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.66.193.225 with HTTP; Wed, 30 Jan 2013 09:41:31 -0800 (PST)
-In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE045DE4@SOUTHSIDE.devonintlgroup.com>
-References: <1359552371-27121-1-git-send-email-igeiser@devonit.com>
-	<CAJTo0LbOKe5KhJyKZYPiOkEZdcGM=NJVOsgt8cc_TkqykU99sA@mail.gmail.com>
-	<B57A220D1EE1644685BA9AD5C790D20526BE045DE4@SOUTHSIDE.devonintlgroup.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 Jan 2013 17:41:31 +0000
-Message-ID: <CAJTo0LbN4r7W2NkDrypzBiM8N1SMs7MiV45brZVRXixZheSyYQ@mail.gmail.com>
-To: Ian Geiser <igeiser@devonit.com>
-X-Gm-Message-State: ALoCoQnEaUz4jK6vp9Me+2OtSj3EBoVgfErRDAa8veSLqU3SyebfGvzgBsL24cbSyL9vrhd528qCYBwB/2gvVHDJEeEIazKPLR0ArbQrFscbYPIFbncV/c0bwxjskePjF5HWmOkzuKJpaGHcKSaO9Xbgotqb2satxhT1ZKpLmDWAo55FbdA1SxNcS+i1BVBc3Q81rmjhtTH2
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa-dri: add extra dri drivers
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+References: <1359500666-2874-1-git-send-email-sgw@linux.intel.com>
+	<lytxpzkmh1.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lytxpzkmh1.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rootfs_rpm: Escape the backtick to ensure the ls runs on the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,22 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 17:57:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Jan 2013 18:51:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 30 January 2013 16:38, Ian Geiser <igeiser@devonit.com> wrote:
-> No, I was just extending what was there so I have no real preference.  I =
-will need to check if it impacts non-x86 builds.  I do not think it will be=
- a problem, since most non-x86 systems have their own GL implementations.  =
-I think it will just enable swrast on ones that are not x86.  I will resubm=
-it with it set to auto where it will only build the appropriate drivers aft=
-er I test.  Thanks!
+On 01/30/2013 02:13 AM, Enrico Scholz wrote:
+> Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
+>
+>> This change ensures that the ls /etc/rpm-postinsts runs in the target
+>> at first boot time, rather than at the creation time of the script on
+>> the host.
+>> ...
+>> -for i in `ls /etc/rpm-postinsts/`; do
+>> +for i in \`ls /etc/rpm-postinsts/\`; do
+>>   	i=/etc/rpm-postinsts/$i
+>>   	echo "Running postinst $i..."
+>
+> are you really sure, this is enough? $i gets probably expanded too.  A
+> better way than to escape all and everything is to quote the EOF marker.
+>
+Yes, I verified the out put in the S98run-postinsts script that is on 
+disk and it's correct.
 
-In general explicitly stating things is preferred so the current
-arrangement works nicely, so just adding the extra drivers to the
-append lines is good.
+There a line above that sets i=\$i so the expansion occurs back to $i!
 
-Ross
+Sau!
+
+> E.g. compare
+>
+> i=abc
+>
+> cat << "EOF"
+> echo $i
+> EOF
+>
+> cat << EOF
+> echo $i
+> EOF
+>
+>
+> Enrico
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
