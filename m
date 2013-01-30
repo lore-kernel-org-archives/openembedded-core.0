@@ -1,21 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U0gyF-0008MH-Gq
+	(envelope-from <sgw@linux.intel.com>) id 1U0hdd-0005DD-GO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 00:21:35 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jan 2013 15:05:52 -0800
+	Thu, 31 Jan 2013 01:04:26 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jan 2013 15:48:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,572,1355126400"; d="scan'208";a="278792259"
+X-IronPort-AV: E=Sophos;i="4.84,572,1355126400"; d="scan'208";a="280577656"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.123])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jan 2013 15:05:50 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2013 15:48:37 -0800
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	dvhart@linux.intel.com
-Date: Wed, 30 Jan 2013 15:05:49 -0800
-Message-Id: <1359587149-27928-1-git-send-email-sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Jan 2013 15:48:37 -0800
+Message-Id: <1359589717-30779-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] module.bbclass: Allow for modules to be packaged seperate from ${PN}
+Subject: [PATCH] dhcp: Fix unshipped WARNINGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,65 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 23:21:35 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 00:04:26 -0000
 
-This patch will allow recipes that provide kernel modules to package
-the module or modules in specific packages. That list is contained in
-MODULE_PACKAGES, this defaults to  to preserve the current behavior.
-The package can also define MODULE_FILES to specify files.
-
-[YOCTO #3803]
+This fixes:
+WARNING: QA Issue: dhcp: Files/directories were installed but not shipped
+  /etc/dhcpd.conf.example
+  /etc/dhclient.conf.example
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/module.bbclass | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/dhcp/dhcp.inc      | 4 ++--
+ meta/recipes-connectivity/dhcp/dhcp_4.2.5.bb | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index c933d32..e2174a1 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -1,4 +1,3 @@
--RDEPENDS_${PN} += "kernel-image"
- DEPENDS += "virtual/kernel"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 3159f93..ad82b57 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -41,8 +41,8 @@ do_install_append () {
+ 	install -m 0755 ${WORKDIR}/init-server ${D}${sysconfdir}/init.d/dhcp-server
+ 	install -m 0644 ${WORKDIR}/default-server ${D}${sysconfdir}/default/dhcp-server
  
- inherit module-base
-@@ -25,7 +24,7 @@ module_do_install() {
- 	           modules_install
- }
+-	rm -f ${D}${sysconfdir}/dhclient.conf
+-	rm -f ${D}${sysconfdir}/dhcpd.conf
++	rm -f ${D}${sysconfdir}/dhclient.conf*
++	rm -f ${D}${sysconfdir}/dhcpd.conf*
+ 	install -m 0644 ${WORKDIR}/dhclient.conf ${D}${sysconfdir}/dhcp/dhclient.conf
+ 	install -m 0644 ${WORKDIR}/dhcpd.conf ${D}${sysconfdir}/dhcp/dhcpd.conf
  
--pkg_postinst_${PN}_append () {
-+module_pkg_postinst () {
- if [ -z "$D" ]; then
- 	depmod -a ${KERNEL_VERSION}
- else
-@@ -33,7 +32,7 @@ else
- fi
- }
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.5.bb
+index af60763..0f247ae 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.5.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.5.bb
+@@ -1,6 +1,6 @@
+ require dhcp.inc
  
--pkg_postrm_${PN}_append () {
-+module_pkg_postrm () {
- if [ -z "$D" ]; then
- 	depmod -a ${KERNEL_VERSION}
- else
-@@ -43,4 +42,16 @@ fi
+-PR = "r0"
++PR = "r1"
  
- EXPORT_FUNCTIONS do_compile do_install
- 
--FILES_${PN} = "/etc /lib/modules"
-+MODULE_PACKAGES ?= "${PN}"
-+
-+python __anonymous() {
-+    for package in d.getVar("MODULE_PACKAGES", True).split():
-+        d.appendVar("RDEPENDS_%s" % package, " kernel-image")
-+        files = d.getVar("MODULE_FILES_%s" % package, True) or "/etc /lib/modules"
-+        d.appendVar("FILES_%s" % package, " " + files)
-+        d.appendVar('pkg_postinst_%s' %  package, " " + d.getVar('module_pkg_postinst', True))
-+        d.appendVar('pkg_postrm_%s' %  package, " " + d.getVar('module_pkg_postrm', True))
-+        if not package in d.getVar("PACKAGES", True):
-+            d.prependVar("PACKAGES", package + " ")
-+}
-+         	
+ SRC_URI += "file://fixincludes.patch \
+             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
 -- 
 1.8.0.2
 
