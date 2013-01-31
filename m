@@ -1,37 +1,26 @@
-Received: from mail-qa0-f43.google.com ([209.85.216.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <geiseri@geiseri.com>) id 1U0sZt-0007km-OA
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1U0ss4-00011Z-77
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 12:45:19 +0100
-Received: by mail-qa0-f43.google.com with SMTP id dx4so935182qab.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 03:29:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=inq8CGySI2iP8HrlQLhcrlESN4dzZVWi7deMSOSCoPI=;
-	b=P3oz442qKaiwJfZBQJ4+na3pNkTbx0UH66RtSEnNHj08npkTAQFUvrSsWQ3e7uKIAi
-	s7ksUISR97uLYANbMvQ7KGDyLDc3cE7Zn4qRn7fWapKtko99VaEQJyj8IMXH4v7fU/f3
-	Kp+gsWFy3aGObPLSeRmS0k5cOVO+ZyzheP+HmaD84ZGhkv4tOIj99026noZvDbfaQCeg
-	nyc0/WfztjLDHcxTUCPGpClYV2vWfm4+4UftP8i/PUtYYlIw7Wfbz15axl8KRFqKhsmA
-	1uGhZXnZ7ZYwUFYLMeQTDNqFCaXtq7mCLsX3uDGZSU2Ik7NwH64X3z6VHsgJOSgWaST/
-	s7Kw==
-X-Received: by 10.49.127.238 with SMTP id nj14mr10047523qeb.9.1359631770730;
-	Thu, 31 Jan 2013 03:29:30 -0800 (PST)
-Received: from localhost.localdomain
-	(pool-96-245-43-60.phlapa.fios.verizon.net. [96.245.43.60])
-	by mx.google.com with ESMTPS id dg4sm4072129qab.7.2013.01.31.03.29.29
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 31 Jan 2013 03:29:29 -0800 (PST)
-Sender: Ian Geiser <geiseri@geiseri.com>
-From: igeiser@devonit.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2013 06:30:39 -0500
-Message-Id: <1359631839-12941-1-git-send-email-igeiser@devonit.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQm8BwjK/NC5drFejJT8VuInizZsHcSOKTfYhYi+OnsQkmiYBfibrUJ9+gvIBofehnSchEld
-Subject: [PATCH v3] mesa-dri: add extra dri drivers
+	Thu, 31 Jan 2013 13:04:01 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Jan 2013 03:48:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,575,1355126400"; d="scan'208";a="280797478"
+Received: from adinu-vostro-460 (HELO [10.237.105.33]) ([10.237.105.33])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2013 03:48:14 -0800
+Message-ID: <510A5A3B.9090101@intel.com>
+Date: Thu, 31 Jan 2013 13:49:15 +0200
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1359376066-20756-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	<510945B2.3000000@linux.intel.com>
+In-Reply-To: <510945B2.3000000@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mtools : upgrade to 4.0.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,46 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 11:45:19 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 12:04:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Ian Reinhart Geiser <igeiser@devonit.com>
+The patch was already merged into master...
 
- * By default enable only swrast.  This needs to
-   be here or for some reason qemuarm tries to
-   detect the intel dri libraries and fails.
- * For x86 and x86-64 clear out the field so mesa
-   enabled all of the modules.
+Next time i will mention all the testing in the commit message.
 
- builds properly with qemux86 qemuarm and qemux86-64
+Thanks for the heads-up!
 
-Signed-off-by: Ian Reinhart Geiser <igeiser@devonit.com>
----
- meta/recipes-graphics/mesa/mesa-dri.inc |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Andrei
 
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-index 1f6ec78..7d11dac 100644
---- a/meta/recipes-graphics/mesa/mesa-dri.inc
-+++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-@@ -1,12 +1,12 @@
- DEPENDS += "libdrm expat udev"
- X11_DEPS += "dri2proto"
- 
--DRIDRIVERS = "swrast"
--DRIDRIVERS_append_x86 = ",i915,i965"
--DRIDRIVERS_append_x86-64 = ",i915,i965"
-+DRIDRIVERS = "--with-dri-drivers=swrast"
-+DRIDRIVERS_x86 = ""
-+DRIDRIVERS_x86-64 = ""
- 
- EXTRA_OECONF += "--disable-gallium --without-gallium-drivers"
--EXTRA_OECONF += "--enable-dri --with-dri-drivers=${DRIDRIVERS}"
-+EXTRA_OECONF += "--enable-dri ${DRIDRIVERS}"
- EXTRA_OECONF += "--enable-gbm"
- 
- PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
--- 
-1.7.9.5
+On 01/30/2013 06:09 PM, Darren Hart wrote:
+> Andrei,
+>
+> There is almost ALWAYS something worth putting in the comment message.
+> In this case, please include your latest testing comment in your commit
+> message and resend with my Acked by.
+>
+> On 01/28/2013 04:27 AM, Andrei Dinu wrote:
+>> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+>
+> Acked-by: Darren Hart <dvhart@linux.intel.com>
+>
+>
+> Thanks,
+>
+> Darren
+>
+>> ---
+>>   .../mtools/{mtools_4.0.17.bb => mtools_4.0.18.bb}  |    6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-devtools/mtools/{mtools_4.0.17.bb => mtools_4.0.18.bb} (86%)
+>>
+>> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.17.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+>> similarity index 86%
+>> rename from meta/recipes-devtools/mtools/mtools_4.0.17.bb
+>> rename to meta/recipes-devtools/mtools/mtools_4.0.18.bb
+>> index 5ce6c09..0f99685 100644
+>> --- a/meta/recipes-devtools/mtools/mtools_4.0.17.bb
+>> +++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+>> @@ -5,7 +5,7 @@ SECTION = "optional"
+>>   LICENSE = "GPLv3"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>>   
+>> -PR = "r1"
+>> +PR = "r0"
+>>   
+>>   RDEPENDS_${PN} = "glibc-gconv-ibm850"
+>>   RRECOMMENDS_${PN} = "\
+>> @@ -24,13 +24,13 @@ RRECOMMENDS_${PN} = "\
+>>   	glibc-gconv-ibm866 \
+>>   	glibc-gconv-ibm869 \
+>>   	"
+>> +SRC_URI[md5sum] = "a23646617546bf6ad56f061d8b283c85"
+>> +SRC_URI[sha256sum] = "59e9cf80885399c4f229e5d87e49c0c2bfeec044e1386d59fcd0b0aead6b2f85"
+>>   
+>>   SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+>>              file://mtools-makeinfo.patch \
+>>              file://no-x11.gplv3.patch"
+>>   
+>> -SRC_URI[md5sum] = "15571c615d8f75f5f6d294272f80c7fa"
+>> -SRC_URI[sha256sum] = "0ecc358e30a72d215b1d4c625b27e67121cd6f6075370dfb791ef2a8b980ecb6"
+>>   
+>>   inherit autotools
+>>   
+>>
 
 
 
