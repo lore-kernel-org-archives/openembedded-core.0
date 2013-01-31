@@ -1,24 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Ming.Liu@windriver.com>) id 1U0qy8-0008EC-5o
+	(envelope-from <rpjday@crashcourse.ca>) id 1U0rm5-0003Y9-7X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 11:02:20 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0V9kQVD014583
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 01:46:26 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 31 Jan 2013 01:46:22 -0800
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Jan 2013 17:46:18 +0800
-Message-ID: <1359625578-26968-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.11
+	Thu, 31 Jan 2013 11:53:50 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:56312 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1U0rWt-0002Uo-PC for openembedded-core@lists.openembedded.org;
+	Thu, 31 Jan 2013 05:38:03 -0500
+Date: Thu, 31 Jan 2013 05:37:59 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301310531510.22001@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Subject: [PATCH] connman-gnome: Add DEPENDS on intltool-native
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: BB_SRCREV_POLICY doesn't seem to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,32 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 10:02:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Jan 2013 10:54:11 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-[YOCTO #3815]
-[ CQID: WIND00401118 ]
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  as a test, i currently have a full core-image-minimal build for an
+am180x-evm, so i just did a fetchall to establish a baseline, that
+worked fine.
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index 1559a9d..eee7a11 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
-                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
- 
--DEPENDS = "gtk+ dbus-glib"
-+DEPENDS = "gtk+ dbus-glib intltool-native"
- 
- # 0.7 tag
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
+  next, i added:
+
+  BB_NO_NETWORK = "1"
+
+to my site.conf, which failed predictably with:
+
+ERROR: ExpansionError during parsing
+/home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01.bb:
+Failure expanding variable SRCPV, expression was
+${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
+Network access disabled through BB_NO_NETWORK but access requested
+with command git ls-remote
+git://arago-project.org/git/projects/u-boot-keystone.git
+DEV.MCSDK-03.00.00.07 (for url None)
+ERROR: Command execution failed: Exited with 1
+
+  ok, so i reverted the BB_NO_NETWORK setting and added to local.conf:
+
+  BB_SRCREV_POLICY := "cache"
+
+predictably, that worked and, according to yesterday's discussion, i
+should now be able to do away with network access, so once again:
+
+  BB_NO_NETWORK = "1"
+
+and:
+
+ERROR: ExpansionError during parsing
+/home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01.bb:
+Failure expanding variable SRCPV, expression was
+${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
+Network access disabled through BB_NO_NETWORK but access requested
+with command git ls-remote
+git://arago-project.org/git/projects/u-boot-keystone.git
+DEV.MCSDK-03.00.00.07 (for url None)
+ERROR: Command execution failed: Exited with 1
+
+  ok, what have i done wrong?  i thought the whole point of
+BB_SRCREV_POLICY was to make the above possible.
+
+rday
+
 -- 
-1.7.11
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
