@@ -1,50 +1,36 @@
-Received: from hrndva-omtalb.mail.rr.com ([71.74.56.122])
+Received: from mail-lb0-f176.google.com ([209.85.217.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <hchapman-oecore@3gfp.com>) id 1U10C9-0004gQ-H9
+	(envelope-from <kergoth@gmail.com>) id 1U10Ou-0005pm-Du
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 20:53:29 +0100
-X-Authority-Analysis: v=2.0 cv=W/m6pGqk c=1 sm=0 a=0BEmelG+NCIkmYz4MtfDKA==:17
-	a=KAMKcUAUZugA:10 a=zxqQms7TkB8A:10 a=h1JwTc6auzgA:10
-	a=wPDyFdB5xvgA:10 a=kj9zAlcOel0A:10 a=cL4bF6sHAAAA:8
-	a=S5D55JnJK1YA:10 a=B0fEy1mhyyIiXt5QhW8A:9 a=CjuIK1q_8ugA:10
-	a=HU3bICl8N38A:10 a=0BEmelG+NCIkmYz4MtfDKA==:117
-X-Cloudmark-Score: 0
-X-Authenticated-User: 
-X-Originating-IP: 65.34.9.19
-Received: from [65.34.9.19] ([65.34.9.19:39898] helo=blue.3gfp.com)
-	by hrndva-oedge02.mail.rr.com (envelope-from
-	<hchapman-oecore@3gfp.com>) (ecelerity 2.2.3.46 r()) with ESMTP
-	id 6C/CC-08009-AF7CA015; Thu, 31 Jan 2013 19:37:30 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by blue.3gfp.com (Postfix) with ESMTP id C33931080591;
-	Thu, 31 Jan 2013 14:37:29 -0500 (EST)
-X-Virus-Scanned: by amavisd-new-2.6.4 (20090625) (Debian) at 3gfp.com
-Received: from blue.3gfp.com ([127.0.0.1])
-	by localhost (blue.3gfp.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SHklkia-fbrn; Thu, 31 Jan 2013 14:37:23 -0500 (EST)
-Received: from [192.168.0.115] (rrcs-71-43-163-130.se.biz.rr.com
-	[71.43.163.130])
-	by blue.3gfp.com (Postfix) with ESMTPSA id B09F01080068;
-	Thu, 31 Jan 2013 14:37:23 -0500 (EST)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Harvey Chapman <hchapman-oecore@3gfp.com>
-In-Reply-To: <E6324045-B9B1-491C-8B53-8E947F540701@3gfp.com>
-Date: Thu, 31 Jan 2013 14:37:23 -0500
-Message-Id: <FD05009A-3348-42F7-A820-3D1542D86DFD@3gfp.com>
-References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
-	<20130131131021.6d5ffccd@e6520eb>
-	<alpine.DEB.2.02.1301310711320.6796@oneiric>
-	<20130131123847.GC2102@jama.dyndns-home.com>
-	<alpine.DEB.2.02.1301310834500.31170@oneiric>
-	<20130131135020.GD2102@jama.dyndns-home.com>
-	<alpine.DEB.2.02.1301310935390.9110@oneiric>
-	<04B45244-D82F-4BC3-AB01-1747586DDEE2@3gfp.com>
-	<E6324045-B9B1-491C-8B53-8E947F540701@3gfp.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.1499)
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: BB_SRCREV_POLICY doesn't seem to work
+	Thu, 31 Jan 2013 21:06:26 +0100
+Received: by mail-lb0-f176.google.com with SMTP id s4so3798696lbc.35
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2013 11:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=jaSaaVCGb+vdWv7R9jiac372a7aEH0icpyxrFZhU+Ss=;
+	b=f2iQmCyXUJgjq5RJmnnhUQ/g7pdMA0QT5r8Yn0KwgAvfMG+ePvYAlXzxw57F56N+XF
+	Jf2LAciTYk9pIf2CuC4d8tvP2qJm/xQ6HkiKy8hjF+5us1p/YwUNpUq/xmzM7I5hB03J
+	rWSRNTbWQiO4kTSPIDQJJ5Dw1vc8yyoAzbhGnmT5YXbR6MeQjJkz8nSunqpx2TplRXbW
+	rQNQ3ad0HwqzD/m280bNtWn6HDhnU++ivIV3eD9ZrYah+4ympLsEvpbFrg3IzlsT62lI
+	N6rnqz0sw1eRXq7kuhS/EDrHSgLdgO9NqTQFP/Cm94PP9yad8BREAJFWt9yB2/Gp1XXR
+	W+xQ==
+X-Received: by 10.112.40.71 with SMTP id v7mr3836587lbk.32.1359661841181; Thu,
+	31 Jan 2013 11:50:41 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Thu, 31 Jan 2013 11:50:21 -0800 (PST)
+In-Reply-To: <1359659480-8210-1-git-send-email-sgw@linux.intel.com>
+References: <1359659480-8210-1-git-send-email-sgw@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 31 Jan 2013 12:50:21 -0700
+X-Google-Sender-Auth: 7TSZECL3-RqxfD25S7k7DsuIZOs
+Message-ID: <CABcZAN=FjHhd6Xp8758qzq2pPS=tQn8yd+EXUha=G3YsjnYD9g@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gtk-icon-cache: Fix rdepends construction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,54 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 19:53:30 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 31 Jan 2013 20:06:33 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 20:06:33 -0000
+Content-Type: multipart/alternative; boundary=e0cb4efe31880eeb7d04d49af1c6
+
+--e0cb4efe31880eeb7d04d49af1c6
+Content-Type: text/plain; charset=UTF-8
+
+On Thu, Jan 31, 2013 at 12:11 PM, Saul Wold <sgw@linux.intel.com> wrote:
+
+> -        rdepends = d.getVar('RDEPENDS_%s' % pkg, True)
+> -        rdepends = rdepends + ' ' + d.getVar('MLPREFIX') +
+> "hicolor-icon-theme"
+> -        d.setVar('RDEPENDS_%s' % pkg, rdepends)
+> +        rdepends = ' ' + d.getVar('MLPREFIX') + "hicolor-icon-theme"
+> +        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+>
+
+The new version isn't using a getVar of the old rdepends at all, so it's
+just replacing it every time. Is that really what you intended here?
+Wouldn't a getVar() or '' be a better approach? Further, the '' +
+d.getVar('MLPREFIX') is pointless if you aren't including the original
+value, as it adds a separator to the beginning when there's nothing to
+separate.
+-- 
+Christopher Larson
+
+--e0cb4efe31880eeb7d04d49af1c6
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Jan 31, 2013, at 2:30 PM, Harvey Chapman <hchapman-oecore@3gfp.com> =
-wrote:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Jan 31, 2013 at 12:11 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&g=
+t;</span> wrote:<br>
 
-> On Jan 31, 2013, at 1:17 PM, Harvey Chapman <hchapman-oecore@3gfp.com> =
-wrote:
->=20
->> On Jan 31, 2013, at 9:45 AM, "Robert P. J. Day" =
-<rpjday@crashcourse.ca> wrote:
->>=20
->>> and i'm trying to build a core-image-minimal.  with regular
->>> (git-allowed) net access, the build works fine.  but i haven't yet
->>> found any combination of BB_SRCREV_POLICY or BB_FETCH_PREMIRRORONLY =
-or
->>> anything else that let's me "fetchall", then disconnect from the net
->>> to do the build.
->>=20
->> This really seems like a bug in bitbake/lib/bb/fetch2/git.py to me. =
-It should honor BB_NO_NETWORK by trying to see if it has the tag locally =
-before it runs the ls-remote to see if the tag has changed. I was going =
-to suggest this earlier in the thread, but due to my relatively new =
-experience with layered OE and the newer bitbake, I refrained. However, =
-I was just inside that code updating the mercurial.py fetcher to =
-actually work for file:// urls. At some point in the next few weeks, =
-I'll update it further to try and be on par with git.py and to at least =
-match the functionality since mercurial.py does things differently. It =
-makes it difficult to understand them both if you only know how to use =
-one.
->=20
-> I made some minor tweaks to git.py so _latest_revision() now respects =
-BB_NO_NETWORK. However, I noticed that fetch2.latest_revision() =
-contains:
->=20
->        revs =3D bb.persist_data.persist('BB_URI_HEADREVS', d)
->        key =3D self.generate_revision_key(url, ud, d, name)
->        try:
->            return revs[key]
->        except KeyError:
->            revs[key] =3D rev =3D self._latest_revision(url, ud, d, =
-name)
->            return rev
->=20
-> What does BB_URI_HEADREVS do and could it be part of the solution to =
-this problem?
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":i0">- =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0rdepends =3D d.getVar(&#39;RDEPENDS_%s&#39; % pkg, True)<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0rdepends =3D rdepends + &#39; &#39; + d.getVar=
+(&#39;MLPREFIX&#39;) + &quot;hicolor-icon-theme&quot;<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVar(&#39;RDEPENDS_%s&#39; % pkg, rdepends=
+)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0rdepends =3D &#39; &#39; + d.getVar(&#39;MLPRE=
+FIX&#39;) + &quot;hicolor-icon-theme&quot;<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0d.appendVar(&#39;RDEPENDS_%s&#39; % pkg, rdepe=
+nds)</div></blockquote></div><br>The new version isn&#39;t using a getVar o=
+f the old rdepends at all, so it&#39;s just replacing it every time. Is tha=
+t really what you intended here? Wouldn&#39;t a getVar() or &#39;&#39; be a=
+ better approach? Further, the &#39;&#39; + d.getVar(&#39;MLPREFIX&#39;) is=
+ pointless if you aren&#39;t including the original value, as it adds a sep=
+arator to the beginning when there&#39;s nothing to separate.<br>
 
-Nevermind, found BB_URI_HEADREVS is used for BB_SRCREV_POLICY=3Dcache.=
+-- <br>Christopher Larson</div></div>
 
-
+--e0cb4efe31880eeb7d04d49af1c6--
