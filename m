@@ -1,32 +1,36 @@
-Received: from mail-pa0-f45.google.com ([209.85.220.45])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U0uek-0002QG-Or
+	(envelope-from <rpjday@crashcourse.ca>) id 1U0ufL-0002Uw-3U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 14:58:23 +0100
-Received: by mail-pa0-f45.google.com with SMTP id bg2so1736872pad.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 05:42:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=CMHl05BK5ZKAsE7x4+aPoIcKmOUkw0GQgPqrQwvOcp4=;
-	b=NwTKcti6xhb04ig4bCsV4C9fLoGVxSQhKrEMb5KofIIHLm7R22Coz8q14KnDIEv9Im
-	v62pejZPps7MxUfl1Zu1w7KyWJVL2gg5aIF8vI0N8vWK47gw/pkIiVzhUzh9BlvOlN1J
-	mkhrz6V9UeXbdHw4G+YDNdDh+d5Ge5g9Rxojt7Uy1Sbv8jf2f/CyrSHaxYOJ3ofcAzx3
-	yT1NRrs1PSPMDgZeGOC9esDqbMyNTQBAiYNE4o01SKuNNeeUUttM6HqCqqpun/J70AGX
-	qdq7C9YdyOKx+dBYS5xC4NtbEMVq0wWxHIFDqhlnrGObWMljAi9pnwuVXK0de17ixKSv
-	T/yw==
-X-Received: by 10.68.247.39 with SMTP id yb7mr22772757pbc.15.1359639759440;
-	Thu, 31 Jan 2013 05:42:39 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id b3sm2999539pax.14.2013.01.31.05.42.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 31 Jan 2013 05:42:38 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2013 14:42:34 +0100
-Message-Id: <1359639754-11925-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] libfm: add dependency on libexif
+	Thu, 31 Jan 2013 14:59:08 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:59615 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1U0uQ9-00065S-Kc; Thu, 31 Jan 2013 08:43:17 -0500
+Date: Thu, 31 Jan 2013 08:43:13 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20130131123847.GC2102@jama.dyndns-home.com>
+Message-ID: <alpine.DEB.2.02.1301310834500.31170@oneiric>
+References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
+	<20130131131021.6d5ffccd@e6520eb>
+	<alpine.DEB.2.02.1301310711320.6796@oneiric>
+	<20130131123847.GC2102@jama.dyndns-home.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: BB_SRCREV_POLICY doesn't seem to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 13:58:26 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 13:59:10 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-* it's autodetected from sysroot
+On Thu, 31 Jan 2013, Martin Jansa wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-support/libfm/libfm_1.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  ok, there's still an issue here that crops up during the *build*.
+after i did all the SRCREV caching, i could "fetchall" without network
+access so that part works fine.  then i started the build -- again,
+without network access since, theoretically, i don't need it, right?
+however:
 
-diff --git a/meta/recipes-support/libfm/libfm_1.1.0.bb b/meta/recipes-support/libfm/libfm_1.1.0.bb
-index 87f2254..23f132a 100644
---- a/meta/recipes-support/libfm/libfm_1.1.0.bb
-+++ b/meta/recipes-support/libfm/libfm_1.1.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
- 
- SECTION = "x11/libs"
--DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native"
-+DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif"
- 
- PR = "r0"
- 
+ERROR: Function failed: Network access disabled through BB_NO_NETWORK
+but access requested with command git ls-remote
+git://arago-project.org/git/projects/linux-davinci.git
+v2.6.37_DAVINCIPSP_03.21.00.04 (for url None)
+ERROR: Logfile of failure stored in:
+/home/rpjday/oe/builds/ti/am1808/tmp-eglibc/work/am180x_evm-oe-linux-gnueabi/linux-omapl138-psp/2.6.37-r0/temp/log.do_unpack.20808
+ERROR: Task 631
+(/home/rpjday/oe/dist/layers/meta-ti/recipes-kernel/linux/linux-omapl138-psp_2.6.37.bb,
+do_unpack) failed with exit code '1'
+
+  here's the relevant excerpt from that meta-ti recipe file:
+
+=== start
+
+BRANCH = "03.21.00.03"
+SRCREV = "v2.6.37_DAVINCIPSP_03.21.00.04"
+
+COMPATIBLE_MACHINE = "(omapl138)"
+
+SRC_URI += "git://arago-project.org/git/projects/linux-davinci.git;protocol=git;branch=${BRANCH} \
+        file://defconfig"
+
+=== end
+
+  i thought my combination of SRCREV_POLICY and "fetchall" should have
+guaranteed that i had all necessary source for my build locally.  why
+is bitbake trying to access the network again?  the only thing that
+strikes me as unusual about that recipe is it's the only one i recall
+that uses a non-master branch, could that possibly have any effect?
+
+  am i just misunderstanding something?  i'm after whatever it takes
+to absolutely guarantee that i have all source required for a build
+locally so that i can disconnect the network before starting the
+build.
+
+rday
+
 -- 
-1.8.1.2
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
