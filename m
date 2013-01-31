@@ -1,39 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U0tgy-0004yr-T8
+	(envelope-from <rpjday@crashcourse.ca>) id 1U0tjP-00059T-Lj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 13:56:38 +0100
-Received: from mail-lb0-f199.google.com ([209.85.217.199])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 31 Jan 2013 04:40:52 -0800
-Received: by mail-lb0-f199.google.com with SMTP id m4so3225372lbo.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 04:40:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=Jtn27CpGu2eh+IVVlNjDbQx5dqWochRkZdkGnvuqf1Q=;
-	b=R054UfXwIhGMKC6t90dOLsYHeYBEvhE0e+p0a9QA4btJZ2eJFAb0Chwb4Hk3LtLcIz
-	uj9WRXFX8Yx8ytwFB0mRTiohVRbB7bqnB1d+gRmPKoxrFLpRI4vbveLNYLzOa8kWOQnT
-	WLSVGcLv3SNgQ1ACmfxuCHmcyMEeq6EJvp71rT+ESQkh4KendQp2O/yX1upT1eu/zCbD
-	xZwi2/kU8fV6Wj9R3xqNBrR3zDpZV8nTBy10CDqOeEkXi76zMOKSltVXzN/HTQ6PYpZj
-	HicFCmoT8iERDdRt+AHImr/k7yrk3EuZP66rfAT1zI1eu+nvsN1seP2MAv40ZZ/1SiKK
-	OwZw==
-X-Received: by 10.194.76.7 with SMTP id g7mr15157603wjw.50.1359636050547;
-	Thu, 31 Jan 2013 04:40:50 -0800 (PST)
-X-Received: by 10.194.76.7 with SMTP id g7mr15157580wjw.50.1359636050373;
-	Thu, 31 Jan 2013 04:40:50 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id e6sm9031180wiz.1.2013.01.31.04.40.48
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 31 Jan 2013 04:40:49 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2013 12:38:45 +0000
-Message-Id: <1359635925-27715-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQn8EID1edjeagoWrL12huyA7lmjxWdtdyxNevFHr6qyPBSo7cJGF2AHs8pxU95hxv2n+HlgAbznSMKhUqjj9mCRNWplsmj0Tii1oR0S1u57RXOk6tbbhi8sTp9qJNcgfmMLeCuaWnkV1sUi3pmp16gyipqjE8A4cmXkWFRBAyaMloQoTEeHu/JBNKEQfrw0/JsjJ4at
-Subject: [PATCH] polkit: respect systemd DISTRO_FEATURE
+	Thu, 31 Jan 2013 13:59:14 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:58958 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1U0tUD-00038Y-VP; Thu, 31 Jan 2013 07:43:26 -0500
+Date: Thu, 31 Jan 2013 07:43:22 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20130131123847.GC2102@jama.dyndns-home.com>
+Message-ID: <alpine.DEB.2.02.1301310742380.7169@oneiric>
+References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
+	<20130131131021.6d5ffccd@e6520eb>
+	<alpine.DEB.2.02.1301310711320.6796@oneiric>
+	<20130131123847.GC2102@jama.dyndns-home.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: BB_SRCREV_POLICY doesn't seem to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,36 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 12:56:38 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 12:59:27 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-721721678-1359636205=:7169"
 
-By default polkit uses systemd if it's available, which mean systemd runtime
-dependencies sneaking into non-systemd builds via sstate.
+--8323329-721721678-1359636205=:7169
+Content-Type: TEXT/PLAIN; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-Instead respect the systemd feature and enable/disable support as relevant.
+On Thu, 31 Jan 2013, Martin Jansa wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/polkit/polkit_0.104.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> On Thu, Jan 31, 2013 at 07:19:20AM -0500, Robert P. J. Day wrote:
+> > On Thu, 31 Jan 2013, Eric Bénard wrote:
+> >
+> > > Hi Robert,
+> > >
+> > > Le Thu, 31 Jan 2013 05:37:59 -0500 (EST),
+> > > "Robert P. J. Day" <rpjday@crashcourse.ca> a écrit :
+> > > >   ok, what have i done wrong?  i thought the whole point of
+> > > > BB_SRCREV_POLICY was to make the above possible.
+> > > >
+> > > no idea if that the solution but did you do a cleansstate and removed
+> > > the initaly downloaded sources to fetch again the sources ?
+> >
+> >   i did not ... that's necessary?  that's kind of important to know.
+> > let me describe the situation i have to see if BB_SRCREV_POLICY is
+> > actually going to do me any good.
+> >
+> >   here's my global site.conf file:
+> >
+> > SCONF_VERSION = "1"
+> > SOURCE_MIRROR_URL ?= "file:///home/rpjday/oe/dist/tarballs/"
+> > INHERIT += "own-mirrors"
+> > BB_GENERATE_MIRROR_TARBALLS = "1"
+> > # BB_NO_NETWORK = "1"
+> >
+> > so, as you can see, whenever i end up fetching any new source, it ends
+> > up as a tarball and i copy it into my long-lived own-mirrors
+> > "tarballs" directory.  obviously saves me buckets of time.
+> >
+> >   now say i've started a new build and i've done all the fetching
+> > without involving BB_SRCREV_POLICY.  i suddenly realize i need to move
+> > to somewhere without network access, so i quickly add
+> >
+> >   BB_SRCREV_POLICY = "1"
+>
+> BB_SRCREV_POLICY = "cache"
+>
+> right?
 
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-index 2c0aaca..37d8428 100644
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.104.bb
-@@ -7,8 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
- 
- DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
- 
--PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-+PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-+                 ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
- PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
-+PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
- 
- PR = "r9"
- 
+  sorry, yes, that's what i used.  but i'll test again just to make
+absolutely sure.
+
+rday
+
 -- 
-1.7.10.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
+--8323329-721721678-1359636205=:7169--
