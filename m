@@ -1,26 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1U0ss4-00011Z-77
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1U0stb-0001AY-ML
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 13:04:01 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Jan 2013 03:48:15 -0800
+	Thu, 31 Jan 2013 13:05:36 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 31 Jan 2013 03:49:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,575,1355126400"; d="scan'208";a="280797478"
-Received: from adinu-vostro-460 (HELO [10.237.105.33]) ([10.237.105.33])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2013 03:48:14 -0800
-Message-ID: <510A5A3B.9090101@intel.com>
-Date: Thu, 31 Jan 2013 13:49:15 +0200
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <1359376066-20756-1-git-send-email-andrei.adrianx.dinu@intel.com>
-	<510945B2.3000000@linux.intel.com>
-In-Reply-To: <510945B2.3000000@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mtools : upgrade to 4.0.18
+X-IronPort-AV: E=Sophos;i="4.84,575,1355126400"; d="scan'208";a="197032399"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by AZSMGA002.ch.intel.com with ESMTP; 31 Jan 2013 03:49:50 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Jan 2013 13:53:07 +0200
+Message-Id: <1359633187-28629-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] flex: updated to 2.5.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +27,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 12:04:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Jan 2013 12:05:36 -0000
 
-The patch was already merged into master...
+Removed the patches to flex, because they are now applied to the
+latest version.
 
-Next time i will mention all the testing in the commit message.
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 --------------------
+ .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 --------------
+ meta/recipes-devtools/flex/flex_2.5.35.bb          |   11 ----
+ meta/recipes-devtools/flex/flex_2.5.37.bb          |    8 +++
+ 4 files changed, 8 insertions(+), 112 deletions(-)
+ delete mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex_2.5.35.bb
+ create mode 100644 meta/recipes-devtools/flex/flex_2.5.37.bb
 
-Thanks for the heads-up!
-
-Andrei
-
-On 01/30/2013 06:09 PM, Darren Hart wrote:
-> Andrei,
->
-> There is almost ALWAYS something worth putting in the comment message.
-> In this case, please include your latest testing comment in your commit
-> message and resend with my Acked by.
->
-> On 01/28/2013 04:27 AM, Andrei Dinu wrote:
->> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
->
-> Acked-by: Darren Hart <dvhart@linux.intel.com>
->
->
-> Thanks,
->
-> Darren
->
->> ---
->>   .../mtools/{mtools_4.0.17.bb => mtools_4.0.18.bb}  |    6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>   rename meta/recipes-devtools/mtools/{mtools_4.0.17.bb => mtools_4.0.18.bb} (86%)
->>
->> diff --git a/meta/recipes-devtools/mtools/mtools_4.0.17.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> similarity index 86%
->> rename from meta/recipes-devtools/mtools/mtools_4.0.17.bb
->> rename to meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> index 5ce6c09..0f99685 100644
->> --- a/meta/recipes-devtools/mtools/mtools_4.0.17.bb
->> +++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
->> @@ -5,7 +5,7 @@ SECTION = "optional"
->>   LICENSE = "GPLv3"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->>   
->> -PR = "r1"
->> +PR = "r0"
->>   
->>   RDEPENDS_${PN} = "glibc-gconv-ibm850"
->>   RRECOMMENDS_${PN} = "\
->> @@ -24,13 +24,13 @@ RRECOMMENDS_${PN} = "\
->>   	glibc-gconv-ibm866 \
->>   	glibc-gconv-ibm869 \
->>   	"
->> +SRC_URI[md5sum] = "a23646617546bf6ad56f061d8b283c85"
->> +SRC_URI[sha256sum] = "59e9cf80885399c4f229e5d87e49c0c2bfeec044e1386d59fcd0b0aead6b2f85"
->>   
->>   SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
->>              file://mtools-makeinfo.patch \
->>              file://no-x11.gplv3.patch"
->>   
->> -SRC_URI[md5sum] = "15571c615d8f75f5f6d294272f80c7fa"
->> -SRC_URI[sha256sum] = "0ecc358e30a72d215b1d4c625b27e67121cd6f6075370dfb791ef2a8b980ecb6"
->>   
->>   inherit autotools
->>   
->>
+diff --git a/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch b/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
+deleted file mode 100644
+index c71eb82..0000000
+--- a/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-Wrap ECHO macro to avoid FORTIFY warnings
+-
+-This change will enable flex scanners to be compiled with
+--D_FORTIFY_SOURCE=2.
+-
+-Signed-off-by: Manoj Srivastava <srivasta@debian.org>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+-
+-Origin: Cherry picked from Debian
+-Upstream-Status: Pending
+-
+----
+- flex.skl |    2 +-
+- scan.c   |    2 +-
+- skel.c   |    2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/flex.skl b/flex.skl
+-index 6ebf2fd..eaa355e 100644
+---- a/flex.skl
+-+++ b/flex.skl
+-@@ -1074,7 +1074,7 @@ m4_ifdef( [[M4_YY_NOT_IN_HEADER]],
+- /* This used to be an fputs(), but since the string might contain NUL's,
+-  * we now use fwrite().
+-  */
+--#define ECHO fwrite( yytext, yyleng, 1, yyout )
+-+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
+- %endif
+- %if-c++-only C++ definition
+- #define ECHO LexerOutput( yytext, yyleng )
+-diff --git a/scan.c b/scan.c
+-index d7f5db3..1a079bf 100644
+---- a/scan.c
+-+++ b/scan.c
+-@@ -2093,7 +2093,7 @@ static int input (void );
+- /* This used to be an fputs(), but since the string might contain NUL's,
+-  * we now use fwrite().
+-  */
+--#define ECHO fwrite( yytext, yyleng, 1, yyout )
+-+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
+- #endif
+- 
+- /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
+-diff --git a/skel.c b/skel.c
+-index ee9f6ef..b8a2b4b 100644
+---- a/skel.c
+-+++ b/skel.c
+-@@ -1141,7 +1141,7 @@ const char *skel[] = {
+-   "/* This used to be an fputs(), but since the string might contain NUL's,",
+-   " * we now use fwrite().",
+-   " */",
+--  "#define ECHO fwrite( yytext, yyleng, 1, yyout )",
+-+  "#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)",
+-   "%endif",
+-   "%if-c++-only C++ definition",
+-   "#define ECHO LexerOutput( yytext, yyleng )",
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch b/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
+deleted file mode 100644
+index 8d05ee4..0000000
+--- a/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-int is not the same size as size_t.
+-
+-Signed-off-by: Manoj Srivastava <srivasta@debian.org>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+-
+-Origin: Cherry picked from Debian
+-Upstream-Status: Pending
+-
+----
+- gen.c  |    2 +-
+- scan.c |    2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gen.c b/gen.c
+-index 848e2c5..5a5daef 100644
+---- a/gen.c
+-+++ b/gen.c
+-@@ -1890,7 +1890,7 @@ void make_tables ()
+- 			outn ("\tif ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \\");
+- 			outn ("\t\t{ \\");
+- 			outn ("\t\tint c = '*'; \\");
+--			outn ("\t\tint n; \\");
+-+			outn ("\t\tsize_t n; \\");
+- 			outn ("\t\tfor ( n = 0; n < max_size && \\");
+- 			outn ("\t\t\t     (c = getc( yyin )) != EOF && c != '\\n'; ++n ) \\");
+- 			outn ("\t\t\tbuf[n] = (char) c; \\");
+-diff --git a/scan.c b/scan.c
+-index 44559b6..15e2058 100644
+---- a/scan.c
+-+++ b/scan.c
+-@@ -2105,7 +2105,7 @@ static int input (void );
+- 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
+- 		{ \
+- 		int c = '*'; \
+--		int n; \
+-+		size_t n; \
+- 		for ( n = 0; n < max_size && \
+- 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
+- 			buf[n] = (char) c; \
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/flex/flex_2.5.35.bb b/meta/recipes-devtools/flex/flex_2.5.35.bb
+deleted file mode 100644
+index 2218c91..0000000
+--- a/meta/recipes-devtools/flex/flex_2.5.35.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require flex.inc
+-PR = "r3"
+-LICENSE="BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+-BBCLASSEXTEND = "native nativesdk"
+-
+-SRC_URI += "file://avoid-FORTIFY-warnings.patch \
+-            file://int-is-not-the-same-size-as-size_t.patch"
+-
+-SRC_URI[md5sum] = "10714e50cea54dc7a227e3eddcd44d57"
+-SRC_URI[sha256sum] = "0becbd4b2b36b99c67f8c22ab98f7f80c9860aec70f0350a0018f29a88704e7b"
+diff --git a/meta/recipes-devtools/flex/flex_2.5.37.bb b/meta/recipes-devtools/flex/flex_2.5.37.bb
+new file mode 100644
+index 0000000..dbbb7da
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex_2.5.37.bb
+@@ -0,0 +1,8 @@
++require flex.inc
++PR = "r0"
++LICENSE="BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
++BBCLASSEXTEND = "native nativesdk"
++
++SRC_URI[md5sum] = "c75940e1fc25108f2a7b3ef42abdae06"
++SRC_URI[sha256sum] = "17aa7b4ebf19a13bc2dff4115b416365c95f090061539a932a68092349ac052a"
+-- 
+1.7.10.4
 
 
 
