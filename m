@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1U0vDZ-0005gG-Mr
+	(envelope-from <rpjday@crashcourse.ca>) id 1U0vdX-0003A3-Hw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 15:34:22 +0100
+	Thu, 31 Jan 2013 16:01:17 +0100
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:59805 helo=crashcourse.ca)
+	([174.115.5.73]:59936 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1U0uyN-0007zI-SJ; Thu, 31 Jan 2013 09:18:40 -0500
-Date: Thu, 31 Jan 2013 09:18:29 -0500 (EST)
+	id 1U0vOL-0000yC-6m; Thu, 31 Jan 2013 09:45:29 -0500
+Date: Thu, 31 Jan 2013 09:45:25 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: Martin Jansa <martin.jansa@gmail.com>
 In-Reply-To: <20130131135020.GD2102@jama.dyndns-home.com>
-Message-ID: <alpine.DEB.2.02.1301310856270.26528@oneiric>
+Message-ID: <alpine.DEB.2.02.1301310935390.9110@oneiric>
 References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
 	<20130131131021.6d5ffccd@e6520eb>
 	<alpine.DEB.2.02.1301310711320.6796@oneiric>
@@ -45,119 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 14:34:25 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 15:01:23 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 31 Jan 2013, Martin Jansa wrote:
 
-> On Thu, Jan 31, 2013 at 08:43:13AM -0500, Robert P. J. Day wrote:
-> > On Thu, 31 Jan 2013, Martin Jansa wrote:
-> >
-> >   ok, there's still an issue here that crops up during the *build*.
-> > after i did all the SRCREV caching, i could "fetchall" without network
-> > access so that part works fine.  then i started the build -- again,
-> > without network access since, theoretically, i don't need it, right?
-> > however:
-> >
-> > ERROR: Function failed: Network access disabled through BB_NO_NETWORK
-> > but access requested with command git ls-remote
-> > git://arago-project.org/git/projects/linux-davinci.git
-> > v2.6.37_DAVINCIPSP_03.21.00.04 (for url None)
-> > ERROR: Logfile of failure stored in:
-> > /home/rpjday/oe/builds/ti/am1808/tmp-eglibc/work/am180x_evm-oe-linux-gnueabi/linux-omapl138-psp/2.6.37-r0/temp/log.do_unpack.20808
-> > ERROR: Task 631
-> > (/home/rpjday/oe/dist/layers/meta-ti/recipes-kernel/linux/linux-omapl138-psp_2.6.37.bb,
-> > do_unpack) failed with exit code '1'
->
-> Have you tried to set
-> BB_FETCH_PREMIRRORONLY
-> ?
+  just so anyone else is welcome to try to reproduce what i'm fighting
+with, here's my new project configuration:
 
-  no, but before i randomly try that, why should it make a difference?
-currently, i'm using the own-mirrors bbclass which defines:
+BBLAYERS ?= " \
+  /home/rpjday/oe/dist/layers/oe-core/meta \
+  /home/rpjday/oe/dist/layers/meta-ti \
+  "
 
-PREMIRRORS() {
-cvs://.*/.*     ${SOURCE_MIRROR_URL}
-svn://.*/.*     ${SOURCE_MIRROR_URL}
-git://.*/.*     ${SOURCE_MIRROR_URL}
-hg://.*/.*      ${SOURCE_MIRROR_URL}
-bzr://.*/.*     ${SOURCE_MIRROR_URL}
-svk://.*/.*     ${SOURCE_MIRROR_URL}
-p4://.*/.*      ${SOURCE_MIRROR_URL}
-osc://.*/.*     ${SOURCE_MIRROR_URL}
-https?$://.*/.* ${SOURCE_MIRROR_URL}
-ftp://.*/.*     ${SOURCE_MIRROR_URL}
-}
+MACHINE ??= "am180x-evm"
+BBMASK = "meta-ti/recipes-misc"
 
-so shouldn't i be using premirrors *automatically* for every type of
-fetch?  i just verified that i have the tarball:
+and i'm trying to build a core-image-minimal.  with regular
+(git-allowed) net access, the build works fine.  but i haven't yet
+found any combination of BB_SRCREV_POLICY or BB_FETCH_PREMIRRORONLY or
+anything else that let's me "fetchall", then disconnect from the net
+to do the build.
 
-git2_arago-project.org.git.projects.linux-davinci.git.tar.gz
-
-in my tarballs directory, which should correspond to what should be
-downloaded for that recipe.  so, ok, i set BB_FETCH_PREMIRRORONLY and
-run:
-
-$ bitbake core-image-minimal
-ERROR: ExpansionError during parsing
-/home/rpjday/oe/dist/layers/meta-ti/recipes-bsp/u-boot/u-boot_2013.01.bb:
-Failure expanding variable SRCPV, expression was
-${@bb.fetch2.get_srcrev(d)} which triggered exception NetworkAccess:
-Network access disabled through BB_NO_NETWORK but access requested
-with command git ls-remote
-git://arago-project.org/git/projects/u-boot-keystone.git
-DEV.MCSDK-03.00.00.07 (for url None)
-ERROR: Command execution failed: Exited with 1
-$
-
-  so i open up net access, do a fetchall *and* SRCREV cache, shut down
-net access, and (with BB_FETCH_PREMIRRORONLY still set to "1"):
-
-$ bitbake core-image-minimal
-... snip ...
-ERROR: Function failed: Network access disabled through BB_NO_NETWORK
-but access requested with command git ls-remote
-git://arago-project.org/git/projects/linux-davinci.git
-v2.6.37_DAVINCIPSP_03.21.00.04 (for url None)
-ERROR: Logfile of failure stored in:
-/home/rpjday/oe/builds/ti/am1808/tmp-eglibc/work/am180x_evm-oe-linux-gnueabi/linux-omapl138-psp/2.6.37-r0/temp/log.do_unpack.6626
-Log data follows:
-| DEBUG: Executing python function do_unpack
-| DEBUG: Executing python function base_do_unpack
-| DEBUG: Python function base_do_unpack finished
-| DEBUG: Python function do_unpack finished
-| ERROR: Function failed: Network access disabled through
-BB_NO_NETWORK but access requested with command git ls-remote
-git://arago-project.org/git/projects/linux-davinci.git
-v2.6.37_DAVINCIPSP_03.21.00.04 (for url None)
-ERROR: Task 631
-(/home/rpjday/oe/dist/layers/meta-ti/recipes-kernel/linux/linux-omapl138-psp_2.6.37.bb,
-do_unpack) failed with exit code '1'
-$
-
-  i'm confused.  am i just being an idiot about something?  to recap,
-i want the ability to define a new build, do whatever it takes to
-"fetchall" ***everything*** that will be eventually required by this
-build (with, ideally, most of it coming from my own-mirrors tarballs
-directory, which i've been doing for, like, months) then be able to
-build with no further for net access.  so far, no luck, and it's a
-small number of meta-ti recipes that are causing grief.
-
-  two points:
-
-  1) as i mentioned, the offending meta-ti recipe appears to be the
-only one that specifies a non-master branch.  could that *possibly* be
-causing grief with SRCREV caching?
-
-  2) i've already mentioned that extending an image using
-EXTRA_IMAGEDEPENDS doesn't cause that to be fetched by fetchall -- i
-consider that kind of a bug, especially since numerous recipes use
-EXTRA_IMAGEDEPENDS to pull in u-boot.
-
-  apologies for dragging this out but, surely, this shouldn't be that
-hard to resolve.
+  have at it if you are so inclined.  i'm quite willing to be told i'm
+a moron for having done something silly.
 
 rday
+
+p.s.  just want to verify something -- bitbake really does parse *all*
+available recipes, not just the ones that will be used for the build,
+right?  i'm assuming i can dispense with such unneeded files by just
+BBMASKing them away, correct?
 
 -- 
 
