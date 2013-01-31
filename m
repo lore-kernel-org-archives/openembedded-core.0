@@ -1,48 +1,37 @@
-Received: from hrndva-omtalb.mail.rr.com ([71.74.56.122])
+Received: from mail-qe0-f47.google.com ([209.85.128.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <hchapman-oecore@3gfp.com>) id 1U0ywd-00085K-6c
+	(envelope-from <geiseri@geiseri.com>) id 1U0z0c-0008GC-Rr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 19:33:07 +0100
-X-Authority-Analysis: v=2.0 cv=QcjkT7nv c=1 sm=0 a=0BEmelG+NCIkmYz4MtfDKA==:17
-	a=KAMKcUAUZugA:10 a=zxqQms7TkB8A:10 a=h1JwTc6auzgA:10
-	a=wPDyFdB5xvgA:10 a=kj9zAlcOel0A:10 a=cL4bF6sHAAAA:8
-	a=S5D55JnJK1YA:10 a=fchUi4ohel-nktsmC28A:9 a=CjuIK1q_8ugA:10
-	a=0BEmelG+NCIkmYz4MtfDKA==:117
-X-Cloudmark-Score: 0
-X-Authenticated-User: 
-X-Originating-IP: 65.34.9.19
-Received: from [65.34.9.19] ([65.34.9.19:43730] helo=blue.3gfp.com)
-	by hrndva-oedge03.mail.rr.com (envelope-from
-	<hchapman-oecore@3gfp.com>) (ecelerity 2.2.3.46 r()) with ESMTP
-	id 88/A0-06396-335BA015; Thu, 31 Jan 2013 18:17:24 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by blue.3gfp.com (Postfix) with ESMTP id 7B6701080591;
-	Thu, 31 Jan 2013 13:17:23 -0500 (EST)
-X-Virus-Scanned: by amavisd-new-2.6.4 (20090625) (Debian) at 3gfp.com
-Received: from blue.3gfp.com ([127.0.0.1])
-	by localhost (blue.3gfp.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id g1wqtIVTWoyT; Thu, 31 Jan 2013 13:17:17 -0500 (EST)
-Received: from [192.168.0.115] (rrcs-71-43-163-130.se.biz.rr.com
-	[71.43.163.130])
-	by blue.3gfp.com (Postfix) with ESMTPSA id F38F41080068;
-	Thu, 31 Jan 2013 13:17:16 -0500 (EST)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Harvey Chapman <hchapman-oecore@3gfp.com>
-In-Reply-To: <alpine.DEB.2.02.1301310935390.9110@oneiric>
-Date: Thu, 31 Jan 2013 13:17:16 -0500
-Message-Id: <04B45244-D82F-4BC3-AB01-1747586DDEE2@3gfp.com>
-References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
-	<20130131131021.6d5ffccd@e6520eb>
-	<alpine.DEB.2.02.1301310711320.6796@oneiric>
-	<20130131123847.GC2102@jama.dyndns-home.com>
-	<alpine.DEB.2.02.1301310834500.31170@oneiric>
-	<20130131135020.GD2102@jama.dyndns-home.com>
-	<alpine.DEB.2.02.1301310935390.9110@oneiric>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.1499)
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: BB_SRCREV_POLICY doesn't seem to work
+	Thu, 31 Jan 2013 19:37:27 +0100
+Received: by mail-qe0-f47.google.com with SMTP id 2so1404811qea.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2013 10:21:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=DtF0/ZTjCB9uwVxcgQCICy8oaQfXWqeDPIjR1qacA+Y=;
+	b=f6K91ZmpmZwsCbFa/1z/xOnWJb8VYvR9x4XjdjIymZNqCm6ueRq9Jut1p9TC0iF6uU
+	k+/JPffU7W+FJg+aCKSRFiP5/MNLZXIljOlMlH9r758u99eaAS0q9U3iSjtgUJb5JOis
+	7CMPB9DAkND3EjyTlTXRkpG07APMlGaJ4tHvCffJDgc6YaaGb5mQKFoPw6Ve71mpnPdT
+	9YmFGXT+6pUU18RjE2icV9EzUd4uBSrPbX9Ce66zZJuQU7F3h3TGfF/kqwYPTUnxx2tF
+	zkdlcXQmSQCDaQLUOKeqzpQden0k32ILtYS9JJbFw1szoYe79JR9uHXVWTHiA75P/DHZ
+	EvHw==
+X-Received: by 10.224.195.133 with SMTP id ec5mr9931984qab.85.1359656491466;
+	Thu, 31 Jan 2013 10:21:31 -0800 (PST)
+Received: from localhost.localdomain
+	(pool-96-245-43-60.phlapa.fios.verizon.net. [96.245.43.60])
+	by mx.google.com with ESMTPS id gw9sm4936810qab.10.2013.01.31.10.21.30
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 31 Jan 2013 10:21:30 -0800 (PST)
+Sender: Ian Geiser <geiseri@geiseri.com>
+From: igeiser@devonit.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Jan 2013 13:22:41 -0500
+Message-Id: <1359656561-9968-1-git-send-email-igeiser@devonit.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkKSPa8FM979xC6tlkQNgRqLLPuEeIi5dVNxnXW1d9mHALFdc8IW+cM9zCkgHFIlrrIMoWJ
+Subject: [PATCH v4] mesa-dri: add extra dri drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,29 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 18:33:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 Jan 2013 18:37:41 -0000
 
-On Jan 31, 2013, at 9:45 AM, "Robert P. J. Day" <rpjday@crashcourse.ca> =
-wrote:
+From: Ian Reinhart Geiser <igeiser@devonit.com>
 
-> and i'm trying to build a core-image-minimal.  with regular
-> (git-allowed) net access, the build works fine.  but i haven't yet
-> found any combination of BB_SRCREV_POLICY or BB_FETCH_PREMIRRORONLY or
-> anything else that let's me "fetchall", then disconnect from the net
-> to do the build.
+ * By default enable only swrast.  This needs to
+   be here or for some reason qemuarm tries to
+   detect the intel dri libraries and fails.
+ * For x86 and x86-64 explicitly set all of
+   the supported drm drivers.
 
-This really seems like a bug in bitbake/lib/bb/fetch2/git.py to me. It =
-should honor BB_NO_NETWORK by trying to see if it has the tag locally =
-before it runs the ls-remote to see if the tag has changed. I was going =
-to suggest this earlier in the thread, but due to my relatively new =
-experience with layered OE and the newer bitbake, I refrained. However, =
-I was just inside that code updating the mercurial.py fetcher to =
-actually work for file:// urls. At some point in the next few weeks, =
-I'll update it further to try and be on par with git.py and to at least =
-match the functionality since mercurial.py does things differently. It =
-makes it difficult to understand them both if you only know how to use =
-one.=
+ builds properly with qemux86 qemuarm and qemux86-64
+
+Signed-off-by: Ian Reinhart Geiser <igeiser@devonit.com>
+---
+ meta/recipes-graphics/mesa/mesa-dri.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
+index 1f6ec78..e43150b 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri.inc
++++ b/meta/recipes-graphics/mesa/mesa-dri.inc
+@@ -2,8 +2,8 @@ DEPENDS += "libdrm expat udev"
+ X11_DEPS += "dri2proto"
+ 
+ DRIDRIVERS = "swrast"
+-DRIDRIVERS_append_x86 = ",i915,i965"
+-DRIDRIVERS_append_x86-64 = ",i915,i965"
++DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
++DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
+ 
+ EXTRA_OECONF += "--disable-gallium --without-gallium-drivers"
+ EXTRA_OECONF += "--enable-dri --with-dri-drivers=${DRIDRIVERS}"
+-- 
+1.7.9.5
+
 
 
