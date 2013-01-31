@@ -1,24 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <phil.staub@windriver.com>) id 1U0xLx-0004ZP-OT
+	(envelope-from <ross.burton@intel.com>) id 1U0xXw-0005aq-4K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 17:51:12 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0VGZRhI024155
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 31 Jan 2013 18:03:33 +0100
+Received: from mail-ye0-f199.google.com ([209.85.213.199])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 31 Jan 2013 08:47:47 -0800
+Received: by mail-ye0-f199.google.com with SMTP id l12so4026538yen.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 08:35:27 -0800 (PST)
-Received: from soho-phils-d2.wrs.com (172.25.35.78) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 31 Jan 2013 08:35:25 -0800
-From: Phil Staub <Phil.Staub@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <phil.staub@windriver.com>
-Date: Thu, 31 Jan 2013 08:35:25 -0800
-Message-ID: <1359650125-31872-1-git-send-email-Phil.Staub@windriver.com>
-X-Mailer: git-send-email 1.7.7.6
+	Thu, 31 Jan 2013 08:47:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=vxCEfw9OC4XeETCJSS9bAKuyXRGBMJggBQTY7awx5O8=;
+	b=Ug6MKGUJjDU9zTJ6fi1Pvx8eOTiHWgAe8UQCTv6ivDjH+9/vs3nWT1mtB+jxf4Duuo
+	Mhkeik5oawmqL69X1LGufhiilTusPcxFE9kLOtHuap4/iSvyxXMC0azQdBFJj9UDJw4j
+	zPMsHs1PhFB2P8k9Wcy3JNwqP76FcN2KjqjBrQPAGhhTBUAK7wHb38IV7x0AMQSNqpiK
+	PRal4t0owvtw6XZJVcv0bwC++ZlYIy3qoOyiZHWxEoTfe1C38z/9lBcUMeXSYZfR5yNi
+	EOXpJ/nBlFVM0Er/NFpQjS9iwZMbqAKIIMIyi8QXijBjJ95zzZraslzn98vFeJjA45Xv
+	wAhA==
+X-Received: by 10.220.214.6 with SMTP id gy6mr6224915vcb.8.1359650866742;
+	Thu, 31 Jan 2013 08:47:46 -0800 (PST)
+X-Received: by 10.220.214.6 with SMTP id gy6mr6224908vcb.8.1359650866658; Thu,
+	31 Jan 2013 08:47:46 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2] libaio: Fix MIPS system call interface
+Received: by 10.58.95.131 with HTTP; Thu, 31 Jan 2013 08:47:26 -0800 (PST)
+In-Reply-To: <1359631839-12941-1-git-send-email-igeiser@devonit.com>
+References: <1359631839-12941-1-git-send-email-igeiser@devonit.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 31 Jan 2013 16:47:26 +0000
+Message-ID: <CAJTo0LYJmGDPAc9su3mtejeA6iTkszjju=VTLrwyTzs9oz8Pbg@mail.gmail.com>
+To: igeiser@devonit.com
+X-Gm-Message-State: ALoCoQlksV8bipbzbWHQ0NS98WTcCDNv4Cm/Fxq/eDfs8aKW1B4aRYpalmoGdSvZCpdOaxXgfAwtZIBJQdyASB6ieLO6318pFjfkH8xCwgZ19aQeLNsZZfp8oZYvPqT9LgSDRIoNIIcQyryQ9crXQPDE9UjQvrz78C7nRVnDIo0cOVUJyA5q9usG4rQLZZiDlwsskBLvuJwF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] mesa-dri: add extra dri drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,118 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 16:51:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Jan 2013 17:03:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The io_syscallX wrappers in syscall-mips.h discard error return status
-by overwriting the value returned in v0 from the system call with -1.
+On 31 January 2013 11:30,  <igeiser@devonit.com> wrote:
+>  * For x86 and x86-64 clear out the field so mesa
+>    enabled all of the modules.
 
-Modify this behavior by returning the negative of the return value on
-error (as identified by a3 != 0). This convention is consistent with
-the behavior observed in syscall-ppc.h.
+I really prefer recipes that specify what they are doing, so please
+list all the drivers.  If it autodetects we might regress in libdrm
+and drop a driver, and not notice because Mesa was silently handling
+it.
 
-For a description of the MIPS system call interface, see:
-
-http://www.linux-mips.org/wiki/Syscall
-
-Signed-off-by: Phil Staub <Phil.Staub@windriver.com>
----
- .../libaio/libaio_fix_for_mips_syscalls.patch      |   62 ++++++++++++++++++++
- meta/recipes-extended/libaio/libaio_0.3.109.bb     |    3 +-
- 2 files changed, 64 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscalls.patch
-
-diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscalls.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscalls.patch
-new file mode 100644
-index 0000000..022276a
---- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscalls.patch
-@@ -0,0 +1,62 @@
-+Upstream status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Phil Staub <Phil.Staub@windriver.com>
-+
-+Index: libaio-0.3.109/src/syscall-mips.h
-+===================================================================
-+--- libaio-0.3.109.orig/src/syscall-mips.h
-++++ libaio-0.3.109/src/syscall-mips.h
-+@@ -76,7 +76,7 @@ type fname(atype a) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #define io_syscall2(type,fname,sname,atype,a,btype,b) \
-+@@ -100,7 +100,7 @@ type fname(atype a, btype b) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #define io_syscall3(type,fname,sname,atype,a,btype,b,ctype,c) \
-+@@ -125,7 +125,7 @@ type fname(atype a, btype b, ctype c) \
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #define io_syscall4(type,fname,sname,atype,a,btype,b,ctype,c,dtype,d) \
-+@@ -150,7 +150,7 @@ type fname(atype a, btype b, ctype c, dt
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #if (_MIPS_SIM == _MIPS_SIM_ABI32)
-+@@ -186,7 +186,7 @@ type fname(atype a, btype b, ctype c, dt
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #endif /* (_MIPS_SIM == _MIPS_SIM_ABI32) */
-+@@ -216,7 +216,7 @@ type fname (atype a,btype b,ctype c,dtyp
-+ 	\
-+ 	if (__a3 == 0) \
-+ 		return (type) __v0; \
-+-	return (type) -1; \
-++	return (type) (-(__v0)); \
-+ }
-+ 
-+ #endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-index afe9adf..978f5f5 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://00_arches.patch \
-@@ -14,6 +14,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://libaio_fix_for_x32.patch \
-            file://libaio-generic.patch \
-            file://libaio-aarch64.patch \
-+           file://libaio_fix_for_mips_syscalls.patch \
- "
- 
- SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
--- 
-1.7.7.6
-
+Ross
 
 
