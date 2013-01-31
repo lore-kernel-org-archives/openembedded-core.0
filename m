@@ -1,20 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from smtpfb1-g21.free.fr ([212.27.42.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1U0stb-0001AY-ML
+	(envelope-from <eric@eukrea.com>) id 1U0tIa-00037s-7E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Jan 2013 13:05:36 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 31 Jan 2013 03:49:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,575,1355126400"; d="scan'208";a="197032399"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 31 Jan 2013 03:49:50 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jan 2013 13:53:07 +0200
-Message-Id: <1359633187-28629-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] flex: updated to 2.5.37
+	Thu, 31 Jan 2013 13:31:25 +0100
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id BFF3877CDB0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2013 13:10:30 +0100 (CET)
+Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 11A23A6133;
+	Thu, 31 Jan 2013 13:10:23 +0100 (CET)
+Date: Thu, 31 Jan 2013 13:10:21 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20130131131021.6d5ffccd@e6520eb>
+In-Reply-To: <alpine.DEB.2.02.1301310531510.22001@oneiric>
+References: <alpine.DEB.2.02.1301310531510.22001@oneiric>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: BB_SRCREV_POLICY doesn't seem to work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,169 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jan 2013 12:05:36 -0000
+X-List-Received-Date: Thu, 31 Jan 2013 12:31:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Removed the patches to flex, because they are now applied to the
-latest version.
+Hi Robert,
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 --------------------
- .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 --------------
- meta/recipes-devtools/flex/flex_2.5.35.bb          |   11 ----
- meta/recipes-devtools/flex/flex_2.5.37.bb          |    8 +++
- 4 files changed, 8 insertions(+), 112 deletions(-)
- delete mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
- delete mode 100644 meta/recipes-devtools/flex/flex_2.5.35.bb
- create mode 100644 meta/recipes-devtools/flex/flex_2.5.37.bb
+Le Thu, 31 Jan 2013 05:37:59 -0500 (EST),
+"Robert P. J. Day" <rpjday@crashcourse.ca> a =C3=A9crit :
+>   ok, what have i done wrong?  i thought the whole point of
+> BB_SRCREV_POLICY was to make the above possible.
+>=20
+no idea if that the solution but did you do a cleansstate and removed
+the initaly downloaded sources to fetch again the sources ?
 
-diff --git a/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch b/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
-deleted file mode 100644
-index c71eb82..0000000
---- a/meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--Wrap ECHO macro to avoid FORTIFY warnings
--
--This change will enable flex scanners to be compiled with
---D_FORTIFY_SOURCE=2.
--
--Signed-off-by: Manoj Srivastava <srivasta@debian.org>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--
--Origin: Cherry picked from Debian
--Upstream-Status: Pending
--
-----
-- flex.skl |    2 +-
-- scan.c   |    2 +-
-- skel.c   |    2 +-
-- 3 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/flex.skl b/flex.skl
--index 6ebf2fd..eaa355e 100644
----- a/flex.skl
--+++ b/flex.skl
--@@ -1074,7 +1074,7 @@ m4_ifdef( [[M4_YY_NOT_IN_HEADER]],
-- /* This used to be an fputs(), but since the string might contain NUL's,
--  * we now use fwrite().
--  */
---#define ECHO fwrite( yytext, yyleng, 1, yyout )
--+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
-- %endif
-- %if-c++-only C++ definition
-- #define ECHO LexerOutput( yytext, yyleng )
--diff --git a/scan.c b/scan.c
--index d7f5db3..1a079bf 100644
----- a/scan.c
--+++ b/scan.c
--@@ -2093,7 +2093,7 @@ static int input (void );
-- /* This used to be an fputs(), but since the string might contain NUL's,
--  * we now use fwrite().
--  */
---#define ECHO fwrite( yytext, yyleng, 1, yyout )
--+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
-- #endif
-- 
-- /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
--diff --git a/skel.c b/skel.c
--index ee9f6ef..b8a2b4b 100644
----- a/skel.c
--+++ b/skel.c
--@@ -1141,7 +1141,7 @@ const char *skel[] = {
--   "/* This used to be an fputs(), but since the string might contain NUL's,",
--   " * we now use fwrite().",
--   " */",
---  "#define ECHO fwrite( yytext, yyleng, 1, yyout )",
--+  "#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)",
--   "%endif",
--   "%if-c++-only C++ definition",
--   "#define ECHO LexerOutput( yytext, yyleng )",
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch b/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
-deleted file mode 100644
-index 8d05ee4..0000000
---- a/meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--int is not the same size as size_t.
--
--Signed-off-by: Manoj Srivastava <srivasta@debian.org>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--
--Origin: Cherry picked from Debian
--Upstream-Status: Pending
--
-----
-- gen.c  |    2 +-
-- scan.c |    2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/gen.c b/gen.c
--index 848e2c5..5a5daef 100644
----- a/gen.c
--+++ b/gen.c
--@@ -1890,7 +1890,7 @@ void make_tables ()
-- 			outn ("\tif ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \\");
-- 			outn ("\t\t{ \\");
-- 			outn ("\t\tint c = '*'; \\");
---			outn ("\t\tint n; \\");
--+			outn ("\t\tsize_t n; \\");
-- 			outn ("\t\tfor ( n = 0; n < max_size && \\");
-- 			outn ("\t\t\t     (c = getc( yyin )) != EOF && c != '\\n'; ++n ) \\");
-- 			outn ("\t\t\tbuf[n] = (char) c; \\");
--diff --git a/scan.c b/scan.c
--index 44559b6..15e2058 100644
----- a/scan.c
--+++ b/scan.c
--@@ -2105,7 +2105,7 @@ static int input (void );
-- 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
-- 		{ \
-- 		int c = '*'; \
---		int n; \
--+		size_t n; \
-- 		for ( n = 0; n < max_size && \
-- 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
-- 			buf[n] = (char) c; \
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/flex/flex_2.5.35.bb b/meta/recipes-devtools/flex/flex_2.5.35.bb
-deleted file mode 100644
-index 2218c91..0000000
---- a/meta/recipes-devtools/flex/flex_2.5.35.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require flex.inc
--PR = "r3"
--LICENSE="BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
--BBCLASSEXTEND = "native nativesdk"
--
--SRC_URI += "file://avoid-FORTIFY-warnings.patch \
--            file://int-is-not-the-same-size-as-size_t.patch"
--
--SRC_URI[md5sum] = "10714e50cea54dc7a227e3eddcd44d57"
--SRC_URI[sha256sum] = "0becbd4b2b36b99c67f8c22ab98f7f80c9860aec70f0350a0018f29a88704e7b"
-diff --git a/meta/recipes-devtools/flex/flex_2.5.37.bb b/meta/recipes-devtools/flex/flex_2.5.37.bb
-new file mode 100644
-index 0000000..dbbb7da
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex_2.5.37.bb
-@@ -0,0 +1,8 @@
-+require flex.inc
-+PR = "r0"
-+LICENSE="BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
-+BBCLASSEXTEND = "native nativesdk"
-+
-+SRC_URI[md5sum] = "c75940e1fc25108f2a7b3ef42abdae06"
-+SRC_URI[sha256sum] = "17aa7b4ebf19a13bc2dff4115b416365c95f090061539a932a68092349ac052a"
--- 
-1.7.10.4
-
+Eric
 
 
