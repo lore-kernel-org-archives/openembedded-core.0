@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1U16lT-0005MU-RR
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1U1Acl-0008Gl-I1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 03:54:10 +0100
+	Fri, 01 Feb 2013 08:01:41 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r112cNKM002018
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r116jeVC007417
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jan 2013 18:38:23 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
+	Thu, 31 Jan 2013 22:45:40 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 31 Jan 2013 18:38:22 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	14.2.318.4; Thu, 31 Jan 2013 22:45:38 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Feb 2013 10:38:17 +0800
-Message-ID: <fdc81a0385c2bdf7a13f9536bb59b82f8a5f904e.1359686158.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1359686157.git.hongxu.jia@windriver.com>
-References: <cover.1359686157.git.hongxu.jia@windriver.com>
+Date: Fri, 1 Feb 2013 14:45:37 +0800
+Message-ID: <1359701137-15892-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3826>
+References: <3826>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dpkg-native:fix dpkg-scanpackages error at deb image creation time on Fedora 17
+Subject: [PATCH] pulseaudio_2.1: when do_compile, pulseaudio needs fftw3.h header file. In order to provide fftw3.h, the dependence of fftw is added.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,54 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 02:54:14 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 07:01:44 -0000
 Content-Type: text/plain
 
-Invoking dpkg-scanpackages on Fedora 17 to build deb image meets such an error:
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-Can't locate Dpkg.pm in @INC  (@INC contains: /usr/local/lib64/perl5 /usr/loc
-al/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr
-/lib64/perl5 /usr/share/perl5.) at tmp/sysroots/x86_64-linux/usr/bin/dpkg-sca
-npackages line 27.
-
-1. The dpkg-scanpackages is invoked at deb image creation time and it is built
-by dpkg-native. The dpkg-scanpackages is a perl script and import module `Dpkg'.
-
-2. The Dpkg.pm has been installed in perl's staging dir at dpkg-native compiling
-time. Such as `tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/Dpkg.pm'
-
-3. The dpkg-native uses create_wrapper to relocate to perl-native if perl-native
-has been built. If perl-native isn't built, it will use the host Dpkg as default.
-
-4. If dpkg-native is built on a new build envionment which means perl-native doesn't
-exist before, and the build system doesn't install dpkg (such as Fedora 17), the
-dpkg-scanpackages could not work correctly.
-
-5. Modify dpkg-native's depends, change `perl-native-runtime' to `perl-native', Let
-perl-native automatically be built before building dpkg-native.
-
-[YOCTO #3817]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 27f69ef..8830ae7 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -8,7 +8,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
-            file://ignore_extra_fields.patch"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+index a576368..5110cca 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+@@ -1,8 +1,8 @@
+ require pulseaudio.inc
  
- DEPENDS = "zlib bzip2 perl"
--DEPENDS_class-native = "bzip2-native zlib-native virtual/update-alternatives-native gettext-native perl-native-runtime"
-+DEPENDS_class-native = "bzip2-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives}"
- RDEPENDS_${PN}_class-native = ""
+-PR = "r15"
++PR = "r16"
+ 
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "libjson gdbm speex libxml-parser-perl-native fftw"
+ 
+ inherit gettext perlnative
  
 -- 
-1.7.10.4
+1.7.11
 
 
 
