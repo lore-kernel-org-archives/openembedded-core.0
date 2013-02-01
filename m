@@ -1,45 +1,21 @@
-Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B28495@freescale.com>) id 1U1EYw-0000Dp-OB
+	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1U1EZn-0000IE-AA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 12:13:52 +0100
-Received: from mail30-am1-R.bigfish.com (10.3.201.247) by
-	AM1EHSOBE019.bigfish.com (10.3.207.141) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 1 Feb 2013 10:12:50 +0000
-Received: from mail30-am1 (localhost [127.0.0.1])	by mail30-am1-R.bigfish.com
-	(Postfix) with ESMTP id 06341160147	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2013 10:12:50 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 4
-X-BigFish: VS4(z37d4lzzz1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h1155h)
-Received: from mail30-am1 (localhost.localdomain [127.0.0.1]) by mail30-am1
-	(MessageSwitch) id 1359713568423871_28127;
-	Fri,  1 Feb 2013 10:12:48 +0000 (UTC)
-Received: from AM1EHSMHS014.bigfish.com (unknown [10.3.201.247])	by
-	mail30-am1.bigfish.com (Postfix) with ESMTP id 65AFB4A0060	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  1 Feb 2013 10:12:48 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS014.bigfish.com
-	(10.3.207.152) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 1 Feb 2013 10:12:43 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server (TLS) id 14.2.318.3; Fri, 1 Feb 2013 10:12:42 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
-	id r11ACcaO003401;	Fri, 1 Feb 2013 03:12:39 -0700
-From: <b28495@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Feb 2013 18:12:38 +0800
-Message-ID: <1359713558-22689-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: b29882@freescale.com
-Subject: oprofile: avoid processing files under .pc
+	Fri, 01 Feb 2013 12:14:39 +0100
+Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
+	[192.168.101.9])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 2D70A40037;
+	Fri,  1 Feb 2013 11:18:59 +0100 (CET)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Feb 2013 11:58:39 +0100
+Message-Id: <1359716319-7445-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] insane.bbclass: removing outdated comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,49 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 11:13:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Feb 2013 11:14:40 -0000
 
-From: Ting Liu <b28495@freescale.com>
+This commit removes an outdated comment that recorded an issue that has been
+resolved in the commits 1c75a5df6845090480deff20f469f177501d2182 and
+d2d5456cd3b3bd3e52a5dedccca4d46e3a7986d1. Probably, the comment was missed
+when changing the behavior in those commits.
 
-Fix the below issue:
-| DEBUG: Executing shell function do_configure
-| sed: can't read ./.pc/opstart.patch/doc/opstop.1.in: Permission denied
-| sed: can't read ./.pc/opstart.patch/doc/opstart.1.in: Permission
-denied
-| sed: can't read ./.pc/opstart.patch/utils/opstart.c: Permission denied
-| ERROR: Function failed: do_configure
-
-Signed-off-by: Ting Liu <b28495@freescale.com>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
 ---
- meta/recipes-kernel/oprofile/oprofile.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/insane.bbclass |    2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index d6d20ae..b09aaf8 100644
---- a/meta/recipes-kernel/oprofile/oprofile.inc
-+++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -19,7 +19,7 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*${SOLIBS} ${datadir}/${BPN}"
- FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 015abd5..3693d42 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -557,8 +557,6 @@ def package_qa_check_license(workdir, d):
+         return True
  
--INC_PR = "r1"
-+INC_PR = "r2"
+     if not lic_files:
+-        # just throw a warning now. Once licensing data in entered for enough of the recipes,
+-        # this will be converted into error and False will be returned.
+         bb.error(pn + ": Recipe file does not have license file information (LIC_FILES_CHKSUM)")
+         return False
  
- SRC_URI = "file://opstart.patch \
-            file://oprofile-no-query-modules.patch \
-@@ -30,7 +30,7 @@ inherit autotools
- 
- EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x"
- do_configure () {
--	find . -type f | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
-+	find . -wholename './.pc' -prune -o -type f -print | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
- 	cp ${WORKDIR}/acinclude.m4 ${S}/
- 	autotools_do_configure
- }
 -- 
-1.7.5.4
-
+1.7.9.5
 
 
 
