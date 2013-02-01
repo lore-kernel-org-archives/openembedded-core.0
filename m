@@ -1,37 +1,39 @@
-Received: from mail-da0-f51.google.com ([209.85.210.51])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U1E3z-0006N0-V2
+	(envelope-from <ross.burton@intel.com>) id 1U1E5x-0006Sx-2I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 11:42:23 +0100
-Received: by mail-da0-f51.google.com with SMTP id i30so1681819dad.38
+	Fri, 01 Feb 2013 11:43:50 +0100
+Received: from mail-ve0-f198.google.com ([209.85.128.198])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 02:27:59 -0800
+Received: by mail-ve0-f198.google.com with SMTP id 14so4348816vea.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2013 02:25:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=E7DjeHJegDKqnjjB+LH6wzP08B9cl0YlzKm0ilYySuc=;
-	b=Lg9J7p46Jx4LmpSV9nikFEmlq2GI6r6BeGUpfTJJz2OwKuOHuuXftKC5lnmJ/xfnpO
-	NPErRsKfuVFq9c7lvkutxFbqB7rlYWQqwvYUnbB52EXc+NNTiPJEoqJ0mCISPJek6Z5d
-	va2H7FxDELhzCqyrdvEmljkMRzM6bHwgEiXqmG2+QYAkQZSGCVwp1kPC+5jhezlMEMEv
-	E9XQj8NlIRD4nti4U6pePhGvgEZKVYmmvKCtAKCew/suAUnxe5jZ5jABQWniqf/IEVIB
-	F1QMOsLMZ8KQIe6xhy/nA0SX17OE+U1EW+A6WpAtgVsvX3j7gnoyyoYxnpB6+2GfoCeW
-	GGYA==
-X-Received: by 10.66.81.166 with SMTP id b6mr28610960pay.7.1359714359489;
-	Fri, 01 Feb 2013 02:25:59 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id nw9sm8043972pbb.42.2013.02.01.02.25.56
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 01 Feb 2013 02:25:58 -0800 (PST)
-Date: Fri, 1 Feb 2013 11:26:01 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Message-ID: <20130201102601.GC3234@jama.dyndns-home.com>
+	Fri, 01 Feb 2013 02:27:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=ZAs1cYsne/lQ/ooBqr4lAVwvjXUyBUkj0JHs30DQKSw=;
+	b=Fl9OlLFmlE/bInMpMuI23xSTY0psfztjakbF3bTFyXqifgusLWDfkCht53wtzKOsut
+	Hjz67hTKYLMeK+NKrz22pZofO9EETEJyqK7Ybv750jxVG/Ib/FVddH3I9Ph8+ven+che
+	+bQCkJCvd9FEvPEy/uzzo74r/8VJMbGecp2jC1j6+lXKT0Jkd9PRG6VAHtwzJNmEPEUY
+	oREsos/CSzfigYFMgZn33VJsOQnJjjJQkJNhOb5yIjOCa+DEKDCiQksJxGKqrLO+tM9i
+	tnN2VSUa9kRmPAQlc3RRijGmXz6bXIWDQDX2yubfTXVvtz5jzrEKMt0pQkQU9O4/MxyF
+	7Jew==
+X-Received: by 10.220.116.5 with SMTP id k5mr10858041vcq.55.1359714478644;
+	Fri, 01 Feb 2013 02:27:58 -0800 (PST)
+X-Received: by 10.220.116.5 with SMTP id k5mr10858030vcq.55.1359714478377;
+	Fri, 01 Feb 2013 02:27:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Fri, 1 Feb 2013 02:27:38 -0800 (PST)
+In-Reply-To: <510B9749.6040801@intel.com>
 References: <1359710522-26839-1-git-send-email-radu.moisan@intel.com>
 	<CAJTo0LZ3tvB6t13utWrzXhqE7mx58ypkFosUdtwj=XuMbPXRNw@mail.gmail.com>
 	<510B9749.6040801@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <510B9749.6040801@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Feb 2013 10:27:38 +0000
+Message-ID: <CAJTo0LZCJuRomHysD9b6CfYfsHJpQBBXsZNWVUEo5_en_ju2KA@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQkaRyilgMvlUGNKmEabc76Fd2lRNb9diipP5CdaWcSEZw6qB+6LECcI+jeJfi8U/g9CwYyBw8FEyxFEEeUQ3QWZk+nCNpZGhj3kMC6nrGdqed4TwpbaLX6FdzrWqK5CfZPG0G0buFcu2/yWu9mhFti5A5x2Sz7GiWnrXFxVGPcXOL+XA1fQLBefHvulwdoQTwkC5YgV
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] polkit: Enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,54 +48,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 10:42:41 -0000
-X-Groupsio-MsgNum: 34799
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hOcCNbCCxyk/YU74"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Feb 2013 10:43:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
---hOcCNbCCxyk/YU74
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1 February 2013 10:22, Radu Moisan <radu.moisan@intel.com> wrote:
+> I did change that manually because I assumed it was a typo. However it make
+> sense to add consolekit as a runtime dependency, but the documentation
+> specifically says PACKAGECONFIG will add to DEPENDS. How is it different in
+> this patch? The PACKAGECONFIG[systemd] is clearly specifying a build time
+> dependency, why the PACKAGECONFIG[consolekit] is specifying a runtime
+> dependency? How can I discriminate in this context?
 
-On Fri, Feb 01, 2013 at 12:22:01PM +0200, Radu Moisan wrote:
->=20
-> On 02/01/2013 11:44 AM, Burton, Ross wrote:
-> > On 1 February 2013 09:22, Radu Moisan <radu.moisan@intel.com> wrote:
-> >> enable/disable support as relevant
-> > Please write a more verbose comment, something along the lines of
-> > "systemd is auto-detected unless disabled explicitly, potentially
-> > contaminating sstate".
-> >
-> >> +# there is no --enable/--disable option for consolekit and it's not p=
-icked by shlibs, so add it to DEPENDS
-> > It's not picked up by shlibs because it's a dbus call not a library
-> > call, and that's *RDEPENDS* not depends.
->=20
-> I did change that manually because I assumed it was a typo. However it=20
-> make sense to add consolekit as a runtime dependency, but the=20
-> documentation specifically says PACKAGECONFIG will add to DEPENDS. How=20
-> is it different in this patch? The PACKAGECONFIG[systemd] is clearly=20
-> specifying a build time dependency, why the PACKAGECONFIG[consolekit] is=
-=20
-> specifying a runtime dependency? How can I discriminate in this context?
+I spoke to Radu online already, but I'll repeat again here in case
+anyone else is confused by PACKAGECONFIG.
 
-3rd (DEPENDS) or 4th (RDEPENDS) parameter is the key difference.
+The latest documentation is here:
+http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-P
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+The key point is that the 3rd argument is DEPENDS, and the fourth is
+RDEPENDS.  Many instances of PACKAGECONFIG will leave out the fourth,
+but in this case the third is empty (note the extra commas) so
+consolekit is added as a runtime dependency.
 
---hOcCNbCCxyk/YU74
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Ross
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlELmDkACgkQN1Ujt2V2gBwXxgCdHOLH7C0sh4evS5dArdvfBoko
-fswAoLDACkiA/dy5Wtc5Bz/MYsqg5j5R
-=RDTv
------END PGP SIGNATURE-----
-
---hOcCNbCCxyk/YU74--
