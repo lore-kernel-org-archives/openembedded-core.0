@@ -1,29 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Ming.Liu@windriver.com>) id 1U15Zr-0000XV-74
+	(envelope-from <Ming.Liu@windriver.com>) id 1U16bC-0004eL-4P
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 02:38:13 +0100
+	Fri, 01 Feb 2013 03:43:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r111MHvw022955
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 31 Jan 2013 17:22:17 -0800 (PST)
-Received: from [128.224.162.133] (128.224.162.133) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 31 Jan 2013 17:22:16 -0800
-Message-ID: <510B18C5.2080404@windriver.com>
-Date: Fri, 1 Feb 2013 09:22:13 +0800
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r112Rjt6004761
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Jan 2013 18:27:46 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 31 Jan 2013 18:27:44 -0800
 From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Feb 2013 10:27:40 +0800
+Message-ID: <1359685660-28647-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.11
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1359625578-26968-1-git-send-email-ming.liu@windriver.com>
-	<1359637195.14071.29.camel@ted>
-In-Reply-To: <1359637195.14071.29.camel@ted>
-X-Originating-IP: [128.224.162.133]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman-gnome: Add DEPENDS on intltool-native
+Subject: [PATCH V1] connman-gnome: Add DEPENDS on intltool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 01:38:21 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Feb 2013 02:43:34 -0000
+Content-Type: text/plain
 
-On 01/31/2013 08:59 PM, Richard Purdie wrote:
-> On Thu, 2013-01-31 at 17:46 +0800, Ming Liu wrote:
->> [YOCTO #3815]
->> [ CQID: WIND00401118 ]
->>
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
-> This commit description isn't enough, please summarise bug 3815 in the
-> commit message.
+When 'bitbake -c configure connman-gnome' is executed from scratch, it fails
+with syntax error parsing `IT_PROG_INTLTOOL(0.35.0)' in configure.in. This
+is caused by its definition is not included into aclocal.m4
 
-ok, thx for the review.
-I will add it into commit message and send the V1 soon.
+Adding intltool-native to DEPENDS is gonna fix it.
 
-the best,
-thank you
+[YOCTO #3815]
+[ CQID: WIND00401118 ]
 
->
-> Cheers,
->
-> Richard
->
->
->
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+index 1559a9d..eee7a11 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
+                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
+ 
+-DEPENDS = "gtk+ dbus-glib"
++DEPENDS = "gtk+ dbus-glib intltool-native"
+ 
+ # 0.7 tag
+ SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
+-- 
+1.7.11
 
 
 
