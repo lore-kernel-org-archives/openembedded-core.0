@@ -1,19 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-la0-f53.google.com ([209.85.215.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1U1HRm-0004la-97
+	(envelope-from <bruce.ashfield@gmail.com>) id 1U1Hgi-0005jz-0a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 15:18:32 +0100
-Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r11E2fTN000226;
-	Fri, 1 Feb 2013 06:02:42 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  1 Feb 2013 09:02:33 -0500
-Message-Id: <cover.1359726620.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/5] kernel-yocto: consolidated pull request
+	Fri, 01 Feb 2013 15:33:56 +0100
+Received: by mail-la0-f53.google.com with SMTP id fr10so2865462lab.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Feb 2013 06:18:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=8LTz0phGilqiFUeH2PzcZ/PxnngZNavkuFlSgTubT5U=;
+	b=Enpa7tVAarSoCEbUUKTrPYmnI14HY/v5TtMJq3kOgTeoAvxoqLeYZCkLP1iS5FkYXI
+	M38ixH+FL5FxrZXdlYo0nsXscXRJWohjO756gS3f92DRJephuarnYAjWdwTPAUR4Bqj0
+	E4ptKH3sokrjkz2laNI3npP3/ydfL5j11L1fqav/cNmqVwPsyfwtvjZsJ4V2PExNcJ/X
+	V9+v3YfqL9gZqueun1hpJwIsDNBb/+F2fHwSPgWp7rHdkZrB1AeVsWST8aBkROE06qhJ
+	E9lZ/ltpPMhdvwjacCtqC8tfMp4Tx7mf3GNwV32Msimn6PPVakwIwFVUo1gQtaxA1vYN
+	uSEA==
+MIME-Version: 1.0
+X-Received: by 10.152.147.103 with SMTP id tj7mr11398736lab.54.1359728291829; 
+	Fri, 01 Feb 2013 06:18:11 -0800 (PST)
+Received: by 10.112.127.35 with HTTP; Fri, 1 Feb 2013 06:18:11 -0800 (PST)
+In-Reply-To: <b2319aaf09ba1dccdcd58cf067a1b0b1dd4ada93.1359708915.git.Qi.Chen@windriver.com>
+References: <cover.1359708915.git.Qi.Chen@windriver.com>
+	<b2319aaf09ba1dccdcd58cf067a1b0b1dd4ada93.1359708915.git.Qi.Chen@windriver.com>
+Date: Fri, 1 Feb 2013 09:18:11 -0500
+Message-ID: <CADkTA4Nc_fZbBTRbTi8ZbCZAa24_8r_qS9bCfXuoktisC4pavg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Qi.Chen@windriver.com
+Cc: Zhenfeng.Zhao@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] busybox: add config fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,124 +43,265 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 14:18:55 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 14:33:57 -0000
+Content-Type: multipart/alternative; boundary=e89a8f234d2bd3578704d4aa698a
 
-Richard/Saul,
+--e89a8f234d2bd3578704d4aa698a
+Content-Type: text/plain; charset=ISO-8859-1
 
-This pull request is a collection of bug fixes and feature additions
-for the 1.4 release. Documentation updates are underway for the new
-features, but they've soaked long enough here, so I wanted to get
-them out while there's lots of time to address any issues.
+On Fri, Feb 1, 2013 at 4:00 AM, <Qi.Chen@windriver.com> wrote:
 
-[PATCH 1/5] guilt: remove GIT_EXEC_BASE export
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Add config fragments to busybox.
+>
+> Both the implementation and the use case are similar to yocto kernel's
+> configuration fragments.
+>
 
-  This fixes a bug that has been reported off and on for nearly a 
-  year now. I finally saw it on my local machine and was able to
-  track down the cause .. and export of GIT_EXEC_BASE that is no
-  longer needed. Although I may get rid of guilt shortly, it's still
-  worth fixing this now.
+I can fairly easily tweak the configuration parts of the kern-tools to
+handle this
+use case as well. That would allow us to re-use the kernel's merge_config.sh
+script (with a minor dependency change) and save some duplicated code. It
+also gets you the advantage that you can consolidate configuration fragments
+outside of any build system, which isn't as critical here, but something
+that
+is used quite a bit during kernel testing.
 
-[PATCH 2/5] kernel-yocto: make configuration audit details debug only
-
-  This addresses [YOCTO #3415], and simply makes the full kernel
-  configuration audit slightly less visible, but yet still available.
-
-[PATCH 3/5] kernel-yocto: fix .scc and .cfg matching
-
-  I ran into this while implementing a new feature, some local 
-  SRC_URIs were matching fragments incorrectly. With this fix
-  I'm back to only getting .scc and .cfg files.
-
-[PATCH 4/5] kernel-yocto: allow multiple / shared kernel feature directories
-
-  This is the most interesting addition of this series, and it's
-  the start of solving the problem of having multiple people developing
-  disjoint sets of kernel configuration blocks, or kernel features. 
-
-  To promote the reuse and sharing of configuration fragments this change
-  allows any kernel-yocto based recipe to have multiple alternate git repositories
-  which provide kernel feature directory trees listed on the SRC_URI.
-
-  These feature directories are in addition to any in-tree kernel meta data branches
-  that may be available (described via the KMETA variable in linux-yocto recipes).
-
-  Features found within these directories can be used from recipes via the
-  KERNEL_FEATURES variable. Features found within a feature directory are free
-  to include any other features that are available in any directories. In both
-  cases the path to a feature description (a .scc file) is relative to the
-  root of a given feature directory (which is how existing .scc files work)
-
-  The search order for features is determined by the order that repositories
-  appear on the SRC_URI.
-
-  Normal SRC_URI rules apply to any repository that is added as a kernel
-  feature container. A SRCREV must be supplied and it must be unpacked to
-  a unique directory, which is controlled via the "destsuffic" url parameter.
-
-  In addition to these standard requirements, any kernel feature repository
-  reference should identify itself via the "type=kmeta" url parameter. If
-  type=kmeta is not supplied, the repository will not be processed for
-  kernel features.
-
-  As an example, the following in a linux-yocto bbappend makes two additional
-  feature directories available to KERNEL_FEATURES and fragments.
-
-    SRC_URI += "git://git.yoctoproject.org/yocto-kernel-cache;protocol=git;branch=master;type=kmeta;name=feat1;destsuffix=kernel-cache/"
-    SRC_URI += "git://${KSRC_linux_yocto_3_4};protocol=file;branch=meta;name=feat2;type=kmeta;destsuffix=kernel-features-experimental/"
-
-    SRCREV_feat1 = "${AUTOREV}"
-    SRCREV_feat2 = "${AUTOREV}"
-
-[PATCH 5/5] kernel-yocto/linux-yocto-custom: support low bandwidth options
-
-  To support configurations where active development is not being done within
-  the oe/bitbake build environment and restricted bandwidth situations, this
-  commit allows the SRC_URI to point to a kernel tgz instead of a full git
-  repository.
-
-  Outside of the upstream tgz instead of a kernel git repository, the
-  restrictions, config and patch process is the same as any linux-yocto-custom
-  recipe.
-
-  An example linux-yocto-custom based recipe would have a configuration like
-  this to build the 3.7 kernel, using an externally supplied config, from the
-  3.7 tgz:
-
-    SRC_URI = "http://kernel.org/pub/linux/kernel/v3.0/linux-3.7.tar.bz2"
-    PV = "3.7"
-    S = "${WORKDIR}/linux-3.7"
-    SRC_URI[md5sum] = "5323f3faadd051e83af605a63be5ea2e"
-    SRC_URI[sha256sum] = "dc08d87a579fe2918362e6666e503a95a76296419195cb499aa9dd4dbe171a9e"
-
-  [YOCTO #2686]
+To be clear, I'm not talking about the entire kern-tools here, just the
+config parts.
 
 Cheers,
 
 Bruce
 
-The following changes since commit 828b1143477da079956a5541f8cc66c07ab6a3cc:
 
-  multilib: skip packages that provide virtual/kernel (2013-01-31 12:39:47 -0500)
+>
+> [YOCTO #3379]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc |   45
+> +++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>
+> diff --git a/meta/recipes-core/busybox/busybox.inc
+> b/meta/recipes-core/busybox/busybox.inc
+> index 972e7d0..66044f8 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -112,8 +112,53 @@ do_prepare_config () {
+>         fi
+>  }
+>
+> +# returns all the elements from the src uri that are .cfg files
+> +def find_cfgs(d):
+> +    sources=src_patches(d, True)
+> +    sources_list=[]
+> +    for s in sources:
+> +        if s.endswith('.cfg'):
+> +            sources_list.append(s)
+> +
+> +    return sources_list
+> +
+> +# Merge config fragments
+> +# All config fragments for busybox should end with .cfg
+> +do_merge_config() {
+> +        SED_CONFIG_EXP="s/^\(# \)\{0,1\}\(CONFIG_[a-zA-Z0-9_]*\)[=
+> ].*/\2/p"
+> +        MERGE_LIST="${@" ".join(find_cfgs(d))}"
+> +        if [ -n "$MERGE_LIST" ]; then
+> +                # Make a temp file, merge .config and .cfg files into it
+> +                TMP_FILE=`mktemp .tmp.config.XXXXXXXX`
+> +                cp .config $TMP_FILE
+> +                for MERGE_FILE in $MERGE_LIST; do
+> +                        CFG_LIST=`sed -n "${SED_CONFIG_EXP}" $MERGE_FILE`
+> +                        for CFG in $CFG_LIST ; do
+> +                                grep -q -w $CFG $TMP_FILE
+> +                                if [ $? -eq 0 ] ; then
+> +                                        PREV_VAL=`grep -w $CFG $TMP_FILE`
+> +                                        NEW_VAL=`grep -w $CFG $MERGE_FILE`
+> +                                        if [ "x$PREV_VAL" != "x$NEW_VAL"
+> ] ; then
+> +                                                echo Value of $CFG is
+> redefined by fragment $MERGE_FILE:
+> +                                                echo Previous  value:
+> $PREV_VAL
+> +                                                echo New value:
+> $NEW_VAL
+> +                                                echo
+> +                                        fi
+> +                                        sed -i "/$CFG[ =]/d" $TMP_FILE
+> +                                fi
+> +                        done
+> +                        echo >> $TMP_FILE
+> +                        cat $MERGE_FILE >> $TMP_FILE
+> +                done
+> +                # Copy the temp file to .config, do some cleanup
+> +               cp $TMP_FILE .config
+> +               rm $TMP_FILE
+> +        fi
+> +}
+> +
+>  do_configure () {
+>         do_prepare_config
+> +       do_merge_config
+>         cml1_do_configure
+>  }
+>
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib zedd/kernel-dev
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (5):
-  guilt: remove GIT_EXEC_BASE export
-  kernel-yocto: make configuration audit details debug only
-  kernel-yocto: fix .scc and .cfg matching
-  kernel-yocto: allow multiple / shared kernel feature directories
-  kernel-yocto/linux-yocto-custom: support low bandwidth options
-
- meta/classes/kernel-yocto.bbclass                  |   77 +++++++++++++++-----
- meta/recipes-devtools/guilt/guilt-native_0.33.bb   |    3 +-
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 3 files changed, 62 insertions(+), 20 deletions(-)
 
 -- 
-1.7.10.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--e89a8f234d2bd3578704d4aa698a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Fri, Feb 1, 2013 at 4:00 AM,  <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt=
+;</span> wrote:<br>
 
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@=
+windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+<br>
+Add config fragments to busybox.<br>
+<br>
+Both the implementation and the use case are similar to yocto kernel&#39;s<=
+br>
+configuration fragments.<br></blockquote><div><br></div><div>I can fairly e=
+asily tweak the configuration parts of the kern-tools to handle this</div><=
+div>use case as well. That would allow us to re-use the kernel&#39;s merge_=
+config.sh</div>
+<div>script (with a minor dependency change) and save some duplicated code.=
+ It</div><div>also gets you the advantage that you can consolidate configur=
+ation fragments</div><div>outside of any build system, which isn&#39;t as c=
+ritical here, but something that=A0</div>
+<div style>is used quite a bit during kernel testing.</div><div style><br><=
+/div><div style>To be clear, I&#39;m not talking about the entire kern-tool=
+s here, just the config parts.</div><div style><br></div><div style>Cheers,=
+</div>
+<div style><br></div><div style>Bruce</div><div>=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+
+<br>
+[YOCTO #3379]<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
+=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+---<br>
+<div>=A0meta/recipes-core/busybox/busybox.inc | =A0 45 ++++++++++++++++++++=
++++++++++++++<br>
+=A01 file changed, 45 insertions(+)<br>
+<br>
+</div>diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-cor=
+e/busybox/busybox.inc<br>
+index 972e7d0..66044f8 100644<br>
+--- a/meta/recipes-core/busybox/busybox.inc<br>
++++ b/meta/recipes-core/busybox/busybox.inc<br>
+@@ -112,8 +112,53 @@ do_prepare_config () {<br>
+=A0 =A0 =A0 =A0 fi<br>
+=A0}<br>
+<br>
++# returns all the elements from the src uri that are .cfg files<br>
++def find_cfgs(d):<br>
++ =A0 =A0sources=3Dsrc_patches(d, True)<br>
++ =A0 =A0sources_list=3D[]<br>
++ =A0 =A0for s in sources:<br>
++ =A0 =A0 =A0 =A0if s.endswith(&#39;.cfg&#39;):<br>
++ =A0 =A0 =A0 =A0 =A0 =A0sources_list.append(s)<br>
++<br>
++ =A0 =A0return sources_list<br>
++<br>
++# Merge config fragments<br>
++# All config fragments for busybox should end with .cfg<br>
++do_merge_config() {<br>
++ =A0 =A0 =A0 =A0SED_CONFIG_EXP=3D&quot;s/^\(# \)\{0,1\}\(CONFIG_[a-zA-Z0-9=
+_]*\)[=3D ].*/\2/p&quot;<br>
++ =A0 =A0 =A0 =A0MERGE_LIST=3D&quot;${@&quot; &quot;.join(find_cfgs(d))}&qu=
+ot;<br>
++ =A0 =A0 =A0 =A0if [ -n &quot;$MERGE_LIST&quot; ]; then<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# Make a temp file, merge .config and .cfg=
+ files into it<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0TMP_FILE=3D`mktemp .tmp.config.XXXXXXXX`<b=
+r>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0cp .config $TMP_FILE<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0for MERGE_FILE in $MERGE_LIST; do<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0CFG_LIST=3D`sed -n &quot;$=
+{SED_CONFIG_EXP}&quot; $MERGE_FILE`<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0for CFG in $CFG_LIST ; do<=
+br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0grep -q -w=
+ $CFG $TMP_FILE<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if [ $? -e=
+q 0 ] ; then<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0PREV_VAL=3D`grep -w $CFG $TMP_FILE`<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0NEW_VAL=3D`grep -w $CFG $MERGE_FILE`<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0if [ &quot;x$PREV_VAL&quot; !=3D &quot;x$NEW_VAL&quot; ] ; then<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0echo Value of $CFG is redefined by fragment $MERGE_F=
+ILE:<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0echo Previous =A0value: $PREV_VAL<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0echo New value: =A0 =A0 =A0 $NEW_VAL<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0echo<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0fi<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0sed -i &quot;/$CFG[ =3D]/d&quot; $TMP_FILE<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0fi<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0done<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo &gt;&gt; $TMP_FILE<br=
+>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0cat $MERGE_FILE &gt;&gt; $=
+TMP_FILE<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0done<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# Copy the temp file to .config, do some c=
+leanup<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp $TMP_FILE .config<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm $TMP_FILE<br>
++ =A0 =A0 =A0 =A0fi<br>
++}<br>
++<br>
+=A0do_configure () {<br>
+=A0 =A0 =A0 =A0 do_prepare_config<br>
++ =A0 =A0 =A0 do_merge_config<br>
+=A0 =A0 =A0 =A0 cml1_do_configure<br>
+<div><div>=A0}<br>
+<br>
+--<br>
+1.7.9.5<br>
+<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end&quot;
+</div></div>
+
+--e89a8f234d2bd3578704d4aa698a--
