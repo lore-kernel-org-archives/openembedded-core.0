@@ -1,32 +1,28 @@
-Received: from mail-pb0-f49.google.com ([209.85.160.49])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U1L98-0002k6-Qu
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U1LDu-0002yS-0o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 19:15:31 +0100
-Received: by mail-pb0-f49.google.com with SMTP id xa12so2236623pbc.22
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2013 09:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=q7ITbCCSenbbByg9mJL8+AjsLnJ1BJ1pEC1PFfXY5Qo=;
-	b=exMchaKgSInsbmuzi28VbHtLQG5wsbKRG93it4fQsb5RVJooTJZgKZl6UJrLipt0mk
-	RLHKRQn7W0ioyZ7qpPWnd0FKEsRvR5Ok+EDOKl5kXcJf5vyuasJjKobuLPslwTmGdrgH
-	d8w7uxyFYqnG/B8qsBhPxgh6RYFQ24enLEwNIwDOP/JF0pNoc6BkCS5n299ncAlsM5QI
-	HgZa6fOS2Rbta4YQ0mFMezhGUZ2r4eo4Xo4TnOa4IZbsw+oPneC5cDWT2m0gtBIfTAAc
-	uNjdlgNhCNjXtn6Xv9gXMMGRu8ZMZiPD+puQ3UiwzvM1bCPxOsLLMYxkZpsxoETyxFdV
-	/xWA==
-X-Received: by 10.66.76.198 with SMTP id m6mr31884115paw.32.1359741585801;
-	Fri, 01 Feb 2013 09:59:45 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ix9sm9091289pbc.7.2013.02.01.09.59.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 01 Feb 2013 09:59:44 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2013 18:59:41 +0100
-Message-Id: <1359741581-16500-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] rm_work: remove package and packages-split dirs
+	Fri, 01 Feb 2013 19:20:27 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r11I4dQb022295
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 1 Feb 2013 10:04:39 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Fri, 1 Feb 2013 10:04:36 -0800
+Date: Fri, 1 Feb 2013 12:04:33 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20130201120433.75b9dfaa@e6410-2>
+In-Reply-To: <20130201122244.GE3234@jama.dyndns-home.com>
+References: <cover.1359669354.git.peter.seebach@windriver.com>
+	<fd09dfbdf025e14bcccaedb85d9d3f16e6f4aa58.1359669354.git.peter.seebach@windriver.com>
+	<20130201122244.GE3234@jama.dyndns-home.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] pseudo.inc: Fix sqlite libdir again, pseudo 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,52 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 18:15:33 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 18:20:29 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-* as described in
-  http://git.openembedded.org/openembedded-core/commit/?id=6107ee294afde395e39d084c33e8e94013c625a9
+On Fri, 1 Feb 2013 13:22:44 +0100
+Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/rm_work.bbclass | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+> You can remove PR when upgrading PV.
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 997dcd1..24d0679 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -19,13 +19,13 @@ do_rm_work () {
-     do
-         if [ `basename ${S}` = $dir ]; then
-             rm -rf $dir
--        # The package and packages-split directories are retained by sstate for 
--        # do_package so we retain them here too. Anything in sstate 'plaindirs' 
--        # should be retained. Also retain logs and other files in temp.
--        elif [ $dir != 'temp' ] && [ $dir != 'package' ]  && [ $dir != 'packages-split' ]; then
-+        # Anything in sstate 'plaindirs' should be retained. 
-+        # Also retain logs and other files in temp.
-+        elif [ $dir != 'temp' ]; then
-             rm -rf $dir
-         fi
-     done
-+
-     # Need to add pseudo back or subsqeuent work in this workdir
-     # might fail since setscene may not rerun to recreate it
-     mkdir ${WORKDIR}/pseudo/
-@@ -54,6 +54,11 @@ do_rm_work () {
-                 i=dummy
-                 break
-                 ;;
-+            *do_package|*do_package_setscene)
-+                i=dummy
-+                rm -f $i;
-+                break
-+                ;;
-             *_setscene*)
-                 i=dummy
-                 break
+Thanks! I had been sort of wondering whether there was a way to get
+away from ever-increasing PR, but I hadn't actually followed through to
+find out.
+
+-s
 -- 
-1.8.1.2
-
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
