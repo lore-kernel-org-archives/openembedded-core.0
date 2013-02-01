@@ -1,28 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U1IgK-0000q6-32 for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 16:37:46 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r11FQZFF019001; Fri, 1 Feb 2013 15:26:36 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wzN2+iuAw0En; Fri,  1 Feb 2013 15:26:35 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r11FQU2J018992
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Feb 2013 15:26:32 GMT
-Message-ID: <1359732091.14071.66.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Fri, 01 Feb 2013 15:21:31 +0000
-In-Reply-To: <510BD7AD.5090506@topic.nl>
-References: <510BD7AD.5090506@topic.nl>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	(envelope-from <ross.burton@intel.com>) id 1U1Ka6-0000e1-CK
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Feb 2013 18:39:27 +0100
+Received: from mail-vc0-f197.google.com ([209.85.220.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 09:22:19 -0800
+Received: by mail-vc0-f197.google.com with SMTP id gb30so5734144vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Feb 2013 09:23:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=GtzbpNDyWXHP6pXvm4Cck58YSelKmlM0BTreJNkkuj4=;
+	b=nCvXM3OlCwEL4asj1fFbwayCANBijg0BUqCxNQjVGaNtMZjovAbRSsQAunQ8O4sc3y
+	8lvrFhJk0sNXlEt255t3QXf7o74tXnq1owAA2EFrasW4q7Z/feiiidXNQxuiznERRkjH
+	1FTfYmYkBMRU0DfzrX5IiDnU0AAJaHAgnknNPL9DQzrORLTmoPtrcvT/RfXCy8/51wqS
+	kb3wqkkmNpix0ZECshkK0r1eXAtNf/YIyFIkM8p3oEJZ7b2qKLOvGj0BGXpKuYc7tr7u
+	nZ7sBKHVw/luFKl3CRAAPFmtzLjAPSSilOcFgfTZeeIT7v0uoYSRZmeTRoy+EeMZCx89
+	9nwQ==
+X-Received: by 10.52.178.105 with SMTP id cx9mr10628196vdc.31.1359739399654;
+	Fri, 01 Feb 2013 09:23:19 -0800 (PST)
+X-Received: by 10.52.178.105 with SMTP id cx9mr10628192vdc.31.1359739399470;
+	Fri, 01 Feb 2013 09:23:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Fri, 1 Feb 2013 09:22:59 -0800 (PST)
+In-Reply-To: <1359732091.14071.66.camel@ted>
+References: <510BD7AD.5090506@topic.nl> <1359732091.14071.66.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Feb 2013 17:22:59 +0000
+Message-ID: <CAJTo0LaM__O=HgwAAyATKcdxHFee5Aq-80XkU9aCKBkwG6=5ww@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQma/t8ppY1teObfO5kojXKtNuhKCeoMmyLlSo1L/HukMefKM/VJ1iRw1gMDXLdc1BL6eWEATTcWBlUQLnnT1dDC1iMyTbNIKWCAVzKHnXEysI2fhtQx2zAhzHBU6Swr5aczTp0Zzed7oXMc+Zy/QGAEocHQdcpSfqKBGOffat/lomAgZmkfYPcRt73VRC00oPBB4Kkl
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: What's up with "fontconfig"
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,60 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 15:37:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Feb 2013 17:39:28 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 17:39:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2013-02-01 at 15:56 +0100, Mike Looijmans wrote:
-> When compiling fontconfig, it fails because it is using "build" flags in 
-> the host compiler. I have BUILD_OPTIMIZATIONS="-march=native ..." set, 
-> and fontconfig will fail to compile because it passes the -march=native 
-> flag to the ARM compiler which then fails. Which is justified.
-> 
-> This is the part in the recipe that worries me:
-> 
-> do_configure_append () {
-> 	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-case/Makefile
-> 	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-glyphname/Makefile
-> 	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-lang/Makefile
-> 
-> 	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-case/Makefile
-> 	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-glyphname/Makefile
-> 	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-lang/Makefile
-> 
-> 	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-case/Makefile
-> 	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-glyphname/Makefile
-> 	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-lang/Makefile
-> 
-> 	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-case/Makefile
-> 	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-glyphname/Makefile
-> 	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-lang/Makefile
-> 
-> }
-> 
-> This is not a "native" package. The above commands put the build systems 
-> include patch and compiler flags into the makefile.
-> 
-> I've worked around the issue by creating a a bbappend that simply 
-> removes "-march=native" from the build flags, which makes the build of 
-> this package succeed.
-> 
-> I have no idea what fontconfig is supposed to do and where it is 
-> supposed to run, but it looks to me as if that configure_append should 
-> not be there at all.
+On 1 February 2013 15:21, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> We likely need to replace this with something sane. The question is
+> whether we need it at all and if so, what problem dies it solve?
 
-This does look rather worrying and Ross mentioned this to me but wasn't
-able to find the history. I was more successful and ironically this was
-introduced by Ross:
+It looks a bit like an attempt to build native tools when compiling,
+as FC_LANG and FC_GLYPHNAME are also overridden earlier in the file.
+These variables don't appear to be used either.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=c2d22f0f36980eecc7cf2ad818a5033476614bfc
+For what it's worth, removing everything that looks dubious in
+EXTRA_OECONF and that do_configure_append results in a zero-difference
+buildhistory, so it at least compiles.  I'll kick off an image build
+now and see if fonts still work.
 
-We likely need to replace this with something sane. The question is
-whether we need it at all and if so, what problem dies it solve?
-
-Cheers,
-
-Richard
-
+Ross
 
 
