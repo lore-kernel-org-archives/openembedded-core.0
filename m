@@ -1,39 +1,43 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U1GWS-0001F7-OR
+	(envelope-from <ross.burton@intel.com>) id 1U1GWS-0001F6-8C
 	for openembedded-core@lists.openembedded.org;
 	Fri, 01 Feb 2013 14:19:25 +0100
-Received: from mail-ea0-f197.google.com ([209.85.215.197])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 05:03:31 -0800
-Received: by mail-ea0-f197.google.com with SMTP id j13so4493079eaa.8
+Received: from mail-lb0-f199.google.com ([209.85.217.199])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 05:02:18 -0800
+Received: by mail-lb0-f199.google.com with SMTP id m4so4641478lbo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2013 05:03:27 -0800 (PST)
+	Fri, 01 Feb 2013 05:03:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=OufPocLGKUDIdwpBiN3OXaJU5nqYjEJA7lwbGoPnDo4=;
-	b=fxw1+csisiCCwgJBoTswdJCOIlSSWB7r6iTPSgMGM9sptAhbWzTFQPYHr7GFe+EmCa
-	yXQP+P9M9geJz6t1DkJK8BzVlDC2ldsBcow/+3hR4qYpBwRh4ShjYTZxiDwLJUALoVEw
-	BaHtI5+nkyyTn5zTrshsapl61xJLndv07VG38rE5JEbM6wb8EPu0cxSHRy0HL6OPliKf
-	3/T8FTy7bXrPWU+YMAbdYOLp8advMtLNhI6bSBgQb1JS/ubsjuLv1+Lxk/TxZoIGrZXg
-	+wT+IjAN9j4qB8Bp4iemv6TJFwIeZAFxaAaW/kC5BihP4qNHAL2q1a0iqamPoSBPl99x
-	TLtQ==
-X-Received: by 10.194.171.198 with SMTP id aw6mr21721650wjc.3.1359723807262;
-	Fri, 01 Feb 2013 05:03:27 -0800 (PST)
-X-Received: by 10.194.171.198 with SMTP id aw6mr21721630wjc.3.1359723807093;
-	Fri, 01 Feb 2013 05:03:27 -0800 (PST)
+	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
+	bh=VELQ0NiK4GGsBeEcoVxk4vMCOn5woVJ0d9LfxkybWqI=;
+	b=Uhjc3ebsqObwzCtLs1LYed4CvDl9WrCPqDujPR6MpDB3azoOfpc9lk2WS0aQRhycZy
+	gVWBQ3PtJmMG5+D3k8oEcQjp/9zwCXvhkfRrJDCPY8VXHCNo/Cf77seIVF7lvaEXYX4I
+	JYCCLSZEr9nAZbMrlzNtg5DvyzcRxeJq2mGuFom6QKLQwOnCxcPzLMm2ORqfh3aqSbcZ
+	qCZUyCJUYQkKAywfpODXKxstbi7OVFJAuu99vJPtyWC/FiB4g5VyDzl3HrFu0Gg/uLMC
+	dZG7GSiLoXizQNziLvJF6utHfpFd5Smw5jMa+lb56ckBp2cld60sTuH5JMCQfF8WY/zl
+	FK1A==
+X-Received: by 10.194.76.237 with SMTP id n13mr21668149wjw.57.1359723808751;
+	Fri, 01 Feb 2013 05:03:28 -0800 (PST)
+X-Received: by 10.194.76.237 with SMTP id n13mr21668125wjw.57.1359723808597;
+	Fri, 01 Feb 2013 05:03:28 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hu8sm3146594wib.6.2013.02.01.05.03.25
+	by mx.google.com with ESMTPS id hu8sm3146594wib.6.2013.02.01.05.03.27
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 01 Feb 2013 05:03:25 -0800 (PST)
+	Fri, 01 Feb 2013 05:03:27 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2013 13:01:16 +0000
-Message-Id: <cover.1359723526.git.ross.burton@intel.com>
+Date: Fri,  1 Feb 2013 13:01:17 +0000
+Message-Id: <a27016c72e4884e85bd88cc8ec4aec95cb1b42a4.1359723526.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmJcle6vgcrKWhc7SYjQZr3qkQXpjBIl60jfoCgjgzpa3LjjABJNQgUxZAXeJIT9iex7yx1OSl9yVI7c+T5Un/tAJe9bHDd+PY9NzRZUA9MXCKM6M4J7ZBhbI3Ul+8/BWTRlvG5Vk8cEjoGVgjnuJkb0DO2G4V8mcqV67WSzu1LuNtqdX9TbI1cDe8YCuBoDQLFmyzL
-Subject: [PATCH 0/6] Remove old recipes
+In-Reply-To: <cover.1359723526.git.ross.burton@intel.com>
+References: <cover.1359723526.git.ross.burton@intel.com>
+In-Reply-To: <cover.1359723526.git.ross.burton@intel.com>
+References: <cover.1359723526.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkY2K++FL15AQBUdKNrSJq2G0Pbr2EOVTMfwDGzsXOPxbfWEue6AyysBbLHcwidA9vzAcDTFUXLqmYDz9BmtTwnn9+MNWTF7niT2E6+ciCXm3k3j+b+xrmPcdDAZ5MommWmR0ZNe/w4jc1HiNnY/xDfcBSNqjIotWr5uEAaL4EemrWsDD94FDCH7WQotCyJGZ9Pwgd4
+Subject: [PATCH 1/6] libcanberra: remove, migrated to meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,107 +52,51 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 01 Feb 2013 13:19:34 -0000
 
-Hi,
 
-A series containing some more removes from oe-core:
-
-libcanberra and metacity have already been submitted, but they're in this branch
-for completeness.
-
-clutter-box2d is about to move to meta-oe if they want it, as it's unused in oe-core.
-
-orinoco-conf is legacy, if a BSP layer still needs it (meta-handheld doesn't,
-and that's where I thought it would be) then they are welcome to restore it
-there.
-
-matchbox-stroke was a proof of concept, and considering that modern touch
-screens are capacitive instead of resistive this is unlikly to be usable anyway.
-
-Ross
-
-The following changes since commit 8d80483e2f0f755a61087be1dffaf595fbc467fd:
-
-  bitbake: bitbake-layers: print the recipe's depends that crosses a layer boundary (2013-01-31 14:00:03 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/removes
-
-for you to fetch changes up to 3742a00f9efeb85866fd7b1748c8a346fe2e2bb9:
-
-  matchbox-stroke: remove (2013-02-01 12:46:19 +0000)
-
-----------------------------------------------------------------
-Ross Burton (6):
-      libcanberra: remove, migrated to meta-gnome
-      metacity: remove, migrated to meta-gnome
-      clutter-box2d: remove
-      orinoco-conf: remove
-      packagegroup-core-x11-sato: remove matchbox-stroke
-      matchbox-stroke: remove
-
- meta/recipes-bsp/orinoco/files/COPYING.patch       |  346 --
- meta/recipes-bsp/orinoco/files/orinoco_cs.conf     |    2 -
- meta/recipes-bsp/orinoco/files/spectrum_fw.h       | 4569 --------------------
- meta/recipes-bsp/orinoco/orinoco-conf_1.0.bb       |   16 -
- .../metacity/remove-yelp-help-rules-var.patch      |   28 -
- meta/recipes-gnome/gnome/metacity_2.34.13.bb       |   30 -
- meta/recipes-graphics/clutter/clutter-box2d.inc    |   15 -
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |   14 -
- .../pulseaudio/libcanberra_0.29.bb                 |   32 -
- .../matchbox-stroke/files/configure_fix.patch      |   15 -
- .../matchbox-stroke/files/single-instance.patch    |   20 -
- .../matchbox-stroke/matchbox-stroke_git.bb         |   25 -
- .../packagegroups/packagegroup-core-x11-sato.bb    |    1 -
- 13 files changed, 5113 deletions(-)
- delete mode 100644 meta/recipes-bsp/orinoco/files/COPYING.patch
- delete mode 100644 meta/recipes-bsp/orinoco/files/orinoco_cs.conf
- delete mode 100644 meta/recipes-bsp/orinoco/files/spectrum_fw.h
- delete mode 100644 meta/recipes-bsp/orinoco/orinoco-conf_1.0.bb
- delete mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
- delete mode 100644 meta/recipes-gnome/gnome/metacity_2.34.13.bb
- delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d.inc
- delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d_git.bb
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../pulseaudio/libcanberra_0.29.bb                 |   32 --------------------
+ 1 file changed, 32 deletions(-)
  delete mode 100644 meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
- delete mode 100644 meta/recipes-sato/matchbox-stroke/files/configure_fix.patch
- delete mode 100644 meta/recipes-sato/matchbox-stroke/files/single-instance.patch
- delete mode 100644 meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb
 
-Ross Burton (6):
-  libcanberra: remove, migrated to meta-gnome
-  metacity: remove, migrated to meta-gnome
-  clutter-box2d: remove
-  orinoco-conf: remove
-  packagegroup-core-x11-sato: remove matchbox-stroke
-  matchbox-stroke: remove
-
- meta/recipes-bsp/orinoco/files/COPYING.patch       |  346 --
- meta/recipes-bsp/orinoco/files/orinoco_cs.conf     |    2 -
- meta/recipes-bsp/orinoco/files/spectrum_fw.h       | 4569 --------------------
- meta/recipes-bsp/orinoco/orinoco-conf_1.0.bb       |   16 -
- .../metacity/remove-yelp-help-rules-var.patch      |   28 -
- meta/recipes-gnome/gnome/metacity_2.34.13.bb       |   30 -
- meta/recipes-graphics/clutter/clutter-box2d.inc    |   15 -
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |   14 -
- .../pulseaudio/libcanberra_0.29.bb                 |   32 -
- .../matchbox-stroke/files/configure_fix.patch      |   15 -
- .../matchbox-stroke/files/single-instance.patch    |   20 -
- .../matchbox-stroke/matchbox-stroke_git.bb         |   25 -
- .../packagegroups/packagegroup-core-x11-sato.bb    |    1 -
- 13 files changed, 5113 deletions(-)
- delete mode 100644 meta/recipes-bsp/orinoco/files/COPYING.patch
- delete mode 100644 meta/recipes-bsp/orinoco/files/orinoco_cs.conf
- delete mode 100644 meta/recipes-bsp/orinoco/files/spectrum_fw.h
- delete mode 100644 meta/recipes-bsp/orinoco/orinoco-conf_1.0.bb
- delete mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
- delete mode 100644 meta/recipes-gnome/gnome/metacity_2.34.13.bb
- delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d.inc
- delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d_git.bb
- delete mode 100644 meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
- delete mode 100644 meta/recipes-sato/matchbox-stroke/files/configure_fix.patch
- delete mode 100644 meta/recipes-sato/matchbox-stroke/files/single-instance.patch
- delete mode 100644 meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb
-
+diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+deleted file mode 100644
+index b3c0e3d..0000000
+--- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
++++ /dev/null
+@@ -1,32 +0,0 @@
+-SUMMARY = "Implementation of XDG Sound Theme and Name Specifications"
+-DESCRIPTION = "Libcanberra is an implementation of the XDG Sound Theme and Name Specifications, for generating event sounds on free desktops."
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/canberra.h;beginline=7;endline=24;md5=c616c687cf8da540a14f917e0d23ab03"
+-
+-DEPENDS = "gtk+ pulseaudio alsa-lib libtool libvorbis"
+-PR = "r0"
+-
+-inherit gconf autotools
+-
+-SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.xz"
+-
+-SRC_URI[md5sum] = "2594093a5d61047bd9cc87e955f86df8"
+-SRC_URI[sha256sum] = "127a5ef07805856d63758e5180ebfb241d1f80094fd301c287591a15b8cfcd72"
+-
+-EXTRA_OECONF = " --disable-oss --disable-ltdl-install" 
+-
+-do_configure_prepend () {
+-	rm -f ${S}/libltdl/configure*
+-}
+-
+-PACKAGES += "${PN}-gnome"
+-
+-FILES_${PN} += "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
+-FILES_${PN}-gnome += "${datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop \
+-	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop"
+-FILES_${PN}-dev += "${libdir}/libcanberra-0.29/libcanberra-*.so \
+-		    ${libdir}/libcanberra-0.29/libcanberra-*.la \
+-		    ${datadir}/vala/vapi"
+-FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.29/.debug"
+-
 -- 
 1.7.10.4
 
