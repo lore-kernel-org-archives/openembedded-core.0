@@ -1,20 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1U1FC1-0004Vz-7s
+	(envelope-from <radu.moisan@intel.com>) id 1U1FDx-0004gP-4e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 12:54:25 +0100
+	Fri, 01 Feb 2013 12:56:06 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Feb 2013 03:38:20 -0800
+	by azsmga102.ch.intel.com with ESMTP; 01 Feb 2013 03:40:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,579,1355126400"; d="scan'208";a="251370494"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by azsmga001.ch.intel.com with ESMTP; 01 Feb 2013 03:38:18 -0800
+X-IronPort-AV: E=Sophos;i="4.84,579,1355126400"; d="scan'208";a="251371682"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by azsmga001.ch.intel.com with ESMTP; 01 Feb 2013 03:40:19 -0800
+Message-ID: <510BA9A2.3070907@intel.com>
+Date: Fri, 01 Feb 2013 13:40:18 +0200
 From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2013 13:38:15 +0200
-Message-Id: <1359718695-20720-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] polkit: Enable systemd support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1359710522-26839-1-git-send-email-radu.moisan@intel.com>
+	<CAJTo0LZ3tvB6t13utWrzXhqE7mx58ypkFosUdtwj=XuMbPXRNw@mail.gmail.com>
+	<510B9749.6040801@intel.com>
+	<CAJTo0LZCJuRomHysD9b6CfYfsHJpQBBXsZNWVUEo5_en_ju2KA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZCJuRomHysD9b6CfYfsHJpQBBXsZNWVUEo5_en_ju2KA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] polkit: Enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 11:54:27 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 11:56:06 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-By default the polkit will autodetect if systemd is available
-and setup the configuraton accordingly, potentially
-contaminating sstate.
-In this patch systemd is explicitly enabled/disabled.
-When enabled, polkit will use systemd for session tarcking,
-otherwise it will use ConsoleKit.
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-extended/polkit/polkit_0.104.bb |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+On 02/01/2013 12:27 PM, Burton, Ross wrote:
+> On 1 February 2013 10:22, Radu Moisan <radu.moisan@intel.com> wrote:
+>> I did change that manually because I assumed it was a typo. However it make
+>> sense to add consolekit as a runtime dependency, but the documentation
+>> specifically says PACKAGECONFIG will add to DEPENDS. How is it different in
+>> this patch? The PACKAGECONFIG[systemd] is clearly specifying a build time
+>> dependency, why the PACKAGECONFIG[consolekit] is specifying a runtime
+>> dependency? How can I discriminate in this context?
+> I spoke to Radu online already, but I'll repeat again here in case
+> anyone else is confused by PACKAGECONFIG.
+>
+> The latest documentation is here:
+> http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-P
+>
+> The key point is that the 3rd argument is DEPENDS, and the fourth is
+> RDEPENDS.  Many instances of PACKAGECONFIG will leave out the fourth,
+> but in this case the third is empty (note the extra commas) so
+> consolekit is added as a runtime dependency.
+>
+> Ross
 
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-index 2c0aaca..ab2547b 100644
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.104.bb
-@@ -7,8 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
- 
- DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
- 
--PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-+PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-+                 ${@base_contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)}"
-+
- PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
-+PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
-+# there is no --enable/--disable option for consolekit and it's not picked by shlibs, so add it to RDEPENDS
-+PACKAGECONFIG[consolekit] = ",,,consolekit"
- 
- PR = "r9"
- 
--- 
-1.7.9.5
+Thanks guys for the clarification. Very useful info, I didn't notice the 
+extra comma.
 
+Radu
 
 
