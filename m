@@ -1,32 +1,37 @@
-Received: from mail-ve0-f172.google.com ([209.85.128.172])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1U1DKn-0001wq-Gn
+	(envelope-from <ross.burton@intel.com>) id 1U1DQE-0002gd-Cv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 10:55:05 +0100
-Received: by mail-ve0-f172.google.com with SMTP id cz11so1222995veb.31
+	Fri, 01 Feb 2013 11:00:50 +0100
+Received: from mail-qa0-f69.google.com ([209.85.216.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 01:44:52 -0800
+Received: by mail-qa0-f69.google.com with SMTP id hy16so718356qab.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Feb 2013 01:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=fMq7wds5oYoJeQuL7fxlcpIj5T5X/gOQTSPa3OSjz40=;
-	b=XCI2gNrDs8cXmV4sAYlYgwB5ntnlG4u+HaZ5cuJ3j+TPxHbLoIBJc0A3rHYIqpPuw1
-	bq7GANMAjXoribo42PQ8GlkWvPQHgma5EMqio4+VvwwtEc5bZjkF7rhyfd0MBcCe/NpE
-	PJ5XAnSJ6uUz9imorUaSCydiTez3jF3WndBBEdnT9xqU9oRbDo4UUB+RrzDsFirSjDhx
-	OPK1A6pmZiI6+nSTPAgLzueSUpRYBGzy5F4FQxVo6JyFyb2ZmZMwWFKDNWbymUylvLQU
-	Uw4d9U9wUtTKLJNHhxa33yGN3zuh1RhahYX0WVAwRVp4w+8QLTjcDgoT+zaCfuhBrHv9
-	HXiQ==
+	Fri, 01 Feb 2013 01:44:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=G4rAU6+sgmPqPKRs5dYfpNVM5HUDVgCDKfFQGmYCUyQ=;
+	b=QFbrmGM5Cabxlzd/Ga9FNSo3Nls0Dl+P/8RUeFB5l4JAF11Z9CEL15rFKKS6t9h5k/
+	hkEIQrSmAX5yOCgRA9Hhajh0dZagyCWRmGCvuYBJmRLX+FG/VXu67FUIWRv1/AhOPIKg
+	tU+G6vXSyr93+Bst3Lo5mYIwqNMjR9nF1nR1/AMs2n9crBbBbLqGdMpNmlR4MadUMnry
+	qq9tgjIcZfWxF+o+XS4G2K/S4BoLUW70fzbyFRrMoaRukg9aWfCmapRswJsReZV0Zlis
+	EzUfls3/zbQvrm5PKlD+meuOG142z0jiZewibcUgOxXJ4qel+5n60W2o87Kc9QWqtZz2
+	DYNw==
+X-Received: by 10.52.23.18 with SMTP id i18mr9430768vdf.46.1359711891890;
+	Fri, 01 Feb 2013 01:44:51 -0800 (PST)
+X-Received: by 10.52.23.18 with SMTP id i18mr9430764vdf.46.1359711891834; Fri,
+	01 Feb 2013 01:44:51 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.52.76.170 with SMTP id l10mr9459998vdw.83.1359711557439;
-	Fri, 01 Feb 2013 01:39:17 -0800 (PST)
-Received: by 10.52.95.243 with HTTP; Fri, 1 Feb 2013 01:39:17 -0800 (PST)
+Received: by 10.58.95.131 with HTTP; Fri, 1 Feb 2013 01:44:31 -0800 (PST)
 In-Reply-To: <1359710522-26839-1-git-send-email-radu.moisan@intel.com>
 References: <1359710522-26839-1-git-send-email-radu.moisan@intel.com>
-Date: Fri, 1 Feb 2013 10:39:17 +0100
-Message-ID: <CALbNGRR7skJWjq+hkTKTTBoJswH0-wFULRkJVPr6h5-nhfS=WA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Feb 2013 09:44:31 +0000
+Message-ID: <CAJTo0LZ3tvB6t13utWrzXhqE7mx58ypkFosUdtwj=XuMbPXRNw@mail.gmail.com>
 To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQksadXPtdcbYyuDOizkGr6P3DOfdQqmPCbAQp2Wm0F5O6YofbCsIEhERmhPZL6Fe0ae/NUb0AtrU6fbiNUxPL/HHV1478Sn3QN5mvZJVO0b30Y7NKvQxvQ41sE2ypRxxSrzYoQWpyRmNdlQZuvqRv5mwBTVEt2SPgRcm+dO+EXaMYMOVD0BvPhomp427Y3o6+qrOzed
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] polkit: Enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,18 +46,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 09:55:15 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 10:00:59 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 1, 2013 at 10:22 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+On 1 February 2013 09:22, Radu Moisan <radu.moisan@intel.com> wrote:
 > enable/disable support as relevant
->
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-What caused my sign-off - or is it a hint that meta-oe/meta-systemd
-need alignment with this?
 
-Andreas
+Please write a more verbose comment, something along the lines of
+"systemd is auto-detected unless disabled explicitly, potentially
+contaminating sstate".
+
+> +# there is no --enable/--disable option for consolekit and it's not picked by shlibs, so add it to DEPENDS
+
+It's not picked up by shlibs because it's a dbus call not a library
+call, and that's *RDEPENDS* not depends.
+
+Ross
 
 
