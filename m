@@ -1,20 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1U1FBc-0004TO-E9
+	(envelope-from <radu.moisan@intel.com>) id 1U1FC1-0004Vz-7s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 12:53:42 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Feb 2013 03:36:42 -0800
+	Fri, 01 Feb 2013 12:54:25 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Feb 2013 03:38:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,579,1355126400"; d="scan'208";a="256137240"
+X-IronPort-AV: E=Sophos;i="4.84,579,1355126400"; d="scan'208";a="251370494"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 01 Feb 2013 03:37:53 -0800
+	by azsmga001.ch.intel.com with ESMTP; 01 Feb 2013 03:38:18 -0800
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2013 13:37:50 +0200
-Message-Id: <1359718670-20670-1-git-send-email-radu.moisan@intel.com>
+Date: Fri,  1 Feb 2013 13:38:15 +0200
+Message-Id: <1359718695-20720-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] polkit: Enable systemd support
+Subject: [PATCH v2] polkit: Enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 11:53:44 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 11:54:27 -0000
 
 By default the polkit will autodetect if systemd is available
 and setup the configuraton accordingly, potentially
