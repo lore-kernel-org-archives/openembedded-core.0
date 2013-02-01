@@ -1,20 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1U1ITk-0008WS-NI
+	(envelope-from <ross.burton@intel.com>) id 1U1IUY-00005X-LQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 16:24:45 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Feb 2013 07:08:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,579,1355126400"; d="scan'208";a="197746572"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Feb 2013 07:08:50 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Feb 2013 17:09:05 +0200
-Message-Id: <1359731346-16190-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] net-tools: upgrade to v1.60-24.2
+	Fri, 01 Feb 2013 16:25:48 +0100
+Received: from mail-vc0-f197.google.com ([209.85.220.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Feb 2013 07:08:22 -0800
+Received: by mail-vc0-f197.google.com with SMTP id gb30so5531860vcb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Feb 2013 07:09:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=7F7nKMfUKFeNCyBObCgqB+2vjy3XRweerPiVZI0vcek=;
+	b=AM0/bnpDVSlehUzCWnocGh6xYIkr1Cemg/VQn6pKxTvbqi+8d32wWOZq6bSsbU0bdf
+	E2FadSDkK/5nJ3uRzsb5UDPNP9qCIdaAPjSBgbt9bGhvG0e/SVM3IcFLpshhOcGFFQnT
+	nEIMzZhYGiyOn8ZOvhyld/G1o4H6DEyo/GaqOD1d5VQ+YQ477FXx5JvdlHRP8uYAQM1B
+	KAUihY6uBE+qcFgjg/w8gPJkFqJ1SFeH7ShErewW71A7rarQnyEONkyrG+Knm7KNn+Ba
+	OA3yGeDln8tW6Vv6z+h8j1UNPydFaZBG0PBnL6EMiO61qJZXSEAwjuBmA1nlfPjn1Uqn
+	91eQ==
+X-Received: by 10.220.115.72 with SMTP id h8mr11446052vcq.43.1359731374291;
+	Fri, 01 Feb 2013 07:09:34 -0800 (PST)
+X-Received: by 10.220.115.72 with SMTP id h8mr11446038vcq.43.1359731374100;
+	Fri, 01 Feb 2013 07:09:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Fri, 1 Feb 2013 07:09:14 -0800 (PST)
+In-Reply-To: <510BD7AD.5090506@topic.nl>
+References: <510BD7AD.5090506@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Feb 2013 15:09:14 +0000
+Message-ID: <CAJTo0LaaHc7Y9ZyFkuktBE02p9D4aeju0nOdFWAtMH8rdVXyZw@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+X-Gm-Message-State: ALoCoQk7S68rRxrNSazwrzlEgg9rscd9g/UBcxw7jkXLsZGXqBVzq5kKGfPAczAx+V/Bn3q87quopM8X5zsqOEsyov0mNIyT7F7pvuaQaBGYanQf9HWuvwSQrxcgjYTFYW/pT7MJIDtJeh662Kv4v1TO+xL+9a9Y4Lio3hDR4ZcId0siqL5WUk9weaJEYRdREQSLqNunFK2r
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: What's up with "fontconfig"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,55 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 15:24:55 -0000
+X-List-Received-Date: Fri, 01 Feb 2013 15:25:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../net-tools-config.h                                           |    0
- .../net-tools-config.make                                        |    0
- .../net-tools/{net-tools_1.60-23.bb => net-tools_1.60-24.2.bb}   |    6 +++---
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/net-tools/{net-tools-1.60-23 => net-tools-1.60-24.2}/net-tools-config.h (100%)
- rename meta/recipes-extended/net-tools/{net-tools-1.60-23 => net-tools-1.60-24.2}/net-tools-config.make (100%)
- rename meta/recipes-extended/net-tools/{net-tools_1.60-23.bb => net-tools_1.60-24.2.bb} (94%)
+On 1 February 2013 14:56, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> I have no idea what fontconfig is supposed to do and where it is supposed to
+> run, but it looks to me as if that configure_append should not be there at
+> all.
 
-diff --git a/meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.h b/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.h
-similarity index 100%
-rename from meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.h
-rename to meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.h
-diff --git a/meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.make b/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.make
-similarity index 100%
-rename from meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.make
-rename to meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.make
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb b/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
-similarity index 94%
-rename from meta/recipes-extended/net-tools/net-tools_1.60-23.bb
-rename to meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
-index bc61d21..4040e1a 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "http://bugs.debian.org/net-tools"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://ifconfig.c;beginline=11;endline=15;md5=d1ca372080ad5401e23ca0afc35cf9ba"
--PR = "r3"
-+PR = "r0"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/n/net-tools/net-tools_1.60.orig.tar.gz;name=tarball \
-            ${DEBIAN_MIRROR}/main/n/net-tools/${BPN}_${PV}.diff.gz;apply=no;name=patch \
-@@ -17,8 +17,8 @@ S = "${WORKDIR}/net-tools-1.60"
- SRC_URI[tarball.md5sum] = "ecaf37acb5b5daff4bdda77785fd916d"
- SRC_URI[tarball.sha256sum] = "ec67967cf7b1a3a3828a84762fbc013ac50ee5dc9aa3095d5c591f302c2de0f5"
- 
--SRC_URI[patch.md5sum] = "2412e55c20308d5fbd28bfadd18c075f"
--SRC_URI[patch.sha256sum] = "d678b3ea97d6c7ca548918994642bfc6b5511ab02f3a5881dfcca00c88bfd73b"
-+SRC_URI[patch.md5sum] = "524658bb8df5ff92c4a991f5edcaf240"
-+SRC_URI[patch.sha256sum] = "170cc024fcb34329f4c25fd88b5f160a06be5d6d3eaf0bc976650fd1b1a6235d"
- 
- inherit gettext
- 
--- 
-1.7.10.4
+Erm, yeah.  The git log that file stops in 2007 and they were present
+then too, so the appearance of them isn't easy.
 
+Fontconfig is good old autotools, so I expect we can remove the
+--with-arch argument too.
+
+And the method of appending to do_unpack is unconventional to say the least.
+
+This recipe needs a good spring clean!
+
+Ross
 
 
