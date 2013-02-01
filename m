@@ -1,32 +1,30 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from atl4mhfb02.myregisteredsite.com ([209.17.115.56])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U1IHz-0007zY-Co for openembedded-core@lists.openembedded.org;
-	Fri, 01 Feb 2013 16:12:28 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r11F1QP3017083; Fri, 1 Feb 2013 15:01:27 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id h9FO0HOhpXLA; Fri,  1 Feb 2013 15:01:26 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r11F1KeI017078
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Feb 2013 15:01:23 GMT
-Message-ID: <1359730580.14071.64.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Fri, 01 Feb 2013 14:56:20 +0000
-In-Reply-To: <CAMZjud1kH9o5iv+LU2QtaeSebftwXp+-vLF-ztSyxAOwktC8WA@mail.gmail.com>
-References: <1359633187-28629-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<1359649807.14071.48.camel@ted>
-	<CAMZjud1kH9o5iv+LU2QtaeSebftwXp+-vLF-ztSyxAOwktC8WA@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] flex: updated to 2.5.37
+	(envelope-from <mike.looijmans@topic.nl>) id 1U1II3-0007zp-ER
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Feb 2013 16:12:33 +0100
+Received: from atl4mhob14.myregisteredsite.com
+	(atl4mhob14.myregisteredsite.com [209.17.115.52])
+	by atl4mhfb02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r11Eumwe029714 for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Feb 2013 09:56:48 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob14.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r11Euk8F014423 for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Feb 2013 09:56:46 -0500
+Received: (qmail 4725 invoked by uid 0); 1 Feb 2013 14:56:46 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 1 Feb 2013 14:56:46 -0000
+Message-ID: <510BD7AD.5090506@topic.nl>
+Date: Fri, 01 Feb 2013 15:56:45 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: What's up with "fontconfig"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,55 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 15:12:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Feb 2013 15:12:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-02-01 at 12:29 +0200, Marinescu, Bogdan A wrote:
-> On Thu, Jan 31, 2013 at 6:30 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         On Thu, 2013-01-31 at 13:53 +0200, Bogdan Marinescu wrote:
->         > Removed the patches to flex, because they are now applied to
->         the
->         > latest version.
->         >
->         > Signed-off-by: Bogdan Marinescu
->         <bogdan.a.marinescu@intel.com>
->         > ---
->         >  .../flex/flex/avoid-FORTIFY-warnings.patch         |   59
->         --------------------
->         >  .../flex/int-is-not-the-same-size-as-size_t.patch  |   42
->         --------------
->         >  meta/recipes-devtools/flex/flex_2.5.35.bb          |   11
->         ----
->         >  meta/recipes-devtools/flex/flex_2.5.37.bb          |    8
->         +++
->         >  4 files changed, 8 insertions(+), 112 deletions(-)
->         >  delete mode 100644
->         meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
->         >  delete mode 100644
->         meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
->         >  delete mode 100644
->         meta/recipes-devtools/flex/flex_2.5.35.bb
->         >  create mode 100644
->         meta/recipes-devtools/flex/flex_2.5.37.bb
->         
->         
->         This failed to build for me:
-> 
-> 
-> What image are you building? I am unable to reproduce this problem
-> locally.
-> 
+When compiling fontconfig, it fails because it is using "build" flags in 
+the host compiler. I have BUILD_OPTIMIZATIONS="-march=native ..." set, 
+and fontconfig will fail to compile because it passes the -march=native 
+flag to the ARM compiler which then fails. Which is justified.
 
-It doesn't matter, "bitbake flex-native" fails.
+This is the part in the recipe that worries me:
 
-It probably depends on what doc tools you have installed locally.
+do_configure_append () {
+	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-case/Makefile
+	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-glyphname/Makefile
+	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-lang/Makefile
 
-Cheers,
+	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-case/Makefile
+	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-glyphname/Makefile
+	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-lang/Makefile
 
-Richard
+	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-case/Makefile
+	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-glyphname/Makefile
+	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-lang/Makefile
+
+	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-case/Makefile
+	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-glyphname/Makefile
+	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-lang/Makefile
+
+}
+
+This is not a "native" package. The above commands put the build systems 
+include patch and compiler flags into the makefile.
+
+I've worked around the issue by creating a a bbappend that simply 
+removes "-march=native" from the build flags, which makes the build of 
+this package succeed.
+
+I have no idea what fontconfig is supposed to do and where it is 
+supposed to run, but it looks to me as if that configure_append should 
+not be there at all.
 
 
+-- 
+Mike Looijmans - TOPIC Automation
 
 
