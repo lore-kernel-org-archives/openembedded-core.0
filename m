@@ -1,35 +1,46 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1U27Si-0007Ln-Me
+	(envelope-from <ross.burton@intel.com>) id 1U29Kz-0001NT-35
 	for openembedded-core@lists.openembedded.org;
-	Sun, 03 Feb 2013 22:50:56 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 61D3FD22E9; Sun,  3 Feb 2013 22:35:12 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 6586DD22CD
+	Mon, 04 Feb 2013 00:51:08 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 03 Feb 2013 15:35:05 -0800
+Received: by mail-lb0-f197.google.com with SMTP id gg6so6546684lbb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Feb 2013 22:33:58 +0100 (CET)
-Message-ID: <510ED7B6.1010201@linaro.org>
-Date: Sun, 03 Feb 2013 22:33:42 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Sun, 03 Feb 2013 15:35:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=hYmFs9NenPgUbDWAPUnDesY2adRREWXQ1m+kUKOtk1I=;
+	b=AOZn09dx6sFy6y+G5PnaLFiTV18Z3rApP4krimwwwaHDjFH6nUmZhnT35ReJmuJKMm
+	r6y51pTVoTEJ05+OGY9fopyGRgpmFAvD4iq+xHZyEZQSpi9ed6jLC7/3QyaA/1fHp2HO
+	GAlahKkjqdK1T53xYzF1bpofd2o7oyghzVslqPbiRdftM4yieTwb3GcQF+0ikNs2sQB9
+	n60A5JHJrfh/731p+mzKatqT9xujQ7mr4/y/8Gw/v6lRsce1QPThvJ8e39yuWMLVRpcY
+	HO6WMmAWd4s+6QZVhcYrWPegWWdyDJsgzLTVlz1taHX3EsPCkKLTbkJPkXcysNj6lCPd
+	DbVw==
+X-Received: by 10.180.82.41 with SMTP id f9mr7262853wiy.25.1359934503837;
+	Sun, 03 Feb 2013 15:35:03 -0800 (PST)
+X-Received: by 10.180.82.41 with SMTP id f9mr7262847wiy.25.1359934503702;
+	Sun, 03 Feb 2013 15:35:03 -0800 (PST)
+Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cu7sm710434wib.8.2013.02.03.15.35.01
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Sun, 03 Feb 2013 15:35:02 -0800 (PST)
+Date: Sun, 3 Feb 2013 23:35:01 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Message-ID: <F600AD7DF50F4C5793CA585286CEE7B4@intel.com>
+In-Reply-To: <510ED7B6.1010201@linaro.org>
 References: <B57A220D1EE1644685BA9AD5C790D20526BE045F3A@SOUTHSIDE.devonintlgroup.com>
 	<50E181AF64EF4AF9835BF9FD769D9B93@intel.com>
 	<B57A220D1EE1644685BA9AD5C790D20526BE045F3B@SOUTHSIDE.devonintlgroup.com>
-In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE045F3B@SOUTHSIDE.devonintlgroup.com>
+	<510ED7B6.1010201@linaro.org>
+X-Mailer: sparrow 1.6.4 (build 1178)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQlcmouofoRhMoVagig9oUYsM1mPwGqyd9EJLtnA7w3qhzWveLVngX9ApHUacfNWElLnUVvyeynnhPBoYjgBqAcmpcrh4yVd/ERK2sB0Z1zgyvsD3YL3XX5HXakN/vQ0XqFk33l+Ihbls4Mqz5fnxxuqbIFa16hxGEx92tW9nsbDUsD4EuwOcOOvAsAsDwXMk/F868HC
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: OpenGL as a DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,34 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Feb 2013 21:50:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 03 Feb 2013 23:51:10 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-W dniu 03.02.2013 20:45, Ian Geiser pisze:
-
-> The case I have is 3 platforms: 1) Atom N450 2) WM 8950 3) VIA VX900
+On Sunday, 3 February 2013 at 21:33, Marcin Juszkiewicz wrote:
+> As they are different architectures you can try this:
 > 
-> The Atom has the normal mesa-dri drivers and can use the OpenGL
-> implementation from that.  The WM has only OpenGLES drivers and no
-> OpenGL implementation.  So in that case I want to use only GLES
-> support in the various packages that conditionally support it (in my
-> case Qt4).  The last platform the VIA has its own OpenGL
-> implementation that can completely replace mesa for packages that
-> support OpenGL. In the case of my distro I support Qt4 but it can use
-> OpenGLES or OpenGL.  The problem comes in when I start setting
-> preferred providers in the machine conf files.  In the case of my WM,
-> I have only gles and since the distro supports opengl, it needs a
-> virtual/libgl and finds it with mesa.  Now I can remove opengl from
-> my distro, but the Atom and VIA support opengl, and will not have it
-> available to Qt because it turns off.
+> DISTRO_FEATURES_wm8950 = "here copy your default DISTRO_FEATURES but
+> skip opengl"
+> 
+> Replace wm8950 with MACHINE name. Ugly solution but should work.
+That means that Qt won't be built with GLES support.
 
-As they are different architectures you can try this:
+The best approach is to probe the hardware/libraries at runtime and adapt - i.e. if only GLES libraries are available use those, but a lot of software doesn't support that or simple probing isn't sufficient (Intel Pine Trail supports both but GL is best, Cedar Trail supports both but GL is terrible).
 
-DISTRO_FEATURES_wm8950 = "here copy your default DISTRO_FEATURES but
-skip opengl"
+Ross 
 
-Replace wm8950 with MACHINE name. Ugly solution but should work.
 
 
 
