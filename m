@@ -1,47 +1,30 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U29Kz-0001NT-35
+	(envelope-from <richard@rpsys.net>) id 1U29f1-0002av-27
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 00:51:08 +0100
-Received: from mail-lb0-f197.google.com ([209.85.217.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 03 Feb 2013 15:35:05 -0800
-Received: by mail-lb0-f197.google.com with SMTP id gg6so6546684lbb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Feb 2013 15:35:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
-	:references:subject:x-mailer:mime-version:content-type
-	:content-transfer-encoding:content-disposition:x-gm-message-state;
-	bh=hYmFs9NenPgUbDWAPUnDesY2adRREWXQ1m+kUKOtk1I=;
-	b=AOZn09dx6sFy6y+G5PnaLFiTV18Z3rApP4krimwwwaHDjFH6nUmZhnT35ReJmuJKMm
-	r6y51pTVoTEJ05+OGY9fopyGRgpmFAvD4iq+xHZyEZQSpi9ed6jLC7/3QyaA/1fHp2HO
-	GAlahKkjqdK1T53xYzF1bpofd2o7oyghzVslqPbiRdftM4yieTwb3GcQF+0ikNs2sQB9
-	n60A5JHJrfh/731p+mzKatqT9xujQ7mr4/y/8Gw/v6lRsce1QPThvJ8e39yuWMLVRpcY
-	HO6WMmAWd4s+6QZVhcYrWPegWWdyDJsgzLTVlz1taHX3EsPCkKLTbkJPkXcysNj6lCPd
-	DbVw==
-X-Received: by 10.180.82.41 with SMTP id f9mr7262853wiy.25.1359934503837;
-	Sun, 03 Feb 2013 15:35:03 -0800 (PST)
-X-Received: by 10.180.82.41 with SMTP id f9mr7262847wiy.25.1359934503702;
-	Sun, 03 Feb 2013 15:35:03 -0800 (PST)
-Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cu7sm710434wib.8.2013.02.03.15.35.01
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Sun, 03 Feb 2013 15:35:02 -0800 (PST)
-Date: Sun, 3 Feb 2013 23:35:01 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Message-ID: <F600AD7DF50F4C5793CA585286CEE7B4@intel.com>
-In-Reply-To: <510ED7B6.1010201@linaro.org>
-References: <B57A220D1EE1644685BA9AD5C790D20526BE045F3A@SOUTHSIDE.devonintlgroup.com>
-	<50E181AF64EF4AF9835BF9FD769D9B93@intel.com>
-	<B57A220D1EE1644685BA9AD5C790D20526BE045F3B@SOUTHSIDE.devonintlgroup.com>
-	<510ED7B6.1010201@linaro.org>
-X-Mailer: sparrow 1.6.4 (build 1178)
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQlcmouofoRhMoVagig9oUYsM1mPwGqyd9EJLtnA7w3qhzWveLVngX9ApHUacfNWElLnUVvyeynnhPBoYjgBqAcmpcrh4yVd/ERK2sB0Z1zgyvsD3YL3XX5HXakN/vQ0XqFk33l+Ihbls4Mqz5fnxxuqbIFa16hxGEx92tW9nsbDUsD4EuwOcOOvAsAsDwXMk/F868HC
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: OpenGL as a DISTRO_FEATURE
+	Mon, 04 Feb 2013 01:11:47 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r14012G4020441; Mon, 4 Feb 2013 00:01:02 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id M-QqTzqTWw0r; Mon,  4 Feb 2013 00:01:02 +0000 (GMT)
+Received: from ted (bebox.config [93.97.175.187] (may be forged))
+	(authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1400vvS020438
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 4 Feb 2013 00:00:58 GMT
+Received: from richard by ted with local (Exim 4.80)
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1U29PV-0000W2-Kg; Sun, 03 Feb 2013 23:55:45 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Feb 2013 23:55:43 +0000
+Message-Id: <cover.1359935562.git.richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 00/22] Packaging performance improvements, round 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,24 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Feb 2013 23:51:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Feb 2013 00:11:47 -0000
 
-On Sunday, 3 February 2013 at 21:33, Marcin Juszkiewicz wrote:
-> As they are different architectures you can try this:
-> 
-> DISTRO_FEATURES_wm8950 = "here copy your default DISTRO_FEATURES but
-> skip opengl"
-> 
-> Replace wm8950 with MACHINE name. Ugly solution but should work.
-That means that Qt won't be built with GLES support.
+The following patch series contains various performance improvements for 
+do_package.
 
-The best approach is to probe the hardware/libraries at runtime and adapt - i.e. if only GLES libraries are available use those, but a lot of software doesn't support that or simple probing isn't sufficient (Intel Pine Trail supports both but GL is best, Cedar Trail supports both but GL is terrible).
+It also includes changes to the sanity testing to start giving warnings 
+about packaging variables used without packages being specified, eg:
 
-Ross 
+RDEPENDS = "x"
 
+instead of
+
+RDEPENDS_${PN} = "x"
+
+The final patch in the series stops the packaging code using the non-package
+versions in many cases. I'm not planning to merge that one right away, its just
+included for illustration and benchmarking purposes now. 
+
+There were three cases I found using bad syntax in OE-Core and the series includes 
+patches to fix them.
+
+There is also a useful performance improvement to sstate manipulations to use
+hardlinks instead of file copies which should be universally helpful to
+build performance of tasks.
+
+The following changes are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core master-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core/log/?h=master-next
+
+Richard Purdie (22):
+  package.bbclass: Multithread per file dependency generation code
+  package: Don't export PATH
+  package: Process package stripping in parallel
+  insane.bbclass: Add pkgvarcheck to check for suboptimal usages of
+    variables
+  insane.bbclass: Add documentation headers for logical code blocks
+  staging/insane.bbclass: Move legacy do_stage check iinto
+    insane.bbclass
+  staging.bbclass: Drop unused/legacy function
+  update-rc.d: Drop OVERRIDES code
+  qemu: Set RDEPENDS on the specific package that needs it
+  gdb-cross-canadian: Set RDEPENDS on the specific package that needs
+    it
+  initramfs-live-boot: Set RDEPENDS on the specific package that needs
+    it
+  package.bbclass: Fix up bb.mkdirhier/bb.copyfile usage
+  package.bbclass: Rewrite split_and_strip_files
+  kernel.bbclass: Improve populate_packages_prepend
+  package.bbclass: Make use of cleandirs and dirs function flags
+  package.bbclass: Various minor performance tweaks
+  package.bbclass: Simplify empty directory removal
+  package.bbclass: Add PACKAGESPLITFUNCS variable
+  sstate/path.py: Add copyhardlinktree() function and use for
+    performance optimisation
+  package.bbclass: Better document the different phases of operation
+  package.bbclass: Pre-expand some variables to save time
+  classes: Drop none package specific packaging variable accesses
+
+ meta/classes/base.bbclass                          |    2 +-
+ meta/classes/gconf.bbclass                         |    9 +-
+ meta/classes/gtk-icon-cache.bbclass                |    4 +-
+ meta/classes/gtk-immodules-cache.bbclass           |    4 +-
+ meta/classes/insane.bbclass                        |   30 +-
+ meta/classes/kernel.bbclass                        |   52 +--
+ meta/classes/mime.bbclass                          |    8 +-
+ meta/classes/package.bbclass                       |  460 +++++++++-----------
+ meta/classes/sstate.bbclass                        |    4 +-
+ meta/classes/staging.bbclass                       |    9 -
+ meta/classes/update-alternatives.bbclass           |   10 +-
+ meta/classes/update-rc.d_real.bbclass              |   21 +-
+ meta/lib/oe/package.py                             |   96 ++++
+ meta/lib/oe/path.py                                |    4 +
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |    4 +-
+ meta/recipes-devtools/qemu/qemu.inc                |    2 +-
+ 17 files changed, 390 insertions(+), 331 deletions(-)
+ create mode 100644 meta/lib/oe/package.py
+
+-- 
+1.7.10.4
 
 
 
