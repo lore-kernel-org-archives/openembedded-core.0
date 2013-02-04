@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U2ISY-0004wt-SG
+	(envelope-from <constantinx.musca@intel.com>) id 1U2ISc-0004wh-2s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 10:35:33 +0100
+	Mon, 04 Feb 2013 10:35:34 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 04 Feb 2013 01:19:42 -0800
+	by azsmga102.ch.intel.com with ESMTP; 04 Feb 2013 01:19:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,598,1355126400"; d="scan'208";a="252243117"
+X-IronPort-AV: E=Sophos;i="4.84,598,1355126400"; d="scan'208";a="252243139"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by azsmga001.ch.intel.com with ESMTP; 04 Feb 2013 01:19:40 -0800
+	by azsmga001.ch.intel.com with ESMTP; 04 Feb 2013 01:19:43 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 11:20:17 +0200
-Message-Id: <79df3d744e1a256fb9f034d39584a09bd71d98f8.1359967266.git.constantinx.musca@intel.com>
+Date: Mon,  4 Feb 2013 11:20:19 +0200
+Message-Id: <3943eeea0a8ca0f2e25d4e877eaa9e747db73acd.1359967266.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1359967266.git.constantinx.musca@intel.com>
 References: <cover.1359967266.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1359967266.git.constantinx.musca@intel.com>
 References: <cover.1359967266.git.constantinx.musca@intel.com>
-Subject: [PATCH 03/10] syslinux: use BPN instead of PN
+Subject: [PATCH 05/10] foomatic-filters: fix CUPS directory config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,57 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 09:35:33 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 09:35:34 -0000
+
+- use CUPS_SERVERBIN to configure the CUPS directory
+- the removed variables are not used anymore
 
 Fix the following warning:
-WARNING: QA Issue: lib32-syslinux: Files/directories were installed but not shipped
-  /usr/lib
-  /usr/share/syslinux
-  /usr/share/syslinux/com32
-  /usr/share/syslinux/com32/libcom32gpl.a
-  /usr/share/syslinux/com32/libcom32.a
-  ...
-
-[YOCTO #3438]
+WARNING: QA Issue: foomatic-filters: Files/directories were installed but not shipped
+  /usr/lib64
+  /usr/lib64/cups
+  /usr/lib64/cups/filter
+  /usr/lib64/cups/backend
+  /usr/lib64/cups/filter/foomatic-rip
+  /usr/lib64/cups/backend/beh
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-devtools/syslinux/syslinux_4.03.bb | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_4.03.bb b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-index abf2b06..7c3ecda 100644
---- a/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- # If you really want to run syslinux, you need mtools.  We just want the
- # ldlinux.* stuff for now, so skip mtools-native
- DEPENDS = "nasm-native"
--PR = "r8"
-+PR = "r9"
+diff --git a/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb b/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
+index bb01f71..c0290b1 100644
+--- a/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
++++ b/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
+@@ -10,7 +10,7 @@ format using a printer-specific, but spooler-independent PPD file. \
+ "
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/4.xx/syslinux-${PV}.tar.bz2 \
-            file://cross-build.patch \
-@@ -54,12 +54,12 @@ RDEPENDS_${PN} += "mtools"
+ DEPENDS += "cups perl libxml2"
+-PR = "r0"
++PR = "r1"
  
- FILES_${PN} = "${bindir}/syslinux"
- FILES_${PN}-extlinux = "${sbindir}/extlinux"
--FILES_${PN}-mbr = "${libdir}/${PN}/mbr.bin"
--FILES_${PN}-chain = "${libdir}/${PN}/chain.c32"
--FILES_${PN}-isolinux = "${libdir}/${PN}/isolinux.bin"
--FILES_${PN}-pxelinux = "${libdir}/${PN}/pxelinux.0"
--FILES_${PN}-dev += "${datadir}/${PN}/com32/lib*${SOLIBS} ${datadir}/${PN}/com32/include ${datadir}/${PN}/com32/com32.ld"
--FILES_${PN}-staticdev += "${datadir}/${PN}/com32/lib*.a ${libdir}/${PN}/com32/lib*.a"
--FILES_${PN}-misc = "${libdir}/${PN}/* ${bindir}/*"
-+FILES_${PN}-mbr = "${libdir}/${BPN}/mbr.bin"
-+FILES_${PN}-chain = "${libdir}/${BPN}/chain.c32"
-+FILES_${PN}-isolinux = "${libdir}/${BPN}/isolinux.bin"
-+FILES_${PN}-pxelinux = "${libdir}/${BPN}/pxelinux.0"
-+FILES_${PN}-dev += "${datadir}/${BPN}/com32/lib*${SOLIBS} ${datadir}/${BPN}/com32/include ${datadir}/${BPN}/com32/com32.ld"
-+FILES_${PN}-staticdev += "${datadir}/${BPN}/com32/lib*.a ${libdir}/${BPN}/com32/lib*.a"
-+FILES_${PN}-misc = "${libdir}/${BPN}/* ${bindir}/*"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/foomatic-filters-${PV}/COPYING;md5=393a5ca445f6965873eca0259a17f833"
+@@ -26,10 +26,7 @@ EXTRA_OECONF += "--disable-file-converter-check --with-file-converter=texttops"
  
- BBCLASSEXTEND = "native"
+ do_configure_prepend() {
+     export PERL="${bindir}/env perl"
+-    export LIB_CUPS=${exec_prefix}/lib/cups               # /usr/lib NOT libdir
+-    export CUPS_BACKENDS=${exec_prefix}/lib/cups/backend  # /usr/lib NOT libdir
+-    export CUPS_FILTERS=${exec_prefix}/lib/cups/filter    # /usr/lib NOT libdir
+-    export CUPS_PPDS=${datadir}/cups/model
++    export CUPS_SERVERBIN=${exec_prefix}/lib/cups       # /usr/lib NOT libdir
+ }
+ 
+ do_install_append_linuxstdbase() {
 -- 
 1.7.11.7
 
