@@ -1,21 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1U2QNx-0003Tp-6Q for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 19:03:22 +0100
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1U2Q8f-0001HW-R2; Mon, 04 Feb 2013 18:47:29 +0100
-Message-ID: <1360000031.6972.39.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Mon, 04 Feb 2013 17:47:11 +0000
-In-Reply-To: <510F875B.9070903@intel.com>
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1U2QS1-0003dE-1c
+	for openembedded-core@lists.openembedded.org;
+	Mon, 04 Feb 2013 19:07:32 +0100
+Received: from mail-gh0-f198.google.com ([209.85.160.198])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 04 Feb 2013 09:51:27 -0800
+Received: by mail-gh0-f198.google.com with SMTP id r11so9498039ghr.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=GyEZ1oprHY9Rho9xCoBtt61XCGcMTQtVqnecA8RJnEU=;
+	b=SIiutpjEbIx9kgiH6C9nBBrqXxXwQLgN0CzaFjhn9TjJjkXwInU3UuldSN6NNxkuC9
+	dC+hhGW269zQroBcJvrCKI19aDICB/1N8ZKiqD0VM7Sp2zx79D/Hd1+dte/TgLCdWOqx
+	Q4bP8U8QBCobZ7tVh8G4TgvH9heLgGUly8atYmFRCwYrdjbFh8r7w3YOlak7o29wcST0
+	HlN6onPxl1QE0z7B2Ed0qCEhcdfIYw9btJvX7iC1Zyrt9Q2G7Hvs32uHCWDxA1yTVCvh
+	Rbvvw98V74E+EYAJD3ZM+8SKIEwaf/7Gy5Mtu2yAHSVXkLnQn8Z3RSMjPddFJh+iXDBo
+	IU3Q==
+X-Received: by 10.52.178.105 with SMTP id cx9mr20825436vdc.31.1360000286550;
+	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
+X-Received: by 10.52.178.105 with SMTP id cx9mr20825427vdc.31.1360000286470;
+	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Mon, 4 Feb 2013 09:51:05 -0800 (PST)
+In-Reply-To: <1360000031.6972.39.camel@phil-desktop.brightsign>
 References: <cover.1359968730.git.laurentiu.palcu@intel.com>
 	<510F8388.2030809@topic.nl> <510F875B.9070903@intel.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
+	<1360000031.6972.39.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Feb 2013 17:51:05 +0000
+Message-ID: <CAJTo0LaBDWRhcf+kj_k6OrV0B0sE98Fnoe5+XAK4gOhPzZTgjw@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQmXEWJbAeH/FymaW0V54v1K8kPjLbQPqpbmHRUy+IumDpjtqdIp1W89NAWmsvDFHBnsBLRtrsOibjg6q0gfhm4cH1N7nmkioiwdffeQM6LXfHd73AnMUQ1giydi/mab9laHKH+FWlZeldC/usYJF1lFqzkL/fDBfat1mSjW0wEPP2nUcw8QtyINIpHemsX29rUAF5rc
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/5] Remove /var/cache from volatiles directory
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,38 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 18:03:23 -0000
-X-List-Received-Date: Mon, 04 Feb 2013 18:03:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Feb 2013 18:07:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-02-04 at 12:03 +0200, Laurentiu Palcu wrote:
-> Not necessarily. We are trying to have all postinstalls run on host, so
-> we don't have to do any postinstall activity on target. Any cache
-> generated during postinstall, will be generated at do_rootfs time. Then,
-> we can deploy the image with the cache already in place.
-> 
-> Also, on a RO rootfs, there is really no need to update the cache since
-> the cached files do not really change. Hence, the cache created on host
-> should, in theory, be valid.
+On 4 February 2013 17:47, Phil Blundell <pb@pbcl.net> wrote:
+> For example, an (admittedly somewhat unscientific) survey on my desktop
+> machine suggests that fontconfig, samba and cups, at least, are creating
+> files in /var/cache at run time with contents that you wouldn't be able
+> to predict in advance
 
-What sort of files in /var/cache are you trying to address with this
-change?  The impression I have is that most of the things in there are
-created dynamically by applications running on the target system and not
-by postinst scripts that could be run on the host.
+The fontconfig cache is perfectly capable of generation at image
+creation time, and that's actually what prompted removal of /var/cache
+from volatiles.
 
-For example, an (admittedly somewhat unscientific) survey on my desktop
-machine suggests that fontconfig, samba and cups, at least, are creating
-files in /var/cache at run time with contents that you wouldn't be able
-to predict in advance.  (Apt also uses /var/cache as its download area,
-but I guess if you have a read-only roofs then you aren't going to be
-running apt very much so that one probably isn't an issue.)  I wasn't
-able to immediately identify any files in there that would be obvious
-candidates for creating in a postinst and then leaving untouched
-afterwards.
+If samba and cups are using /var/cache as something that isn't a
+persistent cache, then the should use something like /var/run/
+instead.
 
-p.
-
-
+Ross
 
 
