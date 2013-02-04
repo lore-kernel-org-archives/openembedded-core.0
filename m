@@ -1,41 +1,32 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-pa0-f49.google.com ([209.85.220.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U2Jon-0008Q6-5D
+	(envelope-from <martin.jansa@gmail.com>) id 1U2Jz5-0000Ns-Mv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 12:02:37 +0100
-Received: from mail-bk0-f69.google.com ([209.85.214.69])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 04 Feb 2013 02:46:33 -0800
-Received: by mail-bk0-f69.google.com with SMTP id q16so6907593bkw.8
+	Mon, 04 Feb 2013 12:13:13 +0100
+Received: by mail-pa0-f49.google.com with SMTP id kp6so1205004pab.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 02:46:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references:x-gm-message-state;
-	bh=leVYMKBAMe1E0ZLkg0RWSXKcIfDJETRQMndgREWeYZw=;
-	b=TCj9YNsOcbsfIzME5WAm7xOWLsX1QkqfjEtC3CdSFsRKZovxu/cfQ7QBNEhX4MztCi
-	b+9qL+P5+7wRsAEYb1mIpD8JDjdgvHHXlV7TflmjSsqnA/YIwCoBzjwKUuwILjQJIgtv
-	snmutw/Y8u1qNHcnqGtwqGCTEyygLHaCfdKJbj83MbzUY9SfGr1dMq7pgM52Zo5HY3cg
-	1TcVcye0oniWawJa20dON0MBO1iPcbeDN4P342YEpyn+j/pnZSf/MoTmNVwsE1OrNfB+
-	GK8qwElubDEjBmUOwWIomVuBX9e5v7pZi+NwZMmi6f4wtxILB36dGDUWvwyJm23zthEe
-	8JOA==
-X-Received: by 10.180.93.40 with SMTP id cr8mr9546015wib.15.1359974791640;
-	Mon, 04 Feb 2013 02:46:31 -0800 (PST)
-X-Received: by 10.180.93.40 with SMTP id cr8mr9545994wib.15.1359974791451;
-	Mon, 04 Feb 2013 02:46:31 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id j9sm12586031wia.5.2013.02.04.02.46.30
+	Mon, 04 Feb 2013 02:57:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=eipzKISyzp0b4XdL3oGwXHDSetnEmyxcYl8/fGiI+/k=;
+	b=tVz4qZaKBk+n2s+npntujUYXwNlcgpL8YSUPQplxol6verucf0xe/ylE5n+g8ov6N6
+	vFShU1CEM64Dqrv0odfj0fEt/MtFWXJJsNykZbyeKS8mwbK8Zg2Si+OrAscBK3LcD72u
+	1dhfIeJy4ljo0SFP722ZGzLf99dYeOOilKk6kPUALFG8cCkbz03w6CthmOhLNIro9JvR
+	6YLLgixhO7nNrOmHyvSEsjVirtLsGTfMSU/JXedYf3enmjYUdHKAL6ZH7/PdheX8ETro
+	rCYe0OOxvA5+hSaus9S02H1L4jtGJuEpAWxzGI8Ezvn2pDa1GkqxqLP3awFOYzEfYwjO
+	CFwg==
+X-Received: by 10.66.79.231 with SMTP id m7mr1958149pax.76.1359975442868;
+	Mon, 04 Feb 2013 02:57:22 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id i6sm20448907paw.19.2013.02.04.02.57.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 02:46:30 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 04 Feb 2013 02:57:21 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 10:44:15 +0000
-Message-Id: <1359974656-21894-5-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1359974656-21894-1-git-send-email-ross.burton@intel.com>
-References: <1359974656-21894-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlt4PWZVFI1SxUxVqHwZSnqXHFxOP4gD96iENN9gdH+A5mgowwSjpsoq4pwAQHcgsJgjT2UmK+2ezcQ9+DcjrMe4dBpgOQ9qrsRd0fo8b+uQdmszgwHOGxKq4ZjPoER1ipyFL71wQjnEUGZ2Ldrt9+ggMrakijPOqpsqQLoSQFb+hcesaxGOVWcpY8CrkKZDW4EpKsD
-Subject: [PATCH 4/5] avahi: fix relative path in do_configure
+Date: Mon,  4 Feb 2013 10:57:10 +0100
+Message-Id: <1359971830-17441-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] qemu.inc: depend on qemu-native only with runqemu DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 11:02:42 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 11:13:17 -0000
 
-do_configure was assuming that $B is $S, so the relative path was wrong. Add a
-missing $S.
+* qemu images are usefull even without qemu installed on build machine.
+  Some people are building on one machine, but then downloading images
+  somewhere else to test them.
+* use new "runqemu" DISTRO_FEATURE and BACKFILL it so the behavior stays
+  the same, unless disabled by DISTRO_FEATURES_BACKFILL_CONSIDERED
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf             | 2 +-
+ meta/conf/machine/include/qemu.inc | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index d529b37..185207b 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -60,7 +60,7 @@ LDFLAGS_append_libc-uclibc = " -lintl"
- LDFLAGS_append_uclinux-uclibc = " -lintl"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 223c03f..c5ebc94 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -732,7 +732,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
  
- do_configure_prepend() {
--    sed 's:AM_CHECK_PYMOD:echo "no pymod" #AM_CHECK_PYMOD:g' -i configure.ac
-+    sed 's:AM_CHECK_PYMOD:echo "no pymod" #AM_CHECK_PYMOD:g' -i ${S}/configure.ac
- }
+-DISTRO_FEATURES_BACKFILL = "pulseaudio ${DISTRO_FEATURES_INITMAN}"
++DISTRO_FEATURES_BACKFILL = "pulseaudio ${DISTRO_FEATURES_INITMAN} runqemu"
+ MACHINE_FEATURES_BACKFILL = "rtc"
  
+ COMBINED_FEATURES = "\
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index f68bf32..1470778 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -24,4 +24,5 @@ RDEPENDS_kernel-base = ""
+ # Use a common kernel recipe for all QEMU machines
+ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
  
+-EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
++RUNQEMU_IMAGEDEPENDS = "qemu-native qemu-helper-native"
++EXTRA_IMAGEDEPENDS += "${@base_contains("DISTRO_FEATURES", "runqemu", "${RUNQEMU_IMAGEDEPENDS}", "", d)}"
 -- 
-1.7.10.4
+1.8.1.2
 
 
 
