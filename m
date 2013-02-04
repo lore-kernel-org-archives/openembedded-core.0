@@ -1,32 +1,20 @@
-Received: from mail-wi0-f173.google.com ([209.85.212.173])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U2TQU-0000zu-MP
+	(envelope-from <sgw@linux.intel.com>) id 1U2TiK-0001PK-7R
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 22:18:07 +0100
-Received: by mail-wi0-f173.google.com with SMTP id hq4so3445212wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 13:02:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=R49fhtW8v0U1InBJhVBeXjdeHDjCuME/Vdsc0Oi7M+Y=;
-	b=d19/u0dtfPufczlA4Veho+Uq1wq06/6z9eSDpwEFpmVJLwdP2t/E0klOa8/tB/UPJt
-	VyQ/6D7xjE9YYw1f1Qgky6ya01bPyIaNpl/cdvXoLCzH60Uz9VcIFppzxy/l6XuhgHMZ
-	mYs7v/1qJloyrtUmWc4Gh7pChONpa8klGdiIUs8iBu9pToZN6htn6xocSMZIFxp26AeA
-	AGpcAQaA7pd53a3Nq09G1LAsMKpLFe28uoSYXfLGkG5zV3ZInuV0vnKY8syd/SP8s73a
-	az3IUPRNksth47VGZhTA280JsFCUlBdreGe3Rr/7MmZy39SsEYkTJRhj+UxfK/bEuE3e
-	oexQ==
-X-Received: by 10.180.97.102 with SMTP id dz6mr13062085wib.3.1360011738151;
-	Mon, 04 Feb 2013 13:02:18 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id q13sm1558232wie.0.2013.02.04.13.02.16
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 13:02:17 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 04 Feb 2013 22:36:34 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Feb 2013 13:20:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,602,1355126400"; d="scan'208";a="257604525"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.90])
+	by orsmga001.jf.intel.com with ESMTP; 04 Feb 2013 13:20:35 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 22:02:14 +0100
-Message-Id: <1360011734-9796-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] sip.bbclass: improve RDEPENDS to add python-sip only for PN
+Date: Mon,  4 Feb 2013 13:20:27 -0800
+Message-Id: <1360012827-12608-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] v86d: Use BP instead of P
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 21:18:09 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 21:36:34 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+P is expanded to it's multi and other prefix / suffix name,
+so use BP instead which is the BaseName and Version.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/sip.bbclass | 2 +-
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
-index 074d4dd..711f851 100644
---- a/meta/classes/sip.bbclass
-+++ b/meta/classes/sip.bbclass
-@@ -4,7 +4,7 @@
- STAGING_SIPDIR ?= "${STAGING_DATADIR_NATIVE}/sip"
+diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+index 3c77f25..51829a3 100644
+--- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
++++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+@@ -9,7 +9,7 @@ DEPENDS = "virtual/kernel"
+ RRECOMMENDS_${PN} = "kernel-module-uvesafb"
+ PR = "r1"
  
- DEPENDS  =+ "sip-native"
--RDEPENDS += "python-sip"
-+RDEPENDS_${PN} += "python-sip"
+-SRC_URI = "http://distfiles.gentoo.org/distfiles/${P}.tar.bz2 \
++SRC_URI = "http://distfiles.gentoo.org/distfiles/${BP}.tar.bz2 \
+            file://fbsetup \
+            file://ar-from-env.patch"
  
- # default stuff, do not uncomment
- # EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
 -- 
-1.8.1.2
+1.8.0.2
 
 
 
