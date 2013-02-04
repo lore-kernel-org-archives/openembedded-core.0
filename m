@@ -1,32 +1,34 @@
-Received: from mail-wg0-f48.google.com ([74.125.82.48])
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U2R6j-0004m9-ES
+	(envelope-from <martin.jansa@gmail.com>) id 1U2R6n-0004mD-8L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 19:49:34 +0100
-Received: by mail-wg0-f48.google.com with SMTP id 16so4972220wgi.27
+	Mon, 04 Feb 2013 19:49:37 +0100
+Received: by mail-wi0-f178.google.com with SMTP id o1so3314305wic.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 10:33:44 -0800 (PST)
+	Mon, 04 Feb 2013 10:33:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=5eC+mAEGn0RVuyz7BCOUZkhZK7UAnnBtAIbhxc6jnas=;
-	b=KeEsy6ebxsYaLOYzsIT6Uzse4V51RLIDCM2dLMaGSu8AY5pHl2RttY77If1IJu7aZo
-	+X4n0sIwEc13yWL3nW0giKZjzWK2uS9/qewij5tvtK6BwM7DK6obAGydZU/iTlFSaXoS
-	t8WQSj4OMXflixCxAI64lR6t5UyGVddEcL75N+y2SgtF0g9EjCCYVdkOqZbiH73ZMtyH
-	54ejFf8rSS2tRA7Zg8D1cNOxvQN6ur3fG66DwLM2lzDXpvkXPZXqDv2UIxFyd7+PpSiB
-	3prMREj5Ety/SA5s8lYZmQOmJhNtsD1J1qPepAe54gDRgs4seZ7/Tdj2TCpX9VDGqEco
-	A/mQ==
-X-Received: by 10.180.8.197 with SMTP id t5mr11706314wia.27.1360002824689;
-	Mon, 04 Feb 2013 10:33:44 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=RB33Qc9DoZau8aSsJEQu6+wEKlh3RPX8ymdZtepRniU=;
+	b=sL+Q9vbkFhsnoakzGuyM6Vac7Yorf+Txy7cHvI1SB+cfrTOII5r9+SfR9UK0NjhuCe
+	sVobsQZ2dOQVHiD7Ac2/IroP/32RLGFYWBvhbAENRFrZRopHfb2r2xQQ6DlYK8+t2jSc
+	M3IbSMXQ9Ml+pvxHDihx6AmLwxI86JWiO/RwIrYGYNb/36kzUfftPAhu/LucovkeXQM7
+	2KamvCgyJUKA0SuxIXUjV8seV5dXFfqhafLwbisdNMTYNhRn9OeC+MDNmqqBqM3DZ1Vo
+	8I9pFIbfvGKOaeNrEkyqe9Ry7Pv6ZYY8T0GMsAfN+6+gm97ijxfgx1I+prICoaR2SY3b
+	wThg==
+X-Received: by 10.180.73.212 with SMTP id n20mr12160786wiv.11.1360002829030;
+	Mon, 04 Feb 2013 10:33:49 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id m6sm23263723wic.2.2013.02.04.10.33.43
+	by mx.google.com with ESMTPS id ec3sm16458503wib.1.2013.02.04.10.33.47
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 10:33:43 -0800 (PST)
+	Mon, 04 Feb 2013 10:33:48 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 19:33:40 +0100
-Message-Id: <1360002821-23224-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Mon,  4 Feb 2013 19:33:41 +0100
+Message-Id: <1360002821-23224-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 1/2] openssh: fix RPROVIDES
+In-Reply-To: <1360002821-23224-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1360002821-23224-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/2] dropbear: fix RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,27 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 18:49:36 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 18:49:38 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-connectivity/openssh/openssh_6.1p1.bb | 3 ++-
+ meta/recipes-core/dropbear/dropbear.inc | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.1p1.bb b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-index 71d71e4..32c3b2c 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
-@@ -12,7 +12,8 @@ PR = "r0"
- DEPENDS = "zlib openssl"
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 3a39c95..8d94e5b 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -10,7 +10,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
+ 
+ DEPENDS = "zlib"
+-RPROVIDES = "ssh sshd"
++RPROVIDES_${PN} = "ssh sshd" 
++
  DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
--RPROVIDES = "ssh sshd"
-+RPROVIDES_${PN}-ssh = "ssh"
-+RPROVIDES_${PN}-sshd = "sshd"
- 
- RCONFLICTS_${PN} = "dropbear"
- RCONFLICTS_${PN}-sshd = "dropbear"
+ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
 -- 
 1.8.1.2
 
