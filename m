@@ -1,26 +1,38 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1U2Qwj-0004S0-7U
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U2QyV-0004X8-Tq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 19:39:16 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r14INKIg022400
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Feb 2013 10:23:20 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Mon, 4 Feb 2013 10:23:17 -0800
-Date: Mon, 4 Feb 2013 12:23:09 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-Message-ID: <20130204122309.12582d0b@e6410-2>
-In-Reply-To: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
-References: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Mon, 04 Feb 2013 19:41:09 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r14IPCCP021837
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 4 Feb 2013 19:25:13 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1U2Qj9-0004Xk-Uc; Mon, 04 Feb 2013 19:25:12 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1359968730.git.laurentiu.palcu@intel.com>
+	<510F8388.2030809@topic.nl> <510F875B.9070903@intel.com>
+	<1360000031.6972.39.camel@phil-desktop.brightsign>
+	<CAJTo0LaBDWRhcf+kj_k6OrV0B0sE98Fnoe5+XAK4gOhPzZTgjw@mail.gmail.com>
+Date: Mon, 04 Feb 2013 19:25:11 +0100
+In-Reply-To: <CAJTo0LaBDWRhcf+kj_k6OrV0B0sE98Fnoe5+XAK4gOhPzZTgjw@mail.gmail.com>
+	(Ross Burton's message of "Mon, 4 Feb 2013 17:51:05 +0000")
+Message-ID: <lyvca89bso.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo: fix sqlite path and package missing files
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: "Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 0/5] Remove /var/cache from volatiles directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 18:39:17 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Feb 2013 18:41:13 -0000
+Content-Type: text/plain
 
-On Mon, 4 Feb 2013 13:33:26 +0200
-Constantin Musca <constantinx.musca@intel.com> wrote:
+"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-> - replace --enable-sqlite-static with --with-sqlite-static=.. in order
-> to pass ${baselib} to configure (/lib doesn't work for the multilib
-> lib32 build)
+> The fontconfig cache is perfectly capable of generation at image
+> creation time,
 
-This looks eerily similar to, yet subtly different from, the changes I
-made for pseudo-1.4.2/1.4.3. I'd spelled that as
-"--with-static-sqlite=" for specifying an exact path to libsqlite.a,
-but I eventually changed it to --with-sqlite-lib to allow an override
-because bitbake's design seems to want libsqlite3.a to always be in
-(host sysroot)/usr/lib, regardless of whether that's 64-bit or 32-bit.
+really? The cache files are architecture dependent and I am not aware of
+a cross-fc-cache tool.
 
-> - use ${exec_prefix}/lib instead of ${libdir} because pseudo always
-> uses /usr/lib
 
-This seems right, but I hadn't done it in the recent submission of
-1.4.3, and things were working anyway. So now I want to know why...
 
-Anyway, I think these changes are probably redundant with the changes I
-submitted over the weekend.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Enrico
 
 
