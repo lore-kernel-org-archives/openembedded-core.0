@@ -1,34 +1,43 @@
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U2R6n-0004mD-8L
+	(envelope-from <ross.burton@intel.com>) id 1U2S5b-0006fd-Bu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 19:49:37 +0100
-Received: by mail-wi0-f178.google.com with SMTP id o1so3314305wic.5
+	Mon, 04 Feb 2013 20:52:28 +0100
+Received: from mail-qc0-f197.google.com ([209.85.216.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Feb 2013 11:36:34 -0800
+Received: by mail-qc0-f197.google.com with SMTP id x40so9435362qcs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 10:33:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=RB33Qc9DoZau8aSsJEQu6+wEKlh3RPX8ymdZtepRniU=;
-	b=sL+Q9vbkFhsnoakzGuyM6Vac7Yorf+Txy7cHvI1SB+cfrTOII5r9+SfR9UK0NjhuCe
-	sVobsQZ2dOQVHiD7Ac2/IroP/32RLGFYWBvhbAENRFrZRopHfb2r2xQQ6DlYK8+t2jSc
-	M3IbSMXQ9Ml+pvxHDihx6AmLwxI86JWiO/RwIrYGYNb/36kzUfftPAhu/LucovkeXQM7
-	2KamvCgyJUKA0SuxIXUjV8seV5dXFfqhafLwbisdNMTYNhRn9OeC+MDNmqqBqM3DZ1Vo
-	8I9pFIbfvGKOaeNrEkyqe9Ry7Pv6ZYY8T0GMsAfN+6+gm97ijxfgx1I+prICoaR2SY3b
-	wThg==
-X-Received: by 10.180.73.212 with SMTP id n20mr12160786wiv.11.1360002829030;
-	Mon, 04 Feb 2013 10:33:49 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ec3sm16458503wib.1.2013.02.04.10.33.47
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 10:33:48 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 19:33:41 +0100
-Message-Id: <1360002821-23224-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1360002821-23224-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1360002821-23224-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] dropbear: fix RPROVIDES
+	Mon, 04 Feb 2013 11:36:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=Ra6fjtVcvVJhzZTF7LcQhgH26rrmEdjEuS2uakf7YOE=;
+	b=ojyWZKFtT8d+BYNyq/xn/snaJlvHOly3SkSelyw8rqBqnlPc18bhlsx3cWiqKU5h7P
+	SgqsmboFp7c85Ihse7+VfzBxiEnWN8+So+J+LzLLFuDDYRpivKa443fiUVzId9VaQSzY
+	QNALxMtkMfP9u9aXudQbNmiBKbQl74YeHAq/nJ9jg3F/dGZWB2hwfKKbe+cIRIBVHEAz
+	nZfucwsXGEa1QxO5TY4bJxXeYlAJ1tnlGqJkRnGGgkFMINBzQ+TnjJaejScHy/0XpEth
+	51kty5xvcYjAUi9ozjHoNgQ4897phqzGXlTGE15ZpABem6CraA4YX03A1blXo6TJtz1r
+	7y8w==
+X-Received: by 10.52.90.243 with SMTP id bz19mr16744118vdb.112.1360006593197; 
+	Mon, 04 Feb 2013 11:36:33 -0800 (PST)
+X-Received: by 10.52.90.243 with SMTP id bz19mr16744105vdb.112.1360006593041; 
+	Mon, 04 Feb 2013 11:36:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Mon, 4 Feb 2013 11:36:12 -0800 (PST)
+In-Reply-To: <lyvca89bso.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1359968730.git.laurentiu.palcu@intel.com>
+	<510F8388.2030809@topic.nl> <510F875B.9070903@intel.com>
+	<1360000031.6972.39.camel@phil-desktop.brightsign>
+	<CAJTo0LaBDWRhcf+kj_k6OrV0B0sE98Fnoe5+XAK4gOhPzZTgjw@mail.gmail.com>
+	<lyvca89bso.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Feb 2013 19:36:12 +0000
+Message-ID: <CAJTo0LZhdRpvMTodB9Y01X2_QEfhCbnC-SZ9_wNPPO9nj_vbYA@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Gm-Message-State: ALoCoQnkiT1W5IOMN5yXKVre4AWpOOV0hLvUH2rnGUrz99+0fRJQ+VMrUMF593ZDCPcSB3CL8xLhSblL+mHmIVe8p5i1TJk90ZRdV1+xghX3fpBONr89i8hpdIB+f8aSXJt+FyWVjwtJGcwUBeeGVmC3KQ0YG0s8hwgjAnYsVCtJc7Udzo6rVHrAiDVjyAMBySGw1N9DyVB8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] Remove /var/cache from volatiles directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +50,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 18:49:38 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 19:52:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/dropbear/dropbear.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 4 February 2013 18:25, Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
+> really? The cache files are architecture dependent and I am not aware of
+> a cross-fc-cache tool.
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 3a39c95..8d94e5b 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -10,7 +10,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
- 
- DEPENDS = "zlib"
--RPROVIDES = "ssh sshd"
-+RPROVIDES_${PN} = "ssh sshd" 
-+
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
--- 
-1.8.1.2
+That's right, they are.  Laurentiu's been working on that too:
 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=lpalcu/fontconfig&id=fe7c0e0b2c92c36466ac6de02a98d13b3985282e
+
+Ross
 
 
