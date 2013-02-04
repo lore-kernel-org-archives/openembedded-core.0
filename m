@@ -1,26 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1U2GCB-0001sH-Gq
+	(envelope-from <cristian.iorga@intel.com>) id 1U2IKI-0004nI-BJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 08:10:30 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r146sdS6018568
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Feb 2013 22:54:39 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sun, 3 Feb 2013 22:54:38 -0800
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Feb 2013 14:54:37 +0800
-Message-ID: <1359960877-21197-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.11
-In-Reply-To: <3826>
-References: <3826>
+	Mon, 04 Feb 2013 10:26:59 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Feb 2013 01:10:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,598,1355126400"; d="scan'208";a="282422052"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2013 01:10:46 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.82]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.20]) with mapi id
+	14.01.0355.002; Mon, 4 Feb 2013 09:10:45 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Lei Yang <yanglei.fage@gmail.com>
+Thread-Topic: [OE-core] [PATCH] net-tools: upgrade to v1.60-24.2
+Thread-Index: AQHOAI4PdLN+lulFpkeBYkrJwRybYZhnZ2sAgAIFehA=
+Date: Mon, 4 Feb 2013 09:10:44 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161F3065@IRSMSX102.ger.corp.intel.com>
+References: <1359731346-16190-1-git-send-email-cristian.iorga@intel.com>
+	<258C02DC-9331-432A-93B2-4173DA69968D@gmail.com>
+In-Reply-To: <258C02DC-9331-432A-93B2-4173DA69968D@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Subject: [V2 PATCH] pulseaudio_2.1: Remove the dependence of fftw.
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] net-tools: upgrade to v1.60-24.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +41,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 07:10:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Feb 2013 09:27:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+See my answers below.
 
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
- 1 file changed, 1 insertion(+)
+-----Original Message-----
+From: Lei Yang [mailto:yanglei.fage@gmail.com]=20
+Sent: Sunday, February 03, 2013 4:15 AM
+To: Iorga, Cristian
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] net-tools: upgrade to v1.60-24.2
+On 2013-2-1, at 23:09, Cristian Iorga <cristian.iorga@intel.com> wrote:
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 6633e38..2fed4f9 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -40,6 +40,7 @@ EXTRA_OECONF = "\
- 		--disable-openssl \
- 		--disable-xen \
- 		--with-database=simple \
-+		--without-fftw \
- "
- 
- PARALLEL_MAKE = ""
--- 
-1.7.11
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+> .../net-tools-config.h                                           |    0
+> .../net-tools-config.make                                        |    0
+> .../net-tools/{net-tools_1.60-23.bb =3D> net-tools_1.60-24.2.bb}   |    =
+6 +++---
+> 3 files changed, 3 insertions(+), 3 deletions(-) rename=20
+> meta/recipes-extended/net-tools/{net-tools-1.60-23 =3D>=20
+> net-tools-1.60-24.2}/net-tools-config.h (100%) rename=20
+> meta/recipes-extended/net-tools/{net-tools-1.60-23 =3D>=20
+> net-tools-1.60-24.2}/net-tools-config.make (100%) rename=20
+> meta/recipes-extended/net-tools/{net-tools_1.60-23.bb =3D>=20
+> net-tools_1.60-24.2.bb} (94%)
+>=20
+> diff --git=20
+> a/meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.h=
+=20
+> b/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config
+> .h
+> similarity index 100%
+> rename from=20
+> meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.h
+> rename to=20
+> meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.h
+> diff --git=20
+> a/meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.m
+> ake=20
+> b/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config
+> .make
+> similarity index 100%
+> rename from=20
+> meta/recipes-extended/net-tools/net-tools-1.60-23/net-tools-config.mak
+> e rename to=20
+> meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.m
+> ake diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb=20
+> b/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
+> similarity index 94%
+> rename from meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+> rename to meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
+> index bc61d21..4040e1a 100644
+> --- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
+> @@ -5,7 +5,7 @@ BUGTRACKER =3D "http://bugs.debian.org/net-tools"
+> LICENSE =3D "GPLv2+"
+> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c=
+28b \
+>                     file://ifconfig.c;beginline=3D11;endline=3D15;md5=3D=
+d1ca372080ad5401e23ca0afc35cf9ba"
+> -PR =3D "r3"
+> +PR =3D "r0"
+>=20
 
+Is there a reason to change it back to r0
+Yes, because an upgrade has been done.
+
+
+Lei
+
+> SRC_URI =3D "${DEBIAN_MIRROR}/main/n/net-tools/net-tools_1.60.orig.tar.g=
+z;name=3Dtarball \
+>            
+> ${DEBIAN_MIRROR}/main/n/net-tools/${BPN}_${PV}.diff.gz;apply=3Dno;name=
+=3Dp
+> atch \
+
+Not sure why it not apply but not remove it.
+Sorry, I don't understand your comment.
+This package is distributed as a "base" tarball + patches to higher versio=
+ns.
+Hence, I don't understand your comment.
+
+
+Lei
+
+> @@ -17,8 +17,8 @@ S =3D "${WORKDIR}/net-tools-1.60"
+> SRC_URI[tarball.md5sum] =3D "ecaf37acb5b5daff4bdda77785fd916d"
+> SRC_URI[tarball.sha256sum] =3D "ec67967cf7b1a3a3828a84762fbc013ac50ee5dc=
+9aa3095d5c591f302c2de0f5"
+>=20
+> -SRC_URI[patch.md5sum] =3D "2412e55c20308d5fbd28bfadd18c075f"
+> -SRC_URI[patch.sha256sum] =3D "d678b3ea97d6c7ca548918994642bfc6b5511ab02=
+f3a5881dfcca00c88bfd73b"
+> +SRC_URI[patch.md5sum] =3D "524658bb8df5ff92c4a991f5edcaf240"
+> +SRC_URI[patch.sha256sum] =3D "170cc024fcb34329f4c25fd88b5f160a06be5d6d3=
+eaf0bc976650fd1b1a6235d"
+>=20
+> inherit gettext
+>=20
+> --
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
