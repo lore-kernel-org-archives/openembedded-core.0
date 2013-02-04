@@ -1,32 +1,33 @@
-Received: from mail-pa0-f50.google.com ([209.85.220.50])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U2Oot-0007HX-Uh
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 17:23:06 +0100
-Received: by mail-pa0-f50.google.com with SMTP id fa11so858284pad.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 08:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=9BRlX6gn+Pdyn7UIuMDCJtOariTEVi4LKE86a0C533Y=;
-	b=NF/3snimzMn8DwR2MW5lXYYKI6lqo5Vmn4l1toZvTYHIx5EqM5DBZJO3kNXrPeL0jq
-	4ynthCY6+Ml5CpB+DauHUhrnXLSVYaI47oKErvHjDjMWtS5/W5REbJR2RdSO8q5+JMHR
-	dBkPQ4G8x13W1tFJOby4tQALg3upPZdDIOE1YL4XUhCxJn35gt+hLYl8P69p3UHyv7k0
-	6ZqfGXm9P79mqijespij1ZMiEwpW4pzTN/yDidajKVxET8K+hKhGwspq7CAIsCotDuWQ
-	Cl1hPBD4K5RlhFr1edEG1DC4V7OA/oG52MGhrkFpZphqdXs3YJutYsg3ZvOr/NzAX5Yh
-	tKeA==
-X-Received: by 10.66.79.202 with SMTP id l10mr53887607pax.36.1359994030730;
-	Mon, 04 Feb 2013 08:07:10 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id l5sm22403517pax.10.2013.02.04.08.07.08
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 08:07:09 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 16:06:59 +0100
-Message-Id: <1359990419-20550-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] send-pull-request: add extra CC argument
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U2Oxv-0007cT-65 for openembedded-core@lists.openembedded.org;
+	Mon, 04 Feb 2013 17:32:24 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r14GLNNu017851; Mon, 4 Feb 2013 16:21:30 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id h13xr15ydgMJ; Mon,  4 Feb 2013 16:21:29 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r14GLP01017831
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Feb 2013 16:21:27 GMT
+Message-ID: <1359994568.14071.162.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Mon, 04 Feb 2013 16:16:08 +0000
+In-Reply-To: <510FCFAC.4050909@gmail.com>
+References: <cover.1359706204.git.sgw@linux.intel.com>
+	<510FCFAC.4050909@gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r14GLNNu017851
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/69] master-next & MUT (post M3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,84 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 16:23:07 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 16:32:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* useful e.g. when sending pull-request to release branch with extra CC
-  for release maintainer
+On Mon, 2013-02-04 at 16:11 +0100, David Nystr=C3=B6m wrote:
+> On 02/01/2013 09:19 AM, Saul Wold wrote:
+> > Richard,
+> >
+> > Here is a group of M4 patches and updates that have been
+> > pending. I fixed a small issue I found with the package.bbclass
+> > changes in gkt-icon-cache.bbclass
+> >
+> > I have included the DEB Incremental image set along with
+> > the READ-Only Rootfs changes, this way they can get broader
+> > views and usage by the community.
+> >
+> > I have also include the GCC Multilib changes.
+> >
+> > I just started the AB on MUT without some failing patches
+> > (netbase and flex).
+> >
+> > Please watch it's status, There was a failure in the x86 GRUB
+> > build which may also point back to Flex.
+> >
+> > Sau!
+> >
+> > This include
+> > The following changes since commit 1489a69cecb1dcc3502a4c24beaea81e6c=
+a6dacc:
+> >
+> >    harfbuzz: fix install of version.h (2013-01-31 12:29:18 +0000)
+> >
+> > are available in the git repository at:
+> >
+> >    git://git.openembedded.org/openembedded-core-contrib sgw/stage
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/lo=
+g/?h=3Dsgw/stage
+> >
+> >
+> > David Nystr=C3=B6m (1):
+> >    Lets face it, adding python dependencies is really a painful manua=
+l
+> >      process, due to setuptools/distutils, ignoring anything other th=
+an
+> >      python dependencies.
+>=20
+>=20
+> Please drop above as well, it was an RFC meant to stir up some=20
+> discussion, not meant for inclusion.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/send-pull-request | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+It didn't make it past my review since the commit message isn't
+appropriate. Your second version looks better and is queued in
+master-next though.
 
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 18a53c4..575549d 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -32,6 +32,7 @@ GITSOBCC="--suppress-cc=all"
- unset TO
- unset CC
- unset AUTO_CC
-+unset EXTRA_CC
- 
- usage()
- {
-@@ -42,6 +43,7 @@ Usage: $(basename $0) [-h] [-a] [-c] [[-t email]...] -p pull-dir
- 	       This option implies -c.
-   -c           Expand the Cc list for the individual patches using the Cc and
-                Signed-off-by lines from the same patch.
-+  -C           Add extra CC to each email sent.
-   -p pull-dir  Directory containing summary and patch files
-   -t email     Explicitly add email to the recipients
- EOM
-@@ -68,7 +70,7 @@ harvest_recipients()
- }
- 
- # Parse and verify arguments
--while getopts "achp:t:" OPT; do
-+while getopts "acC:hp:t:" OPT; do
- 	case $OPT in
- 	a)
- 		AUTO=1
-@@ -79,6 +81,9 @@ while getopts "achp:t:" OPT; do
- 		AUTO=1
- 		GITSOBCC="--signed-off-by-cc"
- 		;;
-+	C)
-+		EXTRA_CC="$OPTARG"
-+		;;
- 	h)
- 		usage
- 		exit 0
-@@ -149,15 +154,15 @@ fi
- export IFS=$','
- GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
- GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
-+GIT_EXTRA_CC=$(for R in $EXTRA_CC; do echo -n "--cc='$R' "; done)
- unset IFS
- 
--
- # Handoff to git-send-email. It will perform the send confirmation.
- PATCHES=$(echo $PDIR/*.patch)
- if [ $AUTO_CL -eq 1 ]; then
- 	# Send the cover letter to every recipient, both specified as well as
- 	# harvested. Then remove it from the patches list.
--	eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
-+	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
- 	if [ $? -eq 1 ]; then
- 		echo "ERROR: failed to send cover-letter with automatic recipients."
- 		exit 1
-@@ -167,7 +172,7 @@ fi
- 
- # Send the patch to the specified recipients and, if -c was specified, those git
- # finds in this specific patch.
--eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
-+eval "git send-email $GIT_TO $GIT_EXTRA_CC --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
- if [ $? -eq 1 ]; then
- 	echo "ERROR: failed to send patches."
- 	exit 1
--- 
-1.8.1.2
+Cheers,
+
+Richard
 
 
 
