@@ -1,54 +1,35 @@
-Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1U2T8d-0000A7-19
+	(envelope-from <martin.jansa@gmail.com>) id 1U2TQU-0000zu-MP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 21:59:39 +0100
-Received: from mail58-am1-R.bigfish.com (10.3.201.240) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 4 Feb 2013 20:13:44 +0000
-Received: from mail58-am1 (localhost [127.0.0.1])	by mail58-am1-R.bigfish.com
-	(Postfix) with ESMTP id 4C50060127;
-	Mon,  4 Feb 2013 20:13:44 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 12
-X-BigFish: VS12(z49a8vz98dI9371I1432Izz1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3h947hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh15d0h162dh1631h1758h18e1h1946hbe9i1155h)
-Received: from mail58-am1 (localhost.localdomain [127.0.0.1]) by mail58-am1
-	(MessageSwitch) id 1360008822882023_4022;
-	Mon,  4 Feb 2013 20:13:42 +0000 (UTC)
-Received: from AM1EHSMHS006.bigfish.com (unknown [10.3.201.236])	by
-	mail58-am1.bigfish.com (Postfix) with ESMTP id CAC2C2E004F;
-	Mon,  4 Feb 2013 20:13:42 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS006.bigfish.com
-	(10.3.207.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 4 Feb 2013 20:13:42 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.50]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0318.003;
-	Mon, 4 Feb 2013 20:13:41 +0000
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use
-	CC to form KERNEL_CC
-Thread-Index: AQHOAxQgkNK9RzoTv0aD6xHtf1I1vw==
-Date: Mon, 4 Feb 2013 20:13:41 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A86C5F5@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <cover.1358634922.git.raj.khem@gmail.com>
-	<613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
-In-Reply-To: <613da782b369ba5424b5619b4315ea34e645d53c.1358634922.git.raj.khem@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
+	Mon, 04 Feb 2013 22:18:07 +0100
+Received: by mail-wi0-f173.google.com with SMTP id hq4so3445212wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Feb 2013 13:02:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=R49fhtW8v0U1InBJhVBeXjdeHDjCuME/Vdsc0Oi7M+Y=;
+	b=d19/u0dtfPufczlA4Veho+Uq1wq06/6z9eSDpwEFpmVJLwdP2t/E0klOa8/tB/UPJt
+	VyQ/6D7xjE9YYw1f1Qgky6ya01bPyIaNpl/cdvXoLCzH60Uz9VcIFppzxy/l6XuhgHMZ
+	mYs7v/1qJloyrtUmWc4Gh7pChONpa8klGdiIUs8iBu9pToZN6htn6xocSMZIFxp26AeA
+	AGpcAQaA7pd53a3Nq09G1LAsMKpLFe28uoSYXfLGkG5zV3ZInuV0vnKY8syd/SP8s73a
+	az3IUPRNksth47VGZhTA280JsFCUlBdreGe3Rr/7MmZy39SsEYkTJRhj+UxfK/bEuE3e
+	oexQ==
+X-Received: by 10.180.97.102 with SMTP id dz6mr13062085wib.3.1360011738151;
+	Mon, 04 Feb 2013 13:02:18 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id q13sm1558232wie.0.2013.02.04.13.02.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 04 Feb 2013 13:02:17 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Feb 2013 22:02:14 +0100
+Message-Id: <1360011734-9796-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] sip.bbclass: improve RDEPENDS to add python-sip only for PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -58,57 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 20:59:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <1F262F1BD6BFF049860B72CFE10B0090@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 04 Feb 2013 21:18:09 -0000
 
-On Sat, Jan 19, 2013 at 4:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> kernel compiler is not special and we currently have it so
-> we want to pass -march and -mtune options as CFLAGS to kernel
-> build so that compiler picks the right subarch flags when
-> compiling assembly files in particular. Otherwise defaults
-> are chosen which may not be right in many case e.g. when
-> compiling kernel for collie machine we should use arch=3Darmv4
-> but it uses toolchain/as defaults which is armv5te
->
-> in some case e.g. thumb1 we know that kernel can not be compiled
-> in thumb1 mode so we can provide that information e.g. -marm
-> option through KERNEL_HOST_CC_ARCH variable as we do now
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/kernel-arch.bbclass |   13 +++++++++++++
->  meta/classes/kernel.bbclass      |   16 +---------------
->  meta/classes/module-base.bbclass |   16 ----------------
->  3 files changed, 14 insertions(+), 31 deletions(-)
->
-> diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.=
-bbclass
-> index b3b78b6..a51e82b 100644
-> --- a/meta/classes/kernel-arch.bbclass
-> +++ b/meta/classes/kernel-arch.bbclass
-> @@ -43,3 +43,16 @@ def map_uboot_arch(a, d):
->
->  export UBOOT_ARCH =3D "${@map_uboot_arch(d.getVar('ARCH', True), d)}"
->
-> +# Set TARGET_??_KERNEL_ARCH in the machine .conf to set architecture
-> +# specific options necessary for building the kernel and modules.
-> +TARGET_CC_KERNEL_ARCH ?=3D ""
-> +HOST_CC_KERNEL_ARCH ?=3D "${TARGET_CC_KERNEL_ARCH}"
-> +TARGET_LD_KERNEL_ARCH ?=3D ""
-> +HOST_LD_KERNEL_ARCH ?=3D "${TARGET_LD_KERNEL_ARCH}"
-> +TARGET_AR_KERNEL_ARCH ?=3D ""
-> +HOST_AR_KERNEL_ARCH ?=3D "${TARGET_AR_KERNEL_ARCH}"
-> +
-> +KERNEL_CC =3D "${CC} ${HOST_CC_KERNEL_ARCH}"
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/sip.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Why change to ${CC} from "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX}?
-
-It breaks some kernel builds we have...
-
--M=
+diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
+index 074d4dd..711f851 100644
+--- a/meta/classes/sip.bbclass
++++ b/meta/classes/sip.bbclass
+@@ -4,7 +4,7 @@
+ STAGING_SIPDIR ?= "${STAGING_DATADIR_NATIVE}/sip"
+ 
+ DEPENDS  =+ "sip-native"
+-RDEPENDS += "python-sip"
++RDEPENDS_${PN} += "python-sip"
+ 
+ # default stuff, do not uncomment
+ # EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
+-- 
+1.8.1.2
 
 
 
