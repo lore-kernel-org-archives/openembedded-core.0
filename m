@@ -1,41 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U2QS1-0003dE-1c
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U2Qwj-0004S0-7U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 19:07:32 +0100
-Received: from mail-gh0-f198.google.com ([209.85.160.198])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 04 Feb 2013 09:51:27 -0800
-Received: by mail-gh0-f198.google.com with SMTP id r11so9498039ghr.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=GyEZ1oprHY9Rho9xCoBtt61XCGcMTQtVqnecA8RJnEU=;
-	b=SIiutpjEbIx9kgiH6C9nBBrqXxXwQLgN0CzaFjhn9TjJjkXwInU3UuldSN6NNxkuC9
-	dC+hhGW269zQroBcJvrCKI19aDICB/1N8ZKiqD0VM7Sp2zx79D/Hd1+dte/TgLCdWOqx
-	Q4bP8U8QBCobZ7tVh8G4TgvH9heLgGUly8atYmFRCwYrdjbFh8r7w3YOlak7o29wcST0
-	HlN6onPxl1QE0z7B2Ed0qCEhcdfIYw9btJvX7iC1Zyrt9Q2G7Hvs32uHCWDxA1yTVCvh
-	Rbvvw98V74E+EYAJD3ZM+8SKIEwaf/7Gy5Mtu2yAHSVXkLnQn8Z3RSMjPddFJh+iXDBo
-	IU3Q==
-X-Received: by 10.52.178.105 with SMTP id cx9mr20825436vdc.31.1360000286550;
-	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
-X-Received: by 10.52.178.105 with SMTP id cx9mr20825427vdc.31.1360000286470;
-	Mon, 04 Feb 2013 09:51:26 -0800 (PST)
+	Mon, 04 Feb 2013 19:39:16 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r14INKIg022400
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Feb 2013 10:23:20 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Mon, 4 Feb 2013 10:23:17 -0800
+Date: Mon, 4 Feb 2013 12:23:09 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Constantin Musca <constantinx.musca@intel.com>
+Message-ID: <20130204122309.12582d0b@e6410-2>
+In-Reply-To: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
+References: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Mon, 4 Feb 2013 09:51:05 -0800 (PST)
-In-Reply-To: <1360000031.6972.39.camel@phil-desktop.brightsign>
-References: <cover.1359968730.git.laurentiu.palcu@intel.com>
-	<510F8388.2030809@topic.nl> <510F875B.9070903@intel.com>
-	<1360000031.6972.39.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Feb 2013 17:51:05 +0000
-Message-ID: <CAJTo0LaBDWRhcf+kj_k6OrV0B0sE98Fnoe5+XAK4gOhPzZTgjw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQmXEWJbAeH/FymaW0V54v1K8kPjLbQPqpbmHRUy+IumDpjtqdIp1W89NAWmsvDFHBnsBLRtrsOibjg6q0gfhm4cH1N7nmkioiwdffeQM6LXfHd73AnMUQ1giydi/mab9laHKH+FWlZeldC/usYJF1lFqzkL/fDBfat1mSjW0wEPP2nUcw8QtyINIpHemsX29rUAF5rc
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] Remove /var/cache from volatiles directory
+Subject: Re: [PATCH] pseudo: fix sqlite path and package missing files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,23 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 18:07:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Feb 2013 18:39:17 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On 4 February 2013 17:47, Phil Blundell <pb@pbcl.net> wrote:
-> For example, an (admittedly somewhat unscientific) survey on my desktop
-> machine suggests that fontconfig, samba and cups, at least, are creating
-> files in /var/cache at run time with contents that you wouldn't be able
-> to predict in advance
+On Mon, 4 Feb 2013 13:33:26 +0200
+Constantin Musca <constantinx.musca@intel.com> wrote:
 
-The fontconfig cache is perfectly capable of generation at image
-creation time, and that's actually what prompted removal of /var/cache
-from volatiles.
+> - replace --enable-sqlite-static with --with-sqlite-static=.. in order
+> to pass ${baselib} to configure (/lib doesn't work for the multilib
+> lib32 build)
 
-If samba and cups are using /var/cache as something that isn't a
-persistent cache, then the should use something like /var/run/
-instead.
+This looks eerily similar to, yet subtly different from, the changes I
+made for pseudo-1.4.2/1.4.3. I'd spelled that as
+"--with-static-sqlite=" for specifying an exact path to libsqlite.a,
+but I eventually changed it to --with-sqlite-lib to allow an override
+because bitbake's design seems to want libsqlite3.a to always be in
+(host sysroot)/usr/lib, regardless of whether that's 64-bit or 32-bit.
 
-Ross
+> - use ${exec_prefix}/lib instead of ${libdir} because pseudo always
+> uses /usr/lib
+
+This seems right, but I hadn't done it in the recent submission of
+1.4.3, and things were working anyway. So now I want to know why...
+
+Anyway, I think these changes are probably redundant with the changes I
+submitted over the weekend.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
