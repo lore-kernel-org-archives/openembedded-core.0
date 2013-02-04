@@ -1,29 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1U2Fwg-00010R-VM
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1U2G5q-0001cd-Hi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 07:54:33 +0100
+	Mon, 04 Feb 2013 08:03:55 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r146ccqD007749
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Feb 2013 22:38:39 -0800 (PST)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Sun, 3 Feb 2013 22:38:36 -0800
-Message-ID: <510F576C.3040806@windriver.com>
-Date: Mon, 4 Feb 2013 14:38:36 +0800
-From: yzhu1 <Yanjun.Zhu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r146m54a017980
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 Feb 2013 22:48:05 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Sun, 3 Feb 2013 22:48:04 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Feb 2013 14:48:03 +0800
+Message-ID: <1359960483-19864-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3826>
+References: <3826>
 MIME-Version: 1.0
-To: yzhu1 <Yanjun.Zhu@windriver.com>
-References: <3826> <1359701137-15892-1-git-send-email-yanjun.zhu@windriver.com>
-	<510C15B1.3050103@linux.intel.com> <510F2282.6020702@windriver.com>
-In-Reply-To: <510F2282.6020702@windriver.com>
-X-Originating-IP: [128.224.162.170]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pulseaudio_2.1: when do_compile, pulseaudio needs fftw3.h header file. In order to provide fftw3.h, the dependence of fftw is added.
+Subject: [V2PATCH] pulseaudio_2.1: Remove the dependence of fftw. Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,67 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 06:54:41 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Feb 2013 07:03:58 -0000
+Content-Type: text/plain
 
-On 02/04/2013 10:52 AM, yzhu1 wrote:
-> On 02/02/2013 03:21 AM, Saul Wold wrote:
->> On 01/31/2013 10:45 PM, yanjun.zhu wrote:
->>> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
->>>
->>> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
->>> ---
->>>   meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb 
->>> b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
->>> index a576368..5110cca 100644
->>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
->>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
->>> @@ -1,8 +1,8 @@
->>>   require pulseaudio.inc
->>>
->>> -PR = "r15"
->>> +PR = "r16"
->>>
->>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
->>> +DEPENDS += "libjson gdbm speex libxml-parser-perl-native fftw"
->>>
->> This looks like a possibly host contamination issue, since oe-core 
->> itself does not provide fftw, you could instead add --without-fftw.
->>
->> This will ensure that fftw is not picked up from the host.
->>
->> Thanks
->>     Sau!
->>
-> OK. I will follow your advice and make a test.
->
-> Thanks a lot.
-> Zhu Yanjun
-Hi, Saul
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-Just now I made a test. Using --without-fftw, the file 
-module-equalizer-sink.c which requires "fftw3.h" is not compiled.
-So this can fix this defect.
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks a lot.
-Zhu Yanjun
->>>   inherit gettext perlnative
->>>
->>>
->>
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 6633e38..2fed4f9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -40,6 +40,7 @@ EXTRA_OECONF = "\
+ 		--disable-openssl \
+ 		--disable-xen \
+ 		--with-database=simple \
++		--without-fftw \
+ "
+ 
+ PARALLEL_MAKE = ""
+-- 
+1.7.11
 
 
 
