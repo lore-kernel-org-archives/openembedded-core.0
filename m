@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U2ISW-0004wh-MB
+	(envelope-from <constantinx.musca@intel.com>) id 1U2ISa-0004xE-Tp
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Feb 2013 10:35:29 +0100
+	Mon, 04 Feb 2013 10:35:33 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 04 Feb 2013 01:19:39 -0800
+	by azsmga102.ch.intel.com with ESMTP; 04 Feb 2013 01:19:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,598,1355126400"; d="scan'208";a="252243103"
+X-IronPort-AV: E=Sophos;i="4.84,598,1355126400"; d="scan'208";a="252243125"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by azsmga001.ch.intel.com with ESMTP; 04 Feb 2013 01:19:38 -0800
+	by azsmga001.ch.intel.com with ESMTP; 04 Feb 2013 01:19:42 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 11:20:15 +0200
-Message-Id: <a5e7ef52306c84fa09a7be377d026d9b1caaf159.1359967266.git.constantinx.musca@intel.com>
+Date: Mon,  4 Feb 2013 11:20:18 +0200
+Message-Id: <b052c48e1e74bbda8026ea678f8a378af4b89f7d.1359967266.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1359967266.git.constantinx.musca@intel.com>
 References: <cover.1359967266.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1359967266.git.constantinx.musca@intel.com>
 References: <cover.1359967266.git.constantinx.musca@intel.com>
-Subject: [PATCH 01/10] enchant: use BPN instead of PN
+Subject: [PATCH 04/10] console-tools: fix linking when using the multilib compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,43 +31,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 09:35:29 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 09:35:33 -0000
+X-List-Received-Date: Mon, 04 Feb 2013 09:35:33 -0000
 
-- use BPN (PN includes mlprefix) to package all files
-when building with multilib options
-
-[YOCTO #3438]
+fix-libconsole-link.patch: add patch for fixing libconsole
+linking problems when using multilib gcc
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-support/enchant/enchant_1.6.0.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../fix-libconsole-linking.patch                   | 56 ++++++++++++++++++++++
+ .../console-tools/console-tools_0.3.2.bb           |  3 +-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/console-tools/console-tools-0.3.2/fix-libconsole-linking.patch
 
-diff --git a/meta/recipes-support/enchant/enchant_1.6.0.bb b/meta/recipes-support/enchant/enchant_1.6.0.bb
-index 25178f5..c16a2a8 100644
---- a/meta/recipes-support/enchant/enchant_1.6.0.bb
-+++ b/meta/recipes-support/enchant/enchant_1.6.0.bb
-@@ -10,7 +10,7 @@ RDEPENDS_${PN}    = "aspell"
+diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/fix-libconsole-linking.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/fix-libconsole-linking.patch
+new file mode 100644
+index 0000000..be61eb8
+--- /dev/null
++++ b/meta/recipes-core/console-tools/console-tools-0.3.2/fix-libconsole-linking.patch
+@@ -0,0 +1,56 @@
++Fix the following error detected with i586-pokymllib32-linux-gcc (the
++multilib x86-64 lib32 compiler):
++    ../lib/ctutils/.libs/libctutils.so: undefined reference to `get_kernel_sfm'
++    collect2: error: ld returned 1 exit status
++
++It seems that libctutils.so (the library that uses get_kernel_sfm) must
++be stated before libconsole.so (the library that exports the function) when
++using multilib gcc
++
++Upstream-Status: Pending
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++
++Index: console-tools-0.3.2/fontfiletools/Makefile.am
++===================================================================
++--- console-tools-0.3.2.orig/fontfiletools/Makefile.am
+++++ console-tools-0.3.2/fontfiletools/Makefile.am
++@@ -10,5 +10,5 @@ EXTRA_DIST = fonts2virfont.c virfont.h
++ 
++ # libconsole is needed by ctutils
++ LDADD = ../lib/ctlocal/libctlocal.a ../lib/cfont/libcfont.la \
++-	../lib/console/libconsole.la \
++-	../lib/ctutils/libctutils.la ../lib/generic/libctgeneric.la
+++	../lib/ctutils/libctutils.la \
+++	../lib/console/libconsole.la ../lib/generic/libctgeneric.la
++Index: console-tools-0.3.2/vttools/Makefile.am
++===================================================================
++--- console-tools-0.3.2.orig/vttools/Makefile.am
+++++ console-tools-0.3.2/vttools/Makefile.am
++@@ -7,9 +7,9 @@ bin_PROGRAMS = chvt deallocvt writevt fg
++ 	vcstime vt-is-UTF8 openvt @RESIZECONS@
++ EXTRA_PROGRAMS = resizecons
++ 
++-LDADD = ../lib/ctlocal/libctlocal.a ../lib/console/libconsole.la \
+++LDADD = ../lib/ctlocal/libctlocal.a ../lib/ctutils/libctutils.la \
++ 	../lib/cfont/libcfont.la \
++-	../lib/ctutils/libctutils.la ../lib/generic/libctgeneric.la
+++	../lib/console/libconsole.la ../lib/generic/libctgeneric.la
++ 
++ vcstime_LDADD = ../lib/ctlocal/libctlocal.a
++ screendump_LDADD = ../lib/ctlocal/libctlocal.a
++Index: console-tools-0.3.2/kbdtools/Makefile.am
++===================================================================
++--- console-tools-0.3.2.orig/kbdtools/Makefile.am
+++++ console-tools-0.3.2/kbdtools/Makefile.am
++@@ -15,9 +15,9 @@ EXTRA_PROGRAMS = getkeycodes setkeycodes
++ loadkeys_SOURCES = loadkeys.y analyze.l
++ 
++ YFLAGS = -d
++-LDADD = ../lib/ctlocal/libctlocal.a ../lib/console/libconsole.la \
+++LDADD = ../lib/ctlocal/libctlocal.a ../lib/ctutils/libctutils.la \
++ 	../lib/cfont/libcfont.la \
++-	../lib/ctutils/libctutils.la ../lib/generic/libctgeneric.la
+++	../lib/console/libconsole.la ../lib/generic/libctgeneric.la
++ 
++ loadkeys_LDADD = $(LDADD) @LEXLIB@
++ 
+diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+index a46e44d..8f2f116 100644
+--- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
++++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+@@ -3,7 +3,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING.kbd;md5=9b2d91511d3d80d4d20ac6e6b0137fe9"
+ SUMMARY = "Allows you to set-up and manipulate the Linux console."
+ DESCRIPTION = "Provides tools that enable the set-up and manipulation of the linux console and console-font files."
+-PR = "r7"
++PR = "r8"
  
- inherit autotools pkgconfig
+ SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
+            file://codepage.patch \
+@@ -12,6 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
+            file://kbdrate.patch \
+            file://uclibc-fileno.patch \
+            file://nodocs.patch \
++           file://fix-libconsole-linking.patch \
+            file://lcmessage.m4 \
+            file://Makevars"
  
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.abisource.com/downloads/enchant/${PV}/enchant-${PV}.tar.gz"
- 
-@@ -19,8 +19,8 @@ SRC_URI[sha256sum] = "2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03
- 
- EXTRA_OECONF = "--with-aspell-prefix=${STAGING_DIR_HOST}${prefix} --enable-aspell --disable-binreloc"
- 
--FILES_${PN} = "${bindir} ${libdir}/*${SOLIBS} ${datadir}/${PN} ${libdir}/${PN}/*.so"
--FILES_${PN}-dev += "${libdir}/${PN}/*{SOLIBSDEV} ${libdir}/${PN}/*.la" 
--FILES_${PN}-staticdev += "${libdir}/${PN}/*.a" 
-+FILES_${PN} = "${bindir} ${libdir}/*${SOLIBS} ${datadir}/${BPN} ${libdir}/${BPN}/*.so"
-+FILES_${PN}-dev += "${libdir}/${BPN}/*{SOLIBSDEV} ${libdir}/${BPN}/*.la"
-+FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
- 
- export CXXFLAGS += " -L${STAGING_LIBDIR} -lstdc++ "
 -- 
 1.7.11.7
 
