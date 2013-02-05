@@ -1,37 +1,39 @@
-Received: from mail-ob0-f182.google.com ([209.85.214.182])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U2ibW-0005iN-No
+	(envelope-from <ross.burton@intel.com>) id 1U2jED-0006lh-Hf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 14:30:34 +0100
-Received: by mail-ob0-f182.google.com with SMTP id va7so108957obc.41
+	Tue, 05 Feb 2013 15:10:35 +0100
+Received: from mail-yh0-f71.google.com ([209.85.213.71])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Feb 2013 05:54:38 -0800
+Received: by mail-yh0-f71.google.com with SMTP id m1so78453yhg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2013 05:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=uIF7ob/v7UUvAlpXDPwxoRfQqtcr73VM2fcuPZSYQvg=;
-	b=x5WU0YpOfoodaQOc6+qtPwPBULu2f8DZmM+9m/iSaI9M8lBFUL6//C2iWkqfPq4GWw
-	MBh3OJdKBaLX7Cb71jg+KAzAYiESRv8imBVMLQqZVyRENJ1bk3X2oYGZW1Qzbk25/Dym
-	VWhHXoIZ1tu5s8Ky6Mtq0PYH50qUC5RXLgy+PsCjLI3zsDYYzYNbhSEoAZWbEjwvHJYu
-	lttVGWD2NeXB1XDDWmvC52JVhXAzhLQ0+pH8MTeWhN0ZCDq6fxZqgTlJ+DaQf+ArtnDh
-	UHYb6U7pMDm/eIYJ3/Oynlfk4lM+QMCK5ITG9C/gn8bjdQiGYLj7Y5tN1e9hAZozSZmP
-	UAZw==
+	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=CZb3VfEm7/4XVmforf/rYEEFJnlJYg5txKYeIR73SYI=;
+	b=d3IRUjYNVtf8lyzZ2cTxSU7cFnw4ONzxB1qAjMzk/4OwkgJWJtMwg/bRwCrWvRDn3E
+	KPsMbjddsH3jyL5Tos0tVA5xigD+83aNnvqkPkV519SELxf/F53/XcjPongG00gX4iGS
+	KUdFzh/ZbYOUosUeo/H0OUtznA1GRkMwszftqlfrR6t8FuaGwz0X9qsNruRngOU1iyjZ
+	XKq4QEAVpBe1lN7H4lhbFr++EUzpUCc6SgUI2Sqzx53Yd5jkjOZQKZftsDRmRjAqcvI3
+	DuvFTPR0WdPYo20NoNAYwEUedOsIA+o3b2EXs4B0vUQPUxh2mdJai/lG6TNFqGOi6PFH
+	NcOA==
+X-Received: by 10.58.206.99 with SMTP id ln3mr11375965vec.36.1360072477437;
+	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
+X-Received: by 10.58.206.99 with SMTP id ln3mr11375956vec.36.1360072477336;
+	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.60.8.40 with SMTP id o8mr17935265oea.112.1360070080518; Tue,
-	05 Feb 2013 05:14:40 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Tue, 5 Feb 2013 05:14:40 -0800 (PST)
-In-Reply-To: <5110DF13.7010502@mlbassoc.com>
-References: <1359990723-21304-1-git-send-email-constantinx.musca@intel.com>
-	<5110DF13.7010502@mlbassoc.com>
-Date: Tue, 5 Feb 2013 11:14:40 -0200
-X-Google-Sender-Auth: iUcA3FVYQAlhBxxPiUEX_t81Pyc
-Message-ID: <CAP9ODKr6tGoU-jYdszVerCvMYn-gR4thnbL4WYnHroFw_ZUmjg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5] netbase: split up in netbase and init-ifupdown
+Received: by 10.58.95.131 with HTTP; Tue, 5 Feb 2013 05:54:17 -0800 (PST)
+In-Reply-To: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
+References: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Feb 2013 13:54:17 +0000
+Message-ID: <CAJTo0LYQAy5-RzTU4aYN0jqAX10cbMNSUPu3i+CMBFo8G4vD1w@mail.gmail.com>
+To: Andrei Gherzan <andrei.gherzan@windriver.com>
+X-Gm-Message-State: ALoCoQnuRXATyV+yz0hU4GOGjLGTxCxmwBbwUyDAW9qkFhqh8UBKbQvfn972w4g47HDbPIEwK+HaRBJhEpwB2gi7cujSFs00cYz5qeouJMW6lR3mE7K8EW/BEPFK8FwwJ4QUgy+JJeG/5rxgjh9MVrhghP17RQZ0Dg4YaSXX66UE2jGEdlGbzQlKHF63GVmjq0l86BwjoxKc
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wpa-supplicant: Package systemd service in -systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 13:30:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 05 Feb 2013 14:10:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Feb 5, 2013 at 8:29 AM, Gary Thomas <gary@mlbassoc.com> wrote:
-> On 2013-02-04 08:12, Constantin Musca wrote:
->>
->> - netbase should only include etc-rpc, etc-protocols, etc-services
->> and the hosts file
->> - the init script/configuration files should be in another package
->> (init-ifupdown)
->
->
-> What is the benefit of such an intrusive change?
-> Why not just have the netbase recipe create a separate package?
+On 5 February 2013 12:15, Andrei Gherzan <andrei.gherzan@windriver.com> wrote:
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+> ---
+>  .../wpa-supplicant/wpa-supplicant-2.0.inc          |    6 ++++--
+>  .../wpa-supplicant/wpa-supplicant_2.0.bb           |    2 +-
+>  2 files changed, 5 insertions(+), 3 deletions(-)
 
-Many images use different network managers so ifupdown might not be
-need; thus the split. Is it what you're concerned about?
+NACK.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Please don't add -systemd packages.  I've almost got a systemd.bbclass
+that I'm happy with, but if you must add integration now then just
+package the unit files alongside the daemons, respecting the distro
+feature.
+
+Ross
 
 
