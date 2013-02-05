@@ -1,29 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ie0-f173.google.com ([209.85.223.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1U2oFL-0004kw-6p
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U2oFT-0004l8-Gy
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 20:32:00 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r15JG3g4003913
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Feb 2013 11:16:03 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 5 Feb 2013 11:16:03 -0800
-Date: Tue, 5 Feb 2013 13:15:55 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-Message-ID: <20130205131555.46c685fb@e6410-2>
-In-Reply-To: <5110B6CE.1050504@intel.com>
-References: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
-	<20130204122309.12582d0b@e6410-2> <1360020111.14071.172.camel@ted>
-	<20130204172705.0e18d279@e6410-2> <1360021079.14071.174.camel@ted>
-	<20130204175024.3af7b9b2@e6410-2> <5110B6CE.1050504@intel.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Tue, 05 Feb 2013 20:32:08 +0100
+Received: by mail-ie0-f173.google.com with SMTP id 9so723968iec.32
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2013 11:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=klSqUNNa83OuPI6utY5d8lVzIs15en5o+hujP+RjtXw=;
+	b=z6ELSDNvGV9H5QeC1MS9LmfNXL6+ZEQ2lUmYpriyKGaeYQJ2dZMbT4g4yayI64jc+a
+	z7QvaytAAJElYMf90Pg7rDVX8LclUMEQeX3enlFzhcjtP0FAh2Z2a8PdhtaTVzOZuN+7
+	wKFsVXh0dLrH+tvzKOh9UI2B6TJVAqe8jjmeyW1S6fpButujQCIJd85ha7pwatUbutjX
+	/LKV05zD6gvyN/jm9wQcEBfjP8NVkC7WvJXNWSpwjZINAiE3gYcVGu9fd6BAfYjndoFe
+	Ui7i4j0EgVruIJQK8d8X+2W6rLTV9zq1JBUCQHeXRQMovrrsY71PozVpBNSLI73WhN4r
+	wFmg==
 MIME-Version: 1.0
+X-Received: by 10.50.236.41 with SMTP id ur9mr473394igc.7.1360091776930; Tue,
+	05 Feb 2013 11:16:16 -0800 (PST)
+Received: by 10.64.143.228 with HTTP; Tue, 5 Feb 2013 11:16:16 -0800 (PST)
+In-Reply-To: <511151CC.8080801@linux.intel.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+	<5111374E.1050802@linux.intel.com>
+	<CAC1BbcS3WTFO+UHKc-ZKL0ba2v4=mhW0Co2JdOVj-ryYsWm71w@mail.gmail.com>
+	<511151CC.8080801@linux.intel.com>
+Date: Tue, 5 Feb 2013 20:16:16 +0100
+Message-ID: <CAC1BbcRr36SHQhfK+oT4bZELZMz=zhr+bpKh0XNZg011E0prHA@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo: fix sqlite path and package missing files
+Subject: Re: [PATCH 4/8] Revert "Add ptest for glib."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,63 +44,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 19:32:02 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Feb 2013 19:32:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 5 Feb 2013 09:37:50 +0200
-Constantin Musca <constantinx.musca@intel.com> wrote:
+On 5 February 2013 19:39, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/05/2013 09:13 AM, Bernhard Reutner-Fischer wrote:
+>>
+>> On 5 February 2013 17:46, Saul Wold <sgw@linux.intel.com> wrote:
+>>>
+>>> On 02/05/2013 07:55 AM, Bernhard Reutner-Fischer wrote:
+>>>>
+>>>>
+>>>> This reverts commit dec6f912d68f52748f645b6af411f189cf464f85.
+>>>>
+>>>> This breaks core-image-sato-sdk for TCLIBC="uclibc".
+>>>>
+>>> What's the issue?  Is it fixable instead of reverting the ptest patch? I
+>>
+>>
+>> The issue is that it incorrectly and unconditionally pulls in eglibc
+>> stuff:
+>>
+>> -RDEPENDS_${PN}-ptest += "\
+>> -            eglibc-gconv-utf-16 \
+>> -            eglibc-charmap-utf-8 \
+>> -            eglibc-gconv-cp1255 \
+>> -            eglibc-charmap-cp1255 \
+>> -            eglibc-gconv-utf-32 \
+>> -            eglibc-gconv-utf-7 \
+>> -            eglibc-charmap-invariant \
+>> -            eglibc-localedata-translit-cjk-variants \
+>> -            tzdata \
+>> -            tzdata-americas \
+>> -            tzdata-asia \
+>> -            tzdata-europe \
+>> -            tzdata-posix \
+>> -            python-pygobject \
+>> -            python-dbus \
+>> -           "
+>>
+> Bjorn,
+>
+> Do you have some time to look at this and see if you can make use of TCLIBC
+> to use the correct library and locale package info based on which libc is
+> being used?
 
-> On 02/05/2013 01:50 AM, Peter Seebach wrote:
-> > On Mon, 4 Feb 2013 23:37:59 +0000
-> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> >  
-> >> Agreed. Can someone send me a patch which makes it all work
-> >> please? :)  
-> > I probably can. I think the 1.4.3 patch I sent out recently (sgw was
-> > looking at it, but the binaries weren't up on the downloads server
-> > yet) probably covers most of it, but not the case where
-> > sqlite-libdir isn't lib, which is probably (??) a target-only case.
-> >
-> > Can someone show me a test case where it fails, so I can add that
-> > to my pile of pseudo test cases, and then stare at it for a while?
-> >
-> > -s  
-> Here's a test case:
->      1. local.conf:
->          MACHINE = "qemux86-64"
->          require conf/multilib.conf
->          MULTILIBS = "multilib:lib32"
->          DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> 
->      2. build pseudo
+would most likely DTRT, yep.
+I'm curious what you would need from uClibc to satisfy that ptest thing?
+What does it do, what is it good for? :)
 
-*pulls off mask, revealing he was the pseudo maintainer all along*
+RDEPENDS_${PN}-ptest += "\
+            tzdata \
+            tzdata-americas \
+            tzdata-asia \
+            tzdata-europe \
+            tzdata-posix \
+            python-pygobject \
+            python-dbus \
+           "
+RDEPENDS_${PN}-ptest_append_libc-eglibc = "\
+            eglibc-gconv-utf-16 \
+            eglibc-charmap-utf-8 \
+            eglibc-gconv-cp1255 \
+            eglibc-charmap-cp1255 \
+            eglibc-gconv-utf-32 \
+            eglibc-gconv-utf-7 \
+            eglibc-charmap-invariant \
+            eglibc-localedata-translit-cjk-variants \
+           "
+RDEPENDS_${PN}-ptest_append_libc-eglibc = "did not look"
 
-And I would have gotten away with it, too, if it hadn't been for you
-meddling multilibs!
-
-Okay, got a tentative fix for this in my tree, will probably resend my
-pseudo 1.4.3 patch with this changed, once it makes it through my
-ever-growing collection of pseudo tests.
-
-The guts of the change:
-
-[...]
-+SQLITE_LIB = "${baselib}"
-+SQLITE_LIB_native = "lib"
-+
- # Compile for the local machine arch... 
- do_compile () { 
-        if [ "${SITEINFO_BITS}" = "64" ]; then
--         ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath 
-+         ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${SQLITE_LIB} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath 
-        else
-
-This appears to be working for all the cases I've tried.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+TIA && cheers,
 
 
