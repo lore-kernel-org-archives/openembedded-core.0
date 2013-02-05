@@ -1,41 +1,23 @@
-Received: from mail-bk0-f48.google.com ([209.85.214.48])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1U2l7f-0003zt-V0
+	(envelope-from <bruce.ashfield@windriver.com>) id 1U2l8G-00044S-39
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 17:11:55 +0100
-Received: by mail-bk0-f48.google.com with SMTP id jf20so153020bkc.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2013 07:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=E/d3kPAQxkQfPIol5lM0fPNViO9RYwu/8f1etEewsJc=;
-	b=s+rLvRV0SEFMjU5sDqg0psDDwaCqN0ZXV/ReJ6sVpOKVoQpK3o/WzMU3gsf+acJtHm
-	wjYQWnT5O88X7QAnkPOVsL7DgDRfnIyRLM+V+m5CYdMQbDIQwgL3/SqDMb8cE5uQaoN+
-	BmvV/uw9zTH4AHChXZFol5Sur3bXORE3m54EWsKO2Uv/cLq41VYnDTlA6sAGoypnv2DG
-	mvqndQWdWkW/5rJCFhx2qB36bD0P94CZdIz4Ln/XP0aG7Uti7Xy4zCMe/5NhEhN+c2F5
-	2T6ttcNqbcHt0bvHENdNeJn7LnOxbEnttxRR9bKuFLfMQXgW7lhdd4lpgwPknP4qCUas
-	jwqg==
-X-Received: by 10.204.148.145 with SMTP id p17mr6804331bkv.136.1360079762430; 
-	Tue, 05 Feb 2013 07:56:02 -0800 (PST)
-Received: from s42.loc (91-119-139-175.dynamic.xdsl-line.inode.at.
-	[91.119.139.175])
-	by mx.google.com with ESMTPS id ge12sm6742670bkc.19.2013.02.05.07.55.58
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 05 Feb 2013 07:55:59 -0800 (PST)
-Received: from cow by s42.loc with local (Exim 4.80)
-	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1U2ksH-0004Xm-8w; Tue, 05 Feb 2013 16:55:57 +0100
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2013 16:55:47 +0100
-Message-Id: <690a52169749151fc06693486c8fde670fde32da.1360079373.git.rep.dot.nop@gmail.com>
+	Tue, 05 Feb 2013 17:12:30 +0100
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r15FuZtL028089;
+	Tue, 5 Feb 2013 07:56:36 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue,  5 Feb 2013 10:56:34 -0500
+Message-Id: <cbcbeb8793a5ade5333d6cbc391c7da9c5509e84.1360079063.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1360079373.git.rep.dot.nop@gmail.com>
-References: <cover.1360079373.git.rep.dot.nop@gmail.com>
-In-Reply-To: <cover.1360079373.git.rep.dot.nop@gmail.com>
-References: <cover.1360079373.git.rep.dot.nop@gmail.com>
-Subject: [PATCH 7/8] base.bbclass: remove redundant setting of MAKE
+In-Reply-To: <cover.1360079063.git.bruce.ashfield@windriver.com>
+References: <cover.1360079063.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1360079063.git.bruce.ashfield@windriver.com>
+References: <cover.1360079063.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/3] linux-yocto/3.4: update to v3.4.28, 3.4.28-rt40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,29 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 16:12:00 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 16:12:34 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 16:12:34 -0000
 
-oe_runmake() tried to set MAKE a second time, remove it since this is
-(nowadays?) redundant WRT the normal export MAKE= in the generated
-scripts.
+Updating the linux-yocto_3.4 SRCREVs to pick up the 3.4.28 -stable update
+as well as the 3.4.28-rt40 refresh.
 
-Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/base.bbclass |    1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |   16 ++++++++--------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 8147a81..3e6fa0e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -54,7 +54,6 @@ die() {
- }
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index dcc416b..ca9aa42 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
- oe_runmake() {
--	if [ x"$MAKE" = x ]; then MAKE=make; fi
- 	bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
- 	${MAKE} ${EXTRA_OEMAKE} "$@" || die "oe_runmake failed"
- }
+-LINUX_VERSION ?= "3.4.26"
++LINUX_VERSION ?= "3.4.28"
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "408343900a234254d7be8f0bb52d6f87c8fbbc76"
+-SRCREV_machine_qemuppc ?= "bd7b26015e1dcbed4e8e0e9b6ac2ef4c744e0257"
+-SRCREV_meta ?= "c0b3904d60830e24b3930b0fa606a48b2758d979"
++SRCREV_machine ?= "3d56b103cd7072d520c395194e620aba2f6e52e3"
++SRCREV_machine_qemuppc ?= "09178bc8825d6fb66ddcb1785f20a022c4ba2efd"
++SRCREV_meta ?= "f697e099bc76d5df3a307a5bc0cc25021dd6dfe0"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+index 1e82d16..265d082 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+@@ -8,12 +8,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
+ LINUX_KERNEL_TYPE = "tiny"
+ KCONFIG_MODE = "--allnoconfig"
+ 
+-LINUX_VERSION ?= "3.4.26"
++LINUX_VERSION ?= "3.4.28"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "59c2a9eb334c2def405c9d93ed6d8d4e822d1945"
+-SRCREV_meta ?= "c0b3904d60830e24b3930b0fa606a48b2758d979"
++SRCREV_machine ?= "13809f2cfd9be0ce86bd486e1643f9b90bed6f4f"
++SRCREV_meta ?= "f697e099bc76d5df3a307a5bc0cc25021dd6dfe0"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 7be330a..4ab8c73 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -3,17 +3,17 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH_DEFAULT = "standard/base"
+ KBRANCH = "${KBRANCH_DEFAULT}"
+ 
+-SRCREV_machine_qemuarm ?= "b5a80c6a46604d7636c18a3e1ad362d1e6ed234e"
+-SRCREV_machine_qemumips  ?= "66bc662b2cd469a9807fbe838069d3f85cb01bd9"
+-SRCREV_machine_qemuppc ?= "d771422df10af41ee61598f4aa06e3c3a018c323"
+-SRCREV_machine_qemux86 ?= "59c2a9eb334c2def405c9d93ed6d8d4e822d1945"
+-SRCREV_machine_qemux86-64 ?= "59c2a9eb334c2def405c9d93ed6d8d4e822d1945"
+-SRCREV_machine ?= "59c2a9eb334c2def405c9d93ed6d8d4e822d1945"
+-SRCREV_meta ?= "c0b3904d60830e24b3930b0fa606a48b2758d979"
++SRCREV_machine_qemuarm ?= "a720acacc415b3323a3ee9076bf9a621a964af2f"
++SRCREV_machine_qemumips  ?= "7d9f14326db1e602b4408f295bef7d12fd07dd55"
++SRCREV_machine_qemuppc ?= "62d3cb6a8e048c4833a5501bea2f35998de0b89d"
++SRCREV_machine_qemux86 ?= "13809f2cfd9be0ce86bd486e1643f9b90bed6f4f"
++SRCREV_machine_qemux86-64 ?= "13809f2cfd9be0ce86bd486e1643f9b90bed6f4f"
++SRCREV_machine ?= "13809f2cfd9be0ce86bd486e1643f9b90bed6f4f"
++SRCREV_meta ?= "f697e099bc76d5df3a307a5bc0cc25021dd6dfe0"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.4.26"
++LINUX_VERSION ?= "3.4.28"
+ 
+ PR = "${INC_PR}.3"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.10.4
 
