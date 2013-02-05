@@ -1,18 +1,18 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U2Z1y-0001te-A3
+	(envelope-from <Qi.Chen@windriver.com>) id 1U2cTT-0002H9-ON
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 04:17:11 +0100
+	Tue, 05 Feb 2013 07:57:48 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1531Gdj011852
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r156ft0X002294
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Feb 2013 19:01:17 -0800 (PST)
+	Mon, 4 Feb 2013 22:41:55 -0800 (PST)
 Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Mon, 4 Feb 2013 19:01:15 -0800
-Message-ID: <51107615.2060807@windriver.com>
-Date: Tue, 5 Feb 2013 11:01:41 +0800
+	Mon, 4 Feb 2013 22:41:54 -0800
+Message-ID: <5110A9D1.20208@windriver.com>
+Date: Tue, 5 Feb 2013 14:42:25 +0800
 From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
@@ -41,11 +41,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 03:17:13 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060706040409070704080005"
+X-List-Received-Date: Tue, 05 Feb 2013 06:57:49 -0000
+X-Groupsio-MsgNum: 34968
+Content-Type: multipart/mixed; boundary="------------050105040600050402060206"
 
---------------060706040409070704080005
+--------------050105040600050402060206
+Content-Type: multipart/alternative;
+	boundary="------------040200000107030609000303"
+
+--------------040200000107030609000303
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -113,16 +117,7 @@ On 02/02/2013 03:08 AM, Bruce Ashfield wrote:
 > changes to it.
 >
 > I just don't want to see the effort happen twice, we are busy enough!
-
-I thought about keeping the codes in sync but couldn't figure out a nice 
-way.
-It would be great if you do so.
-
-Thanks in advance :)
-
-Best Regards,
-Chen Qi
-
+>
 >
 >     What would be your timing on making such a change, ie hold this
 >     patch until your get it merge or merge this and then fix it when
@@ -147,140 +142,20 @@ Chen Qi
 > Bruce
 >
 >
->
->     Sau!
->
->         To be clear, I'm not talking about the entire kern-tools here,
->         just the
->         config parts.
->
->         Cheers,
->
->         Bruce
->
->
->             [YOCTO #3379]
->
->             Signed-off-by: Chen Qi <Qi.Chen@windriver.com
->         <mailto:Qi.Chen@windriver.com>
->             <mailto:Qi.Chen@windriver.com
->         <mailto:Qi.Chen@windriver.com>>>
->
->             ---
->               meta/recipes-core/busybox/busybox.inc |   45
->             +++++++++++++++++++++++++++++++++
->               1 file changed, 45 insertions(+)
->
->             diff --git a/meta/recipes-core/busybox/busybox.inc
->             b/meta/recipes-core/busybox/busybox.inc
->             index 972e7d0..66044f8 100644
->             --- a/meta/recipes-core/busybox/busybox.inc
->             +++ b/meta/recipes-core/busybox/busybox.inc
->             @@ -112,8 +112,53 @@ do_prepare_config () {
->                      fi
->               }
->
->             +# returns all the elements from the src uri that are .cfg
->         files
->             +def find_cfgs(d):
->             +    sources=src_patches(d, True)
->             +    sources_list=[]
->             +    for s in sources:
->             +        if s.endswith('.cfg'):
->             +            sources_list.append(s)
->             +
->             +    return sources_list
->             +
->             +# Merge config fragments
->             +# All config fragments for busybox should end with .cfg
->             +do_merge_config() {
->             +        SED_CONFIG_EXP="s/^\(#
->         \)\{0,1\}\(CONFIG_[a-zA-Z0-9_]*\)[=
->             ].*/\2/p"
->             +        MERGE_LIST="${@" ".join(find_cfgs(d))}"
->             +        if [ -n "$MERGE_LIST" ]; then
->             +                # Make a temp file, merge .config and
->         .cfg files
->             into it
->             +                TMP_FILE=`mktemp .tmp.config.XXXXXXXX`
->             +                cp .config $TMP_FILE
->             +                for MERGE_FILE in $MERGE_LIST; do
->             +                        CFG_LIST=`sed -n "${SED_CONFIG_EXP}"
->             $MERGE_FILE`
->             +                        for CFG in $CFG_LIST ; do
->             +                                grep -q -w $CFG $TMP_FILE
->             +                                if [ $? -eq 0 ] ; then
->             +  PREV_VAL=`grep -w $CFG
->             $TMP_FILE`
->             +  NEW_VAL=`grep -w $CFG
->             $MERGE_FILE`
->             +                                        if [ "x$PREV_VAL" !=
->             "x$NEW_VAL" ] ; then
->             +  echo Value of $CFG
->             is redefined by fragment $MERGE_FILE:
->             +  echo Previous
->               value: $PREV_VAL
->             +  echo New value:
->                $NEW_VAL
->             +  echo
->             +                                        fi
->             +                                        sed -i "/$CFG[
->         =]/d" $TMP_FILE
->             +                                fi
->             +                        done
->             +                        echo >> $TMP_FILE
->             +                        cat $MERGE_FILE >> $TMP_FILE
->             +                done
->             +                # Copy the temp file to .config, do some
->         cleanup
->             +               cp $TMP_FILE .config
->             +               rm $TMP_FILE
->             +        fi
->             +}
->             +
->               do_configure () {
->                      do_prepare_config
->             +       do_merge_config
->                      cml1_do_configure
->               }
->
->             --
->             1.7.9.5
->
->
->             _______________________________________________
->             Openembedded-core mailing list
->         Openembedded-core@lists.openembedded.org
->         <mailto:Openembedded-core@lists.openembedded.org>
->             <mailto:Openembedded-core@lists.openembedded.org
->         <mailto:Openembedded-core@lists.openembedded.org>>
->
->         http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
->
->         --
->         "Thou shalt not follow the NULL pointer, for chaos and madness
->         await
->         thee at its end"
->
->
->         _______________________________________________
->         Openembedded-core mailing list
->         Openembedded-core@lists.openembedded.org
->         <mailto:Openembedded-core@lists.openembedded.org>
->         http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
 
+Hi Bruce,
 
---------------060706040409070704080005
+I just tried to reuse the kernel's merge_config.sh script, and it turned 
+out well.
+The patch is in attachment.
+
+Is it enough for now?
+If so, I'll send out the patch.
+
+Thanks,
+Chen Qi
+
+--------------040200000107030609000303
 Content-Type: text/html; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
@@ -381,26 +256,6 @@ cite="mid:CADkTA4OuDqRE25oNRbFJCyrWpkkj62HpHHNN4qOFocNnrgSY_w@mail.gmail.com"
             </div>
             <div style="">I just don't want to see the effort happen
               twice, we are busy enough!</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    I thought about keeping the codes in sync but couldn't figure out a
-    nice way.<br>
-    It would be great if you do so.<br>
-    <br>
-    Thanks in advance :)<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote
-cite="mid:CADkTA4OuDqRE25oNRbFJCyrWpkkj62HpHHNN4qOFocNnrgSY_w@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
             <div>&nbsp;</div>
             <blockquote class="gmail_quote" style="margin:0 0 0
               .8ex;border-left:1px #ccc solid;padding-left:1ex">
@@ -433,182 +288,86 @@ cite="mid:CADkTA4OuDqRE25oNRbFJCyrWpkkj62HpHHNN4qOFocNnrgSY_w@mail.gmail.com"
             <div style="">Bruce</div>
             <div style=""><br>
             </div>
-            <div style=""><br>
-            </div>
-            <div>&nbsp;</div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <br>
-              Sau!<br>
-              <br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                <div class="im">
-                  To be clear, I'm not talking about the entire
-                  kern-tools here, just the<br>
-                  config parts.<br>
-                  <br>
-                  Cheers,<br>
-                  <br>
-                  Bruce<br>
-                  <br>
-                  <br>
-                  &nbsp; &nbsp; [YOCTO #3379]<br>
-                  <br>
-                  &nbsp; &nbsp; Signed-off-by: Chen Qi &lt;<a
-                    moz-do-not-send="true"
-                    href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a><br>
-                </div>
-                &nbsp; &nbsp; &lt;mailto:<a moz-do-not-send="true"
-                  href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;&gt;
-                <div>
-                  <div class="h5"><br>
-                    &nbsp; &nbsp; ---<br>
-                    &nbsp; &nbsp; &nbsp; meta/recipes-core/busybox/busybox.inc | &nbsp; 45<br>
-                    &nbsp; &nbsp; +++++++++++++++++++++++++++++++++<br>
-                    &nbsp; &nbsp; &nbsp; 1 file changed, 45 insertions(+)<br>
-                    <br>
-                    &nbsp; &nbsp; diff --git a/meta/recipes-core/busybox/busybox.inc<br>
-                    &nbsp; &nbsp; b/meta/recipes-core/busybox/busybox.inc<br>
-                    &nbsp; &nbsp; index 972e7d0..66044f8 100644<br>
-                    &nbsp; &nbsp; --- a/meta/recipes-core/busybox/busybox.inc<br>
-                    &nbsp; &nbsp; +++ b/meta/recipes-core/busybox/busybox.inc<br>
-                    &nbsp; &nbsp; @@ -112,8 +112,53 @@ do_prepare_config () {<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;fi<br>
-                    &nbsp; &nbsp; &nbsp; }<br>
-                    <br>
-                    &nbsp; &nbsp; +# returns all the elements from the src uri
-                    that are .cfg files<br>
-                    &nbsp; &nbsp; +def find_cfgs(d):<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp;sources=src_patches(d, True)<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp;sources_list=[]<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp;for s in sources:<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp;if s.endswith('.cfg'):<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sources_list.append(s)<br>
-                    &nbsp; &nbsp; +<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp;return sources_list<br>
-                    &nbsp; &nbsp; +<br>
-                    &nbsp; &nbsp; +# Merge config fragments<br>
-                    &nbsp; &nbsp; +# All config fragments for busybox should end
-                    with .cfg<br>
-                    &nbsp; &nbsp; +do_merge_config() {<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp;SED_CONFIG_EXP="s/^\(#
-                    \)\{0,1\}\(CONFIG_[a-zA-Z0-9_]*\)[=<br>
-                    &nbsp; &nbsp; ].*/\2/p"<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp;MERGE_LIST="${@" ".join(find_cfgs(d))}"<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp;if [ -n "$MERGE_LIST" ]; then<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# Make a temp file, merge
-                    .config and .cfg files<br>
-                    &nbsp; &nbsp; into it<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;TMP_FILE=`mktemp
-                    .tmp.config.XXXXXXXX`<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cp .config $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for MERGE_FILE in $MERGE_LIST;
-                    do<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;CFG_LIST=`sed -n
-                    "${SED_CONFIG_EXP}"<br>
-                    &nbsp; &nbsp; $MERGE_FILE`<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for CFG in $CFG_LIST ;
-                    do<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;grep -q -w $CFG
-                    $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if [ $? -eq 0 ]
-                    ; then<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;PREV_VAL=`grep -w $CFG<br>
-                    &nbsp; &nbsp; $TMP_FILE`<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;NEW_VAL=`grep -w $CFG<br>
-                    &nbsp; &nbsp; $MERGE_FILE`<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if [
-                    "x$PREV_VAL" !=<br>
-                    &nbsp; &nbsp; "x$NEW_VAL" ] ; then<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;echo Value of $CFG<br>
-                    &nbsp; &nbsp; is redefined by fragment $MERGE_FILE:<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;echo Previous<br>
-                    &nbsp; &nbsp; &nbsp; value: $PREV_VAL<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;echo New value:<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp;$NEW_VAL<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp;echo<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;fi<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sed -i
-                    "/$CFG[ =]/d" $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;fi<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;done<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;echo &gt;&gt; $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cat $MERGE_FILE
-                    &gt;&gt; $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;done<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# Copy the temp file to
-                    .config, do some cleanup<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cp $TMP_FILE .config<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rm $TMP_FILE<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; &nbsp;fi<br>
-                    &nbsp; &nbsp; +}<br>
-                    &nbsp; &nbsp; +<br>
-                    &nbsp; &nbsp; &nbsp; do_configure () {<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;do_prepare_config<br>
-                    &nbsp; &nbsp; + &nbsp; &nbsp; &nbsp; do_merge_config<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cml1_do_configure<br>
-                    &nbsp; &nbsp; &nbsp; }<br>
-                    <br>
-                    &nbsp; &nbsp; --<br>
-                    &nbsp; &nbsp; 1.7.9.5<br>
-                    <br>
-                    <br>
-                    &nbsp; &nbsp; _______________________________________________<br>
-                    &nbsp; &nbsp; Openembedded-core mailing list<br>
-                    &nbsp; &nbsp; <a moz-do-not-send="true"
-                      href="mailto:Openembedded-core@lists.openembedded.org"
-                      target="_blank">Openembedded-core@lists.openembedded.org</a><br>
-                  </div>
-                </div>
-                &nbsp; &nbsp; &lt;mailto:<a moz-do-not-send="true"
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  target="_blank">Openembedded-core@lists.openembedded.org</a>&gt;
-                <div class="im"><br>
-                  &nbsp; &nbsp; <a moz-do-not-send="true"
-href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core"
-                    target="_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a><br>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-                  --<br>
-                  "Thou shalt not follow the NULL pointer, for chaos and
-                  madness await<br>
-                  thee at its end"<br>
-                  <br>
-                  <br>
-                  _______________________________________________<br>
-                  Openembedded-core mailing list<br>
-                  <a moz-do-not-send="true"
-                    href="mailto:Openembedded-core@lists.openembedded.org"
-                    target="_blank">Openembedded-core@lists.openembedded.org</a><br>
-                  <a moz-do-not-send="true"
-href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core"
-                    target="_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a><br>
-                  <br>
-                </div>
-              </blockquote>
-            </blockquote>
+            <br>
           </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          "Thou shalt not follow the NULL pointer, for chaos and madness
-          await thee at its end"
         </div>
       </div>
     </blockquote>
     <br>
+    Hi Bruce,<br>
+    <br>
+    I just tried to reuse the kernel's merge_config.sh script, and it
+    turned out well.<br>
+    The patch is in attachment.<br>
+    <br>
+    Is it enough for now?<br>
+    If so, I'll send out the patch.<br>
+    <br>
+    Thanks,<br>
+    Chen Qi<br>
   </body>
 </html>
 
---------------060706040409070704080005--
+--------------040200000107030609000303--
+
+--------------050105040600050402060206
+Content-Type: text/x-patch; name="0001-busybox-add-config-fragments.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="0001-busybox-add-config-fragments.patch"
+
+From a9d36bf24f349f046e9b65ccf4af3352c4dedabf Mon Sep 17 00:00:00 2001
+From: Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 5 Feb 2013 14:36:40 +0800
+Subject: [PATCH] busybox: add config fragments
+
+Add config fragments to busybox.
+
+The implementation makes use of merge_config.sh script in kern-tools-native.
+The use case is similar to the yocto kernel's configuration fragments.
+
+[YOCTO #3379]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/busybox/busybox.inc |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 972e7d0..6ed5e09 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -37,6 +37,8 @@ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+ 
+ inherit cml1 update-rc.d
+ 
++do_config[depends] = "kern-tools-native:do_populate_sysroot"
++
+ # internal helper
+ def busybox_cfg(feature, features, tokens, cnf, rem):
+ 	if type(tokens) == type(""):
+@@ -112,8 +114,19 @@ do_prepare_config () {
+ 	fi
+ }
+ 
++# returns all the elements from the src uri that are .cfg files
++def find_cfgs(d):
++    sources=src_patches(d, True)
++    sources_list=[]
++    for s in sources:
++        if s.endswith('.cfg'):
++            sources_list.append(s)
++
++    return sources_list
++
+ do_configure () {
+ 	do_prepare_config
++	merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
+ 	cml1_do_configure
+ }
+ 
+-- 
+1.7.9.5
+
+
+--------------050105040600050402060206--
