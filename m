@@ -1,47 +1,45 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1U2n5i-0007qz-Cb
+	(envelope-from <B29882@freescale.com>) id 1U2nK9-0002x7-0V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 19:18:00 +0100
-Received: from mail184-tx2-R.bigfish.com (10.9.14.235) by
-	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 5 Feb 2013 17:47:02 +0000
-Received: from mail184-tx2 (localhost [127.0.0.1])	by
-	mail184-tx2-R.bigfish.com (Postfix) with ESMTP id 55D7C22025E	for
+	Tue, 05 Feb 2013 19:32:56 +0100
+Received: from mail19-db3-R.bigfish.com (10.3.81.254) by
+	DB3EHSOBE007.bigfish.com (10.3.84.27) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 5 Feb 2013 17:46:53 +0000
+Received: from mail19-db3 (localhost [127.0.0.1])	by mail19-db3-R.bigfish.com
+	(Postfix) with ESMTP id 03A2F400190	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2013 17:47:02 +0000 (UTC)
+	Tue,  5 Feb 2013 17:46:53 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
 X-SpamScore: 3
 X-BigFish: VS3(zzzz1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h1155h)
-Received: from mail184-tx2 (localhost.localdomain [127.0.0.1]) by mail184-tx2
-	(MessageSwitch) id 1360086420344573_19164;
-	Tue,  5 Feb 2013 17:47:00 +0000 (UTC)
-Received: from TX2EHSMHS035.bigfish.com (unknown [10.9.14.252])	by
-	mail184-tx2.bigfish.com (Postfix) with ESMTP id 3223134007A	for
+Received: from mail19-db3 (localhost.localdomain [127.0.0.1]) by mail19-db3
+	(MessageSwitch) id 1360086409993911_29611;
+	Tue,  5 Feb 2013 17:46:49 +0000 (UTC)
+Received: from DB3EHSMHS006.bigfish.com (unknown [10.3.81.251])	by
+	mail19-db3.bigfish.com (Postfix) with ESMTP id F00971E0472	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2013 17:47:00 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS035.bigfish.com
-	(10.9.99.135) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 5 Feb 2013 17:46:54 +0000
+	Tue,  5 Feb 2013 17:46:49 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS006.bigfish.com
+	(10.3.87.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 5 Feb 2013 17:46:49 +0000
 Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.2.318.3; Tue, 5 Feb 2013 17:46:54 +0000
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.318.3; Tue, 5 Feb 2013 17:46:47 +0000
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
 	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id
-	r15Hkj8E032069	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Feb 2013 10:46:53 -0700
+	r15Hkj8A032069	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Feb 2013 10:46:47 -0700
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Feb 2013 11:46:48 -0600
-Message-ID: <1360086408-29832-5-git-send-email-msm@freescale.com>
+Date: Tue, 5 Feb 2013 11:46:44 -0600
+Message-ID: <1360086408-29832-1-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.9.7
-In-Reply-To: <1360086408-29832-1-git-send-email-msm@freescale.com>
-References: <1360086408-29832-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 5/5] oprofile: fix cross compile on powerpc and add libpfm4 dep
+Subject: [PATCH 1/5] glib: disable selinux for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,84 +52,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 18:18:01 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 18:32:56 -0000
 Content-Type: text/plain
 
-Fixes [YOCTO #3717]
+This improves reusabiliy of sstate-cache across different hosts
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- .../0001-fix-powerpc-cross-compiling.patch         |   35 ++++++++++++++++++++
- meta/recipes-kernel/oprofile/oprofile_0.9.8.bb     |    7 ++--
- 2 files changed, 40 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-fix-powerpc-cross-compiling.patch
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-fix-powerpc-cross-compiling.patch b/meta/recipes-kernel/oprofile/oprofile/0001-fix-powerpc-cross-compiling.patch
-new file mode 100644
-index 0000000..d4dffb1
---- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/0001-fix-powerpc-cross-compiling.patch
-@@ -0,0 +1,35 @@
-+Upstream-Status: Submitted
-+
-+From cd8aafe5ca48e8d809188df6e42f20efd5cbefd1 Mon Sep 17 00:00:00 2001
-+From: Matthew McClintock <msm@freescale.com>
-+Date: Tue, 5 Feb 2013 11:05:00 -0600
-+Subject: [PATCH] fix powerpc cross compiling
-+
-+You can't determine the target for running on by running uname
-+on the build machine. Use a better method instead.
-+
-+Signed-off-by: Matthew McClintock <msm@freescale.com>
-+---
-+ configure.ac |    4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index a9b1ee4..4b73cdd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -155,10 +155,10 @@ fi
-+ 
-+ AC_DEFINE_UNQUOTED(HAVE_PERF_EVENTS, $HAVE_PERF_EVENTS, [Kernel support for perf_events exists])
-+ 
-++AC_CANONICAL_HOST
-+ if test "$HAVE_PERF_EVENTS" = "1"; then
-+ 	PFM_LIB=
-+-	arch="`uname -m`"
-+-	if test "$arch" = "ppc64" || test "$arch" = "ppc"; then
-++	if test "$host_cpu" = "powerpc"; then
-+ 		AC_CHECK_HEADER(perfmon/pfmlib.h,,[AC_MSG_ERROR([pfmlib.h not found; usually provided in papi devel package])])
-+ 		AC_CHECK_LIB(pfm,pfm_get_os_event_encoding, HAVE_LIBPFM3='0'; HAVE_LIBPFM='1', [
-+ 			AC_CHECK_LIB(pfm, pfm_get_event_name, HAVE_LIBPFM3='1'; HAVE_LIBPFM='1',
-+-- 
-+1.7.9.7
-+
-diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-index 6075163..79363a6 100644
---- a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-+++ b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-@@ -1,15 +1,18 @@
- require oprofile.inc
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+index e1d44e2..fe50220 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
  
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
+-PR = "r1"
++PR = "r2"
+ PE = "1"
  
- DEPENDS += "virtual/kernel"
-+DEPENDS_append_powerpc = " libpfm4"
-+DEPENDS_append_powerpc64 = " libpfm4"
+ DEPENDS += "libffi python-argparse-native zlib"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 53b20b6..cb391a2 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -29,7 +29,7 @@ CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
  
- SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-             file://0001-Add-rmb-definition-for-AArch64-architecture.patch \
-             file://0001-OProfile-doesn-t-build-for-32-bit-ppc-the-operf_util.patch \
-             file://0001-Handle-early-perf_events-kernel-without-PERF_RECORD_.patch \
-             file://0001-Fix-up-configure-to-handle-architectures-that-do-not.patch \
--            file://0001-Change-configure-to-look-for-libpfm4-function-first-.patch"
-+            file://0001-Change-configure-to-look-for-libpfm4-function-first-.patch \
-+            file://0001-fix-powerpc-cross-compiling.patch "
+ PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '', '--disable-modular-tests', d)}"
+ EXTRA_OECONF = "--enable-included-printf=no ${CORECONF} ${PTEST_CONF}"
+-EXTRA_OECONF_class-native = "${CORECONF}"
++EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
+ EXTRA_OECONF_linuxstdbase = "--enable-included-printf=no ${CORECONF}"
  
- SRC_URI[md5sum] = "6d127023af1dd1cf24e15411229f3cc8"
- SRC_URI[sha256sum] = "ab45900fa1a23e5d5badf3c0a55f26c17efe6e184efcf00b371433751fa761bc"
+ FILES_${PN} = "${libdir}/lib*${SOLIBS} ${datadir}/glib-2.0/schemas \
 -- 
 1.7.9.7
 
