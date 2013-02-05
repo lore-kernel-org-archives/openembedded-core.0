@@ -1,25 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ia0-f170.google.com ([209.85.210.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1U2mN0-0006hx-UF
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U2mOX-0006l6-2e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 18:31:50 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Feb 2013 09:15:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,609,1355126400"; d="scan'208";a="252920603"
-Received: from unknown (HELO helios.localnet) ([10.252.120.64])
-	by azsmga001.ch.intel.com with ESMTP; 05 Feb 2013 09:15:39 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 05 Feb 2013 17:15:38 +0000
-Message-ID: <2054431.1HJ6UVJJBH@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.4 (Linux/3.5.0-23-generic; KDE/4.9.4; i686; ; )
-In-Reply-To: <1c9151ca6d6addce9cc0e97a81c517e6422a6ea3.1360084153.git.paul.eggleton@linux.intel.com>
-References: <cover.1360084153.git.paul.eggleton@linux.intel.com>
-	<1c9151ca6d6addce9cc0e97a81c517e6422a6ea3.1360084153.git.paul.eggleton@linux.intel.com>
+	Tue, 05 Feb 2013 18:33:27 +0100
+Received: by mail-ia0-f170.google.com with SMTP id k20so410078iak.15
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2013 09:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=k/I3zTyXt//8LzVyrbJuDmWkDz6MRm52JwE/jRW5pDA=;
+	b=UVKwcTtmzC4+zVUxg+GCRWWg8XOhxo+EEd1jVccMTfTQ99klfqIhFd4RCDJABoaY7T
+	2pV5y0GTjW3vevhr4HHgKTsfOYj7dcOp3C60mDwFTDkChHpno/k+02dl51eeqrl6jXc+
+	F9WTHrtVJiu6aakUl719rWyQXoolffOF+VY8C6igvivK5WjFMHTC7TX4rI7o4OgCOjgF
+	SrFIrQ0ISDhZ8bsd6XtUoxZ30a7jYTkMyT9SG5BES7i2N9ctaFxMcYFgOBF3XlcgpbOq
+	IrP85FqGM0vrhpnqVaj+K8Bi9jNI38Y2Qbx2iW0GZbm7rol8jepvWErE+zYEhN/cqrQw
+	WjWg==
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] qmmp: update to 0.6.6 and fix
+X-Received: by 10.50.11.229 with SMTP id t5mr111950igb.65.1360084647703; Tue,
+	05 Feb 2013 09:17:27 -0800 (PST)
+Received: by 10.64.143.228 with HTTP; Tue, 5 Feb 2013 09:17:27 -0800 (PST)
+In-Reply-To: <CAJTo0LZh=XEoK7DYJqNy8OCthYMRd=+5gLjPMR3Aj8DX6R-76Q@mail.gmail.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+	<CAJTo0LYDkCvZUCp4U4o_2bsmuiVor69Wbh4Rd94g3WvQ4=X5Yw@mail.gmail.com>
+	<CAC1BbcQss0BHe_CGx+H_QKbASNS-_4Bad8rHeCNdJERg-G8Y4w@mail.gmail.com>
+	<CAJTo0LZh=XEoK7DYJqNy8OCthYMRd=+5gLjPMR3Aj8DX6R-76Q@mail.gmail.com>
+Date: Tue, 5 Feb 2013 18:17:27 +0100
+Message-ID: <CAC1BbcSpM5nGnH0QBQYOWEjuPVHpvEWR4uxBsErqx4h9n=-3yw@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] Revert "Add ptest for glib."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,36 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 17:31:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 05 Feb 2013 17:33:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tuesday 05 February 2013 17:09:58 Paul Eggleton wrote:
-> * Update to 0.6.6
-> * Fix compilation failure due to call to QApplication::commitData()
-> * Disable /usr/local host paths to avoid compilation warnings
-> * Force use of the cmake configure instead of qmake as the latter is not
->   dynamic with Qmmp and doesn't let you disable certain dependencies
->   (e.g. enca)
-> * Add libsndfile1 and libsamplerate0 to DEPENDS since their use will be
->   non-deterministic otherwise
-> * Explicitly disable library-requiring options that we don't have
->   available in OE-Core so that they don't get used if they happen to be
->   in the sysroot
-> * Update LIC_FILES_CHKSUM since there were cosmetic changes to the
->   license file (mostly reformatting and change of references to LGPL
->   from "Library" to "Lesser".)
-> 
-> Fixes [YOCTO #3882].
+On 5 February 2013 17:59, Burton, Ross <ross.burton@intel.com> wrote:
+> On 5 February 2013 16:47, Bernhard Reutner-Fischer
+> <rep.dot.nop@gmail.com> wrote:
+>> I do not have time to look into this, sorry. But yes, of course fixing
+>> it for real would be better..
+>
+> Sharing the log of the failure would help immensely.
 
-Actually it's bug #3822. I've fixed the commit message on the branch.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+The uncompressed log is about 50MB, i put it here (still 1.2MB):
+http://busybox.net/~aldot/oe/mk.all.20130118-1442.53.log.xz
 
 
