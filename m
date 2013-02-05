@@ -1,39 +1,23 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from smtpfb1-g21.free.fr ([212.27.42.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U2jED-0006lh-Hf
+	(envelope-from <eric@eukrea.com>) id 1U2jNX-0006xF-9o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 15:10:35 +0100
-Received: from mail-yh0-f71.google.com ([209.85.213.71])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Feb 2013 05:54:38 -0800
-Received: by mail-yh0-f71.google.com with SMTP id m1so78453yhg.10
+	Tue, 05 Feb 2013 15:20:17 +0100
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 4410E77C4CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=CZb3VfEm7/4XVmforf/rYEEFJnlJYg5txKYeIR73SYI=;
-	b=d3IRUjYNVtf8lyzZ2cTxSU7cFnw4ONzxB1qAjMzk/4OwkgJWJtMwg/bRwCrWvRDn3E
-	KPsMbjddsH3jyL5Tos0tVA5xigD+83aNnvqkPkV519SELxf/F53/XcjPongG00gX4iGS
-	KUdFzh/ZbYOUosUeo/H0OUtznA1GRkMwszftqlfrR6t8FuaGwz0X9qsNruRngOU1iyjZ
-	XKq4QEAVpBe1lN7H4lhbFr++EUzpUCc6SgUI2Sqzx53Yd5jkjOZQKZftsDRmRjAqcvI3
-	DuvFTPR0WdPYo20NoNAYwEUedOsIA+o3b2EXs4B0vUQPUxh2mdJai/lG6TNFqGOi6PFH
-	NcOA==
-X-Received: by 10.58.206.99 with SMTP id ln3mr11375965vec.36.1360072477437;
-	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
-X-Received: by 10.58.206.99 with SMTP id ln3mr11375956vec.36.1360072477336;
-	Tue, 05 Feb 2013 05:54:37 -0800 (PST)
+	Tue,  5 Feb 2013 15:04:18 +0100 (CET)
+Received: from e6520eb.local.eukrea.com (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id C11C64B01A4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Feb 2013 15:04:13 +0100 (CET)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Feb 2013 15:04:12 +0100
+Message-Id: <1360073052-15273-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.11.7
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Tue, 5 Feb 2013 05:54:17 -0800 (PST)
-In-Reply-To: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
-References: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Feb 2013 13:54:17 +0000
-Message-ID: <CAJTo0LYQAy5-RzTU4aYN0jqAX10cbMNSUPu3i+CMBFo8G4vD1w@mail.gmail.com>
-To: Andrei Gherzan <andrei.gherzan@windriver.com>
-X-Gm-Message-State: ALoCoQnuRXATyV+yz0hU4GOGjLGTxCxmwBbwUyDAW9qkFhqh8UBKbQvfn972w4g47HDbPIEwK+HaRBJhEpwB2gi7cujSFs00cYz5qeouJMW6lR3mE7K8EW/BEPFK8FwwJ4QUgy+JJeG/5rxgjh9MVrhghP17RQZ0Dg4YaSXX66UE2jGEdlGbzQlKHF63GVmjq0l86BwjoxKc
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wpa-supplicant: Package systemd service in -systemd
+Subject: [PATCH] qt4: fix CVE-2013-0254
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +30,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 14:10:36 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 14:20:24 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5 February 2013 12:15, Andrei Gherzan <andrei.gherzan@windriver.com> wrote:
-> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> ---
->  .../wpa-supplicant/wpa-supplicant-2.0.inc          |    6 ++++--
->  .../wpa-supplicant/wpa-supplicant_2.0.bb           |    2 +-
->  2 files changed, 5 insertions(+), 3 deletions(-)
+fix "POSIX shared memory segments created world-writeable"
 
-NACK.
+more details :
+http://lists.qt-project.org/pipermail/announce/2013-February/000023.html
 
-Please don't add -systemd packages.  I've almost got a systemd.bbclass
-that I'm happy with, but if you must add integration now then just
-package the unit files alongside the daemons, respecting the distro
-feature.
+Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+---
+ meta/recipes-qt/qt4/qt4-4.8.4.inc                  |   1 +
+ ...ange-all-shmget-calls-to-user-only-memory.patch | 147 +++++++++++++++=
+++++++
+ meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb          |   2 +-
+ meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb          |   2 +-
+ 4 files changed, 150 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.4/0024-Change-all-shmget-=
+calls-to-user-only-memory.patch
 
-Ross
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.4.inc b/meta/recipes-qt/qt4/qt4-=
+4.8.4.inc
+index 0bc1062..3f0f003 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.4.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.4.inc
+@@ -23,6 +23,7 @@ SRC_URI =3D "http://releases.qt-project.org/qt4/source/=
+qt-everywhere-opensource-sr
+            file://0020-webkit-disable-the-fuse-ld-gold-flag.patch \
+            file://0022-ssl-certificates-blacklist-mis-issued-turktrust-c=
+ertificates.patch \
+            file://0023-qtnetwork-blacklist-two-more-certificates.patch \
++           file://0024-Change-all-shmget-calls-to-user-only-memory.patch=
+ \
+            file://g++.conf \
+            file://linux.conf \
+            "
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.4/0024-Change-all-shmget-calls-t=
+o-user-only-memory.patch b/meta/recipes-qt/qt4/qt4-4.8.4/0024-Change-all-=
+shmget-calls-to-user-only-memory.patch
+new file mode 100644
+index 0000000..6c796a3
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt4-4.8.4/0024-Change-all-shmget-calls-to-user-=
+only-memory.patch
+@@ -0,0 +1,147 @@
++From 20b26bdb3dd5e46b01b9a7e1ce8342074df3c89c Mon Sep 17 00:00:00 2001
++From: Thiago Macieira <thiago.macieira@intel.com>
++Date: Sat, 22 Dec 2012 08:32:12 -0800
++Subject: [PATCH] Change all shmget calls to user-only memory
++
++Drop the read and write permissions for group and other users in the
++system.
++
++Change-Id: I8fc753f09126651af3fb82df3049050f0b14e876
++(cherry-picked from Qt 5 commit 856f209fb63ae336bfb389a12d2a75fa886dc1c5=
+)
++Reviewed-by: Richard J. Moore <rich@kde.org>
++
++Upstream-Status: Accepted http://qt.gitorious.org/qt/qt/commit/20b26bdb3=
+dd5e46b01b9a7e1ce8342074df3c89c
++---
++ src/corelib/kernel/qsharedmemory_unix.cpp          |    6 +++---
++ src/corelib/kernel/qsystemsemaphore_unix.cpp       |    4 ++--
++ src/gui/image/qnativeimage.cpp                     |    2 +-
++ src/gui/image/qpixmap_x11.cpp                      |    2 +-
++ src/plugins/platforms/xcb/qxcbwindowsurface.cpp    |    2 +-
++ src/plugins/platforms/xlib/qxlibwindowsurface.cpp  |    2 +-
++ .../auto/qtipc/qsharedmemory/tst_qsharedmemory.cpp |    2 +-
++ tools/qvfb/qvfbshmem.cpp                           |    4 ++--
++ 8 files changed, 12 insertions(+), 12 deletions(-)
++
++diff --git a/src/corelib/kernel/qsharedmemory_unix.cpp b/src/corelib/ker=
+nel/qsharedmemory_unix.cpp
++index 20d76e3..4cf3acf 100644
++--- a/src/corelib/kernel/qsharedmemory_unix.cpp
+++++ b/src/corelib/kernel/qsharedmemory_unix.cpp
++@@ -238,7 +238,7 @@ bool QSharedMemoryPrivate::create(int size)
++     }
++=20
++     // create
++-    if (-1 =3D=3D shmget(unix_key, size, 0666 | IPC_CREAT | IPC_EXCL)) =
+{
+++    if (-1 =3D=3D shmget(unix_key, size, 0600 | IPC_CREAT | IPC_EXCL)) =
+{
++         QString function =3D QLatin1String("QSharedMemory::create");
++         switch (errno) {
++         case EINVAL:
++@@ -293,7 +293,7 @@ bool QSharedMemoryPrivate::attach(QSharedMemory::Acc=
+essMode mode)
++ {
++ #ifndef QT_POSIX_IPC
++     // grab the shared memory segment id
++-    int id =3D shmget(unix_key, 0, (mode =3D=3D QSharedMemory::ReadOnly=
+ ? 0444 : 0660));
+++    int id =3D shmget(unix_key, 0, (mode =3D=3D QSharedMemory::ReadOnly=
+ ? 0400 : 0600));
++     if (-1 =3D=3D id) {
++         setErrorString(QLatin1String("QSharedMemory::attach (shmget)"))=
+;
++         return false;
++@@ -381,7 +381,7 @@ bool QSharedMemoryPrivate::detach()
++     size =3D 0;
++=20
++     // Get the number of current attachments
++-    int id =3D shmget(unix_key, 0, 0444);
+++    int id =3D shmget(unix_key, 0, 0400);
++     cleanHandle();
++=20
++     struct shmid_ds shmid_ds;
++diff --git a/src/corelib/kernel/qsystemsemaphore_unix.cpp b/src/corelib/=
+kernel/qsystemsemaphore_unix.cpp
++index fad9acc..e77456b 100644
++--- a/src/corelib/kernel/qsystemsemaphore_unix.cpp
+++++ b/src/corelib/kernel/qsystemsemaphore_unix.cpp
++@@ -153,10 +153,10 @@ key_t QSystemSemaphorePrivate::handle(QSystemSemap=
+hore::AccessMode mode)
++     }
++=20
++     // Get semaphore
++-    semaphore =3D semget(unix_key, 1, 0666 | IPC_CREAT | IPC_EXCL);
+++    semaphore =3D semget(unix_key, 1, 0600 | IPC_CREAT | IPC_EXCL);
++     if (-1 =3D=3D semaphore) {
++         if (errno =3D=3D EEXIST)
++-            semaphore =3D semget(unix_key, 1, 0666 | IPC_CREAT);
+++            semaphore =3D semget(unix_key, 1, 0600 | IPC_CREAT);
++         if (-1 =3D=3D semaphore) {
++             setErrorString(QLatin1String("QSystemSemaphore::handle"));
++             cleanHandle();
++diff --git a/src/gui/image/qnativeimage.cpp b/src/gui/image/qnativeimage=
+.cpp
++index 9654afe..fef38c5 100644
++--- a/src/gui/image/qnativeimage.cpp
+++++ b/src/gui/image/qnativeimage.cpp
++@@ -176,7 +176,7 @@ QNativeImage::QNativeImage(int width, int height, QI=
+mage::Format format,bool /*
++=20
++     bool ok;
++     xshminfo.shmid =3D shmget(IPC_PRIVATE, xshmimg->bytes_per_line * xs=
+hmimg->height,
++-                            IPC_CREAT | 0777);
+++                            IPC_CREAT | 0700);
++     ok =3D xshminfo.shmid !=3D -1;
++     if (ok) {
++         xshmimg->data =3D (char*)shmat(xshminfo.shmid, 0, 0);
++diff --git a/src/gui/image/qpixmap_x11.cpp b/src/gui/image/qpixmap_x11.c=
+pp
++index 280d8bd..88c9b7b 100644
++--- a/src/gui/image/qpixmap_x11.cpp
+++++ b/src/gui/image/qpixmap_x11.cpp
++@@ -193,7 +193,7 @@ static bool qt_create_mitshm_buffer(const QPaintDevi=
+ce* dev, int w, int h)
++     bool ok;
++     xshminfo.shmid =3D shmget(IPC_PRIVATE,
++                              xshmimg->bytes_per_line * xshmimg->height,
++-                             IPC_CREAT | 0777);
+++                             IPC_CREAT | 0700);
++     ok =3D xshminfo.shmid !=3D -1;
++     if (ok) {
++         xshmimg->data =3D (char*)shmat(xshminfo.shmid, 0, 0);
++diff --git a/src/plugins/platforms/xcb/qxcbwindowsurface.cpp b/src/plugi=
+ns/platforms/xcb/qxcbwindowsurface.cpp
++index b6a42d8..0d56821 100644
++--- a/src/plugins/platforms/xcb/qxcbwindowsurface.cpp
+++++ b/src/plugins/platforms/xcb/qxcbwindowsurface.cpp
++@@ -98,7 +98,7 @@ QXcbShmImage::QXcbShmImage(QXcbScreen *screen, const Q=
+Size &size, uint depth, QI
++                                           0);
++=20
++     m_shm_info.shmid =3D shmget (IPC_PRIVATE,
++-          m_xcb_image->stride * m_xcb_image->height, IPC_CREAT|0777);
+++          m_xcb_image->stride * m_xcb_image->height, IPC_CREAT|0600);
++=20
++     m_shm_info.shmaddr =3D m_xcb_image->data =3D (quint8 *)shmat (m_shm=
+_info.shmid, 0, 0);
++     m_shm_info.shmseg =3D xcb_generate_id(xcb_connection());
++diff --git a/src/plugins/platforms/xlib/qxlibwindowsurface.cpp b/src/plu=
+gins/platforms/xlib/qxlibwindowsurface.cpp
++index bf003eb..46a2f97 100644
++--- a/src/plugins/platforms/xlib/qxlibwindowsurface.cpp
+++++ b/src/plugins/platforms/xlib/qxlibwindowsurface.cpp
++@@ -99,7 +99,7 @@ void QXlibWindowSurface::resizeShmImage(int width, int=
+ height)
++=20
++=20
++     image_info->shminfo.shmid =3D shmget (IPC_PRIVATE,
++-          image->bytes_per_line * image->height, IPC_CREAT|0777);
+++          image->bytes_per_line * image->height, IPC_CREAT|0700);
++=20
++     image_info->shminfo.shmaddr =3D image->data =3D (char*)shmat (image=
+_info->shminfo.shmid, 0, 0);
++     image_info->shminfo.readOnly =3D False;
++diff --git a/tools/qvfb/qvfbshmem.cpp b/tools/qvfb/qvfbshmem.cpp
++index 7f9671f..84b6ebe 100644
++--- a/tools/qvfb/qvfbshmem.cpp
+++++ b/tools/qvfb/qvfbshmem.cpp
++@@ -176,13 +176,13 @@ QShMemViewProtocol::QShMemViewProtocol(int display=
+id, const QSize &s,
++     uint data_offset_value =3D sizeof(QVFbHeader);
++=20
++     int dataSize =3D bpl * h + data_offset_value;
++-    shmId =3D shmget(key, dataSize, IPC_CREAT | 0666);
+++    shmId =3D shmget(key, dataSize, IPC_CREAT | 0600);
++     if (shmId !=3D -1)
++ 	data =3D (unsigned char *)shmat(shmId, 0, 0);
++     else {
++ 	struct shmid_ds shm;
++ 	shmctl(shmId, IPC_RMID, &shm);
++-	shmId =3D shmget(key, dataSize, IPC_CREAT | 0666);
+++    shmId =3D shmget(key, dataSize, IPC_CREAT | 0600);
++ 	if (shmId =3D=3D -1) {
++             perror("QShMemViewProtocol::QShMemViewProtocol");
++             qFatal("Cannot get shared memory 0x%08x", key);
++--=20
++1.7.1
++
+diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb b/meta/recipes-qt/=
+qt4/qt4-embedded_4.8.4.bb
+index 6024192..286da95 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
++++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
+@@ -1,7 +1,7 @@
+ require qt4-${PV}.inc
+ require qt4-embedded.inc
+=20
+-PR =3D "${INC_PR}.2"
++PR =3D "${INC_PR}.3"
+=20
+ QT_CONFIG_FLAGS_append_arm =3D "${@bb.utils.contains("TUNE_FEATURES", "n=
+eon", "", " -no-neon" ,d)}"
+=20
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb b/meta/recipes-qt/=
+qt4/qt4-x11-free_4.8.4.bb
+index 7de6a82..e5db30d 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb
++++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb
+@@ -1,7 +1,7 @@
+ require qt4-x11-free.inc
+ require qt4-${PV}.inc
+=20
+-PR =3D "${INC_PR}.2"
++PR =3D "${INC_PR}.3"
+=20
+ QT_CONFIG_FLAGS_append_arm =3D "${@bb.utils.contains("TUNE_FEATURES", "n=
+eon", "", " -no-neon" ,d)}"
+=20
+--=20
+1.7.11.7
+
 
 
