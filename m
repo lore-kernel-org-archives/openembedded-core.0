@@ -1,28 +1,46 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1U2rbl-0004vf-88
+	(envelope-from <ross.burton@intel.com>) id 1U2rik-00068N-1L
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Feb 2013 00:07:24 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2013 14:51:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,610,1355126400"; d="scan'208";a="281408768"
-Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
-	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2013 14:51:14 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue,  5 Feb 2013 14:52:49 -0800
-Message-Id: <8bf58d16654191479ceb9e3863b9f0d9ae629af7.1360104547.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1360104547.git.dvhart@linux.intel.com>
-References: <cover.1360104547.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1360104547.git.dvhart@linux.intel.com>
-References: <cover.1360104547.git.dvhart@linux.intel.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Darren Hart <dvhart@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 7/9] oe-git-proxy: Add a new comprehensive git proxy script
+	Wed, 06 Feb 2013 00:14:37 +0100
+Received: from mail-ea0-f197.google.com ([209.85.215.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 05 Feb 2013 14:58:40 -0800
+Received: by mail-ea0-f197.google.com with SMTP id j13so731118eaa.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2013 14:58:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=gx3Y5GtlpVKH4LziJC3AMmwrR3mnJw7jLh8QYhYT7qs=;
+	b=bjn97R1MCe7Qk5o3IFjZRKwHTpCyuN30ygD5EFcS2AZpINWCJPDXCVEdhIaCoLUADg
+	GHZKL7apwFSoRvMspsBSmBzJtA7mRcshd/Wd70n5efU4UmtZEHgyLOca4zVPpxI3F4R8
+	nnmYlWHh471igNu77xuAHu09LCmSr+SATm3KSXzEk6r+aGowe87L6fdlXxaeqoCIiMwn
+	yTN9KHPFTZRRi+RCkMJYpyBYp5cmPhKWISWBXzNkqzHYKnlDbpID3LDzziFOnSDbDVYy
+	JONahBbfgd/M4xu8D4O8TnDPCL0pHdYbNwIfeZqmTWxLrXaAmx+uW09g/1MFnAYSDl2L
+	JUUQ==
+X-Received: by 10.180.85.97 with SMTP id g1mr1206142wiz.29.1360105114913;
+	Tue, 05 Feb 2013 14:58:34 -0800 (PST)
+X-Received: by 10.180.85.97 with SMTP id g1mr1206127wiz.29.1360105114778;
+	Tue, 05 Feb 2013 14:58:34 -0800 (PST)
+Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id m6sm30874645wic.2.2013.02.05.14.58.32
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 05 Feb 2013 14:58:33 -0800 (PST)
+Date: Tue, 5 Feb 2013 22:58:29 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Felipe Ferreri Tonello <eu@felipetonello.com>
+Message-ID: <0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
+In-Reply-To: <511182A9.2060702@felipetonello.com>
+References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
+	<51115E97.1080404@linux.intel.com> <511182A9.2060702@felipetonello.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQlOrGZtShZqMD/hRj2rHJwyGzR8Ei0/smmwZhl/VXkVNB4SKr7FRHGew4D3pu3p6KKj3+8uOeN3+iz0hcq8KXPtD76COiZPe4xpGOqRe5x6y+Lspt79qraZ0QP1jGqpG18WLB2CF47DZopVbLsrxwAiMdOZpblTKBcv8FJGIBe2yNInCzaRX9fY7uUYckcz3hFHcLAE
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: added recipe libconnman-qt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,163 +53,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 23:07:28 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 23:14:37 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-oe-git-proxy.sh is a simple tool to be used via GIT_PROXY_COMMAND. It
-uses BSD netcat to make SOCKS5 or HTTPS proxy connections. It uses
-ALL_PROXY to determine the proxy server, protocol, and port. It uses
-NO_PROXY to skip using the proxy for a comma delimited list of hosts,
-host globs (*.example.com), IPs, or CIDR masks (192.168.1.0/24). It is
-known to work with both bash and dash shells.
+On Tuesday, 5 February 2013 at 22:07, Felipe Ferreri Tonello wrote:
+> I chose this path because there is also a front-end library for connman
+> for gnome in the same directory.
 
-V2: Implement recommendations by Enrico Scholz:
-    o Use exec for the nc calls
-    o Use "$@" instead of $* to avoid quoting issues inherent with $*
-    o Use bash explicitly and simplify some of the string manipulations
-    Also:
-    o Drop the .sh in the name per Otavio Salvador
-    o Remove a stray debug statement
+It's not a library, it's a UI.  To be honest, I'd happily see it move to recipes-gnome and connman-qt be in recipes-qt.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
----
- scripts/oe-git-proxy |  124 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 124 insertions(+), 0 deletions(-)
- create mode 100755 scripts/oe-git-proxy
+Ross 
 
-diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-new file mode 100755
-index 0000000..4f1871a
---- /dev/null
-+++ b/scripts/oe-git-proxy
-@@ -0,0 +1,124 @@
-+#!/bin/bash
-+
-+# oe-git-proxy.sh is a simple tool to be via GIT_PROXY_COMMAND. It uses BSD netcat
-+# to make SOCKS5 or HTTPS proxy connections. It uses ALL_PROXY to determine the
-+# proxy server, protocol, and port. It uses NO_PROXY to skip using the proxy for
-+# a comma delimited list of hosts, host globs (*.example.com), IPs, or CIDR masks
-+# (192.168.1.0/24). It is known to work with both bash and dash shells.
-+#
-+# BSD netcat is provided by netcat-openbsd on Ubuntu and nc on Fedora.
-+#
-+# Example ALL_PROXY values:
-+# ALL_PROXY=socks://socks.example.com:1080
-+# ALL_PROXY=https://proxy.example.com:8080
-+#
-+# Copyright (c) 2013, Intel Corporation.
-+# All rights reserved.
-+#
-+# AUTHORS
-+# Darren Hart <dvhart@linux.intel.com>
-+
-+# Locate the netcat binary
-+NC=$(which nc 2>/dev/null)
-+if [ $? -ne 0 ]; then
-+	echo "ERROR: nc binary not in PATH"
-+	exit 1
-+fi
-+METHOD=""
-+
-+# Test for a valid IPV4 quad with optional bitmask
-+valid_ipv4() {
-+	echo $1 | egrep -q "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}(/(3[0-2]|[1-2]?[0-9]))?$"
-+	return $?
-+}
-+
-+# Convert an IPV4 address into a 32bit integer
-+ipv4_val() {
-+	IP="$1"
-+	SHIFT=24
-+	VAL=0
-+	for B in ${IP//./ }; do
-+		VAL=$(($VAL+$(($B<<$SHIFT))))
-+		SHIFT=$(($SHIFT-8))
-+	done
-+	echo "$VAL"
-+}
-+
-+# Determine if two IPs are equivalent, or if the CIDR contains the IP
-+match_ipv4() {
-+	CIDR=$1
-+	IP=$2
-+
-+	if [ -z "${IP%%$CIDR}" ]; then
-+		return 0
-+	fi
-+
-+	# Determine the mask bitlength
-+	BITS=${CIDR##*/}
-+	if [ -z "$BITS" ]; then
-+		return 1
-+	fi
-+
-+	IPVAL=$(ipv4_val $IP)
-+	IP2VAL=$(ipv4_val ${CIDR%%/*})
-+
-+	# OR in the unmasked bits
-+	for i in $(seq 0 $((32-$BITS))); do
-+		IP2VAL=$(($IP2VAL|$((1<<$i))))
-+		IPVAL=$(($IPVAL|$((1<<$i))))
-+	done
-+
-+	if [ $IPVAL -eq $IP2VAL ]; then
-+		return 0
-+	fi
-+	return 1
-+}
-+
-+# Test to see if GLOB matches HOST
-+match_host() {
-+	HOST=$1
-+	GLOB=$2
-+
-+	if [ -z "${HOST%%$GLOB}" ]; then
-+		return 0
-+	fi
-+
-+	# Match by netmask
-+	if valid_ipv4 $GLOB; then
-+		HOST_IP=$(gethostip -d $HOST)
-+		if valid_ipv4 $HOST_IP; then
-+			match_ipv4 $GLOB $HOST_IP
-+			if [ $? -eq 0 ]; then
-+				return 0
-+			fi
-+		fi
-+	fi
-+
-+	return 1
-+}
-+
-+# If no proxy is set, just connect directly
-+if [ -z "$ALL_PROXY" ]; then
-+	exec $NC -X connect "$@"
-+fi
-+
-+# Connect directly to hosts in NO_PROXY
-+for H in ${NO_PROXY//,/ }; do
-+	if match_host $1 $H; then
-+		METHOD="-X connect"
-+		break
-+	fi
-+done
-+
-+if [ -z "$METHOD" ]; then
-+	# strip the protocol and the trailing slash
-+	PROTO=$(echo $ALL_PROXY | sed -e 's/\([^:]*\):\/\/.*/\1/')
-+	PROXY=$(echo $ALL_PROXY | sed -e 's/.*:\/\/\([^:]*:[0-9]*\).*/\1/')
-+	if [ "$PROTO" = "socks" ]; then
-+		METHOD="-X 5 -x $PROXY"
-+	elif [ "$PROTO" = "https" ]; then
-+		METHOD="-X connect -x $PROXY"
-+	fi
-+fi
-+
-+exec $NC $METHOD "$@"
--- 
-1.7.5.4
 
 
 
