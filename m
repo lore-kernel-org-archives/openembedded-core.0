@@ -1,31 +1,47 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1U2moP-0007Fm-Nx
+	(envelope-from <B29882@freescale.com>) id 1U2n5c-0007qq-HE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 19:00:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2013 09:44:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,609,1355126400"; d="scan'208";a="258087707"
-Received: from unknown (HELO envy.home) ([10.255.12.135])
-	by orsmga001.jf.intel.com with ESMTP; 05 Feb 2013 09:44:14 -0800
-Message-ID: <511144EC.1030704@linux.intel.com>
-Date: Tue, 05 Feb 2013 09:44:12 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 05 Feb 2013 19:17:57 +0100
+Received: from mail98-db3-R.bigfish.com (10.3.81.225) by
+	DB3EHSOBE004.bigfish.com (10.3.84.24) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 5 Feb 2013 17:46:58 +0000
+Received: from mail98-db3 (localhost [127.0.0.1])	by mail98-db3-R.bigfish.com
+	(Postfix) with ESMTP id F41F0200123	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  5 Feb 2013 17:46:57 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275ch177df4h17326ah8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h1155h)
+Received: from mail98-db3 (localhost.localdomain [127.0.0.1]) by mail98-db3
+	(MessageSwitch) id 1360086415953866_20905;
+	Tue,  5 Feb 2013 17:46:55 +0000 (UTC)
+Received: from DB3EHSMHS011.bigfish.com (unknown [10.3.81.244])	by
+	mail98-db3.bigfish.com (Postfix) with ESMTP id E486FA00A6	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  5 Feb 2013 17:46:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS011.bigfish.com
+	(10.3.87.111) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 5 Feb 2013 17:46:55 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.318.3; Tue, 5 Feb 2013 17:46:54 +0000
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r15Hkj8C032069	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Feb 2013 10:46:53 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Feb 2013 11:46:46 -0600
+Message-ID: <1360086408-29832-3-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
+In-Reply-To: <1360086408-29832-1-git-send-email-msm@freescale.com>
+References: <1360086408-29832-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-References: <cover.1360059615.git.dvhart@linux.intel.com>
-	<41381da878685b601c62d446795c38119f08941b.1360059615.git.dvhart@linux.intel.com>
-	<ly7gmn57tl.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<51113140.5050600@linux.intel.com>
-	<lytxpq4t0n.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lytxpq4t0n.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Enigmail-Version: 1.5
-Cc: Darren Hart <public-dvhart-VuQAYsv1563Yd54FQh9/CA@plane.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 7/8] oe-git-proxy.sh: Add a new comprehensive git proxy script
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 3/5] libpfm4_4.3.0.bb: add libpfm4 recipe needed by oprofile for ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,64 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 18:00:13 -0000
-X-List-Received-Date: Tue, 05 Feb 2013 18:00:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Feb 2013 18:18:01 -0000
+Content-Type: text/plain
 
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb |   26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
 
-
-On 02/05/2013 08:36 AM, Enrico Scholz wrote:
-> Darren Hart <dvhart@linux.intel.com> writes:
-> 
->>>> +	$NC -X connect $*
->>>
->>> why '$*' but not '"$@*"'?
->>>
->> I'm not familiar with $@*
-> 
-> sorry... I meant "$@"
-> 
-> 
->> As for $* versus $@, the issue is how the arguments are presented. $*
->> as a single word, $@ each argument is quoted separately. I believe I
->> ran into issues with $@. I haven't had any trouble with $*.
-> 
-> $* is causing trouble all the time because it does not retain whitespaces
-> or empty parameters.  There are only very few cases, where $* makes sense.
-> 
-> 
->> Is there a particular use case where you can see this failing as is?
-> 
-> "$@" is just the right thing to do in this situation.  E.g. when your
-> script is called as
-> 
-> | oe-git-proxy.sh "${HOST}" "${PORT}"
-> 
-> and HOST is undefined due to some reason, you will try to connect to
-> "${PORT}" with $*.  The "$@" will cause nc to complain about the broken
-> HOST parameter.
-> 
-> 
-> Btw...
-> 
-> | exec $NC $METHOD "$@"
-> 
-> would be the school book implementation for the thing you want to do...
-> 
-> 
-> 
-> Enrico
-
-That all makes sense. When I read up the difference again in the bash
-documentation I was surprised I had used $*, but thought I had done that
-dance already. I'll update with "$@" and do some tests.
-
-Thank you for the review and catching that.
-
+diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+new file mode 100644
+index 0000000..460029f
+--- /dev/null
++++ b/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "Monitoring tools exploiting the performance monitoring events"
++DESCRIPTION = "This package provides a library, called libpfm4 which is used to develop \
++monitoring tools exploiting the performance monitoring events such as those \
++provided by the Performance Monitoring Unit (PMU) of modern processors."
++HOMEPAGE = "http://perfmon2.sourceforge.net/"
++BUGTRACKER = "http://sourceforge.net/tracker/?group_id=144822&atid=759953&source=navbar"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0de488f3bd4424e308e2e399cb99c788"
++
++SECTION = "devel"
++
++SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/libpfm4/libpfm-4.3.0.tar.gz"
++
++SRC_URI[md5sum] = "0ab272dbdbb759b852ba8bd06db030ef"
++SRC_URI[sha256sum] = "a23eb9affbff279e13563a39317c0ad71c4de28908d4243c8bc109138430cc3b"
++
++EXTRA_OEMAKE = "DESTDIR=\"${D}\" PREFIX=\"${prefix}\" LIBDIR=\"${libdir}\" LDCONFIG=\"true\""
++EXTRA_OEMAKE_append_powerpc = " ARCH=\"powerpc\""
++EXTRA_OEMAKE_append_powerpc64 = " ARCH=\"powerpc\" BITMODE=\"64\""
++
++S = "${WORKDIR}/libpfm-${PV}"
++
++do_install () {
++	oe_runmake install
++}
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+1.7.9.7
+
+
 
 
