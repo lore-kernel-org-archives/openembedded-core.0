@@ -1,36 +1,26 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U2gla-0002ID-CR
+	(envelope-from <Andrei.Gherzan@windriver.com>) id 1U2hgS-0003uJ-Ah
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 12:32:46 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r15BGs9f032188
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 5 Feb 2013 12:16:55 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U2gWE-0001vg-G2; Tue, 05 Feb 2013 12:16:54 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1360059615.git.dvhart@linux.intel.com>
-	<41381da878685b601c62d446795c38119f08941b.1360059615.git.dvhart@linux.intel.com>
-Date: Tue, 05 Feb 2013 12:16:54 +0100
-In-Reply-To: <41381da878685b601c62d446795c38119f08941b.1360059615.git.dvhart@linux.intel.com>
-	(Darren Hart's message of "Tue, 5 Feb 2013 02:31:43 -0800")
-Message-ID: <ly7gmn57tl.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Tue, 05 Feb 2013 13:31:36 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r15CFg6K018473
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Feb 2013 04:15:42 -0800 (PST)
+Received: from localhost.localdomain (128.224.171.81) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Tue, 5 Feb 2013 04:15:41 -0800
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Feb 2013 14:15:33 +0200
+Message-ID: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: [PATCH 7/8] oe-git-proxy.sh: Add a new comprehensive git proxy script
+X-Originating-IP: [128.224.171.81]
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH] wpa-supplicant: Package systemd service in -systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,21 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 11:32:47 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 12:31:39 -0000
 Content-Type: text/plain
 
-Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+---
+ .../wpa-supplicant/wpa-supplicant-2.0.inc          |    6 ++++--
+ .../wpa-supplicant/wpa-supplicant_2.0.bb           |    2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-> +	$NC -X connect $*
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
+index 89910a0..7ce85a6 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
+@@ -18,10 +18,12 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+ 
+ S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
+ 
+-PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
++PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli wpa-supplicant-systemd "
+ FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
+ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+-FILES_${PN} += "${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/*"
++FILES_wpa-supplicant-systemd = "${systemd_unitdir}/system/*"
++FILES_${PN} += "${datadir}/dbus-1/system-services/*"
++
+ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+ 
+ do_configure () {
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
+index 22e42dd..a8b0dad 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-2.0.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "3be2ebfdcced52e00eda0afe2889839d"
+ SRC_URI[sha256sum] = "2c115609fbb5223d51381084a5c944455a8afcda81d584173ff55ba233379e09"
+-- 
+1.7.5.4
 
-why '$*' but not '"$@*"'?
-
-
-> +$NC $METHOD $*
-
-ditto
-
-
-Enrico
 
 
