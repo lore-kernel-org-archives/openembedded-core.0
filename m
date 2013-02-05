@@ -1,31 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1U2p4p-0006H4-9X
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U2pGp-0006aQ-2O
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 21:25:11 +0100
+	Tue, 05 Feb 2013 21:37:37 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r15K9J35012599
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Feb 2013 12:09:19 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r15KLjD4015028
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Feb 2013 12:21:45 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 5 Feb 2013 12:09:18 -0800
-Date: Tue, 5 Feb 2013 14:09:10 -0600
+	Tue, 5 Feb 2013 12:21:43 -0800
 From: Peter Seebach <peter.seebach@windriver.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130205140910.1e42f2ba@e6410-2>
-In-Reply-To: <51115F61.3050900@linux.intel.com>
-References: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
-	<20130204122309.12582d0b@e6410-2> <1360020111.14071.172.camel@ted>
-	<20130204172705.0e18d279@e6410-2> <1360021079.14071.174.camel@ted>
-	<20130204175024.3af7b9b2@e6410-2> <5110B6CE.1050504@intel.com>
-	<20130205131555.46c685fb@e6410-2>
-	<51115F61.3050900@linux.intel.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Feb 2013 14:21:41 -0600
+Message-ID: <cover.1360095480.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo: fix sqlite path and package missing files
+Subject: v2 [PATCH 0/1] pseudo 1.4.3 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,24 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 20:25:13 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Feb 2013 20:37:38 -0000
+Content-Type: text/plain
 
-On Tue, 5 Feb 2013 11:37:05 -0800
-Saul Wold <sgw@linux.intel.com> wrote:
+This fixes (... I hope) a handful of problems relating to libdir
+computation and sqlite. Basically, pseudo needs to be able to distinguish
+32-bit and 64-bit library directories for "where do I store libpseudo.so",
+but bitbake for native systems always uses "lib" for the directory
+containing libsqlite.a. Solution: --with-sqlite-lib=${baselib}.
 
-> > +SQLITE_LIB = "${baselib}"
-> > +SQLITE_LIB_native = "lib"
-> > +  
-> Do you really mean _class-native here?
+1.4.2/1.4.3 add linkat() support, fix some bitrot on Darwin, and add
+the configure flags to make this possible.
 
-Well, I did, but it turns out that since baselib is "lib" in native to
-begin with, this was overthinking the problem anyway. Simplified to be
-closer to Constantin's patch, will resubmit as v2 of the 1.4.3 change.
+This *appears* to build for 32-bit and 64-bit SDKMACHINE, targets, and
+native builds, but I've said that before.
 
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+The following changes since commit 3b1beb8b15b8e3e397b3aa8320490103d4f29bac:
+  Martin Jansa (1):
+        dropbear: fix RPROVIDES
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo143
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo143
+
+Peter Seebach (1):
+  pseudo.inc: Fix sqlite libdir again, pseudo 1.4.3
+
+ meta/recipes-devtools/pseudo/pseudo.inc      |    8 ++++----
+ meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_1.4.3.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
+ 4 files changed, 15 insertions(+), 15 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
+
 
 
