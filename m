@@ -1,24 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ia0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1U2mHQ-0006Ul-HL
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U2mKB-0006d5-Sk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 18:26:02 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Feb 2013 09:10:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,609,1355126400"; d="scan'208";a="283126336"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.42])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2013 09:10:02 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2013 17:09:58 +0000
-Message-Id: <1c9151ca6d6addce9cc0e97a81c517e6422a6ea3.1360084153.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1360084153.git.paul.eggleton@linux.intel.com>
-References: <cover.1360084153.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1360084153.git.paul.eggleton@linux.intel.com>
-References: <cover.1360084153.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] qmmp: update to 0.6.6 and fix
+	Tue, 05 Feb 2013 18:28:53 +0100
+Received: by mail-ia0-f175.google.com with SMTP id r4so400899iaj.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2013 09:13:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=datr/rhJBzqHLiLkjP8G4SnT9u1BhASVtCF63OW2y8c=;
+	b=wuUDO5DMLCj6XrtXDbDTk8apVR0oSdyP3Pc4zKkr2hN+lgI4dKMzypZhE0eZ2Y4Pdf
+	S4GdkGOPpD3g9fH7pG8T+byIKMw5whW856q2uA6NGPj7i2K5gDeZH8dNOY6YTWSHlHGW
+	o3O0x9gANoGWDY4YimDAt4yQXUK+NBlpzz/f4x180aWSRe+vogpk+80mN8A9+QBtvvxd
+	LqZKF1+EMqsktO3xS1DKU0EskNM6bm2Mm1MGXXzJILZoK8rRS9KuykmOUblmPdxfp8Jd
+	dIyMXbRjKvlEX6qzxbfDkm4jvdbtRqJlAaCxsnVOaqm1zX3ZwwrKblL/U5eZVtcBFXCt
+	6S9w==
+MIME-Version: 1.0
+X-Received: by 10.50.214.68 with SMTP id ny4mr14738034igc.65.1360084381445;
+	Tue, 05 Feb 2013 09:13:01 -0800 (PST)
+Received: by 10.64.143.228 with HTTP; Tue, 5 Feb 2013 09:13:01 -0800 (PST)
+In-Reply-To: <5111374E.1050802@linux.intel.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+	<5111374E.1050802@linux.intel.com>
+Date: Tue, 5 Feb 2013 18:13:01 +0100
+Message-ID: <CAC1BbcS3WTFO+UHKc-ZKL0ba2v4=mhW0Co2JdOVj-ryYsWm71w@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] Revert "Add ptest for glib."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,164 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 17:26:02 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 17:28:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* Update to 0.6.6
-* Fix compilation failure due to call to QApplication::commitData()
-* Disable /usr/local host paths to avoid compilation warnings
-* Force use of the cmake configure instead of qmake as the latter is not
-  dynamic with Qmmp and doesn't let you disable certain dependencies
-  (e.g. enca)
-* Add libsndfile1 and libsamplerate0 to DEPENDS since their use will be
-  non-deterministic otherwise
-* Explicitly disable library-requiring options that we don't have
-  available in OE-Core so that they don't get used if they happen to be
-  in the sysroot
-* Update LIC_FILES_CHKSUM since there were cosmetic changes to the
-  license file (mostly reformatting and change of references to LGPL
-  from "Library" to "Lesser".)
+On 5 February 2013 17:46, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/05/2013 07:55 AM, Bernhard Reutner-Fischer wrote:
+>>
+>> This reverts commit dec6f912d68f52748f645b6af411f189cf464f85.
+>>
+>> This breaks core-image-sato-sdk for TCLIBC="uclibc".
+>>
+> What's the issue?  Is it fixable instead of reverting the ptest patch? I
 
-Fixes [YOCTO #3882].
+The issue is that it incorrectly and unconditionally pulls in eglibc stuff:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch   |   25 +++++++++++++
- .../qt-apps/qmmp/no-sessionmanager.patch           |   21 +++++++++++
- .../qt-apps/{qmmp_0.6.1.bb => qmmp_0.6.6.bb}       |   39 ++++++++++++++++----
- 3 files changed, 77 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
- create mode 100644 meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch
- rename meta/recipes-qt/qt-apps/{qmmp_0.6.1.bb => qmmp_0.6.6.bb} (56%)
+-RDEPENDS_${PN}-ptest += "\
+-            eglibc-gconv-utf-16 \
+-            eglibc-charmap-utf-8 \
+-            eglibc-gconv-cp1255 \
+-            eglibc-charmap-cp1255 \
+-            eglibc-gconv-utf-32 \
+-            eglibc-gconv-utf-7 \
+-            eglibc-charmap-invariant \
+-            eglibc-localedata-translit-cjk-variants \
+-            tzdata \
+-            tzdata-americas \
+-            tzdata-asia \
+-            tzdata-europe \
+-            tzdata-posix \
+-            python-pygobject \
+-            python-dbus \
+-           "
 
-diff --git a/meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch b/meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
-new file mode 100644
-index 0000000..de17b4e
---- /dev/null
-+++ b/meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
-@@ -0,0 +1,25 @@
-+Do not include /usr/include host paths
-+
-+These were added upstream apparently for freebsd support, but trigger
-+compiler warnings during the build and could be dangerous, so remove
-+them.
-+
-+Upstream-Status: Inappropriate [cross]
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -1,12 +1,5 @@
-+ cmake_minimum_required(VERSION 2.6.0)
-+ 
-+-#freebsd support
-+-include_directories(SYSTEM /usr/local/include)
-+-link_directories(/usr/local/lib)
-+-link_directories(/usr/local/lib32)
-+-link_directories(/usr/local/lib64)
-+-SET(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} /usr/local/include)
-+-
-+ #extract version from qmmp.h
-+ FILE(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/src/qmmp/qmmp.h"
-+      QMMP_VERSION_DATA REGEX "^#define[ \t]+QMMP_VERSION_[A-Z]+[ \t]+[0-9]+.*$")
-diff --git a/meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch b/meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch
-new file mode 100644
-index 0000000..5e2978b
---- /dev/null
-+++ b/meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch
-@@ -0,0 +1,21 @@
-+Don't call session manager function if not enabled
-+
-+If session management has been disabled we will get a compilation
-+failure if we try to call QApplication::commitData() so don't do so if
-+it is disabled.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+--- a/src/app/qmmpapplication.cpp
-++++ b/src/app/qmmpapplication.cpp
-+@@ -29,6 +29,8 @@ void QmmpApplication::commitData(QSessionManager &manager)
-+ {
-+     if(UiHelper::instance())
-+         UiHelper::instance()->exit();
-++#ifndef QT_NO_SESSIONMANAGER
-+     else
-+         QApplication::commitData(manager);
-++#endif
-+ }
-diff --git a/meta/recipes-qt/qt-apps/qmmp_0.6.1.bb b/meta/recipes-qt/qt-apps/qmmp_0.6.6.bb
-similarity index 56%
-rename from meta/recipes-qt/qt-apps/qmmp_0.6.1.bb
-rename to meta/recipes-qt/qt-apps/qmmp_0.6.6.bb
-index ed096e9..2f5e0d5 100644
---- a/meta/recipes-qt/qt-apps/qmmp_0.6.1.bb
-+++ b/meta/recipes-qt/qt-apps/qmmp_0.6.6.bb
-@@ -2,20 +2,37 @@ DESCRIPTION = "Qmmp (Qt-based Multimedia Player) is an audio-player, written wit
- HOMEPAGE = "http://qmmp.ylsoftware.com"
- LICENSE = "GPLv2"
- LICENSE_FLAGS = "commercial"
--LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- SECTION = "multimedia"
- 
--PR = "r1"
-+DEPENDS = "taglib libmad libvorbis libogg alsa-lib libsndfile1 libsamplerate0 curl"
- 
--DEPENDS = "taglib libmad libvorbis libogg alsa-lib"
-+SRC_URI = "http://qmmp.ylsoftware.com/files/${BPN}-${PV}.tar.bz2 \
-+           file://no-host-paths.patch \
-+           file://no-sessionmanager.patch"
- 
--SRC_URI = "http://qmmp.ylsoftware.com/files/${BPN}-${PV}.tar.bz2"
--
--SRC_URI[md5sum] = "23a1a3aa924da901ebc8327ea76135d4"
--SRC_URI[sha256sum] = "b48be8c0e3882088919a77ce7b619cfc99d32af29cc688ba8749a58cbb25fb6f"
-+SRC_URI[md5sum] = "0131a9bf7b98737c1a6fd6e1a897e2b2"
-+SRC_URI[sha256sum] = "dfa973cca80c020a85a11bb66701a3804f9fde326440abb179559c98bf3b5b99"
- 
- inherit cmake qt4x11
- 
-+QMMP_PLUGIN_OPTIONS ??= "\
-+                        -DUSE_MMS:BOOL=FALSE \
-+                        -DUSE_MPC:BOOL=FALSE \
-+                        -DUSE_MODPLUG:BOOL=FALSE \
-+                        -DUSE_WAVPACK:BOOL=FALSE \
-+                        -DUSE_FFMPEG:BOOL=FALSE \
-+                        -DUSE_AAC:BOOL=FALSE \
-+                        -DUSE_CDA:BOOL=FALSE \
-+                        -DUSE_MIDI:BOOL=FALSE \
-+                        -DUSE_GME:BOOL=FALSE \
-+                        -DUSE_OSS4:BOOL=FALSE \
-+                        -DUSE_JACK:BOOL=FALSE \
-+                        -DUSE_BS2B:BOOL=FALSE \
-+                        -DUSE_PROJECTM:BOOL=FALSE \
-+                        -DUSE_ENCA:BOOL=FALSE \
-+                        "
-+
- export EXTRA_OECMAKE = "-DQT_QMAKE_EXECUTABLE=${OE_QMAKE_QMAKE} \
-                         -DQT_LRELEASE_EXECUTABLE=${OE_QMAKE_LRELEASE} \
-                         -DQT_MOC_EXECUTABLE=${OE_QMAKE_MOC} \
-@@ -24,9 +41,15 @@ export EXTRA_OECMAKE = "-DQT_QMAKE_EXECUTABLE=${OE_QMAKE_QMAKE} \
-                         -DQT_LIBRARY_DIR=${OE_QMAKE_LIBDIR_QT} \
-                         -DQT_HEADERS_DIR=${OE_QMAKE_INCDIR_QT} \
-                         -DQT_QTCORE_INCLUDE_DIR=${OE_QMAKE_INCDIR_QT}/QtCore \
-+                        ${QMMP_PLUGIN_OPTIONS} \
-                         "
--PACKAGES_DYNAMIC += "^qmmp-plugin-.* "
- 
-+do_configure() {
-+	# Ensure we get the cmake configure and not qmake
-+	cmake_do_configure
-+}
-+
-+PACKAGES_DYNAMIC += "^qmmp-plugin-.* "
- 
- python populate_packages_prepend () {
-     qmmp_libdir = d.expand('${libdir}/qmmp')
--- 
-1.7.10.4
-
+> think this would be the wrong approach to this kind of issue as we want to
+> expand the usage of ptest.
 
 
