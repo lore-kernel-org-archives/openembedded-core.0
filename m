@@ -1,39 +1,31 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U2llE-0005KB-K7
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 17:52:45 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r15GafMJ012554
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 5 Feb 2013 17:36:42 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U2lVh-0005S5-3t; Tue, 05 Feb 2013 17:36:41 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1360059615.git.dvhart@linux.intel.com>
-	<41381da878685b601c62d446795c38119f08941b.1360059615.git.dvhart@linux.intel.com>
-	<ly7gmn57tl.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<51113140.5050600@linux.intel.com>
-Date: Tue, 05 Feb 2013 17:36:40 +0100
-In-Reply-To: <51113140.5050600@linux.intel.com> (Darren Hart's message of
-	"Tue, 05 Feb 2013 08:20:16 -0800")
-Message-ID: <lytxpq4t0n.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.84
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Darren Hart <public-dvhart-VuQAYsv1563Yd54FQh9/CA@plane.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 7/8] oe-git-proxy.sh: Add a new comprehensive git proxy script
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U2lms-0005NU-MW for openembedded-core@lists.openembedded.org;
+	Tue, 05 Feb 2013 17:54:33 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r15GhnIn014756; Tue, 5 Feb 2013 16:43:49 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id LqlQtP4ci9hU; Tue,  5 Feb 2013 16:43:49 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r15GhhOw014748
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 5 Feb 2013 16:43:46 GMT
+Message-ID: <1360082302.28450.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Date: Tue, 05 Feb 2013 16:38:22 +0000
+In-Reply-To: <0574b409893545c5ce601853c0210e3047b02297.1360079373.git.rep.dot.nop@gmail.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<0574b409893545c5ce601853c0210e3047b02297.1360079373.git.rep.dot.nop@gmail.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/8] busybox: update-modules script needs id(1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,48 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 16:52:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Feb 2013 16:54:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Darren Hart <dvhart@linux.intel.com> writes:
+On Tue, 2013-02-05 at 16:55 +0100, Bernhard Reutner-Fischer wrote:
+> The update-modules script calls id(1), so turn on id in this case.
+> Bump PR.
+> 
+> Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc       |    1 +
+>  meta/recipes-core/busybox/busybox_1.20.2.bb |    2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
->>> +	$NC -X connect $*
->> 
->> why '$*' but not '"$@*"'?
->> 
-> I'm not familiar with $@*
+Wasn't update-modules just removed from OECore?
 
-sorry... I meant "$@"
+Cheers,
 
+Richard
 
-> As for $* versus $@, the issue is how the arguments are presented. $*
-> as a single word, $@ each argument is quoted separately. I believe I
-> ran into issues with $@. I haven't had any trouble with $*.
-
-$* is causing trouble all the time because it does not retain whitespaces
-or empty parameters.  There are only very few cases, where $* makes sense.
-
-
-> Is there a particular use case where you can see this failing as is?
-
-"$@" is just the right thing to do in this situation.  E.g. when your
-script is called as
-
-| oe-git-proxy.sh "${HOST}" "${PORT}"
-
-and HOST is undefined due to some reason, you will try to connect to
-"${PORT}" with $*.  The "$@" will cause nc to complain about the broken
-HOST parameter.
-
-
-Btw...
-
-| exec $NC $METHOD "$@"
-
-would be the school book implementation for the thing you want to do...
-
-
-
-Enrico
 
 
