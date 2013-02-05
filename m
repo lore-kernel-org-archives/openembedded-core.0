@@ -1,23 +1,21 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1U2jRo-00073o-Jk
+	(envelope-from <tom.zanussi@intel.com>) id 1U2jj8-0007Q1-Ni
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 15:24:39 +0100
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 1C7384B0134
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2013 15:08:40 +0100 (CET)
-Date: Tue, 5 Feb 2013 15:08:39 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+	Tue, 05 Feb 2013 15:42:28 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 05 Feb 2013 06:26:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,602,1355126400"; d="scan'208";a="198895611"
+Received: from unknown (HELO localhost) ([10.255.12.93])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Feb 2013 06:26:35 -0800
+From: tom.zanussi@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130205150839.3bbb6695@e6520eb>
-In-Reply-To: <1360073052-15273-1-git-send-email-eric@eukrea.com>
-References: <1360073052-15273-1-git-send-email-eric@eukrea.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: [PATCH] qt4: fix CVE-2013-0254
+Date: Tue,  5 Feb 2013 08:26:33 -0600
+Message-Id: <cover.1360074262.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.4
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/1] systemtap 'crosstap' fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,28 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 14:24:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Feb 2013 14:42:32 -0000
 
-Hi,
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-Le Tue,  5 Feb 2013 15:04:12 +0100,
-Eric B=C3=A9nard <eric@eukrea.com> a =C3=A9crit :
+This is a patch to crosstap which fixes a problem where a passed-in
+builddir gets lost in the session copy constructor when connecting
+to remote hosts, resulting in failed script compilation.
 
-> fix "POSIX shared memory segments created world-writeable"
->=20
-> more details :
-> http://lists.qt-project.org/pipermail/announce/2013-February/000023.html
->=20
-> Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+The problem turned out to be simple hyphen/underscore confusion.
 
-more details :
-- compile tested on qt4-x11-free for an armv7 target
-- I had to remove a part of the patch which correspond to a test
-program which seems to not be distributed in the qt release (and is only
-in the git tree).
+The following changes since commit 7e9cb437b1b720e656f4a33f73c07c5dc7356a2c:
 
-Eric
+  dropbear: fix RPROVIDES (2013-02-04 23:31:02 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/crosstap-x86-64-fix
+  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/crosstap-x86-64-fix
+
+Tom Zanussi (1):
+  crosstap: handle hyphenated x86_64 target arch
+
+ scripts/crosstap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.11.4
+
 
 
