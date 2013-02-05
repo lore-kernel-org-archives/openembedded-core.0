@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1U2fBF-0006Tz-0u
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U2fBH-0006Tm-Gz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 10:51:12 +0100
+	Tue, 05 Feb 2013 10:51:13 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2013 01:35:14 -0800
+	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2013 01:35:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,602,1355126400"; d="scan'208";a="281086915"
+X-IronPort-AV: E=Sophos;i="4.84,602,1355126400"; d="scan'208";a="281086924"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2013 01:35:13 -0800
+	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2013 01:35:14 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2013 11:35:00 +0200
-Message-Id: <79697b5de00846a83d02e244a7ed60c4e16557d6.1360055640.git.laurentiu.palcu@intel.com>
+Date: Tue,  5 Feb 2013 11:35:01 +0200
+Message-Id: <d760ae0f13d72d3aac64bd7420bdd0ffcebd42ba.1360055640.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1360055640.git.laurentiu.palcu@intel.com>
 References: <cover.1360055640.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1360055640.git.laurentiu.palcu@intel.com>
 References: <cover.1360055640.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 6/8] liberation-fonts: use the new fontcache.bbclass
+Subject: [PATCH 7/8] package_ipk, rootfs_ipk: remove the "set -x"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +33,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Feb 2013 09:51:14 -0000
 
-This will add the proper postinst/postrm scriptlets.
+Comment the "set -x" lines since these will add a lot of extra, not
+always necessary, debug messages in the log.do_rootfs.
 
 [YOCTO #2599]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../ttf-fonts/liberation-fonts_1.04.bb             |   14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ meta/classes/package_ipk.bbclass |    2 +-
+ meta/classes/rootfs_ipk.bbclass  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index b0a8242..67e36e2 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -9,10 +9,12 @@ SECTION = "x11/fonts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- RDEPENDS_${PN} = "fontconfig-utils"
--PR = "r2"
-+PR = "r3"
- PE = "1"
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 433d0bb..412c3f8 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -196,7 +196,7 @@ ipk_log_check() {
+ # Update the Packages index files in ${DEPLOY_DIR_IPK}
+ #
+ package_update_index_ipk () {
+-	set -x
++	#set -x
  
--inherit allarch
-+inherit allarch fontcache
-+
-+FONT_PACKAGES = "${PN}"
+ 	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}"
  
- SRC_URI = "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
-@@ -33,13 +35,5 @@ do_install () {
- 	install -m 0644 License.txt ${D}${datadir}/doc/${PN}/
- }
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 0e2fa12..d6a7ac4 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -26,7 +26,7 @@ BAD_RECOMMENDATIONS ?= ""
+ MULTILIBRE_ALLOW_REP = "${opkglibdir}"
  
--pkg_postinst_${PN} () {
--#!/bin/sh
--if [ "x$D" != "x" ] ; then
--	exit 1
--fi
--fc-cache
--}
--
- PACKAGES = "${PN}"
- FILES_${PN} += "${sysconfdir} ${datadir}"
+ fakeroot rootfs_ipk_do_rootfs () {
+-	set -x
++	#set -x
+ 
+ 	rm -f ${IPKGCONF_TARGET}
+ 	touch ${IPKGCONF_TARGET}
 -- 
 1.7.9.5
 
