@@ -1,35 +1,26 @@
-Received: from mail-ie0-f178.google.com ([209.85.223.178])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1U2lu7-00060U-FL
+	(envelope-from <sgw@linux.intel.com>) id 1U2luA-00060X-J4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 18:01:56 +0100
-Received: by mail-ie0-f178.google.com with SMTP id c13so481767ieb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Feb 2013 08:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=ahYs8CafjQ+XFPkCrAjNtYBGOt6GwHNgtVg/s+evvts=;
-	b=tG5IVoXysXC2Iuhx30Xk4qbcnLr7zaDkeQrzIkgo7UrYh3E1rRvRwezRfCHqmas9ly
-	NqBwTkJdXw+4R3t6SC8utZmjiWhOwbyLRgt+zNLBbvcjuQggD2IxKaoClw8CbYiELU2f
-	fjQm96EEPdnB14WaPOmSaIi6Jw6/szKyBuItTWbEzCElh32/ZBuxixWBtMFFM4FaSFKe
-	b36ryaa+5XpPbMYHugXOFqSU2IPaKdWYnlp8RPSdb+lxqkcu3aU2WIC/0mKAjyAuI/Z0
-	CBUObc3t5ECle60han5ZAoLUaRYfJ00YYY/d1uXWmgfWRzx3g+yhpfSX9ISCxbTCDYC3
-	sERQ==
+	Tue, 05 Feb 2013 18:01:59 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Feb 2013 08:46:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,609,1355126400"; d="scan'208";a="286896224"
+Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2013 08:46:07 -0800
+Message-ID: <5111374E.1050802@linux.intel.com>
+Date: Tue, 05 Feb 2013 08:46:06 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.50.53.208 with SMTP id d16mr14762348igp.5.1360082764952;
-	Tue, 05 Feb 2013 08:46:04 -0800 (PST)
-Received: by 10.64.143.228 with HTTP; Tue, 5 Feb 2013 08:46:04 -0800 (PST)
-In-Reply-To: <1360082302.28450.0.camel@ted>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 References: <cover.1360079373.git.rep.dot.nop@gmail.com>
-	<0574b409893545c5ce601853c0210e3047b02297.1360079373.git.rep.dot.nop@gmail.com>
-	<1360082302.28450.0.camel@ted>
-Date: Tue, 5 Feb 2013 17:46:04 +0100
-Message-ID: <CAC1BbcR0JcaLqu60ZOC7eQG3kpO7y+xsu8YkBWm=U-CnOZ=Fsg@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/8] busybox: update-modules script needs id(1)
+	<3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+In-Reply-To: <3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+Cc: =?UTF-8?B?QmrDtnJuIFN0ZW5iZQ==?=, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] Revert "Add ptest for glib."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +33,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 17:01:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 05 Feb 2013 17:02:00 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5 February 2013 17:38, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2013-02-05 at 16:55 +0100, Bernhard Reutner-Fischer wrote:
->> The update-modules script calls id(1), so turn on id in this case.
->> Bump PR.
->>
->> Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->> ---
->>  meta/recipes-core/busybox/busybox.inc       |    1 +
->>  meta/recipes-core/busybox/busybox_1.20.2.bb |    2 +-
->>  2 files changed, 2 insertions(+), 1 deletion(-)
+On 02/05/2013 07:55 AM, Bernhard Reutner-Fischer wrote:
+> This reverts commit dec6f912d68f52748f645b6af411f189cf464f85.
 >
-> Wasn't update-modules just removed from OECore?
+> This breaks core-image-sato-sdk for TCLIBC="uclibc".
+>
+What's the issue?  Is it fixable instead of reverting the ptest patch? I 
+think this would be the wrong approach to this kind of issue as we want 
+to expand the usage of ptest.
 
-could be, i am still at 8dd608dac1e5658197078d002dc1b3dc8ac83184 here
-because i feared that unrelated stuff will fail again on me (see the
-Revert in this series for one example).
-Please disregard this hunk if it is moot by now..
-cheers,
+Thanks
+
+    Sau!
+
+> Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+> ---
+>   .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   61 --------------------
+>   meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 -
+>   meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   22 -------
+>   3 files changed, 86 deletions(-)
+>   delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
+>   delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch b/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
+> deleted file mode 100644
+> index cb36c09..0000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -Add 'ptest' target to Makefile, to run tests without checking dependencies.
+> -Add 'install-ptest' target, to copy needed files to ptest dir.
+> -
+> -Signed-off-by: Björn Stenberg <bjst@enea.com>
+> -Upstream-status: Pending
+> ----
+> - Makefile.decl |   43 +++++++++++++++++++++++++++++++++++++++++++
+> - 1 file changed, 43 insertions(+)
+> -
+> ---- a/Makefile.decl	2012-03-12 01:42:39.000000000 +0100
+> -+++ b/Makefile.decl	2012-11-26 13:42:08.436865192 +0100
+> -@@ -25,6 +25,49 @@
+> - test-nonrecursive:
+> - endif
+> -
+> -+ptest: ptest-nonrecursive
+> -+	@ for subdir in $(SUBDIRS) .; do \
+> -+	    test -d "$$subdir" -a "$$subdir" != "." -a "$$subdir" != "po" && \
+> -+	    ( test -d $$subdir && cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $@ ) \
+> -+	  done
+> -+
+> -+ptest-nonrecursive:
+> -+	@test -z "${TEST_PROGS}" || ${GTESTER} --keep-going --verbose ${TEST_PROGS}
+> -+
+> -+install-ptest: install-ptest-nonrecursive
+> -+	@test -z "$(SUBDIRS)" || for subdir in $(SUBDIRS); do \
+> -+	    test "$$subdir" == "." || \
+> -+	    (cd $$subdir && $(MAKE) DESTDIR=$(DESTDIR)/$$subdir $@ ) \
+> -+	done
+> -+
+> -+# install files used for ptest:
+> -+# - copy EXTRA_DIST (for test data in glib/tests)
+> -+# - run dist-hook (for glib/tests/bookmarks/ and glib/tests/markups)
+> -+# - copy TEST_PROGS (the test programs)
+> -+# - copy INSTALL_PROGS (for glib/gtester)
+> -+# - avoid libtool wrappers by copying binaries from .libs
+> -+# - strip Makefile: target from all Makefiles
+> -+install-ptest-nonrecursive:
+> -+	@mkdir -p $(DESTDIR)
+> -+	@if [ -n "${TEST_PROGS}" ]; then \
+> -+		if [ -n "${EXTRA_DIST}" ]; then \
+> -+			cp ${EXTRA_DIST} $(DESTDIR); \
+> -+		fi; \
+> -+		grep -q dist-hook: Makefile && \
+> -+			$(MAKE) distdir=$(DESTDIR) dist-hook; \
+> -+		if [ -d .libs ] ; then \
+> -+			cd .libs; \
+> -+		fi; \
+> -+		cp ${TEST_PROGS} $(DESTDIR); \
+> -+	fi;
+> -+	@if [ -n "${INSTALL_PROGS}" ]; then \
+> -+		if [ -d .libs ]  ; then \
+> -+			cd .libs; \
+> -+		fi; \
+> -+		cp ${INSTALL_PROGS} $(DESTDIR); \
+> -+	fi
+> -+	@test -f Makefile && sed 's/^Makefile:/_Makefile:/' <Makefile >$(DESTDIR)/Makefile
+> -+
+> - # test-report: run tests in subdirs and generate report
+> - # perf-report: run tests in subdirs with -m perf and generate report
+> - # full-report: like test-report: with -m perf and -m slow
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+> deleted file mode 100644
+> index 3deb586..0000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+> +++ /dev/null
+> @@ -1,3 +0,0 @@
+> -#!/bin/sh
+> -
+> -make -k ptest
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+> index e1d44e2..e4293c8 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+> @@ -13,8 +13,6 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>              file://configure-libtool.patch \
+>              file://glib-2.0_fix_for_x32.patch \
+>              file://obsolete_automake_macros.patch \
+> -           file://Makefile-ptest.patch \
+> -           file://run-ptest \
+>             "
+>   SRC_URI[md5sum] = "a4ca31e258273c3761e3de2edd607661"
+>   SRC_URI[sha256sum] = "855fcbf87cb93065b488358e351774d8a39177281023bae58c286f41612658a7"
+> @@ -22,24 +20,6 @@ SRC_URI[sha256sum] = "855fcbf87cb93065b488358e351774d8a39177281023bae58c286f4161
+>   SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+>   BBCLASSEXTEND = "native nativesdk"
+>
+> -RDEPENDS_${PN}-ptest += "\
+> -            eglibc-gconv-utf-16 \
+> -            eglibc-charmap-utf-8 \
+> -            eglibc-gconv-cp1255 \
+> -            eglibc-charmap-cp1255 \
+> -            eglibc-gconv-utf-32 \
+> -            eglibc-gconv-utf-7 \
+> -            eglibc-charmap-invariant \
+> -            eglibc-localedata-translit-cjk-variants \
+> -            tzdata \
+> -            tzdata-americas \
+> -            tzdata-asia \
+> -            tzdata-europe \
+> -            tzdata-posix \
+> -            python-pygobject \
+> -            python-dbus \
+> -           "
+> -
+>   do_configure_prepend() {
+>   	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+>   }
+> @@ -56,6 +36,4 @@ do_install_append() {
+>     if [ -f ${D}${bindir}/glib-mkenums ]; then
+>       sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
+>     fi
+> -
+> -  ptest_do_install
+>   }
+>
 
 
