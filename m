@@ -1,47 +1,47 @@
-Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
+Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
 	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1U2nKB-0002xA-EA
+	(envelope-from <B29882@freescale.com>) id 1U2nKD-0002xF-MS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 19:32:56 +0100
-Received: from mail40-db3-R.bigfish.com (10.3.81.244) by
-	DB3EHSOBE003.bigfish.com (10.3.84.23) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 5 Feb 2013 17:46:58 +0000
-Received: from mail40-db3 (localhost [127.0.0.1])	by mail40-db3-R.bigfish.com
-	(Postfix) with ESMTP id F001334078B	for
+	Tue, 05 Feb 2013 19:32:59 +0100
+Received: from mail107-db3-R.bigfish.com (10.3.81.246) by
+	DB3EHSOBE008.bigfish.com (10.3.84.28) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 5 Feb 2013 17:46:59 +0000
+Received: from mail107-db3 (localhost [127.0.0.1])	by
+	mail107-db3-R.bigfish.com (Postfix) with ESMTP id 417C91A0946	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue,  5 Feb 2013 17:46:57 +0000 (UTC)
+	Tue,  5 Feb 2013 17:46:59 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h1155h)
-Received: from mail40-db3 (localhost.localdomain [127.0.0.1]) by mail40-db3
-	(MessageSwitch) id 1360086416729055_31937;
+X-SpamScore: 6
+X-BigFish: VS6(z37d5kzzz1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h1155h)
+Received: from mail107-db3 (localhost.localdomain [127.0.0.1]) by mail107-db3
+	(MessageSwitch) id 1360086416430661_12567;
 	Tue,  5 Feb 2013 17:46:56 +0000 (UTC)
-Received: from DB3EHSMHS008.bigfish.com (unknown [10.3.81.237])	by
-	mail40-db3.bigfish.com (Postfix) with ESMTP id AECBC801E9	for
+Received: from DB3EHSMHS011.bigfish.com (unknown [10.3.81.226])	by
+	mail107-db3.bigfish.com (Postfix) with ESMTP id 65887E021D	for
 	<openembedded-core@lists.openembedded.org>;
 	Tue,  5 Feb 2013 17:46:56 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS008.bigfish.com
-	(10.3.87.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 5 Feb 2013 17:46:55 +0000
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS011.bigfish.com
+	(10.3.87.111) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 5 Feb 2013 17:46:56 +0000
 Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.2.318.3; Tue, 5 Feb 2013 17:46:53 +0000
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.318.3; Tue, 5 Feb 2013 17:46:54 +0000
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
 	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id
-	r15Hkj8B032069	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Feb 2013 10:46:50 -0700
+	r15Hkj8D032069	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Feb 2013 10:46:53 -0700
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Feb 2013 11:46:45 -0600
-Message-ID: <1360086408-29832-2-git-send-email-msm@freescale.com>
+Date: Tue, 5 Feb 2013 11:46:47 -0600
+Message-ID: <1360086408-29832-4-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.9.7
 In-Reply-To: <1360086408-29832-1-git-send-email-msm@freescale.com>
 References: <1360086408-29832-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 2/5] quota_4.01.bb: add e2fsprogs in DEPENDS
+Subject: [PATCH 4/5] kernel-arch.bbclass: don't pass extra args to KERNEL_{CC, LD, AR}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,39 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 18:32:56 -0000
+X-List-Received-Date: Tue, 05 Feb 2013 18:33:00 -0000
 Content-Type: text/plain
 
-Fixes:
-
-| /local/home/mattsm/git/poky/build-master/tmp/sysroots/x86_64-linux/usr/libexec/ppce300c3-poky-linux/gcc/powerpc-poky-linux/4.7.2/ld: cannot find -lext2fs
+Commit a3ca06c3b45c791dd38dbf154ad0fc62b4063475 added extra args to
+KERNEL_CC, these revert that bit while maintaining machine additions
+in TARGET_??_KERNEL_ARCH
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-extended/quota/quota_4.01.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel-arch.bbclass |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/quota/quota_4.01.bb b/meta/recipes-extended/quota/quota_4.01.bb
-index 1cb6650..80159a9 100644
---- a/meta/recipes-extended/quota/quota_4.01.bb
-+++ b/meta/recipes-extended/quota/quota_4.01.bb
-@@ -6,7 +6,7 @@ LICENSE = "BSD & GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://quota.c;beginline=1;endline=33;md5=331c7d77744bfe0ad24027f0651028ec \
-                     file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
-                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index a51e82b..b3b71ba 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -52,7 +52,7 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+ TARGET_AR_KERNEL_ARCH ?= ""
+ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz"
- 
-@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "a36300bbc126b79b745bf937245092808b4585aa3309ef3335d4ab9d87
- 
- S = "${WORKDIR}/quota-tools"
- 
--DEPENDS = "gettext-native"
-+DEPENDS = "gettext-native e2fsprogs"
- 
- inherit autotools gettext
+-KERNEL_CC = "${CC} ${HOST_CC_KERNEL_ARCH}"
+-KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
+-KERNEL_AR = "${AR} ${HOST_AR_KERNEL_ARCH}"
++KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
++KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}"
++KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
  
 -- 
 1.7.9.7
