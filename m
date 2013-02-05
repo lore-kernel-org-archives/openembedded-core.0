@@ -1,28 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-bk0-f50.google.com ([209.85.214.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Andrei.Gherzan@windriver.com>) id 1U2kzU-0003p5-6c
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U2l7e-0003zp-FT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 17:03:25 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r15FlW1J009829
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Feb 2013 07:47:32 -0800 (PST)
-Received: from windriver.com (128.224.169.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 5 Feb 2013 07:47:31 -0800
-Date: Tue, 5 Feb 2013 17:47:34 +0200
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20130205154733.GE8509@windriver.com>
-References: <1360066533-20693-1-git-send-email-andrei.gherzan@windriver.com>
-	<CAJTo0LYQAy5-RzTU4aYN0jqAX10cbMNSUPu3i+CMBFo8G4vD1w@mail.gmail.com>
-	<CAP9ODKqnZtMCkSpR7m7CJ=Z5YvERgTX71AdmuYOU16BUv9PFGg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqnZtMCkSpR7m7CJ=Z5YvERgTX71AdmuYOU16BUv9PFGg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [PATCH] wpa-supplicant: Package systemd service in -systemd
+	Tue, 05 Feb 2013 17:11:51 +0100
+Received: by mail-bk0-f50.google.com with SMTP id jg9so152977bkc.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Feb 2013 07:56:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=rue3fZbrxasmekOH7NXd/xIQsZDmPDV2qg/tZdFJHIs=;
+	b=0HMdvFJX1kM2r4bnCENNPiZttRJQ0HPhgZOfTyqMYsZanlFNFllGUJPn7BJlxuo9p5
+	u6lR2RSziZG9f6pm8Rp/gBm5wKsqDeQcfqIW7glo7nm1p6DmkxuVE/e5D/dHDWMq30b7
+	oULGshBa4Wte9LF+k4mnI/oK6Ayw8WIF5U+S/nd/2aBSyJKDtD/TQKhcHaunoabPgCVL
+	3x1o771STgetOiBMXXAxCvMgxobu9T+P38CduM1bHCciFzax7XyoEZf7VL9cK/hNKWUQ
+	jqjXYDZ+LhzqjIqOzJRLIEpmO/NVGpA3DJHRQ4eSJs066195eYOx2JV9vF/r4/ojQqHg
+	FB+A==
+X-Received: by 10.204.156.8 with SMTP id u8mr698266bkw.78.1360079760848;
+	Tue, 05 Feb 2013 07:56:00 -0800 (PST)
+Received: from s42.loc (91-119-139-175.dynamic.xdsl-line.inode.at.
+	[91.119.139.175])
+	by mx.google.com with ESMTPS id hc16sm6744890bkc.2.2013.02.05.07.55.58
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 05 Feb 2013 07:55:59 -0800 (PST)
+Received: from cow by s42.loc with local (Exim 4.80)
+	(envelope-from <rep.dot.nop@gmail.com>)
+	id 1U2ksG-0004XP-N5; Tue, 05 Feb 2013 16:55:56 +0100
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Feb 2013 16:55:43 +0100
+Message-Id: <e862de06d6777428168c6091dbbedd87689d9d11.1360079373.git.rep.dot.nop@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1360079373.git.rep.dot.nop@gmail.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+In-Reply-To: <cover.1360079373.git.rep.dot.nop@gmail.com>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+Subject: [PATCH 3/8] uclibc: turn on kernel module support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +48,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 16:03:26 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 Feb 2013 16:11:57 -0000
 
-On Tue, Feb 05, 2013 at 01:42:38PM -0200, Otavio Salvador wrote:
-> On Tue, Feb 5, 2013 at 11:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 5 February 2013 12:15, Andrei Gherzan <andrei.gherzan@windriver.com> wrote:
-> >> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> >> ---
-> >>  .../wpa-supplicant/wpa-supplicant-2.0.inc          |    6 ++++--
-> >>  .../wpa-supplicant/wpa-supplicant_2.0.bb           |    2 +-
-> >>  2 files changed, 5 insertions(+), 3 deletions(-)
-> >
-> > NACK.
-> >
-> > Please don't add -systemd packages.  I've almost got a systemd.bbclass
-> > that I'm happy with, but if you must add integration now then just
-> > package the unit files alongside the daemons, respecting the distro
-> > feature.
->
-> I'd prefer to hold it until the class is out.
->
+Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro |    2 ++
+ 1 file changed, 2 insertions(+)
 
-Fair.
-
---
-Andrei Gherzan | Wind River Systems
-m: +40 734 450 615 | p: +40 236 320 307
+diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+index 5affb5a..c309e6f 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
++++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+@@ -157,6 +157,8 @@ WARNINGS="-Wall"
+ DO_C99_MATH=y
+ UCLIBC_HAS_LONG_DOUBLE_MATH=y
+ UCLIBC_HAS_FENV=y
++UCLIBC_LINUX_MODULE_26=y
++# UCLIBC_LINUX_MODULE_24 is not set
+ UCLIBC_LINUX_SPECIFIC=y
+ UCLIBC_HAS_REALTIME=y
+ UCLIBC_HAS_ADVANCED_REALTIME=y
+-- 
+1.7.10.4
 
 
 
