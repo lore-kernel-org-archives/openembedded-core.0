@@ -1,44 +1,29 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U2o8M-0004d0-6N
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U2oFL-0004kw-6p
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Feb 2013 20:24:47 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r15J8paq005243
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 5 Feb 2013 20:08:52 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U2nsx-0004XE-7u; Tue, 05 Feb 2013 20:08:51 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1360059615.git.dvhart@linux.intel.com>
-	<41381da878685b601c62d446795c38119f08941b.1360059615.git.dvhart@linux.intel.com>
-	<ly7gmn57tl.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<51113140.5050600@linux.intel.com>
-	<lytxpq4t0n.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<511144EC.1030704@linux.intel.com>
-	<CAP9ODKr1qz6=k7xC84h0Try0HsydDhNyERPzuW-FhuaLRbYajQ@mail.gmail.com>
-Date: Tue, 05 Feb 2013 20:08:51 +0100
-In-Reply-To: <CAP9ODKr1qz6=k7xC84h0Try0HsydDhNyERPzuW-FhuaLRbYajQ@mail.gmail.com>
-	(Otavio Salvador's message of "Tue, 5 Feb 2013 16:40:58 -0200")
-Message-ID: <lyhalq4lz0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Tue, 05 Feb 2013 20:32:00 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r15JG3g4003913
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 5 Feb 2013 11:16:03 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 5 Feb 2013 11:16:03 -0800
+Date: Tue, 5 Feb 2013 13:15:55 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Constantin Musca <constantinx.musca@intel.com>
+Message-ID: <20130205131555.46c685fb@e6410-2>
+In-Reply-To: <5110B6CE.1050504@intel.com>
+References: <1359977606-15432-1-git-send-email-constantinx.musca@intel.com>
+	<20130204122309.12582d0b@e6410-2> <1360020111.14071.172.camel@ted>
+	<20130204172705.0e18d279@e6410-2> <1360021079.14071.174.camel@ted>
+	<20130204175024.3af7b9b2@e6410-2> <5110B6CE.1050504@intel.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Darren Hart <public-dvhart-VuQAYsv1563Yd54FQh9/CA@plane.gmane.org>
-Subject: Re: [PATCH 7/8] oe-git-proxy.sh: Add a new comprehensive git proxy script
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo: fix sqlite path and package missing files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,22 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Feb 2013 19:24:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Feb 2013 19:32:02 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-Otavio Salvador <otavio@ossystems.com.br> writes:
+On Tue, 5 Feb 2013 09:37:50 +0200
+Constantin Musca <constantinx.musca@intel.com> wrote:
 
-> Please give it a try in dash as well.
+> On 02/05/2013 01:50 AM, Peter Seebach wrote:
+> > On Mon, 4 Feb 2013 23:37:59 +0000
+> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> >  
+> >> Agreed. Can someone send me a patch which makes it all work
+> >> please? :)  
+> > I probably can. I think the 1.4.3 patch I sent out recently (sgw was
+> > looking at it, but the binaries weren't up on the downloads server
+> > yet) probably covers most of it, but not the case where
+> > sqlite-libdir isn't lib, which is probably (??) a target-only case.
+> >
+> > Can someone show me a test case where it fails, so I can add that
+> > to my pile of pseudo test cases, and then stare at it for a while?
+> >
+> > -s  
+> Here's a test case:
+>      1. local.conf:
+>          MACHINE = "qemux86-64"
+>          require conf/multilib.conf
+>          MULTILIBS = "multilib:lib32"
+>          DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+>      2. build pseudo
 
-fwiw, what's the point in writing such scripts plain sh?  I guess. every
-machine where this script is running has /bin/bash and performance is
-not critical for it. Using '#! /bin/bash' shebang fixes the problem
-where sh is non bash.
+*pulls off mask, revealing he was the pseudo maintainer all along*
 
-Some constructs in the scripts can be expressed mor efficiently in bash
-(e.g. the '... | sed' statements, or using arrays for the arguments).
+And I would have gotten away with it, too, if it hadn't been for you
+meddling multilibs!
 
+Okay, got a tentative fix for this in my tree, will probably resend my
+pseudo 1.4.3 patch with this changed, once it makes it through my
+ever-growing collection of pseudo tests.
 
-Enrico
+The guts of the change:
+
+[...]
++SQLITE_LIB = "${baselib}"
++SQLITE_LIB_native = "lib"
++
+ # Compile for the local machine arch... 
+ do_compile () { 
+        if [ "${SITEINFO_BITS}" = "64" ]; then
+-         ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath 
++         ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${SQLITE_LIB} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath 
+        else
+
+This appears to be working for all the cases I've tried.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
