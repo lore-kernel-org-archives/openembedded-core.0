@@ -1,24 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1U37Mi-0003cX-6J
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U38Ec-00050a-Gh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Feb 2013 16:56:53 +0100
+	Wed, 06 Feb 2013 17:52:36 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 06 Feb 2013 07:41:00 -0800
+	by azsmga101.ch.intel.com with ESMTP; 06 Feb 2013 08:36:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,615,1355126400"; d="scan'208";a="253378775"
-Received: from unknown (HELO localhost) ([10.255.12.217])
-	by azsmga001.ch.intel.com with ESMTP; 06 Feb 2013 07:40:59 -0800
-From: tom.zanussi@linux.intel.com
-To: openembedded-core@lists.openembedded.org,
-	ross.burton@intel.com
-Date: Wed,  6 Feb 2013 09:40:58 -0600
-Message-Id: <f651997fbd77a84e5c9c379898836cf4cb3340f1.1360165052.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <cover.1360165052.git.tom.zanussi@linux.intel.com>
-References: <cover.1360165052.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/1][danny] crosstap: handle hyphenated x86_64 target arch
+X-IronPort-AV: E=Sophos;i="4.84,616,1355126400"; d="scan'208";a="253404648"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 06 Feb 2013 08:36:38 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Feb 2013 18:36:25 +0200
+Message-Id: <cover.1360166922.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/6] Yet another patchset with postinstall fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,40 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Feb 2013 15:56:57 -0000
+X-List-Received-Date: Wed, 06 Feb 2013 16:52:43 -0000
+X-List-Received-Date: Wed, 06 Feb 2013 16:52:43 -0000
 
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+Hi all,
 
-systemtap_target_arch() should also translate x86-64 (hyphenated) into
-x86_64 for the -a param.  Failing to do that causes systemtap to see
-an architecture mismatch and create a cloned session with a bogusly
-synthesized build directory path, and fails to compile the probe.
+This patchset contains postinstall fixes for:
+ * gtk+ immodules packages
+ * librsvg
+ * gnome-keyring
 
- Fixes [YOCTO #3756]
+Thanks,
+Laurentiu
 
-(From OE-Core rev: 98cae0544884cb5700d42409ec4a9584a17dc9a4)
+The following changes since commit 2180cc32b9a6d434c319292c1a636fb8e4d23899:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/crosstap | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  initiscripts: Fix populate-volatiles.sh whitespace (2013-02-06 14:44:49 +0000)
 
-diff --git a/scripts/crosstap b/scripts/crosstap
-index 783bf2f..58317cf 100755
---- a/scripts/crosstap
-+++ b/scripts/crosstap
-@@ -70,7 +70,7 @@ function systemtap_target_arch() {
-         i?86)
-             SYSTEMTAP_TARGET_ARCH="i386"
-             ;;
--        x86_64*)
-+        x86?64*)
-             SYSTEMTAP_TARGET_ARCH="x86_64"
-             ;;
-         arm*)
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/postinst_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/postinst_fixes
+
+Laurentiu Palcu (6):
+  Add pixbufcache class
+  gdk-pixbuf: use the new pixbufcache class
+  librsvg: use the new pixbufcache class
+  gtk-immodules-cache: add weak asignment for GTKIMMODULES_PACKAGES
+  gtk+: use gtk-immodules-cache class
+  gnome-keyring: compile schemas on host
+
+ meta/classes/gtk-immodules-cache.bbclass           |    2 +
+ meta/classes/pixbufcache.bbclass                   |   57 ++++++++++++++++++++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb |   48 ++---------------
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   12 +----
+ meta/recipes-gnome/gtk+/gtk+.inc                   |    8 +--
+ meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb             |   12 +----
+ meta/recipes-gnome/gtk+/gtk+_2.24.14.bb            |    4 +-
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |   21 ++------
+ 8 files changed, 72 insertions(+), 92 deletions(-)
+ create mode 100644 meta/classes/pixbufcache.bbclass
+
 -- 
-1.7.11.4
+1.7.9.5
 
 
 
