@@ -1,36 +1,25 @@
-Received: from mail-vc0-f172.google.com ([209.85.220.172])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3Z1v-0006zt-84
+	(envelope-from <sgw@linux.intel.com>) id 1U3Z4I-00071X-U7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Feb 2013 22:29:16 +0100
-Received: by mail-vc0-f172.google.com with SMTP id l6so1986645vcl.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2013 13:13:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Z9/1zyPtjgLhhIV/xh3RC+wx6QcfvBduDTMO6qqkpW0=;
-	b=faE3UuZMoMyDlxCR9uDbSeFBZVh6N1RDIBeDAKA7CqZ+LufZDttowHsWxVNH6Y3oLD
-	AGM6/ue3+DGETvqYT1JRt9ay7+i2DnLYimhJqr2IvgQFVxQAVhPEFDh7LYCMSC+VKBws
-	qd0ixaeY8dAQb6fDuIJLlcWH7UHVjQ3DprrmxTr2iWHkd3DHh/B3fs+81iytP1D+GMv9
-	Wp2o5BhYLzM4RZJkPqAw0pQxhMRLabiJVLNUf3tSwQEg/apgAKNJW+x3hEywU5Pem+Sj
-	J7Or5tKg+CDlYtylknJi/D9lGBDxScxaTAFVT12KpHaRIGQih6y6oLkPP87UiV6spVk6
-	qWYw==
-X-Received: by 10.220.116.5 with SMTP id k5mr2515596vcq.55.1360256211172; Thu,
-	07 Feb 2013 08:56:51 -0800 (PST)
+	Thu, 07 Feb 2013 22:31:43 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Feb 2013 09:39:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,616,1355126400"; d="scan'208";a="281795822"
+Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
+	by orsmga002.jf.intel.com with ESMTP; 06 Feb 2013 09:41:12 -0800
+Message-ID: <511295B8.40109@linux.intel.com>
+Date: Wed, 06 Feb 2013 09:41:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Thu, 7 Feb 2013 08:56:31 -0800 (PST)
-In-Reply-To: <f651997fbd77a84e5c9c379898836cf4cb3340f1.1360165052.git.tom.zanussi@linux.intel.com>
-References: <cover.1360165052.git.tom.zanussi@linux.intel.com>
-	<f651997fbd77a84e5c9c379898836cf4cb3340f1.1360165052.git.tom.zanussi@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Feb 2013 16:56:31 +0000
-Message-ID: <CAJTo0LZPDf_oHYp4O-8VsLXYxEvp=gBmhDq5zWpiX-RhUCLhgA@mail.gmail.com>
-To: tom.zanussi@linux.intel.com
-X-Gm-Message-State: ALoCoQn9MuwyqPZUkQOssMMUJhTCH4GI3uuKUNjrrdycqFTT9m3P8km6kSDyjEYkC3tmz3vnx8sM
+To: Mihai Prica <mihai.prica@intel.com>
+References: <1360152734-15731-1-git-send-email-mihai.prica@intel.com>
+In-Reply-To: <1360152734-15731-1-git-send-email-mihai.prica@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1][danny] crosstap: handle hyphenated x86_64 target arch
+Subject: Re: [PATCH] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +32,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2013 21:29:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 07 Feb 2013 21:31:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 6 February 2013 15:40,  <tom.zanussi@linux.intel.com> wrote:
-> From: Tom Zanussi <tom.zanussi@linux.intel.com>
+On 02/06/2013 04:12 AM, Mihai Prica wrote:
+> - enables qemu to run images with video output without the need for vncviewer.
+> - SDLPACKAGECONFIG is used because there is no need for the native-libsdl
+> package when building the qemu-native package.
 >
-> systemtap_target_arch() should also translate x86-64 (hyphenated) into
-> x86_64 for the -a param.  Failing to do that causes systemtap to see
-> an architecture mismatch and create a cloned session with a bogusly
-> synthesized build directory path, and fails to compile the probe.
+> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+> ---
+>   meta/recipes-devtools/qemu/qemu.inc |   19 +++++++++++--------
+>   1 file changed, 11 insertions(+), 8 deletions(-)
 >
->  Fixes [YOCTO #3756]
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 2b60347..4633f47 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -3,8 +3,7 @@ HOMEPAGE = "http://qemu.org"
+>   LICENSE = "GPLv2 & LGPLv2.1"
+>   DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
+>   DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
+> -DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
+> -RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+> +DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-glib-2.0 nativesdk-pixman"
 >
-> (From OE-Core rev: 98cae0544884cb5700d42409ec4a9584a17dc9a4)
+>   require qemu-targets.inc
+>   inherit autotools
+> @@ -13,10 +12,6 @@ BBCLASSEXTEND = "native nativesdk"
+>   # QEMU_TARGETS is overridable variable
+>   QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+>
+> -SDL ?= "--disable-sdl"
+> -SDL_class-native ?= ""
+> -SDL_class-nativesdk ?= ""
+> -
+>   SRC_URI = "\
+>       file://powerpc_rom.bin \
+>       file://no-strip.patch \
+> @@ -32,7 +27,7 @@ SRC_URI_append_class-nativesdk = "\
+>       file://relocatable_sdk.patch \
+>       "
+>
+> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 ${SDL} --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
+> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
+>
+>   EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls \
+>   				--disable-curl \
+> @@ -83,7 +78,15 @@ do_install_append() {
+>   }
+>   # END of qemu-mips workaround
+>
+> -PACKAGECONFIG ??= ""
+Seems to be left over from a previous patch?
 
-Merged to danny-next.
+> +PACKAGECONFIG ??= "sdl"
+> +PACKAGECONFIG_class-native ??= "sdl"
+Is this right?  If you only want it for target, why set it for native.
 
-Ross
+> +PACKAGECONFIG_class-nativesdk ??= "sdl"
+> +
+> +PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,${SDLPACKAGECONFIG},${SDLPACKAGECONFIG}"
+> +
+If it's disabled, you should not need the SDLPACKAGECONFIG in the 
+"false" case for DEPENDS.
+
+> +SDLPACKAGECONFIG = "libsdl"
+> +SDLPACKAGECONFIG_class-native = ""
+> +SDLPACKAGECONFIG_class-nativesdk = "nativesdk-libsdl"
+>
+It might be clearer to have these lines above the PACKAGECONFIG[sdl] 
+where they are used.
+
+
+
+>   # Qemu target will not build in world build for ARM or Mips
+>   BROKEN_qemuarm = "1"
+>
 
 
