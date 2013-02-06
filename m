@@ -1,20 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from comal.ext.ti.com ([198.47.26.152])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U3017-0005hM-JZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Feb 2013 09:06:06 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2013 23:50:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,614,1355126400"; d="scan'208";a="258410234"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 05 Feb 2013 23:50:13 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Feb 2013 23:50:12 -0800
-Message-Id: <cover.1360136847.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [CONSOLIDATED PULL 00/31] Read-Only Rootfs & Rootfs Postinstalls
+	(envelope-from <fcooper@ti.com>) id 1U30FO-00061h-VA
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 06 Feb 2013 09:21:07 +0100
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id r1682VYi021203;
+	Wed, 6 Feb 2013 02:02:31 -0600
+Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r1682Vjd026279;
+	Wed, 6 Feb 2013 02:02:31 -0600
+Received: from DFLE09.ent.ti.com ([fe80::3103:58c3:47f:860b]) by
+	DFLE73.ent.ti.com ([fe80::86e:fab6:cd95:e158%28]) with mapi id
+	14.01.0323.003; Wed, 6 Feb 2013 02:02:31 -0600
+From: "Cooper Jr., Franklin" <fcooper@ti.com>
+To: "ross.burton@intel.com" <ross.burton@intel.com>
+Thread-Topic: Re: [OE-core] Multiple MACHINE building is broken in OE-core?
+Thread-Index: Ac4EPH0DLgw0dpyLS7qCczLd7ak67w==
+Date: Wed, 6 Feb 2013 08:02:31 +0000
+Message-ID: <8F29D6B095ED194EA1980491A5E029710C38764C@DFLE09.ent.ti.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [157.170.170.90]
+MIME-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: Multiple MACHINE building is broken in OE-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,167 +38,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Feb 2013 08:06:06 -0000
+X-List-Received-Date: Wed, 06 Feb 2013 08:21:08 -0000
+X-List-Received-Date: Wed, 06 Feb 2013 08:21:08 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_8F29D6B095ED194EA1980491A5E029710C38764CDFLE09entticom_"
 
-Richard,
+--_000_8F29D6B095ED194EA1980491A5E029710C38764CDFLE09entticom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This set includes the kernel updates from Bruce, with the PPC fixes
-from Matthew, along with other patches.
+Hi Everyone,
 
-I tested the Read-only Rootfs on core-image-sato with Larurentiu's
-Postinstall patches, I was able to boot sato and use it in a ReadOnly 
-rootfs on QEMU.
+While performing denzil to danny work I ran into this same issue that Mike =
+mentioned. I have 4 machines that are armv7a based and previously in denzil=
+ only very specific recipes that I deliberately made machine specific were =
+being rebuilt. Now a significant amount of recipes are being unnecessarily =
+rebuilt. I first noticed this when building Qt but this also occurs with so=
+mething even simpler such as tslib. If I look at tslib's temp directory I e=
+nd up seeing multiple logs for the majority of the tasks. For example I wil=
+l see 4 log.do_compile logs.
 
-Please consider this patch set.
+I ran the sstate-diff-machines.sh script that Martin mentioned for machines=
+ defined in meta-ti and I got the below output when using tslib as the -tar=
+gets:
 
-Thanks
-	Sau!
+list.M am3517-evm
 
+http://pastebin.com/zMH8PkmP
 
-The following changes since commit 98cae0544884cb5700d42409ec4a9584a17dc9a4:
+list.M am335x-evm
+http://pastebin.com/6jbP6guA
 
-  crosstap: handle hyphenated x86_64 target arch (2013-02-05 15:22:19 +0000)
+The checksums differs for non-native recipes such as gettext, tslib and zli=
+b.
 
-are available in the git repository at:
+If it matters I am using the 1.17.0 branch of bitbake since the master bran=
+ch throws parsing errors.
 
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+Any suggestions on what could be the issue?
 
-Bogdan Marinescu (1):
-  intltool: updated to 0.50.2
-
-Bruce Ashfield (3):
-  linux-yocto/dev: linux-yocto development tree tracking recipe
-  linux-yocto/3.4: update to v3.4.28, 3.4.28-rt40
-  linux-yocto: KERNEL_FEATURES should reference full scc files
-
-Chen Qi (6):
-  sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
-  image.bbclass: add a hook funtion to support readonly rootfs
-  core-image.bbclass: support read-only rootfs
-  populate-volatile.sh: improve this script
-  initscripts: let populate-volatile.sh create the /tmp link
-  initscripts: add read-only-rootfs-hook.sh script
-
-Constantin Musca (1):
-  classextend.py: use explode_dep_versions2 in order to preserve
-    versions too
-
-Cristian Iorga (1):
-  net-tools: upgrade to v1.60-24.2
-
-Laurentiu Palcu (8):
-  add fontcache.bbclass
-  add qemuwrapper-cross recipe
-  qemu.bbclass: return qemuwrapper instead of qemu-allarch
-  image.bbclass: add a proper error message if hook script fails
-  fontconfig: add sysroot option to fc-cache and fc-cat
-  liberation-fonts: use the new fontcache.bbclass
-  package_ipk, rootfs_ipk: remove the "set -x"
-  pulseaudio: do not postpone postinstall
-
-Marko Lindqvist (3):
-  opkg: replace obsolete automake macros with working ones
-  matchbox-wm: update to git master head
-  rpcbind: replace obsolete automake macros with working ones
-
-Martin Jansa (2):
-  ipk: use OPKGLIBDIR in all places
-  send-pull-request: add extra CC argument
-
-Matthew McClintock (4):
-  glib: disable selinux for native builds
-  quota_4.01.bb: add e2fsprogs in DEPENDS
-  libpfm4_4.3.0.bb: add libpfm4 recipe needed by oprofile for ppc
-  oprofile: fix cross compile on powerpc and add libpfm4 dep
-
-Paul Eggleton (1):
-  qmmp: update to 0.6.6 and fix
-
-Roy.Li (1):
-  tcp-wrappers: remove size_t.patch
-
- meta/classes/core-image.bbclass                    |   4 +
- meta/classes/fontcache.bbclass                     |  47 ++
- meta/classes/image.bbclass                         |  22 +
- meta/classes/package_ipk.bbclass                   |   6 +-
- meta/classes/qemu.bbclass                          |   6 +-
- meta/classes/rootfs_ipk.bbclass                    |  18 +-
- meta/lib/oe/classextend.py                         |   9 +-
- meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   2 +-
- meta/recipes-core/glib-2.0/glib.inc                |   2 +-
- .../initscripts/initscripts-1.0/bootmisc.sh        |   9 +-
- .../initscripts-1.0/populate-volatile.sh           | 287 ++++----
- .../initscripts-1.0/read-only-rootfs-hook.sh       |  19 +
- .../initscripts/initscripts-1.0/volatiles          |   1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |   3 +
- meta/recipes-core/sysvinit/sysvinit/rcS-default    |   4 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   2 +-
- .../intltool-nowarn.patch}                         |   0
- .../noperlcheck.patch                              |  14 +-
- .../remove-xml-check.patch                         |   0
- .../use-nativeperl.patch                           |   0
- .../{intltool_0.50.0.bb => intltool_0.50.2.bb}     |   8 +-
- meta/recipes-devtools/opkg/opkg-collateral.bb      |   6 +-
- meta/recipes-devtools/opkg/opkg-collateral/lists   |   2 -
- meta/recipes-devtools/opkg/opkg.inc                |  25 +-
- .../opkg/opkg/obsolete_automake_macros.patch       |  15 +
- meta/recipes-devtools/opkg/opkg_svn.bb             |   1 +
- .../recipes-devtools/qemu/qemuwrapper-cross_1.0.bb |  14 +
- .../net-tools-config.h                             |   0
- .../net-tools-config.make                          |   0
- ...net-tools_1.60-23.bb => net-tools_1.60-24.2.bb} |   6 +-
- meta/recipes-extended/quota/quota_4.01.bb          |   4 +-
- .../rpcbind/rpcbind/obsolete_automake_macros.patch |  14 +
- meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   3 +-
- .../tcp-wrappers/tcp-wrappers-7.6/size_t.patch     |  44 --
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |   3 +-
- .../fontconfig/fontconfig-2.10.2/97_fontconfig     |   1 -
- ...Add-sysroot-option-to-fc-cache-and-fc-cat.patch | 731 +++++++++++++++++++++
- .../fontconfig/fontconfig_2.10.2.bb                |  13 +-
- .../matchbox-wm/matchbox-wm_git.bb                 |   4 +-
- .../ttf-fonts/liberation-fonts_1.04.bb             |  14 +-
- meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb        |  26 +
- meta/recipes-kernel/linux/linux-yocto-dev.bb       |  48 ++
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |   8 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |  18 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb  |   6 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   8 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |  28 +-
- .../0001-fix-powerpc-cross-compiling.patch         |  35 +
- meta/recipes-kernel/oprofile/oprofile_0.9.8.bb     |   7 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   7 +-
- meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch   |  25 +
- .../qt-apps/qmmp/no-sessionmanager.patch           |  21 +
- .../qt-apps/{qmmp_0.6.1.bb => qmmp_0.6.6.bb}       |  39 +-
- scripts/send-pull-request                          |  13 +-
- 54 files changed, 1325 insertions(+), 327 deletions(-)
- create mode 100644 meta/classes/fontcache.bbclass
- create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
- rename meta/recipes-devtools/intltool/{intltool-0.50.0/intltool-nowarn-0.50.0.patch => intltool-0.50.2/intltool-nowarn.patch} (100%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.0 => intltool-0.50.2}/noperlcheck.patch (77%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.0 => intltool-0.50.2}/remove-xml-check.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.0 => intltool-0.50.2}/use-nativeperl.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool_0.50.0.bb => intltool_0.50.2.bb} (71%)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/lists
- create mode 100644 meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
- rename meta/recipes-extended/net-tools/{net-tools-1.60-23 => net-tools-1.60-24.2}/net-tools-config.h (100%)
- rename meta/recipes-extended/net-tools/{net-tools-1.60-23 => net-tools-1.60-24.2}/net-tools-config.make (100%)
- rename meta/recipes-extended/net-tools/{net-tools_1.60-23.bb => net-tools_1.60-24.2.bb} (94%)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/size_t.patch
- delete mode 100644 meta/recipes-graphics/fontconfig/fontconfig-2.10.2/97_fontconfig
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig-2.10.2/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
- create mode 100644 meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-dev.bb
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-fix-powerpc-cross-compiling.patch
- create mode 100644 meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
- create mode 100644 meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch
- rename meta/recipes-qt/qt-apps/{qmmp_0.6.1.bb => qmmp_0.6.6.bb} (56%)
-
--- 
-1.8.0.2
+Regards,
+Franklin Cooper Jr.
+Texas Instruments
+Application Engineer
+fcooper@ti.com<mailto:fcooper@ti.com>
 
 
+--_000_8F29D6B095ED194EA1980491A5E029710C38764CDFLE09entticom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+h1
+	{mso-style-priority:9;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:24.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-link:"Heading 1";
+	font-family:"Times New Roman","serif";
+	font-weight:bold;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi Everyone,<o:p></o:p></p>
+<p class=3D"MsoNormal"><br>
+While performing denzil to danny work I ran into this same issue that Mike =
+mentioned. I have 4 machines that are armv7a based and previously in denzil=
+ only very specific recipes that I deliberately made machine specific were =
+being rebuilt. Now a significant
+ amount of recipes are being unnecessarily rebuilt. I first noticed this wh=
+en building Qt but this also occurs with something even simpler such as tsl=
+ib. If I look at tslib&#8217;s temp directory I end up seeing multiple logs=
+ for the majority of the tasks. For example
+ I will see 4 log.do_compile logs.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I ran the sstate-diff-machines.sh script that Martin=
+ mentioned for machines defined in meta-ti and I got the below output when =
+using tslib as the &#8211;targets:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">list.M am3517-evm<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><a href=3D"http://pastebin.com/zMH8PkmP">http://past=
+ebin.com/zMH8PkmP</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">list.M am335x-evm<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"http://pastebin.com/6jbP6guA">http://past=
+ebin.com/6jbP6guA</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">The checksums differs for non-native recipes such as=
+ gettext, tslib and zlib.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">If it matters I am using the 1.17.0 branch of bitbak=
+e since the master branch throws parsing errors.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Any suggestions on what could be the issue?<o:p></o:=
+p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Regards,<o:p></o:p></p>
+<p class=3D"MsoNormal">Franklin Cooper Jr.<o:p></o:p></p>
+<p class=3D"MsoNormal">Texas Instruments<o:p></o:p></p>
+<p class=3D"MsoNormal">Application Engineer<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"mailto:fcooper@ti.com">fcooper@ti.com</a>=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_8F29D6B095ED194EA1980491A5E029710C38764CDFLE09entticom_--
