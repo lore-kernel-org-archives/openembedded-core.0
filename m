@@ -1,36 +1,31 @@
-Received: from mail-pa0-f41.google.com ([209.85.220.41])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U36FK-0001ST-NK
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Feb 2013 15:45:15 +0100
-Received: by mail-pa0-f41.google.com with SMTP id fb11so840393pad.14
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Feb 2013 06:29:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=zwHvmfe8FKGzzClByiUwSx5T1zoVLZuC7i0pE/PvOUM=;
-	b=c5voEoKUXWzdQ6NHVelxpxys7Dpcs5Wy0bsMW4CYNKlXcB2SQiHreS3igcHCkqz67i
-	JADoMKoon5QsTeFHRxxxDN5aI+XEiNxAOLpV+smhYU/tcBA68WDByYfaM9bwgzohrR7m
-	ypFFSBx9PmFoHREoQLlsA3RzRGqr+3cozYCYJ8w1TqYqdaIhfPG2kz/jxxZGZmKd230a
-	rdjU6C+3YCOZsPpGCzOHNA8jxvs+Difu7MowGhfKdIGvYJH2wq6//vvRiPBLfQh7w7Qo
-	mXupSNbfuWt8apCie8ECcw9V/yej0HnD/u16kGoH7UbbqBKQ8kH7grRvn5kFjPz3Y0fO
-	esrA==
-X-Received: by 10.66.74.2 with SMTP id p2mr76592856pav.55.1360160958836;
-	Wed, 06 Feb 2013 06:29:18 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id d8sm38156485pax.23.2013.02.06.06.29.16
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 06 Feb 2013 06:29:17 -0800 (PST)
-Date: Wed, 6 Feb 2013 15:29:10 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130206142910.GY3271@jama>
-References: <1360160618-13505-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1360160618-13505-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] bitbake-prserv-tool: show error when export file does not exist
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U36QE-0001mh-QJ for openembedded-core@lists.openembedded.org;
+	Wed, 06 Feb 2013 15:56:27 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r16EjrVp004856; Wed, 6 Feb 2013 14:45:53 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xT0DK4e4YPcO; Wed,  6 Feb 2013 14:45:53 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r16Ejjlp004793
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 6 Feb 2013 14:45:48 GMT
+Message-ID: <1360161619.28450.12.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Qi.Chen@windriver.com
+Date: Wed, 06 Feb 2013 14:40:19 +0000
+In-Reply-To: <e952e3dadc8a912067a3385aec372e413dc23e02.1359362547.git.Qi.Chen@windriver.com>
+References: <cover.1359362547.git.Qi.Chen@windriver.com>
+	<e952e3dadc8a912067a3385aec372e413dc23e02.1359362547.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/6] populate-volatile.sh: improve this script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Feb 2013 14:45:18 -0000
-X-Groupsio-MsgNum: 35106
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="6h64vBu9tReNbGLX"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 06 Feb 2013 14:56:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---6h64vBu9tReNbGLX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Feb 06, 2013 at 03:23:38PM +0100, Martin Jansa wrote:
-> * otherwise it shows error about failing import
-
-It fails like this e.g. when someone tries to migrate_localcount without
-any entries in cache/bb_persist_data.sqlite3
-
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+On Mon, 2013-01-28 at 17:05 +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Here's a list of improvements:
+> 1) Make it run correctly at rootfs time.
+> 2) Handle link config items more reasonably.
+> 3) Support read-only rootfs.
+> 4) Avoid data loss when removing directories.
+> 
+> [YOCTO #3406]
+> [YOCTO #3404]
+> [YOCTO #3181]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  scripts/bitbake-prserv-tool | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->=20
-> diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
-> index 4654e6d..96a3470 100755
-> --- a/scripts/bitbake-prserv-tool
-> +++ b/scripts/bitbake-prserv-tool
-> @@ -61,8 +61,16 @@ do_migrate_localcount ()
->      clean_cache
->      echo "Exporting LOCALCOUNT to AUTOINCs..."
->      bitbake -R conf/migrate_localcount.conf -p
-> -    [ ! $? -eq 0 ] && echo "Exporting failed!" && exit 1
-> +    [ ! $? -eq 0 ] && echo "Exporting to file $df failed!" && exit 1
-> =20
-> +    if [ -e $df ];
-> +    then
-> +        echo "Exporting to file $df succeeded!"
-> +    else
-> +        echo "Exporting to file $df failed!"
-> +        exit 1
-> +    fi
-> +   =20
->      echo "Importing generated AUTOINC entries..."
->      [ -e $df ] && do_import $df
-> =20
-> --=20
-> 1.8.1.2
->=20
+>  .../initscripts-1.0/populate-volatile.sh           |  287 ++++++++++----------
+>  1 file changed, 143 insertions(+), 144 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I'm getting a little annoyed with this patch. Saul keeps sending it to
+me, I keep seeing it and rejecting it.
 
---6h64vBu9tReNbGLX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+I will not take code changes mixed in with whitespace reformatting. I've
+said this once already.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+This series should have a patch like:
 
-iEYEARECAAYFAlESaLYACgkQN1Ujt2V2gByZYQCglLVtYXjFon11eOSSYFZOIQaf
-XcAAn2vvwWcDEXvExxUqK8s+JySSJKYC
-=HEUI
------END PGP SIGNATURE-----
+http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=35f3369e5e6365aa06914862ef8a55e21f2fb73b
 
---6h64vBu9tReNbGLX--
+and then a follow up like:
+
+http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=ca8ca587643caa81a6c6530dfead0db6fa8c27b6
+
+which has the actual code changes in it. I did this just so I could see
+what the patch was doing.
+
+Next problem is that there are too many different code changes in this
+to figure out what is going on and properly review it. It needs to be
+split up further into logical changes with a clear explanation of what
+is happening. Why was the cacheclear mechanism removed? Why isn't the
+background parallelisation important (I know why when I think about it
+but the commit message says nothing about it)?
+
+There is also a typo of ROOT_DRI in there.
+
+I will merge the whitespace change, just so I don't have to see it
+again. Please split up the rest of the changes into a logical set and
+resubmit. meld is a good tool for work like that.
+
+Cheers,
+
+Richard
+
+
+
+
