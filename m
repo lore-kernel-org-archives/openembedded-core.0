@@ -1,31 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ve0-f182.google.com ([209.85.128.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U36QE-0001mh-QJ for openembedded-core@lists.openembedded.org;
-	Wed, 06 Feb 2013 15:56:27 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r16EjrVp004856; Wed, 6 Feb 2013 14:45:53 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xT0DK4e4YPcO; Wed,  6 Feb 2013 14:45:53 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r16Ejjlp004793
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 6 Feb 2013 14:45:48 GMT
-Message-ID: <1360161619.28450.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com
-Date: Wed, 06 Feb 2013 14:40:19 +0000
-In-Reply-To: <e952e3dadc8a912067a3385aec372e413dc23e02.1359362547.git.Qi.Chen@windriver.com>
-References: <cover.1359362547.git.Qi.Chen@windriver.com>
-	<e952e3dadc8a912067a3385aec372e413dc23e02.1359362547.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/6] populate-volatile.sh: improve this script
+	(envelope-from <ross.burton@intel.com>) id 1U37DG-0003OR-Ez
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Feb 2013 16:47:06 +0100
+Received: by mail-ve0-f182.google.com with SMTP id ox1so1307276veb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Feb 2013 07:31:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=VE1wyJ0pOim6d4RK7jfvskIZhoAnWDHIzRVcrR8cBfI=;
+	b=ahSlmeA6cgSJsnXtXON4SBkR13RO9ZEiUflIizsXANcHpvjA1KtdDKW09gXr55w45q
+	ht9avehX940V6NAzr5OZhyyoxrctcT+zSZ/ELMTTkHZ6p/4KhfYxT3YGY9VOIP3pNyak
+	eaD3XeLKpIL9343VhTJrS0gZI+7VdCqH6TC4BPjU5G/EZU7SWbZ8X9u646jydOo9um6f
+	bEmK6HxfabgmzpcO3kHGZ9YTB3pxXv094a+Y3u6oK60bcN1w+q8f8kcks2BIr/O0edqy
+	XuC4V720E7aGh60I4JT1BCySidSJVI/qFSy0iNoIwLediyaGx9ZVYEWpP33zkJzuZEd0
+	BNRA==
+X-Received: by 10.220.214.6 with SMTP id gy6mr30368561vcb.8.1360164674175;
+	Wed, 06 Feb 2013 07:31:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.131 with HTTP; Wed, 6 Feb 2013 07:30:53 -0800 (PST)
+In-Reply-To: <f31f33c04c363ee10814d11430520bee42f5230d.1360159588.git.paul.eggleton@linux.intel.com>
+References: <cover.1360159588.git.paul.eggleton@linux.intel.com>
+	<f31f33c04c363ee10814d11430520bee42f5230d.1360159588.git.paul.eggleton@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 Feb 2013 15:30:53 +0000
+Message-ID: <CAJTo0LZMt7V1qgDKvYUwHdzR4eK9qRqM3PJ=m7w13M778rUH4w@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQlDVxQGsAbc4lvXbDpfp2Cb10Fw53ExcbTLMpOo6QFZFXbEDMjmkx7Vcc0ZJI0Ek3+/AtdC
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-danny][PATCH 1/1] classes/rootfs_rpm: fix missed complementary packages with complex arch names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,62 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Feb 2013 14:56:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Feb 2013 15:47:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-01-28 at 17:05 +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> Here's a list of improvements:
-> 1) Make it run correctly at rootfs time.
-> 2) Handle link config items more reasonably.
-> 3) Support read-only rootfs.
-> 4) Avoid data loss when removing directories.
-> 
-> [YOCTO #3406]
-> [YOCTO #3404]
-> [YOCTO #3181]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../initscripts-1.0/populate-volatile.sh           |  287 ++++++++++----------
->  1 file changed, 143 insertions(+), 144 deletions(-)
+On 6 February 2013 14:07, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> If the package architecture name is complex (e.g. with the meta-yocto-bsp
+> beagleboard machine and Poky, the architecture-specific package name is
+> "armv7a-vfp-neon"), rpm reports architecture names that contain
+> underscores instead of dashes, which when passed to oe-pkgdata-util
+> during complementary package processing did not match a valid pkginfo
+> path. Replacing the underscores with dashes again fixes the issue.
+>
+> Note that this bug affects the danny branch and not master since the
+> substitution is already performed there in a different manner.
+>
+> Fixes [YOCTO #3792]
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-I'm getting a little annoyed with this patch. Saul keeps sending it to
-me, I keep seeing it and rejecting it.
+Merged to danny-next, will be in the next build run (hopefully tonight).
 
-I will not take code changes mixed in with whitespace reformatting. I've
-said this once already.
-
-This series should have a patch like:
-
-http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=35f3369e5e6365aa06914862ef8a55e21f2fb73b
-
-and then a follow up like:
-
-http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=ca8ca587643caa81a6c6530dfead0db6fa8c27b6
-
-which has the actual code changes in it. I did this just so I could see
-what the patch was doing.
-
-Next problem is that there are too many different code changes in this
-to figure out what is going on and properly review it. It needs to be
-split up further into logical changes with a clear explanation of what
-is happening. Why was the cacheclear mechanism removed? Why isn't the
-background parallelisation important (I know why when I think about it
-but the commit message says nothing about it)?
-
-There is also a typo of ROOT_DRI in there.
-
-I will merge the whitespace change, just so I don't have to see it
-again. Please split up the rest of the changes into a logical set and
-resubmit. meld is a good tool for work like that.
-
-Cheers,
-
-Richard
-
-
+Ross
 
 
