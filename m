@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1U38Ek-00050g-CP
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U38Em-00050i-7H
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Feb 2013 17:52:48 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Feb 2013 08:36:44 -0800
+	by azsmga101.ch.intel.com with ESMTP; 06 Feb 2013 08:36:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,616,1355126400"; d="scan'208";a="253404679"
+X-IronPort-AV: E=Sophos;i="4.84,616,1355126400"; d="scan'208";a="253404690"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 06 Feb 2013 08:36:43 -0800
+	by azsmga001.ch.intel.com with ESMTP; 06 Feb 2013 08:36:44 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Feb 2013 18:36:29 +0200
-Message-Id: <963dda7fb1722619fff678997f97983bab6a5314.1360166922.git.laurentiu.palcu@intel.com>
+Date: Wed,  6 Feb 2013 18:36:30 +0200
+Message-Id: <0958337d4375e6726164c2662e50d61c500e7fbd.1360166922.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1360166922.git.laurentiu.palcu@intel.com>
 References: <cover.1360166922.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1360166922.git.laurentiu.palcu@intel.com>
 References: <cover.1360166922.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 4/6] gtk-immodules-cache: add weak asignment for GTKIMMODULES_PACKAGES
+Subject: [PATCH 5/6] gtk+: use gtk-immodules-cache class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,97 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Feb 2013 16:53:03 -0000
 
-This is needed if the GTKIMMODULES_PACKAGES is changed later, in
-do_populate_packages for example. This way, we don't have to add another
-dumb asignment in the recipe inheriting this.
+In order to have the proper postinst/postrm scriptlets generated for
+gtk+ immodules packages, use the already existing class.
 
 [YOCTO #3853]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/gtk-immodules-cache.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-gnome/gtk+/gtk+.inc        |    8 +-------
+ meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb  |   12 ++----------
+ meta/recipes-gnome/gtk+/gtk+_2.24.14.bb |    4 +---
+ 3 files changed, 4 insertions(+), 20 deletions(-)
 
-diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
-index a8855af..6a5bc19 100644
---- a/meta/classes/gtk-immodules-cache.bbclass
-+++ b/meta/classes/gtk-immodules-cache.bbclass
-@@ -6,6 +6,8 @@ DEPENDS =+ "qemu-native"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index d8adc11..8c2b977 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -18,7 +18,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
  
- inherit qemu
+ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
  
-+GTKIMMODULES_PACKAGES ?= "${PN}"
-+
- gtk_immodule_cache_postinst() {
- if [ "x$D" != "x" ]; then
-     for maj_ver in 2 3; do
+-inherit autotools gtk-doc pkgconfig update-alternatives
++inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache
+ 
+ PACKAGES += "libgail gtk-demo"
+ 
+@@ -94,9 +94,3 @@ gtk_sysroot_preprocess () {
+ 	fi
+ }
+ 
+-postinst_prologue() {
+-if [ "x$D" != "x" ]; then
+-  exit 1
+-fi
+-
+-}
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
+index e624387..e2a7ef7 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
+@@ -21,7 +21,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz \
+ SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
+ SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
+ 
+-inherit autotools pkgconfig gtk-doc update-alternatives
++inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
+@@ -90,22 +90,14 @@ ALTERNATIVE_TARGET[gtk-update-icon-cache] = "${bindir}/gtk-update-icon-cache-3.0
+ python populate_packages_prepend () {
+     import os.path
+ 
+-    prologue = d.getVar("postinst_prologue", 1)
+-
+     gtk_libdir = d.expand('${libdir}/gtk-3.0/${LIBV}')
+     immodules_root = os.path.join(gtk_libdir, 'immodules')
+     printmodules_root = os.path.join(gtk_libdir, 'printbackends');
+ 
+-    do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s', prologue + 'gtk-query-immodules-3.0 > /etc/gtk-3.0/gtk.immodules')
++    d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s')))
+     do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
+ 
+     if (d.getVar('DEBIAN_NAMES', 1)):
+         d.setVar('PKG_${PN}', 'libgtk-3.0')
+ }
+ 
+-postinst_prologue() {
+-if [ "x$D" != "x" ]; then
+-  exit 1
+-fi
+-
+-}
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
+index fab360d..1520720 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
+@@ -49,13 +49,11 @@ do_install_append_class-native () {
+ }
+ 
+ python populate_packages_prepend () {
+-    prologue = d.getVar("postinst_prologue", True)
+-
+     gtk_libdir = d.expand('${libdir}/gtk-2.0/${LIBV}')
+     immodules_root = os.path.join(gtk_libdir, 'immodules')
+     printmodules_root = os.path.join(gtk_libdir, 'printbackends');
+ 
+-    do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk-immodule-%s', 'GTK input module for %s', prologue + 'gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules')
++    d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk-immodule-%s', 'GTK input module for %s')))
+     do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk-printbackend-%s', 'GTK printbackend module for %s')
+ 
+     if (d.getVar('DEBIAN_NAMES', True)):
 -- 
 1.7.9.5
 
