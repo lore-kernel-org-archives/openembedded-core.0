@@ -1,27 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U3bCh-000543-W1
+	(envelope-from <mark.hatle@windriver.com>) id 1U3bCi-00054C-Ml
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 00:48:32 +0100
+	Fri, 08 Feb 2013 00:48:33 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r17NWcar027235
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r17NWfhd006312
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Feb 2013 15:32:38 -0800 (PST)
+	Thu, 7 Feb 2013 15:32:41 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Thu, 7 Feb 2013 15:32:37 -0800
+	(TLS) id 14.2.318.4; Thu, 7 Feb 2013 15:32:38 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Feb 2013 17:59:27 -0600
-Message-ID: <7ec2e43b4d1cade618f7ed239589ccdff94010b7.1360270256.git.mark.hatle@windriver.com>
+Date: Thu, 7 Feb 2013 17:59:28 -0600
+Message-ID: <34b281c068275160edd774908d8f0e57f1c8d3a7.1360270256.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <cover.1360270255.git.mark.hatle@windriver.com>
 References: <cover.1360270255.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 06/11] eglibc-nativesdk: Fix buffer overrun with a relocated SDK
+Subject: [PATCH 07/11] coreutils: remove dependency on coreutils-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,95 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2013 23:48:32 -0000
+X-List-Received-Date: Thu, 07 Feb 2013 23:48:33 -0000
 Content-Type: text/plain
 
-From: Jason Wessel <jason.wessel@windriver.com>
+From: Jesse Zhang <sen.zhang@windriver.com>
 
-When ld-linux-*.so.2 is relocated to a path that is longer than the
-original fixed location, the dynamic loader will crash in open_path
-because it implicitly assumes that max_dirnamelen is a fixed size that
-never changes.
+[ CQID: WIND00397793 ]
 
-The allocated buffer will not be large enough to contain the directory
-path string which is larger than the fixed location provided at build
-time.
+It's not reasonable to build such a low-level package. Remove the
+dependency so that we always use the host version.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+The 8.14 recipe doesn't have such dependency so needs no change.
+
+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../eglibc-2.17/relocatable_sdk_fix_openpath.patch | 41 ++++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.17.bb            |  3 +-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.17/relocatable_sdk_fix_openpath.patch
+ meta/recipes-core/coreutils/coreutils_6.9.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.17/relocatable_sdk_fix_openpath.patch b/meta/recipes-core/eglibc/eglibc-2.17/relocatable_sdk_fix_openpath.patch
-new file mode 100644
-index 0000000..f164f8f
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.17/relocatable_sdk_fix_openpath.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Inappropriate [SDK specific]
-+
-+eglibc-nativesdk: Fix buffer overrun with a relocated SDK
-+
-+When ld-linux-*.so.2 is relocated to a path that is longer than the
-+original fixed location, the dynamic loader will crash in open_path
-+because it implicitly assumes that max_dirnamelen is a fixed size that
-+never changes.
-+
-+The allocated buffer will not be large enough to contain the directory
-+path string which is larger than the fixed location provided at build
-+time.
-+
-+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-+
-+---
-+ elf/dl-load.c |   12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+--- a/elf/dl-load.c
-++++ b/elf/dl-load.c
-+@@ -1919,7 +1919,19 @@ open_path (const char *name, size_t name
-+        given on the command line when rtld is run directly.  */
-+     return -1;
-+ 
-++  do
-++    {
-++      struct r_search_path_elem *this_dir = *dirs;
-++      if (this_dir->dirnamelen > max_dirnamelen)
-++	{
-++	  max_dirnamelen = this_dir->dirnamelen;
-++	}
-++    }
-++  while (*++dirs != NULL);
-++
-+   buf = alloca (max_dirnamelen + max_capstrlen + namelen);
-++
-++  dirs = sps->dirs;
-+   do
-+     {
-+       struct r_search_path_elem *this_dir = *dirs;
-diff --git a/meta/recipes-core/eglibc/eglibc_2.17.bb b/meta/recipes-core/eglibc/eglibc_2.17.bb
-index 7bdb267..fb49ac4 100644
---- a/meta/recipes-core/eglibc/eglibc_2.17.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.17.bb
-@@ -1,6 +1,6 @@
- require eglibc.inc
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 37d8dc9..c0778ba 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -8,8 +8,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/ls.c;beginline=4;endline=16;md5=15ed60f67b1db5fedd5dbc37cf8a9543"
+-PR = "r4"
+-DEPENDS = "coreutils-native-${PV}"
++PR = "r5"
+ DEPENDS_class-native = "gettext-native"
  
--PR = "r2"
-+PR = "r3"
- 
- DEPENDS += "gperf-native kconfig-frontends-native"
- 
-@@ -45,6 +45,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
- 
- SRC_URI_append_class-nativesdk = " file://ld-search-order.patch \
-             file://relocatable_sdk.patch \
-+            file://relocatable_sdk_fix_openpath.patch \
-             "
- S = "${WORKDIR}/eglibc-${PV}/libc"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ inherit autotools gettext
 -- 
 1.8.1.2.545.g2f19ada
 
