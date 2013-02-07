@@ -1,46 +1,33 @@
-Received: from mail-oa0-f50.google.com ([209.85.219.50])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eu@felipetonello.com>) id 1U3bW2-0006oB-7x
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 01:08:30 +0100
-Received: by mail-oa0-f50.google.com with SMTP id l20so3468632oag.37
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U3bWQ-0006qh-No for openembedded-core@lists.openembedded.org;
+	Fri, 08 Feb 2013 01:08:55 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r17NwSNK009027 for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Feb 2013 23:58:28 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qs7bqj1G6sph
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Feb 2013 15:52:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=H2z7qR9N/sEQxIF4rUoox24bnOV6gNUQXmBCLznXoAo=;
-	b=ft4snB3307ydOxwGDzksM0qrPlABNTn0jVpH6JBoDG/BoQ84JGn636jA1OcAYkJ1TI
-	QTjx/eDelCkigJd+GKyPXeG6zxlUqPZhzt1AkYa3+mL/pX5WqmPlJfEpo8lXBBF6Y+h1
-	Sknd1MulIvCY9xD7rHD5C0tNTqhBpw1rquqiml4WvITdj8BjO+fczc9/tbkyHxXimuqM
-	X/SMKWeHYlODKigcrDNM3i2DdMYL1E2tYn1qVVoq1vWT3OwTSjeCtMDC/Ux+dTAODcDJ
-	goG9EWy0WnXp0Sjc3kT97BYGZO4NdYfUoOBvCE2b8Y22eD1gDIBcq3qAAcFqC4wNsyPj
-	Bj5g==
-X-Received: by 10.182.88.3 with SMTP id bc3mr22298355obb.8.1360189323104;
-	Wed, 06 Feb 2013 14:22:03 -0800 (PST)
-Received: from [192.168.48.44] (wsip-70-183-20-162.oc.oc.cox.net.
-	[70.183.20.162])
-	by mx.google.com with ESMTPS id ee14sm31041632obb.2.2013.02.06.14.22.01
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 06 Feb 2013 14:22:02 -0800 (PST)
-Message-ID: <5112D7D3.6020304@felipetonello.com>
-Date: Wed, 06 Feb 2013 14:23:15 -0800
-From: Felipe Ferreri Tonello <eu@felipetonello.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
-	<51115E97.1080404@linux.intel.com>
-	<511182A9.2060702@felipetonello.com>
-	<0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
-In-Reply-To: <0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
-X-Gm-Message-State: ALoCoQmjbhnIeEyhGqYbszQ4z7y5PsfN2eRcSVZeXc06s608rsb5wbD7scZvTDqgoNvatgD+g2a9
-Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: added recipe libconnman-qt
+	Thu,  7 Feb 2013 23:58:27 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r17NwMeL009020
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Feb 2013 23:58:25 GMT
+Message-ID: <1360281168.10722.66.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 07 Feb 2013 23:52:48 +0000
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r17NwSNK009027
+Subject: [PATCH] dbus: Drop old 1.5.12 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,21 +40,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 00:08:30 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Feb 2013 00:08:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02/05/2013 02:58 PM, Ross Burton wrote:
-> On Tuesday, 5 February 2013 at 22:07, Felipe Ferreri Tonello wrote:
->> I chose this path because there is also a front-end library for connman
->> for gnome in the same directory.
->
-> It's not a library, it's a UI.  To be honest, I'd happily see it move to recipes-gnome and connman-qt be in recipes-qt.
->
+We have a newer default version...
 
-So what was decided? Should I re-send the patch with what path?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init b/meta/recipe=
+s-core/dbus/dbus-1.5.12/dbus-1.init
+deleted file mode 100644
+index 17b58ed..0000000
+--- a/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
++++ /dev/null
+@@ -1,116 +0,0 @@
+-#! /bin/sh
+-### BEGIN INIT INFO
+-# Provides:          dbus
+-# Required-Start:    $remote_fs $syslog
+-# Required-Stop:     $remote_fs $syslog
+-# Default-Start:     2 3 4 5
+-# Default-Stop:      1
+-# Short-Description: D-Bus systemwide message bus
+-# Description:       D-Bus is a simple interprocess messaging system, us=
+ed
+-#                    for sending messages between applications.
+-### END INIT INFO
+-#
+-# -*- coding: utf-8 -*-
+-# Debian init.d script for D-BUS
+-# Copyright =C2=A9 2003 Colin Walters <walters@debian.org>
+-
+-set -e
+-
+-DAEMON=3D/usr/bin/dbus-daemon
+-NAME=3Ddbus
+-DAEMONUSER=3Dmessagebus           # must match /etc/dbus-1/system.conf
+-PIDFILE=3D/var/run/messagebus.pid # must match /etc/dbus-1/system.conf
+-UUIDDIR=3D/var/lib/dbus
+-DESC=3D"system message bus"
+-EVENTDIR=3D/etc/dbus-1/event.d
+-
+-test -x $DAEMON || exit 0
+-
+-# Source defaults file; edit that file to configure this script.
+-ENABLED=3D1
+-PARAMS=3D""
+-if [ -e /etc/default/dbus ]; then
+-  . /etc/default/dbus
+-fi
+-
+-test "$ENABLED" !=3D "0" || exit 0
+-
+-start_it_up()
+-{
+-  mkdir -p "`dirname $PIDFILE`"
+-  if [ -e $PIDFILE ]; then
+-    PIDDIR=3D/proc/$(cat $PIDFILE)
+-    if [ -d ${PIDDIR} -a  "$(readlink -f ${PIDDIR}/exe)" =3D "${DAEMON}"=
+ ]; then=20
+-      echo "$DESC already started; not starting."
+-    else
+-      echo "Removing stale PID file $PIDFILE."
+-      rm -f $PIDFILE
+-    fi
+-  fi
+-
+-  if [ ! -d $UUIDDIR ]; then
+-    mkdir -p $UUIDDIR
+-    chown $DAEMONUSER $UUIDDIR
+-    chgrp $DAEMONUSER $UUIDDIR
+-  fi
+-=20
+-  dbus-uuidgen --ensure =20
+-
+-  echo -n "Starting $DESC: "
+-  start-stop-daemon --start --quiet --pidfile $PIDFILE \
+-    --user $DAEMONUSER --exec $DAEMON -- --system $PARAMS
+-  echo "$NAME."
+-  if [ -d $EVENTDIR ]; then
+-      run-parts --arg=3Dstart $EVENTDIR
+-  fi
+-}
+-
+-shut_it_down()
+-{
+-  if [ -d $EVENTDIR ]; then
+-      # TODO: --reverse when busybox supports it
+-      run-parts --arg=3Dstop $EVENTDIR
+-  fi
+-  echo -n "Stopping $DESC: "
+-  start-stop-daemon --stop  --quiet --pidfile $PIDFILE \
+-    --user $DAEMONUSER
+-  # We no longer include these arguments so that start-stop-daemon
+-  # can do its job even given that we may have been upgraded.
+-  # We rely on the pidfile being sanely managed
+-  # --exec $DAEMON -- --system $PARAMS
+-  echo "$NAME."
+-  rm -f $PIDFILE
+-}
+-
+-reload_it()
+-{
+-  echo -n "Reloading $DESC config: "
+-  dbus-send --print-reply --system --type=3Dmethod_call \
+-            --dest=3Dorg.freedesktop.DBus \
+-            / org.freedesktop.DBus.ReloadConfig > /dev/null
+-  # hopefully this is enough time for dbus to reload it's config file.
+-  echo "done."
+-}
+-
+-case "$1" in
+-  start)
+-    start_it_up
+-  ;;
+-  stop)
+-    shut_it_down
+-  ;;
+-  reload|force-reload)
+-    reload_it
+-  ;;
+-  restart)
+-    shut_it_down
+-    sleep 1
+-    start_it_up
+-  ;;
+-  *)
+-    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-relo=
+ad}" >&2
+-    exit 1
+-  ;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch b/meta/recip=
+es-core/dbus/dbus-1.5.12/tmpdir.patch
+deleted file mode 100644
+index bf086e1..0000000
+--- a/meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 5105fedd7fa13dadd2d0d864fb77873b83b79a4b Mon Sep 17 00:00:00 2001
+-From: Koen Kooi <koen@dominion.thruhere.net>
+-Date: Thu, 23 Jun 2011 13:52:09 +0200
+-Subject: [PATCH] buildsys: hardcode socketdir to /tmp
+-
+-the TMPDIR env var isn't always pointing to the right target path
+-
+-Upstream-Status: Inappropriate [embedded]
+-
+-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+-
+-Original comment:
+-
+-	avoid to check tmp dir at build time. instead uses hard coded /tmp here
+-	comment added by Kevin Tian <kevin.tian@intel.com>
+----
+- configure.ac |   11 +----------
+- 1 files changed, 1 insertions(+), 10 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 408054b..6d26180 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1483,16 +1483,7 @@ AC_SUBST(TEST_LAUNCH_HELPER_BINARY)
+- AC_DEFINE_UNQUOTED(DBUS_TEST_LAUNCH_HELPER_BINARY, "$TEST_LAUNCH_HELPER=
+_BINARY",
+-                    [Full path to the launch helper test program in the =
+builddir])
+-=20
+--#### Find socket directories
+--if ! test -z "$TMPDIR" ; then
+--   DEFAULT_SOCKET_DIR=3D$TMPDIR
+--elif ! test -z "$TEMP" ; then
+--   DEFAULT_SOCKET_DIR=3D$TEMP
+--elif ! test -z "$TMP" ; then
+--   DEFAULT_SOCKET_DIR=3D$TMP
+--else
+--   DEFAULT_SOCKET_DIR=3D/tmp
+--fi
+-+DEFAULT_SOCKET_DIR=3D/tmp
+-=20
+- DEFAULT_SOCKET_DIR=3D`echo $DEFAULT_SOCKET_DIR | sed 's/+/%2B/g'`
+-=20
+---=20
+-1.6.6.1
+-
+diff --git a/meta/recipes-core/dbus/dbus_1.5.12.bb b/meta/recipes-core/db=
+us/dbus_1.5.12.bb
+deleted file mode 100644
+index f41d170..0000000
+--- a/meta/recipes-core/dbus/dbus_1.5.12.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-include dbus.inc
+-
+-PR =3D "${INC_PR}.0"
+-
+-SRC_URI[md5sum] =3D "ddf18c86fd86ca0d766e18a514e368fd"
+-SRC_URI[sha256sum] =3D "5d3e09a831259ca64b15357cfa1c60a5a7ab06ef469d5b82=
+c2308de9cadf1094"
+-
+-DEFAULT_PREFERENCE =3D "-1"
+-
 
-Regards,
-Felipe Tonello
+
 
 
