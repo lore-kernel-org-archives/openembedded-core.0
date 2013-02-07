@@ -1,35 +1,41 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-ve0-f175.google.com ([209.85.128.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1U3ZO6-0007Ha-AY
+	(envelope-from <andrei@gherzan.ro>) id 1U3ZZ3-0007qm-4I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Feb 2013 22:52:10 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id EF670D22F6; Thu,  7 Feb 2013 16:39:28 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E3FC3D22F4
+	Thu, 07 Feb 2013 23:03:29 +0100
+Received: by mail-ve0-f175.google.com with SMTP id cy12so2779808veb.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2013 16:38:54 +0100 (CET)
-Message-ID: <5113CA88.9020508@linaro.org>
-Date: Thu, 07 Feb 2013 16:38:48 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+	Thu, 07 Feb 2013 13:47:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:x-originating-ip:in-reply-to:references
+	:from:date:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=DvuR7unHEAoj+yU+KrJpvk62bk7LoOIwlmjnv2sZYMU=;
+	b=FM51goj54PX7UqHSeCQ8QNOUFvBSZ35B2Q4Mja3r0cTRdsJkv3TxEP61nJe5oLwIhj
+	F/XBeu0xeVQWklXe6jnXjzGspmYhL4cScDcGqs6LDq33nAny4db0YPgiUdY9pmPXohq7
+	juIlMxHc2rbIyNMOiDaB+F6OcaMKcV/3t7MpT5P3fHxZ7PP6FkLWdqyJd1wHXHbQQe6Z
+	GvPE5da5PmNmRYG0kmL2TvH4SeLnmMcf9It7EJfmdIKaoynHwo37/WmkMP/fS6jHdcYp
+	vxXoInLJ9MqOfVJwaX2LpfgvI6z8sk6Oj/tgadesAEleZ8gSKPkVKb0CB6sVCzA+fwPX
+	s24w==
+X-Received: by 10.52.35.241 with SMTP id l17mr1599629vdj.7.1360247149229; Thu,
+	07 Feb 2013 06:25:49 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1360055640.git.laurentiu.palcu@intel.com>
-	<a306516e1af55efcd93563779e389448e16c97d3.1360055640.git.laurentiu.palcu@intel.com>
-In-Reply-To: <a306516e1af55efcd93563779e389448e16c97d3.1360055640.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 1/8] add fontcache.bbclass
+Received: by 10.58.188.18 with HTTP; Thu, 7 Feb 2013 06:25:28 -0800 (PST)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <5111726D.9080806@r-finger.com>
+References: <B57A220D1EE1644685BA9AD5C790D20526BE045F3A@SOUTHSIDE.devonintlgroup.com>
+	<50E181AF64EF4AF9835BF9FD769D9B93@intel.com>
+	<B57A220D1EE1644685BA9AD5C790D20526BE045F3B@SOUTHSIDE.devonintlgroup.com>
+	<510ED7B6.1010201@linaro.org>
+	<F600AD7DF50F4C5793CA585286CEE7B4@intel.com>
+	<5111726D.9080806@r-finger.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Thu, 7 Feb 2013 16:25:28 +0200
+Message-ID: <CAK18fxEsHxKwi5gqTsCU=v3RXbn8noEN_SXt-OTFbZP8BsLuZQ@mail.gmail.com>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+X-Gm-Message-State: ALoCoQmdw6tud1NgLdi+TJZKTFkkmJ454knqefMLHX0ygl/6fE0vrmpfxrTi+V5taL63TwB9EsPn
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenGL as a DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +48,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2013 21:52:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Feb 2013 22:03:29 -0000
+Content-Type: multipart/alternative; boundary=20cf307813e022f6ca04d523380a
 
-W dniu 05.02.2013 10:34, Laurentiu Palcu pisze:
-> All font packages should inherit this class in order to generate the
-> proper postinst/postrm scriptlets.
-> 
-> The scriptlets will actually create a host intercept hook that will be
-> executed at the end, at do_rootfs time, after all packages have been
-> installed. This is good when there are many font packages.
-> 
-> [YOCTO #2923]
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/fontcache.bbclass |   47 ++++++++++++++++++++++++++++++++++++++++
+--20cf307813e022f6ca04d523380a
+Content-Type: text/plain; charset=ISO-8859-1
 
-> +${@qemu_run_binary(d, '$D', '/usr/bin/fc-cache')} --sysroot=$D >/dev/null 2>&1
-
-What about platform which do not have qemu support? Like AArch64...
-
-| Configuring libpcre-staticdev.
-| Building from feeds activated!
-| Running intercept scripts:
-| > Executing update_font_cache
-| ERROR: Function failed: do_rootfs (see
-/home/hrw/HDD/devel/canonical/aarch64/openembedded/build/tmp-eglibc/work/genericarmv8-oe-linux/linaro-image-sdk/1.0-r2/temp/log.do_rootfs.23211
-for further information)
+O conclusion on this topic would be great. There are a lot of people
+waiting for a fix on this topic.
 
 
+On Tue, Feb 5, 2013 at 10:58 PM, Tomas Frydrych <tf+lists.yocto@r-finger.com
+> wrote:
 
+> Hi Ross,
+>
+> On 03/02/13 23:35, Ross Burton wrote:
+> > On Sunday, 3 February 2013 at 21:33, Marcin Juszkiewicz wrote:
+> >> As they are different architectures you can try this:
+> >>
+> >> DISTRO_FEATURES_wm8950 = "here copy your default DISTRO_FEATURES
+> >> but skip opengl"
+> >>
+> >> Replace wm8950 with MACHINE name. Ugly solution but should work.
+> > That means that Qt won't be built with GLES support.
+> >
+> > The best approach is to probe the hardware/libraries at runtime and
+> > adapt - i.e. if only GLES libraries are available use those, but a
+> > lot of software doesn't support that or simple probing isn't
+> > sufficient (Intel Pine Trail supports both but GL is best, Cedar
+> > Trail supports both but GL is terrible).
+>
+> Run-time probing is not a solution at all, because (a) we are not
+> talking about how to write portable GL applications, but primarily how
+> to package software already written by other people, and (b) with the
+> current OE set up run-time probing cannot work anyway (and does not,
+> e.g. cogl), because with two 'GL' providers there is no guarantee that
+> the optimal one (i.e., not the mesa software GL rasterizer), gets used.
+>
+> The above scenario where someone wants to maintain a distro with
+> multiple target architectures is the normal thing to ask for with OE.
+> The fact that current OE cannot support it cleanly, and it has to be
+> worked around on distro level (whether by bbappends that make the GL
+> components machine-specific as they should be, or hacks like
+> DISTRO_FEATURES_my-random-machine), demonstrates that we are not doing
+> it right at the moment.
+>
+>
+> > It's not as simple as it appears and causes a rather large number of
+> > packages to become machine-specific.
+>
+> From actual experience I think this is well overstated; I dare you to
+> support this by real numbers :-)
+>
+> Tomas
+>
+> --
+> http://sleepfive.com
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+*Andrei Gherzan*
+m: +40.744.478.414 |  f: +40.31.816.28.12
+
+--20cf307813e022f6ca04d523380a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">O conclusion on this topic would be great. There are a lot=
+ of people waiting for a fix on this topic.</div><div class=3D"gmail_extra"=
+><br><br><div class=3D"gmail_quote">On Tue, Feb 5, 2013 at 10:58 PM, Tomas =
+Frydrych <span dir=3D"ltr">&lt;<a href=3D"mailto:tf+lists.yocto@r-finger.co=
+m" target=3D"_blank">tf+lists.yocto@r-finger.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Hi Ross,<br>
+<div class=3D"im"><br>
+On 03/02/13 23:35, Ross Burton wrote:<br>
+&gt; On Sunday, 3 February 2013 at 21:33, Marcin Juszkiewicz wrote:<br>
+&gt;&gt; As they are different architectures you can try this:<br>
+&gt;&gt;<br>
+&gt;&gt; DISTRO_FEATURES_wm8950 =3D &quot;here copy your default DISTRO_FEA=
+TURES<br>
+&gt;&gt; but skip opengl&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; Replace wm8950 with MACHINE name. Ugly solution but should work.<b=
+r>
+&gt; That means that Qt won&#39;t be built with GLES support.<br>
+&gt;<br>
+&gt; The best approach is to probe the hardware/libraries at runtime and<br=
+>
+&gt; adapt - i.e. if only GLES libraries are available use those, but a<br>
+&gt; lot of software doesn&#39;t support that or simple probing isn&#39;t<b=
+r>
+&gt; sufficient (Intel Pine Trail supports both but GL is best, Cedar<br>
+&gt; Trail supports both but GL is terrible).<br>
+<br>
+</div>Run-time probing is not a solution at all, because (a) we are not<br>
+talking about how to write portable GL applications, but primarily how<br>
+to package software already written by other people, and (b) with the<br>
+current OE set up run-time probing cannot work anyway (and does not,<br>
+e.g. cogl), because with two &#39;GL&#39; providers there is no guarantee t=
+hat<br>
+the optimal one (i.e., not the mesa software GL rasterizer), gets used.<br>
+<br>
+The above scenario where someone wants to maintain a distro with<br>
+multiple target architectures is the normal thing to ask for with OE.<br>
+The fact that current OE cannot support it cleanly, and it has to be<br>
+worked around on distro level (whether by bbappends that make the GL<br>
+components machine-specific as they should be, or hacks like<br>
+DISTRO_FEATURES_my-random-machine), demonstrates that we are not doing<br>
+it right at the moment.<br>
+<div class=3D"im"><br>
+<br>
+&gt; It&#39;s not as simple as it appears and causes a rather large number =
+of<br>
+&gt; packages to become machine-specific.<br>
+<br>
+</div>From actual experience I think this is well overstated; I dare you to=
+<br>
+support this by real numbers :-)<br>
+<br>
+Tomas<br>
+<br>
+--<br>
+<a href=3D"http://sleepfive.com" target=3D"_blank">http://sleepfive.com</a>=
+<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div dir=3D"ltr"><div style=3D"text-align:center"></div><div style=3D"text-=
+align:center"><div align=3D"left" style=3D"font-family:&#39;Times New Roman=
+&#39;;font-size:medium">
+
+<b style=3D"color:rgb(51,51,51);font-family:Arial;font-size:small;text-alig=
+n:center">Andrei Gherzan</b><font face=3D"Arial" color=3D"#333333" size=3D"=
+-1"><br></font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.74=
+4.478.414 | =A0f: +40.31.816.28.12</font><br>
+
+</div></div></div>
+</div>
+
+--20cf307813e022f6ca04d523380a--
