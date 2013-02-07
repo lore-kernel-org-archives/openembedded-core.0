@@ -1,34 +1,36 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from mail-vc0-f172.google.com ([209.85.220.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooper@ti.com>) id 1U3Yxj-0006ui-9N
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 07 Feb 2013 22:25:11 +0100
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r17I0CuL024350;
-	Thu, 7 Feb 2013 12:00:12 -0600
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r17I0CYH028126;
-	Thu, 7 Feb 2013 12:00:12 -0600
-Received: from DFLE09.ent.ti.com ([fe80::3103:58c3:47f:860b]) by
-	DFLE73.ent.ti.com ([fe80::86e:fab6:cd95:e158%28]) with mapi id
-	14.01.0323.003; Thu, 7 Feb 2013 12:00:12 -0600
-From: "Cooper Jr., Franklin" <fcooper@ti.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] Multiple MACHINE building is broken in OE-core?
-Thread-Index: AQHOBEfqvKKp5POftkqsNENZBmpCEZhuro/g
-Date: Thu, 7 Feb 2013 18:00:12 +0000
-Message-ID: <8F29D6B095ED194EA1980491A5E029710C38936B@DFLE09.ent.ti.com>
-References: <8F29D6B095ED194EA1980491A5E029710C38764C@DFLE09.ent.ti.com>
-	<20130206085644.GR3271@jama>
-In-Reply-To: <20130206085644.GR3271@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
+	(envelope-from <ross.burton@intel.com>) id 1U3Z1v-0006zt-84
+	for openembedded-core@lists.openembedded.org;
+	Thu, 07 Feb 2013 22:29:16 +0100
+Received: by mail-vc0-f172.google.com with SMTP id l6so1986645vcl.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Feb 2013 13:13:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=Z9/1zyPtjgLhhIV/xh3RC+wx6QcfvBduDTMO6qqkpW0=;
+	b=faE3UuZMoMyDlxCR9uDbSeFBZVh6N1RDIBeDAKA7CqZ+LufZDttowHsWxVNH6Y3oLD
+	AGM6/ue3+DGETvqYT1JRt9ay7+i2DnLYimhJqr2IvgQFVxQAVhPEFDh7LYCMSC+VKBws
+	qd0ixaeY8dAQb6fDuIJLlcWH7UHVjQ3DprrmxTr2iWHkd3DHh/B3fs+81iytP1D+GMv9
+	Wp2o5BhYLzM4RZJkPqAw0pQxhMRLabiJVLNUf3tSwQEg/apgAKNJW+x3hEywU5Pem+Sj
+	J7Or5tKg+CDlYtylknJi/D9lGBDxScxaTAFVT12KpHaRIGQih6y6oLkPP87UiV6spVk6
+	qWYw==
+X-Received: by 10.220.116.5 with SMTP id k5mr2515596vcq.55.1360256211172; Thu,
+	07 Feb 2013 08:56:51 -0800 (PST)
 MIME-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Multiple MACHINE building is broken in OE-core?
+Received: by 10.58.95.131 with HTTP; Thu, 7 Feb 2013 08:56:31 -0800 (PST)
+In-Reply-To: <f651997fbd77a84e5c9c379898836cf4cb3340f1.1360165052.git.tom.zanussi@linux.intel.com>
+References: <cover.1360165052.git.tom.zanussi@linux.intel.com>
+	<f651997fbd77a84e5c9c379898836cf4cb3340f1.1360165052.git.tom.zanussi@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Feb 2013 16:56:31 +0000
+Message-ID: <CAJTo0LZPDf_oHYp4O-8VsLXYxEvp=gBmhDq5zWpiX-RhUCLhgA@mail.gmail.com>
+To: tom.zanussi@linux.intel.com
+X-Gm-Message-State: ALoCoQn9MuwyqPZUkQOssMMUJhTCH4GI3uuKUNjrrdycqFTT9m3P8km6kSDyjEYkC3tmz3vnx8sM
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1][danny] crosstap: handle hyphenated x86_64 target arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,87 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2013 21:26:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Feb 2013 21:29:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I found what the problem was. Some machine config file defined TARGET_ARCH =
-=3D "arm" and others did not. By default bitbake conf file sets TARGET_ARCH=
- =3D ${TUNE_ARCH}. Although when evaluated TUNE_ARCH is set to "arm".
+On 6 February 2013 15:40,  <tom.zanussi@linux.intel.com> wrote:
+> From: Tom Zanussi <tom.zanussi@linux.intel.com>
+>
+> systemtap_target_arch() should also translate x86-64 (hyphenated) into
+> x86_64 for the -a param.  Failing to do that causes systemtap to see
+> an architecture mismatch and create a cloned session with a bogusly
+> synthesized build directory path, and fails to compile the probe.
+>
+>  Fixes [YOCTO #3756]
+>
+> (From OE-Core rev: 98cae0544884cb5700d42409ec4a9584a17dc9a4)
 
-Using that diffsig tool bitbake gave different checksums because a change i=
-n task dependencies since some machines TARGET_ARCH depended on TUNE_ARCH w=
-hile others didn't.
+Merged to danny-next.
 
-Thanks for your help Martin.
-
-
-> -----Original Message-----
-> From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> Sent: Wednesday, February 06, 2013 2:57 AM
-> To: Cooper Jr., Franklin
-> Cc: ross.burton@intel.com; Openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Multiple MACHINE building is broken in OE-core?
->=20
-> On Wed, Feb 06, 2013 at 08:02:31AM +0000, Cooper Jr., Franklin wrote:
-> > Hi Everyone,
-> >
-> > While performing denzil to danny work I ran into this same issue that M=
-ike
-> mentioned. I have 4 machines that are armv7a based and previously in denz=
-il
-> only very specific recipes that I deliberately made machine specific were=
- being
-> rebuilt. Now a significant amount of recipes are being unnecessarily rebu=
-ilt. I
-> first noticed this when building Qt but this also occurs with something e=
-ven
-> simpler such as tslib. If I look at tslib's temp directory I end up seein=
-g multiple
-> logs for the majority of the tasks. For example I will see 4 log.do_compi=
-le logs.
-> >
-> > I ran the sstate-diff-machines.sh script that Martin mentioned for mach=
-ines
-> defined in meta-ti and I got the below output when using tslib as the -ta=
-rgets:
-> >
-> > list.M am3517-evm
-> >
-> > http://pastebin.com/zMH8PkmP
-> >
-> > list.M am335x-evm
-> > http://pastebin.com/6jbP6guA
-> >
-> > The checksums differs for non-native recipes such as gettext, tslib and=
- zlib.
-> >
-> > If it matters I am using the 1.17.0 branch of bitbake since the master =
-branch
-> throws parsing errors.
-> >
-> > Any suggestions on what could be the issue?
->=20
-> Please pick something like tslib or gettext. Find first different checksu=
-m
-> (do_configure is usually good for that).
->=20
-> # Then to compare sigdata use something like:
-> # $ ls sstate-diff/134934*/*/*/tslib/*do_configure*sigdata*
-> # it should return 2 different sigdata with 2 different sstate # checksum=
-s,
-> otherwise change ls expression
->=20
-> # $ bitbake-diffsigs sstate-diff/134934*/*/*/tslib/*do_configure*sigdata*
->=20
-> It will probably show some other recipe causing the difference, so just r=
-epeat
-> ls, bitbake-diffsigs until you find the root cause.
->=20
-> Cheers,
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Ross
 
 
