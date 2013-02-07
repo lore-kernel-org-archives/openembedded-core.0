@@ -1,27 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U3bA1-0004Na-Oq
+	(envelope-from <mark.hatle@windriver.com>) id 1U3bA3-0004Nr-7v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 00:45:48 +0100
+	Fri, 08 Feb 2013 00:45:49 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r17NTqAd026781
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r17NTrXi026784
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Feb 2013 15:29:52 -0800 (PST)
+	Thu, 7 Feb 2013 15:29:53 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Thu, 7 Feb 2013 15:29:51 -0800
+	(TLS) id 14.2.318.4; Thu, 7 Feb 2013 15:29:53 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Feb 2013 17:56:33 -0600
-Message-ID: <4c9996feb315d714821ccadf4cb41ff1f063728a.1360270199.git.mark.hatle@windriver.com>
+Date: Thu, 7 Feb 2013 17:56:35 -0600
+Message-ID: <e3ce6986451d9f0250ac7425be996bb91f6ab9d4.1360270199.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <cover.1360270199.git.mark.hatle@windriver.com>
 References: <cover.1360270199.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [denzil 06/18] Security Advisory - libexif - CVE-2012-2837
+Subject: [denzil 08/18] Summary:Security Advisory - libtiff - CVE-2012-3401
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,159 +37,62 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 07 Feb 2013 23:45:51 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Wei Cai <wei.cai@windriver.com>
 
-[ CQID: WIND00366798 ]
+[ CQID: WIND00374012 ]
 
-The mnote_olympus_entry_get_value function in olympus/mnote-olympus-entry.c
-in the EXIF Tag Parsing Library (aka libexif) before 0.6.21 allows remote
-attackers to cause a denial of service (divide-by-zero error) via an image
-with crafted EXIF tags that are not properly handled during the formatting
-of EXIF maker note tags.
+A heap-based buffer overflow flaw was found in the way tiff2pdf, a TIFF image to a
+PDF document conversion tool, of libtiff, a library of functions for manipulating
+TIFF (Tagged Image File Format) image format files, performed write of TIFF image
+content into particular PDF document file, when not properly initialized T2P context
+struct pointer has been provided by tiff2pdf (application requesting the conversion)
+as one of parameters for the routine performing the write. A remote attacker could
+provide a specially-crafted TIFF image format file, that when processed by tiff2pdf
+would lead to tiff2pdf executable crash or, potentially, arbitrary code execution
+with the privileges of the user running the tiff2pdf binary.
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Wei Cai <wei.cai@windriver.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+
+Affects libtiff 4.0.2 and earlier.
+
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../libexif/0005-libexif-CVE-2012-2837.patch       | 114 +++++++++++++++++++++
- meta/recipes-support/libexif/libexif_0.6.20.bb     |   3 +-
- 2 files changed, 116 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libexif/libexif/0005-libexif-CVE-2012-2837.patch
+ .../libtiff/files/libtiff-CVE-2012-3401.patch                  | 10 ++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.1.bb                  |  3 ++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2012-3401.patch
 
-diff --git a/meta/recipes-support/libexif/libexif/0005-libexif-CVE-2012-2837.patch b/meta/recipes-support/libexif/libexif/0005-libexif-CVE-2012-2837.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2012-3401.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2012-3401.patch
 new file mode 100644
-index 0000000..7a6dd24
+index 0000000..e59addd
 --- /dev/null
-+++ b/meta/recipes-support/libexif/libexif/0005-libexif-CVE-2012-2837.patch
-@@ -0,0 +1,114 @@
-+Index: libexif/olympus/mnote-olympus-entry.c
-+===================================================================
-+RCS file: /cvsroot/libexif/libexif/libexif/olympus/mnote-olympus-entry.c,v
-+retrieving revision 1.54
-+retrieving revision 1.55
-+diff -c -u -r1.54 -r1.55
-+--- a/libexif/olympus/mnote-olympus-entry.c	18 Apr 2011 23:46:33 -0000	1.54
-++++ b/libexif/olympus/mnote-olympus-entry.c	12 Jul 2012 17:29:05 -0000	1.55
-+@@ -76,6 +76,9 @@
-+ 	}                                                               \
-+ }
-+ 
-++#define R2L(n) ((n).denominator ? (long)(n).numerator/(n).denominator : 0L)
-++#define R2D(n) ((n).denominator ? (double)(n).numerator/(n).denominator : 0.0)
-++
-+ static const struct {
-+ 	ExifTag tag;
-+ 	ExifFormat fmt;
-+@@ -372,20 +375,20 @@
-+ 		CF (entry->format, EXIF_FORMAT_RATIONAL, v, maxlen);
-+ 		CC (entry->components, 4, v, maxlen);
-+ 		vr = exif_get_rational (entry->data, entry->order);
-+-		r = (double)vr.numerator / vr.denominator;
-++		r = R2D(vr);
-+ 		vr = exif_get_rational (entry->data+8, entry->order);
-+-		b = (double)vr.numerator / vr.denominator;
-++		b = R2D(vr);
-+ 		snprintf (v, maxlen, _("Red Correction %f, blue Correction %f"), r,b);
-+ 		break;
-+ 	case MNOTE_NIKON_TAG_MANUALFOCUSDISTANCE:
-+ 		CF (entry->format, EXIF_FORMAT_RATIONAL, v, maxlen);
-+ 		CC (entry->components, 1, v, maxlen);
-+ 		vr = exif_get_rational (entry->data, entry->order);
-+-		if (vr.numerator) {
-+-			r = (double)vr.numerator / vr.denominator;
-+-			snprintf (v, maxlen, _("%2.2f meters"), r);
-+-		} else {
-++		if (!vr.numerator || !vr.denominator) {
-+ 			strncpy (v, _("No manual focus selection"), maxlen);
-++		} else {
-++			r = R2D(vr);
-++			snprintf (v, maxlen, _("%2.2f meters"), r);
++++ b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2012-3401.patch
+@@ -0,0 +1,10 @@
++--- a/tools/tiff2pdf.c.orig	2012-11-22 17:24:46.000000000 +0800
+++++ b/tools/tiff2pdf.c	2012-11-22 17:25:41.000000000 +0800
++@@ -1038,6 +1038,7 @@
++ 				"Can't set directory %u of input file %s", 
++ 				i,
++ 				TIFFFileName(input));
+++			t2p->t2p_error = T2P_ERR_ERROR;
++ 			return;
 + 		}
-+ 		break;
-+ 	case MNOTE_NIKON_TAG_SENSORPIXELSIZE:
-+@@ -393,8 +396,8 @@
-+ 		CC (entry->components, 2, v, maxlen);
-+ 		vr = exif_get_rational (entry->data, entry->order);
-+ 		vr2 = exif_get_rational (entry->data+8, entry->order);
-+-		r = (double)vr.numerator / vr.denominator;
-+-		b = (double)vr2.numerator / vr2.denominator;
-++		r = R2D(vr);
-++		b = R2D(vr2);
-+ 		snprintf (v, maxlen, "%2.2f x %2.2f um", r, b);
-+ 		break;
-+ 	case MNOTE_NIKON_TAG_BRACKETING:
-+@@ -450,10 +453,10 @@
-+ 		if (entry->format == EXIF_FORMAT_RATIONAL) {
-+ 			CC (entry->components, 1, v, maxlen);
-+ 			vr = exif_get_rational (entry->data, entry->order);
-+-			if (!vr.numerator) {
-++			if (!vr.numerator || !vr.denominator) {
-+ 				strncpy (v, _("None"), maxlen);
-+ 			} else {
-+-				r = (double)vr.numerator / vr.denominator;
-++				r = R2D(vr);
-+ 				snprintf (v, maxlen, "%2.2f", r);
-+ 			}
-+ 			break;
-+@@ -568,13 +571,13 @@
-+ 			double c,d;
-+ 			unsigned long a,b;
-+ 			vr = exif_get_rational (entry->data, entry->order);
-+-			a = vr.numerator / vr.denominator;
-++			a = R2L(vr);
-+ 			vr = exif_get_rational (entry->data+8, entry->order);
-+-			b = vr.numerator / vr.denominator;
-++			b = R2L(vr);
-+ 			vr = exif_get_rational (entry->data+16, entry->order);
-+-			c = (double)vr.numerator / vr.denominator;
-++			c = R2D(vr);
-+ 			vr = exif_get_rational (entry->data+24, entry->order);
-+-			d = (double)vr.numerator / vr.denominator;
-++			d = R2D(vr);
-+ 			snprintf (v, maxlen, "%ld-%ldmm 1:%3.1f - %3.1f",a,b,c,d);
-+ 		}
-+ 		break;
-+@@ -682,7 +685,7 @@
-+ 		CF (entry->format, EXIF_FORMAT_RATIONAL, v, maxlen);
-+ 		CC (entry->components, 1, v, maxlen);
-+ 		vr = exif_get_rational (entry->data, entry->order);
-+-		if (vr.numerator == 0) {
-++		if (!vr.numerator || !vr.denominator) {
-+ 			strncpy (v, _("Unknown"), maxlen);
-+ 		}
-+ 		else {
-+@@ -793,7 +796,7 @@
-+ 			if (!vr.denominator) {
-+ 				strncpy (v, _("Infinite"), maxlen);
-+ 			} else {
-+-				r = (double)vr.numerator / vr.denominator;
-++				r = R2D(vr);
-+ 				snprintf (v, maxlen, "%2.3f", r);
-+ 			}
-+ 			break;
-+@@ -803,7 +806,7 @@
-+ 			if (!vsr.denominator) {
-+ 				strncpy (v, _("Infinite"), maxlen);
-+ 			} else {
-+-				r = (double)vsr.numerator / vsr.denominator;
-++				r = R2D(vsr);
-+ 				snprintf (v, maxlen, "%2.3f", r);
-+ 			}
-+ 			break;
-diff --git a/meta/recipes-support/libexif/libexif_0.6.20.bb b/meta/recipes-support/libexif/libexif_0.6.20.bb
-index 25de763..6affc9e 100644
---- a/meta/recipes-support/libexif/libexif_0.6.20.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.20.bb
-@@ -10,7 +10,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libexif/libexif-${PV}.tar.bz2 \
- 	  file://0001-libexif-CVE-2012-2813.patch \
- 	  file://0002-libexif-CVE-2012-2812.patch \
- 	  file://0003-libexif-CVE-2012-2841.patch \
--	  file://0004-libexif-CVE-2012-2836.patch"
-+	  file://0004-libexif-CVE-2012-2836.patch \
-+	  file://0005-libexif-CVE-2012-2837.patch"
++ 		if(TIFFGetField(input, TIFFTAG_PAGENUMBER, &pagen, &paged)){
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb
+index 54c4cbc..4bc7499 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb
+@@ -6,7 +6,8 @@ DEPENDS = "zlib jpeg xz"
+ PR = "r1"
  
- SRC_URI[md5sum] = "19844ce6b5d075af16f0d45de1e8a6a3"
- SRC_URI[sha256sum] = "a772d20bd8fb9802d7f0d70fde6ac8872f87d0c66c52b0d14026dafcaa83d715"
+ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+-           file://libtool2.patch"
++           file://libtool2.patch \
++		   file://libtiff-CVE-2012-3401.patch"
+ 
+ SRC_URI[md5sum] = "fae149cc9da35c598d8be897826dfc63"
+ SRC_URI[sha256sum] = "9a7a039e516c37478038740f1642818250bfb1414cf404cc8b569e5f9d4bf2f0"
 -- 
 1.8.1.2.545.g2f19ada
 
