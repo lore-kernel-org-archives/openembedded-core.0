@@ -1,27 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U3bA4-0004O9-2d
+	(envelope-from <mark.hatle@windriver.com>) id 1U3bA4-0004OB-Nm
 	for openembedded-core@lists.openembedded.org;
 	Fri, 08 Feb 2013 00:45:49 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r17NTuxD006246
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r17NTtlC026789
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Feb 2013 15:29:56 -0800 (PST)
+	Thu, 7 Feb 2013 15:29:55 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
 	(TLS) id 14.2.318.4; Thu, 7 Feb 2013 15:29:54 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Feb 2013 17:56:36 -0600
-Message-ID: <1923ac0d270c40a8519f734aae141667cebfb538.1360270199.git.mark.hatle@windriver.com>
+Date: Thu, 7 Feb 2013 17:56:37 -0600
+Message-ID: <6e4482fabb1ceb1fb93d48684598d422cef98beb.1360270199.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <cover.1360270199.git.mark.hatle@windriver.com>
 References: <cover.1360270199.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [denzil 09/18] Summary: Security Advisory - boost - CVE-2012-2677
+Subject: [denzil 10/18] qemu: Add an option to remove host sdl/gl checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,82 +37,331 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 07 Feb 2013 23:45:53 -0000
 Content-Type: text/plain
 
-From: Wei Cai <wei.cai@windriver.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-[ CQID: WIND00366777 ]
+Add an PACKAGECONFIG in qemu to disable GL acceleration:
+* By default configure try best to enable GL acceleration and fail when missing
+  host dependency(libSDL and libGL).
+* End user can also choose to turn off GL capability, thus remove the host
+  dependence in building.
 
-A security flaw was found in the way ordered_malloc() routine implementation in
-Boost, the free peer-reviewed portable C++ source libraries, performed 'next-size'
-and 'max_size' parameters sanitization, when allocating memory. If an application,
-using the Boost C++ source libraries for memory allocation, was missing
-application-level checks for safety of 'next_size' and 'max_size' values, a remote
-attacker could provide a specially-crafted application-specific file (requiring
-runtime memory allocation it to be processed correctly) that, when opened would lead
-to that application crash, or, potentially arbitrary code execution with the
-privileges of the user running the application.
+[YOCTO #2407] got fixed.
 
-Signed-off-by: Wei Cai <wei.cai@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+(master rev: cfa93553e17057a1ea9d81e3a415fc8260c54067)
+
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-support/boost/boost_1.49.0.bb         |  5 ++--
- .../boost/files/boost-CVE-2012-2677.patch          | 30 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/boost/files/boost-CVE-2012-2677.patch
+ .../qemu/qemu-0.15.1/dummy-gl-config.patch         |  31 +++++
+ .../qemu/qemu-0.15.1/glflags.patch                 |  40 ++++--
+ .../qemu/qemu-0.15.1/opengl-disable-option.patch   | 137 +++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc                |  23 +---
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |   4 +-
+ 5 files changed, 203 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
 
-diff --git a/meta/recipes-support/boost/boost_1.49.0.bb b/meta/recipes-support/boost/boost_1.49.0.bb
-index 71fdc48..b0094c1 100644
---- a/meta/recipes-support/boost/boost_1.49.0.bb
-+++ b/meta/recipes-support/boost/boost_1.49.0.bb
-@@ -2,9 +2,10 @@ include boost.inc
- 
- LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
--SRC_URI += "file://arm-intrinsics.patch"
-+SRC_URI += "file://arm-intrinsics.patch \
-+            file://boost-CVE-2012-2677.patch"
- 
- SRC_URI[md5sum] = "0d202cb811f934282dea64856a175698"
- SRC_URI[sha256sum] = "dd748a7f5507a7e7af74f452e1c52a64e651ed1f7263fce438a06641d2180d3c"
-diff --git a/meta/recipes-support/boost/files/boost-CVE-2012-2677.patch b/meta/recipes-support/boost/files/boost-CVE-2012-2677.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
 new file mode 100644
-index 0000000..42e813d
+index 0000000..8aa30ae
 --- /dev/null
-+++ b/meta/recipes-support/boost/files/boost-CVE-2012-2677.patch
-@@ -0,0 +1,30 @@
-+--- a/boost/pool/pool.hpp.orig	
-++++ b/boost/pool/pool.hpp	
-+@@ -11,6 +11,8 @@
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
+@@ -0,0 +1,31 @@
++Add a dummy option for GL acceleration to pass the configure when there is no
++GL acceleration patch. The parsing function will be filled by following
++opengl-disable-option.patch.
++
++Upstream-Status: Inappropriate [other] - depends on GL patch
++
++Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Index: qemu-0.15.1/configure
++===================================================================
++--- qemu-0.15.1.orig/configure	2012-05-14 21:23:34.000000000 +0800
+++++ qemu-0.15.1/configure	2012-05-14 21:23:36.000000000 +0800
++@@ -179,6 +179,7 @@
++ smartcard_nss=""
++ usb_redir=""
++ opengl=""
+++gl_accel="yes"
++ guest_agent="yes"
 + 
-+ #include <boost/config.hpp>  // for workarounds
++ # parse CC options first
++@@ -739,6 +740,10 @@
++   ;;
++   --enable-opengl) opengl="yes"
++   ;;
+++  --disable-gl-accel) gl_accel="no"
+++  ;;
+++  --enable-gl-accel) gl_accel="yes"
+++  ;;
++   --*dir)
++   ;;
++   --disable-rbd) rbd="no"
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
+index 0ad5551..638d262 100644
+--- a/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
+@@ -1,15 +1,33 @@
++Considering relocation, qemu-nativesdk is independent of host library except
++libGL. Normal method like 'cat > $TMPC' doesn't work, so we check the library
++directly.
++
+ Upstream-Status: Inappropriate [configuration]
+ 
+-Index: qemu-0.14.0/Makefile.target
++Index: qemu-0.15.1/configure
+ ===================================================================
+---- qemu-0.14.0.orig/Makefile.target	2011-04-04 12:12:19.142871742 +0100
+-+++ qemu-0.14.0/Makefile.target	2011-04-04 12:12:21.772871742 +0100
+-@@ -362,7 +362,7 @@
+- 
+- monitor.o: hmp-commands.h qmp-commands.h
+- 
+--LIBS += -lGL -lGLU
+-+LIBS += -lGL
+- 
+- $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y): $(GENERATED_HEADERS)
++--- qemu-0.15.1.orig/configure	2012-05-25 18:26:05.000000000 +0800
+++++ qemu-0.15.1/configure	2012-05-29 09:43:27.000000000 +0800
++@@ -2032,15 +2032,13 @@
++     exit 1;
++   fi
+  
++-  gl_accel_libs="-lGL -lGLU"
++-  cat > $TMPC << EOF
++-#include <X11/Xlib.h>
++-#include <GL/gl.h>
++-#include <GL/glx.h>
++-#include <GL/glu.h>
++-int main(void) { GL_VERSION; return 0; }
++-EOF
++-  if compile_prog "" "-lGL -lGLU" ; then
+++  gl_accel_libs="-lGL"
+++  libgl='no'
+++  test -e /usr/lib/libGL.so && libgl='yes'
+++  test -e /usr/lib64/libGL.so && libgl='yes'
+++  test -e /usr/lib/*-linux-gnu/libGL.so && libgl='yes'
+++
+++  if test "$libgl" = "yes" ; then
++     gl_accel=yes
++     libs_softmmu="$gl_accel_libs $libs_softmmu"
++   else
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
+new file mode 100644
+index 0000000..8dc272a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
+@@ -0,0 +1,137 @@
++Add an option gl-accel to disable GL acceleration:
++* When enabled, configure try best to enable GL acceleration and fail when
++  missing host dependency(libSDL and libGL), which is the default.
++* When disabled, end user choose to turn off GL capability, thus remove the
++  host dependence in building.
++
++Upstream-Status: Inappropriate [other] - depends on GL patch
++
++Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Index: qemu-0.15.1/Makefile.target
++===================================================================
++--- qemu-0.15.1.orig/Makefile.target	2012-05-29 11:20:04.000000000 +0800
+++++ qemu-0.15.1/Makefile.target	2012-05-29 11:20:04.000000000 +0800
++@@ -80,13 +80,16 @@
++ endif
++ libobj-$(CONFIG_NEED_MMU) += mmu.o
++ ifndef CONFIG_LINUX_USER
+++ifdef CONFIG_GL_ACCEL
++ libobj-$(TARGET_I386) += helper_opengl.o opengl_exec.o
++ libobj-$(TARGET_X86_64) += helper_opengl.o opengl_exec.o
++ else
++-ifdef CONFIG_SDL
++ libobj-$(TARGET_I386) += dummygl.o
++ libobj-$(TARGET_X86_64) += dummygl.o
++-endif
+++endif #CONFIG_GL_ACCEL
+++else
+++libobj-$(TARGET_I386) += dummygl.o
+++libobj-$(TARGET_X86_64) += dummygl.o
++ endif #CONFIG_LINUX_USER
++ libobj-$(TARGET_ARM) += dummygl.o
++ libobj-$(TARGET_MIPS) += dummygl.o
++@@ -262,8 +265,10 @@
++ obj-i386-$(CONFIG_SPICE) += qxl.o qxl-logger.o qxl-render.o
 + 
-++// std::numeric_limits 
-++#include <boost/limits.hpp> 
-+ // std::less, std::less_equal, std::greater
-+ #include <functional>
-+ // new[], delete[], std::nothrow
-+@@ -792,7 +794,8 @@
-+ { //! Gets address of a chunk n, allocating new memory if not already available.
-+   //! \returns Address of chunk n if allocated ok.
-+   //! \returns 0 if not enough memory for n chunks.
++ ifeq ($(TARGET_BASE_ARCH), i386)
+++ifdef CONFIG_GL_ACCEL
++ QEMU_CFLAGS += -DTARGET_OPENGL_OK
++ endif
+++endif
++ 
++ # shared objects
++ obj-ppc-y = ppc.o
++@@ -409,8 +414,6 @@
++ 
++ monitor.o: hmp-commands.h qmp-commands.h
++ 
++-LIBS += -lGL -lGLU
 +-
-++  if (requested_size && (n > (std::numeric_limits<size_type>::max)() / requested_size)) 
-++	return 0; 
-+   const size_type partition_size = alloc_size();
-+   const size_type total_req_size = n * requested_size;
-+   const size_type num_chunks = total_req_size / partition_size +
-+@@ -975,6 +978,8 @@
-+   {
-+      if(max_alloc_size && (n > max_alloc_size))
-+         return 0;
-++	 if(chunk_size && (n > (std::numeric_limits<size_type>::max)() / chunk_size)) 
-++		return 0; 
-+      void* ret = (user_allocator::malloc)(chunk_size * n);
-+      used_list.insert(ret);
-+      return ret;
++ $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y): $(GENERATED_HEADERS)
++ 
++ obj-y += $(addprefix ../, $(common-obj-y))
++Index: qemu-0.15.1/configure
++===================================================================
++--- qemu-0.15.1.orig/configure	2012-05-29 11:20:03.000000000 +0800
+++++ qemu-0.15.1/configure	2012-05-29 11:20:04.000000000 +0800
++@@ -2021,6 +2021,39 @@
++   fi
++ fi
++ 
+++#####################################################
+++# GL acceleration probe depending on gl, glu and sdl
+++if test "$gl_accel" != "no" ; then
+++  if test "$sdl" = "no" ; then
+++    gl_accel=no
+++    echo "libSDL and header no found to build opengl acceleration for qemu-native.
+++    Ubuntu package names are: libsdl1.2-dev.
+++    Fedora package names are: SDL-devel."
+++    exit 1;
+++  fi
+++
+++  gl_accel_libs="-lGL -lGLU"
+++  cat > $TMPC << EOF
+++#include <X11/Xlib.h>
+++#include <GL/gl.h>
+++#include <GL/glx.h>
+++#include <GL/glu.h>
+++int main(void) { GL_VERSION; return 0; }
+++EOF
+++  if compile_prog "" "-lGL -lGLU" ; then
+++    gl_accel=yes
+++    libs_softmmu="$gl_accel_libs $libs_softmmu"
+++  else
+++    feature_not_found "gl_accel"
+++    gl_accel=no
+++    gl_accel_libs=
+++    echo "libGL.so and libGLU.so not found to build opengl acceleration for qemu-native.
+++    Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
+++    Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
+++    exit 1;
+++  fi
+++fi
+++
++ #
++ # Check for xxxat() functions when we are building linux-user
++ # emulator.  This is done because older glibc versions don't
++@@ -2722,6 +2755,7 @@
++ echo "nss used          $smartcard_nss"
++ echo "usb net redir     $usb_redir"
++ echo "OpenGL support    $opengl"
+++echo "GL acceleration support    $gl_accel"
++ echo "build guest agent $guest_agent"
++ 
++ if test $sdl_too_old = "yes"; then
++@@ -3025,6 +3059,10 @@
++   echo "CONFIG_OPENGL=y" >> $config_host_mak
++ fi
++ 
+++if test "$gl_accel" = "yes" ; then
+++  echo "CONFIG_GL_ACCEL=y" >> $config_host_mak
+++fi
+++
++ # XXX: suppress that
++ if [ "$bsd" = "yes" ] ; then
++   echo "CONFIG_BSD=y" >> $config_host_mak
++Index: qemu-0.15.1/qemu-char.c
++===================================================================
++--- qemu-0.15.1.orig/qemu-char.c	2012-05-29 11:20:03.000000000 +0800
+++++ qemu-0.15.1/qemu-char.c	2012-05-29 11:20:04.000000000 +0800
++@@ -2387,7 +2387,6 @@
++     return d->outbuf_size;
++ }
++ 
++-#define TARGET_OPENGL_OK
++ #if defined(TARGET_OPENGL_OK)
++ static uint8_t buffer[32];
++ static int buffer_len;
++@@ -2447,7 +2446,7 @@
++     return chr;
++ }
++ #else
++-#define qemu_chr_open_opengl() 0
+++#define qemu_chr_open_opengl NULL
++ #endif
++ 
++ QemuOpts *qemu_chr_parse_compat(const char *label, const char *filename)
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 93325c3..75ff962 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -19,26 +19,6 @@ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --di
+ 
+ inherit autotools
+ 
+-# For our gl powered QEMU you need libGL and SDL headers
+-do_configure_prepend_virtclass-native() {
+-    libgl='no'
+-    libsdl='no'
+-
+-    test -e /usr/lib/libGL.so -a -e /usr/lib/libGLU.so && libgl='yes'
+-    test -e /usr/lib64/libGL.so -a -e /usr/lib64/libGLU.so && libgl='yes'
+-    test -e /usr/lib/*-linux-gnu/libGL.so -a -e /usr/lib/*-linux-gnu/libGLU.so && libgl='yes'
+-
+-    test -e /usr/lib/pkgconfig/sdl.pc -o -e /usr/lib64/pkgconfig/sdl.pc -o -e /usr/include/SDL/SDL.h && libsdl='yes'
+-
+-
+-    if [ "$libsdl" != 'yes' -o "$libgl" != 'yes' ]; then
+-       echo "You need libGL.so and libGLU.so to exist in your library path and the development headers for SDL installed to build qemu-native.
+-       Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
+-       Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
+-       exit 1;
+-    fi
+-}
+-
+ do_configure() {
+     # Handle distros such as CentOS 5 32-bit that do not have kvm support
+     KVMOPTS="--disable-kvm"
+@@ -57,6 +37,9 @@ do_install () {
+ 	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
+ }
+ 
++PACKAGECONFIG ??= "gl"
++PACKAGECONFIG[gl] = "--enable-gl-accel,--disable-gl-accel,,"
++
+ DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native"
+ DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk \
+                                ${@base_contains('DISTRO_FEATURES', 'x11', 'qemugl-nativesdk', '', d)}"
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index 54f746b..b3fb354 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+@@ -19,6 +19,7 @@ SRC_URI = "\
+     file://larger_default_ram_size.patch \
+     file://arm-bgr.patch \
+     file://a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch \
++    file://dummy-gl-config.patch \
+     file://0001-ppc64-Fix-linker-script.patch \
+     "
+ 
+@@ -32,6 +33,7 @@ QEMUGLPATCHES = "\
+     file://qemugl-fix.patch \
+     file://opengl-sdl-fix.patch \
+     file://opengl-args-copy-fix.patch \
++    file://opengl-disable-option.patch \
+     "
+ 
+ SRC_URI_append_virtclass-native = "\
 -- 
 1.8.1.2.545.g2f19ada
 
