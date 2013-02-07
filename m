@@ -1,24 +1,22 @@
 Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <holger@moiji-mobile.com>) id 1U3Zrt-00088s-DN
+	(envelope-from <holger@moiji-mobile.com>) id 1U3Zwk-0008DB-4G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Feb 2013 23:23:03 +0100
+	Thu, 07 Feb 2013 23:27:58 +0100
 Received: from sangmingze-mail.local (siminn-int-gw.on-waves.com
 	[157.157.59.158])
-	by mail.sysmocom.de (Postfix) with ESMTPSA id 634D725434E1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Feb 2013 19:55:06 +0000 (UTC)
-Received: from ich by sangmingze-mail.local with local (Exim 4.80)
-	(envelope-from <holger@moiji-mobile.com>) id 1U3XJv-0002HY-HM
-	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Feb 2013 20:39:43 +0100
-Date: Thu, 7 Feb 2013 20:39:43 +0100
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 6132F2543431;
+	Thu,  7 Feb 2013 11:50:27 +0000 (UTC)
+Received: from localhost ([127.0.0.1] helo=xiaoyu.lan)
+	by sangmingze-mail.local with esmtp (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1U3Pkw-0000xc-0W; Thu, 07 Feb 2013 12:35:06 +0100
 From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130207193943.GO27288@xiaoyu.lan>
-MIME-Version: 1.0
+Date: Thu,  7 Feb 2013 12:35:03 +0100
+Message-Id: <1360236903-3586-1-git-send-email-holger@moiji-mobile.com>
 X-Mailer: git-send-email 1.7.10.4
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 Subject: [PATCH] systemd_197.bb: Point to the place where we keep the /etc/rcN.d files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -32,9 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2013 22:23:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 07 Feb 2013 22:28:06 -0000
 
 By default /etc/rc.d is searched by systemd but we will keep rcN.d directories
 inside /etc.
