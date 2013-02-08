@@ -1,37 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1U3uyO-0006FL-Cg
+	(envelope-from <raj.khem@gmail.com>) id 1U3w2D-0008NI-2W
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 21:55:04 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 08 Feb 2013 12:39:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,630,1355126400"; d="scan'208";a="200255523"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Feb 2013 12:39:07 -0800
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.201]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.1.62]) with mapi id
-	14.01.0355.002; Fri, 8 Feb 2013 12:39:06 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Koen Kooi
-	<koen@dominion.thruhere.net>
-Thread-Topic: [for-danny][PATCH] xf86-video-modesetting: new recipe for gma500
-Thread-Index: AQHOBeVOoFzEuVB0o0abCA+vxXWSP5hwYVmAgAABC4CAAAI8gIAAB44A
-Date: Fri, 8 Feb 2013 20:39:06 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C3F0F57E4@ORSMSX106.amr.corp.intel.com>
-References: <1360318544-11013-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0Lbd9uXC9B+VTO0SgbBSksqT+5XKiUUC62YgKadmRxqqdA@mail.gmail.com>
-	<932EDA66-92E1-4B0A-A9CC-7037DACE0372@dominion.thruhere.net>
-	<CAJTo0LbP9YAEa1qZJqjgKNwvFXz+pebwDqeXd8RRp3FV_AS2CQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LbP9YAEa1qZJqjgKNwvFXz+pebwDqeXd8RRp3FV_AS2CQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-danny][PATCH] xf86-video-modesetting: new recipe for gma500
+	Fri, 08 Feb 2013 23:03:07 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so1927732dak.20
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2013 13:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=7AyqnOSUlPMzAlBcSDfWo4mDh+f9iM9JTSIBIb47730=;
+	b=TK/fpRBt48HjBlZSjloJkbAfAwQpLA94d3ckoklMSMFhly3V8nj4iHRbfrDb1Dw6KA
+	Je+PJBWdXYXZ071YOCUYRvYZu3e1owtFe2PVvES8Nzbp4JywMTh91+8dFBxVlQ/IbvEl
+	9B8J+HaMyhYFDPU91/Ttw6Q8gwlrCajR6ouW965i/vCcanmUPkP880r9zreUBW5Btj+g
+	iEEG9aSKdWTLGGY/OMy3/Hw17NNvwIe3M9pk6owmyQp4LhlTnOZChcJgfa8vXpYFBpmc
+	paGawVC2zj3CVdeQqEJ593oEpmknqBMDbmmgz9tyUZT2q+cxHEQSihiehRmOhFs4c9gD
+	FeJQ==
+X-Received: by 10.66.75.136 with SMTP id c8mr21414171paw.25.1360360028861;
+	Fri, 08 Feb 2013 13:47:08 -0800 (PST)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id f9sm57396130paz.12.2013.02.08.13.47.04
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 08 Feb 2013 13:47:07 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2013 13:46:35 -0800
+Message-Id: <1360359996-13509-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] nfs-utils: Create the default statdpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 20:55:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Feb 2013 22:03:07 -0000
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEJ1cnRvbiwgUm9zcyBbbWFp
-bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCj4gU2VudDogRnJpZGF5LCBGZWJydWFyeSAwOCwg
-MjAxMyA0OjEwIEFNDQo+IFRvOiBLb2VuIEtvb2kNCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmc7IEthbWJsZSwgTml0aW4gQTsgUmljaGFyZA0KPiBQdXJkaWUN
-Cj4gU3ViamVjdDogUmU6IFtmb3ItZGFubnldW1BBVENIXSB4Zjg2LXZpZGVvLW1vZGVzZXR0aW5n
-OiBuZXcgcmVjaXBlIGZvcg0KPiBnbWE1MDANCj4gDQo+IE9uIDggRmVicnVhcnkgMjAxMyAxMjow
-MSwgS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4gd3JvdGU6DQo+ID4gVGhl
-IEdNQTUwMCBjb21tZW50IGlzIHZlcnkgbWlzbGVhZGluZywgdGhpcyBpcyBqdXN0IGEgcmVjaXBl
-IGZvciB5ZXQtDQo+IGFub3RoZXItZGR4IHRoYXQgb25seSBnZXRzIGluc3RhbGxlZCB3aGVuIHlv
-dSBhc2sgZm9yIGl0IDopIFdoYXQgdGhlIGNvbW1pdA0KPiBmb3JnZXRzIHRvIG1lbnRpb24gaXMg
-dGhhdCBpdCdzIGEgZGR4IGZvciBhbnkgRFJNIGJhc2VkIGtlcm5lbCBkaXNwbGF5IGRyaXZlciwg
-SQ0KPiBuZWVkIGl0IGZvciBiZWFnbGVib2FyZCwgYmVhZ2xlYm9uZSB3aGljaCBkb24ndCB1c2Ug
-Z21hNTAwIGFuZCBhbHNvIGZvciBmcmkyDQo+IHdoaWNoIGRvZXMgdXNlIGdtYTUwMC4NCj4gDQo+
-IEluZGVlZCwgaXQncyB0aGUgbmV3IGZiZGV2LiBEZWF0aCB0byBmYmRldiENCj4gDQo+IFJvc3MN
-CkkgaGFkIGJyb3VnaHQgaW4gdGhlIG1vZGVzZXR0aW5nIGRyaXZlciBqdXN0IGZvciBnbWE1MDAs
-IGFuZCBnbGFkIHRvIHNlZSBtb3JlIHVzZSBvZiBpdC4NCkJUVyBGUkkyIGRvZXMgbm90ICYgY2Fu
-bm90IHVzZSB0aGUgZ21hNTAwIGRyaXZlci4gDQoNCk5pdGluDQoNCg==
+packaging these extra directories is needed
+Otherwise rpcbind wont start as it
+expects /var/lib/nfs/statd to exist.
+
+This fixes the issue where automounter fails
+to mount since rpcbind did not start correctly
+
+Failed to open directory sm: No such file or directory
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../nfs-utils/nfs-utils_1.2.7.bb                   |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
+index 5bad6f1..cf51f21 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
+@@ -56,6 +56,7 @@ RDEPENDS_${PN}-stats = "python"
+ 
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/init.d
++	install -d ${D}${localstatedir}/lib/nfs/statd
+ 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+ 
+ 	# the following are built by CC_FOR_BUILD
+-- 
+1.7.9.5
+
 
 
