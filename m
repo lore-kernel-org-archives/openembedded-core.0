@@ -1,26 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1U3wdr-00012R-9y
+	(envelope-from <dvhart@linux.intel.com>) id 1U3wdt-00012s-OD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 23:42:00 +0100
+	Fri, 08 Feb 2013 23:42:07 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2013 14:24:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,632,1355126400"; d="scan'208";a="259980216"
+X-IronPort-AV: E=Sophos;i="4.84,632,1355126400"; d="scan'208";a="259980218"
 Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
 	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2013 14:26:01 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri,  8 Feb 2013 14:27:21 -0800
-Message-Id: <3e63afff901540a82ad1f9a42167d36ee0fee6a8.1360362264.git.dvhart@linux.intel.com>
+Date: Fri,  8 Feb 2013 14:27:23 -0800
+Message-Id: <400bb9ad32ccbe2a85424a199d5a6dfe62e84f8f.1360362264.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1360362264.git.dvhart@linux.intel.com>
 References: <cover.1360362264.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1360362264.git.dvhart@linux.intel.com>
 References: <cover.1360362264.git.dvhart@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 3/7] base.bbclass: Remove generate_git_config()
+Subject: [PATCH 5/7] meta-yocto: Document new oe-git-proxy in site.conf.sample
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,63 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Feb 2013 22:42:21 -0000
 
-git no longer supports the use of GIT_CONFIG which defeats the purpose of
-GIT_CORE_CONFIG and the generate_git_config() function. Remove it.
+The new oe-git-proxy.sh should address all git proxying needs. Document
+its usage in meta-yocto/conf/site.conf.sample and remove references to
+the old mechanisms.
+
+V2: Separate out the meta-yocto changes from the oe-core changes
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/base.bbclass |   21 ---------------------
- 1 files changed, 0 insertions(+), 21 deletions(-)
+ meta-yocto/conf/site.conf.sample |   35 +++++++++--------------------------
+ 1 files changed, 9 insertions(+), 26 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 1c284b7..4d69caf 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -132,26 +132,6 @@ python base_do_unpack() {
-         raise bb.build.FuncFailed(e)
- }
+diff --git a/meta-yocto/conf/site.conf.sample b/meta-yocto/conf/site.conf.sample
+index 68d1da9..b2d01d0 100644
+--- a/meta-yocto/conf/site.conf.sample
++++ b/meta-yocto/conf/site.conf.sample
+@@ -16,32 +16,15 @@ SCONF_VERSION = "1"
+ #http-proxy-port = 81
+ #
  
--GIT_CONFIG_PATH = "${STAGING_DIR_NATIVE}/etc"
--GIT_CONFIG = "${GIT_CONFIG_PATH}/gitconfig"
+-# Uncomment to cause git to use the proxy host specificed 
+-# although this only works for http
+-#GIT_PROXY_HOST = "proxy.example.com"
+-#GIT_PROXY_PORT = "81"
+-#export GIT_PROXY_COMMAND = "${COREBASE}/scripts/oe-git-proxy-command"
 -
--def generate_git_config(e):
--    if e.data.getVar('GIT_CORE_CONFIG', True):
--        gitconfig_path = e.data.getVar('GIT_CONFIG', True)
--        proxy_command = "    gitProxy = %s\n" % e.data.getVar('OE_GIT_PROXY_COMMAND', True)
+-# Set to yes to have a gitconfig generated for handling proxies; you
+-# might not want this if you have all that set in your global git
+-# configuration. If you don't enable it, the rest of the entries
+-# (_PROXY_IGNORE, etc) don't really work that well
+-#GIT_CORE_CONFIG = "Yes"
 -
--        bb.mkdirhier(e.data.expand("${GIT_CONFIG_PATH}"))
--        if (os.path.exists(gitconfig_path)):
--            os.remove(gitconfig_path)
+-# Space separate list of hosts to ignore for GIT proxy
+-#GIT_PROXY_IGNORE = "host.server.com another.server.com"
 -
--        f = open(gitconfig_path, 'w')
--        f.write("[core]\n")
--        ignore_hosts = e.data.getVar('GIT_PROXY_IGNORE', True).split()
--        for ignore_host in ignore_hosts:
--            f.write("    gitProxy = none for %s\n" % ignore_host)
--        f.write(proxy_command)
--        f.close
+-# If SOCKS is available run the following command to comple a simple transport
+-# gcc scripts/oe-git-proxy-socks.c -o oe-git-proxy-socks
+-# and then share that binary somewhere in PATH, then use the following settings
+-#GIT_PROXY_HOST = "proxy.example.com"
+-#GIT_PROXY_PORT = "81"
 -
- def pkgarch_mapping(d):
-     # Compatibility mappings of TUNE_PKGARCH (opt in)
-     if d.getVar("PKGARCHCOMPAT_ARMV7A", True):
-@@ -310,7 +290,6 @@ addhandler base_eventhandler
- python base_eventhandler() {
-     if isinstance(e, bb.event.ConfigParsed):
-         e.data.setVar('BB_VERSION', bb.__version__)
--        generate_git_config(e)
-         pkgarch_mapping(e.data)
-         preferred_ml_updates(e.data)
-         e.data.appendVar('DISTRO_FEATURES', oe.utils.features_backfill("DISTRO_FEATURES", e.data))
+-# GIT_PROXY_COMMAND is used by git to override all proxy settings from
+-# configuration files, so we prefix OE_ to avoid breaking havoc on the
+-# generated (or local) gitconfig's.
+-#OE_GIT_PROXY_COMMAND = "${COREBASE}/scripts/oe-git-proxy-socks-command"
+-
++# To use git with a proxy, you must use an external git proxy command, such as
++# the one provided by scripts/oe-git-proxy.sh. To use this script, copy it to
++# your PATH and uncomment the following:
++#GIT_PROXY_COMMAND="oe-git-proxy"
++#ALL_PROXY="socks://socks.example.com:1080"
++#or
++#ALL_PROXY="https://proxy.example.com:8080"
++# If you wish to use certain hosts without the proxy, specify them in NO_PROXY.
++# See the script for details on syntax.
+ 
+ # Uncomment this to use a shared download directory
+ #DL_DIR = "/some/shared/download/directory/"
 -- 
 1.7.5.4
 
