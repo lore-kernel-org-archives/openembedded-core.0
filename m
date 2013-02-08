@@ -1,37 +1,30 @@
-Received: from mail-yh0-f53.google.com ([209.85.213.53])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3nE5-0000wc-DJ
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1U3nIY-000199-Pd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 13:38:45 +0100
-Received: by mail-yh0-f53.google.com with SMTP id q3so416482yhf.12
+	Fri, 08 Feb 2013 13:43:24 +0100
+Received: from [192.168.0.2] (host86-137-74-187.range86-137.btcentralplus.com
+	[86.137.74.187]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id D214D9BF8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 04:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=of19jj5ToAt8cmWcIrRkNuAF7ZiIHwrnvzZ25EnAbj4=;
-	b=d8Jt39v/F82bJB9RexP6gd4BBAFRB8ZQjt9HVwZxx36Uuw3PbaWs1RATdoq/Fyoif+
-	0PK3raD0P1Hng1w1V+QXnU7GEbeYUL8FPCqb+kYW695xDFK2rkw3GFsF7lWNTk/LKNWX
-	2F3eLNdH8LWz6JzIdbL12Ulqh21T/9Xzdd8Iutj6SHoKHtTyvdC65KdgEFzOS/8Ymtjl
-	u7wEntHSe9El0T0Ypqh7rtcRxWbXLpYvK99pFTsZpTEbGsAeJSD/h4GgZFmEMigU1KXO
-	rSTjAqB8IeUo624TKgyUV+3xBKxqkAqWOF9q8A6Du4ZWdmuvyXFsJbmUFsIwvWPYQHEI
-	cmVQ==
-X-Received: by 10.236.57.10 with SMTP id n10mr5941715yhc.50.1360326171382;
-	Fri, 08 Feb 2013 04:22:51 -0800 (PST)
-Received: from localhost.localdomain ([187.23.144.59])
-	by mx.google.com with ESMTPS id s3sm52308661yhm.10.2013.02.08.04.22.49
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Fri, 08 Feb 2013 04:22:50 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2013 10:22:40 -0200
-Message-Id: <1360326160-8310-2-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1360326160-8310-1-git-send-email-otavio@ossystems.com.br>
-References: <1360326160-8310-1-git-send-email-otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] tzdata: Simplify code removing not used cases
+	Fri,  8 Feb 2013 12:27:30 +0000 (GMT)
+Message-ID: <5114EF31.6000304@r-finger.com>
+Date: Fri, 08 Feb 2013 12:27:29 +0000
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
+	<CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
+	<CAJTo0LbOcirp-VJT1u9g9Xp8jTREb=UD+dJRftidVpt6tQ3HRg@mail.gmail.com>
+	<5114E8E5.70203@r-finger.com>
+	<CAP9ODKqRoNRNKqeZ6AyLd_ALjVu3Zo-7ZDtsmmvdj=m5CGwQWQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKqRoNRNKqeZ6AyLd_ALjVu3Zo-7ZDtsmmvdj=m5CGwQWQ@mail.gmail.com>
+Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,91 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 12:38:45 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 12:43:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-We shouldn't have an use-case where we'd use 'FUBAR' timezone so
-instead of adding postinst handling for this use case we handle it at
-install time and keep the Universal as fallback if user did something
-wrong.
+On 08/02/13 12:07, Otavio Salvador wrote:
+> On Fri, Feb 8, 2013 at 10:00 AM, Tomas Frydrych
+> <tf+lists.yocto@r-finger.com> wrote:
+>> On 08/02/13 11:55, Burton, Ross wrote:
+>>> On 8 February 2013 11:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>>>> Can you fix the code to symlink instead of copy?  systemd and more
+>>>>> needs a symlink so that it can identify the name of the timezone from
+>>>>> the link target.
+>>>>
+>>>> You mean inside the if?
+>>>
+>>> I mean in general /etc/localtime should be a symlink and not a copy.
+>>
+>> /etc/localtime is a real file so that /etc is not containing a link to a
+>> file in /usr; this has historically been the case unless I am not
+>> mistaken. systemd should grow up and read the contents :).
+> 
+> In fact a lot of software expects it to be a symlink so it shouldn't be a copy.
 
-Change-Id: I9a4f05db7a0bdc06511deb5693d1d16569d2fc63
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-extended/tzdata/tzdata_2012d.bb |   36 ++++++-------------------
- 1 files changed, 9 insertions(+), 27 deletions(-)
+Lot of software does thing without understanding what it is doing,
+that's the nature of software. :) My point is that the code in the
+current recipe is not doing the unconditional copy by mistake, it is
+doing so intentionally so that local clock can work without /usr. Only
+systems that mandate the presence of /usr can use a symlink -- so this
+is not a bug fix but a change in an established system behaviour. If
+nothing else, the commit message should be clear in this regard.
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-index 9ec6715..4811072 100644
---- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-@@ -47,48 +47,30 @@ do_install () {
-         cp -pP "${S}/iso3166.tab" ${D}${datadir}/zoneinfo
- 
-         # Install default timezone
--        install -d ${D}${sysconfdir}
--        echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
--        ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
-+        if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
-+            install -d ${D}${sysconfdir}
-+            echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-+            ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
-+        else
-+            bberror "DEFAULT_TIMEZONE is set to an invalid value."
-+            exit 1
-+        fi
- 
-         chown -R root:root ${D}
- }
- 
- pkg_postinst_${PN} () {
--
--# code taken from Gentoo's tzdata ebuild
--
- 	etc_lt="$D${sysconfdir}/localtime"
- 	src="$D${sysconfdir}/timezone"
- 
- 	if [ -e ${src} ] ; then
- 		tz=$(sed -e 's:#.*::' -e 's:[[:space:]]*::g' -e '/^$/d' "${src}")
--	else
--		tz="FUBAR"
- 	fi
- 	
- 	if [ -z ${tz} ] ; then
- 		return 0
- 	fi
- 	
--	if [ ${tz} = "FUBAR" ] ; then
--		echo "You do not have TIMEZONE set in ${src}."
--
--		if [ ! -e ${etc_lt} ] ; then
--			# if /etc/localtime is a symlink somewhere, assume they
--			# know what they're doing and they're managing it themselves
--			if [ ! -L ${etc_lt} ] ; then
--				cp -f "$D${datadir}/zoneinfo/Universal" "${etc_lt}"
--				echo "Setting ${etc_lt} to Universal."
--			else
--				echo "Assuming your ${etc_lt} symlink is what you want; skipping update."
--			fi
--		else
--			echo "Skipping auto-update of ${etc_lt}."
--		fi
--		return 0
--	fi
--
- 	if [ ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
- 		echo "You have an invalid TIMEZONE setting in ${src}"
- 		echo "Your ${etc_lt} has been reset to Universal; enjoy!"
-@@ -97,7 +79,7 @@ pkg_postinst_${PN} () {
- 		if [ -L ${etc_lt} ] ; then
- 			rm -f "${etc_lt}"
- 		fi
--		cp -f "$D${datadir}/zoneinfo/${tz}" "${etc_lt}"
-+		ln -s "${datadir}/zoneinfo/${tz}" "${etc_lt}"
- 	fi
- }
- 
+Tomas
+
+
 -- 
-1.7.2.5
-
+http://sleepfive.com
 
 
