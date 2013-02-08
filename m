@@ -1,34 +1,36 @@
-Received: from mail-vb0-f43.google.com ([209.85.212.43])
+Received: from mail-ia0-f169.google.com ([209.85.210.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3mVd-0005eZ-8r
+	(envelope-from <otavio.salvador@gmail.com>) id 1U3mXC-0005iL-Qc
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 12:52:55 +0100
-Received: by mail-vb0-f43.google.com with SMTP id fs19so2252664vbb.16
+	Fri, 08 Feb 2013 12:54:36 +0100
+Received: by mail-ia0-f169.google.com with SMTP id j5so4144123iaf.28
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 03:36:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=55t9x+GCYXOPa8yDa34RpOsW2Yp3oFyEB83PkezNXVQ=;
-	b=m5UKWCSBbRdx5CCL0ePavgP5qCyL9c+uFYyk5BPRzxxk93VnPwO42yGqQeE9J87FXt
-	f3REyFaC7eZRtO3nDTxZF7JwMTEAfcGUKcMTPALim+oUu5f+auFKOPnjwk692zYRQE2Y
-	ruiFQ+AChngUI9y7MN3clPa9Yq/8c3sIB/g347GfqbTrcUAt+H9AXztZVb/LbACIXZpi
-	EpxLoS9BZM7gcLXLjlAh7fpMKwcDyfABcjTQ9esO6F35evTS6OnkVFseLx4nOkzuDXr0
-	W0pgHCiw4T+36Q9kdHT7MWebl+WWjdwW//HCZ8YfL9AdinfxaUu3XYZUwCMVI5goeIjX
-	jzoA==
-X-Received: by 10.52.90.243 with SMTP id bz19mr5294702vdb.112.1360323415280;
-	Fri, 08 Feb 2013 03:36:55 -0800 (PST)
+	Fri, 08 Feb 2013 03:38:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=FMMuc7fnXXtmOTga9RfKzCPpcaHBcZutj2eTli13dTY=;
+	b=wJ/7XCGlN28S8XjCxH4FXEJqEjKzqIUhXwKlM3RM9i8485NLbQ9GEPczuc9v4eBRcw
+	CG57llGqNOGFY/4Pa3TjpYcxZGTqaizgV0nvrM4z+TilpwaSJ0QmHnoYx5/uhjQl/L5Q
+	v7iQQ8qkKg6hx4LGNExgU2Iv/cqYavYd70GpDaAdjwKeYum53W9XrewwulQmxrio0qie
+	bJN6hLDbZoCB5DWiNGdf7S4LPKLJ5yIwZEebhwcV9CmnPyaEHhA7hAgi/9XRvB36OPZH
+	hbQy2hOE/WWCZVlDwrm6Qo+lBIFY5VHvtQfpYrD5fwDs/l7W/IsWP+p7OZsbrMtnk2s4
+	+cmg==
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Fri, 8 Feb 2013 03:36:35 -0800 (PST)
-In-Reply-To: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
+X-Received: by 10.50.149.168 with SMTP id ub8mr1481572igb.111.1360323512478;
+	Fri, 08 Feb 2013 03:38:32 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.10.105 with HTTP; Fri, 8 Feb 2013 03:38:32 -0800 (PST)
+In-Reply-To: <CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
 References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Feb 2013 11:36:35 +0000
-Message-ID: <CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQluqDLI8cQ1qP40C8Duiu7xAugj5cev/SkOhWPL+dBQX50HLRSw3d/zx503HO/mIRjIv+ul
-Cc: openembedded-core@lists.openembedded.org
+	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
+Date: Fri, 8 Feb 2013 09:38:32 -0200
+X-Google-Sender-Auth: fXrpxOdFQoWY9DMjpokab_6rbno
+Message-ID: <CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,18 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 11:52:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Feb 2013 11:55:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 8 February 2013 11:32, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> The code where mistakenly replacing the localtime file setting so we
-> end with a copy of file instead of a symbolic link. This fixes it so
-> now, we'll only do that in case the link is pointing to invalid data.
+On Fri, Feb 8, 2013 at 9:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 8 February 2013 11:32, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> The code where mistakenly replacing the localtime file setting so we
+>> end with a copy of file instead of a symbolic link. This fixes it so
+>> now, we'll only do that in case the link is pointing to invalid data.
+>
+> Can you fix the code to symlink instead of copy?  systemd and more
+> needs a symlink so that it can identify the name of the timezone from
+> the link target.
 
-Can you fix the code to symlink instead of copy?  systemd and more
-needs a symlink so that it can identify the name of the timezone from
-the link target.
+You mean inside the if?
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
