@@ -1,35 +1,39 @@
-Received: from mail-ve0-f182.google.com ([209.85.128.182])
+Received: from mail-ob0-f169.google.com ([209.85.214.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3mqB-0006il-FW
+	(envelope-from <otavio.salvador@gmail.com>) id 1U3mr0-0006lg-OD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 13:14:03 +0100
-Received: by mail-ve0-f182.google.com with SMTP id ox1so3232885veb.27
+	Fri, 08 Feb 2013 13:14:58 +0100
+Received: by mail-ob0-f169.google.com with SMTP id ta14so3848388obb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 03:58:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=URIbjvGYAwDWkQM0XIu3TWtHQwPo1yDZSKzA3DLU+as=;
-	b=gIW4kH4eLQ7C+qHz3TxPTqLAVr+4o5rs6yYvydkTgdpM02Otkf8FROdSuz6Vj4Pe+Z
-	RVoCaqd5fixs2DVU5I13bbX0O2aIq7+oztholpKophvsqBKP/o3n/XcuLVaFyf2ayWUk
-	AWawJDdKTgG4PlvK2W/zsSevfP9JufoC5gkgxiz5AXX30U3QsBINugz7AMft+Ra9gbxQ
-	H7KpWEn9JUnFjpR0U73X3TNyg+k1McqFGdqXl6MhgUXgsmVwO3lXmzqnE+fD5vDuHZtu
-	LpeUB/Bo2YIIV5Im0U08OZ2NP09htKcgcZn0OQDoNg82IavPUasLoXI1xmCq2Xk2uo3V
-	qQsQ==
-X-Received: by 10.220.116.5 with SMTP id k5mr6107459vcq.55.1360324689449; Fri,
-	08 Feb 2013 03:58:09 -0800 (PST)
+	Fri, 08 Feb 2013 03:59:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=BiVHWBDfW+FHzdFVHPJxAso2cahko1vfGIUWLSOoXU8=;
+	b=dXq+ieWush07nDnVXxklvYFT5gjRBu9BLrj6UiSV+5eQHpdPTr0lzcxu/EfFo1TfpX
+	8UCf+f/9BTd5emM16A61+7wfPwwcRwHNxvOAuGFmpr/OdCs/iV+of1NtPCys2sMmm3EG
+	s6kNgcAS7BwYyZrqRP0lqX3+g4JuCTNAzQwEHd+0blUUkjX85kNcWGcfjxuxPmB58XWL
+	1DFXZ2Jv7rlSEPkuJnX+tFQVbfBZrmgxBg60W2Xh7gdnb5AwRxfvqK1xQYxYYQBejYJh
+	E8C8CKWCm+vgwYKDJXBCfsdXKSg/TFJhmX0cslBVTYC5d9gTrODqBiuyM59iR6quszV2
+	ernA==
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Fri, 8 Feb 2013 03:57:49 -0800 (PST)
-In-Reply-To: <1360318544-11013-1-git-send-email-koen@dominion.thruhere.net>
-References: <1360318544-11013-1-git-send-email-koen@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Feb 2013 11:57:49 +0000
-Message-ID: <CAJTo0Lbd9uXC9B+VTO0SgbBSksqT+5XKiUUC62YgKadmRxqqdA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnWJTeXyat+TUmmCxVu7wVGB+UjkpCLh05GlCJsToX6spsONFj8pSNebmJz0ljwR0lqLRUl
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-danny][PATCH] xf86-video-modesetting: new recipe for gma500
+X-Received: by 10.182.231.39 with SMTP id td7mr3861878obc.86.1360324740248;
+	Fri, 08 Feb 2013 03:59:00 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 03:59:00 -0800 (PST)
+In-Reply-To: <CAJTo0LbOcirp-VJT1u9g9Xp8jTREb=UD+dJRftidVpt6tQ3HRg@mail.gmail.com>
+References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
+	<CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
+	<CAJTo0LbOcirp-VJT1u9g9Xp8jTREb=UD+dJRftidVpt6tQ3HRg@mail.gmail.com>
+Date: Fri, 8 Feb 2013 09:59:00 -0200
+X-Google-Sender-Auth: hj53L8pwTW1BGkMJ9i-PopwaJAU
+Message-ID: <CAP9ODKrgF1qQFT3u+jedAkTcCbABLJKihhspThy+xGP1EOeRSQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 12:14:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Feb 2013 12:14:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 8 February 2013 10:15, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Fri, Feb 8, 2013 at 9:55 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 8 February 2013 11:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>> Can you fix the code to symlink instead of copy?  systemd and more
+>>> needs a symlink so that it can identify the name of the timezone from
+>>> the link target.
+>>
+>> You mean inside the if?
 >
-> I am trying to use gma500 driver for the noemgd BSPs. The current best
-> xf86 driver for it is modesetting. This recipe provides that
-> driver.
+> I mean in general /etc/localtime should be a symlink and not a copy.
 
-Big changes like this are generally avoided, but this is a pretty
-important recipe. Merged into danny-next, should being doing a full
-test build tonight.
+Ok; but I will do it in another patch ... in fact it could be
+simplified a lot. I will propose a patch for it.
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
