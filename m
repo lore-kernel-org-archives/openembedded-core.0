@@ -1,42 +1,32 @@
-Received: from mail-ob0-f170.google.com ([209.85.214.170])
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3nRR-0001Xa-OF
+	(envelope-from <walters@verbum.org>) id 1U3ngS-0004Kd-8N
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 13:52:39 +0100
-Received: by mail-ob0-f170.google.com with SMTP id wc20so3859273obb.15
+	Fri, 08 Feb 2013 14:08:09 +0100
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 77EBC207A9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 04:36:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+MOYrWsKYkCwMqu2SOdnfu6hxY7oCGMq+3ck6FL65yA=;
-	b=qdwVAX2OILoazW356RkTBkj0EPWzIVQmAt07NdlEL3c5MaGdpGqQj+RJgaNZveoTv6
-	pAeFOU0QHkbFPXXyMJ4zDC02Z9OEszavREVmICImiRYl+fQ5f1vWLyiazhbaWRIaQzuA
-	P4S29JFgIcrdGvaHGWCvdWP00d2/FBU0CsIbPiq578UkVM3QxYKInIcCKtG75vhNTrLJ
-	SCw+ASoFcy0gR2FM4yypJC5w0eX2IjGtURNzMmJ8pf5ZuDZtu7Ws1I7fpfRtrgwDbPQp
-	fNTBpMFQJ59voyqNilYuO3BDBsaDTj6KxbXRaqy1qeLACcQbOKkjvPCkeILR7RL+hxSX
-	AnAg==
-MIME-Version: 1.0
-X-Received: by 10.60.171.102 with SMTP id at6mr4056582oec.60.1360326999543;
-	Fri, 08 Feb 2013 04:36:39 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 04:36:39 -0800 (PST)
-In-Reply-To: <5114EF31.6000304@r-finger.com>
-References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
-	<CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
-	<CAJTo0LbOcirp-VJT1u9g9Xp8jTREb=UD+dJRftidVpt6tQ3HRg@mail.gmail.com>
-	<5114E8E5.70203@r-finger.com>
-	<CAP9ODKqRoNRNKqeZ6AyLd_ALjVu3Zo-7ZDtsmmvdj=m5CGwQWQ@mail.gmail.com>
-	<5114EF31.6000304@r-finger.com>
-Date: Fri, 8 Feb 2013 10:36:39 -0200
-X-Google-Sender-Auth: oncIOnmcwFAHBZZ9t9HWLiCRR78
-Message-ID: <CAP9ODKoYkBks7_o9U3SjUW6gEjV9u3A47NTGLEPUBQQvCqGTYQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
+	Fri,  8 Feb 2013 07:52:12 -0500 (EST)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute3.internal (MEProxy); Fri, 08 Feb 2013 07:52:12 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:content-type:date
+	:message-id:mime-version; s=smtpout; bh=ohSZ1xWHUkOYInQ46WjADQue
+	Vd8=; b=qCqO+l1Y/k3gOAU4c0sMCPt30mCbwrZ4FCvGYuyEHzg1ghcAooVsRvNX
+	rD6kdg+dB5OTy8EwH+FMVUdE3o3FbmxwjapnUhXQzW75AsAASG0w8W9aUEQpcB8n
+	MUxN7kBw1+lM9lnAE/MbYTklreQPvgUwLIoFcXMe8rYqUzWcPgM=
+X-Sasl-enc: H5JgIOn31sLo9Fbiis+7uH3NlonvLx9yjHFI6NKFkNJN 1360327932
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 1947B48258D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Feb 2013 07:52:12 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 08 Feb 2013 07:52:11 -0500
+Message-ID: <1360327931.9905.799.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Subject: [PATCH] make-3.82: Add patch from git to fix parallel make race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,48 +39,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 12:52:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Feb 2013 13:08:10 -0000
+X-Groupsio-MsgNum: 35213
+Content-Type: multipart/mixed; boundary="=-Z26DmUAkau3T7O5Y7S1o"
 
-On Fri, Feb 8, 2013 at 10:27 AM, Tomas Frydrych
-<tf+lists.yocto@r-finger.com> wrote:
-> On 08/02/13 12:07, Otavio Salvador wrote:
->> On Fri, Feb 8, 2013 at 10:00 AM, Tomas Frydrych
->> <tf+lists.yocto@r-finger.com> wrote:
->>> On 08/02/13 11:55, Burton, Ross wrote:
->>>> On 8 February 2013 11:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>>>>> Can you fix the code to symlink instead of copy?  systemd and more
->>>>>> needs a symlink so that it can identify the name of the timezone from
->>>>>> the link target.
->>>>>
->>>>> You mean inside the if?
->>>>
->>>> I mean in general /etc/localtime should be a symlink and not a copy.
->>>
->>> /etc/localtime is a real file so that /etc is not containing a link to a
->>> file in /usr; this has historically been the case unless I am not
->>> mistaken. systemd should grow up and read the contents :).
->>
->> In fact a lot of software expects it to be a symlink so it shouldn't be a copy.
->
-> Lot of software does thing without understanding what it is doing,
-> that's the nature of software. :) My point is that the code in the
-> current recipe is not doing the unconditional copy by mistake, it is
-> doing so intentionally so that local clock can work without /usr. Only
-> systems that mandate the presence of /usr can use a symlink -- so this
-> is not a bug fix but a change in an established system behaviour. If
-> nothing else, the commit message should be clear in this regard.
+--=-Z26DmUAkau3T7O5Y7S1o
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I agree about the commit log. I'd for ignore the possibility to use
-/etc without /usr as the applications running at very beggning will
-start using GMT and move to timezone when /usr is ready. I see no
-problem with that.
+See: http://savannah.gnu.org/bugs/?30653
 
-Ross, we are at same page? If yes I will send a v3 with improved commit log.
+This only shows up for projects which have a number of intermediate
+targets.  For me, systemd fails to build without this patch, and does
+build consistently with it.
 
+WebKitGtk+ is another known affected project.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ .../make-3.82/intermediate-target-bugfix.patch     |   23 ++++++++++++++++++++
+ meta/recipes-devtools/make/make_3.82.bb            |    1 +
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
+
+
+
+
+--=-Z26DmUAkau3T7O5Y7S1o
+Content-Disposition: attachment; filename*0=0001-make-3.82-Add-patch-from-git-to-fix-parallel-make-ra.pat; filename*1=ch
+Content-Type: text/x-patch; name="0001-make-3.82-Add-patch-from-git-to-fix-parallel-make-ra.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From 62d497f50828ea62bf0b15cd9b43f509da3da52e Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Fri, 8 Feb 2013 07:48:52 -0500
+Subject: [PATCH] make-3.82: Add patch from git to fix parallel make race
+
+See: http://savannah.gnu.org/bugs/?30653
+
+This only shows up for projects which have a number of intermediate
+targets.  For me, systemd fails to build without this patch, and does
+build consistently with it.
+
+WebKitGtk+ is another known affected project.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ .../make-3.82/intermediate-target-bugfix.patch     |   23 ++++++++++++++++++++
+ meta/recipes-devtools/make/make_3.82.bb            |    1 +
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
+
+diff --git a/meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch b/meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
+new file mode 100644
+index 0000000..b416e64
+--- /dev/null
++++ b/meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport [The fix is already in upstream git repo, but not in the stable release]
++
++From fbe5b2c9cd612b962836b9391fa2b58c8baed6fc Mon Sep 17 00:00:00 2001
++From: Paul Smith <psmith@gnu.org>
++Date: Mon, 10 Sep 2012 02:36:05 +0000
++Subject: Force intermediate targets to be considered if their non-intermediate
++
++parent needs to be remade.  Fixes Savannah bug #30653.
++---
++diff --git a/remake.c b/remake.c
++index c0bf709..b1ddd23 100644
++--- a/remake.c
+++++ b/remake.c
++@@ -612,6 +612,10 @@ update_file_1 (struct file *file, unsigned int depth)
++                 d->file->dontcare = file->dontcare;
++               }
++ 
+++            /* We may have already considered this file, when we didn't know
+++               we'd need to update it.  Force update_file() to consider it and
+++               not prune it.  */
+++            d->file->considered = !considered;
++ 
++ 	    dep_status |= update_file (d->file, depth);
+diff --git a/meta/recipes-devtools/make/make_3.82.bb b/meta/recipes-devtools/make/make_3.82.bb
+index 65b044b..b4292b5 100644
+--- a/meta/recipes-devtools/make/make_3.82.bb
++++ b/meta/recipes-devtools/make/make_3.82.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ require make.inc
+ 
+ SRC_URI += "file://expand_MAKEFLAGS.patch \
++            file://intermediate-target-bugfix.patch \
+             file://make-savannah-bug30612-handling_of_archives.patch;striplevel=0"
+ 
+ SRC_URI[md5sum] = "1a11100f3c63fcf5753818e59d63088f"
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.1
 
 
+--=-Z26DmUAkau3T7O5Y7S1o--
