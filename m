@@ -1,37 +1,27 @@
-Received: from mail-ia0-f169.google.com ([209.85.210.169])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3mXC-0005iL-Qc
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U3mby-0005px-1x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 12:54:36 +0100
-Received: by mail-ia0-f169.google.com with SMTP id j5so4144123iaf.28
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 03:38:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=FMMuc7fnXXtmOTga9RfKzCPpcaHBcZutj2eTli13dTY=;
-	b=wJ/7XCGlN28S8XjCxH4FXEJqEjKzqIUhXwKlM3RM9i8485NLbQ9GEPczuc9v4eBRcw
-	CG57llGqNOGFY/4Pa3TjpYcxZGTqaizgV0nvrM4z+TilpwaSJ0QmHnoYx5/uhjQl/L5Q
-	v7iQQ8qkKg6hx4LGNExgU2Iv/cqYavYd70GpDaAdjwKeYum53W9XrewwulQmxrio0qie
-	bJN6hLDbZoCB5DWiNGdf7S4LPKLJ5yIwZEebhwcV9CmnPyaEHhA7hAgi/9XRvB36OPZH
-	hbQy2hOE/WWCZVlDwrm6Qo+lBIFY5VHvtQfpYrD5fwDs/l7W/IsWP+p7OZsbrMtnk2s4
-	+cmg==
+	Fri, 08 Feb 2013 13:01:01 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2013 03:41:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,629,1355126400"; d="scan'208";a="259574482"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2013 03:43:13 -0800
+Message-ID: <5114E4D0.6020809@intel.com>
+Date: Fri, 08 Feb 2013 13:43:12 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.50.149.168 with SMTP id ub8mr1481572igb.111.1360323512478;
-	Fri, 08 Feb 2013 03:38:32 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.64.10.105 with HTTP; Fri, 8 Feb 2013 03:38:32 -0800 (PST)
-In-Reply-To: <CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
-References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
-Date: Fri, 8 Feb 2013 09:38:32 -0200
-X-Google-Sender-Auth: fXrpxOdFQoWY9DMjpokab_6rbno
-Message-ID: <CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
+References: <cover.1360166922.git.laurentiu.palcu@intel.com>
+	<4ac0c041b62e5495bff97bd2d7dc5a4e31d7ce5f.1360166922.git.laurentiu.palcu@intel.com>
+	<CAJTo0LYGpC4qpjyMEms2M=wX0DYypNDJ1pjg-79xu4yMh69byg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYGpC4qpjyMEms2M=wX0DYypNDJ1pjg-79xu4yMh69byg@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] Add pixbufcache class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,24 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 11:55:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Feb 2013 12:01:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 8, 2013 at 9:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 8 February 2013 11:32, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> The code where mistakenly replacing the localtime file setting so we
->> end with a copy of file instead of a symbolic link. This fixes it so
->> now, we'll only do that in case the link is pointing to invalid data.
->
-> Can you fix the code to symlink instead of copy?  systemd and more
-> needs a symlink so that it can identify the name of the timezone from
-> the link target.
 
-You mean inside the if?
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+On 02/08/2013 12:31 PM, Burton, Ross wrote:
+> On 6 February 2013 16:36, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>> All packages exporting pixbuf loaders should inherit this class in order
+>> to generate the correct postinst/postrm scriptlets.
+>>
+>> [YOCTO #3852]
+> 
+> Presumably this means that the gtk-icon-cache package can drop the
+> pixbuf loader calls now?  Also as the gtk icon cache only handles
+> built-in modules, we don't need to update the icon cache when
+> registering pixbuf loaders.
+This patchset addresses the postinstall issues only, that is: make them
+run on host at do_rootfs. As much as possible, the previous
+functionality was left intact. We could do the changes you suggest in
+subsequent patches. And that's because, in case of any failures, it
+would be easier to know where the problem came from.
+
+Laurentiu
+
+> 
+> Ross
+> 
 
 
