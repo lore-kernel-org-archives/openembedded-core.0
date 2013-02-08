@@ -1,40 +1,40 @@
-Received: from mail-wi0-f173.google.com ([209.85.212.173])
+Received: from mail-wi0-f182.google.com ([209.85.212.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3wwl-0002Go-Oi
+	(envelope-from <ross.burton@intel.com>) id 1U3wwo-0002Gy-Gw
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Feb 2013 00:01:33 +0100
-Received: by mail-wi0-f173.google.com with SMTP id hq4so1442594wib.0
+	Sat, 09 Feb 2013 00:01:34 +0100
+Received: by mail-wi0-f182.google.com with SMTP id hi18so1413456wib.15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 14:45:37 -0800 (PST)
+	Fri, 08 Feb 2013 14:45:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=Y11wwo2fTTpNJwxFKgn+KHwmiZ2v5Ol5zNTBEIS523g=;
-	b=jE4mam/9OyXUp7m7qHoPad7GnlMA6qXGLZEbQL6llgAjUCKNSyfz3G7zVI14AwTtyn
-	vvA+oYfWDxdqJw142at6Qj1IPDFdcXEIDLSNhvvAvZv9pldExigMbBaa4z2cSE6rSX7u
-	LHQPwYWrpU+wySlMJqlTZ6/tajUOSZab+lg8v58EdOKGebG4PaHmdUVXqbMQbxDW3LYy
-	u6MXWQSPAcTGY/5Ay2PE6DMHx2xXIqmi/fmu2Xupu32Ii+lus7k5NN4+e2cJ9uDlpop9
-	SJEB/5jSTN2MdxzNAhNv/OP3RVYpD7shRhRtO4N3havgX6ymx95q4zixAyEsvaL9xq3f
-	b+Fg==
-X-Received: by 10.180.106.34 with SMTP id gr2mr5219572wib.18.1360363537703;
-	Fri, 08 Feb 2013 14:45:37 -0800 (PST)
+	bh=kJAJI+gqldItVOecDwrhJD3VL305aq6oeRFou4Qv8mE=;
+	b=EjLXXprHaa8PFc5WhVORapXzaIGmm/tUCdhu/EXcFHRxdyj9CnNw0ARgddwRiofip9
+	UA90evdV2VBA8ohN5CJ7AJn1Zkr4GA6BnrV0dHXX/1Jj91Bke76hf0HrWrqkZ/rDXdlt
+	ZJwcRET0w3XZQ55uw+mcwhCQVaFiUkvJtoAGJDwetPEptkkOD+YDmvyMhZ6M72Drle4m
+	hcqHI4oyUSIQqhXsbkz4omuZ/mJG9pAv1Y1N2ysI9JIzN7amTS86jNbQJPIMhO4w6gzC
+	aGtG6AibiTI+SFDpTuVapu0KrZbZimAS9LAj39kk01lAgfz2HhIlu60CCxA1STZi/D9z
+	EGJA==
+X-Received: by 10.194.78.207 with SMTP id d15mr12512266wjx.52.1360363540439;
+	Fri, 08 Feb 2013 14:45:40 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id e6sm18190386wiz.1.2013.02.08.14.45.36
+	by mx.google.com with ESMTPS id e6sm18190386wiz.1.2013.02.08.14.45.39
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 08 Feb 2013 14:45:37 -0800 (PST)
+	Fri, 08 Feb 2013 14:45:39 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2013 22:43:16 +0000
-Message-Id: <2f3ac96fb6a599b3c8a62eb68417dd8e26b21676.1360360346.git.ross.burton@intel.com>
+Date: Fri,  8 Feb 2013 22:43:18 +0000
+Message-Id: <bfbf42a76a2eb023091b5e3f47fbb8a920909175.1360360346.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1360360346.git.ross.burton@intel.com>
 References: <cover.1360360346.git.ross.burton@intel.com>
 In-Reply-To: <cover.1360360346.git.ross.burton@intel.com>
 References: <cover.1360360346.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmh4HmHx3Jbky4+10G1joCpA9p/VHLed/xKPWmSh5Rp83niQ5qwrFcJaqO28PevtQF2pdxQ
+X-Gm-Message-State: ALoCoQm2Uc6Ki0Mx0sSe4zNa8KGz+6oml9y7wnADOAiHUnbH1BmQLj1kfGdN5ZsS5x/1ci3VmZrd
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 2/5] update-rc.d: don't do anything if systemd.bbclass is inherited
+Subject: [PATCH 4/5] avahi: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,48 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 23:01:34 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 23:01:41 -0000
 
-We need the update-rc.d class to work when systemd is being used so that
-packages that only have SysV init scripts still work.  However if a recipe
-supports both we don't want to install SysV and systemd files under systemd.
+From: Radu Moisan <radu.moisan@intel.com>
 
-To solve this, before doing real work in update-rc.d check if the systemd class
-has been inherited and don't do anything if it has.
-
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Sander van Grieken <sander@outrightsolutions.nl>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/update-rc.d.bbclass |   19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc |   21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index f9d55fb..51ad8b1 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -75,12 +75,15 @@ python populate_packages_updatercd () {
-         postrm += d.getVar('updatercd_postrm', True)
-         d.setVar('pkg_postrm_%s' % pkg, postrm)
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 185207b..3a4547c 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -37,10 +37,13 @@ USERADD_PARAM_avahi-autoipd = "--system --home /var/run/avahi-autoipd \
+                               -c \"Avahi autoip daemon\" \
+                               avahi-autoipd"
  
--    pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
--    if pkgs == None:
--        pkgs = d.getVar('UPDATERCPN', True)
--        packages = (d.getVar('PACKAGES', True) or "").split()
--        if not pkgs in packages and packages != []:
--            pkgs = packages[0]
--    for pkg in pkgs.split():
--        update_rcd_package(pkg)
-+    # If the systemd class has also been inherited, then don't do anything as
-+    # the systemd units will override anything created by update-rc.d.
-+    if not d.getVar("SYSTEMD_BBCLASS_ENABLED", True):
-+        pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
-+        if pkgs == None:
-+            pkgs = d.getVar('UPDATERCPN', True)
-+            packages = (d.getVar('PACKAGES', True) or "").split()
-+            if not pkgs in packages and packages != []:
-+                pkgs = packages[0]
-+        for pkg in pkgs.split():
-+            update_rcd_package(pkg)
+-inherit autotools pkgconfig update-rc.d gettext useradd
++inherit autotools pkgconfig update-rc.d gettext systemd useradd
+ 
+-EXTRA_OECONF = "--with-distro=debian \
+-             --disable-introspection \
++SYSTEMD_PACKAGES = "${PN}-daemon ${PN}-dnsconfd"
++SYSTEMD_SERVICE_avahi-daemon = "avahi-daemon.service"
++SYSTEMD_SERVICE_avahi-dnsconfd = "avahi-dnsconfd.service"
++
++EXTRA_OECONF = "--disable-introspection \
+              --with-avahi-priv-access-group=adm \
+              --disable-stack-protector \
+              --disable-gdbm \
+@@ -50,10 +53,15 @@ EXTRA_OECONF = "--with-distro=debian \
+              --disable-qt4 \
+              --disable-python \
+              --disable-doxygen-doc \
+-             --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
++             ${EXTRA_OECONF_SYSVINIT} \
++             ${EXTRA_OECONF_SYSTEMD} \
+              ${AVAHI_GTK} \
+            "
+ 
++# The distro choice determines what init scripts are installed
++EXTRA_OECONF_SYSVINIT = "${@base_contains('DISTRO_FEATURES','sysvinit','--with-distro=debian','--with-distro=none',d)}"
++EXTRA_OECONF_SYSTEMD = "${@base_contains('DISTRO_FEATURES','systemd','--with-systemdsystemunitdir=${systemd_unitdir}/system/','',d)}"
++
+ AVAHI_GTK ?= "--disable-gtk --disable-gtk3"
+ 
+ LDFLAGS_append_libc-uclibc = " -lintl"
+@@ -64,9 +72,8 @@ do_configure_prepend() {
  }
+ 
+ 
+-PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
++PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+ 
+-FILES_avahi-systemd = "${systemd_unitdir}"
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+                        ${sysconfdir}/dhcp/*/avahi-autoipd \
+@@ -94,8 +101,6 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+ FILES_avahi-utils = "${bindir}/avahi-*"
+ 
+-RDEPENDS_avahi-systemd = "avahi-daemon"
+-
+ RDEPENDS_avahi-daemon = "sysvinit-pidof"
+ 
+ # uclibc has no nss
 -- 
 1.7.10.4
 
