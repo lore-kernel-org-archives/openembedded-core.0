@@ -1,27 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vb0-f46.google.com ([209.85.212.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1U3mby-0005px-1x
+	(envelope-from <ross.burton@intel.com>) id 1U3moH-0006ez-GE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 13:01:01 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2013 03:41:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,629,1355126400"; d="scan'208";a="259574482"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2013 03:43:13 -0800
-Message-ID: <5114E4D0.6020809@intel.com>
-Date: Fri, 08 Feb 2013 13:43:12 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Fri, 08 Feb 2013 13:12:05 +0100
+Received: by mail-vb0-f46.google.com with SMTP id b13so2225521vby.19
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2013 03:56:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=aqz54eJ9XPBSysgB5PuFt7Gy0zDQxnHoZ9fJaAsAAVE=;
+	b=NoBQNWB1LeSpN7xLnJEAGHqni9gxC4h7oTPuXifTz4y8BoxP13V7lPwK7Xat1/D5Kx
+	Uo0xMAkWEKw0LXTgcolJzjhQFWux7g9GX56buDIzmdyHAiGDTNdahHlxea7rapVBpu2e
+	6eqDEdNeEikQo9448nfUyYWXM7EoszBxaHiiR5jhaFHHIH3hLOJ/jaFB3FaFyt+XT74M
+	nEmas8G8zOVBVRv0dRusBycalqH0GxSLUjLiomzkPqTj9rXL0C+REif3mpSX5uaIwX+e
+	Nj46MWpni2+OlfozbNuyv00jT+pr2WQwbtFBtLkHAV6ZHTpbMGzxtEl0lrEtbAGvZ1Cy
+	97SA==
+X-Received: by 10.220.228.138 with SMTP id je10mr5941429vcb.67.1360324571430; 
+	Fri, 08 Feb 2013 03:56:11 -0800 (PST)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1360166922.git.laurentiu.palcu@intel.com>
-	<4ac0c041b62e5495bff97bd2d7dc5a4e31d7ce5f.1360166922.git.laurentiu.palcu@intel.com>
-	<CAJTo0LYGpC4qpjyMEms2M=wX0DYypNDJ1pjg-79xu4yMh69byg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYGpC4qpjyMEms2M=wX0DYypNDJ1pjg-79xu4yMh69byg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] Add pixbufcache class
+Received: by 10.58.95.131 with HTTP; Fri, 8 Feb 2013 03:55:50 -0800 (PST)
+In-Reply-To: <CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
+References: <1360323133-28592-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0LaOcn5Kr64Ga7zfuP5q1ixO8Ag4Uy+JrOmDe7AEhDDmpQ@mail.gmail.com>
+	<CAP9ODKomOChKyoVD=-O9vNpnRFSyj+N+bz8C=mSLV3rky-hD2Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Feb 2013 11:55:50 +0000
+Message-ID: <CAJTo0LbOcirp-VJT1u9g9Xp8jTREb=UD+dJRftidVpt6tQ3HRg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQk5FB0R4UJ7kDnlcZ0FwvlBTf361P7DTeLJtrHKTGiru0wYUfZEPO3ZUcoxCgXBPpYftQq7
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tzdata: We shouldn't override the localtime if it is valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 12:01:12 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 12:12:05 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+On 8 February 2013 11:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Can you fix the code to symlink instead of copy?  systemd and more
+>> needs a symlink so that it can identify the name of the timezone from
+>> the link target.
+>
+> You mean inside the if?
 
+I mean in general /etc/localtime should be a symlink and not a copy.
 
-On 02/08/2013 12:31 PM, Burton, Ross wrote:
-> On 6 February 2013 16:36, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
->> All packages exporting pixbuf loaders should inherit this class in order
->> to generate the correct postinst/postrm scriptlets.
->>
->> [YOCTO #3852]
-> 
-> Presumably this means that the gtk-icon-cache package can drop the
-> pixbuf loader calls now?  Also as the gtk icon cache only handles
-> built-in modules, we don't need to update the icon cache when
-> registering pixbuf loaders.
-This patchset addresses the postinstall issues only, that is: make them
-run on host at do_rootfs. As much as possible, the previous
-functionality was left intact. We could do the changes you suggest in
-subsequent patches. And that's because, in case of any failures, it
-would be easier to know where the problem came from.
-
-Laurentiu
-
-> 
-> Ross
-> 
+Ross
 
 
