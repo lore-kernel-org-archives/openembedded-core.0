@@ -1,38 +1,33 @@
-Received: from mail-ob0-f182.google.com ([209.85.214.182])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3rSD-0004Dp-IG
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 18:09:57 +0100
-Received: by mail-ob0-f182.google.com with SMTP id va7so4049959obc.41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 08:53:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=uV2YXbONUswR/WA3iWmfFEcaiqUIaYjP4SOlWDTipQ8=;
-	b=KRjX4Tn98P65lO0kMs0R+Mk9le10EU1k+nwpTh9UWjaAX70J0MKJr3kMgrs7cFv+si
-	97fJ8HKdoozN1mrVN3ARf+mVFylrNFzTIBuy+4/fUyH58gjEPmP04IOfNFDsZk1CrubG
-	9yYrLsT+QsK5FVqYYfYEESquuJBRbKsmywR0AdPMulSBG0dJeIX0D+Tm0Q6oCF2nWO0p
-	5SDx7FONTHwCGAIKndhEBOHcevukS70NgTCt+uUoSTbZmeI7zQNvEAoAzaUt08JOgzgo
-	kyfPPe5S1WgShgu+hEVO/XSUQ5GCbtag+onM15UkOkGRCBYo0LvQI5HZqC1bPGoAFvHY
-	2rLA==
-MIME-Version: 1.0
-X-Received: by 10.60.171.102 with SMTP id at6mr4828683oec.60.1360342423023;
-	Fri, 08 Feb 2013 08:53:43 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 08:53:42 -0800 (PST)
-In-Reply-To: <1360336833-14523-1-git-send-email-ml@communistcode.co.uk>
-References: <CAJTo0Lbf+qsJd2R_39bN2GDHZNbncKPZFa1VUQiHn7USVZy_iA@mail.gmail.com>
-	<1360336833-14523-1-git-send-email-ml@communistcode.co.uk>
-Date: Fri, 8 Feb 2013 14:53:42 -0200
-X-Google-Sender-Auth: gd053FtqJ39Y-DhtxfZnEGO_Z5k
-Message-ID: <CAP9ODKpGWXM88LEjw02XOO451buNdHwVEDKq999oKo5cuQWAzw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Jack Mitchell <ml@communistcode.co.uk>
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] packagegroup-core-boot: add VIRTUAL-RUNTIME_network_manager
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U3ryx-0005H3-JB for openembedded-core@lists.openembedded.org;
+	Fri, 08 Feb 2013 18:43:33 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r18HWsXg010849; Fri, 8 Feb 2013 17:32:54 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6LQ7dNko7-gV; Fri,  8 Feb 2013 17:32:54 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r18HWkqC010842
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 8 Feb 2013 17:32:49 GMT
+Message-ID: <1360344428.10722.111.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+Date: Fri, 08 Feb 2013 17:27:08 +0000
+In-Reply-To: <1360337733-51730-2-git-send-email-bjst@enea.com>
+References: <1360337733-51730-1-git-send-email-bjst@enea.com>
+	<1360337733-51730-2-git-send-email-bjst@enea.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r18HWsXg010849
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] glib-2.0: Fix ptest to build with uclibc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,84 +40,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 17:09:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Feb 2013 17:43:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 8, 2013 at 1:20 PM,  <ml@communistcode.co.uk> wrote:
-> From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
->
-> Now netbase has been split into netbase and init-ifupdown, the user should
-> be able to make a choice on which network manager to install, and not be
-> forced to install init-ifupdown alongside if they wish to use a vanilla copy
-> of packagegroup-core-boot
->
-> v2:
-> - Update packagage-core-x11-sato to use the new variable
-
-v2 comment ought to be done bellow --- line.
-
-> Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+On Fri, 2013-02-08 at 16:35 +0100, Bj=C3=B6rn Stenberg wrote:
+> Only install eglibc-specific dependencies when building for eglibc.
+> Tweak a test case that won't build with uclibc.
+>=20
+> Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 > ---
->  meta/recipes-core/packagegroups/packagegroup-core-boot.bb     | 3 ++-
->  meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> index b9183a8..a714879 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> @@ -29,6 +29,7 @@ VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
->  VIRTUAL-RUNTIME_init_manager ?= "${DISTRO_FEATURES_INITMAN}"
->  VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES', 'sysvinit', 'initscripts', '',d)}"
->  VIRTUAL-RUNTIME_keymaps ?= "keymaps"
-> +VIRTUAL-RUNTIME_network_manager ?= "init-ifupdown"
->
->  RDEPENDS_${PN} = "\
->      base-files \
-> @@ -38,7 +39,7 @@ RDEPENDS_${PN} = "\
->      ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
->      modutils-initscripts \
->      netbase \
-> -    init-ifupdown \
-> +    ${VIRTUAL-RUNTIME_network_manager} \
->      ${VIRTUAL-RUNTIME_login_manager} \
->      ${VIRTUAL-RUNTIME_init_manager} \
->      ${VIRTUAL-RUNTIME_initscripts} \
-> diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> index a4413be..7c000ab 100644
-> --- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> +++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> @@ -26,6 +26,8 @@ RDEPENDS_${PN} = "\
->  NETWORK_MANAGER ?= "connman-gnome"
->  NETWORK_MANAGER_libc-uclibc = ""
->
-> +VIRTUAL-RUNTIME_network_manager = "${NETWORK_MANAGER}"
+>  .../glib-2.0/glib-2.0/fix-conflicting-rand.patch   |   35 ++++++++++++=
+++++++++
+>  meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   18 ++++++----
+>  2 files changed, 46 insertions(+), 7 deletions(-)
+>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting=
+-rand.patch
+>=20
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.p=
+atch b/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.patch
+> new file mode 100644
+> index 0000000..1571112
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.patch
+> @@ -0,0 +1,35 @@
+> +Rename 'rand' variable to avoid conflict with stdlib.h.
 > +
->  SUMMARY_${PN}-base = "Sato desktop - base packages"
->  RDEPENDS_${PN}-base = "\
->      matchbox-desktop \
-> @@ -40,7 +42,6 @@ RDEPENDS_${PN}-base = "\
->      gtk-sato-engine \
->      shutdown-desktop \
->      libsdl \
-> -    ${NETWORK_MANAGER} \
->      "
->
->  # pcmanfm doesn't work on mips
-> --
-> 1.8.1.2
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> +Upstream-Status: pending
+> +Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+> +
+> +diff -u glib-2.34.3/tests/refcount/signals.c~ glib-2.34.3/tests/refcou=
+nt/signals.c
+> +--- glib-2.34.3/tests/refcount/signals.c	2012-11-26 17:52:48.000000000=
+ +0100
+> ++++ glib-2.34.3/tests/refcount/signals.c	2013-02-08 14:24:10.052477546=
+ +0100
+> +@@ -9,7 +9,7 @@
+> + #define MY_IS_TEST_CLASS(tclass)   (G_TYPE_CHECK_CLASS_TYPE ((tclass)=
+, G_TYPE_TEST))
+> + #define MY_TEST_GET_CLASS(test)    (G_TYPE_INSTANCE_GET_CLASS ((test)=
+, G_TYPE_TEST, GTestClass))
+> +=20
+> +-static GRand *rand;
+> ++static GRand *grand;
+> +=20
+> + typedef struct _GTest GTest;
+> + typedef struct _GTestClass GTestClass;
+> +@@ -84,7 +84,7 @@
+> +       NULL
+> +     };
+> +=20
+> +-    rand =3D g_rand_new();
+> ++    grand =3D g_rand_new();
+> +=20
+> +     test_type =3D g_type_register_static (G_TYPE_OBJECT, "GTest",
+> +         &test_info, 0);
+> +@@ -218,7 +218,7 @@
+> + static void
+> + my_test_do_prop (GTest * test)
+> + {
+> +-  test->value =3D g_rand_int (rand);
+> ++  test->value =3D g_rand_int (grand);
+> +   g_object_notify (G_OBJECT (test), "test-prop");
+> + }
+> +=20
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recip=
+es-core/glib-2.0/glib-2.0_2.34.3.bb
+> index fe50220..d163030 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+> @@ -13,6 +13,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${=
+PV}.tar.xz \
+>             file://configure-libtool.patch \
+>             file://glib-2.0_fix_for_x32.patch \
+>             file://obsolete_automake_macros.patch \
+> +           file://fix-conflicting-rand.patch \
+>             file://Makefile-ptest.patch \
+>             file://run-ptest \
+>            "
+> @@ -23,6 +24,16 @@ SRC_URI_append_class-native =3D " file://glib-gettex=
+tize-dir.patch"
+>  BBCLASSEXTEND =3D "native nativesdk"
+> =20
+>  RDEPENDS_${PN}-ptest +=3D "\
+> +            tzdata \
+> +            tzdata-americas \
+> +            tzdata-asia \
+> +            tzdata-europe \
+> +            tzdata-posix \
+> +            python-pygobject \
+> +            python-dbus \
+> +           "
+> +
+> +RDEPENDS_${PN}-ptest_libc-eglibc +=3D "\
+
+I have a suspicion this will overwrite the base RDEPENDS_${PN}-ptest
+value due to the way overrides work when in fact you want to append to
+it. You probably need:
+
+RDEPENDS_${PN}-ptest_append_libc-eglibc =3D "\
+
+>              eglibc-gconv-utf-16 \
+>              eglibc-charmap-utf-8 \
+>              eglibc-gconv-cp1255 \
+> @@ -31,13 +42,6 @@ RDEPENDS_${PN}-ptest +=3D "\
+>              eglibc-gconv-utf-7 \
+>              eglibc-charmap-invariant \
+>              eglibc-localedata-translit-cjk-variants \
+> -            tzdata \
+> -            tzdata-americas \
+> -            tzdata-asia \
+> -            tzdata-europe \
+> -            tzdata-posix \
+> -            python-pygobject \
+> -            python-dbus \
+>             "
+> =20
+>  do_configure_prepend() {
 
 
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
