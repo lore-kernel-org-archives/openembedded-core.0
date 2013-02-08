@@ -1,35 +1,41 @@
-Received: from mail-vc0-f181.google.com ([209.85.220.181])
+Received: from mail-ve0-f180.google.com ([209.85.128.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3m5S-0004yl-GS
+	(envelope-from <ross.burton@intel.com>) id 1U3m6T-00054z-0m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 12:25:46 +0100
-Received: by mail-vc0-f181.google.com with SMTP id d16so2258247vcd.40
+	Fri, 08 Feb 2013 12:26:49 +0100
+Received: by mail-ve0-f180.google.com with SMTP id jx10so3115101veb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 03:09:52 -0800 (PST)
+	Fri, 08 Feb 2013 03:10:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=+coMpL0cLKXAOVNPOhE8SEu0dbA6uloe2KsLtSuDY0I=;
-	b=Fp9xg+EGW4IoV2WucqzcrjHvJkOvwBK0Y33Gb3VrqCjLSARk2O5uEV2c6PxtJo7lzV
-	0o5gP2YCokxOubssb2MyrG17m4qRST31vThqASk0iAgMF2yJ/b+6uyOsSlkAdhaJrNDf
-	s3Eud+uHI6SPqCrUbUfpQuafmZ9wBgJejqzKi/ypvKghMTJria+SsgEwBHFXgU3iuNa7
-	K0B5rrbFoNEKvaDtQIZKbZHM8I+lplE7kzbvu3p0KvqTEMk7AnY7g/xJrKhpMSbooYz9
-	JE0fqkTiRKMwyss4tCbCRKNck1qoasy2haAsdlhEuUyoIb7RovrC17XDiOMjKIJd1Yab
-	OY/A==
-X-Received: by 10.220.116.5 with SMTP id k5mr5952912vcq.55.1360321792476; Fri,
-	08 Feb 2013 03:09:52 -0800 (PST)
+	bh=47/EDzz384oIdn7SHWhtgbBEirl7bZU+jY9wN5S6Cu8=;
+	b=eUQKx87eEmDYXlNUQnKNktS4Y+uG9/uskhJLkXV6R2o6ZVr5D71ct6Gin0fMwDf9nh
+	IT8GSTgyvl/S2hOfWr2x6+qbOhvZNbp9S7Bip2ntE/viFfn3VO4oNMDG1ldAvmuEXw3b
+	FzF1LP4QxcxapSS+qLgNQ6EZj7/rWJlBdoXlf5BiZ5kkPKM6XOUHbXtZLoUqJ58KobZW
+	EH8rBxMGOx7VwVxaQ385ubT/31yvDh0O3nQSf0UopDfLgGCd20ZvnSq0bPdODFb1S3t2
+	SNWF42byf+gA2b1kv19VYV5Mn5bUKP3MoATB2+pxD1iAVt3F4GgeADOEt1LcEq6xlHtU
+	2/8A==
+X-Received: by 10.58.106.161 with SMTP id gv1mr6126483veb.35.1360321855058;
+	Fri, 08 Feb 2013 03:10:55 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.66.193.225 with HTTP; Fri, 8 Feb 2013 03:09:32 -0800 (PST)
-In-Reply-To: <20130207193943.GO27288@xiaoyu.lan>
-References: <20130207193943.GO27288@xiaoyu.lan>
+Received: by 10.58.95.131 with HTTP; Fri, 8 Feb 2013 03:10:34 -0800 (PST)
+In-Reply-To: <CAP9ODKrBmqnOgRH0FhvuEvS-narJuQA_RLOLfBjjOsSPZa07ig@mail.gmail.com>
+References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
+	<51115E97.1080404@linux.intel.com> <511182A9.2060702@felipetonello.com>
+	<0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
+	<5112D7D3.6020304@felipetonello.com>
+	<CAP9ODKrBmqnOgRH0FhvuEvS-narJuQA_RLOLfBjjOsSPZa07ig@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Feb 2013 11:09:32 +0000
-Message-ID: <CAJTo0LaDwgAyG0AjCWC4G3634KEV6rbHBZLsAcemYvB9UK=agQ@mail.gmail.com>
-To: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-X-Gm-Message-State: ALoCoQn9eRzwM4ih6D1GYrfHxKfJ95rAR+/N/TLhq5Qm3O8iZ7fcd36Eez2ERIuBD26Qw0CtVuqw
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd_197.bb: Point to the place where we keep the /etc/rcN.d files
+Date: Fri, 8 Feb 2013 11:10:34 +0000
+Message-ID: <CAJTo0LYtmvmEXQ9hu_ktj+TC+q4wB_6UgXA1onDxM3P3Wo4UFg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQlpF23/iVPWnA7pyErCB6WSDxJd3NzK11drFbixSbyIWrqpeBZbv4nQ1i11qqqXAXhQKOcN
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: added recipe libconnman-qt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +48,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 11:25:46 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 11:26:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 7 February 2013 19:39, Holger Hans Peter Freyther
-<holger@moiji-mobile.com> wrote:
-> By default /etc/rc.d is searched by systemd but we will keep rcN.d directories
-> inside /etc.
+On 8 February 2013 11:05, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> So what was decided? Should I re-send the patch with what path?
+>
+> Until something inside OE-Core uses it I would prefer it in meta-oe. Ross?
 
-Acked.  I just noticed this was the simple reason why -sato doesn't just work.
-
-> -PR = "r2"
-> +PR = "r4"
-
-Drop or r3, please.
+If it were connman enabling in Qt directly I'd say oe-core, but as
+it's a separate library meta-oe is the right place IMHO.
 
 Ross
 
