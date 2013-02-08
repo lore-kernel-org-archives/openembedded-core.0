@@ -1,34 +1,17 @@
-Received: from mail-yh0-f41.google.com ([209.85.213.41])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3pYz-0007S1-GU
+	(envelope-from <ml@communistcode.co.uk>) id 1U3pbb-0007bo-Iw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 16:08:37 +0100
-Received: by mail-yh0-f41.google.com with SMTP id 47so440463yhr.28
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 06:52:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=pZyniiIFJ01eRNiX6w24pFzEGcRir8VlZt0+cim5JdY=;
-	b=uBUX6vb49zk7naO0sFC+qLeIyYklcWiZzPvOiS5DIUStd9JDf6hDoOsxhlqa7hOvff
-	z1sSx2jsacNIPEBFgYIWTaof+RuBf+uDHpJwJpXJusGefJCxTT1B4b6d3XTeCGESVe2J
-	foFAi88U8+Ga7aWFC39UoTbjutJKAmJeIls9BQuoiYUnD+PVXxgLjA+ID4dyaDWjd6Tc
-	OkDknLm96Z/XJeETyCN9QBEeQZmpu2/CfOPR70uO6UK6qOr+lL3uN0/aSwOdFOY6xilw
-	v05cnvyL8QcIvttbARZkOxQ3Y27nA9Hk0uTLidKOBt6nR+Mquyvt5o4lPdSQsbwlTfGT
-	hAzg==
-X-Received: by 10.101.40.2 with SMTP id s2mr1783483anj.88.1360335155002;
-	Fri, 08 Feb 2013 06:52:35 -0800 (PST)
-Received: from localhost.localdomain ([187.23.144.59])
-	by mx.google.com with ESMTPS id w19sm7136954anh.15.2013.02.08.06.52.27
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Fri, 08 Feb 2013 06:52:33 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Fri, 08 Feb 2013 16:11:11 +0100
+From: ml@communistcode.co.uk
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2013 12:52:19 -0200
-Message-Id: <1360335140-8690-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3 1/2] tzdata: We shouldn't override the localtime if it is valid
+Date: Fri,  8 Feb 2013 14:55:13 +0000
+Message-Id: <1360335313-22408-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <51150D5D.2030403@communistcode.co.uk>
+References: <51150D5D.2030403@communistcode.co.uk>
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH] packagegroup-core-boot: add VIRTUAL-RUNTIME_network_manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,51 +24,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 15:08:41 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 15:11:11 -0000
 
-The code where mistakenly replacing the localtime file setting so we
-end with a copy of file instead of a symbolic link. This fixes it so
-now, we'll only do that in case the link is pointing to invalid data.
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-Change-Id: I16dfa5ea4f293c48bb396f4e23a2ea53e6c9e745
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Now netbase has been split into netbase and init-ifupdown, the user should
+be able to make a choice on which network manager to install, and not be
+forced to install init-ifupdown alongside if they wish to use a vanilla copy
+of packagegroup-core-boot
+
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 ---
- meta/recipes-extended/tzdata/tzdata_2012d.bb |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-index 9741101..9ec6715 100644
---- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-@@ -5,7 +5,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
- DEPENDS = "tzcode-native"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index b9183a8..a714879 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -29,6 +29,7 @@ VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
+ VIRTUAL-RUNTIME_init_manager ?= "${DISTRO_FEATURES_INITMAN}"
+ VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES', 'sysvinit', 'initscripts', '',d)}"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
++VIRTUAL-RUNTIME_network_manager ?= "init-ifupdown"
  
--PR = "r2"
-+PR = "r3"
- 
- inherit allarch
- 
-@@ -93,12 +93,12 @@ pkg_postinst_${PN} () {
- 		echo "You have an invalid TIMEZONE setting in ${src}"
- 		echo "Your ${etc_lt} has been reset to Universal; enjoy!"
- 		tz="Universal"
-+		echo "Updating ${etc_lt} with $D${datadir}/zoneinfo/${tz}"
-+		if [ -L ${etc_lt} ] ; then
-+			rm -f "${etc_lt}"
-+		fi
-+		cp -f "$D${datadir}/zoneinfo/${tz}" "${etc_lt}"
- 	fi
--	echo "Updating ${etc_lt} with $D${datadir}/zoneinfo/${tz}"
--	if [ -L ${etc_lt} ] ; then
--		rm -f "${etc_lt}"
--	fi
--	cp -f "$D${datadir}/zoneinfo/${tz}" "${etc_lt}"
- }
- 
- # Packages primarily organized by directory with a major city
+ RDEPENDS_${PN} = "\
+     base-files \
+@@ -38,7 +39,7 @@ RDEPENDS_${PN} = "\
+     ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     modutils-initscripts \
+     netbase \
+-    init-ifupdown \
++    ${VIRTUAL-RUNTIME_network_manager} \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ${VIRTUAL-RUNTIME_initscripts} \
 -- 
-1.7.2.5
+1.8.1.2
 
 
 
