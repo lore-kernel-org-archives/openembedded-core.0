@@ -1,43 +1,37 @@
-Received: from mail-oa0-f41.google.com ([209.85.219.41])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U3uGy-00032H-6a
+	(envelope-from <nitin.a.kamble@intel.com>) id 1U3uyO-0006FL-Cg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 21:10:52 +0100
-Received: by mail-oa0-f41.google.com with SMTP id i10so4501546oag.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 11:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=FK1C92JPOY/MRarov9wiSm8hBxteFGGNoP1zrWOUSLY=;
-	b=x8N55gD/ZkkuODQTXBLrqDNBGxiQu+aKeFiQPeqBgKucXDLxNB/fPHl94xVnckkcSk
-	q4uwf2whP7kCqIAQMeKO22pWbEjKFwhQKD04HlzMHMuoQb7B/7g0ccpf8VKxlumOV1Q5
-	pirCCF1UBJo7YywaC0DwmBg3p/gSvwX5ShJsIw6iwVJqcaMnHF95BjdQESN6ObeQdkxb
-	CXWHJOR1StPoqRQgt5WxKqkcauyeTpUfS13OXEGOALDOuHy9Mm4tQHvDubwsTLjLEsOM
-	rP9DByFwrCV0knYUBPShqavuT+EMxQ5zCe01SlYvkiy1hq71VWYMiCsorE6BNFboaMTh
-	MxVQ==
+	Fri, 08 Feb 2013 21:55:04 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 08 Feb 2013 12:39:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,630,1355126400"; d="scan'208";a="200255523"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Feb 2013 12:39:07 -0800
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.201]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.1.62]) with mapi id
+	14.01.0355.002; Fri, 8 Feb 2013 12:39:06 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Koen Kooi
+	<koen@dominion.thruhere.net>
+Thread-Topic: [for-danny][PATCH] xf86-video-modesetting: new recipe for gma500
+Thread-Index: AQHOBeVOoFzEuVB0o0abCA+vxXWSP5hwYVmAgAABC4CAAAI8gIAAB44A
+Date: Fri, 8 Feb 2013 20:39:06 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C3F0F57E4@ORSMSX106.amr.corp.intel.com>
+References: <1360318544-11013-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0Lbd9uXC9B+VTO0SgbBSksqT+5XKiUUC62YgKadmRxqqdA@mail.gmail.com>
+	<932EDA66-92E1-4B0A-A9CC-7037DACE0372@dominion.thruhere.net>
+	<CAJTo0LbP9YAEa1qZJqjgKNwvFXz+pebwDqeXd8RRp3FV_AS2CQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbP9YAEa1qZJqjgKNwvFXz+pebwDqeXd8RRp3FV_AS2CQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-X-Received: by 10.60.170.44 with SMTP id aj12mr1699196oec.42.1360353257578;
-	Fri, 08 Feb 2013 11:54:17 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 11:54:17 -0800 (PST)
-In-Reply-To: <511556C4.9080108@felipetonello.com>
-References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
-	<51115E97.1080404@linux.intel.com>
-	<511182A9.2060702@felipetonello.com>
-	<0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
-	<5112D7D3.6020304@felipetonello.com>
-	<CAP9ODKrBmqnOgRH0FhvuEvS-narJuQA_RLOLfBjjOsSPZa07ig@mail.gmail.com>
-	<CAJTo0LYtmvmEXQ9hu_ktj+TC+q4wB_6UgXA1onDxM3P3Wo4UFg@mail.gmail.com>
-	<511556C4.9080108@felipetonello.com>
-Date: Fri, 8 Feb 2013 17:54:17 -0200
-X-Google-Sender-Auth: lHWuQCoNCh1gVYmBtMs9SkjEwZM
-Message-ID: <CAP9ODKpjUT+8wLJEbf3xrkUASAXZcsoD5MtaVMfgE5HV3RHwmQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Felipe Ferreri Tonello <eu@felipetonello.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: added recipe libconnman-qt
+Subject: Re: [for-danny][PATCH] xf86-video-modesetting: new recipe for gma500
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,33 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 20:10:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Feb 2013 20:55:05 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Feb 8, 2013 at 5:49 PM, Felipe Ferreri Tonello
-<eu@felipetonello.com> wrote:
-> On 02/08/2013 03:10 AM, Burton, Ross wrote:
->>
->> On 8 February 2013 11:05, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>>>
->>>> So what was decided? Should I re-send the patch with what path?
->>>
->>>
->>> Until something inside OE-Core uses it I would prefer it in meta-oe.
->>> Ross?
->>
->>
->> If it were connman enabling in Qt directly I'd say oe-core, but as
->> it's a separate library meta-oe is the right place IMHO.
->
->
-> But where exactly? meta-oe/recipes-qt/libconnman-qt?
-
-Yes.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEJ1cnRvbiwgUm9zcyBbbWFp
+bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCj4gU2VudDogRnJpZGF5LCBGZWJydWFyeSAwOCwg
+MjAxMyA0OjEwIEFNDQo+IFRvOiBLb2VuIEtvb2kNCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc7IEthbWJsZSwgTml0aW4gQTsgUmljaGFyZA0KPiBQdXJkaWUN
+Cj4gU3ViamVjdDogUmU6IFtmb3ItZGFubnldW1BBVENIXSB4Zjg2LXZpZGVvLW1vZGVzZXR0aW5n
+OiBuZXcgcmVjaXBlIGZvcg0KPiBnbWE1MDANCj4gDQo+IE9uIDggRmVicnVhcnkgMjAxMyAxMjow
+MSwgS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4gd3JvdGU6DQo+ID4gVGhl
+IEdNQTUwMCBjb21tZW50IGlzIHZlcnkgbWlzbGVhZGluZywgdGhpcyBpcyBqdXN0IGEgcmVjaXBl
+IGZvciB5ZXQtDQo+IGFub3RoZXItZGR4IHRoYXQgb25seSBnZXRzIGluc3RhbGxlZCB3aGVuIHlv
+dSBhc2sgZm9yIGl0IDopIFdoYXQgdGhlIGNvbW1pdA0KPiBmb3JnZXRzIHRvIG1lbnRpb24gaXMg
+dGhhdCBpdCdzIGEgZGR4IGZvciBhbnkgRFJNIGJhc2VkIGtlcm5lbCBkaXNwbGF5IGRyaXZlciwg
+SQ0KPiBuZWVkIGl0IGZvciBiZWFnbGVib2FyZCwgYmVhZ2xlYm9uZSB3aGljaCBkb24ndCB1c2Ug
+Z21hNTAwIGFuZCBhbHNvIGZvciBmcmkyDQo+IHdoaWNoIGRvZXMgdXNlIGdtYTUwMC4NCj4gDQo+
+IEluZGVlZCwgaXQncyB0aGUgbmV3IGZiZGV2LiBEZWF0aCB0byBmYmRldiENCj4gDQo+IFJvc3MN
+CkkgaGFkIGJyb3VnaHQgaW4gdGhlIG1vZGVzZXR0aW5nIGRyaXZlciBqdXN0IGZvciBnbWE1MDAs
+IGFuZCBnbGFkIHRvIHNlZSBtb3JlIHVzZSBvZiBpdC4NCkJUVyBGUkkyIGRvZXMgbm90ICYgY2Fu
+bm90IHVzZSB0aGUgZ21hNTAwIGRyaXZlci4gDQoNCk5pdGluDQoNCg==
 
 
