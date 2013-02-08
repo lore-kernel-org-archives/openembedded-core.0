@@ -1,24 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U3joB-0007G5-9r
+	(envelope-from <sgw@linux.intel.com>) id 1U3jxA-00017m-Rl
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 09:59:48 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Feb 2013 00:43:48 -0800
+	Fri, 08 Feb 2013 10:09:05 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2013 00:51:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,628,1355126400"; d="scan'208";a="200022778"
+X-IronPort-AV: E=Sophos;i="4.84,628,1355126400"; d="scan'208";a="259519396"
 Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Feb 2013 00:43:48 -0800
-Message-ID: <5114BAC3.3020709@linux.intel.com>
-Date: Fri, 08 Feb 2013 00:43:47 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2013 00:53:09 -0800
+Message-ID: <5114BCF5.8090103@linux.intel.com>
+Date: Fri, 08 Feb 2013 00:53:09 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-CC: openembedded-core@lists.openembedded.org
-References: <cover.1360312207.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1360312207.git.sgw@linux.intel.com>
-Subject: Re: [CONSOLIDATED PULL 00/32] AB Tested set of patches
+To: "Prica, Mihai" <mihai.prica@intel.com>
+References: <1360152734-15731-1-git-send-email-mihai.prica@intel.com>
+	<511295B8.40109@linux.intel.com>
+	<97BD068FB200C44AA73C2B641F162ECF91CC88@IRSMSX101.ger.corp.intel.com>
+In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF91CC88@IRSMSX101.ger.corp.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,171 +35,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 08:59:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Feb 2013 09:09:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 02/08/2013 12:34 AM, Saul Wold wrote:
-> Richard,
+On 02/06/2013 02:58 PM, Prica, Mihai wrote:
+>> -----Original Message-----
+>> From: Saul Wold [mailto:sgw@linux.intel.com]
+>> Sent: Wednesday, February 06, 2013 7:41 PM
+>> To: Prica, Mihai
+>> Cc: openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH] qemu: Enabled SDL when compiling for target
+>> architecture
+>>
+>> On 02/06/2013 04:12 AM, Mihai Prica wrote:
+>>> - enables qemu to run images with video output without the need for
+>> vncviewer.
+>>> - SDLPACKAGECONFIG is used because there is no need for the
+>>> native-libsdl package when building the qemu-native package.
+>>>
+>>> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+>>> ---
+>>>    meta/recipes-devtools/qemu/qemu.inc |   19 +++++++++++--------
+>>>    1 file changed, 11 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
+>>> b/meta/recipes-devtools/qemu/qemu.inc
+>>> index 2b60347..4633f47 100644
+>>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>>> @@ -3,8 +3,7 @@ HOMEPAGE = "http://qemu.org"
+>>>    LICENSE = "GPLv2 & LGPLv2.1"
+>>>    DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
+>>>    DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-
+>> native"
+>>> -DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0
+>> nativesdk-pixman"
+>>> -RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+>>> +DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-glib-2.0 nativesdk-
+>> pixman"
+>>>
+>>>    require qemu-targets.inc
+>>>    inherit autotools
+>>> @@ -13,10 +12,6 @@ BBCLASSEXTEND = "native nativesdk"
+>>>    # QEMU_TARGETS is overridable variable
+>>>    QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+>>>
+>>> -SDL ?= "--disable-sdl"
+>>> -SDL_class-native ?= ""
+>>> -SDL_class-nativesdk ?= ""
+>>> -
+>>>    SRC_URI = "\
+>>>        file://powerpc_rom.bin \
+>>>        file://no-strip.patch \
+>>> @@ -32,7 +27,7 @@ SRC_URI_append_class-nativesdk = "\
+>>>        file://relocatable_sdk.patch \
+>>>        "
+>>>
+>>> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-
+>> werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370
+>> ${SDL} --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
+>>> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-
+>> werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 --
+>> disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
+>>>
+>>>    EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)}
+>> --disable-werror --disable-vnc-tls \
+>>>    				--disable-curl \
+>>> @@ -83,7 +78,15 @@ do_install_append() {
+>>>    }
+>>>    # END of qemu-mips workaround
+>>>
+>>> -PACKAGECONFIG ??= ""
+>> Seems to be left over from a previous patch?
 >
-> This is a set of patches that I have build tested on the
-> AB, this includes a set from Windriver.
+> Yes, this was already here.
 >
-> The only one that we have commented on before is the
-> coreutil (non-GPLv3) which seems correct.
+>>
+>>> +PACKAGECONFIG ??= "sdl"
+>>> +PACKAGECONFIG_class-native ??= "sdl"
+>> Is this right?  If you only want it for target, why set it for native.
 >
-> I had to modify Ross's update-rc.d patch because it was not
-> rebased after your package changes, it still seems like the
-> right thing to do.
+> SDL was already enabled for native and nativesdk. I just enabled it
+> when building for the target arch.
 >
-> Bruce indirectly ack'ed the busybox so it's good to go with
-> fixes expected later.
->
-> Sau!
->
-> The following changes since commit 688e9485980de0f29aa00e24ce53a3efd3a3a7cc:
->
->    qemu.bbclass: fix segfaults when running through pseudo (2013-02-07 16:50:40 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
->
-> Bernhard Reutner-Fischer (6):
->    base.bbclass: Commentary typo fix
->    uclibc: add c6x arch
->    uclibc: turn on kernel module support
->    busybox: add ifup's ifstate dir to package
->    base.bbclass: remove redundant setting of MAKE
->    create-pull-request: Error message on missing -u
->
-> Chen Qi (1):
->    busybox: add config fragments
->
-> David Nyström (1):
->    create-recipe: Bugfixes for create-recipe easy_install handling.
->
-> Holger Hans Peter Freyther (1):
->    systemd_197.bb: Point to the place where we keep the /etc/rcN.d files
->
-> Jackie Huang (1):
->    populate_sdk_base.bbclass: add execution permission for
->      self-extracting archive
->
-> Jason Wessel (1):
->    eglibc-nativesdk: Fix buffer overrun with a relocated SDK
->
-> Jesse Zhang (6):
->    ghostscript: add pregenerated objarch for mipsel/mips64/mips64el
->    libart-lgpl: add art_config for mips64/mips64el
->    ghostscript: fix endianness detection
->    coreutils: remove dependency on coreutils-native
->    initscripts: Add status function to /etc/init.d/functions
->    udev: Add start/stop/status/restart support to init script
->
-> Jim Somerville (1):
->    rt-tests: fix cyclictest reported 1 sec latencies
->
-> Laurentiu Palcu (6):
->    Add pixbufcache class
->    gdk-pixbuf: use the new pixbufcache class
->    librsvg: use the new pixbufcache class
->    gtk-immodules-cache: add weak asignment for GTKIMMODULES_PACKAGES
->    gtk+: use gtk-immodules-cache class
->    gnome-keyring: compile schemas on host
->
-> Martin Jansa (1):
->    qemu: disable smartcard support
->
-> Mihai Prica (1):
->    qemu: Enabled SDL when compiling for target architecture
->
-And of course, just after I send this set of patches, I see an SDL 
-failure on my laptop (not my build machine), which runs slower.
+Was it really?  I just did a build on my laptop and failed, I reverted 
+this patch and it worked, I think this needs some more thought and testing.
 
-Hold off in this patch, I am still concerned that we have not tested all 
-the corner cases (as I just discovered).
+I am running Fedora 18 with only SDL on my laptop, I get the following 
+error:
+> | ERROR
+> | ERROR: User requested feature sdl
+> | ERROR: configure was not able to find it
+
+I think the above lines should be PACKAGECONFIG_class-native = "" and
+PACKAGECONFIG_class-nativesdk = "sdl"
+
+
+
+>>
+>>> +PACKAGECONFIG_class-nativesdk ??= "sdl"
+>>> +
+>>> +PACKAGECONFIG[sdl] = "--enable-sdl,--disable-
+>> sdl,${SDLPACKAGECONFIG},${SDLPACKAGECONFIG}"
+>>> +
+>> If it's disabled, you should not need the SDLPACKAGECONFIG in the "false" case
+>> for DEPENDS.
+>
+> I'm not sure if I understand your question. The second SDLPACKAGECONFIG is for
+> RDEPENDS when sdl is set in PACKAGECONFIG.
+>
+I think the issue is that you bring in the RDEPENDS for both the true 
+and false causes above, I think that's wrong upon further review.
 
 Sau!
 
-> Peter Seebach (1):
->    pseudo.inc: Fix sqlite libdir again, pseudo 1.4.3
+
+>>
+>>> +SDLPACKAGECONFIG = "libsdl"
+>>> +SDLPACKAGECONFIG_class-native = ""
+>>> +SDLPACKAGECONFIG_class-nativesdk = "nativesdk-libsdl"
+>>>
+>> It might be clearer to have these lines above the PACKAGECONFIG[sdl] where
+>> they are used.
 >
-> Randy MacLeod (1):
->    openssl: Add mips64 configure support.
+> I'll put the lines above the PACKAGECONFIG and resend the patch.
 >
-> Richard Purdie (2):
->    dbus: Drop old 1.5.12 version
->    dbus-native: Don't install dbus-launch
+>>
+>>
+>>
+>>>    # Qemu target will not build in world build for ARM or Mips
+>>>    BROKEN_qemuarm = "1"
+>>>
 >
-> Saul Wold (1):
->    Revert: update-rc.d: disable update-rc.d.bbclass when systemd enabled
->
-> Xin Ouyang (1):
->    libcgroup: fix failure for absolute path
->
->   meta/classes/base.bbclass                          |   3 +-
->   meta/classes/gtk-immodules-cache.bbclass           |   2 +
->   meta/classes/pixbufcache.bbclass                   |  57 ++++++++++
->   meta/classes/populate_sdk_base.bbclass             |   3 +
->   meta/classes/update-rc.d.bbclass                   |  87 +++++++++++++++-
->   meta/classes/update-rc.d_real.bbclass              |  86 ---------------
->   meta/recipes-connectivity/openssl/openssl.inc      |   3 +
->   meta/recipes-core/busybox/busybox.inc              |  17 +++
->   meta/recipes-core/coreutils/coreutils_6.9.bb       |   3 +-
->   meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init     | 116 ---------------------
->   meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch    |  44 --------
->   meta/recipes-core/dbus/dbus.inc                    |   4 +
->   meta/recipes-core/dbus/dbus_1.5.12.bb              |   9 --
->   .../eglibc-2.17/relocatable_sdk_fix_openpath.patch |  41 ++++++++
->   meta/recipes-core/eglibc/eglibc_2.17.bb            |   3 +-
->   .../initscripts/initscripts-1.0/functions          |  15 +++
->   meta/recipes-core/initscripts/initscripts_1.0.bb   |   2 +-
->   meta/recipes-core/libcgroup/libcgroup_0.38.bb      |   5 +-
->   meta/recipes-core/systemd/systemd_197.bb           |   3 +-
->   meta/recipes-core/uclibc/uclibc-config.inc         |   1 +
->   meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |   2 +
->   meta/recipes-core/udev/udev/init                   | 113 +++++++++++---------
->   meta/recipes-core/udev/udev_182.bb                 |   2 +-
->   meta/recipes-devtools/pseudo/pseudo.inc            |   8 +-
->   meta/recipes-devtools/pseudo/pseudo_1.4.1.bb       |   8 --
->   meta/recipes-devtools/pseudo/pseudo_1.4.3.bb       |   8 ++
->   meta/recipes-devtools/pseudo/pseudo_git.bb         |   6 +-
->   meta/recipes-devtools/qemu/qemu.inc                |  19 ++--
->   .../ghostscript-9.05-NOT-check-endian.patch        |  40 ++-----
->   .../ghostscript/ghostscript/mips/objarch.h         |   2 +-
->   .../ghostscript/ghostscript/mips64/objarch.h       |  40 +++++++
->   .../ghostscript/ghostscript/mips64el/objarch.h     |  40 +++++++
->   .../ghostscript/ghostscript/mipsel/objarch.h       |  40 +++++++
->   .../ghostscript/ghostscript_9.05.bb                |   9 +-
->   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb |  48 +--------
->   meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |  12 +--
->   .../gnome/libart-lgpl/mips64/art_config.h          |  10 ++
->   .../gnome/libart-lgpl/mips64el/art_config.h        |  10 ++
->   meta/recipes-gnome/gtk+/gtk+.inc                   |   8 +-
->   meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb             |  12 +--
->   meta/recipes-gnome/gtk+/gtk+_2.24.14.bb            |   4 +-
->   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |  21 +---
->   ...st-finish-removal-of-1-second-first-loops.patch |  58 +++++++++++
->   meta/recipes-rt/rt-tests/rt-tests.inc              |   3 +-
->   scripts/create-pull-request                        |   5 +-
->   scripts/create-recipe                              |   6 +-
->   46 files changed, 569 insertions(+), 469 deletions(-)
->   create mode 100644 meta/classes/pixbufcache.bbclass
->   delete mode 100644 meta/classes/update-rc.d_real.bbclass
->   delete mode 100644 meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
->   delete mode 100644 meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch
->   delete mode 100644 meta/recipes-core/dbus/dbus_1.5.12.bb
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.17/relocatable_sdk_fix_openpath.patch
->   delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->   create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
->   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/mips64/objarch.h
->   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/mips64el/objarch.h
->   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsel/objarch.h
->   create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/mips64/art_config.h
->   create mode 100644 meta/recipes-gnome/gnome/libart-lgpl/mips64el/art_config.h
->   create mode 100644 meta/recipes-rt/rt-tests/files/cyclictest-finish-removal-of-1-second-first-loops.patch
 >
 
 
