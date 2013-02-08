@@ -1,33 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ee0-f41.google.com ([74.125.83.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U3ryx-0005H3-JB for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 18:43:33 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r18HWsXg010849; Fri, 8 Feb 2013 17:32:54 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6LQ7dNko7-gV; Fri,  8 Feb 2013 17:32:54 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r18HWkqC010842
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 8 Feb 2013 17:32:49 GMT
-Message-ID: <1360344428.10722.111.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-Date: Fri, 08 Feb 2013 17:27:08 +0000
-In-Reply-To: <1360337733-51730-2-git-send-email-bjst@enea.com>
-References: <1360337733-51730-1-git-send-email-bjst@enea.com>
-	<1360337733-51730-2-git-send-email-bjst@enea.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r18HWsXg010849
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] glib-2.0: Fix ptest to build with uclibc.
+	(envelope-from <pmiscml@gmail.com>) id 1U3sJS-00069Q-Pv
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Feb 2013 19:04:39 +0100
+Received: by mail-ee0-f41.google.com with SMTP id c13so2251648eek.28
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Feb 2013 09:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=vMlq4GFqRxLMMAu4lZaZTyFOVRiSXa5OLCPWQow4HMk=;
+	b=HfxhZmo6rHeDLFEsmx0EmrflF+4Mato6/UZNslWUE8IPmQzkPsjlxwN54cfNIytakS
+	eH131IXguZXSIfpjThWAb7tJN6f/drrB/vA4+J7LSQcr1ExZ7CGXMj85jv1wFokYSe0p
+	q866RFnwaGmTDVkoj/3/t2QrB2ABgj2kSD0t3yQkfHgKLM0uRHWHXW6D2MWKP3dosRPN
+	9ufKmitCARXGttLbJQNHmaur1tsA300FMhV2CDqrBrEmTbcYtvCERg/+/0c/91qQdh4h
+	br4Jk/TEm2obE38aqnYJhea5JF0KsSJnL7awyvBc47G662PXTNQdye1KRIOcway1j2vO
+	nyDw==
+X-Received: by 10.14.209.131 with SMTP id s3mr18087381eeo.26.1360345724915;
+	Fri, 08 Feb 2013 09:48:44 -0800 (PST)
+Received: from x34f ([95.15.206.176])
+	by mx.google.com with ESMTPS id o3sm48460643eem.15.2013.02.08.09.48.40
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 08 Feb 2013 09:48:42 -0800 (PST)
+Received: by x34f (sSMTP sendmail emulation); Fri, 08 Feb 2013 19:48:39 +0200
+From: Paul Sokolovsky <pmiscml@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2013 19:48:37 +0200
+Message-Id: <0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon@users.sourceforge.net>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1360332752.git.pfalcon@users.sourceforge.net>
+References: <cover.1360332752.git.pfalcon@users.sourceforge.net>
+Subject: [PATCH 1/1] ccache.bbclass: Allow user to override CCACHE_DIR.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,124 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 17:43:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Feb 2013 18:04:39 -0000
 
-On Fri, 2013-02-08 at 16:35 +0100, Bj=C3=B6rn Stenberg wrote:
-> Only install eglibc-specific dependencies when building for eglibc.
-> Tweak a test case that won't build with uclibc.
->=20
-> Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-> ---
->  .../glib-2.0/glib-2.0/fix-conflicting-rand.patch   |   35 ++++++++++++=
-++++++++
->  meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   18 ++++++----
->  2 files changed, 46 insertions(+), 7 deletions(-)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting=
--rand.patch
->=20
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.p=
-atch b/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.patch
-> new file mode 100644
-> index 0000000..1571112
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/fix-conflicting-rand.patch
-> @@ -0,0 +1,35 @@
-> +Rename 'rand' variable to avoid conflict with stdlib.h.
-> +
-> +Upstream-Status: pending
-> +Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-> +
-> +diff -u glib-2.34.3/tests/refcount/signals.c~ glib-2.34.3/tests/refcou=
-nt/signals.c
-> +--- glib-2.34.3/tests/refcount/signals.c	2012-11-26 17:52:48.000000000=
- +0100
-> ++++ glib-2.34.3/tests/refcount/signals.c	2013-02-08 14:24:10.052477546=
- +0100
-> +@@ -9,7 +9,7 @@
-> + #define MY_IS_TEST_CLASS(tclass)   (G_TYPE_CHECK_CLASS_TYPE ((tclass)=
-, G_TYPE_TEST))
-> + #define MY_TEST_GET_CLASS(test)    (G_TYPE_INSTANCE_GET_CLASS ((test)=
-, G_TYPE_TEST, GTestClass))
-> +=20
-> +-static GRand *rand;
-> ++static GRand *grand;
-> +=20
-> + typedef struct _GTest GTest;
-> + typedef struct _GTestClass GTestClass;
-> +@@ -84,7 +84,7 @@
-> +       NULL
-> +     };
-> +=20
-> +-    rand =3D g_rand_new();
-> ++    grand =3D g_rand_new();
-> +=20
-> +     test_type =3D g_type_register_static (G_TYPE_OBJECT, "GTest",
-> +         &test_info, 0);
-> +@@ -218,7 +218,7 @@
-> + static void
-> + my_test_do_prop (GTest * test)
-> + {
-> +-  test->value =3D g_rand_int (rand);
-> ++  test->value =3D g_rand_int (grand);
-> +   g_object_notify (G_OBJECT (test), "test-prop");
-> + }
-> +=20
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recip=
-es-core/glib-2.0/glib-2.0_2.34.3.bb
-> index fe50220..d163030 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-> @@ -13,6 +13,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${=
-PV}.tar.xz \
->             file://configure-libtool.patch \
->             file://glib-2.0_fix_for_x32.patch \
->             file://obsolete_automake_macros.patch \
-> +           file://fix-conflicting-rand.patch \
->             file://Makefile-ptest.patch \
->             file://run-ptest \
->            "
-> @@ -23,6 +24,16 @@ SRC_URI_append_class-native =3D " file://glib-gettex=
-tize-dir.patch"
->  BBCLASSEXTEND =3D "native nativesdk"
-> =20
->  RDEPENDS_${PN}-ptest +=3D "\
-> +            tzdata \
-> +            tzdata-americas \
-> +            tzdata-asia \
-> +            tzdata-europe \
-> +            tzdata-posix \
-> +            python-pygobject \
-> +            python-dbus \
-> +           "
-> +
-> +RDEPENDS_${PN}-ptest_libc-eglibc +=3D "\
+For example, some users may want to use single cache directory (instead
+of per-package) with known max size limit, to better control disk usage.
 
-I have a suspicion this will overwrite the base RDEPENDS_${PN}-ptest
-value due to the way overrides work when in fact you want to append to
-it. You probably need:
+Signed-off-by: Paul Sokolovsky <pfalcon@users.sourceforge.net>
+---
+ meta/classes/ccache.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-RDEPENDS_${PN}-ptest_append_libc-eglibc =3D "\
-
->              eglibc-gconv-utf-16 \
->              eglibc-charmap-utf-8 \
->              eglibc-gconv-cp1255 \
-> @@ -31,13 +42,6 @@ RDEPENDS_${PN}-ptest +=3D "\
->              eglibc-gconv-utf-7 \
->              eglibc-charmap-invariant \
->              eglibc-localedata-translit-cjk-variants \
-> -            tzdata \
-> -            tzdata-americas \
-> -            tzdata-asia \
-> -            tzdata-europe \
-> -            tzdata-posix \
-> -            python-pygobject \
-> -            python-dbus \
->             "
-> =20
->  do_configure_prepend() {
-
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index cd06a4b..ca3ca43 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -1,5 +1,5 @@
+ CCACHE = "${@bb.which(d.getVar('PATH', True), 'ccache') and 'ccache '}"
+-export CCACHE_DIR = "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
++export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
+ CCACHE_DISABLE[unexport] = "1"
+ 
+ do_configure[dirs] =+ "${CCACHE_DIR}"
+-- 
+1.7.9.5
 
 
 
