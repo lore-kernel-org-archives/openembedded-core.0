@@ -1,35 +1,50 @@
-Received: from mail-ee0-f41.google.com ([74.125.83.41])
+Received: from mail-ob0-f182.google.com ([209.85.214.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <pmiscml@gmail.com>) id 1U3sJS-00069Q-Pv
+	(envelope-from <eu@felipetonello.com>) id 1U3uB7-0002qY-Fn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 19:04:39 +0100
-Received: by mail-ee0-f41.google.com with SMTP id c13so2251648eek.28
+	Fri, 08 Feb 2013 21:05:04 +0100
+Received: by mail-ob0-f182.google.com with SMTP id va7so4306939obc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 09:48:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=vMlq4GFqRxLMMAu4lZaZTyFOVRiSXa5OLCPWQow4HMk=;
-	b=HfxhZmo6rHeDLFEsmx0EmrflF+4Mato6/UZNslWUE8IPmQzkPsjlxwN54cfNIytakS
-	eH131IXguZXSIfpjThWAb7tJN6f/drrB/vA4+J7LSQcr1ExZ7CGXMj85jv1wFokYSe0p
-	q866RFnwaGmTDVkoj/3/t2QrB2ABgj2kSD0t3yQkfHgKLM0uRHWHXW6D2MWKP3dosRPN
-	9ufKmitCARXGttLbJQNHmaur1tsA300FMhV2CDqrBrEmTbcYtvCERg/+/0c/91qQdh4h
-	br4Jk/TEm2obE38aqnYJhea5JF0KsSJnL7awyvBc47G662PXTNQdye1KRIOcway1j2vO
-	nyDw==
-X-Received: by 10.14.209.131 with SMTP id s3mr18087381eeo.26.1360345724915;
-	Fri, 08 Feb 2013 09:48:44 -0800 (PST)
-Received: from x34f ([95.15.206.176])
-	by mx.google.com with ESMTPS id o3sm48460643eem.15.2013.02.08.09.48.40
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 08 Feb 2013 09:48:42 -0800 (PST)
-Received: by x34f (sSMTP sendmail emulation); Fri, 08 Feb 2013 19:48:39 +0200
-From: Paul Sokolovsky <pmiscml@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Feb 2013 19:48:37 +0200
-Message-Id: <0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon@users.sourceforge.net>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1360332752.git.pfalcon@users.sourceforge.net>
-References: <cover.1360332752.git.pfalcon@users.sourceforge.net>
-Subject: [PATCH 1/1] ccache.bbclass: Allow user to override CCACHE_DIR.
+	Fri, 08 Feb 2013 11:48:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=Bf+g6BbBXR7TQWg9lEBExNenAvNyUhTap/mFKpD4Tm4=;
+	b=kTzCKe3Tr7QzUVtFJlgqHZcfie/mN0qBBAy3Z+6rgWorWKRWUq4z5JNUEVQ3r+PYCL
+	1DQFoVu+JkE3u7WJ3NRJOCeTB/vi9/hZm41XCtD3lblAODpOSV6ikdSeNpdoppz9qypp
+	8BwtklLJ4ycbrPoJkWq53ZmgllX+MZr2f3oXvCe1pc1smgAv/+zFwniGAOwFUn1gTLsu
+	Od6gVFQwbw9UkSwB6bJs9h2llgwWx5HEbq4TSpBTnba71q6flm93OJrW/wPawOsJWUxF
+	P8Xp+0wYragQgaIw2Aag0OyERzZ8WEhGxvYH3pE+eQZukcCi3L4TIk/+56Kra2RL9t4W
+	k2bw==
+X-Received: by 10.182.8.70 with SMTP id p6mr5065403oba.90.1360352894835;
+	Fri, 08 Feb 2013 11:48:14 -0800 (PST)
+Received: from [192.168.48.44] (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPS id rn9sm38823304obb.11.2013.02.08.11.48.09
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 08 Feb 2013 11:48:13 -0800 (PST)
+Message-ID: <511556C4.9080108@felipetonello.com>
+Date: Fri, 08 Feb 2013 11:49:24 -0800
+From: Felipe Ferreri Tonello <eu@felipetonello.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
+	<51115E97.1080404@linux.intel.com>
+	<511182A9.2060702@felipetonello.com>
+	<0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
+	<5112D7D3.6020304@felipetonello.com>
+	<CAP9ODKrBmqnOgRH0FhvuEvS-narJuQA_RLOLfBjjOsSPZa07ig@mail.gmail.com>
+	<CAJTo0LYtmvmEXQ9hu_ktj+TC+q4wB_6UgXA1onDxM3P3Wo4UFg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYtmvmEXQ9hu_ktj+TC+q4wB_6UgXA1onDxM3P3Wo4UFg@mail.gmail.com>
+X-Gm-Message-State: ALoCoQm5wcdgZmjo34RdlzFBDpgmr+opDt6phjmTMxb6ZNrv018WcIY0VqPLWwIy/3loAn9JbX4Y
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: added recipe libconnman-qt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,29 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 18:04:39 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 20:05:05 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For example, some users may want to use single cache directory (instead
-of per-package) with known max size limit, to better control disk usage.
+On 02/08/2013 03:10 AM, Burton, Ross wrote:
+> On 8 February 2013 11:05, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>> So what was decided? Should I re-send the patch with what path?
+>>
+>> Until something inside OE-Core uses it I would prefer it in meta-oe. Ross?
+>
+> If it were connman enabling in Qt directly I'd say oe-core, but as
+> it's a separate library meta-oe is the right place IMHO.
 
-Signed-off-by: Paul Sokolovsky <pfalcon@users.sourceforge.net>
----
- meta/classes/ccache.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But where exactly? meta-oe/recipes-qt/libconnman-qt?
 
-diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-index cd06a4b..ca3ca43 100644
---- a/meta/classes/ccache.bbclass
-+++ b/meta/classes/ccache.bbclass
-@@ -1,5 +1,5 @@
- CCACHE = "${@bb.which(d.getVar('PATH', True), 'ccache') and 'ccache '}"
--export CCACHE_DIR = "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
-+export CCACHE_DIR ?= "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
- CCACHE_DISABLE[unexport] = "1"
- 
- do_configure[dirs] =+ "${CCACHE_DIR}"
--- 
-1.7.9.5
+Felipe
 
 
 
