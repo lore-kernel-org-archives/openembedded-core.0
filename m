@@ -1,32 +1,33 @@
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
+Received: from mail-wi0-f182.google.com ([209.85.212.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1U3x5s-00039d-LQ
+	(envelope-from <jon.szymaniak@gmail.com>) id 1U3xZ4-0003lZ-Ow
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Feb 2013 00:10:56 +0100
-Received: by mail-lb0-f180.google.com with SMTP id q12so3375653lbc.11
+	Sat, 09 Feb 2013 00:41:08 +0100
+Received: by mail-wi0-f182.google.com with SMTP id hi18so1435506wib.15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 14:55:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type;
-	bh=JVCwZqvGq/aRGM0aNHJPfcBYlgElJvFlE6fHItvCV/c=;
-	b=Swjff8Bu55w5yh1P2fQRwDf25gtTR/sIUhI5DPbwIbACyhyGdZw9aQNNqc6XVgZDki
-	/pSFWJ9833Od7V7XM4LeGpre6riIjHW8avKw94oyUGzx7LjEORExXaMhveocy6KddbaF
-	qfWdrAF42dPNQyvi0c1JhjuNkn3Yl/eyTZ/1UmlEYWiad0bQ9qgL19N12wDD6RR60/sa
-	mMA4cOJsAQGRaR8BDsABRlH2F7KYwjNztwwsLSw8MDIbTzEcstDm2bVj5NSERIVpmCnK
-	xYYb5qu3DZWx6R6pTzh6+jeTVcdF206qirIzK2zoRVQ+oL05eKj8xznzRjqlvLgC/fw4
-	virw==
+	Fri, 08 Feb 2013 15:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:content-type;
+	bh=mZajdTzqGnhI2vIpmJIIIv7kGegjn6lH34Fcd7J2hAI=;
+	b=eGO74dKSXpWLTqxmFgUPAX9wkXj4zchXlOlINM4EmX0hubs+FIjX5pqFMIvmBniIfM
+	ONTrgijttemZn42sGBvbRNMSXpWu20B4ORDSLBaItFwBkHvGrHXCwY/RBUDuxZ/xehnH
+	J8zx24rgibTYstTTCLe3VLP5UI66KANIubISrNSFaWIWKkRQSRpaRhhD42CN9/pP6fL+
+	sDAe8WMSbWinHXhW++CfTovsWv/tvkkP3mi90TWQYYh1heDCF0ukH4o3PvV1ziFE6AXa
+	zCSJ3fy0/5voo452/DzTIL/R/wgxriW7Yn1L9t//nfQkO5B9ZDAoaI4GNHcDpIKxOi8I
+	mjtg==
+X-Received: by 10.194.216.5 with SMTP id om5mr12715737wjc.27.1360365912608;
+	Fri, 08 Feb 2013 15:25:12 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.112.40.137 with SMTP id x9mr2901576lbk.71.1360364102056;
-	Fri, 08 Feb 2013 14:55:02 -0800 (PST)
-Received: by 10.112.98.170 with HTTP; Fri, 8 Feb 2013 14:55:01 -0800 (PST)
-In-Reply-To: <1360335140-8690-1-git-send-email-otavio@ossystems.com.br>
-References: <1360335140-8690-1-git-send-email-otavio@ossystems.com.br>
-Date: Fri, 8 Feb 2013 23:55:01 +0100
-Message-ID: <CAAQYJAsS7KVVOQxAzRO8qh90Adngx6OUvpffQmpoQ68yiZGDXg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+Received: by 10.194.30.194 with HTTP; Fri, 8 Feb 2013 15:24:52 -0800 (PST)
+In-Reply-To: <CANge7vX2qS82uF=V5+JTH-Uz3wTV=Zeysg0cRc1+=QEiJjpuww@mail.gmail.com>
+References: <CANge7vX2qS82uF=V5+JTH-Uz3wTV=Zeysg0cRc1+=QEiJjpuww@mail.gmail.com>
+From: Jon Szymaniak <jon.szymaniak@gmail.com>
+Date: Fri, 8 Feb 2013 18:24:52 -0500
+Message-ID: <CANge7vX=wp8-dvhumsOXuBts9-75FV-C=f=OxQYrEA8tHaPZbg@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 1/2] tzdata: We shouldn't override the localtime if it is valid
+Subject: Generating UBIs containing multiple volumes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,71 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 23:10:56 -0000
+X-List-Received-Date: Fri, 08 Feb 2013 23:41:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Feb 8, 2013 at 3:52 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> The code where mistakenly replacing the localtime file setting so we
-> end with a copy of file instead of a symbolic link. This fixes it so
-> now, we'll only do that in case the link is pointing to invalid data.
->
+Hi all,
 
-Hi,
+I see that the image_types.bbclass's IMAGE_CMD_ubi() does the following:
+  1) Creates a single-volume ubinize.cfg on the fly
+  2) Runs mkfs.ubifs to create the UBIFS image
+  3) Run ubinize to create a UBI image
 
-there was the same discussion when I first proposed the Gentoo script:
-it wasn't a mistake. it's the old issue /usr not mounted at boot.
+However, I'm currently using a two-volume image: one volume for the
+rootfs, and one for "user config" as shown in the below ubinize.cfg.
+I'm considering making some changes to image_types.bbclass to support
+this and was hoping I could get some feedback and advice.
 
-See thread: http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/016237.html
+[rootfs]
+mode=ubi
+image=rootfs.ubifs
+vol_id=0
+vol_size=200MiB
+vol_type=dynamic
+vol_flags=autoresize
+vol_name=rootfs
 
-Cheers
+[config]
+mode=ubi
+image=config.ubifs
+vol_id=1
+vol_size=8MiB
+vol_type=dynamic
+vol_name=config
 
-Andrea
+I'd planned to stage my config.ubifs with some sane default files via
+a recipe (e.g., an ubinize invocation in a do_compile). It feels like
+it might be "bad practice" to have a recipe install config.ubifs
+(perhaps a name with a timestamp and then a shorthand symlink, as done
+with existing image files) into $(DEPLOY_DIR_IMAGE}. Any
+recommendations?
 
+Where would be an appropriate place to keep a custom ubinize.cfg? In
+my case, it should always remain the same for my MACHINE. However, I'm
+not certain if this would be always be the case for other folks...
 
-> Change-Id: I16dfa5ea4f293c48bb396f4e23a2ea53e6c9e745
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-extended/tzdata/tzdata_2012d.bb |   12 ++++++------
->  1 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-> index 9741101..9ec6715 100644
-> --- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
-> +++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-> @@ -5,7 +5,7 @@ LICENSE = "PD"
->  LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
->  DEPENDS = "tzcode-native"
->
-> -PR = "r2"
-> +PR = "r3"
->
->  inherit allarch
->
-> @@ -93,12 +93,12 @@ pkg_postinst_${PN} () {
->                 echo "You have an invalid TIMEZONE setting in ${src}"
->                 echo "Your ${etc_lt} has been reset to Universal; enjoy!"
->                 tz="Universal"
-> +               echo "Updating ${etc_lt} with $D${datadir}/zoneinfo/${tz}"
-> +               if [ -L ${etc_lt} ] ; then
-> +                       rm -f "${etc_lt}"
-> +               fi
-> +               cp -f "$D${datadir}/zoneinfo/${tz}" "${etc_lt}"
->         fi
-> -       echo "Updating ${etc_lt} with $D${datadir}/zoneinfo/${tz}"
-> -       if [ -L ${etc_lt} ] ; then
-> -               rm -f "${etc_lt}"
-> -       fi
-> -       cp -f "$D${datadir}/zoneinfo/${tz}" "${etc_lt}"
->  }
->
->  # Packages primarily organized by directory with a major city
-> --
-> 1.7.2.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Thank you,
+Jon
 
 
