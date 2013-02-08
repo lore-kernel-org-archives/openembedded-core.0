@@ -1,44 +1,30 @@
-Received: from smtp.knology.net ([64.8.71.112])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kyle@farnsworthtech.com>) id 1U3iIt-00049r-3d
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <bjst@sestofb10.enea.se>) id 1U3jS2-00068E-D8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 08:23:31 +0100
-X_CMAE_Category: 0,0 Undefined,Undefined
-X-CNFS-Analysis: v=2.0 cv=d9t3OGfE c=1 sm=0 a=UfEqCK7YscORm1DYeV5WLg==:17
-	a=D6wcrpBcUpcA:10 a=yr5IbeYSnHoA:10 a=dWUxHrtDoX8A:10
-	a=8nJEP1OIZ-IA:10 a=4Du6mIFzAAAA:8 a=SrShUXqpy0UA:10
-	a=yNhuIm87Nps9aViqvFwA:9 a=wPNLvfGTeEIA:10
-	a=UfEqCK7YscORm1DYeV5WLg==:117
-X-CM-Score: 0
-X-Scanned-by: Cloudmark Authority Engine
-Authentication-Results: smtp01.knology.synacor.com
-	smtp.mail=kyle@farnsworthtech.com; spf=neutral;
-	sender-id=neutral
-Authentication-Results: smtp01.knology.synacor.com
-	header.from=kyle@farnsworthtech.com; sender-id=neutral
-Authentication-Results: smtp01.knology.synacor.com
-	smtp.user=kfarns@knology.net; auth=pass (LOGIN)
-Received-SPF: neutral (smtp01.knology.synacor.com: 24.214.129.45 is neither
-	permitted nor denied by domain of farnsworthtech.com)
-Received: from [24.214.129.45] ([24.214.129.45:63132]
-	helo=host.farnsworthtech.com)
-	by smtp.knlogy.net (envelope-from <kyle@farnsworthtech.com>)
-	(ecelerity 2.2.3.47 r(39787)) with ESMTPA
-	id 16/51-16665-8EFC2115; Wed, 06 Feb 2013 16:49:28 -0500
-Received: from [192.168.1.66] (farntech1.farnsworthtech.com [192.168.1.66])
-	by host.farnsworthtech.com (Postfix) with ESMTP id 8BBC58136B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Feb 2013 15:49:27 -0600 (CST)
-Message-ID: <5112CFE7.8070300@farnsworthtech.com>
-Date: Wed, 06 Feb 2013 15:49:27 -0600
-From: Kyle Farnsworth <kyle@farnsworthtech.com>
-Organization: Farnsworth Technology, Inc.
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Fri, 08 Feb 2013 09:37:34 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Fri, 8 Feb 2013
+	09:21:00 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 94215291D4B;
+	Fri,  8 Feb 2013 09:21:00 +0100 (CET)
+Date: Fri, 8 Feb 2013 09:21:00 +0100
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Message-ID: <20130208082100.GJ34322@sestofb10.enea.se>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<3666e39a359b03ba1e054813f4353ddeed11d506.1360079373.git.rep.dot.nop@gmail.com>
+	<CAJTo0LYDkCvZUCp4U4o_2bsmuiVor69Wbh4Rd94g3WvQ4=X5Yw@mail.gmail.com>
+	<CAC1BbcQss0BHe_CGx+H_QKbASNS-_4Bad8rHeCNdJERg-G8Y4w@mail.gmail.com>
+	<CAJTo0LZh=XEoK7DYJqNy8OCthYMRd=+5gLjPMR3Aj8DX6R-76Q@mail.gmail.com>
+	<CAC1BbcSpM5nGnH0QBQYOWEjuPVHpvEWR4uxBsErqx4h9n=-3yw@mail.gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-Enigmail-Version: 1.5
-Subject: tinylogin ends up with group/user id 1000
+In-Reply-To: <CAC1BbcSpM5nGnH0QBQYOWEjuPVHpvEWR4uxBsErqx4h9n=-3yw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/8] Revert "Add ptest for glib."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,24 +37,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 07:24:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Feb 2013 08:37:36 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tinylogin installs the executable using the mode setting "-m 4755" which
-sets the userID bit (-rwsr-xr-x).  From what I read that seems like the
-right thing to do.  But when it gets added to the rootfs image it ends
-up with a group and user id = 1000.  Then when getty attempts to login I
-get this message:
-    login: cannot set groups: Operations not permitted
+Bernhard Reutner-Fischer wrote:
+> The uncompressed log is about 50MB, i put it here (still 1.2MB):
+> http://busybox.net/~aldot/oe/mk.all.20130118-1442.53.log.xz
 
-I did enough debugging to find this occurs when it makes a syscall to
-setgroups.  If I change the install to use mode "-m 0755" the group/user
-id ends up being 0 and it works.
+Can I ask how you worked around the iconv RPATH issue?
 
-Where is the logic that determines group/user ids and why would it use
-1000?  Can I override it?
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2669
 
-Kyle
+--=20
+Bj=F6rn
 
 
