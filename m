@@ -1,28 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U3jxA-00017m-Rl
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1U3kKC-0001Vf-R4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 10:09:05 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Feb 2013 00:51:54 -0800
+	Fri, 08 Feb 2013 10:32:53 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 Feb 2013 01:16:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,628,1355126400"; d="scan'208";a="259519396"
-Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 08 Feb 2013 00:53:09 -0800
-Message-ID: <5114BCF5.8090103@linux.intel.com>
-Date: Fri, 08 Feb 2013 00:53:09 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: "Prica, Mihai" <mihai.prica@intel.com>
-References: <1360152734-15731-1-git-send-email-mihai.prica@intel.com>
-	<511295B8.40109@linux.intel.com>
-	<97BD068FB200C44AA73C2B641F162ECF91CC88@IRSMSX101.ger.corp.intel.com>
-In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF91CC88@IRSMSX101.ger.corp.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: Enabled SDL when compiling for target architecture
+X-IronPort-AV: E=Sophos;i="4.84,628,1355126400"; d="scan'208";a="282550299"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.51])
+	by orsmga002.jf.intel.com with ESMTP; 08 Feb 2013 01:16:54 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Feb 2013 09:16:51 +0000
+Message-Id: <babf8418689667cdd606ea089536a6e55c7708f7.1360314954.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1360314954.git.paul.eggleton@linux.intel.com>
+References: <cover.1360314954.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1360314954.git.paul.eggleton@linux.intel.com>
+References: <cover.1360314954.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] python-smartpm: show friendly error if YAML output requested without PyYAML
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,139 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 09:09:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Feb 2013 09:32:53 -0000
 
-On 02/06/2013 02:58 PM, Prica, Mihai wrote:
->> -----Original Message-----
->> From: Saul Wold [mailto:sgw@linux.intel.com]
->> Sent: Wednesday, February 06, 2013 7:41 PM
->> To: Prica, Mihai
->> Cc: openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH] qemu: Enabled SDL when compiling for target
->> architecture
->>
->> On 02/06/2013 04:12 AM, Mihai Prica wrote:
->>> - enables qemu to run images with video output without the need for
->> vncviewer.
->>> - SDLPACKAGECONFIG is used because there is no need for the
->>> native-libsdl package when building the qemu-native package.
->>>
->>> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
->>> ---
->>>    meta/recipes-devtools/qemu/qemu.inc |   19 +++++++++++--------
->>>    1 file changed, 11 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
->>> b/meta/recipes-devtools/qemu/qemu.inc
->>> index 2b60347..4633f47 100644
->>> --- a/meta/recipes-devtools/qemu/qemu.inc
->>> +++ b/meta/recipes-devtools/qemu/qemu.inc
->>> @@ -3,8 +3,7 @@ HOMEPAGE = "http://qemu.org"
->>>    LICENSE = "GPLv2 & LGPLv2.1"
->>>    DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
->>>    DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-
->> native"
->>> -DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0
->> nativesdk-pixman"
->>> -RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
->>> +DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-glib-2.0 nativesdk-
->> pixman"
->>>
->>>    require qemu-targets.inc
->>>    inherit autotools
->>> @@ -13,10 +12,6 @@ BBCLASSEXTEND = "native nativesdk"
->>>    # QEMU_TARGETS is overridable variable
->>>    QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
->>>
->>> -SDL ?= "--disable-sdl"
->>> -SDL_class-native ?= ""
->>> -SDL_class-nativesdk ?= ""
->>> -
->>>    SRC_URI = "\
->>>        file://powerpc_rom.bin \
->>>        file://no-strip.patch \
->>> @@ -32,7 +27,7 @@ SRC_URI_append_class-nativesdk = "\
->>>        file://relocatable_sdk.patch \
->>>        "
->>>
->>> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-
->> werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370
->> ${SDL} --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
->>> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-
->> werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 --
->> disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
->>>
->>>    EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)}
->> --disable-werror --disable-vnc-tls \
->>>    				--disable-curl \
->>> @@ -83,7 +78,15 @@ do_install_append() {
->>>    }
->>>    # END of qemu-mips workaround
->>>
->>> -PACKAGECONFIG ??= ""
->> Seems to be left over from a previous patch?
->
-> Yes, this was already here.
->
->>
->>> +PACKAGECONFIG ??= "sdl"
->>> +PACKAGECONFIG_class-native ??= "sdl"
->> Is this right?  If you only want it for target, why set it for native.
->
-> SDL was already enabled for native and nativesdk. I just enabled it
-> when building for the target arch.
->
-Was it really?  I just did a build on my laptop and failed, I reverted 
-this patch and it worked, I think this needs some more thought and testing.
+Instead of a python backtrace, tell the user they need to install PyYAML
+if they wish to use the --yaml output options.
 
-I am running Fedora 18 with only SDL on my laptop, I get the following 
-error:
-> | ERROR
-> | ERROR: User requested feature sdl
-> | ERROR: configure was not able to find it
+Fixes [YOCTO #3768].
 
-I think the above lines should be PACKAGECONFIG_class-native = "" and
-PACKAGECONFIG_class-nativesdk = "sdl"
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../python/python-smartpm/smart-yaml-error.patch   |   86 ++++++++++++++++++++
+ .../python/python-smartpm_1.4.1.bb                 |    1 +
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-yaml-error.patch
 
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-yaml-error.patch b/meta/recipes-devtools/python/python-smartpm/smart-yaml-error.patch
+new file mode 100644
+index 0000000..e16c5c1
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-smartpm/smart-yaml-error.patch
+@@ -0,0 +1,86 @@
++Print a more friendly error if YAML output is requested without PyYAML
++
++Upstream-Status: Pending
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++
++diff --git a/smart/commands/channel.py b/smart/commands/channel.py
++index 63fbb35..108f3f1 100644
++--- a/smart/commands/channel.py
+++++ b/smart/commands/channel.py
++@@ -339,7 +339,10 @@ def main(ctrl, opts):
++                     print
++ 
++     if opts.yaml is not None:
++-        import yaml
+++        try:
+++            import yaml
+++        except ImportError:
+++            raise Error, _("Please install PyYAML in order to use this function")
++         yamlchannels = {}
++         for alias in (opts.yaml or sysconf.get("channels", ())):
++             channel = sysconf.get(("channels", alias))
++diff --git a/smart/commands/config.py b/smart/commands/config.py
++index 4fe4366..aa1db78 100644
++--- a/smart/commands/config.py
+++++ b/smart/commands/config.py
++@@ -137,7 +137,10 @@ def main(ctrl, opts):
++             pprint.pprint(sysconf.get((), hard=True))
++ 
++     if opts.yaml is not None:
++-        import yaml
+++        try:
+++            import yaml
+++        except ImportError:
+++            raise Error, _("Please install PyYAML in order to use this function")
++         if opts.yaml:
++             marker = object()
++             for opt in opts.yaml:
++diff --git a/smart/commands/flag.py b/smart/commands/flag.py
++index ed18999..8b90496 100644
++--- a/smart/commands/flag.py
+++++ b/smart/commands/flag.py
++@@ -138,7 +138,10 @@ def main(ctrl, opts):
++             print
++ 
++     if opts.yaml is not None:
++-        import yaml
+++        try:
+++            import yaml
+++        except ImportError:
+++            raise Error, _("Please install PyYAML in order to use this function")
++         yamlflags = {}
++         for flag in opts.yaml or pkgconf.getFlagNames():
++             flag = flag.strip()
++diff --git a/smart/commands/mirror.py b/smart/commands/mirror.py
++index ca50a95..f7b019d 100644
++--- a/smart/commands/mirror.py
+++++ b/smart/commands/mirror.py
++@@ -218,7 +218,10 @@ def main(ctrl, opts):
++             print
++ 
++     if opts.yaml:
++-        import yaml
+++        try:
+++            import yaml
+++        except ImportError:
+++            raise Error, _("Please install PyYAML in order to use this function")
++         yamlmirrors = {}
++         mirrors = sysconf.get("mirrors", ())
++         for origin in mirrors:
++diff --git a/smart/commands/priority.py b/smart/commands/priority.py
++index d850d29..441ea32 100644
++--- a/smart/commands/priority.py
+++++ b/smart/commands/priority.py
++@@ -117,7 +117,10 @@ def main(ctrl, opts):
++         print
++ 
++     elif opts.yaml:
++-        import yaml
+++        try:
+++            import yaml
+++        except ImportError:
+++            raise Error, _("Please install PyYAML in order to use this function")
++         yamlpriorities = {}
++         priorities = sysconf.get("package-priorities", {})
++         for name in opts.args or priorities:
+diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+index 06641ad..d92933f 100644
+--- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
++++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "\
+           file://smart-metadata-match.patch \
+           file://smart-improve-error-reporting.patch \
+           file://smart-multilib-fixes.patch \
++          file://smart-yaml-error.patch \
+           "
+ 
+ SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
+-- 
+1.7.10.4
 
-
->>
->>> +PACKAGECONFIG_class-nativesdk ??= "sdl"
->>> +
->>> +PACKAGECONFIG[sdl] = "--enable-sdl,--disable-
->> sdl,${SDLPACKAGECONFIG},${SDLPACKAGECONFIG}"
->>> +
->> If it's disabled, you should not need the SDLPACKAGECONFIG in the "false" case
->> for DEPENDS.
->
-> I'm not sure if I understand your question. The second SDLPACKAGECONFIG is for
-> RDEPENDS when sdl is set in PACKAGECONFIG.
->
-I think the issue is that you bring in the RDEPENDS for both the true 
-and false causes above, I think that's wrong upon further review.
-
-Sau!
-
-
->>
->>> +SDLPACKAGECONFIG = "libsdl"
->>> +SDLPACKAGECONFIG_class-native = ""
->>> +SDLPACKAGECONFIG_class-nativesdk = "nativesdk-libsdl"
->>>
->> It might be clearer to have these lines above the PACKAGECONFIG[sdl] where
->> they are used.
->
-> I'll put the lines above the PACKAGECONFIG and resend the patch.
->
->>
->>
->>
->>>    # Qemu target will not build in world build for ARM or Mips
->>>    BROKEN_qemuarm = "1"
->>>
->
->
 
 
