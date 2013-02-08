@@ -1,36 +1,41 @@
-Received: from mail-da0-f50.google.com ([209.85.210.50])
+Received: from mail-ia0-f174.google.com ([209.85.210.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U3lUi-0003oh-EU
+	(envelope-from <otavio.salvador@gmail.com>) id 1U3m13-0004qV-00
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Feb 2013 11:47:54 +0100
-Received: by mail-da0-f50.google.com with SMTP id h15so1736950dan.23
+	Fri, 08 Feb 2013 12:21:16 +0100
+Received: by mail-ia0-f174.google.com with SMTP id o25so3993447iad.19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 02:31:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=EaDF0Vb2Octqjvkf9A+fEaNSND/9wAgbVrBe5tjaHVQ=;
-	b=KCivBj8XjltpQrjzf9otbchncUq6A5T0UI58xhjHAKVX0csb8McpVkE7SJ2R7gXsm0
-	A7Cjs9kfhI+w+4UY3PDscSoSAeAOdOHVk37QrUK+wb24XqNn0SmeLvTBD0ZO9Zmc2YAV
-	m+GP3/Qewx2tOG4e/njG2LvWhvryjnwqIZLlpF+EBP6qw/cxqj+sTOYZ0+fwnMyFqUwo
-	lr3YzUwhaYCTa3igsPU25mclzQrzVk5G3YQd50H+gkPF9THQAPgZYDl+9Hc/BBcdyqWj
-	bU+0MqjB/IsEthD8b/aznSEHt0G93ur7RVt3rXvy6yzA0zx8wgQ92GQARGgQXgHeL7qP
-	aiFg==
-X-Received: by 10.66.84.3 with SMTP id u3mr15736145pay.51.1360319513999; Fri,
-	08 Feb 2013 02:31:53 -0800 (PST)
+	Fri, 08 Feb 2013 03:05:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=1c7KeCBhQpAuC1GH1FJywFzdlaHpmJKmzZJRUz+500E=;
+	b=iKLtZvVNSpIIYx0dU6Jxqv62Wov3SWPJeTF+QEZg5DxRMraRZ0BEf+slkK3h0PWmx0
+	T5x9YuRufi8lp0FN5s9ckHixBr5xarIr9Xg1P+68S0RTHddr2ptd2D7PjXIoXaixyyi5
+	YZpZRo1MRVZxTC8EQ4lFZO9qXwFpBA8oH9cB7dmgVAL4kUIZ2yMSDXeD4I6kkTibaUf/
+	SPFXqC8brvLZ4jGHs7EAWsKiKWXJ6EMsUgiQ+gGAk93fnjRivxQRdkTQTiwyi9NNKS4X
+	h/JHjhwityik+kf6mE/tlV3msayiwTQqwyIB968g1/MmlcpVxEXjv4u9O7ZzpouooLvo
+	3Pcw==
 MIME-Version: 1.0
-Received: by 10.66.193.225 with HTTP; Fri, 8 Feb 2013 02:31:32 -0800 (PST)
-In-Reply-To: <4ac0c041b62e5495bff97bd2d7dc5a4e31d7ce5f.1360166922.git.laurentiu.palcu@intel.com>
-References: <cover.1360166922.git.laurentiu.palcu@intel.com>
-	<4ac0c041b62e5495bff97bd2d7dc5a4e31d7ce5f.1360166922.git.laurentiu.palcu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Feb 2013 10:31:32 +0000
-Message-ID: <CAJTo0LYGpC4qpjyMEms2M=wX0DYypNDJ1pjg-79xu4yMh69byg@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQlsB0pwsrclJP/RcScWKPXCuAWuhb+8fOE+sMhmLFqfZCCAhs4eBcPw1lGiOjCP9JhLrkBm
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] Add pixbufcache class
+X-Received: by 10.50.222.201 with SMTP id qo9mr1311485igc.111.1360321518837;
+	Fri, 08 Feb 2013 03:05:18 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.10.105 with HTTP; Fri, 8 Feb 2013 03:05:18 -0800 (PST)
+In-Reply-To: <5112D7D3.6020304@felipetonello.com>
+References: <1360090154-26766-1-git-send-email-ftonello@cercacor.com>
+	<51115E97.1080404@linux.intel.com>
+	<511182A9.2060702@felipetonello.com>
+	<0CB2DDB0E2D34358AAD3481B8F78E9F1@intel.com>
+	<5112D7D3.6020304@felipetonello.com>
+Date: Fri, 8 Feb 2013 09:05:18 -0200
+X-Google-Sender-Auth: lrS9fDL954-rDyUD8NeF1dzD458
+Message-ID: <CAP9ODKrBmqnOgRH0FhvuEvS-narJuQA_RLOLfBjjOsSPZa07ig@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Felipe Ferreri Tonello <eu@felipetonello.com>
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: added recipe libconnman-qt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,20 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Feb 2013 10:47:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Feb 2013 11:21:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 6 February 2013 16:36, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> All packages exporting pixbuf loaders should inherit this class in order
-> to generate the correct postinst/postrm scriptlets.
+On Wed, Feb 6, 2013 at 8:23 PM, Felipe Ferreri Tonello
+<eu@felipetonello.com> wrote:
+> On 02/05/2013 02:58 PM, Ross Burton wrote:
+>>
+>> On Tuesday, 5 February 2013 at 22:07, Felipe Ferreri Tonello wrote:
+>>>
+>>> I chose this path because there is also a front-end library for connman
+>>> for gnome in the same directory.
+>>
+>>
+>> It's not a library, it's a UI.  To be honest, I'd happily see it move to
+>> recipes-gnome and connman-qt be in recipes-qt.
+>>
 >
-> [YOCTO #3852]
+> So what was decided? Should I re-send the patch with what path?
 
-Presumably this means that the gtk-icon-cache package can drop the
-pixbuf loader calls now?  Also as the gtk icon cache only handles
-built-in modules, we don't need to update the icon cache when
-registering pixbuf loaders.
+Until something inside OE-Core uses it I would prefer it in meta-oe. Ross?
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
