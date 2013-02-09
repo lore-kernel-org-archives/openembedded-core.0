@@ -1,24 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ea0-f170.google.com ([209.85.215.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U4Ip2-0005U7-Lr
-	for Openembedded-core@lists.openembedded.org;
-	Sat, 09 Feb 2013 23:23:11 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r19M7378012533
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 9 Feb 2013 14:07:04 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Sat, 9 Feb 2013 14:07:03 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Sat, 9 Feb 2013 16:06:57 -0600
-Message-ID: <1360447617-26341-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] ncurses.inc: Fix display corruption and add fallback for sstate compiled paths
+	(envelope-from <andrei@gherzan.ro>) id 1U4Irx-0005aq-F8
+	for openembedded-core@lists.openembedded.org;
+	Sat, 09 Feb 2013 23:26:01 +0100
+Received: by mail-ea0-f170.google.com with SMTP id a11so2219737eaa.29
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Feb 2013 14:10:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=TfgsYgl56rUPP4oAHbvpfnG9+Ex9b5O5BB9nwWizWzI=;
+	b=XdhcEGgnuhYIpPZrWRhbl1rq4PhcgmGAsSygyCRIlZusdLH6XkbXvC6Tm84Jab5ge+
+	WofkXnPkptc1T42g7XexfAaTXa19nEB5pGmi8pWhYQUdLbZIk0QzAftdxzScXpaUd31q
+	K+sVtP67JHH2S3QGRQ1VnlxE0G9YKdthmUHRVMJcd6Y2TffydlL3A66Rb3BnE/6OSz87
+	4MNq0RyLDewO0QU4SGuk4UgwAWpSjGLXZKFeBeMqUi41Pa66ettHVeKATjoy10iCbgQO
+	lNoRco9qfQK/3vqz0xpX7Zq0W2egptjzZJnBwfXbjh5jESRIRYbmkaYxGy5lbmkw6s/q
+	v2nw==
+X-Received: by 10.14.213.131 with SMTP id a3mr31654837eep.24.1360447805585;
+	Sat, 09 Feb 2013 14:10:05 -0800 (PST)
+Received: from otp-agherzan-l1.corp.ad.wrs.com
+	(5-13-217-124.residential.rdsnet.ro. [5.13.217.124])
+	by mx.google.com with ESMTPS id k7sm51774853een.8.2013.02.09.14.10.03
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 09 Feb 2013 14:10:04 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 10 Feb 2013 00:09:55 +0200
+Message-Id: <1360447797-10187-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkoPTpNe54y18rXUuJU/QnuWuZZB+DB1qtR52J+SMo2vIkTr+UcEIUsNz3xICAPpOg56u3G
+Subject: [PATCH 1/3] udev: Modify init script to use the correct path of udevadm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,96 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2013 22:23:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 09 Feb 2013 22:26:01 -0000
 
-CQID: WIND00402979
+udevadm is installed in /usr/bin not in /usr/sbin. Init script modified
+accordingly.
 
-Display corruption was occurring on 64 bit hosts using menuconfig for
-the kernel and busybox with the ncurses-native or ncurses-nativesdk
-because the configure arguments were not sufficient vs the expected
-use from the upstream source.
-
-Also changed in this commit is to provide a fallback to the hard
-compiled paths for the terminfo and termcap.  Eventually this needs to
-be fixed another way if we want a truly portable SDK because any SDK
-that is relocated or native binaries pulled out of the sstate can end
-up referencing terminfo files that no longer are in the same location.
-Because the host system has terminfo files that ncurses will happily
-use we might as well have a fall back to buy some time for a better
-fix, vs having thing just not work occasionally when using sstate.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-core/ncurses/ncurses.inc |   32 +++++++++++++++++++++++++++++---
- 1 files changed, 29 insertions(+), 3 deletions(-)
+ meta/recipes-core/udev/udev/init |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 5fdd994..9250e9d 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_class-native = ""
--INC_PR = "r13"
-+INC_PR = "r14"
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 8ac1ff7..95d2672 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -73,13 +73,13 @@ case "$1" in
+     echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
+     /lib/udev/udevd -d
  
- inherit autotools binconfig multilib_header
- 
-@@ -29,6 +29,31 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
- # natives don't generally look in base_libdir
- base_libdir_class-native = "${libdir}"
- 
-+# Display corruption occurs on 64 bit hosts without these settings
-+# This was derrived from the upstream debian ncurses which uses
-+# these settings for 32 and 64 bit hosts.
-+EXCONFIG_ARGS = ""
-+EXCONFIG_ARGS_virtclass-native = " \
-+		--disable-lp64 \
-+		--with-chtype='long' \
-+		--with-mmask-t='long'"
-+EXCONFIG_ARGS_virtclass-nativesdk = " \
-+		--disable-lp64 \
-+		--with-chtype='long' \
-+		--with-mmask-t='long'"
-+
-+# Fall back to the host termcap / terminfo for -nativesdk and -native
-+# The reality is a work around for strange problems with things like
-+# "bitbake -c menuconfig busybox" where it cannot find the terminfo
-+# because the sstate had a hard coded search path.  Until this is fixed
-+# another way this is deemed good enough.
-+EX_TERMCAP = ""
-+EX_TERMCAP_virtclass-native = ":/etc/termcap:/usr/share/misc/termcap"
-+EX_TERMCAP_virtclass-nativesdk = ":/etc/termcap:/usr/share/misc/termcap"
-+EX_TERMINFO = ""
-+EX_TERMINFO_virtclass-native = ":/etc/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
-+EX_TERMINFO_virtclass-nativesdk = ":/etc/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
-+
- # Helper function for do_configure to allow multiple configurations
- # $1 the directory to run configure in
- # $@ the arguments to pass to configure
-@@ -44,8 +69,8 @@ ncurses_configure() {
- 	        --enable-hard-tabs \
- 	        --enable-xmc-glitch \
- 	        --enable-colorfgbg \
--	        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
--	        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
-+	        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap${EX_TERMCAP}' \
-+	        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo${EX_TERMINFO}' \
- 	        --with-shared \
- 	        --disable-big-core \
- 	        --program-prefix= \
-@@ -54,6 +79,7 @@ ncurses_configure() {
- 	        --enable-sigwinch \
- 	        --enable-pc-files \
- 	        --disable-rpath-hack \
-+		${EXCONFIG_ARGS} \
- 	        --with-manpage-format=normal \
- 	        "$@" || return 1
- 	cd ..
+-    /usr/sbin/udevadm control --env=STARTUP=1
++    /usr/bin/udevadm control --env=STARTUP=1
+     if [ "$not_first_boot" != "" ];then
+-            /usr/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
+-            (/usr/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
++            /usr/bin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
++            (/usr/bin/udevadm settle --timeout=3; /usr/bin/udevadm control --env=STARTUP=)&
+     else
+-            /usr/sbin/udevadm trigger --action=add
+-            /usr/sbin/udevadm settle
++            /usr/bin/udevadm trigger --action=add
++            /usr/bin/udevadm settle
+     fi
+     ;;
+   stop)
 -- 
-1.7.1
+1.7.9.5
 
 
 
