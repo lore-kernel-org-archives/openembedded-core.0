@@ -1,37 +1,39 @@
-Received: from mail-ob0-f174.google.com ([209.85.214.174])
+Received: from mail-ob0-f171.google.com ([209.85.214.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U40Ho-0000av-Ll
+	(envelope-from <otavio.salvador@gmail.com>) id 1U40f0-0001Dd-MQ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Feb 2013 03:35:29 +0100
-Received: by mail-ob0-f174.google.com with SMTP id 16so4533669obc.19
+	Sat, 09 Feb 2013 03:59:30 +0100
+Received: by mail-ob0-f171.google.com with SMTP id x4so4414529obh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Feb 2013 18:19:33 -0800 (PST)
+	Fri, 08 Feb 2013 18:43:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=xBY9Uqzoul5SvdvH9R65OKxeDs4O6NonwRmPf0IZdaY=;
-	b=h3k5ipoKOKj9gsTqR/ftJsG6C/AqbJVUrWWNoAex1ukv4BRuRhND3FLXUN7gLeEizD
-	LzkYSYEFSG+InnvN8yacOpuejdEYLLA6sqvnryS7pBHV2vhbD9s49dDUQObGGZNdtyNg
-	tPpKcqDCxSmqcMt/aaigjWAphDI7kBDI6HJlDD2wyadwfNGEm8yM55v5WNUCZZgaQY1L
-	sUHTnsq0m8BpSqOtcPtiPR1PEs4Ux1oO64459bUZCynzN246A0WEgSnHWF5daqQufm/o
-	9X+VYdsSGizVLC3wWplr4MJwksxHB75F9LOkg9hgj3Jaokcr4sUh6wsVdhYVZtdp/VT5
-	cfbA==
+	bh=s4RvMifGB5LfxMfWKaaUyRcgh9p6bX9EQNpNLE/JdV8=;
+	b=eqgu/1fGfZ50vw5gmnkRH79Obo02ugEE0Js6DAowPCV+d95f+Cz8UeLel5UQ2g5r/o
+	+FmqsylrmAQqF1OxHSfKY9vpTx9leAObZTIvK2eH8e7lKou/+q1X+GOAFDSYedaupLCz
+	uKsQGc5Jo4ErjwWC8GjrHDcDI6A9ifWQhxA75ZkAuc5HC7P5vyomMVNPsVgXwUY7EaMw
+	bK6LDT7Uf+1wkKQeJaPb6asLEhUYarmQdHE9NYkWZmJuDPWBslYcb7XUTa6rVZndmxu4
+	Sw3LHPutjZsMXuQgfExhr3NmDTRTsbk5snmW1BFVgk8YM8qRv+y7DIlBGf0ay1R0mq4z
+	vHgQ==
 MIME-Version: 1.0
-X-Received: by 10.182.88.103 with SMTP id bf7mr5885298obb.7.1360376373625;
-	Fri, 08 Feb 2013 18:19:33 -0800 (PST)
+X-Received: by 10.182.26.114 with SMTP id k18mr5839472obg.94.1360377811633;
+	Fri, 08 Feb 2013 18:43:31 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 18:19:33 -0800 (PST)
-In-Reply-To: <CAAQYJAsS7KVVOQxAzRO8qh90Adngx6OUvpffQmpoQ68yiZGDXg@mail.gmail.com>
-References: <1360335140-8690-1-git-send-email-otavio@ossystems.com.br>
-	<CAAQYJAsS7KVVOQxAzRO8qh90Adngx6OUvpffQmpoQ68yiZGDXg@mail.gmail.com>
-Date: Sat, 9 Feb 2013 00:19:33 -0200
-X-Google-Sender-Auth: uC6xmOTYR8_HIYMnjYWecXK2d14
-Message-ID: <CAP9ODKoQK9--Xou+Ft+jXs9_PVAJfgjmjuF74jH-FzfEmVu9QQ@mail.gmail.com>
+Received: by 10.182.2.197 with HTTP; Fri, 8 Feb 2013 18:43:31 -0800 (PST)
+In-Reply-To: <fe2cc60ac93c64b7a6da42f876ff9befd1cf1938.1360362264.git.dvhart@linux.intel.com>
+References: <cover.1360362264.git.dvhart@linux.intel.com>
+	<fe2cc60ac93c64b7a6da42f876ff9befd1cf1938.1360362264.git.dvhart@linux.intel.com>
+Date: Sat, 9 Feb 2013 00:43:31 -0200
+X-Google-Sender-Auth: PuPLa6sNjrF03dfw_KmA3rxo0D4
+Message-ID: <CAP9ODKpCZrabQt1s1=GHHhXm9s-GSMDgjq3965w8XQFka8-8ug@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/2] tzdata: We shouldn't override the localtime if it is valid
+Subject: Re: [PATCH 4/7] oe-git-proxy: Add a new comprehensive git proxy script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +46,193 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2013 02:35:29 -0000
+X-List-Received-Date: Sat, 09 Feb 2013 02:59:31 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Feb 8, 2013 at 8:55 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> On Fri, Feb 8, 2013 at 3:52 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> The code where mistakenly replacing the localtime file setting so we
->> end with a copy of file instead of a symbolic link. This fixes it so
->> now, we'll only do that in case the link is pointing to invalid data.
->>
+On Fri, Feb 8, 2013 at 8:27 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+> oe-git-proxy.sh is a simple tool to be used via GIT_PROXY_COMMAND. It
+> uses BSD netcat to make SOCKS5 or HTTPS proxy connections. It uses
+> ALL_PROXY to determine the proxy server, protocol, and port. It uses
+> NO_PROXY to skip using the proxy for a comma delimited list of hosts,
+> host globs (*.example.com), IPs, or CIDR masks (192.168.1.0/24). It is
+> known to work with both bash and dash shells.
 >
-> Hi,
+> V2: Implement recommendations by Enrico Scholz:
+>     o Use exec for the nc calls
+>     o Use "$@" instead of $* to avoid quoting issues inherent with $*
+>     o Use bash explicitly and simplify some of the string manipulations
+>     Also:
+>     o Drop the .sh in the name per Otavio Salvador
+>     o Remove a stray debug statement
 >
-> there was the same discussion when I first proposed the Gentoo script:
-> it wasn't a mistake. it's the old issue /usr not mounted at boot.
+> V3: Implement recommendations by Otavio Salvador
+>     o GPL license blurb
+>     o Fix minor typo in comment block
 >
-> See thread: http://lists.linuxtogo.org/pipermail/openembedded-core/2012-January/016237.html
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> Cc: Otavio Salvador <otavio@ossystems.com.br>
+>
+> git-proxy cleanup
 
-As far as I know we stopped to worry about /usr not mounted at boot.
-In either case the symbolic link is how it is managed in most
-distributions and expected by many softwares available so I think we
-ought to follow the standard here.
+All those comments ought to be bellow --- or those will be included in
+commit log.
+
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> ---
+>  scripts/oe-git-proxy |  138 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 138 insertions(+), 0 deletions(-)
+>  create mode 100755 scripts/oe-git-proxy
+>
+> diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
+> new file mode 100755
+> index 0000000..4c2f179
+> --- /dev/null
+> +++ b/scripts/oe-git-proxy
+> @@ -0,0 +1,138 @@
+> +#!/bin/bash
+> +
+> +# oe-git-proxy is a simple tool to be via GIT_PROXY_COMMAND. It uses BSD netcat
+> +# to make SOCKS5 or HTTPS proxy connections. It uses ALL_PROXY to determine the
+> +# proxy server, protocol, and port. It uses NO_PROXY to skip using the proxy for
+> +# a comma delimited list of hosts, host globs (*.example.com), IPs, or CIDR
+> +# masks (192.168.1.0/24). It is known to work with both bash and dash shells.
+> +#
+> +# BSD netcat is provided by netcat-openbsd on Ubuntu and nc on Fedora.
+> +#
+> +# Example ALL_PROXY values:
+> +# ALL_PROXY=socks://socks.example.com:1080
+> +# ALL_PROXY=https://proxy.example.com:8080
+> +#
+> +# Copyright (c) 2013, Intel Corporation.
+> +# All rights reserved.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program; if not, write to the Free Software
+> +# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+> +#
+> +# AUTHORS
+> +# Darren Hart <dvhart@linux.intel.com>
+> +
+> +# Locate the netcat binary
+> +NC=$(which nc 2>/dev/null)
+> +if [ $? -ne 0 ]; then
+> +       echo "ERROR: nc binary not in PATH"
+> +       exit 1
+> +fi
+> +METHOD=""
+> +
+> +# Test for a valid IPV4 quad with optional bitmask
+> +valid_ipv4() {
+> +       echo $1 | egrep -q "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}(/(3[0-2]|[1-2]?[0-9]))?$"
+> +       return $?
+> +}
+> +
+> +# Convert an IPV4 address into a 32bit integer
+> +ipv4_val() {
+> +       IP="$1"
+> +       SHIFT=24
+> +       VAL=0
+> +       for B in ${IP//./ }; do
+> +               VAL=$(($VAL+$(($B<<$SHIFT))))
+> +               SHIFT=$(($SHIFT-8))
+> +       done
+> +       echo "$VAL"
+> +}
+> +
+> +# Determine if two IPs are equivalent, or if the CIDR contains the IP
+> +match_ipv4() {
+> +       CIDR=$1
+> +       IP=$2
+> +
+> +       if [ -z "${IP%%$CIDR}" ]; then
+> +               return 0
+> +       fi
+> +
+> +       # Determine the mask bitlength
+> +       BITS=${CIDR##*/}
+> +       if [ -z "$BITS" ]; then
+> +               return 1
+> +       fi
+> +
+> +       IPVAL=$(ipv4_val $IP)
+> +       IP2VAL=$(ipv4_val ${CIDR%%/*})
+> +
+> +       # OR in the unmasked bits
+> +       for i in $(seq 0 $((32-$BITS))); do
+> +               IP2VAL=$(($IP2VAL|$((1<<$i))))
+> +               IPVAL=$(($IPVAL|$((1<<$i))))
+> +       done
+> +
+> +       if [ $IPVAL -eq $IP2VAL ]; then
+> +               return 0
+> +       fi
+> +       return 1
+> +}
+> +
+> +# Test to see if GLOB matches HOST
+> +match_host() {
+> +       HOST=$1
+> +       GLOB=$2
+> +
+> +       if [ -z "${HOST%%$GLOB}" ]; then
+> +               return 0
+> +       fi
+> +
+> +       # Match by netmask
+> +       if valid_ipv4 $GLOB; then
+> +               HOST_IP=$(gethostip -d $HOST)
+> +               if valid_ipv4 $HOST_IP; then
+> +                       match_ipv4 $GLOB $HOST_IP
+> +                       if [ $? -eq 0 ]; then
+> +                               return 0
+> +                       fi
+> +               fi
+> +       fi
+> +
+> +       return 1
+> +}
+> +
+> +# If no proxy is set, just connect directly
+> +if [ -z "$ALL_PROXY" ]; then
+> +       exec $NC -X connect "$@"
+> +fi
+> +
+> +# Connect directly to hosts in NO_PROXY
+> +for H in ${NO_PROXY//,/ }; do
+> +       if match_host $1 $H; then
+> +               METHOD="-X connect"
+> +               break
+> +       fi
+> +done
+> +
+> +if [ -z "$METHOD" ]; then
+> +       # strip the protocol and the trailing slash
+> +       PROTO=$(echo $ALL_PROXY | sed -e 's/\([^:]*\):\/\/.*/\1/')
+> +       PROXY=$(echo $ALL_PROXY | sed -e 's/.*:\/\/\([^:]*:[0-9]*\).*/\1/')
+> +       if [ "$PROTO" = "socks" ]; then
+> +               METHOD="-X 5 -x $PROXY"
+> +       elif [ "$PROTO" = "https" ]; then
+> +               METHOD="-X connect -x $PROXY"
+> +       fi
+> +fi
+> +
+> +exec $NC $METHOD "$@"
+> --
+> 1.7.5.4
+>
+
+
 
 -- 
 Otavio Salvador                             O.S. Systems
