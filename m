@@ -1,46 +1,36 @@
-Received: from mail-pa0-f44.google.com ([209.85.220.44])
+Received: from mail-la0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U4dJ8-0003Xk-2O
+	(envelope-from <kergoth@gmail.com>) id 1U4fLn-0006Dr-66
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 21:15:26 +0100
-Received: by mail-pa0-f44.google.com with SMTP id kp1so2787857pab.31
+	Sun, 10 Feb 2013 23:26:20 +0100
+Received: by mail-la0-f45.google.com with SMTP id er20so5330323lab.32
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2013 11:59:28 -0800 (PST)
+	Sun, 10 Feb 2013 14:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=XIwpy7UJVvZAAIgLdwYBcubbb5k4KTDmRc6Lsd8XA7I=;
-	b=b9yXv7i/2nuClCsotVj3vGADph7sRNfuMihiutOTVHM6rA0+yV/ALVYQCunw0I/37N
-	XHMGkHii1kpvPrubsVnwvhG95B5+ok1FMW7N8lI0XT584Rx3a4mQD4Fvvv1xxWHtWudS
-	2pjp2kjg2zE60ShUGn7EA7Dcye1tFm4kEujGgXq077Aq41PLY615h6tfAYUWah1hbjAi
-	hymjKNbIVK+zLgZjd+J7urBgL1wXStjmol+QP8hWidczJpP1bJL3vAWqzljkajFckhI+
-	7hWK3Iowa6URSO6s+5VnuVnwAcW5K9oezIVfDcf4zSLHI5T1XHkd8suRFOMU6pGrWCWX
-	bWyw==
-X-Received: by 10.68.196.198 with SMTP id io6mr13050203pbc.65.1360526368187;
-	Sun, 10 Feb 2013 11:59:28 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id o5sm64461654pay.5.2013.02.10.11.59.25
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 10 Feb 2013 11:59:26 -0800 (PST)
-Date: Sun, 10 Feb 2013 20:59:19 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20130210195919.GA3300@jama>
-References: <51079663.60504@topic.nl>
-	<20130129094059.GI16904@jama.palm1.palmone.com>
-	<5107A295.2060307@topic.nl>
-	<CAJTo0LYJ8aza9P0V2X_UszE2yWJjGGacWUstPYeoxF0KcwDYxg@mail.gmail.com>
-	<510B73EB.8060907@topic.nl>
-	<CAJTo0LbkOMXqZkHd-JAcNKxiOmXTy+TXPEEJ-CkPc1Jx3Ujekg@mail.gmail.com>
-	<510BBC3D.1030207@topic.nl> <5116A5DA.90500@topic.nl>
-	<CA+chaQfz1S1H4240eArHGYEc8Dh=ghzyLYVm1Eu8JyBWbgWMvA@mail.gmail.com>
-	<A551BDF323A45B48ACE6A404AA16A1C4127A434C@TOP-EX01.TOPIC.LOCAL>
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=A4AO8rAyjUItk1bJRm3Dz24QHjjpwRs5EpYjNzCSBAw=;
+	b=M2bN5B+4EIJIjxpT/vRXhpdHAa0wLBRII6d4QZq/UsYt3UKD6KTJR3aV2kLz1ThRfw
+	FbztmEn5G0JHpAb2MlHd4ArauSILL2fUdj5rebxMmM66g9nFS5SHuE39GEd2Z1E2FjoD
+	4mPYL398mqRLwn/YrnfJ/6Q0a2iRyr61H3IlTxA9B3OtUuoxXSZP3PKrysq5yzgAWjlF
+	A0uolSVlaOcVwN8g2AjBKhchtld3sJ+ZZVnJHxp3SechotQkBghM56mNimz/jtIqpR2s
+	ikKGuLNQnRICz+txR0Pdb/zvh2UECV0Jo5G/sPnbr8tmozFX0Jn+gyskCfIiHSNK+kMe
+	yzCw==
+X-Received: by 10.112.103.168 with SMTP id fx8mr4966236lbb.32.1360534221723;
+	Sun, 10 Feb 2013 14:10:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <A551BDF323A45B48ACE6A404AA16A1C4127A434C@TOP-EX01.TOPIC.LOCAL>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Sun, 10 Feb 2013 14:10:00 -0800 (PST)
+In-Reply-To: <20130210123255.51643nyx1esfqeck@crashcourse.ca>
+References: <20130210123255.51643nyx1esfqeck@crashcourse.ca>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sun, 10 Feb 2013 15:10:00 -0700
+X-Google-Sender-Auth: IPN2A8vy6eAvQo4AlakAX8FBi-g
+Message-ID: <CABcZANmangf8M-xj6N656LrE-rewBW7jWxrRShSJRvZMhLmV5g@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Multiple MACHINE building is broken in OE-core?
+Subject: Re: any way to list *all* possible sources across the current layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,103 +43,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2013 20:15:26 -0000
-X-Groupsio-MsgNum: 35277
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 10 Feb 2013 22:26:20 -0000
+Content-Type: multipart/alternative; boundary=f46d04016a99fd98a804d5660ee7
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--f46d04016a99fd98a804d5660ee7
+Content-Type: text/plain; charset=UTF-8
+
+On Sun, Feb 10, 2013 at 10:32 AM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
+
+>   hoping this question makes sense -- i use own-mirrors.bbclass to point
+> at a sizable directory of tarballs (almost 12G worth) that i've been
+> collecting over many months and, after every OE layer upgrade, whatever
+> newer sources are pulled in, will generate the corresponding tarball and
+> i'll copy that into my tarballs directory.
+>
+>   predictably, at this point, there's a *lot* of old, irrelevant cruft in
+> that directory, but i know of no automated way to get rid of any of it.
+> for instance, i currently have five versions of automake (1.11.2, 1.12.1,
+> 1.12.3, 1.12.5 and 1.12.6) taking up space.  doesn't hurt, of course, but
+> it would be handy to be able to generate a list of all possible,
+> potentially necessary versions of a source -- that is, any version for
+> which any recipe still lists it as PREFERRED_VERSION.
+>
+>   does that make sense?  obviously, that would have to be done in the
+> context of a given set of layers and all the corresponding recipes in
+> those layers.  is there a way to do that already?  if not, i'm sure i
+> could whip up a simple script that would do the job.  thanks.
+>
+
+You could likely write a class that adds a task which writes the localpaths
+for all sources in SRC_URI to a file, add that to INHERIT, and build that
+task (don't forget to set recrdeptask) for the 'universe' target (like
+world, but hits all versions, iirc).
+-- 
+Christopher Larson
+
+--f46d04016a99fd98a804d5660ee7
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 10, 2013 at 07:02:10PM +0000, Mike Looijmans wrote:
-> This is as far as I get with that:
->=20
-> milo@phenom:/media/work/pliqt/openpli-oe-core/build/tmp/sstate-diff/13605=
-21554$ bitbake-diffsigs */mips32el-oe-linux/*/*.do_build.sigdata.*Dependenc=
-y on task aio-grab.bb.do_package_write was added with hash f5d90bf1c666db00=
-3dd2d94ee76336f9
-> milo@phenom:/media/work/pliqt/openpli-oe-core/build/tmp/sstate-diff/13605=
-21554$ bitbake-diffsigs */mips32el-oe-linux/gcc-runtime/4.7.2-r17.do_build.=
-sigdata.*
-> milo@phenom:/media/work/pliqt/openpli-oe-core/build/tmp/sstate-diff/13605=
-21554$
->=20
-> Any tips on interpreting this further?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Sun, Feb 10, 2013 at 10:32 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse=
+.ca</a>&gt;</span> wrote:<br>
 
-comparing do_build is not so useful, compare those do_package
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":64">=C2=A0 hoping this question =
+makes sense -- i use own-mirrors.bbclass to point<br>
+at a sizable directory of tarballs (almost 12G worth) that i&#39;ve been<br=
+>
+collecting over many months and, after every OE layer upgrade, whatever<br>
+newer sources are pulled in, will generate the corresponding tarball and<br=
+>
+i&#39;ll copy that into my tarballs directory.<br>
+<br>
+=C2=A0 predictably, at this point, there&#39;s a *lot* of old, irrelevant c=
+ruft in<br>
+that directory, but i know of no automated way to get rid of any of it.<br>
+for instance, i currently have five versions of automake (1.11.2, 1.12.1,<b=
+r>
+1.12.3, 1.12.5 and 1.12.6) taking up space. =C2=A0doesn&#39;t hurt, of cour=
+se, but<br>
+it would be handy to be able to generate a list of all possible,<br>
+potentially necessary versions of a source -- that is, any version for<br>
+which any recipe still lists it as PREFERRED_VERSION.<br>
+<br>
+=C2=A0 does that make sense? =C2=A0obviously, that would have to be done in=
+ the<br>
+context of a given set of layers and all the corresponding recipes in<br>
+those layers. =C2=A0is there a way to do that already? =C2=A0if not, i&#39;=
+m sure i<br>
+could whip up a simple script that would do the job. =C2=A0thanks.</div></b=
+lockquote></div><br>You could likely write a class that adds a task which w=
+rites the localpaths for all sources in SRC_URI to a file, add that to INHE=
+RIT, and build that task (don&#39;t forget to set recrdeptask) for the &#39=
+;universe&#39; target (like world, but hits all versions, iirc).<br>
 
-> ________________________________
-> Van: Martin Jansa [martin.jansa@gmail.com]
-> Verzonden: zondag 10 februari 2013 15:55
-> Aan: Mike Looijmans
->=20
-> use sstate-diff-machines.sh
->=20
-> On Sat, Feb 9, 2013 at 8:39 PM, Mike Looijmans <mike.looijmans@topic.nl<m=
-ailto:mike.looijmans@topic.nl>> wrote:
-> On 02/01/2013 01:59 PM, Mike Looijmans wrote:
-> On 02/01/2013 11:29 AM, Burton, Ross wrote:
-> On 1 February 2013 07:51, Mike Looijmans <mike.looijmans@topic.nl<mailto:=
-mike.looijmans@topic.nl>> wrote:
-> A concrete example might help.
->=20
-> Would be glad to comply, if you care to explain what you need. What
-> should I
-> do, which logging to collect (and maybe how)?
->=20
-> To start with just the two machines you are changing between and the
-> packages/tasks that are re-ran.
->=20
-> Well, here's an example of me switching from "vusolo2" to "et9x00" in the=
- current state of OE. I'm migrating this from a year-old or so state of OE-=
-core to the present.
->=20
-> On the "old" system (not "classic" openembedded, just a much older oe-cor=
-e!) switching would result in just immediately building rootfs, and nothing=
- more.
->=20
-> Now when I change MACHINE from one to the other, after just having built,=
- it runs hundreds of tasks, and it takes a few minutes to do all that.
->=20
-> $ export MACHINE=3Det9x00
-> $ bitbake my-image
-> $ export MACHINE=3Dvusolo2
-> $ bitbake my-image > /tmp/bitbake.log
-> $ export MACHINE=3Det9x00
-> $ bitbake my-image > /tmp/bitbake.log
->=20
-> I've attached the two log files.
->=20
-> WHY is it doing all that? None of these packages are machine specific!
-> --
-> Mike Looijmans - Topic Automation
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org<mailto:Openembedded-core@lists.o=
-penembedded.org>
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
->=20
+-- <br>Christopher Larson</div></div>
 
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlEX/BcACgkQN1Ujt2V2gByEOwCffT3704EZAlRsregh1Ulp+1ns
-9L8AniMFMwTKZxcUXNBjvis99IHuuXtD
-=mFDK
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
+--f46d04016a99fd98a804d5660ee7--
