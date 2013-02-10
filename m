@@ -1,25 +1,28 @@
 Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4WTp-0000NG-Tf
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4XWe-0002aS-QI
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 13:58:04 +0100
+	Sun, 10 Feb 2013 15:05:19 +0100
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1ACfr2R027422
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 10 Feb 2013 13:41:54 +0100
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1ADmxBm002392
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Feb 2013 14:49:00 +0100
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U4WED-00075o-8k; Sun, 10 Feb 2013 13:41:53 +0100
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1U4XH9-0003lV-5O
+	for openembedded-core@lists.openembedded.org;
+	Sun, 10 Feb 2013 14:48:59 +0100
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Feb 2013 13:41:47 +0100
-Message-Id: <69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-In-Reply-To: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
+References: <cover.1360332752.git.pfalcon@users.sourceforge.net>
+	<0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon__32328.1499594033$1360345753$gmane$org@users.sourceforge.net>
+Date: Sun, 10 Feb 2013 14:48:58 +0100
+In-Reply-To: <0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon__32328.1499594033$1360345753$gmane$org@users.sourceforge.net>
+	(Paul Sokolovsky's message of "Fri, 8 Feb 2013 19:48:37 +0200")
+Message-ID: <ly4nhkgtyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 X-DSPAM-Result: Innocent
 X-DSPAM-Probability: 0
@@ -28,8 +31,7 @@ X-Spam-Score: -5.3
 X-Spam-Level: -----
 X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.73
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH 2/3] package.bbclass: use oe.path.realpath()
+Subject: Re: [PATCH 1/1] ccache.bbclass: Allow user to override CCACHE_DIR.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,72 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2013 12:58:12 -0000
+X-List-Received-Date: Sun, 10 Feb 2013 14:05:20 -0000
+Content-Type: text/plain
 
-oe.path.realpath() provides are common and more correct implementation
-for resolving symlinks within sysroot. Use it.
+Paul Sokolovsky <pmiscml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-Old implementation suffered from lot of problems; e.g.
+> For example, some users may want to use single cache directory (instead
+> of per-package) with known max size limit, to better control disk usage.
 
-* redundant code
+You change conflicts with
 
-* calls 'os.stat()' which references files on host; this can give wrong
-  results about existing/non-existing and can cause EPERM (instead of
-  the catched ENONENT) exceptions
+| do_clean[cleandirs] += "${CCACHE_DIR}"
 
-* does not deal with special cases like '..' leaving the sysroot.
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes/package.bbclass | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+To use ccache, it is the best to avoid this class completely and to
+remove
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index b10e6f6..a74ec8a 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -741,7 +741,8 @@ python split_and_strip_files () {
-                     continue
- 
-                 try:
--                    s = os.stat(file)
-+                    ltarget = oe.path.realpath(file, dvar, False)
-+                    s = os.lstat(ltarget)
-                 except OSError, (err, strerror):
-                     if err != errno.ENOENT:
-                         raise
-@@ -752,11 +753,6 @@ python split_and_strip_files () {
-                     # If it's a symlink, and points to an ELF file, we capture the readlink target
-                     if os.path.islink(file):
-                         target = os.readlink(file)
--                        if not os.path.isabs(target):
--                            ltarget = os.path.join(os.path.dirname(file), target)
--                        else:
--                            ltarget = target
--
-                         if isELF(ltarget):
-                             #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
-                             symlinks[file] = target
-@@ -1005,14 +1001,12 @@ python package_fixsymlinks () {
-                 rpath = path[len(inst_root):]
-                 pkg_files[pkg].append(rpath)
-                 try:
--                    s = os.stat(path)
-+                    rtarget = oe.path.realpath(path, inst_root, True)
-+                    os.lstat(rtarget)
-                 except OSError, (err, strerror):
-                     if err != errno.ENOENT:
-                         raise
--                    target = os.readlink(path)
--                    if target[0] != '/':
--                        target = os.path.join(os.path.dirname(path)[len(inst_root):], target)
--                    dangling_links[pkg].append(os.path.normpath(target))
-+                    dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
- 
-     newrdepends = {}
-     for pkg in dangling_links:
--- 
-1.7.11.7
+| export CCACHE_DISABLE ??= "${@[0,1][d.getVar('CCACHE', True) == '']}"
 
+from bitbake.conf.
+
+
+Enrico
 
 
