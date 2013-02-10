@@ -1,38 +1,30 @@
-Received: from mail-ea0-f173.google.com ([209.85.215.173])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1U4Is0-0005b1-8V
-	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Feb 2013 23:26:04 +0100
-Received: by mail-ea0-f173.google.com with SMTP id i1so2236106eaa.32
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Feb 2013 14:10:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=hnHREQENl8dqdp4iheLz6gIQ6yzopsNT4Are7MVNVZg=;
-	b=AzPVXXGbpWUPAh2UosTO52SrqRUf/dcmHgFf/35sf5DFVlHBBNdUXFRWXK5dKTbtaW
-	YzZfV5OPB5aqkiY4L4616MNFkF/VlleTOVdiIl6OQOXwEw0IwoaKCmc+mVYwVarz4zBJ
-	/WLp3xH7B03vK/0XZte+Z4YwE+Cn+M8IKZ2yhAV48O0n9teThss+t9n6I/wYW0FHODkW
-	7QchxuNOpRcv1mMPCDbSGJQ/hgpL0a+/8DLjVYAYuuA0M4aPvj78tQ/PDXYsMj7VvPq3
-	ZM06jwqA37dxF+yUiqSg3HVpA80VLmDN5uMatX+N+WOziy/kd2D4kDtRicsOoXpAjlR0
-	Lfhw==
-X-Received: by 10.14.194.4 with SMTP id l4mr31875863een.12.1360447808765;
-	Sat, 09 Feb 2013 14:10:08 -0800 (PST)
-Received: from otp-agherzan-l1.corp.ad.wrs.com
-	(5-13-217-124.residential.rdsnet.ro. [5.13.217.124])
-	by mx.google.com with ESMTPS id k7sm51774853een.8.2013.02.09.14.10.07
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 09 Feb 2013 14:10:08 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Feb 2013 00:09:57 +0200
-Message-Id: <1360447797-10187-3-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1360447797-10187-1-git-send-email-andrei@gherzan.ro>
-References: <1360447797-10187-1-git-send-email-andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQkL6G4b95k4dtvbQbBFwAg83pCh1QBXZlM0u9VWinoZZz5Vhmw5ZQcMG9m5Wp3LZLuNaqZm
-Subject: [PATCH 3/3] udev: PR bump
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U4KeK-0000ES-DV for openembedded-core@lists.openembedded.org;
+	Sun, 10 Feb 2013 01:20:05 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1A08Fah000782; Sun, 10 Feb 2013 00:09:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id JhPPKYWcmZFN; Sun, 10 Feb 2013 00:09:44 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1A09ahH000809
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sun, 10 Feb 2013 00:09:39 GMT
+Message-ID: <1360454631.10722.130.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrei Gherzan <andrei@gherzan.ro>
+Date: Sun, 10 Feb 2013 00:03:51 +0000
+In-Reply-To: <1360431352-29452-1-git-send-email-andrei@gherzan.ro>
+References: <1360431352-29452-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] eglibc: Add missing dependency of gettext-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Feb 2013 22:26:04 -0000
+X-List-Received-Date: Sun, 10 Feb 2013 00:20:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- meta/recipes-core/udev/udev_182.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, 2013-02-09 at 19:35 +0200, Andrei Gherzan wrote:
+> /bin/bash: msgfmt: command not found
+> | make[2]: *** [be.mo] Error 127
+> 
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+>  meta/recipes-core/eglibc/eglibc_2.17.bb |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.17.bb b/meta/recipes-core/eglibc/eglibc_2.17.bb
+> index fb49ac4..03e0ea4 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.17.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.17.bb
+> @@ -1,8 +1,8 @@
+>  require eglibc.inc
+>  
+> -PR = "r3"
+> +PR = "r4"
+>  
+> -DEPENDS += "gperf-native kconfig-frontends-native"
+> +DEPENDS += "gperf-native kconfig-frontends-native gettext-native"
+>  
+>  SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr22064.tar.bz2 \
+>             file://eglibc-svn-arm-lowlevellock-include-tls.patch \
 
-diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
-index 56d412e..42b4d08 100644
---- a/meta/recipes-core/udev/udev_182.bb
-+++ b/meta/recipes-core/udev/udev_182.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- # module-init-tools from kmod_git will provide libkmod runtime
- DEPENDS += "module-init-tools"
--- 
-1.7.9.5
+This will seriously hurt build times :(
+
+I'm not saying this is wrong but I would like to understand how we've
+managed for as long without it...
+
+Cheers,
+
+Richard
 
 
 
