@@ -1,38 +1,40 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4XYQ-0002fl-MR
+	(envelope-from <martin.jansa@gmail.com>) id 1U4YZ6-0004RM-Hd
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 15:06:52 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1ADop3A002555
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Sun, 10 Feb 2013 16:11:37 +0100
+Received: by mail-wg0-f44.google.com with SMTP id dr12so4031306wgb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2013 14:50:52 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1U4XIx-0000PH-0c
-	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 14:50:51 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <e3d21cd567d7d7bf3df4a349265e0400c583962d.1359935562.git.richard.purdie@linuxfoundation.org>
-	<11d3a4a06b141fc8b085baddb2195879fa7b8a03.1359935562.git.richard.purdie@linuxfoundation.org>
-	<ly8v6xhfyh.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Sun, 10 Feb 2013 14:50:51 +0100
-In-Reply-To: <ly8v6xhfyh.fsf@ensc-virt.intern.sigma-chemnitz.de> (Enrico
-	Scholz's message of "Sat, 09 Feb 2013 12:41:42 +0100")
-Message-ID: <lyzjzcffb8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Sun, 10 Feb 2013 06:55:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=XJWN+FMnHSrmX2iSqHc7ZjXWUewhRs04aQzzMQPO52M=;
+	b=yTgz6EMyjt2CYV59fyYZT0c39ahaRl4NPgBjwxHLhREaG45cpNgTUNObNknD91kG6u
+	VmzSFpSjWNsQBPqq5BA8B+Lc6FWI8sPy9S7gHTNjOTdp0DE8QaxIuGYLA1uK/p40e4Ib
+	3Mr/8oAQivPr3v/PfYCUVQ1D3qZKCt8fg89VY3e/9Y36VYlVBIGEAKO1OLhdLIKbUHoB
+	ap5exCmgpe72/1TaEuewHRPh2ZhhCaCKlKpy60ePkKtl89VbXqfKfhhn81yltZqCjs+5
+	Ot1rFZlvO69LD6EDoWjl3indNciGwa6lNzITLdOPG1MIrCimgVNvcZz6cAMB48ejHFUT
+	g7mQ==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH 13/22] package.bbclass: Rewrite split_and_strip_files
+X-Received: by 10.181.12.103 with SMTP id ep7mr11366130wid.12.1360508139588;
+	Sun, 10 Feb 2013 06:55:39 -0800 (PST)
+Received: by 10.194.179.39 with HTTP; Sun, 10 Feb 2013 06:55:39 -0800 (PST)
+In-Reply-To: <5116A5DA.90500@topic.nl>
+References: <51079663.60504@topic.nl>
+	<20130129094059.GI16904@jama.palm1.palmone.com>
+	<5107A295.2060307@topic.nl>
+	<CAJTo0LYJ8aza9P0V2X_UszE2yWJjGGacWUstPYeoxF0KcwDYxg@mail.gmail.com>
+	<510B73EB.8060907@topic.nl>
+	<CAJTo0LbkOMXqZkHd-JAcNKxiOmXTy+TXPEEJ-CkPc1Jx3Ujekg@mail.gmail.com>
+	<510BBC3D.1030207@topic.nl> <5116A5DA.90500@topic.nl>
+Date: Sun, 10 Feb 2013 15:55:39 +0100
+Message-ID: <CA+chaQfz1S1H4240eArHGYEc8Dh=ghzyLYVm1Eu8JyBWbgWMvA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Multiple MACHINE building is broken in OE-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,24 +47,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2013 14:06:53 -0000
-X-List-Received-Date: Sun, 10 Feb 2013 14:06:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 10 Feb 2013 15:11:37 -0000
+Content-Type: multipart/alternative; boundary=f46d0438eddb5fcc2c04d55ffc7c
 
-Enrico Scholz
-<enrico.scholz-wttK6gPy29v+Hn7q9Vec/7NAH6kLmebB@public.gmane.org>
-writes:
+--f46d0438eddb5fcc2c04d55ffc7c
+Content-Type: text/plain; charset=UTF-8
 
-> Causes a regression (resp. triggers the previously hidden bug catched by
-> the os.path.isfile() check):
+use sstate-diff-machines.sh
+
+
+
+On Sat, Feb 9, 2013 at 8:39 PM, Mike Looijmans <mike.looijmans@topic.nl>wrote:
+
+> On 02/01/2013 01:59 PM, Mike Looijmans wrote:
 >
-> ERROR: Error executing a python function in .../org.openembedded.core/meta/recipes-core/systemd/systemd-serialgetty.bb:
-> OSError: [Errno 13] Permission denied: '.../systemd-serialgetty/1.0-r3/package/etc/systemd/system/getty.target.wants/serial-getty-OjP1UEOGd4Fo45MUmRTO9Q@public.gmane.org'
+>> On 02/01/2013 11:29 AM, Burton, Ross wrote:
+>>
+>>> On 1 February 2013 07:51, Mike Looijmans <mike.looijmans@topic.nl>
+>>> wrote:
+>>>
+>>>> A concrete example might help.
+>>>>>
+>>>>
+>>>> Would be glad to comply, if you care to explain what you need. What
+>>>> should I
+>>>> do, which logging to collect (and maybe how)?
+>>>>
+>>>
+>>> To start with just the two machines you are changing between and the
+>>> packages/tasks that are re-ran.
+>>>
+>>
+> Well, here's an example of me switching from "vusolo2" to "et9x00" in the
+> current state of OE. I'm migrating this from a year-old or so state of
+> OE-core to the present.
+>
+> On the "old" system (not "classic" openembedded, just a much older
+> oe-core!) switching would result in just immediately building rootfs, and
+> nothing more.
+>
+> Now when I change MACHINE from one to the other, after just having built,
+> it runs hundreds of tasks, and it takes a few minutes to do all that.
+>
+> $ export MACHINE=et9x00
+> $ bitbake my-image
+> $ export MACHINE=vusolo2
+> $ bitbake my-image > /tmp/bitbake.log
+> $ export MACHINE=et9x00
+> $ bitbake my-image > /tmp/bitbake.log
+>
+> I've attached the two log files.
+>
+> WHY is it doing all that? None of these packages are machine specific!
+> --
+> Mike Looijmans - Topic Automation
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
-I posted a patchset "lib: implemented oe.path.realpath()" which should
-solve this issue.
+--f46d0438eddb5fcc2c04d55ffc7c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">use sstate-diff-machines.sh<br><br></div><div class=3D"gma=
+il_extra"><br><br><div class=3D"gmail_quote">On Sat, Feb 9, 2013 at 8:39 PM=
+, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"mailto:mike.looijmans@top=
+ic.nl" target=3D"_blank">mike.looijmans@topic.nl</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 02/01/2013 01:59 PM, Mi=
+ke Looijmans wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On 02/01/2013 11:29 AM, Burton, Ross wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On 1 February 2013 07:51, Mike Looijmans &lt;<a href=3D"mailto:mike.looijma=
+ns@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a>&gt; wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+A concrete example might help.<br>
+</blockquote>
+<br>
+Would be glad to comply, if you care to explain what you need. What<br>
+should I<br>
+do, which logging to collect (and maybe how)?<br>
+</blockquote>
+<br>
+To start with just the two machines you are changing between and the<br>
+packages/tasks that are re-ran.<br>
+</blockquote></blockquote>
+<br></div>
+Well, here&#39;s an example of me switching from &quot;vusolo2&quot; to &qu=
+ot;et9x00&quot; in the current state of OE. I&#39;m migrating this from a y=
+ear-old or so state of OE-core to the present.<br>
+<br>
+On the &quot;old&quot; system (not &quot;classic&quot; openembedded, just a=
+ much older oe-core!) switching would result in just immediately building r=
+ootfs, and nothing more.<br>
+<br>
+Now when I change MACHINE from one to the other, after just having built, i=
+t runs hundreds of tasks, and it takes a few minutes to do all that.<br>
+<br>
+$ export MACHINE=3Det9x00<br>
+$ bitbake my-image<br>
+$ export MACHINE=3Dvusolo2<br>
+$ bitbake my-image &gt; /tmp/bitbake.log<br>
+$ export MACHINE=3Det9x00<br>
+$ bitbake my-image &gt; /tmp/bitbake.log<br>
+<br>
+I&#39;ve attached the two log files.<br>
+<br>
+WHY is it doing all that? None of these packages are machine specific!<span=
+ class=3D"HOEnZb"><font color=3D"#888888"><br>
+-- <br>
+Mike Looijmans - Topic Automation<br>
+</font></span><br>_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+<br></blockquote></div><br></div>
 
-Enrico
-
-
+--f46d0438eddb5fcc2c04d55ffc7c--
