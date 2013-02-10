@@ -1,26 +1,27 @@
 Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4XWe-0002aS-QI
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4XYQ-0002fl-MR
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 15:05:19 +0100
+	Sun, 10 Feb 2013 15:06:52 +0100
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1ADmxBm002392
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1ADop3A002555
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2013 14:49:00 +0100
+	Sun, 10 Feb 2013 14:50:52 +0100
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1U4XH9-0003lV-5O
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1U4XIx-0000PH-0c
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Feb 2013 14:48:59 +0100
+	Sun, 10 Feb 2013 14:50:51 +0100
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1360332752.git.pfalcon@users.sourceforge.net>
-	<0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon__32328.1499594033$1360345753$gmane$org@users.sourceforge.net>
-Date: Sun, 10 Feb 2013 14:48:58 +0100
-In-Reply-To: <0d914f6415e72c6d9999b0f2f5b3e6c8ec209363.1360332752.git.pfalcon__32328.1499594033$1360345753$gmane$org@users.sourceforge.net>
-	(Paul Sokolovsky's message of "Fri, 8 Feb 2013 19:48:37 +0200")
-Message-ID: <ly4nhkgtyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <e3d21cd567d7d7bf3df4a349265e0400c583962d.1359935562.git.richard.purdie@linuxfoundation.org>
+	<11d3a4a06b141fc8b085baddb2195879fa7b8a03.1359935562.git.richard.purdie@linuxfoundation.org>
+	<ly8v6xhfyh.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Date: Sun, 10 Feb 2013 14:50:51 +0100
+In-Reply-To: <ly8v6xhfyh.fsf@ensc-virt.intern.sigma-chemnitz.de> (Enrico
+	Scholz's message of "Sat, 09 Feb 2013 12:41:42 +0100")
+Message-ID: <lyzjzcffb8.fsf@ensc-virt.intern.sigma-chemnitz.de>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
@@ -31,7 +32,7 @@ X-Spam-Score: -5.3
 X-Spam-Level: -----
 X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH 1/1] ccache.bbclass: Allow user to override CCACHE_DIR.
+Subject: Re: [PATCH 13/22] package.bbclass: Rewrite split_and_strip_files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Feb 2013 14:05:20 -0000
+X-List-Received-Date: Sun, 10 Feb 2013 14:06:53 -0000
+X-List-Received-Date: Sun, 10 Feb 2013 14:06:53 -0000
 Content-Type: text/plain
 
-Paul Sokolovsky <pmiscml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Enrico Scholz
+<enrico.scholz-wttK6gPy29v+Hn7q9Vec/7NAH6kLmebB@public.gmane.org>
 writes:
 
-> For example, some users may want to use single cache directory (instead
-> of per-package) with known max size limit, to better control disk usage.
+> Causes a regression (resp. triggers the previously hidden bug catched by
+> the os.path.isfile() check):
+>
+> ERROR: Error executing a python function in .../org.openembedded.core/meta/recipes-core/systemd/systemd-serialgetty.bb:
+> OSError: [Errno 13] Permission denied: '.../systemd-serialgetty/1.0-r3/package/etc/systemd/system/getty.target.wants/serial-getty-OjP1UEOGd4Fo45MUmRTO9Q@public.gmane.org'
 
-You change conflicts with
-
-| do_clean[cleandirs] += "${CCACHE_DIR}"
-
-
-To use ccache, it is the best to avoid this class completely and to
-remove
-
-| export CCACHE_DISABLE ??= "${@[0,1][d.getVar('CCACHE', True) == '']}"
-
-from bitbake.conf.
+I posted a patchset "lib: implemented oe.path.realpath()" which should
+solve this issue.
 
 
 Enrico
