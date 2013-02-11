@@ -1,34 +1,30 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U4zJf-0002kF-CH
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 20:45:27 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1BJTLfX019676
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 11 Feb 2013 20:29:22 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U4z45-00089R-BI; Mon, 11 Feb 2013 20:29:21 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <CAMKF1sq6HV92LF7QwXcU3TgBV7GNKezPLNxSGyTtCowMahH3jg@mail.gmail.com>
-Date: Mon, 11 Feb 2013 20:29:21 +0100
-In-Reply-To: <CAMKF1sq6HV92LF7QwXcU3TgBV7GNKezPLNxSGyTtCowMahH3jg@mail.gmail.com>
-	(Khem Raj's message of "Mon, 11 Feb 2013 10:29:59 -0800")
-Message-ID: <ly4nhiabu6.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.83
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: package errors
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U52ES-0007ny-M7; Mon, 11 Feb 2013 23:52:23 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1BMeg7X004713; Mon, 11 Feb 2013 22:41:51 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Oj97irsEX4eV; Mon, 11 Feb 2013 22:41:50 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1BMfgUo004922
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 11 Feb 2013 22:41:46 GMT
+Message-ID: <1360622147.6793.78.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 11 Feb 2013 22:35:47 +0000
+In-Reply-To: <2760168.9kFd94gL1F@helios>
+References: <2760168.9kFd94gL1F@helios>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 19:45:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Feb 2013 22:52:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+On Mon, 2013-02-11 at 17:09 +0000, Paul Eggleton wrote:
+> * meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappend
+> This is adding qwt to the qte toolchain. As far as I am concerned this is a 
+> distro policy decision - Qwt is a third-party library that is not part of Qt. 
+> I believe this should be moved to the layers for whichever distros want this.
+> 
+> * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
+> * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
+> These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see this 
+> as a distro policy decision; these should move to the layers for whichever 
+> distros want this. FWIW, this is particularly egregious if you've already 
+> built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
 
-> I am seeing below errors after this commit to OE-Core
->
-> commit f2e16c655286aab465054db6727fa3365bef3124
+If these were implemented as PACKAGECONFIG options, then distros would
+just need to set the appropriate PACKAGECONFIG for the package in the
+distro config and we wouldn't even need the appends...
 
-Sorry; before I committed them I did a small code cleanup and did not
-wait for the results of image builds (changes in package.bbclass cause
-rebuild of whole distribution).
+Cheers,
 
-I posted two patches
+Richard
 
-  lib/oe/path.py: support missing directory components in realpath()
-  package.bbclass: support dangling path components
-
-which should fix it.
-
-
-Enrico
 
 
