@@ -1,34 +1,38 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vb0-f45.google.com ([209.85.212.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U4uqv-0001jE-Qb for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 15:59:30 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1BEnB03007299; Mon, 11 Feb 2013 14:49:11 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aN-DI+dol5yC; Mon, 11 Feb 2013 14:49:11 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1BEn6HR007296
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 11 Feb 2013 14:49:09 GMT
-Message-ID: <1360593792.6793.74.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 11 Feb 2013 14:43:12 +0000
-In-Reply-To: <a32b33801c899dce34b072ad1d9d9ede30e8b598.1360360346.git.ross.burton@intel.com>
-References: <cover.1360360346.git.ross.burton@intel.com>
-	<a32b33801c899dce34b072ad1d9d9ede30e8b598.1360360346.git.ross.burton@intel.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r1BEnB03007299
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] systemd.bbclass: helper class for recipes with systemd units
+	(envelope-from <andrei@gherzan.ro>) id 1U4v4i-0002pA-M1
+	for openembedded-core@lists.openembedded.org;
+	Mon, 11 Feb 2013 16:13:45 +0100
+Received: by mail-vb0-f45.google.com with SMTP id p1so3810850vbi.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Feb 2013 06:57:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:x-originating-ip:in-reply-to:references
+	:from:date:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=IIcN7N+hRD4IxUB2zGPZ6tqGL2L6y9JrIQWWkux8i9I=;
+	b=BHbFObpkbjNO8gR+f1OYjh0lgflbwSjkGw1UP96KHE1Xco1wSa2Up//Kqq39n5QtPU
+	pyoppM229R8Kiq+FJ/rttQLS9p5oTMCXGwpCUrrQsLSM39E3WuHYQ5TxBiFtfNrsFTwS
+	xjqRqHiXLyWPhOtR/in1sCxjUJF9zgkn+7V/ozpzS/uqbBD0ZSQfErAihiCQR9gHOlqr
+	OnrAd36rHG5qEWGGsh7sB+ZBUvmFHwOuVz3qgnq7lLgTPTTFKgWRpaR5YpS+zDodVbSj
+	jfRzn/R3t8RiJ0Rs5/HTztWInkWBOd8RWJkF5YZ67ogWTm/aySwhetYcrcmygVhlPGRH
+	eK0Q==
+X-Received: by 10.58.132.170 with SMTP id ov10mr18735673veb.57.1360594666200; 
+	Mon, 11 Feb 2013 06:57:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.229.195 with HTTP; Mon, 11 Feb 2013 06:57:26 -0800 (PST)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <3827804.EL3IkEV3FJ@helios>
+References: <50D17BD22A23EE4A887974F6B5882038855FB4BE@ALA-MBB.corp.ad.wrs.com>
+	<CAK18fxFaVeETyzWOCK0j3q3iVZUZxygbwoiREPcK-jfbsWNAjg@mail.gmail.com>
+	<3827804.EL3IkEV3FJ@helios>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 11 Feb 2013 16:57:26 +0200
+Message-ID: <CAK18fxFJBGM5=bqy=LJuYff0XbSdpTR5poyHLpCs4ySNFcGBTQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQk9eXA19Pb2X3jPxItFgxNOV0DpdRO0hnrXVIs0Sug1TEFVwX0xqG0CeAlNZN5e3zbucGdz
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [denzil] qt 4.8.0 is not available from source anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,245 +45,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 14:59:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Feb 2013 15:13:46 -0000
+X-List-Received-Date: Mon, 11 Feb 2013 15:13:46 -0000
+Content-Type: multipart/alternative; boundary=047d7b6da8f8c31cd304d5742146
+
+--047d7b6da8f8c31cd304d5742146
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, Feb 11, 2013 at 4:43 PM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
+
+> On Monday 11 February 2013 16:01:10 Andrei Gherzan wrote:
+> > On Mon, Feb 11, 2013 at 3:10 PM, Sarbu, Florin-Ionut (Florin) <
+> > Florin.Sarbu@windriver.com> wrote:
+> > > On Monday, February 11, 2013 02:51 AM Andrei Gherzan wrote:
+> > > >
+> > > > In denzil SRC_URI for qt4.8.0 uses:
+> > > >
+> http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.g
+> > > > z
+> > > >
+> > > >  This source seems to be outdated and replaced by:
+> > > > http://releases.qt-project.org/qt4/source/
+> > > >
+> > > >  The problem is that the new location doesn't include the 4.8.0
+> release.
+> > > >  qt-everywhere-opensource-src-4.6.4.tar.gz
+> > > >  qt-everywhere-opensource-src-4.8.1.tar.gz
+> > > >  qt-everywhere-opensource-src-4.8.2.tar.gz
+> > > >  qt-everywhere-opensource-src-4.8.3.tar.gz
+> > > >  qt-everywhere-opensource-src-4.8.4.tar.gz
+> > > >
+> > > >  So right now qt4 in denzil is not fetch-able anymore.
+> > >
+> > >  Use git
+> >
+> > We are not talking about switching of sources. I want to know why 4.8.0
+> is
+> > not on yocto mirror.
+>
+> It should be there, not sure why it isn't.
+>
+> Michael, could you please upload qt 4.8.0 and anything else downloaded by
+> "bitbake -c fetchall world" for the denzil-7.0.2 release into the mirror?
+>
+>
+Thank you.
+
+-- 
+*Andrei Gherzan*
+m: +40.744.478.414 |  f: +40.31.816.28.12
+
+--047d7b6da8f8c31cd304d5742146
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2013-02-08 at 22:43 +0000, Ross Burton wrote:
-> This class adds postinst/prerm scripts to start/stop/enable/disable the=
- services
-> as relevant, and some magic to ensure the service files are installed.
->=20
-> Based on (but not the same as) the systemd.bbclass in meta-systemd, so =
-thanks to
-> the following for their work there:
->=20
-> Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> Khem Raj <raj.khem@gmail.com>
-> Martin Jansa <Martin.Jansa@gmail.com>
-> Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> Koen Kooi <koen@dominion.thruhere.net>
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/systemd.bbclass |  158 ++++++++++++++++++++++++++++++++++=
-++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 meta/classes/systemd.bbclass
->=20
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclas=
-s
-> new file mode 100644
-> index 0000000..e0ea65c
-> --- /dev/null
-> +++ b/meta/classes/systemd.bbclass
-> @@ -0,0 +1,158 @@
-> +# The list of packages that should have systemd packaging scripts adde=
-d.  For
-> +# each entry, optionally have a SYSTEMD_SERVICE_[package] that lists t=
-he service
-> +# files in this package.  If this variable isn't set, [package].servic=
-e is used.
-> +SYSTEMD_PACKAGES ?=3D "${PN}"
-> +
-> +# Whether to enable or disable the services on installation.
-> +SYSTEMD_AUTO_ENABLE ??=3D "enable"
-> +
-> +# This class will be included in any recipe that supports systemd init=
- scripts,
-> +# even if the systemd DISTRO_FEATURE isn't enabled.  As such don't mak=
-e any
-> +# changes directly but check the DISTRO_FEATURES first.
-> +python __anonymous() {
-> +    if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d=
-):
-> +        d.appendVar("DEPENDS", " systemd-systemctl-native")
-> +        # Set a variable so that update-rcd.bbclass knows we're active=
- and can
-> +        # disable itself.
-> +        d.setVar("SYSTEMD_BBCLASS_ENABLED", "1")
-> +}
-> +systemd_postinst() {
-> +OPTS=3D""
-> +
-> +if [ -n "$D" ]; then
-> +    OPTS=3D"--root=3D$D"
-> +fi
-> +
-> +systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
-> +
-> +if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
-> +    systemctl start ${SYSTEMD_SERVICE}
-> +fi
-> +}
-> +
-> +systemd_prerm() {
-> +if [ -z "$D" ]; then
-> +    systemctl stop ${SYSTEMD_SERVICE}
-> +fi
-> +
-> +systemctl disable ${SYSTEMD_SERVICE}
-> +}
-> +
-> +def systemd_populate_packages(d):
-> +    def get_package_var(d, var, pkg):
-> +        val =3D (d.getVar('%s_%s' % (var, pkg), True) or "").strip()
-> +        if val =3D=3D "":
-> +            val =3D (d.getVar(var, True) or "").strip()
-> +        return val
-> +
-> +
-> +    # Add a runtime dependency on systemd to pkg
-> +    def systemd_add_rdepends(pkg):
-> +        rdepends =3D d.getVar('RDEPENDS_' + pkg, True) or ""
-> +        if not 'systemd' in rdepends.split():
-> +            rdepends =3D '%s %s' % (rdepends, 'systemd')
-> +        d.setVar('RDEPENDS_' + pkg, rdepends)
-> +
-> +
-> +    def systemd_generate_package_scripts(pkg):
-> +        bb.debug(1, 'adding systemd calls to postinst/postrm for %s' %=
- pkg)
-> +
-> +        # Add pkg to the overrides so that it finds the SYSTEMD_SERVIC=
-E_pkg
-> +        # variable.
-> +        localdata =3D d.createCopy()
-> +        localdata.prependVar("OVERRIDES", pkg + ":")
-> +        bb.data.update_data(localdata)
-> +
-> +        postinst =3D d.getVar('pkg_postinst_%s' % pkg, True)
-> +        if not postinst:
-> +            postinst =3D '#!/bin/sh\n'
-> +        postinst +=3D localdata.getVar('systemd_postinst', True)
-> +        d.setVar('pkg_postinst_%s' % pkg, postinst)
-> +
-> +        prerm =3D d.getVar('pkg_prerm_%s' % pkg, True)
-> +        if not prerm:
-> +            prerm =3D '#!/bin/sh\n'
-> +        prerm +=3D localdata.getVar('systemd_prerm', True)
-> +        d.setVar('pkg_prerm_%s' % pkg, prerm)
-> +
-> +
-> +    # Add files to FILES_*-systemd if existent and not already done
-> +    def systemd_append_file(pkg_systemd, file_append):
-> +        appended =3D False
-> +        if os.path.exists(oe.path.join(d.getVar("D", True), file_appen=
-d)):
-> +            var_name =3D "FILES_" + pkg_systemd
-> +            files =3D d.getVar(var_name, False) or ""
-> +            if file_append not in files.split():
-> +                d.appendVar(var_name, " " + file_append)
-> +                appended =3D True
-> +        return appended
-> +
-> +    # Add systemd files to FILES_*-systemd, parse for Also=3D and foll=
-ow recursive
-> +    def systemd_add_files_and_parse(pkg_systemd, path, service, keys):
-> +        # avoid infinite recursion
-> +        if systemd_append_file(pkg_systemd, oe.path.join(path, service=
-)):
-> +            fullpath =3D oe.path.join(d.getVar("D", True), path, servi=
-ce)
-> +            if service.find('.service') !=3D -1:
-> +                # for *.service add *@.service
-> +                service_base =3D service.replace('.service', '')
-> +                systemd_add_files_and_parse(pkg_systemd, path, service=
-_base + '@.service', keys)
-> +            if service.find('.socket') !=3D -1:
-> +                # for *.socket add *.service and *@.service
-> +                service_base =3D service.replace('.socket', '')
-> +                systemd_add_files_and_parse(pkg_systemd, path, service=
-_base + '.service', keys)
-> +                systemd_add_files_and_parse(pkg_systemd, path, service=
-_base + '@.service', keys)
-> +            for key in keys.split():
-> +                # recurse all dependencies found in keys ('Also';'Conf=
-licts';..) and add to files
-> +                cmd =3D "grep %s %s | sed 's,%s=3D,,g' | tr ',' '\\n'"=
- % (key, fullpath, key)
-> +                pipe =3D os.popen(cmd, 'r')
-> +                line =3D pipe.readline()
-> +                while line:
-> +                    line =3D line.replace('\n', '')
-> +                    systemd_add_files_and_parse(pkg_systemd, path, lin=
-e, keys)
-> +                    line =3D pipe.readline()
-> +                pipe.close()
-> +
-> +    # Check service-files and call systemd_add_files_and_parse for eac=
-h entry
-> +    def systemd_check_services():
-> +        base_libdir =3D d.getVar('base_libdir', True)
-> +        searchpaths =3D [oe.path.join(d.getVar("sysconfdir", True), "s=
-ystemd", "system"),]
-> +        searchpaths.append(oe.path.join(d.getVar("base_libdir", True),=
- "systemd", "system"))
-> +        searchpaths.append(oe.path.join(d.getVar("libdir", True), "sys=
-temd", "system"))
-> +        searchpaths.append(oe.path.join(d.getVar("libdir", True), "sys=
-temd", "user"))
-> +        systemd_packages =3D d.getVar('SYSTEMD_PACKAGES', True)
-> +        has_exactly_one_service =3D len(systemd_packages.split()) =3D=3D=
- 1
-> +        if has_exactly_one_service:
-> +            has_exactly_one_service =3D len(get_package_var(d, 'SYSTEM=
-D_SERVICE', systemd_packages).split()) =3D=3D 1
-> +
-> +        keys =3D 'Also' # Conflicts??
-> +        if has_exactly_one_service:
-> +            # single service gets also the /dev/null dummies
-> +            keys =3D 'Also Conflicts'
-> +        # scan for all in SYSTEMD_SERVICE[]
-> +        for pkg_systemd in systemd_packages.split():
-> +            for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_s=
-ystemd).split():
-> +                path_found =3D ''
-> +                for path in searchpaths:
-> +                    if os.path.exists(oe.path.join(d.getVar("D", True)=
-, path, service)):
-> +                        path_found =3D path
-> +                        break
-> +                if path_found !=3D '':
-> +                    systemd_add_files_and_parse(pkg_systemd, path_foun=
-d, service, keys)
-> +                else:
-> +                    raise bb.build.FuncFailed, "\n\nSYSTEMD_SERVICE_%s=
- value %s does not exist" % \
-> +                        (pkg_systemd, service)
-> +
-> +    # Run all modifications once when creating package
-> +    if os.path.exists(d.getVar("D", True)):
-> +        for pkg in d.getVar('SYSTEMD_PACKAGES', True).split():
-> +            if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
-> +                systemd_generate_package_scripts(pkg)
-> +                systemd_add_rdepends(pkg)
-> +        systemd_check_services()
-> +
-> +
-> +python populate_packages_prepend () {
-> +    if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d=
-):
-> +        systemd_populate_packages (d)
-> +}
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Mon, Feb 11, 2013 at 4:43 PM, Paul Eggleton <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.e=
+ggleton@linux.intel.com</a>&gt;</span> wrote:<br>
 
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Monday 11 February 2013=
+ 16:01:10 Andrei Gherzan wrote:<br>
+&gt; On Mon, Feb 11, 2013 at 3:10 PM, Sarbu, Florin-Ionut (Florin) &lt;<br>
+&gt; <a href=3D"mailto:Florin.Sarbu@windriver.com">Florin.Sarbu@windriver.c=
+om</a>&gt; wrote:<br>
+</div><div class=3D"im">&gt; &gt; On Monday, February 11, 2013 02:51 AM And=
+rei Gherzan wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; In denzil SRC_URI for qt4.8.0 uses:<br>
+&gt; &gt; &gt; <a href=3D"http://get.qt.nokia.com/qt/source/qt-everywhere-o=
+pensource-src-${PV}.tar.g" target=3D"_blank">http://get.qt.nokia.com/qt/sou=
+rce/qt-everywhere-opensource-src-${PV}.tar.g</a><br>
+&gt; &gt; &gt; z<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; =A0This source seems to be outdated and replaced by:<br>
+&gt; &gt; &gt; <a href=3D"http://releases.qt-project.org/qt4/source/" targe=
+t=3D"_blank">http://releases.qt-project.org/qt4/source/</a><br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; =A0The problem is that the new location doesn&#39;t include =
+the 4.8.0 release.<br>
+&gt; &gt; &gt; =A0qt-everywhere-opensource-src-4.6.4.tar.gz<br>
+&gt; &gt; &gt; =A0qt-everywhere-opensource-src-4.8.1.tar.gz<br>
+&gt; &gt; &gt; =A0qt-everywhere-opensource-src-4.8.2.tar.gz<br>
+&gt; &gt; &gt; =A0qt-everywhere-opensource-src-4.8.3.tar.gz<br>
+&gt; &gt; &gt; =A0qt-everywhere-opensource-src-4.8.4.tar.gz<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; =A0So right now qt4 in denzil is not fetch-able anymore.<br>
+&gt; &gt;<br>
+</div><div class=3D"im">&gt; &gt; =A0Use git<br>
+&gt;<br>
+&gt; We are not talking about switching of sources. I want to know why 4.8.=
+0 is<br>
+&gt; not on yocto mirror.<br>
+<br>
+</div>It should be there, not sure why it isn&#39;t.<br>
+<br>
+Michael, could you please upload qt 4.8.0 and anything else downloaded by<b=
+r>
+&quot;bitbake -c fetchall world&quot; for the denzil-7.0.2 release into the=
+ mirror?<br><div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></block=
+quote><div><br></div><div style>Thank you.</div><div style><br></div></div>
 
-I know this has been a long time in the works so I'll merge but could
-you follow up with a change:
+-- <br><div dir=3D"ltr"><div style=3D"text-align:center"></div><div style=
+=3D"text-align:center"><div align=3D"left" style=3D"font-family:&#39;Times =
+New Roman&#39;;font-size:medium"><b style=3D"color:rgb(51,51,51);font-famil=
+y:Arial;font-size:small;text-align:center">Andrei Gherzan</b><font face=3D"=
+Arial" color=3D"#333333" size=3D"-1"><br>
 
-PACKAGESPLITFUNCS_prepend =3D "systemd_populate_packages "
+</font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.744.478.41=
+4 | =A0f: +40.31.816.28.12</font><br></div></div></div>
+</div></div>
 
-and just put the=20
-
-oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d) into
-systemd_populate_packages with a return? You'll need to drop the d as a
-parameter and turn it into a python xxxx() { style function. The nice
-thing is this then shows up nicely on the profiles too. I'm aiming to
-stamp out use of populate_packages_prepend entirely.
-
-Cheers,
-
-Richard
-
-
-
+--047d7b6da8f8c31cd304d5742146--
