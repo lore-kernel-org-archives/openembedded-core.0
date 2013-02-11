@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U52xD-0001HE-09
+	(envelope-from <jason.wessel@windriver.com>) id 1U52xC-0001HD-V6
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 12 Feb 2013 00:38:38 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1BNMX2Q014622
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1BNMVSO015396
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2013 15:22:33 -0800 (PST)
+	Mon, 11 Feb 2013 15:22:31 -0800 (PST)
 Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
 	Mon, 11 Feb 2013 15:22:31 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Feb 2013 17:22:28 -0600
-Message-ID: <1360624949-43859-3-git-send-email-jason.wessel@windriver.com>
+Date: Mon, 11 Feb 2013 17:22:27 -0600
+Message-ID: <1360624949-43859-2-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
 References: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/3] populate_sdk_base.bbclass: Improve debugging capabilities for SDK installer
+Subject: [PATCH v2 1/3] relocate_sdk.py: Fix corruption of sdk binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,108 +34,72 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Feb 2013 23:38:46 -0000
-X-List-Received-Date: Mon, 11 Feb 2013 23:38:46 -0000
 Content-Type: text/plain
 
-After having to debug the SDK installer a few times in
-addition to the relocation code the following patch was created
-to improve the capabilities around debugging the SDK installer.
+There are two cases of corruption that the relocate_sdk.py was not correctly
+dealing with.
 
-1) Add a verbose mode -D which set a set -x to see what
-   the SDK installer is doing.
+1) SDK Extras should be left alone
+   Extra external binaries included in an SDK that were linked against the
+   host's version of /usr/lib/ld-so.so should not get a relocation applied.
+   In the case that was discovered these were LSB compliant binaries that
+   already worked on many hosts.
 
-2) Add a mode -S to save the relocation scripts for the purpose
-   of debugging them in conjunction with -D
+2) If the interp section is too small generate an error
+   In the case of the qemu user code, it was using its own .ld file
+   to link the executables which overrides the default in the nativesdk
+   binutils.  This generated host executables which had a interp section
+   that was too small to relocate.
 
-3) Add a mode -R to not execute the relocation scripts for the
-   purpose of debugging the relocations.
+   Now the relocate_sdk.py will print an error and continue on such that
+   the error can be fixed by a developer without having to do the
+   difficult task of debugging why it is crashing or not loading correctly.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/populate_sdk_base.bbclass |   40 +++++++++++++++++++++++++++----
- 1 files changed, 34 insertions(+), 6 deletions(-)
+ scripts/relocate_sdk.py |   15 ++++++++++++---
+ 1 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index c025d40..310b7cf 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -136,7 +136,10 @@ DEFAULT_INSTALL_DIR="${SDKPATH}"
- SUDO_EXEC=""
- target_sdk_dir=""
- answer=""
--while getopts ":yd:" OPT; do
-+relocate=1
-+savescripts=0
-+verbose=0
-+while getopts ":yd:DRS" OPT; do
- 	case $OPT in
- 	y)
- 		answer="Y"
-@@ -145,15 +148,33 @@ while getopts ":yd:" OPT; do
- 	d)
- 		target_sdk_dir=$OPTARG
- 		;;
-+	D)
-+		verbose=1
-+		;;
-+	R)
-+		relocate=0
-+		savescripts=1
-+		;;
-+	S)
-+		savescripts=1
-+		;;
- 	*)
- 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
- 		echo "  -y         Automatic yes to all prompts"
- 		echo "  -d <dir>   Install the SDK to <dir>"
-+		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
-+		echo "  -S         Save relocation scripts"
-+		echo "  -R         Do not relocate executables"
-+		echo "  -D         use set -x to see what is going on"
- 		exit 1
- 		;;
- 	esac
- done
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index 74bb7a5..6f3530d 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -66,7 +66,7 @@ def parse_elf_header():
+     e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx =\
+         hdr_struct.unpack(elf_header[16:hdr_size])
  
-+if [ $verbose = 1 ] ; then
-+	set -x
-+fi
-+
- printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
- if [ "$target_sdk_dir" = "" ]; then
- 	read target_sdk_dir
-@@ -231,10 +252,15 @@ if [ "$dl_path" = "" ] ; then
- 	exit 1
- fi
- executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
--$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
--if [ $? -ne 0 ]; then
--	echo "SDK could not be set up. Relocate script failed. Abort!"
--	exit 1
-+echo "#!/bin/bash" > ${env_setup_script%/*}/relocate_sdk.sh
-+echo exec $SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> ${env_setup_script%/*}/relocate_sdk.sh
-+chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
-+if [ $relocate = 1 ] ; then
-+	${env_setup_script%/*}/relocate_sdk.sh
-+	if [ $? -ne 0 ]; then
-+		echo "SDK could not be set up. Relocate script failed. Abort!"
-+		exit 1
-+	fi
- fi
+-def change_interpreter():
++def change_interpreter(elf_file_name):
+     if arch == 32:
+         ph_struct = struct.Struct("<IIIIIIII")
+     else:
+@@ -89,7 +89,16 @@ def change_interpreter():
+         if p_type == 3:
+             # PT_INTERP section
+             f.seek(p_offset)
+-            dl_path = new_dl_path + "\0" * (p_filesz - len(new_dl_path))
++            dl_path = new_dl_path + "\0"
++            # External SDKs with mixed pre-compiled binaries should not get
++            # relocated so look for some variant of /lib
++            fname = f.read(11)
++            if fname.startswith("/lib/") or fname.startswith("/lib64/") or fname.startswith("/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib64/"):
++                break
++            if (len(dl_path) >= p_memsz):
++                print "ERROR: could not relocate %s, interp size = %i and %i is needed." % (elf_file_name, p_memsz, len(dl_path))
++                break
++            f.seek(p_offset)
+             f.write(dl_path)
+             break
  
- # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
-@@ -249,7 +275,9 @@ echo done
+@@ -199,7 +208,7 @@ for e in executables_list:
+     arch = get_arch()
+     if arch:
+         parse_elf_header()
+-        change_interpreter()
++        change_interpreter(e)
+         change_dl_sysdirs()
  
- # delete the relocating script, so that user is forced to re-run the installer
- # if he/she wants another location for the sdk
--$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
-+if [ $savescripts = 0 ] ; then
-+	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
-+fi
- 
- echo "SDK has been successfully set up and is ready to be used."
- 
+     """ change permissions back """
 -- 
 1.7.1
 
