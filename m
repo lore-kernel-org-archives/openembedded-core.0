@@ -1,39 +1,22 @@
-Received: from mail-we0-f169.google.com ([74.125.82.169])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U4w8J-0004pM-TN
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 17:21:31 +0100
-Received: by mail-we0-f169.google.com with SMTP id t11so5255164wey.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Feb 2013 08:05:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=sKAKT/vU2j35XtgdneFy9DU6LtjAH1KVynOZk8v3NQA=;
-	b=PHDhwJxlOQtMi5jA7Klqo0l/4zvII+RO+wnh5x+VEs7OeqcFCIhrEv7ImT5+0j5Yq/
-	uHoQL2vRqZ/FplZuyzWEKdmc5K8zvTylVQcqeXCnvj4D0hLdeVJt777Y7/LREBaWlAWD
-	5qGKNk3BPvKwaaWokqXxcU2YtPrFrFIxngzrPhF/SANQZX88F83R/R13CjnptjuepWl4
-	MbFPSweiHgalfD/RraQfOiJM2F0wYUNaGtvst+BRGcgVNWLzF86/ZNuc2sAtY8bL/cS2
-	CQIuncgzTtLvR8kJ+T2HdZw7OqiIeG6W3h5VYNOCD8/4PkuzFx+i+neOrfzsZNNZoOLt
-	909A==
-X-Received: by 10.180.107.67 with SMTP id ha3mr17093163wib.2.1360598726950;
-	Mon, 11 Feb 2013 08:05:26 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id q13sm32487856wie.0.2013.02.11.08.05.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Feb 2013 08:05:26 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Feb 2013 16:03:11 +0000
-Message-Id: <27fe822aa3e7bfc8523f9a074c623ee0270cbefa.1360598515.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1360598515.git.ross.burton@intel.com>
-References: <cover.1360598515.git.ross.burton@intel.com>
-In-Reply-To: <cover.1360598515.git.ross.burton@intel.com>
-References: <cover.1360598515.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmaEu5LPOgRjw3fHPBp90nRqAuTNQZnAaRlBtXfaUvXzzCfHQ2ikwYyfYAxefflSE/Ail+9
-Subject: [PATCH 3/3] fontconfig: rename the patches directory
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1U4x7n-0006eP-UJ; Mon, 11 Feb 2013 18:25:04 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Feb 2013 09:09:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,643,1355126400"; d="scan'208";a="261133846"
+Received: from unknown (HELO helios.localnet) ([10.252.120.60])
+	by orsmga001.jf.intel.com with ESMTP; 11 Feb 2013 09:09:02 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 11 Feb 2013 17:09:01 +0000
+Message-ID: <2760168.9kFd94gL1F@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10 (Linux/3.5.0-23-generic; KDE/4.10.0; i686; ; )
+MIME-Version: 1.0
+Subject: RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +29,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 16:21:32 -0000
+X-List-Received-Date: Mon, 11 Feb 2013 17:25:04 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Rename the patches directory to files as we only have one version of fontconfig,
-so the hassle of moving these files every upgrade can be avoided.
+Hi all,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../Add-sysroot-option-to-fc-cache-and-fc-cat.patch                    |    0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-graphics/fontconfig/{fontconfig-2.10.2 => files}/Add-sysroot-option-to-fc-cache-and-fc-cat.patch (100%)
+I'd like to make an attempt to remove all appends and overlayed recipes from 
+the meta-oe layer. As I've said previously, I don't believe meta-oe - as a 
+collection of very useful additional recipes that many wish to be able to use 
+on top of their OE-Core based build configurations - should be making any 
+possibly unexpected changes to those configurations. Any such changes ought to 
+be the province of distro layers alone.
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.10.2/Add-sysroot-option-to-fc-cache-and-fc-cat.patch b/meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
-similarity index 100%
-rename from meta/recipes-graphics/fontconfig/fontconfig-2.10.2/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
-rename to meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
+We've already removed all of the obvious overlayed recipes and the meta-
+systemd split removed most of the pieces that were there for systemd support; 
+there are just a few remaining recipes and appends that need to be dealt with. 
+I'll catalogue these below with my comments.
+
+Currently we have the following overlayed recipes:
+
+* icon-naming-utils: meta-oe has a newer version (0.8.90 vs OE-Core's 0.8.7) 
+and it uses BBCLASSEXTEND rather than OE-Core's native recipe. I would propose 
+to just move the meta-oe version to OE-Core since it appears to be superior.
+
+* libmad: both layers have the same version. The meta-oe version has some 
+slightly different versions of the MIPS compiler flag fix and -fforce-mem removal 
+patches but I think these can be ignored, since the OE-Core versions of these 
+patches have proper headers and are presumably working. The OE-Core version 
+has LICENSE_FLAGS that the meta-oe one doesn't, but is missing an avr32-
+specific optimisation patch that is in the meta-oe version. What would we do 
+with the latter? Is it appropriate to add to the OE-Core recipe?
+
+* tslib: OE-Core has the 1.0 release version, meta-oe has a git recipe that is 
+ahead of 1.0; the OE-Core version has two patches not in the meta-oe version 
+but that both have been merged upstream in the git revision being used in the 
+meta-oe version. There is no newer stable release. What do we do here? Should 
+we ask upstream (Chris) for a new stable release?
+
+* xserver-nodm-init: the two versions are quite distinct. Not sure I 
+understand the full history here but perhaps someone else can fill in the 
+blanks...?
+
+As far as bbappends go we have:
+
+* meta-oe/recipes-core/busybox/busybox_1.20.2.bbappend
+As far as I can tell this just adds an /etc/busybox-syslog.default file 
+containing OPTIONS="-C64" and seems to have been added for systemd support. 
+I'm not sure why this wasn't moved to meta-systemd, but I assume it needs to 
+be merged into OE-Core now that systemd support is being added there... ?
+
+* meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
+Another bbappend apparently for systemd support. Again, this should have been 
+moved to meta-systemd; do we now need to merge it into OE-Core?
+
+* meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappend
+This is adding qwt to the qte toolchain. As far as I am concerned this is a 
+distro policy decision - Qwt is a third-party library that is not part of Qt. 
+I believe this should be moved to the layers for whichever distros want this.
+
+* meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
+* meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
+These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see this 
+as a distro policy decision; these should move to the layers for whichever 
+distros want this. FWIW, this is particularly egregious if you've already 
+built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
+
+* meta-oe/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bbappend
+Builds against external libav instead of using the builtin copy of ffmpeg, 
+apparently for better performance on ARM (and presumably that is not the only 
+benefit). It's less clear to me what should be done with this, but I'd still 
+rather it could be eliminated. OE-Core does not have ffmpeg/libav; one wonders 
+if it should or not.
+
+Thoughts?
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
