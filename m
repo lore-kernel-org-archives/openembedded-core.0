@@ -1,35 +1,28 @@
-Received: from mail-bk0-f45.google.com ([209.85.214.45])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1U4kxi-00070g-K3
+	(envelope-from <anders@chargestorm.se>) id 1U4nQW-0006nF-7o
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 05:26:06 +0100
-Received: by mail-bk0-f45.google.com with SMTP id i18so2432278bkv.18
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Feb 2013 20:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=m6CAW7Nmlik7jzJ3nwMNUvw+9Whgmeb+v3+ONiWrkQo=;
-	b=zfqRB9f6Md/SYZqq9kb0FYs9PXyq/hJEmT9rlCwqli1sH54IoD75kLiKmwcB+vqljc
-	GdZMdYr7ANiy32j5lRJNhTfifEY7jeNkeGNddQ01+laSQxbyIOaX4/ek2Oi0YByT4qGw
-	4IWhGljps4zIqz1Xy1Eh2nn67SovMm+ziKzEKcJ0iOgsNi5tJau2ga+eSMYeMyi1PxKs
-	KfQ/N1TDRCv0RxeN4Be723AdqXKwg4jhp+KHza2rNLlUxhrHNmq6/YLSuVdbIPIF13QY
-	/0jwiEsYOWcJ613MoZEc1lzW3ZU+CcC3XnqMW9RkfGVA8Yz5C+C3ifKRRbH6pqoziiW2
-	12dA==
-X-Received: by 10.204.146.22 with SMTP id f22mr3633640bkv.120.1360555793025;
-	Sun, 10 Feb 2013 20:09:53 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id r17sm12680472bkw.21.2013.02.10.20.09.50
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 10 Feb 2013 20:09:52 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1U4kiD-0007uv-0R; Mon, 11 Feb 2013 06:09:49 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Feb 2013 06:09:46 +0200
-Message-Id: <cover.1360555540.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/6] automake-1.13 fixes (batch 5)
+	Mon, 11 Feb 2013 08:03:45 +0100
+Received: from localhost (193.41.119.134) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Mon, 11 Feb 2013
+	07:47:45 +0100
+Date: Mon, 11 Feb 2013 07:47:45 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20130211064745.GC2424@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <CANge7vX2qS82uF=V5+JTH-Uz3wTV=Zeysg0cRc1+=QEiJjpuww@mail.gmail.com>
+	<CANge7vX=wp8-dvhumsOXuBts9-75FV-C=f=OxQYrEA8tHaPZbg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANge7vX=wp8-dvhumsOXuBts9-75FV-C=f=OxQYrEA8tHaPZbg@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
+Subject: Re: Generating UBIs containing multiple volumes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,57 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 04:26:10 -0000
+X-List-Received-Date: Mon, 11 Feb 2013 07:03:46 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-I'm now using automake-1.13 patched so that AM_CONFIG_HEADER is
-supported. There's no longer patches that merely replace AM_CONFIG_HEADER
-with AC_CONFIG_HEADERS, though I've done that as part of these patches
-when ever applicable.
+* Jon Szymaniak <jon.szymaniak@gmail.com> [130209 00:29]:
+> I see that the image_types.bbclass's IMAGE_CMD_ubi() does the following:
+>   1) Creates a single-volume ubinize.cfg on the fly
+>   2) Runs mkfs.ubifs to create the UBIFS image
+>   3) Run ubinize to create a UBI image
 
- - ML
+> However, I'm currently using a two-volume image: one volume for the
+> rootfs, and one for "user config" as shown in the below ubinize.cfg.
+> I'm considering making some changes to image_types.bbclass to support
+> this and was hoping I could get some feedback and advice.
 
-The following changes since commit adfa83bfa1ccb52b1a5d086aff36fe27271d0e59:
+> [rootfs]
+> mode=ubi
+> image=rootfs.ubifs
+> vol_id=0
+> vol_size=200MiB
+> vol_type=dynamic
+> vol_flags=autoresize
+> vol_name=rootfs
 
-  dbus-native: Don't install dbus-launch (2013-02-08 14:46:13 +0000)
+> [config]
+> mode=ubi
+> image=config.ubifs
+> vol_id=1
+> vol_size=8MiB
+> vol_type=dynamic
+> vol_name=config
 
-are available in the git repository at:
+Looks good sofar.
 
-  git://git.openembedded.org/openembedded-core-contrib cazfi/am13
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/am13
+> I'd planned to stage my config.ubifs with some sane default files via
+> a recipe (e.g., an ubinize invocation in a do_compile). It feels like
+> it might be "bad practice" to have a recipe install config.ubifs
+> (perhaps a name with a timestamp and then a shorthand symlink, as done
+> with existing image files) into $(DEPLOY_DIR_IMAGE}. Any
+> recommendations?
 
-Marko Lindqvist (6):
-  libevent: fix build with automake-1.13
-  texinfo: remove help2man dependency
-  libidn: remove help2man dependency
-  systemtap: replace obsolete automake macros with working ones
-  diffutils: replace obsolete automake macros with working ones
-  gamin: replace obsolete automake macros with working ones
+Not really concerning this. Though, if your recipe actually creates an
+image, then I'd expect to find it it $(DEPLOY_DIR_IMAGE).
 
- .../diffutils-3.2/obsolete_automake_macros.patch   |   14 ++++
- meta/recipes-extended/diffutils/diffutils_3.2.bb   |    6 +-
- .../gamin-0.1.10/obsolete_automake_macros.patch    |   23 ++++++
- meta/recipes-extended/gamin/gamin_0.1.10.bb        |    6 +-
- .../libidn/libidn/dont-depend-on-help2man.patch    |   23 ++++++
- meta/recipes-extended/libidn/libidn_1.26.bb        |    6 +-
- .../texinfo-4.13a/dont-depend-on-help2man.patch    |   79 ++++++++++++++++++++
- meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    3 +-
- .../systemtap/obsolete_automake_macros.patch       |   27 +++++++
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
- .../libevent/libevent-2.0.21/disable_tests.patch   |   15 ++++
- .../libevent-2.0.21/obsolete_automake_macros.patch |   15 ++++
- meta/recipes-support/libevent/libevent_2.0.21.bb   |    7 +-
- 14 files changed, 217 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-extended/gamin/gamin-0.1.10/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-extended/libidn/libidn/dont-depend-on-help2man.patch
- create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/dont-depend-on-help2man.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/libevent/libevent-2.0.21/disable_tests.patch
- create mode 100644 meta/recipes-support/libevent/libevent-2.0.21/obsolete_automake_macros.patch
+I'd probably make sure that the config.ubifs were generated by a special
+image-recipe, thus, I'd be leveraging the standar image creation support
+for doing this. This image would then have an IMAGE_INSTALL that
+included config-$(MACIHINE).bb, or whatever that recipe is called.
+
+> Where would be an appropriate place to keep a custom ubinize.cfg? In
+> my case, it should always remain the same for my MACHINE. However, I'm
+> not certain if this would be always be the case for other folks...
+
+In my own use-case, where I'm creating a ubi-image that includes
+ubi-volumes with a raw kernel in one place, as well as ubi-volumes with
+squashfs-rootfs, etc... What I've done is to create my own
+image_types_cs.bbclass in my own bsp-layer. This class creates by custom
+ubisq-image (which is really an UBI-image more or less as described
+above). This solves the issues nicely for my use-case.
+
+Cheers,
+Anders
 
 -- 
-1.7.10.4
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
