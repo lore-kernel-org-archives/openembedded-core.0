@@ -1,30 +1,26 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U52ES-0007ny-M7; Mon, 11 Feb 2013 23:52:23 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1BMeg7X004713; Mon, 11 Feb 2013 22:41:51 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Oj97irsEX4eV; Mon, 11 Feb 2013 22:41:50 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1BMfgUo004922
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 11 Feb 2013 22:41:46 GMT
-Message-ID: <1360622147.6793.78.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Mon, 11 Feb 2013 22:35:47 +0000
-In-Reply-To: <2760168.9kFd94gL1F@helios>
-References: <2760168.9kFd94gL1F@helios>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: RFC: meta-oe appends and overlayed recipes
+	(envelope-from <jason.wessel@windriver.com>) id 1U52xD-0001HE-09
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 00:38:38 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1BNMX2Q014622
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 11 Feb 2013 15:22:33 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Mon, 11 Feb 2013 15:22:31 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Feb 2013 17:22:28 -0600
+Message-ID: <1360624949-43859-3-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
+References: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH v2 2/3] populate_sdk_base.bbclass: Improve debugging capabilities for SDK installer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,30 +33,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 22:52:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Feb 2013 23:38:46 -0000
+X-List-Received-Date: Mon, 11 Feb 2013 23:38:46 -0000
+Content-Type: text/plain
 
-On Mon, 2013-02-11 at 17:09 +0000, Paul Eggleton wrote:
-> * meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappend
-> This is adding qwt to the qte toolchain. As far as I am concerned this is a 
-> distro policy decision - Qwt is a third-party library that is not part of Qt. 
-> I believe this should be moved to the layers for whichever distros want this.
-> 
-> * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
-> * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
-> These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see this 
-> as a distro policy decision; these should move to the layers for whichever 
-> distros want this. FWIW, this is particularly egregious if you've already 
-> built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
+After having to debug the SDK installer a few times in
+addition to the relocation code the following patch was created
+to improve the capabilities around debugging the SDK installer.
 
-If these were implemented as PACKAGECONFIG options, then distros would
-just need to set the appropriate PACKAGECONFIG for the package in the
-distro config and we wouldn't even need the appends...
+1) Add a verbose mode -D which set a set -x to see what
+   the SDK installer is doing.
 
-Cheers,
+2) Add a mode -S to save the relocation scripts for the purpose
+   of debugging them in conjunction with -D
 
-Richard
+3) Add a mode -R to not execute the relocation scripts for the
+   purpose of debugging the relocations.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/populate_sdk_base.bbclass |   40 +++++++++++++++++++++++++++----
+ 1 files changed, 34 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index c025d40..310b7cf 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -136,7 +136,10 @@ DEFAULT_INSTALL_DIR="${SDKPATH}"
+ SUDO_EXEC=""
+ target_sdk_dir=""
+ answer=""
+-while getopts ":yd:" OPT; do
++relocate=1
++savescripts=0
++verbose=0
++while getopts ":yd:DRS" OPT; do
+ 	case $OPT in
+ 	y)
+ 		answer="Y"
+@@ -145,15 +148,33 @@ while getopts ":yd:" OPT; do
+ 	d)
+ 		target_sdk_dir=$OPTARG
+ 		;;
++	D)
++		verbose=1
++		;;
++	R)
++		relocate=0
++		savescripts=1
++		;;
++	S)
++		savescripts=1
++		;;
+ 	*)
+ 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
+ 		echo "  -y         Automatic yes to all prompts"
+ 		echo "  -d <dir>   Install the SDK to <dir>"
++		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
++		echo "  -S         Save relocation scripts"
++		echo "  -R         Do not relocate executables"
++		echo "  -D         use set -x to see what is going on"
+ 		exit 1
+ 		;;
+ 	esac
+ done
+ 
++if [ $verbose = 1 ] ; then
++	set -x
++fi
++
+ printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
+ if [ "$target_sdk_dir" = "" ]; then
+ 	read target_sdk_dir
+@@ -231,10 +252,15 @@ if [ "$dl_path" = "" ] ; then
+ 	exit 1
+ fi
+ executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
+-$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+-if [ $? -ne 0 ]; then
+-	echo "SDK could not be set up. Relocate script failed. Abort!"
+-	exit 1
++echo "#!/bin/bash" > ${env_setup_script%/*}/relocate_sdk.sh
++echo exec $SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> ${env_setup_script%/*}/relocate_sdk.sh
++chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
++if [ $relocate = 1 ] ; then
++	${env_setup_script%/*}/relocate_sdk.sh
++	if [ $? -ne 0 ]; then
++		echo "SDK could not be set up. Relocate script failed. Abort!"
++		exit 1
++	fi
+ fi
+ 
+ # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
+@@ -249,7 +275,9 @@ echo done
+ 
+ # delete the relocating script, so that user is forced to re-run the installer
+ # if he/she wants another location for the sdk
+-$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
++if [ $savescripts = 0 ] ; then
++	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
++fi
+ 
+ echo "SDK has been successfully set up and is ready to be used."
+ 
+-- 
+1.7.1
 
 
 
