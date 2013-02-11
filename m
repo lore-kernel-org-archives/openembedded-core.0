@@ -1,25 +1,35 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-oa0-f51.google.com ([209.85.219.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U4xiV-0007vP-23
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 19:03:11 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Feb 2013 09:46:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,643,1355126400"; d="scan'208";a="255518451"
-Received: from unknown (HELO [10.255.12.192]) ([10.255.12.192])
-	by azsmga001.ch.intel.com with ESMTP; 11 Feb 2013 09:46:36 -0800
-Message-ID: <51192E7C.5010400@linux.intel.com>
-Date: Mon, 11 Feb 2013 09:46:36 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	(envelope-from <otavio.salvador@gmail.com>)
+	id 1U4xlo-0007zF-DE; Mon, 11 Feb 2013 19:06:25 +0100
+Received: by mail-oa0-f51.google.com with SMTP id h2so6507303oag.38
+	for <multiple recipients>; Mon, 11 Feb 2013 09:50:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=fNuouELcn/Nzu5LwU0tiHcuYAVJmRcoyXM/4mk0h4a4=;
+	b=ihzvNN0OAdPt5sZkg94pzwURYeBmdIDsha+O3lPgySUOtZ6sUK42kYh1h1t0X+OqIl
+	eufS/QtvEEzAQqHWVyuKPbB75KUfEPezjr9mrXw82nyPxG4rsdNDUqwMKfdk3nQa6eN3
+	GfbjiH5I4y7Nyde1HAz8HAS4QhE/SvDM/6GyWcgPt+mh43YGkvBBSs0MYaO7bVp0VBDK
+	WGCMqgS+DlBKl42yk1Ga4xpgZoZkwULk7kbKgU9m64j4QOvRDGXev7LBiRy2jFYvjSxa
+	RQO1Dh4IaZrtEIWu+VNj+foF5Lak8mRsZHx964TIO9TBMMtiilCSpV2X/fA8k51zjRqu
+	vnAA==
 MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1360587708-5044-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1360587708-5044-1-git-send-email-constantinx.musca@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemu: upgrade to 1.3.1
+X-Received: by 10.60.170.44 with SMTP id aj12mr7651501oec.42.1360605025515;
+	Mon, 11 Feb 2013 09:50:25 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.2.197 with HTTP; Mon, 11 Feb 2013 09:50:25 -0800 (PST)
+In-Reply-To: <2760168.9kFd94gL1F@helios>
+References: <2760168.9kFd94gL1F@helios>
+Date: Mon, 11 Feb 2013 15:50:25 -0200
+X-Google-Sender-Auth: plhLkZ4lxFDpX0xP4iVgrdwUdiQ
+Message-ID: <CAP9ODKpa99P4ZKu+JyPXfruLjAV01Oo2G-MTZOc83g0d5JN1uQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,55 +42,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 18:03:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Feb 2013 18:06:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Mon, Feb 11, 2013 at 3:09 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+...
+> Currently we have the following overlayed recipes:
+>
+> * icon-naming-utils: meta-oe has a newer version (0.8.90 vs OE-Core's 0.8.7)
+> and it uses BBCLASSEXTEND rather than OE-Core's native recipe. I would propose
+> to just move the meta-oe version to OE-Core since it appears to be superior.
 
-qhat kind of testing have you done with this update, since qemu is core 
-to our BSPs I want to make sure we have tested it well.
+Agreed.
 
-Thanks
-	Sau!
+> * libmad: both layers have the same version. The meta-oe version has some
+> slightly different versions of the MIPS compiler flag fix and -fforce-mem removal
+> patches but I think these can be ignored, since the OE-Core versions of these
+> patches have proper headers and are presumably working. The OE-Core version
+> has LICENSE_FLAGS that the meta-oe one doesn't, but is missing an avr32-
+> specific optimisation patch that is in the meta-oe version. What would we do
+> with the latter? Is it appropriate to add to the OE-Core recipe?
 
+Well maybe clean it and keep the avr32 specific optimization?
 
-On 02/11/2013 05:01 AM, Constantin Musca wrote:
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> ---
->   meta/recipes-devtools/qemu/{qemu_1.3.0.bb => qemu_1.3.1.bb} | 4 ++--
->   meta/recipes-devtools/qemu/qemu_git.bb                      | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-devtools/qemu/{qemu_1.3.0.bb => qemu_1.3.1.bb} (64%)
+> * tslib: OE-Core has the 1.0 release version, meta-oe has a git recipe that is
+> ahead of 1.0; the OE-Core version has two patches not in the meta-oe version
+> but that both have been merged upstream in the git revision being used in the
+> meta-oe version. There is no newer stable release. What do we do here? Should
+> we ask upstream (Chris) for a new stable release?
+
+It'd be good; in meanwhile we could move meta-oe version to OE-Core.
+
+...
+> As far as bbappends go we have:
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu_1.3.0.bb b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
-> similarity index 64%
-> rename from meta/recipes-devtools/qemu/qemu_1.3.0.bb
-> rename to meta/recipes-devtools/qemu/qemu_1.3.1.bb
-> index 7d007ea..c04b2be 100644
-> --- a/meta/recipes-devtools/qemu/qemu_1.3.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
->                       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
->
->   SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
-> -SRC_URI[md5sum] = "a4030ddd2ba324152a97d65d3c0b247d"
-> -SRC_URI[sha256sum] = "878055ec05bc28fecfe2da97eb8bc992e8635575b67cebdfc5ca1ede171140a8"
-> +SRC_URI[md5sum] = "5dbc6c22f47efca71dfaae0dd80dcf9e"
-> +SRC_URI[sha256sum] = "3772e7ef0c9b4178195edcf90e711f12ba123f465fcf09fb43b56bdacaca0eaf"
->
->   PR = "r0"
-> diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-> index 9465203..328e3bf 100644
-> --- a/meta/recipes-devtools/qemu/qemu_git.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_git.bb
-> @@ -1,6 +1,6 @@
->   require qemu.inc
->
-> -SRCREV = "6d6c9f59ca1b1a76ade7ad868bef191818f58819"
-> +SRCREV = "04024dea2674861fcf13582a77b58130c67fccd8"
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
->                       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
->
+> * meta-oe/recipes-core/busybox/busybox_1.20.2.bbappend
+> As far as I can tell this just adds an /etc/busybox-syslog.default file
+> containing OPTIONS="-C64" and seems to have been added for systemd support.
+> I'm not sure why this wasn't moved to meta-systemd, but I assume it needs to
+> be merged into OE-Core now that systemd support is being added there... ?
+
+Agreed.
+
+> * meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
+> Another bbappend apparently for systemd support. Again, this should have been
+> moved to meta-systemd; do we now need to merge it into OE-Core?
+
+Agreed.
+
+> * meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappend
+> This is adding qwt to the qte toolchain. As far as I am concerned this is a
+> distro policy decision - Qwt is a third-party library that is not part of Qt.
+> I believe this should be moved to the layers for whichever distros want this.
+
+I think people using qte toolchain ought to comment on it.
+
+> * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
+> * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
+> These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see this
+> as a distro policy decision; these should move to the layers for whichever
+> distros want this. FWIW, this is particularly egregious if you've already
+> built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
+
+Yes; I think I agree also because *most* people won't use these
+backends so better to handle this in the specific
+layers/distros/whatever needs it.
+
+> * meta-oe/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bbappend
+> Builds against external libav instead of using the builtin copy of ffmpeg,
+> apparently for better performance on ARM (and presumably that is not the only
+> benefit). It's less clear to me what should be done with this, but I'd still
+> rather it could be eliminated. OE-Core does not have ffmpeg/libav; one wonders
+> if it should or not.
+
+Dropping it would be a regression IMO so we might try to work in a
+solution to OE-Core?
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
