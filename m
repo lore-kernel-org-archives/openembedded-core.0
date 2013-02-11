@@ -1,28 +1,33 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-vc0-f181.google.com ([209.85.220.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1U4nQW-0006nF-7o
+	(envelope-from <andrei@gherzan.ro>) id 1U4rDS-0004JT-FE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Feb 2013 08:03:45 +0100
-Received: from localhost (193.41.119.134) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Mon, 11 Feb 2013
-	07:47:45 +0100
-Date: Mon, 11 Feb 2013 07:47:45 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20130211064745.GC2424@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <CANge7vX2qS82uF=V5+JTH-Uz3wTV=Zeysg0cRc1+=QEiJjpuww@mail.gmail.com>
-	<CANge7vX=wp8-dvhumsOXuBts9-75FV-C=f=OxQYrEA8tHaPZbg@mail.gmail.com>
+	Mon, 11 Feb 2013 12:06:30 +0100
+Received: by mail-vc0-f181.google.com with SMTP id d16so3719261vcd.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Feb 2013 02:50:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:x-originating-ip:from:date:message-id
+	:subject:to:content-type:x-gm-message-state;
+	bh=HOLKpE+vKmO6dHGISwHQSrEmlB4DNSX1FlS5ZLzX24Q=;
+	b=MpL9ZbCnLZ2Tb+yLS42zKGdbAVtp5WVeZEzCIlAJOEIQxryPhD7DiVtEbtWnauxcOw
+	xYdmkxVQIGlv/vLjo7Ir0wlGkBNZmVFUC5sherf/eZZOrhB1UwNqAFPifsdexI6TEAKQ
+	yGSkj15Kza7rTYjcR9H6uK76jsa8wjnsMFGcOYxJo/T31UytG64A6kyqcn81KS+0PRbN
+	ps12tT+i7pXjlSA9f48acJMSk8j3lKkhD6VYOEbEUS5EaySSxYcFXPgKIaqLOKOcfHft
+	mo6ELSF5NhH1fh6zz0Mc1Ns/ohH+wyVav+8NsJYyhkincA5SA6oUg5RLkT0QRR4fh+2P
+	K6sg==
+X-Received: by 10.52.26.229 with SMTP id o5mr9744847vdg.66.1360579832130; Mon,
+	11 Feb 2013 02:50:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANge7vX=wp8-dvhumsOXuBts9-75FV-C=f=OxQYrEA8tHaPZbg@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.20 (2009-12-10)
-X-GFI-SMTP-Submission: 1
-Subject: Re: Generating UBIs containing multiple volumes
+Received: by 10.58.229.195 with HTTP; Mon, 11 Feb 2013 02:50:11 -0800 (PST)
+X-Originating-IP: [89.121.200.106]
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 11 Feb 2013 12:50:11 +0200
+Message-ID: <CAK18fxFg2a-H5ss43PGNzaK4kEsr0igKpg=3o+xLfiKOPUi+yQ@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmmVOHN6QdqNN5nohraPhL4GVyuHDSfBBpyC/dr/AJd8fitdKTJttp/bT8jWBqMe4RS652G
+Subject: [denzil] qt 4.8.0 is not available from source anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,71 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Feb 2013 07:03:46 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 11 Feb 2013 11:06:30 -0000
+Content-Type: multipart/alternative; boundary=20cf3079bd90952ca304d570adb8
 
-* Jon Szymaniak <jon.szymaniak@gmail.com> [130209 00:29]:
-> I see that the image_types.bbclass's IMAGE_CMD_ubi() does the following:
->   1) Creates a single-volume ubinize.cfg on the fly
->   2) Runs mkfs.ubifs to create the UBIFS image
->   3) Run ubinize to create a UBI image
+--20cf3079bd90952ca304d570adb8
+Content-Type: text/plain; charset=ISO-8859-1
 
-> However, I'm currently using a two-volume image: one volume for the
-> rootfs, and one for "user config" as shown in the below ubinize.cfg.
-> I'm considering making some changes to image_types.bbclass to support
-> this and was hoping I could get some feedback and advice.
+In denzil SRC_URI for qt4.8.0 uses:
+http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.gz
 
-> [rootfs]
-> mode=ubi
-> image=rootfs.ubifs
-> vol_id=0
-> vol_size=200MiB
-> vol_type=dynamic
-> vol_flags=autoresize
-> vol_name=rootfs
+This source seems to be outdated and replaced by:
+http://releases.qt-project.org/qt4/source/
 
-> [config]
-> mode=ubi
-> image=config.ubifs
-> vol_id=1
-> vol_size=8MiB
-> vol_type=dynamic
-> vol_name=config
+The problem is that the new location doesn't include the 4.8.0 release.
+qt-everywhere-opensource-src-4.6.4.tar.gz
+qt-everywhere-opensource-src-4.8.1.tar.gz
+qt-everywhere-opensource-src-4.8.2.tar.gz
+qt-everywhere-opensource-src-4.8.3.tar.gz
+qt-everywhere-opensource-src-4.8.4.tar.gz
 
-Looks good sofar.
-
-> I'd planned to stage my config.ubifs with some sane default files via
-> a recipe (e.g., an ubinize invocation in a do_compile). It feels like
-> it might be "bad practice" to have a recipe install config.ubifs
-> (perhaps a name with a timestamp and then a shorthand symlink, as done
-> with existing image files) into $(DEPLOY_DIR_IMAGE}. Any
-> recommendations?
-
-Not really concerning this. Though, if your recipe actually creates an
-image, then I'd expect to find it it $(DEPLOY_DIR_IMAGE).
-
-I'd probably make sure that the config.ubifs were generated by a special
-image-recipe, thus, I'd be leveraging the standar image creation support
-for doing this. This image would then have an IMAGE_INSTALL that
-included config-$(MACIHINE).bb, or whatever that recipe is called.
-
-> Where would be an appropriate place to keep a custom ubinize.cfg? In
-> my case, it should always remain the same for my MACHINE. However, I'm
-> not certain if this would be always be the case for other folks...
-
-In my own use-case, where I'm creating a ubi-image that includes
-ubi-volumes with a raw kernel in one place, as well as ubi-volumes with
-squashfs-rootfs, etc... What I've done is to create my own
-image_types_cs.bbclass in my own bsp-layer. This class creates by custom
-ubisq-image (which is really an UBI-image more or less as described
-above). This solves the issues nicely for my use-case.
-
-Cheers,
-Anders
+So right now qt4 in denzil is not fetch-able anymore.
 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+*Andrei Gherzan*
+m: +40.744.478.414 |  f: +40.31.816.28.12
 
+--20cf3079bd90952ca304d570adb8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">In denzil SRC_URI for qt4.8.0 uses:<div><a href=3D"http://=
+get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.gz">http:=
+//get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.gz</a><=
+/div>
+
+<div><br></div><div>This source seems to be outdated and replaced by:=A0<a =
+href=3D"http://releases.qt-project.org/qt4/source/">http://releases.qt-proj=
+ect.org/qt4/source/</a></div><div><br></div><div style>The problem is that =
+the new location doesn&#39;t include the 4.8.0 release.=A0</div>
+
+<div style><div>qt-everywhere-opensource-src-4.6.4.tar.gz</div><div>qt-ever=
+ywhere-opensource-src-4.8.1.tar.gz<br></div><div>qt-everywhere-opensource-s=
+rc-4.8.2.tar.gz<br></div><div>qt-everywhere-opensource-src-4.8.3.tar.gz<br>
+
+</div><div>qt-everywhere-opensource-src-4.8.4.tar.gz<br></div><div><br></di=
+v><div style>So right now qt4 in denzil is not=A0fetch-able=A0anymore.</div=
+></div><div><div><br></div>-- <br><div dir=3D"ltr"><div style=3D"text-align=
+:center">
+
+</div><div style=3D"text-align:center"><div align=3D"left" style=3D"font-fa=
+mily:&#39;Times New Roman&#39;;font-size:medium"><b style=3D"color:rgb(51,5=
+1,51);font-family:Arial;font-size:small;text-align:center">Andrei Gherzan</=
+b><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>
+
+</font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.744.478.41=
+4 | =A0f: +40.31.816.28.12</font><br></div></div></div>
+</div></div>
+
+--20cf3079bd90952ca304d570adb8--
