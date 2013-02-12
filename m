@@ -1,37 +1,43 @@
-Received: from mail-ve0-f169.google.com ([209.85.128.169])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U5NJG-00049d-JB
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 22:22:48 +0100
-Received: by mail-ve0-f169.google.com with SMTP id 15so508054vea.28
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 13:06:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=6AMcY9b9Qv1paMIrtgeNTSoHa9xCdlCmNX6io97jTQE=;
-	b=NeK8FBtsfMM9RFFuWbkLOA1KeuCEhGPBUrKs8MZ3PbD/FuOsgszUgvojX6VMCVnrwI
-	e6IeGWfhj60g6V1s4EbmPh47+l58fFHg00nTEq67Jn8cxi9GnjeqgZ9VkOn2dFraGP6J
-	yMhmUnAV1Pktt5LrSRYNqyCOzDnfMzNyyiGeG2Pij+7QTrZWtQnAvim/M2RY66XzQ0ce
-	3rREznMu5zCCKHdUCaGTUBXA2WApT/9VukoEOUOuJtdWif0RmCdoiQ7/wd8o7RSVdi9A
-	7h32GyjZHFHduh4kwT99ki7LV0YYwhVvX8KA/5f6PtKIj0wkid/qt3h6nKRMlYDOdcvL
-	TVZA==
-X-Received: by 10.52.23.18 with SMTP id i18mr22249092vdf.46.1360703198303;
-	Tue, 12 Feb 2013 13:06:38 -0800 (PST)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1U5NZ8-0004Si-FB; Tue, 12 Feb 2013 22:39:02 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so212834dak.20
+	for <multiple recipients>; Tue, 12 Feb 2013 13:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=RmWsN1C1i29OzeYzCcTu5jY1zR+KRzRwMiOec8Pc0G4=;
+	b=hEezW6pc3MYobQKqm8sZqzjuwhs5nfj4SU/IHqQnlyHMQPmSXzDoyaAvtWgdlzakCN
+	ZLhAoUj2yP2WUEa5Wo4v85q9d/A6ycI1Eg/ySRLwpgrI2B5oYA0oXqQgoKHFbDWr0F5/
+	0+Omf2ihS8XoR6jXvO6oWqVzQry1gErZScGlFBhSVs0xuAE8LQRvaP8TNEUUtmUhaaV5
+	pg4d1od7kHLVdoyZ/pOjdPQF6FGNOWUDapG87nrFcIbTlBFBPd11Y4ErxoZihfKpnsw9
+	HgtrbIVLGJehQEsZeJB7CC1aUNp1UahgQYWq+aa2w0A3VnyNsviFHxRI2C+hKa1HFWXq
+	/XeQ==
+X-Received: by 10.66.89.226 with SMTP id br2mr56016755pab.57.1360704181469;
+	Tue, 12 Feb 2013 13:23:01 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id t4sm36544277pax.0.2013.02.12.13.22.58
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Feb 2013 13:23:00 -0800 (PST)
+Date: Tue, 12 Feb 2013 22:22:55 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130212212255.GF3300@jama>
+References: <2760168.9kFd94gL1F@helios>
+	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
+	<1906630.s5um26QAQj@helios>
+	<CAP9ODKrOM9bh-MnzQvU29iVwYdRvw4m7DMYZUcMV=wKYJ5Q4bg@mail.gmail.com>
+	<CAJTo0LYFcT5P=p62Nn2kBak33LCfBXQ_KFL-oF2bHFKhguk1rg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Tue, 12 Feb 2013 13:06:18 -0800 (PST)
-In-Reply-To: <CAMKF1srbNA_RLGC06zOC=Y4Av9ZGaL6G+Wk=u05-cCZtuRyMyA@mail.gmail.com>
-References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
-	<C7C45274F728429FA76E2C1C47BACCDC@intel.com>
-	<CAMKF1srbNA_RLGC06zOC=Y4Av9ZGaL6G+Wk=u05-cCZtuRyMyA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Feb 2013 21:06:18 +0000
-Message-ID: <CAJTo0LZY8+eo6BHRfh-3536GK5VaEthrtMPYNGV3u03nBgsyJg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Gm-Message-State: ALoCoQkzM92jDlhwCxQnhEV+3ukuqDJ0UQQTN82Xnv9BXqJy1DjQWEj3rsHWfmI9dyDApooDKASl
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
+In-Reply-To: <CAJTo0LYFcT5P=p62Nn2kBak33LCfBXQ_KFL-oF2bHFKhguk1rg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,21 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 21:22:51 -0000
-X-List-Received-Date: Tue, 12 Feb 2013 21:22:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Feb 2013 21:39:03 -0000
+X-Groupsio-MsgNum: 35396
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IvGM3kKqwtniy32b"
+Content-Disposition: inline
 
-On 12 February 2013 17:35, Khem Raj <raj.khem@gmail.com> wrote:
-> Thinking about it from different perspective, I agree that probably
-> adding an extra package is not right and having unitfiles as part of
-> package proper is fine. but we should definitely have a check where if
-> SYSTEMD_PACKAGES dont exist in PACKAGES then it should error out or
-> warn about it.
+--IvGM3kKqwtniy32b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, throwing an error/warning does make sense, as the alternative
-would be files mysteriously disappearing.  Can you send a patch for
-that?
+On Tue, Feb 12, 2013 at 08:51:25PM +0000, Burton, Ross wrote:
+> On 12 February 2013 16:43, Otavio Salvador <otavio@ossystems.com.br> wrot=
+e:
+> >> Qt Embedded as we build it is currently configured to use tslib, as is
+> >> SDL. If the alternative (evdev?) is supported they could presumably be
+> >> switched over though. I don't know how practical that is however.
+> >
+> > Yes Qt Embedded uses it; not sure evdev is an alternative here.
+>=20
+> I'd be surprised if QtE doesn't support evdev, but I've been surprised
+> a lot recently.  Can you investigate quickly to see if QtE supports
+> evdev?
+>=20
+> As far as X and oe-core is concerned, tslib isn't involve at all
+> anymore.  There are xorg-input-tslib drivers in Debian but they've not
+> been touched for years, the upstream source URL doesn't exist any
+> more, and I'd actually be somewhat surprised if they worked.  Xorg is
+> all about evdev + xinput for touchscreens.
 
-Ross
+Yes, xf86-input-tslib works
+http://git.openembedded.org/meta-openembedded/commit/?id=3D506d5f781f5ee93e=
+3c9b8ca51a7fb65f40d4a8b8
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--IvGM3kKqwtniy32b
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlEasq8ACgkQN1Ujt2V2gBydTgCbB0KlUrkFJKCEotTjphAnjWr1
+wqcAn2xN6PLrhcKDvChGgAf/QztGLo0W
+=/aN4
+-----END PGP SIGNATURE-----
+
+--IvGM3kKqwtniy32b--
