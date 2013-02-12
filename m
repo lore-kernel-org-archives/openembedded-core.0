@@ -1,24 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U5DyN-0008Jq-Vm
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 12:24:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB8SW4022601
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 03:08:29 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 12 Feb 2013 03:08:27 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Feb 2013 05:08:20 -0600
-Message-ID: <1360667303-3650-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH v3 0/3] relocate_sdk.py: improvements
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U5FsR-00038s-6y; Tue, 12 Feb 2013 14:26:45 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1CDG42l022470; Tue, 12 Feb 2013 13:16:13 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id M3rpn0RVxAP0; Tue, 12 Feb 2013 13:16:12 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1CDG4Zs022435
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 12 Feb 2013 13:16:07 GMT
+Message-ID: <1360674605.30425.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Tue, 12 Feb 2013 13:10:05 +0000
+In-Reply-To: <1687588.iZvXQbhphA@helios>
+References: <2760168.9kFd94gL1F@helios> <1360622147.6793.78.camel@ted>
+	<1687588.iZvXQbhphA@helios>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,25 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 11:24:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Feb 2013 13:26:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-New in v3 are all the fixes recommended by Laurentiu Palcu
-  * Fix sudo exec problem
-  * Preserve padding in the .interp section
+On Tue, 2013-02-12 at 09:24 +0000, Paul Eggleton wrote:
+> On Monday 11 February 2013 22:35:47 Richard Purdie wrote:
+> > On Mon, 2013-02-11 at 17:09 +0000, Paul Eggleton wrote:
+> > > *
+> > > meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappe
+> > > nd This is adding qwt to the qte toolchain. As far as I am concerned this
+> > > is a distro policy decision - Qwt is a third-party library that is not
+> > > part of Qt. I believe this should be moved to the layers for whichever
+> > > distros want this.
+> > > 
+> > > * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
+> > > * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
+> > > These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see
+> > > this as a distro policy decision; these should move to the layers for
+> > > whichever distros want this. FWIW, this is particularly egregious if
+> > > you've already built Qt, then add meta-oe and find Qt is being
+> > > unexpectedly rebuilt.
+> > If these were implemented as PACKAGECONFIG options, then distros would
+> > just need to set the appropriate PACKAGECONFIG for the package in the
+> > distro config and we wouldn't even need the appends...
+> 
+> The thing is the Qt configure options are a little more complicated - many of 
+> them are three-state switches (enable built-in, enable as a plugin or 
+> disabled). Thus we've opted to split the configuration options into variables 
+> for each type. We don't get PACKAGECONFIG's DEPENDS handling, but if we used 
+> PACKAGECONFIG we'd lose some flexibility.
 
----
+Is there a way we can at least have it behave in a similar way to
+PACKAGECONFIG? Can those configuration variables be set from the
+distro? 
 
-Now that I have had to debug the SDK relocator on multiple occasions
-I figure it might be nice to get the patches upstreamed.  This last
-time through fixing the python 2.4.x compatibility was very easy
-using the prior two patches to allow me to do so.
+My main point is that I'd like to not need bbappend files just for
+configuration.
 
-The idea here is to increase the portability of the relocator because
-once the SDK is installed/relocated, generally speaking it is working
-well on old and new hosts.
+Cheers,
 
-Thanks,
-Jason.
+Richard
+
+
 
 
