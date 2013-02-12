@@ -1,36 +1,24 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1U5Oo4-0007RZ-Aa
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U5OxM-000829-T3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 23:58:34 +0100
-Received: by mail-ia0-f175.google.com with SMTP id r4so584304iaj.34
+	Wed, 13 Feb 2013 00:08:09 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1CMq82U015395
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 14:42:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=7NRzJvxkmM9+t7i5EK/8DfIyTNrTfYwXoed2Vy8sYFo=;
-	b=egz3eOtvF9YZJNQG5uzO1nThnuklMLe9fCUnWTLYR+7PxnSLi8iaYaI0qtkD3soWeX
-	tCF3YXFOz2OkmedW0tZCzwkPTkFCe71A+5jh7oTZQhUeAHSW+qGxUPZU3ODYbfx2XPr9
-	xAv/9TKA/qkYJpkm9KD3HCo3sV1Q2xSOXL+9XPDFRKtyjuatD7fixWejjQC7+U6Ykof5
-	sFIWqNSBqk9K5I8l9Bc1B9p2g8ukGNiqTWxyki1r2AwVXkBkpK5KjIlTrs2JqVPZc99Z
-	b9rqsxN03PX5wIaxuzv9miG0fnHV2X37BV+eARPXhOR0nUscAZmBPMmsx2ePVQB3kpf2
-	f7pw==
-X-Received: by 10.50.161.130 with SMTP id xs2mr6988457igb.34.1360708951653;
-	Tue, 12 Feb 2013 14:42:31 -0800 (PST)
+	Tue, 12 Feb 2013 14:52:08 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 12 Feb 2013 14:52:07 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Feb 2013 16:52:06 -0600
+Message-ID: <cover.1360709138.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.50.13.204 with HTTP; Tue, 12 Feb 2013 14:42:00 -0800 (PST)
-In-Reply-To: <CAJTo0LZY8+eo6BHRfh-3536GK5VaEthrtMPYNGV3u03nBgsyJg@mail.gmail.com>
-References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
-	<C7C45274F728429FA76E2C1C47BACCDC@intel.com>
-	<CAMKF1srbNA_RLGC06zOC=Y4Av9ZGaL6G+Wk=u05-cCZtuRyMyA@mail.gmail.com>
-	<CAJTo0LZY8+eo6BHRfh-3536GK5VaEthrtMPYNGV3u03nBgsyJg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Feb 2013 14:42:00 -0800
-Message-ID: <CAMKF1sqDkxTFRKKdWgmnV9k99q2ySsuKyxNJaT6=gogY_hk60Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
+Subject: [PATCH 0/1] pseudo 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,15 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 22:58:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Feb 2013 23:08:09 -0000
+Content-Type: text/plain
 
-On Tue, Feb 12, 2013 at 1:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> Yes, throwing an error/warning does make sense, as the alternative
-> would be files mysteriously disappearing.  Can you send a patch for
-> that?
+So, about two days AFTER pseudo 1.4.3 goes in, I finally hit the fairly
+obvious bug in the link/linkat() changes. Summary: In general, if parameter
+names end in 'path' pseudo tries to do automatic path fixups for them.
+This doesn't work well for the *at() functions, because they can need
+magic done with their corresponding file descriptors. So linkat() doesn't
+take already-converted names.
 
-I have something for test.
+link(), however, was using fully-expanded names. And when I converted it
+to just call linkat(), it preserved this behavior. The obvious failure
+is that in a chroot() environment, link() would prepend the chroot path
+twice; once in link(), and once in linkat() which it called.
+
+Fixed in pseudo 1.4.4, retested against the test case. Due to the
+slightly-too-magical way pseudo works, the only actual changes are to
+the names of the parameters of link().
+
+
+The following changes since commit c58e6cf352774e147038e6543ac95ab0060f2327:
+  Anders Roxell (1):
+        distro_check: Remove creation of empty Meego filelist.
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo144
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo144
+
+Peter Seebach (1):
+  pseudo_git.bb: Bump to pseudo 1.4.4.
+
+ .../pseudo/{pseudo_1.4.3.bb => pseudo_1.4.4.bb}    |    4 ++--
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/pseudo/{pseudo_1.4.3.bb => pseudo_1.4.4.bb} (43%)
+
 
 
