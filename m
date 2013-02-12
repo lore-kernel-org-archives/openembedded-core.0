@@ -1,38 +1,54 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1U5JOB-0005xi-AA
+	(envelope-from <B29882@freescale.com>) id 1U5Jgv-0004S2-1S
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 18:11:28 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 9D925D22B4; Tue, 12 Feb 2013 17:54:55 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 3512FD22B4;
-	Tue, 12 Feb 2013 17:54:31 +0100 (CET)
-Message-ID: <511A73C3.9040000@linaro.org>
-Date: Tue, 12 Feb 2013 17:54:27 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+	Tue, 12 Feb 2013 18:31:11 +0100
+Received: from mail5-ch1-R.bigfish.com (10.43.68.226) by
+	CH1EHSOBE011.bigfish.com (10.43.70.61) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 12 Feb 2013 17:14:49 +0000
+Received: from mail5-ch1 (localhost [127.0.0.1])	by mail5-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 34C042001B8;
+	Tue, 12 Feb 2013 17:14:49 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3h947hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h19cehbe9i1155h)
+Received: from mail5-ch1 (localhost.localdomain [127.0.0.1]) by mail5-ch1
+	(MessageSwitch) id 1360689287461185_29946;
+	Tue, 12 Feb 2013 17:14:47 +0000 (UTC)
+Received: from CH1EHSMHS029.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.247])	by mail5-ch1.bigfish.com (Postfix) with ESMTP id
+	6E3893000D5; Tue, 12 Feb 2013 17:14:47 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS029.bigfish.com
+	(10.43.70.29) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 12 Feb 2013 17:14:42 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.48]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0328.011; Tue, 12 Feb 2013 17:14:41 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] libpfm4: exclude from world
+Thread-Index: AQHOCURyZQoRGeL9O0GwN52OSM1rAA==
+Date: Tue, 12 Feb 2013 17:14:41 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A87213C@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <1360247634-10957-1-git-send-email-Martin.Jansa@gmail.com>
+	<51142E1F.1020404@linux.intel.com>
+In-Reply-To: <51142E1F.1020404@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1360679147-24511-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1360686604.30425.41.camel@ted>
-In-Reply-To: <1360686604.30425.41.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] tclibc-eglibc: use glibc-thread-db as eglibc-thread-db does not exist(?)
+X-OriginatorOrg: freescale.com
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libpfm4: exclude from world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -42,31 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 17:11:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Feb 2013 17:31:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <CC151288D7B2B943B96AD215FD9C0D55@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-W dniu 12.02.2013 17:30, Richard Purdie pisze:
-> On Tue, 2013-02-12 at 15:25 +0100, Marcin Juszkiewicz wrote:
->> | Collected errors:
->> |  * satisfy_dependencies_for: Cannot satisfy the following dependencies for packagegroup-core-standalone-hhvm-sdk-target:
->> |  *    eglibc-thread-db *
+On Thu, Feb 7, 2013 at 4:43 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/07/2013 06:33 AM, Martin Jansa wrote:
 >>
->> eglibc-thread-db is listed in LIBC_DEPENDENCIES and used by SDK. Package
->> ends as "libthread-db1" and provides glibc-thread-db.
->>
->> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 >> ---
->>  meta/conf/distro/include/tclibc-eglibc.inc | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Package renaming should take care of this. If it doesn't happen, that is
-> a bug in the package renaming. This just hacks around it.
-> 
-> How do we reproduce this?
+>>   meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+>> b/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+>> index 460029f..438dbc3 100644
+>> --- a/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+>> +++ b/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
+>> @@ -24,3 +24,6 @@ S =3D "${WORKDIR}/libpfm-${PV}"
+>>   do_install () {
+>>         oe_runmake install
+>>   }
+>> +
+>> +# oprofile depends on it only for ppc* and it fails to build on arm
+>> +EXCLUDE_FROM_WORLD =3D "1"
+>>
+>
+> Should it be EXCLUDE_FROM_WORLD or
+>
+> COMPATIBLE_MACHINE=3D "(*ppc*|mpc*)"
+>
+> Since for a ppc world build it would be valid.
 
-In my case "bitbake meta-toolchain" was enough as most of things went
-from sstate-cache. Will do clean build during night.
+We really need COMPATIBLE_ARCH here...
+
+Actually I've found since I tried to upstream my last patches that
+libpfm is only a req for ppc64. I'm going to submit some follow up
+patches once I hear back from the oprofile person I've been chatting
+with
+
+-M=
 
 
 
