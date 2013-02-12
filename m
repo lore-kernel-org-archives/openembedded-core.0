@@ -1,47 +1,29 @@
-Received: from mail-vb0-f52.google.com ([209.85.212.52])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U5OBk-0006Ln-0b
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 23:19:07 +0100
-Received: by mail-vb0-f52.google.com with SMTP id fa15so360313vbb.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 14:02:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=iR16lmyf9WassoQbIi3Pq6wnmKt0wzk+1wcbz4ZTjCw=;
-	b=hC/dFyLb+BJreXlHCR1uYwaYiv5XPApfCMffpwjdVaCGqwcBSUSUox4XGpRdZ24H7s
-	EwyPdC9+dxFeoAUfVXMhv4id+AgQLXSVYgb3h8gkL0gpu8Q4uHinmGgY35H2Ez37+EHO
-	Vd0N5+vbY39BX0Db2TzEXpJt+pUg/lElaY+R8+4rhMW8rivRBixXosipmHmpHCZSbF/R
-	MitgA7ck250seIVVV4YtX2fhn2GEPJVHjClh1jSp9P1ehvPV0lu9orkzauqkPx5QFsf2
-	vsZLyGrKU/0y8F/v7CTFOYmjUtsFHVis9I1rs0MOPLdYYDDyCPfy4Qe/bNaN46yavWoU
-	W1zg==
-X-Received: by 10.58.106.161 with SMTP id gv1mr26111267veb.35.1360706575716;
-	Tue, 12 Feb 2013 14:02:55 -0800 (PST)
+	(envelope-from <jason.wessel@windriver.com>) id 1U5OCL-0006Mc-Hl
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 23:20:15 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CM3Woc005840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Feb 2013 14:03:32 -0800 (PST)
+Received: from [172.25.32.35] (172.25.32.35) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 12 Feb 2013 14:03:31 -0800
+Message-ID: <511ABC32.4000803@windriver.com>
+Date: Tue, 12 Feb 2013 16:03:30 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-Received: by 10.58.95.131 with HTTP; Tue, 12 Feb 2013 14:02:35 -0800 (PST)
-In-Reply-To: <20130212225303.029a2ac9@e6520eb>
-References: <2760168.9kFd94gL1F@helios>
-	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-	<1906630.s5um26QAQj@helios>
-	<CAP9ODKrOM9bh-MnzQvU29iVwYdRvw4m7DMYZUcMV=wKYJ5Q4bg@mail.gmail.com>
-	<CAJTo0LYFcT5P=p62Nn2kBak33LCfBXQ_KFL-oF2bHFKhguk1rg@mail.gmail.com>
-	<20130212212255.GF3300@jama>
-	<CAJTo0LZREeVX7cWLttEvzxSK_VMNPQyZuQqReEMTH-zbHObdLw@mail.gmail.com>
-	<20130212225303.029a2ac9@e6520eb>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Feb 2013 22:02:35 +0000
-Message-ID: <CAJTo0LapvdGaYUu2J9h+=MBJKc7fkfbKc-55oOOgF7+x17sT5g@mail.gmail.com>
-To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-X-Gm-Message-State: ALoCoQmsoYs+R8gIJZjFW+enTXdKroQaK21rj2/tlznxQzrbrQ5UaYpifOIv4m8p+dcY8Yr5IU7f
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembedded-devel@lists.openembedded.org,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
+	<1360705147.30425.70.camel@ted>
+In-Reply-To: <1360705147.30425.70.camel@ted>
+X-Enigmail-Version: 1.5
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,17 +36,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 22:19:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Feb 2013 22:20:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 12 February 2013 21:53, Eric B=C3=A9nard <eric@eukrea.com> wrote:
-> if you have a how-to to get Qt/E 4.x working with evdev, please send it
-> before removing tslib so that we can test it on several boards which
-> are actually running with Qt/E+tslib.
+On 02/12/2013 03:39 PM, Richard Purdie wrote:
+> On Tue, 2013-02-12 at 13:36 -0600, Jason Wessel wrote:
+>> If you never use sstate and always build everything from scratch you
+>> will never see this problem.  However, if you use sstate and build
+>> directories that last a long time eventually you can end up with the
+>> scenario where libtool gets a hard coded path in it for sed, and sed
+>> may not exist.  The reason you don't see this problem to often if you
+>> generally build from scratch is that libtool builds before sed and
+>> will pickup the host's /bin/sed.
+>>
+>> The way to reproduce the issue is:
+>>
+>> bitbake some_image
+>> bitbake -c cleansstate libtool-native
+>> bitbake sed-native
+>> bitbake libtool-native
+>> bitbake -c clean sed-native
+>> bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
+>>
+>> In my case I used modphp, which doesn't exist in the oe-core. You will
+>> end up with a strange looking error like:
+>>
+>> | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+>> | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+>>
+>> The solution is to always use /bin/sed for libtool-native.
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> ---
+>>  .../libtool/libtool-native_2.4.2.bb                |    3 ++-
+>>  1 files changed, 2 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> index f12e6a1..18188ef 100644
+>> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> @@ -2,12 +2,13 @@ require libtool-${PV}.inc
+>>  
+>>  DEPENDS = ""
+>>  
+>> -PR = "${INC_PR}.0"
+>> +PR = "${INC_PR}.1"
+>>  SRC_URI += "file://prefix.patch"
+>>  
+>>  inherit native
+>>  
+>>  EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
+>> +CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
+> Do we have to set a path for it? Can't we rely on PATH being sane? I'm
+> wondering if we should actually set this in the core site files.
+> Hardcoding a path to utilities never usually ends well and this is just
+> the tip of an iceberg.
+>
+> If we have to use a path, "${bindir}/env sed"?
+>
 
-Totally, not regressing badly is a prerequisite.
+The libtool seems to be in a class of its own with respect to internally hard coding things, so I am inclined to say this is a one off because A) it is libtool and B) it is part of the boot strap. For any other packages I have not observed any kind of problem with the sysroot sed vs host provided sed.
 
-Ross
+Unfortunately doing ${bindir}/env sed can lead to a fairly rare race where sed can be there an get removed later because it will prefer the sed in the sysroot area because it is in the path first.  I never hit any of these problems until recently while continuing to just randomly build things with the usual stream of updates from the git repository.
+
+If we want libtool-native to use something other than /bin/sed on the host, the bootstrap needs some kind of overhaul to make libtool depend correctly on sed.  Currently we end up with a circular dependency if you try to make libtool-native depend on sed-native.
+
+Jason.
 
 
