@@ -1,30 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U5DtU-0008Aj-1n
+	(envelope-from <jason.wessel@windriver.com>) id 1U5DyO-0008K1-7I
 	for Openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 12:19:33 +0100
+	Tue, 12 Feb 2013 12:24:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB3M9X026595
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Feb 2013 03:03:22 -0800 (PST)
-Received: from [172.25.32.35] (172.25.32.35) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB8Sso027468
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 12 Feb 2013 03:08:28 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 12 Feb 2013 03:03:22 -0800
-Message-ID: <511A2179.5080005@windriver.com>
-Date: Tue, 12 Feb 2013 05:03:21 -0600
+	Tue, 12 Feb 2013 03:08:27 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Feb 2013 05:08:21 -0600
+Message-ID: <1360667303-3650-2-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1360667303-3650-1-git-send-email-jason.wessel@windriver.com>
+References: <1360667303-3650-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
-	<5119F8A9.8080603@intel.com> <511A1714.7090205@windriver.com>
-	<511A1871.6070109@intel.com>
-In-Reply-To: <511A1871.6070109@intel.com>
-X-Enigmail-Version: 1.5
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/3] relocate_sdk.py: improvements
+Subject: [PATCH v3 1/3] relocate_sdk.py: Fix corruption of sdk binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,22 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 11:19:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Feb 2013 11:24:36 -0000
+X-List-Received-Date: Tue, 12 Feb 2013 11:24:36 -0000
+Content-Type: text/plain
 
-On 02/12/2013 04:24 AM, Laurentiu Palcu wrote:
->
-> On 02/12/2013 12:19 PM, Jason Wessel wrote:
->> For what ever reason I never received the original mails, else I absolutely would have responded.  This is the first response I have received from the oe-core list in months in fact.
-> I believe you... It happened to me too not to receive replies to my own
-> patches. :/
+There are two cases of corruption that the relocate_sdk.py was not correctly
+dealing with.
 
-Hard to say where the mail went other than the black hole.   We too have had black hole issues, but I had always assumed it was on anti-spam filter side with our local mail server.
+1) SDK Extras should be left alone
+   Extra external binaries included in an SDK that were linked against the
+   host's version of /usr/lib/ld-so.so should not get a relocation applied.
+   In the case that was discovered these were LSB compliant binaries that
+   already worked on many hosts.
 
-As a side point it occurred to me that I never answered your other question, which was about what qemu we were using.   At the time I hit the problem with the silent .interp corruption it was the qemu from denzil.  Silent corruption is never fun to find or deal with, we had just ended up with binary that segmentation faulted some of the time.  One time through trying to figure out what the root of the problem was more than enough.  I figured I never wanted anyone else to have to debug that problem again, which the origin of these patches. ;-)
+2) If the interp section is too small generate an error
+   In the case of the qemu user code, it was using its own .ld file
+   to link the executables which overrides the default in the nativesdk
+   binutils.  This generated host executables which had a interp section
+   that was too small to relocate.
 
-Cheers,
-Jason.
+   Now the relocate_sdk.py will print an error and continue on such that
+   the error can be fixed by a developer without having to do the
+   difficult task of debugging why it is crashing or not loading correctly.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ scripts/relocate_sdk.py |   13 +++++++++++--
+ 1 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index 74bb7a5..45d2c24 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -66,7 +66,7 @@ def parse_elf_header():
+     e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx =\
+         hdr_struct.unpack(elf_header[16:hdr_size])
+ 
+-def change_interpreter():
++def change_interpreter(elf_file_name):
+     if arch == 32:
+         ph_struct = struct.Struct("<IIIIIIII")
+     else:
+@@ -89,7 +89,16 @@ def change_interpreter():
+         if p_type == 3:
+             # PT_INTERP section
+             f.seek(p_offset)
++            # External SDKs with mixed pre-compiled binaries should not get
++            # relocated so look for some variant of /lib
++            fname = f.read(11)
++            if fname.startswith("/lib/") or fname.startswith("/lib64/") or fname.startswith("/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib64/"):
++                break
++            if (len(new_dl_path) >= p_filesz):
++                print "ERROR: could not relocate %s, interp size = %i and %i is needed." % (elf_file_name, p_memsz, len(new_dl_path) + 1)
++                break
+             dl_path = new_dl_path + "\0" * (p_filesz - len(new_dl_path))
++            f.seek(p_offset)
+             f.write(dl_path)
+             break
+ 
+@@ -199,7 +208,7 @@ for e in executables_list:
+     arch = get_arch()
+     if arch:
+         parse_elf_header()
+-        change_interpreter()
++        change_interpreter(e)
+         change_dl_sysdirs()
+ 
+     """ change permissions back """
+-- 
+1.7.1
+
 
 
