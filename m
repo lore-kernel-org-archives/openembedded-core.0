@@ -1,35 +1,24 @@
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>)
-	id 1U5Lqn-0001NB-5c; Tue, 12 Feb 2013 20:49:10 +0100
-Received: by mail-lb0-f180.google.com with SMTP id q12so375687lbc.39
-	for <multiple recipients>; Tue, 12 Feb 2013 11:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=V4sexrBGo8h944VqG4VjRsf2MNVW0mxsEeo34Jz7Q/o=;
-	b=yY1nqXVYBG6LfuTJJGFaFSYnV1vIjxGeSUsn7LFX/BhPcOvqYfBibXxN7HGNa0yNT6
-	e4oV/aDzo+cfHEQem7fJlGk7ku2I0RAdMQ16fBbV5VA5YK8Hp/TR7zrS0J8ArMxPRkMQ
-	GBNdB8P0hCK7pycFXm2DuNB/DYnf4xRBF1fzqbUsWWymygdK6y/H9SuElmLyS7SwMb5p
-	IbVn2XRrEcIn9eZ23f/+WuFnj+HXUnBumgP+v+V1OL/ZKFv8lCpiiEH3eVp4Rs8kaiSz
-	iLcrkKzQLEJfp+UHRhwgtUNaW9jhUNcOIgKnNM+VPW0CrWFaur2lfKZFoHRmMg5AV/pE
-	QI7g==
-X-Received: by 10.112.16.137 with SMTP id g9mr7687454lbd.119.1360697589125;
-	Tue, 12 Feb 2013 11:33:09 -0800 (PST)
+	(envelope-from <jason.wessel@windriver.com>) id 1U5LuK-0001Yn-4Y
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 20:52:48 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CJalLg003296
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 12 Feb 2013 11:36:48 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 12 Feb 2013 11:36:46 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Feb 2013 13:36:44 -0600
+Message-ID: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Tue, 12 Feb 2013 11:32:48 -0800 (PST)
-In-Reply-To: <20130212191902.GD3300@jama>
-References: <2760168.9kFd94gL1F@helios> <20130212191902.GD3300@jama>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 12 Feb 2013 12:32:48 -0700
-X-Google-Sender-Auth: 5104lRI0SiWc1CIV4KLc4dKwJ9A
-Message-ID: <CABcZAN=ZXF=mLKzd7EswuFj4FLO5WosnciFUjSLst3uZE38wKA@mail.gmail.com>
-To: Openembedded Discussion <openembedded-devel@lists.openembedded.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+Subject: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,71 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 19:49:12 -0000
-Content-Type: multipart/alternative; boundary=f46d04016fa172535c04d58c1841
+X-List-Received-Date: Tue, 12 Feb 2013 19:52:48 -0000
+Content-Type: text/plain
 
---f46d04016fa172535c04d58c1841
-Content-Type: text/plain; charset=UTF-8
+If you never use sstate and always build everything from scratch you
+will never see this problem.  However, if you use sstate and build
+directories that last a long time eventually you can end up with the
+scenario where libtool gets a hard coded path in it for sed, and sed
+may not exist.  The reason you don't see this problem to often if you
+generally build from scratch is that libtool builds before sed and
+will pickup the host's /bin/sed.
 
-On Tue, Feb 12, 2013 at 12:19 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+The way to reproduce the issue is:
 
-> > * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
-> > * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
-> > These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see
-> this
-> > as a distro policy decision; these should move to the layers for
-> whichever
-> > distros want this. FWIW, this is particularly egregious if you've already
-> > built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
->
-> MySQL and PostgreSQL are not in oe-core so it cannot be replaced with
-> simple PACKAGECONFIG option in oe-core recipe, but I also prefer to
-> share such .bbappend somewhere instead of every distribution reinventing
-> the wheel when trying to enable something as simple as db in qt.
+bitbake some_image
+bitbake -c cleansstate libtool-native
+bitbake sed-native
+bitbake libtool-native
+bitbake -c clean sed-native
+bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
 
+In my case I used modphp, which doesn't exist in the oe-core. You will
+end up with a strange looking error like:
 
-I don't see any reason the oe-core recipe couldn't provide the
-packageconfig options, even missing the dependencies. They are valid
-package configuration options, so they should exist in PACKAGECONFIG. If a
-distro wants to enable one of them, however, they'd better include the
-layers that provide the deps :)
+| make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+| /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+
+The solution is to always use /bin/sed for libtool-native.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ .../libtool/libtool-native_2.4.2.bb                |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+index f12e6a1..18188ef 100644
+--- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
++++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+@@ -2,12 +2,13 @@ require libtool-${PV}.inc
+ 
+ DEPENDS = ""
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ SRC_URI += "file://prefix.patch"
+ 
+ inherit native
+ 
+ EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
++CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
+ 
+ do_configure_prepend () {
+ 	# Remove any existing libtool m4 since old stale versions would break
 -- 
-Christopher Larson
+1.7.1
 
---f46d04016fa172535c04d58c1841
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Feb 12, 2013 at 12:19 PM, Martin Jansa <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.co=
-m</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">&gt; * meta-oe/recipes-qt/=
-qt4/qt4-x11-free_4.8.4.bbappend<br>
-&gt; * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend<br>
-&gt; These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I se=
-e this<br>
-&gt; as a distro policy decision; these should move to the layers for which=
-ever<br>
-&gt; distros want this. FWIW, this is particularly egregious if you&#39;ve =
-already<br>
-&gt; built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.<=
-br>
-<br>
-</div>MySQL and PostgreSQL are not in oe-core so it cannot be replaced with=
-<br>
-simple PACKAGECONFIG option in oe-core recipe, but I also prefer to<br>
-share such .bbappend somewhere instead of every distribution reinventing<br=
->
-the wheel when trying to enable something as simple as db in qt.</blockquot=
-e></div><br>I don&#39;t see any reason the oe-core recipe couldn&#39;t prov=
-ide the packageconfig options, even missing the dependencies. They are vali=
-d package configuration options, so they should exist in PACKAGECONFIG. If =
-a distro wants to enable one of them, however, they&#39;d better include th=
-e layers that provide the deps :)<br>
-
--- <br>Christopher Larson</div></div>
-
---f46d04016fa172535c04d58c1841--
