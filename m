@@ -1,33 +1,33 @@
-Received: from mail-oa0-f52.google.com ([209.85.219.52])
+Received: from mail-oa0-f46.google.com ([209.85.219.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <otavio.salvador@gmail.com>)
-	id 1U5JD5-00036G-1Z; Tue, 12 Feb 2013 18:00:10 +0100
-Received: by mail-oa0-f52.google.com with SMTP id k14so285945oag.25
-	for <multiple recipients>; Tue, 12 Feb 2013 08:43:58 -0800 (PST)
+	id 1U5JE4-0003lF-Ua; Tue, 12 Feb 2013 18:01:03 +0100
+Received: by mail-oa0-f46.google.com with SMTP id k1so295386oag.5
+	for <multiple recipients>; Tue, 12 Feb 2013 08:44:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ooXiPJ5g1cXnFsvM2Ia6BiHPMuWjXsVh/cY4Sh7iFHY=;
-	b=XwPEYdU5m543Lc7ugX6g9umFQDGz5L+C7DM1VKpNr6oZuklaFZI76znMR1L3/EeMFI
-	fVx74bBTUFE5nD/P4BzsMsaewzC7TgnjCmUSF7yyCGeEZLtAqRASNuEOoRP+Qc4Sty+V
-	YUf1h+z7Go1sUbedXAILdf1Ai5/Jf27qWhb/V7riUcE3chgvHvg9EKKQH5ep0qn15kJs
-	JwgMdQ97SXmFQOawNgCU6BGz1XgKfiTX/GrYU4Gsn9+8Leq9ZkIaXHG/wHAqt7g6zLRd
-	1b7wf6I2M97fNyfLf6BeSnjKqm5N25t4vVeTSH7xiH8vcBB9y0C5XbDzpiUlnJTIhFUm
-	2WBw==
+	bh=CXdbr2/HYHXJP1puefWVmsGrcrrNGRJJ03d9QnOnP4o=;
+	b=hh3mFQDnyjl25RmRZvgmbDgNSl7TNX9ZiP1u2Nz908ZbxXEcXEPYYlWi2cvm90BzcH
+	683HIVMoQzPMcN4OyMzV6/QLQx2mrL2hn/4Y9s1obXk0NpjcVMxcmhtAEDdkHyl4zObn
+	JVI5bJN6vuFzrc11VUM2vfzXnOnL0EeBDcvCl3NmQXsMFzQilfZ/f+Wk/YV7xCkM2KsH
+	ZmvUn5PjlUrVX/RDjcPsaEUOaI39kTqV4cus/lpkKDr19X9y6aEIw2Z6Nyzu5mDPWc9X
+	7IbHTg2J6ECA79SyFjD/QhWOU+k1rJ8Gr6CmmDvVifOfFMmFVONt9lKlgy5fFBgOzpWV
+	o12A==
 MIME-Version: 1.0
-X-Received: by 10.60.169.135 with SMTP id ae7mr13649138oec.82.1360687438724;
-	Tue, 12 Feb 2013 08:43:58 -0800 (PST)
+X-Received: by 10.60.171.102 with SMTP id at6mr14398679oec.60.1360687499081;
+	Tue, 12 Feb 2013 08:44:59 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Tue, 12 Feb 2013 08:43:58 -0800 (PST)
-In-Reply-To: <1906630.s5um26QAQj@helios>
+Received: by 10.182.2.197 with HTTP; Tue, 12 Feb 2013 08:44:58 -0800 (PST)
+In-Reply-To: <42BE8E82E93F46829E80D29E6DF4934B@intel.com>
 References: <2760168.9kFd94gL1F@helios>
 	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-	<1906630.s5um26QAQj@helios>
-Date: Tue, 12 Feb 2013 14:43:58 -0200
-X-Google-Sender-Auth: fqTEy7tdRO-Oj14AKQjSSCf-Dtc
-Message-ID: <CAP9ODKrOM9bh-MnzQvU29iVwYdRvw4m7DMYZUcMV=wKYJ5Q4bg@mail.gmail.com>
+	<42BE8E82E93F46829E80D29E6DF4934B@intel.com>
+Date: Tue, 12 Feb 2013 14:44:58 -0200
+X-Google-Sender-Auth: Nqi0LQiUS5vIVvc3NxABTELrmOA
+Message-ID: <CAP9ODKoX7NLK_MYKEFXVCrk-FDg5RKnfZCxpOxXhP52et2jgjg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Ross Burton <ross.burton@intel.com>
 Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -44,87 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 17:00:11 -0000
+X-List-Received-Date: Tue, 12 Feb 2013 17:01:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Feb 12, 2013 at 8:38 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Tuesday 12 February 2013 10:24:50 Burton, Ross wrote:
->> > * tslib: OE-Core has the 1.0 release version, meta-oe has a git recipe
->> > that is ahead of 1.0; the OE-Core version has two patches not in the
->> > meta-oe version but that both have been merged upstream in the git
->> > revision being used in the meta-oe version. There is no newer stable
->> > release. What do we do here? Should we ask upstream (Chris) for a new
->> > stable release?
->>
->> Is anyone actually using tslib these days?  oe-core dropped kdrive,
->> and we don't package the apparently unmaintained input driver for
->> Xorg.  I guess a new upstream would be good, and then move to meta-oe.
->
-> Qt Embedded as we build it is currently configured to use tslib, as is
-> SDL. If the alternative (evdev?) is supported they could presumably be
-> switched over though. I don't know how practical that is however.
-
-Yes Qt Embedded uses it; not sure evdev is an alternative here.
-
->> > * xserver-nodm-init: the two versions are quite distinct. Not sure I
->> > understand the full history here but perhaps someone else can fill in the
->> > blanks...?
->>
->> I don't understand the full history either yet, but this is clearly
->> something that needs to be sorted.
->>
->> > * meta-oe/recipes-core/busybox/busybox_1.20.2.bbappend
->> > As far as I can tell this just adds an /etc/busybox-syslog.default file
->> > containing OPTIONS="-C64" and seems to have been added for systemd
->> > support.
->> > I'm not sure why this wasn't moved to meta-systemd, but I assume it needs
->> > to be merged into OE-Core now that systemd support is being added
->> > there... ?
->> When it's understood *what* that does, then we can evaluate it for oe-core.
->
-> The following commit introduced this:
->
-> http://cgit.openembedded.org/meta-openembedded/commit/?id=c48a6a605c6d8d38cfbc5df39b3dc310bffc07c1
->
-> Otavio can you explain further?
-
-This was to make the service to use the /etc/default/busybox-syslog to
-configure syslog. Today with the availability of journald I not sure
-it still has an use. It might be dropped I think.
-
+On Tue, Feb 12, 2013 at 1:50 PM, Ross Burton <ross.burton@intel.com> wrote:
+> On Tuesday, 12 February 2013 at 10:24, Burton, Ross wrote:
 >> > * meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
->> > Another bbappend apparently for systemd support. Again, this should have
->> > been moved to meta-systemd; do we now need to merge it into OE-Core?
+>> > Another bbappend apparently for systemd support. Again, this should have been
+>> > moved to meta-systemd; do we now need to merge it into OE-Core?
+>>
 >>
 >> Yes, half of it has been merged to master already. The rest should be
 >> in Radu's branch, we can sort that today.
 >
-> OK, great.
->
->> > * meta-oe/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bbappend
->> > Builds against external libav instead of using the builtin copy of ffmpeg,
->> > apparently for better performance on ARM (and presumably that is not the
->> > only benefit). It's less clear to me what should be done with this, but
->> > I'd still rather it could be eliminated. OE-Core does not have
->> > ffmpeg/libav; one wonders if it should or not.
->>
->> libav/gst-ffmpeg/gst-av (as it's called in gst1.0) has interesting
->> legal issues, but I do think it should be in oe-core.
->
-> Well, we already have gst-ffmpeg in OE-Core so I can't imagine libav
-> would be any worse as long as it is similarly protected with
-> LICENSE_FLAGS.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+> I take that back - polkit in oe-core supports systemd if enabled, so this append can be removed.
 
-
+In fact we cannot drop the bbappend or we break the upgrade path
+(except if we bump PR in OE-Core to keep it).
 
 -- 
 Otavio Salvador                             O.S. Systems
