@@ -1,26 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1U5DVo-0007FV-7O; Tue, 12 Feb 2013 11:54:58 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Feb 2013 02:37:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,648,1355126400"; d="scan'208";a="261456255"
-Received: from unknown (HELO helios.localnet) ([10.252.120.87])
-	by orsmga001.jf.intel.com with ESMTP; 12 Feb 2013 02:38:53 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Feb 2013 10:38:52 +0000
-Message-ID: <1906630.s5um26QAQj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10 (Linux/3.5.0-23-generic; KDE/4.10.0; i686; ; )
-In-Reply-To: <CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-References: <2760168.9kFd94gL1F@helios>
-	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
+	(envelope-from <jason.wessel@windriver.com>) id 1U5DtU-0008Aj-1n
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 12:19:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB3M9X026595
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Feb 2013 03:03:22 -0800 (PST)
+Received: from [172.25.32.35] (172.25.32.35) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 12 Feb 2013 03:03:22 -0800
+Message-ID: <511A2179.5080005@windriver.com>
+Date: Tue, 12 Feb 2013 05:03:21 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+References: <1360624949-43859-1-git-send-email-jason.wessel@windriver.com>
+	<5119F8A9.8080603@intel.com> <511A1714.7090205@windriver.com>
+	<511A1871.6070109@intel.com>
+In-Reply-To: <511A1871.6070109@intel.com>
+X-Enigmail-Version: 1.5
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/3] relocate_sdk.py: improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,77 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 10:54:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 Feb 2013 11:19:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 12 February 2013 10:24:50 Burton, Ross wrote:
-> > * tslib: OE-Core has the 1.0 release version, meta-oe has a git recipe
-> > that is ahead of 1.0; the OE-Core version has two patches not in the
-> > meta-oe version but that both have been merged upstream in the git
-> > revision being used in the meta-oe version. There is no newer stable
-> > release. What do we do here? Should we ask upstream (Chris) for a new
-> > stable release?
-> 
-> Is anyone actually using tslib these days?  oe-core dropped kdrive,
-> and we don't package the apparently unmaintained input driver for
-> Xorg.  I guess a new upstream would be good, and then move to meta-oe.
+On 02/12/2013 04:24 AM, Laurentiu Palcu wrote:
+>
+> On 02/12/2013 12:19 PM, Jason Wessel wrote:
+>> For what ever reason I never received the original mails, else I absolutely would have responded.  This is the first response I have received from the oe-core list in months in fact.
+> I believe you... It happened to me too not to receive replies to my own
+> patches. :/
 
-Qt Embedded as we build it is currently configured to use tslib, as is
-SDL. If the alternative (evdev?) is supported they could presumably be
-switched over though. I don't know how practical that is however.
- 
-> > * xserver-nodm-init: the two versions are quite distinct. Not sure I
-> > understand the full history here but perhaps someone else can fill in the
-> > blanks...?
-> 
-> I don't understand the full history either yet, but this is clearly
-> something that needs to be sorted.
-> 
-> > * meta-oe/recipes-core/busybox/busybox_1.20.2.bbappend
-> > As far as I can tell this just adds an /etc/busybox-syslog.default file
-> > containing OPTIONS="-C64" and seems to have been added for systemd
-> > support.
-> > I'm not sure why this wasn't moved to meta-systemd, but I assume it needs
-> > to be merged into OE-Core now that systemd support is being added
-> > there... ?
-> When it's understood *what* that does, then we can evaluate it for oe-core.
+Hard to say where the mail went other than the black hole.   We too have had black hole issues, but I had always assumed it was on anti-spam filter side with our local mail server.
 
-The following commit introduced this:
-
-http://cgit.openembedded.org/meta-openembedded/commit/?id=c48a6a605c6d8d38cfbc5df39b3dc310bffc07c1
-
-Otavio can you explain further?
-
-> > * meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
-> > Another bbappend apparently for systemd support. Again, this should have
-> > been moved to meta-systemd; do we now need to merge it into OE-Core?
-> 
-> Yes, half of it has been merged to master already. The rest should be
-> in Radu's branch, we can sort that today.
-
-OK, great.
-
-> > * meta-oe/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bbappend
-> > Builds against external libav instead of using the builtin copy of ffmpeg,
-> > apparently for better performance on ARM (and presumably that is not the
-> > only benefit). It's less clear to me what should be done with this, but
-> > I'd still rather it could be eliminated. OE-Core does not have
-> > ffmpeg/libav; one wonders if it should or not.
-> 
-> libav/gst-ffmpeg/gst-av (as it's called in gst1.0) has interesting
-> legal issues, but I do think it should be in oe-core.
-
-Well, we already have gst-ffmpeg in OE-Core so I can't imagine libav
-would be any worse as long as it is similarly protected with
-LICENSE_FLAGS.
+As a side point it occurred to me that I never answered your other question, which was about what qemu we were using.   At the time I hit the problem with the silent .interp corruption it was the qemu from denzil.  Silent corruption is never fun to find or deal with, we had just ended up with binary that segmentation faulted some of the time.  One time through trying to figure out what the root of the problem was more than enough.  I figured I never wanted anyone else to have to debug that problem again, which the origin of these patches. ;-)
 
 Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Jason.
 
 
