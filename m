@@ -1,43 +1,29 @@
-Received: from mail-oa0-f52.google.com ([209.85.219.52])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1U5NqG-0005AX-9L; Tue, 12 Feb 2013 22:56:46 +0100
-Received: by mail-oa0-f52.google.com with SMTP id k14so593505oag.39
-	for <multiple recipients>; Tue, 12 Feb 2013 13:40:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=2P2JksWGPwzeCY8JKJxg+TivmsA+XMEoOydGMYTaSC4=;
-	b=zitpgFTQHHn0lw2COYFg+va3Iih83RXpzeD6DKrmTv6Tnv885U0gS7QltzMzgwo7Bf
-	u9LTYuaTdzGEDmUh/tiZmj5ZrxAUmzMb2eRJQ+CIlcvHfYNnHviqE8KD95BS5L1e1Fpf
-	gLfLY4jtLiXCZIiItihedAHzxSOI/Zjh05dqqRkFyC8vFsau9x5IJdfw4JgJfVqsx4gY
-	s2ZIelYkz9eYNhsJflV8r4+cR/PX5GL654dPgiDCoUkmzJo+aJaVWW+AzCCsNjFWVU11
-	VNXdZ0dNHRa4cfhwjVc2An8S8Yvr9HH52WKMApJDJs9GwJanSkHSVUunfVOPmOjY9Shd
-	fx2A==
+	(envelope-from <mark.hatle@windriver.com>) id 1U5NvC-0005na-QF
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 23:01:51 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CLjoDu005630
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Feb 2013 13:45:50 -0800 (PST)
+Received: from msp-dhcp44.wrs.com (172.25.34.44) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 12 Feb 2013 13:45:49 -0800
+Message-ID: <511AB804.40704@windriver.com>
+Date: Tue, 12 Feb 2013 15:45:40 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Received: by 10.60.169.135 with SMTP id ae7mr14387914oec.82.1360705243786;
-	Tue, 12 Feb 2013 13:40:43 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Tue, 12 Feb 2013 13:40:43 -0800 (PST)
-In-Reply-To: <CAJTo0LZREeVX7cWLttEvzxSK_VMNPQyZuQqReEMTH-zbHObdLw@mail.gmail.com>
-References: <2760168.9kFd94gL1F@helios>
-	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-	<1906630.s5um26QAQj@helios>
-	<CAP9ODKrOM9bh-MnzQvU29iVwYdRvw4m7DMYZUcMV=wKYJ5Q4bg@mail.gmail.com>
-	<CAJTo0LYFcT5P=p62Nn2kBak33LCfBXQ_KFL-oF2bHFKhguk1rg@mail.gmail.com>
-	<20130212212255.GF3300@jama>
-	<CAJTo0LZREeVX7cWLttEvzxSK_VMNPQyZuQqReEMTH-zbHObdLw@mail.gmail.com>
-Date: Tue, 12 Feb 2013 19:40:43 -0200
-X-Google-Sender-Auth: ZgNCs41wzQugf2vt4IVzyBgE-6A
-Message-ID: <CAP9ODKp5ugCq=unrxdmzdrgvRYZKb=mKqRFc=44+tBkCd78vHQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+To: <openembedded-core@lists.openembedded.org>
+References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
+	<1360705147.30425.70.camel@ted>
+In-Reply-To: <1360705147.30425.70.camel@ted>
+Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,28 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 21:56:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 12 Feb 2013 22:01:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 12, 2013 at 7:36 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 12 February 2013 21:22, Martin Jansa <martin.jansa@gmail.com> wrote:
->> Yes, xf86-input-tslib works
->> http://git.openembedded.org/meta-openembedded/commit/?id=506d5f781f5ee93e3c9b8ca51a7fb65f40d4a8b8
+On 2/12/13 3:39 PM, Richard Purdie wrote:
+> On Tue, 2013-02-12 at 13:36 -0600, Jason Wessel wrote:
+>> If you never use sstate and always build everything from scratch you
+>> will never see this problem.  However, if you use sstate and build
+>> directories that last a long time eventually you can end up with the
+>> scenario where libtool gets a hard coded path in it for sed, and sed
+>> may not exist.  The reason you don't see this problem to often if you
+>> generally build from scratch is that libtool builds before sed and
+>> will pickup the host's /bin/sed.
+>>
+>> The way to reproduce the issue is:
+>>
+>> bitbake some_image
+>> bitbake -c cleansstate libtool-native
+>> bitbake sed-native
+>> bitbake libtool-native
+>> bitbake -c clean sed-native
+>> bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
+>>
+>> In my case I used modphp, which doesn't exist in the oe-core. You will
+>> end up with a strange looking error like:
+>>
+>> | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+>> | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+>>
+>> The solution is to always use /bin/sed for libtool-native.
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> ---
+>>   .../libtool/libtool-native_2.4.2.bb                |    3 ++-
+>>   1 files changed, 2 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> index f12e6a1..18188ef 100644
+>> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> @@ -2,12 +2,13 @@ require libtool-${PV}.inc
+>>
+>>   DEPENDS = ""
+>>
+>> -PR = "${INC_PR}.0"
+>> +PR = "${INC_PR}.1"
+>>   SRC_URI += "file://prefix.patch"
+>>
+>>   inherit native
+>>
+>>   EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
+>> +CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
 >
-> [ surprised face ]
+> Do we have to set a path for it? Can't we rely on PATH being sane? I'm
+> wondering if we should actually set this in the core site files.
+> Hardcoding a path to utilities never usually ends well and this is just
+> the tip of an iceberg.
 >
-> You totally should push those tarballs to a git repo on fd.o,
-> pengutronix has clearly abandoned it.
->
-> In a harsh mood (its 2130 and I'm working) I'm leaning towards making
-> tslib a packageconfig for qte, and moving tslib into meta-oe...
+> If we have to use a path, "${bindir}/env sed"?
 
-Not if qte does not support evdev; this needs to be checked first or
-it'll be a regression.
+We considered this.  The problem w/ using env to call sed is there is a small 
+window where the sed-native is being constructed, that we can have a failure.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
