@@ -1,43 +1,25 @@
-Received: from mail-ea0-f171.google.com ([209.85.215.171])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1U5CBp-0004Xs-Gp
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 10:30:19 +0100
-Received: by mail-ea0-f171.google.com with SMTP id c13so51669eaa.16
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 01:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=jQZkBL4i9QNH4nS6S9nCD5QZAb4/3ZzA43VZitoHl8U=;
-	b=xPe2xHsYaRgTlfs6znNUjL4RWOEOktaf1sz6LGjnwrxaEpdZ6mDEjE6kEd0Elb4Cj1
-	g3J8Z0b70z3CxjzR8xnEyUougyZy1UlsLQjpYzYwhPSUYUsndZ1sez/i8na+cbdz58xq
-	B89XBYS7FqyuZbfwm42r8EAuXa4Xdda7yxhZ3TuIh1ggr61WjJfdMFg2+zUmUZ0KoHq+
-	trX9GPMZ1dOS/WOWyeaG4S+5A3s69XztkJJz+fY8BvA8Bml2NeCrZDArNI/Soc8Oi2Xo
-	BrEuQEjNeQt+gnI6Xy62/1zskxjzSWggBQP2qVx8UXwauPeBzfWpHa7QUs0KIHf0rADJ
-	06kg==
-X-Received: by 10.14.193.198 with SMTP id k46mr60067617een.40.1360660454380;
-	Tue, 12 Feb 2013 01:14:14 -0800 (PST)
-Received: from s42.loc (91-119-218-53.dynamic.xdsl-line.inode.at.
-	[91.119.218.53])
-	by mx.google.com with ESMTPS id a1sm41428871eep.2.2013.02.12.01.14.12
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 12 Feb 2013 01:14:12 -0800 (PST)
-Received: from cow by s42.loc with local (Exim 4.80)
-	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1U5BwI-0005Jc-LC; Tue, 12 Feb 2013 10:14:10 +0100
-Date: Tue, 12 Feb 2013 10:14:09 +0100
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130212091409.GA20419@mx.loc>
-References: <cover.1360079373.git.rep.dot.nop@gmail.com>
-	<c4bfd1da6209da458cb0944a719801346f300dd9.1360079373.git.rep.dot.nop@gmail.com>
-	<5119D737.3000309@linux.intel.com>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1U5CMB-0004pJ-Sr; Tue, 12 Feb 2013 10:41:02 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2013 01:24:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,648,1355126400"; d="scan'208";a="284605214"
+Received: from unknown (HELO helios.localnet) ([10.252.120.87])
+	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2013 01:24:54 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 12 Feb 2013 09:24:53 +0000
+Message-ID: <1687588.iZvXQbhphA@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10 (Linux/3.5.0-23-generic; KDE/4.10.0; i686; ; )
+In-Reply-To: <1360622147.6793.78.camel@ted>
+References: <2760168.9kFd94gL1F@helios> <1360622147.6793.78.camel@ted>
 MIME-Version: 1.0
-In-Reply-To: <5119D737.3000309@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/8] busybox: add ifup's ifstate dir to package
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: RFC: meta-oe appends and overlayed recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,45 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 09:30:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 Feb 2013 09:41:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 11, 2013 at 09:46:31PM -0800, Saul Wold wrote:
->On 02/05/2013 07:55 AM, Bernhard Reutner-Fischer wrote:
->>ifupdown stores its ifstate into CONFIG_IFIPDOWN_IFSTATE_PATH.
->>Fixes:
->>ifup: can't open '/var/run/ifstate': No such file or directory
->>
->>Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->>---
->>  meta/recipes-core/busybox/busybox.inc |    4 ++++
->>  1 file changed, 4 insertions(+)
->>
->>diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
->>index 972e7d0..972df6d 100644
->>--- a/meta/recipes-core/busybox/busybox.inc
->>+++ b/meta/recipes-core/busybox/busybox.inc
->>@@ -199,6 +199,10 @@ do_install () {
->>                         install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
->>                 fi
->>  	fi
->>+	IFUPDOWN_IFSTATE_PATH=`awk '/^CONFIG_IFUPDOWN_IFSTATE_PATH/{split($0,x,/=/);p=x[2];gsub("\"","",p);print p;}' ${WORKDIR}/defconfig`
->>+	if test -n "$IFUPDOWN_IFSTATE_PATH"; then
->Should this also be ${D} in the test, other wise you might be testing
->the host!
+On Monday 11 February 2013 22:35:47 Richard Purdie wrote:
+> On Mon, 2013-02-11 at 17:09 +0000, Paul Eggleton wrote:
+> > *
+> > meta-oe/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bbappe
+> > nd This is adding qwt to the qte toolchain. As far as I am concerned this
+> > is a distro policy decision - Qwt is a third-party library that is not
+> > part of Qt. I believe this should be moved to the layers for whichever
+> > distros want this.
+> > 
+> > * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
+> > * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
+> > These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see
+> > this as a distro policy decision; these should move to the layers for
+> > whichever distros want this. FWIW, this is particularly egregious if
+> > you've already built Qt, then add meta-oe and find Qt is being
+> > unexpectedly rebuilt.
+> If these were implemented as PACKAGECONFIG options, then distros would
+> just need to set the appropriate PACKAGECONFIG for the package in the
+> distro config and we wouldn't even need the appends...
 
-WORKDIR is correct, see meta/conf/bitbake.conf setting WORKDIR.
-thanks,
->
->
->Sau!
->
->>+		install -m 0755 -d ${D}/"$IFUPDOWN_IFSTATE_PATH"
->>+	fi
->>  	install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
->>  }
->>
->>
+The thing is the Qt configure options are a little more complicated - many of 
+them are three-state switches (enable built-in, enable as a plugin or 
+disabled). Thus we've opted to split the configuration options into variables 
+for each type. We don't get PACKAGECONFIG's DEPENDS handling, but if we used 
+PACKAGECONFIG we'd lose some flexibility.
+
+Cheers,
+Paul
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
