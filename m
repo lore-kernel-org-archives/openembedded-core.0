@@ -1,40 +1,43 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U5C61-0004MR-SN
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U5CBp-0004Xs-Gp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 10:24:24 +0100
-Received: by mail-wi0-f169.google.com with SMTP id l13so4277623wie.4
+	Tue, 12 Feb 2013 10:30:19 +0100
+Received: by mail-ea0-f171.google.com with SMTP id c13so51669eaa.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 01:08:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:date:from:to:cc:message-id:in-reply-to:references
-	:subject:x-mailer:mime-version:content-type
-	:content-transfer-encoding:content-disposition:x-gm-message-state;
-	bh=qALEGqQOZu1KYttwynv9JH6azz2rk5PGG0o7Xtg98tw=;
-	b=AB+9XsgjXO210SB7GNe7TM0lGv52y+BqFoB+o56mFQU6QBF3oikFzlhE5W1IgJdjR4
-	LYvPdYY6Nttwpa8WN94FdhhnnTJBoIknOuCMX4m0lB4vcz2Cbz1unDAw2CWJpPWa05yS
-	arGeOuQL4NYzfO2n5QJiNPH2eYNufatgaK1GmldWtx2jhsHqHd/yCPfr3ujVYZklqR8F
-	BfUrnFjYplDlIAI8siiBq1eHgmcGD8Y68S2LslIQf4gLgM+TW+NgVLle+YVjGCYd6zx7
-	HKQmWeE3KnZE+V7CGOpgTxl3WO7UqDRpHMw2c3cLwYPRlkFtrHA9qI7PjQESvfKmRb0H
-	k0og==
-X-Received: by 10.194.76.7 with SMTP id g7mr29451280wjw.50.1360660094620;
-	Tue, 12 Feb 2013 01:08:14 -0800 (PST)
-Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ex15sm23182190wid.5.2013.02.12.01.08.11
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 12 Feb 2013 01:08:13 -0800 (PST)
-Date: Tue, 12 Feb 2013 09:08:09 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <C7C45274F728429FA76E2C1C47BACCDC@intel.com>
-In-Reply-To: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
-References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: sparrow 1.6.4 (build 1178)
+	Tue, 12 Feb 2013 01:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=jQZkBL4i9QNH4nS6S9nCD5QZAb4/3ZzA43VZitoHl8U=;
+	b=xPe2xHsYaRgTlfs6znNUjL4RWOEOktaf1sz6LGjnwrxaEpdZ6mDEjE6kEd0Elb4Cj1
+	g3J8Z0b70z3CxjzR8xnEyUougyZy1UlsLQjpYzYwhPSUYUsndZ1sez/i8na+cbdz58xq
+	B89XBYS7FqyuZbfwm42r8EAuXa4Xdda7yxhZ3TuIh1ggr61WjJfdMFg2+zUmUZ0KoHq+
+	trX9GPMZ1dOS/WOWyeaG4S+5A3s69XztkJJz+fY8BvA8Bml2NeCrZDArNI/Soc8Oi2Xo
+	BrEuQEjNeQt+gnI6Xy62/1zskxjzSWggBQP2qVx8UXwauPeBzfWpHa7QUs0KIHf0rADJ
+	06kg==
+X-Received: by 10.14.193.198 with SMTP id k46mr60067617een.40.1360660454380;
+	Tue, 12 Feb 2013 01:14:14 -0800 (PST)
+Received: from s42.loc (91-119-218-53.dynamic.xdsl-line.inode.at.
+	[91.119.218.53])
+	by mx.google.com with ESMTPS id a1sm41428871eep.2.2013.02.12.01.14.12
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Feb 2013 01:14:12 -0800 (PST)
+Received: from cow by s42.loc with local (Exim 4.80)
+	(envelope-from <rep.dot.nop@gmail.com>)
+	id 1U5BwI-0005Jc-LC; Tue, 12 Feb 2013 10:14:10 +0100
+Date: Tue, 12 Feb 2013 10:14:09 +0100
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130212091409.GA20419@mx.loc>
+References: <cover.1360079373.git.rep.dot.nop@gmail.com>
+	<c4bfd1da6209da458cb0944a719801346f300dd9.1360079373.git.rep.dot.nop@gmail.com>
+	<5119D737.3000309@linux.intel.com>
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQmmPeM5RbWo3pxQWBn1wnUlS43KWCUOPHKBcWsb6Iju0rzKGfqcNJPahEbSkyKv3mjS61fb
+In-Reply-To: <5119D737.3000309@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
+Subject: Re: [PATCH 5/8] busybox: add ifup's ifstate dir to package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,20 +50,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 09:24:24 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Feb 2013 09:30:20 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tuesday, 12 February 2013 at 08:22, Khem Raj wrote:
-> If someone defines SYSTEMD_PACKAGES to be different
-> then ${PN} then we need to make sure that they get
-> added to PACKAGES variable
+On Mon, Feb 11, 2013 at 09:46:31PM -0800, Saul Wold wrote:
+>On 02/05/2013 07:55 AM, Bernhard Reutner-Fischer wrote:
+>>ifupdown stores its ifstate into CONFIG_IFIPDOWN_IFSTATE_PATH.
+>>Fixes:
+>>ifup: can't open '/var/run/ifstate': No such file or directory
+>>
+>>Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+>>---
+>>  meta/recipes-core/busybox/busybox.inc |    4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>>diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+>>index 972e7d0..972df6d 100644
+>>--- a/meta/recipes-core/busybox/busybox.inc
+>>+++ b/meta/recipes-core/busybox/busybox.inc
+>>@@ -199,6 +199,10 @@ do_install () {
+>>                         install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
+>>                 fi
+>>  	fi
+>>+	IFUPDOWN_IFSTATE_PATH=`awk '/^CONFIG_IFUPDOWN_IFSTATE_PATH/{split($0,x,/=/);p=x[2];gsub("\"","",p);print p;}' ${WORKDIR}/defconfig`
+>>+	if test -n "$IFUPDOWN_IFSTATE_PATH"; then
+>Should this also be ${D} in the test, other wise you might be testing
+>the host!
 
-The only case it won't already be in PACKAGES is if you're creating a package which contains just the service file, which as I've said before isn't recommended - package the service files along with the binaries that they are executing.
-
-Or is there another use-case I'm missing?
-
-Ross
+WORKDIR is correct, see meta/conf/bitbake.conf setting WORKDIR.
+thanks,
+>
+>
+>Sau!
+>
+>>+		install -m 0755 -d ${D}/"$IFUPDOWN_IFSTATE_PATH"
+>>+	fi
+>>  	install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
+>>  }
+>>
+>>
 
 
