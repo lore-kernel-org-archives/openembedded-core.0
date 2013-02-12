@@ -1,37 +1,30 @@
-Received: from mail-oa0-f46.google.com ([209.85.219.46])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1U5JE4-0003lF-Ua; Tue, 12 Feb 2013 18:01:03 +0100
-Received: by mail-oa0-f46.google.com with SMTP id k1so295386oag.5
-	for <multiple recipients>; Tue, 12 Feb 2013 08:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=CXdbr2/HYHXJP1puefWVmsGrcrrNGRJJ03d9QnOnP4o=;
-	b=hh3mFQDnyjl25RmRZvgmbDgNSl7TNX9ZiP1u2Nz908ZbxXEcXEPYYlWi2cvm90BzcH
-	683HIVMoQzPMcN4OyMzV6/QLQx2mrL2hn/4Y9s1obXk0NpjcVMxcmhtAEDdkHyl4zObn
-	JVI5bJN6vuFzrc11VUM2vfzXnOnL0EeBDcvCl3NmQXsMFzQilfZ/f+Wk/YV7xCkM2KsH
-	ZmvUn5PjlUrVX/RDjcPsaEUOaI39kTqV4cus/lpkKDr19X9y6aEIw2Z6Nyzu5mDPWc9X
-	7IbHTg2J6ECA79SyFjD/QhWOU+k1rJ8Gr6CmmDvVifOfFMmFVONt9lKlgy5fFBgOzpWV
-	o12A==
+	(envelope-from <anders@chargestorm.se>) id 1U5JHQ-0004gr-2T
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 18:04:45 +0100
+Received: from ad.chargestorm.se (194.237.193.51) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 12 Feb 2013 17:48:28 +0100
+Date: Tue, 12 Feb 2013 17:49:34 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20130212164934.GA5045@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
+	<C7C45274F728429FA76E2C1C47BACCDC@intel.com>
+	<20130212150107.GB5968@ad.chargestorm.se>
+	<62239FFF613F4094A369C927D0617497@intel.com>
 MIME-Version: 1.0
-X-Received: by 10.60.171.102 with SMTP id at6mr14398679oec.60.1360687499081;
-	Tue, 12 Feb 2013 08:44:59 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Tue, 12 Feb 2013 08:44:58 -0800 (PST)
-In-Reply-To: <42BE8E82E93F46829E80D29E6DF4934B@intel.com>
-References: <2760168.9kFd94gL1F@helios>
-	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-	<42BE8E82E93F46829E80D29E6DF4934B@intel.com>
-Date: Tue, 12 Feb 2013 14:44:58 -0200
-X-Google-Sender-Auth: Nqi0LQiUS5vIVvc3NxABTELrmOA
-Message-ID: <CAP9ODKoX7NLK_MYKEFXVCrk-FDg5RKnfZCxpOxXhP52et2jgjg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+In-Reply-To: <62239FFF613F4094A369C927D0617497@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 17:01:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 12 Feb 2013 17:04:47 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Tue, Feb 12, 2013 at 1:50 PM, Ross Burton <ross.burton@intel.com> wrote:
-> On Tuesday, 12 February 2013 at 10:24, Burton, Ross wrote:
->> > * meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
->> > Another bbappend apparently for systemd support. Again, this should have been
->> > moved to meta-systemd; do we now need to merge it into OE-Core?
->>
->>
->> Yes, half of it has been merged to master already. The rest should be
->> in Radu's branch, we can sort that today.
->
-> I take that back - polkit in oe-core supports systemd if enabled, so this append can be removed.
+* Ross Burton <ross.burton@intel.com> [130212 16:07]:
 
-In fact we cannot drop the bbappend or we break the upgrade path
-(except if we bump PR in OE-Core to keep it).
+> On Tuesday, 12 February 2013 at 15:01, Anders Darander wrote:
+> > > Or is there another use-case I'm missing?
+
+> > Well, there is always the possibillity that the install is split into
+> > multiple packages, with binaries also in some sub-packages. I can't
+> > recall right now if we have such packages, where the binaries in the
+> > sub-packages should be started by init, though.
+
+> And those sub-packages are obviously already in PACKAGES, so this
+> isn't required again.  I'm just trying to keep the amount of magic in
+> the class to a minimum unless it's required.
+
+Ah, of course they are...
+
+I completely mis-read the patch... As the patch only was concerned with
+adding packages to PACKAGES, I completely agree with you. Lets get rid
+of that extra magic.
+
+Cheers,
+Anders
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
