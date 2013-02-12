@@ -1,26 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1U5OxN-00082A-WC
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 00:08:10 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CMqA7b006686
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 14:52:10 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 12 Feb 2013 14:52:08 -0800
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Feb 2013 16:52:07 -0600
-Message-ID: <e1dc88a318215d79561408dc41598b9bd2387184.1360709138.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1360709138.git.peter.seebach@windriver.com>
-References: <cover.1360709138.git.peter.seebach@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo_git.bb: Bump to pseudo 1.4.4.
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U5Oyr-00088D-Ea for Openembedded-core@lists.openembedded.org;
+	Wed, 13 Feb 2013 00:09:42 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1CMxYd2000522; Tue, 12 Feb 2013 22:59:34 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FANu0LRJ+NS3; Tue, 12 Feb 2013 22:59:34 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1CMxQ9s000516
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 12 Feb 2013 22:59:30 GMT
+Message-ID: <1360709606.11225.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Tue, 12 Feb 2013 22:53:26 +0000
+In-Reply-To: <511ABC32.4000803@windriver.com>
+References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
+	<1360705147.30425.70.camel@ted> <511ABC32.4000803@windriver.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +38,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 23:08:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Feb 2013 23:09:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The pseudo 1.4.2 linkat() implementation had a broken edge case
-in which you could end up with chroot paths being doubled when
-using plain link() calls instead of linkat() calls.
+On Tue, 2013-02-12 at 16:03 -0600, Jason Wessel wrote:
+> On 02/12/2013 03:39 PM, Richard Purdie wrote:
+> > On Tue, 2013-02-12 at 13:36 -0600, Jason Wessel wrote:
+> >> If you never use sstate and always build everything from scratch you
+> >> will never see this problem.  However, if you use sstate and build
+> >> directories that last a long time eventually you can end up with the
+> >> scenario where libtool gets a hard coded path in it for sed, and sed
+> >> may not exist.  The reason you don't see this problem to often if you
+> >> generally build from scratch is that libtool builds before sed and
+> >> will pickup the host's /bin/sed.
+> >>
+> >> The way to reproduce the issue is:
+> >>
+> >> bitbake some_image
+> >> bitbake -c cleansstate libtool-native
+> >> bitbake sed-native
+> >> bitbake libtool-native
+> >> bitbake -c clean sed-native
+> >> bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
+> >>
+> >> In my case I used modphp, which doesn't exist in the oe-core. You will
+> >> end up with a strange looking error like:
+> >>
+> >> | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+> >> | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+> >>
+> >> The solution is to always use /bin/sed for libtool-native.
+> >>
+> >> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >> ---
+> >>  .../libtool/libtool-native_2.4.2.bb                |    3 ++-
+> >>  1 files changed, 2 insertions(+), 1 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> >> index f12e6a1..18188ef 100644
+> >> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> >> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> >> @@ -2,12 +2,13 @@ require libtool-${PV}.inc
+> >>  
+> >>  DEPENDS = ""
+> >>  
+> >> -PR = "${INC_PR}.0"
+> >> +PR = "${INC_PR}.1"
+> >>  SRC_URI += "file://prefix.patch"
+> >>  
+> >>  inherit native
+> >>  
+> >>  EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
+> >> +CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
+> > Do we have to set a path for it? Can't we rely on PATH being sane? I'm
+> > wondering if we should actually set this in the core site files.
+> > Hardcoding a path to utilities never usually ends well and this is just
+> > the tip of an iceberg.
+> >
+> > If we have to use a path, "${bindir}/env sed"?
+> >
+> 
+> The libtool seems to be in a class of its own with respect to
+> internally hard coding things, so I am inclined to say this is a one
+> off because A) it is libtool and B) it is part of the boot strap. For
+> any other packages I have not observed any kind of problem with the
+> sysroot sed vs host provided sed.
+> 
+> Unfortunately doing ${bindir}/env sed can lead to a fairly rare race
+> where sed can be there an get removed later because it will prefer the
+> sed in the sysroot area because it is in the path first.  I never hit
+> any of these problems until recently while continuing to just randomly
+> build things with the usual stream of updates from the git repository.
+> 
+> If we want libtool-native to use something other than /bin/sed on the
+> host, the bootstrap needs some kind of overhaul to make libtool depend
+> correctly on sed.  Currently we end up with a circular dependency if
+> you try to make libtool-native depend on sed-native.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- .../pseudo/{pseudo_1.4.3.bb => pseudo_1.4.4.bb}    |    4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.4.3.bb => pseudo_1.4.4.bb} (43%)
+Does it make sense for sed-native to ever be built? I know we have
+issues with some others like tar, bzip/gzip and friends but no issues
+with sed afaik?
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
-similarity index 43%
-rename from meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
-index 8f25bd0..dea607c 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
-@@ -4,5 +4,5 @@ PR = "r0"
- 
- SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "ac943153aa78e210e2d0db7c85845db3"
--SRC_URI[sha256sum] = "0ca12a319c0ee87d1c8b2a4310c36a6d68d8d4b8c9c7dba00bace1773baf18e8"
-+SRC_URI[md5sum] = "ae18a1388c032ac910adbf8c3111fdc4"
-+SRC_URI[sha256sum] = "e72cb188fd8efb9eadfb5ce571a45a99245ae312eb9830cb9a9726bb25e47c17"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index bbdba43..efffc95 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "a01d7884e5f3acba1460cf6b500d28390e7af9f8"
--PV = "1.4.3+git${SRCPV}"
-+SRCREV = "363a94bb851046f62648d7c96c749e899bd0648e"
-+PV = "1.4.4+git${SRCPV}"
- PR = "r0"
- 
- DEFAULT_PREFERENCE = "-1"
--- 
-1.7.0.4
+Cheers,
+
+Richard
 
 
 
