@@ -1,34 +1,33 @@
-Received: from mail-ie0-f178.google.com ([209.85.223.178])
+Received: from mail-pa0-f48.google.com ([209.85.220.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1U5K1p-0008Qj-5r
+	(envelope-from <raj.khem@gmail.com>) id 1U5K8B-0005jz-MQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 18:52:26 +0100
-Received: by mail-ie0-f178.google.com with SMTP id c13so468741ieb.9
+	Tue, 12 Feb 2013 18:59:26 +0100
+Received: by mail-pa0-f48.google.com with SMTP id hz10so213632pad.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 09:36:24 -0800 (PST)
+	Tue, 12 Feb 2013 09:42:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=M95LwD5994WqQ6DWlFB52vtDK7q6a/2UWsahi1hzAbk=;
-	b=F+5FCt37n0fnwEUFiIDGV2Ehmh2ZSu+VjG4MQmoH5Vyi6ZicynZAv39e6j8OLaDYYy
-	EtlIN2jerybtb0kU0DCqyRSzTgD4GeLGWZbuziMrZFzJEaXnDlLhD5e/bHm8qPCJ58YY
-	5raNrjKOID5OWI9rIUvlaQQIyMBk3AfdJ/MtQlDsNuW1YAWiznAo5CMLe1wkhpnwYj+m
-	id0kZzjfEMN8IUGTKnpRtGOYcpVx2gM8RYj5yMsDaPACyyL38dZwrC0Y5lVSaNNl0oHH
-	rN0XpkT06JhRfaNlCBp4v7O1HaDMvZlNKg7OLCIKB/F1VLlMDMGKzccx+n2YmM6OtbrO
-	MkDA==
-X-Received: by 10.50.56.232 with SMTP id d8mr4843009igq.112.1360690584563;
-	Tue, 12 Feb 2013 09:36:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.13.204 with HTTP; Tue, 12 Feb 2013 09:35:54 -0800 (PST)
-In-Reply-To: <C7C45274F728429FA76E2C1C47BACCDC@intel.com>
-References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
-	<C7C45274F728429FA76E2C1C47BACCDC@intel.com>
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=y2sbBqAS+rLS5sicbu4kGdUjqz/twArcwfA2fKNeJlc=;
+	b=jHFiyq2/wFACHZg1OytdVvVDTDkqJ38kTNNkIwYqUAe+EAI9azsjjxYuXsV+oJK0SN
+	tJSg1xyf35f2fLz4dD/jURlh6mmFOaiN6WRCGsWUfq2/PRV4XK9wNvzDvDx6dDdHvJhi
+	UJIoNof+13UdD2V5G+747epuKIz0X5iZj8YatpP09DkVCUgP/hDJq52BjZKGIrB64CUi
+	EUN0dzLXPgEnVNMlMfrW+UtEhZglMXDAlh3GVVJsaupQSe0So5za89GYF5c6j+eMAbNs
+	Qrya0nMUE/ejFj5Eq6/VONNqTnaG/cN7Ryjo18njl9DpRnBV5NWFthGSu8laPNhwjv3C
+	bRbw==
+X-Received: by 10.66.52.50 with SMTP id q18mr54662640pao.16.1360690979194;
+	Tue, 12 Feb 2013 09:42:59 -0800 (PST)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id w2sm71208372pax.22.2013.02.12.09.42.57
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 12 Feb 2013 09:42:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Feb 2013 09:35:54 -0800
-Message-ID: <CAMKF1srbNA_RLGC06zOC=Y4Av9ZGaL6G+Wk=u05-cCZtuRyMyA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Feb 2013 09:42:50 -0800
+Message-Id: <1360690970-9432-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] systemd.bbclass: Introduce do_install_append and use systemd unitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +40,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 17:52:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Feb 2013 17:59:33 -0000
 
-On Tue, Feb 12, 2013 at 1:08 AM, Ross Burton <ross.burton@intel.com> wrote:
-> On Tuesday, 12 February 2013 at 08:22, Khem Raj wrote:
->> If someone defines SYSTEMD_PACKAGES to be different
->> then ${PN} then we need to make sure that they get
->> added to PACKAGES variable
->
-> The only case it won't already be in PACKAGES is if you're creating a package which contains just the service file, which as I've said before isn't recommended - package the service files along with the binaries that they are executing.
->
-> Or is there another use-case I'm missing?
+systemd always uses /lib and /usr/lib to store unit files
+so using libdir and base_libdir is incorrect. It will work
+where libdir is usr/lib and base_libdir is /lib but wont work
+when say its /lib64
 
+Additionally introduce the install append from meta-oe
+lot of recipe appends in meta-systemd depend on that
 
-Thinking about it from different perspective, I agree that probably
-adding an extra package is not right and having unitfiles as part of
-package proper is fine. but we should definitely have a check where if
-SYSTEMD_PACKAGES dont exist in PACKAGES then it should error out or
-warn about it.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/systemd.bbclass |   21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
->
-> Ross
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index e0ea65c..32cc5c2 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -115,11 +115,9 @@ def systemd_populate_packages(d):
+ 
+     # Check service-files and call systemd_add_files_and_parse for each entry
+     def systemd_check_services():
+-        base_libdir = d.getVar('base_libdir', True)
+-        searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
+-        searchpaths.append(oe.path.join(d.getVar("base_libdir", True), "systemd", "system"))
+-        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "system"))
+-        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "user"))
++        searchpaths = '/etc/systemd/system/' + ' '
++        searchpaths += '/lib/systemd/system/' + ' '
++        searchpaths += '/usr/lib/systemd/system/' + ' '
+         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
+         has_exactly_one_service = len(systemd_packages.split()) == 1
+         if has_exactly_one_service:
+@@ -133,7 +131,7 @@ def systemd_populate_packages(d):
+         for pkg_systemd in systemd_packages.split():
+             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
+                 path_found = ''
+-                for path in searchpaths:
++                for path in searchpaths.split():
+                     if os.path.exists(oe.path.join(d.getVar("D", True), path, service)):
+                         path_found = path
+                         break
+@@ -156,3 +154,14 @@ python populate_packages_prepend () {
+     if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
+         systemd_populate_packages (d)
+ }
++# automatically install all *.service and *.socket supplied in recipe's SRC_URI
++do_install_append() {
++	for service in `find ${WORKDIR} -maxdepth 1 -name '*.service' -o -name '*.socket'` ; do
++	# ensure installing systemd-files only (e.g not avahi *.service)
++		if grep -q '\[Unit\]' $service ; then
++			install -d ${D}${systemd_unitdir}/system
++			install -m 644 $service ${D}${systemd_unitdir}/system
++		fi
++	done
++}
++
+-- 
+1.7.9.5
+
 
 
