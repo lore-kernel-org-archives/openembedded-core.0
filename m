@@ -1,29 +1,40 @@
-Received: from stoexhub02.domain01.net ([83.145.59.143])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>)
-	id 1U5Bd4-0003KF-9x; Tue, 12 Feb 2013 09:54:30 +0100
-Received: from ad.chargestorm.se (212.181.101.5) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Tue, 12 Feb 2013 09:37:14 +0100
-Date: Tue, 12 Feb 2013 09:38:20 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>
-Message-ID: <20130212083820.GA5968@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-References: <2760168.9kFd94gL1F@helios>
-	<CAP9ODKpa99P4ZKu+JyPXfruLjAV01Oo2G-MTZOc83g0d5JN1uQ@mail.gmail.com>
+	(envelope-from <ross.burton@intel.com>) id 1U5C61-0004MR-SN
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Feb 2013 10:24:24 +0100
+Received: by mail-wi0-f169.google.com with SMTP id l13so4277623wie.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Feb 2013 01:08:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:date:from:to:cc:message-id:in-reply-to:references
+	:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=qALEGqQOZu1KYttwynv9JH6azz2rk5PGG0o7Xtg98tw=;
+	b=AB+9XsgjXO210SB7GNe7TM0lGv52y+BqFoB+o56mFQU6QBF3oikFzlhE5W1IgJdjR4
+	LYvPdYY6Nttwpa8WN94FdhhnnTJBoIknOuCMX4m0lB4vcz2Cbz1unDAw2CWJpPWa05yS
+	arGeOuQL4NYzfO2n5QJiNPH2eYNufatgaK1GmldWtx2jhsHqHd/yCPfr3ujVYZklqR8F
+	BfUrnFjYplDlIAI8siiBq1eHgmcGD8Y68S2LslIQf4gLgM+TW+NgVLle+YVjGCYd6zx7
+	HKQmWeE3KnZE+V7CGOpgTxl3WO7UqDRpHMw2c3cLwYPRlkFtrHA9qI7PjQESvfKmRb0H
+	k0og==
+X-Received: by 10.194.76.7 with SMTP id g7mr29451280wjw.50.1360660094620;
+	Tue, 12 Feb 2013 01:08:14 -0800 (PST)
+Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ex15sm23182190wid.5.2013.02.12.01.08.11
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Feb 2013 01:08:13 -0800 (PST)
+Date: Tue, 12 Feb 2013 09:08:09 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <C7C45274F728429FA76E2C1C47BACCDC@intel.com>
+In-Reply-To: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
+References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKpa99P4ZKu+JyPXfruLjAV01Oo2G-MTZOc83g0d5JN1uQ@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: RFC: meta-oe appends and overlayed recipes
+X-Gm-Message-State: ALoCoQmmPeM5RbWo3pxQWBn1wnUlS43KWCUOPHKBcWsb6Iju0rzKGfqcNJPahEbSkyKv3mjS61fb
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +47,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 08:54:32 -0000
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 Feb 2013 09:24:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-* Otavio Salvador <otavio@ossystems.com.br> [130211 18:50]:
+On Tuesday, 12 February 2013 at 08:22, Khem Raj wrote:
+> If someone defines SYSTEMD_PACKAGES to be different
+> then ${PN} then we need to make sure that they get
+> added to PACKAGES variable
 
-> On Mon, Feb 11, 2013 at 3:09 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> ...
-> > * meta-oe/recipes-qt/qt4/qt4-x11-free_4.8.4.bbappend
-> > * meta-oe/recipes-qt/qt4/qt4-embedded_4.8.4.bbappend
-> > These two add MySQL and PostgreSQL support to Qt and Qt/Embedded. I see this
-> > as a distro policy decision; these should move to the layers for whichever
-> > distros want this. FWIW, this is particularly egregious if you've already
-> > built Qt, then add meta-oe and find Qt is being unexpectedly rebuilt.
+The only case it won't already be in PACKAGES is if you're creating a package which contains just the service file, which as I've said before isn't recommended - package the service files along with the binaries that they are executing.
 
-> Yes; I think I agree also because *most* people won't use these
-> backends so better to handle this in the specific
-> layers/distros/whatever needs it.
+Or is there another use-case I'm missing?
 
-Definitely in favour of this.
-
-That would simplify my own bbappends a lot, by letting me remove quite a
-few oe_filter_out's...
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Ross
 
 
