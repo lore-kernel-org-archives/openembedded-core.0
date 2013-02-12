@@ -1,11 +1,11 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U5DyO-0008K4-Ta
+	(envelope-from <jason.wessel@windriver.com>) id 1U5DyO-0008K2-EQ
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 12 Feb 2013 12:24:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB8UtV022607
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1CB8U3D022604
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
 	Tue, 12 Feb 2013 03:08:30 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
 	Tue, 12 Feb 2013 03:08:28 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Feb 2013 05:08:23 -0600
-Message-ID: <1360667303-3650-4-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 12 Feb 2013 05:08:22 -0600
+Message-ID: <1360667303-3650-3-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1360667303-3650-1-git-send-email-jason.wessel@windriver.com>
 References: <1360667303-3650-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v3 3/3] relocate_sdk.py: allow relocate_sdk.py to work with python 2.4.x
+Subject: [PATCH v3 2/3] populate_sdk_base.bbclass: Improve debugging capabilities for SDK installer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,111 +36,113 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 12 Feb 2013 11:24:36 -0000
 Content-Type: text/plain
 
-Avoid the chicken / egg problem of an SDK that provides a working
-python but requires that version of python to extract itself.  The
-RHEL 5.x systems and some other enterprise Linux systems ship with
-python 2.4.x as the default python.  We need to at least be able to
-extract work executables even if we never use the the host provided
-python again.
+After having to debug the SDK installer a few times in
+addition to the relocation code the following patch was created
+to improve the capabilities around debugging the SDK installer.
+
+1) Add a verbose mode -D which set a set -x to see what
+   the SDK installer is doing.
+
+2) Add a mode -S to save the relocation scripts for the purpose
+   of debugging them in conjunction with -D
+
+3) Add a mode -R to not execute the relocation scripts for the
+   purpose of debugging the relocations.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- scripts/relocate_sdk.py |   26 +++++++++++++-------------
- 1 files changed, 13 insertions(+), 13 deletions(-)
+ meta/classes/populate_sdk_base.bbclass |   48 ++++++++++++++++++++++++++++----
+ 1 files changed, 42 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 45d2c24..1d7bbb3 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -55,22 +55,22 @@ def parse_elf_header():
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index c025d40..923f925 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -136,7 +136,10 @@ DEFAULT_INSTALL_DIR="${SDKPATH}"
+ SUDO_EXEC=""
+ target_sdk_dir=""
+ answer=""
+-while getopts ":yd:" OPT; do
++relocate=1
++savescripts=0
++verbose=0
++while getopts ":yd:DRS" OPT; do
+ 	case $OPT in
+ 	y)
+ 		answer="Y"
+@@ -145,15 +148,33 @@ while getopts ":yd:" OPT; do
+ 	d)
+ 		target_sdk_dir=$OPTARG
+ 		;;
++	D)
++		verbose=1
++		;;
++	R)
++		relocate=0
++		savescripts=1
++		;;
++	S)
++		savescripts=1
++		;;
+ 	*)
+ 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
+ 		echo "  -y         Automatic yes to all prompts"
+ 		echo "  -d <dir>   Install the SDK to <dir>"
++		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
++		echo "  -S         Save relocation scripts"
++		echo "  -R         Do not relocate executables"
++		echo "  -D         use set -x to see what is going on"
+ 		exit 1
+ 		;;
+ 	esac
+ done
  
-     if arch == 32:
-         # 32bit
--        hdr_struct = struct.Struct("<HHILLLIHHHHHH")
-+        hdr_fmt = "<HHILLLIHHHHHH"
-         hdr_size = 52
-     else:
-         # 64bit
--        hdr_struct = struct.Struct("<HHIQQQIHHHHHH")
-+        hdr_fmt = "<HHIQQQIHHHHHH"
-         hdr_size = 64
++if [ $verbose = 1 ] ; then
++	set -x
++fi
++
+ printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
+ if [ "$target_sdk_dir" = "" ]; then
+ 	read target_sdk_dir
+@@ -231,10 +252,23 @@ if [ "$dl_path" = "" ] ; then
+ 	exit 1
+ fi
+ executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
+-$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+-if [ $? -ne 0 ]; then
+-	echo "SDK could not be set up. Relocate script failed. Abort!"
+-	exit 1
++
++tdir=`mktemp -d`
++if [ x$tdir = x ] ; then
++   echo "SDK relocate failed, could not create a temporary directory"
++   exit 1
++fi
++echo "#!/bin/bash" > $tdir/relocate_sdk.sh
++echo exec ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
++$SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
++$SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
++rm -rf $tdir
++if [ $relocate = 1 ] ; then
++	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
++	if [ $? -ne 0 ]; then
++		echo "SDK could not be set up. Relocate script failed. Abort!"
++		exit 1
++	fi
+ fi
  
-     e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
-     e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx =\
--        hdr_struct.unpack(elf_header[16:hdr_size])
-+        struct.unpack(hdr_fmt, elf_header[16:hdr_size])
+ # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
+@@ -249,7 +283,9 @@ echo done
  
- def change_interpreter(elf_file_name):
-     if arch == 32:
--        ph_struct = struct.Struct("<IIIIIIII")
-+        ph_fmt = "<IIIIIIII"
-     else:
--        ph_struct = struct.Struct("<IIQQQQQQ")
-+        ph_fmt = "<IIQQQQQQ"
+ # delete the relocating script, so that user is forced to re-run the installer
+ # if he/she wants another location for the sdk
+-$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
++if [ $savescripts = 0 ] ; then
++	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
++fi
  
-     """ look for PT_INTERP section """
-     for i in range(0,e_phnum):
-@@ -79,11 +79,11 @@ def change_interpreter(elf_file_name):
-         if arch == 32:
-             # 32bit
-             p_type, p_offset, p_vaddr, p_paddr, p_filesz,\
--                p_memsz, p_flags, p_align = ph_struct.unpack(ph_hdr)
-+                p_memsz, p_flags, p_align = struct.unpack(ph_fmt, ph_hdr)
-         else:
-             # 64bit
-             p_type, p_flags, p_offset, p_vaddr, p_paddr, \
--            p_filesz, p_memsz, p_align = ph_struct.unpack(ph_hdr)
-+            p_filesz, p_memsz, p_align = struct.unpack(ph_fmt, ph_hdr)
+ echo "SDK has been successfully set up and is ready to be used."
  
-         """ change interpreter """
-         if p_type == 3:
-@@ -104,9 +104,9 @@ def change_interpreter(elf_file_name):
- 
- def change_dl_sysdirs():
-     if arch == 32:
--        sh_struct = struct.Struct("<IIIIIIIIII")
-+        sh_fmt = "<IIIIIIIIII"
-     else:
--        sh_struct = struct.Struct("<IIQQQQIIQQ")
-+        sh_fmt = "<IIQQQQIIQQ"
- 
-     """ read section string table """
-     f.seek(e_shoff + e_shstrndx * e_shentsize)
-@@ -127,7 +127,7 @@ def change_dl_sysdirs():
-         sh_hdr = f.read(e_shentsize)
- 
-         sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size, sh_link,\
--            sh_info, sh_addralign, sh_entsize = sh_struct.unpack(sh_hdr)
-+            sh_info, sh_addralign, sh_entsize = struct.unpack(sh_fmt, sh_hdr)
- 
-         name = sh_strtab[sh_name:sh_strtab.find("\0", sh_name)]
- 
-@@ -181,7 +181,7 @@ def change_dl_sysdirs():
- 
- # MAIN
- if len(sys.argv) < 4:
--    exit(-1)
-+    sys.exit(-1)
- 
- new_prefix = sys.argv[1]
- new_dl_path = sys.argv[2]
-@@ -196,14 +196,14 @@ for e in executables_list:
- 
-     try:
-         f = open(e, "r+b")
--    except IOError as ioex:
-+    except IOError, ioex:
-         if ioex.errno == errno.ETXTBSY:
-             print("Could not open %s. File used by another process.\nPlease "\
-                   "make sure you exit all processes that might use any SDK "\
-                   "binaries." % e)
-         else:
-             print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
--        exit(-1)
-+        sys.exit(-1)
- 
-     arch = get_arch()
-     if arch:
 -- 
 1.7.1
 
