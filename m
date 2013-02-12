@@ -1,41 +1,24 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U5INN-0000Dx-Sz
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U5Iix-0000zN-Nk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 17:06:34 +0100
-Received: by mail-wi0-f169.google.com with SMTP id l13so4741085wie.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 07:50:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:date:from:to:cc:message-id:in-reply-to:references
-	:subject:x-mailer:mime-version:content-type
-	:content-transfer-encoding:content-disposition:x-gm-message-state;
-	bh=LN/fnCExtTBkfttTzyd8l6jHz+M0ERN34D9tVUA1Cls=;
-	b=ICgFhRVRdKMoUapjrbVttsLngp3ghbqmJnMs+IYex/gkP+Rgo/UidfJENEe2QSyupy
-	+bTP9eG13+IsFG6nDXmwl6qTTcEwURP5i9vVxNq2hzMvVy5RuYQi/Pe27myN1FvnW8oK
-	bHGFNrrrCNX5/sh1p+XnqErqopJiOQCHx2i1WVHB2st4WlQzZ6v6C2V/u6WA1EscqS2l
-	kepw/w/KqebhMc7uUpjbhRecoht3XSkH2lI8OoIUjZh0vz0osuoL6VmJjdJXeT9KGcmd
-	csO0Jw0YhPyvtO9ya1qlOSpSLztUmgxZEvG4VwJGFp+dWY3rSKk9mfNZ/Nqltxmp+Bgy
-	l1DA==
-X-Received: by 10.194.158.165 with SMTP id wv5mr31903644wjb.45.1360684233896; 
-	Tue, 12 Feb 2013 07:50:33 -0800 (PST)
-Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fg6sm20792272wib.10.2013.02.12.07.50.31
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 12 Feb 2013 07:50:32 -0800 (PST)
-Date: Tue, 12 Feb 2013 15:50:29 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <42BE8E82E93F46829E80D29E6DF4934B@intel.com>
-In-Reply-To: <CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-References: <2760168.9kFd94gL1F@helios>
-	<CAJTo0LaJNDB6XjK0M4rsS9+z7AZ6K_n0TAX8+7KH2GuAADgCZw@mail.gmail.com>
-X-Mailer: sparrow 1.6.4 (build 1178)
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQkn8lGOluPLJLu8X8c+skJoQmADUs16qc73KCOSrMwKtsdaQyARVVdngpJcQ00UBw4YrKr5
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] RFC: meta-oe appends and overlayed recipes
+	Tue, 12 Feb 2013 17:28:56 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Feb 2013 08:11:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,650,1355126400"; d="scan'208";a="284742005"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2013 08:12:50 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Feb 2013 18:12:36 +0200
+Message-Id: <f26bc1602de9c71650ad52d087fb6702ef8fb4f5.1360684306.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1360684306.git.laurentiu.palcu@intel.com>
+References: <cover.1360684306.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1360684306.git.laurentiu.palcu@intel.com>
+References: <cover.1360684306.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 01/11] Add separate directory for postinstall intercepts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,22 +31,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 16:06:37 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 Feb 2013 16:29:35 -0000
+X-List-Received-Date: Tue, 12 Feb 2013 16:29:35 -0000
 
-On Tuesday, 12 February 2013 at 10:24, Burton, Ross wrote:
-> > * meta-oe/recipes-extended/polkit/polkit_0.104.bbappend
-> > Another bbappend apparently for systemd support. Again, this should have been
-> > moved to meta-systemd; do we now need to merge it into OE-Core?
-> 
-> 
-> Yes, half of it has been merged to master already. The rest should be
-> in Radu's branch, we can sort that today.
+The scripts/postinst-intercepts will contain all postinstall hooks that
+we need to run after all packages have been installed.
 
-I take that back - polkit in oe-core supports systemd if enabled, so this append can be removed. 
+If one wants to install such a postinst hook, all it needs to do is put
+the hook in this directory and, from the package postinstall scriptlet,
+call:
+	postinst_intercept <hook_name> <package_name> <var1=...> ...
 
-Ross
+This will, practically, add the package_name in the list of packages
+that need the hook to run and, also, set any variables that would be
+needed in the hook. For example, variables like ${libdir}, ${bindir},
+etc. that might depend on distribution can be passed on to the script in
+this way.
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ scripts/postinst-intercepts/postinst_intercept  |   37 +++++++++++++++++++++++
+ scripts/postinst-intercepts/update_font_cache   |    7 +++++
+ scripts/postinst-intercepts/update_icon_cache   |   12 ++++++++
+ scripts/postinst-intercepts/update_pixbuf_cache |   10 ++++++
+ 4 files changed, 66 insertions(+)
+ create mode 100755 scripts/postinst-intercepts/postinst_intercept
+ create mode 100644 scripts/postinst-intercepts/update_font_cache
+ create mode 100644 scripts/postinst-intercepts/update_icon_cache
+ create mode 100644 scripts/postinst-intercepts/update_pixbuf_cache
+
+diff --git a/scripts/postinst-intercepts/postinst_intercept b/scripts/postinst-intercepts/postinst_intercept
+new file mode 100755
+index 0000000..ed32f27
+--- /dev/null
++++ b/scripts/postinst-intercepts/postinst_intercept
+@@ -0,0 +1,37 @@
++#!/bin/sh
++#
++# This script is called from inside postinstall scriptlets at do_rootfs time. It
++# actually adds, at the end, the list of packages for which the intercept script
++# is valid. Also, if one wants to pass any variables to the intercept script from
++# the postinstall itself, they will be added immediately after the shebang line.
++#
++# Usage: postinst_intercept <intercept_script_name> <package_name> <var1=...> ... <varN=...>
++#  * intercept_script_name - the name of the intercept script we want to change;
++#  * package_name - add the package_name to list of packages the intercept script
++#                   is used for;
++#  * var1=... - var1 will have the value we provide in the intercept script. This
++#               is useful when we want to pass on variables like ${libdir} to
++#               the intercept script;
++#
++[ $# -lt 2 ] && exit 1
++
++intercept_script=$INTERCEPT_DIR/$1 && shift
++package_name=$1 && shift
++
++[ -f "$intercept_script" ] || exit 1
++
++chmod +x "$intercept_script"
++
++pkgs_line="$(cat $intercept_script|grep "##PKGS:")"
++if [ -n "$pkgs_line" ]; then
++	# line exists, add this package to the list only if it's not already there
++	if [ -z "$(echo "$pkgs_line" | grep " $package_name ")" ]; then
++		sed -i -e "s/##PKGS:.*/\0${package_name} /" $intercept_script
++	fi
++else
++	for var in $@; do
++		sed -i -e "\%^#\!/bin/.*sh%a $var" $intercept_script
++	done
++	echo "##PKGS: ${package_name} " >> $intercept_script
++fi
++
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+new file mode 100644
+index 0000000..562b5b3
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -0,0 +1,7 @@
++#!/bin/sh
++
++PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l $D${bindir}/fc-cache| grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \
++        --library-path $D/lib:$D/usr/lib $D${bindir}/fc-cache \
++        --sysroot=$D >/dev/null 2>&1
++
++
+diff --git a/scripts/postinst-intercepts/update_icon_cache b/scripts/postinst-intercepts/update_icon_cache
+new file mode 100644
+index 0000000..8e17a6a
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_icon_cache
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++set -e
++# update native pixbuf loaders
++gdk-pixbuf-query-loaders --update-cache
++
++for icondir in $D/usr/share/icons/*/ ; do
++    if [ -d $icondir ] ; then
++        gtk-update-icon-cache -fqt  $icondir
++    fi
++done
++
+diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
+new file mode 100644
+index 0000000..64033dc
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_pixbuf_cache
+@@ -0,0 +1,10 @@
++#!/bin/sh
++
++export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
++
++PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l $D${bindir}/gdk-pixbuf-query-loaders|grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \
++    --library-path $D/lib:$D/usr/lib $D${bindir}/gdk-pixbuf-query-loaders \
++    >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
++    sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
++
++
+-- 
+1.7.9.5
+
 
 
