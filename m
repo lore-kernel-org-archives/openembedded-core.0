@@ -1,20 +1,28 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1U5H3N-00061P-Ux
+	(envelope-from <anders@chargestorm.se>) id 1U5HbW-00078d-GO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Feb 2013 15:41:50 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 5941AD22B4;
-	Tue, 12 Feb 2013 15:25:51 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Feb 2013 15:25:47 +0100
-Message-Id: <1360679147-24511-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] tclibc-eglibc: use glibc-thread-db as eglibc-thread-db does not exist(?)
+	Tue, 12 Feb 2013 16:17:35 +0100
+Received: from ad.chargestorm.se (212.181.101.5) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 12 Feb 2013 16:00:01 +0100
+Date: Tue, 12 Feb 2013 16:01:07 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20130212150107.GB5968@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1360657337-7154-1-git-send-email-raj.khem@gmail.com>
+	<C7C45274F728429FA76E2C1C47BACCDC@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <C7C45274F728429FA76E2C1C47BACCDC@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH] systemd: Add systemd package to PACKAGE var
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,35 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Feb 2013 14:41:50 -0000
+X-List-Received-Date: Tue, 12 Feb 2013 15:17:38 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-| Collected errors:
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies for packagegroup-core-standalone-hhvm-sdk-target:
-|  *    eglibc-thread-db *
+* Ross Burton <ross.burton@intel.com> [130212 10:09]:
 
-eglibc-thread-db is listed in LIBC_DEPENDENCIES and used by SDK. Package
-ends as "libthread-db1" and provides glibc-thread-db.
+> On Tuesday, 12 February 2013 at 08:22, Khem Raj wrote:
+> > If someone defines SYSTEMD_PACKAGES to be different
+> > then ${PN} then we need to make sure that they get
+> > added to PACKAGES variable
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- meta/conf/distro/include/tclibc-eglibc.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The only case it won't already be in PACKAGES is if you're creating a package which contains just the service file, which as I've said before isn't recommended - package the service files along with the binaries that they are executing.
 
-diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
-index 15f5ee5..88bfd40 100644
---- a/meta/conf/distro/include/tclibc-eglibc.inc
-+++ b/meta/conf/distro/include/tclibc-eglibc.inc
-@@ -23,7 +23,7 @@ LIBC_DEPENDENCIES = "libsegfault \
- 		     eglibc-dbg \
- 		     eglibc-dev \
- 		     eglibc-utils \
--		     eglibc-thread-db \
-+		     glibc-thread-db \
- 		     ${@get_libc_locales_dependencies(d)}"
- 
- LIBC_LOCALE_DEPENDENCIES = "\
+> Or is there another use-case I'm missing?
+
+Well, there is always the possibillity that the install is split into
+multiple packages, with binaries also in some sub-packages. I can't
+recall right now if we have such packages, where the binaries in the
+sub-packages should be started by init, though.
+
+Still, I'd say that it might be a valid use case for some applications.
+
+Cheers,
+Anders
+
 -- 
-1.8.1.2
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
