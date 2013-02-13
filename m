@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1U5esm-0007wf-Do
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U5fdn-0004E4-Kc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 17:08:30 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1DFqPPr018076
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 07:52:26 -0800 (PST)
-Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.168.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Wed, 13 Feb 2013 07:52:25 -0800
-From: Florin Sarbu <florin.sarbu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Feb 2013 17:52:18 +0200
-Message-ID: <1360770738-26127-1-git-send-email-florin.sarbu@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.168.151]
-Subject: [PATCH] connman: Have connman package systemd service.
+	Wed, 13 Feb 2013 17:57:04 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Feb 2013 08:41:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,658,1355126400"; d="scan'208";a="290652891"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2013 08:40:38 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Feb 2013 18:40:27 +0200
+Message-Id: <cover.1360773347.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/7] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,51 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 16:08:35 -0000
-X-List-Received-Date: Wed, 13 Feb 2013 16:08:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Feb 2013 16:57:06 -0000
 
-connman.inc was missing the SYSTEMD_PACKAGES variable. Declared
-${PN}-systemd as the package containing the systemd service
-file and also added this package to PACKAGES variable.
+Hi,
 
-Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
----
- meta/recipes-connectivity/connman/connman.inc |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The packages were compiled successfully for all architecture, except
+xf86-video-intel and xf86-video-vmware which have compatible host set to
+x86 and x86_64. Basic functionality tests were done in qemu. No issues
+found.
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index b61e2af..8c4ee89 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
- 
--INC_PR = "r17"
-+INC_PR = "r18"
- 
- TIST = "--enable-tist"
- TIST_powerpc = ""
-@@ -46,6 +46,7 @@ EXTRA_OECONF += "\
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
-+SYSTEMD_PACKAGES = "${PN}-systemd"
- SYSTEMD_SERVICE_${PN} = "connman.service"
- 
- # IMPORTANT: because xuser is shared with rootless X, please make sure the
-@@ -116,7 +117,7 @@ python populate_packages_prepend() {
-             d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
- }
- 
--PACKAGES =+ "${PN}-tools ${PN}-tests"
-+PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-systemd"
- 
- FILES_${PN}-tools = "${bindir}/wispr"
- 
+Thanks,
+Laurentiu
+
+The following changes since commit c77e1f4e14edf7a07000f0e7360d42039af5e524:
+
+  Cleanup of upstream_tracking.inc file (2013-02-12 16:43:57 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
+
+Laurentiu Palcu (7):
+  xf86-video-intel: upgrade to 2.21.0
+  xf86-input-vmmouse: upgrade to 13.0.0
+  libdrm: upgrade to 2.4.42
+  xkeyboard-config: upgrade to 2.8
+  xf86-input-synaptics: upgrade to 1.6.3
+  xf86-video-vmware: upgrade to 13.0.0
+  xev: upgrade to 1.2.1
+
+ .../drm/{libdrm_2.4.40.bb => libdrm_2.4.42.bb}     |    4 +-
+ meta/recipes-graphics/xorg-app/xev_1.2.0.bb        |   12 -
+ meta/recipes-graphics/xorg-app/xev_1.2.1.bb        |   12 +
+ ...tics_1.6.2.bb => xf86-input-synaptics_1.6.3.bb} |    6 +-
+ ...ouse_12.9.0.bb => xf86-input-vmmouse_13.0.0.bb} |    4 +-
+ ...intel_2.20.17.bb => xf86-video-intel_2.21.0.bb} |    4 +-
+ ...ware-port-vmware-driver-to-new-compat-API.patch |  655 --------------------
+ ...mware_12.0.2.bb => xf86-video-vmware_13.0.0.bb} |    7 +-
+ ...board-config_2.7.bb => xkeyboard-config_2.8.bb} |    4 +-
+ 9 files changed, 26 insertions(+), 682 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.40.bb => libdrm_2.4.42.bb} (50%)
+ delete mode 100644 meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+ create mode 100644 meta/recipes-graphics/xorg-app/xev_1.2.1.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.6.2.bb => xf86-input-synaptics_1.6.3.bb} (79%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-vmmouse_12.9.0.bb => xf86-input-vmmouse_13.0.0.bb} (75%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.20.17.bb => xf86-video-intel_2.21.0.bb} (86%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmware-port-vmware-driver-to-new-compat-API.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_12.0.2.bb => xf86-video-vmware_13.0.0.bb} (62%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.7.bb => xkeyboard-config_2.8.bb} (88%)
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
