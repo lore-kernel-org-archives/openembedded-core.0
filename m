@@ -1,25 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U5hZ4-0002jh-L4
+	(envelope-from <raj.khem@gmail.com>) id 1U5hku-0003PM-Gl
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 20:00:47 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 13 Feb 2013 10:44:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,658,1355126400"; d="scan'208";a="256516111"
-Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
-	by azsmga001.ch.intel.com with ESMTP; 13 Feb 2013 10:44:10 -0800
-Message-ID: <511BDEFA.5060601@linux.intel.com>
-Date: Wed, 13 Feb 2013 10:44:10 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemu: Upgrade to 1.3.1
+	Wed, 13 Feb 2013 20:12:33 +0100
+Received: by mail-pa0-f47.google.com with SMTP id bj3so891448pad.34
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Feb 2013 10:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=LS28r+FOH1G4OtuSIRy3bWpyt2K+ig24HkbwVWAovzA=;
+	b=0jdo43mfM1AdrpycpGAgRPA8arAFUUHWwebmdj04I2bkpgsW3fyHEMTOv7+bw4NxwS
+	l2OnlSrsEZ6eHn6vZ4g6Iby2SuEAFoM3N/3cPEtomDPkmDwwzqjAjU9FmxQb+sgT6T8l
+	bTH4s5C5f3OvmBpajWL+X3lEjkH0PtOgmmDkrUCvXNKxiuiZGFY703wJ61SkU6FsP17n
+	Dw6hjzi+s3dY06ylpAYsz5Zec3Ll3ldeRih82YimlPtzn60djRv2Rhp2ZHwAZAUrBZLM
+	TrF/bzM8sJrnnT6daeifCyL1tRFpbUWt4iPwDPgeNc7ZAkhkCcNATMtJyilwDizZIsf+
+	87Qw==
+X-Received: by 10.66.84.202 with SMTP id b10mr66660542paz.71.1360781790444;
+	Wed, 13 Feb 2013 10:56:30 -0800 (PST)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id q4sm85572879paz.20.2013.02.13.10.56.28
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Feb 2013 10:56:29 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Feb 2013 10:56:15 -0800
+Message-Id: <1360781775-22283-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Revert "pseudo_git.bb: Bump to pseudo 1.4.4."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,59 +40,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 19:00:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Feb 2013 19:12:34 -0000
 
-On 02/12/2013 11:46 PM, Khem Raj wrote:
-> qemu on target,qemu-native and nativesdk versions built
-> and worked fine
->
+This reverts commit 600dff4f2c6c37fa0a0cff2d287bade037c214b6.
 
-Already on the list and in MUT from Constantin
+We are seeing regressions eg. when building openssh it ends up
+with
 
-Thanks
-	Sau!
+WARNING: useradd command did not succeed. Retrying...
+ERROR: tried running useradd command 10 times without success, giving up
+---
+ meta/recipes-devtools/pseudo/pseudo_1.4.3.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.4.4.bb |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    4 ++--
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/recipes-devtools/qemu/qemu_1.3.0.bb |   10 ----------
->   meta/recipes-devtools/qemu/qemu_1.3.1.bb |    9 +++++++++
->   2 files changed, 9 insertions(+), 10 deletions(-)
->   delete mode 100644 meta/recipes-devtools/qemu/qemu_1.3.0.bb
->   create mode 100644 meta/recipes-devtools/qemu/qemu_1.3.1.bb
->
-> diff --git a/meta/recipes-devtools/qemu/qemu_1.3.0.bb b/meta/recipes-devtools/qemu/qemu_1.3.0.bb
-> deleted file mode 100644
-> index 7d007ea..0000000
-> --- a/meta/recipes-devtools/qemu/qemu_1.3.0.bb
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -require qemu.inc
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-> -                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
-> -
-> -SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
-> -SRC_URI[md5sum] = "a4030ddd2ba324152a97d65d3c0b247d"
-> -SRC_URI[sha256sum] = "878055ec05bc28fecfe2da97eb8bc992e8635575b67cebdfc5ca1ede171140a8"
-> -
-> -PR = "r0"
-> diff --git a/meta/recipes-devtools/qemu/qemu_1.3.1.bb b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
-> new file mode 100644
-> index 0000000..9ac7027
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
-> @@ -0,0 +1,9 @@
-> +require qemu.inc
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-> +                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
-> +
-> +SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
-> +SRC_URI[md5sum] = "5dbc6c22f47efca71dfaae0dd80dcf9e"
-> +SRC_URI[sha256sum] = "3772e7ef0c9b4178195edcf90e711f12ba123f465fcf09fb43b56bdacaca0eaf"
-> +
->
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
+new file mode 100644
+index 0000000..8f25bd0
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo_1.4.3.bb
+@@ -0,0 +1,8 @@
++require pseudo.inc
++
++PR = "r0"
++
++SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "ac943153aa78e210e2d0db7c85845db3"
++SRC_URI[sha256sum] = "0ca12a319c0ee87d1c8b2a4310c36a6d68d8d4b8c9c7dba00bace1773baf18e8"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
+deleted file mode 100644
+index dea607c..0000000
+--- a/meta/recipes-devtools/pseudo/pseudo_1.4.4.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require pseudo.inc
+-
+-PR = "r0"
+-
+-SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "ae18a1388c032ac910adbf8c3111fdc4"
+-SRC_URI[sha256sum] = "e72cb188fd8efb9eadfb5ce571a45a99245ae312eb9830cb9a9726bb25e47c17"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index efffc95..bbdba43 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,7 +1,7 @@
+ require pseudo.inc
+ 
+-SRCREV = "363a94bb851046f62648d7c96c749e899bd0648e"
+-PV = "1.4.4+git${SRCPV}"
++SRCREV = "a01d7884e5f3acba1460cf6b500d28390e7af9f8"
++PV = "1.4.3+git${SRCPV}"
+ PR = "r0"
+ 
+ DEFAULT_PREFERENCE = "-1"
+-- 
+1.7.9.5
+
 
 
