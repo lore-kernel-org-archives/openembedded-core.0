@@ -1,35 +1,25 @@
-Received: from mail-wg0-f49.google.com ([74.125.82.49])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U5h6g-0000i7-Jp
+	(envelope-from <sgw@linux.intel.com>) id 1U5hZ4-0002jh-L4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 19:30:59 +0100
-Received: by mail-wg0-f49.google.com with SMTP id 15so1181896wgd.28
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 10:14:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=/yGAvl32QK4NzMDCGttND1iTIYv5lhONbRpJbzofwFQ=;
-	b=pLXFVNegjotA+m9iM7hnfAzgZbGQaRr6NgpWOQj0MagCeqWSrt0PG0yazrJRquvaqk
-	JdG6Gc8LE3kXPSy99m9ifhzlwEYZDLZvjV/NmNoRNYlSLJCgfDb3yC7LIvU6soO+AmP/
-	8ZtNj5dDlydHIGXDCGNSscyDAT4Pn6r4JOf16NLIUlmTkt46YB+/u4gOftE22SPRBzI7
-	wbmvks1i6X65pOOZ5A4qlcRA6yaou7OKawn9mnOpZlB1OPKyaCFxBWvLbT9lIph6wylT
-	LL134I1j+gnz4s2uzZRx+INH7XWCTXWHWTpANb4hY7/wEd7G5Mm9scCMolwecx+K2zhw
-	7VRQ==
-X-Received: by 10.195.13.200 with SMTP id fa8mr40092921wjd.15.1360779297479;
-	Wed, 13 Feb 2013 10:14:57 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hb9sm44033349wib.3.2013.02.13.10.14.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Feb 2013 10:14:56 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Feb 2013 18:12:42 +0000
-Message-Id: <1360779162-28824-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnbHH8coTiwGRPirFoM/S06E65KVzOI9imUOBMd6I/uTpA07kx59I9fj54+KyBruh2nQBRA
-Subject: [PATCH] systemd: add udev-extraconf and USB/PCI IDs to RRECOMMENDS
+	Wed, 13 Feb 2013 20:00:47 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 13 Feb 2013 10:44:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,658,1355126400"; d="scan'208";a="256516111"
+Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
+	by azsmga001.ch.intel.com with ESMTP; 13 Feb 2013 10:44:10 -0800
+Message-ID: <511BDEFA.5060601@linux.intel.com>
+Date: Wed, 13 Feb 2013 10:44:10 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu: Upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 18:31:14 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 19:00:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The standalone udev has these dependencies and extraconf is required to have
-working automount amongst other things.
+On 02/12/2013 11:46 PM, Khem Raj wrote:
+> qemu on target,qemu-native and nativesdk versions built
+> and worked fine
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_197.bb |    1 +
- 1 file changed, 1 insertion(+)
+Already on the list and in MUT from Constantin
 
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index d55206b..0c3ebc4 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -194,6 +194,7 @@ FILES_udev-dbg += "/lib/udev/.debug"
- 
- RDEPENDS_udev += "udev-utils"
- RPROVIDES_udev = "hotplug"
-+RRECOMMENDS_udev += "udev-extraconf usbutils-ids pciutils-ids"
- 
- FILES_udev += "${base_sbindir}/udevd \
-                ${base_libdir}/systemd/systemd-udevd \
--- 
-1.7.10.4
+Thanks
+	Sau!
 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   meta/recipes-devtools/qemu/qemu_1.3.0.bb |   10 ----------
+>   meta/recipes-devtools/qemu/qemu_1.3.1.bb |    9 +++++++++
+>   2 files changed, 9 insertions(+), 10 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/qemu/qemu_1.3.0.bb
+>   create mode 100644 meta/recipes-devtools/qemu/qemu_1.3.1.bb
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu_1.3.0.bb b/meta/recipes-devtools/qemu/qemu_1.3.0.bb
+> deleted file mode 100644
+> index 7d007ea..0000000
+> --- a/meta/recipes-devtools/qemu/qemu_1.3.0.bb
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -require qemu.inc
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+> -                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+> -
+> -SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+> -SRC_URI[md5sum] = "a4030ddd2ba324152a97d65d3c0b247d"
+> -SRC_URI[sha256sum] = "878055ec05bc28fecfe2da97eb8bc992e8635575b67cebdfc5ca1ede171140a8"
+> -
+> -PR = "r0"
+> diff --git a/meta/recipes-devtools/qemu/qemu_1.3.1.bb b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
+> new file mode 100644
+> index 0000000..9ac7027
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
+> @@ -0,0 +1,9 @@
+> +require qemu.inc
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+> +                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+> +
+> +SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+> +SRC_URI[md5sum] = "5dbc6c22f47efca71dfaae0dd80dcf9e"
+> +SRC_URI[sha256sum] = "3772e7ef0c9b4178195edcf90e711f12ba123f465fcf09fb43b56bdacaca0eaf"
+> +
+>
 
 
