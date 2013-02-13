@@ -1,35 +1,33 @@
 Received: from mail-da0-f49.google.com ([209.85.210.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1U5XIP-00016q-Nr
+	(envelope-from <raj.khem@gmail.com>) id 1U5XIO-00016o-NM
 	for openembedded-core@lists.openembedded.org;
 	Wed, 13 Feb 2013 09:02:48 +0100
-Received: by mail-da0-f49.google.com with SMTP id t11so431866daj.8
+Received: by mail-da0-f49.google.com with SMTP id t11so435724daj.36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 23:46:24 -0800 (PST)
+	Tue, 12 Feb 2013 23:46:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=vpU0wy6Ktqquq4bjhq6cC2S04jSheAwesEx4AuSRJ4Y=;
-	b=goCnvhmCn4fxAfpiEw+ck9eFBdF+/SgU5cY+kstr/i/lLCqwqbkEif9GBoIA8faF+p
-	MhbTIWQ1AAOfmEIC3nFnv9X5rf9FJyenhl7lSSTiOTyYj4+oWu9xueQRhnRzu+vSS9Xg
-	4qJfwN/q0EzyRHi61wSbYgXn8IYmsM22WhWJA7GxpnUuh/lvsUo9VaRk+Gz+e6nybIyT
-	XzdQM8KRp4gMlfHqUkMDZz/Uc8lmCt0jJ0uS736tN/7nuJeVBLjPpGl9Bb8Mv4q14wNM
-	kxYW6x+PA5Xxqf/TSFw/mKOTBsK+xCDHSlc04g0SeSHP1bMOKkQd1ByUY4PxRUhvqgyL
-	qXqg==
-X-Received: by 10.66.73.165 with SMTP id m5mr61119914pav.78.1360741584556;
-	Tue, 12 Feb 2013 23:46:24 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=ohRfuCLIbE3YXQDiusqzsbLfS4nnM/IUxpZ6ld5GgH8=;
+	b=UNODSOgfErYZrDW3VCSRAxfcD7OOTI0ADHsz0HrH/QD40VtL3w5MB9LowXluCZITSg
+	UERGZfh0O4Z0yaftJusN4BTFsG0OBButSV38VSK3ewTzKuE1GPj1V0NHmNmNesV3V+he
+	VEyKys/AnSBT371eInBO0/h04kZPCDbowE93LjUyR9lq3q2O1oHv+lPez+PZ90XlaOk0
+	+T/dfv4RB6ULKGa82wC33mdY+F0ZHP/kWBWo/+ykhn38Who4y9QcKpxKC1wjnkzwgORr
+	+eQkh/mhUm5kSn/gboedFxfsCV7tkJVMnm4c4rzpavCAqBM3hJwq2641as2IYukahGk/
+	n1+A==
+X-Received: by 10.66.79.97 with SMTP id i1mr61213100pax.47.1360741583397;
+	Tue, 12 Feb 2013 23:46:23 -0800 (PST)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id a4sm81409989paw.21.2013.02.12.23.46.23
+	by mx.google.com with ESMTPS id a4sm81409989paw.21.2013.02.12.23.46.21
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 Feb 2013 23:46:24 -0800 (PST)
+	Tue, 12 Feb 2013 23:46:22 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Feb 2013 23:46:10 -0800
-Message-Id: <1360741570-11148-2-git-send-email-raj.khem@gmail.com>
+Date: Tue, 12 Feb 2013 23:46:09 -0800
+Message-Id: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
-References: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH V2] systemd.bbclass: Dont use libdir and base_libdir for units
+Subject: [PATCH] qemu: Upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,59 +46,50 @@ X-List-Received-Date: Wed, 13 Feb 2013 08:02:54 -0000
 X-List-Received-Date: Wed, 13 Feb 2013 08:02:54 -0000
 X-List-Received-Date: Wed, 13 Feb 2013 08:02:54 -0000
 X-List-Received-Date: Wed, 13 Feb 2013 08:02:54 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 08:02:54 -0000
 
-systemd always uses /lib and /usr/lib to store unit files
-so using libdir and base_libdir is incorrect. It will work
-where libdir is usr/lib and base_libdir is /lib but wont work
-when say its /lib64
-
-Add a check to make sure that SYSTEMD_PACKAGES are part of PACKAGES
-too, otherwise error out
+qemu on target,qemu-native and nativesdk versions built
+and worked fine
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/systemd.bbclass |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/qemu/qemu_1.3.0.bb |   10 ----------
+ meta/recipes-devtools/qemu/qemu_1.3.1.bb |    9 +++++++++
+ 2 files changed, 9 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu_1.3.0.bb
+ create mode 100644 meta/recipes-devtools/qemu/qemu_1.3.1.bb
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 8b55813..269e3f9 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -49,6 +49,12 @@ python systemd_populate_packages() {
-             val = (d.getVar(var, True) or "").strip()
-         return val
- 
-+    # Check if systemd-packages already included in PACKAGES
-+    def systemd_check_package(pkg_systemd):
-+        packages = d.getVar('PACKAGES', True)
-+        if not pkg_systemd in packages:
-+            bb.error('%s does not appear in package list, please add it', " " + pkg_systemd)
+diff --git a/meta/recipes-devtools/qemu/qemu_1.3.0.bb b/meta/recipes-devtools/qemu/qemu_1.3.0.bb
+deleted file mode 100644
+index 7d007ea..0000000
+--- a/meta/recipes-devtools/qemu/qemu_1.3.0.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require qemu.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+-                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+-
+-SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "a4030ddd2ba324152a97d65d3c0b247d"
+-SRC_URI[sha256sum] = "878055ec05bc28fecfe2da97eb8bc992e8635575b67cebdfc5ca1ede171140a8"
+-
+-PR = "r0"
+diff --git a/meta/recipes-devtools/qemu/qemu_1.3.1.bb b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
+new file mode 100644
+index 0000000..9ac7027
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu_1.3.1.bb
+@@ -0,0 +1,9 @@
++require qemu.inc
 +
- 
-     # Add a runtime dependency on systemd to pkg
-     def systemd_add_rdepends(pkg):
-@@ -118,11 +124,9 @@ python systemd_populate_packages() {
- 
-     # Check service-files and call systemd_add_files_and_parse for each entry
-     def systemd_check_services():
--        base_libdir = d.getVar('base_libdir', True)
-         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
--        searchpaths.append(oe.path.join(d.getVar("base_libdir", True), "systemd", "system"))
--        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "system"))
--        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "user"))
-+	searchpaths.append(oe.path.join(d.getVar("nonarch_base_libdir", True), "systemd", "system"))
-+	searchpaths.append(oe.path.join(d.getVar("exec_prefix", True), d.getVar("nonarch_base_libdir", True), "systemd", "system"))
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
-         has_exactly_one_service = len(systemd_packages.split()) == 1
-         if has_exactly_one_service:
-@@ -149,6 +153,7 @@ python systemd_populate_packages() {
-     # Run all modifications once when creating package
-     if os.path.exists(d.getVar("D", True)):
-         for pkg in d.getVar('SYSTEMD_PACKAGES', True).split():
-+            systemd_check_package(pkg)
-             if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
-                 systemd_generate_package_scripts(pkg)
-                 systemd_add_rdepends(pkg)
++LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
++                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
++
++SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
++SRC_URI[md5sum] = "5dbc6c22f47efca71dfaae0dd80dcf9e"
++SRC_URI[sha256sum] = "3772e7ef0c9b4178195edcf90e711f12ba123f465fcf09fb43b56bdacaca0eaf"
++
 -- 
 1.7.9.5
 
