@@ -1,26 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1U5eas-0005oV-Jj
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1U5esm-0007wf-Do
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 16:49:59 +0100
+	Wed, 13 Feb 2013 17:08:30 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1DFXwuu019108
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1DFqPPr018076
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 07:33:58 -0800 (PST)
-Received: from [128.224.168.151] (128.224.168.151) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Wed, 13 Feb 2013 07:33:55 -0800
-Message-ID: <511BB265.8030505@windriver.com>
-Date: Wed, 13 Feb 2013 17:33:57 +0200
+	Wed, 13 Feb 2013 07:52:26 -0800 (PST)
+Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.168.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Wed, 13 Feb 2013 07:52:25 -0800
 From: Florin Sarbu <florin.sarbu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Feb 2013 17:52:18 +0200
+Message-ID: <1360770738-26127-1-git-send-email-florin.sarbu@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: systemd services in the rootfs
+X-Originating-IP: [128.224.168.151]
+Subject: [PATCH] connman: Have connman package systemd service.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 15:50:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Feb 2013 16:08:35 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 16:08:35 -0000
+Content-Type: text/plain
 
-Hi all,
-following the transition of the systemd.bbclass from meta-openembedded 
-to oe-core, I stumbled upon on what seems to me a missing feature that 
-has not been brought along in the new systemd.bbclass in oe-core. Seems 
-that if one does not explicitly specify the inclusion of the packages 
-containing the systemd services in a packagegroup or image recipe or use 
-some other mechanism that will determine the addition of these packages 
-in the final rootfs, then the root filesystem will not contain the 
-systemd services. Even though DISTRO_FEATURES_INITMAN="systemd" is set. 
-The meta-openembedded systemd.bbclass, needed no additional adding of 
-the systemd related packages, just RRECOMMENDED and things worked as 
-expected. Shouldn't the DISTRO_FEATURES_INITMAN do just that? Is it 
-something that still needs to be done on the systemd.bbclass or would 
-you suggest that from now on we will have to manually add the systemd 
-packages in packagegroups, image recipes etc?
+connman.inc was missing the SYSTEMD_PACKAGES variable. Declared
+${PN}-systemd as the package containing the systemd service
+file and also added this package to PACKAGES variable.
 
-Thank you,
-Florin
+Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index b61e2af..8c4ee89 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+             "
+ 
+-INC_PR = "r17"
++INC_PR = "r18"
+ 
+ TIST = "--enable-tist"
+ TIST_powerpc = ""
+@@ -46,6 +46,7 @@ EXTRA_OECONF += "\
+ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+ 
++SYSTEMD_PACKAGES = "${PN}-systemd"
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ 
+ # IMPORTANT: because xuser is shared with rootless X, please make sure the
+@@ -116,7 +117,7 @@ python populate_packages_prepend() {
+             d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
+ }
+ 
+-PACKAGES =+ "${PN}-tools ${PN}-tests"
++PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-systemd"
+ 
+ FILES_${PN}-tools = "${bindir}/wispr"
+ 
+-- 
+1.7.10.4
+
 
 
