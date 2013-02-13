@@ -1,35 +1,20 @@
-Received: from mail-lb0-f176.google.com ([209.85.217.176])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1U5ani-0006gd-TR
+	(envelope-from <mihai.prica@intel.com>) id 1U5cdS-0001np-En
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 12:47:25 +0100
-Received: by mail-lb0-f176.google.com with SMTP id s4so851871lbc.21
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 03:30:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=9CC4fk+siXn51qeTJYUkqUi22x4Gyo/1xW1I+1rMbh0=;
-	b=CM0c5dSiOwhLMa78iIX5zbDE/wIQ/8YQFPcvjZLQTyN4R7Ru5bZ0JZeon/CJn6keuD
-	XyY2L2fCKe9MdnGBXs8e/qcbTc1K7Fn32lM7XQyaAOjpxQHdE6VUfLC9U5AIZolEfh/X
-	RMPB4mIuL0woGZu7pXlQOkIMpl1XNZTQE9xtFNeMxyAOoYwefw878zVz9WrbEscEtxT1
-	fMXxinqLCT9cLjclDxBzv0cPudwbbWODE1V9BCQW5aFkAAgaZ4H8ebMVl0O1rCOohDGQ
-	EFgJHoowBsUjTTHZFtF6aHE8Fpmur1tNDWAqyKhXdxEiHBbIl+guJ/bxieOx7Nv0qNng
-	Lsgg==
-X-Received: by 10.152.123.194 with SMTP id mc2mr19890833lab.7.1360755057739;
-	Wed, 13 Feb 2013 03:30:57 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id fz16sm6387798lab.5.2013.02.13.03.30.54
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 13 Feb 2013 03:30:56 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1U5aY9-0001ul-Qy; Wed, 13 Feb 2013 13:30:53 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
+	Wed, 13 Feb 2013 14:44:31 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Feb 2013 05:27:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,657,1355126400"; d="scan'208";a="256387236"
+Received: from mihai-vostro-460 (HELO localhost.localdomain) ([10.237.105.144])
+	by azsmga001.ch.intel.com with ESMTP; 13 Feb 2013 05:27:22 -0800
+From: Mihai Prica <mihai.prica@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Feb 2013 13:30:52 +0200
-Message-Id: <cover.1360754857.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/4] Updates to new upstream versions
+Date: Wed, 13 Feb 2013 15:28:04 +0200
+Message-Id: <1360762085-328-1-git-send-email-mihai.prica@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,75 +27,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 11:47:34 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 13:44:39 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 13:44:39 -0000
 
-Some updates to newer upstream versions. No major version
-bumps, just newer bugfix versions.
+- enables qemu to run images with video output without the need for vncviewer.
+- SDLPACKAGECONFIG is used because there is no need for the native-libsdl
+package when building the qemu-native package.
 
+Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc |   19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
- - ML
-
-The following changes since commit c58e6cf352774e147038e6543ac95ab0060f2327:
-
-  distro_check: Remove creation of empty Meego filelist. (2013-02-12 13:22:14 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/up
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/up
-
-Marko Lindqvist (4):
-  webkit-gtk: update to upstream version 1.8.3
-  gtk+: update to upstream version 2.24.15
-  harfbuzz: update to upstream version 0.9.12
-  libpng: update to upstream version 1.5.14
-
- .../gtk+/gtk+-2.24.14/hardcoded_libtool.patch      |   33 -
- .../gtk+-2.24.14/obsolete_automake_macros.patch    |   23 -
- ...utton-do-not-prelight-in-touchscreen-mode.patch |    0
- ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
- .../cellrenderer-cairo.patch                       |    0
- .../configure-nm.patch                             |   11 +-
- .../configurefix.patch                             |    0
- .../{gtk+-2.24.14 => gtk+-2.24.15}/doc-fixes.patch |    0
- .../entry-cairo.patch                              |    0
- .../gtk+/gtk+-2.24.15/hardcoded_libtool.patch      | 1814 ++++++++++++++++++++
- .../{gtk+-2.24.14 => gtk+-2.24.15}/no-demos.patch  |    0
- .../run-iconcache.patch                            |    0
- .../toggle-font.diff                               |    0
- .../{gtk+-2.24.14 => gtk+-2.24.15}/xsettings.patch |    0
- .../gtk+/{gtk+_2.24.14.bb => gtk+_2.24.15.bb}      |    7 +-
- .../avoid_double_version_h.patch                   |    0
- .../disable_graphite.patch                         |    0
- .../{harfbuzz_0.9.10.bb => harfbuzz_0.9.12.bb}     |    8 +-
- .../libpng-1.5.13/obsolete_automake_macros.patch   |   15 -
- .../libpng/{libpng_1.5.13.bb => libpng_1.5.14.bb}  |   11 +-
- .../{webkit-gtk_1.8.2.bb => webkit-gtk_1.8.3.bb}   |    6 +-
- 21 files changed, 1837 insertions(+), 91 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/hardcoded_libtool.patch
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/obsolete_automake_macros.patch
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/cellrenderer-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/configure-nm.patch (50%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/configurefix.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/doc-fixes.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/entry-cairo.patch (100%)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.15/hardcoded_libtool.patch
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/no-demos.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/run-iconcache.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/toggle-font.diff (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/xsettings.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+_2.24.14.bb => gtk+_2.24.15.bb} (92%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz-0.9.10 => harfbuzz-0.9.12}/avoid_double_version_h.patch (100%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz-0.9.10 => harfbuzz-0.9.12}/disable_graphite.patch (100%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.10.bb => harfbuzz_0.9.12.bb} (82%)
- delete mode 100644 meta/recipes-multimedia/libpng/libpng-1.5.13/obsolete_automake_macros.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.5.13.bb => libpng_1.5.14.bb} (47%)
- rename meta/recipes-sato/webkit/{webkit-gtk_1.8.2.bb => webkit-gtk_1.8.3.bb} (97%)
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6c44b31..68114c5 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -3,8 +3,7 @@ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
+ DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
+-DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
++DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-glib-2.0 nativesdk-pixman"
+ 
+ require qemu-targets.inc
+ inherit autotools
+@@ -13,10 +12,6 @@ BBCLASSEXTEND = "native nativesdk"
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+ 
+-SDL ?= "--disable-sdl"
+-SDL_class-native ?= ""
+-SDL_class-nativesdk ?= ""
+-
+ SRC_URI = "\
+     file://powerpc_rom.bin \
+     file://no-strip.patch \
+@@ -32,7 +27,7 @@ SRC_URI_append_class-nativesdk = "\
+     file://relocatable_sdk.patch \
+     "
+ 
+-EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 ${SDL} --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman --disable-smartcard"
++EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman --disable-smartcard"
+ 
+ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls \
+ 				--disable-curl \
+@@ -83,7 +78,15 @@ do_install_append() {
+ }
+ # END of qemu-mips workaround
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "sdl"
++PACKAGECONFIG_class-native ??= "sdl"
++PACKAGECONFIG_class-nativesdk ??= "sdl"
++
++SDLPACKAGECONFIG = "libsdl"
++SDLPACKAGECONFIG_class-native = ""
++SDLPACKAGECONFIG_class-nativesdk = "nativesdk-libsdl"
++
++PACKAGECONFIG[sdl] = ",--disable-sdl,${SDLPACKAGECONFIG},${SDLPACKAGECONFIG}"
+ 
+ # Qemu target will not build in world build for ARM or Mips
+ BROKEN_qemuarm = "1"
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
