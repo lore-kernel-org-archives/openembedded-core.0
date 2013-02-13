@@ -1,41 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f169.google.com ([209.85.220.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U5fpq-000533-6Y for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 18:09:35 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1DGxPkn001330; Wed, 13 Feb 2013 16:59:25 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 12vYsWyQ+o6b; Wed, 13 Feb 2013 16:59:25 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1DGxHYi001290
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 13 Feb 2013 16:59:21 GMT
-Message-ID: <1360774391.11225.52.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 13 Feb 2013 16:53:11 +0000
-In-Reply-To: <CADkTA4PWV5zc7LtXZiMORT=XcMB-ydkxc2qZbsfrE0S_7oVXzA@mail.gmail.com>
-References: <cover.1359708915.git.Qi.Chen@windriver.com>
-	<b2319aaf09ba1dccdcd58cf067a1b0b1dd4ada93.1359708915.git.Qi.Chen@windriver.com>
-	<CADkTA4Nc_fZbBTRbTi8ZbCZAa24_8r_qS9bCfXuoktisC4pavg@mail.gmail.com>
-	<510C0FF1.2010400@linux.intel.com>
-	<CADkTA4OuDqRE25oNRbFJCyrWpkkj62HpHHNN4qOFocNnrgSY_w@mail.gmail.com>
-	<5110A9D1.20208@windriver.com>
-	<CADkTA4MN+jzTZCLBK17mJvhvLbAB7yf-8Fr8bRBaM7c=b=_avw@mail.gmail.com>
-	<1360675313.30425.14.camel@ted>
-	<CADkTA4PqMtT5Jt3yuaKO=f=TX4hYk4qFrCP_2amMi3Y=KbW3uw@mail.gmail.com>
-	<1360683160.30425.29.camel@ted>
-	<CADkTA4PWV5zc7LtXZiMORT=XcMB-ydkxc2qZbsfrE0S_7oVXzA@mail.gmail.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com, Patches,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] busybox: add config fragments
+	(envelope-from <ross.burton@intel.com>) id 1U5fq6-00053X-18
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Feb 2013 18:10:07 +0100
+Received: by mail-vc0-f169.google.com with SMTP id n10so918280vcn.28
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Feb 2013 08:53:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=mtGMN0tI4oEtpPaOjyLT0SbDPvLmj635T9hHuVGcRDg=;
+	b=CJUZEvuzEpEra2Ky8JtyDS6zSiSsJ+JFcZuYILrWo1YnmRMM4MYb/OT40Klb2oyJoR
+	j8xe3kGDLX9LWHd4hfyG2CtM/MifKH/85SmuL/wsSzrC7hcesG0jRKoZ6H8d41Z9MODJ
+	pmpTYBUk5J/6tGWznSkqOqP2kRKD14vQuMNnMEa3Pzl6uoCbwyGk7KMXvfGrw1vjGisv
+	b1muGfDbbwrMViyUeAvUux/zKg/57eejJn9l4XGILQIIW4yQAKaBr1t+2YQvNtnYJ127
+	QQkI4o0nIm97BjeLbDfh/k2Rge/02oxWD5OPsPEsdM+arHp5y8ZK0xqT2lHzK8CB117I
+	9Lww==
+X-Received: by 10.220.108.2 with SMTP id d2mr30463997vcp.60.1360774420450;
+	Wed, 13 Feb 2013 08:53:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.221.10.202 with HTTP; Wed, 13 Feb 2013 08:53:20 -0800 (PST)
+In-Reply-To: <1360741570-11148-2-git-send-email-raj.khem@gmail.com>
+References: <1360741570-11148-1-git-send-email-raj.khem@gmail.com>
+	<1360741570-11148-2-git-send-email-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Feb 2013 16:53:20 +0000
+Message-ID: <CAJTo0La78u7UYmYgLVmRXww0hBy0AvzqAG5JrUHUjqhOdUWT0g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQlVuhJ52nm6ZeBGDhbg0cVBikA+RnCUzBTX/9EmgUAIks1MPoBknaTiQIycdpl+BQJhonfJ
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] systemd.bbclass: Dont use libdir and base_libdir for units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,29 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 17:10:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Feb 2013 17:10:54 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 17:10:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-02-12 at 11:50 -0500, Bruce Ashfield wrote:
-> Attached is the fixed up patch with DEPENDS, the existing one had a typo
-> in:
-> 
->   do_config[depends] = "kern-tools-native:do_populate_sysroot"
-> 
-> I've gone ahead and replaced it with a DEPENDS and tested the failure case
-> here.
-> 
-> This is a complete patch replacement, let me know if you'd prefer something
-> incremental.
+On 13 February 2013 07:46, Khem Raj <raj.khem@gmail.com> wrote:
+> +        packages = d.getVar('PACKAGES', True)
+> +        if not pkg_systemd in packages:
 
-DEPENDS should be towards the start of the file and/or use =+ in case
-something in one of the classes also sets DEPENDS. I tweaked and merged
-it since I don't really want to review it again ;-).
+Should probably do packages.split() here to ensure that we don't match
+a substring.
 
-Cheers,
-
-Richard
-
+Ross
 
 
