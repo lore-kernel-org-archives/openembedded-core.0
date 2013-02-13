@@ -1,28 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ie0-f181.google.com ([209.85.223.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U5QRs-0002An-7u
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 01:43:44 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1D0Riqw007967
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Feb 2013 16:27:44 -0800 (PST)
-Received: from msp-dhcp44.wrs.com (172.25.34.44) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 12 Feb 2013 16:27:42 -0800
-Message-ID: <511ADDF0.9040703@windriver.com>
-Date: Tue, 12 Feb 2013 18:27:28 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
+	(envelope-from <raj.khem@gmail.com>) id 1U5SZe-0005f5-Js
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 13 Feb 2013 04:00:11 +0100
+Received: by mail-ie0-f181.google.com with SMTP id 17so1062525iea.40
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 12 Feb 2013 18:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=IDyy6lKpbCmOiy3cr688zky+yAEy2cCrrAcfOv/8pGk=;
+	b=QzzBOX0WfObXoxS8ih77TFYILvCf3YFKqwHPjSXeUrUBpq1P37f0xeGGgcs/Zt48us
+	YglEhc0m+jRtidZypamrBDqtBsqXPX8L+bHJTyroBPsxIcu0psh3Q8vrmmTiPl2Jwz11
+	pc6BQm8A/2Eum9TF8YSd+G53/HfHtxfr4cPZrJ1Yh4FD2DZesy9TfLXm0VN0bpo/H2rn
+	mgAHtoEn+F+MG2bSVMWjC/k/tzUTMrUndMG1tmFzhgucUZCSf86rMNUCQo1yx+eVpBWF
+	Osa4uxXsHCgswdaQhyYyy+X9j9NiHEA/o1mNH3S+CVp+NsH/H1E3GD3Kuz8rAf3NPbLa
+	bLCA==
+X-Received: by 10.50.155.134 with SMTP id vw6mr8170972igb.34.1360723433892;
+	Tue, 12 Feb 2013 18:43:53 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1360714913.11225.24.camel@ted>
-In-Reply-To: <1360714913.11225.24.camel@ted>
-Subject: Re: [PATCH] multilib: Fix an OVERRIDES expansion order issue
+Received: by 10.50.13.204 with HTTP; Tue, 12 Feb 2013 18:43:23 -0800 (PST)
+In-Reply-To: <1360709606.11225.1.camel@ted>
+References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
+	<1360705147.30425.70.camel@ted> <511ABC32.4000803@windriver.com>
+	<1360709606.11225.1.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 12 Feb 2013 18:43:23 -0800
+Message-ID: <CAMKF1sp-P6R7izkULawssoQJFQ7LcSb9Crc3ajb95W4UR1QTZg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +42,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 00:43:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Feb 2013 03:00:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2/12/13 6:21 PM, Richard Purdie wrote:
+On Tue, Feb 12, 2013 at 2:53 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2013-02-12 at 16:03 -0600, Jason Wessel wrote:
+>> On 02/12/2013 03:39 PM, Richard Purdie wrote:
+>> > On Tue, 2013-02-12 at 13:36 -0600, Jason Wessel wrote:
+>> >> If you never use sstate and always build everything from scratch you
+>> >> will never see this problem.  However, if you use sstate and build
+>> >> directories that last a long time eventually you can end up with the
+>> >> scenario where libtool gets a hard coded path in it for sed, and sed
+>> >> may not exist.  The reason you don't see this problem to often if you
+>> >> generally build from scratch is that libtool builds before sed and
+>> >> will pickup the host's /bin/sed.
+>> >>
+>> >> The way to reproduce the issue is:
+>> >>
+>> >> bitbake some_image
+>> >> bitbake -c cleansstate libtool-native
+>> >> bitbake sed-native
+>> >> bitbake libtool-native
+>> >> bitbake -c clean sed-native
+>> >> bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
+>> >>
+>> >> In my case I used modphp, which doesn't exist in the oe-core. You will
+>> >> end up with a strange looking error like:
+>> >>
+>> >> | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+>> >> | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+>> >>
+>> >> The solution is to always use /bin/sed for libtool-native.
+>> >>
+>> >> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> >> ---
+>> >>  .../libtool/libtool-native_2.4.2.bb                |    3 ++-
+>> >>  1 files changed, 2 insertions(+), 1 deletions(-)
+>> >>
+>> >> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> >> index f12e6a1..18188ef 100644
+>> >> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> >> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+>> >> @@ -2,12 +2,13 @@ require libtool-${PV}.inc
+>> >>
+>> >>  DEPENDS = ""
+>> >>
+>> >> -PR = "${INC_PR}.0"
+>> >> +PR = "${INC_PR}.1"
+>> >>  SRC_URI += "file://prefix.patch"
+>> >>
+>> >>  inherit native
+>> >>
+>> >>  EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
+>> >> +CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
+>> > Do we have to set a path for it? Can't we rely on PATH being sane? I'm
+>> > wondering if we should actually set this in the core site files.
+>> > Hardcoding a path to utilities never usually ends well and this is just
+>> > the tip of an iceberg.
+>> >
+>> > If we have to use a path, "${bindir}/env sed"?
+>> >
+>>
+>> The libtool seems to be in a class of its own with respect to
+>> internally hard coding things, so I am inclined to say this is a one
+>> off because A) it is libtool and B) it is part of the boot strap. For
+>> any other packages I have not observed any kind of problem with the
+>> sysroot sed vs host provided sed.
+>>
+>> Unfortunately doing ${bindir}/env sed can lead to a fairly rare race
+>> where sed can be there an get removed later because it will prefer the
+>> sed in the sysroot area because it is in the path first.  I never hit
+>> any of these problems until recently while continuing to just randomly
+>> build things with the usual stream of updates from the git repository.
+>>
+>> If we want libtool-native to use something other than /bin/sed on the
+>> host, the bootstrap needs some kind of overhaul to make libtool depend
+>> correctly on sed.  Currently we end up with a circular dependency if
+>> you try to make libtool-native depend on sed-native.
+>
+> Does it make sense for sed-native to ever be built? I know we have
+> issues with some others like tar, bzip/gzip and friends but no issues
+> with sed afaik?
+>
 
-Please add:
+we could if we get rid of it from following
 
-[ YOCTO #3874 ]
+meta/classes/populate_sdk_base.bbclass:SDK_DEPENDS =
+"virtual/fakeroot-native sed-native"
+meta/recipes-core/meta/external-python-tarball.bb:DEPENDS =
+"opkg-native opkg-utils-native virtual/fakeroot-native sed-native"
+meta/recipes-devtools/libtool/libtool-2.4.2.inc:# Don't want paths to
+sed-native (or anything else) encoded
+meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb:    sed-native \
 
-to the commit message.  (The problem is complex enough, that the bugzilla entry 
-is helpful in understanding why this is needed.)
 
 
-> There were problems where a SRC_URI with:
+
+> Cheers,
 >
-> SRC_URI_append_powerpc = " xxx"
-> SRC_URI_append_powerpc64 = " xxx2"
->
-> would end up with *both* xxx and xxx2 being added when using a multilib
-> which is clearly incorrect and undesirable.
->
-> The issue is that OVERRIDES has virtclass-multilib-xxxx added to it,
-> this eventually changed DEFAULTTUNE which then changes
-> TRANSLATED_TARGET_ARCH which is in OVERRIDES meaning we then need to
-> re-evaluate the overides and the TRANSLATED_TARGET_ARCH gets applied
-> twice since once you apply an override, it doesn't get undone.
->
-> Expanding DEFAULTTUNE to the correct value in advance avoids the issue
-> and means only the correct overrides get applied.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-> index 5454b4c..d52f721 100644
-> --- a/meta/classes/multilib.bbclass
-> +++ b/meta/classes/multilib.bbclass
-> @@ -51,6 +51,11 @@ python multilib_virtclass_handler () {
->       e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
->       e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.getVar("SHL
->       e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
-> +
-> +    # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
-> +    newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant)
-> +    if newtune:
-> +        e.data.setVar("DEFAULTTUNE", newtune)
->   }
->
->   addhandler multilib_virtclass_handler
+> Richard
 >
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
 
 
