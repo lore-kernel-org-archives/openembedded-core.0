@@ -1,18 +1,18 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U5k3L-0001yz-0z
+	(envelope-from <mark.hatle@windriver.com>) id 1U5kfX-0001Ct-C9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Feb 2013 22:40:00 +0100
+	Wed, 13 Feb 2013 23:19:22 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1DLNbTU014115
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1DM37tI025303
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Feb 2013 13:23:37 -0800 (PST)
+	Wed, 13 Feb 2013 14:03:08 -0800 (PST)
 Received: from msp-dhcp47.wrs.com (172.25.34.47) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Wed, 13 Feb 2013 13:23:36 -0800
-Message-ID: <511C0453.4090003@windriver.com>
-Date: Wed, 13 Feb 2013 15:23:31 -0600
+	Wed, 13 Feb 2013 14:03:05 -0800
+Message-ID: <511C0D93.7000707@windriver.com>
+Date: Wed, 13 Feb 2013 16:02:59 -0600
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
@@ -38,7 +38,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Feb 2013 21:40:06 -0000
+X-List-Received-Date: Wed, 13 Feb 2013 22:19:29 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -87,10 +87,11 @@ On 2/13/13 11:01 AM, McClintock Matthew-B29882 wrote:
 >
 > Missing a patch?
 
-Not sure I understand the question.  The set I sent up had:
+I finally understand..  Yes, my mistake, this one had been merged into Denzil 
+already and when I rebased I didn't notice.
 
-Patches 10, 11, 12, 13, 14, 15, and 18 all affecting qemu.  Together these are 
-working for me.
+11/18 can be dropped from the set.  (The other ones will need the PR's 
+adjusted.)  If anyone cares, I'll be happy to do this and send up a new set.
 
 --Mark
 
