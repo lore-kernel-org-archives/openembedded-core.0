@@ -1,38 +1,32 @@
-Received: from mail-vc0-f172.google.com ([209.85.220.172])
+Received: from eu1sys200aog102.obsmtp.com ([207.126.144.113])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U61fC-0004O4-88
+	(envelope-from <giuseppe.condorelli@st.com>) id 1U62BM-0005l9-Vz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 17:28:27 +0100
-Received: by mail-vc0-f172.google.com with SMTP id l6so1634354vcl.3
+	Thu, 14 Feb 2013 18:01:13 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob102.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUR0Uh7kox14OTIk2So8fa8DXUAdin9wN@postini.com;
+	Thu, 14 Feb 2013 16:45:12 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 517C2386
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 08:11:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=dAKggXlKrq8Jr7p95/m6PDCVKDjHib11ZTh2OALnE9Y=;
-	b=CAXLyVUgVaP7S3IY87ongo7aKyhUDkPBuU+Hxue4c75oIPl/ZzJIvNuGNRdolLDzVd
-	UwpLCjGmUoyeKTZT9hg/swJqXzvmFGUksYaRn5CWEZwVGsZ0JVdhd3gE0h42N+m9DA87
-	uo++dulmCmPy8MpATzOlD4sNYj8Y89NqoDW+oMHm6QKIZy2fNeoiI1wdgo6bpLDBcEKt
-	kc+TdlUMj7FN0IRjaJsvSs9RvsCWY9QUai3+nI9/UvxgKHObn3DaI1aVA++UicvR5jBG
-	ZtdfISper6nVyZLgMezjP63kmUHtqT9Op10sj6h22MTTQYLOCKsj18PEl6yo9f/1CAAE
-	1uUQ==
-X-Received: by 10.52.32.230 with SMTP id m6mr30549122vdi.83.1360858315400;
-	Thu, 14 Feb 2013 08:11:55 -0800 (PST)
+	Thu, 14 Feb 2013 16:44:36 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 10B4245F1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 16:44:36 +0000 (GMT)
+Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
+	by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AXU68995 (AUTH condorg);
+	Thu, 14 Feb 2013 17:44:35 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Feb 2013 17:44:34 +0100
+Message-ID: <0dea01ce0ad2$92793530$b76b9f90$@st.com>
 MIME-Version: 1.0
-Received: by 10.221.10.202 with HTTP; Thu, 14 Feb 2013 08:11:35 -0800 (PST)
-In-Reply-To: <CAHUNapR_kFzEK04GVk5J3+BRZhyU3hMBxOUTiFrDHZ1iypshVQ@mail.gmail.com>
-References: <B57A220D1EE1644685BA9AD5C790D20526BE046387@SOUTHSIDE.devonintlgroup.com>
-	<CAJTo0LYfTJh0XrEi94s4AAyXVFa6X9SPdBiEh4H7VZHr1ZVVPg@mail.gmail.com>
-	<CAHUNapR_kFzEK04GVk5J3+BRZhyU3hMBxOUTiFrDHZ1iypshVQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Feb 2013 16:11:35 +0000
-Message-ID: <CAJTo0LYr5UcZ1YE93eN6vdjnoGeea1TYye9shReP+DuhRyzqTQ@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Gm-Message-State: ALoCoQn4niVsj+qsXgnfxmwTl3EBS7hAeQpc+MDQlX8zwIpnsxyXfvbXPOq6uNNWCB/iNLYn3Bbl
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: state of systemd in oe
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: Ac4K0pBICMQxroUtQc+qr5KqVANhFw==
+Subject: Question about hanging after git clone try in Prelink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,24 +39,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 16:28:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Feb 2013 17:01:15 -0000
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Language: it
 
-On 14 February 2013 16:03, Trevor Woerner <twoerner@gmail.com> wrote:
-> Just out of curiosity:
-> - will systemd be the default?
-> - will it be possible to still use/choose sysvinit (i.e. is sysvinit
-> going away)?
+Hi,
 
-No and yes.
+due to local company restrictions, I cannot clone external git repository.
+During prelink-native fetch I catch the warning about that (given that the
+SRC_URI point to git) but then,
+trying other mirrors, system is able to download a tar.gz of the prelink.
+The strange thing is that however bitbake hangs with the error (that was a
+warning first) about the failure
+of SRC_URI catch. Why this? Should system be aware the given package was
+downloaded using mirrors?
+This happens also for mtd-utils.
+Please can you help me?
+Thanks,
+Giuseppe
 
-> How does systemd fit in with busybox? My understanding is that busybox
-> has its own init system. If someone enables/chooses systemd, does it
-> disable busybox's init from being built?
+PS: if I rerun the process than it goes ok, obviously because it finds the
+tar.gz in download directory.
 
-At the moment busybox's init isn't used - that's one of the many
-options for an init system including sysvinit, which is the default.
-
-Ross
 
 
