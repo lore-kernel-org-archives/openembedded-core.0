@@ -1,33 +1,28 @@
-Received: from mail-ia0-f182.google.com ([209.85.210.182])
+Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1U5qH0-00030A-PC
-	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 05:18:20 +0100
-Received: by mail-ia0-f182.google.com with SMTP id w33so1929513iag.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 20:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=j2LdY/Mv88Z46lWfaQ5x5BKwA4EfiiQghR87aMMaxGA=;
-	b=VggK9LblR2LSZ2ozLwvSfjwLRFYN5U8j/EfOK3laq//M7EyJV6ZKRAb+VbJyuYR1pB
-	iIDl5Uev5bwbA5PrVflLczz2QMJYP+URvVR0yfhW0Vxm8V+vBjGvHo5K8ZLvI7abWHz3
-	1DPp2XD6pzua+8jSHqomSiQrNY2rhaunE9+ldSb+IqDSjx8A5214Yyj5XON/Nw5qTzrD
-	byYrO0/IM/obHx/6TYMwADpnr4TVCDCXa1V3Jt9aqWN800vZW+tgWffEJZFRzQe4TU9e
-	nJEtwh4QgBGkxzkYvgpzcOBLp5lDG18hpwM2joUxbEfuSPtTXHKoxRxstMKsfnp61HRh
-	oCww==
-X-Received: by 10.50.196.162 with SMTP id in2mr16306662igc.76.1360814532582;
-	Wed, 13 Feb 2013 20:02:12 -0800 (PST)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id wo8sm742841igb.6.2013.02.13.20.02.11
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Feb 2013 20:02:12 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	(envelope-from <milo-software@users.sourceforge.net>)
+	id 1U5tEc-00045k-4N for openembedded-core@lists.openembedded.org;
+	Thu, 14 Feb 2013 08:28:00 +0100
+Received: from atl4mhob08.myregisteredsite.com
+	(atl4mhob08.myregisteredsite.com [209.17.115.46])
+	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1E7AbM4028524 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 02:10:37 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob08.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1E7AZLO012121 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 02:10:35 -0500
+Received: (qmail 7878 invoked by uid 0); 14 Feb 2013 07:10:35 -0000
+Received: from unknown (HELO phenom.lan) (mike@milosoftware.com@85.150.144.104)
+	by 0 with ESMTPA; 14 Feb 2013 07:10:35 -0000
+From: MiLo <milo-software@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Feb 2013 20:02:00 -0800
-Message-Id: <1360814521-24221-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V3] systemd.bbclass: Dont use libdir and base_libdir for units
+Date: Thu, 14 Feb 2013 08:10:30 +0100
+Message-Id: <1360825830-2520-1-git-send-email-milo-software@users.sourceforge.net>
+X-Mailer: git-send-email 1.7.5.4
+Cc: MiLo <milo-software@users.sourceforge.net>
+Subject: [PATCH] Python: Add missing dependency "textutils" to "io" package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,62 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 04:18:22 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 07:28:00 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 07:28:00 -0000
 
-systemd always uses /lib and /usr/lib to store unit files
-so using libdir and base_libdir is incorrect. It will work
-where libdir is usr/lib and base_libdir is /lib but wont work
-when say its /lib64
+Modify the include file and script to generate a missing RDEPENDS.
 
-Add a check to make sure that SYSTEMD_PACKAGES are part of PACKAGES
-too, otherwise error out
+Install python on target with python-io. Import ssl:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Python 2.7.3 (default, Feb  9 2013, 16:04:35)
+[GCC 4.7.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import ssl
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python2.7/ssl.py", line 58, in <module>
+ImportError: No module named textwrap
+
+Installing python-textutils solves the issue.
+
+Signed-off-by: MiLo <milo-software@users.sourceforge.net>
 ---
- meta/classes/systemd.bbclass |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../python/python-2.7-manifest.inc                 |    2 +-
+ scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 8b55813..066cc22 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -49,6 +49,12 @@ python systemd_populate_packages() {
-             val = (d.getVar(var, True) or "").strip()
-         return val
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index 3c7be7e..84e5a0b 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -119,7 +119,7 @@ RDEPENDS_${PN}-image="${PN}-core"
+ FILES_${PN}-image="${libdir}/python2.7/colorsys.* ${libdir}/python2.7/imghdr.* ${libdir}/python2.7/lib-dynload/imageop.so ${libdir}/python2.7/lib-dynload/rgbimg.so "
  
-+    # Check if systemd-packages already included in PACKAGES
-+    def systemd_check_package(pkg_systemd):
-+        packages = d.getVar('PACKAGES', True)
-+        if not pkg_systemd in packages.split():
-+            bb.error('%s does not appear in package list, please add it', " " + pkg_systemd)
-+
+ DESCRIPTION_${PN}-io="Python Low-Level I/O"
+-RDEPENDS_${PN}-io="${PN}-core ${PN}-math"
++RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
  
-     # Add a runtime dependency on systemd to pkg
-     def systemd_add_rdepends(pkg):
-@@ -118,11 +124,9 @@ python systemd_populate_packages() {
+ DESCRIPTION_${PN}-json="Python JSON Support"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 6a11c89..22470f9 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -272,7 +272,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-image", "Python Graphical Image Handling", "${PN}-core",
+     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
  
-     # Check service-files and call systemd_add_files_and_parse for each entry
-     def systemd_check_services():
--        base_libdir = d.getVar('base_libdir', True)
-         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
--        searchpaths.append(oe.path.join(d.getVar("base_libdir", True), "systemd", "system"))
--        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "system"))
--        searchpaths.append(oe.path.join(d.getVar("libdir", True), "systemd", "user"))
-+	searchpaths.append(oe.path.join(d.getVar("nonarch_base_libdir", True), "systemd", "system"))
-+	searchpaths.append(oe.path.join(d.getVar("exec_prefix", True), d.getVar("nonarch_base_libdir", True), "systemd", "system"))
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
-         has_exactly_one_service = len(systemd_packages.split()) == 1
-         if has_exactly_one_service:
-@@ -149,6 +153,7 @@ python systemd_populate_packages() {
-     # Run all modifications once when creating package
-     if os.path.exists(d.getVar("D", True)):
-         for pkg in d.getVar('SYSTEMD_PACKAGES', True).split():
-+            systemd_check_package(pkg)
-             if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
-                 systemd_generate_package_scripts(pkg)
-                 systemd_add_rdepends(pkg)
+-    m.addPackage( "${PN}-io", "Python Low-Level I/O", "${PN}-core ${PN}-math",
++    m.addPackage( "${PN}-io", "Python Low-Level I/O", "${PN}-core ${PN}-math ${PN}-textutils",
+     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
+     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
+ 
 -- 
-1.7.9.5
+1.7.5.4
 
 
 
