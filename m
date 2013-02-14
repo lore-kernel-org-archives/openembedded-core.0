@@ -1,31 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U5yRr-0006Yj-EK for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 14:02:00 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1ECpxWe008514; Thu, 14 Feb 2013 12:52:00 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vflseFbDf2qp; Thu, 14 Feb 2013 12:51:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1ECpocl008504
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 14 Feb 2013 12:51:53 GMT
-Message-ID: <1360845941.11225.107.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Thu, 14 Feb 2013 12:45:41 +0000
-In-Reply-To: <511CDA28.5040504@mlbassoc.com>
-References: <511CDA28.5040504@mlbassoc.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What do these warnings mean?
+	(envelope-from <mike.looijmans@topic.nl>) id 1U5yca-0006oF-8j
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Feb 2013 14:13:04 +0100
+Received: from atl4mhob13.myregisteredsite.com
+	(atl4mhob13.myregisteredsite.com [209.17.115.51])
+	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1ECv3kb002601 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 07:57:03 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob13.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1ECv25A022328 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 07:57:02 -0500
+Received: (qmail 10812 invoked by uid 0); 14 Feb 2013 12:57:01 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 14 Feb 2013 12:57:01 -0000
+Message-ID: <511CDF1D.2060805@topic.nl>
+Date: Thu, 14 Feb 2013 13:57:01 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <511BB265.8030505@windriver.com> <511CA4B2.1090307@intel.com>
+	<511CA9E2.70700@windriver.com>
+	<CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
+	<511CDA0F.9060002@topic.nl> <511CDBA1.70906@linaro.org>
+In-Reply-To: <511CDBA1.70906@linaro.org>
+Subject: Re: How to "implement" systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 13:02:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Feb 2013 13:13:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-02-14 at 05:35 -0700, Gary Thomas wrote:
-> I imported libav from meta-oe into my build so I can have additional
-> gstreamer support.  Now I'm seeing these warnings:
-> 
-> WARNING: QA Issue: ELF binary 
-> '/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/gst-plugins-bad/0.10.23-r3.ti1.6.4.3/packages-split/gst-plugins-bad-vp8/usr/lib/gstreamer-0.10/libgstvp8.so' 
-> has relocations in .text
-> WARNING: QA Issue: ELF binary '/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/libav/0.8.3-r0/packages-split/libavcodec/usr/lib/libavcodec.so.53.35.0' has 
-> relocations in .text
-> 
-> Exactly what do these mean?  What do I do to get rid of them?
+On 02/14/2013 01:42 PM, Marcin Juszkiewicz wrote:
+> W dniu 14.02.2013 13:35, Mike Looijmans pisze:
+>> So far i've been using good old initscripts for my systems. I want to
+>> try out systemd. Having zero experience with that, I just added
+>> "systemd" to the DISTRO_FEATURES and started a fresh  build. The build
+>> ran fine, but it produced something that still seems to be using
+>> initscripts, albeit that a few things stopped working (the network did
+>> not start, for example).
+>
+> DISTRO_FEATURES_INITMAN = "systemd" is what you want.
 
-It means the linker has to perform relocations on the .text segment at
-runtime. This slows down loads and means more memory usage if two
-applications use the library since the kernel can't share the mappings.
-It will work its just inefficient.
+Sorry, I have to amend my original post.
 
-The fix us usually to compile as position independent code using the pic
-compiler option.
+DISTRO_FEATURES_INITMAN = "systemd"
 
-Cheers,
+is just what I did (added it to my distro .conf file), because from the 
+source I gathered that that was the way to get it into DISTRO_FEATURES.
 
-Richard (far from an expert on this)
+How can I check whether it's using systemd? I don't see any obvious 
+difference in the rootfs, and I never saw any systemd package being 
+built either.
 
+Mike.
 
 
