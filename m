@@ -1,28 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U65c0-00024T-Bu
+	(envelope-from <ml@communistcode.co.uk>) id 1U65hf-0002DY-21
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 21:41:02 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Feb 2013 12:23:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,666,1355126400"; d="scan'208";a="285891099"
-Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
-	by orsmga002.jf.intel.com with ESMTP; 14 Feb 2013 12:24:49 -0800
-Message-ID: <511D4811.2080401@linux.intel.com>
-Date: Thu, 14 Feb 2013 12:24:49 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 14 Feb 2013 21:47:00 +0100
+Message-ID: <511D47B7.1010402@communistcode.co.uk>
+Date: Thu, 14 Feb 2013 20:23:19 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130109 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: Joe Slater <jslater@windriver.com>
-References: <1360861770-30010-1-git-send-email-jslater@windriver.com>
-In-Reply-To: <1360861770-30010-1-git-send-email-jslater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] acpid: modify CFLAGS
+To: openembedded-core@lists.openembedded.org
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51013136.7040807@intel.com>
+	<CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
+	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+	<511D0669.6020903@communistcode.co.uk>
+	<511D0951.4070406@communistcode.co.uk>
+In-Reply-To: <511D0951.4070406@communistcode.co.uk>
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,50 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 20:41:03 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 20:47:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/14/2013 09:09 AM, Joe Slater wrote:
-> Override the hard-coded CFLAGS used in Makefile
-> to reference our CFLAGS.
+On 02/14/13 15:57, Jack Mitchell wrote:
+> On 14/02/13 15:44, Jack Mitchell wrote:
+>> On 14/02/13 15:31, Burton, Ross wrote:
+>>> On 14 February 2013 14:31, Jack Mitchell <ml@communistcode.co.uk> 
+>>> wrote:
+>>>> Did this ever go anywhere? I have just tried again today with 
+>>>> exactly the
+>>>> same result, all I did was change the DISTRO_FEATURES_INITMAN to 
+>>>> systemd.
+>>> Odd, as I just built and booted a systemd image (core-image-sato, in
+>>> poky master), and it worked fine.
+>>>
+>>> Ross
+>>
+>> I have a custom distro definition that cuts a lot of features out. 
+>> Can you find out which package is supposed to create run and I can 
+>> check if it is pulled in properly on my setup?
+>>
+>> I think something must be assumed somewhere and I don't have the 
+>> features enabled to trigger it.
+>>
 >
+> From a quick look it seems as though volatiles in initscripts-1.0 
+> should create the run directory if it's not found. However the 
+> initscripts package doesn't get pulled in on my image at all, and I 
+> can't see an equivalent in the systemd package
 
-Can you be clearer about this?
+Doing a manual ln -s var/run run on my mounted SD card gets systemd to 
+the first [OK] part but then the board dies on me, it's a usb ftdi 
+serial and even that connection gets wiped. I think there is something 
+fundamentally wrong somewhere, which is causing the systemd setup to not 
+execute properly, or the fact that there are minimal packages and 
+minimal features in my distro image is causing the problem.
 
-I just checked the output of the compile log and these flags are set 
-correctly. I also looked at the make -n output via a devshell.
-
-This seems to be hardcoding the CFLAGS into this recipe.
-
-Sounds like something else is going on.
-
-Thanks
-	Sau!
-
-
-> Upstream-Status:  Pending
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->   meta/recipes-bsp/acpid/acpid.inc |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-> index 3c0219f..1ffe6ff 100644
-> --- a/meta/recipes-bsp/acpid/acpid.inc
-> +++ b/meta/recipes-bsp/acpid/acpid.inc
-> @@ -13,7 +13,9 @@ inherit update-rc.d
->   INITSCRIPT_NAME = "acpid"
->   INITSCRIPT_PARAMS = "defaults"
->
-> -EXTRA_OEMAKE = ""
-> +# Makefile ignores our CFLAGS, so override it.
-> +#
-> +EXTRA_OEMAKE = "CFLAGS='-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} $(DEFS)'"
->
->   do_compile () {
->   	oe_runmake 'CC=${CC} -D_GNU_SOURCE' 'CROSS=${HOST_PREFIX}'
->
+What I will maybe try to do tomorrow is build a stock core-image-minimal 
+with systemd, then remove distro features one by one and see if it breaks.
 
 
