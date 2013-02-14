@@ -1,27 +1,36 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from atl4mhfb02.myregisteredsite.com ([209.17.115.56])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1U5yy4-0007KG-BP
+	(envelope-from <mike.looijmans@topic.nl>) id 1U5zKP-0007s3-6L
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 14:35:24 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 6A106F81233; Thu, 14 Feb 2013 06:19:15 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 4EEC5F81231;
-	Thu, 14 Feb 2013 06:19:14 -0700 (MST)
-Message-ID: <511CE466.40905@mlbassoc.com>
-Date: Thu, 14 Feb 2013 06:19:34 -0700
-From: Gary Thomas <gary@mlbassoc.com>
+	Thu, 14 Feb 2013 14:58:22 +0100
+Received: from atl4mhob10.myregisteredsite.com
+	(atl4mhob10.myregisteredsite.com [209.17.115.48])
+	by atl4mhfb02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1EDgJ0T000877 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 08:42:20 -0500
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob10.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r1EDgIuJ021716 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Feb 2013 08:42:18 -0500
+Received: (qmail 8833 invoked by uid 0); 14 Feb 2013 13:42:18 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 14 Feb 2013 13:42:18 -0000
+Message-ID: <511CE9B9.2010405@topic.nl>
+Date: Thu, 14 Feb 2013 14:42:17 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Broken dependency processing?
+To: openembedded-core@lists.openembedded.org
+References: <511BB265.8030505@windriver.com> <511CA4B2.1090307@intel.com>
+	<511CA9E2.70700@windriver.com>
+	<CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
+	<511CDA0F.9060002@topic.nl> <511CDBA1.70906@linaro.org>
+	<511CDF1D.2060805@topic.nl>
+In-Reply-To: <511CDF1D.2060805@topic.nl>
+Subject: Re: How to "implement" systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 13:35:24 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 13:58:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-I have an customized image which explicitly names 'pulseaudio-server'
-Building my image will break if I don't also explicitly name 'consolekit'
+On 02/14/2013 01:57 PM, Mike Looijmans wrote:
+> On 02/14/2013 01:42 PM, Marcin Juszkiewicz wrote:
+>> W dniu 14.02.2013 13:35, Mike Looijmans pisze:
+>>> So far i've been using good old initscripts for my systems. I want to
+>>> try out systemd. Having zero experience with that, I just added
+>>> "systemd" to the DISTRO_FEATURES and started a fresh  build. The build
+>>> ran fine, but it produced something that still seems to be using
+>>> initscripts, albeit that a few things stopped working (the network did
+>>> not start, for example).
+>>
+>> DISTRO_FEATURES_INITMAN = "systemd" is what you want.
+>
+> Sorry, I have to amend my original post.
+>
+> DISTRO_FEATURES_INITMAN = "systemd"
+>
+> is just what I did (added it to my distro .conf file), because from the
+> source I gathered that that was the way to get it into DISTRO_FEATURES.
+>
+> How can I check whether it's using systemd? I don't see any obvious
+> difference in the rootfs, and I never saw any systemd package being
+> built either.
 
-root@my_target:~# opkg whatdepends consolekit
-Root set:
-   consolekit
-What depends on root set
-         pulseaudio-module-console-kit 2.1-r15   depends on consolekit
-root@my_target:~# opkg whatdepends pulseaudio-module-console-kit
-Root set:
-   pulseaudio-module-console-kit
-What depends on root set
-         pulseaudio-server 2.1-r15       depends on pulseaudio-module-console-kit
-
-I can see that building pulseaudio does not force consolekit although it
-will be required in order to install pulseaudio-server.
-
-[gthomas@titan p82_soft]$ bitbake -g pulseaudio
-Loading cache: 100% |####################################################################################| ETA:  00:00:00
-Loaded 1415 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing runqueue
-NOTE: PN build list saved to 'pn-buildlist'
-NOTE: PN dependencies saved to 'pn-depends.dot'
-NOTE: Package dependencies saved to 'package-depends.dot'
-NOTE: Task dependencies saved to 'task-depends.dot'
-[gthomas@titan p82_soft]$ grep consolekit pn-buildlist
-    ... nothing (not present)
-
-Note: my image/system does not normally include 'consolekit' and this behaviour
-causes the image to fail to build.
-
-I'm using the Poky/Yocto tree from a few weeks ago in case that matters:
-   meta              = "master:09359e6ec00901abfe49157f1f9730117b4d284b"
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ah, to (probably) answer my own question, there was a hidden
+VIRTUAL-RUNTIME_init_manager = "sysvinit"
+in my config chain, which was probably the cause. Running another build, 
+and I've seen a systemd task being run now...
 
 
