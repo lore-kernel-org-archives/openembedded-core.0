@@ -1,31 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U5x7z-0003f5-F9 for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 12:37:24 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1EBR75B002547 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 11:27:08 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Db69BBXbvK4U
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 11:27:07 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1EBQwpf002541
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 11:27:02 GMT
-Message-ID: <1360840849.11225.103.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Feb 2013 11:20:49 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Subject: [PATCH] mulitilib_header: Avoid sstate checksum issues for -native recipes
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1U5yEj-0005cq-SG
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Feb 2013 13:49:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1ECWMHR006838
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Feb 2013 04:32:22 -0800 (PST)
+Received: from [128.224.168.151] (128.224.168.151) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Thu, 14 Feb 2013 04:32:21 -0800
+Message-ID: <511CD958.2010401@windriver.com>
+Date: Thu, 14 Feb 2013 14:32:24 +0200
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <511BB265.8030505@windriver.com> <511CA4B2.1090307@intel.com>
+	<511CA9E2.70700@windriver.com>
+	<CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd services in the rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,36 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 11:37:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Feb 2013 12:49:14 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-The use of arch specific variables like MIPSPKGSFX_ABI was creeping
-into the -native sstate checksums of package like ncurses-native.
+So choosing, for example ${PN} to hold the systemd services, and also 
+choose to use sysvinit as the init manager, then I'd end up with a 
+rootfs containing useless systemd services.
+Then can someone detail what is SYSTEMD_PACKAGES used for? If it's only 
+for adding the packages to PACKAGES, then it doesn't make too much sense 
+to exist in my opinion, as it would just be an extra variable defined to 
+do something that can be achieved without defining a extra variable.
 
-This is pointless and undesireable. We could add specific variable
-exclusions but we might as well just brute force the code to be disabled
-in the -native case since we don't use multilibs in the native case.
+Florin
 
-[YOCTO #3827]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
-index 639ed4b..4d049a8 100644
---- a/meta/classes/multilib_header.bbclass
-+++ b/meta/classes/multilib_header.bbclass
-@@ -39,3 +39,9 @@ oe_multilib_header() {
- 	   sed -e "s#ENTER_HEADER_FILENAME_HERE#${stem}#g" ${COREBASE}/scripts/multilib_header_wrapper.h > ${D}/${includedir}/$each_header
- 	done
- }
-+
-+# Dependencies on arch variables like MIPSPKGSFX_ABI can be problematic.
-+# We don't need multilib headers for native builds so brute force things.
-+oe_multilib_header_class-native () {
-+	return
-+}
-
+On 02/14/2013 12:17 PM, Burton, Ross wrote:
+> On 14 February 2013 09:09, Florin Sarbu <florin.sarbu@windriver.com> wrote:
+>> The issue I was referring to was that the individual packages (that contain
+>> the systemd service files) generated from various recipes, do not end up in
+>> the rootfs solely by having them declared in the SYSTEMD_PACKAGES and having
+>> DISTRO_FEATURES_INITMAN ="systemd". You need now to explicitly add these
+>> ${PN}-systemd (or whatever name you choose for the packages that will hold
+>> the systemd services) in some packagegroups or image recipes to have them in
+>> the rootfs. It is not a question of where to have them in the rootfs, but
+>> rather to have them added in the do_rootfs stage.
+> Put the service files into the relevant package (i.e. $PN, instead of
+> into a separate package of their own.
+>
+> This is different to how meta-systemd worked, because in oe-core
+> systemd is a DISTRO_FEATURE and not something you can decide at image
+> construction time.
+>
+> Ross
 
 
 
