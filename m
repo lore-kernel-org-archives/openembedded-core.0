@@ -1,40 +1,32 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U61AZ-00037d-Og
+	(envelope-from <ml@communistcode.co.uk>) id 1U61Es-0003cU-S0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 16:56:24 +0100
-Received: by mail-vb0-f47.google.com with SMTP id e21so1526774vbm.20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 07:40:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=XH5kY0zHtPf1ajc/U4rBIVUeLLEU1InAiSvmbPxldW0=;
-	b=k9ETWhBtvRBlwaBtCqmc2grXnaPogozjNSa1VHu4RU3AHs8+smF8yLINK7qYQNa0En
-	/B4viRsqZlSXES5j4iu0y08BumSs22JPyxtnK7oG4s8Y6XshpQf0XCl33A2L/WwPq1QV
-	zbaViI5Ij4uFAi3O4uhUlTMh//bqELwH1x5I0jG43geCkuRt8/ii26PTusZtJYfM1COc
-	J35oxhzELRmGROzRB0NeYSpXrUPRBfjD+VKe47guDAB/Nx3jYXv+lM2Ezx56XnXqKKeE
-	YqdUEYYDAM+ec2utBf0zIJRAF545ZHZCr6v+TRAHbuh3MV91ekgUy2s4PzAi7Mtbsjgv
-	mazw==
-X-Received: by 10.52.179.136 with SMTP id dg8mr31184694vdc.81.1360856417108;
-	Thu, 14 Feb 2013 07:40:17 -0800 (PST)
+	Thu, 14 Feb 2013 17:00:52 +0100
+Message-ID: <511D0669.6020903@communistcode.co.uk>
+Date: Thu, 14 Feb 2013 15:44:41 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130109 Thunderbird/17.0.2
 MIME-Version: 1.0
-Received: by 10.221.10.202 with HTTP; Thu, 14 Feb 2013 07:39:57 -0800 (PST)
-In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE046387@SOUTHSIDE.devonintlgroup.com>
-References: <B57A220D1EE1644685BA9AD5C790D20526BE046387@SOUTHSIDE.devonintlgroup.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Feb 2013 15:39:57 +0000
-Message-ID: <CAJTo0LYfTJh0XrEi94s4AAyXVFa6X9SPdBiEh4H7VZHr1ZVVPg@mail.gmail.com>
-To: Ian Geiser <igeiser@devonit.com>
-X-Gm-Message-State: ALoCoQn0EKzr6gmrP2ucJeDu5zBzcvOgfJsxBGfcU5xJ5aOk0BDOiD6m6iQoNp/pKOsN8/0WixVO
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: state of systemd in oe
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51013136.7040807@intel.com>
+	<CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
+	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -44,24 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 15:56:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Feb 2013 16:00:55 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 February 2013 14:02, Ian Geiser <igeiser@devonit.com> wrote:
-> Hey, I noticed that systemd service files are going back into the oe-core=
- layer and not always compatible with meta-oe.  What is the official policy=
- on systemd right now?  Is it supposed to be confined to the meta-oe/meta-s=
-ystemd layer?  Or what cases will they be pulled in and/or duplicated in oe=
--core?  Thanks!
+On 14/02/13 15:31, Burton, Ross wrote:
+> On 14 February 2013 14:31, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> Did this ever go anywhere? I have just tried again today with exactly the
+>> same result, all I did was change the DISTRO_FEATURES_INITMAN to systemd.
+> Odd, as I just built and booted a systemd image (core-image-sato, in
+> poky master), and it worked fine.
+>
+> Ross
 
-I'm pulling as much as makes sense into oe-core, and the meta-systemd
-maintainers are doing a sterling job at keeping up with changes we've
-been making in oe-core, or deleting appends that have been merged into
-oe-core.
+I have a custom distro definition that cuts a lot of features out. Can 
+you find out which package is supposed to create run and I can check if 
+it is pulled in properly on my setup?
 
-Hopefully by the time 1.4 is released meta-systemd won't exist.
+I think something must be assumed somewhere and I don't have the 
+features enabled to trigger it.
 
-Ross
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
