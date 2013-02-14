@@ -1,34 +1,27 @@
-Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1U5yHj-0005jp-OI
+	(envelope-from <gary@mlbassoc.com>) id 1U5yHm-0005ju-FA
 	for openembedded-core@lists.openembedded.org;
 	Thu, 14 Feb 2013 13:51:53 +0100
-Received: from atl4mhob06.myregisteredsite.com
-	(atl4mhob06.myregisteredsite.com [209.17.115.44])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1ECZTJW021334 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 07:35:30 -0500
-Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
-	[205.178.146.50])
-	by atl4mhob06.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1ECZSZD007887 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 07:35:28 -0500
-Received: (qmail 9707 invoked by uid 0); 14 Feb 2013 12:35:28 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 14 Feb 2013 12:35:28 -0000
-Message-ID: <511CDA0F.9060002@topic.nl>
-Date: Thu, 14 Feb 2013 13:35:27 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id CF855F81232; Thu, 14 Feb 2013 05:35:33 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id C2F6CF81230;
+	Thu, 14 Feb 2013 05:35:32 -0700 (MST)
+Message-ID: <511CDA28.5040504@mlbassoc.com>
+Date: Thu, 14 Feb 2013 05:35:52 -0700
+From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <511BB265.8030505@windriver.com> <511CA4B2.1090307@intel.com>
-	<511CA9E2.70700@windriver.com>
-	<CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
-Subject: How to "implement" systemd
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: What do these warnings mean?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +38,23 @@ X-List-Received-Date: Thu, 14 Feb 2013 12:52:14 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-So far i've been using good old initscripts for my systems. I want to 
-try out systemd. Having zero experience with that, I just added 
-"systemd" to the DISTRO_FEATURES and started a fresh  build. The build 
-ran fine, but it produced something that still seems to be using 
-initscripts, albeit that a few things stopped working (the network did 
-not start, for example).
+I imported libav from meta-oe into my build so I can have additional
+gstreamer support.  Now I'm seeing these warnings:
 
-Is there some openembedded "guide" on what one has to do to actually use 
-systemd? I've tried google, but because i don't have a clue what 
-keywords to look for, I got only irrelevant results on various Linux 
-distributions while searching with "oe-core initscripts to systemd" and 
-variations on that theme.
+WARNING: QA Issue: ELF binary 
+'/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/gst-plugins-bad/0.10.23-r3.ti1.6.4.3/packages-split/gst-plugins-bad-vp8/usr/lib/gstreamer-0.10/libgstvp8.so' 
+has relocations in .text
+WARNING: QA Issue: ELF binary '/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/libav/0.8.3-r0/packages-split/libavcodec/usr/lib/libavcodec.so.53.35.0' has 
+relocations in .text
+
+Exactly what do these mean?  What do I do to get rid of them?
+
+Thanks
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
