@@ -1,23 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1U61JT-0003mI-LP for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 17:05:37 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Feb 2013 07:48:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,665,1355126400"; d="scan'208";a="287250875"
-Received: from ema-vostro-460 (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2013 07:48:14 -0800
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+	(envelope-from <ml@communistcode.co.uk>) id 1U61Qs-0003zz-4I
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Feb 2013 17:13:30 +0100
+Message-ID: <511D0951.4070406@communistcode.co.uk>
+Date: Thu, 14 Feb 2013 15:57:05 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130109 Thunderbird/17.0.2
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2013 17:52:40 +0200
-Message-Id: <1360857160-17509-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/2] Solved package namespace errors in PRS
+References: <50FFFF81.8010203@communistcode.co.uk> <510102F4.70108@intel.com>
+	<CAJTo0LZfGGSdQwKMshr8PNUVZfk4Nwhr67-9iFbGw2=V=YqN8g@mail.gmail.com>
+	<510124FE.6040901@intel.com>
+	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51012A68.806@intel.com>
+	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51013136.7040807@intel.com>
+	<CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
+	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+	<511D0669.6020903@communistcode.co.uk>
+In-Reply-To: <511D0669.6020903@communistcode.co.uk>
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -27,43 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 16:05:38 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 16:13:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For some packages PRS reported incorrect upstream version
-as it was either the raw string or it mismatched some
-alternative groups.
+On 14/02/13 15:44, Jack Mitchell wrote:
+> On 14/02/13 15:31, Burton, Ross wrote:
+>> On 14 February 2013 14:31, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>>> Did this ever go anywhere? I have just tried again today with 
+>>> exactly the
+>>> same result, all I did was change the DISTRO_FEATURES_INITMAN to 
+>>> systemd.
+>> Odd, as I just built and booted a systemd image (core-image-sato, in
+>> poky master), and it worked fine.
+>>
+>> Ross
+>
+> I have a custom distro definition that cuts a lot of features out. Can 
+> you find out which package is supposed to create run and I can check 
+> if it is pulled in properly on my setup?
+>
+> I think something must be assumed somewhere and I don't have the 
+> features enabled to trigger it.
+>
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/classes/distrodata.bbclass |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ From a quick look it seems as though volatiles in initscripts-1.0 
+should create the run directory if it's not found. However the 
+initscripts package doesn't get pulled in on my image at all, and I 
+can't see an equivalent in the systemd package.
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index e25eeab..276ca03 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -291,8 +291,8 @@ python do_checkpkg() {
-         suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz|src\.tar\.gz|src\.tgz|svnr\d+\.tar\.bz2|stable\.tar\.gz|src\.rpm)"
- 
-         suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "bz2", "orig.tar.gz", "src.tar.gz", "src.rpm", "src.tgz", "svnr\d+.tar.bz2", "stable.tar.gz", "src.rpm")
--        sinterstr = "(?P<name>%s?)v?(?P<ver>%s)(source)?" % (prefix, ver_regex)
--        sdirstr = "(?P<name>%s)\.?v?(?P<ver>%s)(source)?[\.\-](?P<type>%s$)" % (prefix, ver_regex, suffix)
-+        sinterstr = "(?P<name>%s?)v?(?P<ver>%s)(\-source)?" % (prefix, ver_regex)
-+        sdirstr = "(?P<name>%s)\.?v?(?P<ver>%s)(\-source)?[\.\-](?P<type>%s$)" % (prefix, ver_regex, suffix)
- 
-         def parse_inter(s):
-                 m = re.search(sinterstr, s)
-@@ -504,7 +504,7 @@ python do_checkpkg() {
-                                 status = "ErrParseDir"
-                         else:
-                                 """newver still contains a full package name string"""
--                                status = newver[1]
-+                                status = re.sub('_', '.', newver[1])
-                 elif not len(fhtml):
-                         status = "ErrHostNoDir"
- 
+
+
 -- 
-1.7.9.5
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
