@@ -1,35 +1,25 @@
-Received: from mail-wi0-f174.google.com ([209.85.212.174])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U63Q1-0006mK-Pa
+	(envelope-from <sgw@linux.intel.com>) id 1U63XC-000700-RY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 19:20:26 +0100
-Received: by mail-wi0-f174.google.com with SMTP id hi8so218374wib.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 10:04:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=vLKR/sQLJHboAXjWJXkWOIHGNdgUIPrKFo5BODtt2Uw=;
-	b=YkmFIUQES1AEmj5aWOUHnnT1eLeZD1iLPy30mIvoLboDpERZghaJkbJX95C8D0q/vX
-	Vxyw3/TK28yrSIypuPb3toC0RZk4JRB4y797hvwSKVtiY3SxIYNtauQ34thL/Z+ztTgk
-	Ub53alia3uLDO7vdtv8DNntkzutiwGkVsqMRTOrlEsVkufA4bWrd14oCSm88Q2lELryw
-	D5jpgMk7H7GaGxbf5iavTk/iEEZpbyaaSPuAJZTPCezyrQoO3JHa1g/6v8uiA/oEYb5r
-	BRpPHF4EXssn4aMl2Nk+3U5Jk8K5MHEpxiXcK3i6m+fEDTi1n8ffGrC0x+LPpf5gRUXA
-	gb8g==
-X-Received: by 10.180.77.9 with SMTP id o9mr1099843wiw.16.1360865054864;
-	Thu, 14 Feb 2013 10:04:14 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hb9sm777740wib.3.2013.02.14.10.04.13
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 14 Feb 2013 10:04:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Feb 2013 18:02:02 +0000
-Message-Id: <1360864922-24537-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnq7/zvnWngi8/3yzRLg64y+khxe8ItDMVVGGDVGTmhUStGaLb5CgY9iZVKXQvvys9Oc7Ry
-Subject: [PATCH] insane: remove unused variable
+	Thu, 14 Feb 2013 19:27:51 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Feb 2013 10:11:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,666,1355126400"; d="scan'208";a="285832543"
+Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
+	by orsmga002.jf.intel.com with ESMTP; 14 Feb 2013 10:11:46 -0800
+Message-ID: <511D28E2.5060704@linux.intel.com>
+Date: Thu, 14 Feb 2013 10:11:46 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+References: <0dea01ce0ad2$92793530$b76b9f90$@st.com>
+In-Reply-To: <0dea01ce0ad2$92793530$b76b9f90$@st.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Question about hanging after git clone try in Prelink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 18:20:26 -0000
+X-List-Received-Date: Thu, 14 Feb 2013 18:27:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass |    1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index d285e56..f52fcea 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -165,7 +165,6 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-         return
- 
-     bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
--    bad_dir_test = d.getVar('TMPDIR', True)
- 
-     if not bad_dirs[0] in d.getVar('WORKDIR', True):
-         bb.fatal("This class assumed that WORKDIR is ${TMPDIR}/work... Not doing any check")
--- 
-1.7.10.4
+What version of OE-Core/POoky are you using? It would be helpful to know 
+that.
 
+If you are not using the Poky Distro, then you could try setting 
+PREMIRRORS and/or use the own-mirrors.bbclass and set SOURCE_MIRROR_URL
+to something like "http://downloads.yoctoproject.org/mirror/sources/"
+
+Sau!
+
+
+On 02/14/2013 08:44 AM, Giuseppe CONDORELLI wrote:
+> Hi,
+>
+> due to local company restrictions, I cannot clone external git repository.
+> During prelink-native fetch I catch the warning about that (given that the
+> SRC_URI point to git) but then,
+> trying other mirrors, system is able to download a tar.gz of the prelink.
+> The strange thing is that however bitbake hangs with the error (that was a
+> warning first) about the failure
+> of SRC_URI catch. Why this? Should system be aware the given package was
+> downloaded using mirrors?
+> This happens also for mtd-utils.
+> Please can you help me?
+> Thanks,
+> Giuseppe
+>
+> PS: if I rerun the process than it goes ok, obviously because it finds the
+> tar.gz in download directory.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
