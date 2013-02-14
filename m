@@ -1,23 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1U5yqJ-00075N-Tg for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 14:27:21 +0100
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1U5yan-0005wW-0n; Thu, 14 Feb 2013 14:11:13 +0100
-Message-ID: <1360847436.4246.122.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Thu, 14 Feb 2013 13:10:36 +0000
-In-Reply-To: <511CDA28.5040504@mlbassoc.com>
-References: <511CDA28.5040504@mlbassoc.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1U5yy4-0007KG-BP
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Feb 2013 14:35:24 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 6A106F81233; Thu, 14 Feb 2013 06:19:15 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4EEC5F81231;
+	Thu, 14 Feb 2013 06:19:14 -0700 (MST)
+Message-ID: <511CE466.40905@mlbassoc.com>
+Date: Thu, 14 Feb 2013 06:19:34 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: What do these warnings mean?
+Subject: Broken dependency processing?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,39 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 13:27:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Feb 2013 13:35:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-02-14 at 05:35 -0700, Gary Thomas wrote:
-> WARNING: QA Issue: ELF binary 
-> '/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/gst-plugins-bad/0.10.23-r3.ti1.6.4.3/packages-split/gst-plugins-bad-vp8/usr/lib/gstreamer-0.10/libgstvp8.so' 
-> has relocations in .text
-> WARNING: QA Issue: ELF binary '/home/local/p82_soft/tmp/work/cortexa9-vfp-neon-amltd-linux-gnueabi/libav/0.8.3-r0/packages-split/libavcodec/usr/lib/libavcodec.so.53.35.0' has 
-> relocations in .text
-> 
-> Exactly what do these mean?  What do I do to get rid of them?
+I have an customized image which explicitly names 'pulseaudio-server'
+Building my image will break if I don't also explicitly name 'consolekit'
 
-Generally they mean that some non-PIC code has leaked into a shared
-library.  The most common way for that to happen is for a DSO final link
-to accidentally pull in some members from a static library.  There are a
-few other possible causes as well, mostly toolchain bugs or limitations
-(you used to get this under some circumstances when enabling full unwind
-tables on MIPS for example), but non-PIC code is the most likely one.
+root@my_target:~# opkg whatdepends consolekit
+Root set:
+   consolekit
+What depends on root set
+         pulseaudio-module-console-kit 2.1-r15   depends on consolekit
+root@my_target:~# opkg whatdepends pulseaudio-module-console-kit
+Root set:
+   pulseaudio-module-console-kit
+What depends on root set
+         pulseaudio-server 2.1-r15       depends on pulseaudio-module-console-kit
 
-You can use readelf or objdump to inspect the relocation table for the
-files in question.  In most cases there is a fairly obvious culprit,
-e.g. an R_ARM_PC24 reloc with an incriminating function name. 
+I can see that building pulseaudio does not force consolekit although it
+will be required in order to install pulseaudio-server.
 
-Having relocations in .text is undesirable because it wastes memory and
-slows down program startup.  They can occasionally cause more severe
-problems: for example, if were using SELinux then you might find that
-your security policy didn't allow those binaries to be run at all.
-(This was the default policy on Fedora for a while; I've no idea if it
-still is.)
+[gthomas@titan p82_soft]$ bitbake -g pulseaudio
+Loading cache: 100% |####################################################################################| ETA:  00:00:00
+Loaded 1415 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: PN build list saved to 'pn-buildlist'
+NOTE: PN dependencies saved to 'pn-depends.dot'
+NOTE: Package dependencies saved to 'package-depends.dot'
+NOTE: Task dependencies saved to 'task-depends.dot'
+[gthomas@titan p82_soft]$ grep consolekit pn-buildlist
+    ... nothing (not present)
 
-p.
+Note: my image/system does not normally include 'consolekit' and this behaviour
+causes the image to fail to build.
 
+I'm using the Poky/Yocto tree from a few weeks ago in case that matters:
+   meta              = "master:09359e6ec00901abfe49157f1f9730117b4d284b"
 
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
