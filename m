@@ -1,24 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1U65Dy-0001Xq-Gp
+	(envelope-from <sgw@linux.intel.com>) id 1U65c0-00024T-Bu
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 21:16:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1EH9Vw4010819
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 09:09:31 -0800 (PST)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 14 Feb 2013 09:09:30 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Feb 2013 09:09:30 -0800
-Message-ID: <1360861770-30010-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Thu, 14 Feb 2013 21:41:02 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Feb 2013 12:23:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,666,1355126400"; d="scan'208";a="285891099"
+Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
+	by orsmga002.jf.intel.com with ESMTP; 14 Feb 2013 12:24:49 -0800
+Message-ID: <511D4811.2080401@linux.intel.com>
+Date: Thu, 14 Feb 2013 12:24:49 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Subject: [PATCH] acpid: modify CFLAGS
+To: Joe Slater <jslater@windriver.com>
+References: <1360861770-30010-1-git-send-email-jslater@windriver.com>
+In-Reply-To: <1360861770-30010-1-git-send-email-jslater@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] acpid: modify CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 20:16:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Feb 2013 20:41:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Override the hard-coded CFLAGS used in Makefile
-to reference our CFLAGS.
+On 02/14/2013 09:09 AM, Joe Slater wrote:
+> Override the hard-coded CFLAGS used in Makefile
+> to reference our CFLAGS.
+>
 
-Upstream-Status:  Pending
+Can you be clearer about this?
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-bsp/acpid/acpid.inc |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+I just checked the output of the compile log and these flags are set 
+correctly. I also looked at the make -n output via a devshell.
 
-diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-index 3c0219f..1ffe6ff 100644
---- a/meta/recipes-bsp/acpid/acpid.inc
-+++ b/meta/recipes-bsp/acpid/acpid.inc
-@@ -13,7 +13,9 @@ inherit update-rc.d
- INITSCRIPT_NAME = "acpid"
- INITSCRIPT_PARAMS = "defaults"
- 
--EXTRA_OEMAKE = ""
-+# Makefile ignores our CFLAGS, so override it.
-+#
-+EXTRA_OEMAKE = "CFLAGS='-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} $(DEFS)'"
- 
- do_compile () {
- 	oe_runmake 'CC=${CC} -D_GNU_SOURCE' 'CROSS=${HOST_PREFIX}'
--- 
-1.7.3.4
+This seems to be hardcoding the CFLAGS into this recipe.
 
+Sounds like something else is going on.
+
+Thanks
+	Sau!
+
+
+> Upstream-Status:  Pending
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>   meta/recipes-bsp/acpid/acpid.inc |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
+> index 3c0219f..1ffe6ff 100644
+> --- a/meta/recipes-bsp/acpid/acpid.inc
+> +++ b/meta/recipes-bsp/acpid/acpid.inc
+> @@ -13,7 +13,9 @@ inherit update-rc.d
+>   INITSCRIPT_NAME = "acpid"
+>   INITSCRIPT_PARAMS = "defaults"
+>
+> -EXTRA_OEMAKE = ""
+> +# Makefile ignores our CFLAGS, so override it.
+> +#
+> +EXTRA_OEMAKE = "CFLAGS='-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} $(DEFS)'"
+>
+>   do_compile () {
+>   	oe_runmake 'CC=${CC} -D_GNU_SOURCE' 'CROSS=${HOST_PREFIX}'
+>
 
 
