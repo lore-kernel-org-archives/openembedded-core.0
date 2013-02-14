@@ -1,36 +1,35 @@
-Received: from mail-ie0-f176.google.com ([209.85.223.176])
+Received: from mail-ia0-f177.google.com ([209.85.210.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1U5okQ-0008Fg-UJ
+	(envelope-from <raj.khem@gmail.com>) id 1U5qH2-00030B-0Y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Feb 2013 03:40:41 +0100
-Received: by mail-ie0-f176.google.com with SMTP id k13so2615080iea.21
+	Thu, 14 Feb 2013 05:18:20 +0100
+Received: by mail-ia0-f177.google.com with SMTP id k38so1939295iah.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Feb 2013 18:24:28 -0800 (PST)
+	Wed, 13 Feb 2013 20:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding;
-	bh=pE7coSvRcxWHS0WNd0+d19faF1mORQyP/v2Rgz1MxmE=;
-	b=yPicfLxCIaYL6cuppz7LldBd2cP+xlY6FPXBkHOI6Z4UbKavRE2E59Wwfm1Z/QyPbu
-	bner1/lkCvk3o/VSmSdmm0T/hnFttoMa309zMUiWZlApcqIOA2aSmDAok4nAHm8Y7kqm
-	BOCN1PRWQ1cieI3Anx7AQiBVvTsHkab5U61pinDWqtsMvlFbRaO4TMMhVQ64uwJCSZLc
-	0cS5yTwrnltMuLyrHHqiNtTzl8uCLYLMPkkGdD8OZiyNrc+t6eb7w7fIVIyij1El7yh2
-	yWGfUkO/RJx/HMk2IBIdq9vInd1K6MUbrpiV+GFSSckxsfv1/1kmv1zyVbUblkzfhMKj
-	2Puw==
-X-Received: by 10.50.56.141 with SMTP id a13mr16148878igq.24.1360808668708;
-	Wed, 13 Feb 2013 18:24:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.13.204 with HTTP; Wed, 13 Feb 2013 18:23:58 -0800 (PST)
-In-Reply-To: <1360777925.4246.86.camel@phil-desktop.brightsign>
-References: <1360690970-9432-1-git-send-email-raj.khem@gmail.com>
-	<1360704254.30425.67.camel@ted>
-	<CALbNGRSiit5QwsYsrAbWhGQUzgCYYjScUdZPuoBxCDRDgOKbgQ@mail.gmail.com>
-	<1360777925.4246.86.camel@phil-desktop.brightsign>
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=q+7yw1QNUPjvfFcEfanS+1briCqajSvhr4rlHPyRcqg=;
+	b=j2Kh7scPaLIIPmftFu1N8tdS5INkYy78ykgs3+s2gTOUCqfnpHPamz0CV2NK4IH6fq
+	b2h8Oa6ZJlRKiWpj3M/nyOyxJtVQT4IHU6TnP9kIhiyBUBxRVUoNviny97FKONrJgN7h
+	NOWFPcCFx8qCOY5JiGvzYDE3MTlXJb0z8nXm5IoTZ1ih1wYAf4TzPlNPGL3sDlW30q4F
+	HLhmR3/f1F208T7zwtkmCbQ7E/3R3R02pXGdAfUaEtzAEKSPhWpsLwdzWQ3S1LS+xStD
+	eGch3n15G9XBE3kPSBmdX9dJ9kqW7VF73ymlO3ChliapUkbcumr408kyhtYxD/8xlUOB
+	q/sA==
+X-Received: by 10.50.108.161 with SMTP id hl1mr16071553igb.101.1360814533926; 
+	Wed, 13 Feb 2013 20:02:13 -0800 (PST)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id wo8sm742841igb.6.2013.02.13.20.02.12
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Feb 2013 20:02:13 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Feb 2013 18:23:58 -0800
-Message-ID: <CAMKF1sr_L9s_Be9qT+r-iBX0MfUEarVZ2skJt1sdiFART3-=6w@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd.bbclass: Introduce do_install_append and use systemd unitdir
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Feb 2013 20:02:01 -0800
+Message-Id: <1360814521-24221-2-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1360814521-24221-1-git-send-email-raj.khem@gmail.com>
+References: <1360814521-24221-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH] util-linux: Remove -systemd package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,51 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2013 02:40:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Feb 2013 04:18:22 -0000
 
-On Wed, Feb 13, 2013 at 9:52 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Wed, 2013-02-13 at 00:55 +0100, Andreas M=C3=BCller wrote:
->> Copying similar code in in tons of recipes is easier to maintain?
->
-> If the code that needs to go in the "tons" of recipes is just:
->
-> do_install_append() {
->         install -m 644 ${WORKDIR}/my.service ${D}${systemd_unitdir}/syste=
-m
-> }
->
-> then yes, this is easier to maintain than a mechanism that magically
-> fishes out files from the workdir and installs them for itself.  As
-> Richard mentioned, we have previous experience with this in the form of
-> binconfig (and there have been others in the past) and this sort of
-> thing has universally turned out to be a maintenance headache after a
-> while.
->
-> There's even a comment in the code you quoted:
->
->>> +     # ensure installing systemd-files only (e.g not avahi *.service)
->
-> which suggests that some poor soul has previously found that it was
-> installing things it oughtn't to have done.
->
+unit files are added to util-linux itself when selected
 
-I have dropped the idea of having append and taken the pain to add the appe=
-nd to
-bbappends I think as systemd gets adopted widely I think the packages thems=
-elves
-will start providing systemd support and then we have to start
-dropping them one by one
-so if they are per recipe then its easier.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 667232c..10439c0 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -33,7 +33,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-mount util-linux-readprofile util-linux-libblkid \
+              util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+-             util-linux-mkfs util-linux-mcookie util-linux-systemd util-linux-reset"
++             util-linux-mkfs util-linux-mcookie util-linux-reset"
+ 
+ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+                 --disable-makeinstall-chown --enable-elvtune --enable-init \
+@@ -79,8 +79,6 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ # reset calls 'tput'
+ RDEPENDS_util-linux-reset += "ncurses"
+ 
+-FILES_${PN}-systemd = "${systemd_unitdir}/system/"
+-
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup"
+ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
+ 
+-- 
+1.7.9.5
+
 
 
