@@ -1,38 +1,30 @@
-Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1U6H3f-0002fy-8S
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Feb 2013 09:54:17 +0100
-Received: from atl4mhob05.myregisteredsite.com
-	(atl4mhob05.myregisteredsite.com [209.17.115.43])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1F8cCUA006597 for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2013 03:38:13 -0500
-Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
-	[205.178.146.50])
-	by atl4mhob05.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1F8cB3v004821 for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2013 03:38:11 -0500
-Received: (qmail 30378 invoked by uid 0); 15 Feb 2013 08:38:11 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 15 Feb 2013 08:38:11 -0000
-Message-ID: <511DF3F2.6000606@topic.nl>
-Date: Fri, 15 Feb 2013 09:38:10 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <511BB265.8030505@windriver.com> <511CA4B2.1090307@intel.com>
-	<511CA9E2.70700@windriver.com>
-	<CAJTo0LYLtan2=YkzCN9Xvkj7k695LGba7T1QMHwYQ8EK46YvgQ@mail.gmail.com>
-	<511CDA0F.9060002@topic.nl> <511CDBA1.70906@linaro.org>
-	<511CDF1D.2060805@topic.nl> <511CE9B9.2010405@topic.nl>
-In-Reply-To: <511CE9B9.2010405@topic.nl>
-X-MIME-Autoconverted: from 8bit to quoted-printable by
-	atl4mhfb03.myregisteredsite.com id r1F8cCUA006597
-Subject: Re: How to "implement" systemd
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U6KXH-0001Da-NT for openembedded-core@lists.openembedded.org;
+	Fri, 15 Feb 2013 13:37:11 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1FCR1h2029153; Fri, 15 Feb 2013 12:27:01 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id JhDPevmxrJ4p; Fri, 15 Feb 2013 12:27:01 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1FCQtJP029078
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 15 Feb 2013 12:26:58 GMT
+Message-ID: <1360930840.11225.131.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 15 Feb 2013 12:20:40 +0000
+In-Reply-To: <cover.1360914386.git.sgw@linux.intel.com>
+References: <cover.1360914386.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/22] Package Updates & Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,95 +37,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2013 08:54:17 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Feb 2013 12:37:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 02/14/2013 02:42 PM, Mike Looijmans wrote:
-> On 02/14/2013 01:57 PM, Mike Looijmans wrote:
->> On 02/14/2013 01:42 PM, Marcin Juszkiewicz wrote:
->>> W dniu 14.02.2013 13:35, Mike Looijmans pisze:
->>>> So far i've been using good old initscripts for my systems. I want t=
-o
->>>> try out systemd. Having zero experience with that, I just added
->>>> "systemd" to the DISTRO_FEATURES and started a fresh  build. The bui=
-ld
->>>> ran fine, but it produced something that still seems to be using
->>>> initscripts, albeit that a few things stopped working (the network d=
-id
->>>> not start, for example).
->>>
->>> DISTRO_FEATURES_INITMAN =3D "systemd" is what you want.
->>
->> Sorry, I have to amend my original post.
->>
->> DISTRO_FEATURES_INITMAN =3D "systemd"
->>
->> is just what I did (added it to my distro .conf file), because from th=
-e
->> source I gathered that that was the way to get it into DISTRO_FEATURES.
->>
->> How can I check whether it's using systemd? I don't see any obvious
->> difference in the rootfs, and I never saw any systemd package being
->> built either.
->
-> Ah, to (probably) answer my own question, there was a hidden
-> VIRTUAL-RUNTIME_init_manager =3D "sysvinit"
-> in my config chain, which was probably the cause. Running another build=
-,
-> and I've seen a systemd task being run now...
+On Thu, 2013-02-14 at 23:48 -0800, Saul Wold wrote:
+> Richard,
+> 
+> This is mostly a set of package updates with a couple of fixes 
+> fro systemd from Khem and Ross.
+> 
+> Please review Peter's rename patch.
+> 
+> I have build and booted sato locally with most of the udpated pacakges,
+> the Auotbuilder is currently running with Master under Test.
+> 
+> Thanks
+> 	Sau!
+> 
+> The following changes since commit 6c6568e47d6b3b0edaba569bfa4e38f9d72b5122:
+> 
+>   tzcode/tzdata: Update to 2012j (2013-02-14 23:17:18 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Constantin Musca (1):
+>   qemu: upgrade to 1.3.1
+> 
+> Cristian Iorga (1):
+>   alsa-lib: upgrade to 1.0.26
+> 
+> Cristiana Voicu (1):
+>   sanity.bbclass: when bblayers.conf is updated, it invokes a reparse
+> 
+> Franklin S. Cooper Jr (1):
+>   scripts/bitbake: Remove all instances of paths to a layer's scripts
+>     directory.
+> 
+> Khem Raj (1):
+>   systemd.bbclass: Dont use libdir and base_libdir for units
 
-That indeed "solved" the issue. However, the image doesn't get to a=20
-point that I can actually log in or do something useful, so I guess the=20
-default is still sysvinit for good reasons :)
+The whitespace was corrupt in this. I've fixed it up.
 
-Here's all the logging I get before it "dies":
+> Laurentiu Palcu (7):
+>   xf86-video-intel: upgrade to 2.21.0
+>   xf86-input-vmmouse: upgrade to 13.0.0
+>   libdrm: upgrade to 2.4.42
+>   xkeyboard-config: upgrade to 2.8
+>   xf86-input-synaptics: upgrade to 1.6.3
+>   xf86-video-vmware: upgrade to 13.0.0
+>   xev: upgrade to 1.2.1
+> 
+> Marko Lindqvist (4):
+>   webkit-gtk: update to upstream version 1.8.3
+>   gtk+: update to upstream version 2.24.15
+>   harfbuzz: update to upstream version 0.9.12
+>   libpng: update to upstream version 1.5.14
+> 
+> Peter Seebach (1):
+>   libc-common.bbclass: rename ALL the packages
 
+There is something bothering me about this one, its held for now.
 
-systemd[1]: systemd 197 running in system mode. (-PAM -LIBWRAP -AUDIT=20
--SELINUX +IMA +S
-YSVINIT -LIBCRYPTSETUP +GCRYPT +ACL +XZ)=20
+> Ross Burton (4):
+>   systemd: add udev-extraconf and USB/PCI IDs to RRECOMMENDS
+>   package_ipk: check CONFFILES exist before adding them to metadata
+>   xserver-xf86-config: don't ship empty xorg.conf
+>   xserver-xf86-config: empty generic xorg.conf
 
-Welcome to Linux!=20
+I didn't take the last two due to failures in the MUT build. Ross is
+aware of the issue.
 
-=20
+> Saul Wold (1):
+>   gnupg: fix CVE-2012-6085
 
-=C5=A1=EF=BF=BD=EF=BF=BD=EF=BF=BD=CD=95=EF=BF=BD=EF=BF=BDm=EF=BF=BD]: Can=
-not add dependency job for unit display-manager.service,=20
-ignoring: Uni t
-  display-manager.service failed to load: No such file or directory. See=20
-system logs an
-          Expecting device dev-ttyPS0.device.....Wall Directory Watch..=20
+Cheers,
 
-[  OK  ] Reached target Remote File Systems.=20
-
-[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.=20
-
-[  OK  ] Listening on Delayed Shutdown Socket.ility Named Pipe.=20
-
-[  OK  ] Listening on udev Kernel Socket.ests to Console Directory=20
-Watch..
-[  OK  ] Listening on udev Control Socket.t.=20
-
-=C5=A1=EF=BF=BD=EF=BF=BD=EF=BF=BD=CD=95=EF=BF=BD=EF=BF=BDm=EF=BF=BD]: Set=
- up automount Arbitrary Executable File Formats File=20
-System Automount  P
-[  OK  ] Reached target Swap.=20
-
-[  OK  ] Listening on Journal Socket.=20
-
-          Mounting Temporary Directory.....=20
-
-          Starting Remount Root and Kernel File Systems.....=20
-
-          Starting Load Kernel Modules......=20
-
-EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)=20
-
-          Mounting Debug File System......=20
-
-
-
+Richard
 
 
 
