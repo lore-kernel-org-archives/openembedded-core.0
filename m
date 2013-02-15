@@ -1,34 +1,20 @@
-Received: from mail-ee0-f50.google.com ([74.125.83.50])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U69Rq-0001c4-PB
+	(envelope-from <sgw@linux.intel.com>) id 1U6GHk-0001Ok-PJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Feb 2013 01:46:42 +0100
-Received: by mail-ee0-f50.google.com with SMTP id e51so1674663eek.37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Feb 2013 16:30:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=EPXOXEm48U8nR5/GCT40yeRcFOOiHm0HJAGzR/v9/AM=;
-	b=N5NxBs7bjR8+WfQjsa2oQE1qEzfLubx1kGwTo6MywwkwN5NWlr0aTfoEobZq4XNL0k
-	mTdBarhSa80Ak73e7tIf6ho/+8RT0Yj/HL9GqYQrBNecQ7Fh6rxEhad2zialu/wBfyV0
-	nInHTlFsM3NGY/kIwyrpfcwKPHu7gS3qAGU4+JxaqTMpgNwcqJs8e5I5zwS2wyLCVJAA
-	B+CQYZmMVzaLywv2s04ZrkxaLv+9ey3qNeAAKp9EwAw0bvQfNTmWfNgoc0hXRuOSbZxv
-	d5UZ8Qla2eU7vsDB4D0Xg1Y4o2x0R+z2tdBTeHkL0LGlR4fyyEs0Bt2VG5EaVF2IcZoq
-	aHhQ==
-X-Received: by 10.14.182.137 with SMTP id o9mr2093576eem.13.1360888239896;
-	Thu, 14 Feb 2013 16:30:39 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id d47sm22357904eem.9.2013.02.14.16.30.38
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 14 Feb 2013 16:30:39 -0800 (PST)
-Date: Fri, 15 Feb 2013 01:30:44 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 15 Feb 2013 09:04:51 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Feb 2013 23:48:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,671,1355126400"; d="scan'208";a="291549712"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.50])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Feb 2013 23:48:39 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130215003044.GN3300@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: New ugly parsing error, when SRCPV fails to expand
+Date: Thu, 14 Feb 2013 23:48:39 -0800
+Message-Id: <cover.1360914386.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [CONSOLIDATED PULL 00/22] Package Updates & Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,153 +27,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2013 00:46:42 -0000
-X-Groupsio-MsgNum: 35489
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yK/6QRnH3Zanb0EF"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 15 Feb 2013 08:04:52 -0000
 
---yK/6QRnH3Zanb0EF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Richard,
 
-Failing to get recipe from upstream svn repository now fails with ugly=20
-stack trace.
+This is mostly a set of package updates with a couple of fixes 
+fro systemd from Khem and Ross.
 
-I have bitbake/master from today and it's not really google-glog fault I ha=
-d network=20
-issue when bitbake was parsing, but error message should look better (it lo=
-oked better
-before)
+Please review Peter's rename patch.
 
-Parsing recipes...ERROR: Error executing a python function in <code>:
-ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetc=
-h2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: Fe=
-tch command failed with exit
- code 1, output:
-svn: E175002: Unable to connect to a repository at URL 'http://google-glog.=
-googlecode.com/svn/trunk'
-svn: E175002: OPTIONS of 'http://google-glog.googlecode.com/svn/trunk': Cou=
-ld not resolve hostname `google-glog.googlecode.com': Host not found (http:=
-//google-glog.googlecode.com
-)
+I have build and booted sato locally with most of the udpated pacakges,
+the Auotbuilder is currently running with Master under Test.
+
+Thanks
+	Sau!
+
+The following changes since commit 6c6568e47d6b3b0edaba569bfa4e38f9d72b5122:
+
+  tzcode/tzdata: Update to 2012j (2013-02-14 23:17:18 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Constantin Musca (1):
+  qemu: upgrade to 1.3.1
+
+Cristian Iorga (1):
+  alsa-lib: upgrade to 1.0.26
+
+Cristiana Voicu (1):
+  sanity.bbclass: when bblayers.conf is updated, it invokes a reparse
+
+Franklin S. Cooper Jr (1):
+  scripts/bitbake: Remove all instances of paths to a layer's scripts
+    directory.
+
+Khem Raj (1):
+  systemd.bbclass: Dont use libdir and base_libdir for units
+
+Laurentiu Palcu (7):
+  xf86-video-intel: upgrade to 2.21.0
+  xf86-input-vmmouse: upgrade to 13.0.0
+  libdrm: upgrade to 2.4.42
+  xkeyboard-config: upgrade to 2.8
+  xf86-input-synaptics: upgrade to 1.6.3
+  xf86-video-vmware: upgrade to 13.0.0
+  xev: upgrade to 1.2.1
+
+Marko Lindqvist (4):
+  webkit-gtk: update to upstream version 1.8.3
+  gtk+: update to upstream version 2.24.15
+  harfbuzz: update to upstream version 0.9.12
+  libpng: update to upstream version 1.5.14
+
+Peter Seebach (1):
+  libc-common.bbclass: rename ALL the packages
+
+Ross Burton (4):
+  systemd: add udev-extraconf and USB/PCI IDs to RRECOMMENDS
+  package_ipk: check CONFFILES exist before adding them to metadata
+  xserver-xf86-config: don't ship empty xorg.conf
+  xserver-xf86-config: empty generic xorg.conf
+
+Saul Wold (1):
+  gnupg: fix CVE-2012-6085
+
+ meta/classes/libc-common.bbclass                   |   19 +-
+ meta/classes/package_ipk.bbclass                   |    3 +-
+ meta/classes/sanity.bbclass                        |   18 +-
+ meta/classes/systemd.bbclass                       |   13 +-
+ meta/recipes-core/systemd/systemd_197.bb           |    1 +
+ .../qemu/{qemu_1.3.0.bb => qemu_1.3.1.bb}          |    4 +-
+ meta/recipes-devtools/qemu/qemu_git.bb             |    2 +-
+ .../gtk+/gtk+-2.24.14/hardcoded_libtool.patch      |   33 -
+ .../gtk+-2.24.14/obsolete_automake_macros.patch    |   23 -
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |    0
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
+ .../cellrenderer-cairo.patch                       |    0
+ .../configure-nm.patch                             |   11 +-
+ .../configurefix.patch                             |    0
+ .../{gtk+-2.24.14 => gtk+-2.24.15}/doc-fixes.patch |    0
+ .../entry-cairo.patch                              |    0
+ .../gtk+/gtk+-2.24.15/hardcoded_libtool.patch      | 1814 ++++++++++++++++++++
+ .../{gtk+-2.24.14 => gtk+-2.24.15}/no-demos.patch  |    0
+ .../run-iconcache.patch                            |    0
+ .../toggle-font.diff                               |    0
+ .../{gtk+-2.24.14 => gtk+-2.24.15}/xsettings.patch |    0
+ .../gtk+/{gtk+_2.24.14.bb => gtk+_2.24.15.bb}      |    7 +-
+ .../drm/{libdrm_2.4.40.bb => libdrm_2.4.42.bb}     |    4 +-
+ .../avoid_double_version_h.patch                   |    0
+ .../disable_graphite.patch                         |    0
+ .../{harfbuzz_0.9.10.bb => harfbuzz_0.9.12.bb}     |    8 +-
+ meta/recipes-graphics/xorg-app/xev_1.2.0.bb        |   12 -
+ meta/recipes-graphics/xorg-app/xev_1.2.1.bb        |   12 +
+ ...tics_1.6.2.bb => xf86-input-synaptics_1.6.3.bb} |    6 +-
+ ...ouse_12.9.0.bb => xf86-input-vmmouse_13.0.0.bb} |    4 +-
+ ...intel_2.20.17.bb => xf86-video-intel_2.21.0.bb} |    4 +-
+ ...ware-port-vmware-driver-to-new-compat-API.patch |  655 -------
+ ...mware_12.0.2.bb => xf86-video-vmware_13.0.0.bb} |    7 +-
+ ...board-config_2.7.bb => xkeyboard-config_2.8.bb} |    4 +-
+ .../xorg-xserver/xserver-xf86-config/xorg.conf     |   26 -
+ .../xorg-xserver/xserver-xf86-config_0.1.bb        |   10 +-
+ .../fix-tstamp-declaration.patch                   |    0
+ .../obsolete_automake_macros.patch                 |    0
+ .../unbreak_plugindir.patch                        |    0
+ .../{alsa-lib_1.0.25.bb => alsa-lib_1.0.26.bb}     |    7 +-
+ .../libpng-1.5.13/obsolete_automake_macros.patch   |   15 -
+ .../libpng/{libpng_1.5.13.bb => libpng_1.5.14.bb}  |   11 +-
+ .../{webkit-gtk_1.8.2.bb => webkit-gtk_1.8.3.bb}   |    6 +-
+ .../gnupg/gnupg-1.4.7/GnuPG1-CVE-2012-6085.patch   |   63 +
+ .../gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch  |   63 +
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |    3 +-
+ meta/recipes-support/gnupg/gnupg_2.0.19.bb         |    5 +-
+ scripts/bitbake                                    |    2 +-
+ 48 files changed, 2041 insertions(+), 834 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_1.3.0.bb => qemu_1.3.1.bb} (64%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/hardcoded_libtool.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/obsolete_automake_macros.patch
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/configure-nm.patch (50%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/entry-cairo.patch (100%)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.15/hardcoded_libtool.patch
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/no-demos.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/run-iconcache.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.14 => gtk+-2.24.15}/xsettings.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.14.bb => gtk+_2.24.15.bb} (92%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.40.bb => libdrm_2.4.42.bb} (50%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz-0.9.10 => harfbuzz-0.9.12}/avoid_double_version_h.patch (100%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz-0.9.10 => harfbuzz-0.9.12}/disable_graphite.patch (100%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.10.bb => harfbuzz_0.9.12.bb} (82%)
+ delete mode 100644 meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+ create mode 100644 meta/recipes-graphics/xorg-app/xev_1.2.1.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.6.2.bb => xf86-input-synaptics_1.6.3.bb} (79%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-vmmouse_12.9.0.bb => xf86-input-vmmouse_13.0.0.bb} (75%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.20.17.bb => xf86-video-intel_2.21.0.bb} (86%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmware-port-vmware-driver-to-new-compat-API.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_12.0.2.bb => xf86-video-vmware_13.0.0.bb} (62%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.7.bb => xkeyboard-config_2.8.bb} (88%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.25 => alsa-lib}/fix-tstamp-declaration.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.25 => alsa-lib}/obsolete_automake_macros.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib-1.0.25 => alsa-lib}/unbreak_plugindir.patch (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.25.bb => alsa-lib_1.0.26.bb} (91%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng-1.5.13/obsolete_automake_macros.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.5.13.bb => libpng_1.5.14.bb} (47%)
+ rename meta/recipes-sato/webkit/{webkit-gtk_1.8.2.bb => webkit-gtk_1.8.3.bb} (97%)
+ create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/GnuPG1-CVE-2012-6085.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch
+
+-- 
+1.8.0.2
 
 
-ERROR: The stack trace of python calls that resulted in this exception/fail=
-ure was:
-ERROR:   File "<code>", line 1, in <module>
-ERROR:
-ERROR:   File "__anon_620__OE_shr_core_openembedded_core_meta_classes_base_=
-bbclass", line 209, in __anon_620__OE_shr_core_openembedded_core_meta_class=
-es_base_bbclass
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 503, in get=
-Var
-ERROR:     return self.expand(value, var)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 336, in exp=
-and
-ERROR:     return self.expandWithRefs(s, varname).value
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 317, in exp=
-andWithRefs
-ERROR:     s =3D __expand_var_regexp__.sub(varparse.var_sub, s)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 97, in var_=
-sub
-ERROR:     var =3D self.d.getVar(key, True)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 503, in get=
-Var
-ERROR:     return self.expand(value, var)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 336, in exp=
-and
-ERROR:     return self.expandWithRefs(s, varname).value
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 317, in exp=
-andWithRefs
-ERROR:     s =3D __expand_var_regexp__.sub(varparse.var_sub, s)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 97, in var_=
-sub
-ERROR:     var =3D self.d.getVar(key, True)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 503, in get=
-Var
-ERROR:     return self.expand(value, var)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 336, in exp=
-and
-ERROR:     return self.expandWithRefs(s, varname).value
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 317, in exp=
-andWithRefs
-ERROR:     s =3D __expand_var_regexp__.sub(varparse.var_sub, s)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 97, in var_=
-sub
-ERROR:     var =3D self.d.getVar(key, True)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 503, in get=
-Var
-ERROR:     return self.expand(value, var)
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 336, in exp=
-and
-ERROR:     return self.expandWithRefs(s, varname).value
-ERROR:
-ERROR:   File "/OE/shr-core/bitbake/lib/bb/data_smart.py", line 326, in exp=
-andWithRefs
-ERROR:     raise ExpansionError(varname, s, exc)
-ERROR:
-ERROR: The code that was being executed was:
-ERROR:  *** 0001:__anon_620__OE_shr_core_openembedded_core_meta_classes_bas=
-e_bbclass(d)
-ERROR:      0002:__anon_227__OE_shr_core_openembedded_core_meta_classes_pac=
-kage_bbclass(d)
-ERROR:      0003:__anon_20__OE_shr_core_openembedded_core_meta_classes_blac=
-klist_bbclass(d)
-ERROR:      0004:__anon_20__OE_shr_core_openembedded_core_meta_classes_debi=
-an_bbclass(d)
-ERROR:      0005:__anon_474__OE_shr_core_openembedded_core_meta_classes_pac=
-kage_ipk_bbclass(d)
-ERROR: [From file: '<code>', lineno: 1, function: <module>]
-ERROR:      0205:    #
-ERROR:      0206:    override =3D d.getVar('SRC_URI_OVERRIDES_PACKAGE_ARCH'=
-, True)
-ERROR:      0207:    if override !=3D '0':
-ERROR:      0208:        paths =3D []
-ERROR:  *** 0209:        fpaths =3D (d.getVar('FILESPATH', True) or '').spl=
-it(':')
-ERROR:      0210:        machine =3D d.getVar('MACHINE', True)
-ERROR:      0211:        for p in fpaths:
-ERROR:      0212:            if os.path.basename(p) =3D=3D machine and os.p=
-ath.isdir(p):
-ERROR:      0213:                paths.append(p)
-ERROR: [From file: '__anon_620__OE_shr_core_openembedded_core_meta_classes_=
-base_bbclass', lineno: 209, function: __anon_620__OE_shr_core_openembedded_=
-core_meta_classes_base_bbclass]
-ERROR: Failed to parse recipe: /OE/shr-core/meta-openembedded/meta-oe/recip=
-es-support/google-glog/google-glog_svn.bb
-ERROR: Command execution failed: Exited with 1
 
-Summary: There were 70 ERROR messages shown, returning a non-zero exit code.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---yK/6QRnH3Zanb0EF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlEdgbQACgkQN1Ujt2V2gBxp0ACglAclULEd11+JlzvtqBllNYZO
-pwgAn2M3cFwDez6q5KNFFIT/6QBeGyD9
-=7ufX
------END PGP SIGNATURE-----
-
---yK/6QRnH3Zanb0EF--
