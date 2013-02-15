@@ -1,36 +1,33 @@
-Received: from mail-ob0-f178.google.com ([209.85.214.178])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U6QZT-0001xP-9T
+	(envelope-from <joe.slater@windriver.com>) id 1U6R1J-0004qy-J8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Feb 2013 20:03:57 +0100
-Received: by mail-ob0-f178.google.com with SMTP id wd20so3948090obb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Feb 2013 10:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+3iViNgPQ5UoeoNPPFIwBs2UAI+x76ZcbsOAOewgmYE=;
-	b=AEjH9u1MrVd58zT6YZQ9z2VAiZ5fih5EOpJt3vuDO6t2fs5i7fSWow6RPil5eAu9kZ
-	SzHOgI/DmhxCkYgB/pMfyvZSgodwl3JCDubxcvNE12WmGgHMw3q92y61DVnzoR/bMnca
-	YjQ8HA2cpiP79hVpQW/fv/gwsR0hvRWtSt4DrZYhsDg1+NBuW/jKYJKs3Cw1gUco9m32
-	D/NjxvSw4Ey7eo6tsKAkq4MW/bDJItTiqKMUQAg9YRxAyghDxOtBzTdTnke3+QF/JqDT
-	v9TW2uPTzbTn7NTXuQc1hL76+Ub3AOE9lyu56AIC6JMG2k9X55xaPY8r2mNW4hf+oPZs
-	Zbxw==
+	Fri, 15 Feb 2013 20:32:30 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1FJGPIe006010
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 15 Feb 2013 11:16:25 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.63]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.02.0318.004;
+	Fri, 15 Feb 2013 11:16:21 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] acpid: modify CFLAGS
+Thread-Index: AQHOCtYN2qpovLk91k+SHIxZMjxezJh6UxyAgAD26bE=
+Date: Fri, 15 Feb 2013 19:16:21 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436F4BEC2@ALA-MBB.corp.ad.wrs.com>
+References: <1360861770-30010-1-git-send-email-jslater@windriver.com>,
+	<511D4811.2080401@linux.intel.com>
+In-Reply-To: <511D4811.2080401@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.116.247]
 MIME-Version: 1.0
-X-Received: by 10.182.88.103 with SMTP id bf7mr2572072obb.7.1360954057606;
-	Fri, 15 Feb 2013 10:47:37 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Fri, 15 Feb 2013 10:47:37 -0800 (PST)
-In-Reply-To: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Fri, 15 Feb 2013 16:47:37 -0200
-X-Google-Sender-Auth: 9rvrmshRST-s_BN_PT2QXI0FliE
-Message-ID: <CAP9ODKocKGhHrnqEsrgaiRPkw5qs5P_X0TxBJR0NnLy1cFdjJw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFE: make the init manager an image feature (again)
+Subject: Re: [PATCH] acpid: modify CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +40,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2013 19:04:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 15 Feb 2013 19:32:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 15, 2013 at 4:19 PM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Hello,
->
-> it would be nice when the decision to make the init manager a distribution
-> feature will be reverted to the old oe-meta mechanism.
->
-> Being a distribution feature means, that packages are created in such a
-> way that it is impossible to split off unwanted and heavy weighted
-> functionality at image creation time.
->
-> E.g. on most of my systems, I create two kinds of images: a full
-> featured, systemd based one and a very minimal rescue system with
-> busybox and some filesystem utilities.  With recent systemd packaging
-> change, the rescue image size grow up from 5.9 MiB to 27 MiB because
-> systemd dependencies are hardcoded in mandatory packages.
->
-> Formerly, systemd dependencies could be avoided by adding the -systemd
-> packages to BAD_RECOMMENDATIONS (e.g. due to busybox-syslog ->
-> busybox-syslog-systemd rrecommend).
->
-> I am aware that initscripts were always part of the main package.  But
-> sysvinit was very lightweighted and the extra space either negligible or
-> easy to recover by removing some files in IMAGE_PREPROCESS_COMMAND.
->
-> Hence my recommendation: make the init manager an image feature again
-> and create -systemd and -sysv packages with the corresponding scripts.
-> OpenEmbedded is still for embedded devices where size matters.
->
->
-> Of course, systemd can be still a distribution feature to enable things
-> like socket activation as part of PACKAGE_CONFIG.  But dependencies on
-> init system packages should be RRECOMMENDS which can be overridden
-> easily at image creation time.
+Thanks for looking at this so quickly.
 
-I fully support this! I also want this flexibility back (in fact I see
-no reason why it has been dropped).
+If I set the optimization to DEBUG_OPTIMIZATION, I see -O0
+in CFLAGS, but I see -O2 in log.do_compile.  In Makefile, itself,
+I see
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+CFLAGS =3D -W -Wall -Werror -Wundef -Wshadow -D_GNU_SOURCE -O2 -g $(DEFS)
+
+and rather than patch that, I thought it would be easier to just override i=
+t.
+
+I am using the acpid recipe from openembedded-core master branch.
+
+Joe
+
+________________________________________
+From: Saul Wold [sgw@linux.intel.com]
+Sent: Thursday, February 14, 2013 12:24 PM
+To: Slater, Joseph
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] acpid: modify CFLAGS
+
+On 02/14/2013 09:09 AM, Joe Slater wrote:
+> Override the hard-coded CFLAGS used in Makefile
+> to reference our CFLAGS.
+>
+
+Can you be clearer about this?
+
+I just checked the output of the compile log and these flags are set
+correctly. I also looked at the make -n output via a devshell.
+
+This seems to be hardcoding the CFLAGS into this recipe.
+
+Sounds like something else is going on.
+
+Thanks
+        Sau!
+
+
+> Upstream-Status:  Pending
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>   meta/recipes-bsp/acpid/acpid.inc |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/ac=
+pid.inc
+> index 3c0219f..1ffe6ff 100644
+> --- a/meta/recipes-bsp/acpid/acpid.inc
+> +++ b/meta/recipes-bsp/acpid/acpid.inc
+> @@ -13,7 +13,9 @@ inherit update-rc.d
+>   INITSCRIPT_NAME =3D "acpid"
+>   INITSCRIPT_PARAMS =3D "defaults"
+>
+> -EXTRA_OEMAKE =3D ""
+> +# Makefile ignores our CFLAGS, so override it.
+> +#
+> +EXTRA_OEMAKE =3D "CFLAGS=3D'-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} =
+$(DEFS)'"
+>
+>   do_compile () {
+>       oe_runmake 'CC=3D${CC} -D_GNU_SOURCE' 'CROSS=3D${HOST_PREFIX}'
+>=
 
 
