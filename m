@@ -1,25 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1U6akT-0006TC-HX
-	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Feb 2013 06:55:46 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 15 Feb 2013 21:39:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,677,1355126400"; d="scan'208";a="203023087"
-Received: from unknown (HELO [10.255.12.117]) ([10.255.12.117])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 Feb 2013 21:39:26 -0800
-Message-ID: <511F1B8E.90707@linux.intel.com>
-Date: Fri, 15 Feb 2013 21:39:26 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <cover.1360933659.git.ross.burton@intel.com>
-In-Reply-To: <cover.1360933659.git.ross.burton@intel.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U6e7K-0004m3-NR for openembedded-core@lists.openembedded.org;
+	Sat, 16 Feb 2013 10:31:35 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1G9Ld9m000868; Sat, 16 Feb 2013 09:21:39 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zy+vAsUBVeRO; Sat, 16 Feb 2013 09:21:39 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1G9LY6k000852
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 16 Feb 2013 09:21:37 GMT
+Message-ID: <1361006114.31795.19.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Sat, 16 Feb 2013 09:15:14 +0000
+In-Reply-To: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 0/4] Allow xserver-xf86-config to ship no xorg.conf
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,63 +37,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2013 05:55:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 16 Feb 2013 09:31:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 02/15/2013 05:09 AM, Ross Burton wrote:
-> Hi,
+On Fri, 2013-02-15 at 19:19 +0100, Enrico Scholz wrote:
+> it would be nice when the decision to make the init manager a distribution
+> feature will be reverted to the old oe-meta mechanism.
+> 
+> Being a distribution feature means, that packages are created in such a
+> way that it is impossible to split off unwanted and heavy weighted
+> functionality at image creation time.
+> 
+> E.g. on most of my systems, I create two kinds of images: a full
+> featured, systemd based one and a very minimal rescue system with
+> busybox and some filesystem utilities.  With recent systemd packaging
+> change, the rescue image size grow up from 5.9 MiB to 27 MiB because
+> systemd dependencies are hardcoded in mandatory packages.
+> 
+> Formerly, systemd dependencies could be avoided by adding the -systemd
+> packages to BAD_RECOMMENDATIONS (e.g. due to busybox-syslog ->
+> busybox-syslog-systemd rrecommend).
+> 
+> I am aware that initscripts were always part of the main package.  But
+> sysvinit was very lightweighted and the extra space either negligible or
+> easy to recover by removing some files in IMAGE_PREPROCESS_COMMAND.
+> 
+> Hence my recommendation: make the init manager an image feature again
+> and create -systemd and -sysv packages with the corresponding scripts.
+> OpenEmbedded is still for embedded devices where size matters.
 >
-> Same as V1, apart from changing package_deb to have the same check on conffiles
-> as package_ipk.
->
+> Of course, systemd can be still a distribution feature to enable things
+> like socket activation as part of PACKAGE_CONFIG.  But dependencies on
+> init system packages should be RRECOMMENDS which can be overridden
+> easily at image creation time.
 
-Unless I got the wrong set, this still seems to have trouble with the
-hardware BSPs for routerstation and MPC machines.
+The trouble is that by making it an "image feature", people will expect
+*everything* to work properly and to be able to have fully functional
+sysvinit and systemd variants of images. We already see this
+expectation. Trying to explain to people what the limitations are, what
+is expected to work and what isn't will be difficult. I know you
+understand this but going forward most people will simply not and I
+think it will be a nightmare for usability.
 
-Maybe you need to build those.
+For that reason I'd rather see this done in a different way, for example
+blacklisting the problematic systemd dependencies at image generation
+time with some kind of stronger BAD_RECOMMENDS code. Yes, this means
+there would be some systemd config files lying around but you'd stop the
+main bulk of it coming in (and as you said, some small config files
+aren't an issue).
 
-Thanks
-	Sau!
+Cheers,
 
-> Ross
->
-> The following changes since commit 5a4ea383c3fc792cea87b834655eb013120fbb15:
->
->    poky.conf: Add Ubuntu 12.04.2 to sanity tested distros (2013-02-14 23:18:00 +0000)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib ross/xorg
->
-> for you to fetch changes up to 2ea6a8883fe2adfccd845bd94b10c5bf0b03bfe0:
->
->    xserver-xf86-config: empty generic xorg.conf (2013-02-15 13:04:30 +0000)
->
-> ----------------------------------------------------------------
-> Ross Burton (4):
->        package_ipk: check CONFFILES exist before adding them to metadata
->        package_deb: check CONFFILES exist before adding them to metadata
->        xserver-xf86-config: don't ship empty xorg.conf
->        xserver-xf86-config: empty generic xorg.conf
->
->   meta/classes/package_deb.bbclass                   |    3 ++-
->   meta/classes/package_ipk.bbclass                   |    3 ++-
->   .../xorg-xserver/xserver-xf86-config/xorg.conf     |   26 --------------------
->   .../xorg-xserver/xserver-xf86-config_0.1.bb        |   10 +++++---
->   4 files changed, 10 insertions(+), 32 deletions(-)
->
-> Ross Burton (4):
->    package_ipk: check CONFFILES exist before adding them to metadata
->    package_deb: check CONFFILES exist before adding them to metadata
->    xserver-xf86-config: don't ship empty xorg.conf
->    xserver-xf86-config: empty generic xorg.conf
->
->   meta/classes/package_deb.bbclass                   |    3 ++-
->   meta/classes/package_ipk.bbclass                   |    3 ++-
->   .../xorg-xserver/xserver-xf86-config/xorg.conf     |   26 --------------------
->   .../xorg-xserver/xserver-xf86-config_0.1.bb        |   10 +++++---
->   4 files changed, 10 insertions(+), 32 deletions(-)
->
+Richard
+
+
 
 
