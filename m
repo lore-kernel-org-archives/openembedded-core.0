@@ -1,31 +1,32 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U6hEa-0002hY-9J for openembedded-core@lists.openembedded.org;
-	Sat, 16 Feb 2013 13:51:32 +0100
+	id 1U6hWC-0003WU-Nt for openembedded-core@lists.openembedded.org;
+	Sat, 16 Feb 2013 14:09:30 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1GCfPo0010594; Sat, 16 Feb 2013 12:41:25 GMT
+	r1GCxbut011377; Sat, 16 Feb 2013 12:59:37 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 09NkjK6--MmJ; Sat, 16 Feb 2013 12:41:24 +0000 (GMT)
+	with LMTP id VLGM0d1Znm8y; Sat, 16 Feb 2013 12:59:37 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1GCfImf010444
+	r1GCxRwi011370
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 16 Feb 2013 12:41:21 GMT
-Message-ID: <1361018098.31795.33.camel@ted>
+	verify=NOT); Sat, 16 Feb 2013 12:59:30 GMT
+Message-ID: <1361019187.31795.49.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Sat, 16 Feb 2013 12:34:58 +0000
-In-Reply-To: <lyhalcmpxd.fsf@ensc-virt.intern.sigma-chemnitz.de>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sat, 16 Feb 2013 12:53:07 +0000
+In-Reply-To: <CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
 References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1361006114.31795.19.camel@ted>
-	<lyhalcmpxd.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
 X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>, Patches,
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
 Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,97 +40,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2013 12:51:32 -0000
+X-List-Received-Date: Sat, 16 Feb 2013 13:09:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2013-02-16 at 12:57 +0100, Enrico Scholz wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+On Sat, 2013-02-16 at 08:47 -0200, Otavio Salvador wrote:
+> On Sat, Feb 16, 2013 at 7:15 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2013-02-15 at 19:19 +0100, Enrico Scholz wrote:
 > >> it would be nice when the decision to make the init manager a distribution
 > >> feature will be reverted to the old oe-meta mechanism.
+> >>
+> >> Being a distribution feature means, that packages are created in such a
+> >> way that it is impossible to split off unwanted and heavy weighted
+> >> functionality at image creation time.
+> >>
+> >> E.g. on most of my systems, I create two kinds of images: a full
+> >> featured, systemd based one and a very minimal rescue system with
+> >> busybox and some filesystem utilities.  With recent systemd packaging
+> >> change, the rescue image size grow up from 5.9 MiB to 27 MiB because
+> >> systemd dependencies are hardcoded in mandatory packages.
+> >>
+> >> Formerly, systemd dependencies could be avoided by adding the -systemd
+> >> packages to BAD_RECOMMENDATIONS (e.g. due to busybox-syslog ->
+> >> busybox-syslog-systemd rrecommend).
+> >>
+> >> I am aware that initscripts were always part of the main package.  But
+> >> sysvinit was very lightweighted and the extra space either negligible or
+> >> easy to recover by removing some files in IMAGE_PREPROCESS_COMMAND.
+> >>
+> >> Hence my recommendation: make the init manager an image feature again
+> >> and create -systemd and -sysv packages with the corresponding scripts.
+> >> OpenEmbedded is still for embedded devices where size matters.
+> >>
+> >> Of course, systemd can be still a distribution feature to enable things
+> >> like socket activation as part of PACKAGE_CONFIG.  But dependencies on
+> >> init system packages should be RRECOMMENDS which can be overridden
+> >> easily at image creation time.
 > >
-> > The trouble is that by making it an "image feature", people will
-> > expect *everything* to work properly and to be able to have fully
-> > functional sysvinit and systemd variants of images.
+> > The trouble is that by making it an "image feature", people will expect
+> > *everything* to work properly and to be able to have fully functional
+> > sysvinit and systemd variants of images. We already see this
+> > expectation. Trying to explain to people what the limitations are, what
+> > is expected to work and what isn't will be difficult. I know you
+> > understand this but going forward most people will simply not and I
+> > think it will be a nightmare for usability.
 > 
-> I do not see an obvious reason why fully functional sysvinit, systemd and
-> perhaps upstart image variants based on the same distribution/package set
-> are impossible.
+> You said you already see it so what is the change? For me less
+> flexibility is more problem and the result are more ugly hacks. I've
+> been using the systemd system in meta-oe in product for long time and
+> it works fine. In same distro I build other product with is sysvinit
+> based and it also works fine.
 > 
-> Of course, not "everything" will work.  But initmgr being a distribution
-> feature makes some things completely impossible.
->
-> > We already see this expectation.
+> Now I have a nightmare in upgrade path, a change in the way my
+> customer work and as a plus the need to make two different
+> distributions for same product. No sense to me.
 > 
-> IMO, removal of features just to lower expectations is the completely
-> wrong way.
+> Final result? This product won't go out of danny as I won't be able to
+> provide an usable upgrade path without forking OE or having an insane
+> amount of bbappend hacks.
 
-meta-oe earned a *horrendous* reputation because of the way systemd was
-implemented there. I believe (as do a number of others) that it has
-damaged OE's reputation and usability and actively hurts new users. Yes,
-the people who use systemd and meta-oe were happy. People who didn't
-want systemd were not. There continues to be a fairly toxic mix of
-distro policy mingled in with the recipes in there although good
-progress is being made in fixing that and I'm grateful to the people
-who've noticed and taken on that work (and done previous work like the
-separation of meta-systemd).
+When systemd was added to meta-oe, it was clearly mentioned that it was
+a proof of concept to experiment with integrating it and subject to
+change until it made it into OE-Core. The fact is is changing is
+therefore not a surprise. We do need to think about making sure we have
+equivalent functionality, we also need to think about migration but the
+fact changes happened with some experimental work should not surprise
+people. I appreciate that isn't ideal but it is the way it is.
 
-It was clear systemd needed to move into the core but also become more
-configurable to work for everyone. I don't want to remove features, I do
-want to talk about whether there is a better way we can fulfil certain
-uses cases, particularly with a focus on usability.
-
-> > Trying to explain to people what the limitations are, what is expected
-> > to work and what isn't will be difficult.
+> > For that reason I'd rather see this done in a different way, for example
+> > blacklisting the problematic systemd dependencies at image generation
+> > time with some kind of stronger BAD_RECOMMENDS code. Yes, this means
+> > there would be some systemd config files lying around but you'd stop the
+> > main bulk of it coming in (and as you said, some small config files
+> > aren't an issue).
 > 
-> OpenEmbedded is not an end-user distribution but for people who are
-> willing to invest some learning effort.  Trying to limit ourself on the
-> lowest common ground is not desirable imo.
+> Check the amount of changes for do_install_append has sent today. This
+> was all not need with the code we had and which works fine. This is
+> just duplicated code all over recipes. Seriously the systemd
+> integration was done in complete wrong way in my POV. It broght up
+> problems we have fixed and do major improvements in meta-oe ... at no
+> profit.
 
-I did not say we're not going to support your use case. I'm asking if we
-can summarise exactly what the problem is and whether there is another
-way we can get there which isn't going to surprise as many people and be
-easier to use.
+Sorry you feel that way. I'm equally frustrated with the way systemd was
+added to meta-oe and the damage it did to the overall usability of the
+OE ecosystem. I'm trying to take positive actions from that such as
+ensuring we never do something like it again. 
 
-I'm actually moderately annoyed that throughout the various discussions
-about systemd and how we'd get it into OE-Core nobody actually mentioned
-these specific requirements until very late in the implementation.
+As for the integration into the core, I haven't been too involved with
+that and perhaps I should be. The trouble is I alone don't scale and I'm
+trying to ensure we have more people taking on this kind of work. This
+means letting others take it on and learn. There is a requirement from
+the community to ensure people working on improvements like this have
+all the needed data and that is something which I don't think happened
+well here. My point is that I think there have been failings in various
+places and the community needs to take some responsibility too.
 
-At the bare minimum, we actually need to document the usecases people
-are using and require. Yes, you know your usecase but you need to take
-some responsibility for ensuring its documented and known about else it
-will continue to get broken time and time again.
+On the specifics of the do_install_append, you've seen my comments about
+how we're not learning from past mistakes with the way the do_install in
+the class was written. I note Phil also agreed with them, both of us
+remembering some of the horrors we've dealt with in the past (and
+binconfig.bbclass is still around, sadly).
 
-> > For that reason I'd rather see this done in a different way, for
-> > example blacklisting the problematic systemd dependencies at image
-> > generation time with some kind of stronger BAD_RECOMMENDS code.
-> 
-> Assuming we are able to break the hard dependencies, what is with package
-> scripts which require programs, files or directories from these deps?  Do
-> we need a way to differ between good and bad script failures then?
+One of the goals of OE-Core is to improve quality. I appreciate in this
+case you disagree about the "quality" of those bbappends but I still
+believe that approach will be better in the long term as upstream
+software starts shipping systemd support. Short term its uglier, I
+totally agree. Part of my role in things is to look beyond the short
+term, even if people don't want to hear that.
 
-At the technical level there is little difference from packaging these
-things separately to avoid specific dependencies and explicitly telling
-the package manager to avoid that dependency instead.
+> I know it is not the better thing to read but I think it is nice when
+> we receive feedback as it allows for rethink of our path of work.
 
-Equally there are other cases where people do want to break specific
-dependencies so this could help us in that area too.
+See above as there is some feedback there too ;-)
 
-Perhaps there is a dependency we need to drop to a Recommends level,
-then use BAD_RECOMMENDS to handy that. We do need to document why we do
-that and how it is expected to be used.
-
-> Sounds extremely hacky and fragile...
-
-It depends on the implementation.
-
-Having initscripts in individual packages and having to play tricks to
-ensure the right sets of packages get installed is rather hacky and
-fragile.
+I'd also note that its ELC next week and I'll be travelling. Lack of
+response doesn't mean I don't care about this, I do. There are only so
+many hours in the day though and whilst at ELC, I will need to focus
+primarily on that.
 
 Cheers,
 
 Richard
+
 
 
 
