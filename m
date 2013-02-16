@@ -1,37 +1,23 @@
-Received: from mail-ye0-f171.google.com ([209.85.213.171])
+Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U6pN2-0002KI-ES
+	(envelope-from <holger@moiji-mobile.com>) id 1U6qgu-0004aW-LO
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Feb 2013 22:32:39 +0100
-Received: by mail-ye0-f171.google.com with SMTP id m8so788773yen.30
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2013 13:16:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=y1JzWpYBtj+q/7xboXoyBOv/N1+uKz5MA//nlPA7/tE=;
-	b=xNAFD1lxXG9DTOIHU94ZrR/oGWSgJlzI6XvlJwT8sUOjx/issghsFBAQGtmBJfSYOe
-	/mbRqm8nWhEe19vgcojYbVZqAIGrBs4XPqjd3TAK5+rN5cOsl7qki24IBjMixudBY4VY
-	Rs11ZI31dtl7uiBSw5MFxSXwYaQpFcHw/7QePfw/0kq26DrMTJwNrKtxioUhv+TmB6yk
-	2DPR9SXR1md1Mr0ErhljjzRFGuAZmRQVQqYNYuwSHvBBZlpoHc+ywEDLJl+9VO0Yfcbj
-	gxu/ZqXoF7U4dZPhH5LTVFguor5QQuslTL8ODJSP9GvVFnesAlCwNdnS6byI5SEZk3yM
-	oY9Q==
-X-Received: by 10.101.11.37 with SMTP id o37mr3055357ani.42.1361049386508;
-	Sat, 16 Feb 2013 13:16:26 -0800 (PST)
-Received: from nano.lab.ossystems.com.br ([187.23.144.59])
-	by mx.google.com with ESMTPS id x16sm100839942yhj.6.2013.02.16.13.16.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 16 Feb 2013 13:16:25 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sat, 16 Feb 2013 19:20:44 -0200
-Message-Id: <1361049644-27904-4-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.1
-In-Reply-To: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
-References: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 4/4] qt4-tools: Drop libx11 dependency when building without 'x11' distro feature
+	Sat, 16 Feb 2013 23:57:11 +0100
+Received: from sangmingze-mail.local (91-66-230-199-dynip.superkabel.de
+	[91.66.230.199])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id E55802543431;
+	Sat, 16 Feb 2013 22:57:09 +0000 (UTC)
+Received: from localhost.lan ([127.0.0.1] helo=xiaoyu.lan)
+	by sangmingze-mail.local with esmtp (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1U6qRK-0000bM-Dx; Sat, 16 Feb 2013 23:41:02 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 16 Feb 2013 23:41:00 +0100
+Message-Id: <1361054460-21397-1-git-send-email-holger@moiji-mobile.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+Subject: [PATCH] conf: Remove unused ROOT_FLASH_SIZE variable from the config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2013 21:32:46 -0000
+X-List-Received-Date: Sat, 16 Feb 2013 22:57:12 -0000
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+This variable is set but never used in OE-core and meta-oe. It
+was historically used for the Opie collection but seems to be
+unused now.
 ---
- meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/bitbake.conf             |    3 ---
+ meta/conf/machine/include/qemu.inc |    2 --
+ 2 files changed, 5 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-index cfc6fd8..564f1d2 100644
---- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-+++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-@@ -1,10 +1,10 @@
- DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
--DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
-+DEPENDS = "nativesdk-zlib nativesdk-dbus ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)} qt4-native"
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- LICENSE = "LGPLv2.1 | GPLv3"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5f4a412..b1c8dac 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -721,9 +721,6 @@ OES_BITBAKE_CONF = "1"
  
--INC_PR = "r13"
-+INC_PR = "r14"
+ DISTRO_FEATURES ?= ""
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt4-${PV}:"
+-# This is used to limit what packages goes into images built, so set big by default
+-ROOT_FLASH_SIZE ?= "256"
+-
+ DISTRO_EXTRA_RDEPENDS ?= ""
+ DISTRO_EXTRA_RRECOMMENDS ?= ""
+ MACHINE_EXTRA_RDEPENDS ?= ""
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index f68bf32..52215b3 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -16,8 +16,6 @@ MACHINEOVERRIDES .= ":qemuall"
+ 
+ IMAGE_FSTYPES += "tar.bz2 ext3"
+ 
+-ROOT_FLASH_SIZE = "280"
+-
+ # Don't include kernels in standard images
+ RDEPENDS_kernel-base = ""
  
 -- 
-1.8.1
+1.7.10.4
 
 
 
