@@ -1,28 +1,37 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from mail-gg0-f180.google.com ([209.85.161.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1U6ozB-0001mg-Vu
+	(envelope-from <otavio.salvador@gmail.com>) id 1U6pMx-0002KB-Pv
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Feb 2013 22:07:54 +0100
-Received: from NAEMCASHT02.na.leapfrog.com (unknown [10.12.2.36])
-	by mx4.leapfrog.com (Postfix) with ESMTP id C2C025EA9
+	Sat, 16 Feb 2013 22:32:28 +0100
+Received: by mail-gg0-f180.google.com with SMTP id e5so336325ggk.39
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Feb 2013 12:20:56 -0800 (PST)
-Received: from naemmail03.na.leapfrog.com ([fe80::491e:453:9918:658c]) by
-	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0379.000;
-	Sat, 16 Feb 2013 12:20:56 -0800
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: make the init manager an image feature (again)
-Thread-Index: Ac4MgnR6Y7Ole/wtSXqYWY6D3GrDHQ==
-Date: Sat, 16 Feb 2013 20:20:55 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0FE6C79B47@NAEMMAIL03.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
-MIME-Version: 1.0
-Subject: RFE: make the init manager an image feature (again)
+	Sat, 16 Feb 2013 13:16:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=buQT9FjuXiIju5M+D14lmW/JyfCalkt80RvFJG2FxBk=;
+	b=qNVs0InVMk1oPhCJU87BrlWvJtxmQbI8DDz3FlqTKhthmGHikZr1oARi3HzPsMKz7G
+	/dSTGf0ke/bAayTsoVHFkN7qY9lyJwIcY8dPxv4DIJRo5h8r9d3OvW67CX6r6VBxz8y3
+	kBB/5Yk6oFUo3H0qMnZwi+ipdCeIHYZ8DlALiQDjaY5RErGG+7nKznMKV12zpJj7IXk+
+	DHowL6nfUPHpX45hnrm1Tw2HQ4JoCpEcLLcBZ0JAsNOSI/Vm89VhEZHeYw0+95jScu0d
+	zsA5R/psJ5zXZsist5hLIkfHUMnP8mo65jv8sJRdAdaCOJci2lWatVUT2jVh4XzcBeds
+	RZNA==
+X-Received: by 10.236.149.162 with SMTP id x22mr10543560yhj.37.1361049381971; 
+	Sat, 16 Feb 2013 13:16:21 -0800 (PST)
+Received: from nano.lab.ossystems.com.br ([187.23.144.59])
+	by mx.google.com with ESMTPS id x16sm100839942yhj.6.2013.02.16.13.16.19
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 16 Feb 2013 13:16:21 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sat, 16 Feb 2013 19:20:42 -0200
+Message-Id: <1361049644-27904-2-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.1
+In-Reply-To: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
+References: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 2/4] dbus: Drop libx11 dependency when building without 'x11' distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,22 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Feb 2013 21:07:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 16 Feb 2013 21:32:31 -0000
 
-Sorry I didn't pipe up earlier but we are still working from denzil so I ha=
-dn't noticed the steady move away from supporting both sysvinit and systemd=
- in a single distro. We have a similar use case to Otavio where we are hopi=
-ng to move to systemd this year, but we'll need to use sysvinit for our res=
-cue images since they operate out of a ramfs where space is precious. These=
- images are all built out of the same distro and it seems like it would be =
-a nightmare to try and support 2 distros just so we could have our rescue i=
-mages.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-core/dbus/dbus.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Daniel Lazzari Jr.
-Firmware Engineer
-dlazzari@leapfrog.com
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 292ab29..cebab28 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+ X11DEPENDS = "virtual/libx11 libsm"
+ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+ DEPENDS_class-native = "expat-native virtual/libintl-native"
+-DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl virtual/libx11"
++DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+ RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '', d)}"
+ RDEPENDS_class-native = ""
+ 
+-- 
+1.8.1
+
 
 
