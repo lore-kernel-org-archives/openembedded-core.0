@@ -1,39 +1,35 @@
-Received: from mail-oa0-f51.google.com ([209.85.219.51])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U74yL-0000JF-AE
-	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 15:12:08 +0100
-Received: by mail-oa0-f51.google.com with SMTP id h2so5141045oag.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 05:55:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=bSA9LjEjjIGN6SIMW/nXJUqNA7rq+FfGdlnplzIegRE=;
-	b=0dG45fPETDMQVg8FbLBVIL4tHrGfppIw+Urr8EdWNvHqxXrKmpUPnthtfjSz43v6I7
-	X5G6tlYZ8MzQdPbheBifAFsivcHKPKnZ1cQYAtAdDhZrOU0QPZAmJmKALuxc5jCx21iF
-	2VpyIj4n5F67CM+nM/KdO8ojx0RFirogss8K4p0SocebeCHMHPX3L/gX8QKRjQ8t08NE
-	W7ssQR01xhtrJyC2gTWR134A2FxgzzeS8XNDoo6vaDt3BWybgJv8Ya8CRT/x+WQfASdd
-	CZ8WAcKMjWZQHMcg/6LQkgccMF8yUTy0Um/X0xQVYaxVWK9i6hQLqpBSEhSf8nqHCUzA
-	hRMw==
-MIME-Version: 1.0
-X-Received: by 10.60.170.44 with SMTP id aj12mr4683035oec.42.1361109358445;
-	Sun, 17 Feb 2013 05:55:58 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Sun, 17 Feb 2013 05:55:58 -0800 (PST)
-In-Reply-To: <1361108780.32271.3.camel@ted>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U75n8-0001ib-71 for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 16:04:44 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1HEslkl020217; Sun, 17 Feb 2013 14:54:47 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KpTMgn3bdLM6; Sun, 17 Feb 2013 14:54:47 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1HEsgs1020211
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sun, 17 Feb 2013 14:54:44 GMT
+Message-ID: <1361112495.32271.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sun, 17 Feb 2013 14:48:15 +0000
+In-Reply-To: <CAP9ODKpcnhdKSQbonxq5kxzcRhj=Yw-Y4gu+3nd4zH2pdv1rvQ@mail.gmail.com>
 References: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
-	<1361049644-27904-3-git-send-email-otavio@ossystems.com.br>
-	<1361087577.31795.106.camel@ted>
-	<CAP9ODKqd_DbKPHu_FYnHAR2TRqb8Ouw3XuonR43P6Ze0zT9qRQ@mail.gmail.com>
-	<1361108780.32271.3.camel@ted>
-Date: Sun, 17 Feb 2013 10:55:58 -0300
-X-Google-Sender-Auth: 7o8Uf3NZoiNk1PCXchGvGQ2QAkw
-Message-ID: <CAP9ODKrruPc49tX9J6iACt8VnnHQTt9-CrGoTGkcD8H-DrTD-g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<1361049644-27904-2-git-send-email-otavio@ossystems.com.br>
+	<1361087244.31795.105.camel@ted>
+	<CAP9ODKoC6MHFy11Pp6=78+GbfuKnL3xYs6EfNcKPA6HudUk_vQ@mail.gmail.com>
+	<1361108669.32271.1.camel@ted>
+	<CAP9ODKpcnhdKSQbonxq5kxzcRhj=Yw-Y4gu+3nd4zH2pdv1rvQ@mail.gmail.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] libsdl: Use 'virtual/libx11' instead of hardcoding nativesdk-libx11
+Subject: Re: [PATCH 2/4] dbus: Drop libx11 dependency when building without 'x11' distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,51 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 14:12:09 -0000
-X-List-Received-Date: Sun, 17 Feb 2013 14:12:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 17 Feb 2013 15:04:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 17, 2013 at 10:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2013-02-17 at 10:42 -0300, Otavio Salvador wrote:
->> On Sun, Feb 17, 2013 at 4:52 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Sat, 2013-02-16 at 19:20 -0200, Otavio Salvador wrote:
->> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> >> ---
->> >>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 2 +-
->> >>  1 file changed, 1 insertion(+), 1 deletion(-)
->> >>
->> >> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> >> index e25c597..3dbe97a 100644
->> >> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> >> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> >> @@ -16,7 +16,7 @@ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
->> >>             ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
->> >>             ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
->> >>             tslib"
->> >> -DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
->> >> +DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
->> >
->> > Don't you mean virtual/nativesdk-libx11 ?
->>
->> Other places are using virtual/libx11 so I sticked to it.
->
-> Other places in nativesdk overrides?
+On Sun, 2013-02-17 at 10:55 -0300, Otavio Salvador wrote:
+> On Sun, Feb 17, 2013 at 10:44 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Sun, 2013-02-17 at 10:40 -0300, Otavio Salvador wrote:
+> >> On Sun, Feb 17, 2013 at 4:47 AM, Richard Purdie
+> >> <richard.purdie@linuxfoundation.org> wrote:
+> >> > On Sat, 2013-02-16 at 19:20 -0200, Otavio Salvador wrote:
+> >> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> >> >> ---
+> >> >>  meta/recipes-core/dbus/dbus.inc | 2 +-
+> >> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >>
+> >> >> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> >> >> index 292ab29..cebab28 100644
+> >> >> --- a/meta/recipes-core/dbus/dbus.inc
+> >> >> +++ b/meta/recipes-core/dbus/dbus.inc
+> >> >> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+> >> >>  X11DEPENDS = "virtual/libx11 libsm"
+> >> >>  DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+> >> >>  DEPENDS_class-native = "expat-native virtual/libintl-native"
+> >> >> -DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl virtual/libx11"
+> >> >> +DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+> >> >>  RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '', d)}"
+> >> >>  RDEPENDS_class-native = ""
+> >> >
+> >> > This tends to be a really bad idea for dbus-nativesdk. If you install an
+> >> > SDK compiled with these options into PATH only a system which does have
+> >> > x11, it will break functionality in a way unacceptable to users.
+> >>
+> >> I don't see how it'd break anything being deployed in a toolchain. We
+> >> don't initialize the dbus daemon so it is mostly used to fulfill
+> >> dependencies.
+> >
+> > Imagine you source the toolchain setup script. The limited functionality
+> > dbus-launch just got into PATH. Now you run some X application. Things
+> > break.
+> 
+> You usually to not source the env script and run your X server on top
+> of it, I think. Personally I source it in a terminal session inside of
+> X and use it to build things only.
 
-Yes; I can check it again.
+No, but people do open a terminal in X and then source the script there,
+then run other X applications from within the terminal window. Those X
+applications can use dbus activation. A dbus-launch without x11 support
+causes problems in this situation.
 
->>  For me it
->> has worked but I did not change if it'd choose the right package when
->> building with 'x11' (as my project now builds without it).
->
-> That doesn't make it correct.
+Cheers,
 
-I will check and post v2.
+Richard
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
 
 
