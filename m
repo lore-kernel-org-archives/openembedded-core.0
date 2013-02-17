@@ -1,31 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-lb0-f171.google.com ([209.85.217.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U70JT-0007wD-4w for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 10:13:44 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1H923g5003913 for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:03:47 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rrwGDDmUisK5
+	(envelope-from <cazfi74@gmail.com>) id 1U70MF-00085q-Iw
+	for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 10:16:28 +0100
+Received: by mail-lb0-f171.google.com with SMTP id gg13so3555012lbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:03:47 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1H93g2X003931
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:03:45 GMT
-Message-ID: <1361091437.31795.109.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Feb 2013 08:57:17 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Subject: package_rpm/deb/ipk: Error if we don't find packages when creating the package index
+	Sun, 17 Feb 2013 01:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=cuKu2Of/3GYTmzwLATaqBp6+mjMa3BU8+fke4uqteoI=;
+	b=IoMkgEZuA3fEqWzbJ7D5AksRSDQJ32uYnYMK/ehmKEUKIQLr8onJdjdrlzVl+Adf0Y
+	a1WvDkVl60v3r5VXuiJxPPhRwciK70HAQoxDXcgseMufzfOI83U3L5r8LClfv+VhhHDO
+	xz8WucZ1UU66HJ3FIViYEi24C2E5y6o1xvgRiW5j/7dMgup6Ip1fA33JKP4BCsz09kZy
+	uk51Pl6wYl1S4H8lfBGAyLN6XfL+gQe3pf05YPkIGNZSXLGG7seQgEusgddjpVFv8ieb
+	YkeUyBuWavi3dCBDijj+Z87pMwVgkMVU0yny72rgAk0hX9mQYTAZ+GPKeT2BO89ucDo7
+	iZ4w==
+X-Received: by 10.112.26.106 with SMTP id k10mr4116360lbg.5.1361091621248;
+	Sun, 17 Feb 2013 01:00:21 -0800 (PST)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPS id w5sm13036108lbj.15.2013.02.17.01.00.19
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 17 Feb 2013 01:00:20 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1U706b-00086r-Mm; Sun, 17 Feb 2013 11:00:17 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 17 Feb 2013 11:00:16 +0200
+Message-Id: <cover.1361091390.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/5] automake-1.13 and upstream version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,120 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 09:13:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Feb 2013 09:16:55 -0000
 
-If for whatever reason the package directory is empty of packages, it
-makes sense to error early rather than later in what become much
-more obtuse errors. This adds in a sanity check to each of the packaging
-backends. It also removes the duplicate createrepo call since the
-core index creation function now uses this directly after the switch
-to smart.
+A couple of automake-1.13 related fixes and updates to newer upstream
+versions. Notably curl now has its official automake-1.13 support, so
+we get rid of our own hack.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 5740948..f4b18c3 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -78,6 +78,7 @@ package_update_index_deb () {
- 		fi
- 	done
- 
-+	found=0
- 	for arch in $debarchs; do
- 		if [ ! -d ${DEPLOY_DIR_DEB}/$arch ]; then
- 			continue;
-@@ -85,7 +86,11 @@ package_update_index_deb () {
- 		cd ${DEPLOY_DIR_DEB}/$arch
- 		dpkg-scanpackages . | gzip > Packages.gz
- 		echo "Label: $arch" > Release
-+		found=1
- 	done
-+	if [ "$found" != "1" ]; then
-+		bbfatal "There are no packages in ${DEPLOY_DIR_DEB}!"
-+	fi
- }
- 
- #
-@@ -457,6 +462,6 @@ do_package_write_deb[umask] = "022"
- addtask package_write_deb before do_package_write after do_packagedata do_package
- 
- 
--PACKAGEINDEXES += "package_update_index_deb;"
-+PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_DEB} ] || package_update_index_deb;"
- PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "apt-native:do_populate_sysroot"
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index e5e76ef..526c3ae 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -216,12 +216,17 @@ package_update_index_ipk () {
- 		packagedirs="$packagedirs ${DEPLOY_DIR_IPK}/$arch"
- 	done
- 
-+	found=0
- 	for pkgdir in $packagedirs; do
- 		if [ -e $pkgdir/ ]; then
-+			found=1
- 			touch $pkgdir/Packages
- 			flock $pkgdir/Packages.flock -c "opkg-make-index -r $pkgdir/Packages -p $pkgdir/Packages -m $pkgdir/"
- 		fi
- 	done
-+	if [ "$found" != "1" ]; then
-+		bbfatal "There are no packages in ${DEPLOY_DIR_IPK}!"
-+	fi
- }
- 
- #
-@@ -483,6 +488,6 @@ do_package_write_ipk[cleandirs] = "${PKGWRITEDIRIPK}"
- do_package_write_ipk[umask] = "022"
- addtask package_write_ipk before do_package_write after do_packagedata do_package
- 
--PACKAGEINDEXES += "package_update_index_ipk;"
-+PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_IPK} ] || package_update_index_ipk;"
- PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 6acf68a..e85e027 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -20,7 +20,7 @@ python package_rpm_install () {
- # Update the packages indexes ${DEPLOY_DIR_RPM}
- #
- package_update_index_rpm () {
--	if [ ! -z "${DEPLOY_KEEP_PACKAGES}" -o ! -e "${DEPLOY_DIR_RPM}" ]; then
-+	if [ ! -z "${DEPLOY_KEEP_PACKAGES}" ]; then
- 		return
- 	fi
- 
-@@ -45,11 +45,16 @@ package_update_index_rpm () {
- 		echo $arch
- 	done | sort | uniq`
- 
-+	found=0
- 	for arch in $archs; do
- 		if [ -d ${DEPLOY_DIR_RPM}/$arch ] ; then
- 			createrepo --update -q ${DEPLOY_DIR_RPM}/$arch
-+			found=1
- 		fi
- 	done
-+	if [ "$found" != "1" ]; then
-+		bbfatal "There are no packages in ${DEPLOY_DIR_RPM}!"
-+	fi
- }
- 
- rpm_log_check() {
-@@ -1087,6 +1092,6 @@ do_package_write_rpm[cleandirs] = "${PKGWRITEDIRRPM}"
- do_package_write_rpm[umask] = "022"
- addtask package_write_rpm before do_package_write after do_packagedata do_package
- 
--PACKAGEINDEXES += "package_update_index_rpm; [ ! -e ${DEPLOY_DIR_RPM} ] || createrepo ${DEPLOY_DIR_RPM};"
-+PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_RPM} ] || package_update_index_rpm;"
- PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "createrepo-native:do_populate_sysroot"
+The following changes since commit 97aa5ac2df7593e343d82f5e64a422bb951eacf9:
 
+  dropbear: use pidfile for daemon start/stop/restart (2013-02-15 12:58:44 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
+
+Marko Lindqvist (5):
+  webkit-gtk: replace obsolete automake macros with working ones
+  gtk-sato-engine: update to git repository head
+  oprofileui-server: replace obsolete automake macros with working ones
+  libffi: update to upstream version 3.0.12
+  curl: update to upstream version 7.29.0
+
+ .../libffi/0001-libffi-update-for-3.0.11.patch     |  171 --
+ .../libffi/aarch64-adding-build-support.patch      |   63 -
+ .../libffi/libffi/add-aarch64-support.patch        | 2672 --------------------
+ .../libffi/{libffi_3.0.11.bb => libffi_3.0.12.bb}  |    9 +-
+ .../obsolete_automake_macros.patch                 |   20 +
+ .../oprofile/oprofileui-server_git.bb              |    6 +-
+ .../gtk-engines/gtk-sato-engine_git.bb             |    4 +-
+ .../obsolete_automake_macros.patch                 |   14 +
+ meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb       |    3 +-
+ .../dont_override_ac_config_macro_dir.patch        |   30 -
+ .../curl-7.28.1/obsolete_automake_macros.patch     |   14 -
+ meta/recipes-support/curl/curl/pkgconfig_fix.patch |   25 +-
+ .../curl/{curl_7.28.1.bb => curl_7.29.0.bb}        |    8 +-
+ 13 files changed, 59 insertions(+), 2980 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
+ rename meta/recipes-gnome/libffi/{libffi_3.0.11.bb => libffi_3.0.12.bb} (76%)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-sato/webkit/webkit-gtk-1.8.3/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-support/curl/curl-7.28.1/dont_override_ac_config_macro_dir.patch
+ delete mode 100644 meta/recipes-support/curl/curl-7.28.1/obsolete_automake_macros.patch
+ rename meta/recipes-support/curl/{curl_7.28.1.bb => curl_7.29.0.bb} (88%)
+
+-- 
+1.7.10.4
 
 
 
