@@ -1,35 +1,31 @@
-Received: from mail-lb0-f171.google.com ([209.85.217.171])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1U70MF-00085q-Iw
-	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 10:16:28 +0100
-Received: by mail-lb0-f171.google.com with SMTP id gg13so3555012lbb.2
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U70MY-00086O-0Q for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 10:16:55 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1H96whP004136 for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Feb 2013 09:06:58 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id N0RDUinKBZzL
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 01:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=cuKu2Of/3GYTmzwLATaqBp6+mjMa3BU8+fke4uqteoI=;
-	b=IoMkgEZuA3fEqWzbJ7D5AksRSDQJ32uYnYMK/ehmKEUKIQLr8onJdjdrlzVl+Adf0Y
-	a1WvDkVl60v3r5VXuiJxPPhRwciK70HAQoxDXcgseMufzfOI83U3L5r8LClfv+VhhHDO
-	xz8WucZ1UU66HJ3FIViYEi24C2E5y6o1xvgRiW5j/7dMgup6Ip1fA33JKP4BCsz09kZy
-	uk51Pl6wYl1S4H8lfBGAyLN6XfL+gQe3pf05YPkIGNZSXLGG7seQgEusgddjpVFv8ieb
-	YkeUyBuWavi3dCBDijj+Z87pMwVgkMVU0yny72rgAk0hX9mQYTAZ+GPKeT2BO89ucDo7
-	iZ4w==
-X-Received: by 10.112.26.106 with SMTP id k10mr4116360lbg.5.1361091621248;
-	Sun, 17 Feb 2013 01:00:21 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id w5sm13036108lbj.15.2013.02.17.01.00.19
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 17 Feb 2013 01:00:20 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1U706b-00086r-Mm; Sun, 17 Feb 2013 11:00:17 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Feb 2013 11:00:16 +0200
-Message-Id: <cover.1361091390.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/5] automake-1.13 and upstream version updates
+	Sun, 17 Feb 2013 09:06:58 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1H96ref004132
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Feb 2013 09:06:56 GMT
+Message-ID: <1361091629.31795.112.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 17 Feb 2013 09:00:29 +0000
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Subject: [PATCH] package_rpm/dev/ipk/tar: Drop unused functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +38,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 09:16:55 -0000
+X-List-Received-Date: Sun, 17 Feb 2013 09:17:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A couple of automake-1.13 related fixes and updates to newer upstream
-versions. Notably curl now has its official automake-1.13 support, so
-we get rid of our own hack.
+The package_xxx_install functions date from a different era and are not used by
+anything. In the rpm case, they're simply unimplemented, in the tar case they're
+using broken whitespace and deprecated functions. We might as well clean
+out the old broken unused code.
 
-The following changes since commit 97aa5ac2df7593e343d82f5e64a422bb951eacf9:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index f4b18c3..12e01d1 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -10,57 +10,6 @@ DPKG_ARCH ?= "${TARGET_ARCH}"
+ 
+ PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
+ 
+-python package_deb_fn () {
+-    d.setVar('PKGFN', d.getVar('PKG'))
+-}
+-
+-addtask package_deb_install
+-python do_package_deb_install () {
+-    pkg = d.getVar('PKG', True)
+-    pkgfn = d.getVar('PKGFN', True)
+-    rootfs = d.getVar('IMAGE_ROOTFS', True)
+-    debdir = d.getVar('DEPLOY_DIR_DEB', True)
+-    apt_config = d.expand('${STAGING_ETCDIR_NATIVE}/apt/apt.conf')
+-    stagingbindir = d.getVar('STAGING_BINDIR_NATIVE', True)
+-    tmpdir = d.getVar('TMPDIR', True)
+-
+-    if None in (pkg,pkgfn,rootfs):
+-        raise bb.build.FuncFailed("missing variables (one or more of PKG, PKGFN, IMAGE_ROOTFS)")
+-    try:
+-        if not os.exists(rootfs):
+-            os.makedirs(rootfs)
+-        os.chdir(rootfs)
+-    except OSError:
+-        import sys
+-        raise bb.build.FuncFailed(str(sys.exc_value))
+-
+-    # update packages file
+-    (exitstatus, output) = commands.getstatusoutput('dpkg-scanpackages %s > %s/Packages' % (debdir, debdir))
+-    if (exitstatus != 0 ):
+-        raise bb.build.FuncFailed(output)
+-
+-    f = open(os.path.join(tmpdir, "stamps", "DEB_PACKAGE_INDEX_CLEAN"), "w")
+-    f.close()
+-
+-    # NOTE: this env stuff is racy at best, we need something more capable
+-    # than 'commands' for command execution, which includes manipulating the
+-    # env of the fork+execve'd processs
+-
+-    # Set up environment
+-    apt_config_backup = os.getenv('APT_CONFIG')
+-    os.putenv('APT_CONFIG', apt_config)
+-    path = os.getenv('PATH')
+-    os.putenv('PATH', '%s:%s' % (stagingbindir, os.getenv('PATH')))
+-
+-    # install package
+-    commands.getstatusoutput('apt-get update')
+-    commands.getstatusoutput('apt-get install -y %s' % pkgfn)
+-
+-    # revert environment
+-    os.putenv('APT_CONFIG', apt_config_backup)
+-    os.putenv('PATH', path)
+-}
+-
+ #
+ # Update the Packages index files in ${DEPLOY_DIR_DEB}
+ #
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 526c3ae..094ba09 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -14,62 +14,6 @@ OPKG_ARGS = "-f $INSTALL_CONF_IPK -o $INSTALL_ROOTFS_IPK --force_postinstall --p
+ 
+ OPKGLIBDIR = "${localstatedir}/lib"
+ 
+-python package_ipk_fn () {
+-    d.setVar('PKGFN', d.getVar('PKG'))
+-}
+-
+-python package_ipk_install () {
+-    import subprocess
+-
+-    pkg = d.getVar('PKG', True)
+-    pkgfn = d.getVar('PKGFN', True)
+-    rootfs = d.getVar('IMAGE_ROOTFS', True)
+-    ipkdir = d.getVar('DEPLOY_DIR_IPK', True)
+-    stagingdir = d.getVar('STAGING_DIR', True)
+-    tmpdir = d.getVar('TMPDIR', True)
+-
+-    if None in (pkg,pkgfn,rootfs):
+-        raise bb.build.FuncFailed("missing variables (one or more of PKG, PKGFN, IMAGEROOTFS)")
+-    try:
+-        bb.mkdirhier(rootfs)
+-        os.chdir(rootfs)
+-    except OSError:
+-        import sys
+-        (type, value, traceback) = sys.exc_info()
+-        print value
+-        raise bb.build.FuncFailed
+-
+-    # Generate ipk.conf if it or the stamp doesnt exist
+-    conffile = os.path.join(stagingdir,"ipkg.conf")
+-    if not os.access(conffile, os.R_OK):
+-        ipkg_archs = d.getVar('PACKAGE_ARCHS')
+-        if ipkg_archs is None:
+-            bb.error("PACKAGE_ARCHS missing")
+-            raise FuncFailed
+-        ipkg_archs = ipkg_archs.split()
+-        arch_priority = 1
+-
+-        f = open(conffile,"w")
+-        for arch in ipkg_archs:
+-            f.write("arch %s %s\n" % ( arch, arch_priority ))
+-            arch_priority += 1
+-        f.write("src local file:%s" % ipkdir)
+-        f.close()
+-
+-
+-    if not os.access(os.path.join(ipkdir,"Packages"), os.R_OK) or not os.access(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"),os.R_OK):
+-        ret = subprocess.call('opkg-make-index -p %s %s ' % (os.path.join(ipkdir, "Packages"), ipkdir), shell=True)
+-        if (ret != 0 ):
+-            raise bb.build.FuncFailed
+-        f = open(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"),"w")
+-        f.close()
+-
+-    ret = subprocess.call('opkg-cl  -o %s -f %s update' % (rootfs, conffile), shell=True)
+-    ret = subprocess.call('opkg-cl  -o %s -f %s install %s' % (rootfs, conffile, pkgfn), shell=True)
+-    if (ret != 0 ):
+-        raise bb.build.FuncFailed
+-}
+-
+ package_tryout_install_multilib_ipk() {
+ 	#try install multilib
+ 	multilib_tryout_dirs=""
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index e85e027..a0715fe 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -8,14 +8,6 @@ RPMBUILD="rpmbuild"
+ PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
+ 
+-python package_rpm_fn () {
+-    d.setVar('PKGFN', d.getVar('PKG'))
+-}
+-
+-python package_rpm_install () {
+-    bb.fatal("package_rpm_install not implemented!")
+-}
+-
+ #
+ # Update the packages indexes ${DEPLOY_DIR_RPM}
+ #
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
+index e76ce29..aaa3ca6 100644
+--- a/meta/classes/package_tar.bbclass
++++ b/meta/classes/package_tar.bbclass
+@@ -3,36 +3,9 @@ inherit package
+ IMAGE_PKGTYPE ?= "tar"
+ 
+ python package_tar_fn () {
+ 	fn = os.path.join(d.getVar('DEPLOY_DIR_TAR'), "%s-%s-%s.tar.gz" % (d.getVar('PKG'), d.getVar('PKGV'), d.getVar('PKGR')))
+ 	fn = d.expand(fn)
+ 	d.setVar('PKGFN', fn)
+-}
+-
+-python package_tar_install () {
+-	import subprocess
+-	pkg = d.getVar('PKG', True)
+-	pkgfn = d.getVar('PKGFN', True)
+-	rootfs = d.getVar('IMAGE_ROOTFS', True)
+-
+-	if None in (pkg,pkgfn,rootfs):
+-		bb.error("missing variables (one or more of PKG, PKGFN, IMAGEROOTFS)")
+-		raise bb.build.FuncFailed
+-	try:
+-		bb.mkdirhier(rootfs)
+-		os.chdir(rootfs)
+-	except OSError:
+-		import sys
+-		(type, value, traceback) = sys.exc_info()
+-		print value
+-		raise bb.build.FuncFailed
+-
+-	if not os.access(pkgfn, os.R_OK):
+-		bb.debug(1, "%s does not exist, skipping" % pkgfn)
+-		raise bb.build.FuncFailed
+-
+-	ret = subprocess.call('zcat %s | tar -xf -' % pkgfn, shell=True)
+-	if ret != 0:
+-		raise bb.build.FuncFailed
+ }
+ 
+ python do_package_tar () {
 
-  dropbear: use pidfile for daemon start/stop/restart (2013-02-15 12:58:44 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
-
-Marko Lindqvist (5):
-  webkit-gtk: replace obsolete automake macros with working ones
-  gtk-sato-engine: update to git repository head
-  oprofileui-server: replace obsolete automake macros with working ones
-  libffi: update to upstream version 3.0.12
-  curl: update to upstream version 7.29.0
-
- .../libffi/0001-libffi-update-for-3.0.11.patch     |  171 --
- .../libffi/aarch64-adding-build-support.patch      |   63 -
- .../libffi/libffi/add-aarch64-support.patch        | 2672 --------------------
- .../libffi/{libffi_3.0.11.bb => libffi_3.0.12.bb}  |    9 +-
- .../obsolete_automake_macros.patch                 |   20 +
- .../oprofile/oprofileui-server_git.bb              |    6 +-
- .../gtk-engines/gtk-sato-engine_git.bb             |    4 +-
- .../obsolete_automake_macros.patch                 |   14 +
- meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb       |    3 +-
- .../dont_override_ac_config_macro_dir.patch        |   30 -
- .../curl-7.28.1/obsolete_automake_macros.patch     |   14 -
- meta/recipes-support/curl/curl/pkgconfig_fix.patch |   25 +-
- .../curl/{curl_7.28.1.bb => curl_7.29.0.bb}        |    8 +-
- 13 files changed, 59 insertions(+), 2980 deletions(-)
- delete mode 100644 meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch
- delete mode 100644 meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
- delete mode 100644 meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
- rename meta/recipes-gnome/libffi/{libffi_3.0.11.bb => libffi_3.0.12.bb} (76%)
- create mode 100644 meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-sato/webkit/webkit-gtk-1.8.3/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-support/curl/curl-7.28.1/dont_override_ac_config_macro_dir.patch
- delete mode 100644 meta/recipes-support/curl/curl-7.28.1/obsolete_automake_macros.patch
- rename meta/recipes-support/curl/{curl_7.28.1.bb => curl_7.29.0.bb} (88%)
-
--- 
-1.7.10.4
 
 
 
