@@ -1,42 +1,24 @@
-Received: from mail-da0-f52.google.com ([209.85.210.52])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U7Dn3-0007ji-Bw
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U7E8F-00086Z-1c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 00:37:19 +0100
-Received: by mail-da0-f52.google.com with SMTP id f10so2151646dak.11
+	Mon, 18 Feb 2013 00:58:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1HNgkAV005754
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 15:20:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=QoHm4SCiJnzoeV7xav5SjI9J5Zy4tj+fukvRLJU3S54=;
-	b=ZcN4bArFj8RlToMQCGVcpBALGf9um8HinbOav5vQ3qEgeikG4BVDnvp72V5Cu+rmzF
-	4ycac8033zQizFDucUDJmKzWhw/4IO4tEhwowm8Yy7W20p7Vy+DO9/cARAsw/2hi5dv+
-	v/KRy0CXlMd5hp7BWvGyJRwl5NsS8PJ2owDIO8zEd0uvPwb5iwGBAD2sLnAc7TzyDuJX
-	3u5DkxssdAmWo+72/iC/KrtO0VKua0IDuufuDnOYbak/20yMuvr9luBwrsp+9DZHRTOA
-	Nvm7NCrT0H4Q9vUg84Cx8Soq9Zy/GNecoadbIqHay6rxDvFrFxQHoijVrvuqV2XHeuQG
-	9PGw==
-X-Received: by 10.68.48.165 with SMTP id m5mr25204499pbn.40.1361143253519;
-	Sun, 17 Feb 2013 15:20:53 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id mw8sm12313177pbc.21.2013.02.17.15.20.50
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 17 Feb 2013 15:20:52 -0800 (PST)
-Date: Mon, 18 Feb 2013 00:20:52 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130217231955.GF3300@jama>
-References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1361006114.31795.19.camel@ted>
-	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
-	<1361019187.31795.49.camel@ted>
+	Sun, 17 Feb 2013 15:42:46 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Sun, 17 Feb 2013 15:42:46 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sun, 17 Feb 2013 17:42:44 -0600
+Message-ID: <cover.1361144379.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-In-Reply-To: <1361019187.31795.49.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: RFE: make the init manager an image feature (again)
+Subject: [PATCH 0/1] pseudo 1.5 -- now up to 25% faster!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,43 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 23:37:19 -0000
-X-Groupsio-MsgNum: 35561
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="peRj85VDUce1fu/0"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 17 Feb 2013 23:58:55 -0000
+Content-Type: text/plain
 
---peRj85VDUce1fu/0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+pseudo 1.5 is a significant update to a few internals, focused on
+improving build performance. Of particular note, pseudo 1.5 suppresses
+fsync() and fdatasync() calls for any part of the build running
+under pseudo, even when pseudo is disabled. (This is controlled
+by the --enable-force-async configure option; if you want to try
+this out with the git package, you'll have to add it to pseudo_git.bb.)
 
-On Sat, Feb 16, 2013 at 12:53:07PM +0000, Richard Purdie wrote:
-> On the specifics of the do_install_append, you've seen my comments about
-> how we're not learning from past mistakes with the way the do_install in
-> the class was written. I note Phil also agreed with them, both of us
-> remembering some of the horrors we've dealt with in the past (and
-> binconfig.bbclass is still around, sadly).
+The 1.5 tarball has been submitted to Michael Halstead for inclusion
+on the Yocto servers, but I don't think it's up yet. (And it's been
+nearly two whole minutes, too!)
 
-But it doesn't need to be as dangerous as binconfig.bbclass, because we
-already list .service or .socket files in SYSTEMD_SERVICE
-so we can improve that "find" call to install only stuff we know we need
-and error out if it's not found or if there are multiple versions of
-that file in WORKDIR.
+You will note that this proposed patch does NOT remove the pseudo
+1.4.5 tarball. This is a large enough change that I am inclined to
+leave 1.4.5 very conveniently available (just a single PREFERRED_VERSION
+away) until this has been shaken out a bit.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+The following changes since commit cd503c7f7fec6d177209832f73cec9c5d490be6b:
+  Richard Purdie (1):
+        package_tar: Fix so it actually works
 
---peRj85VDUce1fu/0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+are available in the git repository at:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo_15
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo_15
 
-iEYEARECAAYFAlEhZdQACgkQN1Ujt2V2gByzcACcCgoj+y31mJ2SQSOlFIVyS0bH
-cgUAoKXoD+1Kh34OnjxCZzRsic5pF4lj
-=bkaM
------END PGP SIGNATURE-----
+Peter Seebach (1):
+  pseudo.inc: pseudo 1.5 uprev, support extra config flags
 
---peRj85VDUce1fu/0--
+ meta/recipes-devtools/pseudo/pseudo.inc    |    8 ++++----
+ meta/recipes-devtools/pseudo/pseudo_1.5.bb |   10 ++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb |    4 ++--
+ 3 files changed, 16 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.5.bb
+
+
+
