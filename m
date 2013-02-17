@@ -1,31 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U71iO-0002ee-Rf for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 11:43:32 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1HAXbgi008362; Sun, 17 Feb 2013 10:33:37 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QHgNDz10Iudc; Sun, 17 Feb 2013 10:33:37 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1HAXR7U008359
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 17 Feb 2013 10:33:30 GMT
-Message-ID: <1361096822.31795.122.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Seebach <peter.seebach@windriver.com>
-Date: Sun, 17 Feb 2013 10:27:02 +0000
-In-Reply-To: <1361067834-23267-1-git-send-email-peter.seebach@windriver.com>
-References: <1361067834-23267-1-git-send-email-peter.seebach@windriver.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Pseudo performance changes...
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U74Cd-000766-Qf
+	for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 14:22:59 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1HD6aMk013327
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 17 Feb 2013 14:06:37 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1U73wy-00062P-BX; Sun, 17 Feb 2013 14:06:36 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361006114.31795.19.camel@ted>
+	<lyhalcmpxd.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361018098.31795.33.camel@ted>
+Date: Sun, 17 Feb 2013 14:06:36 +0100
+In-Reply-To: <1361018098.31795.33.camel@ted> (Richard Purdie's message of
+	"Sat, 16 Feb 2013 12:34:58 +0000")
+Message-ID: <ly8v6nm6n7.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -1.3
+X-Spam-Level: -
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +42,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 10:43:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Feb 2013 13:23:00 -0000
+Content-Type: text/plain
 
-On Sat, 2013-02-16 at 20:23 -0600, Peter Seebach wrote:
-> Unlike most of my submissions, this isn't patches against oe-core; rather,
-> it's patches against pseudo, and if I can get some confirmation that they do
-> what I think they do, and some review, I'm planning to make this into
-> pseudo 1.5, and send a patch "soonish" to merge that into oe-core.
-> 
-> What this does: Fix a number of build performance issues. By far the
-> largest change is actually not so much a problem with pseudo as a problem
-> that pseudo can solve by brute force. Packaging systems (at least RPM and
-> SMART) do a lot of fsync() and fdatasync() calls. That usually implies
-> flushing EVERYTHING that's been written, not just one specific file. And
-> that, in turn, results in a severe performance hit.
-> 
-> So, for instance, on one of my test workstations, this moves a do_rootfs
-> with about 1200 RPMs from about 22 minutes to about 4.5. Yeah.
-> 
-> The other changes aren't as dramatic for that case, but have very significant
-> performance impact for at least some workloads. The first is switching to
-> using an in-memory database for the files database, dumping it to disk only
-> when the pseudo daemon is idle or shutting down. This doesn't produce huge
-> benefits in all cases, but for workloads with a lot of parallelism, it can
-> produce a very noticeable reduction in how much pseudo slows things down.
-> 
-> The second is a fairly major protocol change. In short, with this patch,
-> pseudo clients only wait for a server response when they need information
-> from the server in order to continue. That's OP_FSTAT, OP_STAT,
-> OP_MAY_UNLINK, and OP_MKNOD. Everything else just silently assumes that
-> it probably succeeded.
-> 
-> How much does this matter? Between the protocol change and the memory
-> DB, a trivial unpack of a tarball (lots of writes to the database, very
-> few reads) can be about 4x faster. Removing stuff isn't much faster, but
-> it might be a bit faster.
-> 
-> This is most noticeable, by far, when running more than one build, or
-> when running builds while doing other things. It has a much smaller effect
-> on builds with no shared state (compile time still dominates that), but
-> even there I'm seeing decreases from ~83 minutes to ~64 from just the
-> fsync and memory changes. Still waiting on my real test case (multiple
-> simultaneous builds which need compiles) completing.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-All sounds good to me. I've set the autobuilder away to test this set of
-changes.
+> meta-oe earned a *horrendous* reputation because of the way systemd was
+> implemented there.
 
-Cheers,
+Can you point me to the corresponding discussion resp. which aspects of
+the meta-oe implementation were criticized?
 
-Richard
+I can image only two problems with splitted -sysv/-systemd packages:
 
+1. it enlarges the package database
+
+2. there does not exist a good mechanism to select automatically the
+   correct subpackage; e.g. so that when somebody makes 'opkg install
+   foo', the -sysv subpackage gets installed on sysv systems and the
+   -systemd subpackage on systemd systems.  Ditto with rpm and dpkg
+   package managers.
+
+   meta-oe implementation defined a default with help of RRECOMMENDS
+   which can be overridden at image build time with BAD_RECOMMENDS.
+
+
+For me, point 1 is negligible because pkg management is disabled for
+images where every byte matters.
+
+Point 2 needs some discussion but I am pretty sure that some clean
+technical solution can be found.  The most trivial one might be the
+moving of -<initsys> packages into an own 'all-<initsys>' architecture
+whose package feed is enabled at image build time. This does not scale
+well and violates orthogonality of buildsystem somehow, but works now.
+
+Another approach might adding RRECOMMENDS on all supported -<initsys>
+packages and let the package manager choose this with the lowest costs.
+That's not trivial and requires probably changes in opkg.
+
+Blacklisting packages with a certain, configurable pattern in its name
+or (better) rprovides (e.g. implementing BAD_RECOMMENDS in opkg, smart,
+...) is another way requiring changes in the package manager.
+  
+
+> I believe (as do a number of others) that it has damaged OE's reputation
+> and usability and actively hurts new users.
+
+The current oe-core implementation hurts active, long time users.
+
+
+> It was clear systemd needed to move into the core but also become more
+> configurable to work for everyone.
+
+Exactly this configurability was taken away.
+
+
+> I don't want to remove features, I do want to talk about whether there
+> is a better way we can fulfil certain uses cases, particularly with a
+> focus on usability.
+
+For me, a good usability of a build system is defined by a small,
+orthogonal and powerful set of tools and rules.
+
+Implementing hacks for specific use cases (e.g. magically remove the
+busybox or util-linux -> systemd dep for "rescue systems") violates
+this and will probably cause bad surprises (e.g. for people who want
+'lighttp' in the rescue system and when the hack has not been applied
+to this package).
+
+
+> I'm actually moderately annoyed that throughout the various discussions
+> about systemd and how we'd get it into OE-Core nobody actually mentioned
+> these specific requirements until very late in the implementation.
+
+That's a general problem with oe release model.  Parts of systemd (in
+-core) were changed without adapting the other ones (in -meta).  This
+made the whole oe unbuildable for me for one week and I did not saw the
+problem with the rescue image hence.
+
+
+>> Assuming we are able to break the hard dependencies, what is with package
+>> scripts which require programs, files or directories from these deps?  Do
+>> we need a way to differ between good and bad script failures then?
+>
+> At the technical level there is little difference from packaging these
+> things separately to avoid specific dependencies and explicitly telling
+> the package manager to avoid that dependency instead.
+
+see Martin's comment about post/pre scripts
+
+
+> Equally there are other cases where people do want to break specific
+> dependencies so this could help us in that area too.
+
+Dependencies and recommends are good and moving things into subpackages
+is *the* way to break them.
+
+
+
+Enrico
 
 
