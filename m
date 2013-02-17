@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U70PS-0008MB-9r for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 10:19:52 +0100
+	id 1U70QV-0008UK-2r for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 10:21:07 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1H99wtw004288 for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:09:58 GMT
+	r1H9B3T9004375 for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Feb 2013 09:11:03 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QA8gLhsYlzZc
+	with LMTP id ZbD5v+G5W89Z
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:09:58 +0000 (GMT)
+	Sun, 17 Feb 2013 09:11:03 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1H99rCu004284
+	r1H9AuLX004327
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 09:09:56 GMT
-Message-ID: <1361091808.31795.115.camel@ted>
+	Sun, 17 Feb 2013 09:11:00 GMT
+Message-ID: <1361091871.31795.116.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Feb 2013 09:03:28 +0000
+Date: Sun, 17 Feb 2013 09:04:31 +0000
 X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
-Subject: [PATCH] package_tar: Remove completely pointless code
+Subject: [PATCH] package_tar: Fix so it actually works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,78 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 09:19:52 -0000
+X-List-Received-Date: Sun, 17 Feb 2013 09:21:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Remove/simply overcomplicated code. No functionality change.
+This tells us how long the code hasn't been used for :/
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
 diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
-index 27cddaa..5e3058d 100644
+index 5e3058d..c4bb62f 100644
 --- a/meta/classes/package_tar.bbclass
 +++ b/meta/classes/package_tar.bbclass
-@@ -2,12 +2,6 @@ inherit package
- 
- IMAGE_PKGTYPE ?= "tar"
- 
--python package_tar_fn () {
--    fn = os.path.join(d.getVar('DEPLOY_DIR_TAR'), "%s-%s-%s.tar.gz" % (d.getVar('PKG'), d.getVar('PKGV'), d.getVar('PKGR')))
--    fn = d.expand(fn)
--    d.setVar('PKGFN', fn)
--}
--
- python do_package_tar () {
-     import subprocess
-     workdir = d.getVar('WORKDIR', True)
-@@ -19,42 +13,31 @@ python do_package_tar () {
-     if not outdir:
-         bb.error("DEPLOY_DIR_TAR not defined, unable to package")
-         return
--    bb.utils.mkdirhier(outdir)
- 
-     dvar = d.getVar('D', True)
-     if not dvar:
-         bb.error("D not defined, unable to package")
-         return
--    bb.utils.mkdirhier(dvar)
- 
-     packages = d.getVar('PACKAGES', True)
-     if not packages:
+@@ -24,12 +24,14 @@ python do_package_tar () {
          bb.debug(1, "PACKAGES not defined, nothing to package")
          return
  
-+    bb.utils.mkdirhier(outdir)
-+    bb.utils.mkdirhier(dvar)
++    pkgdest = d.getVar('PKGDEST', True)
 +
+     bb.utils.mkdirhier(outdir)
+     bb.utils.mkdirhier(dvar)
+ 
      for pkg in packages.split():
          localdata = bb.data.createCopy(d)
-         root = "%s/install/%s" % (workdir, pkg)
+-        root = "%s/install/%s" % (workdir, pkg)
++        root = "%s/%s" % (pkgdest, pkg)
  
--        localdata.setVar('ROOT', '')
--        localdata.setVar('ROOT_%s' % pkg, root)
--        localdata.setVar('PKG', pkg)
--
          overrides = localdata.getVar('OVERRIDES')
--        if not overrides:
--            raise bb.build.FuncFailed('OVERRIDES not defined')
--        overrides = localdata.expand(overrides)
          localdata.setVar('OVERRIDES', '%s:%s' % (overrides, pkg))
--
-         bb.data.update_data(localdata)
- 
--        root = localdata.getVar('ROOT')
-         bb.utils.mkdirhier(root)
-         basedir = os.path.dirname(root)
--        pkgoutdir = outdir
--        bb.utils.mkdirhier(pkgoutdir)
--        bb.build.exec_func('package_tar_fn', localdata)
--        tarfn = localdata.getVar('PKGFN', True)
-+        tarfn = localdata.expand("${DEPLOY_DIR_TAR}/${PKG}-${PKGV}-${PKGR}.tar.gz")
-         os.chdir(root)
-         from glob import glob
-         if not glob('*'):
 
 
 
