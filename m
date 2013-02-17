@@ -1,31 +1,25 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U6rmz-0006qz-5K for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 01:07:42 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1GNvOnx012735; Sat, 16 Feb 2013 23:57:25 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CWqv3GKc-J6a; Sat, 16 Feb 2013 23:57:24 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1GNvEDk012732
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 16 Feb 2013 23:57:19 GMT
-Message-ID: <1361058650.31795.98.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Sat, 16 Feb 2013 23:50:50 +0000
-In-Reply-To: <511F1B8E.90707@linux.intel.com>
-References: <cover.1360933659.git.ross.burton@intel.com>
-	<511F1B8E.90707@linux.intel.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 0/4] Allow xserver-xf86-config to ship no xorg.conf
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U6uAg-0005vE-26
+	for openembedded-core@lists.openembedded.org;
+	Sun, 17 Feb 2013 03:40:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1H2NxQw027714
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Feb 2013 18:23:59 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Sat, 16 Feb 2013 18:23:56 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 16 Feb 2013 20:23:51 -0600
+Message-ID: <1361067834-23267-1-git-send-email-peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Subject: [PATCH 0/3] Pseudo performance changes...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,29 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 00:07:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Feb 2013 02:40:24 -0000
+Content-Type: text/plain
 
-On Fri, 2013-02-15 at 21:39 -0800, Saul Wold wrote:
-> On 02/15/2013 05:09 AM, Ross Burton wrote:
-> > Hi,
-> >
-> > Same as V1, apart from changing package_deb to have the same check on conffiles
-> > as package_ipk.
-> >
-> 
-> Unless I got the wrong set, this still seems to have trouble with the
-> hardware BSPs for routerstation and MPC machines.
-> 
-> Maybe you need to build those.
+Unlike most of my submissions, this isn't patches against oe-core; rather,
+it's patches against pseudo, and if I can get some confirmation that they do
+what I think they do, and some review, I'm planning to make this into
+pseudo 1.5, and send a patch "soonish" to merge that into oe-core.
 
-I can't see the package_deb change in the branch which would explain the
-failures.
+What this does: Fix a number of build performance issues. By far the
+largest change is actually not so much a problem with pseudo as a problem
+that pseudo can solve by brute force. Packaging systems (at least RPM and
+SMART) do a lot of fsync() and fdatasync() calls. That usually implies
+flushing EVERYTHING that's been written, not just one specific file. And
+that, in turn, results in a severe performance hit.
 
-Cheers,
+So, for instance, on one of my test workstations, this moves a do_rootfs
+with about 1200 RPMs from about 22 minutes to about 4.5. Yeah.
 
-Richard
+The other changes aren't as dramatic for that case, but have very significant
+performance impact for at least some workloads. The first is switching to
+using an in-memory database for the files database, dumping it to disk only
+when the pseudo daemon is idle or shutting down. This doesn't produce huge
+benefits in all cases, but for workloads with a lot of parallelism, it can
+produce a very noticeable reduction in how much pseudo slows things down.
+
+The second is a fairly major protocol change. In short, with this patch,
+pseudo clients only wait for a server response when they need information
+from the server in order to continue. That's OP_FSTAT, OP_STAT,
+OP_MAY_UNLINK, and OP_MKNOD. Everything else just silently assumes that
+it probably succeeded.
+
+How much does this matter? Between the protocol change and the memory
+DB, a trivial unpack of a tarball (lots of writes to the database, very
+few reads) can be about 4x faster. Removing stuff isn't much faster, but
+it might be a bit faster.
+
+This is most noticeable, by far, when running more than one build, or
+when running builds while doing other things. It has a much smaller effect
+on builds with no shared state (compile time still dominates that), but
+even there I'm seeing decreases from ~83 minutes to ~64 from just the
+fsync and memory changes. Still waiting on my real test case (multiple
+simultaneous builds which need compiles) completing.
+
+Peter Seebach (3):
+  Use in-memory database for files
+  allow pseudo to force asynchronous behavior
+  If you don't want the answer, don't ask the question.
+
+ ChangeLog.txt                     |   10 ++++
+ Makefile.in                       |    6 +-
+ configure                         |   51 ++++++++++++++++
+ enums/msg_type.in                 |    1 +
+ enums/op.in                       |   46 +++++++-------
+ enums/query_type.in               |   18 +++---
+ guts/COPYRIGHT                    |    2 +-
+ maketables                        |   41 +++++++------
+ makewrappers                      |   13 +++-
+ ports/darwin/guts/open.c          |    5 +-
+ ports/linux/guts/openat.c         |   21 ++++++-
+ ports/unix/guts/fchmod.c          |   16 ++---
+ ports/unix/guts/fchmodat.c        |   31 ++++++----
+ ports/unix/guts/fchown.c          |   16 ++---
+ ports/unix/guts/fchownat.c        |   16 ++---
+ ports/unix/guts/fdatasync.c       |   16 +++++
+ ports/unix/guts/fsync.c           |   16 +++++
+ ports/unix/guts/mknodat.c         |    4 +-
+ ports/unix/guts/msync.c           |   16 +++++
+ ports/unix/guts/sync.c            |   16 +++++
+ ports/unix/guts/sync_file_range.c |   13 ++++
+ ports/unix/guts/syncfs.c          |   13 ++++
+ ports/unix/wrapfuncs.in           |    9 +++
+ pseudo.c                          |    3 +-
+ pseudo_client.c                   |   22 ++++---
+ pseudo_db.c                       |  119 ++++++++++++++++++++++++++++++++++++-
+ pseudo_db.h                       |    1 +
+ pseudo_server.c                   |   32 ++++++----
+ templates/wrapfuncs.c             |    2 +
+ 29 files changed, 453 insertions(+), 122 deletions(-)
+ create mode 100644 ports/unix/guts/fdatasync.c
+ create mode 100644 ports/unix/guts/fsync.c
+ create mode 100644 ports/unix/guts/msync.c
+ create mode 100644 ports/unix/guts/sync.c
+ create mode 100644 ports/unix/guts/sync_file_range.c
+ create mode 100644 ports/unix/guts/syncfs.c
+
+-- 
+1.7.9.5
 
 
 
