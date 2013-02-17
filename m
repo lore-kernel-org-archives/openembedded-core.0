@@ -1,39 +1,39 @@
-Received: from mail-oa0-f43.google.com ([209.85.219.43])
+Received: from mail-oa0-f51.google.com ([209.85.219.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U74xZ-0000GC-I4
+	(envelope-from <otavio.salvador@gmail.com>) id 1U74yL-0000JF-AE
 	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Feb 2013 15:11:18 +0100
-Received: by mail-oa0-f43.google.com with SMTP id l10so5125832oag.30
+	Sun, 17 Feb 2013 15:12:08 +0100
+Received: by mail-oa0-f51.google.com with SMTP id h2so5141045oag.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 05:55:09 -0800 (PST)
+	Sun, 17 Feb 2013 05:55:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=w7/Rt9M0WbEKA7xalaFHJuOc5I0VWVgq22E25C1JCcc=;
-	b=08x1UrZ81teR/1nJZqQgOmYegLF7KekSYYbxphJWYYuZwdQIK8kJXjeVepLIDx6lO3
-	yWbFc1GJ2qr98zVb/70gc7+XCD2im7WS9Ml+8fOzEO1HP2ykqPylVIMSCpRkidFO7c7L
-	OVvZq7xBTNorioMFTMYzvL74ileKGOUyqsTb/HhNeIkUMltFy4nMVF972SDxJs6Nii4b
-	07lbT1Guy6xBvmQZouYxieSOBxJ04HkTYw4lmVtpI71bGLpRgqDREl/+DVUZCJiF/JYC
-	m5Vb83ZG9XoKRQ/iRohYzFjDmmFg6y0fw6RgqofY+wxkXT+RK7lAV44vOu1s02ADtV03
-	JxBQ==
+	bh=bSA9LjEjjIGN6SIMW/nXJUqNA7rq+FfGdlnplzIegRE=;
+	b=0dG45fPETDMQVg8FbLBVIL4tHrGfppIw+Urr8EdWNvHqxXrKmpUPnthtfjSz43v6I7
+	X5G6tlYZ8MzQdPbheBifAFsivcHKPKnZ1cQYAtAdDhZrOU0QPZAmJmKALuxc5jCx21iF
+	2VpyIj4n5F67CM+nM/KdO8ojx0RFirogss8K4p0SocebeCHMHPX3L/gX8QKRjQ8t08NE
+	W7ssQR01xhtrJyC2gTWR134A2FxgzzeS8XNDoo6vaDt3BWybgJv8Ya8CRT/x+WQfASdd
+	CZ8WAcKMjWZQHMcg/6LQkgccMF8yUTy0Um/X0xQVYaxVWK9i6hQLqpBSEhSf8nqHCUzA
+	hRMw==
 MIME-Version: 1.0
-X-Received: by 10.60.171.102 with SMTP id at6mr4923327oec.60.1361109308957;
-	Sun, 17 Feb 2013 05:55:08 -0800 (PST)
+X-Received: by 10.60.170.44 with SMTP id aj12mr4683035oec.42.1361109358445;
+	Sun, 17 Feb 2013 05:55:58 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Sun, 17 Feb 2013 05:55:08 -0800 (PST)
-In-Reply-To: <1361108669.32271.1.camel@ted>
+Received: by 10.182.2.197 with HTTP; Sun, 17 Feb 2013 05:55:58 -0800 (PST)
+In-Reply-To: <1361108780.32271.3.camel@ted>
 References: <1361049644-27904-1-git-send-email-otavio@ossystems.com.br>
-	<1361049644-27904-2-git-send-email-otavio@ossystems.com.br>
-	<1361087244.31795.105.camel@ted>
-	<CAP9ODKoC6MHFy11Pp6=78+GbfuKnL3xYs6EfNcKPA6HudUk_vQ@mail.gmail.com>
-	<1361108669.32271.1.camel@ted>
-Date: Sun, 17 Feb 2013 10:55:08 -0300
-X-Google-Sender-Auth: k2eC-7174qpbsNQf8gUTh3ScGdk
-Message-ID: <CAP9ODKpcnhdKSQbonxq5kxzcRhj=Yw-Y4gu+3nd4zH2pdv1rvQ@mail.gmail.com>
+	<1361049644-27904-3-git-send-email-otavio@ossystems.com.br>
+	<1361087577.31795.106.camel@ted>
+	<CAP9ODKqd_DbKPHu_FYnHAR2TRqb8Ouw3XuonR43P6Ze0zT9qRQ@mail.gmail.com>
+	<1361108780.32271.3.camel@ted>
+Date: Sun, 17 Feb 2013 10:55:58 -0300
+X-Google-Sender-Auth: 7o8Uf3NZoiNk1PCXchGvGQ2QAkw
+Message-ID: <CAP9ODKrruPc49tX9J6iACt8VnnHQTt9-CrGoTGkcD8H-DrTD-g@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] dbus: Drop libx11 dependency when building without 'x11' distro feature
+Subject: Re: [PATCH 3/4] libsdl: Use 'virtual/libx11' instead of hardcoding nativesdk-libx11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,48 +46,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2013 14:11:18 -0000
+X-List-Received-Date: Sun, 17 Feb 2013 14:12:09 -0000
+X-List-Received-Date: Sun, 17 Feb 2013 14:12:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Sun, Feb 17, 2013 at 10:44 AM, Richard Purdie
+On Sun, Feb 17, 2013 at 10:46 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2013-02-17 at 10:40 -0300, Otavio Salvador wrote:
->> On Sun, Feb 17, 2013 at 4:47 AM, Richard Purdie
+> On Sun, 2013-02-17 at 10:42 -0300, Otavio Salvador wrote:
+>> On Sun, Feb 17, 2013 at 4:52 AM, Richard Purdie
 >> <richard.purdie@linuxfoundation.org> wrote:
 >> > On Sat, 2013-02-16 at 19:20 -0200, Otavio Salvador wrote:
 >> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 >> >> ---
->> >>  meta/recipes-core/dbus/dbus.inc | 2 +-
+>> >>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 2 +-
 >> >>  1 file changed, 1 insertion(+), 1 deletion(-)
 >> >>
->> >> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
->> >> index 292ab29..cebab28 100644
->> >> --- a/meta/recipes-core/dbus/dbus.inc
->> >> +++ b/meta/recipes-core/dbus/dbus.inc
->> >> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
->> >>  X11DEPENDS = "virtual/libx11 libsm"
->> >>  DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
->> >>  DEPENDS_class-native = "expat-native virtual/libintl-native"
->> >> -DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl virtual/libx11"
->> >> +DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
->> >>  RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '', d)}"
->> >>  RDEPENDS_class-native = ""
+>> >> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> >> index e25c597..3dbe97a 100644
+>> >> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> >> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> >> @@ -16,7 +16,7 @@ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+>> >>             ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+>> >>             ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+>> >>             tslib"
+>> >> -DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+>> >> +DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
 >> >
->> > This tends to be a really bad idea for dbus-nativesdk. If you install an
->> > SDK compiled with these options into PATH only a system which does have
->> > x11, it will break functionality in a way unacceptable to users.
+>> > Don't you mean virtual/nativesdk-libx11 ?
 >>
->> I don't see how it'd break anything being deployed in a toolchain. We
->> don't initialize the dbus daemon so it is mostly used to fulfill
->> dependencies.
+>> Other places are using virtual/libx11 so I sticked to it.
 >
-> Imagine you source the toolchain setup script. The limited functionality
-> dbus-launch just got into PATH. Now you run some X application. Things
-> break.
+> Other places in nativesdk overrides?
 
-You usually to not source the env script and run your X server on top
-of it, I think. Personally I source it in a terminal session inside of
-X and use it to build things only.
+Yes; I can check it again.
+
+>>  For me it
+>> has worked but I did not change if it'd choose the right package when
+>> building with 'x11' (as my project now builds without it).
+>
+> That doesn't make it correct.
+
+I will check and post v2.
 
 -- 
 Otavio Salvador                             O.S. Systems
