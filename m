@@ -1,22 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1U7Slm-0003Ng-2r
+	(envelope-from <holger@moiji-mobile.com>) id 1U7SsX-0003df-NV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 16:36:43 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 18 Feb 2013 07:20:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,688,1355126400"; d="scan'208";a="203607681"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Feb 2013 07:20:24 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2013 17:20:16 +0200
-Message-Id: <1361200817-22531-2-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1361200817-22531-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1361200817-22531-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 1/2] xrandr: upgrade to 1.4.0
+	Mon, 18 Feb 2013 16:44:03 +0100
+Received: from sangmingze-mail.local (91-66-230-199-dynip.superkabel.de
+	[91.66.230.199])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id D4CC82543431;
+	Mon, 18 Feb 2013 15:43:48 +0000 (UTC)
+Received: from ich by sangmingze-mail.local with local (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1U7Scv-0005Da-4P; Mon, 18 Feb 2013 16:27:33 +0100
+Date: Mon, 18 Feb 2013 16:27:33 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130218152733.GD12835@xiaoyu.lan>
+References: <20130218102402.GA15710@xiaoyu.lan>
+	<CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of systemd from an integrator point of view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,62 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 15:36:58 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 15:44:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb |   16 ----------------
- meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb |   16 ++++++++++++++++
- 2 files changed, 16 insertions(+), 16 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb
- create mode 100644 meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb
+On Mon, Feb 18, 2013 at 01:10:27PM +0000, Burton, Ross wrote:
 
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb b/meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb
-deleted file mode 100644
-index da83e8f..0000000
---- a/meta/recipes-graphics/xorg-app/xrandr_1.3.5.bb
-+++ /dev/null
-@@ -1,16 +0,0 @@
--require xorg-app-common.inc
--
--SUMMARY = "XRandR: X Resize, Rotate and Reflect extension command"
--
--DESCRIPTION = "Xrandr is used to set the size, orientation and/or \
--reflection of the outputs for a screen. It can also set the screen \
--size."
--
--LICENSE= "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
--DEPENDS += "libxrandr libxrender"
--PE = "1"
--PR = "${INC_PR}.1"
--
--SRC_URI[md5sum] = "9735173a84dca9b05e06fd4686196b07"
--SRC_URI[sha256sum] = "1059ff7a9ad0df8e00a765ffa4e08a505304c02663112da370ac7082030b980e"
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb b/meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb
-new file mode 100644
-index 0000000..687c9b8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb
-@@ -0,0 +1,16 @@
-+require xorg-app-common.inc
-+
-+SUMMARY = "XRandR: X Resize, Rotate and Reflect extension command"
-+
-+DESCRIPTION = "Xrandr is used to set the size, orientation and/or \
-+reflection of the outputs for a screen. It can also set the screen \
-+size."
-+
-+LICENSE= "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
-+DEPENDS += "libxrandr libxrender"
-+PE = "1"
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "4d68317238bb14a33c0e419233d57d87"
-+SRC_URI[sha256sum] = "a76b004abe6fd7606eba9ad161ac6391fe5c665708cc5fb7c7ea7d36459d9693"
--- 
-1.7.9.5
+> The INITMAN variable is injected into DISTRO_FEATURES, so I do find
+> the more idiomatic base_contains more readable:
+> 
+> ${@base_contains("DISTRO_FEATURES", "systemd", "", "watchdog", d)}
 
+thanks. I will update my BSP.
+
+> 
+> systemd could RPROVIDE="watchdog" but as the means to configure it are
+> different that might not be ideal, and if you ever switched entirely
+> to systemd with these conditionals it's obvious where your redundant
+> dependencies are.
+> 
+> Personally, I'd stick with conditional dependencies.
+
+true, the watchdog package can potentially do a lot more as well. I also
+have one watchdog related issue in my kernel/systemd. The TI Davinci wdt
+doesn't allow to set the interval via IOCTL.
+
+
+> Oh, interesting.  Without any thinking I can't think of reasons why
+> that would fail.    Filed #3900.
+
+I will try to find some time toward the end to re-produce and provide
+feedback. I think it is a genuine bug in systemd. I am going to update
+the ticket then.
+
+
+> Agreed, although it would be good if the journal could be tuned.  IMHO
+> it's technically great, just young.
+
+journald is doing a 'lot' of work for each syslog message. E.g. if one
+takes a look at journald-server.c:dispatch_message_real. I don't know how
+the messages are flowing but from what I see the only way it could be
+made usable is:
+
+a.) API changes to there helpers to avoid dynamic allocations in many
+of the cases. E.g. re-use one dynamically allocated string.
+
+   r = get_process_cmdline(ucred->pid, 0, false, &t);
+   if (r >= 0) {
+        cmdline = strappend("_CMDLINE=", t);
+        free(t);
+
+                        if (cmdline)
+        IOVEC_SET_STRING(iovec[n++], cmdline);
+   }
+
+in here there are at least:
+   1.) a malloc for /proc/%lu/cmdline
+   2.) a malloc for the FILE* pointer by glibc
+   (3.) a mmap for ANOM memory in the fgets callby glibc)
+     this example uses fgetc so it might not apply
+   3.) re-allocs for every character read from the file
+   4.) the strappend does another allocation and memcpy.
+
+
+b.) Reducing the work by having the systemd send all this info with
+each message (probably it doesn't work because of the interface that
+is attempted to be used between systemd and the 'syslog'?
+
+c.) Disabling/caching most of this information. E.g. the audit handling
+should probably be behind a #ifdef if AUDIT is disabled. I will probably
+experiment with putting a #ifdef to most of the additional information
+it wants to query.
+
+Upstream will probably end up doing nothing about it.
+
+regards
+
+holger
 
 
