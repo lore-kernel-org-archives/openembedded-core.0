@@ -1,45 +1,31 @@
-Received: from mail-pb0-f43.google.com ([209.85.160.43])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1U7Ul8-00079E-Go
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 18:44:10 +0100
-Received: by mail-pb0-f43.google.com with SMTP id md12so1775938pbc.16
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1U7ZpO-0007Gu-61 for openembedded-core@lists.openembedded.org;
+	Tue, 19 Feb 2013 00:08:59 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1IMxDr9028058 for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 22:59:13 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qJkBvQO8VeXp
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 09:28:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=O53mo81ggAuuFVuEPwS6WfnPfPeV3v1Dm3AaoGoxLjo=;
-	b=a1D9QFaICIjPc/tcdAH15XBTmSN853I6Y5t8GOOpq2S94Oxebdbl2amZuITOCstKBy
-	UMF8je05W+qOYMGGusfdpLobdqruRZEWUppw+5mBNZIdqfAdeJTLl9TNaPDrwVOjgnfp
-	xxz8pNcsXQfS6MBXBiLsTTQlzLswzHs4G/6/jWkeMSf5apK9MLdfu3M7vYzlI/8GDqXu
-	R/txuvMZCnZsn9WRXTgSeN7wCfw8Bxg8MS6hulmcU3X9rNQLXHsOP3uMH0vzPtveXi+X
-	eI25Og97Ymf4/BQkjk9ecAlKeu0dZISaiUzp2hVDV/gasgXARnwgLhQ1rIDyUw0XyXvR
-	v/9A==
-X-Received: by 10.66.192.98 with SMTP id hf2mr10953791pac.20.1361208481699;
-	Mon, 18 Feb 2013 09:28:01 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ab1sm15044349pbd.37.2013.02.18.09.27.58
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 18 Feb 2013 09:28:00 -0800 (PST)
-Date: Mon, 18 Feb 2013 18:28:00 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20130218172800.GG3300@jama>
-References: <510B73EB.8060907@topic.nl>
-	<CAJTo0LbkOMXqZkHd-JAcNKxiOmXTy+TXPEEJ-CkPc1Jx3Ujekg@mail.gmail.com>
-	<510BBC3D.1030207@topic.nl> <5116A5DA.90500@topic.nl>
-	<CA+chaQfz1S1H4240eArHGYEc8Dh=ghzyLYVm1Eu8JyBWbgWMvA@mail.gmail.com>
-	<A551BDF323A45B48ACE6A404AA16A1C4127A434C@TOP-EX01.TOPIC.LOCAL>
-	<20130210195919.GA3300@jama> <51220AAC.8080201@topic.nl>
-	<CAJTo0LbTZWh7-S3i+GmcPHDoRaRTN6BUniBcoX5_=eE6j21AuQ@mail.gmail.com>
-	<51222923.8040104@topic.nl>
-MIME-Version: 1.0
-In-Reply-To: <51222923.8040104@topic.nl>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE-core] How do I find out why are packages being rebuilt?
+	Mon, 18 Feb 2013 22:59:13 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1IMwvMe028023
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 22:59:10 GMT
+Message-ID: <1361193590.5927.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Feb 2013 13:19:50 +0000
+Mime-Version: 1.0
+X-Mailer: Evolution 3.6.3-1 
+Subject: [PATCH] devshell.bbclass: Allow running devshell and fakeroot together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,65 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 17:44:11 -0000
-X-Groupsio-MsgNum: 35606
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wXC5D88JtmMokAwr"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Feb 2013 23:09:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---wXC5D88JtmMokAwr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Currently its hard to run a devshell complete with fakeroot context. This
+patch allows the fakeroot flag on the task to do this, as with any other
+task. Since we may need to start X terminal applications, we need to
+only start the fakeroot session on the final command, hence the hoops
+this code jumps through.
 
-On Mon, Feb 18, 2013 at 02:14:11PM +0100, Mike Looijmans wrote:
-> On 02/18/2013 12:11 PM, Burton, Ross wrote:
-> > On 18 February 2013 11:04, Mike Looijmans <mike.looijmans@topic.nl> wro=
-te:
-> >> I'm still having trouble with packages being needlessly rebuilt over a=
-nd
-> >> over. The worst of all it qt4-embedded, it takes about an hour to buil=
-d.
-> >> This is wasting a LOT of time.
-> >>
-> >> The classic OE never rebuilt a package until its version changed.
-> >
-> > oe-core uses checksums of dependencies to determine what to rebuild -
-> > so if a class you inherit changes it's populate_packages_prepend()
-> > then the package task will re-execute, or if a dependeny package
-> > rebuilds then your package will rebuild too.  If you're tracking
-> > oe-core master then this often means large rebuilds as there may have
-> > been changes to the base.bbclass or package.bbclass which obviously
-> > impacts everything, and the usual churn in the packages.
-> >
-> > bitbake-diffsigs will let you follow the signature differences that
-> > cause a rebuild up the tree to identify what has changed.
->=20
-> Change in oe-core I can live with. Things that puzzle me are that when I=
-=20
-> change the location of a bootloader data file in my local.conf, it=20
-> suddenly decides to rebuild qt4-embedded. I also have two almost=20
-> identical machines (same cpu, same kernel, just a few different plugs),=
-=20
-> and I cannot figure out why it builds two separate qt4 binaries.
->=20
-> So I want to diagnose that. I have no idea where to start.
+As always with fakeroot, you can break out and run a command without
+the fake permissions with syntax like "PSEUDO_UNLOAD=1 <command>"
 
-openembedded-core/scripts/sstate-diff-machines.sh
+[YOCTO #3374]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/devshell.bbclass |   19 ++++++++++++++++++-
+ meta/classes/terminal.bbclass |    5 +++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
---wXC5D88JtmMokAwr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index ddb6e55..a780118 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -1,10 +1,27 @@
+ inherit terminal
+ 
++DEVSHELL = "${SHELL}"
++
+ python do_devshell () {
+-    oe_terminal(d.getVar('SHELL', True), 'OpenEmbedded Developer Shell', d)
++    oe_terminal(d.getVar('DEVSHELL', True), 'OpenEmbedded Developer Shell', d)
+ }
+ 
+ addtask devshell after do_patch
+ 
+ do_devshell[dirs] = "${S}"
+ do_devshell[nostamp] = "1"
++
++# devshell and fakeroot/pseudo need careful handling since only the final
++# command should run under fakeroot emulation, any X connection should
++# be done as the normal user. We therfore carefully construct the envionment
++# manually
++python () {
++    if d.getVarFlag("do_devshell", "fakeroot"):
++       d.prependVar("DEVSHELL", "pseudo ")
++       fakeenv = d.getVar("FAKEROOTENV", True).split()
++       for f in fakeenv:
++            k = f.split("=")
++            d.setVar(k[0], k[1])           
++            d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
++       d.delVarFlag("do_devshell", "fakeroot")
++} 
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index d5a6277..8cebad4 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -25,6 +25,11 @@ def oe_terminal(command, title, d):
+         if value is not None:
+             os.environ[export] = str(value)
+             env[export] = str(value)
++        if export == "PSEUDO_DISABLED":
++            if "PSEUDO_UNLOAD" in os.environ:
++                del os.environ["PSEUDO_UNLOAD"]
++            if "PSEUDO_UNLOAD" in env:
++                del env["PSEUDO_UNLOAD"]
+ 
+     # Add in all variables from the user's original environment which
+     # haven't subsequntly been set/changed
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlEiZKAACgkQN1Ujt2V2gByvGwCdGRIq7fKEkeyCzjh/UPJ0HpYU
-t+EAnRo3jzcvkil4yX7YFus5RNyMaZN+
-=o0Lr
------END PGP SIGNATURE-----
 
---wXC5D88JtmMokAwr--
+
