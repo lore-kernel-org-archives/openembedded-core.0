@@ -1,39 +1,28 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Muhammad_Shakeel@mentor.com>) id 1U7SMo-0002lO-Ac
+	(envelope-from <holger@moiji-mobile.com>) id 1U7SZl-00033c-5y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 16:10:54 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1U7S7A-00064a-4P from Muhammad_Shakeel@mentor.com ;
-	Mon, 18 Feb 2013 06:54:44 -0800
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 18 Feb 2013 06:54:43 -0800
-Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.64]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.01.0289.001; Mon, 18 Feb 2013 14:54:42 +0000
-From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/2 v3] archiver class: Use tasks instead of
-	pre/post funcs with sstate
-Thread-Index: AQHN+Jmb3narJOEegU2Pjr/YKPs+S5hVfJwAgCpej4o=
-Date: Mon, 18 Feb 2013 14:54:41 +0000
-Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F85BC8DE1B@EU-MBX-04.mgc.mentorg.com>
-References: <1358856653-17049-1-git-send-email-muhammad_shakeel@mentor.com>,
-	<1358869272.6356.2.camel@ted>
-In-Reply-To: <1358869272.6356.2.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Mon, 18 Feb 2013 16:24:17 +0100
+Received: from sangmingze-mail.local (91-66-230-199-dynip.superkabel.de
+	[91.66.230.199])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 47E0E2543431;
+	Mon, 18 Feb 2013 15:24:24 +0000 (UTC)
+Received: from ich by sangmingze-mail.local with local (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1U7SK8-00056E-IM; Mon, 18 Feb 2013 16:08:08 +0100
+Date: Mon, 18 Feb 2013 16:08:08 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130218150808.GB12835@xiaoyu.lan>
+References: <20130218102402.GA15710@xiaoyu.lan>
+	<CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
+	<CAJTo0LZ5iGazfVfmu225HShMJ7AeLWSixtkkGmEwKU0XYMQhKA@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 18 Feb 2013 14:54:43.0877 (UTC)
-	FILETIME=[E3158D50:01CE0DE7]
-Cc: "Larson, Chris" <Chris_Larson@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2 v3] archiver class: Use tasks instead of pre/post funcs with sstate
+In-Reply-To: <CAJTo0LZ5iGazfVfmu225HShMJ7AeLWSixtkkGmEwKU0XYMQhKA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of systemd from an integrator point of view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,42 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 15:10:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Feb 2013 15:24:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Richard,=0A=
-=0A=
-I did try deptask but =0A=
-d.appendVarFlag('do_patch', 'deptask', ' do_archive_original_sources_patche=
-s')=0A=
-=0A=
-doesn't make do_patch dependent on do_archive_original_sources_patches. Do =
-you think it is a bug and needs to be fixed?=0A=
-=0A=
-Use of 'deps' or 'recrdeps' adds the above dependency. I believe 'recrdeps'=
- can introduce cyclic dependency so I didn't use it.=0A=
-What is your suggestion on this?=0A=
-=0A=
-Regards,=0A=
-Shakeel=0A=
-________________________________________=0A=
-From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
-Sent: Tuesday, January 22, 2013 8:41 PM=0A=
-To: Shakeel, Muhammad=0A=
-Cc: openembedded-core@lists.openembedded.org; Larson, Chris=0A=
-Subject: Re: [OE-core] [PATCH 1/2 v3] archiver class: Use tasks instead of =
-pre/post funcs with sstate=0A=
-=0A=
-Did you try using deptask instead of deps as I suggested in the previous=0A=
-feedback?=0A=
-=0A=
-Cheers,=0A=
-=0A=
-Richard=0A=
-=0A=
-=0A=
-=0A=
+On Mon, Feb 18, 2013 at 01:14:47PM +0000, Burton, Ross wrote:
+
+> Just noticed that the disabling of syslog isn't working for me, it
+> disables syslog-busybox but there's a syslog symlink to it, which is
+> being started. :)
+
+I haven't gotten to the part to get it started again. The symlink
+probably exists to deal with a real syslog package being installed.
+I am not sure how to deal with that. The way forward is probably to
+have syslog package install some kind of /etc/default/* that inhibits
+starting the busybox one.
+
+regards
+	holger
 
 
