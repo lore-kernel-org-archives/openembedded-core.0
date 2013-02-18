@@ -1,22 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ve0-f177.google.com ([209.85.128.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1U7QQG-0007jp-TB
+	(envelope-from <ross.burton@intel.com>) id 1U7QkG-0008HD-6c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 14:06:24 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Feb 2013 04:50:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="292587503"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2013 04:50:11 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2013 14:50:30 +0200
-Message-Id: <1361191830-19106-3-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1361191830-19106-1-git-send-email-cristian.iorga@intel.com>
-References: <1361191830-19106-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 2/2] pulseaudio: upgrade to 3.0
+	Mon, 18 Feb 2013 14:27:11 +0100
+Received: by mail-ve0-f177.google.com with SMTP id m1so4770794ves.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 05:10:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=WAiiMvx6u52ogfudocDcCa16EYbWlim57cLdML07IpI=;
+	b=o4VLdvLM+OlInOBCxIVsrqDMu287Cbk5CSUn8tEX6BqNF+cOjZIIzMH1VNBiYSLOnS
+	s49BanIYi9ecbyhR+Y9ASYtLGezQeYo4sJqPCegYpIKvpCyov7O5wttxudJ8S0svqVlR
+	Lu8dl3tyfWgq6faSuQv6fe3tLzdfuwB957+Kwlps5/ug1VFQ3NQl7kO6nrGFu0dLNLrB
+	r/Y+AzkwO7d4xXHF/4utFbsF7Gw3CRAs3QD6OeURZ18qDkblFqVaSfTALHiLH3B8Oe8S
+	zwo7rBYIO1Rp0rxRjIuZl4cLTpkWuyjnh2Yz+10we+7kTVH4VqS+9qboyLcev/TQ6NAb
+	d6uA==
+X-Received: by 10.52.24.98 with SMTP id t2mr13410015vdf.69.1361193049023; Mon,
+	18 Feb 2013 05:10:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 05:10:27 -0800 (PST)
+In-Reply-To: <20130218102402.GA15710@xiaoyu.lan>
+References: <20130218102402.GA15710@xiaoyu.lan>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Feb 2013 13:10:27 +0000
+Message-ID: <CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
+To: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+X-Gm-Message-State: ALoCoQlN8J4mhlsHQ8C7TT8Ttw/AbzlYNbGsCKmTxEsXP8z+ur6FvRAGQ5f9yhJtyKz0btGscGlQ
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: State of systemd from an integrator point of view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,74 +42,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 13:06:27 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 13:27:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ARM Neon instruction set compilation error fixed.
-Build system disables Neon optimisations if
-ARM target does not support it.
-BT support dependent on bluez and sbc support.
-sbc package added as a dependency.
+Hi Holger,
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc             |    4 +++-
- .../pulseaudio/{pulseaudio_2.1.bb => pulseaudio_3.0.bb}       |    9 ++++-----
- 2 files changed, 7 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_2.1.bb => pulseaudio_3.0.bb} (62%)
+On 18 February 2013 10:24, Holger Hans Peter Freyther
+<holger@moiji-mobile.com> wrote:
+> this is my second attempt to use systemd with Poky for our sysmoBTS
+> product (mostly to replace some respawn shell scripts and not to use
+> the daemontools). I aborted the first trial because of journald and
+> now that systemd is being merged into OE-Core I started again and I
+> would like to share some of my issues.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 81573e3..9929f1b 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -11,7 +11,7 @@ DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
-            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxtst libice libsm libxcb gtk+', '', d)}"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf \
--           ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
-+           ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4 sbc', '', d)}"
- 
- SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
-            file://gcc4-compile-fix.patch \
-@@ -43,6 +43,8 @@ EXTRA_OECONF = "\
- 		--without-fftw \
- "
- 
-+EXTRA_OECONF_append_arm += "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "--enable-neon-opt=no", d)}"
-+
- PARALLEL_MAKE = ""
- 
- export TARGET_PFPU = "${TARGET_FPU}"
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
-similarity index 62%
-rename from meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-rename to meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
-index a576368..71c3c05 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
-@@ -1,17 +1,16 @@
- require pulseaudio.inc
- 
--PR = "r15"
-+PR = "r0"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
- inherit gettext perlnative
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
--  file://volatiles.04_pulse \
--"
-+           file://volatiles.04_pulse"
- 
--SRC_URI[md5sum] = "33e85023259d530f0a763d5204e8bad9"
--SRC_URI[sha256sum] = "ef6b347bf47abfb98080795f1583018ac959b4aeb4df916b879f9e1eaba0ca7f"
-+SRC_URI[md5sum] = "47fd7eca8479c757822bee68a1feef25"
-+SRC_URI[sha256sum] = "c90bfda29605942d08e3e218ef10e3c660506a06651a616bfbb6a6df8392836d"
- 
- do_compile_prepend() {
-     cd ${S}
--- 
-1.7.10.4
+Great feedback, thanks Holger.
 
+> * systemd as a watchdog. For our BTS I have a init script for the
+> watchdog package and a configuration file in our BSP layer. For systemd
+> I want the watchdog functionality provided by systemd itself. So I
+> have a system.conf in my BSP layer an this line in my machine config:
+>
+> MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "\
+>         ...
+>         ${@['watchdog', ''][d.getVar('DISTRO_FEATURES_INITMAN', True) == 'systemd']} \
+>         kernel-module-rtfifo "
+>
+> IMAGE_FSTYPES ?= "tar.bz2 cpio.gz ubifs ubi jffs2"
+>
+> MACHINE_EXTRA_RDEPENDS = "\
+>         ...
+>         ${@['watchdog', ''][d.getVar('DISTRO_FEATURES_INITMAN', True) == 'systemd']} \
+>         "
+>
+> this is obviously not a piece of beauty.. and it would be nicer if
+> systemd itself could build a watchdog package or such...
+
+The INITMAN variable is injected into DISTRO_FEATURES, so I do find
+the more idiomatic base_contains more readable:
+
+${@base_contains("DISTRO_FEATURES", "systemd", "", "watchdog", d)}
+
+systemd could RPROVIDE="watchdog" but as the means to configure it are
+different that might not be ideal, and if you ever switched entirely
+to systemd with these conditionals it's obvious where your redundant
+dependencies are.
+
+Personally, I'd stick with conditional dependencies.
+
+> * systemd and svsv start scripts. I am using the busybox ifplugd to
+> configure the network on plug/un-plug of the cable. My start script ended
+> with .sh in the name. systemd recognized the script but failed to start
+> it. Renaming it to not end with .sh fixed the issue for me. This is more
+> like a systemd bug than OE but I wonder if we could change update-rc.d
+> bbclass to check the for the .sh in the start script and then complain
+> about it?
+
+Oh, interesting.  Without any thinking I can't think of reasons why
+that would fail.    Filed #3900.
+
+> * systemd's journald is not suitable for small devices. I think the default
+> should be to disable the journald and do not disable the busybox log
+> application in the systemd-compat units package. journald is dominated by
+> memory allocations and reading procfs over and over again.
+
+Agreed, although it would be good if the journal could be tuned.  IMHO
+it's technically great, just young.
+
+I wonder if we can split out the bulk of the journal binaries into a
+separate package, so by default it's disabled and then installing
+systemd-journal would enable it.
+
+Filed #3901.
+
+Cheers,
+Ross
 
 
