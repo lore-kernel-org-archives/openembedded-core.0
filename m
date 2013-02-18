@@ -1,35 +1,22 @@
-Received: from mail-vc0-f173.google.com ([209.85.220.173])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U7QOn-0007eB-GR
+	(envelope-from <cristian.iorga@intel.com>) id 1U7QQF-0007jk-PR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 14:05:43 +0100
-Received: by mail-vc0-f173.google.com with SMTP id fy27so590943vcb.32
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 04:48:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=2/WyXU3J0DHHpHjTIEGmH6JGGSRasY6lvSvkZ8fafbU=;
-	b=KHPPc53M5jT9UBe9iuDBkGNK8MyH35DglIpG9eZkFU0Kdzr+JaIg00b0+FCui9OceS
-	EBnnI42FSjqz5j/KbLBETMYZe+Q4oT/5fmWorr/bsBVvOFUUH+CEjhglsYAIfBUOxNxG
-	fgdH8xOSS/EgC9xBLhn0KAr3U78nVrdTnOqxsg5PamuA+j4pJ7G37cJqbTxqD43vOYsL
-	7WIxjIggSzTyMNPMLacU1BX0hyqqaQDs+aQWfeq1V4ZQ7Nh69D8vQqlaXyv271xAXcBS
-	mfKJGR3aJQ4A7LPKdaYvLuc3s2eDgFZY65Bw6K7lYfhTOHAu/7w/NuP1mds4paj5mW6n
-	ggPw==
-X-Received: by 10.52.24.98 with SMTP id t2mr13328667vdf.69.1361191721373; Mon,
-	18 Feb 2013 04:48:41 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 04:48:21 -0800 (PST)
-In-Reply-To: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
-References: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Feb 2013 12:48:21 +0000
-Message-ID: <CAJTo0LYjk8Lkzk_VuGaqJRykWdb6fyjGcTyB8qk9p=cCmG016g@mail.gmail.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-X-Gm-Message-State: ALoCoQnNaRj0b8HZ8uIqrRyWiIBNOpEUI51PqbjJ7DOh0vMeWGbqwNPe5hYH1WPQZ9xF+sR6RGpp
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gdk-pixbuf: upgrade to 2.27.1
+	Mon, 18 Feb 2013 14:06:20 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Feb 2013 04:50:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="292587498"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2013 04:50:10 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Feb 2013 14:50:29 +0200
+Message-Id: <1361191830-19106-2-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1361191830-19106-1-git-send-email-cristian.iorga@intel.com>
+References: <1361191830-19106-1-git-send-email-cristian.iorga@intel.com>
+Subject: [PATCH 1/2] sbc: SBC audio codec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,19 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 13:05:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Feb 2013 13:06:24 -0000
 
-On 18 February 2013 12:25, Constantin Musca <constantinx.musca@intel.com> wrote:
+recipe added;
+needed by pulseaudio.
 
-NACK.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-multimedia/sbc/sbc_1.0.bb |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/recipes-multimedia/sbc/sbc_1.0.bb
 
-Odd-minor versions are development releases, so we should keep with
-2.26 until 2.28 is ready.
+diff --git a/meta/recipes-multimedia/sbc/sbc_1.0.bb b/meta/recipes-multimedia/sbc/sbc_1.0.bb
+new file mode 100644
+index 0000000..21ea9d8
+--- /dev/null
++++ b/meta/recipes-multimedia/sbc/sbc_1.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "SBC Audio Codec"
++DESCRIPTION = "Bluetooth low-complexity, subband codec (SBC) library."
++HOMEPAGE = "https://www.bluez.org"
++SECTION = "libs"
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
++                    file://sbc/sbc.h;beginline=1;endline=25;md5=0a7e4f502980cc3ee0541341fa2db47e"
++
++PR = "r0"
++
++DEPENDS = "libsndfile1"
++
++SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/${PN}-${PV}.tar.xz"
++
++SRC_URI[md5sum] = "aa2bc39c4a09aade064efea4bbbc4b2d"
++SRC_URI[sha256sum] = "bf970aa21226c594bb04ba3d949770c8fd91dc8f953556305f20c1016b16b882"
++
++inherit autotools
+-- 
+1.7.10.4
 
-(2.27.0 onwards seem to imply upgrading librsvg too, as they changed
-their thread semantics)
-
-Ross
 
 
