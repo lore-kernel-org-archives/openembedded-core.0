@@ -1,38 +1,24 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U7O24-0003ON-CC
+	(envelope-from <holger@moiji-mobile.com>) id 1U7O8n-0003X9-SD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 11:33:34 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1IAH13W020659
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 18 Feb 2013 11:17:03 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1U7NmP-0007tn-Jm; Mon, 18 Feb 2013 11:17:01 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 18 Feb 2013 11:40:19 +0100
+Received: from sangmingze-mail.local (91-66-230-199-dynip.superkabel.de
+	[91.66.230.199])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 51B592543431
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 10:40:16 +0000 (UTC)
+Received: from ich by sangmingze-mail.local with local (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>) id 1U7NtC-00049P-1x
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Feb 2013 11:24:02 +0100
+Date: Mon, 18 Feb 2013 11:24:02 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 To: openembedded-core@lists.openembedded.org
-References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1361006114.31795.19.camel@ted>
-	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
-	<1361019187.31795.49.camel@ted> <20130217231955.GF3300@jama>
-Date: Mon, 18 Feb 2013 11:17:01 +0100
-In-Reply-To: <20130217231955.GF3300@jama> (Martin Jansa's message of "Mon, 18
-	Feb 2013 00:20:52 +0100")
-Message-ID: <lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+Message-ID: <20130218102402.GA15710@xiaoyu.lan>
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.84
-X-Spam-Score: -5.6
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: RFE: make the init manager an image feature (again)
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: State of systemd from an integrator point of view
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,35 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 10:33:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Feb 2013 10:40:19 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 10:40:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+Hi,
 
->> On the specifics of the do_install_append, you've seen my comments
->> about how we're not learning from past mistakes with the way the
->> do_install in the class was written. I note Phil also agreed with
->> them, both of us remembering some of the horrors we've dealt with in
->> the past (and binconfig.bbclass is still around, sadly).
->
-> But it doesn't need to be as dangerous as binconfig.bbclass, because
-> we already list .service or .socket files in SYSTEMD_SERVICE so we can
-> improve that "find" call
-
-Why is 'find' required at all?  afaik, only files from $SRC_URI are
-affected.  So we can
-
-1. create an (overridable) SYSTEMD_EXTRA_SERVICES variable
-
-2. fill this variable in systemd.bbclass with .service, .target, .socket
-   + .mount files from $SRC_URI
-
-3. modify systemd's do_install so that files above are copied after
-   doing some some sanity checks (e.g. checks that no previous version
-   from 'make install' exists or that it are really systemd files).
+this is my second attempt to use systemd with Poky for our sysmoBTS
+product (mostly to replace some respawn shell scripts and not to use
+the daemontools). I aborted the first trial because of journald and
+now that systemd is being merged into OE-Core I started again and I
+would like to share some of my issues.
 
 
-Enrico
+* systemd as a watchdog. For our BTS I have a init script for the
+watchdog package and a configuration file in our BSP layer. For systemd
+I want the watchdog functionality provided by systemd itself. So I
+have a system.conf in my BSP layer an this line in my machine config:
+
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "\
+	...
+	${@['watchdog', ''][d.getVar('DISTRO_FEATURES_INITMAN', True) == 'systemd']} \
+	kernel-module-rtfifo "
+
+IMAGE_FSTYPES ?= "tar.bz2 cpio.gz ubifs ubi jffs2"
+
+MACHINE_EXTRA_RDEPENDS = "\
+	...
+	${@['watchdog', ''][d.getVar('DISTRO_FEATURES_INITMAN', True) == 'systemd']} \
+	"
+
+this is obviously not a piece of beauty.. and it would be nicer if
+systemd itself could build a watchdog package or such...
+
+
+* systemd and svsv start scripts. I am using the busybox ifplugd to
+configure the network on plug/un-plug of the cable. My start script ended
+with .sh in the name. systemd recognized the script but failed to start
+it. Renaming it to not end with .sh fixed the issue for me. This is more
+like a systemd bug than OE but I wonder if we could change update-rc.d
+bbclass to check the for the .sh in the start script and then complain
+about it?
+
+
+* systemd's journald is not suitable for small devices. I think the default
+should be to disable the journald and do not disable the busybox log
+application in the systemd-compat units package. journald is dominated by
+memory allocations and reading procfs over and over again.
+
+
+regards
+	holger
+
 
 
