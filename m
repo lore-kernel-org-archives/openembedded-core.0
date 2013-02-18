@@ -1,36 +1,35 @@
-Received: from mail-oa0-f53.google.com ([209.85.219.53])
+Received: from mail-vc0-f182.google.com ([209.85.220.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U7UYw-0006me-Rr
+	(envelope-from <ross.burton@intel.com>) id 1U7UZy-0006rp-Lc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 18:31:36 +0100
-Received: by mail-oa0-f53.google.com with SMTP id m1so5937922oag.40
+	Mon, 18 Feb 2013 18:32:59 +0100
+Received: by mail-vc0-f182.google.com with SMTP id fl17so3732238vcb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 09:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=VRTPKf3lbGxW0z/KFF5CftAbjYpJRrOBw1ej+nVZkUk=;
-	b=Q6ciY7Z9o0r//xBktaRnbFt0Ndf6oxsZU+YvG30T1uON//OtpBFkTrE//6a4PnSyah
-	+hC0jxZdUpTpZYkcfBDeGW99dbvoL1FftuiraHfAa3f90+JI5u5K2k8wFZryD+0G9aj8
-	ncDJTakVwXbqDL0rx2XzPMtN8SrMbPiWa1EEuAUNps4e5lEHM0swEtrxDKBZco5Bf/Oq
-	WNP5DpD7Ig5Z37y/m8DIVcN4LYJLhbI5p4Yi4Bc71HSucNg9JhIAeaa3ORSgQuQVv9rL
-	OVDS/eNOYtSh8CmxrKmCmif2QDLEdNxjiIFOXZwQOlG0YqDzPDFlJSg06y/ZP0NEN7u8
-	76mg==
+	Mon, 18 Feb 2013 09:16:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=Gj0VdNDcZRSDoj9il8XNxa/9x4Jxiop636vrxYm8TB0=;
+	b=j9HOJ8NoOUQ5In4J/Kg9cfBXExpg4yqydPa4YRciMCoQPhgOEB+yWXMo96AAEm5t2/
+	CfiVxNnh2kRlDuFQLcg697ooZiuw8m3LSq0Z3Es967pBSuSkaj0KhC8STXY/Qjdd6D2b
+	CyBPbC2wixe4eL255PdnndHkq3FGcbyyxsvdIPlGheoiB2LmV72pyHERHGPH6KOTq+Gq
+	Qhi1N1TC1wPE991+bw8GKlimSRRWwOV4nVp9z06FhiqxM855QxMaf+Q4i22ymJWo/BbP
+	i63eo8NJ6vSgdzqVoeiiltTEMsb5H91vNt3Ji2LCQZFccnzRavh8IjeQCvLu8Bq+ijAf
+	TPww==
+X-Received: by 10.52.96.134 with SMTP id ds6mr14254322vdb.107.1361207790207;
+	Mon, 18 Feb 2013 09:16:30 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.60.19.129 with SMTP id f1mr1578005oee.82.1361207725962; Mon,
-	18 Feb 2013 09:15:25 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Mon, 18 Feb 2013 09:15:25 -0800 (PST)
-In-Reply-To: <1361206110-32463-1-git-send-email-ross.burton@intel.com>
-References: <1361206110-32463-1-git-send-email-ross.burton@intel.com>
-Date: Mon, 18 Feb 2013 14:15:25 -0300
-X-Google-Sender-Auth: k4UXfHoqBH50jOnYbocnmtg0fBE
-Message-ID: <CAP9ODKp9ewhW3uh6o_Up-Zki8CFsYqT3-ySntc-AswOwit+BFA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: merge udev-systemd into udev
+Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 09:16:10 -0800 (PST)
+In-Reply-To: <alpine.DEB.2.02.1301011252140.20712@oneiric>
+References: <alpine.DEB.2.02.1301011252140.20712@oneiric>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Feb 2013 17:16:10 +0000
+Message-ID: <CAJTo0Lady=XrQnuF-=CedC3D+Q8K-LyUP8zX4Gs6FoAHJ46Xrw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-Gm-Message-State: ALoCoQnZ2TjloZjhIwn5xSl5HbrCZumEQbcXhn57xtPQ8cm4KSM/hK57mXaRSdPDskyuScVdEbP5
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: weird FILESEXTRAPATHS_append in mesa-common.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,21 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 17:31:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 18 Feb 2013 17:33:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 18, 2013 at 1:48 PM, Ross Burton <ross.burton@intel.com> wrote:
-> Merge the contents of udev-systemd, which is just the service files, into udev
-> itself.  This split wasn't intended to every happen in oe-core.
+On 1 January 2013 17:55, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>   these two lines from mesa-common.inc:
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> # for mesa-dri and mesa-xlib
+> FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
+>
+> that second line is definitely misleading as it doesn't append, it
+> prepends (as opposed to what you see in mesa-git.inc):
+>
+> FILESEXTRAPATHS_prepend := "${THISDIR}/mesa-git:"
+>
+> which is still unnecessary since all you need is
+>
+> FILESEXTRAPATHS = "${THISDIR}/mesa-git"
+>
+> no?
+>
+>   also, that comment in mesa-common.inc is out of date, as mesa-xlib
+> disappeared a few months back.
 
-Could we first discuss the problems we have in current implementation
-before  doing more merges?
+Just re-discovered this in my starred mail folder.  Yes, it can all go
+- build-testing now.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Ross
 
 
