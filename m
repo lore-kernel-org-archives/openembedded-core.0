@@ -1,20 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U7Phg-0006Mx-PN
+	(envelope-from <constantinx.musca@intel.com>) id 1U7Q12-0006mC-B2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 13:20:50 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Feb 2013 04:04:08 -0800
+	Mon, 18 Feb 2013 13:40:22 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Feb 2013 04:22:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="287136036"
+X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="264068347"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga002.jf.intel.com with ESMTP; 18 Feb 2013 04:04:07 -0800
+	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2013 04:24:06 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2013 14:05:09 +0200
-Message-Id: <1361189109-2869-1-git-send-email-constantinx.musca@intel.com>
+Date: Mon, 18 Feb 2013 14:25:08 +0200
+Message-Id: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] augeas: upgrade to 1.0.0
+Subject: [PATCH] gdk-pixbuf: upgrade to 2.27.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,147 +27,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 12:20:53 -0000
-
-0001-Add-missing-argument-to-escape.patch: removed
-    - included in the new version
-
-remove-gets.patch: not needed anymore
-
-add-missing-argz-conditional.patch: added
-    - the Makefiles assume that the argz conditional
-is present in configure.ac
+X-List-Received-Date: Mon, 18 Feb 2013 12:40:23 -0000
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-extended/augeas/augeas.inc            |  2 +-
- .../0001-Add-missing-argument-to-escape.patch      | 29 ---------------------
- ...ts.patch => add-missing-argz-conditional.patch} | 30 +++++++++++-----------
- meta/recipes-extended/augeas/augeas_0.10.0.bb      |  8 ------
- meta/recipes-extended/augeas/augeas_1.0.0.bb       |  6 +++++
- 5 files changed, 22 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-extended/augeas/augeas/0001-Add-missing-argument-to-escape.patch
- rename meta/recipes-extended/augeas/augeas/{remove-gets.patch => add-missing-argz-conditional.patch} (12%)
- delete mode 100644 meta/recipes-extended/augeas/augeas_0.10.0.bb
- create mode 100644 meta/recipes-extended/augeas/augeas_1.0.0.bb
+ .../{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/configure_fix.patch  | 0
+ .../extending-libinstall-dependencies.patch                       | 0
+ .../hardcoded_libtool.patch                                       | 0
+ .../gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.27.1.bb}     | 8 ++++----
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/configure_fix.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/extending-libinstall-dependencies.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.27.1.bb} (93%)
 
-diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-extended/augeas/augeas.inc
-index 479fb97..a0aa9dd 100644
---- a/meta/recipes-extended/augeas/augeas.inc
-+++ b/meta/recipes-extended/augeas/augeas.inc
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbb461211a33b134d42ed5ee802b37ff"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/configure_fix.patch
+similarity index 100%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/configure_fix.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/extending-libinstall-dependencies.patch
+similarity index 100%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/extending-libinstall-dependencies.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/hardcoded_libtool.patch
+similarity index 100%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/hardcoded_libtool.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
+similarity index 93%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
+index cc2ea50..252ac78 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
+@@ -11,16 +11,16 @@ SECTION = "libs"
+ DEPENDS = "libpng glib-2.0 jpeg"
+ DEPENDS_append_linuxstdbase = " virtual/libx11"
  
- SRC_URI = "http://augeas.net/download/${BP}.tar.gz \
--           file://0001-Add-missing-argument-to-escape.patch \
-+           file://add-missing-argz-conditional.patch \
-           "
+-SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.26/gdk-pixbuf-${PV}.tar.xz \
++SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.27/gdk-pixbuf-${PV}.tar.xz \
+            file://hardcoded_libtool.patch \
+            file://configure_fix.patch \
+            file://extending-libinstall-dependencies.patch \
+            "
  
- DEPENDS = "readline libxml2"
-diff --git a/meta/recipes-extended/augeas/augeas/0001-Add-missing-argument-to-escape.patch b/meta/recipes-extended/augeas/augeas/0001-Add-missing-argument-to-escape.patch
-deleted file mode 100644
-index 3d0d0e3..0000000
---- a/meta/recipes-extended/augeas/augeas/0001-Add-missing-argument-to-escape.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From 021ea39f8e400225e2d01b4c62eb9d56404f2ecd Mon Sep 17 00:00:00 2001
--From: Michael Chapman <mike@very.puzzling.org>
--Date: Fri, 16 Dec 2011 21:30:07 +1100
--Subject: [PATCH] Add missing argument to escape()
--
--Fixes ticket #242.
-----
-- src/regexp.c |    2 +-
-- 1 files changed, 1 insertions(+), 1 deletions(-)
--
--diff --git a/src/regexp.c b/src/regexp.c
--index cf0ea5d..811087d 100644
----- a/src/regexp.c
--+++ b/src/regexp.c
--@@ -50,7 +50,7 @@ char *regexp_escape(const struct regexp *r) {
--     ret = fa_restrict_alphabet(r->pattern->str, strlen(r->pattern->str),
--                                &nre, &nre_len, 2, 1);
--     if (ret == 0) {
---        pat = escape(nre, nre_len);
--+        pat = escape(nre, nre_len, RX_ESCAPES);
--         free(nre);
--     }
-- #endif
---- 
--1.7.5.4
--
-diff --git a/meta/recipes-extended/augeas/augeas/remove-gets.patch b/meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
-similarity index 12%
-rename from meta/recipes-extended/augeas/augeas/remove-gets.patch
-rename to meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
-index bd6e92c..abbdbaa 100644
---- a/meta/recipes-extended/augeas/augeas/remove-gets.patch
-+++ b/meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
-@@ -1,20 +1,20 @@
--eglibc 2.16 has remove gets so check for it to be there before using it
-+Add missing GL_GENERATE_ARGZ_H conditional
+-SRC_URI[md5sum] = "339329e6d619ee3e1cb93979111b04c0"
+-SRC_URI[sha256sum] = "77696fd163bca95a130a1883dbd78d0ae4d782de2fc85a9a38556d13681f5c84"
++SRC_URI[md5sum] = "8ea172466dc3ead706130981e88c219b"
++SRC_URI[sha256sum] = "028f95552203e522429e3248ff97a433c63c9a57143f10265e7ce48c2bea02b4"
  
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+- GL_GENERATE_ARGZ_H is used in gnulib/lib/Makefile.am
- 
- Upstream-Status: Pending
--Index: augeas-0.10.0/gnulib/lib/stdio.in.h
-+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-+
-+Index: augeas-1.0.0/configure.ac
- ===================================================================
----- augeas-0.10.0.orig/gnulib/lib/stdio.in.h	2011-03-03 17:07:59.000000000 -0800
--+++ augeas-0.10.0/gnulib/lib/stdio.in.h	2012-07-03 19:46:42.871894833 -0700
--@@ -161,8 +161,10 @@
-- /* It is very rare that the developer ever has full control of stdin,
--    so any use of gets warrants an unconditional warning.  Assume it is
--    always declared, since it is required by C89.  */
--+#if defined gets
-- #undef gets
-- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
--+#endif
-+--- augeas-1.0.0.orig/configure.ac
-++++ augeas-1.0.0/configure.ac
-+@@ -55,6 +55,8 @@ AC_ARG_WITH([failmalloc],
-+ 
-+ AM_CONDITIONAL([WITH_FAILMALLOC], [test x$with_failmalloc != xno])
-  
-- #if @GNULIB_FOPEN@
-- # if @REPLACE_FOPEN@
-++AM_CONDITIONAL([GL_GENERATE_ARGZ_H], [test -n "$ARGZ_H"])
-++
-+ dnl --enable-debug=(yes|no)
-+ AC_ARG_ENABLE([debug],
-+               [AC_HELP_STRING([--enable-debug=no/yes],
-diff --git a/meta/recipes-extended/augeas/augeas_0.10.0.bb b/meta/recipes-extended/augeas/augeas_0.10.0.bb
-deleted file mode 100644
-index 0840428..0000000
---- a/meta/recipes-extended/augeas/augeas_0.10.0.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require augeas.inc
--
--SRC_URI += "file://remove-gets.patch \
--           "
--PR = "r3"
--
--SRC_URI[md5sum] = "fe1834e90a066c3208ac0214622c7352"
--SRC_URI[sha256sum] = "ec111af06186216930176ebe5ecccdf7bf528528aee9acde1d5d70088484afca"
-diff --git a/meta/recipes-extended/augeas/augeas_1.0.0.bb b/meta/recipes-extended/augeas/augeas_1.0.0.bb
-new file mode 100644
-index 0000000..2f7061a
---- /dev/null
-+++ b/meta/recipes-extended/augeas/augeas_1.0.0.bb
-@@ -0,0 +1,6 @@
-+require augeas.inc
-+
+-PR = "r1"
 +PR = "r0"
-+
-+SRC_URI[md5sum] = "82131019432ecf8102e1491610ad2dd1"
-+SRC_URI[sha256sum] = "31bf757c5b8197765946b3805f3793c32b03cd92a7a77ec95d37e71a1f131912"
+ 
+ inherit autotools pkgconfig gettext pixbufcache
+ 
 -- 
 1.7.11.7
 
