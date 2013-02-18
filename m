@@ -1,31 +1,28 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U7ZpO-0007Gu-61 for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 00:08:59 +0100
+	id 1U7Zpb-0007HQ-NS for openembedded-core@lists.openembedded.org;
+	Tue, 19 Feb 2013 00:09:10 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1IMxDr9028058 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 22:59:13 GMT
+	r1IMxCSX028045; Mon, 18 Feb 2013 22:59:20 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qJkBvQO8VeXp
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 22:59:13 +0000 (GMT)
+	with LMTP id qWDaOfFEck0w; Mon, 18 Feb 2013 22:59:19 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1IMwvMe028023
+	r1IMwvMf028023
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 22:59:10 GMT
-Message-ID: <1361193590.5927.9.camel@ted>
+	verify=NOT); Mon, 18 Feb 2013 22:59:13 GMT
+Message-ID: <1361194088.5927.17.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Feb 2013 13:19:50 +0000
+To: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Feb 2013 13:28:08 +0000
 Mime-Version: 1.0
 X-Mailer: Evolution 3.6.3-1 
-Subject: [PATCH] devshell.bbclass: Allow running devshell and fakeroot together
+Subject: [PATCH RFC] image: Enable fakeroot for the devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,76 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 23:09:04 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 23:09:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently its hard to run a devshell complete with fakeroot context. This
-patch allows the fakeroot flag on the task to do this, as with any other
-task. Since we may need to start X terminal applications, we need to
-only start the fakeroot session on the final command, hence the hoops
-this code jumps through.
+The rootfs task runs under fakeroot. This converts the devshell to do the same,
+allowing the user easier debugging of problems like permissions for example.
 
-As always with fakeroot, you can break out and run a command without
-the fake permissions with syntax like "PSEUDO_UNLOAD=1 <command>"
+I'm really after to provoke some discussion with this patch. There are a
+variety of cases where it would be desirable to run devshell in fakeroot
+context. This patch enables it for one, the image generation case but
+there are others.
+
+We have several options:
+
+a) Add these in on a case by case basis. Image generation is one which
+is clearly makes sense to me.
+b) Always enable fakeroot for devshell. The downside is some calls
+accessing the user's session won't work properly. You'd have to run
+those in the form "PSEUDO_UNLOAD=1 <command>"
+c) Add a new fakerootdevshell task which sits along side devshell but
+starts devshell with fakeroot privileges.
+
+Adding a new task is relatively expensive in parsing performance and in
+runqueue generation. I'm not sure whether there is enough of a case for
+two different tasks or that it would user friendly. I'm therefore
+seriously considering b) but would be interested in the opinions of
+others. The attached patch implements a) as a proof of concept. b) would
+be just adding those lines to devshell.bbclass instead.
+
+Regardless of which we pick, we need to document it, cc'ing Scott s he
+knows there is a change in this area brewing and needed before release.
 
 [YOCTO #3374]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/devshell.bbclass |   19 ++++++++++++++++++-
- meta/classes/terminal.bbclass |    5 +++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ meta/classes/image.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index ddb6e55..a780118 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -1,10 +1,27 @@
- inherit terminal
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index dd78acb..0d737c3 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -184,6 +184,9 @@ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+ do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+ do_build[nostamp] = "1"
  
-+DEVSHELL = "${SHELL}"
++do_devshell[depends] += "virtual/fakeroot-native:do_populate_sysroot"
++do_devshell[fakeroot] = "1"
 +
- python do_devshell () {
--    oe_terminal(d.getVar('SHELL', True), 'OpenEmbedded Developer Shell', d)
-+    oe_terminal(d.getVar('DEVSHELL', True), 'OpenEmbedded Developer Shell', d)
- }
- 
- addtask devshell after do_patch
- 
- do_devshell[dirs] = "${S}"
- do_devshell[nostamp] = "1"
-+
-+# devshell and fakeroot/pseudo need careful handling since only the final
-+# command should run under fakeroot emulation, any X connection should
-+# be done as the normal user. We therfore carefully construct the envionment
-+# manually
-+python () {
-+    if d.getVarFlag("do_devshell", "fakeroot"):
-+       d.prependVar("DEVSHELL", "pseudo ")
-+       fakeenv = d.getVar("FAKEROOTENV", True).split()
-+       for f in fakeenv:
-+            k = f.split("=")
-+            d.setVar(k[0], k[1])           
-+            d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
-+       d.delVarFlag("do_devshell", "fakeroot")
-+} 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index d5a6277..8cebad4 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -25,6 +25,11 @@ def oe_terminal(command, title, d):
-         if value is not None:
-             os.environ[export] = str(value)
-             env[export] = str(value)
-+        if export == "PSEUDO_DISABLED":
-+            if "PSEUDO_UNLOAD" in os.environ:
-+                del os.environ["PSEUDO_UNLOAD"]
-+            if "PSEUDO_UNLOAD" in env:
-+                del env["PSEUDO_UNLOAD"]
- 
-     # Add in all variables from the user's original environment which
-     # haven't subsequntly been set/changed
+ # Must call real_do_rootfs() from inside here, rather than as a separate
+ # task, so that we have a single fakeroot context for the whole process.
+ do_rootfs[umask] = "022"
 
 
 
