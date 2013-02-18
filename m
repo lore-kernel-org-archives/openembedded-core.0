@@ -1,34 +1,38 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1U7LAS-0006XC-Kb
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U7O24-0003ON-CC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 08:29:41 +0100
-Received: by mail-pa0-f47.google.com with SMTP id bj3so2641592pad.20
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Feb 2013 23:13:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=SMlGBM00Vn9hwJ4jrkmnrddZjy5+/hRVi4MSXZ6gpWo=;
-	b=hfiTzw19+kKqXdhQU2R4+zyWXwL7m2401yOTLArtxjqztYTKbvaNk7dgjOInVdBv6q
-	bipL3FiKSZukJjtQuaYkD7ZP+brRnJWB0Q0TWx8AzYticZmvgVTeOLQlu8zRlbW/JTCt
-	rm6lWxViH+lsCklZTopCWwTyqfDFmrg66pGU1IshbhTxBcpU/T/RYNPKXFif0IzaeVnB
-	UR9CTJ7tG5p20JttoFCMzClb3SLCwhp+gdl4BSwYT5Hy9iWw1gW+gm04r2pjdwC7b+rk
-	xWAsyXX9rkvpMcsUlz/T4He/b0u0ZgeYlYJGnYuWNfwZgOoDK+tuXwaGjv+2SLkgEA+8
-	yABg==
-X-Received: by 10.66.84.232 with SMTP id c8mr33582266paz.8.1361171611353;
-	Sun, 17 Feb 2013 23:13:31 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.55.19])
-	by mx.google.com with ESMTPS id q4sm102834407paz.20.2013.02.17.23.13.27
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 17 Feb 2013 23:13:30 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
+	Mon, 18 Feb 2013 11:33:34 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1IAH13W020659
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 18 Feb 2013 11:17:03 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1U7NmP-0007tn-Jm; Mon, 18 Feb 2013 11:17:01 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2013 15:10:59 +0000
-Message-ID: <12379886.4GMtmIAlan@yiqingliang-pc>
-User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361006114.31795.19.camel@ted>
+	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
+	<1361019187.31795.49.camel@ted> <20130217231955.GF3300@jama>
+Date: Mon, 18 Feb 2013 11:17:01 +0100
+In-Reply-To: <20130217231955.GF3300@jama> (Martin Jansa's message of "Mon, 18
+	Feb 2013 00:20:52 +0100")
+Message-ID: <lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Subject: own-mirrors parse error?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,30 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 07:29:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Feb 2013 10:33:35 -0000
+Content-Type: text/plain
 
-I have set SOURCE_MIRROR_URL to my own http server.
+Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-when fetching ftp package, e.g. gcc, it will use my server, and done quickly.
-but if fetching http package, e.g. db, it will not use my server, but use 
-official address.
+>> On the specifics of the do_install_append, you've seen my comments
+>> about how we're not learning from past mistakes with the way the
+>> do_install in the class was written. I note Phil also agreed with
+>> them, both of us remembering some of the horrors we've dealt with in
+>> the past (and binconfig.bbclass is still around, sadly).
+>
+> But it doesn't need to be as dangerous as binconfig.bbclass, because
+> we already list .service or .socket files in SYSTEMD_SERVICE so we can
+> improve that "find" call
 
-after checked meta/classes/own-mirrors.bbclass, it contain:
-https?$://.*/.* ${SOURCE_MIRROR_URL}
+Why is 'find' required at all?  afaik, only files from $SRC_URI are
+affected.  So we can
 
-there is not http://, after added:
-http://.*/.*    ${SOURCE_MIRROR_URL}
-everything is OK.
+1. create an (overridable) SYSTEMD_EXTRA_SERVICES variable
 
-so maybe recent commit broke up the "https?$" parsing?
+2. fill this variable in systemd.bbclass with .service, .target, .socket
+   + .mount files from $SRC_URI
+
+3. modify systemd's do_install so that files above are copied after
+   doing some some sanity checks (e.g. checks that no previous version
+   from 'make install' exists or that it are really systemd files).
 
 
-
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+Enrico
 
 
