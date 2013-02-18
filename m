@@ -1,30 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U7HVO-0005Ut-Gp
+	(envelope-from <niqingliang2003@gmail.com>) id 1U7LAS-0006XC-Kb
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 04:35:02 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1I3IpQe025278
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 17 Feb 2013 19:18:51 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Sun, 17 Feb 2013 19:18:51 -0800
-Message-ID: <51219D96.2070907@windriver.com>
-Date: Mon, 18 Feb 2013 11:18:46 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Mon, 18 Feb 2013 08:29:41 +0100
+Received: by mail-pa0-f47.google.com with SMTP id bj3so2641592pad.20
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Feb 2013 23:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=SMlGBM00Vn9hwJ4jrkmnrddZjy5+/hRVi4MSXZ6gpWo=;
+	b=hfiTzw19+kKqXdhQU2R4+zyWXwL7m2401yOTLArtxjqztYTKbvaNk7dgjOInVdBv6q
+	bipL3FiKSZukJjtQuaYkD7ZP+brRnJWB0Q0TWx8AzYticZmvgVTeOLQlu8zRlbW/JTCt
+	rm6lWxViH+lsCklZTopCWwTyqfDFmrg66pGU1IshbhTxBcpU/T/RYNPKXFif0IzaeVnB
+	UR9CTJ7tG5p20JttoFCMzClb3SLCwhp+gdl4BSwYT5Hy9iWw1gW+gm04r2pjdwC7b+rk
+	xWAsyXX9rkvpMcsUlz/T4He/b0u0ZgeYlYJGnYuWNfwZgOoDK+tuXwaGjv+2SLkgEA+8
+	yABg==
+X-Received: by 10.66.84.232 with SMTP id c8mr33582266paz.8.1361171611353;
+	Sun, 17 Feb 2013 23:13:31 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([117.89.55.19])
+	by mx.google.com with ESMTPS id q4sm102834407paz.20.2013.02.17.23.13.27
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 17 Feb 2013 23:13:30 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Feb 2013 15:10:59 +0000
+Message-ID: <12379886.4GMtmIAlan@yiqingliang-pc>
+User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1359362547.git.Qi.Chen@windriver.com>
-	<e952e3dadc8a912067a3385aec372e413dc23e02.1359362547.git.Qi.Chen@windriver.com>
-	<1360161619.28450.12.camel@ted>
-In-Reply-To: <1360161619.28450.12.camel@ted>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/6] populate-volatile.sh: improve this script
+Subject: own-mirrors parse error?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,71 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 03:35:03 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Feb 2013 07:29:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 02/06/2013 10:40 PM, Richard Purdie wrote:
-> On Mon, 2013-01-28 at 17:05 +0800, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Here's a list of improvements:
->> 1) Make it run correctly at rootfs time.
->> 2) Handle link config items more reasonably.
->> 3) Support read-only rootfs.
->> 4) Avoid data loss when removing directories.
->>
->> [YOCTO #3406]
->> [YOCTO #3404]
->> [YOCTO #3181]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../initscripts-1.0/populate-volatile.sh           |  287 ++++++++++----------
->>   1 file changed, 143 insertions(+), 144 deletions(-)
-> I'm getting a little annoyed with this patch. Saul keeps sending it to
-> me, I keep seeing it and rejecting it.
->
-> I will not take code changes mixed in with whitespace reformatting. I've
-> said this once already.
->
-> This series should have a patch like:
->
-> http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=35f3369e5e6365aa06914862ef8a55e21f2fb73b
->
-> and then a follow up like:
->
-> http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=ca8ca587643caa81a6c6530dfead0db6fa8c27b6
->
-> which has the actual code changes in it. I did this just so I could see
-> what the patch was doing.
->
-> Next problem is that there are too many different code changes in this
-> to figure out what is going on and properly review it. It needs to be
-> split up further into logical changes with a clear explanation of what
-> is happening. Why was the cacheclear mechanism removed? Why isn't the
-> background parallelisation important (I know why when I think about it
-> but the commit message says nothing about it)?
->
-> There is also a typo of ROOT_DRI in there.
->
-> I will merge the whitespace change, just so I don't have to see it
-> again. Please split up the rest of the changes into a logical set and
-> resubmit. meld is a good tool for work like that.
+I have set SOURCE_MIRROR_URL to my own http server.
 
-Thanks for your advices.
-I'll rework on this patch and resubmit it.
+when fetching ftp package, e.g. gcc, it will use my server, and done quickly.
+but if fetching http package, e.g. db, it will not use my server, but use 
+official address.
 
-Thanks,
-Chen Qi
+after checked meta/classes/own-mirrors.bbclass, it contain:
+https?$://.*/.* ${SOURCE_MIRROR_URL}
 
-> Cheers,
->
-> Richard
->
->
->
->
+there is not http://, after added:
+http://.*/.*    ${SOURCE_MIRROR_URL}
+everything is OK.
 
+so maybe recent commit broke up the "https?$" parsing?
+
+
+
+-- 
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
 
