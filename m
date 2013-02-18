@@ -1,47 +1,20 @@
-Received: from mail-ve0-f178.google.com ([209.85.128.178])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U7Qt7-00008U-DP
+	(envelope-from <constantinx.musca@intel.com>) id 1U7QxJ-0000Ef-UU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 14:36:23 +0100
-Received: by mail-ve0-f178.google.com with SMTP id db10so4723451veb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 05:20:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=jM3UxiySUfiJmbxW4yz67HHeEmBPNeC9xSsM702N6aw=;
-	b=JfbNLgF4LOx8bJgaDA9ztVZuRsHLj5B02LfrW+o5uMGp5ybWtpttAhMMRzpswTQUVa
-	dgLZ4UHUJNGpE/DVGBr6Yf4mzHP1vrzdAx033FY5GrlX2PGXrVU+BbZ6jss10yr2K0F8
-	+AgwdwN2Xscc9dEijEh5HpYRxSubtN/4r0CEIImJEneoVFxKGdP0i/vPZNxC3k5Bprj8
-	1Dgk/jFAY42SReMBbFzZB8/ZvcQEXtUeIUwiLV2N3nIPzz2SamehAPYE+NTxsCpshc+3
-	qitiurwbAG+V1pcglB9L3RPJEiKgld2ZFuJLgIeaEaB7YkSyIlzn+2RzeO1AvPAdPLJd
-	/bnQ==
-X-Received: by 10.52.24.98 with SMTP id t2mr13447586vdf.69.1361193601314; Mon,
-	18 Feb 2013 05:20:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 05:19:40 -0800 (PST)
-In-Reply-To: <51222923.8040104@topic.nl>
-References: <51079663.60504@topic.nl>
-	<20130129094059.GI16904@jama.palm1.palmone.com>
-	<5107A295.2060307@topic.nl>
-	<CAJTo0LYJ8aza9P0V2X_UszE2yWJjGGacWUstPYeoxF0KcwDYxg@mail.gmail.com>
-	<510B73EB.8060907@topic.nl>
-	<CAJTo0LbkOMXqZkHd-JAcNKxiOmXTy+TXPEEJ-CkPc1Jx3Ujekg@mail.gmail.com>
-	<510BBC3D.1030207@topic.nl> <5116A5DA.90500@topic.nl>
-	<CA+chaQfz1S1H4240eArHGYEc8Dh=ghzyLYVm1Eu8JyBWbgWMvA@mail.gmail.com>
-	<A551BDF323A45B48ACE6A404AA16A1C4127A434C@TOP-EX01.TOPIC.LOCAL>
-	<20130210195919.GA3300@jama> <51220AAC.8080201@topic.nl>
-	<CAJTo0LbTZWh7-S3i+GmcPHDoRaRTN6BUniBcoX5_=eE6j21AuQ@mail.gmail.com>
-	<51222923.8040104@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Feb 2013 13:19:40 +0000
-Message-ID: <CAJTo0LaMUV3m9qejDYecpcgdnY1x0jFAZvWg9H4u0FbHpe7YpQ@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Gm-Message-State: ALoCoQlkcQ4Blz76sEtisB8NADnSwt+9uwIio2AS9W/cghT6ZDFjKWt2JASjd8QPW6BGp1D7y6P3
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE-core] How do I find out why are packages being rebuilt?
+	Mon, 18 Feb 2013 14:40:35 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Feb 2013 05:24:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="288613726"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Feb 2013 05:24:14 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Feb 2013 15:25:16 +0200
+Message-Id: <1361193916-23303-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] gnome-common: upgrade to 3.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,21 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 13:36:23 -0000
-X-List-Received-Date: Mon, 18 Feb 2013 13:36:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Feb 2013 13:41:04 -0000
 
-On 18 February 2013 13:14, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Change in oe-core I can live with. Things that puzzle me are that when I
-> change the location of a bootloader data file in my local.conf, it suddenly
-> decides to rebuild qt4-embedded. I also have two almost identical machines
-> (same cpu, same kernel, just a few different plugs), and I cannot figure out
-> why it builds two separate qt4 binaries.
->
-> So I want to diagnose that. I have no idea where to start.
+- gnome-common finally is GPLv2+
+- omf.patch is included in the new version
 
-bitbake-diffsigs.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch    | 15 ---------------
+ .../{gnome-common_2.28.0.bb => gnome-common_3.7.4.bb}     | 10 +++++-----
+ 2 files changed, 5 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
+ rename meta/recipes-gnome/gnome/{gnome-common_2.28.0.bb => gnome-common_3.7.4.bb} (59%)
 
-Ross
+diff --git a/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch b/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
+deleted file mode 100644
+index 0f9b13c..0000000
+--- a/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Pending
+-
+---- gnome-common-2.4.0/doc-build/omf.make	2003-05-24 08:16:25.000000000 -0700
+-+++ gnome-common-2.4.0.new/doc-build/omf.make	2004-11-15 14:01:12.185155192 -0700
+-@@ -43,7 +43,9 @@
+- install-data-hook-omf:
+- 	$(mkinstalldirs) $(DESTDIR)$(omf_dest_dir)
+- 	for file in $(omffile); do \
+--		$(INSTALL_DATA) $$file.out $(DESTDIR)$(omf_dest_dir)/$$file; \
+-+		if [ -f $$file.out ]; then \
+-+			$(INSTALL_DATA) $$file.out $(DESTDIR)$(omf_dest_dir)/$$file; \
+-+		fi; \
+- 	done
+- 	-scrollkeeper-update -p $(DESTDIR)$(scrollkeeper_localstate_dir) -o $(DESTDIR)$(omf_dest_dir)
+- 
+diff --git a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb b/meta/recipes-gnome/gnome/gnome-common_3.7.4.bb
+similarity index 59%
+rename from meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
+rename to meta/recipes-gnome/gnome/gnome-common_3.7.4.bb
+index e094ccf..7f8d49d 100644
+--- a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-common_3.7.4.bb
+@@ -3,19 +3,19 @@ HOMEPAGE = "http://www.gnome.org/"
+ BUGTRACKER = "https://bugzilla.gnome.org/"
+ 
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SECTION = "x11/gnome"
+-PR = "r3"
++PR = "r0"
+ inherit gnome allarch
+ 
+ # The omf.make file failed if scrollkeeper doesn't happen to be
+ # installed
+ 
+-SRC_URI += "file://omf.patch"
++GNOME_COMPRESS_TYPE = "xz"
+ 
+-SRC_URI[archive.md5sum] = "30daabb0ca4898fea2647999e7813e8f"
+-SRC_URI[archive.sha256sum] = "dd4817103d23745d00c735dd137951552ba7b576cb8f68e6a529d06661e9b6a1"
++SRC_URI[archive.md5sum] = "974cd54626f1d1787481288ef26bd4ba"
++SRC_URI[archive.sha256sum] = "2af2d97010d2a9aeb3b99dd2ce07d1ef023e15a27b412ffe4f067f016ff7117b"
+ 
+ EXTRA_AUTORECONF = ""
+ DEPENDS = ""
+-- 
+1.7.11.7
+
 
 
