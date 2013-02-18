@@ -1,36 +1,47 @@
-Received: from mail-ia0-f174.google.com ([209.85.210.174])
+Received: from mail-ve0-f178.google.com ([209.85.128.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U7QoO-0008Sn-3l
+	(envelope-from <ross.burton@intel.com>) id 1U7Qt7-00008U-DP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 14:31:19 +0100
-Received: by mail-ia0-f174.google.com with SMTP id u20so979743iag.5
+	Mon, 18 Feb 2013 14:36:23 +0100
+Received: by mail-ve0-f178.google.com with SMTP id db10so4723451veb.23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 05:15:07 -0800 (PST)
+	Mon, 18 Feb 2013 05:20:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=YMFKWSsDg9hehHqQFHyE1kpdTdYWvStlTHdm6sVBetg=;
-	b=WsIfMqZTlgmYIUjPIkr3Lqwlo8hnAm7kRmbnYx2WM4Z7gfVQe9LQCDMhuszUqULc7x
-	wwMrBmubObacIVSVGzHSyVf28qYRuJ6TraCmxQ53KeR5jfi990jkfDUXqeh8AxmnSPI9
-	k5NTT/1JTdt8Sv3K0lnPBZ8WvOp5H7/1UdgGMmOyrJyMYCrjiFIOcvT7OAlbSE806VfZ
-	DJvLErLRl0QDWv/PY2qX0JglEMT/78HgGLKi7/X/Qd9twVhBIMBVHc/BWnX0XSOJvBwy
-	fbAgk4m3qh94NYq9eoN+tl6psyrffPmgNvlOjux/cj3ih4hBaLWE1tzs+QCLcqag3UAu
-	Ebew==
-X-Received: by 10.50.196.132 with SMTP id im4mr6582494igc.58.1361193307651;
-	Mon, 18 Feb 2013 05:15:07 -0800 (PST)
+	bh=jM3UxiySUfiJmbxW4yz67HHeEmBPNeC9xSsM702N6aw=;
+	b=JfbNLgF4LOx8bJgaDA9ztVZuRsHLj5B02LfrW+o5uMGp5ybWtpttAhMMRzpswTQUVa
+	dgLZ4UHUJNGpE/DVGBr6Yf4mzHP1vrzdAx033FY5GrlX2PGXrVU+BbZ6jss10yr2K0F8
+	+AgwdwN2Xscc9dEijEh5HpYRxSubtN/4r0CEIImJEneoVFxKGdP0i/vPZNxC3k5Bprj8
+	1Dgk/jFAY42SReMBbFzZB8/ZvcQEXtUeIUwiLV2N3nIPzz2SamehAPYE+NTxsCpshc+3
+	qitiurwbAG+V1pcglB9L3RPJEiKgld2ZFuJLgIeaEaB7YkSyIlzn+2RzeO1AvPAdPLJd
+	/bnQ==
+X-Received: by 10.52.24.98 with SMTP id t2mr13447586vdf.69.1361193601314; Mon,
+	18 Feb 2013 05:20:01 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 05:14:47 -0800 (PST)
-In-Reply-To: <CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
-References: <20130218102402.GA15710@xiaoyu.lan>
-	<CAJTo0LbOcDd5N6Be=sYrEEJdPoPtX5Cw+tnze=0DAhjp53M7hg@mail.gmail.com>
+Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 05:19:40 -0800 (PST)
+In-Reply-To: <51222923.8040104@topic.nl>
+References: <51079663.60504@topic.nl>
+	<20130129094059.GI16904@jama.palm1.palmone.com>
+	<5107A295.2060307@topic.nl>
+	<CAJTo0LYJ8aza9P0V2X_UszE2yWJjGGacWUstPYeoxF0KcwDYxg@mail.gmail.com>
+	<510B73EB.8060907@topic.nl>
+	<CAJTo0LbkOMXqZkHd-JAcNKxiOmXTy+TXPEEJ-CkPc1Jx3Ujekg@mail.gmail.com>
+	<510BBC3D.1030207@topic.nl> <5116A5DA.90500@topic.nl>
+	<CA+chaQfz1S1H4240eArHGYEc8Dh=ghzyLYVm1Eu8JyBWbgWMvA@mail.gmail.com>
+	<A551BDF323A45B48ACE6A404AA16A1C4127A434C@TOP-EX01.TOPIC.LOCAL>
+	<20130210195919.GA3300@jama> <51220AAC.8080201@topic.nl>
+	<CAJTo0LbTZWh7-S3i+GmcPHDoRaRTN6BUniBcoX5_=eE6j21AuQ@mail.gmail.com>
+	<51222923.8040104@topic.nl>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Feb 2013 13:14:47 +0000
-Message-ID: <CAJTo0LZ5iGazfVfmu225HShMJ7AeLWSixtkkGmEwKU0XYMQhKA@mail.gmail.com>
-To: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-X-Gm-Message-State: ALoCoQmMLQZBdca+AAD87wrItDd4TfzFmQ0RXpgGnFLIX0KMYs2sx0JEARxq3b6vX98yJnONrpjF
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: State of systemd from an integrator point of view
+Date: Mon, 18 Feb 2013 13:19:40 +0000
+Message-ID: <CAJTo0LaMUV3m9qejDYecpcgdnY1x0jFAZvWg9H4u0FbHpe7YpQ@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+X-Gm-Message-State: ALoCoQlkcQ4Blz76sEtisB8NADnSwt+9uwIio2AS9W/cghT6ZDFjKWt2JASjd8QPW6BGp1D7y6P3
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: OE-core] How do I find out why are packages being rebuilt?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +54,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 13:31:19 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 13:36:23 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 13:36:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 February 2013 13:10, Burton, Ross <ross.burton@intel.com> wrote:
->> * systemd's journald is not suitable for small devices. I think the default
->> should be to disable the journald and do not disable the busybox log
->> application in the systemd-compat units package. journald is dominated by
->> memory allocations and reading procfs over and over again.
+On 18 February 2013 13:14, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> Change in oe-core I can live with. Things that puzzle me are that when I
+> change the location of a bootloader data file in my local.conf, it suddenly
+> decides to rebuild qt4-embedded. I also have two almost identical machines
+> (same cpu, same kernel, just a few different plugs), and I cannot figure out
+> why it builds two separate qt4 binaries.
 >
-> Agreed, although it would be good if the journal could be tuned.  IMHO
-> it's technically great, just young.
->
-> I wonder if we can split out the bulk of the journal binaries into a
-> separate package, so by default it's disabled and then installing
-> systemd-journal would enable it.
+> So I want to diagnose that. I have no idea where to start.
 
-Just noticed that the disabling of syslog isn't working for me, it
-disables syslog-busybox but there's a syslog symlink to it, which is
-being started. :)
+bitbake-diffsigs.
 
 Ross
 
