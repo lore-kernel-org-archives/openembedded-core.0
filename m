@@ -1,28 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pb0-f41.google.com ([209.85.160.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U7Zpb-0007HQ-NS for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 00:09:10 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1IMxCSX028045; Mon, 18 Feb 2013 22:59:20 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qWDaOfFEck0w; Mon, 18 Feb 2013 22:59:19 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1IMwvMf028023
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 18 Feb 2013 22:59:13 GMT
-Message-ID: <1361194088.5927.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Feb 2013 13:28:08 +0000
-Mime-Version: 1.0
-X-Mailer: Evolution 3.6.3-1 
-Subject: [PATCH RFC] image: Enable fakeroot for the devshell
+	(envelope-from <martin.jansa@gmail.com>) id 1U7aFy-0007z3-PA
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Feb 2013 00:36:42 +0100
+Received: by mail-pb0-f41.google.com with SMTP id um15so1894278pbc.14
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 15:20:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=yzoJyTkabyZpDeSDk/J0jSqdtr5ZAjCQ/h2DAwhx318=;
+	b=e2C27xRGw2p/L1KB2uOGvhhMYD585mYvp4JbItJe6UCtl5BVs/4yz/eNk8mvU5FUVQ
+	eGrgAP+0AAwfM8UTuK91xaVhm5valD3KR5MVj13pabMhXGKp4UWa0ECUVPuhhY4qj5B+
+	F0mWEC06C2tduviQPePnu284FzrEwFlgO4BXNofi2nc2fYreWJmXj0Jsf141vpwY24Wq
+	omtuxr73Cbc8QCxpnYJiKbMBj7YhjyUDbxPDu5FmJB12h3VLbRDCGjZ2kwtDIK/AWSBK
+	SMjBDn0E7FGEO3nJTTge91yXYG51D5DWf9lJMOgmqpKG6VoC2bL5FUf4h/Uc7avNa4Xt
+	aQjQ==
+X-Received: by 10.68.196.168 with SMTP id in8mr16031098pbc.61.1361229613738;
+	Mon, 18 Feb 2013 15:20:13 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id eh5sm15792234pbc.44.2013.02.18.15.20.11
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 18 Feb 2013 15:20:12 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2013 00:20:11 +0100
+Message-Id: <1361229611-32214-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] sanity: check_path_length: replace tab with 8 spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 23:09:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Feb 2013 23:36:45 -0000
 
-The rootfs task runs under fakeroot. This converts the devshell to do the same,
-allowing the user easier debugging of problems like permissions for example.
-
-I'm really after to provoke some discussion with this patch. There are a
-variety of cases where it would be desirable to run devshell in fakeroot
-context. This patch enables it for one, the image generation case but
-there are others.
-
-We have several options:
-
-a) Add these in on a case by case basis. Image generation is one which
-is clearly makes sense to me.
-b) Always enable fakeroot for devshell. The downside is some calls
-accessing the user's session won't work properly. You'd have to run
-those in the form "PSEUDO_UNLOAD=1 <command>"
-c) Add a new fakerootdevshell task which sits along side devshell but
-starts devshell with fakeroot privileges.
-
-Adding a new task is relatively expensive in parsing performance and in
-runqueue generation. I'm not sure whether there is enough of a case for
-two different tasks or that it would user friendly. I'm therefore
-seriously considering b) but would be interested in the opinions of
-others. The attached patch implements a) as a proof of concept. b) would
-be just adding those lines to devshell.bbclass instead.
-
-Regardless of which we pick, we need to document it, cc'ing Scott s he
-knows there is a change in this area brewing and needed before release.
-
-[YOCTO #3374]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/image.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index dd78acb..0d737c3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -184,6 +184,9 @@ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
- do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
- do_build[nostamp] = "1"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 22a89ea..94c6ce3 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -226,7 +226,7 @@ def check_create_long_filename(filepath, pathname):
  
-+do_devshell[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-+do_devshell[fakeroot] = "1"
-+
- # Must call real_do_rootfs() from inside here, rather than as a separate
- # task, so that we have a single fakeroot context for the whole process.
- do_rootfs[umask] = "022"
-
+ def check_path_length(filepath, pathname, limit):
+     if len(filepath) > limit:
+-	return "The length of %s is longer than 410, this would cause unexpected errors, please use a shorter path.\n" % pathname
++        return "The length of %s is longer than 410, this would cause unexpected errors, please use a shorter path.\n" % pathname
+     return ""
+ 
+ def check_connectivity(d):
+-- 
+1.8.1.2
 
 
 
