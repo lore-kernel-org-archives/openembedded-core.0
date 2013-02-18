@@ -1,20 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vc0-f173.google.com ([209.85.220.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U7Q12-0006mC-B2
+	(envelope-from <ross.burton@intel.com>) id 1U7QOn-0007eB-GR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Feb 2013 13:40:22 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Feb 2013 04:22:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,687,1355126400"; d="scan'208";a="264068347"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2013 04:24:06 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Feb 2013 14:25:08 +0200
-Message-Id: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] gdk-pixbuf: upgrade to 2.27.1
+	Mon, 18 Feb 2013 14:05:43 +0100
+Received: by mail-vc0-f173.google.com with SMTP id fy27so590943vcb.32
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Feb 2013 04:48:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=2/WyXU3J0DHHpHjTIEGmH6JGGSRasY6lvSvkZ8fafbU=;
+	b=KHPPc53M5jT9UBe9iuDBkGNK8MyH35DglIpG9eZkFU0Kdzr+JaIg00b0+FCui9OceS
+	EBnnI42FSjqz5j/KbLBETMYZe+Q4oT/5fmWorr/bsBVvOFUUH+CEjhglsYAIfBUOxNxG
+	fgdH8xOSS/EgC9xBLhn0KAr3U78nVrdTnOqxsg5PamuA+j4pJ7G37cJqbTxqD43vOYsL
+	7WIxjIggSzTyMNPMLacU1BX0hyqqaQDs+aQWfeq1V4ZQ7Nh69D8vQqlaXyv271xAXcBS
+	mfKJGR3aJQ4A7LPKdaYvLuc3s2eDgFZY65Bw6K7lYfhTOHAu/7w/NuP1mds4paj5mW6n
+	ggPw==
+X-Received: by 10.52.24.98 with SMTP id t2mr13328667vdf.69.1361191721373; Mon,
+	18 Feb 2013 04:48:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.85.36 with HTTP; Mon, 18 Feb 2013 04:48:21 -0800 (PST)
+In-Reply-To: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
+References: <1361190308-9747-1-git-send-email-constantinx.musca@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Feb 2013 12:48:21 +0000
+Message-ID: <CAJTo0LYjk8Lkzk_VuGaqJRykWdb6fyjGcTyB8qk9p=cCmG016g@mail.gmail.com>
+To: Constantin Musca <constantinx.musca@intel.com>
+X-Gm-Message-State: ALoCoQnNaRj0b8HZ8uIqrRyWiIBNOpEUI51PqbjJ7DOh0vMeWGbqwNPe5hYH1WPQZ9xF+sR6RGpp
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gdk-pixbuf: upgrade to 2.27.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,62 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Feb 2013 12:40:23 -0000
+X-List-Received-Date: Mon, 18 Feb 2013 13:05:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- .../{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/configure_fix.patch  | 0
- .../extending-libinstall-dependencies.patch                       | 0
- .../hardcoded_libtool.patch                                       | 0
- .../gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.27.1.bb}     | 8 ++++----
- 4 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/configure_fix.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/extending-libinstall-dependencies.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf-2.27.1}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.27.1.bb} (93%)
+On 18 February 2013 12:25, Constantin Musca <constantinx.musca@intel.com> wrote:
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/configure_fix.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/configure_fix.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/extending-libinstall-dependencies.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/extending-libinstall-dependencies.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/hardcoded_libtool.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.27.1/hardcoded_libtool.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
-similarity index 93%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
-index cc2ea50..252ac78 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.27.1.bb
-@@ -11,16 +11,16 @@ SECTION = "libs"
- DEPENDS = "libpng glib-2.0 jpeg"
- DEPENDS_append_linuxstdbase = " virtual/libx11"
- 
--SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.26/gdk-pixbuf-${PV}.tar.xz \
-+SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.27/gdk-pixbuf-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
-            file://configure_fix.patch \
-            file://extending-libinstall-dependencies.patch \
-            "
- 
--SRC_URI[md5sum] = "339329e6d619ee3e1cb93979111b04c0"
--SRC_URI[sha256sum] = "77696fd163bca95a130a1883dbd78d0ae4d782de2fc85a9a38556d13681f5c84"
-+SRC_URI[md5sum] = "8ea172466dc3ead706130981e88c219b"
-+SRC_URI[sha256sum] = "028f95552203e522429e3248ff97a433c63c9a57143f10265e7ce48c2bea02b4"
- 
--PR = "r1"
-+PR = "r0"
- 
- inherit autotools pkgconfig gettext pixbufcache
- 
--- 
-1.7.11.7
+NACK.
 
+Odd-minor versions are development releases, so we should keep with
+2.26 until 2.28 is ready.
+
+(2.27.0 onwards seem to imply upgrading librsvg too, as they changed
+their thread semantics)
+
+Ross
 
 
