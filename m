@@ -1,27 +1,27 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U7i21-0008BP-5U
+	(envelope-from <Qi.Chen@windriver.com>) id 1U7i24-0008BV-Hs
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 08:54:32 +0100
+	Tue, 19 Feb 2013 08:54:40 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1J7cLWi006862
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1J7cOkT006865
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 23:38:21 -0800 (PST)
+	Mon, 18 Feb 2013 23:38:24 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 18 Feb 2013 23:38:19 -0800
+	14.2.318.4; Mon, 18 Feb 2013 23:38:22 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 15:38:14 +0800
-Message-ID: <5999ab8f578656b0cb164530cb2c76692a795039.1361258872.git.Qi.Chen@windriver.com>
+Date: Tue, 19 Feb 2013 15:38:16 +0800
+Message-ID: <fa065ceb3d64df5222e903dba2e40e0f774e65c9.1361258872.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1361258872.git.Qi.Chen@windriver.com>
 References: <cover.1361258872.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/4] core-image.bbclass: support read-only rootfs
+Subject: [PATCH 4/4] populate-volatile.sh: improve the handling of link config items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +34,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 07:54:40 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 07:54:41 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The hook function is appended to ROOTFS_POSTPROCESS_COMMAND
-properly to support the 'read-only-rootfs' image feature.
+Previously, if there's a link config item in the config file like
 
+	    l root root 1777 /tmp /var/tmp
+
+and /tmp has existed, the symlink will not be created correctly.
+
+Another example is the /run directory. If /run directory has been
+created by some recipe or script before populate-volatile.sh runs,
+the symlink of /run to /var/run will not be created correctly.
+
+This patch ensures that the system creates symlinks exactly as the
+config file tells it.
+
+[YOCTO #3404]
 [YOCTO #3406]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/core-image.bbclass |    4 ++++
- 1 file changed, 4 insertions(+)
+ .../initscripts-1.0/populate-volatile.sh           |   36 +++++++++++---------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 657d5f2..4c70d32 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -29,6 +29,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
- # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
- # - doc-pkgs            - documentation packages for all installed packages in the rootfs
-+# - read-only-rootfs    - tweaks an image to support read-only rootfs
- #
- PACKAGE_GROUP_x11 = "packagegroup-core-x11"
- PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
-@@ -80,3 +81,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index f1f8793..444c40d 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -68,21 +68,27 @@ mk_dir() {
+ }
  
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
-+
-+# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+ link_file() {
+-	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1" 
++	EXEC="
++	if [ -L \"$2\" ]; then 
++		[ \"$(readlink -f \"$2\")\" != \"$(readlink -f \"$1\")\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; }; 
++	elif [ -d \"$2\" ]; then 
++		for f in $2/* $2/.[^.]*; do [ -e \$f ] && cp -rf \$f $1; done;
++		rm -rf \"$2\";
++		ln -sf \"$1\" \"$2\";
++	else 
++		ln -sf \"$1\" \"$2\";
++	fi
++        "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+ 	
+-	[ -e "$2" ] && {
+-		echo "Cannot create link over existing -${TNAME}-." >&2
+-	} || {
+-		if [ "$ROOT_DIR" = "/" ]; then
+-			eval $EXEC &
+-		else
+-			# For the same reason with create_file(), failures should
+-			# not be logged.
+-			eval $EXEC > /dev/null 2>&1
+-		fi
+-	}
++	if [ "$ROOT_DIR" = "/" ]; then
++		eval $EXEC &
++	else
++		# For the same reason with create_file(), failures should
++		# not be logged.
++		eval $EXEC > /dev/null 2>&1
++	fi
+ }
+ 
+ check_requirements() {
+@@ -149,10 +155,8 @@ apply_cfgfile() {
+ 
+ 		[ "${TTYPE}" = "l" ] && {
+ 			TSOURCE="$TLTARGET"
+-			[ -L "${TNAME}" ] || {
+-				[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
+-				link_file "${TSOURCE}" "${TNAME}" &
+-			}
++			[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
++			link_file "${TSOURCE}" "${TNAME}"
+ 			continue
+ 		}
+ 
 -- 
 1.7.9.5
 
