@@ -1,31 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-we0-f181.google.com ([74.125.82.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U7utX-00089F-Si for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 22:38:36 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1JLSp7x013312; Tue, 19 Feb 2013 21:28:51 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UmSQpnlHIvXi; Tue, 19 Feb 2013 21:28:51 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1JLShCw013307
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 19 Feb 2013 21:28:48 GMT
-Message-ID: <1361308921.5927.48.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ml@communistcode.co.uk
-Date: Tue, 19 Feb 2013 13:22:01 -0800
-In-Reply-To: <51221586.40901@communistcode.co.uk>
-References: <512214FE.3030603@communistcode.co.uk>
-	<51221586.40901@communistcode.co.uk>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Relocatable SDK Perl issues
+	(envelope-from <ross.burton@intel.com>) id 1U7v4u-0008P3-Qp
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Feb 2013 22:50:21 +0100
+Received: by mail-we0-f181.google.com with SMTP id t44so5988189wey.26
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2013 13:34:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=tA6i+tK8os64y7SeY40Q4Mg8MOgTLYwUKD0m6m+LGmE=;
+	b=GoeKnQLRRmUpLEkzHuIbks13RwHYGjRhm34PvFshvhd0q2Z8AzGxIb1Ne5+TT97gOT
+	hqisT3dUfpZ3/ZK12LGD1AGsYcxw6cu7kDMFf1k9ATM8+tQkITMkNhC1LQvZL8QE2QGp
+	N+72R/HBPkabuIHxNVtrBATAV8s9B4rRAT1vBsjX4bW9ilNlysPtuFDgkE/8oTeIxZ6+
+	Gnu6Aobw+uJu+zBC90NwaBA//haEaqtpPBchAZpR9InQEhEvMlFnleMdNOZCTY03TDGE
+	4er/vbXpDpS6+yEB3UR/+USygLRXRZak8cbwE2ZrMCNApKJqeQkRK2ykJ7EXxb5ziDLr
+	9kQA==
+X-Received: by 10.180.107.70 with SMTP id ha6mr15530716wib.10.1361309650907;
+	Tue, 19 Feb 2013 13:34:10 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id gy2sm30347306wib.3.2013.02.19.13.34.08
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 19 Feb 2013 13:34:09 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2013 21:31:52 +0000
+Message-Id: <1361309512-4367-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnUSyIpU75u5mBF3uVc8z//x/K0x85d3OgSle+hOkcgArE5ULPFwUZBn1nARDFlAnifV/di
+Subject: [PATCH] rootfs_ipkg: fix BAD_RECOMMENDATIONS handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,63 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 21:38:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Feb 2013 21:50:22 -0000
 
-On Mon, 2013-02-18 at 11:50 +0000, Jack Mitchell wrote:
-> On 18/02/13 11:48, Jack Mitchell wrote:
-> > The relocatable SDK seems to have had it's perl issues slipped back in 
-> > somewhere.
-> >
-> > Running autoreconf -i on my autotools application leads to the following:
-> >
-> > Can't locate strict.pm in @INC (@INC contains: 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/share/autoconf 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/site_perl/5.14.3/ 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/site_perl/5.14.3 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/vendor_perl/5.14.3/ 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/vendor_perl/5.14.3 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/5.14.3/ 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/5.14.3 
-> > /opt/dblinux/1.0-20130213/sysroots/x86_64-oecore-linux/usr/lib/perl/5.14.3 
-> > .) at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/share/autoconf/Autom4te/Channels.pm 
-> > line 70.
-> > BEGIN failed--compilation aborted at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/share/autoconf/Autom4te/Channels.pm 
-> > line 70.
-> > Compilation failed in require at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/share/autoconf/Autom4te/ChannelDefs.pm 
-> > line 19.
-> > BEGIN failed--compilation aborted at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/share/autoconf/Autom4te/ChannelDefs.pm 
-> > line 19.
-> > Compilation failed in require at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/bin/gnu-configize 
-> > line 40.
-> > BEGIN failed--compilation aborted at 
-> > /mnt/SSD/r0005sdk/130213r0/sysroots/x86_64-oecore-linux/usr/bin/gnu-configize 
-> > line 40.
-> > autoreconf: gnu-configize failed with exit status: 2
-> >
-> > Any ideas? This was broken a while ago (~6 months), and then was fixed 
-> > (~2 months) and it seems to have regressed again somewhere along the way.
-> >
-> 
-> I see a bug that may be along the same lines here: 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3338
-> 
-> Could anyone confirm it's the same issue, if so; I'll sit quiet :)
+If multiple versions of the same package are in the package feed then the
+generate status file would only contains a "deinstall" status for the last one,
+which meant that BAD_RECOMMENDATIONS wouldn't actually work.
 
-Its probably related, hard to tell for sure. It would be good if we
-could get this resolved.
+Use awk instead of grep and stop reading when we reach a newline, so we only
+ever output a single stanza.
 
-Cheers,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/rootfs_ipk.bbclass |   10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Richard
-
-
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 135bb60..a609944 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -46,9 +46,13 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 	for i in ${BAD_RECOMMENDATIONS}; do
+ 		pkginfo="`opkg-cl ${OPKG_ARGS} info $i`"
+ 		if [ ! -z "$pkginfo" ]; then
+-			echo "$pkginfo" | grep -e '^Package:' -e '^Architecture:' -e '^Version:' >> $STATUS
+-			echo "Status: deinstall hold not-installed" >> $STATUS
+-			echo >> $STATUS
++			# Take just the first package stanza as otherwise only
++			# the last one will have the right Status line.
++			echo "$pkginfo" | awk "/^Package:/ { print } \
++                        		       /^Architecture:/ { print } \
++                        		       /^Version:/ { print } \
++                        		       /^$/ { exit } \
++                        		       END { print \"Status: deinstall hold not-installed\n\" }" - >> $STATUS
+ 		else
+ 			echo "Requested ignored recommendation $i is not a package"
+ 		fi
+-- 
+1.7.10.4
 
 
 
