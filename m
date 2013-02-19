@@ -1,34 +1,20 @@
-Received: from mail-lb0-f176.google.com ([209.85.217.176])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1U7o3t-00028F-8C
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U7oE0-0002Kn-JO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 15:20:55 +0100
-Received: by mail-lb0-f176.google.com with SMTP id s4so5031926lbc.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2013 06:04:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=neGwvBBAwASbvvLjylR/faaHyB7P0kW1MAbYUaTIMxc=;
-	b=tiMqWTOqs1Q2dKjQ70mhWpcZ32a7/TkI1ybKHChyCDMC2PSaJsImsz2cFwTqqeJsYq
-	pa0Ea91hyuAM9s0KacDjw4M8Vv7+9YfDVr+/fiq+CzYF2d+Cs57d23txwCNc8ghbmzPY
-	GHSnjDAmC/rH4qhM0c2owXOR2zUt2VR0riX6/GlkyG2Evu9a24fv8vKWXSd1/a4ZkA46
-	lvlGBRhzZcPa7MgvTUIC6PonRpgij/LnQ6+0C9ikiA5IXNJaDxA8lKEsiQbeGCKyHRx4
-	dg1tBWOBS37tm2f1jTPx0qkNMl6JFSjeV2kuerSzP63PhFDZLXjqAzRPX6iXY4hRzxfs
-	S7tw==
-MIME-Version: 1.0
-X-Received: by 10.152.123.194 with SMTP id mc2mr14443191lab.7.1361282679194;
-	Tue, 19 Feb 2013 06:04:39 -0800 (PST)
-Received: by 10.114.28.73 with HTTP; Tue, 19 Feb 2013 06:04:39 -0800 (PST)
-In-Reply-To: <1361279644-17675-2-git-send-email-bjst@enea.com>
-References: <1361279644-17675-1-git-send-email-bjst@enea.com>
-	<1361279644-17675-2-git-send-email-bjst@enea.com>
-Date: Tue, 19 Feb 2013 15:04:39 +0100
-Message-ID: <CAC1BbcQ5dY8G5qsu6LSx2J9MdW8ePqE7eFhf7g0LoxRS726qKA@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: =?ISO-8859-1?Q?Bj=F6rn_Stenberg?= <bjst@enea.com>
-Cc: Daniel Dai <daniel.dai@enea.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] busybox: Add ptest
+	Tue, 19 Feb 2013 15:31:24 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Feb 2013 06:15:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,695,1355126400"; d="scan'208";a="258811377"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 19 Feb 2013 06:15:05 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2013 16:15:03 +0200
+Message-Id: <1361283303-12281-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] toolchain-scripts.bbclass: add PYTHONHOME variable to environment-setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,96 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 14:20:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Feb 2013 14:31:25 -0000
 
-On 19 February 2013 14:13, Bj=F6rn Stenberg <bjst@enea.com> wrote:
-> From: Daniel Dai <daniel.dai@enea.com>
->
->
-> Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc       |    2 +-
->  meta/recipes-core/busybox/busybox_1.20.2.bb |   10 ++++++++++
->  meta/recipes-core/busybox/files/run-ptest   |   11 +++++++++++
->  3 files changed, 22 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-core/busybox/files/run-ptest
->
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
-sybox/busybox.inc
-> index 972e7d0..bd1581c 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -35,7 +35,7 @@ CONFFILES_${PN}-mdev =3D "${sysconfdir}/mdev.conf"
->
->  RRECOMMENDS_${PN} =3D "${PN}-syslog ${PN}-udhcpc"
->
-> -inherit cml1 update-rc.d
-> +inherit cml1 update-rc.d ptest
->
->  # internal helper
->  def busybox_cfg(feature, features, tokens, cnf, rem):
-> diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-c=
-ore/busybox/busybox_1.20.2.bb
-> index 783261e..b2e5d47 100644
-> --- a/meta/recipes-core/busybox/busybox_1.20.2.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
-> @@ -28,9 +28,19 @@ SRC_URI =3D "http://www.busybox.net/downloads/busybox-=
-${PV}.tar.bz2;name=3Dtarball \
->             file://fix-for-spurious-testsuite-failure.patch \
->             file://busybox-1.20.2-kernel_ver.patch \
->             file://stat-usr-bin.patch \
-> +           file://run-ptest \
->             file://testsuite-du-du-k-works-fix-false-positive.patch"
->
->  SRC_URI[tarball.md5sum] =3D "e025414bc6cd79579cc7a32a45d3ae1c"
->  SRC_URI[tarball.sha256sum] =3D "eb13ff01dae5618ead2ef6f92ba879e9e0390f95=
-83bd545d8789d27cf39b6882"
->
->  EXTRA_OEMAKE +=3D "V=3D1 ARCH=3D${TARGET_ARCH} CROSS_COMPILE=3D${TARGET_=
-PREFIX} SKIP_STRIP=3Dy"
-> +
-> +do_install_append () {
-> +    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-> +        ptest_do_install
-> +        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
-> +        cp ${B}/.config      ${D}${PTEST_PATH}/
-> +        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
-> +    fi
-> +}
-> diff --git a/meta/recipes-core/busybox/files/run-ptest b/meta/recipes-cor=
-e/busybox/files/run-ptest
-> new file mode 100644
-> index 0000000..8eadce9
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/files/run-ptest
-> @@ -0,0 +1,11 @@
-> +#!/bin/sh
-> +
-> +current_dir=3D"`readlink -f $0`"
+When relocating the SDK, applications using python will search for
+python modules in the default location and will fail to start.
+The below errors are thrown by gdb, for example:
 
-quoting the return value of a subshell is a bit arcane. Furthermore
-you should nowadays make habit of using $()
-current_dir=3D$(readlink -f $0)
+Could not find platform independent libraries <prefix>
+Could not find platform dependent libraries <exec_prefix>
+Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+ImportError: No module named site
 
-> +export bindir=3D"`dirname $current_dir`"
-likewise
-> +
-> +cd testsuite
-> +if [ $? -ne 0 ]; then
-> +        exit 1
-> +fi
+In order to overcome this, add the PYTHONHOME variable to the
+environment-setup script for both standalone toolchain and
+adt-installer. No need to do that for meta-ide-support environment
+script since this toolchain does not get relocated.
 
-just
-cd testsuite || exit 1
+[YOCTO #3839]
 
-> +
-> +./runtest -v | sed  -e 's/^SKIPPED:/SKIP:/' | sed -e 's/^UNTESTED:/SKIP:=
-/'
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/classes/toolchain-scripts.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
 
-| sed -e 's/^(SKIPPED|UNTESTED):/SKIP:/'
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 6d8623c..d336397 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -45,6 +45,7 @@ toolchain_create_sdk_env_script () {
+ 	echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
+ 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+ 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
++	echo 'export PYTHONHOME=${SDKPATHNATIVE}${prefix_nativesdk}' >> $script
+ }
+ 
+ # This function creates an environment-setup-script in the TMPDIR which enables
+@@ -132,6 +133,7 @@ toolchain_create_sdk_env_script_for_installer () {
+         echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
+ 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+ 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
++	echo 'export PYTHONHOME=${SDKPATHNATIVE}${prefix_nativesdk}' >> $script
+ }
+ 
+ #we get the cached site config in the runtime
+-- 
+1.7.9.5
 
-thanks,
 
 
