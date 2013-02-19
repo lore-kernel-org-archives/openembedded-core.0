@@ -1,20 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-la0-f49.google.com ([209.85.215.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1U7lgI-0006GG-6P
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U7lng-0006Om-Ka
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 12:48:23 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2013 03:30:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,695,1355126400"; d="scan'208";a="287603622"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.61])
-	by orsmga002.jf.intel.com with ESMTP; 19 Feb 2013 03:32:06 -0800
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2013 13:32:48 +0200
-Message-Id: <1361273568-30066-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libpng : update to 1.60.0
+	Tue, 19 Feb 2013 12:56:00 +0100
+Received: by mail-la0-f49.google.com with SMTP id fs13so6288014lab.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2013 03:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=9lJElOpRxtIqGpm0bcWjfANxoxnqQ5H730KOV6gKwuc=;
+	b=QhjGCzrVxD752fVg75Nt1H4z3gr5MPuIZblHigFVG/Sbe8j+qbnN+mOAXbSj56aWGO
+	XCZjHMBPXE/0OOIxuGCOc4xyPgK+GIOAgBbrZbI5GigMuc+s5QkSdZePE31n6QCHkvkM
+	muBUT08Vbi2JaojlziQGiUWhxZwRv2b/qgwBfR9l0AMKKlR30BpABc02zB5jauM5cEUD
+	9uQF0wMx1qpuMzrXtTxWJzKM/cqM7K8h0Btt3dAlOsoSIN1iOy50cpZGDmq+s0lPqutd
+	8W4n13KblFuJN21jDA+g4+AVOsPFeSOk0PEmJtGcpZPzJH43OIMaPf8howAO73q+soYZ
+	2YnQ==
+MIME-Version: 1.0
+X-Received: by 10.152.125.239 with SMTP id mt15mr13924295lab.26.1361273987287; 
+	Tue, 19 Feb 2013 03:39:47 -0800 (PST)
+Received: by 10.114.28.73 with HTTP; Tue, 19 Feb 2013 03:39:47 -0800 (PST)
+In-Reply-To: <faa3ee348ac4e3d74d7f2f00d954ed6ee845bba1.1361258872.git.Qi.Chen@windriver.com>
+References: <cover.1361258872.git.Qi.Chen@windriver.com>
+	<faa3ee348ac4e3d74d7f2f00d954ed6ee845bba1.1361258872.git.Qi.Chen@windriver.com>
+Date: Tue, 19 Feb 2013 12:39:47 +0100
+Message-ID: <CAC1BbcQHHs+La4h=0GaHWWWsFzpe8EffJKHNyMdPWzNb+0znWw@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Qi.Chen@windriver.com
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] image.bbclass: add a hook funtion to support readonly rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,46 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 11:48:23 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 11:56:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- .../libpng/{libpng_1.5.14.bb => libpng_1.6.0.bb}   |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.5.14.bb => libpng_1.6.0.bb} (50%)
+On 19 February 2013 08:38,  <Qi.Chen@windriver.com> wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+> volatile.sh script run at rootfs time.
+>
+> For now, it has real effect only if the init system is sysvinit.
+>
+> [YOCTO #3406]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/image.bbclass |   18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index dd78acb..7d533b6 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -233,6 +233,24 @@ run_intercept_scriptlets () {
+>         fi
+>  }
+>
+> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+> +# Currently, it only supports sysvinit system.
+> +read_only_rootfs_hook () {
+> +       if ${@base_contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
+> +               # Tweak the mount option in fstab
+> +               sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.5.14.bb b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
-similarity index 50%
-rename from meta/recipes-multimedia/libpng/libpng_1.5.14.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.0.bb
-index b2b82d3..951e34a 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.5.14.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
-@@ -3,17 +3,17 @@ DESCRIPTION = "PNG Library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=58c8238139ee86082f8d29eb89304241 \
--                    file://png.h;beginline=207;endline=321;md5=4f17771edaee8bb3c17a95d7faaa3681"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=03b8ec701cb796c0ec84af22f884edef \
-+                    file://png.h;beginline=207;endline=321;md5=e829cebefd08488ba5142ea5faea6821"
- DEPENDS = "zlib"
- PR = "r0"
--LIBV = "15"
-+LIBV = "16"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-           "
- 
--SRC_URI[md5sum] = "94284b01d62ca43c5eb3f6702db08ed8"
--SRC_URI[sha256sum] = "1459488e1b58d3be1c798453cf40c522c05bd66b61156cd51f469f17dff87b54"
-+SRC_URI[md5sum] = "3ee623b9a4d33bda7310a5124080b14d"
-+SRC_URI[sha256sum] = "5e13c31321083b03956b5ff298bacffab7a7ad35c34c122acef314593944b97b"
- 
- inherit autotools binconfig pkgconfig
- 
--- 
-1.7.9.5
+to be cautious i would say
+sed -i -e '/^[#[:space:]]*rootfs/s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+for ro rootfs fs_passno should be set to 0, too, imo:
+sed -i -e '/^[#[:space:]]*rootfs/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}'
+${IMAGE_ROOTFS}/etc/fstab
 
+> +               # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+> +               if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+> +                       sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+> +               fi
+> +               # Run populate-volatile.sh at rootfs time to set up basic files
+> +               # and directories to support read-only rootfs.
+> +               if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+
+-x if you want to execute it below.
+> +                       ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+> +               fi
+> +       fi
+> +}
+> +
+>  fakeroot do_rootfs () {
+>         #set -x
+>         # When use the rpm incremental image generation, don't remove the rootfs
 
 
