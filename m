@@ -1,27 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U7iMg-0000iG-MX
+	(envelope-from <constantinx.musca@intel.com>) id 1U7iX9-0000x1-Tf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 09:15:51 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1J7xfXB009486
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 23:59:41 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 18 Feb 2013 23:59:40 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 15:59:40 +0800
-Message-ID: <6c5df3ee0d370bc7054d53832937ce70b6c9ee57.1361260478.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1361260478.git.Qi.Chen@windriver.com>
-References: <cover.1361260478.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] hwclock.sh: check for the existence of /etc/default/rcS
+	Tue, 19 Feb 2013 09:26:40 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 19 Feb 2013 00:10:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,693,1355126400"; d="scan'208";a="203894617"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Feb 2013 00:10:28 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2013 10:11:30 +0200
+Message-Id: <1361261490-400-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v2] groff: upgrade to 1.22.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +27,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 08:15:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Feb 2013 08:26:41 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+- add code for generating the gnulib configure script
+- replace /usr/bin/perl with /usr/bin/env perl
 
-/etc/default/rcS might be missing if the init manager is not sysvinit.
-So we have to check for the existence of this file before sourcing it.
-
-[YOCTO #3697]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-core/busybox/files/hwclock.sh |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../groff/{groff_1.20.1.bb => groff_1.22.2.bb}           | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/groff/{groff_1.20.1.bb => groff_1.22.2.bb} (79%)
 
-diff --git a/meta/recipes-core/busybox/files/hwclock.sh b/meta/recipes-core/busybox/files/hwclock.sh
-index cc6d286..be5f94d 100644
---- a/meta/recipes-core/busybox/files/hwclock.sh
-+++ b/meta/recipes-core/busybox/files/hwclock.sh
-@@ -20,7 +20,7 @@
+diff --git a/meta/recipes-extended/groff/groff_1.20.1.bb b/meta/recipes-extended/groff/groff_1.22.2.bb
+similarity index 79%
+rename from meta/recipes-extended/groff/groff_1.20.1.bb
+rename to meta/recipes-extended/groff/groff_1.22.2.bb
+index 157365b..d1361ab 100644
+--- a/meta/recipes-extended/groff/groff_1.20.1.bb
++++ b/meta/recipes-extended/groff/groff_1.22.2.bb
+@@ -4,14 +4,14 @@ formatting commands and produces formatted output."
+ SECTION = "base"
+ HOMEPAGE = "ftp://ftp.gnu.org/gnu/groff/"
+ LICENSE = "GPLv2"
+-PR = "r2"
++PR = "r0"
  
- [ ! -x /sbin/hwclock ] && exit 0
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--. /etc/default/rcS
-+[ -f /etc/default/rcS ] && . /etc/default/rcS
+ SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz"
  
- [ "$UTC" = "yes" ] && tz="--utc" || tz="--localtime"
- case "$1" in
+-SRC_URI[md5sum] = "48fa768dd6fdeb7968041dd5ae8e2b02"
+-SRC_URI[sha256sum] = "b645878135cb620c6c417c5601bfe96172245af12045540d7344938b4c2cd805"
++SRC_URI[md5sum] = "9f4cd592a5efc7e36481d8d8d8af6d16"
++SRC_URI[sha256sum] = "380864dac4772e0c0d7b1282d25d0c5fd7f63baf45c87c4657afed22a13d2076"
+ 
+ DEPENDS = "groff-native"
+ DEPENDS_class-native = ""
+@@ -34,10 +34,18 @@ do_configure_prepend() {
+ 	fi
+ }
+ 
++do_configure_append() {
++    # generate gnulib configure script
++    olddir=`pwd`
++    cd ${S}/src/libs/gnulib/
++    ACLOCAL="$ACLOCAL" autoreconf -Wcross --verbose --install --force ${EXTRA_AUTORECONF} $acpaths || bbfatal "autoreconf execution failed."
++    cd ${olddir}
++}
++
+ do_install_append() {
+ 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+ 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
+-	for i in afmtodit mmroff; do
++	for i in afmtodit mmroff gropdf pdfmom; do
+ 		if [ -f ${D}${bindir}/$i ]; then
+ 			sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/$i
+ 		fi
 -- 
-1.7.9.5
+1.7.11.7
 
 
 
