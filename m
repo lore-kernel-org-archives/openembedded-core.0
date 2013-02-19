@@ -1,38 +1,22 @@
-Received: from mail-wi0-f176.google.com ([209.85.212.176])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U7mMw-0007Gk-OR
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nH9-0000Kc-M2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 13:32:23 +0100
-Received: by mail-wi0-f176.google.com with SMTP id hm14so4688690wib.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2013 04:16:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=LAxd4T38Q7HktsJ/pmZALHWtcYYcs7uku+3JLrNm/3I=;
-	b=VnS37wP0VS8ygu86xIFC5I/pAgJ4NazgDXvUsXZc/AQh3+3oX0//Quyyl15Itj5v2E
-	UKWfiPlg2RBNhgyhrusKWE5Ybc0h6lL1jOUQhxTw8c9AhxDxQn+T1F/EkaIBBjlOBecL
-	44lZOcdK+vn4ATOo+nR1VsUKvtMLPWNJuDhGaCI3GCc8G109i6FUWsiOb2GmmQZxKuEX
-	V3jqdvEmQL0we2FuKWRne6+frLauAdILezXvxqRpJV4INShJZVQPvavcUOpeDo6+XsLB
-	K9KJqCVgdWjPK3SgyGUh/g5aGZph0jJmg1meSYw+QPRkv9desJjHJxFp9O3yPnKp3t+R
-	ynSg==
-X-Received: by 10.180.14.233 with SMTP id s9mr24926805wic.25.1361276164621;
-	Tue, 19 Feb 2013 04:16:04 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fg6sm27407696wib.10.2013.02.19.04.16.03
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 19 Feb 2013 04:16:03 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2013 12:13:42 +0000
-Message-Id: <1361276022-22204-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1361276022-22204-1-git-send-email-ross.burton@intel.com>
-References: <1361276022-22204-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlgB8NfBYxB3zSEYbd7he3sra49cDWHHxFrCDuEMqe6/WC9cpzKD8YafoBj8DHfMS9o3vlt
-Cc: Jeremy Stashluk <stashluk@gmail.com>, jstashluk@dekaresearch.com
-Subject: [PATCH][V2] gst-plugins-gl: add package recipe
+	Tue, 19 Feb 2013 14:31:32 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Tue, 19 Feb 2013 14:14:17 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id C26C3291D4B;
+	Tue, 19 Feb 2013 14:14:17 +0100 (CET)
+From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Feb 2013 14:13:56 +0100
+Message-ID: <1361279644-17675-1-git-send-email-bjst@enea.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Subject: [PATCH 0/8] Ptest additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,89 +29,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 12:32:23 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 13:31:35 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 13:31:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jeremy Stashluk <stashluk@gmail.com>
+Here is a handful ptest additions for various packages.
+Also included is a minor tweak for ptest.bbclass.
 
-Added notes, signoff, and upstream status to internal patch.
+Anders Roxell (1):
+  zlib: Add ptest
 
-Signed-off-by: Jeremy Stashluk <jstashluk@dekaresearch.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...-conditional-gl-framebuffer-undefined-use.patch |   35 ++++++++++++++++++++
- .../gstreamer/gst-plugins-gl_0.10.3.bb             |   19 +++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-gl/0001-conditional-gl-framebuffer-undefined-use.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+Bj=C3=B6rn Stenberg (4):
+  bzip2: Add ptest
+  openssh: Add ptest
+  openssl: Add ptest
+  ptest: Add missed .debug path
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl/0001-conditional-gl-framebuffer-undefined-use.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-gl/0001-conditional-gl-framebuffer-undefined-use.patch
-new file mode 100644
-index 0000000..bc2f88b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl/0001-conditional-gl-framebuffer-undefined-use.patch
-@@ -0,0 +1,35 @@
-+From 14d51cbefef19737e7ab2b6818ee1d3bdb248d12 Mon Sep 17 00:00:00 2001
-+From: Jeremy Stashluk <jstashluk@dekaresearch.com>
-+Date: Wed, 6 Feb 2013 09:59:48 -0500
-+Subject: [PATCH] conditional gl framebuffer undefined use
-+
-+The OpenGL extension GL_ARB_framebuffer_object defines the macro
-+GL_FRAMEBUFFER_UNDEFINED. The macro will only need to map to an error
-+string if the extension provides functions that might return the macro.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Jeremy Stashluk <jstashluk@dekaresearch.com>
-+---
-+ gst-libs/gst/gl/gstgldisplay.c |    2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gst-libs/gst/gl/gstgldisplay.c b/gst-libs/gst/gl/gstgldisplay.c
-+index 3ed0b71..64c6c2c 100644
-+--- a/gst-libs/gst/gl/gstgldisplay.c
-++++ b/gst-libs/gst/gl/gstgldisplay.c
-+@@ -2177,9 +2177,11 @@ gst_gl_display_check_framebuffer_status (void)
-+       GST_ERROR ("GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
-+       break;
-+ 
-++#if defined(GL_ARB_framebuffer_object)
-+     case GL_FRAMEBUFFER_UNDEFINED:
-+       GST_ERROR ("GL_FRAMEBUFFER_UNDEFINED");
-+       break;
-++#endif
-+ 
-+     default:
-+       GST_ERROR ("General FBO error");
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-new file mode 100644
-index 0000000..ffda977
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-@@ -0,0 +1,19 @@
-+require recipes-multimedia/gstreamer/gst-plugins.inc
-+
-+LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
-+LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-+
-+SRC_URI[md5sum] = "ac70ede13f79978d56eaed8abaa3c938"
-+SRC_URI[sha256sum] = "48340b6a4b8abce16344a7bc33e74a94fdcce4f57ef6342cdf2f941c429bf210"
-+
-+SRC_URI += " file://0001-conditional-gl-framebuffer-undefined-use.patch"
-+
-+DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg"
-+
-+inherit gettext gconf
-+
-+# This package doesn't have a configure switch for EGL or GL, so forcibly tell
-+# configure that it can't find gl.h so it always uses EGL.  If/when we have some
-+# way for machines to specify their preferred GL flavour this can be
-+# automatically adapted.
-+EXTRA_OECONF += "ac_cv_header_GL_gl_h=no"
--- 
-1.7.10.4
+Daniel Dai (1):
+  busybox: Add ptest
+
+Rick Yang (1):
+  acl: Add ptest
+
+Jack Zhang (1):
+  udev: Add ptest
+
+ meta/classes/ptest.bbclass                         |    3 +-
+ .../add-test-support-for-busybox.patch             |   61 ++++++++++++++++
+ .../openssh/openssh-6.1p1/run-ptest                |    7 ++
+ meta/recipes-connectivity/openssh/openssh_6.1p1.bb |   11 +++-
+ .../openssl/openssl-1.0.0j/Makefiles-ptest.patch   |   74 ++++++++++++++++=
+++++
+ .../openssl/openssl-1.0.0j/run-ptest               |    2 +
+ meta/recipes-connectivity/openssl/openssl.inc      |   19 +++++-
+ .../recipes-connectivity/openssl/openssl_1.0.0j.bb |    2 +
+ meta/recipes-core/busybox/busybox.inc              |    2 +-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |   10 +++
+ meta/recipes-core/busybox/files/run-ptest          |   11 +++
+ meta/recipes-core/udev/udev.inc                    |   19 +++++-
+ .../recipes-core/udev/udev/add-install-ptest.patch |   60 ++++++++++++++++
+ meta/recipes-core/udev/udev/run-ptest              |    3 +
+ .../zlib/zlib-1.2.7/Makefile-runtests.patch        |   38 ++++++++++
+ meta/recipes-core/zlib/zlib-1.2.7/run-ptest        |    7 ++
+ meta/recipes-core/zlib/zlib_1.2.7.bb               |   22 ++++++
+ .../recipes-extended/bzip2/bzip2-1.0.6/Makefile.am |   32 +++++++++
+ meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest  |    2 +
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |   10 +++-
+ meta/recipes-support/attr/acl_2.2.51.bb            |   21 ++++++
+ .../attr/files/add-runtest-target.patch            |   26 +++++++
+ meta/recipes-support/attr/files/run-ptest          |    8 ++
+ 23 files changed, 443 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.1p1/add-tes=
+t-support-for-busybox.patch
+ create mode 100755 meta/recipes-connectivity/openssh/openssh-6.1p1/run-pte=
+st
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/Makefi=
+les-ptest.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/run-pt=
+est
+ create mode 100644 meta/recipes-core/busybox/files/run-ptest
+ create mode 100644 meta/recipes-core/udev/udev/add-install-ptest.patch
+ create mode 100755 meta/recipes-core/udev/udev/run-ptest
+ create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.pat=
+ch
+ create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/run-ptest
+ create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest
+ create mode 100644 meta/recipes-support/attr/files/add-runtest-target.patc=
+h
+ create mode 100644 meta/recipes-support/attr/files/run-ptest
+
+--=20
+1.7.5.4
 
 
 
