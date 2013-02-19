@@ -1,36 +1,27 @@
-Received: from mail-ob0-f169.google.com ([209.85.214.169])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1U7aem-0000SL-9G
+	(envelope-from <sgw@linux.intel.com>) id 1U7f21-0008Qg-2K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 01:02:08 +0100
-Received: by mail-ob0-f169.google.com with SMTP id ta14so6068227obb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Feb 2013 15:45:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=JmoHUqz0QZK2T8/hGzlZ7W0Eb3rgejCVMKuR97xeVSM=;
-	b=haV/Pgc0x7U0a/M5mxLF6fw6iEUATq8uj6Frkghld7Dbxpu/9dO49FNFPoJXiEOVUg
-	t8dQ0mE+rdJzRnyHbojUNIDThJ/0FX8GwpYLBdwlSf63mCyS5KrR6PwwqNiHHXU9ia50
-	Y41JEaNnZ2WWHcOudA6F1dRQLeID8ANMpPBYil8quPp/Dddc5g0PZow7QZkozfbWbYTV
-	b//ObRKgM3oRI9Rpbk7VTW05wDUAR32E4EoiqlnAhfF8ELqOMXuLwYPp/tZi5vGo4qjD
-	4rzUq76a+dvZvQiR/Xibv9mg8TLu+IqVa9ME4AapwKE56r5t8qqv+AmbjDuU3OsnQFgv
-	d/xw==
+	Tue, 19 Feb 2013 05:42:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 Feb 2013 20:26:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,692,1355126400"; d="scan'208";a="258644662"
+Received: from unknown (HELO [10.255.13.21]) ([10.255.13.21])
+	by azsmga001.ch.intel.com with ESMTP; 18 Feb 2013 20:26:04 -0800
+Message-ID: <5122FEDC.2020709@linux.intel.com>
+Date: Mon, 18 Feb 2013 20:26:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.60.20.7 with SMTP id j7mr6872522oee.40.1361231151332; Mon,
-	18 Feb 2013 15:45:51 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.2.197 with HTTP; Mon, 18 Feb 2013 15:45:51 -0800 (PST)
-In-Reply-To: <1361229968-9068-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1361229968-9068-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Mon, 18 Feb 2013 20:45:51 -0300
-X-Google-Sender-Auth: ufeC6SVLOq6ahiXqzS2RLDxXo6o
-Message-ID: <CAP9ODKrn_Ptmhz7-t5uMprxQBt8DzH5ERKbWy=BGv6gA0cJRuw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] sanity: use lsb distro_identifier
+To: Mike Looijmans <mike.looijmans@topic.nl>
+References: <1361029505-32439-1-git-send-email-milo-software@users.sourceforge.net>
+	<512208FD.20401@topic.nl>
+In-Reply-To: <512208FD.20401@topic.nl>
+Cc: openembedded-core@lists.openembedded.org,
+	MiLo <milo-software@users.sourceforge.net>
+Subject: Re: [PATCH] (ping) util-linux: Add package for libmount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,30 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 00:02:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 19 Feb 2013 04:42:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 18, 2013 at 8:26 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * distro_identifier returns lsb_data['Distributor ID']-lsb_data['Release']
->   which in some cases is different then lsb_release -d -s, e.g.
->   Distributor ID: Ubuntu
->   Description:    Ubuntu 12.04 LTS
->   Release:        12.04
->   Codename:       precise
->   But we probably don't need to sanity list each point release in LTS
->   and sstate is already using distro_identifier as prefix for native
->   sstate archives
-> * This will need update to SANITY_TESTED_DISTROS (at least
->   s/Ubuntu 12.04 LTS/Ubuntu-12.04/g etc), that's why sending as RFC
->   first.
+On 02/18/2013 02:57 AM, Mike Looijmans wrote:
+> Haven't seen any reactions (good or bad), So I thought I'd give it a
+> ping as the wiki suggested. I'd really like to see this fixed.
 >
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Mike,
 
-It makes sense for me. It easy the maintainence of the tested distros list.
+Many of us are traveling this week to ELC in San Francisco and it was a 
+long weekend in the US.  I will be working on a master under test and 
+merging with RP this week, but expect slower response.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Thanks for understanding
+Sau!
+
+> On 02/16/2013 04:45 PM, MiLo wrote:
+>> The libmount shared library was part of util-linux. This caused
+>> util-linux-mount to RDEPEND on util-linux, so including that would
+>> also drag in all of util-linux and all its recommendations.
+>>
+>> To break this circular dependency, add a libmount package that holds
+>> the libmount.so.* files, just like the other libraries built by util-
+>> linux.
+>>
+>> ---
+>> meta/recipes-core/util-linux/util-linux.inc       |    3 +++
+>>   meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
+>>   2 files changed, 4 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc
+>> b/meta/recipes-core/util-linux/util-linux.inc
+>> index 10439c0..bd7b089 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -31,6 +31,7 @@ SRC_URI =
+>> "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+>>   PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk
+>> util-linux-sfdisk \
+>>                util-linux-swaponoff util-linux-losetup
+>> util-linux-umount \
+>>                util-linux-mount util-linux-readprofile
+>> util-linux-libblkid \
+>> +             util-linux-libmount util-linux-libmount-dev \
+>>                util-linux-libblkid-dev util-linux-libuuid
+>> util-linux-libuuid-dev \
+>>                util-linux-uuidgen util-linux-lscpu util-linux-fsck
+>> util-linux-blkid \
+>>                util-linux-mkfs util-linux-mcookie util-linux-reset"
+>> @@ -64,6 +65,8 @@ FILES_util-linux-reset = "${base_bindir}/reset"
+>>
+>>   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
+>>   FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so
+>> ${base_libdir}/libblkid.la ${includedir}/blkid
+>> ${libdir}/pkgconfig/blkid.pc"
+>> +FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+>> +FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so
+>> ${base_libdir}/libmount.la ${includedir}/libmount
+>> ${libdir}/pkgconfig/mount.pc"
+>>   FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
+>>   FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so
+>> ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+>>   FILES_util-linux-lscpu = "${bindir}/lscpu"
+>> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> index dd95573..f91784b 100644
+>> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> @@ -1,5 +1,5 @@
+>>   MAJOR_VERSION = "2.22"
+>> -PR = "r0"
+>> +PR = "r1"
+>>   require util-linux.inc
+>>
+>>   # note that `lscpu' is under GPLv3+
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
