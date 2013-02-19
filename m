@@ -1,35 +1,20 @@
-Received: from mail-vb0-f41.google.com ([209.85.212.41])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U7lTe-0005zg-Vd
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1U7lgI-0006GG-6P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 12:35:38 +0100
-Received: by mail-vb0-f41.google.com with SMTP id l22so4140472vbn.14
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2013 03:19:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=2HS/QOMLBw+PD4hrZPEncHHDnHvPBjBv9MumrTfyBrQ=;
-	b=hwbePgc/JWlrAb7t4liYXiuHwx+xi5DPCDnIRap5HxPEJBZ3/bVXnY/Yq4Q5NvSn3L
-	SXG5MLPXLCOYsTCg1F8JOgMbW0COTi5pCrAKkNdxJoDsrxleaDNePFQxmatLzfzZBMSM
-	WzrdBTMcWWfelRyBC7oG7q9/30FXdfp0U1a0xUfC+nuwfZIZvySQJXM+J/RWXXC27BHh
-	aGKZV5o2CeRUnEMek8NyCB5JnyRO2VS4wg5NpHICUmGo633IQ4OVFFSG0CNxtYo870Id
-	q/HHGBbX6/QH+eVPUuBIFXK4Gax0pT07+RCU9Tib+R8hlde9/fNH7Myf7SfRlAk7ZXnH
-	NGmg==
-X-Received: by 10.58.252.72 with SMTP id zq8mr20701237vec.20.1361272745492;
-	Tue, 19 Feb 2013 03:19:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Tue, 19 Feb 2013 03:18:45 -0800 (PST)
-In-Reply-To: <1360979912-470-1-git-send-email-denis@denix.org>
-References: <1360979912-470-1-git-send-email-denis@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Feb 2013 11:18:45 +0000
-Message-ID: <CAJTo0LYsEN7X_pDA40qsrCkrX_-A=oLr3Tae7tvrE59VcBXbiA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-X-Gm-Message-State: ALoCoQnIesDZj6gahR0rruBrOjqiUEScr/dawEc3b4cg0fkiGcXBsb2PeCUdeeoveFy0QNOCahW3
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][for-danny] scripts/bitbake: Remove all instances of paths to a layer's scripts directory.
+	Tue, 19 Feb 2013 12:48:23 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2013 03:30:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,695,1355126400"; d="scan'208";a="287603622"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.61])
+	by orsmga002.jf.intel.com with ESMTP; 19 Feb 2013 03:32:06 -0800
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Feb 2013 13:32:48 +0200
+Message-Id: <1361273568-30066-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] libpng : update to 1.60.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,26 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 11:35:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 19 Feb 2013 11:48:23 -0000
 
-On 16 February 2013 01:58, Denys Dmytriyenko <denis@denix.org> wrote:
-> From: "Franklin S. Cooper Jr" <fcooper@ti.com>
->
-> * Currently the assumption is made that only oe-core can include a scripts
->   directory.
->
-> * However, when other layers create a scripts directory the bitbake script
->   freaks out causing a infinite recursive loop until it crashes.
->
-> * Simply changing the regular expression to remove all instances of scripts path
->   instead of just the first one fixes this problem.
->
->  [Yocto Bug 3872]
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../libpng/{libpng_1.5.14.bb => libpng_1.6.0.bb}   |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.5.14.bb => libpng_1.6.0.bb} (50%)
 
-Queued in danny-next but probably won't make 1.3.1.
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.5.14.bb b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+similarity index 50%
+rename from meta/recipes-multimedia/libpng/libpng_1.5.14.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+index b2b82d3..951e34a 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.5.14.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+@@ -3,17 +3,17 @@ DESCRIPTION = "PNG Library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=58c8238139ee86082f8d29eb89304241 \
+-                    file://png.h;beginline=207;endline=321;md5=4f17771edaee8bb3c17a95d7faaa3681"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=03b8ec701cb796c0ec84af22f884edef \
++                    file://png.h;beginline=207;endline=321;md5=e829cebefd08488ba5142ea5faea6821"
+ DEPENDS = "zlib"
+ PR = "r0"
+-LIBV = "15"
++LIBV = "16"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+           "
+ 
+-SRC_URI[md5sum] = "94284b01d62ca43c5eb3f6702db08ed8"
+-SRC_URI[sha256sum] = "1459488e1b58d3be1c798453cf40c522c05bd66b61156cd51f469f17dff87b54"
++SRC_URI[md5sum] = "3ee623b9a4d33bda7310a5124080b14d"
++SRC_URI[sha256sum] = "5e13c31321083b03956b5ff298bacffab7a7ad35c34c122acef314593944b97b"
+ 
+ inherit autotools binconfig pkgconfig
+ 
+-- 
+1.7.9.5
 
-Thanks,
-Ross
 
 
