@@ -1,24 +1,34 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nIQ-0000Kc-QY
+Received: from mail-lb0-f176.google.com ([209.85.217.176])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U7o3t-00028F-8C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 14:31:49 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 19 Feb 2013 14:14:48 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id F1C0F291D53;
-	Tue, 19 Feb 2013 14:14:17 +0100 (CET)
-From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 14:14:04 +0100
-Message-ID: <1361279644-17675-9-git-send-email-bjst@enea.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1361279644-17675-1-git-send-email-bjst@enea.com>
-References: <1361279644-17675-1-git-send-email-bjst@enea.com>
+	Tue, 19 Feb 2013 15:20:55 +0100
+Received: by mail-lb0-f176.google.com with SMTP id s4so5031926lbc.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2013 06:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=neGwvBBAwASbvvLjylR/faaHyB7P0kW1MAbYUaTIMxc=;
+	b=tiMqWTOqs1Q2dKjQ70mhWpcZ32a7/TkI1ybKHChyCDMC2PSaJsImsz2cFwTqqeJsYq
+	pa0Ea91hyuAM9s0KacDjw4M8Vv7+9YfDVr+/fiq+CzYF2d+Cs57d23txwCNc8ghbmzPY
+	GHSnjDAmC/rH4qhM0c2owXOR2zUt2VR0riX6/GlkyG2Evu9a24fv8vKWXSd1/a4ZkA46
+	lvlGBRhzZcPa7MgvTUIC6PonRpgij/LnQ6+0C9ikiA5IXNJaDxA8lKEsiQbeGCKyHRx4
+	dg1tBWOBS37tm2f1jTPx0qkNMl6JFSjeV2kuerSzP63PhFDZLXjqAzRPX6iXY4hRzxfs
+	S7tw==
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Subject: [PATCH 8/8] ptest: Add missed .debug path
+X-Received: by 10.152.123.194 with SMTP id mc2mr14443191lab.7.1361282679194;
+	Tue, 19 Feb 2013 06:04:39 -0800 (PST)
+Received: by 10.114.28.73 with HTTP; Tue, 19 Feb 2013 06:04:39 -0800 (PST)
+In-Reply-To: <1361279644-17675-2-git-send-email-bjst@enea.com>
+References: <1361279644-17675-1-git-send-email-bjst@enea.com>
+	<1361279644-17675-2-git-send-email-bjst@enea.com>
+Date: Tue, 19 Feb 2013 15:04:39 +0100
+Message-ID: <CAC1BbcQ5dY8G5qsu6LSx2J9MdW8ePqE7eFhf7g0LoxRS726qKA@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: =?ISO-8859-1?Q?Bj=F6rn_Stenberg?= <bjst@enea.com>
+Cc: Daniel Dai <daniel.dai@enea.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/8] busybox: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,33 +41,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 13:31:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Feb 2013 14:20:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On 19 February 2013 14:13, Bj=F6rn Stenberg <bjst@enea.com> wrote:
+> From: Daniel Dai <daniel.dai@enea.com>
+>
+>
+> Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc       |    2 +-
+>  meta/recipes-core/busybox/busybox_1.20.2.bb |   10 ++++++++++
+>  meta/recipes-core/busybox/files/run-ptest   |   11 +++++++++++
+>  3 files changed, 22 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-core/busybox/files/run-ptest
+>
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
+sybox/busybox.inc
+> index 972e7d0..bd1581c 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -35,7 +35,7 @@ CONFFILES_${PN}-mdev =3D "${sysconfdir}/mdev.conf"
+>
+>  RRECOMMENDS_${PN} =3D "${PN}-syslog ${PN}-udhcpc"
+>
+> -inherit cml1 update-rc.d
+> +inherit cml1 update-rc.d ptest
+>
+>  # internal helper
+>  def busybox_cfg(feature, features, tokens, cnf, rem):
+> diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-c=
+ore/busybox/busybox_1.20.2.bb
+> index 783261e..b2e5d47 100644
+> --- a/meta/recipes-core/busybox/busybox_1.20.2.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
+> @@ -28,9 +28,19 @@ SRC_URI =3D "http://www.busybox.net/downloads/busybox-=
+${PV}.tar.bz2;name=3Dtarball \
+>             file://fix-for-spurious-testsuite-failure.patch \
+>             file://busybox-1.20.2-kernel_ver.patch \
+>             file://stat-usr-bin.patch \
+> +           file://run-ptest \
+>             file://testsuite-du-du-k-works-fix-false-positive.patch"
+>
+>  SRC_URI[tarball.md5sum] =3D "e025414bc6cd79579cc7a32a45d3ae1c"
+>  SRC_URI[tarball.sha256sum] =3D "eb13ff01dae5618ead2ef6f92ba879e9e0390f95=
+83bd545d8789d27cf39b6882"
+>
+>  EXTRA_OEMAKE +=3D "V=3D1 ARCH=3D${TARGET_ARCH} CROSS_COMPILE=3D${TARGET_=
+PREFIX} SKIP_STRIP=3Dy"
+> +
+> +do_install_append () {
+> +    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
+> +        ptest_do_install
+> +        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
+> +        cp ${B}/.config      ${D}${PTEST_PATH}/
+> +        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
+> +    fi
+> +}
+> diff --git a/meta/recipes-core/busybox/files/run-ptest b/meta/recipes-cor=
+e/busybox/files/run-ptest
+> new file mode 100644
+> index 0000000..8eadce9
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/files/run-ptest
+> @@ -0,0 +1,11 @@
+> +#!/bin/sh
+> +
+> +current_dir=3D"`readlink -f $0`"
 
-Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
----
- meta/classes/ptest.bbclass |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+quoting the return value of a subshell is a bit arcane. Furthermore
+you should nowadays make habit of using $()
+current_dir=3D$(readlink -f $0)
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 361de78..131af7b 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -16,7 +16,8 @@ RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
-=20
- PACKAGES +=3D "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest',=
- '', d)}"
-=20
--FILES_${PN}-dbg +=3D "${PTEST_PATH}/*/.debug \
-+FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug \
-+                    ${PTEST_PATH}/*/.debug \
-                     ${PTEST_PATH}/*/*/.debug \
-                     ${PTEST_PATH}/*/*/*/.debug \
-                     ${PTEST_PATH}/*/*/*/*/.debug \
---=20
-1.7.5.4
+> +export bindir=3D"`dirname $current_dir`"
+likewise
+> +
+> +cd testsuite
+> +if [ $? -ne 0 ]; then
+> +        exit 1
+> +fi
 
+just
+cd testsuite || exit 1
+
+> +
+> +./runtest -v | sed  -e 's/^SKIPPED:/SKIP:/' | sed -e 's/^UNTESTED:/SKIP:=
+/'
+
+| sed -e 's/^(SKIPPED|UNTESTED):/SKIP:/'
+
+thanks,
 
 
