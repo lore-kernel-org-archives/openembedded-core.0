@@ -1,25 +1,25 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nH9-0000Kd-Lu
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nIE-0000Kc-27
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 14:31:32 +0100
+	Tue, 19 Feb 2013 14:31:38 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 19 Feb 2013 14:14:18 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id CAA67291D4A;
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Tue, 19 Feb 2013 14:14:17 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id CB145291D4C;
 	Tue, 19 Feb 2013 14:14:17 +0100 (CET)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 14:13:57 +0100
-Message-ID: <1361279644-17675-2-git-send-email-bjst@enea.com>
+Date: Tue, 19 Feb 2013 14:13:58 +0100
+Message-ID: <1361279644-17675-3-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1361279644-17675-1-git-send-email-bjst@enea.com>
 References: <1361279644-17675-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Cc: Daniel Dai <daniel.dai@enea.com>
-Subject: [PATCH 1/8] busybox: Add ptest
+Cc: Anders Roxell <anders.roxell@enea.com>
+Subject: [PATCH 2/8] zlib: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,82 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 13:31:35 -0000
-X-List-Received-Date: Tue, 19 Feb 2013 13:31:35 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 13:31:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: Daniel Dai <daniel.dai@enea.com>
-
+From: Anders Roxell <anders.roxell@enea.com>
 
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
 ---
- meta/recipes-core/busybox/busybox.inc       |    2 +-
- meta/recipes-core/busybox/busybox_1.20.2.bb |   10 ++++++++++
- meta/recipes-core/busybox/files/run-ptest   |   11 +++++++++++
- 3 files changed, 22 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/busybox/files/run-ptest
+ .../zlib/zlib-1.2.7/Makefile-runtests.patch        |   38 ++++++++++++++++=
+++++
+ meta/recipes-core/zlib/zlib-1.2.7/run-ptest        |    7 ++++
+ meta/recipes-core/zlib/zlib_1.2.7.bb               |   22 +++++++++++
+ 3 files changed, 67 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.pat=
+ch
+ create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/run-ptest
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busy=
-box/busybox.inc
-index 972e7d0..bd1581c 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -35,7 +35,7 @@ CONFFILES_${PN}-mdev =3D "${sysconfdir}/mdev.conf"
-=20
- RRECOMMENDS_${PN} =3D "${PN}-syslog ${PN}-udhcpc"
-=20
--inherit cml1 update-rc.d
-+inherit cml1 update-rc.d ptest
-=20
- # internal helper
- def busybox_cfg(feature, features, tokens, cnf, rem):
-diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-cor=
-e/busybox/busybox_1.20.2.bb
-index 783261e..b2e5d47 100644
---- a/meta/recipes-core/busybox/busybox_1.20.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
-@@ -28,9 +28,19 @@ SRC_URI =3D "http://www.busybox.net/downloads/busybox-${=
-PV}.tar.bz2;name=3Dtarball \
-            file://fix-for-spurious-testsuite-failure.patch \
-            file://busybox-1.20.2-kernel_ver.patch \
-            file://stat-usr-bin.patch \
-+           file://run-ptest \
-            file://testsuite-du-du-k-works-fix-false-positive.patch"
-=20
- SRC_URI[tarball.md5sum] =3D "e025414bc6cd79579cc7a32a45d3ae1c"
- SRC_URI[tarball.sha256sum] =3D "eb13ff01dae5618ead2ef6f92ba879e9e0390f9583=
-bd545d8789d27cf39b6882"
-=20
- EXTRA_OEMAKE +=3D "V=3D1 ARCH=3D${TARGET_ARCH} CROSS_COMPILE=3D${TARGET_PR=
-EFIX} SKIP_STRIP=3Dy"
-+
-+do_install_append () {
-+    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-+        ptest_do_install
-+        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
-+        cp ${B}/.config      ${D}${PTEST_PATH}/
-+        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
-+    fi
-+}
-diff --git a/meta/recipes-core/busybox/files/run-ptest b/meta/recipes-core/=
-busybox/files/run-ptest
+diff --git a/meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch b/me=
+ta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch
 new file mode 100644
-index 0000000..8eadce9
+index 0000000..04c55b4
 --- /dev/null
-+++ b/meta/recipes-core/busybox/files/run-ptest
-@@ -0,0 +1,11 @@
++++ b/meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch
+@@ -0,0 +1,38 @@
++Add 'ptest' target to Makefile, to run tests without checking dependencies=
+.
++
++Signed-off-by: Anders Roxell <anders.roxell@enea.com>
++Upstream-Status: Pending
++---
++diff -uNr a/Makefile.in b/Makefile.in
++--- a/Makefile.in	2012-04-23 07:58:06.000000000 +0200
+++++ b/Makefile.in	2012-10-24 08:24:19.822544837 +0200
++@@ -83,6 +83,9 @@
++ test: all teststatic testshared
++=20
++ teststatic: static
+++	@make runteststatic
+++
+++runteststatic:
++ 	@TMPST=3D`mktemp fooXXXXXX`; \
++ 	if echo hello world | ./minigzip | ./minigzip -d && ./example $$TMPST ; =
+then \
++ 	  echo '		*** zlib test OK ***'; \
++@@ -92,6 +95,9 @@
++ 	rm -f $$TMPST
++=20
++ testshared: shared
+++	@make runtestshared
+++
+++runtestshared:
++ 	@LD_LIBRARY_PATH=3D`pwd`:$(LD_LIBRARY_PATH) ; export LD_LIBRARY_PATH; \
++ 	LD_LIBRARYN32_PATH=3D`pwd`:$(LD_LIBRARYN32_PATH) ; export LD_LIBRARYN32_=
+PATH; \
++ 	DYLD_LIBRARY_PATH=3D`pwd`:$(DYLD_LIBRARY_PATH) ; export DYLD_LIBRARY_PAT=
+H; \
++@@ -105,6 +111,9 @@
++ 	rm -f $$TMPSH
++=20
++ test64: all64
+++	@make runtest64
+++
+++runtest64:
++ 	@TMP64=3D`mktemp fooXXXXXX`; \
++ 	if echo hello world | ./minigzip64 | ./minigzip64 -d && ./example64 $$TM=
+P64; then \
++ 	  echo '		*** zlib 64-bit test OK ***'; \
+diff --git a/meta/recipes-core/zlib/zlib-1.2.7/run-ptest b/meta/recipes-cor=
+e/zlib/zlib-1.2.7/run-ptest
+new file mode 100644
+index 0000000..19d9632
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib-1.2.7/run-ptest
+@@ -0,0 +1,7 @@
 +#!/bin/sh
++FILE=3Dzlib-ptest-$$.log
++make -k runteststatic runtestshared > $FILE
++sed -i -r -e 's/^(\s+\*+ (.+?) test OK \*+)/\1\nPASS: \2/' $FILE
++sed -i -r -e 's/^(\s+\*+ (.+?) test FAILED \*+)/\1\nFAIL: \2/' $FILE
++cat $FILE
++rm -f $FILE
+diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/=
+zlib_1.2.7.bb
+index 803fec3..61380ec 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.7.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
+@@ -8,20 +8,42 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D4;endline=
+=3D23;md5=3D94d1b5a40dadd127f33
+=20
+ SRC_URI =3D "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
+            file://remove.ldconfig.call.patch \
++           file://Makefile-runtests.patch \
++           file://run-ptest \
+            "
+ SRC_URI[md5sum] =3D "2ab442d169156f34c379c968f3f482dd"
+ SRC_URI[sha256sum] =3D "49e2e9658dfb036900da6ea0267a737fa3c4eee6666776d378=
+c79d52e9334934"
+=20
++RDEPENDS_${PN}-ptest +=3D "make"
++RDEPENDS_${PN}-ptest_virtclass-native =3D ""
++RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
 +
-+current_dir=3D"`readlink -f $0`"
-+export bindir=3D"`dirname $current_dir`"
++FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug"
 +
-+cd testsuite
-+if [ $? -ne 0 ]; then
-+        exit 1
-+fi
++inherit ptest
 +
-+./runtest -v | sed  -e 's/^SKIPPED:/SKIP:/' | sed -e 's/^UNTESTED:/SKIP:/'
+ do_configure (){
+ 	./configure --prefix=3D${prefix} --shared --libdir=3D${libdir}
+ }
+=20
+ do_compile (){
+ 	oe_runmake
++	if [ ${PTEST_ENABLED} =3D "1" ] ; then
++		oe_runmake static shared
++	fi
+ }
+=20
+ do_install() {
+ 	oe_runmake DESTDIR=3D${D} install
++
++	if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
++		ptest_do_install
++		install ${B}/Makefile   ${D}${PTEST_PATH}
++		install ${B}/example    ${D}${PTEST_PATH}
++		install ${B}/minigzip   ${D}${PTEST_PATH}
++		install ${B}/examplesh  ${D}${PTEST_PATH}
++		install ${B}/minigzipsh ${D}${PTEST_PATH}
++	fi
+ }
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
 --=20
 1.7.5.4
 
