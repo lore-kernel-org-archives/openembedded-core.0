@@ -1,25 +1,25 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nIG-0000Kd-22
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1U7nIJ-0000Kc-Gw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 14:31:38 +0100
+	Tue, 19 Feb 2013 14:31:40 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 19 Feb 2013 14:14:18 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id D46A8291D4E;
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Tue, 19 Feb 2013 14:14:17 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id DA4AE291D4F;
 	Tue, 19 Feb 2013 14:14:17 +0100 (CET)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 14:13:59 +0100
-Message-ID: <1361279644-17675-4-git-send-email-bjst@enea.com>
+Date: Tue, 19 Feb 2013 14:14:00 +0100
+Message-ID: <1361279644-17675-5-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1361279644-17675-1-git-send-email-bjst@enea.com>
 References: <1361279644-17675-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Cc: jack zhang <jack.zhang@enea.com>
-Subject: [PATCH 3/8] udev: Add ptest
+Cc: "Rick.Yang" <rick.yang@enea.com>
+Subject: [PATCH 4/8] acl: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,145 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 13:31:40 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 13:31:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: jack zhang <jack.zhang@enea.com>
+From: "Rick.Yang" <rick.yang@enea.com>
 
 
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 ---
- meta/recipes-core/udev/udev.inc                    |   19 ++++++-
- .../recipes-core/udev/udev/add-install-ptest.patch |   60 ++++++++++++++++=
+ meta/recipes-support/attr/acl_2.2.51.bb            |   21 ++++++++++++++++
+ .../attr/files/add-runtest-target.patch            |   26 ++++++++++++++++=
 ++++
- meta/recipes-core/udev/udev/run-ptest              |    3 +
- 3 files changed, 80 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev/add-install-ptest.patch
- create mode 100755 meta/recipes-core/udev/udev/run-ptest
+ meta/recipes-support/attr/files/run-ptest          |    8 ++++++
+ 3 files changed, 55 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-support/attr/files/add-runtest-target.patc=
+h
+ create mode 100644 meta/recipes-support/attr/files/run-ptest
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.=
-inc
-index facad0c..8c26eee 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -27,9 +27,12 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/kernel/hotp=
-lug/udev-${PV}.tar.gz \
-            file://local.rules \
-            file://udev-cache \
-            file://udev-cache.default \
--           file://init"
-+           file://init \
-+           file://add-install-ptest.patch \
-+           file://run-ptest \
-+          "
+diff --git a/meta/recipes-support/attr/acl_2.2.51.bb b/meta/recipes-support=
+/attr/acl_2.2.51.bb
+index 1c40b00..92d67e0 100644
+--- a/meta/recipes-support/attr/acl_2.2.51.bb
++++ b/meta/recipes-support/attr/acl_2.2.51.bb
+@@ -4,3 +4,24 @@ PR =3D "r3"
 =20
--inherit autotools pkgconfig update-rc.d
-+inherit autotools pkgconfig update-rc.d ptest
-=20
- # udevd/udevadm -> /sbin/, libudev.so.* -> /lib/
- sbindir =3D "${base_sbindir}"
-@@ -105,3 +108,15 @@ python () {
-     if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
-         raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
- }
+ SRC_URI[md5sum] =3D "3fc0ce99dc5253bdcce4c9cd437bc267"
+ SRC_URI[sha256sum] =3D "06854521cf5d396801af7e54b9636680edf8064355e51c0765=
+7ec7442a185225"
 +
-+do_compile_append() {
-+    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-+        oe_runmake test-udev
-+    fi
-+}
++FILESEXTRAPATHS_prepend :=3D "${THISDIR}/files:"
++
++SRC_URI +=3D "file://add-runtest-target.patch \
++	    file://run-ptest \
++	   "
++
++inherit ptest
++
++RDEPENDS_${PN}-ptest +=3D "perl \
++                         perl-module-filehandle \
++                         perl-module-getopt-std \
++                         perl-module-posix"
 +
 +do_install_append() {
-+    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
++    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ] ; then
++        sed -i -e 's/include $(TOPDIR)\/include\/builddefs//g' ${B}/test/M=
+akefile
 +        ptest_do_install
++        cp -r ${B}/test/ ${D}${PTEST_PATH}/
 +    fi
 +}
-diff --git a/meta/recipes-core/udev/udev/add-install-ptest.patch b/meta/rec=
-ipes-core/udev/udev/add-install-ptest.patch
+diff --git a/meta/recipes-support/attr/files/add-runtest-target.patch b/met=
+a/recipes-support/attr/files/add-runtest-target.patch
 new file mode 100644
-index 0000000..db6cf17
+index 0000000..25fdaca
 --- /dev/null
-+++ b/meta/recipes-core/udev/udev/add-install-ptest.patch
-@@ -0,0 +1,60 @@
-+Adjustements for ptest:
++++ b/meta/recipes-support/attr/files/add-runtest-target.patch
+@@ -0,0 +1,26 @@
++From 149c3a4f0ba84b4ff94a52029dc89b887dcb6b8c Mon Sep 17 00:00:00 2001
++From: "Rick.Yang" <rick.yang@enea.com>
++Date: Mon, 17 Dec 2012 07:27:39 +0100
++Subject: [PATCH] Add runtest target for ptest.
 +
-+- Add 'install-ptest' rule.
-+- Print a standard result line for each test.
-+- Replace the use of "tree" with "find".
-+
-+Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
++Signed-off-by: Rick.Yang <rick.yang@enea.com>
 +Upstream-status: Pending
 +
-+--- a/Makefile.am	2012-03-18 16:28:14.000000000 +0100
-++++ b/Makefile.am	2013-02-18 10:03:36.531101244 +0100
-+@@ -708,3 +708,11 @@
-+ 	for i in src/docs/html/*.{html,css,png}; do echo $$i; kup put $$i $$i.si=
-gn /pub/linux/utils/kernel/hotplug/libudev/; done
-+ 	for i in src/gudev/docs/html/*.{html,css,png}; do rm -f $$i.sign; gpg --=
-armor --detach-sign --output=3D$$i.sign $$i; done
-+ 	for i in src/gudev/docs/html/*.{html,css,png}; do echo $$i; kup put $$i =
-$$i.sign /pub/linux/utils/kernel/hotplug/gudev/; done
-++
-++install-ptest:
-++	install test-udev $(DESTDIR)
-++	cp Makefile $(DESTDIR)
-++	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
-++	$(MKDIR_P) $(DESTDIR)/test
-++	install $(TESTS) $(DESTDIR)/test
-++	tar -C $(DESTDIR)/test/ -xJf $(top_srcdir)/test/sys.tar.xz
-+--- a/test/udev-test.pl	2012-03-18 16:43:36.000000000 +0100
-++++ b/test/udev-test.pl	2013-02-18 10:31:29.706357321 +0100
-+@@ -1459,11 +1459,13 @@
-+                 print "add:         error";
-+                 if ($rules->{exp_add_error}) {
-+                         print " as expected\n";
-++                        print "XFAIL: TEST $number: $rules->{desc}: add\n=
-";
-+                 } else {
-+                         print "\n";
-+-                        system("tree $udev_root");
-++                        system("find $udev_root");
-+                         print "\n";
-+                         $error++;
-++                        print "FAIL: TEST $number: $rules->{desc}: add\n"=
-;
-+                         sleep(1);
-+                 }
-+         }
-+@@ -1479,15 +1481,18 @@
-+                 print "remove:      error";
-+                 if ($rules->{exp_rem_error}) {
-+                         print " as expected\n";
-++                        print "XFAIL: TEST $number: $rules->{desc}: remov=
-e\n";
-+                 } else {
-+                         print "\n";
-+-                        system("tree $udev_root");
-++                        system("find $udev_root");
-+                         print "\n";
-+                         $error++;
-++                        print "FAIL: TEST $number: $rules->{desc}: remove=
-\n";
-+                         sleep(1);
-+                 }
-+         } else {
-+                 print "remove:      ok\n";
-++                print "PASS: TEST $number: $rules->{desc}: remove\n";
-+         }
-+=20
-+         print "\n";
-diff --git a/meta/recipes-core/udev/udev/run-ptest b/meta/recipes-core/udev=
-/udev/run-ptest
-new file mode 100755
-index 0000000..6817ef7
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
++---
++ test/Makefile |    3 ++-
++ 1 files changed, 2 insertions(+), 1 deletions(-)
 +
-+make -k check-TESTS
-\ No newline at end of file
++diff --git a/test/Makefile b/test/Makefile
++index d2baac8..5f52e10 100644
++--- a/test/Makefile
+++++ b/test/Makefile
++@@ -47,4 +47,5 @@ $(ROOT):
++ .PHONY: $(TESTS) $(NFS) $(ROOT)
++ .NOTPARALLEL:
++=20
++-
+++runtest-TESTS:
+++	perl run $(TESTS)
++--=20
++1.7.5.4
++
+diff --git a/meta/recipes-support/attr/files/run-ptest b/meta/recipes-suppo=
+rt/attr/files/run-ptest
+new file mode 100644
+index 0000000..c431f04
+--- /dev/null
++++ b/meta/recipes-support/attr/files/run-ptest
+@@ -0,0 +1,8 @@
++#!/bin/sh
++#
++#This script is used to run acl test suites
++
++cd ./test/
++
++make -k runtest-TESTS | sed '/commands/d' | sed '/ok\| passed/ s/^/PASS: /=
+g' | sed '/error\|fail\|failed[^0]\|ERROR\|FAIL/ s/^/FAIL: /g' | sed 's/UPA=
+TH=3D\".*\"/UPATH=3DUTF8-String/g'
++
 --=20
 1.7.5.4
 
