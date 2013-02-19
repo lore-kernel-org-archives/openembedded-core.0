@@ -1,20 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1U7iX9-0000x1-Tf
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U7lL8-0005qj-Au
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Feb 2013 09:26:40 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 19 Feb 2013 00:10:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,693,1355126400"; d="scan'208";a="203894617"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Feb 2013 00:10:28 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Feb 2013 10:11:30 +0200
-Message-Id: <1361261490-400-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH v2] groff: upgrade to 1.22.2
+	Tue, 19 Feb 2013 12:26:30 +0100
+Received: by mail-la0-f47.google.com with SMTP id fj20so6270407lab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2013 03:10:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=Rr/mx1HSVLIMnd/yoswwyJ1u3yD0/FqGtRZAnrZwDjI=;
+	b=GxVPaBkzvXEFn22J3Lzk2dHjnvBHmlCBuuGHdTJpZV2/iBqJqfbCtC1AS0JDZPVJdD
+	sbFrDsHVJwu0fMhXaXrdcbUIMe1D6lqCFSKFT72nTigWVgb3gdqWJH10yc0TbpzCLVry
+	uTn4E46jreyduLyzwvZGw/DRSyDCwUEf2fjdBF9+P9Q9lf1doxM0YREQcUu6s3FEiU/X
+	ammXOEuSOdLnXLabltxU00/b35r5+OT/PYCiRKMOgeVuGR6d+fEP9wt96XhpWfIoJB8C
+	05BvqSnWmk9D/JihoF9EUNfqKcdElhAWerZ4gKP3hEQWjuXo2Qe0mx6RnSMYxVoTvgU2
+	LRFA==
+MIME-Version: 1.0
+X-Received: by 10.152.128.98 with SMTP id nn2mr13826153lab.17.1361272216823;
+	Tue, 19 Feb 2013 03:10:16 -0800 (PST)
+Received: by 10.114.28.73 with HTTP; Tue, 19 Feb 2013 03:10:16 -0800 (PST)
+In-Reply-To: <6c5df3ee0d370bc7054d53832937ce70b6c9ee57.1361260478.git.Qi.Chen@windriver.com>
+References: <cover.1361260478.git.Qi.Chen@windriver.com>
+	<6c5df3ee0d370bc7054d53832937ce70b6c9ee57.1361260478.git.Qi.Chen@windriver.com>
+Date: Tue, 19 Feb 2013 12:10:16 +0100
+Message-ID: <CAC1BbcSiDGonDHWfKnjM47qFWwREzZ8Qjno4AW1z8MWJwFyW1g@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Qi.Chen@windriver.com
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] hwclock.sh: check for the existence of /etc/default/rcS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,64 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Feb 2013 08:26:41 -0000
+X-List-Received-Date: Tue, 19 Feb 2013 11:26:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-- add code for generating the gnulib configure script
-- replace /usr/bin/perl with /usr/bin/env perl
+On 19 February 2013 08:59,  <Qi.Chen@windriver.com> wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> /etc/default/rcS might be missing if the init manager is not sysvinit.
+> So we have to check for the existence of this file before sourcing it.
+>
+> [YOCTO #3697]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/busybox/files/hwclock.sh |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/busybox/files/hwclock.sh b/meta/recipes-core/busybox/files/hwclock.sh
+> index cc6d286..be5f94d 100644
+> --- a/meta/recipes-core/busybox/files/hwclock.sh
+> +++ b/meta/recipes-core/busybox/files/hwclock.sh
+> @@ -20,7 +20,7 @@
+>
+>  [ ! -x /sbin/hwclock ] && exit 0
+>
+> -. /etc/default/rcS
+> +[ -f /etc/default/rcS ] && . /etc/default/rcS
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- .../groff/{groff_1.20.1.bb => groff_1.22.2.bb}           | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/groff/{groff_1.20.1.bb => groff_1.22.2.bb} (79%)
-
-diff --git a/meta/recipes-extended/groff/groff_1.20.1.bb b/meta/recipes-extended/groff/groff_1.22.2.bb
-similarity index 79%
-rename from meta/recipes-extended/groff/groff_1.20.1.bb
-rename to meta/recipes-extended/groff/groff_1.22.2.bb
-index 157365b..d1361ab 100644
---- a/meta/recipes-extended/groff/groff_1.20.1.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.2.bb
-@@ -4,14 +4,14 @@ formatting commands and produces formatted output."
- SECTION = "base"
- HOMEPAGE = "ftp://ftp.gnu.org/gnu/groff/"
- LICENSE = "GPLv2"
--PR = "r2"
-+PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "48fa768dd6fdeb7968041dd5ae8e2b02"
--SRC_URI[sha256sum] = "b645878135cb620c6c417c5601bfe96172245af12045540d7344938b4c2cd805"
-+SRC_URI[md5sum] = "9f4cd592a5efc7e36481d8d8d8af6d16"
-+SRC_URI[sha256sum] = "380864dac4772e0c0d7b1282d25d0c5fd7f63baf45c87c4657afed22a13d2076"
- 
- DEPENDS = "groff-native"
- DEPENDS_class-native = ""
-@@ -34,10 +34,18 @@ do_configure_prepend() {
- 	fi
- }
- 
-+do_configure_append() {
-+    # generate gnulib configure script
-+    olddir=`pwd`
-+    cd ${S}/src/libs/gnulib/
-+    ACLOCAL="$ACLOCAL" autoreconf -Wcross --verbose --install --force ${EXTRA_AUTORECONF} $acpaths || bbfatal "autoreconf execution failed."
-+    cd ${olddir}
-+}
-+
- do_install_append() {
- 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
- 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
--	for i in afmtodit mmroff; do
-+	for i in afmtodit mmroff gropdf pdfmom; do
- 		if [ -f ${D}${bindir}/$i ]; then
- 			sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/$i
- 		fi
--- 
-1.7.11.7
-
+I'd make that -r fwiw.
 
 
