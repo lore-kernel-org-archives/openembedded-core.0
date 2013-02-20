@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U7yFV-0005TH-R4
+	(envelope-from <Qi.Chen@windriver.com>) id 1U82u9-0000B2-85
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Feb 2013 02:13:30 +0100
+	Wed, 20 Feb 2013 07:11:45 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1K0vK9K024588
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1K5tXrO020693
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Feb 2013 16:57:20 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Tue, 19 Feb 2013 16:57:18 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
+	Tue, 19 Feb 2013 21:55:33 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 19 Feb 2013 21:55:32 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Feb 2013 19:27:14 -0600
-Message-ID: <1361323634-25562-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+Date: Wed, 20 Feb 2013 13:55:29 +0800
+Message-ID: <cover.1361338900.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [v2 PATCH 1/2] man: Remove wildcard from SRC_URI
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH V2 0/5] Read-only rootfs followup patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,257 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2013 01:13:31 -0000
+X-List-Received-Date: Wed, 20 Feb 2013 06:11:48 -0000
+X-List-Received-Date: Wed, 20 Feb 2013 06:11:48 -0000
 Content-Type: text/plain
 
-[ CQID: WIND00402802 ]
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Remove the wildcard from the SRC_URI.  This causes problems when you .bbappend
-and add a FILESEXTRAPATHS entry.  The unpack task may be unable to find the
-files to unpack leading to an error.
+This patchset enables populate-volatile.sh script run at rootfs time.
 
-Avoid wildcards at all costs...
+For the purpose of easier review, changes for populate-volatile.sh script
+have been divided into two parts.
 
-Note, remove both man-1.5m2-multiple.patch and man-1.6e-lzma+xz-support.patch,
-they were not being applied in the previous version.  The later also fails to
-apply when added to the SRC_URI.
+This patchset has been tested with core-image-minimal, with and without
+'read-only-rootfs' image feature.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../man/man/man-1.5m2-multiple.patch               |  22 ----
- .../man/man/man-1.6e-lzma+xz-support.patch         | 124 ---------------------
- meta/recipes-extended/man/man_1.6g.bb              |  47 ++++----
- 3 files changed, 25 insertions(+), 168 deletions(-)
- delete mode 100644 meta/recipes-extended/man/man/man-1.5m2-multiple.patch
- delete mode 100644 meta/recipes-extended/man/man/man-1.6e-lzma+xz-support.patch
+V2 fixes some errors in V1 and remove the trailing whitespaces in populate-volatile.sh.
 
-diff --git a/meta/recipes-extended/man/man/man-1.5m2-multiple.patch b/meta/recipes-extended/man/man/man-1.5m2-multiple.patch
-deleted file mode 100644
-index ec06ab7..0000000
---- a/meta/recipes-extended/man/man/man-1.5m2-multiple.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
----- man-1.5m2/src/manfile.c_multiple	2006-12-08 23:42:17.000000000 +0100
--+++ man-1.5m2/src/manfile.c	2006-12-09 00:00:01.000000000 +0100
--@@ -25,9 +25,12 @@
-- 
--      if (a) {
-- 	  if (*head) {
---	       p = *head;
---	       while(p->next)
---		    p = p->next;
--+		   for (p = *head; p->next; p = p->next) {
--+               if(!strcmp (p->filename, a->filename))
--+					   return;
--+		   }
--+           if(!strcmp (p->filename, a->filename))
--+				  return;
-- 	       p->next = a;
-- 	  } else
-- 	       *head = a;
-diff --git a/meta/recipes-extended/man/man/man-1.6e-lzma+xz-support.patch b/meta/recipes-extended/man/man/man-1.6e-lzma+xz-support.patch
-deleted file mode 100644
-index aae980f..0000000
---- a/meta/recipes-extended/man/man/man-1.6e-lzma+xz-support.patch
-+++ /dev/null
-@@ -1,124 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--
--Index: man-1.6f/configure
--===================================================================
----- man-1.6f.orig/configure	2010-12-29 14:00:35.000000000 -0800
--+++ man-1.6f/configure	2010-12-29 14:27:57.584431711 -0800
--@@ -1027,7 +1027,7 @@
--   then
--     DO_COMPRESSION=true
--     compress=
---    for i in lzma bzip2 gzip bzip tzip pack compress freeze yabba
--+    for i in xz lzma bzip2 gzip bzip tzip pack compress freeze yabba
--     do
--       eval F$i=missing
--       for j in $DEFPATH
--@@ -1080,6 +1080,7 @@
--     fi
-- 
--     case $compress in
--+      *xz*) ext=".xz" ;;
--       *lzma*) ext=".lzma" ;;
--       *bzip2*) ext=".bz2" ;;
--       *gzip*) ext=".gz" ;;
--@@ -1123,7 +1124,7 @@
-- fi
-- 
-- # unconditionally handle uncompression
---UNCOMPRESSORS="unlzma gunzip bzip2 pcat zcat fcat unyabba"
--+UNCOMPRESSORS="unxz unlzma gunzip bzip2 pcat zcat fcat unyabba"
-- for i in $UNCOMPRESSORS
-- do
--   eval F$i=missing
--@@ -1144,6 +1145,10 @@
-- if [ $Fbzip2 != missing ]; then
--   bzip2="$Fbzip2 -c -d"
-- fi
--+unxz=missing
--+if [ $Funxz != missing ]; then
--+  unxz="$Funxz -c -d"
--+fi
-- unlzma=missing
-- if [ $Funlzma != missing ]; then
--   unlzma="$Funlzma -c -d"
--@@ -1176,6 +1181,9 @@
-- 	bzip2)
-- 	  echo "Command to use for .bz2 files (standard bzip2)"
-- 	  echo $n "[`eval echo \\$$filter`] $c" ;;
--+	xz)
--+	  echo "Command to use for .xz files (standard xz)"
--+	  echo $n "[`eval echo \\$$filter`] $c" ;;
-- 	lzma)
-- 	  echo "Command to use for .lzma files (standard lzma)"
-- 	  echo $n "[`eval echo \\$$filter`] $c" ;;
--@@ -1240,6 +1248,7 @@
-- case $compress_ext in
--   .gz) decompress=$gunzip ;;
--   .bz2) decompress=$bzip2 ;;
--+  .xz) decompress=$unxz ;;
--   .lzma) decompress=$unlzma ;;
--   .z) decompress=$pcat ;;
--   .Z) decompress=$zcat ;;
--@@ -1333,6 +1342,7 @@
-- s,@zcat@,$zcat,
-- s,@gunzip@,$gunzip,
-- s,@bzip2@,$bzip2,
--+s,@unxz@,$unxz,
-- s,@unlzma@,$unlzma,
-- s,@unyabba@,$unyabba,
-- s,@compress@,$compress,
--Index: man-1.6f/src/makewhatis.sh
--===================================================================
----- man-1.6f.orig/src/makewhatis.sh	2010-12-29 14:00:35.000000000 -0800
--+++ man-1.6f/src/makewhatis.sh	2010-12-29 14:16:18.821555314 -0800
--@@ -242,7 +242,7 @@
-- 	    find $mandir/${pages}$i/. -name '*' $findarg0 $findarg -print | LC_ALL=C $AWK -v MAN_NAME="$MAN_NAME" -v MAN_DESCRIPTION="$MAN_DESCRIPTION" '
-- 
-- 	    function readline() {
---              if (use_zcat || use_bzcat || use_lzcat) {
--+              if (use_zcat || use_bzcat || use_lzcat || use_xzcat) {
-- 		result = (pipe_cmd | getline);
-- 		if (result < 0) {
-- 		  print "Pipe error: " pipe_cmd " " ERRNO > "/dev/stderr";
--@@ -257,7 +257,7 @@
-- 	    }
-- 	    
-- 	    function closeline() {
---              if (use_zcat || use_bzcat || use_lzcat) {
--+              if (use_zcat || use_bzcat || use_lzcat || use_xzcat) {
-- 		return close(pipe_cmd);
-- 	      } else {
-- 		return close(filename);
--@@ -278,7 +278,9 @@
-- 		use_bzcat = match(filename,"\\.bz2");
--               if(!use_bzcat)
--                 use_lzcat = match(filename,"\\.lzma");
---              if (use_zcat || use_bzcat || use_lzcat ) {
--+	      if(!use_xzcat)
--+                use_xzcat = match(filename,"\\.xz");
--+              if (use_zcat || use_bzcat || use_lzcat || use_xzcat ) {
-- 		filename_no_gz = substr(filename, 0, RSTART - 1);
-- 	      } else {
-- 		filename_no_gz = filename;
--@@ -291,14 +293,16 @@
-- 		actual_section = section;
-- 	      }
-- 	      sub(/\..*/, "", progname);
---              if (use_zcat || use_bzcat || use_lzcat) {
--+              if (use_zcat || use_bzcat || use_lzcat || use_xzcat) {
-- 		if (use_zcat) {
-- 		  pipe_cmd = "zcat \"" filename "\"";
--                 } else if (use_bzcat) {
-- 		  pipe_cmd = "bzcat \"" filename "\"";
---                } else {
--+                } else if (use_lzcat) {
--                   pipe_cmd = "lzcat \"" filename "\"";
---                }
--+                } else {
--+    		  pipe_cmd = "xzcat \"" filename "\"";
--+		}
-- 		# try to avoid suspicious stuff
-- 		if (filename ~ /[;&|`$(]/) {
-- 		  print "ignored strange file name " filename " in " curdir > "/dev/stderr";
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index a2d6ace..a66e01c 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -5,36 +5,39 @@ HOMEPAGE = "http://primates.ximian.com/~flucifredi/man"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS = "groff less"
- 
- SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man-1.5k-confpath.patch;striplevel=0 \
--           file://man-1.5h1-make.patch; \
--           file://man-1.5k-nonascii.patch; \
--           file://man-1.6e-security.patch; \
--           file://man-1.6e-mandirs.patch; \
--           file://man-1.5m2-bug11621.patch; \
--           file://man-1.5k-sofix.patch; \
--           file://man-1.5m2-buildroot.patch; \
--           file://man-1.6e-ro_usr.patch; \
-+           file://man-1.5h1-make.patch \
-+           file://man-1.5k-nonascii.patch \
-+           file://man-1.6e-security.patch \
-+           file://man-1.6e-mandirs.patch \
-+           file://man-1.5m2-bug11621.patch \
-+           file://man-1.5k-sofix.patch \
-+           file://man-1.5m2-buildroot.patch \
-+           file://man-1.6e-ro_usr.patch \
-            file://man-1.5i2-newline.patch;striplevel=0 \
--           file://man-1.5j-utf8.patch; \
--           file://man-1.5i2-overflow.patch; \
--           file://man-1.5j-nocache.patch; \
--           file://man-1.5i2-initial.patch; \
-+           file://man-1.5j-utf8.patch \
-+           file://man-1.5i2-overflow.patch \
-+           file://man-1.5j-nocache.patch \
-+           file://man-1.5i2-initial.patch \
-            file://man-1.5h1-gencat.patch;striplevel=0 \
--           file://man-1.5g-nonrootbuild.patch; \
-+           file://man-1.5g-nonrootbuild.patch \
-            file://man-1.5m2-tv_fhs.patch;striplevel=0 \
--           file://man-1.5j-i18n.patch; \
--           file://man-1.6e-whatis2.patch; \
--           file://man-1.6e-use_i18n_vars_in_a_std_way.patch; \
--           file://man-1.5m2-no-color-for-printing.patch; \
--           file://man-1.5m2-sigpipe.patch; \
--           file://man-1.6e-i18n_whatis.patch; \
--           file://man-1.6e-new_sections.patch; \
--           file://man*"
-+           file://man-1.5j-i18n.patch \
-+           file://man-1.6e-whatis2.patch \
-+           file://man-1.6e-use_i18n_vars_in_a_std_way.patch \
-+           file://man-1.5m2-no-color-for-printing.patch \
-+           file://man-1.5m2-sigpipe.patch \
-+           file://man-1.6e-i18n_whatis.patch \
-+           file://man-1.6e-new_sections.patch \
-+           file://man.1.gz;unpack=false \
-+           file://man.7.gz;unpack=false \
-+           file://man.conf \
-+           file://manpath.5.gz;unpack=false"
- 
- SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
- SRC_URI[sha256sum] = "ccdcb8c3f4e0080923d7e818f0e4a202db26c46415eaef361387c20995b8959f"
+The following changes since commit c7b23ab68aafc04d9830ef318015912e5d4f0672:
+
+  maintainers.inc: update ownership of recipes (2013-02-17 22:33:30 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/readonly-rootfs-followups
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/readonly-rootfs-followups
+
+Chen Qi (5):
+  image.bbclass: add a hook funtion to support readonly rootfs
+  core-image.bbclass: support read-only rootfs
+  populate-volatile.sh: add ROOT_DIR variable to support running at
+    rootfs time
+  populate-volatile.sh: improve the handling of link config items
+  populate-volatile.sh: remove trailing whitespaces
+
+ meta/classes/core-image.bbclass                    |    4 +
+ meta/classes/image.bbclass                         |   18 ++++
+ .../initscripts-1.0/populate-volatile.sh           |   89 ++++++++++++++------
+ 3 files changed, 83 insertions(+), 28 deletions(-)
+
 -- 
-1.8.1.2.545.g2f19ada
+1.7.9.5
 
 
 
