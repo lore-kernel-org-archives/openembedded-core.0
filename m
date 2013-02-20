@@ -1,18 +1,34 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34]
-	helo=gemini.alm.mentorg.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1U8AKZ-0004I9-9y
+Received: from mail-ie0-f180.google.com ([209.85.223.180])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U8Alo-0004kC-I5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Feb 2013 15:07:32 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r1KDp70Y016906; 
-	Wed, 20 Feb 2013 07:51:08 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Feb 2013 18:50:57 +0500
-Message-Id: <1361368257-32345-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/2 v4] archive-*-source.bbclass: Handle all package classes
+	Wed, 20 Feb 2013 15:35:40 +0100
+Received: by mail-ie0-f180.google.com with SMTP id bn7so10092583ieb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2013 06:19:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=B+tFeOxV1OhvgG6teNSi2C3FAox6sUvEzgSwP3yCTTc=;
+	b=E0vefn6xWrC9PBXeYAwVb4gmpzP/e3L6sfqXVy0TofkheZB12TUUTjEyfxoks4gzBV
+	zWMtt1DEAL2ZEesBTsREgJSpILskNME/FsQkg0oVvtKPrDSCYOFedwFBQ/rS/SfH63RT
+	fCz8oHP4e649ng/LUdJ+CxCkJE3jE0vhFReqHdk42R8Hu4IxBvQhRUEILSfVc+oejhjo
+	0rzPMKboVEi79KVpnnUCssywNUuu4s0SHBh+BnFlVfP/r0xi654WsMdGHLUB6KmONm/n
+	zy6i9hDZQS1qttKR9WGFSR11z7xS5501knL2TPA9SPkc9fO5QqqhIEXAu0SWruVl/9J/
+	k8kw==
+MIME-Version: 1.0
+X-Received: by 10.50.53.208 with SMTP id d16mr10735137igp.5.1361369969316;
+	Wed, 20 Feb 2013 06:19:29 -0800 (PST)
+Received: by 10.64.143.228 with HTTP; Wed, 20 Feb 2013 06:19:29 -0800 (PST)
+In-Reply-To: <fc06c499d04a1cf82c2d426c17cd2331a6bf718d.1361338900.git.Qi.Chen@windriver.com>
+References: <cover.1361338900.git.Qi.Chen@windriver.com>
+	<fc06c499d04a1cf82c2d426c17cd2331a6bf718d.1361338900.git.Qi.Chen@windriver.com>
+Date: Wed, 20 Feb 2013 15:19:29 +0100
+Message-ID: <CAC1BbcTWjtDiLeDa3970HAL5Za+9iA7sqfs6XsDqahEC4A49gg@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Qi.Chen@windriver.com
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 5/5] populate-volatile.sh: remove trailing whitespaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,127 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2013 14:07:32 -0000
+X-List-Received-Date: Wed, 20 Feb 2013 14:35:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On 20 February 2013 06:55,  <Qi.Chen@windriver.com> wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Remove trailing whitespaces.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../initscripts-1.0/populate-volatile.sh           |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> index 24daeb4..d7937b4 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> @@ -48,9 +48,9 @@ create_file() {
+>  }
+>
+>  mk_dir() {
+> -       EXEC="
+> -       mkdir -p \"$1\";
+> -       chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+> +       EXEC="
+> +       mkdir -p \"$1\";
+> +       chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+>         chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
+>
+>         test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
 
-* Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.
-
-[YOCTO #3449]
-
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/archive-configured-source.bbclass |   10 +++++++---
- meta/classes/archive-original-source.bbclass   |   10 +++++++---
- meta/classes/archive-patched-source.bbclass    |   10 +++++++---
- 3 files changed, 21 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
-index e492ce3..4fc5129 100644
---- a/meta/classes/archive-configured-source.bbclass
-+++ b/meta/classes/archive-configured-source.bbclass
-@@ -11,22 +11,26 @@ inherit archiver
- addtask do_archive_configured_sources after do_configure
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    pn = d.getVar('PN', True)
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-         configured sources and scripts/logs in ${DEPLOY_DIR}/sources.
-         """
--        pn = d.getVar('PN', True)
-         d.appendVarFlag('do_compile', 'depends', ' %s:do_archive_configured_sources' %pn)
-         build_deps = ' %s:do_archive_configured_sources' %pn
-         build_deps += ' %s:do_archive_scripts_logs' %pn
-         d.appendVarFlag('do_build', 'depends', build_deps)
-+        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
- 
-     else:
-         d.prependVarFlag('do_configure', 'postfuncs', "do_archive_configured_sources")
-diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
-index f123caf..3aea4f4 100644
---- a/meta/classes/archive-original-source.bbclass
-+++ b/meta/classes/archive-original-source.bbclass
-@@ -11,22 +11,26 @@ inherit archiver
- addtask do_archive_original_sources_patches after do_unpack
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    pn = d.getVar('PN', True)
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-         original sources and scripts/logs in ${DEPLOY_DIR}/sources.
-         """
--        pn = d.getVar('PN', True)
-         d.appendVarFlag('do_patch', 'depends', ' %s:do_archive_original_sources_patches' %pn)
-         build_deps = ' %s:do_archive_original_sources_patches' %pn
-         build_deps += ' %s:do_archive_scripts_logs' %pn
-         d.appendVarFlag('do_build', 'depends', build_deps)
-+        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
- 
-     else:
-         d.prependVarFlag('do_unpack', 'postfuncs', "do_archive_original_sources_patches")
-diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
-index f9f558e..d7ed6c8 100644
---- a/meta/classes/archive-patched-source.bbclass
-+++ b/meta/classes/archive-patched-source.bbclass
-@@ -11,22 +11,26 @@ inherit archiver
- addtask do_archive_patched_sources after do_patch
- 
- # Get archiving package with logs(temp) and scripts(.bb and .inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    pn = d.getVar('PN', True)
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-         patched sources and scripts/logs in ${DEPLOY_DIR}/sources.
-         """
--        pn = d.getVar('PN', True)
-         d.appendVarFlag('do_configure', 'depends', ' %s:do_archive_patched_sources' %pn)
-         build_deps = ' %s:do_archive_patched_sources' %pn
-         build_deps += ' %s:do_archive_scripts_logs' %pn
-         d.appendVarFlag('do_build', 'depends', build_deps)
-+        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
- 
-     else:
-         d.prependVarFlag('do_patch', 'postfuncs', "do_archive_patched_sources")
--- 
-1.7.9.5
-
+Don't you need ${ROOT_DIR}/etc/volatile.cache.build here (and
+everywhere else if there are other cases), too?
 
 
