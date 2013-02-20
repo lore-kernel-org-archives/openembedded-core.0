@@ -1,27 +1,28 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1U8338-0000fE-7V
+	(envelope-from <Kai.Kang@windriver.com>) id 1U83D5-0000sa-Vx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Feb 2013 07:21:02 +0100
+	Wed, 20 Feb 2013 07:31:31 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1K64pIL027917
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Feb 2013 22:04:51 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1K6F99S023982
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Feb 2013 22:15:09 -0800 (PST)
 Received: from localhost.localdomain (128.224.162.205) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Tue, 19 Feb 2013 22:04:50 -0800
+	(TLS) id 14.2.318.4; Tue, 19 Feb 2013 22:15:08 -0800
 From: Kang Kai <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Wed, 20 Feb 2013 14:06:17 +0800
-Message-ID: <415f35e01e11154a892da73efcbcda49d0d9356b.1361340208.git.kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Feb 2013 14:16:35 +0800
+Message-ID: <6c109ede750ce950f8d988ffdd75b7a3b9dbabd0.1361265275.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1361340208.git.kai.kang@windriver.com>
-References: <cover.1361340208.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1361265275.git.kai.kang@windriver.com>
+References: <cover.1361265275.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] external-python-tarball: code refactoring
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 2/3] dpkg: redirect output of postinstall script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,106 +35,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2013 06:21:02 -0000
+X-List-Received-Date: Wed, 20 Feb 2013 06:31:34 -0000
+X-List-Received-Date: Wed, 20 Feb 2013 06:31:34 -0000
 Content-Type: text/plain
 
-external-python-tarball only can be built when inherit package_ipk now.
-Update it to reuse existed populate sdk code that it could be built for
-rpm and deb too.
+When distro feature "debug-tweak" enabled, redirect output of
+postinstall script to log file /var/log/postinstall.log which
+can be configured.
 
-Remove var DEPENDS, SDK_* and flags of do_populate_sdk because they are
-already defined in populate_sdk bbclasses.
-
-[Yocto 3006]
+[Yocto 3223]
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- meta/recipes-core/meta/external-python-tarball.bb |   67 +-------------------
- 1 files changed, 4 insertions(+), 63 deletions(-)
+ .../dpkg/dpkg/redirect-output.patch                |   37 ++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.16.9.bb          |    8 +++-
+ 2 files changed, 43 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/redirect-output.patch
 
-diff --git a/meta/recipes-core/meta/external-python-tarball.bb b/meta/recipes-core/meta/external-python-tarball.bb
-index 2085acc..2513cf6 100644
---- a/meta/recipes-core/meta/external-python-tarball.bb
-+++ b/meta/recipes-core/meta/external-python-tarball.bb
-@@ -3,17 +3,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-devtools/dpkg/dpkg/redirect-output.patch b/meta/recipes-devtools/dpkg/dpkg/redirect-output.patch
+new file mode 100644
+index 0000000..584d6ff
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/redirect-output.patch
+@@ -0,0 +1,37 @@
++Upstream-Status: Inappropriate [other]
++
++This patch redirect output of post install script to a log file when
++distro feature "debug-tweak" enabled.
++
++[Yocto 3223]
++
++Signed-off-by: Kang Kai <kai.kang@windriver.com>
++
++--- dpkg-1.16.9/src/script.c.orig	2013-02-19 16:05:33.154474040 +0800
+++++ dpkg-1.16.9/src/script.c	2013-02-19 16:11:20.438486290 +0800
++@@ -30,6 +30,7 @@
++ #include <string.h>
++ #include <unistd.h>
++ #include <stdlib.h>
+++#include <fcntl.h>
++ 
++ #include <dpkg/i18n.h>
++ #include <dpkg/dpkg.h>
++@@ -193,8 +166,17 @@ vmaintainer_script_installed(struct pkgi
++ 		}
++ 		ohshite(_("unable to stat %s `%.250s'"), buf, scriptpath);
++ 	}
+++
+++	int fd = open(LOGFILE, O_RDWR|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+++	if (strcmp(desc, "post-installation") == 0 && fd != -1) {
+++		dup2(fd, STDERR_FILENO);
+++		dup2(fd, STDOUT_FILENO);
+++	}
++ 	do_script(pkg, &pkg->installed, &cmd, &stab, 0);
++ 
+++	if (fd)
+++		close(fd);
+++
++ 	command_destroy(&cmd);
++ 
++ 	return 1;
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.16.9.bb b/meta/recipes-devtools/dpkg/dpkg_1.16.9.bb
+index 9ae4042..c1b23fc 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.16.9.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.16.9.bb
+@@ -6,9 +6,13 @@ SRC_URI += "file://noman.patch \
+             file://check_version.patch \
+             file://preinst.patch \
+             file://fix-timestamps.patch \
+-            file://remove-tar-no-timestamp.patch"
++            file://remove-tar-no-timestamp.patch \
++            ${@base_contains('DISTRO_FEATURES', 'debug-tweak', 'file://redirect-output.patch', '', d)}"
++
++POSTLOG ?= "/var/log/postinstall.log"
++CFLAGS_append += "${@base_contains('DISTRO_FEATURES', 'debug-tweak', ' -DLOGFILE=\'\"${POSTLOG}\"\'', '', d)}"
  
--DEPENDS = "opkg-native opkg-utils-native virtual/fakeroot-native sed-native"
-+PR = "r2"
+ SRC_URI[md5sum] = "4df9319b2d17e19cdb6fe94dacee44da"
+ SRC_URI[sha256sum] = "73cd7fba4e54acddd645346b4bc517030b9c35938e82215d3eeb8b4e7af26b7a"
  
--PR = "r1"
--
--inherit meta
--
--SDK_DIR = "${WORKDIR}/sdk"
--SDK_OUTPUT = "${SDK_DIR}/image"
--SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
--
--IPKG_HOST = "opkg-cl -f ${IPKGCONF_SDK} -o ${SDK_OUTPUT}"
-+TOOLCHAIN_TARGET_TASK ?= ""
- 
- TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-python-core \
-@@ -43,56 +35,5 @@ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
--do_populate_sdk() {
--	rm -rf ${SDK_OUTPUT}
--	mkdir -p ${SDK_OUTPUT}
--	mkdir -p ${SDK_OUTPUT}${localstatedir}/lib/opkg/
--
--	rm -f ${IPKGCONF_TARGET}
--	touch ${IPKGCONF_TARGET}
--	rm -f ${IPKGCONF_SDK}
--	touch ${IPKGCONF_SDK}
--
--	package_update_index_ipk
--	package_generate_ipkg_conf
--
--	for arch in ${PACKAGE_ARCHS}; do
--		revipkgarchs="$arch $revipkgarchs"
--	done
--
--	${IPKG_HOST} update
--	${IPKG_HOST} install ${TOOLCHAIN_HOST_TASK}
--
--	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg
--	mv ${SDK_OUTPUT}/var/lib/opkg/* ${SDK_OUTPUT}/${SDKPATHNATIVE}${localstatedir_nativesdk}/lib/opkg/
--	rm -Rf ${SDK_OUTPUT}/var
--
--	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}
--	install -m 0644 ${IPKGCONF_SDK} ${SDK_OUTPUT}/${SDKPATHNATIVE}/${sysconfdir}/
--
--	rm -f ${SDK_OUTPUT}/${SDKPATHNATIVE}${libdir_nativesdk}/*.la
--
--	# Link the ld.so.cache file into the hosts filesystem
--	ln -s /etc/ld.so.cache ${SDK_OUTPUT}/${SDKPATHNATIVE}/etc/ld.so.cache
--
--	# Add version information
--	versionfile=${SDK_OUTPUT}/${SDKPATH}/version-${MULTIMACH_TARGET_SYS}
--	touch $versionfile
--	echo 'Distro: ${DISTRO}' >> $versionfile
--	echo 'Distro Version: ${DISTRO_VERSION}' >> $versionfile
--	echo 'Metadata Revision: ${METADATA_REVISION}' >> $versionfile
--	echo 'Timestamp: ${DATETIME}' >> $versionfile
--
--	# Package it up
--	mkdir -p ${SDK_DEPLOY}
--	cd ${SDK_OUTPUT}
--	tar  --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
--}
--
--do_populate_sdk[nostamp] = "1"
--do_populate_sdk[recrdeptask] = "do_package_write"
--addtask populate_sdk before do_build after do_install
--
--inherit blacklist
--
--PNBLACKLIST[external-python-tarball] = "${@base_contains('PACKAGE_CLASSES', 'package_ipk', '', 'This recipe requires \'package_ipk\' support to be enabled in PACKAGE_CLASSES.', d)}"
-+inherit meta
-+inherit populate_sdk
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
 -- 
 1.7.5.4
 
