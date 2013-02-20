@@ -1,25 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ve0-f174.google.com ([209.85.128.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U8FAp-0003Jf-3G
+	(envelope-from <ross.burton@intel.com>) id 1U8G4C-0004wn-8x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Feb 2013 20:17:49 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1KJ17Co011701
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Feb 2013 11:01:07 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Wed, 20 Feb 2013 11:01:05 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Feb 2013 13:31:11 -0600
-Message-ID: <1361388671-29678-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+	Wed, 20 Feb 2013 21:15:00 +0100
+Received: by mail-ve0-f174.google.com with SMTP id pb11so7229503veb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2013 11:58:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=hdSjU5BURTAJozN5tkjQ2z4ENMZ8HwxLcmJWoZ5FOJY=;
+	b=iW9KxYiTOjYcAgpS999ROA8Mkfud2i2rvMKN3VgPnNl7166Lg0vE70kXntGglA043Q
+	dK9m6P9o6ixuuUKkt03uYZUEUY4p3JDK1NGUMEt24OlZahnbw/Nw9vVLIXxsuw0UfaFl
+	n2tIcGLAbpfPitDKZkbIetAlMxpFaxv2Spm9qr9rcLAWa8+4PpGs72SqqJap0BjMkeU6
+	LZo3JTHeiqqU8IdHLX1wMC0tqLLDPRn59inX9dSTkvDnohAQwsUcJqz1qDoyNQvdlXAp
+	IvyY4eBdHharPib3gpPhA2cJ9lOhOkSS0M0p1gLCcLqv+OZmz+wFwuBfq69G7w72VJaA
+	THYA==
+X-Received: by 10.220.241.19 with SMTP id lc19mr23140429vcb.43.1361390328862; 
+	Wed, 20 Feb 2013 11:58:48 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] rootfs_rpm.bbclass: Reorder feed priority based on multilib image setting
+Received: by 10.58.85.36 with HTTP; Wed, 20 Feb 2013 11:58:28 -0800 (PST)
+In-Reply-To: <lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361006114.31795.19.camel@ted>
+	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
+	<1361019187.31795.49.camel@ted> <20130217231955.GF3300@jama>
+	<lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 Feb 2013 19:58:28 +0000
+Message-ID: <CAJTo0LbAmTuj0dZKq7=wX5uqF9OV7dW7FXd4d2incdKSshXEmQ@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Gm-Message-State: ALoCoQnHApqo+jO3h/AMDNg4BvLh4u9fQEG20jAsyeTepdTBgvPv9veETGLBONah6fa731oqQEem
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,92 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2013 19:17:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Feb 2013 20:15:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #3915 ]
-[ CQID: WIND00404309 ]
+On 18 February 2013 10:17, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+>> But it doesn't need to be as dangerous as binconfig.bbclass, because
+>> we already list .service or .socket files in SYSTEMD_SERVICE so we can
+>> improve that "find" call
+>
+> Why is 'find' required at all?  afaik, only files from $SRC_URI are
+> affected.  So we can
+>
+> 1. create an (overridable) SYSTEMD_EXTRA_SERVICES variable
+>
+> 2. fill this variable in systemd.bbclass with .service, .target, .socket
+>    + .mount files from $SRC_URI
+>
+> 3. modify systemd's do_install so that files above are copied after
+>    doing some some sanity checks (e.g. checks that no previous version
+>    from 'make install' exists or that it are really systemd files).
 
-When doing a multilib image build, such as bitbake lib32-core-image-sato, the
-system needs to reorder the priority level of the feeds.  If it does not
-reorder the priorities, then 64-bit items can be selected by the automatic
-dependency resolution in Smart.
+As I've said before you'll need to be pre-processing these files
+anyway, so either the class gets *even more* logic or you just deal
+with it.  Over time more and more upstreams will get systemd support
+so we'll be carrying overcomplicated logic for no reason.  We're
+really just talking about one conditional and a sed call here.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/populate_sdk_rpm.bbclass | 11 ++++++++++-
- meta/classes/rootfs_rpm.bbclass       | 13 +++++++++++--
- 2 files changed, 21 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
-index 00a3ab4..0595aa7 100644
---- a/meta/classes/populate_sdk_rpm.bbclass
-+++ b/meta/classes/populate_sdk_rpm.bbclass
-@@ -55,18 +55,27 @@ populate_sdk_rpm () {
- 	mkdir -p ${INSTALL_ROOTFS_RPM}/etc/rpm/
- 
- 	# List must be prefered to least preferred order
-+	default_extra_rpm=""
- 	INSTALL_PLATFORM_EXTRA_RPM=""
- 	for i in ${MULTILIB_PREFIX_LIST} ; do
- 		old_IFS="$IFS"
- 		IFS=":"
- 		set $i
- 		IFS="$old_IFS"
-+		mlib=$1
- 		shift #remove mlib
- 		while [ -n "$1" ]; do
--			INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+			if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
-+				default_extra_rpm="$default_extra_rpm $1"
-+			else
-+				INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+			fi
- 			shift
- 		done
- 	done
-+	if [ -n "$default_extra_rpm" ]; then
-+		INSTALL_PLATFORM_EXTRA_RPM="$default_extra_rpm $INSTALL_PLATFORM_EXTRA_RPM"
-+	fi
- 	export INSTALL_PLATFORM_EXTRA_RPM
- 
- 	package_install_internal_rpm
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5651243..920380e 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -62,18 +62,27 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	mkdir -p ${INSTALL_ROOTFS_RPM}/etc/rpm/
- 
- 	# List must be prefered to least preferred order
-+	default_extra_rpm=""
- 	INSTALL_PLATFORM_EXTRA_RPM=""
- 	for i in ${MULTILIB_PREFIX_LIST} ; do
- 		old_IFS="$IFS"
- 		IFS=":"
- 		set $i
- 		IFS="$old_IFS"
-+		mlib=$1
- 		shift #remove mlib
--		while [ -n "$1" ]; do  
--			INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+		while [ -n "$1" ]; do
-+			if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
-+				default_extra_rpm="$default_extra_rpm $1"
-+			else
-+				INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+			fi
- 			shift
- 		done
- 	done
-+	if [ -n "$default_extra_rpm" ]; then
-+		INSTALL_PLATFORM_EXTRA_RPM="$default_extra_rpm $INSTALL_PLATFORM_EXTRA_RPM"
-+	fi
- 	export INSTALL_PLATFORM_EXTRA_RPM
- 
- 	package_install_internal_rpm
--- 
-1.8.1.2.545.g2f19ada
-
+Ross
 
 
