@@ -1,24 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1U87pe-0000YJ-B5
-	for Openembedded-core@lists.openembedded.org;
-	Wed, 20 Feb 2013 12:27:27 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1KBBFcj004783
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2013 03:11:15 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Wed, 20 Feb 2013 03:11:14 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Feb 2013 05:11:12 -0600
-Message-ID: <1361358672-65311-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] genext2fs.inc: Add nativesdk build capability
+	(envelope-from <laurentiu.palcu@intel.com>) id 1U88YS-0001eq-Kq
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Feb 2013 13:13:44 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Feb 2013 03:57:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,701,1355126400"; d="scan'208";a="293537100"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2013 03:57:31 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Feb 2013 13:57:29 +0200
+Message-Id: <1361361450-30087-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] gconf.bbclass: make postinstall fail silently when running offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2013 11:27:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Feb 2013 12:13:44 -0000
 
-In order to generate new disk images for ext(2,3,4) which contain root
-file systems we do not want to rely on the host's genext2fs which may
-have different arguments and features, so allow the nativesdk
-genext2fs binary to be built.
+Gconf backend does not accept special characters in configuration source
+addresses. When populating SDK target sysroot from core-image-sato, for
+example, the configuration source address contains "1.3+snapshot" in it
+and '+' is an invalid character. Thus, gconftool-2 will fail and the
+build will stop at do_rootfs because the log contains the "ERROR"
+string.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Since failing offline will postpone the postinstall execution for
+target's first boot, we can silently fail here, so the build can
+complete.
+
+[YOCTO #3893]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/recipes-devtools/genext2fs/genext2fs.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/gconf.bbclass |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/genext2fs/genext2fs.inc b/meta/recipes-devtools/genext2fs/genext2fs.inc
-index 8bf2fce..0e39068 100644
---- a/meta/recipes-devtools/genext2fs/genext2fs.inc
-+++ b/meta/recipes-devtools/genext2fs/genext2fs.inc
-@@ -13,4 +13,4 @@ S = "${WORKDIR}/genext2fs-${PV}"
- 
- inherit autotools
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/classes/gconf.bbclass b/meta/classes/gconf.bbclass
+index e9076b2..11ad495 100644
+--- a/meta/classes/gconf.bbclass
++++ b/meta/classes/gconf.bbclass
+@@ -23,8 +23,14 @@ fi
+ SCHEMA_LOCATION=$D/etc/gconf/schemas
+ for SCHEMA in ${SCHEMA_FILES}; do
+ 	if [ -e $SCHEMA_LOCATION/$SCHEMA ]; then
+-		HOME=$D/root gconftool-2 \
+-			--makefile-install-rule $SCHEMA_LOCATION/$SCHEMA > /dev/null
++		export HOME=$D/root
++		if [ "x$D" != "x" ]; then
++			gconftool-2 \
++				--makefile-install-rule $SCHEMA_LOCATION/$SCHEMA > /dev/null 2>&1 || exit 1
++		else
++			gconftool-2 \
++				--makefile-install-rule $SCHEMA_LOCATION/$SCHEMA > /dev/null
++		fi
+ 	fi
+ done
+ }
 -- 
-1.7.1
+1.7.9.5
 
 
 
