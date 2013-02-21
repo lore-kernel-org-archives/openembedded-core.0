@@ -1,49 +1,39 @@
-Received: from mailbackup.inode.at ([213.229.60.24])
+Received: from mail-vb0-f43.google.com ([209.85.212.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <michael.thalmeier@hale.at>) id 1U8T6g-0005kH-Pa
+	(envelope-from <ross.burton@intel.com>) id 1U8Thw-0006mN-5k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 11:10:28 +0100
-Received: from [62.99.145.13] (port=25270 helo=mx.inode.at)
-	by mailbackup.inode.at with esmtp (Exim 4.76)
-	(envelope-from <michael.thalmeier@hale.at>) id 1U8SdG-0007Wc-3h
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 10:40:02 +0100
-Received: from [83.64.51.210] (port=2752 helo=gateway1.hale)
-	by smartmx-11.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <michael.thalmeier@hale.at>)
-	id 1U8SdD-0003Bb-HA for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 10:39:59 +0100
-Received: from mail.hale (mail.hale [192.168.100.5])
-	by gateway1.hale (8.13.8/8.13.7) with ESMTP id r1L9dooi029366
+	Thu, 21 Feb 2013 11:48:56 +0100
+Received: by mail-vb0-f43.google.com with SMTP id fs19so5609360vbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 10:39:50 +0100
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.hale (Postfix) with ESMTP id 8BD97662BF7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 10:39:45 +0100 (CET)
-X-Virus-Scanned: amavisd-new at hale
-Received: from mail.hale ([127.0.0.1])
-	by localhost (mail.hale [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eu9gUiq+sl9p
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 10:39:40 +0100 (CET)
-Received: from entw49.HALE (entw49.hale [192.168.100.117])
-	by mail.hale (Postfix) with ESMTP id 606DE662BF3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 10:39:40 +0100 (CET)
-From: Michael Thalmeier <michael.thalmeier@hale.at>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Feb 2013 10:38:59 +0100
-Message-Id: <1361439539-19732-1-git-send-email-michael.thalmeier@hale.at>
-X-Mailer: git-send-email 1.8.1.2
+	Thu, 21 Feb 2013 02:32:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=vWzm2KaEgI3OmTYUoPTobJu68EqC/3uOCRqOBIZ55Bk=;
+	b=Lf+JkROrYMvVoB+tUAJUbzTPuL3xCBCeEu/Gz7rKXNp0RVyxpFllqCtiTo3zfDpOmJ
+	ca40LiYI95yFoPJ1+j1m5uKt14JC3pLLvyQ5/fWz0JpUYRul6oNpOZAUcqhOCcrRQRlR
+	d8mcf9JczTIdzy9mzhamOiS1CGyUB56n4tuARL5Zacx3gf6HJlMaO22Om2OdRdXo2YFK
+	4QDhWZxXPIQR1B5iMGU8YbjB914r+5qzHQTF0caP/5IrzKW8kk3o/hIZujEpJSQqqOCa
+	MPqwozzr7o1w/bkRHFshVZaCumk5ER0huqHxWt9ZxgnTLEGqeKWbNB4+RdU3QOmyuD+u
+	//mA==
+X-Received: by 10.52.74.34 with SMTP id q2mr26493675vdv.76.1361442763906; Thu,
+	21 Feb 2013 02:32:43 -0800 (PST)
 MIME-Version: 1.0
-X-HALE-MailScanner-Information: Please contact the ISP for more information
-X-MailScanner-ID: r1L9dooi029366
-X-HALE-MailScanner: Found to be clean
-X-HALE-MailScanner-From: michael.thalmeier@hale.at
-MailScanner-NULL-Check: 1362044391.96891@8Ub8AYBkgtNqYpLZkEhGiQ
-X-Spam-Status: No
-Subject: [PATCH] python-argparse: add RDEPENDS on python-textutils
+Received: by 10.58.85.36 with HTTP; Thu, 21 Feb 2013 02:32:22 -0800 (PST)
+In-Reply-To: <20130220231330.GY3300@jama>
+References: <1361202441-22679-1-git-send-email-constantinx.musca@intel.com>
+	<CAF6bG8dW=kCYM3c-_4A_hzNjiAQZjz6YKByZDjLYZR4y3j2-Aw@mail.gmail.com>
+	<5124E661.5030004@intel.com>
+	<CAJTo0LYmwDKSvJAUPD-PcTC2eUkgOmT67jM=7ZShVVC5JXuS-A@mail.gmail.com>
+	<20130220231330.GY3300@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Feb 2013 10:32:22 +0000
+Message-ID: <CAJTo0LaRrsYgXC5NnOQvxTwm=VtXR9ySaS1ky7+1uu3eoq0Xaw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQksZsZfi0d+Y51++t1Ot/ubv8mLZS/lzghknS2s5oLhHxZuRSKGocADnAqTkIJ/xa8ZfapN
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] jpeg: upgrade to 9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,36 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 10:10:36 -0000
+X-List-Received-Date: Thu, 21 Feb 2013 10:48:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The argparse module uses the textwrapper modules contained in
-python-textutils.
+On 20 February 2013 23:13, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> But we can cherry-pick any libjpeg fixes until we've bitten the bullet
+>> and integrated ruby.
+>
+> ruby-native is already in meta-ruby
 
-Signed-off-by: Michael Thalmeier <michael.thalmeier@hale.at>
----
- meta/recipes-devtools/python/python-argparse_1.2.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Yes, "biting the bullet" means either committing to building WebKit in
+oe-core or not.
 
-diff --git a/meta/recipes-devtools/python/python-argparse_1.2.1.bb b/meta/recipes-devtools/python/python-argparse_1.2.1.bb
-index 7c15575..752ad64 100644
---- a/meta/recipes-devtools/python/python-argparse_1.2.1.bb
-+++ b/meta/recipes-devtools/python/python-argparse_1.2.1.bb
-@@ -3,7 +3,8 @@ SECTION = "devel/python"
- LICENSE = "PSF"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=09d08bb5b7047e2688ea3faad6408aa8"
- SRCNAME = "argparse"
--PR = "r2"
-+PR = "r3"
-+RDEPENDS_${PN} += "python-textutils"
- 
- SRC_URI = "http://argparse.googlecode.com/files/${SRCNAME}-${PV}.tar.gz"
- SRC_URI[md5sum] = "2fbef8cb61e506c706957ab6e135840c"
--- 
-1.8.1.2
-
-
---
-Scanned by MailScanner.
-
+Ross
 
 
