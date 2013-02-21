@@ -1,28 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1U8fsG-0008Ju-NV
+	(envelope-from <joe.slater@windriver.com>) id 1U8gY6-00014p-8X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Feb 2013 00:48:33 +0100
+	Fri, 22 Feb 2013 01:32:12 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1LNWADt005915
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Feb 2013 15:32:10 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 21 Feb 2013 15:32:09 -0800
-Date: Thu, 21 Feb 2013 17:31:50 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Message-ID: <20130221173150.5a8764e4@e6410-2>
-In-Reply-To: <13cff11cfb1.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-References: <cover.1361468282.git.peter.seebach@windriver.com>
-	<da66b07f031b6522b25dc353724b3c656d7511e1.1361468282.git.peter.seebach@windriver.com>
-	<13cff11cfb1.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1LMkVAO000031
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2013 14:46:31 -0800 (PST)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 21 Feb 2013 14:46:30 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jeff.polk@windriver.com>
+Date: Thu, 21 Feb 2013 14:46:30 -0800
+Message-ID: <1361486790-19403-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] More n32 fixups
+Subject: [oe-core PATCH] pull ldlinux.sys and isolinux.bin from correct places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,43 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 23:48:34 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Feb 2013 00:32:13 -0000
+Content-Type: text/plain
 
-On Fri, 22 Feb 2013 00:23:48 +0100
-Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
+ldlinux.sys is used when building an hdd image, and
+isolinux.bin when building an iso bootimage.  In both
+cases, we want to look in the sysroot for MACHINE,
+not in the one for the multilib we might be using.
 
-> > Also, the insane.bbclass change spelled "mips64el" as "mipsel64",
-> > which no one noticed because no one's using little-endian n32,
-> > apparently.  
-> 
-> Would be great if you could have a look at the FIXME in 
-> meta/recipes-core/uclibc/uclibc-config.inc for the correct setting of 
-> the respective mips ABI.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/classes/syslinux.bbclass |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-Hmm. I can look, but I don't think I've touched uclibc in a fairly
-long time. Untested, but possibly pretty close:
-
---- a/meta/recipes-core/uclibc/uclibc-config.inc
-+++ b/meta/recipes-core/uclibc/uclibc-config.inc
-@@ -73,9 +73,11 @@ def map_uclibc_abi(o, d):
-             return 'ARM_EABI'
-         else:
-             return 'ARM_OABI'
--    # FIXME: This is inaccurate! Handle o32, n32, n64
-     elif re.match('^mips.*64$', arch):
--        return 'MIPS_N64_ABI'
-+       if o.endswith('gnun32'):
-+            return 'MIPS_N32_ABI'
-+       else:
-+            return 'MIPS_N64_ABI'
-     elif re.match('^mips.*', arch):
-         return 'MIPS_O32_ABI'
-     return ""
-
--s
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index c4596bf..666ffd6 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -39,14 +39,16 @@ syslinux_populate() {
+ 	fi
+ }
+ 
++# we want to pull isolinux.bin and ldlinux.sys from the MACHINE sysroot
++#
+ syslinux_iso_populate() {
+ 	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
+-	install -m 0644 ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
++	install -m 0644 ${STAGING_DIR}/${MACHINE}/${libdir}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
+ }
+ 
+ syslinux_hddimg_populate() {
+ 	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
+-	install -m 0444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
++	install -m 0444 ${STAGING_DIR}/${MACHINE}/${libdir}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
+ }
+ 
+ syslinux_hddimg_install() {
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.7.3.4
+
 
 
