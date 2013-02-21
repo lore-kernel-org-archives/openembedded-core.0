@@ -1,22 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1U8aCD-00053w-DZ
+	(envelope-from <Peter.Seebach@windriver.com>) id 1U8aNp-000611-9z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 18:44:42 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Feb 2013 09:28:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,710,1355126400"; d="scan'208";a="265780386"
-Received: from unknown (HELO localhost) ([10.255.12.193])
-	by orsmga001.jf.intel.com with ESMTP; 21 Feb 2013 09:28:19 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Feb 2013 09:28:02 -0800
-Message-Id: <3b7c2a23848052209b6fd4606093ca830ebf7a6c.1361467682.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: richard.purdie@intel.com, Darren Hart <dvhart@linux.intel.com>,
-	alexandru.c.georgescu@intel.com
-Subject: [PATCH] install: Look for grub2 files on the initramfs, not rootfs
+	Thu, 21 Feb 2013 18:56:38 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1LHeOke004577
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2013 09:40:24 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Thu, 21 Feb 2013 09:40:23 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Feb 2013 11:40:21 -0600
+Message-ID: <cover.1361468282.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] MIPS n32 shouldn't have SITEINFO_BITS = "64"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,97 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 17:44:43 -0000
+X-List-Received-Date: Thu, 21 Feb 2013 17:56:43 -0000
+Content-Type: text/plain
 
-Fixes [YOCTO #3870] atom-pc - cannot boot image on netbook after install
+MIPS n32 is a mips64 which is 32 bit. This historical quirk is recognized
+by insane.bbclass (except for a typo I made in a previous patch, also
+fixed here), but siteinfo doesn't know, so various programs fail to build
+correctly for it because SITEINFO_BITS is telling them they are 64-bit
+builds. (We ran into this with nss, which isn't in oe-core that I know
+of.)
 
-The problem here is that grub2 is installed but a grub 1 menu.lst is
-created at install time. At boot, grub2 doesn't find a grub.cfg file and
-drops to the grub shell.
+So, add "bit-32" to mips-linux-gnun32's feature list (the SITEINFO_BITS
+test checks for 32 first, 64 second, so I don't have to remove bit-64),
+and remove the nonexistent mips-linux-gnun32 cases. Likewise for
+mipsel/mips64el.
 
-This happens because the installer is looking for 40_custom (a grub2
-file) on the rootfs, but grub2 isn't installed on the rootfs. It exists
-in the initramfs. Patching the installer to look on the initramfs
-resolves the problem.
+The following changes since commit a5362de60c0051f16b88a40bd9cb41915bee0b0f:
+  Ross Burton (1):
+        rootfs_ipkg: fix BAD_RECOMMENDATIONS handling
 
-Note that the problem may have occurred if grub2 used to be installed on
-the rootfs but was later removed. In any case, the installer is HORRIBLE
-and really needs to be completely redesigned as part of the deployment
-effort. For now, this should get the live image installer limping along
-again.
+are available in the git repository at:
 
-Tested on a Toshiba NB-305.
+  git://git.yoctoproject.org/poky-contrib seebs/gnun32
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/gnun32
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: alexandru.c.georgescu@intel.com
-Cc: sgw@linux.intel.com
-Cc: ross.burton@intel.com
-Cc: richard.purdie@intel.com
----
- .../initrdscripts/files/init-install.sh            | 25 +++++++++++-----------
- .../initrdscripts/initramfs-live-install_1.0.bb    |  2 +-
- 2 files changed, 14 insertions(+), 13 deletions(-)
+Peter Seebach (1):
+  More n32 fixups
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index c1f8cba..2c4486a 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -151,14 +151,19 @@ if [ -d /ssd/etc/ ] ; then
-     fi
- fi
- 
--if [ -f /ssd/etc/grub.d/40_custom ] ; then
-+if [ -f /etc/grub.d/40_custom ] ; then
-     echo "Preparing custom grub2 menu..."
--    sed -i "s@__ROOTFS__@$rootfs $rootwait@g" /ssd/etc/grub.d/40_custom
--    sed -i "s/__VIDEO_MODE__/$3/g" /ssd/etc/grub.d/40_custom
--    sed -i "s/__VGA_MODE__/$4/g" /ssd/etc/grub.d/40_custom
--    sed -i "s/__CONSOLE__/$5/g" /ssd/etc/grub.d/40_custom
-+    GRUBCFG="/bootmnt/boot/grub/grub.cfg"
-     mount $bootfs /bootmnt
--    cp /ssd/etc/grub.d/40_custom /bootmnt/40_custom
-+    mkdir -p $(dirname $GRUBCFG)
-+    cp /etc/grub.d/40_custom $GRUBCFG
-+    sed -i "s@__ROOTFS__@$rootfs $rootwait@g" $GRUBCFG
-+    sed -i "s/__VIDEO_MODE__/$3/g" $GRUBCFG
-+    sed -i "s/__VGA_MODE__/$4/g" $GRUBCFG
-+    sed -i "s/__CONSOLE__/$5/g" $GRUBCFG
-+    sed -i "/#/d" $GRUBCFG
-+    sed -i "/exec tail/d" $GRUBCFG
-+    chmod 0444 $GRUBCFG
-     umount /bootmnt
- fi
- 
-@@ -171,12 +176,8 @@ grub-install --root-directory=/ssd /dev/${device}
- 
- echo "(hd0) /dev/${device}" > /ssd/boot/grub/device.map
- 
--if [ -f /ssd/40_custom ] ; then
--    mv /ssd/40_custom /ssd/boot/grub/grub.cfg
--    sed -i "/#/d" /ssd/boot/grub/grub.cfg
--    sed -i "/exec tail/d" /ssd/boot/grub/grub.cfg
--    chmod 0444 /ssd/boot/grub/grub.cfg
--else
-+# If grub.cfg doesn't exist, assume GRUB 0.97 and create a menu.lst
-+if [ ! -f /ssd/boot/grub/grub.cfg ] ; then
-     echo "Preparing custom grub menu..."
-     echo "default 0" > /ssd/boot/grub/menu.lst
-     echo "timeout 30" >> /ssd/boot/grub/menu.lst
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-index ac73ef8..0f80f0e 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-install.sh"
- 
--PR = "r7"
-+PR = "r8"
- 
- RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs"
- 
--- 
-1.8.1.2
+ meta/classes/insane.bbclass   |    2 +-
+ meta/classes/siteinfo.bbclass |    6 ++----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
 
 
