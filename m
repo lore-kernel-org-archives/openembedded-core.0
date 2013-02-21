@@ -1,27 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1U8fBe-0007Mi-Qw
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U8fhw-00085T-A5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Feb 2013 00:04:23 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1LMm9jv009680
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Feb 2013 14:48:10 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Thu, 21 Feb 2013 14:48:07 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Feb 2013 17:18:29 -0600
-Message-ID: <1361488709-2340-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1361488709-2340-1-git-send-email-mark.hatle@windriver.com>
-References: <1361488709-2340-1-git-send-email-mark.hatle@windriver.com>
+	Fri, 22 Feb 2013 00:37:46 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e52so30298eek.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Feb 2013 15:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:date:message-id:in-reply-to:references
+	:user-agent:subject:mime-version:content-type
+	:content-transfer-encoding;
+	bh=ZhlGAgnhtm5EiKmc/FtRk0PtlQd1ZFMIWHI9FupGvoc=;
+	b=O8y5q8yIBD7joXMCip2YtG07XEJC7j9nGXNpJbnHNVxpc/b+pdvdfCBicwTf+bV2N2
+	/tiR+z7NsncMIU65EbQK8GPD5K+nA//jiRVyUh1ggLcTasOk6OKUyd0LGk//DLa5Myi8
+	++dxmt8+e9gXBd7Mfg7xNTl+CvQvYjwImUhlRYixUvob4dLq2Spkc6+6MRfpSEEoA9wZ
+	kh11neDFPHUE5ZXjssUZmS/V8UH51mI3xG76rm6QDd5iQE5JbWRcv5FlWA3usaR5Smr/
+	GRJNlBOXBfnltOYgFk3UGxZ+2/qZV5U2z/O1q4v4rA4UTZ/8nwQZJbff6/SA9nk9JtcU
+	mpkw==
+X-Received: by 10.14.220.135 with SMTP id o7mr86433559eep.3.1361488891663;
+	Thu, 21 Feb 2013 15:21:31 -0800 (PST)
+Received: from [46.75.29.213] (046075029213.atmpu0009.highway.a1.net.
+	[46.75.29.213])
+	by mx.google.com with ESMTPS id 44sm370544eek.5.2013.02.21.15.21.28
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 21 Feb 2013 15:21:30 -0800 (PST)
+From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Feb 2013 00:23:48 +0100
+Message-ID: <13cff11cfb1.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <13cff0cc5c1.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+References: <cover.1361468282.git.peter.seebach@windriver.com>
+	<da66b07f031b6522b25dc353724b3c656d7511e1.1361468282.git.peter.seebach@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.2 (build:
+	2100209)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 1/1] rootfs_rpm.bbclass: Handle multilib configures with different OS values
+Subject: Re: [PATCH 1/1] More n32 fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,265 +49,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 23:04:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Feb 2013 23:37:49 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-[ CQID: WIND00404082 ]
+On 21 February 2013 18:40:22 Peter Seebach <peter.seebach@windriver.com> wrote:
+> For perfectly sound reasons, n32 MIPS is a mips64 subset denoted by an
+> ABI change, thus, "mips64-vendor-linux-gnun32" rather than
+> "mips-vendor-linux-gnu". A previous change had fixed up insane.bbclass
+> to recognize these, which mostly worked, but left SITEINFO_BITS set to
+> 64.
+>
+> Since bit-32 is processed first, and there are specific checks for
+> linux-gnun32, modify the mips64-linux-gnun32 lines to specify "bit-32",
+> so things that check SITEINFO_BITS get the right answer. Also, drop
+> the mips{,el}-linux-gnun32 lines, because that's not a valid combination;
+> n32 only makes sense for mips64.
+>
+> Also, the insane.bbclass change spelled "mips64el" as "mipsel64", which
+> no one noticed because no one's using little-endian n32, apparently.
 
-It is possible for the TARGET_OS to change dependending on the multilib used
-for a given package build.  mips64 has two potential TARGET_OS values: linux
-and linux-gnun32.  The RPM and Smart setup needs to distinguish between the
-two otherwise packages of the "non-default" TARGET_OS may be ignored as
-incompatible.
+Would be great if you could have a look at the FIXME in 
+meta/recipes-core/uclibc/uclibc-config.inc for the correct setting of 
+the respective mips ABI.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass      | 31 ++++++++------------------
- meta/classes/populate_sdk_rpm.bbclass | 42 +++++++++++++++++++++++++----------
- meta/classes/rootfs_rpm.bbclass       | 37 +++++++++++++++++++++---------
- 3 files changed, 66 insertions(+), 44 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index dac89a7..7a1da33 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -248,8 +248,6 @@ translate_oe_to_smart() {
- package_install_internal_rpm () {
- 
- 	local target_rootfs="$INSTALL_ROOTFS_RPM"
--	local platform="`echo $INSTALL_PLATFORM_RPM | sed 's#-#_#g'`"
--	local platform_extra="`echo $INSTALL_PLATFORM_EXTRA_RPM | sed 's#-#_#g'`"
- 	local package_to_install="$INSTALL_PACKAGES_RPM"
- 	local package_attemptonly="$INSTALL_PACKAGES_ATTEMPTONLY_RPM"
- 	local package_linguas="$INSTALL_PACKAGES_LINGUAS_RPM"
-@@ -273,29 +271,17 @@ package_install_internal_rpm () {
- 		# Setup base system configuration
- 		echo "Note: configuring RPM platform settings"
- 		mkdir -p ${target_rootfs}/etc/rpm/
--		if [ -n "${sdk_mode}" ]; then
--			platform_vendor="${SDK_VENDOR}"
--			platform_os="${SDK_OS}"
--		else
--			platform_vendor="${TARGET_VENDOR}"
--			platform_os="${TARGET_OS}"
--		fi
--
--		echo "${platform}${platform_vendor}-${platform_os}" > ${target_rootfs}/etc/rpm/platform
-+		echo "$INSTALL_PLATFORM_RPM" > ${target_rootfs}/etc/rpm/platform
- 
--
--		if [ ! -z "$platform_extra" ]; then
--			for pt in $platform_extra ; do
-+		if [ ! -z "$INSTALL_PLATFORM_EXTRA_RPM" ]; then
-+			for pt in $INSTALL_PLATFORM_EXTRA_RPM ; do
- 				channel_priority=$(expr $channel_priority + 5)
- 				case $pt in
--					noarch | any | all)
--						os="`echo ${platform_os} | sed "s,-.*,,"`.*"
--						;;
--					*)
--						os="${platform_os}"
-+					noarch-* | any-* | all-*)
-+						pt=$(echo $pt | sed "s,-linux.*$,-linux\.*,")
- 						;;
- 				esac
--				echo "$pt-.*-$os" >> ${target_rootfs}/etc/rpm/platform
-+				echo "$pt" >> ${target_rootfs}/etc/rpm/platform
- 			done
- 		fi
- 
-@@ -360,12 +346,13 @@ EOF
- 		smart --data-dir=${target_rootfs}/var/lib/smart config --set rpm-extra-macros._tmppath=/install/tmp
- 		# Optional debugging
- 		#smart --data-dir=${target_rootfs}/var/lib/smart config --set rpm-log-level=debug
-+		#smart --data-dir=${target_rootfs}/var/lib/smart config --set rpm-log-file=/tmp/smart-debug-logfile
- 
- 		# Delay this until later...
- 		#smart --data-dir=${target_rootfs}/var/lib/smart channel --add rpmsys type=rpm-sys -y
- 
--		platform_extra_fixed=`echo "$platform_extra" | tr - _`
--		for arch in $platform_extra_fixed ; do
-+		for canonical_arch in $INSTALL_PLATFORM_EXTRA_RPM; do
-+			arch=$(echo $canonical_arch | sed "s,\([^-]*\)-.*,\1,")
- 			if [ -d ${DEPLOY_DIR_RPM}/$arch -a ! -e ${target_rootfs}/install/channel.$arch.stamp ] ; then
- 				echo "Note: adding Smart channel $arch ($channel_priority)"
- 				smart --data-dir=${target_rootfs}/var/lib/smart channel --add $arch type=rpm-md type=rpm-md baseurl=${DEPLOY_DIR_RPM}/$arch -y
-diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
-index 0595aa7..2dfb80c 100644
---- a/meta/classes/populate_sdk_rpm.bbclass
-+++ b/meta/classes/populate_sdk_rpm.bbclass
-@@ -39,7 +39,7 @@ populate_sdk_rpm () {
- 	# This needs to work in the same way as rootfs_rpm.bbclass!
- 	#
- 	export INSTALL_ROOTFS_RPM="${SDK_OUTPUT}/${SDKTARGETSYSROOT}"
--	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
-+	export INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR}-${TARGET_OS}"
- 	export INSTALL_PACKAGES_RPM="${TOOLCHAIN_TARGET_TASK}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${TOOLCHAIN_TARGET_TASK_ATTEMPTONLY}"
- 	export INSTALL_PACKAGES_LINGUAS_RPM=""
-@@ -57,20 +57,31 @@ populate_sdk_rpm () {
- 	# List must be prefered to least preferred order
- 	default_extra_rpm=""
- 	INSTALL_PLATFORM_EXTRA_RPM=""
--	for i in ${MULTILIB_PREFIX_LIST} ; do
-+	for os in ${MULTILIB_OS_LIST} ; do
- 		old_IFS="$IFS"
- 		IFS=":"
--		set $i
-+		set -- $os
- 		IFS="$old_IFS"
- 		mlib=$1
--		shift #remove mlib
--		while [ -n "$1" ]; do
--			if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
--				default_extra_rpm="$default_extra_rpm $1"
--			else
--				INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+		mlib_os=$2
-+		for prefix in ${MULTILIB_PREFIX_LIST} ; do
-+			old_IFS="$IFS"
-+			IFS=":"
-+			set -- $prefix
-+			IFS="$old_IFS"
-+			if [ "$mlib" != "$1" ]; then
-+				continue
- 			fi
--			shift
-+			shift #remove mlib
-+			while [ -n "$1" ]; do
-+				platform="$(echo $1 | tr - _)-.*-$mlib_os"
-+				if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
-+					default_extra_rpm="$default_extra_rpm $platform"
-+				else
-+					INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $platform"
-+				fi
-+				shift
-+			done
- 		done
- 	done
- 	if [ -n "$default_extra_rpm" ]; then
-@@ -85,7 +96,7 @@ populate_sdk_rpm () {
- 	## install nativesdk ##
- 	echo "Installing NATIVESDK packages"
- 	export INSTALL_ROOTFS_RPM="${SDK_OUTPUT}"
--	export INSTALL_PLATFORM_RPM="${SDK_ARCH}"
-+	export INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${SDK_VENDOR}-${SDK_OS}"
- 	export INSTALL_PACKAGES_RPM="${TOOLCHAIN_HOST_TASK}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${TOOLCHAIN_TARGET_HOST_ATTEMPTONLY}"
- 	export INSTALL_PACKAGES_LINGUAS_RPM=""
-@@ -96,7 +107,8 @@ populate_sdk_rpm () {
- 	# List must be prefered to least preferred order
- 	INSTALL_PLATFORM_EXTRA_RPM=""
- 	for each_arch in ${SDK_PACKAGE_ARCHS} ; do
--		INSTALL_PLATFORM_EXTRA_RPM="$each_arch $INSTALL_PLATFORM_EXTRA_RPM"
-+		platform="$(echo $each_arch | tr - _)-.*-${SDK_OS}"
-+		INSTALL_PLATFORM_EXTRA_RPM="$platform $INSTALL_PLATFORM_EXTRA_RPM"
- 	done
- 	export INSTALL_PLATFORM_EXTRA_RPM
- 
-@@ -121,7 +133,9 @@ python () {
-     # package_arch order is reversed.  This ensures the -best- match is listed first!
-     package_archs = d.getVar("PACKAGE_ARCHS", True) or ""
-     package_archs = ":".join(package_archs.split()[::-1])
-+    package_os = d.getVar("TARGET_OS", True) or ""
-     ml_prefix_list = "%s:%s" % ('default', package_archs)
-+    ml_os_list = "%s:%s" % ('default', package_os)
-     multilibs = d.getVar('MULTILIBS', True) or ""
-     for ext in multilibs.split():
-         eext = ext.split(':')
-@@ -130,9 +144,13 @@ python () {
-             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
-             if default_tune:
-                 localdata.setVar("DEFAULTTUNE", default_tune)
-+                bb.data.update_data(localdata)
-             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
-             package_archs = ":".join([i in "all noarch any".split() and i or eext[1]+"_"+i for i in package_archs.split()][::-1])
-+            package_os = localdata.getVar("TARGET_OS", True) or ""
-             ml_prefix_list += " %s:%s" % (eext[1], package_archs)
-+            ml_os_list += " %s:%s" % (eext[1], package_os)
-     d.setVar('MULTILIB_PREFIX_LIST', ml_prefix_list)
-+    d.setVar('MULTILIB_OS_LIST', ml_os_list)
- }
- 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 920380e..9dc2bf9 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -50,7 +50,7 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	# install packages
- 	# This needs to work in the same way as populate_sdk_rpm.bbclass!
- 	export INSTALL_ROOTFS_RPM="${IMAGE_ROOTFS}"
--	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
-+	export INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR}-${TARGET_OS}"
- 	export INSTALL_PACKAGES_RPM="${PACKAGE_INSTALL}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${PACKAGE_INSTALL_ATTEMPTONLY}"
- 	export INSTALL_PACKAGES_LINGUAS_RPM="${LINGUAS_INSTALL}"
-@@ -64,20 +64,31 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	# List must be prefered to least preferred order
- 	default_extra_rpm=""
- 	INSTALL_PLATFORM_EXTRA_RPM=""
--	for i in ${MULTILIB_PREFIX_LIST} ; do
-+	for os in ${MULTILIB_OS_LIST} ; do
- 		old_IFS="$IFS"
- 		IFS=":"
--		set $i
-+		set -- $os
- 		IFS="$old_IFS"
- 		mlib=$1
--		shift #remove mlib
--		while [ -n "$1" ]; do
--			if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
--				default_extra_rpm="$default_extra_rpm $1"
--			else
--				INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $1"
-+		mlib_os=$2
-+		for prefix in ${MULTILIB_PREFIX_LIST} ; do
-+			old_IFS="$IFS"
-+			IFS=":"
-+			set -- $prefix
-+			IFS="$old_IFS"
-+			if [ "$mlib" != "$1" ]; then
-+				continue
- 			fi
--			shift
-+			shift #remove mlib
-+			while [ -n "$1" ]; do
-+				platform="$(echo $1 | tr - _)-.*-$mlib_os"
-+				if [ "$mlib" = "${BBEXTENDVARIANT}" ]; then
-+					default_extra_rpm="$default_extra_rpm $platform"
-+				else
-+					INSTALL_PLATFORM_EXTRA_RPM="$INSTALL_PLATFORM_EXTRA_RPM $platform"
-+				fi
-+				shift
-+			done
- 		done
- 	done
- 	if [ -n "$default_extra_rpm" ]; then
-@@ -210,7 +221,9 @@ python () {
-     # package_arch order is reversed.  This ensures the -best- match is listed first!
-     package_archs = d.getVar("PACKAGE_ARCHS", True) or ""
-     package_archs = ":".join(package_archs.split()[::-1])
-+    package_os = d.getVar("TARGET_OS", True) or ""
-     ml_prefix_list = "%s:%s" % ('default', package_archs)
-+    ml_os_list = "%s:%s" % ('default', package_os)
-     multilibs = d.getVar('MULTILIBS', True) or ""
-     for ext in multilibs.split():
-         eext = ext.split(':')
-@@ -219,8 +232,12 @@ python () {
-             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
-             if default_tune:
-                 localdata.setVar("DEFAULTTUNE", default_tune)
-+                bb.data.update_data(localdata)
-             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
-             package_archs = ":".join([i in "all noarch any".split() and i or eext[1]+"_"+i for i in package_archs.split()][::-1])
-+            package_os = localdata.getVar("TARGET_OS", True) or ""
-             ml_prefix_list += " %s:%s" % (eext[1], package_archs)
-+            ml_os_list += " %s:%s" % (eext[1], package_os)
-     d.setVar('MULTILIB_PREFIX_LIST', ml_prefix_list)
-+    d.setVar('MULTILIB_OS_LIST', ml_os_list)
- }
--- 
-1.8.1.2.545.g2f19ada
+
+Sent with AquaMail for Android
+http://www.aqua-mail.com
+
 
 
 
