@@ -1,27 +1,20 @@
-Received: from mail-vc0-f179.google.com ([209.85.220.179])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U8Tpt-0006zz-EO
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U8Ug1-00005H-RH
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 11:57:20 +0100
-Received: by mail-vc0-f179.google.com with SMTP id gb23so5569280vcb.24
+	Thu, 21 Feb 2013 12:51:06 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1LBYlbQ021070
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 02:40:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=uBZBCUbyNqHb+wOE4XfD79g8NGaaFtNk9Sjh7W73M+w=;
-	b=SYObOWy+2l4QgbOjpLNWgoDIX2GcXO5xTtQzLN0Ikv4n4TyxtxY8cFNSfSxtBFPuOY
-	ajN5EF7kEGFhEDbJ5lBfVmQgpimkCJDhNSw1zXpcYiIwENueIohpqveYsPWfPGWpa4ix
-	3kuAdrIC13aWDDDtV8hRUrK/ranukuS7iVIMTqw/449bWhgfBFBurBI/Wk8oHYFAvyGG
-	8wwqCts6Nw42LK3C8VUJDuF/H7m4abIVX9go7voGcfnpLaTr9+L3sVdye5eW4vBdhsg+
-	knhyFjDQZuOiR6rGjZaMgLJR5dXv5QEy/jCS/o9SO/TLbeXG2AgrJshJXtvqPkOXiJLT
-	sfhw==
-X-Received: by 10.220.157.18 with SMTP id z18mr30370847vcw.72.1361443257208;
-	Thu, 21 Feb 2013 02:40:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Thu, 21 Feb 2013 02:40:37 -0800 (PST)
-In-Reply-To: <lybobe0xbv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	Thu, 21 Feb 2013 12:34:49 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1U8UQJ-000124-Ki
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Feb 2013 12:34:47 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
 References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1361006114.31795.19.camel@ted>
 	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
@@ -29,12 +22,21 @@ References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJTo0LbAmTuj0dZKq7=wX5uqF9OV7dW7FXd4d2incdKSshXEmQ@mail.gmail.com>
 	<lybobe0xbv.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Feb 2013 10:40:37 +0000
-Message-ID: <CAJTo0LaSGjxG4vZ01jR63UTjoFL3+FNv+mRS3K5X6p5ugodD=Q@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Gm-Message-State: ALoCoQlddAPrdsVbZf2vcLUKUZrWHqpcQoZIdmZvAY8K445EHOB5VzSdFWeFUXOZkBSnU4alv3El
-Cc: openembedded-core@lists.openembedded.org
+	<CAJTo0LaSGjxG4vZ01jR63UTjoFL3+FNv+mRS3K5X6p5ugodD=Q@mail.gmail.com>
+Date: Thu, 21 Feb 2013 12:34:47 +0100
+In-Reply-To: <CAJTo0LaSGjxG4vZ01jR63UTjoFL3+FNv+mRS3K5X6p5ugodD=Q@mail.gmail.com>
+	(Ross Burton's message of "Thu, 21 Feb 2013 10:40:37 +0000")
+Message-ID: <ly7gm12948.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.85
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
 Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,24 +50,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 10:57:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 21 Feb 2013 11:51:08 -0000
+Content-Type: text/plain
 
-On 21 February 2013 10:34, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> oh... this means khem's "meta-systemd: Append ${PN} to SYSTEMD_SERVICE"
-> patch series is incomplete and all the do_install_append() need to get
-> yet more complicated....
+"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-What was originally in meta-systemd, and what is there by simply
-adding a do_install_append that just does install, is plain wrong.
-The moment someone changes the directory structure. it's broken.
+> more upstream over time will also integrate systemd unit files
+> directly.
 
-You only have appends where you don't do the work in the real class.
-Remember that as oe-core supports systemd, all other layers can
-support it too.  meta-systemd can disappear, and more upstream over
-time will also integrate systemd unit files directly.
+When in 5 or 10 years everybody switched to systemd and installs its
+service files by itself, we can mark the relevant code in the class as
+deprecated and remove it.
 
-Ross
+But now, the oe-core systemd implementation causes redundant implementations
+of non trivial code in several packages.
+
+
+Enrico
 
 
