@@ -1,30 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pa0-f50.google.com ([209.85.220.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1U8MCC-0006nE-RS
+	(envelope-from <raj.khem@gmail.com>) id 1U8Par-0007uZ-0X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 03:47:41 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1L2VRPM018740
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Feb 2013 18:31:27 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 20 Feb 2013 18:31:27 -0800
-Message-ID: <512586FE.8010100@windriver.com>
-Date: Thu, 21 Feb 2013 10:31:26 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Thu, 21 Feb 2013 07:25:21 +0100
+Received: by mail-pa0-f50.google.com with SMTP id fa11so4555464pad.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Feb 2013 22:09:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:user-agent;
+	bh=3B4fSxgyZM7k7kIAvzcXL5/9BaajLSJQ8tpdXYSah2A=;
+	b=b6USSbu/JSnUx3BL5NQTC3kpYEuPpOJGys0/Oe/4S1kScaejx2nVrpnvwCUjz3sclA
+	UpijwrWCiWPqWemGpVZXu6UbL1pJYNINyDkJOjQ0OJpqywS9snTtm8IIgcLID8zX8P3P
+	MHNvkUZ9dPsIe0ZilJ6L+skMhlmCA6lxfH6K5Z1jrWS17IXqMQ9/uTtiSER8I01S0902
+	SgB0ZIHJUppb0f8qETev+Z8e1LnNs+iK8Btd+IL84zPSGshjSdKubMDaPQr/062/BrZd
+	y3375OF5PsIWWyDTdXKt+k2WzLxL3tkMohMAxTbS6pVcYsiXZR/OYv7Iu5GYsiSt/XSi
+	/VwA==
+X-Received: by 10.68.213.132 with SMTP id ns4mr53549728pbc.84.1361426948533;
+	Wed, 20 Feb 2013 22:09:08 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id z6sm87806167pav.3.2013.02.20.22.09.07
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 20 Feb 2013 22:09:07 -0800 (PST)
+Date: Wed, 20 Feb 2013 22:08:48 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Alejandro Mery <amery@geeks.cl>
+Message-ID: <20130221060847.GA32373@sakrah.homelinux.org>
+Mail-Followup-To: Alejandro Mery <amery@geeks.cl>,
+	openembedded-core@lists.openembedded.org
+References: <CACB0nks-pBNDmYPPJ3vtPSEmri8Yeh7pJ-X229K6taXNx_DOow@mail.gmail.com>
 MIME-Version: 1.0
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-References: <cover.1361338900.git.Qi.Chen@windriver.com>
-	<fc06c499d04a1cf82c2d426c17cd2331a6bf718d.1361338900.git.Qi.Chen@windriver.com>
-	<CAC1BbcTWjtDiLeDa3970HAL5Za+9iA7sqfs6XsDqahEC4A49gg@mail.gmail.com>
-In-Reply-To: <CAC1BbcTWjtDiLeDa3970HAL5Za+9iA7sqfs6XsDqahEC4A49gg@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 5/5] populate-volatile.sh: remove trailing whitespaces
+In-Reply-To: <CACB0nks-pBNDmYPPJ3vtPSEmri8Yeh7pJ-X229K6taXNx_DOow@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: can't build distro-less beagleboard/uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 02:47:41 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Feb 2013 06:25:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 02/20/2013 10:19 PM, Bernhard Reutner-Fischer wrote:
-> On 20 February 2013 06:55,  <Qi.Chen@windriver.com> wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Remove trailing whitespaces.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../initscripts-1.0/populate-volatile.sh           |    6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> index 24daeb4..d7937b4 100755
->> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> @@ -48,9 +48,9 @@ create_file() {
->>   }
->>
->>   mk_dir() {
->> -       EXEC="
->> -       mkdir -p \"$1\";
->> -       chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
->> +       EXEC="
->> +       mkdir -p \"$1\";
->> +       chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
->>          chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
->>
->>          test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
-> Don't you need ${ROOT_DIR}/etc/volatile.cache.build here (and
-> everywhere else if there are other cases), too?
->
->
-Actually no.
+On (31/01/13 23:49), Alejandro Mery wrote:
+> Hi, I'm trying to make a custom uclibc based distro over oe-core's master,
+> it's going fine for x86 but for my armv7a board uclibc fails to compile.
+> and as suggested on IRC I reproduced it for a distro-less
+> beagleboard/uclibc too. The host is ubuntu 12.04/64 with linaro arm
+> toolchain installed, but I suppose that's not relevant at all.
+> 
+> Same issue happens with default uclibc and with 0.9.33.
+> 
+> log.do_compile: http://sprunge.us/BRWH
+> conf/bblayers.conf: http://sprunge.us/NhHZ
+> conf/local.conf: http://sprunge.us/cHED
 
-The cache is only enabled when ROOT_DIR is "/".
-That is, the cache is disabled if populate-volatile.sh is run at rootfs 
-time.
-
-Best Regards,
-Chen Qi
+can you get rid of PREFERRED_VERSION_uclibc ?= "0.9.33" from your
+local.conf please and retry ?
 
 
