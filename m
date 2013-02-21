@@ -1,44 +1,34 @@
-Received: from mail-ea0-f172.google.com ([209.85.215.172])
+Received: from mail-ie0-f176.google.com ([209.85.223.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1U8QfK-0001Nr-H3
+	(envelope-from <rep.dot.nop@gmail.com>) id 1U8RBB-0002cc-It
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 08:34:03 +0100
-Received: by mail-ea0-f172.google.com with SMTP id f13so3796645eaa.31
+	Thu, 21 Feb 2013 09:07:02 +0100
+Received: by mail-ie0-f176.google.com with SMTP id k13so10751008iea.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Feb 2013 23:17:51 -0800 (PST)
+	Wed, 20 Feb 2013 23:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:date:message-id:in-reply-to:references
-	:user-agent:subject:mime-version:content-type
-	:content-transfer-encoding;
-	bh=Ty4gq68EUVlRxJwAXMmIyEzWP+veGhmT2W1IsVhbxRY=;
-	b=dqA2dg3TaHwjwmmgmQ1Sby6fStr6Ikg4qENG3h5YJUT/qAyJjeT+5C6aF8DImVKq0J
-	Xa1Kj6zMdl0WjavcK44hNzlf52EbHMt+3l33NKCGnes5OSC2HmD4HntiacmPLM9JGQyL
-	2ucOIY+FRFnZBbuAJXjzg5qZSPys3u4KfJfItFDkENuAj0FiD6CRAMo/vQnz1/raSf3g
-	RhK9LmFJveYsPzZixQllrU2qVm5Hnu6i7zRF1PjdZXav6RwlmOAC0RG7elqYDgvxb8Wy
-	2kt5HU5UnxCZSRvCAuGAlGHxtY2SBiOZsETK2sbb37Gs7hAR6kDjYCsCgjJmXKKzr7NP
-	MBHQ==
-X-Received: by 10.14.207.73 with SMTP id m49mr77968775eeo.24.1361431070873;
-	Wed, 20 Feb 2013 23:17:50 -0800 (PST)
-Received: from [46.75.29.213] (046075029213.atmpu0009.highway.a1.net.
-	[46.75.29.213])
-	by mx.google.com with ESMTPS id q5sm113319366eeo.17.2013.02.20.23.17.48
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 20 Feb 2013 23:17:49 -0800 (PST)
-From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Date: Thu, 21 Feb 2013 08:20:09 +0100
-Message-ID: <13cfb9f9663.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-In-Reply-To: <512586FE.8010100@windriver.com>
-References: <cover.1361338900.git.Qi.Chen@windriver.com>
-	<fc06c499d04a1cf82c2d426c17cd2331a6bf718d.1361338900.git.Qi.Chen@windriver.com>
-	<CAC1BbcTWjtDiLeDa3970HAL5Za+9iA7sqfs6XsDqahEC4A49gg@mail.gmail.com>
-	<512586FE.8010100@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.2 (build:
-	2100209)
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=fSPjOB5FkVvqg1+wVLYUXL/a/o5aCW1JWBqDDQb4K54=;
+	b=cDBAyEwy7UlsC3O07ig7GPaMTfpiBHCxXeQTJqQVIOnGjA4CE7PoSES7TjyKvMsJ1q
+	hYhEaC/2U4yevNVm2e29debut9/JvHuzCVY8kV0qK6o0T7mXwhB4iaisFChDy3su+yYN
+	j9f+xlBHMp6DQGquV64SB88urfST2quCVR738HdQmgzHcjXtueiTAIYjEfx6/bhsfq6/
+	WJ7k7cNPN18x3+cKKsnWpHnoDoehsLNfiijytPJxEiwRyWt98W37Snm4F/e3TBCF9bU6
+	rKuNfHlNu0QOaBg+ayt15IljqG0qiEonr/nNJdxEA0uDu4BSXe9mniEMpLJt6VuEiPSH
+	dlbQ==
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 5/5] populate-volatile.sh: remove trailing whitespaces
+X-Received: by 10.50.46.197 with SMTP id x5mr12607065igm.7.1361433045392; Wed,
+	20 Feb 2013 23:50:45 -0800 (PST)
+Received: by 10.64.143.228 with HTTP; Wed, 20 Feb 2013 23:50:45 -0800 (PST)
+In-Reply-To: <5125C921.2030407@linux.intel.com>
+References: <1361394588-30527-1-git-send-email-farrah.rashid@windriver.com>
+	<5125C921.2030407@linux.intel.com>
+Date: Thu, 21 Feb 2013 08:50:45 +0100
+Message-ID: <CAC1BbcQ-5Jh-k_1nBd0O3DXCa6EuuVBdkgmj2cPhYFSOjGH1BQ@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Fix tcp-wrappers for sshd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,31 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 07:34:04 -0000
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Feb 2013 08:07:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 21 February 2013 03:31:26 ChenQi <Qi.Chen@windriver.com> wrote:
-
-> >>          test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> 
-> /etc/volatile.cache.build
-> > Don't you need ${ROOT_DIR}/etc/volatile.cache.build here (and
-> > everywhere else if there are other cases), too?
-> >
-> >
-> Actually no.
+On 21 February 2013 08:13, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/20/2013 01:09 PM, farrah rashid wrote:
+>>
+>> farrah rashid (2):
+>>    tcp-wrappers: remove size_t.patch
+>>    tcp-wrappers: add socklen_t.patch
+>>
+>>   .../tcp-wrappers/tcp-wrappers-7.6/size_t.patch     |   44
+>> ---------------
+>>   .../tcp-wrappers/tcp-wrappers-7.6/socklen_t.patch  |   59
+>> ++++++++++++++++++++
+>>   .../tcp-wrappers/tcp-wrappers_7.6.bb               |    4 +-
+>>   3 files changed, 61 insertions(+), 46 deletions(-)
+>>   delete mode 100644
+>> meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/size_t.patch
+>>   create mode 100644
+>> meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/socklen_t.patch
+>>
 >
-> The cache is only enabled when ROOT_DIR is "/".
-> That is, the cache is disabled if populate-volatile.sh is run at rootfs
-> time.
+> This must be for Danny, please mark that in the patch in the future.
 
-Thanks for the explanation.
-Cheers,
-
-
-Sent with AquaMail for Android
-http://www.aqua-mail.com
-
-
+socklen_t is also needed on !GLIBC hosts since a long time now (IIRC
+it was even in SUSv2).
+I would just use most of the syndicated patches from debian/patches/ from
+http://ftp.de.debian.org/debian/pool/main/t/tcp-wrappers/tcp-wrappers_7.6.q-24.debian.tar.xz
+YMMV.
 
 
