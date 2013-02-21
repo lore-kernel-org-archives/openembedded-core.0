@@ -1,39 +1,40 @@
-Received: from mail-vb0-f43.google.com ([209.85.212.43])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U8Thw-0006mN-5k
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U8Tjz-0006rk-29
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Feb 2013 11:48:56 +0100
-Received: by mail-vb0-f43.google.com with SMTP id fs19so5609360vbb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Feb 2013 02:32:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=vWzm2KaEgI3OmTYUoPTobJu68EqC/3uOCRqOBIZ55Bk=;
-	b=Lf+JkROrYMvVoB+tUAJUbzTPuL3xCBCeEu/Gz7rKXNp0RVyxpFllqCtiTo3zfDpOmJ
-	ca40LiYI95yFoPJ1+j1m5uKt14JC3pLLvyQ5/fWz0JpUYRul6oNpOZAUcqhOCcrRQRlR
-	d8mcf9JczTIdzy9mzhamOiS1CGyUB56n4tuARL5Zacx3gf6HJlMaO22Om2OdRdXo2YFK
-	4QDhWZxXPIQR1B5iMGU8YbjB914r+5qzHQTF0caP/5IrzKW8kk3o/hIZujEpJSQqqOCa
-	MPqwozzr7o1w/bkRHFshVZaCumk5ER0huqHxWt9ZxgnTLEGqeKWbNB4+RdU3QOmyuD+u
-	//mA==
-X-Received: by 10.52.74.34 with SMTP id q2mr26493675vdv.76.1361442763906; Thu,
-	21 Feb 2013 02:32:43 -0800 (PST)
+	Thu, 21 Feb 2013 11:51:04 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1LAYj1l013772
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 21 Feb 2013 11:34:46 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1U8TUC-0004iw-Ro; Thu, 21 Feb 2013 11:34:44 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361006114.31795.19.camel@ted>
+	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
+	<1361019187.31795.49.camel@ted> <20130217231955.GF3300@jama>
+	<lyd2vydizm.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LbAmTuj0dZKq7=wX5uqF9OV7dW7FXd4d2incdKSshXEmQ@mail.gmail.com>
+Date: Thu, 21 Feb 2013 11:34:44 +0100
+In-Reply-To: <CAJTo0LbAmTuj0dZKq7=wX5uqF9OV7dW7FXd4d2incdKSshXEmQ@mail.gmail.com>
+	(Ross Burton's message of "Wed, 20 Feb 2013 19:58:28 +0000")
+Message-ID: <lybobe0xbv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Thu, 21 Feb 2013 02:32:22 -0800 (PST)
-In-Reply-To: <20130220231330.GY3300@jama>
-References: <1361202441-22679-1-git-send-email-constantinx.musca@intel.com>
-	<CAF6bG8dW=kCYM3c-_4A_hzNjiAQZjz6YKByZDjLYZR4y3j2-Aw@mail.gmail.com>
-	<5124E661.5030004@intel.com>
-	<CAJTo0LYmwDKSvJAUPD-PcTC2eUkgOmT67jM=7ZShVVC5JXuS-A@mail.gmail.com>
-	<20130220231330.GY3300@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Feb 2013 10:32:22 +0000
-Message-ID: <CAJTo0LaRrsYgXC5NnOQvxTwm=VtXR9ySaS1ky7+1uu3eoq0Xaw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQksZsZfi0d+Y51++t1Ot/ubv8mLZS/lzghknS2s5oLhHxZuRSKGocADnAqTkIJ/xa8ZfapN
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] jpeg: upgrade to 9
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,18 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Feb 2013 10:48:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 21 Feb 2013 10:51:07 -0000
+Content-Type: text/plain
 
-On 20 February 2013 23:13, Martin Jansa <martin.jansa@gmail.com> wrote:
->> But we can cherry-pick any libjpeg fixes until we've bitten the bullet
->> and integrated ruby.
+"Burton, Ross" <ross.burton@intel.com> writes:
+
+>>> But it doesn't need to be as dangerous as binconfig.bbclass, because
+>>> we already list .service or .socket files in SYSTEMD_SERVICE so we
+>>> can improve that "find" call
+>>
+>> Why is 'find' required at all?  afaik, only files from $SRC_URI are
+>> affected.  So we can
+>>
+>> 1. create an (overridable) SYSTEMD_EXTRA_SERVICES variable
+>>
+>> 2. fill this variable in systemd.bbclass with .service, .target, .socket
+>>    + .mount files from $SRC_URI
+>>
+>> 3. modify systemd's do_install so that files above are copied after
+>>    doing some some sanity checks (e.g. checks that no previous version
+>>    from 'make install' exists or that it are really systemd files).
 >
-> ruby-native is already in meta-ruby
+> As I've said before you'll need to be pre-processing these files
+> anyway,
 
-Yes, "biting the bullet" means either committing to building WebKit in
-oe-core or not.
+oh... this means khem's "meta-systemd: Append ${PN} to SYSTEMD_SERVICE"
+patch series is incomplete and all the do_install_append() need to get
+yet more complicated....
 
-Ross
+It is really time, to move the additional-service-file installation back
+into the class.
+
+
+> so either the class gets *even more* logic or you just deal with it.
+> Over time more and more upstreams will get systemd support so we'll
+> be carrying overcomplicated logic for no reason.  We're really just
+> talking about one conditional and a sed call here.
+
+By applying some general rules (e.g. using autoconf like '@bindir@'
+templates), this can/should be done by the class and not in every
+recipe.
+
+
+
+Enrico
 
 
