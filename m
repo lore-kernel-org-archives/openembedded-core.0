@@ -1,28 +1,36 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <bjst@sestofb10.enea.se>) id 1U8vEV-0007Sn-De
+Received: from mail-vc0-f179.google.com ([209.85.220.179])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1U8vrH-000893-KV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Feb 2013 17:12:24 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Fri, 22 Feb 2013 16:56:05 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 0D02E2831B8;
-	Fri, 22 Feb 2013 16:56:06 +0100 (CET)
-Date: Fri, 22 Feb 2013 16:56:06 +0100
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130222155605.GI55106@sestofb10.enea.se>
-References: <1361279644-17675-1-git-send-email-bjst@enea.com>
-	<1361279644-17675-3-git-send-email-bjst@enea.com>
-	<1361541751.9309.40.camel@ted>
+	Fri, 22 Feb 2013 17:52:38 +0100
+Received: by mail-vc0-f179.google.com with SMTP id gb23so513545vcb.38
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Feb 2013 08:36:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=LesmoKg9u32sQ7oaIAeiwG60J4806yib5ZEUvQDxHu8=;
+	b=kNlPxsJnpsBeowipCMIlXBhionHDonEEB9Vz8Y7PTiyvSNmxWFUijiP3Sm916uS1MQ
+	JLpol7VGo9QkGQ4V92+yozWPnJbK0cO0XirKAx9O4aKYWxqWK0MNcPDMC+PAUm9QW2S+
+	pN3GVLSjwuGdKlJM8dCv2RtQhS/iCrmAqrePPbxYFfmAJGEVp0Leb6tEmE6AyRSAlY9u
+	tqgcLu25jyMjCU5VaMdojlMcKvl/84LxVAgeg3kJCJzoIGx+KuxKFsh5pIUghoyJiO0I
+	waE/3pfpurbyzx7F2YQVppiMtZ9F+e/C2h9usN724FesWOZLSCpakYYBiHYybiQ9U4wY
+	5fYQ==
+X-Received: by 10.52.74.34 with SMTP id q2mr2960432vdv.76.1361550973131; Fri,
+	22 Feb 2013 08:36:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1361541751.9309.40.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Cc: Anders Roxell <anders.roxell@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] zlib: Add ptest
+Received: by 10.58.85.36 with HTTP; Fri, 22 Feb 2013 08:35:52 -0800 (PST)
+In-Reply-To: <51278797.5090109@intel.com>
+References: <1361361450-30087-1-git-send-email-laurentiu.palcu@intel.com>
+	<1361540959.9309.36.camel@ted> <51278797.5090109@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Feb 2013 16:35:52 +0000
+Message-ID: <CAJTo0LZp5YcV=3DSM7aPMZB1jkNHMUyDGEbOKxx4typGWxAf9A@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQmBGo5nqkwa68qkrhvWFzvxkOLbtS2RcHlqnN1Bc+Pi6Sqrr1MGWY5UM5avoVYpmtCEW1Co
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gconf.bbclass: make postinstall fail silently when running offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2013 16:12:24 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Feb 2013 16:52:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard Purdie wrote:
-> > +RDEPENDS_${PN}-ptest +=3D "make"
-> > +RDEPENDS_${PN}-ptest_virtclass-native =3D ""
-> > +RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
->=20
-> The above scares me. Why? This is going to make packaging of zlib
-> dependent on the packaging of make, due to the way our packaging works.
+Hi,
 
-Will it? The intention is to specify that make is only required for running=
- zlib-ptest (and only on target). We do a similar RDEPENDS-ptest declaratio=
-n in glib-2.0, adding some tzdata and python packages.
+On 22 February 2013 14:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> I didn't write GConf. I don't know the reason why they chose to declare
+> the following list of characters invalid:
+> "\t\r\n\"$&<>,+=#!()'|{}[]?~`;%\\".
+>
+> I did look in the commit message and found no other explanations except
+> this:
+> "gconf/gconf-backend.c: (gconf_address_valid), (gconf_get_backend):
+> check the backend address doesn't contain any special characters."
+>
+> Here is the entire commit:
+> http://git.gnome.org/browse/gconf/commit/?id=3d720f4a0c00af31c1d53fc4aa45d6d6580c433e
+>
+> OK, let's say I remove '+' from that list. I agree, it doesn't look like
+> it would have bad consequences but what happens if, in the future, the
+> path contains another "invalid" character? Where do we draw the line?
 
-I must admit to not building without ptest very often, but I was under the =
-impression this works as intended.
++ is notable in that list because it's not handled specially by the
+shell, whereas practictically the rest of them are.
 
-> I also wonder if the make dependency itself isn't best left against the
-> main ptest-runner script itself rather and each ptest package.
+> There was a patchset on the ML these days that enabled postinstall
+> output redirection to a certain file. Why not have this activated all
+> the time for the native dpkg/opkg/rpm and, on request, for the target
+> binaries? We could inspect the logs in case some postinstalls failed to
+> run on host but we don't end the build since, maybe, some people would
+> still be fine with running those postinstalls on target.
 
-While make is used by many test suites and could be added to ptest-runnner =
-to reduce clutter in other recipes, I think it is the wrong thing to do. Yo=
-u don't have to install ptest-runner to run ptests, it is merely a convenie=
-nce script that makes it easier to run all of them at once.
+Having those logs is useful for inspection, but as we're trying to run
+all postinsts on the host this trivially-triggered problem needs to be
+resolved.  Patching the sanity test is a reasonable solution.
 
-Also, make is not the only package required by test suites. For example the=
- gcc-runtime test suite I'll be submitting soon depends on dejagnu (which d=
-epends on expect, which depends on tcl). And others still depend on perl or=
- other largeish packages.
-
-> > +FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug"
-> Is this needed after the other fix?
-
-No, this was a leftover mistake. Thanks for spotting it.
-
---=20
-Bj=F6rn
+Ross
 
 
