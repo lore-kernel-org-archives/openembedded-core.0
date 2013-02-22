@@ -1,34 +1,33 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1U8tT2-00034c-FM for openembedded-core@lists.openembedded.org;
-	Fri, 22 Feb 2013 15:19:16 +0100
+	id 1U8tW4-0003Dk-FQ for openembedded-core@lists.openembedded.org;
+	Fri, 22 Feb 2013 15:22:25 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1ME9dNq013698; Fri, 22 Feb 2013 14:09:39 GMT
+	r1MECpbw013945; Fri, 22 Feb 2013 14:12:51 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Y9g2Y5ZBWl5x; Fri, 22 Feb 2013 14:09:39 +0000 (GMT)
+	with LMTP id lXxuDlzmhQG5; Fri, 22 Feb 2013 14:12:51 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r1ME9SNj013694
+	r1MECf4W013920
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 22 Feb 2013 14:09:34 GMT
-Message-ID: <1361541751.9309.40.camel@ted>
+	verify=NOT); Fri, 22 Feb 2013 14:12:47 GMT
+Message-ID: <1361541944.9309.42.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-Date: Fri, 22 Feb 2013 06:02:31 -0800
-In-Reply-To: <1361279644-17675-3-git-send-email-bjst@enea.com>
+Date: Fri, 22 Feb 2013 06:05:44 -0800
+In-Reply-To: <1361279644-17675-8-git-send-email-bjst@enea.com>
 References: <1361279644-17675-1-git-send-email-bjst@enea.com>
-	<1361279644-17675-3-git-send-email-bjst@enea.com>
+	<1361279644-17675-8-git-send-email-bjst@enea.com>
 X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
 X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r1ME9dNq013698
-Cc: Anders Roxell <anders.roxell@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] zlib: Add ptest
+	r1MECpbw013945
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/8] openssl: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,124 +40,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2013 14:19:16 -0000
+X-List-Received-Date: Fri, 22 Feb 2013 14:22:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2013-02-19 at 14:13 +0100, Bj=C3=B6rn Stenberg wrote:
-> From: Anders Roxell <anders.roxell@enea.com>
->=20
+On Tue, 2013-02-19 at 14:14 +0100, Bj=C3=B6rn Stenberg wrote:
 > Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-> Signed-off-by: Anders Roxell <anders.roxell@enea.com>
 > ---
->  .../zlib/zlib-1.2.7/Makefile-runtests.patch        |   38 ++++++++++++=
+>  .../openssl/openssl-1.0.0j/Makefiles-ptest.patch   |   74 ++++++++++++=
 ++++++++
->  meta/recipes-core/zlib/zlib-1.2.7/run-ptest        |    7 ++++
->  meta/recipes-core/zlib/zlib_1.2.7.bb               |   22 +++++++++++
->  3 files changed, 67 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests=
-.patch
->  create mode 100644 meta/recipes-core/zlib/zlib-1.2.7/run-ptest
+>  .../openssl/openssl-1.0.0j/run-ptest               |    2 +
+>  meta/recipes-connectivity/openssl/openssl.inc      |   19 +++++-
+>  .../recipes-connectivity/openssl/openssl_1.0.0j.bb |    2 +
+>  4 files changed, 96 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/Ma=
+kefiles-ptest.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/ru=
+n-ptest
 >=20
-> diff --git a/meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch =
-b/meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0j/Makefiles=
+-ptest.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/Makefiles=
+-ptest.patch
 > new file mode 100644
-> index 0000000..04c55b4
+> index 0000000..e65f17b
 > --- /dev/null
-> +++ b/meta/recipes-core/zlib/zlib-1.2.7/Makefile-runtests.patch
-> @@ -0,0 +1,38 @@
-> +Add 'ptest' target to Makefile, to run tests without checking dependen=
-cies.
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.0j/Makefiles-ptest.=
+patch
+> @@ -0,0 +1,74 @@
+> +Add 'buildtest' and 'runtest' targets to Makefile, to build and run te=
+sts
+> +cross-compiled.
 > +
 > +Signed-off-by: Anders Roxell <anders.roxell@enea.com>
 > +Upstream-Status: Pending
 > +---
-> +diff -uNr a/Makefile.in b/Makefile.in
-> +--- a/Makefile.in	2012-04-23 07:58:06.000000000 +0200
-> ++++ b/Makefile.in	2012-10-24 08:24:19.822544837 +0200
-> +@@ -83,6 +83,9 @@
-> + test: all teststatic testshared
+> +diff -uNr a/Makefile b/Makefile
+> +--- a/Makefile.org	2012-05-10 17:06:02.000000000 +0200
+> ++++ b/Makefile.org	2012-10-27 00:05:55.359424024 +0200
+> +@@ -411,8 +411,16 @@
+> + test:   tests
 > +=20
-> + teststatic: static
-> ++	@make runteststatic
+> + tests: rehash
+> ++	$(MAKE) buildtest
+> ++	$(MAKE) runtest
 > ++
-> ++runteststatic:
-> + 	@TMPST=3D`mktemp fooXXXXXX`; \
-> + 	if echo hello world | ./minigzip | ./minigzip -d && ./example $$TMPS=
-T ; then \
-> + 	  echo '		*** zlib test OK ***'; \
-> +@@ -92,6 +95,9 @@
-> + 	rm -f $$TMPST
+> ++buildtest:
+> ++	@(cd test && \
+> ++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=3D.. TESTS=3D'$(TESTS)' OP=
+ENSSL_DEBUG_MEMORY=3Don OPENSSL_CONF=3D../apps/openssl.cnf exe apps);
+> ++
+> ++runtest:
+> + 	@(cd test && echo "testing..." && \
+> +-	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=3D.. TESTS=3D'$(TESTS)' OP=
+ENSSL_DEBUG_MEMORY=3Don OPENSSL_CONF=3D../apps/openssl.cnf tests );
+> ++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=3D.. TESTS=3D'$(TESTS)' OP=
+ENSSL_DEBUG_MEMORY=3Don OPENSSL_CONF=3D../apps/openssl.cnf alltests );
+> + 	OPENSSL_CONF=3Dapps/openssl.cnf util/opensslwrap.sh version -a
 > +=20
-> + testshared: shared
-> ++	@make runtestshared
-> ++
-> ++runtestshared:
-> + 	@LD_LIBRARY_PATH=3D`pwd`:$(LD_LIBRARY_PATH) ; export LD_LIBRARY_PATH=
-; \
-> + 	LD_LIBRARYN32_PATH=3D`pwd`:$(LD_LIBRARYN32_PATH) ; export LD_LIBRARY=
-N32_PATH; \
-> + 	DYLD_LIBRARY_PATH=3D`pwd`:$(DYLD_LIBRARY_PATH) ; export DYLD_LIBRARY=
-_PATH; \
-> +@@ -105,6 +111,9 @@
-> + 	rm -f $$TMPSH
+> + report:
+> +diff --git a/test/Makefile b/test/Makefile
+> +index 3912f82..1696767 100644
+> +--- a/test/Makefile
+> ++++ b/test/Makefile
+> +@@ -128,7 +128,7 @@ tests:	exe apps $(TESTS)
+> + apps:
+> + 	@(cd ..; $(MAKE) DIRS=3Dapps all)
 > +=20
-> + test64: all64
-> ++	@make runtest64
+> +-alltests: \
+> ++all-tests=3D \
+> + 	test_des test_idea test_sha test_md4 test_md5 test_hmac \
+> + 	test_md2 test_mdc2 test_wp \
+> + 	test_rmd test_rc2 test_rc4 test_rc5 test_bf test_cast test_aes \
+> +@@ -138,6 +138,11 @@ alltests: \
+> + 	test_ss test_ca test_engine test_evp test_ssl test_tsa test_ige \
+> + 	test_jpake test_cms
+> +=20
+> ++alltests:
+> ++	@(for i in $(all-tests); do \
+> ++	( $(MAKE) $$i && echo "PASS: $$i" ) || echo "FAIL: $$i"; \
+> ++	done)
 > ++
-> ++runtest64:
-> + 	@TMP64=3D`mktemp fooXXXXXX`; \
-> + 	if echo hello world | ./minigzip64 | ./minigzip64 -d && ./example64 =
-$$TMP64; then \
-> + 	  echo '		*** zlib 64-bit test OK ***'; \
-> diff --git a/meta/recipes-core/zlib/zlib-1.2.7/run-ptest b/meta/recipes=
--core/zlib/zlib-1.2.7/run-ptest
+> + test_evp:
+> + 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
+> +=20
+> +@@ -203,7 +208,7 @@ test_x509:
+> + 	echo test second x509v3 certificate
+> + 	sh ./tx509 v3-cert2.pem 2>/dev/null
+> +=20
+> +-test_rsa: $(RSATEST)$(EXE_EXT)
+> ++test_rsa:
+> + 	@sh ./trsa 2>/dev/null
+> + 	../util/shlib_wrap.sh ./$(RSATEST)
+> +=20
+> +@@ -298,11 +303,11 @@ test_tsa:
+> + 	  sh ./testtsa; \
+> + 	fi
+> +=20
+> +-test_ige: $(IGETEST)$(EXE_EXT)
+> ++test_ige:
+> + 	@echo "Test IGE mode"
+> + 	../util/shlib_wrap.sh ./$(IGETEST)
+> +=20
+> +-test_jpake: $(JPAKETEST)$(EXE_EXT)
+> ++test_jpake:
+> + 	@echo "Test JPAKE"
+> + 	../util/shlib_wrap.sh ./$(JPAKETEST)
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0j/run-ptest=
+ b/meta/recipes-connectivity/openssl/openssl-1.0.0j/run-ptest
 > new file mode 100644
-> index 0000000..19d9632
+> index 0000000..3b20fce
 > --- /dev/null
-> +++ b/meta/recipes-core/zlib/zlib-1.2.7/run-ptest
-> @@ -0,0 +1,7 @@
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.0j/run-ptest
+> @@ -0,0 +1,2 @@
 > +#!/bin/sh
-> +FILE=3Dzlib-ptest-$$.log
-> +make -k runteststatic runtestshared > $FILE
-> +sed -i -r -e 's/^(\s+\*+ (.+?) test OK \*+)/\1\nPASS: \2/' $FILE
-> +sed -i -r -e 's/^(\s+\*+ (.+?) test FAILED \*+)/\1\nFAIL: \2/' $FILE
-> +cat $FILE
-> +rm -f $FILE
-> diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/z=
-lib/zlib_1.2.7.bb
-> index 803fec3..61380ec 100644
-> --- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> @@ -8,20 +8,42 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D4;end=
-line=3D23;md5=3D94d1b5a40dadd127f33
+> +make -k runtest
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recip=
+es-connectivity/openssl/openssl.inc
+> index e1e7b65..62acf95 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -33,7 +33,7 @@ export DIRS =3D "crypto ssl apps"
+>  export EX_LIBS =3D "-lgcc -ldl"
+>  export AS =3D "${CC} -c"
 > =20
->  SRC_URI =3D "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
->             file://remove.ldconfig.call.patch \
-> +           file://Makefile-runtests.patch \
-> +           file://run-ptest \
->             "
->  SRC_URI[md5sum] =3D "2ab442d169156f34c379c968f3f482dd"
->  SRC_URI[sha256sum] =3D "49e2e9658dfb036900da6ea0267a737fa3c4eee6666776=
-d378c79d52e9334934"
+> -inherit pkgconfig siteinfo
+> +inherit pkgconfig siteinfo ptest
 > =20
-> +RDEPENDS_${PN}-ptest +=3D "make"
-> +RDEPENDS_${PN}-ptest_virtclass-native =3D ""
-> +RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
+>  PACKAGES =3D+ "libcrypto libssl ${PN}-misc"
+>  FILES_libcrypto =3D "${base_libdir}/libcrypto${SOLIBS}"
+> @@ -42,6 +42,8 @@ FILES_${PN} =3D+ " ${libdir}/ssl/*"
+>  FILES_${PN}-misc =3D "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
+>  FILES_${PN}-dev +=3D "${base_libdir}/libcrypto${SOLIBSDEV}"
+> =20
+> +RDEPENDS_${PN}-ptest =3D "openssl-misc"
+> +
+>  do_configure_prepend_darwin () {
+>  	sed -i -e '/version-script=3Dopenssl\.ld/d' Configure
+>  }
+> @@ -125,6 +127,9 @@ do_configure () {
+> =20
+>  do_compile () {
+>  	oe_runmake
+> +	if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ] ; then
+> +	    oe_runmake buildtest
+> +	fi
+>  }
 
-The above scares me. Why? This is going to make packaging of zlib
-dependent on the packaging of make, due to the way our packaging works.
-This means zlib will force make to get built. I need to confirmation at
-this point that if ptest isn't enabled, this dependency isn't used.
-
-I also wonder if the make dependency itself isn't best left against the
-main ptest-runner script itself rather and each ptest package.
-
-I'd like to protect build performance a bit if I can help it.
-
-> +FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug"
-
-Is this needed after the other fix?
+Final comment for now is these if checks are annoying and likely plain
+wrong. I think you're trying to avoid the -native case, if so, just set
+PTEST_ENABLED =3D 0 in native.bbclass and maybe nativesdk.bbclass
+(although it would probably work there). How is this expected to work in
+the multilib case?=20
 
 Cheers,
 
