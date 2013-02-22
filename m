@@ -1,33 +1,20 @@
-Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1U8n2v-0000CU-1S
+	(envelope-from <constantinx.musca@intel.com>) id 1U8oYQ-0002ni-Tp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Feb 2013 08:27:54 +0100
-Received: from atl4mhob05.myregisteredsite.com
-	(atl4mhob05.myregisteredsite.com [209.17.115.43])
-	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1M7BeTV007000 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2013 02:11:41 -0500
-Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
-	[205.178.146.50])
-	by atl4mhob05.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1M7BdGb026027 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Feb 2013 02:11:39 -0500
-Received: (qmail 32437 invoked by uid 0); 22 Feb 2013 07:11:39 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 22 Feb 2013 07:11:39 -0000
-Message-ID: <51271A2A.6070604@topic.nl>
-Date: Fri, 22 Feb 2013 08:11:38 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Fri, 22 Feb 2013 10:04:31 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Feb 2013 00:48:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,714,1355126400"; d="scan'208";a="290501430"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Feb 2013 00:48:15 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1361464203.git.sgw@linux.intel.com>
-	<CAJTo0LbDEX1evEJHX9_dfB2+wEK_wYTB6kJd1iwxbXivmwtY0w@mail.gmail.com>
-In-Reply-To: <CAJTo0LbDEX1evEJHX9_dfB2+wEK_wYTB6kJd1iwxbXivmwtY0w@mail.gmail.com>
-Subject: Re: [CONSOLIDATED PULL 00/41] Selected Updates and fixes
+Date: Fri, 22 Feb 2013 10:49:21 +0200
+Message-Id: <1361522961-5673-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] log_srcrev.bbclass: add a bbclass for logging SRCREVs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Feb 2013 07:27:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Feb 2013 09:04:33 -0000
 
-On 02/21/2013 05:39 PM, Burton, Ross wrote:
-> On 21 February 2013 16:31, Saul Wold <sgw@linux.intel.com> wrote:
->> MiLo (1):
->>    util-linux: Add package for libmount
->
-> This appears fine but I'm seeing weird problems where although the
-> library is moved out, the shlibdeps are not correct (i.e.
-> util-linux-fsck will occasionally revert to finding libmount.so.1 in
-> util-linux).  I'd love to understand why. :/
+- add a task which creates a file for each package with the following
+format:
 
-If there's anything I can do to help let me know. Is this now blocking 
-the integration?
+BB_FILENAME: ${BB_FILENAME}
+SRC_URI: ${SRC_URI}
+SRCREV: ${SRCREV}
+FROM AUTOREV: no/yes
 
-I haven't found any issues with the dependencies, but I've only tested 
-with the util-linux-mount/umount pacakges, and the sfdisk package (which 
-does not depend on libmount).
+[YOCTO #3041]
 
-Mike.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/classes/log_srcrev.bbclass | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/classes/log_srcrev.bbclass
+
+diff --git a/meta/classes/log_srcrev.bbclass b/meta/classes/log_srcrev.bbclass
+new file mode 100644
+index 0000000..b319e7b
+--- /dev/null
++++ b/meta/classes/log_srcrev.bbclass
+@@ -0,0 +1,20 @@
++SRCREV_LOGFILE ??= 'srcrev_log'
++
++python do_log_srcrev () {
++    srcrev = d.getVar('SRCREV', True)
++    if srcrev:
++        bbfile = d.getVar('BB_FILENAME', True)
++        src_uri = d.getVar('SRC_URI', True)
++        from_autorev = 'yes' if d.getVar('SRCREV', False) == 'AUTOINC' else 'no'
++
++        srcrevdir = d.expand('${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${PN}-${PV}/')
++        srcrevfile = os.path.join(srcrevdir, d.getVar('SRCREV_LOGFILE', True))
++        bb.utils.mkdirhier(os.path.dirname(srcrevfile))
++
++        with open(srcrevfile, 'w') as f:
++            f.write("BB_FILENAME: %s\nSRC_URI: %s\nSRCREV: %s\nFROM AUTOREV: %s\n"
++                    % (bbfile, src_uri, srcrev, from_autorev))
++}
++
++addtask do_log_srcrev after do_fetch
++do_log_srcrev[cleandirs] = "${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${PN}-${PV}/"
+-- 
+1.7.11.7
+
 
 
