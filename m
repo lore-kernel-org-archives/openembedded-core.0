@@ -1,39 +1,26 @@
-Received: from mail-ve0-f173.google.com ([209.85.128.173])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U9CQf-0006sO-C6
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1U9DZ6-0000IB-RH
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Feb 2013 11:34:28 +0100
-Received: by mail-ve0-f173.google.com with SMTP id oz10so1243244veb.18
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Feb 2013 02:17:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=QZ3f6IN/SHhf43qoV12Ealsz8COB7h0Ki8H4CaQAKQs=;
-	b=Q0d4miXXu0Cy2WHXh29Bu7LpFDaeW8bX7H+nqjeP5xS7uwB1r3zFXNeWqobXR26ADC
-	+Zd9ppvA1Tf/bdSGx440dUWgVDo3C9xmMFh2i9/ah+QoxpCwdUhN6+3yZnkhgDyGErjy
-	xkqYeey5ejZpOfnD17qJSX16JyCaFtBY8CDcmmr4pcCV0bM5xGgpVnyUJ1hLZoLDTZKb
-	D++UJfdMuh6I+Cwz6LSiyi4RsQO+Wa1SHt6rsWEDkAA0eeWDDbgLMGGRZf7O6ahZleZO
-	f+kCssSDOItKS+VMaDNa3inVOO0ZbXdhO8RdxZR3F1ybyLPRYVkhoh/ELMCk94SSIq1+
-	/dlw==
-X-Received: by 10.52.24.98 with SMTP id t2mr5858884vdf.69.1361614670231; Sat,
-	23 Feb 2013 02:17:50 -0800 (PST)
+	Sat, 23 Feb 2013 12:47:30 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Feb 2013 03:30:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,721,1355126400"; d="scan'208";a="290922856"
+Received: from unknown (HELO helios.localnet) ([10.252.120.141])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Feb 2013 03:30:36 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: ml@communistcode.co.uk, openembedded-core@lists.openembedded.org
+Date: Sat, 23 Feb 2013 11:30:34 +0000
+Message-ID: <3284634.41HXpyBOqa@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10 (Linux/3.5.0-24-generic; KDE/4.10.0; i686; ; )
+In-Reply-To: <5128858F.1030107@communistcode.co.uk>
+References: <1361563821-7683-1-git-send-email-cristian.iorga@intel.com>
+	<7EF31BEB21E340DBAFB08ABD4321A269@intel.com>
+	<5128858F.1030107@communistcode.co.uk>
 MIME-Version: 1.0
-Received: by 10.58.85.36 with HTTP; Sat, 23 Feb 2013 02:17:30 -0800 (PST)
-In-Reply-To: <51288CD7.2070800@topic.nl>
-References: <cover.1361464203.git.sgw@linux.intel.com>
-	<CAJTo0LbDEX1evEJHX9_dfB2+wEK_wYTB6kJd1iwxbXivmwtY0w@mail.gmail.com>
-	<51271A2A.6070604@topic.nl>
-	<CAJTo0LaWCAtjiQWq5=FUWq68ty+O2fPYJ8DLLPT-35zqwWn6eg@mail.gmail.com>
-	<51288CD7.2070800@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 23 Feb 2013 10:17:30 +0000
-Message-ID: <CAJTo0Laa8syrJ83ZEKmcokPsUwX+5L1Mna8OgfSQ==VsdybdLQ@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Gm-Message-State: ALoCoQmbxJ3SG/K8dEgvJ7E2M3h9qNwcgwtNZ8EE+WSutt1NYI92KAaJmd14bMkjRpvxm3Xb0xnD
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/41] Selected Updates and fixes
+Subject: Re: [PATCH] connman: enable connman client
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,16 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Feb 2013 10:34:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 23 Feb 2013 11:47:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 23 February 2013 09:33, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> This is what opkg reports on my running systems, with the libmount patch
-> applied, looks fine to me, a few require libmount1, and none require
-> util-linux itself. For example:
+On Saturday 23 February 2013 09:02:07 Jack Mitchell wrote:
+> On 02/23/13 08:34, Ross Burton wrote:
+> > Also the fact that you have to do this is depressing.  I wonder why
+> > upstream doesn't want to install any of the tools?
+>
+> Connmanctl is a helper, even though I have connman in my image, I
+> wouldn't want connmanctl. I assume this is why they don't ship it by
+> default; as my use case is fairly normal for connman.
 
-Good, just local weirdness for me then.
+I would have thought if you had asked for the client to be built (or not asked 
+for it not to be built, as the case may be) then surely you would want it 
+installed (as far as make install goes anyway)?
 
-Ross
+> Which leads to the next point, this should be a seperate package.
+
+Probably should be I think yes.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
