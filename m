@@ -1,39 +1,40 @@
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
+Received: from mail-wg0-f52.google.com ([74.125.82.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1U9ZDG-0001La-Ru
+	(envelope-from <ross.burton@intel.com>) id 1U9ZKq-0001vn-KI
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Feb 2013 11:53:48 +0100
-Received: by mail-wi0-f172.google.com with SMTP id ez12so2370084wid.17
+	Sun, 24 Feb 2013 12:01:46 +0100
+Received: by mail-wg0-f52.google.com with SMTP id 12so1606519wgh.31
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Feb 2013 02:37:30 -0800 (PST)
+	Sun, 24 Feb 2013 02:45:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:date:from:to:message-id:in-reply-to:references:subject
 	:x-mailer:mime-version:content-type:content-transfer-encoding
 	:content-disposition:x-gm-message-state;
-	bh=Y7sbTg7P9CSx+k0mBVzHC2+bdQApNhOCSHKbugKa7uM=;
-	b=Q/fUTYqlKIaMMlpsV4U9rvldUcKjsd1L3QTqJ++yrTiAqgLhoDT+WsRMj3dfUrKCSb
-	BfakEBv8ESsc5B+1UbAeKCy5uEG6Y3Uz4tpGMnKs+sAZWdezML3vbyy3gahyUc/NeOmi
-	e01R/e+EQtqgt6jfEnMMYgc3MtUaNUVjU8LTviZWiG18Dssc8hHPKJcvwJ/ooGYVObIx
-	T49bxaMcSJUcenk5NdzLfuV9UL9DC4aPHVj2xOFIufNxVP7BoaEmnaEGxpPw9aohqWbD
-	Bnvf2b7T3AVM5sojvQOVwBWrRQDo9pnc6JClVyn666/mxDqnAPovuJ/1/9Cjtn2K17UF
-	sv0A==
-X-Received: by 10.180.76.84 with SMTP id i20mr6224587wiw.9.1361702250446;
-	Sun, 24 Feb 2013 02:37:30 -0800 (PST)
+	bh=yGwle4C2bvXs1WR7mlRsDB/C7fI4IUyjiJXA+rsZOzA=;
+	b=pUWM4DyPvrqhGSYLlwZNj/n4/brD2+/4YU4hOjhycDFLymyWPE7hM9AmDoPcO03G4l
+	Y2h5Uv8+zAlUtkMQoB6ll6ypoi1zLaV3XqiXicRLv+EluYCbfUCXfY/3tZhZzJWgqjZP
+	Eh21Op85bRI5FWok/nr7QQQkXaweQzZ7UYahx3gJekbInvLai2LJ/hwggMCwIN9cZE+m
+	u9goK5+OGjOHACBnFOPcz3HsTTlWf0WL0Ha3ulmODxv0UlGDIvan9WAgUrL7wDAagmOY
+	46dWX2riprPheQlI08RZ0aoBoyNVuAsg83PkVUCJP9ET4WP1S5j84CfrXF7EuB+g2u67
+	vgww==
+X-Received: by 10.194.239.202 with SMTP id vu10mr12789346wjc.49.1361702720698; 
+	Sun, 24 Feb 2013 02:45:20 -0800 (PST)
 Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id du2sm8181299wib.0.2013.02.24.02.37.28
+	by mx.google.com with ESMTPS id ex1sm9220057wib.7.2013.02.24.02.45.19
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Sun, 24 Feb 2013 02:37:29 -0800 (PST)
-Date: Sun, 24 Feb 2013 10:37:26 +0000
+	Sun, 24 Feb 2013 02:45:19 -0800 (PST)
+Date: Sun, 24 Feb 2013 10:45:18 +0000
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <E79C80CE9122499B9C7D2D855CDF6319@intel.com>
-In-Reply-To: <CAJTo0LYo_FLTkZ_OiFf6Tt_oYO6NoUAUB74s__2UcKv7ccdxaA@mail.gmail.com>
+Message-ID: <8F5B35F84EED4266938D882953E70D9F@intel.com>
+In-Reply-To: <E79C80CE9122499B9C7D2D855CDF6319@intel.com>
 References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJTo0LYo_FLTkZ_OiFf6Tt_oYO6NoUAUB74s__2UcKv7ccdxaA@mail.gmail.com>
+	<E79C80CE9122499B9C7D2D855CDF6319@intel.com>
 X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQmcbmvXTWjyf6txmeL9FsZN8d5UB/bXHVlQNKr7z0OzMcAklkrSklZSt9J+IqAofDOP4sSH
+X-Gm-Message-State: ALoCoQl1LdaB5mI3Fu3Rh+O9nKALtLzH8ZMSz+Tuzn5IDM76rE6octeWkjOcKR0DyA/jyFUqx8B2
 Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,39 +48,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Feb 2013 10:54:23 -0000
+X-List-Received-Date: Sun, 24 Feb 2013 11:01:50 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-Hi,
+On Sunday, 24 February 2013 at 10:37, Ross Burton wrote:
+> Here's the fun bit - we can't have two builds of udev in the same distro, and that's what could happen, so I think we'll need to cut down to one udev instead of two.
 
-Just brainstorming out loud, but here's a suggestion that might just plea=
-se everyone:
-
-A virtual provider for the init manager, which can be overridden per-imag=
-e (for main / rescue images).
-
-DISTRO=5F=46EATURES contains the init script *style* that you want: sysvi=
-nit or systemd.  These are not mutually exclusive so specifying both will=
- get you both directly in packages that support both.  I'm still not conv=
-inced we need to split these out into separate packages, the size impact =
-is practically negligible and the dependencies are effectively redundant =
-as you'll have trouble booting without an init system.  Instead the posti=
-nsts should wrap the initscript fragments in checks.
-
-Those distro features will also be used to enable/disable features in the=
- source, so enabling systemd may well lead to libsystemd-* libraries snea=
-king into your rescue image.  The systemd libraries will have to be revie=
-wed to verify that installing one of them doesn't pull in systemd itself.=
-
-
-Here's the fun bit - we can't have two builds of udev in the same distro,=
- and that's what could happen, so I think we'll need to cut down to one u=
-dev instead of two.
-
-I'm not entirely convinced this is a good plan yet myself though=E2=80=A6=
-
+Ignore this, we can continue to key off the systemd distro feature to pick between udev and systemd as the source for udevd. 
 
 Ross
 
