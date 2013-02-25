@@ -1,37 +1,43 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ee0-f41.google.com ([74.125.83.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1U9srM-0007SW-Uq
+	(envelope-from <martin.jansa@gmail.com>) id 1U9sth-0007XD-1y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 08:52:42 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Feb 2013 23:36:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,732,1355126400"; d="scan'208";a="205912399"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Feb 2013 23:36:09 -0800
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Mon, 25 Feb 2013 07:36:07 +0000
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.108]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.144]) with mapi id
-	14.01.0355.002; Mon, 25 Feb 2013 07:36:07 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] connman: enable connman client
-Thread-Index: AQHOETifbYRAaCvDQ0eC1/cks2ycTpiHHqYAgAMOh0CAAAVxMA==
-Date: Mon, 25 Feb 2013 07:36:06 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16205BE9@IRSMSX102.ger.corp.intel.com>
-References: <1361563821-7683-1-git-send-email-cristian.iorga@intel.com>
-	<7EF31BEB21E340DBAFB08ABD4321A269@intel.com> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Mon, 25 Feb 2013 08:54:56 +0100
+Received: by mail-ee0-f41.google.com with SMTP id c13so1221928eek.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 24 Feb 2013 23:38:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=WuvbGNc+jCiJ/3a1MNdfn9utYTad0llkAo7xAFtTbcU=;
+	b=k4gCJs4ACiWxj7JQympuBkAaQsNcZIw6OZVEcjI8Wio++4ExIK4xABGsaRjloKHFfG
+	w67VAwE7y42TJJmpg0VurkVUiHKXYyrl6C5oumGXNh5lnss4BSYB67P/6qqk3iyHJaSf
+	5kOaFjHy4P+3LyA6ofnZzxIGXUNfMxCek63SqR7fKGHWH1aGD2H8gAXKgSP11AUY1gJp
+	zuqOI4fImqbEVNy7J3gdXr7kWZw/0elpb4L41g7j9O72JvhXH4OwxDW/94gov32sGwh3
+	j/uBXP9l5ARY1M0OUJM6LHqkeoqDe2qdHp+H1hFo7lSvGU/ghKZERAD769OTVEr0A2G3
+	ad4Q==
+X-Received: by 10.14.218.71 with SMTP id j47mr35868205eep.28.1361777915735;
+	Sun, 24 Feb 2013 23:38:35 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id o3sm16798129eem.15.2013.02.24.23.38.34
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 24 Feb 2013 23:38:35 -0800 (PST)
+Date: Mon, 25 Feb 2013 08:38:52 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130225073852.GD3300@jama>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LYo_FLTkZ_OiFf6Tt_oYO6NoUAUB74s__2UcKv7ccdxaA@mail.gmail.com>
+	<E79C80CE9122499B9C7D2D855CDF6319@intel.com>
+	<CAP9ODKphcmassr66cE_=M5R20gEYVwbVLwyoZu5NnKi6W0T5Kg@mail.gmail.com>
+	<399178DB9667444C94B177EA9AC61726@intel.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+In-Reply-To: <399178DB9667444C94B177EA9AC61726@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: enable connman client
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +50,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 07:52:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 25 Feb 2013 07:54:56 -0000
+X-Groupsio-MsgNum: 35769
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="j0LrB7C7xlgW/F3D"
+Content-Disposition: inline
 
-QWxzbywgcGxlYXNlIG5vdGUgdGhhdCB0b29scy10ZXN0IGFuZCB0b29scy13aXNwciB1c2UgYWxz
-byB0aGUgJHtTfSBkaXIgaW4gaW5zdGFsbCwgc28gbXkgY29kZSBpcyBpbiBhY2NvcmRhbmNlIHRv
-IHByZXZpb3VzIGNvZGUgKHByaW9yIGFydHdvcmsgOi0pICkuDQoNCi0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQpGcm9tOiBJb3JnYSwgQ3Jpc3RpYW4gDQpTZW50OiBNb25kYXksIEZlYnJ1YXJ5
-IDI1LCAyMDEzIDk6MTkgQU0NClRvOiBCdXJ0b24sIFJvc3MNCkNjOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSRTogW09FLWNvcmVdIFtQQVRDSF0g
-Y29ubm1hbjogZW5hYmxlIGNvbm5tYW4gY2xpZW50DQoNCkhlbGxvIFJvc3MsDQoNCjEuIEFzIGZh
-ciBhcyBJIGhhdmUgc2VlbiwgYnVpbGRpbmcgdGhlIGNvbm5tYW5jdGwgaXMgdGhlIGRlZmF1bHQs
-IHRoZXJlIGlzIG5vIC0tZW5hYmxlLWNsaWVudC4NCglNYXliZSBJIGFtIHdyb25nLCBJIGhhdmUg
-ZXh0cmFjdGVkIHRoaXMgaW5mbyBmcm9tIHRoZSBkb2N1bWVudGF0aW9uLg0KMi4gTGlrZSB5b3Ug
-c2FpZCwgYXQgdGhlIG1vbWVudCwgdGhlIGNsaWVudCBleGVjdXRhYmxlIGlzIHByb2R1Y2VkIGRp
-cmVjdGx5IGluIHRoZSBzb3VyY2UgZGlyZWN0b3J5LCBoZW5jZSBteSBpbnN0YWxsIGNvbW1hbmQu
-DQoJSWYgSSB1bmRlcnN0YW5kIGNvcnJlY3RseSwgd2lsbCBiZSB0aGUgc2FtZSB0aGluZyBpZiBJ
-IGNoYW5nZSBpbnRvIGJ1aWxkIGRpcmVjdG9yeT8NCg0KUmVnYXJkcywNCkNyaXN0aWFuDQoNCi0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSb3NzIEJ1cnRvbiBbbWFpbHRvOnJvc3Mu
-YnVydG9uQGludGVsLmNvbV0gDQpTZW50OiBTYXR1cmRheSwgRmVicnVhcnkgMjMsIDIwMTMgMTA6
-MzQgQU0NClRvOiBJb3JnYSwgQ3Jpc3RpYW4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gY29ubm1hbjog
-ZW5hYmxlIGNvbm5tYW4gY2xpZW50DQoNCkhpIENyaXN0aWFuLA0KDQpPbiBGcmlkYXksIDIyIEZl
-YnJ1YXJ5IDIwMTMgYXQgMjA6MTAsIENyaXN0aWFuIElvcmdhIHdyb3RlOiANCj4gLSAtLWRpc2Fi
-bGUtY2xpZW50IFwNCg0KSSdkIHByZWZlciB0byBzZWUgYW4gZXhwbGljaXQgLS1lbmFibGUtY2xp
-ZW50IGhlcmUgdG8gbWFrZSBpdCBjbGVhciB3aGF0IHdlJ3JlIHR1cm5pbmcgb24gYW5kIG9mZi4N
-CiANCj4gKyBpbnN0YWxsIC1tIDA3NTUgJHtTfS9jbGllbnQvY29ubm1hbmN0bCAke0R9JHtiaW5k
-aXJ9DQoNCiR7U30gKHNvdXJjZSkgc2hvdWxkIGJlICR7Qn0gKGJ1aWxkKSwgYWx0aG91Z2ggYXQg
-dGhlIG1vbWVudCB0aGV5IGFyZSB0aGUgc2FtZSBkaXJlY3RvcnkgSSd2ZSBiZWVuIHNsb3dseSB3
-b3JraW5nIG9uIGNoYW5naW5nIHRoYXQuDQoNCkFsc28gdGhlIGZhY3QgdGhhdCB5b3UgaGF2ZSB0
-byBkbyB0aGlzIGlzIGRlcHJlc3NpbmcuICBJIHdvbmRlciB3aHkgdXBzdHJlYW0gZG9lc24ndCB3
-YW50IHRvIGluc3RhbGwgYW55IG9mIHRoZSB0b29scz8NCg0KUm9zcyANCg0KDQo=
+--j0LrB7C7xlgW/F3D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Feb 24, 2013 at 10:04:42PM +0000, Ross Burton wrote:
+> On Sunday, 24 February 2013 at 14:06, Otavio Salvador wrote:
+> > > DISTRO_FEATURES contains the init script *style* that you want: sysvi=
+nit or systemd. These are not mutually exclusive so specifying both will ge=
+t you both directly in packages that support both. I'm still not convinced =
+we need to split these out into separate packages, the size impact is pract=
+ically negligible and the dependencies are effectively redundant as you'll =
+have trouble booting without an init system. Instead the postinsts should w=
+rap the initscript fragments in checks.
+> > =20
+> > =20
+> > The size impact it not negligible; specially for initramfs images but
+> > what concerns me even more is the upgrade path from previous users of
+> > meta-oe systemd.
+>=20
+>=20
+> I obviously didn't make myself clear - the size impact is negligible when=
+ you're talking about just the init script - the dependencies on systemd/up=
+datercd could be recommends at most, as the postinst scripts could check wh=
+at init system they have before calling any tools.  Either way a rescue ima=
+ge that boots using busybox init shouldn't have systemd, clearly.
+> > I'd like to have an upgrade path.
+>=20
+> Well, strictly speaking oe-core itself doesn't have an upgrade path to co=
+nsider=E2=80=A6 Why can't any distros that shipped with meta-systemd (or ju=
+st in meta-systemd) have an include that injects the RPROVIDES/RREPLACES/RC=
+ONFLICTS for the packages that they enabled?
 
+That would force multiple distro layers to maintain many .bbappends with
+just RPROVIDES/RREPLACES/RCONFLICTS and PRINC bump maintaned forever.
+
+It was pain to rename .bbappends in meta-systemd after each .bb upgrade,
+so if we have to do that, then we should rather keep meta-systemd as
+layer so that we can share .bbappend maintenance for all distributions in
+one place.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--j0LrB7C7xlgW/F3D
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlErFQwACgkQN1Ujt2V2gBwcywCfRa2X7/U0BKiKwTj+imRTrXsh
+ku4AoJpGRr1JWVTNCelww/6pp4VITgU8
+=gNNT
+-----END PGP SIGNATURE-----
+
+--j0LrB7C7xlgW/F3D--
