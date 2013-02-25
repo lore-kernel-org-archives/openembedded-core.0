@@ -1,20 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UA16p-0008HV-Be
+	(envelope-from <constantinx.musca@intel.com>) id 1UA1bF-0000zb-13
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 17:41:08 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2013 08:23:16 -0800
+	Mon, 25 Feb 2013 18:12:25 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 25 Feb 2013 08:56:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,735,1355126400"; d="scan'208";a="267320375"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2013 08:24:21 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,735,1355126400"; d="scan'208";a="261162693"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by azsmga001.ch.intel.com with ESMTP; 25 Feb 2013 08:56:04 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Feb 2013 18:24:45 +0200
-Message-Id: <1361809486-28017-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] minicom: upgrade to 2.6.2
+Date: Mon, 25 Feb 2013 18:57:14 +0200
+Message-Id: <1361811434-16920-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] libassuan: upgrade to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,154 +27,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 16:41:08 -0000
+X-List-Received-Date: Mon, 25 Feb 2013 17:12:29 -0000
 
-- all patches removed;
-- fixes already integrated in source code;
-- gcc4-scope.patch removed as was not enabled;
+- license checksum change due to addition of
+"Copyright (C) 2001, 2002, 2012, 2013 g10 Code GmbH"
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+libassuan-add-pkgconfig-support.patch: adapted to the new version
+
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- .../minicom/minicom-2.6.1/gcc4-scope.patch         |   46 --------------------
- .../minicom_fix_for_automake-1.12.patch            |   21 ---------
- .../rename-conflicting-functions.patch             |   15 -------
- .../minicom/{minicom_2.6.1.bb => minicom_2.6.2.bb} |   12 ++---
- 4 files changed, 4 insertions(+), 90 deletions(-)
- delete mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/gcc4-scope.patch
- delete mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
- delete mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/rename-conflicting-functions.patch
- rename meta/recipes-extended/minicom/{minicom_2.6.1.bb => minicom_2.6.2.bb} (61%)
+ .../files/libassuan-add-pkgconfig-support.patch    | 44 +++++++++++-----------
+ .../{libassuan_2.0.3.bb => libassuan_2.1.0.bb}     |  6 +--
+ 2 files changed, 24 insertions(+), 26 deletions(-)
+ rename meta/recipes-support/libassuan/{libassuan_2.0.3.bb => libassuan_2.1.0.bb} (73%)
 
-diff --git a/meta/recipes-extended/minicom/minicom-2.6.1/gcc4-scope.patch b/meta/recipes-extended/minicom/minicom-2.6.1/gcc4-scope.patch
-deleted file mode 100644
-index 0660cb0..0000000
---- a/meta/recipes-extended/minicom/minicom-2.6.1/gcc4-scope.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--Upstream-Status: Inappropriate [others]
+diff --git a/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
+index ba33252..ac1604f 100644
+--- a/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
++++ b/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
+@@ -1,18 +1,18 @@
+-Upstream-Status: Rejected
 -
----- minicom-2.1/src/window.c.orig	2006-06-14 17:49:53.000000000 +0200
--+++ minicom-2.1/src/window.c	2006-06-14 17:50:14.000000000 +0200
--@@ -62,7 +62,7 @@
-- static char *CS, *SF, *SR, *VB, *BL;
-- static char *VE, *VI, *KS, *KE;
-- static char *CD, *CL, *IC, *DC;
---static char *BC, *CR, *NL;
--+static char *mcBC, *CR, *NL;
-- #if ST_LINE
-- static char *TS, *FS, *DS;
-- #endif
--@@ -322,8 +322,8 @@
--   else if (NL != CNULL && x == 0 && x == curx && y == cury + 1)
-- 	outstr(NL);
-- #endif
---  else if (BC != CNULL && y == cury && x == curx - 1)
---  	outstr(BC);
--+  else if (mcBC != CNULL && y == cury && x == curx - 1)
--+  	outstr(mcBC);
--   else	
--   	outstr(tgoto(CM, x, y));
--   curx = x;
--@@ -1918,7 +1918,7 @@
--   CL = tgetstr("cl", &_tptr);
--   IC = tgetstr("ic", &_tptr);
--   DC = tgetstr("dc", &_tptr);
---  BC = tgetstr("bc", &_tptr);
--+  mcBC = tgetstr("bc", &_tptr);
--   CR = tgetstr("cr", &_tptr);
--   NL = tgetstr("nl", &_tptr);
--   AC = tgetstr("ac", &_tptr);
--@@ -1967,10 +1967,10 @@
--   _has_am = tgetflag("am");
--   _mv_standout = tgetflag("ms");
--   if (tgetflag("bs")) {
---    if (BC == CNULL) BC = "\b";
--+    if (mcBC == CNULL) mcBC = "\b";
--   } 
--   else
---    BC = CNULL;	
--+    mcBC = CNULL;	
-- 
--   /* Special IBM box-drawing characters */
--   D_UL  = 201;
-diff --git a/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch b/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
-deleted file mode 100644
-index aba6298..0000000
---- a/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Pending
--
--This patch fixes following issue with automake 1.12
--
--| configure.in:193: error: automatic de-ANSI-fication support has been removed
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--2012/05/03
--
--Index: minicom-2.6.1/configure.in
--===================================================================
----- minicom-2.6.1.orig/configure.in
--+++ minicom-2.6.1/configure.in
--@@ -190,7 +190,6 @@ AC_CHECK_HEADERS(stdarg.h varargs.h term
-- 
-- dnl Checks for typedefs, structures, and compiler characteristics.
-- AC_C_CONST
---AM_C_PROTOTYPES
-- AC_TYPE_UID_T
-- AC_TYPE_MODE_T
-- AC_TYPE_PID_T
-diff --git a/meta/recipes-extended/minicom/minicom-2.6.1/rename-conflicting-functions.patch b/meta/recipes-extended/minicom/minicom-2.6.1/rename-conflicting-functions.patch
-deleted file mode 100644
-index 1a50f18..0000000
---- a/meta/recipes-extended/minicom/minicom-2.6.1/rename-conflicting-functions.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Pending
--
----- minicom-2.3/src/minicom.c-orig	2009-06-08 14:49:07.000000000 +0200
--+++ minicom-2.3/src/minicom.c	2009-06-08 14:50:23.000000000 +0200
--@@ -63,6 +63,10 @@
-- }
-- #endif /*DEBUG*/
-- 
--+#ifdef __USE_GNU
--+#define getline minicom_getline
--+#endif
--+
-- /*
--  * Sub - menu's.
--  */
-diff --git a/meta/recipes-extended/minicom/minicom_2.6.1.bb b/meta/recipes-extended/minicom/minicom_2.6.2.bb
-similarity index 61%
-rename from meta/recipes-extended/minicom/minicom_2.6.1.bb
-rename to meta/recipes-extended/minicom/minicom_2.6.2.bb
-index b54853d..0d65e80 100644
---- a/meta/recipes-extended/minicom/minicom_2.6.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.6.2.bb
-@@ -6,16 +6,12 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
-                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+ Add pkgconfig support to libassuan.
+ This patch is rejected by upstream for the reason below:
+ They think pkgconfig adds no portability and maintaining them is not worthwhile.
  
--PR = "r1"
-+PR = "r0"
++Upstream-Status: Rejected
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
  
--SRC_URI = "http://alioth.debian.org/frs/download.php/3700/minicom-${PV}.tar.gz \
--	file://rename-conflicting-functions.patch \
--	file://minicom_fix_for_automake-1.12.patch \
--	"
--#	file://gcc4-scope.patch
-+SRC_URI = "http://alioth.debian.org/frs/download.php/3869/minicom-${PV}.tar.gz"
+-Index: Makefile.am
+-==============================================================
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -21,11 +21,14 @@
+- ACLOCAL_AMFLAGS = -I m4
+- AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
++Index: libassuan-2.1.0/Makefile.am
++===================================================================
++--- libassuan-2.1.0.orig/Makefile.am
+++++ libassuan-2.1.0/Makefile.am
++@@ -24,10 +24,13 @@ AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gz
++ # (A suitable gitlog-to-changelog script can be found in GnuPG master.)
++ GITLOG_TO_CHANGELOG=gitlog-to-changelog
+  
+ +pkgconfigdir = $(libdir)/pkgconfig
+ +pkgconfig_DATA = assuan.pc
+@@ -20,16 +20,15 @@ Index: Makefile.am
+  EXTRA_DIST = config.rpath autogen.sh README.GIT                  	\
+               ChangeLog-2011 doc/ChangeLog-2011 src/ChangeLog-2011 	\
+               tests/ChangeLog-2011 contrib/ChangeLog-2011     		\
+-              build-aux/gitlog-to-changelog build-aux/git-log-footer	\
+--             build-aux/git-log-fix
+-+             build-aux/git-log-fix assuan.pc.in
++-             build-aux/git-log-footer build-aux/git-log-fix
+++             build-aux/git-log-footer build-aux/git-log-fix assuan.pc.in
+  
+  SUBDIRS = m4 src doc tests
+  
+-Index: assuan.pc.in
+-==============================================================
++Index: libassuan-2.1.0/assuan.pc.in
++===================================================================
+ --- /dev/null
+-+++ b/assuan.pc.in
+++++ libassuan-2.1.0/assuan.pc.in
+ @@ -0,0 +1,12 @@
+ +prefix=@prefix@
+ +exec_prefix=@exec_prefix@
+@@ -43,17 +42,16 @@ Index: assuan.pc.in
+ +Libs: -L${libdir} -lassuan
+ +Libs.private: -lgpg-error
+ +Cflags: -I${includedir}
+-Index: configure.ac
+-==============================================================
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -380,5 +380,5 @@ AC_CONFIG_FILES([doc/Makefile])
++Index: libassuan-2.1.0/configure.ac
++===================================================================
++--- libassuan-2.1.0.orig/configure.ac
+++++ libassuan-2.1.0/configure.ac
++@@ -433,7 +433,7 @@ AC_CONFIG_FILES([doc/Makefile])
+  AC_CONFIG_FILES([tests/Makefile])
+  AC_CONFIG_FILES([src/libassuan-config], [chmod +x src/libassuan-config])
+  AC_CONFIG_FILES([src/versioninfo.rc])
+ -
+ +AC_CONFIG_FILES([assuan.pc])
+  AC_OUTPUT
+--- 
+-1.7.5.4
+-
++ 
++ echo "
+diff --git a/meta/recipes-support/libassuan/libassuan_2.0.3.bb b/meta/recipes-support/libassuan/libassuan_2.1.0.bb
+similarity index 73%
+rename from meta/recipes-support/libassuan/libassuan_2.0.3.bb
+rename to meta/recipes-support/libassuan/libassuan_2.1.0.bb
+index f0d7c9f..0483560 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.0.3.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.1.0.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ LICENSE = "GPLv3 & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/assuan.c;endline=20;md5=fbd7f2a44aab170430d59380f94f85f8 \
++                    file://src/assuan.c;endline=20;md5=0f465544183405055ec179869fc5b5ba \
+                     file://src/assuan-defs.h;endline=20;md5=20cd55535260ca1779edae5c7b80b21e"
  
--SRC_URI[md5sum] = "435fb410a5bfa9bb20d4248b3ca53529"
--SRC_URI[sha256sum] = "a6e7bf533c3796f3a67a7d109f328d46497c687ed13885bd1be4ce0548fc4f56"
-+SRC_URI[md5sum] = "203c56c4b447f45e2301b0cc4e83da3c"
-+SRC_URI[sha256sum] = "f3cf215f7914ffa5528e398962176102ad74df27ba38958142f56aa6d15c9168"
+ DEPENDS = "libgpg-error"
+@@ -13,7 +13,7 @@ DEPENDS = "libgpg-error"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2 \
+ 	   file://libassuan-add-pkgconfig-support.patch"
  
- inherit autotools gettext
+-SRC_URI[md5sum] = "179d1918325fdb928c7bd90b8a514fc7"
+-SRC_URI[sha256sum] = "bad5682374c76bcc0abb1a7a34c9557af6874a477500748e64a7d3def79cac1b"
++SRC_URI[md5sum] = "b3231eec8e567f4f9294474a387378f5"
++SRC_URI[sha256sum] = "a4c5bd3a0c2726e8bcc2ea8a3b15f7aae3bd92d4f85968f315fd3a75d101c267"
  
+ inherit autotools binconfig pkgconfig
 -- 
-1.7.10.4
+1.7.11.7
 
 
 
