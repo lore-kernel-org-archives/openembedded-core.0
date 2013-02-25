@@ -1,22 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1U9uwe-0003j1-BV
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1U9vY4-0004hH-CS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 11:06:06 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Feb 2013 01:49:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,733,1355126400"; d="scan'208";a="295464939"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2013 01:49:44 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 25 Feb 2013 11:45:15 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r1PASMTS025003
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 25 Feb 2013 11:28:24 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1U9vIE-0002Dx-GB; Mon, 25 Feb 2013 11:28:22 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Feb 2013 11:49:42 +0200
-Message-Id: <1361785782-31883-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1361361450-30087-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1361361450-30087-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH] gconf: add patch to remove '+' from invalid characters list
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1361006114.31795.19.camel@ted>
+	<CAP9ODKq_XBobE5vCOCCSgusT9RQyY3VSbUZmR9yAcQ4eFkKLBg@mail.gmail.com>
+	<1361019187.31795.49.camel@ted>
+	<CAP9ODKosL9YcwoXhZ58VsQ=S+ynzwe_vTZQG4GGtKTjvzUEafQ@mail.gmail.com>
+	<20130224085046.GF3154@sakrah.homelinux.org>
+Date: Mon, 25 Feb 2013 11:28:22 +0100
+In-Reply-To: <20130224085046.GF3154@sakrah.homelinux.org> (Khem Raj's message
+	of "Sun, 24 Feb 2013 00:50:48 -0800")
+Message-ID: <lyr4k43cxl.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -1.7
+X-Spam-Level: -
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,59 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 10:06:07 -0000
+X-List-Received-Date: Mon, 25 Feb 2013 10:46:17 -0000
+Content-Type: text/plain
 
-This will allow gconftool-2 to run when configuration source addresses
-contain the '+' sign.
+Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 
-[YOCTO #3893]
+>> > On the specifics of the do_install_append, you've seen my comments about
+>> > how we're not learning from past mistakes with the way the do_install in
+>> > the class was written. I note Phil also agreed with them, both of us
+>> > remembering some of the horrors we've dealt with in the past (and
+>> > binconfig.bbclass is still around, sadly).
+>> 
+>> So you prefer same code to copy same type of files all over the recipes?
+>
+> duplicating usecase is better even though it may sound copying here
+> now think if you add this to a bbclass and works ok for a package
+> where we glue the unitfiles fast forward 6mos and the next version of
+> the package has added the unitfiles into the package itself since
+> systemd is so cool. We will be silently installing our own unit files
+> without knowing.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../remove_plus_from_invalid_characters_list.patch |   19 +++++++++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.5.bb            |    1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.5/remove_plus_from_invalid_characters_list.patch
+The recent .bbappends with their own do_install_append have this problem
+too. But due to the code replication the problem must be fixed at a lot
+of different places instead of at a central one.
 
-diff --git a/meta/recipes-gnome/gnome/gconf-3.2.5/remove_plus_from_invalid_characters_list.patch b/meta/recipes-gnome/gnome/gconf-3.2.5/remove_plus_from_invalid_characters_list.patch
-new file mode 100644
-index 0000000..59a7ca7
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf-3.2.5/remove_plus_from_invalid_characters_list.patch
-@@ -0,0 +1,19 @@
-+Upstream-Status: Pending
-+
-+Remove '+' from invalid characters list
-+
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+
-+Index: GConf-3.2.5/gconf/gconf-backend.c
-+===================================================================
-+--- GConf-3.2.5.orig/gconf/gconf-backend.c
-++++ GConf-3.2.5/gconf/gconf-backend.c
-+@@ -37,7 +37,7 @@ static const char invalid_chars[] =
-+   /* Space is common in user names (and thus home directories) on Windows */
-+   " "
-+ #endif
-+-  "\t\r\n\"$&<>,+=#!()'|{}[]?~`;%\\";
-++  "\t\r\n\"$&<>,=#!()'|{}[]?~`;%\\";
-+ 
-+ static gboolean
-+ gconf_address_valid (const char  *address,
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.5.bb b/meta/recipes-gnome/gnome/gconf_3.2.5.bb
-index c80c0b0..abdf151 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.5.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.5.bb
-@@ -15,6 +15,7 @@ inherit gnomebase gtk-doc
- 
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://obsolete_automake_macros.patch \
-+           file://remove_plus_from_invalid_characters_list.patch \
- "
- 
- S = "${WORKDIR}/GConf-${PV}"
--- 
-1.7.9.5
+The .bbclass can do some sanity checks (e.g. making the copy operation
+fail when the unit file already exists).
 
+
+> Worst if the files from package are different. Having individual
+> install append gives you an opportunity to this append
+
+I do not see how this is better than removing the local .service from
+SRC_URI.
+
+
+
+Enrico
 
 
