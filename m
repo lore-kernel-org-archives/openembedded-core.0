@@ -1,25 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UA7zn-00056y-Cj
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 01:02:13 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 25 Feb 2013 15:45:51 -0800
+	(envelope-from <sgw@linux.intel.com>) id 1UA877-0005Jg-PE
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Feb 2013 01:09:46 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Feb 2013 15:53:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,736,1355126400"; d="scan'208";a="267504239"
+X-IronPort-AV: E=Sophos;i="4.84,736,1355126400"; d="scan'208";a="291703037"
 Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2013 15:45:47 -0800
-Message-ID: <512BF7AB.70302@linux.intel.com>
-Date: Mon, 25 Feb 2013 15:45:47 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2013 15:53:25 -0800
+Message-ID: <512BF975.90206@linux.intel.com>
+Date: Mon, 25 Feb 2013 15:53:25 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Rich Dubielzig <rich.dubielzig@windriver.com>
-References: <1361817899-22185-1-git-send-email-rich.dubielzig@windriver.com>
-In-Reply-To: <1361817899-22185-1-git-send-email-rich.dubielzig@windriver.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nfs-utils: Add scratch directory for NFS upcall state storage
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+References: <1361782141-18273-1-git-send-email-cristian.iorga@intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16205C3C@IRSMSX102.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16205C3C@IRSMSX102.ger.corp.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] connman: enable connman client
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,52 +34,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 00:02:14 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 00:09:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 02/25/2013 10:44 AM, Rich Dubielzig wrote:
-> When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
-> record the upcall state and cannot end the 90-second grace period on
-> startup.  This is true even when NFS4 is not being served according to
-> nfsstat.
+On 02/25/2013 12:51 AM, Iorga, Cristian wrote:
+> Changes from V1:
+> 	- connman client is explicitly enabled
+> 	- ${B} is used instead of ${S} (in this specific case are the same, it will be changed later on)
 >
-> More details and discussion here:
-> https://lkml.org/lkml/2012/6/11/206
+Please add these to a proper commit message.
+
+Also, there was some discussion prior about putting the connmanctl in a 
+separate package, that does not seem to have happened here.
+
+It could go into the -tools packages that already exists or it's own 
+package connman-ctl?
+
+I know Jack M. mentioned looking into this also, so let's be sure to 
+coordinate this.
+
+Thanks
+	Sau!
+
+> -----Original Message-----
+> From: Iorga, Cristian
+> Sent: Monday, February 25, 2013 10:49 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Iorga, Cristian
+> Subject: [PATCH V2] connman: enable connman client
 >
-> Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
+> connmanctl is now included when connman is installed
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 > ---
->   .../nfs-utils/nfs-utils_1.2.3.bb                   |    5 ++++-
->   1 files changed, 4 insertions(+), 1 deletions(-)
+>   meta/recipes-connectivity/connman/connman.inc |    5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> index 84c4464..a0b2399 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> @@ -12,7 +12,7 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
->   RDEPENDS_${PN} = "rpcbind"
->   RRECOMMENDS_${PN} = "kernel-module-nfsd"
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index b61e2af..b0ede60 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+>               ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+>               "
 >
-> -PR = "r4"
-> +PR = "r5"
+> -INC_PR = "r17"
+> +INC_PR = "r18"
 >
->   SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
->              file://nfs-utils-1.0.6-uclibc.patch \
-> @@ -58,4 +58,7 @@ do_install_append () {
->   	rm -f ${D}${sbindir}/rpcdebug
->   	rm -f ${D}${sbindir}/rpcgen
->   	rm -f ${D}${sbindir}/locktest
-> +
-> +	# needed to allow NFSD to end its grace period
-> +	install -d ${D}/var/lib/nfs/v4recovery
-
-This should really use ${localstatedir} instead of var, it would also be 
-better to co-locate this with the other directory creations earlier in 
-the do_install_append().
-
-Sau!
-
->   }
+>   TIST = "--enable-tist"
+>   TIST_powerpc = ""
+> @@ -38,7 +38,7 @@ EXTRA_OECONF += "\
+>       --enable-tools \
+>       --enable-test \
+>       --disable-polkit \
+> -    --disable-client \
+> +    --enable-client \
+>       --enable-fake \
+>       ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '', d)} \  "
+> @@ -73,6 +73,7 @@ do_install_append() {
+>   	install -d ${D}${bindir}
+>   	install -m 0755 ${S}/tools/*-test ${D}${bindir}
+>   	install -m 0755 ${S}/tools/wispr ${D}${bindir}
+> +	install -m 0755 ${B}/client/connmanctl ${D}${bindir}
+>
+>   	# We don't need to package an empty directory
+>   	rmdir ${D}${libdir}/connman/scripts
+> --
+> 1.7.10.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
