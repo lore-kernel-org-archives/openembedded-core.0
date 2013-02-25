@@ -1,24 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rich.dubielzig@windriver.com>) id 1UA4Uj-0006m5-CL
-	for Openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 21:18:01 +0100
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UA4aY-0006sO-61
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Feb 2013 21:23:54 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1PIX6l9023205
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1PI6H6H028815
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 10:33:06 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Feb 2013 10:06:17 -0800 (PST)
 Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 25 Feb 2013 10:33:05 -0800
+	14.2.342.3; Mon, 25 Feb 2013 10:06:17 -0800
 From: Rich Dubielzig <rich.dubielzig@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Feb 2013 10:33:04 -0800
-Message-ID: <1361817184-21799-1-git-send-email-rich.dubielzig@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Feb 2013 10:06:07 -0800
+Message-ID: <1361815567-21155-1-git-send-email-rich.dubielzig@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Cc: rich.dubielzig@windriver.com
 Subject: [PATCH] nfs-utils: Add scratch directory for NFS upcall state storage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -32,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 20:18:01 -0000
+X-List-Received-Date: Mon, 25 Feb 2013 20:23:56 -0000
 Content-Type: text/plain
 
 When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
