@@ -1,24 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rich.dubielzig@windriver.com>) id 1UA4aY-0006sO-61
+	(envelope-from <jessica.zhang@intel.com>) id 1UA6Vn-00024Q-5b
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 21:23:54 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1PI6H6H028815
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 10:06:17 -0800 (PST)
-Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 25 Feb 2013 10:06:17 -0800
-From: Rich Dubielzig <rich.dubielzig@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Feb 2013 10:06:07 -0800
-Message-ID: <1361815567-21155-1-git-send-email-rich.dubielzig@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] nfs-utils: Add scratch directory for NFS upcall state storage
+	Mon, 25 Feb 2013 23:27:21 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2013 14:08:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,736,1355126400"; d="scan'208";a="267466830"
+Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.69])
+	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2013 14:09:42 -0800
+From: Jessica Zhang <jessica.zhang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Feb 2013 14:20:51 -0800
+Message-Id: <cover.1361830589.git.jessica.zhang@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] Add kernel arch variable in SDK environment variable list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 20:23:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Feb 2013 22:27:24 -0000
 
-When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
-record the upcall state and cannot end the 90-second grace period on
-startup.  This is true even when NFS4 is not being served according to
-nfsstat.
+The following changes since commit 2cc4fe4a0874c42421b1bf3fa100160a9e60a9da:
 
-More details and discussion here:
-https://lkml.org/lkml/2012/6/11/206
+  upstream_tracking.inc: Coonectivity and multimedia packages updates (2013-02-25 05:58:20 -0800)
 
-Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
----
- .../nfs-utils/nfs-utils_1.2.3.bb                   |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-index 84c4464..8999bc8 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-@@ -58,4 +58,7 @@ do_install_append () {
- 	rm -f ${D}${sbindir}/rpcdebug
- 	rm -f ${D}${sbindir}/rpcgen
- 	rm -f ${D}${sbindir}/locktest
-+
-+	# needed to allow NFSD to end its grace period
-+	install -d ${D}/var/lib/nfs/v4recovery
- }
+  git://git.yoctoproject.org/poky-contrib jzhang/kernel-arch-variable
+  http://git.yoctoproject.org/cgit.cgi//log/?h=master
+
+Jessica Zhang (1):
+  Add kernel arch variable in SDK environment variable list for
+    supporting build external kernel module using SDK
+
+ meta/classes/toolchain-scripts.bbclass |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
 -- 
-1.7.1
+1.7.9.5
 
 
 
