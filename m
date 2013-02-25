@@ -1,34 +1,35 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-vb0-f49.google.com ([209.85.212.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UA0cF-0007Pi-4Q
+	(envelope-from <ross.burton@intel.com>) id 1UA0cp-0007QQ-B9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Feb 2013 17:09:34 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 4E430D22E9; Mon, 25 Feb 2013 16:53:08 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id A8E64D22B4
+	Mon, 25 Feb 2013 17:10:06 +0100
+Received: by mail-vb0-f49.google.com with SMTP id s24so1747441vbi.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 16:52:38 +0100 (CET)
-Message-ID: <512B88C2.2080902@linaro.org>
-Date: Mon, 25 Feb 2013 16:52:34 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
+	Mon, 25 Feb 2013 07:53:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=pfBwAwgAbalt3JWzYjTFKBeUpQHO7HfWM3R88oWnn6o=;
+	b=VnaAjl3cRGKtbVqVpQgIFDDoZa0jzEe/jbaFeMWvPPMClJR1vgFm7x7BlWG4isJbKV
+	gAuyH0gMHoUUbkAzkQ1HU1a5zfpomWmtLtvEJ/kKfUY2pDwEee4fR/fIY+cm8eoR0HHG
+	WorBANICWAlit2DWYibpPwi2xBkf08EUWjr/TYnF9iFUjhERZHctfi/WVGzciJHsnME+
+	fHInt6/yC+sv5Lre0h+XDuz9TeObcaEizDLxAG/4Rh/n2D3nQDyOUj9P/vjHNvu0H2DB
+	f8tlijdney77k/if6Go9i/YFIeNSvTFmuFQj7ejucSUXYAOi7JkYJmuXJDbSPXS6UAHA
+	oYPA==
+X-Received: by 10.52.16.40 with SMTP id c8mr8634838vdd.99.1361807620980; Mon,
+	25 Feb 2013 07:53:40 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1361805454-32336-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1361805454-32336-1-git-send-email-constantinx.musca@intel.com>
-Subject: Re: [PATCH] apt: upgrade to 0.8.10.3+squeeze1
+Received: by 10.58.77.105 with HTTP; Mon, 25 Feb 2013 07:53:19 -0800 (PST)
+In-Reply-To: <1361793612-26991-1-git-send-email-andrei.adrianx.dinu@intel.com>
+References: <1361793612-26991-1-git-send-email-andrei.adrianx.dinu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Feb 2013 15:53:19 +0000
+Message-ID: <CAJTo0Laq2ok=eNcM-ay4MZL4sqvNsBRtKNPAnwQ8h4ybNe96Vw@mail.gmail.com>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+X-Gm-Message-State: ALoCoQlWGgm5juGtg26BkHtdfIza1EtiwhhqR6zNpAvh9ET6Jsb0ci2tUdhsLYZK9zTBh6XnOTm2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] dbus-glib : update to 0.100.1 Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,10 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Feb 2013 16:09:35 -0000
+X-List-Received-Date: Mon, 25 Feb 2013 16:10:07 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Why not version from wheezy?
+dbus-glib 0.100.2 was just spun:
+
+"""
+The "I would prefer lengthier studies, and fewer explosions" release.
+
+http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.100.2.tar.gz
+http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.100.2.tar.gz.asc
+
+This release is a respin of the 0.100.1 tarball to drop some old,
+broken versions of generated documentation files (fd.o #55830). There
+are no source changes.
+"""
+
+It's nothing critical but we might as well use .2 instead of .1.
+
+Ross
 
 
