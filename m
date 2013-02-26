@@ -1,25 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UA8iM-0006IO-1V
+	(envelope-from <sgw@linux.intel.com>) id 1UA8ry-0006Xi-Q2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 01:48:20 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Feb 2013 16:31:54 -0800
+	Tue, 26 Feb 2013 01:58:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 25 Feb 2013 16:41:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,736,1355126400"; d="scan'208";a="291715698"
-Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2013 16:31:54 -0800
-Message-ID: <512C027A.4010400@linux.intel.com>
-Date: Mon, 25 Feb 2013 16:31:54 -0800
+X-IronPort-AV: E=Sophos;i="4.84,736,1355126400"; d="scan'208";a="261338777"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.143])
+	by azsmga001.ch.intel.com with ESMTP; 25 Feb 2013 16:41:50 -0800
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1361522961-5673-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1361522961-5673-1-git-send-email-constantinx.musca@intel.com>
-Cc: peachj@lexmark.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] log_srcrev.bbclass: add a bbclass for logging SRCREVs
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Feb 2013 16:41:50 -0800
+Message-Id: <1361839310-1758-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] mini-x-session: Fix starting of x-session
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,74 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 00:48:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Feb 2013 00:58:17 -0000
 
-On 02/22/2013 12:49 AM, Constantin Musca wrote:
-> - add a task which creates a file for each package with the following
-> format:
->
-> BB_FILENAME: ${BB_FILENAME}
-> SRC_URI: ${SRC_URI}
-> SRCREV: ${SRCREV}
-> FROM AUTOREV: no/yes
->
-Would it be better to have the format more as a CSV
+We need to use sudo semantics since it does not start correctly
+with su.
 
-bbfilename,src_uri,srcrev,autorev?
+The test was constructed incorrectly.
 
-This would make it easier to parse for scripts
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-graphics/mini-x-session/files/mini-x-session | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Jerrod, you are the requester on this, do you have any comments on the 
-format?
+diff --git a/meta/recipes-graphics/mini-x-session/files/mini-x-session b/meta/recipes-graphics/mini-x-session/files/mini-x-session
+index 91f1592..dca655a 100644
+--- a/meta/recipes-graphics/mini-x-session/files/mini-x-session
++++ b/meta/recipes-graphics/mini-x-session/files/mini-x-session
+@@ -17,13 +17,14 @@ exec /etc/mini_x/session
+ fi
+ 
+ MINI_X_SESSION_DIR=/etc/mini_x/session.d
+-if [ -d "$MINI_X_SESSION_DIR"]; then
++if [ -d "$MINI_X_SESSION_DIR" ]; then
+ 	# Execute session file on behalf of file owner
+ 	find $MINI_X_SESSION_DIR -type f | while read SESSIONFILE; do
+ 		set +e
+ 		USERNAME=`stat -c %U $SESSIONFILE`
+ 		# Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1211]
+-		su -l -c '$SESSIONFILE&' $USERNAME
++#		su -l -c '$SESSIONFILE&' $USERNAME
++		sudo -b -i -u $USERNAME $SESSIONFILE&
+ 		set -e
+ 	done
+ fi
+-- 
+1.8.0.2
 
-
-> [YOCTO #3041]
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> ---
->   meta/classes/log_srcrev.bbclass | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
->   create mode 100644 meta/classes/log_srcrev.bbclass
->
-> diff --git a/meta/classes/log_srcrev.bbclass b/meta/classes/log_srcrev.bbclass
-> new file mode 100644
-> index 0000000..b319e7b
-> --- /dev/null
-> +++ b/meta/classes/log_srcrev.bbclass
-> @@ -0,0 +1,20 @@
-> +SRCREV_LOGFILE ??= 'srcrev_log'
-> +
-> +python do_log_srcrev () {
-> +    srcrev = d.getVar('SRCREV', True)
-> +    if srcrev:
-> +        bbfile = d.getVar('BB_FILENAME', True)
-> +        src_uri = d.getVar('SRC_URI', True)
-> +        from_autorev = 'yes' if d.getVar('SRCREV', False) == 'AUTOINC' else 'no'
-> +
-> +        srcrevdir = d.expand('${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${PN}-${PV}/')
-> +        srcrevfile = os.path.join(srcrevdir, d.getVar('SRCREV_LOGFILE', True))
-> +        bb.utils.mkdirhier(os.path.dirname(srcrevfile))
-> +
-Do we really need the extra level of directory here?  Can the data be 
-contained in a ${PN}-${PV} file instead?  Also this might be better to 
-be ${BP} (base package & version).
-
-You already have the mulitlib info in the ${MULTIMACH_TARGET_SYS} info.
-
-
-Thanks
-	Sau!
-
-
-> +        with open(srcrevfile, 'w') as f:
-> +            f.write("BB_FILENAME: %s\nSRC_URI: %s\nSRCREV: %s\nFROM AUTOREV: %s\n"
-> +                    % (bbfile, src_uri, srcrev, from_autorev))
-> +}
-> +
-> +addtask do_log_srcrev after do_fetch
-> +do_log_srcrev[cleandirs] = "${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${PN}-${PV}/"
->
 
 
