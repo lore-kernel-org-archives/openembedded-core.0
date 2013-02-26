@@ -1,37 +1,36 @@
-Received: from mail-ve0-f177.google.com ([209.85.128.177])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UAOoR-0001xc-W1
+	(envelope-from <twoerner@gmail.com>) id 1UAOob-0001yC-NT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 18:59:47 +0100
-Received: by mail-ve0-f177.google.com with SMTP id m1so3895761ves.8
+	Tue, 26 Feb 2013 18:59:48 +0100
+Received: by mail-wi0-f171.google.com with SMTP id hn17so5209561wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 09:43:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=UudSIg/Y3QMC3Rr9uzv8O/SrJZYHNqlfQLUSAcGp3zc=;
-	b=O+S44UA6kUTLMOE6CP5sBhh6u1vxkfiZXMIntVL9STiw9ToznFWqS6Xe6d91c9QoQX
-	cq4gcal7j9Z+QvUnT453zdqVtvrRtmLUNcNiTHpIoA8fVY8kWSlCHgt1mVC2HnhGhYGx
-	t9qeOjjmPEcatmIvtuxMLjzZ1VEhM+vyAyc/17LKdPI6Gln7qi2tux4gViAdZNaZeqaJ
-	xboETSiPKQDtEbNLOFJSe+w37cPQZJPi8vTnzqqUGTSD4t934uAKoxoveQOJap3paekF
-	tSuBc0mXdwxKYLpvU53awR0RoK8rCzuL84ffEiYL2IrDm60dvpd8mE4ZRbwIUViWy9aw
-	ehnA==
-X-Received: by 10.59.4.101 with SMTP id cd5mr3015914ved.14.1361900594300; Tue,
-	26 Feb 2013 09:43:14 -0800 (PST)
+	Tue, 26 Feb 2013 09:43:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=U8fCak/NE12ru6fnZKE02ZshZE7r44I/gRvspOU2+7s=;
+	b=pSd6/tagOOQSsdDQJuQYlKRFZYwCyIMG6CVuRwv5WDJbeEOwJ+UpCxwRR440blAIet
+	6ILPvSQDlziS6W7C47DBCOJgmWqnVCJf5zhFXwBlGYDouhdl68PoO4XS27tQn9hHTR4M
+	L3Zr05dzXeFMxD2yJMrLz3vvC8Ee7joy+JEv5Bm2v1uOS+vqnWhgNCpYmgXFS9VUMJ6v
+	rGiOtAY9x67I2hSiAH8SoJugusUoGwC+NMnUa1nYYEcp2rBRPHjNp/LtO9LIbubJyQKd
+	3IpmznaPbAjB/bmXWx1QrrXjcdHhk4XxzyegtwqGmZ/JOCVCLCuDX1DQbNkc9Gv7ZRmX
+	raZg==
 MIME-Version: 1.0
-Received: by 10.58.77.105 with HTTP; Tue, 26 Feb 2013 09:42:54 -0800 (PST)
-In-Reply-To: <CAP9ODKpR_ik-8F3d2-RwXDY=2Odn_uRVEwegZADSd38TCWmJ+w@mail.gmail.com>
-References: <1361900109-21869-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKpR_ik-8F3d2-RwXDY=2Odn_uRVEwegZADSd38TCWmJ+w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Feb 2013 17:42:54 +0000
-Message-ID: <CAJTo0LY6GsxYVLd24W0ZHZ7=CN9T9zcJjA=JotJb5r+vUrmDBQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQnMfPpjfV6MlwpNrgS71KHFnAFPOEv8WsdUZJu4bH2zgywPZw/T4RMkXNvWAJV1ycZRcMrY
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.180.77.9 with SMTP id o9mr21207023wiw.16.1361900606516; Tue,
+	26 Feb 2013 09:43:26 -0800 (PST)
+Received: by 10.194.45.100 with HTTP; Tue, 26 Feb 2013 09:43:26 -0800 (PST)
+In-Reply-To: <e62df3d50df79849ea916095fd028b688b75df52.1361862860.git.liezhi.yang@windriver.com>
+References: <cover.1361862860.git.liezhi.yang@windriver.com>
+	<e62df3d50df79849ea916095fd028b688b75df52.1361862860.git.liezhi.yang@windriver.com>
+Date: Tue, 26 Feb 2013 12:43:26 -0500
+Message-ID: <CAHUNapS=YynAbkmtj3NGha9vu2V_k1bDqW1gtPPe586N=shkUw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: set the location of the kill binary
+Subject: Re: [PATCH 5/7] mkdebugfs.sh: several fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,16 +44,20 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Feb 2013 17:59:50 -0000
-X-List-Received-Date: Tue, 26 Feb 2013 17:59:50 -0000
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 26 February 2013 17:41, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> +export ac_cv_path_KILL="/bin/kill"
+On Tue, Feb 26, 2013 at 4:24 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Fix mkdebugfs.sh:
 >
-> This can be given in EXTRA_OECONF IIRC. Did you try it?
+>          *)
+>              echo "Unknown file $FILE" 1>&2
+>              ;;
+>          esac
 
-That would also work, yes.  Is that the preferred style?
+I know this doesn't come from your work, but since you're making
+changes, I think it would make for a better error message if the above
+said something along the lines of:
 
-Ross
+    echo "Unknown/unhandled file type '$(stat -c "%F" $FILE)' file:$FILE"
 
 
