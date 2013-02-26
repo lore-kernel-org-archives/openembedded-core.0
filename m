@@ -1,26 +1,25 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UAFfT-0006e6-Ki
+	(envelope-from <Kai.Kang@windriver.com>) id 1UAFup-00078m-A6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 09:13:45 +0100
+	Tue, 26 Feb 2013 09:29:36 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q7vPxn006549
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 23:57:25 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.328.9; Mon, 25 Feb 2013 23:57:23 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q8DBd2006930
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 26 Feb 2013 00:13:11 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Tue, 26 Feb 2013 00:13:09 -0800
+From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 15:57:17 +0800
-Message-ID: <5649132673d6d4d2add07aa92beec536e35edcaa.1361864565.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1361864565.git.hongxu.jia@windriver.com>
-References: <cover.1361864565.git.hongxu.jia@windriver.com>
+Date: Tue, 26 Feb 2013 16:14:24 +0800
+Message-ID: <cover.1361866256.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Subject: [PATCH 3/3] sstate-cache-management.sh:fix the incorrect usage of option `-d'
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/5] V2: Redirect output of postinstall scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 08:13:52 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 08:29:36 -0000
 Content-Type: text/plain
 
-The description of option `-d' is not correct in useage. It is used to
-remove duplicate and debug at the same time. Use option `-D' to control
-debug info output and the option `-d' to flag remove duplicate.
+When image feature "debug-tweaks" enabled, redirect output of postinstall scripts
+to a log file when image first boot.
 
-[YOCTO #3635]
+[YOCTO #3223]
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- scripts/sstate-cache-management.sh |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 2cc4fe4a0874c42421b1bf3fa100160a9e60a9da:
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 90e6764..24384ef 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -72,7 +72,7 @@ Options:
-   -v, --verbose
-         explain what is being done
- 
--  -d, --debug
-+  -D, --debug
-         show debug info, repeat for more debug info
- 
- EOF
-@@ -393,7 +393,7 @@ while [ -n "$1" ]; do
-       verbose="-v"
-       shift
-         ;;
--    --debug)
-+    --debug|-D)
-       debug=`expr $debug + 1`
-       echo "Debug level $debug"
-       shift
+  upstream_tracking.inc: Coonectivity and multimedia packages updates (2013-02-25 05:58:20 -0800)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/debug-tweaks
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/debug-tweaks
+
+Kang Kai (5):
+  opkg: save output of postinst scripts when image first boot
+  rootfs_deb: remove run-postinsts from ROOTFS_PKGMANAGE
+  dpkg: save output of postinstall scripts when image firstboot
+  rootfs_rpm: move run-postinsts scripts to rpm recipe
+  rpm: save output of postinstall scripts when image first boot
+
+ meta/classes/rootfs_deb.bbclass        |    2 +-
+ meta/classes/rootfs_rpm.bbclass        |   23 -----------------------
+ meta/recipes-devtools/dpkg/dpkg.inc    |    8 +++++---
+ meta/recipes-devtools/opkg/opkg.inc    |    5 ++++-
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb |   27 +++++++++++++++++++++++++++
+ 5 files changed, 37 insertions(+), 28 deletions(-)
+
 -- 
-1.7.10.4
+1.7.5.4
 
 
 
