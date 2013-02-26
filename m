@@ -1,36 +1,20 @@
-Received: from mail-oa0-f43.google.com ([209.85.219.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UAO4i-0000Yw-KV
+	(envelope-from <cristian.iorga@intel.com>) id 1UAO5F-0000ZU-E6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 18:12:21 +0100
-Received: by mail-oa0-f43.google.com with SMTP id l10so5640127oag.16
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 08:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=xOtVbiaZN7mK5GcHbyNwWsDEfbKzMcBVlwNuRrHoPi8=;
-	b=tegAsqBgq4vkBK+f9hO343JbY4Oayo5GAHfi/79lcliv8hhOOu+lOhRawJ01x2XjTw
-	Y2CRfvibbs3KB1zSbumi4cT0vI7i8WnKg0RbgMm5tE6yHgGsKJVJV1cS7yzshLrmadGr
-	dyicZW/SPh5xBNWWscid1+2URQPgaN7wRdmjPxTpIHdJqrA3hoNlfFDWLyJWZOJL6Y5Q
-	NI/yW1q6oKKpSCnVmdldAs5860n8Unl0OFuhJkCDSz6Ox0/XXhlzPhkV3ChZWlfR3QLX
-	tSO/mIalE3L01mZ/0htsEICirmV+IDQUIiJNl1dKuCrBoBjGaZmVyWRMUWTaXgrTSUcx
-	TvkQ==
-MIME-Version: 1.0
-X-Received: by 10.60.8.40 with SMTP id o8mr2067671oea.112.1361897760731; Tue,
-	26 Feb 2013 08:56:00 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 08:56:00 -0800 (PST)
-In-Reply-To: <1361891080-5035-1-git-send-email-constantinx.musca@intel.com>
-References: <1361891080-5035-1-git-send-email-constantinx.musca@intel.com>
-Date: Tue, 26 Feb 2013 13:56:00 -0300
-X-Google-Sender-Auth: 3KrUBC0HVQU_LQs95ZEZK80D3qY
-Message-ID: <CAP9ODKqfv-8=MG=ffQQG_DSTxj9=059Z_W4mPznQiwsKKaYM-w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Constantin Musca <constantinx.musca@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] log_srcrev.bbclass: add a bbclass for logging SRCREVs
+	Tue, 26 Feb 2013 18:13:22 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2013 08:55:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,742,1355126400"; d="scan'208";a="267931968"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2013 08:56:23 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Feb 2013 18:56:48 +0200
+Message-Id: <1361897808-5118-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V3] connman: enable connman client
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +27,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 17:12:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 26 Feb 2013 17:13:24 -0000
 
-On Tue, Feb 26, 2013 at 12:04 PM, Constantin Musca
-<constantinx.musca@intel.com> wrote:
-> - add a task which creates a file for each package with the following
-> format:
->
-> ${BB_FILENAME},${SRC_URI},${SRCREV},${FROM_AUTOREV}
->
-> [YOCTO #3041]
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+connmanctl is available in a new
+package: connman-client
 
-What is the use-case for this?
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index b61e2af..db4d26c 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+             "
+ 
+-INC_PR = "r17"
++INC_PR = "r18"
+ 
+ TIST = "--enable-tist"
+ TIST_powerpc = ""
+@@ -38,7 +38,7 @@ EXTRA_OECONF += "\
+     --enable-tools \
+     --enable-test \
+     --disable-polkit \
+-    --disable-client \
++    --enable-client \
+     --enable-fake \
+     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '', d)} \
+ "
+@@ -73,6 +73,7 @@ do_install_append() {
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
+ 	install -m 0755 ${S}/tools/wispr ${D}${bindir}
++	install -m 0755 ${B}/client/connmanctl ${D}${bindir}
+ 
+ 	# We don't need to package an empty directory
+ 	rmdir ${D}${libdir}/connman/scripts
+@@ -116,13 +117,15 @@ python populate_packages_prepend() {
+             d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
+ }
+ 
+-PACKAGES =+ "${PN}-tools ${PN}-tests"
++PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
+ 
+ FILES_${PN}-tools = "${bindir}/wispr"
+ 
+ FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
+ RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient"
+ 
++FILES_${PN}-client = "${bindir}/connmanctl"
++
+ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${libdir}/connman/plugins \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10.4
+
 
 
