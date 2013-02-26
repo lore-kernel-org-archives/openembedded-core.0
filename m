@@ -1,36 +1,36 @@
-Received: from mail-oa0-f51.google.com ([209.85.219.51])
+Received: from mail-oa0-f52.google.com ([209.85.219.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UAAUj-0001rG-UE
+	(envelope-from <otavio.salvador@gmail.com>) id 1UAAW6-0001vR-Pf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 03:42:19 +0100
-Received: by mail-oa0-f51.google.com with SMTP id h2so4376227oag.10
+	Tue, 26 Feb 2013 03:43:54 +0100
+Received: by mail-oa0-f52.google.com with SMTP id k14so4424694oag.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 18:25:58 -0800 (PST)
+	Mon, 25 Feb 2013 18:27:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=OusGsvUmRwn6EdzZQLhYrI6DN1CQFEFhbjyC0Fz2d7A=;
-	b=FbWo0IhNLYp9egJQJO+KHjJs0BOCacA0+D5wZ4gDY3pf+Y5DIim7JRjPorXo+D+hok
-	+Pu1pVwZjw+7wrmCPDVW5RMWhGgVBFFaxGSKZ7dAVzgaF4mwaoj+6PpwkI1HwlVBBy9k
-	Srw7sPsfv6aTSWBLpEjkuANUanJ3uMOqTVwLAExYEHsYdF0I74HsEV25QDInu+CKAFJC
-	9IiqqE81StQDkBFdhw6DsQ9eGiTnqw8wwiFeXGhzjDUfhUSNMngnur+DEmqsie8+WYtr
-	TM07T/Vt+uAiUInUE2r/CkI6x7x3dibdEV80M6IPyfDczRKgxr5Wf/pJcs20XfJElyUL
-	g8YA==
+	bh=xHZSAikgY3wrhDJIVCEs+vEPhL22Ig7iYDsVTmL+lJc=;
+	b=c/UVCqazEVZIy7iHlSILdYi55p92IYhQOAD7nLAyy7ZlwPjq351/NcOsMCoyJMWhXs
+	frbLYGWY9jnD+VWaU69ftJzgJneYB3VD7J0Szi5pkZK6uh191FAw2fOnlQo7fKmD/kLR
+	2XqK0GIFoSQoEBWTzGdRyQYqzZ+qYZ95m7u4Ro9J4/reK66NnSDvSHDQza8LTdbCgXTX
+	2llcST/atBz1hwAJy9x79eMAbBjv2NLQrysDDMGhLiWxO/YVBBja20fSYg7J2AKUXSoY
+	LWQcRzePO/hNwKQnbm9E2ebOrclPqKPUYGNL54pM8w6HgpoCOzEOXDbq3hpgbiaSCpt0
+	yAVA==
 MIME-Version: 1.0
-X-Received: by 10.60.170.44 with SMTP id aj12mr22381oec.42.1361845558677; Mon,
-	25 Feb 2013 18:25:58 -0800 (PST)
+X-Received: by 10.60.19.228 with SMTP id i4mr27409oee.40.1361845643765; Mon,
+	25 Feb 2013 18:27:23 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.251.165 with HTTP; Mon, 25 Feb 2013 18:25:58 -0800 (PST)
-In-Reply-To: <1361839310-1758-1-git-send-email-sgw@linux.intel.com>
-References: <1361839310-1758-1-git-send-email-sgw@linux.intel.com>
-Date: Mon, 25 Feb 2013 23:25:58 -0300
-X-Google-Sender-Auth: K0P8sXc7t_PUZ3V3ktM1kiLAlRY
-Message-ID: <CAP9ODKqN1eZhazuLVsW-0gt_wUkVQRYspS_8+Pmt1nMS9jA=LQ@mail.gmail.com>
+Received: by 10.182.251.165 with HTTP; Mon, 25 Feb 2013 18:27:23 -0800 (PST)
+In-Reply-To: <1361841584-4776-1-git-send-email-ming.liu@windriver.com>
+References: <1361841584-4776-1-git-send-email-ming.liu@windriver.com>
+Date: Mon, 25 Feb 2013 23:27:23 -0300
+X-Google-Sender-Auth: KZD-G4WUvC_1XhDQfHfiMMUYeNc
+Message-ID: <CAP9ODKo4LVNcTWoW8dmM87fHeZ12i7Jm7RLCnyWqapKbAmbXvQ@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
+To: Ming Liu <ming.liu@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mini-x-session: Fix starting of x-session
+Subject: Re: [PATCH V1] parted: fix several integer overflows
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,18 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 02:42:20 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 02:43:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Feb 25, 2013 at 9:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> We need to use sudo semantics since it does not start correctly
-> with su.
+On Mon, Feb 25, 2013 at 10:19 PM, Ming Liu <ming.liu@windriver.com> wrote:
+> Integer overflows were found in libparted/labels/dvh.c, while attemptting
+> to assign unsigned int values to int types in some places. These overflows
+> only can be observed on BE platforms like MIPS, when the "WORDS_BIGENDIAN"
+> macro is defined in parted.
 >
-> The test was constructed incorrectly.
+> Defined by unsigned int instead.
 >
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
 
-Please add a rdepends on sudo in this case.
+Did you send it upstream? Jim or I can review it.
 
 -- 
 Otavio Salvador                             O.S. Systems
