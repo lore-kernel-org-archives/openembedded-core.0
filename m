@@ -1,24 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ia0-f181.google.com ([209.85.210.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1UAEGE-0003Z9-Qm
+	(envelope-from <raj.khem@gmail.com>) id 1UAEYQ-0004Tg-DQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 07:43:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q6RAAc001687
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Feb 2013 22:27:10 -0800 (PST)
-Received: from pek-wfan-d2.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.328.9; Mon, 25 Feb 2013 22:27:09 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 14:26:57 +0800
-Message-ID: <cover.1361859756.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 26 Feb 2013 08:02:32 +0100
+Received: by mail-ia0-f181.google.com with SMTP id w33so2063842iag.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Feb 2013 22:45:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding;
+	bh=nR8NTNGDHLRKtQUJdipojkCm786FFVuqOQW7SHitAs0=;
+	b=CZgbCqkx1uR3nItkTLM7uXmApwzoj5qDkA/VBhPvo9lEK24glrnyxJQqE3DFNh/9AC
+	AFNln3Fmj0s3xCidQKZ2LLsFJAtG4NFoKXx88ZzpqML7e9xR9PIf3PNcsh2riIRtfnMX
+	nrlQf1bvHa70NKMXsBISMTrfWuaq9I/v/sSuKLZn5CZ0v8DNq1Nq1q1Mq8ROtpFDY57m
+	vyfm12TpcEIHaz9w/TbHkpmDoc+IdysU6ZJhtcJrH7tM/rwib+y/IJ7SKLVyDCbNrojZ
+	7OeOom7QFig8F+v0jsQzehWEjLf7qUY1qCngE+RM5fhqiWhRK4QT0B9+ZP4cabtBB/N5
+	2aQg==
+X-Received: by 10.50.184.226 with SMTP id ex2mr5067804igc.24.1361861159139;
+	Mon, 25 Feb 2013 22:45:59 -0800 (PST)
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com, scott.a.garman@intel.com
-Subject: [PATCH 0/1][denzil] alsa-tools: remove warning message
+Received: by 10.50.13.204 with HTTP; Mon, 25 Feb 2013 22:45:29 -0800 (PST)
+In-Reply-To: <E79C80CE9122499B9C7D2D855CDF6319@intel.com>
+References: <lyk3q9sam4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LYo_FLTkZ_OiFf6Tt_oYO6NoUAUB74s__2UcKv7ccdxaA@mail.gmail.com>
+	<E79C80CE9122499B9C7D2D855CDF6319@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Feb 2013 22:45:29 -0800
+Message-ID: <CAMKF1sqke6HuWosvNqgXGtMqL3cyPGG2w6=rFD2buvH6dOmvmQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: RFE: make the init manager an image feature (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,54 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 06:43:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Feb 2013 07:02:38 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 07:02:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On Sun, Feb 24, 2013 at 2:37 AM, Ross Burton <ross.burton@intel.com> wrote:
+> Hi,
+>
+> Just brainstorming out loud, but here's a suggestion that might just plea=
+se everyone:
+>
+> A virtual provider for the init manager, which can be overridden per-imag=
+e (for main / rescue images).
 
-Remove those warning message for alsa-tools 1.0.24.1 on denzil release:
+Yes I was thinking about it too but it has to be made one off case.
+Since we wont be able to support all combinations
 
-WARNING:   /usr/local/share
-WARNING:   /usr/local/bin
-WARNING:   /usr/local/include
-WARNING:   /usr/local/lib
-WARNING:   /usr/local/sbin
-WARNING:   /usr/local/share/sounds
-WARNING:   /usr/local/share/aclocal
-WARNING:   /usr/local/share/man
-WARNING:   /usr/local/share/ld10k1
-WARNING:   /usr/local/share/sounds/opl3
-WARNING:   /usr/local/share/sounds/opl3/std.sb
-WARNING:   /usr/local/share/sounds/opl3/drums.sb
-WARNING:   /usr/local/share/sounds/opl3/std.o3
-WARNING:   /usr/local/share/sounds/opl3/drums.o3
-WARNING:   /usr/local/share/aclocal/ld10k1.m4 
-WARNING:   /usr/local/share/man/man1
-WARNING:   /usr/local/share/man/man1/cspctl.1 
-WARNING:   /usr/local/share/ld10k1/effects
-WARNING:   /usr/local/share/ld10k1/effects/vol_2.emu10k1
-......
 
-* Note: the latest alsa-tools on master is 1.0.26.1 and doesn't have
-such issue any more.
+>
+> DISTRO_FEATURES contains the init script *style* that you want: sysvinit =
+or systemd.  These are not mutually exclusive so specifying both will get y=
+ou both directly in packages that support both.  I'm still not convinced we=
+ need to split these out into separate packages, the size impact is practic=
+ally negligible and the dependencies are effectively redundant as you'll ha=
+ve trouble booting without an init system.  Instead the postinsts should wr=
+ap the initscript fragments in checks.
 
-The following changes since commit 6caa7d1d6c122d084ed01d1f5e1dae0bf259f854:
+systemd lives fine with initscripts. In some cases the adhoc unit
+files just call these initscripts so in a way systemd does
+expect the initscripts to be around. So systemd is sort of addon and
+thats why ${PN}-systemd worked well. So we can have
+a perfect sysvinit based system and then we replace it with systemd
+and add the ${PN}-systemd packages into image and it becomes
+a systemd based image. I think as porting happens this case of
+wrapping initscripts into systemd service files will continue
+unless individual packages get their own unit files which are
+rewritten and do not use initscripts anymore.
 
-  bitbake: command: Fix getCmdLineAction bugs (2013-01-28 12:44:14 +0000)
+>
+> Those distro features will also be used to enable/disable features in the=
+ source, so enabling systemd may well lead to libsystemd-* libraries sneaki=
+ng into your rescue image.  The systemd libraries will have to be reviewed =
+to verify that installing one of them doesn't pull in systemd itself.
+>
+> Here's the fun bit - we can't have two builds of udev in the same distro,=
+ and that's what could happen, so I think we'll need to cut down to one ude=
+v instead of two.
 
-are available in the git repository at:
+well we can make a udev recipe which uses exact sources used by systemd.
 
-  git://git.pokylinux.org/poky-contrib wenzong/alsa-tools
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/alsa-tools
-
-Wenzong Fan (1):
-  alsa-tools: remove warning message
-
- meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |   11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
--- 
-1.7.10.4
-
+>
+> I'm not entirely convinced this is a good plan yet myself though=E2=80=A6
+>
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
