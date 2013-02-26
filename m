@@ -1,41 +1,34 @@
-Received: from mail-oa0-f54.google.com ([209.85.219.54])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UAQxk-0000Kl-9E
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 21:17:23 +0100
-Received: by mail-oa0-f54.google.com with SMTP id n12so6122095oag.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:message-id:subject:from:to:cc:date:in-reply-to
-	:references:content-type:x-mailer:mime-version
-	:content-transfer-encoding:x-gm-message-state;
-	bh=z3JrzhHvSKsK0GtJAlLRVfuAwT3oXO0VtwNApURC40w=;
-	b=IfKF5RibQq6vGS0MF5CkBsWbVdNj1WuTdfJkRJkPUelMBDx0HgARojcPb4zCrtffJs
-	Xmpbq5nc9eJmvGng/gLsNoRbBvVIH02QExA4og4KgP7JM0UaxxdaNEe4cTsbcQlfnedC
-	BtQYTScC+3JYfkpnFwx4Vx8W1ynuNVm679DW/F3F91WE//Rr8Pe8mPDfjBMpT29VoFnN
-	gPXQlZaKBpBGHuQyX9QC9W44sRM9TNLT+e8Uj+WXNNzbCyKw9j/HZvaArH28xXwjz67b
-	meq2cw8I/oRTiFZ8MI+/5I0maNuGciwpC53+X/my3MJVzy2o3/SNH0z+ZYqSaJ9cdvB5
-	N/Ww==
-X-Received: by 10.182.40.71 with SMTP id v7mr12367692obk.85.1361908850629;
-	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
-Received: from [10.0.1.95] (adsl-68-88-197-100.dsl.rcsntx.swbell.net.
-	[68.88.197.100])
-	by mx.google.com with ESMTPS id p2sm3156827obb.6.2013.02.26.12.00.46
-	(version=SSLv3 cipher=RC4-SHA bits=128/128);
-	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
-Message-ID: <1361908840.1685.5.camel@rrMBP>
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: Ross Burton <ross.burton@intel.com>
-Date: Tue, 26 Feb 2013 21:00:40 +0100
-In-Reply-To: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
-References: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.6.3 (3.6.3-2.fc18) 
-Mime-Version: 1.0
-X-Gm-Message-State: ALoCoQlWu/CKn0TXWs6IZQYi73oDJ82Sb0V8Z/yI8wmmZPuStjATKtOL/diDpyW7tebN+y11ffLJ
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] systemd: set the location of the kill binary
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UAQzT-0000Q3-AY
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 26 Feb 2013 21:19:33 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1QK2kTk009985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 26 Feb 2013 12:02:46 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.233]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0328.009;
+	Tue, 26 Feb 2013 12:02:46 -0800
+From: "Dubielzig, Rich" <rich.dubielzig@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] nfs-utils: Add scratch directory for NFS
+	upcall state storage
+Thread-Index: AQHOE4g3CtJ2x0FD7k60lvN6txNVhJiLw4OAgADMrrk=
+Date: Tue, 26 Feb 2013 20:02:44 +0000
+Message-ID: <4DDB2CE82D9BF44DB2EC2903AD859F8185591B7C@ALA-MBB.corp.ad.wrs.com>
+References: <1361817899-22185-1-git-send-email-rich.dubielzig@windriver.com>,
+	<512BF7AB.70302@linux.intel.com>
+In-Reply-To: <512BF7AB.70302@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.80.152]
+MIME-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfs-utils: Add scratch directory for NFS upcall state storage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,33 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 20:17:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Feb 2013 20:19:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2013-02-26 at 17:53 +0000, Ross Burton wrote:
-> Otherwise systemd uses AC_PROG_PATH and finds it in the sysroot, which won't
-> work on the target.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/systemd/systemd_197.bb |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-> index c765c18..001d111 100644
-> --- a/meta/recipes-core/systemd/systemd_197.bb
-> +++ b/meta/recipes-core/systemd/systemd_197.bb
-> @@ -63,6 +63,7 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
->                   --disable-microhttpd \
->                   --without-python \
->                   --with-sysvrcnd-path=${sysconfdir} \
-> +                 ac_cv_path_KILL=/bin/kill \
-
-Like V1 this hardcodes ${base_bindir} to /bin, this breaks when your
-DISTRO sets $base_prefix to /usr. So please change that to:
-
-	ac_cv_path+KILL=${base_bindir}/kill
-
+I can make this change, but if ${localstatedir} ends up being different tha=
+n /var it would not be consistent with current kernel code which hardcodes =
+the path "/var/lib/nfs/v4recovery" by default in fs/nfsd/nfs4recover.c=0A=
+=0A=
+http://lxr.linux.no/#linux+v3.8/fs/nfsd/nfs4recover.c=0A=
+=0A=
+-Rich=0A=
+________________________________________=0A=
+From: Saul Wold [sgw@linux.intel.com]=0A=
+Sent: Monday, February 25, 2013 3:45 PM=0A=
+To: Dubielzig, Rich=0A=
+Cc: Openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] nfs-utils: Add scratch directory for NFS upc=
+all state storage=0A=
+=0A=
+On 02/25/2013 10:44 AM, Rich Dubielzig wrote:=0A=
+> When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot=0A=
+> record the upcall state and cannot end the 90-second grace period on=0A=
+> startup.  This is true even when NFS4 is not being served according to=0A=
+> nfsstat.=0A=
+>=0A=
+> More details and discussion here:=0A=
+> https://lkml.org/lkml/2012/6/11/206=0A=
+>=0A=
+> Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>=0A=
+> ---=0A=
+>   .../nfs-utils/nfs-utils_1.2.3.bb                   |    5 ++++-=0A=
+>   1 files changed, 4 insertions(+), 1 deletions(-)=0A=
+>=0A=
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/met=
+a/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
+> index 84c4464..a0b2399 100644=0A=
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
+> @@ -12,7 +12,7 @@ DEPENDS =3D "libcap libnfsidmap libevent util-linux tcp=
+-wrappers"=0A=
+>   RDEPENDS_${PN} =3D "rpcbind"=0A=
+>   RRECOMMENDS_${PN} =3D "kernel-module-nfsd"=0A=
+>=0A=
+> -PR =3D "r4"=0A=
+> +PR =3D "r5"=0A=
+>=0A=
+>   SRC_URI =3D "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \=0A=
+>              file://nfs-utils-1.0.6-uclibc.patch \=0A=
+> @@ -58,4 +58,7 @@ do_install_append () {=0A=
+>       rm -f ${D}${sbindir}/rpcdebug=0A=
+>       rm -f ${D}${sbindir}/rpcgen=0A=
+>       rm -f ${D}${sbindir}/locktest=0A=
+> +=0A=
+> +     # needed to allow NFSD to end its grace period=0A=
+> +     install -d ${D}/var/lib/nfs/v4recovery=0A=
+=0A=
+This should really use ${localstatedir} instead of var, it would also be=0A=
+better to co-locate this with the other directory creations earlier in=0A=
+the do_install_append().=0A=
+=0A=
+Sau!=0A=
+=0A=
+>   }=0A=
+>=0A=
 
 
