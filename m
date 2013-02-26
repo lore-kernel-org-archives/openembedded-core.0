@@ -1,36 +1,47 @@
-Received: from mail-ie0-f177.google.com ([209.85.223.177])
+Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UATbk-00063F-BT
+	(envelope-from <B29882@freescale.com>) id 1UATk6-0006Bq-8n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 00:06:49 +0100
-Received: by mail-ie0-f177.google.com with SMTP id 16so5161612iea.22
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 14:50:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=RqY3pJ8xla0JQf/cER4kNnVcehY0o/6ukXfiC0UkXds=;
-	b=k18uk/BithW5TMrlM4gZ7ixkcmihQu/5kvIvLYZdusH+Hq1DvCmW93bKnHd1AdX5H7
-	hBNICxzufWLA3bdL7rlA9DEiewVCLg+hvcLGPawJhSPGOG/p0LHDjj1hA2Yh2idaHNbj
-	woRREofTUGZlfh81BSBi71Fno0fYd1NhaTMPO9+wppY+t+Me487cUg/j+N+Thf1vG5ya
-	if62KS/gkq5A5LHSMIxYSRpaW+uD5vmNRkCNiEo9ALJ/Gu5mk0N3y/rTOyZSAFjEPZ6g
-	Q9PD7s3Uq5MWVzAyvrV9Tz3CAQLclRk982Grj2S9eN1Is6hpbk+qb0BcQO855BDKYTNI
-	8pkg==
-X-Received: by 10.50.153.198 with SMTP id vi6mr6328705igb.112.1361919028140;
-	Tue, 26 Feb 2013 14:50:28 -0800 (PST)
+	Wed, 27 Feb 2013 00:15:26 +0100
+Received: from mail217-va3-R.bigfish.com (10.7.14.236) by
+	VA3EHSOBE010.bigfish.com (10.7.40.12) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 26 Feb 2013 21:58:50 +0000
+Received: from mail217-va3 (localhost [127.0.0.1])	by
+	mail217-va3-R.bigfish.com (Postfix) with ESMTP id 8D1CAC00233	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 21:58:50 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1155h)
+Received: from mail217-va3 (localhost.localdomain [127.0.0.1]) by mail217-va3
+	(MessageSwitch) id 1361915927635741_1147;
+	Tue, 26 Feb 2013 21:58:47 +0000 (UTC)
+Received: from VA3EHSMHS007.bigfish.com (unknown [10.7.14.253])	by
+	mail217-va3.bigfish.com (Postfix) with ESMTP id 98E2AC0090	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 21:58:47 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS007.bigfish.com
+	(10.7.99.17) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 26 Feb 2013 21:58:46 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 26 Feb 2013 21:58:36 +0000
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r1QLwieq007813 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 14:58:45 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Feb 2013 15:58:42 -0600
+Message-ID: <1361915924-23046-2-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
+In-Reply-To: <1361915924-23046-1-git-send-email-msm@freescale.com>
+References: <1361915924-23046-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
-Received: by 10.50.74.163 with HTTP; Tue, 26 Feb 2013 14:49:55 -0800 (PST)
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A89192C@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <CAMEF+f=FAyLCaWwjzq+W=1QEZcEM3V1awR8-e5ogFdn923ndhg@mail.gmail.com>
-	<20130226175608.GB13278@sakrah.homelinux.org>
-	<70CC66F5C30A414DADDA6973E4CA391A89192C@039-SN1MPN1-001.039d.mgd.msft.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Feb 2013 14:49:55 -0800
-Message-ID: <CAMKF1soB0shnSBHyOz2WJdZsGLjaMKsd=H0pWdwCkT0ipQVdjA@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 2/4] gcc-common.inc: handle case where tune is not defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 23:06:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 26 Feb 2013 23:15:26 -0000
+Content-Type: text/plain
 
-On Tue, Feb 26, 2013 at 2:22 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Tue, Feb 26, 2013 at 11:56 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On (26/02/13 17:08), Anton Sergienko wrote:
->>> Hi!
->>> After the patch (commit c49f967384ccbfe131bbb33ee518014f3fc4b38f) to
->>> meta/classes/kernel-arch.bbclass kernel build fails for arm machine with
->>> hard floating point instruction set in CC (-mfloat-abi=hard).
->>> As I understand kernel should not be build with fpu specific floating point
->>> instructions(should not be any floating point operation at all), but CFLAGS
->>> from machine-tune are propagated to CC and it also include -mfloat-abi
->>> flag. Should not -mfloat-abi flag be filtered out in kernel-arch.bbclass ?
->>
->> yes. I think this patch is creating more issues than its solving. I will
->> think about decoupling KERNEL_CC from CC once again.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index ad96989..6b61800 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -38,7 +38,7 @@ def get_gcc_multiarch_setting(bb, d):
+ def get_tune_parameters(tune, d):
+     availtunes = d.getVar('AVAILTUNES', True)
+     if tune not in availtunes.split():
+-        bb.error('The tune: %s is not one of the available tunes: %s', tune, availtunes)
++        bb.error('The tune: %s is not one of the available tunes: %s', tune or None, availtunes)
+ 
+     localdata = bb.data.createCopy(d)
+     override = ':tune-' + tune
+-- 
+1.7.9.7
 
 
->
-> I just resubmitted my patch for this... It decouples all the extra
-> args while still keeping the ones specifically added.
-
-
-thanks for doing it
 
 
