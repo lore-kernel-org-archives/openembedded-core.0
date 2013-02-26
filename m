@@ -1,27 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-oa0-f41.google.com ([209.85.219.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UAOap-0001R8-A2
+	(envelope-from <otavio.salvador@gmail.com>) id 1UAOfJ-0001Xh-7b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 18:45:32 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Feb 2013 09:29:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,742,1355126400"; d="scan'208";a="206512424"
-Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2013 09:29:08 -0800
-Message-ID: <512CF0E1.9040101@linux.intel.com>
-Date: Tue, 26 Feb 2013 09:29:05 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 26 Feb 2013 18:50:13 +0100
+Received: by mail-oa0-f41.google.com with SMTP id i10so5818141oag.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 09:33:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=GwzKGaP/H4E/xkgys8OxLXGVUQ7UBS5zQcEcSL/uySc=;
+	b=yaW+6T7CQjHtkoUbCbByPNAmvt9/zupYxXqvBfHK7a89PEOyA3K3eC2sH/umFpj+2s
+	mPLeNW4+ZyXAbPfYmsEafLz/xHlmBRzr6p2JUguLd9DjyhdKn/yDvSPds2AcKcFZSXvu
+	KdrgI/ppdjzVDbDV1083tsklorrQjInApwK6q/73uvWvmxH4JvIGMT1ZBnm4HAvR1X5R
+	dRmkh9SWhSQmmU2BQLa0st9NJWDQBb4bQZV7O32kE7Y62jL6kunCQF3ge4yrDI5yrdVS
+	LEB5TybJFbkUsTZy0bImYgns45zMMQ2k772+9s6dVTPvC5JlNeTkaDr+SNS/s0FV6QUj
+	meVQ==
 MIME-Version: 1.0
-To: Javier Viguera <javier.viguera@digi.com>
-References: <1361372957-38860-1-git-send-email-javier.viguera@digi.com>
-	<512CEFBE.4010901@digi.com>
-In-Reply-To: <512CEFBE.4010901@digi.com>
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.60.170.44 with SMTP id aj12mr2212162oec.42.1361900029326;
+	Tue, 26 Feb 2013 09:33:49 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 09:33:49 -0800 (PST)
+In-Reply-To: <512CEFF4.8030000@linux.intel.com>
+References: <1361891080-5035-1-git-send-email-constantinx.musca@intel.com>
+	<CAP9ODKqfv-8=MG=ffQQG_DSTxj9=059Z_W4mPznQiwsKKaYM-w@mail.gmail.com>
+	<512CEFF4.8030000@linux.intel.com>
+Date: Tue, 26 Feb 2013 14:33:49 -0300
+X-Google-Sender-Auth: DrJ8TEE10HXIQGi1NvgGP0dyRBg
+Message-ID: <CAP9ODKpe2Gj7pQ8=K+UVsEn+qr+7_n2ONxrgwgdFcnt+UUPerA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: fix 'dash' expanding '\n'
+Subject: Re: [PATCH v2] log_srcrev.bbclass: add a bbclass for logging SRCREVs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,71 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 17:45:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 26 Feb 2013 17:50:18 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 17:50:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 02/26/2013 09:24 AM, Javier Viguera wrote:
-> Hi all,
+On Tue, Feb 26, 2013 at 2:25 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/26/2013 08:56 AM, Otavio Salvador wrote:
+>>
+>> On Tue, Feb 26, 2013 at 12:04 PM, Constantin Musca
+>> <constantinx.musca@intel.com> wrote:
+>>>
+>>> - add a task which creates a file for each package with the following
+>>> format:
+>>>
+>>> ${BB_FILENAME},${SRC_URI},${SRCREV},${FROM_AUTOREV}
+>>>
+>>> [YOCTO #3041]
+>>>
+>>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>>
+>>
+>> What is the use-case for this?
+>>
+> I could reply with see bug #3041!
 >
-> I just saw this patch i sent last week was pushed to
-> openembedded-core/poky *master* branches. Thanks for that.
->
-> But in my development i am using stable 'danny' branches.
->
-> Any chance that this patch gets cherry-picked to 'danny' on
-> openembedded-core and poky repos?
->
-In the future, patches for Stable releases should mention that in the 
-patch request.  We are spinning the rc1 of Danny Update (1.3.1) now, so 
-it will not make this release, but could be considered for the next one.
+> There is a need to have the actual SRCREVs from AUTOREV'ed package version,
+> so a build can be reproduced at a later date or so you know what SRCREV went
+> into a given release.
 
-Thanks for your contribution
+I know I could read the bug but this ought to be in commit log. It
+seems like a buildhistory thing from my POV, not another class thingy.
 
-	Sau!
-
-> -
-> Javier Viguera
-> Software Engineer
-> Digi International® Spain S.A.U.
->
->
-> On 02/20/2013 04:09 PM, Javier Viguera wrote:
->> Dash's 'echo' command expands '\n' by default, so the '\n' is not
->> included in the '/etc/issue' file.
->>
->> Use 'printf' for portability between different shells.
->>
->> Signed-off-by: Javier Viguera <javier.viguera@digi.com>
->> ---
->>
->> Probably also worth to be cherry-picked to 'danny' branch.
->>
->>   meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> index 6a3db50..e7a9d82 100644
->> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> @@ -129,7 +129,7 @@ do_install_basefilesissue () {
->>               printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
->>               printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
->>           fi
->> -        echo "\n \l" >> ${D}${sysconfdir}/issue
->> +        printf "\\\n \\\l\n" >> ${D}${sysconfdir}/issue
->>           echo >> ${D}${sysconfdir}/issue
->>           echo "%h"    >> ${D}${sysconfdir}/issue.net
->>           echo >> ${D}${sysconfdir}/issue.net
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
