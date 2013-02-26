@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UASnG-0004NQ-7E
+	(envelope-from <dvhart@linux.intel.com>) id 1UASt5-0004Xv-Sr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 23:14:39 +0100
+	Tue, 26 Feb 2013 23:20:43 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2013 13:56:52 -0800
+	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2013 14:04:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,743,1355126400"; d="scan'208";a="268072432"
+X-IronPort-AV: E=Sophos;i="4.84,743,1355126400"; d="scan'208";a="268074847"
 Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.55])
-	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2013 13:58:17 -0800
-Message-ID: <512D2FF9.5070005@linux.intel.com>
-Date: Tue, 26 Feb 2013 13:58:17 -0800
+	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2013 14:03:49 -0800
+Message-ID: <512D3146.7050503@linux.intel.com>
+Date: Tue, 26 Feb 2013 14:03:50 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
 References: <cover.1361862860.git.liezhi.yang@windriver.com>
-	<512CF727.7090000@linux.intel.com>
-In-Reply-To: <512CF727.7090000@linux.intel.com>
+	<1361902512.22501.51.camel@phil-desktop.brightsign>
+In-Reply-To: <1361902512.22501.51.camel@phil-desktop.brightsign>
 X-Enigmail-Version: 1.5
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/7] Create ext* filesystems using debugfs
@@ -34,54 +34,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 22:14:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 26 Feb 2013 22:20:43 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 02/26/2013 09:55 AM, Saul Wold wrote:
-> On 02/26/2013 01:24 AM, Robert Yang wrote:
->> ===Contents===
->>    * Summary
->>    * Brief design
->>    * Test info
->>    * The rootfs generation time changes
->>    * The rootfs size changes
->>
->> * Summary:
->>    The ext3 and ext4 rootfs generation relied on genext2fs and flipping
->>    some bits to "convert" the ext2 filesystem to ext3 and ext4 in the past,
->>    now we use the mkfs.ext3/ext4 to create the image, and use mkdebugfs.sh
->>    to copy the files to the image.
->>
->> * Brief design:
->>    - Upgrade the e2fsprogs to the update to date version (the git
->>      repo) which contains the "symlink" command in debugfs shell that we
->>      need.
-> This should really be an RFC
+On 02/26/2013 10:15 AM, Phil Blundell wrote:
+> On Tue, 2013-02-26 at 17:24 +0800, Robert Yang wrote:
+>>     Before:
+>>     $ time bitbake core-image-minimal
+>>     
+>>     real    1m10.823s
+>>     user    0m37.108s
+>>     sys     0m15.894s
+>>     
+>>     After:
+>>     $ time bitbake core-image-minimal
+>>     
+>>     real    1m17.501s
+>>     user    0m29.304s
+>>     sys     0m20.731s
+>>     
+>>     # 7 seconds lost.
+>>   
+>>   - For a core-image-sato generation (IMAGE_FSTYPES="tar.bz2 ext3"):
+>>   
+>>     Before:
+>>     $ time bitbake core-image-sato
+>>     
+>>     real    11m10.645s
+>>     user    2m43.503s
+>>     sys     1m1.589s
+>>     
+>>     After:
+>>     $ time bitbake core-image-sato
+>>     
+>>     real    11m53.131s
+>>     user    3m18.988s
+>>     sys     2m8.350s
+>>     
+>>     # 43 seconds lost.
+>>   
+>> * The rootfs size changes
+>>   - The image size are the same by "ls -h", but different by "du -sh":
+>>     (core-image-sato)
+>>   
+>>     $ ls -lh BEFORE.rootfs.ext3 AFTER.rootfs.ext3 | awk '{print $5"\t"$NF}'
+>>     357M BEFORE.rootfs.ext3
+>>     357M AFTER.rootfs.ext3
+>>     
+>>     $ du -sh BEFORE.rootfs.ext3 AFTER.rootfs.ext3
+>>     238M    BEFORE.rootfs.ext3
+>>     357M    AFTER.rootfs.ext3
 > 
-> This work was intended to be a step toward incorporating it into 
-> genext2fs directly.
+> So, am I understanding correctly that your patch causes the rootfs
+> generation to take longer, and the resulting files to be bigger?  It
+> doesn't seem totally obvious to me that this is a good thing, and your
+> cover letter doesn't provide any other explanation for why the changes
+> are desirable.  Can you expand on the rationale for doing this?
 
 
-I think that was a thinko, but I'll correct for everyone else's benefit.
-This will eventually be incorporated into libext2fs and mke2fs directly
-and genext2fs will be retired as obsolete.
+A better motivation description is indeed required.
 
+Basically, genext2fs doesn't support creating ext4 filesystems. It
+creates, as I understand it, an ext2 filesystem, then adds a journal,
+and sets some bits. It can't support the newer features like extents. So
+what we end up with is a bit of a hack for a filesystem.
 
-> At this point we do not want to switch to the GIT
-> version of e2fsprogs, there is an update to e2fsprogs pending on the 
-> patch queue that addes the symlink support (crossed with your request)
-> 
->>    - Replace the current genext2fs command with mkdebugfs.sh in
->>      image_types.bbclass.
-> 
-> The goal is to change genext2fs to support a rootfs option an not 
-> replace it with mkdebugfs.
+The ext tools (e2fsprogs) unfortunately don't provide an integrated
+solution for generating prepopulated filesystem images as many other
+mkfs* tools do. One thing missing was symlink support in libext2fs. I
+added that support and demonstrated a script which uses the e2fsprogs
+debugfs tool that can populate the newly formatted filesystem from a
+directory and without root privileges.
 
+Robert's patches integrate this stage of development into OE-Core. As I
+replied to Saul's 0/7 response:
 
-Again, mke2fs. We can go about this in two ways. One is to just
+"We can go about this in two ways. One is to just
 prototype this in a branch and use it to validate the functionality and
 not make any changes to oe-core image generation until mke2fs has
 initial directory support. The other is to merge this and get broader
@@ -89,41 +120,20 @@ testing of the concept and later move to the full mke2fs implementation
 once it becomes available. I understand the resistance to the latter,
 but long term I think it will result in a more robust solution as we
 will have caught more of the corner cases and have been able to do a
-better job integrating into mke2fs the first time.
+better job integrating into mke2fs the first time."
 
 
-> 
->>    - The new steps to generate the root filesystem are:
->>      -> use "dd" command to make rootfs.ext* file
-> Why the dd?
+> Also, when sending patches for review, there is no point in sending a
+> series which adds a new file and then makes changes to it as separate
+> patches (in particular when the changes are just whitespace).  Please
+> squash those into a single patch before posting them on the list.
 
 
-mke2fs requires an image file to format. We could create it in other
-ways, but this seems reasonable. We could probably reduce the time to
-create it by using a larger block size. Say 1M?
+I think Robert was trying to maintain some history by keeping my
+original script intact. I agree, it isn't necessary and those three
+patches can be merged into one.
 
-
-> 
->>      -> run "mkfs.ext* rootfs.ext*" to create the filesystem
->>      -> run the mkdebugfs.sh to generate the root filesystem
->>
-> 
-> 
-> 
->> * Test info: (MACHINE = qemuarm, IMAGE_FSTYPES = "ext2 ext3 ext4 tar.bz2")
->>    $ bitbake core-image-minimal core-image-sato meta-toolchain-sdk core-image-sato-sdk
->>    $ runqemu runqemu qemuarm core-image-sato ext3
->>    $ runqemu runqemu qemuarm core-image-minimal ext3
->>
->>    All of them are OK
-> 
-> What about booting an ext4 image, part of the goal of this was to enable 
-> ext4.
-
-
-Seconded.
-
-
+Thank you for reviewing!
 
 -- 
 Darren Hart
