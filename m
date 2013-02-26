@@ -1,36 +1,20 @@
-Received: from mail-oa0-f54.google.com ([209.85.219.54])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UALwH-0001n2-Ga
+	(envelope-from <constantinx.musca@intel.com>) id 1UAMJr-0002kt-6J
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 15:55:32 +0100
-Received: by mail-oa0-f54.google.com with SMTP id n12so5279492oag.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 06:39:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=q838ue73SYTxHz1VYgFpucZ00MwzNkQpgn1TeXR/e3U=;
-	b=IUOa24ZsV5Fx6d+rhKU0hMXT0FdOizgTV9AdK2wjoYyiTJZUURASn1XVm2osFDDRa+
-	u8DU+7kLOCDHa2T33Rja84iLYzwEV6OtE2rl859SP42PH764R/tYhC1/ojG02roD4vy+
-	Ft/N4R/Pgnkmv6DVJV0LkCuKUpOl4JwvN+/k5HcImuSeYfDRlB9sHRUbRj0wPfZF4lub
-	I6egIBCCQ119mG9TjL9Xmrhs17juq68D5fpvolMlGcqdawgu43IPgPj0waCNUOgDg+AE
-	o6QGYt6BfyLH7vpF4M2kCez5FkgbtNYjPrKLOwNWiFycDd/mDdz4dlGPKvUW9P6lreP4
-	s/Sg==
-MIME-Version: 1.0
-X-Received: by 10.60.8.197 with SMTP id t5mr1658831oea.4.1361889174529; Tue,
-	26 Feb 2013 06:32:54 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 06:32:54 -0800 (PST)
-In-Reply-To: <1361882216-8152-1-git-send-email-ross.burton@intel.com>
-References: <1361882216-8152-1-git-send-email-ross.burton@intel.com>
-Date: Tue, 26 Feb 2013 11:32:54 -0300
-X-Google-Sender-Auth: hGuutJuS6Ko8QKnQaoSQHkhP4Wo
-Message-ID: <CAP9ODKrv9kbMuhMK6OnEGNqNRn0ZHM1R7xZwYAFa=QjivCcigg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xkeyboard-config: this is architecture-indepedent, so set PACKAGE_ARCH
+	Tue, 26 Feb 2013 16:19:52 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Feb 2013 07:03:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="261618820"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by azsmga001.ch.intel.com with ESMTP; 26 Feb 2013 07:03:29 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Feb 2013 17:04:40 +0200
+Message-Id: <1361891080-5035-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v2] log_srcrev.bbclass: add a bbclass for logging SRCREVs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 14:55:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 26 Feb 2013 15:19:52 -0000
 
-On Tue, Feb 26, 2013 at 9:36 AM, Ross Burton <ross.burton@intel.com> wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb |    2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> index 8ca2f6a..ee3e20c 100644
-> --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> @@ -19,6 +19,8 @@ SRC_URI[sha256sum] = "4e1cf5468d488aaf320ddfd439e03cbda0b213550fd734026d23138e4b
->  SECTION = "x11/libs"
->  DEPENDS = "intltool-native xkbcomp-native glib-2.0 virtual/gettext"
->
-> +PACKAGE_ARCH = "all"
-> +
->  PR = "r0"
->
->  EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
+- add a task which creates a file for each package with the following
+format:
 
-Please inherit allarch
+${BB_FILENAME},${SRC_URI},${SRCREV},${FROM_AUTOREV}
 
+[YOCTO #3041]
 
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/classes/log_srcrev.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/classes/log_srcrev.bbclass
+
+diff --git a/meta/classes/log_srcrev.bbclass b/meta/classes/log_srcrev.bbclass
+new file mode 100644
+index 0000000..d5d0284
+--- /dev/null
++++ b/meta/classes/log_srcrev.bbclass
+@@ -0,0 +1,15 @@
++python do_log_srcrev () {
++    srcrev = d.getVar('SRCREV', True)
++    if srcrev:
++        bbfile = d.getVar('BB_FILENAME', True)
++        src_uri = d.getVar('SRC_URI', True)
++        from_autorev = 'yes' if d.getVar('SRCREV', False) == 'AUTOINC' else 'no'
++
++        srcrevfile = d.expand('${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${BP}-${PV}')
++        bb.utils.mkdirhier(os.path.dirname(srcrevfile))
++
++        with open(srcrevfile, 'w') as f:
++            f.write(','.join([bbfile, src_uri, srcrev, from_autorev]))
++}
++
++addtask do_log_srcrev after do_fetch
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.11.7
+
 
 
