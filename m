@@ -1,27 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UAFv5-0007BY-3C
+	(envelope-from <cazfi74@gmail.com>) id 1UAG24-0007Wv-Vh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 09:30:27 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q8DJ5Y015178
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Feb 2013 00:13:19 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Tue, 26 Feb 2013 00:13:19 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 16:14:29 +0800
-Message-ID: <0e45eb2f773f3985d6cc47e78775a26271806b30.1361866257.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1361866256.git.kai.kang@windriver.com>
-References: <cover.1361866256.git.kai.kang@windriver.com>
+	Tue, 26 Feb 2013 09:37:24 +0100
+Received: by mail-vc0-f180.google.com with SMTP id fo13so2290090vcb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 00:20:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=OBUjI9aAxzaxzHJLpbVm6iUP/DD0OgaxcJoEHfx5KC4=;
+	b=Qv19/k3uwmNE72OygVL2I2YedO/CT1sc6PQ5aSqWTpmAmTwgggn1wVnGr+b8Ko9/ZK
+	v+TFIO02XkQZTsbF/5ZUSZHAZif3ax8UC3W9NKOQ2bwHTRMSJZlsKErvQp+WHCbbFq5N
+	PQa3qTY+NMk2e/w+lSn7dWRzQYnt1INQ7nA0c3Z1FP8vL9pM3BqiHwI+e3uenZn6Fjlm
+	mKoUSotz4jkD23JTWJAf9TloKn4vP9Q+5sJm10ofOJ5jYkzCKJ+u05PmM51mv33ZFSH0
+	cwR5UcmcLOL4qIlI2RFBrkr7jcA+x8rK5T75eb4V0e7x+pL+lp3KU1L1DthUQrUEbAFF
+	ovug==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 5/5] rpm: save output of postinstall scripts when image first boot
+X-Received: by 10.52.66.176 with SMTP id g16mr854767vdt.22.1361866842904; Tue,
+	26 Feb 2013 00:20:42 -0800 (PST)
+Received: by 10.59.10.137 with HTTP; Tue, 26 Feb 2013 00:20:42 -0800 (PST)
+In-Reply-To: <512C69A6.6040707@linux.intel.com>
+References: <cover.1361091390.git.cazfi74@gmail.com>
+	<5123B265.9050003@linux.intel.com>
+	<CAF6bG8ei3p_RjsZX2Nmf5fy+StgJThrcR6R_rZ6-wT_A+6kAkg@mail.gmail.com>
+	<CAF6bG8c9BU06uGvuM0ENuyGL4yggQOct620yP18kbkrh_bxbLA@mail.gmail.com>
+	<512BE70F.4050707@linux.intel.com>
+	<CAF6bG8fPGOjUB_nvNML1SAckQngEOSijzDH43dtSSQ7FmCmquw@mail.gmail.com>
+	<512C69A6.6040707@linux.intel.com>
+Date: Tue, 26 Feb 2013 10:20:42 +0200
+Message-ID: <CAF6bG8fYAidC-APPqiZMifXPcMQ3CXMfH4Whwr23FtvgRi3sHw@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] automake-1.13 and upstream version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 08:30:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Feb 2013 08:37:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When image feature "debug-tweaks" is enabled, save output of post
-install script to log file which can be configured when image first
-boot.
+On 26 February 2013 09:52, Saul Wold <sgw@linux.intel.com> wrote:
+>
+> There seems to be some issue lurking here with configure and libtool.
+>
+> Sau!
 
-[YOCTO #3223]
+ libffi seems to include all the libtool m4-files, updated between
+libffi-3.0.11 and libffi-3.0.12. These might be incompatible with
+libtool files in your system, or does the build force them to be
+replaced (libtoolize -f)?
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+ I've got around a bit similar problems (not in OE, but building in
+general) by simply deleting m4/libtool.m4 m4/lt*.m4 from the project,
+and letting libtoolize/autoreconf to place correct versions there
+instead. Could you test that?
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 0b014b6..cdfb5ff 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -223,6 +223,7 @@ FILES_${PN} =  "${bindir}/rpm \
- 		${libdir}/rpm/bin/wget \
- 		/var/lib/rpm \
- 		/var/cache/rpm \
-+		${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
- 		"
- 
- FILES_${PN}-dbg += "${libdir}/rpm/.debug \
-@@ -374,6 +375,9 @@ do_configure() {
- #
- POSTINSTALL_INITPOSITION ?= "98"
- 
-+POSTLOG ?= "/var/log/postinstall.log"
-+REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
-+
- do_install_append() {
- 	sed -i -e 's,%__check_files,#%%__check_files,' ${D}/${libdir}/rpm/macros
- 	sed -i -e 's,%__scriptlet_requires,#%%__scriptlet_requires,' ${D}/${libdir}/rpm/macros
-@@ -459,7 +463,7 @@ do_install_append() {
- for i in \`ls /etc/rpm-postinsts/\`; do
- 	i=/etc/rpm-postinsts/$i
- 	echo "Running postinst $i..."
--	if [ -f $i ] && $i; then
-+	if [ -f $i ] && $i ${REDIRECT_CMD}; then
- 		rm $i
- 	else
- 		echo "ERROR: postinst $i failed."
--- 
-1.7.5.4
 
+ - ML
 
 
