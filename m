@@ -1,38 +1,25 @@
-Received: from mail-we0-f171.google.com ([74.125.82.171])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UATmo-0006Kr-4X
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 00:18:34 +0100
-Received: by mail-we0-f171.google.com with SMTP id u54so3866358wey.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 15:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=ud98mMqp4vVpmtJUt2jJ7dP3bnXRdRDUqqYsL10tMfo=;
-	b=BDXayP2WyHtvBNB2IyEP6RmwvVZamkXSW5YtqmMl1WGPU5eUYpKj4RF4zmO81z9b+R
-	Z98Kjys1U5IzJP6bTKAgbk0h4DgUf/afo3aXh/6r2dtbINSi3ueg0vRgOwEiv2ThrJUf
-	4MeXULCLfKWpGRO1zOSXay1bQlhJTgJomuv+lBBKRKajfNnAMAz0rRB1ODR5Ef3RYn7x
-	oPTgGhdrPS0Y2GHdJhWU7XYshnAR4SxVRpdIfmEDhYf2gXvPINsFiKcXVSEO+Aa4cK8y
-	M7V2pUPToK1ozMa5i8IwTS/zCvuR+uYLDiVn2IlbBKKHlNNovD8cpo+tmoL+stT3yQ0s
-	z5Gw==
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UAUgD-0007pj-Fa
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 27 Feb 2013 01:15:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1QNx9Ne026063
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 15:59:09 -0800 (PST)
+Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.328.9; Tue, 26 Feb 2013 15:59:08 -0800
+From: Rich Dubielzig <rich.dubielzig@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Feb 2013 15:59:06 -0800
+Message-ID: <1361923146-10160-1-git-send-email-rich.dubielzig@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-X-Received: by 10.180.75.177 with SMTP id d17mr97439wiw.16.1361919714657; Tue,
-	26 Feb 2013 15:01:54 -0800 (PST)
-Received: by 10.194.45.100 with HTTP; Tue, 26 Feb 2013 15:01:54 -0800 (PST)
-In-Reply-To: <512D3E8D.8050500@linux.intel.com>
-References: <cover.1361862860.git.liezhi.yang@windriver.com>
-	<CAHUNapS415=P=zzNjkHfv5dF2ptUdpad8A74Hcxm=9eaQ588bw@mail.gmail.com>
-	<512D2EA6.7090700@linux.intel.com>
-	<CAHUNapR+Zgsw59+M0fAYv35BaA5Evc=+N2XJHUwzFn-KgDVYXw@mail.gmail.com>
-	<512D3E8D.8050500@linux.intel.com>
-Date: Tue, 26 Feb 2013 18:01:54 -0500
-Message-ID: <CAHUNapTe0m25b10PsVx_Vx3MDFoAvF85gVuw=myzxQTB3qQNRQ@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] Create ext* filesystems using debugfs
+Cc: rich.dubielzig@windriver.com
+Subject: [PATCH] nfs-utils: Add scratch directory for NFS upcall state storage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 23:18:40 -0000
-X-List-Received-Date: Tue, 26 Feb 2013 23:18:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 27 Feb 2013 00:15:34 -0000
+Content-Type: text/plain
 
-On Tue, Feb 26, 2013 at 6:00 PM, Darren Hart <dvhart@linux.intel.com> wrote:
->> mkextXfs.sh ?
->
-> Likely to be confused with mke2fs itself. Perhaps:
->
-> populate-extfs.sh ?
+When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
+record the upcall state and cannot end the 90-second grace period on
+startup.  This is true even when NFS4 is not being served according to
+nfsstat.
 
-Sounds great.
+More details and discussion here:
+https://lkml.org/lkml/2012/6/11/206
+
+Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
+---
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+index 84c4464..f9dedfb 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+@@ -12,7 +12,7 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
+ RDEPENDS_${PN} = "rpcbind"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
+            file://nfs-utils-1.0.6-uclibc.patch \
+@@ -53,6 +53,7 @@ RDEPENDS_${PN}-stats = "python"
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
++	install -d ${D}${localstatedir}/lib/nfs/v4recovery
+ 
+ 	# the following are built by CC_FOR_BUILD
+ 	rm -f ${D}${sbindir}/rpcdebug
+-- 
+1.7.1
+
 
 
