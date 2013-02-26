@@ -1,31 +1,32 @@
-Received: from mail-oa0-f46.google.com ([209.85.219.46])
+Received: from mail-oa0-f49.google.com ([209.85.219.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UAQpG-0008Im-Sb
+	(envelope-from <otavio.salvador@gmail.com>) id 1UAQr1-0008Ok-JP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 21:08:37 +0100
-Received: by mail-oa0-f46.google.com with SMTP id k1so6030408oag.19
+	Tue, 26 Feb 2013 21:10:28 +0100
+Received: by mail-oa0-f49.google.com with SMTP id j6so5978899oag.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 11:52:14 -0800 (PST)
+	Tue, 26 Feb 2013 11:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=Z9w8rKcAVb7qYKpkKDpku3EoUt2ImxRoHWsfIj5sMA0=;
-	b=tL3TzDaAQ/VtvjSUhHb8ZVOZaIwrngZX08+BS8CgqivfBzEfTrAGuTdMI8x6sfXsNN
-	GZc7nKPGM+0Lg6QbIGVKm5SXJeyYkkn6sI//3vc3t9FFsYV233jiriQo+Qj8WNPaCxh+
-	DirtZTDkr3lsbVfgOKTPsBmIx/zHF91yV1i5+OXkfLKsrWzxAimC+Eilo/jkZ0hNlRDN
-	+EMMh03OJNJFRefhVwM7QaCKGwSKqJm/AeFyGQaKm/YY0vNwGuHHVCvTmzIFhAtooZJq
-	GsE9nnJMwy48HLUTtbeA2V6z8RDcNHG7VoG+YfvnnQNisKeP8OTSFYZ7JAFw3lyjV2CZ
-	x3IA==
+	bh=km094DiMnG8ERx28ZFEfizJAKqtcMh2xWouNkWlSdQs=;
+	b=GnpHpilBtnlWekkxmpWLLW7Kwpx2QezECG8Q5CxUk29JZObcLo9AZPEi2DryS+n9SP
+	WPqolzKZyzQGTlgkgOpSrLLeJB74JXdKi079CCmnKfXjHPx4N9Yvuuh2zV3ER0+/Y+Xb
+	Rq8PK+LJmAzcrccXPslZysSlYge2Fyj5d4EWQG8q48Bbvk8Rt8qtPLRkCzB1mFZxDQg0
+	6yXHmEQGkyZxrAxUdF7QyOna3x5P5eR9gTo+Qm+hVKPEpH6xbfvdVKkycNU/d8yg9TZA
+	DWkDiXd20E1LQxs0bkNTLosUNbjLDZ9CnaDF+T+FMjaLRxgykpqItkaAsoBh1j14InRl
+	7Xew==
 MIME-Version: 1.0
-X-Received: by 10.182.157.104 with SMTP id wl8mr12725317obb.79.1361908334811; 
-	Tue, 26 Feb 2013 11:52:14 -0800 (PST)
+X-Received: by 10.60.171.102 with SMTP id at6mr2804285oec.60.1361908439162;
+	Tue, 26 Feb 2013 11:53:59 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 11:52:14 -0800 (PST)
-In-Reply-To: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
+Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 11:53:59 -0800 (PST)
+In-Reply-To: <CAP9ODKqbNMMA1o0hjRiKn3Sen4F6uAU4kK8VhFK5RvdZixvCxA@mail.gmail.com>
 References: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
-Date: Tue, 26 Feb 2013 16:52:14 -0300
-X-Google-Sender-Auth: tHNjH6MpbfkHjy65UZdGGIVzuro
-Message-ID: <CAP9ODKqbNMMA1o0hjRiKn3Sen4F6uAU4kK8VhFK5RvdZixvCxA@mail.gmail.com>
+	<CAP9ODKqbNMMA1o0hjRiKn3Sen4F6uAU4kK8VhFK5RvdZixvCxA@mail.gmail.com>
+Date: Tue, 26 Feb 2013 16:53:59 -0300
+X-Google-Sender-Auth: YaHETRycs7lkaAfxS2MsiadQ1yQ
+Message-ID: <CAP9ODKoHroEZbnjyg5LT_1EzVXKDz2JtRmhX-qMuMUmpzGYUKA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Ross Burton <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
@@ -43,16 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 20:08:41 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 20:10:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Feb 26, 2013 at 2:53 PM, Ross Burton <ross.burton@intel.com> wrote:
-> Otherwise systemd uses AC_PROG_PATH and finds it in the sysroot, which won't
-> work on the target.
+On Tue, Feb 26, 2013 at 4:52 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Tue, Feb 26, 2013 at 2:53 PM, Ross Burton <ross.burton@intel.com> wrote:
+>> Otherwise systemd uses AC_PROG_PATH and finds it in the sysroot, which won't
+>> work on the target.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Now I saw the Khem suggestion to use /usr/bin/env kill; seems good.
 
 -- 
 Otavio Salvador                             O.S. Systems
