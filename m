@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UAGz4-0000yZ-R9
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UAGz8-0000z1-La
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 10:38:04 +0100
+	Tue, 26 Feb 2013 10:38:07 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q9Lhaa024720
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q9Ll5J024723
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Feb 2013 01:21:43 -0800 (PST)
+	Tue, 26 Feb 2013 01:21:47 -0800 (PST)
 Received: from pek-usp-3.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Tue, 26 Feb 2013 01:21:42 -0800
+	Tue, 26 Feb 2013 01:21:46 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 17:24:37 +0800
-Message-ID: <04ccee436225f0a27f74cb9e7cb7b94b3796c965.1361862860.git.liezhi.yang@windriver.com>
+Date: Tue, 26 Feb 2013 17:24:39 +0800
+Message-ID: <15dffc97a79d24f6f7b60c986dfe1e9e708990f4.1361862860.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.11.2
 In-Reply-To: <cover.1361862860.git.liezhi.yang@windriver.com>
 References: <cover.1361862860.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [PATCH 4/7] mkdebugfs.sh: convert the tab to 4 spaces
+Subject: [PATCH 6/7] e2fsprogs: ship mkfsdebug.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,102 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 09:38:08 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 09:38:10 -0000
 Content-Type: text/plain
+
+Ship mkfsdebug.sh, it will be installed to /usr/bin/mkfsdebug.sh and
+used for replacing the genext2fs in image_types.bbclass.
 
 [YOCTO #3848]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../e2fsprogs/e2fsprogs/mkdebugfs.sh               | 74 +++++++++++-----------
- 1 file changed, 37 insertions(+), 37 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdebugfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdebugfs.sh
-index 5dfa380..41a13cb 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdebugfs.sh
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/mkdebugfs.sh
-@@ -6,44 +6,44 @@ DEBUGFS="debugfs/debugfs"
- yes | mkfs.ext4 test.img
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+index 70255ce..1609d42 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
+@@ -4,6 +4,7 @@ PR = "r0"
  
- {
--	CWD="/"
--	find $SRCDIR | while read FILE; do
--		#TGT=${FILE#$SRCDIR}
--		TGT=$(basename "${FILE#$SRCDIR}")
--		DIR=$(dirname "${FILE#$SRCDIR}")
-+    CWD="/"
-+    find $SRCDIR | while read FILE; do
-+        #TGT=${FILE#$SRCDIR}
-+        TGT=$(basename "${FILE#$SRCDIR}")
-+        DIR=$(dirname "${FILE#$SRCDIR}")
+ SRC_URI += "file://acinclude.m4 \
+             file://remove.ldconfig.call.patch \
++            file://mkdebugfs.sh \
+ "
  
--		# Skip the root dir
--		if [ -z "$TGT" ]; then
--			continue
--		fi
-+        # Skip the root dir
-+        if [ -z "$TGT" ]; then
-+            continue
-+        fi
+ SRCREV = "fca8b1b2416c384b91b4fe00d6d37cfccb8fb3d5"
+@@ -41,6 +42,7 @@ do_install_append () {
+ 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+ 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ 	fi
++	install -m 0755 ${WORKDIR}/mkdebugfs.sh ${D}${bindir}
+ }
  
--		if [ "$DIR" != "$CWD" ]; then
--			echo "cd $DIR"
--			CWD="$DIR"
--		fi
-+        if [ "$DIR" != "$CWD" ]; then
-+            echo "cd $DIR"
-+            CWD="$DIR"
-+        fi
- 
--		case $(stat -c "%F" $FILE) in
--		"directory")
--			echo "mkdir $TGT"
--			;;
--		"regular file")
--			echo "write $FILE $TGT"
--			;;
--		"symbolic link")
--			LINK_TGT=$(ls -l $FILE | sed -e 's/.*-> //')
--			echo "symlink $TGT $LINK_TGT"
--			;;
--		"block special file")
--			DEVNO=$(stat -c "%t %T" $FILE)
--			echo "mknod $TGT b $DEVNO"
--			;;
--		"character special file")
--			DEVNO=$(stat -c "%t %T" $FILE)
--			echo "mknod $TGT c $DEVNO"
--			;;
--		*)
--			echo "Unknown file $FILE" 1>&2
--			;;
--		esac
--	done
-+        case $(stat -c "%F" $FILE) in
-+        "directory")
-+            echo "mkdir $TGT"
-+            ;;
-+        "regular file")
-+            echo "write $FILE $TGT"
-+            ;;
-+        "symbolic link")
-+            LINK_TGT=$(ls -l $FILE | sed -e 's/.*-> //')
-+            echo "symlink $TGT $LINK_TGT"
-+            ;;
-+        "block special file")
-+            DEVNO=$(stat -c "%t %T" $FILE)
-+            echo "mknod $TGT b $DEVNO"
-+            ;;
-+        "character special file")
-+            DEVNO=$(stat -c "%t %T" $FILE)
-+            echo "mknod $TGT c $DEVNO"
-+            ;;
-+        *)
-+            echo "Unknown file $FILE" 1>&2
-+            ;;
-+        esac
-+    done
- } | $DEBUGFS -w -f /dev/stdin $DEVICE
+ RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
 -- 
 1.7.11.2
 
