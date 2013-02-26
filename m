@@ -1,29 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UAGzA-0000z5-91
+	(envelope-from <ml@communistcode.co.uk>) id 1UAH2j-0001Lc-2o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 10:38:08 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q9Lm8N007880
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Feb 2013 01:21:48 -0800 (PST)
-Received: from pek-usp-3.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Tue, 26 Feb 2013 01:21:48 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 17:24:40 +0800
-Message-ID: <7675694c700a81f80453adc3c8990f0c1e6e8019.1361862860.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1361862860.git.liezhi.yang@windriver.com>
-References: <cover.1361862860.git.liezhi.yang@windriver.com>
+	Tue, 26 Feb 2013 10:41:49 +0100
+Message-ID: <512C7F88.8030907@communistcode.co.uk>
+Date: Tue, 26 Feb 2013 09:25:28 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-Cc: dvhart@linux.intel.com
-Subject: [PATCH 7/7] image_types.bbclass: replace genext2fs with mkdebugfs.sh
+To: openembedded-core@lists.openembedded.org
+References: <1361782141-18273-1-git-send-email-cristian.iorga@intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16205C3C@IRSMSX102.ger.corp.intel.com>
+	<512BF975.90206@linux.intel.com>
+In-Reply-To: <512BF975.90206@linux.intel.com>
+Subject: Re: [PATCH V2] connman: enable connman client
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -33,97 +28,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 09:38:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Feb 2013 09:41:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The ext3 and ext4 rootfs generation relied on genext2fs and flipping
-some bits to "convert" the ext2 filesystem to ext3 and ext4 in the past,
-now we use the mkfs.ext3/ext4 to create the image, and use mkdebugfs.sh
-to copy the files to the image.
+On 25/02/13 23:53, Saul Wold wrote:
+> On 02/25/2013 12:51 AM, Iorga, Cristian wrote:
+>> Changes from V1:
+>>     - connman client is explicitly enabled
+>>     - ${B} is used instead of ${S} (in this specific case are the 
+>> same, it will be changed later on)
+>>
+> Please add these to a proper commit message.
+>
+> Also, there was some discussion prior about putting the connmanctl in 
+> a separate package, that does not seem to have happened here.
+>
+> It could go into the -tools packages that already exists or it's own 
+> package connman-ctl?
+>
+> I know Jack M. mentioned looking into this also, so let's be sure to 
+> coordinate this.
 
-[YOCTO #3848]
+Yes, that was my suggestion. I'm blocked at the moment by a binutils 
+failure I can't shift, so currently unable to contribute. I would 
+suggest putting it in a new connman-client package which is a 2 minute 
+change and test.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image_types.bbclass | 45 +++++++++++++++-------------------------
- 1 file changed, 17 insertions(+), 28 deletions(-)
+>
+> Thanks
+>     Sau!
+>
+>> I know Jack M. mentioned looking into this also, so let's be sure to 
+>> coordinate this. -----Original Message-----
+>> From: Iorga, Cristian
+>> Sent: Monday, February 25, 2013 10:49 AM
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Iorga, Cristian
+>> Subject: [PATCH V2] connman: enable connman client
+>>
+>> connmanctl is now included when connman is installed
+>>
+>> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+>> ---
+>>   meta/recipes-connectivity/connman/connman.inc |    5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc 
+>> b/meta/recipes-connectivity/connman/connman.inc
+>> index b61e2af..b0ede60 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+>>               ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', 
+>> d)} \
+>>               "
+>>
+>> -INC_PR = "r17"
+>> +INC_PR = "r18"
+>>
+>>   TIST = "--enable-tist"
+>>   TIST_powerpc = ""
+>> @@ -38,7 +38,7 @@ EXTRA_OECONF += "\
+>>       --enable-tools \
+>>       --enable-test \
+>>       --disable-polkit \
+>> -    --disable-client \
+>> +    --enable-client \
+>>       --enable-fake \
+>>       ${@base_contains('DISTRO_FEATURES', 'systemd', 
+>> '--with-systemdunitdir=${systemd_unitdir}/system/', '', d)} \  "
+>> @@ -73,6 +73,7 @@ do_install_append() {
+>>       install -d ${D}${bindir}
+>>       install -m 0755 ${S}/tools/*-test ${D}${bindir}
+>>       install -m 0755 ${S}/tools/wispr ${D}${bindir}
+>> +    install -m 0755 ${B}/client/connmanctl ${D}${bindir}
+>>
+>>       # We don't need to package an empty directory
+>>       rmdir ${D}${libdir}/connman/scripts
+>> -- 
+>> 1.7.10.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 6bb113d..92f85ed 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -135,34 +135,23 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
- 
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
- 
--IMAGE_CMD_ext2 () {
--	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
--	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
--	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--}
-+oe_mkext234fs () {
-+	fstype=$1
-+	extra_imagecmd=""
- 
--IMAGE_CMD_ext3 () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--}
-+	if [ $# -gt 1 ]; then
-+		shift
-+		extra_imagecmd=$@
-+	fi
- 
--oe_mkext4fs () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
--	tune2fs -O extents,uninit_bg,dir_index,has_journal $1
--	e2fsck -yfDC0 $1 || chk=$?
--	case $chk in
--	0|1|2)
--	    ;;
--	*)
--	    return $chk
--	    ;;
--	esac
-+	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype count=$ROOTFS_SIZE bs=1k
-+	yes | mkfs.$fstype $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
-+	mkdebugfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
- }
- 
--IMAGE_CMD_ext4 () {
--	oe_mkext4fs ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
--}
-+IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
- 
- IMAGE_CMD_btrfs () {
- 	mkfs.btrfs -b `expr ${ROOTFS_SIZE} \* 1024` ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
-@@ -212,7 +201,7 @@ JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-
- JFFS2_ERASEBLOCK ?= "0x40000"
- EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
- 
--# Change these if you want default genext2fs behavior (i.e. create minimal inode number)
-+# Change these if you want default mkfs behavior (i.e. create minimal inode number)
- EXTRA_IMAGECMD_ext2 ?= "-i 8192"
- EXTRA_IMAGECMD_ext3 ?= "-i 8192"
- EXTRA_IMAGECMD_ext4 ?= "-i 8192"
-@@ -223,9 +212,9 @@ IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_cramfs = "cramfs-native"
--IMAGE_DEPENDS_ext2 = "genext2fs-native"
--IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
--IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
-+IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-lzma = "squashfs-tools-native"
+
 -- 
-1.7.11.2
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
