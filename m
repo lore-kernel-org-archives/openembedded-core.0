@@ -1,20 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1UAKrx-0008FG-EG for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 14:47:00 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2013 05:30:37 -0800
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UAL6t-0000ak-HI
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Feb 2013 15:02:26 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Feb 2013 05:46:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="290664265"
-Received: from ema-vostro-460 (HELO localhost.localdomain) ([10.237.105.140])
-	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2013 05:30:35 -0800
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="206431171"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.147])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2013 05:46:01 -0800
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Feb 2013 15:35:14 +0200
-Message-Id: <1361885714-24362-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+Date: Tue, 26 Feb 2013 15:46:22 +0200
+Message-Id: <1361886382-27041-1-git-send-email-andrei.adrianx.dinu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] distrodata: added some corner cases for svn and git repos
+Subject: [PATCH] sudo : upgrade to 1.8.6p6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 13:47:04 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 14:02:35 -0000
 
-distrodata.bbclass: git tags can include only one digit, therefore
-the regex that matches the latest version should also include this
-case. For some svn repos, using the http protocol than using the
-svn protocol to get infomation about revisions works better.
-
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 ---
- meta/classes/distrodata.bbclass |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../sudo/{sudo_1.8.6p4.bb => sudo_1.8.6p6.bb}      |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.6p4.bb => sudo_1.8.6p6.bb} (84%)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 276ca03..bd3a6a9 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -674,7 +674,7 @@ python do_checkpkg() {
-                                 if len(line)==0:
-                                         break;
-                                 puptag = line.split("/")[-1]
--                                puptag = re.search("[0-9][0-9|\.|_]+[0-9]", puptag)
-+                                puptag = re.search("([0-9][\.|_]?)+", puptag)
-                                 if puptag == None:
-                                         continue;
-                                 puptag = puptag.group()
-@@ -714,6 +714,10 @@ python do_checkpkg() {
-                 svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), svnproto, host, path, parm["module"])
-                 print svncmd
-                 svninfo = os.popen(svncmd).read()
-+                if "Can't connect to host " in svninfo or "Connection timed out" in svninfo:
-+                        svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), "http",
-+                                       host, path, parm["module"])
-+                        svninfo = os.popen(svncmd).read()
-                 for line in svninfo.split("\n"):
-                         if re.search("^Last Changed Rev:", line):
-                                 pupver = line.split(" ")[-1]
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.6p4.bb b/meta/recipes-extended/sudo/sudo_1.8.6p6.bb
+similarity index 84%
+rename from meta/recipes-extended/sudo/sudo_1.8.6p4.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.6p6.bb
+index 115439b..33cbcba 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.6p4.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.6p6.bb
+@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "cd19154e341b28573801397f0736126b"
+-SRC_URI[sha256sum] = "364ad88ca3afcadcff6bd6820b0af19c56ce4876704dae210e21845d923e59e8"
++SRC_URI[md5sum] = "394efcbfedb200ba188958f047ce76d2"
++SRC_URI[sha256sum] = "d600fee5cb2e843450263a2b8f133b9921ffa00cb6b841b0da82613447cefb7c"
+ 
+ DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 1.7.9.5
 
