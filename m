@@ -1,39 +1,39 @@
-Received: from mail-oa0-f44.google.com ([209.85.219.44])
+Received: from mail-oa0-f54.google.com ([209.85.219.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UAQrX-0008Sa-BA
+	(envelope-from <koen@dominion.thruhere.net>) id 1UAQxk-0000Kl-9E
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 21:10:57 +0100
-Received: by mail-oa0-f44.google.com with SMTP id h1so6125505oag.17
+	Tue, 26 Feb 2013 21:17:23 +0100
+Received: by mail-oa0-f54.google.com with SMTP id n12so6122095oag.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 11:54:35 -0800 (PST)
+	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:message-id:subject:from:to:cc:date:in-reply-to
 	:references:content-type:x-mailer:mime-version
 	:content-transfer-encoding:x-gm-message-state;
-	bh=NHOqXv0vHKSQFTutpfYNqPpU09i5xBd7qBY/S0K1ekw=;
-	b=jPj8/b4rXuD9pUnGQAF4Us79Ejqa38WnRxtIN0MfRP/o1zxO+oW5hC6U/P9HS32Vue
-	je/kO2CXGQVmSE3fc3Dh4AyYcZscvftIM2VwZeTLIaVAsp9eEZa1BKaOAEWU8dOjUSbe
-	rHWbwI2wvkjS/fX5UotLN6206MqogN40lGdwfwN/HdR16k1cR/oGjXIjD/G1DzYWJpJy
-	cwMWsbbrbBUQfwjEqJf5UIPUhX0MPtPVRNDMdMqTtlQjSkkL1zaCFR0f2p6GyqmC+a2p
-	7N7UwDhIOUXVKFbjBtYYULYqK2DqT+isZQQiq8fk/JQ8Z/G3W1p4zOVt81XkjEPcUY4d
-	LOKA==
-X-Received: by 10.60.25.35 with SMTP id z3mr2646355oef.98.1361908475204;
-	Tue, 26 Feb 2013 11:54:35 -0800 (PST)
+	bh=z3JrzhHvSKsK0GtJAlLRVfuAwT3oXO0VtwNApURC40w=;
+	b=IfKF5RibQq6vGS0MF5CkBsWbVdNj1WuTdfJkRJkPUelMBDx0HgARojcPb4zCrtffJs
+	Xmpbq5nc9eJmvGng/gLsNoRbBvVIH02QExA4og4KgP7JM0UaxxdaNEe4cTsbcQlfnedC
+	BtQYTScC+3JYfkpnFwx4Vx8W1ynuNVm679DW/F3F91WE//Rr8Pe8mPDfjBMpT29VoFnN
+	gPXQlZaKBpBGHuQyX9QC9W44sRM9TNLT+e8Uj+WXNNzbCyKw9j/HZvaArH28xXwjz67b
+	meq2cw8I/oRTiFZ8MI+/5I0maNuGciwpC53+X/my3MJVzy2o3/SNH0z+ZYqSaJ9cdvB5
+	N/Ww==
+X-Received: by 10.182.40.71 with SMTP id v7mr12367692obk.85.1361908850629;
+	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
 Received: from [10.0.1.95] (adsl-68-88-197-100.dsl.rcsntx.swbell.net.
 	[68.88.197.100])
-	by mx.google.com with ESMTPS id z5sm3210897oeh.1.2013.02.26.11.54.30
+	by mx.google.com with ESMTPS id p2sm3156827obb.6.2013.02.26.12.00.46
 	(version=SSLv3 cipher=RC4-SHA bits=128/128);
-	Tue, 26 Feb 2013 11:54:34 -0800 (PST)
-Message-ID: <1361908466.1685.3.camel@rrMBP>
+	Tue, 26 Feb 2013 12:00:50 -0800 (PST)
+Message-ID: <1361908840.1685.5.camel@rrMBP>
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: Ross Burton <ross.burton@intel.com>
-Date: Tue, 26 Feb 2013 20:54:26 +0100
+Date: Tue, 26 Feb 2013 21:00:40 +0100
 In-Reply-To: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
 References: <1361901233-23197-1-git-send-email-ross.burton@intel.com>
 X-Mailer: Evolution 3.6.3 (3.6.3-2.fc18) 
 Mime-Version: 1.0
-X-Gm-Message-State: ALoCoQnKvuGhKDsbsvVdMCfOGy2iEw57DBZ2HbW6O4W6dB9LrDo//+wDxGAmWwZR4XIg/Tn8JW7V
+X-Gm-Message-State: ALoCoQlWu/CKn0TXWs6IZQYi73oDJ82Sb0V8Z/yI8wmmZPuStjATKtOL/diDpyW7tebN+y11ffLJ
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V2] systemd: set the location of the kill binary
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 20:10:57 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 20:17:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -71,7 +71,10 @@ On Tue, 2013-02-26 at 17:53 +0000, Ross Burton wrote:
 >                   --with-sysvrcnd-path=${sysconfdir} \
 > +                 ac_cv_path_KILL=/bin/kill \
 
-${base_bindir} ?
+Like V1 this hardcodes ${base_bindir} to /bin, this breaks when your
+DISTRO sets $base_prefix to /usr. So please change that to:
+
+	ac_cv_path+KILL=${base_bindir}/kill
 
 
 
