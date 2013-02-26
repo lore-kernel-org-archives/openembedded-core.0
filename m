@@ -1,54 +1,48 @@
-Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1UATAu-0004xt-I6
+	(envelope-from <B29882@freescale.com>) id 1UATH2-00057J-KY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 23:39:36 +0100
-Received: from mail75-db3-R.bigfish.com (10.3.81.242) by
-	DB3EHSOBE010.bigfish.com (10.3.84.30) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 26 Feb 2013 22:22:43 +0000
-Received: from mail75-db3 (localhost [127.0.0.1])	by mail75-db3-R.bigfish.com
-	(Postfix) with ESMTP id A2AAD2A0358;
-	Tue, 26 Feb 2013 22:22:43 +0000 (UTC)
+	Tue, 26 Feb 2013 23:45:31 +0100
+Received: from mail25-am1-R.bigfish.com (10.3.201.226) by
+	AM1EHSOBE012.bigfish.com (10.3.207.134) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 26 Feb 2013 21:58:56 +0000
+Received: from mail25-am1 (localhost [127.0.0.1])	by mail25-am1-R.bigfish.com
+	(Postfix) with ESMTP id 4599C2C02E2	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 21:58:56 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 11
-X-BigFish: VS11(z49a8vzbb2dI98dI9371I1432Izz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3h947hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h19cehbe9i1155h)
-Received: from mail75-db3 (localhost.localdomain [127.0.0.1]) by mail75-db3
-	(MessageSwitch) id 1361917361553740_23621;
-	Tue, 26 Feb 2013 22:22:41 +0000 (UTC)
-Received: from DB3EHSMHS011.bigfish.com (unknown [10.3.81.229])	by
-	mail75-db3.bigfish.com (Postfix) with ESMTP id 84B98400142;
-	Tue, 26 Feb 2013 22:22:41 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS011.bigfish.com
-	(10.3.87.111) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 26 Feb 2013 22:22:41 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.221]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0328.011;
-	Tue, 26 Feb 2013 22:22:30 +0000
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Anton Sergienko <anton.sergienko@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] kernel.bbclass, module-base.bbclass: Use CC to form
-	KERNEL_CC
-Thread-Index: AQHOFG/Don35qpCBak6MsmsunZ+1og==
-Date: Tue, 26 Feb 2013 22:22:29 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A89192C@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <CAMEF+f=FAyLCaWwjzq+W=1QEZcEM3V1awR8-e5ogFdn923ndhg@mail.gmail.com>
-	<20130226175608.GB13278@sakrah.homelinux.org>
-In-Reply-To: <20130226175608.GB13278@sakrah.homelinux.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+X-SpamScore: 6
+X-BigFish: VS6(z37d5kzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1155h)
+Received: from mail25-am1 (localhost.localdomain [127.0.0.1]) by mail25-am1
+	(MessageSwitch) id 1361915935208299_11101;
+	Tue, 26 Feb 2013 21:58:55 +0000 (UTC)
+Received: from AM1EHSMHS008.bigfish.com (unknown [10.3.201.230])	by
+	mail25-am1.bigfish.com (Postfix) with ESMTP id 301A020062	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 21:58:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS008.bigfish.com
+	(10.3.207.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 26 Feb 2013 21:58:47 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 26 Feb 2013 21:58:36 +0000
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r1QLwiep007813 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 14:58:45 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Feb 2013 15:58:41 -0600
+Message-ID: <1361915924-23046-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: Re: kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
+Subject: [PATCH 1/4] kernel-arch.bbclass: don't pass extra args to KERNEL_{CC, LD, AR}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -58,33 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 22:39:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <E66F8AC939E9D64A9F758207288D827F@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Feb 2013 22:45:32 -0000
+Content-Type: text/plain
 
-On Tue, Feb 26, 2013 at 11:56 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On (26/02/13 17:08), Anton Sergienko wrote:
->> Hi!
->> After the patch (commit c49f967384ccbfe131bbb33ee518014f3fc4b38f) to
->> meta/classes/kernel-arch.bbclass kernel build fails for arm machine with
->> hard floating point instruction set in CC (-mfloat-abi=3Dhard).
->> As I understand kernel should not be build with fpu specific floating po=
-int
->> instructions(should not be any floating point operation at all), but CFL=
-AGS
->> from machine-tune are propagated to CC and it also include -mfloat-abi
->> flag. Should not -mfloat-abi flag be filtered out in kernel-arch.bbclass=
- ?
->
-> yes. I think this patch is creating more issues than its solving. I will
-> think about decoupling KERNEL_CC from CC once again.
+Commit a3ca06c3b45c791dd38dbf154ad0fc62b4063475 added extra args to
+KERNEL_CC, these revert that bit while maintaining machine additions
+in TARGET_??_KERNEL_ARCH
 
-I just resubmitted my patch for this... It decouples all the extra
-args while still keeping the ones specifically added.
+Producing incorrect instructions and generating the following errors:
 
--M=
+   CC      arch/powerpc/kernel/init_task.o
+| {standard input}: Assembler messages:
+| {standard input}:384: Error: junk at end of line: `1'
+| {standard input}:949: Error: junk at end of line: `1'
+| {standard input}:1428: Error: junk at end of line: `1'
+| {standard input}:1526: Error: junk at end of line: `1'
+| {standard input}:1626: Error: junk at end of line: `1'
+| {standard input}:1685: Error: junk at end of line: `1'
+| {standard input}:1973: Error: junk at end of line: `1'
+| {standard input}:2001: Error: junk at end of line: `1'
+| {standard input}:2100: Error: junk at end of line: `1'
+| {standard input}:2168: Error: junk at end of line: `1'
+| {standard input}:2520: Error: junk at end of line: `1'
+|   CC      arch/powerpc/lib/locks.o
+
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/classes/kernel-arch.bbclass |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index a51e82b..b3b71ba 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -52,7 +52,7 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+ TARGET_AR_KERNEL_ARCH ?= ""
+ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+ 
+-KERNEL_CC = "${CC} ${HOST_CC_KERNEL_ARCH}"
+-KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
+-KERNEL_AR = "${AR} ${HOST_AR_KERNEL_ARCH}"
++KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
++KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}"
++KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+ 
+-- 
+1.7.9.7
+
 
 
 
