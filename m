@@ -1,33 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UAMUE-00034c-NG
+	(envelope-from <cristian.iorga@intel.com>) id 1UAN9v-0004Fz-Cl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 16:30:35 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2013 07:12:50 -0800
+	Tue, 26 Feb 2013 17:13:54 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 26 Feb 2013 07:57:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="267876718"
-Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2013 07:14:12 -0800
-Message-ID: <512CD144.4030308@linux.intel.com>
-Date: Tue, 26 Feb 2013 07:14:12 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Cristian Iorga <cristian.iorga@intel.com>
-References: <1361782141-18273-1-git-send-email-cristian.iorga@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16205C3C@IRSMSX102.ger.corp.intel.com>
-	<512BF975.90206@linux.intel.com>
-	<512C7F88.8030907@communistcode.co.uk>
-	<969F26A8BAB325438E7EB80D3C3134FB162063D2@IRSMSX102.ger.corp.intel.com>
-	<512C981C.3090001@communistcode.co.uk>
-	<CAJTo0LZ3c-nS109EJvSJbJvYkTPK-gr2OS_jGweNd36tEybQjg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ3c-nS109EJvSJbJvYkTPK-gr2OS_jGweNd36tEybQjg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] connman: enable connman client
+X-IronPort-AV: E=Sophos;i="4.84,742,1355126400"; d="scan'208";a="206474613"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2013 07:57:17 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Feb 2013 17:57:42 +0200
+Message-Id: <1361894262-16750-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] iproute2: upgraded to 3.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 15:30:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Feb 2013 16:13:55 -0000
 
-On 02/26/2013 03:16 AM, Burton, Ross wrote:
-> On 26 February 2013 11:10, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> I think it is best to be defined as a separate package connman-client within
->> the current connman recipe. My reasoning for this is that connman is widely
->> used as an embedded network manager and its main interface is dbus rather
->> than the 'helper' program connmanctl.
->
-+1 to connman-client
+- cross-compiling patch adapted to new source code
 
-> Cristian - in another commit can you also add connman-client to the
-> tools-testapps image feature?
->
-+1 here also!
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../recipes-connectivity/iproute2/iproute2/configure-cross.patch |    6 +++---
+ .../iproute2/{iproute2_3.7.0.bb => iproute2_3.8.0.bb}            |    4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_3.7.0.bb => iproute2_3.8.0.bb} (64%)
 
-Sau!
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+index 10606f3..866609c 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2/configure-cross.patch
+@@ -18,9 +18,9 @@ Index: iproute2-3.7.0/configure
+  #
+  INCLUDE=${1:-"$PWD/include"}
+ +SYSROOT=$1
+- : ${PKG_CONFIG:=pkg-config}
+- : ${CC=gcc}
+- echo "PKG_CONFIG:=${PKG_CONFIG}" >>Config
++ 
++ # Make a temp directory in build tree.
++ TMPDIR=$(mktemp -d config.XXXXXX)
+ @@ -158,7 +159,7 @@ check_ipt_lib_dir()
+  		return
+  	fi
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+similarity index 64%
+rename from meta/recipes-connectivity/iproute2/iproute2_3.7.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+index 1863acb..70dcd2d 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.7.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+@@ -5,8 +5,8 @@ PR = "r0"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
+            file://configure-cross.patch"
+ 
+-SRC_URI[md5sum] = "b07241b267036de9a79ca5b69acf8593"
+-SRC_URI[sha256sum] = "6b0e76d7adb8b9b65f70571f75d72db7c2548eff7813cace9e267065c3c0cb34"
++SRC_URI[md5sum] = "951622fd770428116dc165acba375414"
++SRC_URI[sha256sum] = "579145749f1aaf60e7c7a5de24b7f00fa2200a961094733c792b4ff139181e4f"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+1.7.10.4
 
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
