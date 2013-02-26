@@ -1,20 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-oa0-f54.google.com ([209.85.219.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UAL6t-0000ak-HI
+	(envelope-from <otavio.salvador@gmail.com>) id 1UALwH-0001n2-Ga
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 15:02:26 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Feb 2013 05:46:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="206431171"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2013 05:46:01 -0800
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Feb 2013 15:46:22 +0200
-Message-Id: <1361886382-27041-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] sudo : upgrade to 1.8.6p6
+	Tue, 26 Feb 2013 15:55:32 +0100
+Received: by mail-oa0-f54.google.com with SMTP id n12so5279492oag.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Feb 2013 06:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=q838ue73SYTxHz1VYgFpucZ00MwzNkQpgn1TeXR/e3U=;
+	b=IUOa24ZsV5Fx6d+rhKU0hMXT0FdOizgTV9AdK2wjoYyiTJZUURASn1XVm2osFDDRa+
+	u8DU+7kLOCDHa2T33Rja84iLYzwEV6OtE2rl859SP42PH764R/tYhC1/ojG02roD4vy+
+	Ft/N4R/Pgnkmv6DVJV0LkCuKUpOl4JwvN+/k5HcImuSeYfDRlB9sHRUbRj0wPfZF4lub
+	I6egIBCCQ119mG9TjL9Xmrhs17juq68D5fpvolMlGcqdawgu43IPgPj0waCNUOgDg+AE
+	o6QGYt6BfyLH7vpF4M2kCez5FkgbtNYjPrKLOwNWiFycDd/mDdz4dlGPKvUW9P6lreP4
+	s/Sg==
+MIME-Version: 1.0
+X-Received: by 10.60.8.197 with SMTP id t5mr1658831oea.4.1361889174529; Tue,
+	26 Feb 2013 06:32:54 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.251.165 with HTTP; Tue, 26 Feb 2013 06:32:54 -0800 (PST)
+In-Reply-To: <1361882216-8152-1-git-send-email-ross.burton@intel.com>
+References: <1361882216-8152-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 26 Feb 2013 11:32:54 -0300
+X-Google-Sender-Auth: hGuutJuS6Ko8QKnQaoSQHkhP4Wo
+Message-ID: <CAP9ODKrv9kbMuhMK6OnEGNqNRn0ZHM1R7xZwYAFa=QjivCcigg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xkeyboard-config: this is architecture-indepedent, so set PACKAGE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 14:02:35 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 14:55:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- .../sudo/{sudo_1.8.6p4.bb => sudo_1.8.6p6.bb}      |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.6p4.bb => sudo_1.8.6p6.bb} (84%)
+On Tue, Feb 26, 2013 at 9:36 AM, Ross Burton <ross.burton@intel.com> wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
+> index 8ca2f6a..ee3e20c 100644
+> --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
+> +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
+> @@ -19,6 +19,8 @@ SRC_URI[sha256sum] = "4e1cf5468d488aaf320ddfd439e03cbda0b213550fd734026d23138e4b
+>  SECTION = "x11/libs"
+>  DEPENDS = "intltool-native xkbcomp-native glib-2.0 virtual/gettext"
+>
+> +PACKAGE_ARCH = "all"
+> +
+>  PR = "r0"
+>
+>  EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.6p4.bb b/meta/recipes-extended/sudo/sudo_1.8.6p6.bb
-similarity index 84%
-rename from meta/recipes-extended/sudo/sudo_1.8.6p4.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.6p6.bb
-index 115439b..33cbcba 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.6p4.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.6p6.bb
-@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "cd19154e341b28573801397f0736126b"
--SRC_URI[sha256sum] = "364ad88ca3afcadcff6bd6820b0af19c56ce4876704dae210e21845d923e59e8"
-+SRC_URI[md5sum] = "394efcbfedb200ba188958f047ce76d2"
-+SRC_URI[sha256sum] = "d600fee5cb2e843450263a2b8f133b9921ffa00cb6b841b0da82613447cefb7c"
- 
- DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+Please inherit allarch
+
+
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
