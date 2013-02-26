@@ -1,39 +1,28 @@
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1UAG24-0007Wv-Vh
+	(envelope-from <Kai.Kang@windriver.com>) id 1UAGMm-00080p-8b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 09:37:24 +0100
-Received: by mail-vc0-f180.google.com with SMTP id fo13so2290090vcb.25
+	Tue, 26 Feb 2013 09:58:48 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q8g8Bi018563
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 00:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=OBUjI9aAxzaxzHJLpbVm6iUP/DD0OgaxcJoEHfx5KC4=;
-	b=Qv19/k3uwmNE72OygVL2I2YedO/CT1sc6PQ5aSqWTpmAmTwgggn1wVnGr+b8Ko9/ZK
-	v+TFIO02XkQZTsbF/5ZUSZHAZif3ax8UC3W9NKOQ2bwHTRMSJZlsKErvQp+WHCbbFq5N
-	PQa3qTY+NMk2e/w+lSn7dWRzQYnt1INQ7nA0c3Z1FP8vL9pM3BqiHwI+e3uenZn6Fjlm
-	mKoUSotz4jkD23JTWJAf9TloKn4vP9Q+5sJm10ofOJ5jYkzCKJ+u05PmM51mv33ZFSH0
-	cwR5UcmcLOL4qIlI2RFBrkr7jcA+x8rK5T75eb4V0e7x+pL+lp3KU1L1DthUQrUEbAFF
-	ovug==
+	Tue, 26 Feb 2013 00:42:08 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Tue, 26 Feb 2013 00:42:07 -0800
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Feb 2013 16:43:38 +0800
+Message-ID: <856b0c61e27c606f02ea564096d09c707105fc44.1361867877.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1361867877.git.kai.kang@windriver.com>
+References: <cover.1361867877.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.52.66.176 with SMTP id g16mr854767vdt.22.1361866842904; Tue,
-	26 Feb 2013 00:20:42 -0800 (PST)
-Received: by 10.59.10.137 with HTTP; Tue, 26 Feb 2013 00:20:42 -0800 (PST)
-In-Reply-To: <512C69A6.6040707@linux.intel.com>
-References: <cover.1361091390.git.cazfi74@gmail.com>
-	<5123B265.9050003@linux.intel.com>
-	<CAF6bG8ei3p_RjsZX2Nmf5fy+StgJThrcR6R_rZ6-wT_A+6kAkg@mail.gmail.com>
-	<CAF6bG8c9BU06uGvuM0ENuyGL4yggQOct620yP18kbkrh_bxbLA@mail.gmail.com>
-	<512BE70F.4050707@linux.intel.com>
-	<CAF6bG8fPGOjUB_nvNML1SAckQngEOSijzDH43dtSSQ7FmCmquw@mail.gmail.com>
-	<512C69A6.6040707@linux.intel.com>
-Date: Tue, 26 Feb 2013 10:20:42 +0200
-Message-ID: <CAF6bG8fYAidC-APPqiZMifXPcMQ3CXMfH4Whwr23FtvgRi3sHw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] automake-1.13 and upstream version updates
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 1/1] lsbtest: sync test suite packages version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,26 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 08:37:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 26 Feb 2013 08:58:49 -0000
+Content-Type: text/plain
 
-On 26 February 2013 09:52, Saul Wold <sgw@linux.intel.com> wrote:
->
-> There seems to be some issue lurking here with configure and libtool.
->
-> Sau!
+Update file packages_list after sync test suite packages version with
+upstream.
+Check date: Feb 20, 2103
 
- libffi seems to include all the libtool m4-files, updated between
-libffi-3.0.11 and libffi-3.0.12. These might be incompatible with
-libtool files in your system, or does the build force them to be
-replaced (libtoolize -f)?
+Bump up PR.
 
- I've got around a bit similar problems (not in OE, but building in
-general) by simply deleting m4/libtool.m4 m4/lt*.m4 from the project,
-and letting libtoolize/autoreconf to place correct versions there
-instead. Could you test that?
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ meta/recipes-extended/lsb/lsbtest/packages_list |   10 +++++-----
+ meta/recipes-extended/lsb/lsbtest_1.0.bb        |    2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/meta/recipes-extended/lsb/lsbtest/packages_list b/meta/recipes-extended/lsb/lsbtest/packages_list
+index c3172e0..dc3c002 100644
+--- a/meta/recipes-extended/lsb/lsbtest/packages_list
++++ b/meta/recipes-extended/lsb/lsbtest/packages_list
+@@ -3,22 +3,22 @@ LSB_ARCH="lsbarch"
+ 
+ BASE_PACKAGES_LIST="lsb-setup-4.1.0-1.noarch.rpm"
+ 
+-RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.10-2.targetarch.rpm \
++RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.11-1.targetarch.rpm \
+ 	lsb-tet3-lite-3.7-23.lsb4.targetarch.rpm \
+ 	lsb-tet3-lite-devel-3.7-23.lsb4.targetarch.rpm \
+ 	lsb-xvfb-1.2.0-21.targetarch.rpm \
+ 	"
+ 
+-RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.4-2.targetarch.rpm \
+-	lsb-libchk-4.1.4-2.targetarch.rpm \
++RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.4-3.targetarch.rpm \
++	lsb-libchk-4.1.4-3.targetarch.rpm \
+ 	lsb-qm-2.2-8.lsb4.targetarch.rpm \
+-	lsb-task-dist-testkit-4.1.2-1.noarch.rpm \
++	lsb-task-dist-testkit-4.1.3-1.noarch.rpm \
+ 	lsb-test-core-4.1.12-2.targetarch.rpm \
+ 	lsb-test-cpp-t2c-4.1.0-1.targetarch.rpm \
+ 	lsb-test-desktop-4.1.7-1.targetarch.rpm \
+ 	lsb-test-desktop-t2c-4.1.2-2.targetarch.rpm \
+ 	lsb-test-libstdcpp-4.1.0-18.lsb4.targetarch.rpm \
+-	lsb-test-olver-core-4.1.3-7.targetarch.rpm \
++	lsb-test-olver-core-4.1.4-1.targetarch.rpm \
+ 	lsb-test-perl-4.1.6-2.noarch.rpm \
+ 	lsb-test-printing-4.1.2-1.targetarch.rpm \
+ 	lsb-test-python-4.1.5-1.targetarch.rpm \
+diff --git a/meta/recipes-extended/lsb/lsbtest_1.0.bb b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+index 3dcfc0d..8973e09 100644
+--- a/meta/recipes-extended/lsb/lsbtest_1.0.bb
++++ b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "automate test for lsb"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+-PR = "r2"
++PR = "r3"
+ 
+ LIC_FILES_CHKSUM = "file://LSB_Test.sh;beginline=3;endline=16;md5=7063bb54b04719df0716b513447f4fc0"
+ 
+-- 
+1.7.5.4
 
- - ML
 
 
