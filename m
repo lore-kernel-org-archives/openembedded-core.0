@@ -1,27 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UAOWv-0001Ix-Gd
+	(envelope-from <sgw@linux.intel.com>) id 1UAOap-0001R8-A2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 18:41:30 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2013 09:25:09 -0800
+	Tue, 26 Feb 2013 18:45:32 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Feb 2013 09:29:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,742,1355126400"; d="scan'208";a="290778296"
+X-IronPort-AV: E=Sophos;i="4.84,742,1355126400"; d="scan'208";a="206512424"
 Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2013 09:25:08 -0800
-Message-ID: <512CEFF4.8030000@linux.intel.com>
-Date: Tue, 26 Feb 2013 09:25:08 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Feb 2013 09:29:08 -0800
+Message-ID: <512CF0E1.9040101@linux.intel.com>
+Date: Tue, 26 Feb 2013 09:29:05 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1361891080-5035-1-git-send-email-constantinx.musca@intel.com>
-	<CAP9ODKqfv-8=MG=ffQQG_DSTxj9=059Z_W4mPznQiwsKKaYM-w@mail.gmail.com>
-In-Reply-To: <CAP9ODKqfv-8=MG=ffQQG_DSTxj9=059Z_W4mPznQiwsKKaYM-w@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+To: Javier Viguera <javier.viguera@digi.com>
+References: <1361372957-38860-1-git-send-email-javier.viguera@digi.com>
+	<512CEFBE.4010901@digi.com>
+In-Reply-To: <512CEFBE.4010901@digi.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] log_srcrev.bbclass: add a bbclass for logging SRCREVs
+Subject: Re: [PATCH] base-files: fix 'dash' expanding '\n'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 17:41:33 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 17:45:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/26/2013 08:56 AM, Otavio Salvador wrote:
-> On Tue, Feb 26, 2013 at 12:04 PM, Constantin Musca
-> <constantinx.musca@intel.com> wrote:
->> - add a task which creates a file for each package with the following
->> format:
->>
->> ${BB_FILENAME},${SRC_URI},${SRCREV},${FROM_AUTOREV}
->>
->> [YOCTO #3041]
->>
->> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+On 02/26/2013 09:24 AM, Javier Viguera wrote:
+> Hi all,
 >
-> What is the use-case for this?
+> I just saw this patch i sent last week was pushed to
+> openembedded-core/poky *master* branches. Thanks for that.
 >
-I could reply with see bug #3041!
+> But in my development i am using stable 'danny' branches.
+>
+> Any chance that this patch gets cherry-picked to 'danny' on
+> openembedded-core and poky repos?
+>
+In the future, patches for Stable releases should mention that in the 
+patch request.  We are spinning the rc1 of Danny Update (1.3.1) now, so 
+it will not make this release, but could be considered for the next one.
 
-There is a need to have the actual SRCREVs from AUTOREV'ed package 
-version, so a build can be reproduced at a later date or so you know 
-what SRCREV went into a given release.
+Thanks for your contribution
 
-Sau!
+	Sau!
 
+> -
+> Javier Viguera
+> Software Engineer
+> Digi International® Spain S.A.U.
+>
+>
+> On 02/20/2013 04:09 PM, Javier Viguera wrote:
+>> Dash's 'echo' command expands '\n' by default, so the '\n' is not
+>> included in the '/etc/issue' file.
+>>
+>> Use 'printf' for portability between different shells.
+>>
+>> Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+>> ---
+>>
+>> Probably also worth to be cherry-picked to 'danny' branch.
+>>
+>>   meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> index 6a3db50..e7a9d82 100644
+>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> @@ -129,7 +129,7 @@ do_install_basefilesissue () {
+>>               printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
+>>               printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
+>>           fi
+>> -        echo "\n \l" >> ${D}${sysconfdir}/issue
+>> +        printf "\\\n \\\l\n" >> ${D}${sysconfdir}/issue
+>>           echo >> ${D}${sysconfdir}/issue
+>>           echo "%h"    >> ${D}${sysconfdir}/issue.net
+>>           echo >> ${D}${sysconfdir}/issue.net
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
