@@ -1,20 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1UAMND-0002tF-B1
+	(envelope-from <sgw@linux.intel.com>) id 1UAMUE-00034c-NG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 16:23:20 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Feb 2013 07:06:59 -0800
+	Tue, 26 Feb 2013 16:30:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2013 07:12:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="292009855"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Feb 2013 07:06:57 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Feb 2013 17:08:09 +0200
-Message-Id: <1361891289-6777-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH v3] log_srcrev.bbclass: add a bbclass for logging SRCREVs
+X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="267876718"
+Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
+	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2013 07:14:12 -0800
+Message-ID: <512CD144.4030308@linux.intel.com>
+Date: Tue, 26 Feb 2013 07:14:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>, 
+	Cristian Iorga <cristian.iorga@intel.com>
+References: <1361782141-18273-1-git-send-email-cristian.iorga@intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16205C3C@IRSMSX102.ger.corp.intel.com>
+	<512BF975.90206@linux.intel.com>
+	<512C7F88.8030907@communistcode.co.uk>
+	<969F26A8BAB325438E7EB80D3C3134FB162063D2@IRSMSX102.ger.corp.intel.com>
+	<512C981C.3090001@communistcode.co.uk>
+	<CAJTo0LZ3c-nS109EJvSJbJvYkTPK-gr2OS_jGweNd36tEybQjg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ3c-nS109EJvSJbJvYkTPK-gr2OS_jGweNd36tEybQjg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] connman: enable connman client
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,44 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 15:23:21 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 15:30:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-- add a task which creates a file for each package with the following
-format:
+On 02/26/2013 03:16 AM, Burton, Ross wrote:
+> On 26 February 2013 11:10, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> I think it is best to be defined as a separate package connman-client within
+>> the current connman recipe. My reasoning for this is that connman is widely
+>> used as an embedded network manager and its main interface is dbus rather
+>> than the 'helper' program connmanctl.
+>
++1 to connman-client
 
-${BB_FILENAME},${SRC_URI},${SRCREV},${FROM_AUTOREV}
+> Cristian - in another commit can you also add connman-client to the
+> tools-testapps image feature?
+>
++1 here also!
 
-[YOCTO #3041]
+Sau!
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/classes/log_srcrev.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/classes/log_srcrev.bbclass
-
-diff --git a/meta/classes/log_srcrev.bbclass b/meta/classes/log_srcrev.bbclass
-new file mode 100644
-index 0000000..a04702c
---- /dev/null
-+++ b/meta/classes/log_srcrev.bbclass
-@@ -0,0 +1,15 @@
-+python do_log_srcrev () {
-+    srcrev = d.getVar('SRCREV', True)
-+    if srcrev:
-+        bbfile = d.getVar('BB_FILENAME', True)
-+        src_uri = d.getVar('SRC_URI', True)
-+        from_autorev = 'yes' if d.getVar('SRCREV', False) == 'AUTOINC' else 'no'
-+
-+        srcrevfile = d.expand('${TMPDIR}/srcrevs/${MULTIMACH_TARGET_SYS}/${BP}')
-+        bb.utils.mkdirhier(os.path.dirname(srcrevfile))
-+
-+        with open(srcrevfile, 'w') as f:
-+            f.write(','.join([bbfile, src_uri, srcrev, from_autorev]))
-+}
-+
-+addtask do_log_srcrev after do_fetch
--- 
-1.7.11.7
-
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
