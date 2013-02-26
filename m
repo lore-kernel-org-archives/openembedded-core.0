@@ -1,27 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UASea-00043I-2U
+	(envelope-from <dvhart@linux.intel.com>) id 1UASfq-00047K-DX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 23:05:42 +0100
+	Tue, 26 Feb 2013 23:07:08 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2013 13:49:19 -0800
+	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2013 13:49:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,743,1355126400"; d="scan'208";a="290885670"
+X-IronPort-AV: E=Sophos;i="4.84,743,1355126400"; d="scan'208";a="290886190"
 Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.55])
-	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2013 13:49:19 -0800
-Message-ID: <512D2DDF.5070002@linux.intel.com>
-Date: Tue, 26 Feb 2013 13:49:19 -0800
+	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2013 13:50:37 -0800
+Message-ID: <512D2E2E.20503@linux.intel.com>
+Date: Tue, 26 Feb 2013 13:50:38 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Trevor Woerner <twoerner@gmail.com>
 References: <cover.1361862860.git.liezhi.yang@windriver.com>
-	<15dffc97a79d24f6f7b60c986dfe1e9e708990f4.1361862860.git.liezhi.yang@windriver.com>
-In-Reply-To: <15dffc97a79d24f6f7b60c986dfe1e9e708990f4.1361862860.git.liezhi.yang@windriver.com>
+	<e62df3d50df79849ea916095fd028b688b75df52.1361862860.git.liezhi.yang@windriver.com>
+	<CAHUNapS=YynAbkmtj3NGha9vu2V_k1bDqW1gtPPe586N=shkUw@mail.gmail.com>
+In-Reply-To: <CAHUNapS=YynAbkmtj3NGha9vu2V_k1bDqW1gtPPe586N=shkUw@mail.gmail.com>
 X-Enigmail-Version: 1.5
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/7] e2fsprogs: ship mkfsdebug.sh
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/7] mkdebugfs.sh: several fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 22:05:44 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 22:07:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-This can be merged with 3/7 right?
 
-On 02/26/2013 01:24 AM, Robert Yang wrote:
-> Ship mkfsdebug.sh, it will be installed to /usr/bin/mkfsdebug.sh and
-> used for replacing the genext2fs in image_types.bbclass.
+
+On 02/26/2013 09:43 AM, Trevor Woerner wrote:
+> On Tue, Feb 26, 2013 at 4:24 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> Fix mkdebugfs.sh:
+>>
+>>          *)
+>>              echo "Unknown file $FILE" 1>&2
+>>              ;;
+>>          esac
 > 
-> [YOCTO #3848]
+> I know this doesn't come from your work, but since you're making
+> changes, I think it would make for a better error message if the above
+> said something along the lines of:
 > 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb | 2 ++
->  1 file changed, 2 insertions(+)
+>     echo "Unknown/unhandled file type '$(stat -c "%F" $FILE)' file:$FILE"
 > 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-> index 70255ce..1609d42 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb
-> @@ -4,6 +4,7 @@ PR = "r0"
->  
->  SRC_URI += "file://acinclude.m4 \
->              file://remove.ldconfig.call.patch \
-> +            file://mkdebugfs.sh \
->  "
->  
->  SRCREV = "fca8b1b2416c384b91b4fe00d6d37cfccb8fb3d5"
-> @@ -41,6 +42,7 @@ do_install_append () {
->  		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
->  		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
->  	fi
-> +	install -m 0755 ${WORKDIR}/mkdebugfs.sh ${D}${bindir}
->  }
->  
->  RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
-> 
+
+That's fine. Also, there is no need to send my script first and then
+patch it. It was a 5 minute hack, so just modify and include as a single
+patch.
+
 
 -- 
 Darren Hart
