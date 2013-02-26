@@ -1,37 +1,20 @@
-Received: from mail-wi0-f176.google.com ([209.85.212.176])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UAK4s-0006XZ-8c
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 13:56:27 +0100
-Received: by mail-wi0-f176.google.com with SMTP id hm14so4780143wib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Feb 2013 04:39:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=OZsh/cRe/t/b4s0eY8JqLzo3AhNCoyrZ7mObmHFS/lE=;
-	b=T7hL5bpTh4xpmCBOKkTdlUuTdeNymbTaOS1ciLLu/LpCgVlfzjCosc/g7iYq1Csh3A
-	DPKNDjuYQmaMoXEUDIIT+tiSH1/Jc/1vofubn81+rOcMNgN56zxVvUVd1zEEqQZZzeOn
-	YCxD+WkGZ9cDZIq9rxyTvyl9qp5jbmkdHri07JH32+EA9TxcjMHcaU8CP48EbmTNqgJk
-	a6BPQbZDglS+G5XcuyNqumgHR9C5NT4cz3h9GxbQxQmvTDDc5QoAgUiOPb/ID5vo59j3
-	WvCIJM6NzAvnwUBOWW09zCrZ89tEcfql6I6FhB8jydfqvykBBMEtOpgYw+xessKui4Km
-	nCXg==
-X-Received: by 10.180.72.148 with SMTP id d20mr18898646wiv.31.1361882395378;
-	Tue, 26 Feb 2013 04:39:55 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ay10sm20864220wib.3.2013.02.26.04.39.54
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Feb 2013 04:39:54 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1UAKrx-0008FG-EG for openembedded-core@lists.openembedded.org;
+	Tue, 26 Feb 2013 14:47:00 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2013 05:30:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,740,1355126400"; d="scan'208";a="290664265"
+Received: from ema-vostro-460 (HELO localhost.localdomain) ([10.237.105.140])
+	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2013 05:30:35 -0800
+From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Feb 2013 12:37:30 +0000
-Message-Id: <1361882250-8266-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1361882250-8266-1-git-send-email-ross.burton@intel.com>
-References: <1361882250-8266-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkF5kNwRk9eRKLZUNWBnJXbMOOwoM58eWC29yYRaEGjWcbcf3jciX/hwtg3slzrBTm7/PW6
-Subject: [PATCH 2/2] weston: recommend some reasonable fonts so the terminal works
+Date: Tue, 26 Feb 2013 15:35:14 +0200
+Message-Id: <1361885714-24362-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] distrodata: added some corner cases for svn and git repos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 12:56:32 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 13:47:04 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+distrodata.bbclass: git tags can include only one digit, therefore
+the regex that matches the latest version should also include this
+case. For some svn repos, using the http protocol than using the
+svn protocol to get infomation about revisions works better.
+
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 ---
- meta/recipes-graphics/wayland/weston_1.0.3.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/distrodata.bbclass |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-index c7b02d4..ca8675c 100644
---- a/meta/recipes-graphics/wayland/weston_1.0.3.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-@@ -52,6 +52,7 @@ do_install_append() {
- FILES_${PN} += "${datadir}/applications ${datadir}/icons"
- 
- RDEPENDS_${PN} += "xkeyboard-config"
-+RRECOMMENDS_${PN} = "liberation-fonts"
- 
- # Add a group for weston-launch, a setuid helper
- USERADD_PACKAGES = "${PN}"
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 276ca03..bd3a6a9 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -674,7 +674,7 @@ python do_checkpkg() {
+                                 if len(line)==0:
+                                         break;
+                                 puptag = line.split("/")[-1]
+-                                puptag = re.search("[0-9][0-9|\.|_]+[0-9]", puptag)
++                                puptag = re.search("([0-9][\.|_]?)+", puptag)
+                                 if puptag == None:
+                                         continue;
+                                 puptag = puptag.group()
+@@ -714,6 +714,10 @@ python do_checkpkg() {
+                 svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), svnproto, host, path, parm["module"])
+                 print svncmd
+                 svninfo = os.popen(svncmd).read()
++                if "Can't connect to host " in svninfo or "Connection timed out" in svninfo:
++                        svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), "http",
++                                       host, path, parm["module"])
++                        svninfo = os.popen(svncmd).read()
+                 for line in svninfo.split("\n"):
+                         if re.search("^Last Changed Rev:", line):
+                                 pupver = line.split(" ")[-1]
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
