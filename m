@@ -1,24 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UAFfP-0006dw-7v
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UAFfR-0006dz-Ll
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Feb 2013 09:13:42 +0100
+	Tue, 26 Feb 2013 09:13:43 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q7vJn9011998
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1Q7vLOg006546
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Feb 2013 23:57:19 -0800 (PST)
+	Mon, 25 Feb 2013 23:57:21 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.328.9; Mon, 25 Feb 2013 23:57:18 -0800
+	14.2.328.9; Mon, 25 Feb 2013 23:57:20 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Feb 2013 15:57:14 +0800
-Message-ID: <cover.1361864565.git.hongxu.jia@windriver.com>
+Date: Tue, 26 Feb 2013 15:57:15 +0800
+Message-ID: <3ab43dec0c6066c0005e8a0c9d4fdef74c061c1c.1361864565.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1361864565.git.hongxu.jia@windriver.com>
+References: <cover.1361864565.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3]sstate-cache-management.sh: fix remove duplicate failed when multiple archs
+Subject: [PATCH 1/3] sstate-cache-management.sh: fix remove duplicate failed when multiple archs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,27 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Feb 2013 08:13:45 -0000
+X-List-Received-Date: Tue, 26 Feb 2013 08:13:46 -0000
 Content-Type: text/plain
 
-The following changes since commit 7d22ef28e64de06b6238d0ef9b664c0bee6efa46:
+The implementation of `--remove-duplicated' has been modified by the commit:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=0740f82aea92da0195524e37c372f9981e7f5e6d
 
-  bitbake: Revert "fetch2: Adapt encode/decode url to use URI class" (2013-02-19 23:07:23 -0800)
+In above commit, sstate cache files with multiple archs are not considered
+duplicate and don't need to be removed as duplicated any more.
 
-are available in the git repository at:
+Update the description of `--remove-duplicated' in usage to keep consistent
+with implementation.
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-sstate-mngt-sh
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-sstate-mngt-sh
+[YOCTO #3635]
 
-Hongxu Jia (3):
-  sstate-cache-management.sh: fix remove duplicate failed when multiple
-    archs
-  sstate-cache-management.sh: don't hardcode available sstate_suffixes
-  sstate-cache-management.sh:fix the incorrect usage of option `-d'
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ scripts/sstate-cache-management.sh |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- scripts/sstate-cache-management.sh |   17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
-
+diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
+index 7d81daf..2d4a2a3 100755
+--- a/scripts/sstate-cache-management.sh
++++ b/scripts/sstate-cache-management.sh
+@@ -47,7 +47,9 @@ Options:
+ 
+   -d, --remove-duplicated
+         Remove the duplicated sstate cache files of one package, only
+-        the newest one will be kept.
++        the newest one will be kept. The duplicated sstate cache files
++        of one package must have the same arch, which means sstate cache
++        files with multiple archs are not considered duplicate.
+ 
+         Conflicts with --stamps-dir.
+ 
 -- 
 1.7.10.4
 
