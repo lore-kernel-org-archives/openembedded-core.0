@@ -1,35 +1,39 @@
-Received: from mail-wi0-f174.google.com ([209.85.212.174])
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UAi7S-0003e1-Fk
+	(envelope-from <ross.burton@intel.com>) id 1UAi7W-0003eB-MT
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Feb 2013 15:36:57 +0100
-Received: by mail-wi0-f174.google.com with SMTP id hi8so6325545wib.1
+Received: by mail-wi0-f178.google.com with SMTP id hq4so720992wib.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 06:20:10 -0800 (PST)
+	Wed, 27 Feb 2013 06:20:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=VrfPKJ8cCeFS0lk90841H38cudzXyN06zBVdn4HViGg=;
-	b=Y7y4T0RwXPkSqPzrmarPi+vq1WSLuUsDUg13vGzwHp9LzTI89wujFmSwUeARFHSwDk
-	fXanACc0YHwFtJUkXjKFGFuzqsFF0EpPGh2TNt/yOkz1IeLYdvX5a1fybMFDh52snrBt
-	Yqd7a833HzxYI/nI9HMlb6cQFCReKOc0JFOsEa2i2CyWL7SezhG5taHDh5N1tHqBI96T
-	C5eZ9hbF9KEiCRDjfYbS9/KNRvne+uB80194QkDHBUTQPNzVRQYh29C7GWBeF6VZ/jG3
-	TlqdYxveaUlf/rPThAtlo85/dVlJ+0uVfCqutZcDagug9BnZrC2/jI3UZcJjq7RuWUuW
-	JFiw==
-X-Received: by 10.194.89.169 with SMTP id bp9mr4217169wjb.57.1361974809752;
-	Wed, 27 Feb 2013 06:20:09 -0800 (PST)
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:x-gm-message-state;
+	bh=ZRmayC1U2EVsoaupiMj6Hwll3Djwk8A7nk1KjpakG3E=;
+	b=narJPMAf9gHaKlgbEhxWAQcfRWp/ai9Klhck1ylhBiQuJ2fW9eYEcDR7B9jFARnCbn
+	FRAF+Uqw1cwNt8C5hSCKxpZIZbXlKJ94mv/HdUEZIR7N5rlOBReCstEfbCExrAfXIX1e
+	pfhyFj5CELIadF0BZWPi03jERWZyfwL/EZExYUl870ugmG4xqE6eb4EIpf1LT16sorZQ
+	mr3UYD/WnbwahYW0imUAjRea6qcJlQiOPapPVqORnE23Qrr+1bkHMVy98RZ3MkMJ52js
+	eW4hFZyVG9pMR+c7+sEm/f0KkiEe04mWJhnQOQoU4pV8nIm5B8gWD+M671grnnkmh6kJ
+	TpQQ==
+X-Received: by 10.194.84.8 with SMTP id u8mr4319799wjy.29.1361974814242;
+	Wed, 27 Feb 2013 06:20:14 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bs6sm9053829wib.4.2013.02.27.06.20.08
+	by mx.google.com with ESMTPS id bs6sm9053829wib.4.2013.02.27.06.20.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Feb 2013 06:20:08 -0800 (PST)
+	Wed, 27 Feb 2013 06:20:13 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2013 14:17:39 +0000
-Message-Id: <cover.1361974597.git.ross.burton@intel.com>
+Date: Wed, 27 Feb 2013 14:17:42 +0000
+Message-Id: <74fdcfba8943824f77aa877fbe72de270974ae59.1361974597.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQm8X1wBtNG6IUvbOgD8Rp+BGrRTFwZOPziXpvXp6IELMWdiu8gDC02WvXDWbGfzmLAyE+Ac
-Subject: [PATCH 0/7] systemd tweaks
+In-Reply-To: <cover.1361974597.git.ross.burton@intel.com>
+References: <cover.1361974597.git.ross.burton@intel.com>
+In-Reply-To: <cover.1361974597.git.ross.burton@intel.com>
+References: <cover.1361974597.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnnNQwUOzOkqVm4NyVwns10cp7Z3t/vFzVuUU00kld8hEOfiG3LRNZD9faAdF7SkpkHkM4U
+Subject: [PATCH 3/7] systemd: make gcrypt support (for signing the journal) optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +48,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Feb 2013 14:37:11 -0000
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/systemd/systemd_197.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Whilst whittling down the install footprint of systemd I made several fixes.
-Here are the simple ones, including a fixed /bin/kill patch.
-
-Ross
-
-The following changes since commit 2cc4fe4a0874c42421b1bf3fa100160a9e60a9da:
-
-  upstream_tracking.inc: Coonectivity and multimedia packages updates (2013-02-25 05:58:20 -0800)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/systemd-good
-
-for you to fetch changes up to b4fdb05f5e0f97b427125f27e4d824f09eb7c651:
-
-  systemd: set the location of the kill binary (2013-02-27 14:12:03 +0000)
-
-----------------------------------------------------------------
-Ross Burton (7):
-      systemd: systemd uses libkmod instead of modprobe, remove dependencies
-      systemd: don't recommend IPv6 kernel module
-      systemd: make gcrypt support (for signing the journal) optional
-      systemd: remove unused cached configure variables
-      systemd: make xz support (compressed journal) optional
-      systemd: remove --with-distro option, it's not used
-      systemd: set the location of the kill binary
-
- meta/recipes-core/systemd/systemd_197.bb |   23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
-
-Ross Burton (7):
-  systemd: systemd uses libkmod instead of modprobe, remove
-    dependencies
-  systemd: don't recommend IPv6 kernel module
-  systemd: make gcrypt support (for signing the journal) optional
-  systemd: remove unused cached configure variables
-  systemd: make xz support (compressed journal) optional
-  systemd: remove --with-distro option, it's not used
-  systemd: set the location of the kill binary
-
- meta/recipes-core/systemd/systemd_197.bb |   23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
-
+diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
+index c871bb5..2232b60 100644
+--- a/meta/recipes-core/systemd/systemd_197.bb
++++ b/meta/recipes-core/systemd/systemd_197.bb
+@@ -11,7 +11,7 @@ PROVIDES = "udev"
+ PE = "1"
+ PR = "r4"
+ 
+-DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 libgcrypt"
++DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+@@ -49,6 +49,10 @@ CACHED_CONFIGUREVARS = "ac_cv_file__usr_share_pci_ids=no \
+ 
+ GTKDOC_DOCDIR = "${S}/docs/"
+ 
++PACKAGECONFIG ??= ""
++# Sign the journal for anti-tampering
++PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
++
+ # The gtk+ tools should get built as a separate recipe e.g. systemd-tools
+ EXTRA_OECONF = " --with-distro=${SYSTEMDDISTRO} \
+                  --with-rootprefix=${base_prefix} \
 -- 
 1.7.10.4
 
