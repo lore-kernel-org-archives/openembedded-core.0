@@ -1,28 +1,38 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail-ve0-f169.google.com ([209.85.128.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UAiYu-0004zB-Cz
+	(envelope-from <ross.burton@intel.com>) id 1UAibK-00054F-1B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 16:05:08 +0100
-Message-ID: <512E1CBE.5010605@communistcode.co.uk>
-Date: Wed, 27 Feb 2013 14:48:30 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+	Wed, 27 Feb 2013 16:07:22 +0100
+Received: by mail-ve0-f169.google.com with SMTP id 15so646298vea.28
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2013 06:51:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=IUFaPJ1iW8btNHZ9Kfvxsz2uCw8HCWaFm35gDgWDX9U=;
+	b=IZ1+5z1e5nkRoES4WoV5e9oyG6JwNZFPLJ+guLUfu08bcHaBvnjEPUlOVO47FzJmbL
+	7DSWa5iOxiVFjEw3/vz6s3zDnwWrvlzBaT8iKftf5ZU5xMBrmd1vaZBZtw2oqq9rRNvT
+	a7HcWQ7txIr1dB2cujEVMG0VuuUscX+Q0VWdVjwQ6XewnjZNIs0D/KsCyLd7a9tWixaS
+	7GoijqE2eYc7C0yUZNeKJ2uTcTndvmY6A6rUOgMqrRcAbrCbjJ4svRk/xj31ZFATVjAI
+	YmOYGH9e7NkiDKzgb7+yW8aS2bra6Qy65aqEwidIEnCCOZj0JllkDe0CFsKhHIZADh8H
+	YLyA==
+X-Received: by 10.220.149.81 with SMTP id s17mr970481vcv.31.1361976661011;
+	Wed, 27 Feb 2013 06:51:01 -0800 (PST)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <512E0E4E.8060205@communistcode.co.uk>
-	<512E0FA9.3030007@communistcode.co.uk>
-	<512E10A8.2080407@communistcode.co.uk>
-	<512E1184.1040202@communistcode.co.uk>
-	<512E13DD.3070106@communistcode.co.uk>
-	<CAMKF1sqzyqx1FpCHROTJkgrAjQ+xze8bEeT4-vOdCDDN94TzVQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sqzyqx1FpCHROTJkgrAjQ+xze8bEeT4-vOdCDDN94TzVQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: GCC + Texinfo 5
+Received: by 10.58.77.105 with HTTP; Wed, 27 Feb 2013 06:50:40 -0800 (PST)
+In-Reply-To: <cover.1361857721.git.liezhi.yang@windriver.com>
+References: <cover.1361857721.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Feb 2013 14:50:40 +0000
+Message-ID: <CAJTo0LaKqwEhb0T5Kue-9LJCfh0rk1+VU88ab9aH3B4zcCxpCw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Gm-Message-State: ALoCoQn6b9NEGoCNm08KxY07QpGHyrOI1H6aU+9+qagnxBAsRK8R1azhaIJC/GMxQjizqiXxci88
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] lttng-ust: cannot find -llttng-ust-tracepoint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,50 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2013 15:05:11 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Feb 2013 15:07:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 27/02/13 14:42, Khem Raj wrote:
-> On Wed, Feb 27, 2013 at 6:10 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> On 27/02/13 14:00, Jack Mitchell wrote:
->>> On 27/02/13 13:56, Jack Mitchell wrote:
->>>> On 27/02/13 13:52, Jack Mitchell wrote:
->>>>> On 27/02/13 13:46, Jack Mitchell wrote:
->>>>>> As with the recent binutils texinfo5 compatibility I believe GCC now
->>>>>> also has the same failings, please see attached log.
->>>>>>
->>>>>> I've had a quick look for patches but I am not at all familiar with the
->>>>>> GCC development process and I came up empty handed.
->>>>>>
->>>>>> Cheers,
->>>>>>
->>>>> Ok, one patch found, there seems to be some @anchor problems too; I'll
->>>>> see if I can dig anything up.
->>>>>
->>>>> http://lists.gnu.org/archive/html/bug-coreutils/2012-07/msg00045.html
->>>>>
->>>> Appologies, that isn't even for GCC :(
->>>>
->>> Ok, this is the patch; I'll look into trying to use it in the GCC recipes
->>> but they're pretty complicated...
->>>
->>> http://patchwork.ozlabs.org/patch/222861/
->>
->> Ok, this doesn't apply cleanly and I can't unwind the patch trail to get to
->> this state; if someone knows of a way to do that I would be grateful!
->>
->>
-> open a bug for it too
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3947
+On 26 February 2013 09:24, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Robert Yang (1):
+>   lttng-ust: cannot find -llttng-ust-tracepoint
 
--- 
+Is this also for danny to fix the lttng failure on sugarbay, or
+something unrelated?
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Ross
 
 
