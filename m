@@ -1,24 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ia0-f169.google.com ([209.85.210.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1UAoer-0007z5-V0
+	(envelope-from <raj.khem@gmail.com>) id 1UAp6P-0000cf-Ft
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 22:35:27 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1RLJ48F018402
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 27 Feb 2013 23:03:55 +0100
+Received: by mail-ia0-f169.google.com with SMTP id j5so934005iaf.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 13:19:05 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Wed, 27 Feb 2013 13:19:02 -0800
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Feb 2013 15:19:00 -0600
-Message-ID: <cover.1361999203.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
+	Wed, 27 Feb 2013 13:47:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=iD3mJcSDqwCfJqqhUeK3EdmU6LCgso7V4GIjTcBHjyo=;
+	b=zZsJpzs9PrmwrWoOVIBk88abfRBFbEEIG+kKReqx5mFpytpFnPsIYylFnSoG31qAvd
+	MMw3bJBFz4MXp2jvRY3/7d6u9kpGnltHWaCsVb6H+Sjlx2sUAdqRWNsAVu0iLqbCiIz3
+	AzQQn2WF5i0+4jXpXWA3rvKnP2p5kGTKphAfXhKw2idDvR4MVK3FQB0YN2ymUWA/MyNA
+	aLqKZfa/oGVJx/spvSgWvFST3ZsEIaOEedDBeR/Ol1sjGu6w0G+ialc859kWTZYjXnMx
+	kjd1pHEdvN9bkRF1NbW8NDjg3k0TKTg7VNKyJjN6HQUEVzauSzhk4q2nYtSjgrZ6RKMC
+	Yexg==
+X-Received: by 10.50.17.131 with SMTP id o3mr1899115igd.112.1362001651823;
+	Wed, 27 Feb 2013 13:47:31 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 0/1] pseudo 1.5.1
+Received: by 10.50.74.163 with HTTP; Wed, 27 Feb 2013 13:47:00 -0800 (PST)
+In-Reply-To: <1361987211-19783-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1361987211-19783-1-git-send-email-Martin.Jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2013 13:47:00 -0800
+Message-ID: <CAMKF1so35E3SmehBRmPQkJqBfhZuFg7z7XLBD4Sb6w2L1LHW=w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd.bbclass: fix bb.error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2013 21:35:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Feb 2013 22:03:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It turns out that I forgot the part where it would be useful to be
-able to temporarily suppress the suppression of fsync()-type calls.
-Also the documentation had bitrotted (no references to FASTOP or to
-the fsync stuff, or to some other changes), so I fixed a few obvious
-gaps.
+On Wed, Feb 27, 2013 at 9:46 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> NOTE: recipe avahi-ui-0.6.31-r7.0: task do_package: Started
+> ERROR: %s does not appear in package list, please add it avahi-ui-daemon
+> ERROR: %s does not appear in package list, please add it avahi-ui-dnsconfd
+>
 
-This should have no immediate functional change on anything in oe-core,
-but it allows for specifying
-	PSEUDO_ALLOW_FSYNC=1 <command>
-and getting fsync behavior from that command.
+IIRC there already is a patch floating around on ml which fixes it.
 
-There's also a performance improvement in the case where NDEBUG is
-defined, which is "never" in our context.
-
-This is a lowish-priority change for oe-core, and in any event I don't
-believe the tarballs are up on the Yocto servers yet, but we need it
-internally and paperwork's easier if I submit it and then backport it.
-(I do recommmend it, though, because this makes it a LOT easier to
-check whether the fsync behavior is affecting something.)
-
-The following changes since commit 8e69f0ea42505e8f703893e18d73658b83d3b046:
-  Constantin Musca (1):
-        augeas: change SRC_URI
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib seebs/pseudo151
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo151
-
-Peter Seebach (1):
-  Update pseudo to 1.5.1
-
- .../pseudo/{pseudo_1.5.bb => pseudo_1.5.1.bb}      |    4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.5.bb => pseudo_1.5.1.bb} (52%)
-
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/systemd.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+> index 00865ed..564cd72 100644
+> --- a/meta/classes/systemd.bbclass
+> +++ b/meta/classes/systemd.bbclass
+> @@ -53,7 +53,7 @@ python systemd_populate_packages() {
+>      def systemd_check_package(pkg_systemd):
+>          packages = d.getVar('PACKAGES', True)
+>          if not pkg_systemd in packages.split():
+> -            bb.error('%s does not appear in package list, please add it', " " + pkg_systemd)
+> +            bb.error('%s does not appear in package list, please add it' % pkg_systemd)
+>
+>
+>      # Add a runtime dependency on systemd to pkg
+> --
+> 1.8.1.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
