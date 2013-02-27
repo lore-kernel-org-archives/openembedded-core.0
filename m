@@ -1,37 +1,32 @@
-Received: from mail-oa0-f43.google.com ([209.85.219.43])
+Received: from mail-da0-f42.google.com ([209.85.210.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UAl23-0000qG-5Q
+	(envelope-from <martin.jansa@gmail.com>) id 1UAlLg-0001x1-Fd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 18:43:08 +0100
-Received: by mail-oa0-f43.google.com with SMTP id l10so1698095oag.30
+	Wed, 27 Feb 2013 19:04:12 +0100
+Received: by mail-da0-f42.google.com with SMTP id n15so404422dad.29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 09:26:45 -0800 (PST)
+	Wed, 27 Feb 2013 09:47:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=IDviT8O5Em3pBJJdYdfZpGxhQ0DRJMTqYgAWuNNP5hc=;
-	b=UMFY9HIHXvHcwd15rntI1GmOwyREoBDc7oasanmrdGObQirTYksO/D4OGoTmaQbWRy
-	UpuK2u1vT9W/RiVRrDr/qW+7dAxrSntpiJQ2mhudy/DFaUK4ILI/LUOVU/LlvyLj3Yh8
-	c8hjO0rIPjqBpw5xXrNuDFG5ZytMLBXG1yQ9qXfyQ5GlLigBpszyg54N1lhRnKot8nAo
-	qRZS5N1N3Hmecv6dZ8vRvyAqeuPIqpfAIRiecPPqA4An1ng/MNjGBTUB/AludRHUoUO7
-	3roXRcdGBQmesRzcxQ9/viYcy6pK6hB8wMZRGWeRxAry3FFfrgKnP086O5OczqWtsxxW
-	KklQ==
-MIME-Version: 1.0
-X-Received: by 10.60.8.197 with SMTP id t5mr3134023oea.4.1361986005782; Wed,
-	27 Feb 2013 09:26:45 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.251.165 with HTTP; Wed, 27 Feb 2013 09:26:45 -0800 (PST)
-In-Reply-To: <b4fdb05f5e0f97b427125f27e4d824f09eb7c651.1361974597.git.ross.burton@intel.com>
-References: <cover.1361974597.git.ross.burton@intel.com>
-	<b4fdb05f5e0f97b427125f27e4d824f09eb7c651.1361974597.git.ross.burton@intel.com>
-Date: Wed, 27 Feb 2013 14:26:45 -0300
-X-Google-Sender-Auth: s-V8rjLoh5Lrjzv3XoZeRhQEmyE
-Message-ID: <CAP9ODKqP=z-LLbaJy70aF1YEsL3EGLRC2CS_fmdrEpg0ONWoQg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] systemd: set the location of the kill binary
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=euUnfXGL9bFGYim3UxzyiRl16bWdUhonGoLuyPY0SQA=;
+	b=LW8M01+IvpB/f04/Pw3jbwt4fbg0IajWQQMy8f2ls1UZW+8yI8DnYVFcIpIpxJPWO5
+	Xf/qj+x8Y0bqlMJHaxqcnWxuN6YZ2ki3CuVfByJ5YdIvEL4SaLxkroGtyunR19izP1td
+	Nw+Fz/PthMSmbeHTGj8V28FaIGAsZQps/zJzmUTENXa22cRt+qxzgCnTVVRWKtacm/Vn
+	mjpNqm33SQAy2dDv8vYoXpvElt7Ck8nZlfurZ98gbcEEt6r/zu8IBwBx1l6M2pAZ3LQs
+	jzNXkgGVCHUIFAGXchrAvKkXOKZm+l1M772Kaww/wl5cQsfIlLngBELu8za9tLDKQaWz
+	VS4g==
+X-Received: by 10.66.160.230 with SMTP id xn6mr8854687pab.119.1361987222977;
+	Wed, 27 Feb 2013 09:47:02 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ab1sm5316897pbd.37.2013.02.27.09.46.59
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 27 Feb 2013 09:47:01 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Feb 2013 18:46:51 +0100
+Message-Id: <1361987211-19783-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] systemd.bbclass: fix bb.error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,20 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2013 17:43:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 27 Feb 2013 18:04:14 -0000
 
-On Wed, Feb 27, 2013 at 11:17 AM, Ross Burton <ross.burton@intel.com> wrote:
-> Otherwise systemd uses AC_PROG_PATH and finds it in the sysroot, which won't
-> work on the target.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+NOTE: recipe avahi-ui-0.6.31-r7.0: task do_package: Started
+ERROR: %s does not appear in package list, please add it avahi-ui-daemon
+ERROR: %s does not appear in package list, please add it avahi-ui-dnsconfd
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/systemd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 00865ed..564cd72 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -53,7 +53,7 @@ python systemd_populate_packages() {
+     def systemd_check_package(pkg_systemd):
+         packages = d.getVar('PACKAGES', True)
+         if not pkg_systemd in packages.split():
+-            bb.error('%s does not appear in package list, please add it', " " + pkg_systemd)
++            bb.error('%s does not appear in package list, please add it' % pkg_systemd)
+ 
+ 
+     # Add a runtime dependency on systemd to pkg
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.8.1.4
+
 
 
