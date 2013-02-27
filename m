@@ -1,25 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1UAil1-0005OI-6D
+	(envelope-from <tom.zanussi@intel.com>) id 1UAikq-0005O0-ND
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 16:18:15 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2013 06:59:35 -0800
+	Wed, 27 Feb 2013 16:18:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 Feb 2013 07:00:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,747,1355126400"; d="scan'208";a="291302276"
+X-IronPort-AV: E=Sophos;i="4.84,747,1355126400"; d="scan'208";a="268543202"
 Received: from unknown (HELO localhost) ([10.255.12.236])
-	by orsmga002.jf.intel.com with ESMTP; 27 Feb 2013 07:00:56 -0800
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2013 07:00:50 -0800
 From: tom.zanussi@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Feb 2013 09:00:51 -0600
-Message-Id: <9f91a3a29701218dd756380ebcd2a1a32ad40615.1361976853.git.tom.zanussi@linux.intel.com>
+Date: Wed, 27 Feb 2013 09:00:48 -0600
+Message-Id: <cover.1361976853.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <4a4c5cf843e4c4ff22843b8e6097786e88a06bd1.1361976853.git.tom.zanussi@linux.intel.com>
-References: <4a4c5cf843e4c4ff22843b8e6097786e88a06bd1.1361976853.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1361976853.git.tom.zanussi@linux.intel.com>
-References: <cover.1361976853.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 3/3] perf: enable perf-trace feature
+Subject: [PATCH 0/3] add libaudit and enable 'perf trace'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +29,41 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Feb 2013 15:18:17 -0000
-X-List-Received-Date: Wed, 27 Feb 2013 15:18:17 -0000
 
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-Add an entry enabling the new perf-trace perf subcommand.
+'perf-trace' is a new perf subcommand available in the 3.8 kernel -
+this patchset enables it.  'perf trace' requires libaudit, which
+is added as a new recipe.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- meta/recipes-kernel/perf/perf.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Build-tested on all arches and run-tested on all that would boot
+at the time, including real hardware such as crownbay.  Build-tested
+with 3.4 kernel as well.
+  
+The following changes since commit d7b248e715d99766bf8602ff9f038f8b0afa5e78:
 
-diff --git a/meta/recipes-kernel/perf/perf.inc b/meta/recipes-kernel/perf/perf.inc
-index b8859ab..05aadf6 100644
---- a/meta/recipes-kernel/perf/perf.inc
-+++ b/meta/recipes-kernel/perf/perf.inc
-@@ -1,4 +1,4 @@
--PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui"
-+PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-trace"
- 
- def perf_feature_enabled(feature, trueval, falseval, d):
-     """
-@@ -14,6 +14,7 @@ def perf_feature_enabled(feature, trueval, falseval, d):
-     Available perf features:
-       perf-scripting: enable support for Perl and Python bindings
-       perf-tui: enable support for the perf TUI (via libnewt)
-+      perf-trace: enable support for 'perf trace'
- 
-     """
-     enabled_features = d.getVar("PERF_FEATURES_ENABLE", True) or ""
+  augeas: change SRC_URI (2013-02-26 08:02:29 -0800)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-trace-v1
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/perf-trace-v1
+
+Tom Zanussi (3):
+  libaudit: new package
+  perf: add perf-trace feature
+  perf: enable perf-trace feature
+
+ meta/recipes-kernel/perf/perf.inc                  |   3 +-
+ meta/recipes-kernel/perf/perf_3.4.bb               |   7 +-
+ .../libaudit/libaudit/build-lib-only.patch         |  33 ++
+ .../libaudit/libaudit/fix-host-gen.patch           | 461 +++++++++++++++++++++
+ meta/recipes-support/libaudit/libaudit_2.2.2.bb    |  25 ++
+ 5 files changed, 526 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/libaudit/libaudit/build-lib-only.patch
+ create mode 100644 meta/recipes-support/libaudit/libaudit/fix-host-gen.patch
+ create mode 100644 meta/recipes-support/libaudit/libaudit_2.2.2.bb
+
 -- 
 1.7.11.4
 
