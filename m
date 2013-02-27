@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UAZTw-0000TM-9W
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UAZTt-0000T1-95
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Feb 2013 06:23:10 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1R56kVU025909
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1R56hYY000724
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Feb 2013 21:06:46 -0800 (PST)
+	Tue, 26 Feb 2013 21:06:43 -0800 (PST)
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.145.220) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.328.9; Tue, 26 Feb 2013 21:06:46 -0800
+	14.2.328.9; Tue, 26 Feb 2013 21:06:42 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 27 Feb 2013 00:06:38 -0500
-Message-ID: <d5ea01f261190880dde906403060fe2691505199.1361940628.git.bruce.ashfield@windriver.com>
+Date: Wed, 27 Feb 2013 00:06:33 -0500
+Message-ID: <3225d6dbd85ced1c5d711c49a12379ffb57e99e4.1361940628.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1361940628.git.bruce.ashfield@windriver.com>
 References: <cover.1361940628.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: linux-yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/8] linux-yocto: remove 3.0 linux-yocto recipes
+Subject: [PATCH 1/8] kernel-yocto: respect SRC_URI modified branch selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,93 +35,194 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Feb 2013 05:23:26 -0000
 X-List-Received-Date: Wed, 27 Feb 2013 05:23:26 -0000
-X-List-Received-Date: Wed, 27 Feb 2013 05:23:26 -0000
 Content-Type: text/plain
 
-With the introduction of the 3.8 linux-yocto recipes, we remove
-the 3.0 variant.
+Although the setting of KBRANCH is the suggested/primary way to interact with
+the yocto kern-tools and the fetcher, some users may be more comfortable
+modifying the SRC_URI branch parameter directly.
+
+If they do, the tools will not force their branch and build output will be
+different then they expect, in non obvious ways.
+
+It's easy enough to detect this scenario, but checking the SRC_URI in the
+same way that the git fetcher checks for the branch (and SRCREV). If we take
+the value from the SRC_URI and use it directly in the patch/validate/update
+routines, we'll stay consistent with KBRANCH if it is used, and also
+automatically adapt to a manually changed branch parameter on the SRC_URI.
+
+For all other users, there are no visible or behavioural changes as a result
+of this change
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |   28 -------------------
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |   33 -----------------------
- 2 files changed, 61 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_3.0.bb
+ meta/classes/kernel-yocto.bbclass |   70 ++++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 32 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-deleted file mode 100644
-index 0cdc7c0..0000000
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--require recipes-kernel/linux/linux-yocto.inc
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 8494c16..368f91e 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -27,21 +27,6 @@ def find_sccs(d):
+ 
+     return sources_list
+ 
+-# this is different from find_patches, in that it returns a colon separated
+-# list of <patches>:<subdir> instead of just a list of patches
+-def find_urls(d):
+-    patches=src_patches(d)
+-    fetch = bb.fetch2.Fetch([], d)
+-    patch_list=[]
+-    for p in patches:
+-        _, _, local, _, _, _ = bb.decodeurl(p)
+-        for url in fetch.urls:
+-            urldata = fetch.ud[url]
+-            if urldata.localpath == local:
+-                patch_list.append(local+':'+urldata.path)
 -
--KBRANCH = "yocto/standard/preempt-rt/base"
--KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
+-    return patch_list
 -
--LINUX_VERSION ?= "3.0.32"
--LINUX_KERNEL_TYPE = "preempt-rt"
--KMETA = "meta"
--
--SRCREV_machine ?= "bbd5bfe49403fdcca294ca4b163d5f7195ea3a8e"
--SRCREV_machine_qemuppc ?= "c3575ad0016173b6e0b953404eb6a770e75a1f11"
--SRCREV_meta ?= "bf5ee4945ee6d748e6abe16356f2357f76b5e2f0"
--
--PR = "${INC_PR}.0"
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
--
--# Omit broken machines from COMPATIBLE_MACHINE
--#   qemuppc hangs at boot
--#   qemumips panics at boot
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
--
--# Functionality flags
--KERNEL_FEATURES_append = " features/netfilter"
--KERNEL_FEATURES_append = " features/taskstats"
--KERNEL_FEATURES_append_qemux86 = " cfg/sound"
--KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-deleted file mode 100644
-index b7fbf23..0000000
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--require recipes-kernel/linux/linux-yocto.inc
--
--KBRANCH = "yocto/standard/base"
--KBRANCH_qemux86  = "yocto/standard/common-pc/base"
--KBRANCH_qemux86-64  = "yocto/standard/common-pc-64/base"
--KBRANCH_qemuppc  = "yocto/standard/qemu-ppc32"
--KBRANCH_qemumips = "yocto/standard/mti-malta32-be"
--KBRANCH_qemuarm  = "yocto/standard/arm-versatile-926ejs"
--
--KMETA = "meta"
--
--LINUX_VERSION ?= "3.0.32"
--
--SRCREV_machine_qemuarm ?= "f2d606dfbc61d10847783f1e7c1dcb0ecabf3220"
--SRCREV_machine_qemumips  ?= "57f4bbfb4c65e4c8e349401b877f1661fb026ed6"
--SRCREV_machine_qemuppc ?= "d8779a6245d13c3b56eabac36a14c8896f448566"
--SRCREV_machine_qemux86 ?= "33d5d1ea371dad280e5bcfadd12c3a360c6bc5b8"
--SRCREV_machine_qemux86-64 ?= "fe23c7dd94eb94dd5887028683093615ac921086"
--SRCREV_machine ?= "cef17a18d72eae749dc78de3c83772f52815d842"
--SRCREV_meta ?= "fa9b8c24e84bb9d75d08d197c84c50ce4f99c424"
--
--PR = "${INC_PR}.1"
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
--
--COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
--
--# Functionality flags
--KERNEL_FEATURES_append = " features/netfilter"
--KERNEL_FEATURES_append = " features/taskstats"
--KERNEL_FEATURES_append_qemux86 = " cfg/sound"
--KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+ # check the SRC_URI for "kmeta" type'd git repositories. Return the name of
+ # the repository as it will be found in WORKDIR
+ def find_kernel_feature_dirs(d):
+@@ -59,6 +44,18 @@ def find_kernel_feature_dirs(d):
+ 	    
+     return feature_dirs
+ 
++# find the master/machine source branch. In the same way that the fetcher proceses
++# git repositories in the SRC_URI we take the first repo found, first branch.
++def get_machine_branch(d):
++    fetch = bb.fetch2.Fetch([], d)
++    for url in fetch.urls:
++        urldata = fetch.ud[url]
++        parm = urldata.parm
++        if "branch" in parm:
++            branches = urldata.parm.get("branch").split(',')
++            return branches[0]
++	    
++    return "master"
+ 
+ do_patch() {
+ 	cd ${S}
+@@ -73,7 +70,7 @@ do_patch() {
+ 		fi
+ 	fi
+ 
+-	kbranch=${KBRANCH}
++	machine_branch="${@ get_machine_branch(d)}"
+ 
+ 	# if we have a defined/set meta branch we should not be generating
+ 	# any meta data. The passed branch has what we need.
+@@ -81,9 +78,9 @@ do_patch() {
+ 		createme_flags="--disable-meta-gen --meta ${KMETA}"
+ 	fi
+ 
+-	createme ${createme_flags} ${ARCH} ${kbranch}
++	createme ${createme_flags} ${ARCH} ${machine_branch}
+ 	if [ $? -ne 0 ]; then
+-		echo "ERROR. Could not create ${kbranch}"
++		echo "ERROR. Could not create ${machine_branch}"
+ 		exit 1
+ 	fi
+ 
+@@ -113,15 +110,15 @@ do_patch() {
+ 	    done
+ 	fi
+ 
+-	if [ "${kbranch}" != "${KBRANCH_DEFAULT}" ]; then
+-		updateme_flags="--branch ${kbranch}"
++	if [ "${machine_branch}" != "${KBRANCH_DEFAULT}" ]; then
++		updateme_flags="--branch ${machine_branch}"
+ 	fi
+ 
+ 	# updates or generates the target description
+ 	updateme ${updateme_flags} -DKDESC=${KMACHINE}:${LINUX_KERNEL_TYPE} \
+                          ${includes} ${addon_features} ${ARCH} ${KMACHINE} ${sccs} ${patches}
+ 	if [ $? -ne 0 ]; then
+-		echo "ERROR. Could not update ${kbranch}"
++		echo "ERROR. Could not update ${machine_branch}"
+ 		exit 1
+ 	fi
+ 
+@@ -138,9 +135,9 @@ do_patch() {
+ 	# should thrown an error, since we aren't building what was expected
+ 	final_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+ 	final_branch=${final_branch##refs/heads/}
+-	if [ "${kbranch}" != "${KBRANCH_DEFAULT}" ] &&
+-	   [ "${final_branch}" != "${kbranch}" ]; then
+-		echo "ERROR: branch ${kbranch} was requested, but was not properly"
++	if [ "${machine_branch}" != "${KBRANCH_DEFAULT}" ] &&
++	   [ "${final_branch}" != "${machine_branch}" ]; then
++		echo "ERROR: branch ${machine_branch} was requested, but was not properly"
+ 		echo "       configured to be built. The current branch is ${final_branch}"
+ 		exit 1
+ 	fi
+@@ -192,6 +189,13 @@ do_kernel_checkout() {
+ 			exit 1
+ 		fi
+ 	fi
++	
++	machine_branch="${@ get_machine_branch(d)}"
++	if [ "${KBRANCH}" != "${machine_branch}" ]; then
++		echo "WARNING: The SRC_URI machine branch and KBRANCH are not the same."
++		echo "	       KBRANCH will be adjusted to match, but this typically is a"
++		echo "	       misconfiguration and should be checked."
++	fi
+ 
+ 	# convert any remote branches to local tracking ones
+ 	for i in `git branch -a | grep remotes | grep -v HEAD`; do
+@@ -203,12 +207,12 @@ do_kernel_checkout() {
+ 	done
+ 
+ 	# Create a working tree copy of the kernel by checking out a branch
+-	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
++	git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+ 	if [ $? -eq 0 ]; then
+ 		# checkout and clobber any unimportant files
+-		git checkout -f ${KBRANCH}
++		git checkout -f ${machine_branch}
+ 	else
+-		echo "Not checking out ${KBRANCH}, it will be created later"
++		echo "Not checking out ${machine_branch}, it will be created later"
+ 		git checkout -f master
+ 	fi
+ }
+@@ -271,6 +275,8 @@ do_validate_branches() {
+ 	cd ${S}
+ 	export KMETA=${KMETA}
+ 
++	machine_branch="${@ get_machine_branch(d)}"
++
+ 	set +e
+ 	# if SRCREV is AUTOREV it shows up as AUTOINC there's nothing to
+ 	# check and we can exit early
+@@ -280,11 +286,11 @@ do_validate_branches() {
+ 
+ 	# If something other than the default branch was requested, it must
+ 	# exist in the tree, and it's a hard error if it wasn't
+-	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
++	git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+ 	if [ $? -eq 1 ]; then
+ 		if [ -n "${KBRANCH_DEFAULT}" ] && 
+-                      [ "${KBRANCH}" != "${KBRANCH_DEFAULT}" ]; then
+-			echo "ERROR: branch ${KBRANCH} was set for kernel compilation, "
++                      [ "${machine_branch}" != "${KBRANCH_DEFAULT}" ]; then
++			echo "ERROR: branch ${machine_branch} was set for kernel compilation, "
+ 			echo "       but it does not exist in the kernel repository."
+ 			echo "       Check the value of KBRANCH and ensure that it describes"
+ 			echo "       a valid banch in the source kernel repository"
+@@ -362,10 +368,10 @@ do_validate_branches() {
+ 		fi
+ 	fi
+ 
+-	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
++	git show-ref --quiet --verify -- "refs/heads/${machine_branch}"
+ 	if [ $? -eq 0 ]; then
+ 		# restore the branch for builds
+-		git checkout -q -f ${KBRANCH}
++		git checkout -q -f ${machine_branch}
+         else
+ 	        git checkout -q master
+ 	fi
 -- 
 1.7.10.4
 
