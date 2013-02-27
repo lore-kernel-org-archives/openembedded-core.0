@@ -1,32 +1,34 @@
-Received: from atl4mhfb02.myregisteredsite.com ([209.17.115.56])
+Received: from mail-wi0-f181.google.com ([209.85.212.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UAfaV-0007GN-Le
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 12:54:23 +0100
-Received: from atl4mhob12.myregisteredsite.com
-	(atl4mhob12.myregisteredsite.com [209.17.115.50])
-	by atl4mhfb02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1RBbxAu006327 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 06:38:00 -0500
-Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
-	[205.178.146.50])
-	by atl4mhob12.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r1RBbwOn002408 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 06:37:58 -0500
-Received: (qmail 27249 invoked by uid 0); 27 Feb 2013 11:37:58 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 27 Feb 2013 11:37:58 -0000
-Message-ID: <512DF015.8070102@topic.nl>
-Date: Wed, 27 Feb 2013 12:37:57 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	(envelope-from <twoerner@gmail.com>) id 1UAfnJ-0007xh-Ob
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 27 Feb 2013 13:07:33 +0100
+Received: by mail-wi0-f181.google.com with SMTP id hm6so528139wib.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2013 03:51:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=1yRZTPw3T7Hqt78lmvi9vZuXcKgzdFtCq114X+h+7E8=;
+	b=JIOx+iAHzNPe3Mbw0GvuYLCZi1L2KRuXmIcAxDPfRJ80oLGWL4JklZXgtevWRZv30q
+	A5NSPKHfnKkRhtDZvjrPwCKqoU4IZVgmmSTIdX+H6QyxiJAtSJQvuz0nuHQg9O4FoSTT
+	B3QwpPeGgsIRT00nXR5ACzge4Amp4S4Lt+9Ab8p4YZ0BgKqTqOuIFoZxt2g7D/DOPpnd
+	gIJncmtrTIuaaYJ+u+IKuROs8Pv5DkD/l/zMmCTtusOWGgRIUY3tZd8w+q3y5XeWPC87
+	9yDyiNmGv0rfWHuXuN6auIDtbyTmjuxM6D581vpicZj0t/tfxVd64Ldw2r9gwq+pO5pU
+	eC/w==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1361294595-2454-1-git-send-email-milo-software@users.sourceforge.net>
-In-Reply-To: <1361294595-2454-1-git-send-email-milo-software@users.sourceforge.net>
-Subject: Re: [PATCH v2] util-linux: Add package for libmount
+X-Received: by 10.180.77.9 with SMTP id o9mr25874061wiw.16.1361965873445; Wed,
+	27 Feb 2013 03:51:13 -0800 (PST)
+Received: by 10.194.45.100 with HTTP; Wed, 27 Feb 2013 03:51:13 -0800 (PST)
+In-Reply-To: <1361930646-10689-1-git-send-email-jason.wessel@windriver.com>
+References: <1361930646-10689-1-git-send-email-jason.wessel@windriver.com>
+Date: Wed, 27 Feb 2013 06:51:13 -0500
+Message-ID: <CAHUNapRkAFDfkyhS=+BEzcU_Gt4AO5WoMv7PpZ16bjjoR9+cfg@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] syslinux.bbclass: Add a default serial console option and real boot menu support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,62 +41,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2013 11:54:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Feb 2013 12:07:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Is there any feedback on this patch yet?
+On Tue, Feb 26, 2013 at 9:04 PM, Jason Wessel
+<jason.wessel@windriver.com> wrote:
+> You can see the screen shots attached to the bugzilla.
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944
+>
+> [ YOCTO #3944 ]
 
-Mike.
-
-On 02/19/2013 06:23 PM, MiLo wrote:
-> The libmount shared library was part of util-linux. This caused
-> util-linux-mount to RDEPEND on util-linux, so including that would
-> also drag in all of util-linux and all its recommendations.
->
-> To break this circular dependency, add a libmount package that holds
-> the libmount.so.* files, just like the other libraries built by util-
-> linux.
->
-> Signed-off-by: MiLo <milo-software@users.sourceforge.net>
-> ---
->   meta/recipes-core/util-linux/util-linux.inc       |    3 +++
->   meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
->   2 files changed, 4 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index 10439c0..bd7b089 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
->   PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
->                util-linux-swaponoff util-linux-losetup util-linux-umount \
->                util-linux-mount util-linux-readprofile util-linux-libblkid \
-> +             util-linux-libmount util-linux-libmount-dev \
->                util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
->                util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
->                util-linux-mkfs util-linux-mcookie util-linux-reset"
-> @@ -64,6 +65,8 @@ FILES_util-linux-reset = "${base_bindir}/reset"
->
->   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
->   FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
-> +FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
-> +FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so ${base_libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
->   FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
->   FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
->   FILES_util-linux-lscpu = "${bindir}/lscpu"
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> index dd95573..f91784b 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> @@ -1,5 +1,5 @@
->   MAJOR_VERSION = "2.22"
-> -PR = "r0"
-> +PR = "r1"
->   require util-linux.inc
->
->   # note that `lscpu' is under GPLv3+
->
-
+Is the "Windriver" logo on the VGA example optional?
 
 
