@@ -1,31 +1,33 @@
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
+Received: from mail-wg0-f54.google.com ([74.125.82.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UAliN-0002cP-Oy
+	(envelope-from <twoerner@gmail.com>) id 1UAltd-0002zk-J1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Feb 2013 19:26:52 +0100
-Received: by mail-wi0-f178.google.com with SMTP id hq4so1060337wib.11
+	Wed, 27 Feb 2013 19:38:29 +0100
+Received: by mail-wg0-f54.google.com with SMTP id fm10so744982wgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 10:10:28 -0800 (PST)
+	Wed, 27 Feb 2013 10:22:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
 	:subject:from:to:cc:content-type;
-	bh=zxbIBnh9eh+BQOHG8FE5Tyq//SZTcJmGvF7YlJQHM8w=;
-	b=fMc63dRBe5clOKL3g8ErnGAyKE1ROAA1lR0CpYuGbu5RXHHCHNEGqR2IGPKAOivExA
-	GSMdSxEbEmu2+paZbOc3raZqmezLZbyHO+ECSRDX2iQeQXKatGIW5cU/nXdbEshdNovm
-	1u+QjHyC3PhfvR65jfjyONElCo/Jj63zGAO4//tiG2PCkPijGdKEd+YvaPXVcmtq4YY4
-	uaHteTOMKhWxt1j+XdKAp8xTaLP17/2S4o7BXzpiaJzKuCqiE9p82bZGprGYR+3jhIug
-	1OZ3HR6taZcxnplDekppWfkB9vPY4cf8z/1DRUqWilLGTdha47s9TiFskkx6NyeqRMmR
-	2fjw==
+	bh=zm05ocjL/md6zUJ8iRZJoeR8f/Ai/0hHUHXiOyBlTHs=;
+	b=Uqd0xZ6x0qM3yP+oCwGj7xmBo0qTZk1+MeUOvZ5MKnouqAGvSSd4JLWbH1kH24kS5J
+	2i/C3iPAKXeeJlguEsjkA79TC/NgROjOOhLxKlk99/qry4wRgSBj+iWmeWoGlT3ir70W
+	GuccS3py1ndDqvcftnNJZRFgesFXjFdGG9Y4CvCuzeEXVOveZ2m+bGr4QoXUqsvgjJXo
+	Avr2b/xGNcrde7WYtzDoUoBuBtbczy9yKfwySlMkJGuQZc/e5ymOkzNFi66R9sIwKvuT
+	UfodoP5t3O0XlhKhwj1atV4CAKdMklc7Dm5/Rp4Gi62ShrfsvXj2zke1/zSdeoV3Khcu
+	Oyrw==
 MIME-Version: 1.0
-X-Received: by 10.194.58.202 with SMTP id t10mr5947313wjq.4.1361988628839;
-	Wed, 27 Feb 2013 10:10:28 -0800 (PST)
-Received: by 10.194.45.100 with HTTP; Wed, 27 Feb 2013 10:10:28 -0800 (PST)
-In-Reply-To: <cover.1361976853.git.tom.zanussi@linux.intel.com>
+X-Received: by 10.180.77.9 with SMTP id o9mr28361863wiw.16.1361989328940; Wed,
+	27 Feb 2013 10:22:08 -0800 (PST)
+Received: by 10.194.45.100 with HTTP; Wed, 27 Feb 2013 10:22:08 -0800 (PST)
+In-Reply-To: <1361988753.1704.4.camel@empanada>
 References: <cover.1361976853.git.tom.zanussi@linux.intel.com>
-Date: Wed, 27 Feb 2013 13:10:28 -0500
-Message-ID: <CAHUNapTgiR2uAo6uD+R32-wxUj=Eja58vZ+gCwFemvpsd8Kqyw@mail.gmail.com>
+	<CAHUNapSHx-HAK86oQQWG9hYwa_zV11ccqs-i5GxUA+ztjvBNAA@mail.gmail.com>
+	<1361988753.1704.4.camel@empanada>
+Date: Wed, 27 Feb 2013 13:22:08 -0500
+Message-ID: <CAHUNapQWWDwJUrzWS_t9inrzhbU5nwVi6y2zY0V5Cb_=XSED4Q@mail.gmail.com>
 From: Trevor Woerner <twoerner@gmail.com>
-To: tom.zanussi@linux.intel.com
+To: Tom Zanussi <tom.zanussi@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/3] add libaudit and enable 'perf trace'
@@ -41,25 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Feb 2013 18:26:53 -0000
+X-List-Received-Date: Wed, 27 Feb 2013 18:38:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Feb 27, 2013 at 10:00 AM,  <tom.zanussi@linux.intel.com> wrote:
-> 'perf-trace' is a new perf subcommand available in the 3.8 kernel -
-> this patchset enables it.
+On Wed, Feb 27, 2013 at 1:12 PM, Tom Zanussi
+<tom.zanussi@linux.intel.com> wrote:
+> Which image are you building?  I'm guessing core-image-minimal?
 
-Out of curiosity, from where can I find the recipe(s) for a 3.8 kernel?
-
-My meta/recipes-kernel/linux/ only includes:
-    linux-dummy.bb
-    linux-yocto-dev.bb
-    linux-yocto-rt_3.0.bb
-    linux-yocto-rt_3.2.bb
-    linux-yocto-rt_3.4.bb
-    linux-yocto-tiny_3.2.bb
-    linux-yocto-tiny_3.4.bb
-    linux-yocto_3.0.bb
-    linux-yocto_3.2.bb
-    linux-yocto_3.4.bb
+Yes.
 
 
