@@ -1,39 +1,24 @@
-Received: from mail-ie0-f171.google.com ([209.85.223.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UAxik-0003F1-3u
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UAxs3-0003Ul-Nf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 08:16:05 +0100
-Received: by mail-ie0-f171.google.com with SMTP id 10so1715224ied.30
+	Thu, 28 Feb 2013 08:25:43 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1S79GRk001968
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Feb 2013 22:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=/ww/VDGgtZcFU0NRy4P88x/O7mN4Mcn/tK1i+P8sSGQ=;
-	b=UwNdrK45NXMWzuJrxDPwFunfYIGT+Hsn5PCnLZ1I4gvRstP4UUpp60FIf3a/gu1vzH
-	jkkS7/KNbNC8QDCLEjs1Kqk9RJCErGRfiIsTOBzwfPOTCf6s7BaryEkFGjz3CORSNF8V
-	7xcoatxTnJvpxQBspsug9IFCiPNxRIXvv5z9cMxf92XosRmvPMfpF09PVBO4CMTwK7RB
-	n62+j7WIFniNgBy+i4YTHaB+2Ed+eV2tz7lQE6i09L69fQsesLbHR9wZ5N4v/PKQm92q
-	W7oh1qw6sgz5OevG5f01o2BmfmuMmJAPvigmeB2RfmbsgyS4KNzCIwxkM9KyJEmcYfL/
-	ojrA==
-X-Received: by 10.50.155.134 with SMTP id vw6mr9277135igb.34.1362034779984;
-	Wed, 27 Feb 2013 22:59:39 -0800 (PST)
+	Wed, 27 Feb 2013 23:09:16 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.328.9; Wed, 27 Feb 2013 23:09:16 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Feb 2013 15:09:12 +0800
+Message-ID: <cover.1362033854.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.50.74.163 with HTTP; Wed, 27 Feb 2013 22:59:09 -0800 (PST)
-In-Reply-To: <512E1CBE.5010605@communistcode.co.uk>
-References: <512E0E4E.8060205@communistcode.co.uk>
-	<512E0FA9.3030007@communistcode.co.uk>
-	<512E10A8.2080407@communistcode.co.uk>
-	<512E1184.1040202@communistcode.co.uk>
-	<512E13DD.3070106@communistcode.co.uk>
-	<CAMKF1sqzyqx1FpCHROTJkgrAjQ+xze8bEeT4-vOdCDDN94TzVQ@mail.gmail.com>
-	<512E1CBE.5010605@communistcode.co.uk>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Feb 2013 22:59:09 -0800
-Message-ID: <CAMKF1soc9XovmRQHvP3En0zOdELTMPakMK6kLo7ov9L4gUOhhw@mail.gmail.com>
-To: ml@communistcode.co.uk
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: GCC + Texinfo 5
+Subject: [PATCH V3 0/2]fix native package compile error with gcc 4.3.4 on x86 host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,59 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 07:16:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Feb 2013 07:25:46 -0000
+Content-Type: text/plain
 
-On Wed, Feb 27, 2013 at 6:48 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> On 27/02/13 14:42, Khem Raj wrote:
->>
->> On Wed, Feb 27, 2013 at 6:10 AM, Jack Mitchell <ml@communistcode.co.uk>
->> wrote:
->>>
->>> On 27/02/13 14:00, Jack Mitchell wrote:
->>>>
->>>> On 27/02/13 13:56, Jack Mitchell wrote:
->>>>>
->>>>> On 27/02/13 13:52, Jack Mitchell wrote:
->>>>>>
->>>>>> On 27/02/13 13:46, Jack Mitchell wrote:
->>>>>>>
->>>>>>> As with the recent binutils texinfo5 compatibility I believe GCC now
->>>>>>> also has the same failings, please see attached log.
->>>>>>>
->>>>>>> I've had a quick look for patches but I am not at all familiar with
->>>>>>> the
->>>>>>> GCC development process and I came up empty handed.
->>>>>>>
->>>>>>> Cheers,
->>>>>>>
->>>>>> Ok, one patch found, there seems to be some @anchor problems too; I'll
->>>>>> see if I can dig anything up.
->>>>>>
->>>>>> http://lists.gnu.org/archive/html/bug-coreutils/2012-07/msg00045.html
->>>>>>
->>>>> Appologies, that isn't even for GCC :(
->>>>>
->>>> Ok, this is the patch; I'll look into trying to use it in the GCC
->>>> recipes
->>>> but they're pretty complicated...
->>>>
->>>> http://patchwork.ozlabs.org/patch/222861/
->>>
->>>
->>> Ok, this doesn't apply cleanly and I can't unwind the patch trail to get
->>> to
->>> this state; if someone knows of a way to do that I would be grateful!
->>>
->>>
->> open a bug for it too
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3947
+Change from V2: as Khem Raj suggested, use `-march=native' to cause the
+compiler to auto-detect the architecture of the build computer, if the
+auto-detect is unsuccessful the option has no effect.
 
-Please test
+When compile glib-2.0-native and qemu-native with with gcc 4.3.4 on x86 host ,it 
+needs to add `-march' to CFLAGS, because the GCC needs this option to let the 
+atomic operations ("lock free") be available.
 
-http://patchwork.openembedded.org/patch/45255/
+It's a bad idea to modify bitbake.conf to add option -march to BUILD_CFLAGS,
+because it's global and its side effect is unknown, such as beecrypt-native
+do_compile will fail if we do that.
 
-and report back
+So it's best to test most of the native recipes to have a check about the 
+similar problem and fix them separately. The glib-2.0-native and qemu-native
+need to be fixed.
+
+[YOCTO #3563]
+
+The following changes since commit db3b539218e4ca9b348fe1338a50d91aced55c7f:
+
+  lttng-ust: cannot find -llttng-ust-tracepoint (2013-02-26 08:02:28 -0800)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/glib-2.0-native
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/glib-2.0-native
+
+Hongxu Jia (2):
+  glib-2.0-native:fix do_configure failed with gcc 4.3.4 on x86 host
+  qemu-native:fix do_compile failed with gcc 4.3.4 on x86 host
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb |    6 ++++++
+ meta/recipes-devtools/qemu/qemu.inc           |    6 ++++++
+ 2 files changed, 12 insertions(+)
+
+-- 
+1.7.10.4
+
 
 
