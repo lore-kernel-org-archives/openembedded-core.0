@@ -1,25 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ie0-f169.google.com ([209.85.223.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UAsva-0005Nu-D6
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 03:09:00 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 27 Feb 2013 17:52:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,752,1355126400"; d="scan'208";a="207128261"
-Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Feb 2013 17:52:33 -0800
-Message-ID: <512EB861.1050504@linux.intel.com>
-Date: Wed, 27 Feb 2013 17:52:33 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	(envelope-from <raj.khem@gmail.com>) id 1UAuVY-0001JY-TG
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Feb 2013 04:50:33 +0100
+Received: by mail-ie0-f169.google.com with SMTP id 13so1560164iea.14
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Feb 2013 19:33:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=z8x0LTWN0iScK+cInwvVsOjOGcDx8e213OK/3DGIjb4=;
+	b=PTS33V5nxKyDWikGLRMr9hLuBFi+3MeTazFBYvjs9+lXGiPu5Y8xZqZrsRnyiV6RmS
+	gOt4sW0Op+gbez/t+uzv5RDDrtKA5GNKA1dWrfeqj0VFCnvb3LVr6hx7QWA8JYAV80p1
+	IjrTtcruHI6hnV2OJATxWie9jcXsh105C963O8WOQ0pOqim3TybOVITXQG6wM7ItSnak
+	kaxaOW6ZdcJ93s6UGgWhlhOsvGSIyyky9V992q+xwIKxHgpLNHigBa2JMNTPA2Avb6//
+	+gJGQpSgzaOh1LO0KDi7iZfzBJsv8FfZM7wgnlEjqt5V0PDzsQbLIq5hMicHeAHcJ7eb
+	+LUg==
+X-Received: by 10.50.17.131 with SMTP id o3mr2478055igd.112.1362022430866;
+	Wed, 27 Feb 2013 19:33:50 -0800 (PST)
 MIME-Version: 1.0
-To: Jason Wessel <jason.wessel@windriver.com>
-References: <1361930646-10689-1-git-send-email-jason.wessel@windriver.com>
-In-Reply-To: <1361930646-10689-1-git-send-email-jason.wessel@windriver.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] syslinux.bbclass: Add a default serial console option and real boot menu support
+Received: by 10.50.74.163 with HTTP; Wed, 27 Feb 2013 19:33:20 -0800 (PST)
+In-Reply-To: <512EB49E.7040404@linux.intel.com>
+References: <1361950227-15560-1-git-send-email-raj.khem@gmail.com>
+	<512EB49E.7040404@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Feb 2013 19:33:20 -0800
+Message-ID: <CAMKF1squM5Gu=TqFQzq1Xkx0LNOw=ywLJy4gDhmxaBJ0XBFv2Q@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu: Upgrade to 1.4.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,242 +41,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 02:09:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Feb 2013 03:50:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 02/26/2013 06:04 PM, Jason Wessel wrote:
-> The previous syslinux menu code did not support using both a serial
-> and vga console, but this has worked for years in syslinux so there is
-> no reason not to take advantage of it.  The previous menu looked like:
+On Wed, Feb 27, 2013 at 5:36 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/26/2013 11:30 PM, Khem Raj wrote:
+>>
+>> Tested qemu on x86-64 target and qemu-native
+>> no obvious problems seen in testing
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   .../qemu/files/fix-configure-checks.patch          |   10 +++++-----
+>>   meta/recipes-devtools/qemu/qemu.inc                |    2 +-
+>>   .../qemu/{qemu_1.3.1.bb => qemu_1.4.0.bb}          |    6 ++----
+>>   3 files changed, 8 insertions(+), 10 deletions(-)
+>>   rename meta/recipes-devtools/qemu/{qemu_1.3.1.bb => qemu_1.4.0.bb} (62%)
+>>
+>> diff --git a/meta/recipes-devtools/qemu/files/fix-configure-checks.patch
+>> b/meta/recipes-devtools/qemu/files/fix-configure-checks.patch
+>> index ef77c92..294c220 100644
+>> --- a/meta/recipes-devtools/qemu/files/fix-configure-checks.patch
+>> +++ b/meta/recipes-devtools/qemu/files/fix-configure-checks.patch
+>> @@ -8,14 +8,14 @@ Patch from Paul Eggleton, Comments by RP 28/11/10
+>>
+>>   Upstream-Status: Inappropriate [embedded specific]
+>>
+>> -Index: qemu-1.2.0/configure
+>> +Index: qemu-1.4.0/configure
+>>   ===================================================================
+>> ---- qemu-1.2.0.orig/configure  2012-09-05 07:03:06.000000000 -0700
+>> -+++ qemu-1.2.0/configure       2012-09-06 13:55:07.007793823 -0700
+>> -@@ -281,6 +281,7 @@
+>> +--- qemu-1.4.0.orig/configure  2013-02-15 15:05:35.000000000 -0800
+>> ++++ qemu-1.4.0/configure       2013-02-25 13:44:17.915273181 -0800
+>> +@@ -286,6 +286,7 @@
+>>    QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+>>    QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+>> $QEMU_CFLAGS"
+>> - QEMU_INCLUDES="-I. -I\$(SRC_PATH) -I\$(SRC_PATH)/fpu"
+>> + QEMU_INCLUDES="-I. -I\$(SRC_PATH) -I\$(SRC_PATH)/include"
+>>   +QEMU_CFLAGS="$QEMU_CFLAGS $CFLAGS"
+>>    if test "$debug_info" = "yes"; then
+>>        CFLAGS="-g $CFLAGS"
+>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
+>> b/meta/recipes-devtools/qemu/qemu.inc
+>> index 6c44b31..2b60347 100644
+>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>> @@ -32,7 +32,7 @@ SRC_URI_append_class-nativesdk = "\
+>>       file://relocatable_sdk.patch \
+>>       "
+>>
+>> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)}
+>> --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa
+>> --audio-card-list=ac97,es1370 ${SDL} --disable-curl --disable-vnc-jpeg
+>> --disable-bluez --with-system-pixman --disable-smartcard"
+>> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)}
+>> --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa
+>> --audio-card-list=ac97,es1370 ${SDL} --disable-curl --disable-vnc-jpeg
+>> --disable-bluez --with-system-pixman"
+>>
 >
-> -------------------------------------------------------
-> Linux Boot Menu
-> The following targets are available on this image:
->
->               boot: None
->               install: None
-> -------------------------------------------------------
->
-> This commit makes it look something more like a traditional grub menu
-> on both the serial console and vga console as well as providing the
-> option to continue on using either the serial or vga console with the
-> correct kernel arguments.
->
-> You can see the screen shots attached to the bugzilla.
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944
->
-> [ YOCTO #3944 ]
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->   meta/classes/syslinux.bbclass |  128 ++++++++++++++++-------------------------
->   1 files changed, 49 insertions(+), 79 deletions(-)
->
-> diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-> index c4596bf..c6a5a15 100644
-> --- a/meta/classes/syslinux.bbclass
-> +++ b/meta/classes/syslinux.bbclass
-> @@ -11,15 +11,17 @@
->   # ${LABELS} - a list of targets for the automatic config
->   # ${APPEND} - an override list of append strings for each label
->   # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited
-> +# ${SYSLINUX_SPLASH} - A background for the vga boot menu if using the boot menu
-> +# ${SYSLINUX_SERIAL} - Set an alternate serial port or turn off serial with empty string
->
->   do_bootimg[depends] += "syslinux:do_populate_sysroot \
->                           syslinux-native:do_populate_sysroot"
->
->   SYSLINUXCFG  = "${S}/syslinux.cfg"
-> -SYSLINUXMENU = "${S}/menu"
->
->   ISOLINUXDIR = "/isolinux"
->   SYSLINUXDIR = "/"
-> +SYSLINUX_SERIAL ?= "0 115200"
->   ISO_BOOTIMG = "isolinux/isolinux.bin"
->   ISO_BOOTCAT = "isolinux/boot.cat"
->   MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
-> @@ -34,82 +36,34 @@ syslinux_populate() {
->
->   	# Install the config files
->   	install -m 0644 ${SYSLINUXCFG} ${DEST}${BOOTDIR}/${CFGNAME}
-> -	if [ -f ${SYSLINUXMENU} ]; then
-> -		install -m 0644 ${SYSLINUXMENU} ${DEST}${BOOTDIR}
-> -	fi
->   }
->
->   syslinux_iso_populate() {
->   	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
->   	install -m 0644 ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
-> +	if [ x${AUTO_SYSLINUXMENU} = x1 ] ; then
-I believe that the convention is for these string tests to be quoted, 
-here and below.
+> Why did you remove the --disable-smartcard?
 
-> +		install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 ${ISODIR}${ISOLINUXDIR}/vesamenu.c32
-> +		if [ x${SYSLINUX_SPLASH} != x ] ; then
-> +			install -m 0644 ${SYSLINUX_SPLASH} ${ISODIR}${ISOLINUXDIR}/splash.lss
-> +		fi
-> +	fi
->   }
->
->   syslinux_hddimg_populate() {
->   	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
->   	install -m 0444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
-> +	if [ x${AUTO_SYSLINUXMENU} = x1 ] ; then
-> +		install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
-> +		if [ x${SYSLINUX_SPLASH} != x ] ; then
-> +			install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
-> +		fi
-> +	fi
->   }
->
->   syslinux_hddimg_install() {
->   	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
->   }
->
-> -python build_syslinux_menu () {
-> -    import copy
-> -    import sys
-> -
-> -    workdir = d.getVar('WORKDIR', True)
-> -    if not workdir:
-> -        bb.error("WORKDIR is not defined")
-> -        return
-> -
-> -    labels = d.getVar('LABELS', True)
-> -    if not labels:
-> -        bb.debug(1, "LABELS not defined, nothing to do")
-> -        return
-> -
-> -    if labels == []:
-> -        bb.debug(1, "No labels, nothing to do")
-> -        return
-> -
-> -    cfile = d.getVar('SYSLINUXMENU', True)
-> -    if not cfile:
-> -        raise bb.build.FuncFailed('Unable to read SYSLINUXMENU')
-> -
-> -    try:
-> -        cfgfile = file(cfile, 'w')
-> -    except OSError:
-> -        raise bb.build.funcFailed('Unable to open %s' % (cfile))
-> -
-> -    # Beep the speaker and Clear the screen
-> -    cfgfile.write('\x07\x0C')
-> -
-> -    # The title should be configurable
-> -    cfgfile.write('Linux Boot Menu\n')
-> -    cfgfile.write('The following targets are available on this image:\n')
-> -    cfgfile.write('\n')
-> -
-> -    for label in labels.split():
-> -        from copy import deepcopy
-> -        localdata = deepcopy(d)
-> -
-> -        overrides = localdata.getVar('OVERRIDES')
-> -        if not overrides:
-> -            raise bb.build.FuncFailed('OVERRIDES not defined')
-> -        overrides = localdata.expand(overrides)
-> -
-> -        localdata.setVar('OVERRIDES', label + ':' + overrides)
-> -        bb.data.update_data(localdata)
-> -
-> -        usage = localdata.getVar('USAGE', True)
-> -        cfgfile.write('  \x0F\x30\x3E%16s\x0F\x30\x37: ' % (label))
-> -        cfgfile.write('%s\n' % (usage))
-> -
-> -        del localdata
-> -
-> -    cfgfile.write('\n')
-> -    cfgfile.close()
-> -}
-> -
->   python build_syslinux_cfg () {
->       import copy
->       import sys
-> @@ -146,7 +100,16 @@ python build_syslinux_cfg () {
->               cfgfile.write('%s\n' % opt)
->
->       cfgfile.write('ALLOWOPTIONS 1\n');
-> -    cfgfile.write('DEFAULT %s\n' % (labels.split()[0]))
-> +    syslinux_serial = d.getVar('SYSLINUX_SERIAL', True)
-> +    if syslinux_serial:
-> +        cfgfile.write('SERIAL %s\n' % syslinux_serial)
-> +
-> +    menu = d.getVar('AUTO_SYSLINUXMENU', True)
-> +
-> +    if menu and syslinux_serial:
-> +        cfgfile.write('DEFAULT Graphics console %s\n' % (labels.split()[0]))
-> +    else:
-> +        cfgfile.write('DEFAULT %s\n' % (labels.split()[0]))
->
->       timeout = d.getVar('SYSLINUX_TIMEOUT', True)
->
-> @@ -161,14 +124,13 @@ python build_syslinux_cfg () {
->       else:
->           cfgfile.write('PROMPT 1\n')
->
-> -    menu = d.getVar('AUTO_SYSLINUXMENU', True)
-> -
-> -    # This is ugly.  My bad.
-> -
->       if menu:
-> -        bb.build.exec_func('build_syslinux_menu', d)
-> -        mfile = d.getVar('SYSLINUXMENU', True)
-> -        cfgfile.write('DISPLAY %s\n' % (mfile.split('/')[-1]) )
-> +        cfgfile.write('ui vesamenu.c32\n')
-> +        cfgfile.write('menu title Select kernel options and boot kernel\n')
-> +        cfgfile.write('menu tabmsg Press [Tab] to edit, [Return] to select\n')
-> +        splash = d.getVar('SYSLINUX_SPLASH', True)
-> +        if splash:
-> +            cfgfile.write('menu background splash.lss\n')
->
->       for label in labels.split():
->           localdata = bb.data.createCopy(d)
-> @@ -176,24 +138,32 @@ python build_syslinux_cfg () {
->           overrides = localdata.getVar('OVERRIDES', True)
->           if not overrides:
->               raise bb.build.FuncFailed('OVERRIDES not defined')
-> -
-> +
->           localdata.setVar('OVERRIDES', label + ':' + overrides)
->           bb.data.update_data(localdata)
->
-> -        cfgfile.write('LABEL %s\nKERNEL /vmlinuz\n' % (label))
-> +        btypes = [ [ "", "console=tty0" ] ]
-> +        if menu and syslinux_serial:
-> +            btypes = [ [ "Graphics console ", " console=tty0" ],
-> +                [ "Serial console ",  " console=ttyS0,115200" ] ]
-> +
-> +        for btype in btypes:
-> +            cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
->
-> -        append = localdata.getVar('APPEND', True)
-> -        initrd = localdata.getVar('INITRD', True)
-> +            append = localdata.getVar('APPEND', True)
-> +            initrd = localdata.getVar('INITRD', True)
->
-> -        if append:
-> -            cfgfile.write('APPEND ')
-> +            if append:
-> +                cfgfile.write('APPEND ')
->
-> -            if initrd:
-> -                cfgfile.write('initrd=/initrd ')
-> +                if initrd:
-> +                    cfgfile.write('initrd=/initrd ')
->
-> -            cfgfile.write('LABEL=%s '% (label))
-> +                cfgfile.write('LABEL=%s '% (label))
->
-> -            cfgfile.write('%s\n' % (append))
-> +                cfgfile.write('%s %s\n' % (append, btype[1]))
-> +            else:
-> +                cfgfile.write('APPEND %s\n' % btype[1])
->
->       cfgfile.close()
->   }
->
+This option is gone in 1.4 and only softmmu version include usb.mak
+which will enable CONFIG_USB_SMARTCARD
+and bring in the card emulation.
 
 
