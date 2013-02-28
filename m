@@ -1,24 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-vb0-f50.google.com ([209.85.212.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1UB6Py-0004ui-Kw; Thu, 28 Feb 2013 17:33:18 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Feb 2013 08:16:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,755,1355126400"; d="scan'208";a="297257056"
-Received: from unknown (HELO helios.localnet) ([10.255.12.181])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2013 08:16:39 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Feb 2013 16:16:37 +0000
-Message-ID: <6813986.PKHCze4MhK@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10 (Linux/3.5.0-24-generic; KDE/4.10.0; i686; ; )
-In-Reply-To: <CAJTo0LaiKyUHD4C6KhdyOjuPLtMb+BvpaRwcEXALY7cPd2tNLw@mail.gmail.com>
-References: <CA+YB3raWk13+Yxj3=8c34Lbm3svv6apkp9BeYgjRgBnt_4JbUA@mail.gmail.com>
-	<CAJTo0LaiKyUHD4C6KhdyOjuPLtMb+BvpaRwcEXALY7cPd2tNLw@mail.gmail.com>
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1UB6hX-0005QR-Fi; Thu, 28 Feb 2013 17:51:24 +0100
+Received: by mail-vb0-f50.google.com with SMTP id ft2so208615vbb.37
+	for <multiple recipients>; Thu, 28 Feb 2013 08:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=dk6l/P3zzukxtCTUG2dxSuUGLAgg+isOg3OSfrHq0Mw=;
+	b=jN4YYYkiiDcXZ0zCg3jrKQRAjQvQohKuYRijqIJPetMkCzMAyAQc9tgXUe6Z91HZ+P
+	SdQDeMeBJ01xqTNlmWJSpCSlGGpfhpBgEZ86iDZ8ShLVNcPUdMSWQkb79vE85o2xF0wh
+	Bj/c5acVubUqAGVv68hTrI7dLf+Cf9gs6vc/vBaNOI9Imv3xdkSyNoAiaS56CElnMhPt
+	msOa6366U9tgBktg9DHSBdsVxfDb4mUx2GoDzqCRvkBVkr8wn4Z7DWjLBGVvfJmlQYWu
+	t2OIY8fIhiXfCpVCtTJs8JjYZJRzgxjYSFUYGEx1CAVi2U7XHE7rB7oXT4jhonx+KVf/
+	Sp2A==
 MIME-Version: 1.0
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
+X-Received: by 10.220.227.131 with SMTP id ja3mr1314603vcb.54.1362069300788;
+	Thu, 28 Feb 2013 08:35:00 -0800 (PST)
+Received: by 10.52.185.168 with HTTP; Thu, 28 Feb 2013 08:35:00 -0800 (PST)
+In-Reply-To: <20130228092539.GF8208@jama.dyndns-home.com>
+References: <CA+YB3raWk13+Yxj3=8c34Lbm3svv6apkp9BeYgjRgBnt_4JbUA@mail.gmail.com>
+	<20130228092539.GF8208@jama.dyndns-home.com>
+Date: Thu, 28 Feb 2013 17:35:00 +0100
+Message-ID: <CALbNGRQHkAsWLS13LrJWju+QdsUZnmjorsHYin+_7t8Pw8+SSg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
 Subject: Re: OE TSC minutes 12 February 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,25 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 16:33:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 28 Feb 2013 16:51:42 -0000
+X-List-Received-Date: Thu, 28 Feb 2013 16:51:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 28 February 2013 12:13:18 Burton, Ross wrote:
-> On 28 February 2013 06:28, Jeff Osier-Mixon <jefro@jefro.net> wrote:
-> > (9:51:16 AM) RP: bluelightning: Beat up Ross?
-> 
-> In an attempt to avoid TSC-sanctioned beatings, I've just sent a
-> series that adds libgdata, clutter-box2d, and gthumb to meta-oe.
+On Thu, Feb 28, 2013 at 10:25 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> I can explain some bits on this one.
+>
+> The main difference between xserver-nodm-init is not in this recipe
+> itself but in stuff it's using to get things done:
+> meta-oe version: xserver-common (includes settings for many MACHINEs),
+> integrates with xinput-calibrator
+>
+> oe-core version: x11-common (uses formfactor to read MACHINE support,
+> xinput-calibrator not used and not available in oe-core
+>
+> xinput-calibrator is now being reworked by Andreas
 
-Thanks! Glad I don't have to dish out any beatings. ;)
+On Thu, Feb 28, 2013 at 5:16 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Thanks! Glad I don't have to dish out any beatings. ;)
 
-Cheers,
-Paul
+Afraid of getting new beatings-canditate: Need a bit time on other
+issues before I can taking care for xinput-calibrator :)
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Andreas
 
 
