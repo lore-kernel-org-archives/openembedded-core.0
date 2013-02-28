@@ -1,32 +1,27 @@
-Received: from mail-la0-f51.google.com ([209.85.215.51])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1UBAzF-0006Ue-Sb
+	(envelope-from <mark.hatle@windriver.com>) id 1UBB0C-0006Y1-S1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 22:26:00 +0100
-Received: by mail-la0-f51.google.com with SMTP id fo13so2214746lab.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 13:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=EgrLja/il86TkbQAKQuEsgl1RZCR8ZzzimKhBev7vk4=;
-	b=Gdn0iVZhQPl/ckcdH3Lh4fVB9ZqreeoIdYCLkUgKatE6FaQfQXw0P0ErJTW9kkM02L
-	9VZb2wO2JNOllZI7mrt1gVNBSAgJJmibJBnU9BB3qH3+7TASSqM8lqoUrroZAhgSjawk
-	EkpTRlP+qDDyxz3y/t/OdylOjoOkTcC27fxID/48RVBgfC1waiOkObaLSsPlNxu2Dtcs
-	AiU3SV3HxjA02JpbXsshWEXYKTQcHRYFW9siTFv376qatMpITPjg41GjRMrwULKzKnDO
-	ojBh4pSBZLX9mZ14uS994GN4WRcoydOOCG8LYb1iVilupbgcp5+xJk3UhPBlairG1772
-	jqFA==
+	Thu, 28 Feb 2013 22:27:02 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1SLAXma020812
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Feb 2013 13:10:33 -0800 (PST)
+Received: from msp-dhcp49.wrs.com (172.25.34.49) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
+	Thu, 28 Feb 2013 13:10:33 -0800
+Message-ID: <512FC7C7.10303@windriver.com>
+Date: Thu, 28 Feb 2013 15:10:31 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
 MIME-Version: 1.0
-X-Received: by 10.112.40.228 with SMTP id a4mr4183392lbl.26.1362085775095;
-	Thu, 28 Feb 2013 13:09:35 -0800 (PST)
-Received: by 10.112.61.3 with HTTP; Thu, 28 Feb 2013 13:09:34 -0800 (PST)
-In-Reply-To: <CAP9ODKp_tZvUkWMm9r4x3SitokaV=1TBjTEAvUukU=QCX3z3mA@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 References: <1362084537-28079-1-git-send-email-mark.hatle@windriver.com>
 	<CAP9ODKp_tZvUkWMm9r4x3SitokaV=1TBjTEAvUukU=QCX3z3mA@mail.gmail.com>
-Date: Thu, 28 Feb 2013 16:09:34 -0500
-Message-ID: <CADkTA4O6Jd3dyCxUgUE2awZsvj4vAnQrTFZU7DF3xetpBcU+6w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+In-Reply-To: <CAP9ODKp_tZvUkWMm9r4x3SitokaV=1TBjTEAvUukU=QCX3z3mA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2 v2] module.bbclass: Create a new depmodwrapper to assist cross-installs
@@ -42,11 +37,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 21:26:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 28 Feb 2013 21:27:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 28, 2013 at 4:04 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
+On 2/28/13 3:04 PM, Otavio Salvador wrote:
 > On Thu, Feb 28, 2013 at 5:48 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
 >> Previously the build path to STAGING_KERNEL_DIR was being embedded into the
 >> package post install scripts.  We avoid this behavior by generating a special
@@ -60,28 +55,24 @@ On Thu, Feb 28, 2013 at 4:04 PM, Otavio Salvador
 >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 >> ---
->>  meta/classes/image.bbclass                         |    4 +-
->>  meta/classes/kernel.bbclass                        |    8 ++--
->>  meta/classes/module.bbclass                        |    4 +-
->>  .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |   44 ++++++++++++++++++++
+>>   meta/classes/image.bbclass                         |    4 +-
+>>   meta/classes/kernel.bbclass                        |    8 ++--
+>>   meta/classes/module.bbclass                        |    4 +-
+>>   .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |   44 ++++++++++++++++++++
 >
 > Why you don't put the script in a file and get it in SRC_URI? It is
 > bad to read the script content in the recipe.
 
-string expansion. If it isn't embedded in the recipe, it's a two phase approach
-of needing to fetch the script, and then do variable substitution (via
-parameters,
-sed, autoconf .. or whatever else people can dream up).
+Two reasons, the qemuwrapper doesn't do that and that is what I started with for 
+an example... and with the ${STAGING_KERNEL_DIR} needing to be changed for each 
+build, it seemed easier to avoid a sed operation on a src file, when I could 
+just write it out inline.
 
-AFAIK this follows the convention of the other wrapper scripts as well.
+(I don't see much of an advantage of having this code separately either...)
 
-Cheers,
 
-Bruce
-
->
->>  4 files changed, 52 insertions(+), 8 deletions(-)
->>  create mode 100644 meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+>>   4 files changed, 52 insertions(+), 8 deletions(-)
+>>   create mode 100644 meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
 >>
 >> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
 >> index dd78acb..af17331 100644
@@ -89,83 +80,83 @@ Bruce
 >> +++ b/meta/classes/image.bbclass
 >> @@ -10,7 +10,7 @@ inherit gzipnative
 >>
->>  LICENSE = "MIT"
->>  PACKAGES = ""
+>>   LICENSE = "MIT"
+>>   PACKAGES = ""
 >> -DEPENDS += "${MLPREFIX}qemuwrapper-cross"
 >> +DEPENDS += "${MLPREFIX}qemuwrapper-cross depmodwrapper-cross"
->>  RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
->>  RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+>>   RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
+>>   RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
 >>
 >> @@ -283,7 +283,7 @@ fakeroot do_rootfs () {
->>                 KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
+>>                  KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
 >>
->>                 mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
+>>                  mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
 >> -               depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
 >> +               depmodwrapper -a -b ${IMAGE_ROOTFS} $KERNEL_VERSION
->>         fi
+>>          fi
 >>
->>         ${IMAGE_PREPROCESS_COMMAND}
+>>          ${IMAGE_PREPROCESS_COMMAND}
 >> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
 >> index e8c585b..2bdc2fc 100644
 >> --- a/meta/classes/kernel.bbclass
 >> +++ b/meta/classes/kernel.bbclass
 >> @@ -1,7 +1,7 @@
->>  inherit linux-kernel-base module_strip
+>>   inherit linux-kernel-base module_strip
 >>
->>  PROVIDES += "virtual/kernel"
+>>   PROVIDES += "virtual/kernel"
 >> -DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native"
 >> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
 >>
->>  # we include gcc above, we dont need virtual/libc
->>  INHIBIT_DEFAULT_DEPS = "1"
+>>   # we include gcc above, we dont need virtual/libc
+>>   INHIBIT_DEFAULT_DEPS = "1"
 >> @@ -272,7 +272,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->>         mkdir -p $D/lib/modules/${KERNEL_VERSION}
->>  fi
->>  if [ -n "$D" ]; then
+>>          mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>>   fi
+>>   if [ -n "$D" ]; then
 >> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 >> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
->>  else
->>         depmod -a ${KERNEL_VERSION}
->>  fi
+>>   else
+>>          depmod -a ${KERNEL_VERSION}
+>>   fi
 >> @@ -282,7 +282,7 @@ pkg_postinst_modules () {
->>  if [ -z "$D" ]; then
->>         depmod -a ${KERNEL_VERSION}
->>  else
+>>   if [ -z "$D" ]; then
+>>          depmod -a ${KERNEL_VERSION}
+>>   else
 >> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 >> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
->>  fi
->>  }
+>>   fi
+>>   }
 >>
 >> @@ -290,7 +290,7 @@ pkg_postrm_modules () {
->>  if [ -z "$D" ]; then
->>         depmod -a ${KERNEL_VERSION}
->>  else
+>>   if [ -z "$D" ]; then
+>>          depmod -a ${KERNEL_VERSION}
+>>   else
 >> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 >> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
->>  fi
->>  }
+>>   fi
+>>   }
 >>
 >> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
 >> index e2174a1..2c1888c 100644
 >> --- a/meta/classes/module.bbclass
 >> +++ b/meta/classes/module.bbclass
 >> @@ -28,7 +28,7 @@ module_pkg_postinst () {
->>  if [ -z "$D" ]; then
->>         depmod -a ${KERNEL_VERSION}
->>  else
+>>   if [ -z "$D" ]; then
+>>          depmod -a ${KERNEL_VERSION}
+>>   else
 >> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 >> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
->>  fi
->>  }
+>>   fi
+>>   }
 >>
 >> @@ -36,7 +36,7 @@ module_pkg_postrm () {
->>  if [ -z "$D" ]; then
->>         depmod -a ${KERNEL_VERSION}
->>  else
+>>   if [ -z "$D" ]; then
+>>          depmod -a ${KERNEL_VERSION}
+>>   else
 >> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
 >> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
->>  fi
->>  }
+>>   fi
+>>   }
 >>
 >> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
 >> new file mode 100644
@@ -228,20 +219,6 @@ Bruce
 >
 >
 >
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
