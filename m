@@ -1,28 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UBBmg-0008Jf-BL
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 23:17:29 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1SM0cev027308
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 14:00:38 -0800 (PST)
-Received: from msp-dhcp49.wrs.com (172.25.34.49) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Thu, 28 Feb 2013 14:00:38 -0800
-Message-ID: <512FD383.1010004@windriver.com>
-Date: Thu, 28 Feb 2013 16:00:35 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1362088311-3877-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1362088311-3877-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [PATCH 2/2 v4] module.bbclass: Create a new depmodwrapper to assist cross-installs
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UBCx6-000252-0E for openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 00:31:52 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1SNMl8x001187; Thu, 28 Feb 2013 23:22:47 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dqQNEyq3Yi6P; Thu, 28 Feb 2013 23:22:47 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r1SNMfaC001179
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 28 Feb 2013 23:22:44 GMT
+Message-ID: <1362093308.1055.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 28 Feb 2013 23:15:08 +0000
+In-Reply-To: <cover.1362003285.git.sgw@linux.intel.com>
+References: <cover.1362003285.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/40] Post-ELC Patches and Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,172 +37,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 22:17:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 28 Feb 2013 23:31:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-V4 - fix the usage check
-V3 - change to SSTATE_SCAN_FILES
-V2 - add additional kernel-abiversion check
+On Wed, 2013-02-27 at 14:17 -0800, Saul Wold wrote:
+> Andrei Dinu (3):
+>   e2fsprogs : upgrade to 1.42.7
+>   dbus-glib : upgrade to 1.100.2
+>   sudo : upgrade to 1.8.6p6
+> 
+> Constantin Musca (1):
+>   libassuan: upgrade to 2.1.0
+> 
+> Cristian Iorga (4):
+>   iproute2: upgraded to 3.8.0
+>   connman: enable connman client
+>   packagegroup-core-tools-testapps: connman-client added
+>   minicom: upgrade to 2.6.2
+> 
+> Emilia Ciobanu (1):
+>   distrodata: added some corner cases for svn and git repos
+> 
+> Hongxu Jia (5):
+>   glib-2.0-native:fix do_configure failed with gcc 4.3.4 on x86 host
+>   qemu-native:fix do_compile failed with gcc 4.3.4 on x86 host
+>   sstate-cache-management.sh: fix remove duplicate failed when multiple
+>     archs
+>   sstate-cache-management.sh:fix the incorrect usage of option `-d'
+>   sstate-cache-management.sh: don't hardcode available sstate_suffixes
+> 
+> Jessica Zhang (1):
+>   Add kernel arch variable in SDK environment variable list for
+>     supporting build external kernel module using SDK
+> 
+> Joe Slater (1):
+>   pull ldlinux.sys and isolinux.bin from correct places
 
-Sorry for so many versions.  This should be the final one.
+I can understand why this is proving to be an issue however I don't like
+expanding paths like this at all. Might be better to add MLPREFIX to the
+right dependencies and have the syslinux bits end up in the multilib
+sysroot too.
 
---Mark
 
-On 2/28/13 3:51 PM, Mark Hatle wrote:
-> Previously the build path to STAGING_KERNEL_DIR was being embedded into the
-> package post install scripts.  We avoid this behavior by generating a special
-> depmodwrapper script.  This script contains that hard-coded path, ensuring
-> that re-use of the sstate-cache (and/or packages) will always run through the
-> wrapper generated by the current build with a checksum that includes
-> STAGING_KERNEL_DIR.
->
-> [ YOCTO #3962 ]
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->   meta/classes/image.bbclass                         |    4 +-
->   meta/classes/kernel.bbclass                        |    8 ++--
->   meta/classes/module.bbclass                        |    4 +-
->   .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |   43 ++++++++++++++++++++
->   4 files changed, 51 insertions(+), 8 deletions(-)
->   create mode 100644 meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index dd78acb..af17331 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -10,7 +10,7 @@ inherit gzipnative
->
->   LICENSE = "MIT"
->   PACKAGES = ""
-> -DEPENDS += "${MLPREFIX}qemuwrapper-cross"
-> +DEPENDS += "${MLPREFIX}qemuwrapper-cross depmodwrapper-cross"
->   RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
->   RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
->
-> @@ -283,7 +283,7 @@ fakeroot do_rootfs () {
->   		KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
->
->   		mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
-> -		depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
-> +		depmodwrapper -a -b ${IMAGE_ROOTFS} $KERNEL_VERSION
->   	fi
->
->   	${IMAGE_PREPROCESS_COMMAND}
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e8c585b..2bdc2fc 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -1,7 +1,7 @@
->   inherit linux-kernel-base module_strip
->
->   PROVIDES += "virtual/kernel"
-> -DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native"
-> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
->
->   # we include gcc above, we dont need virtual/libc
->   INHIBIT_DEFAULT_DEPS = "1"
-> @@ -272,7 +272,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->   	mkdir -p $D/lib/modules/${KERNEL_VERSION}
->   fi
->   if [ -n "$D" ]; then
-> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
->   else
->   	depmod -a ${KERNEL_VERSION}
->   fi
-> @@ -282,7 +282,7 @@ pkg_postinst_modules () {
->   if [ -z "$D" ]; then
->   	depmod -a ${KERNEL_VERSION}
->   else
-> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
->   fi
->   }
->
-> @@ -290,7 +290,7 @@ pkg_postrm_modules () {
->   if [ -z "$D" ]; then
->   	depmod -a ${KERNEL_VERSION}
->   else
-> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
->   fi
->   }
->
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index e2174a1..2c1888c 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -28,7 +28,7 @@ module_pkg_postinst () {
->   if [ -z "$D" ]; then
->   	depmod -a ${KERNEL_VERSION}
->   else
-> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
->   fi
->   }
->
-> @@ -36,7 +36,7 @@ module_pkg_postrm () {
->   if [ -z "$D" ]; then
->   	depmod -a ${KERNEL_VERSION}
->   else
-> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
->   fi
->   }
->
-> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-> new file mode 100644
-> index 0000000..efb1cac
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-> @@ -0,0 +1,43 @@
-> +DESCRIPTION = "Depmod wrapper script"
-> +LICENSE = "MIT"
-> +PR = "r0"
-> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> +
-> +# We need the following for the sstate code to process the wrapper
-> +SSTATE_SCAN_FILES += "depmodwrapper"
-> +
-> +do_install() {
-> +	install -d ${D}${bindir_crossscripts}/
-> +
-> +	cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
-> +#!/bin/sh
-> +# Expected to be called as: depmodwrapper -a KERNEL_VERSION
-> +if [ "\$1" != "-a" -o "\$2" != "-b" ]; then
-> +    echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
-> +    exit 1
-> +fi
-> +if [ ! -r ${STAGING_KERNEL_DIR}/kernel-abiversion ]; then
-> +    echo "Unable to read: ${STAGING_KERNEL_DIR}/kernel-abiversion" >&2
-> +else
-> +    kernelabi=\$(cat ${STAGING_KERNEL_DIR}/kernel-abiversion)
-> +    if [ "\$kernelabi" != "\$4" ]; then
-> +        echo "Error: Kernel version \$4 does not match kernel-abiversion (\$kernelabi)" >&2
-> +        exit 1
-> +    fi
-> +fi
-> +
-> +if [ ! -r ${STAGING_KERNEL_DIR}/System.map-\$4 ]; then
-> +    echo "Unable to read: ${STAGING_KERNEL_DIR}/System.map-\$4" >&2
-> +    exec env depmod "\$1" "\$2" "\$3" "\$4"
-> +else
-> +    exec env depmod "\$1" "\$2" "\$3" -F "${STAGING_KERNEL_DIR}/System.map-\$4" "\$4"
-> +fi
-> +EOF
-> +	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
-> +}
-> +
-> +SYSROOT_PREPROCESS_FUNCS += "depmodwrapper_sysroot_preprocess"
-> +
-> +depmodwrapper_sysroot_preprocess () {
-> +	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
-> +}
->
+> Kang Kai (1):
+>   lsbtest: sync test suite packages version
+> 
+> Khem Raj (2):
+>   binutils: Fix build with newer texinfo 5.0+
+>   binutils: Delete recipes for 2.22
+> 
+> Laurentiu Palcu (1):
+>   gconf.bbclass: make postinstall fail silently when running offline
+
+Already fixed differently, please drop.
+> 
+> Martin Jansa (1):
+>   sanity: use lsb distro_identifier
+
+Where are the updates this would need associated with it?
+
+> 
+> MiLo (1):
+>   util-linux: Add package for libmount
+> 
+> Ming Liu (1):
+>   parted: fix several integer overflows
+> 
+> Muhammad Shakeel (2):
+>   archiver class: Use tasks with sstate instead of pre/post funcs
+>   archive-*-source.bbclass: Handle all package classes
+> 
+> Otavio Salvador (2):
+>   qt4-tools: Drop libx11 dependency when building without 'x11' distro
+>     feature
+
+This had comments and is rejected as the option needs to explicitly
+disable x11, not float.
+
+>   qt4-embedded: Enable Linux Input support
+> 
+> Ross Burton (1):
+>   dbus: set correct address when using --address=systemd:
+> 
+> Saul Wold (11):
+>   sqlite: rename version to match upstream versioning change
+>   mini-x-session: Fix starting of x-session
+>   nspr: Update to 4.9.5
+>   socat: Update to 1.7.2.1
+>   boost: Update to 1.53.0
+>   man-pages: Update to 3.47
+>   lsbinitscripts: Update to 9.44
+>   file: Update to 5.13
+>   resolvconf: Update to 1.70
+>   kconfig-frontends: Update to 3.8
+>   gconf: update to 3.2.6
+> 
+> rongqing.li@windriver.com (1):
+>   gcc: make compiler to search build directory before standard system
+>     include directories
+
+This looks positively dangerous to me. Needs to get fixed properly and
+less invasively or at least get an ack from Khem.
+
+Cheers,
+
+Richard
+
+
 
 
 
