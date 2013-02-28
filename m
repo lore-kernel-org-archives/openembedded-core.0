@@ -1,35 +1,20 @@
-Received: from mail-vc0-f173.google.com ([209.85.220.173])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UB1Zv-0002Wo-7V
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UB2M0-0004AK-Df
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 12:23:30 +0100
-Received: by mail-vc0-f173.google.com with SMTP id fy27so1110171vcb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 03:06:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=LgKeBEr8YVAoGxcKdLJhcWHHK7mbDT2pHAKODsv4Mn4=;
-	b=avr4PNUYWN0z1lmjbZqxMs+6zqGlfH4TZZWPMCWkrbXiZ+tpKNsHXB8bdI8evTX2pI
-	tiUymWilQhf2KR3sL7aLuRe/DedvZ2CVWvmmI9MyUlW8xOF0uYo/AcXHXKC5jDr9L+Ga
-	Yr/5Mgf3pO+Fb7tSvNaIlZh8URBMxUAAL7yAYkRn8wSG8cszpXb8wB+k21wPX9dBZyUL
-	+vYqfvts0MH+LknStv9pwZXI7tn6pNcg3VZqtRoCBk8EqgIeP+wHjkZPc1Vfb/TY5PT5
-	n12s73ZcWr1NEe4M8sAanPjvpcsUmOZnwYQc+8/AoBgHpkJX3Gwwd7uKCoyP6xfp/hyN
-	R/lg==
-X-Received: by 10.52.92.225 with SMTP id cp1mr2068380vdb.41.1362049608683;
-	Thu, 28 Feb 2013 03:06:48 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Thu, 28 Feb 2013 03:06:28 -0800 (PST)
-In-Reply-To: <cover.1362033854.git.hongxu.jia@windriver.com>
-References: <cover.1362033854.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Feb 2013 11:06:28 +0000
-Message-ID: <CAJTo0LaFN=Q7kJQoJGTqrZamC=OT_pRD9qYrsO2854TWcG9Q0w@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQnO372XW1vr3w/MJ7WbjE2ekb3uirVTGxz2ZnIc1UlaKxSInNGMfgd58sg6XWItVLf7kSof
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 0/2]fix native package compile error with gcc 4.3.4 on x86 host
+	Thu, 28 Feb 2013 13:12:54 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Feb 2013 03:56:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,755,1355126400"; d="scan'208";a="291766158"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 28 Feb 2013 03:56:28 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2013 13:56:26 +0200
+Message-Id: <1362052586-27170-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] eglibc: fix ldd RTLDLIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,22 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 11:24:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Feb 2013 12:12:58 -0000
 
-On 28 February 2013 07:09, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> Change from V2: as Khem Raj suggested, use `-march=native' to cause the
-> compiler to auto-detect the architecture of the build computer, if the
-> auto-detect is unsuccessful the option has no effect.
+The sed expression for retrieving the previous RTLDLIST from ldd script
+was also retrieving the double-quotes. Hence, we ended up with a
+RTLDLIST like below and ldd would fail:
 
-What happens if you're in an environment where you're sharing sstate
-between multiple developers, and the build machine is an i7 but
-another developer's machine is a Core2?    These machines have
-different sets of extensions available
+RTLDLIST=""/lib/ld-linux.so.2 /lib64/ld-linux-x86-64.so.2
+/libx32/ld-linux-x32.so.2" /lib/ld-linux-x86-64.so.2"
 
-Using the architecture as determined by bitbake seems like a better
-idea (which was V1, right?) as that's embedded in the sstate hash.
+[YOCTO #3903]
 
-Ross
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-core/eglibc/eglibc_2.17.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/eglibc/eglibc_2.17.bb b/meta/recipes-core/eglibc/eglibc_2.17.bb
+index fb49ac4..6526978 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.17.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.17.bb
+@@ -144,7 +144,7 @@ do_compile () {
+ 	echo "Adjust ldd script"
+ 	if [ -n "${RTLDLIST}" ]
+ 	then
+-		prevrtld=`cat ${B}/elf/ldd | grep "^RTLDLIST=" | sed 's#^RTLDLIST=\(.*\)$#\1#'`
++		prevrtld=`cat ${B}/elf/ldd | grep "^RTLDLIST=" | sed 's#^RTLDLIST="\?\([^"]*\)"\?$#\1#'`
+ 		if [ "${prevrtld}" != "${RTLDLIST}" ]
+ 		then
+ 			sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${prevrtld} ${RTLDLIST}\"#"
+-- 
+1.7.9.5
+
 
 
