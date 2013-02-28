@@ -1,35 +1,20 @@
-Received: from mail-ve0-f182.google.com ([209.85.128.182])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UB2ce-0004pG-A3
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UB2iI-00058s-Dy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 13:30:05 +0100
-Received: by mail-ve0-f182.google.com with SMTP id ox1so1712832veb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 04:13:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:content-type:x-gm-message-state;
-	bh=yLyKyDJp8RgWo/n5Ue78dkn8cqdl1sGUp4qXt+CuDKo=;
-	b=D+hKVAUD36IGJBiopLKtztdd5U8NYpMbr2Zs38zLNBK28dvZkoNHy2W8yvNdWQ2vkF
-	2Xi8o7gVnthxB9bYV3fC88P0QfkWkgetP/rTdFEHVdE3Y9bwI7nur+Yb+AGYOkLrYHQl
-	vtxhdhPBvqyJqh/Ui743G3KWScyYRALe8h26bn21c1YnJ/aRd1df7TZ5HbO+sbWHgvTr
-	B02ZrTM94c2riqfhb7rDFMrqidSOz3k2HyT1O0KS2MYHOA7bYCbtt1xOZXynAzmbKaPp
-	QKChdEAFocsDRGyUsabwAs9QMCAj+/48kZFMgyW4fVO0nUC8CUlUdqYTvt4fArDVuBqE
-	dUEw==
-X-Received: by 10.220.215.73 with SMTP id hd9mr2450514vcb.19.1362053618505;
-	Thu, 28 Feb 2013 04:13:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Thu, 28 Feb 2013 04:13:18 -0800 (PST)
-In-Reply-To: <CA+YB3raWk13+Yxj3=8c34Lbm3svv6apkp9BeYgjRgBnt_4JbUA@mail.gmail.com>
-References: <CA+YB3raWk13+Yxj3=8c34Lbm3svv6apkp9BeYgjRgBnt_4JbUA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Feb 2013 12:13:18 +0000
-Message-ID: <CAJTo0LaiKyUHD4C6KhdyOjuPLtMb+BvpaRwcEXALY7cPd2tNLw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnOxlX+Asej2iZGLgvY80NgXiwN7w+X/MeaR34aJ+o6EbHhzrCfZ7Dv8j5momhrZg51ak3I
-Subject: Re: OE TSC minutes 12 February 2013
+	Thu, 28 Feb 2013 13:35:58 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Feb 2013 04:19:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,755,1355126400"; d="scan'208";a="293012331"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Feb 2013 04:19:30 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Feb 2013 14:22:53 +0200
+Message-Id: <1362054173-21832-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] git: updated to 1.8.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,15 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 12:30:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Feb 2013 12:35:58 -0000
 
-On 28 February 2013 06:28, Jeff Osier-Mixon <jefro@jefro.net> wrote:
-> (9:51:16 AM) RP: bluelightning: Beat up Ross?
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ meta/recipes-devtools/git/{git_1.8.1.2.bb => git_1.8.1.4.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_1.8.1.2.bb => git_1.8.1.4.bb} (68%)
 
-In an attempt to avoid TSC-sanctioned beatings, I've just sent a
-series that adds libgdata, clutter-box2d, and gthumb to meta-oe.
+diff --git a/meta/recipes-devtools/git/git_1.8.1.2.bb b/meta/recipes-devtools/git/git_1.8.1.4.bb
+similarity index 68%
+rename from meta/recipes-devtools/git/git_1.8.1.2.bb
+rename to meta/recipes-devtools/git/git_1.8.1.4.bb
+index 200a79e..487a333 100644
+--- a/meta/recipes-devtools/git/git_1.8.1.2.bb
++++ b/meta/recipes-devtools/git/git_1.8.1.4.bb
+@@ -3,8 +3,8 @@ require git.inc
+ PR = "r0"
+ 
+ SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
+-SRC_URI[md5sum] = "9f912370a1831c851ff8df171e8a7218"
+-SRC_URI[sha256sum] = "07d210a37deec465b4d00e4907c732dee5c5d23c7d90c1b582e7ab754bcf24c7"
++SRC_URI[md5sum] = "60f32ef4a6b3fa2143b81a28704333ed"
++SRC_URI[sha256sum] = "cbb88cfab66c88189ac93a9cfdeebdd2b2fdf833848fbec0c566278889c17de1"
+ 
+ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-- 
+1.7.10.4
 
-Ross
 
 
