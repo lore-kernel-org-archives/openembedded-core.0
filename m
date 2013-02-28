@@ -1,44 +1,35 @@
-Received: from mail-wg0-f52.google.com ([74.125.82.52])
+Received: from mail-vc0-f173.google.com ([209.85.220.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UB10C-0001Bd-IU
+	(envelope-from <ross.burton@intel.com>) id 1UB1Zv-0002Wo-7V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 11:46:18 +0100
-Received: by mail-wg0-f52.google.com with SMTP id 12so1311638wgh.19
+	Thu, 28 Feb 2013 12:23:30 +0100
+Received: by mail-vc0-f173.google.com with SMTP id fy27so1110171vcb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 02:29:54 -0800 (PST)
+	Thu, 28 Feb 2013 03:06:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:date:from:to:cc:message-id:in-reply-to:references
-	:subject:x-mailer:mime-version:content-type
-	:content-transfer-encoding:content-disposition:x-gm-message-state;
-	bh=mL71IlGKXxcarevhqZDHtFmDGs8Elk/6SkWmTOS3Vww=;
-	b=U6OL544cKssmYpaIL5r++Urty0MQdhthWGaho7dTJChn7YzE9+HPDCrwLGCGwyEzZ/
-	8RGulIVJHhJiYu8jL142kuY/pFOft+gVFI8jaGxO1Z5kU1bZwXUf4fykEv7HoyPCiSlN
-	mTRQ861UNjpXuiG665gubxe1CAx2+hX078RbhD/xBv5StqyYPF4Zj6P3UtxFn0Ii4SNs
-	0iXJMc7fyaX2wN9Q1Y6TBZn6PEwfjmXL1Z4mhc3F5oMi0gqsEuJcrRu58WovrNfUUqRE
-	sMLAJLh/3twnWh8o4XYv96RsxvYEBhxOHOWD4wU05tGSd0esEPOLUiHmp5ZfqO6RX8eO
-	Be2w==
-X-Received: by 10.180.109.82 with SMTP id hq18mr9625735wib.0.1362047394279;
-	Thu, 28 Feb 2013 02:29:54 -0800 (PST)
-Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id n2sm32443076wiy.6.2013.02.28.02.29.51
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 28 Feb 2013 02:29:53 -0800 (PST)
-Date: Thu, 28 Feb 2013 10:29:51 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Message-ID: <2374776677EC48E48A48439BC769A2F9@intel.com>
-In-Reply-To: <CAGiJk9cKru6BD3oQmfb+J1WE-f3-K+pvbdi2HkjKS3-3_4=ciw@mail.gmail.com>
-References: <CAGiJk9drhuVo1AfCsHEc3jbevtzaYcONQwHQ2qfE=HuJjUCbSw@mail.gmail.com>
-	<CAJTo0Lbnt78ssmdTmTh2CoFfDMHq_SpoV9qYEX+2kPod4EW9Jg@mail.gmail.com>
-	<1361990771.1809.16.camel@rrMBP>
-	<CAGiJk9cKru6BD3oQmfb+J1WE-f3-K+pvbdi2HkjKS3-3_4=ciw@mail.gmail.com>
-X-Mailer: sparrow 1.6.4 (build 1178)
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=LgKeBEr8YVAoGxcKdLJhcWHHK7mbDT2pHAKODsv4Mn4=;
+	b=avr4PNUYWN0z1lmjbZqxMs+6zqGlfH4TZZWPMCWkrbXiZ+tpKNsHXB8bdI8evTX2pI
+	tiUymWilQhf2KR3sL7aLuRe/DedvZ2CVWvmmI9MyUlW8xOF0uYo/AcXHXKC5jDr9L+Ga
+	Yr/5Mgf3pO+Fb7tSvNaIlZh8URBMxUAAL7yAYkRn8wSG8cszpXb8wB+k21wPX9dBZyUL
+	+vYqfvts0MH+LknStv9pwZXI7tn6pNcg3VZqtRoCBk8EqgIeP+wHjkZPc1Vfb/TY5PT5
+	n12s73ZcWr1NEe4M8sAanPjvpcsUmOZnwYQc+8/AoBgHpkJX3Gwwd7uKCoyP6xfp/hyN
+	R/lg==
+X-Received: by 10.52.92.225 with SMTP id cp1mr2068380vdb.41.1362049608683;
+	Thu, 28 Feb 2013 03:06:48 -0800 (PST)
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQkDbHEv2UxxJ+0DjEnOcUkHSLjdLFdTVHhbcJQdYAxtvFplSti34vYVYBTCsVj1pK52ZmeJ
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Patches,
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: gst-plugins-bad and EXTRA_OECONF
+Received: by 10.58.219.195 with HTTP; Thu, 28 Feb 2013 03:06:28 -0800 (PST)
+In-Reply-To: <cover.1362033854.git.hongxu.jia@windriver.com>
+References: <cover.1362033854.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Feb 2013 11:06:28 +0000
+Message-ID: <CAJTo0LaFN=Q7kJQoJGTqrZamC=OT_pRD9qYrsO2854TWcG9Q0w@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+X-Gm-Message-State: ALoCoQnO372XW1vr3w/MJ7WbjE2ekb3uirVTGxz2ZnIc1UlaKxSInNGMfgd58sg6XWItVLf7kSof
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 0/2]fix native package compile error with gcc 4.3.4 on x86 host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,22 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 10:46:19 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Feb 2013 11:24:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday, 28 February 2013 at 07:20, Samuel Stirtzel wrote:
-> Seems like I missed the missing "--disable-sdl",
-> should I send a patch that adds libsdl to the DEPENDS of this
-> .bbappend? Or would you prefer a "--disable-sdl" here?
-> 
-> This issue was a bit irritating, since I built the same image for some
-> time now and suddenly it breaks without any changes in the related .bb
-> or .bbappend...
+On 28 February 2013 07:09, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> Change from V2: as Khem Raj suggested, use `-march=native' to cause the
+> compiler to auto-detect the architecture of the build computer, if the
+> auto-detect is unsuccessful the option has no effect.
 
+What happens if you're in an environment where you're sharing sstate
+between multiple developers, and the build machine is an i7 but
+another developer's machine is a Core2?    These machines have
+different sets of extensions available
 
-This is why I've had reworking the GStreamer plugin configuration on my todo list for a while.  Something along the lines of massive use of PACKAGECONFIG should make this sort of problem disappear.
+Using the architecture as determined by bitbake seems like a better
+idea (which was V1, right?) as that's embedded in the sstate hash.
 
 Ross
 
