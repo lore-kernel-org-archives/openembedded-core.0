@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UBBaK-0007uh-TH
+	(envelope-from <mark.hatle@windriver.com>) id 1UBBeG-00086U-E2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 23:04:33 +0100
+	Thu, 28 Feb 2013 23:08:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r1SLlrld025518
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1SLpwkS015337
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 13:47:53 -0800 (PST)
+	Thu, 28 Feb 2013 13:51:58 -0800 (PST)
 Received: from localhost.localdomain (172.25.34.110) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Thu, 28 Feb 2013 13:47:53 -0800
+	(TLS) id 14.2.328.9; Thu, 28 Feb 2013 13:51:56 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Feb 2013 15:47:48 -0600
-Message-ID: <1362088068-3427-1-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 28 Feb 2013 15:51:51 -0600
+Message-ID: <1362088311-3877-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 2/2 v3] module.bbclass: Create a new depmodwrapper to assist cross-installs
+Subject: [PATCH 2/2 v4] module.bbclass: Create a new depmodwrapper to assist cross-installs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 22:04:51 -0000
+X-List-Received-Date: Thu, 28 Feb 2013 22:08:43 -0000
 Content-Type: text/plain
 
 Previously the build path to STAGING_KERNEL_DIR was being embedded into the
@@ -140,7 +140,7 @@ index e2174a1..2c1888c 100644
  
 diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
 new file mode 100644
-index 0000000..ab94d43
+index 0000000..efb1cac
 --- /dev/null
 +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
 @@ -0,0 +1,43 @@
@@ -158,7 +158,7 @@ index 0000000..ab94d43
 +	cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
 +#!/bin/sh
 +# Expected to be called as: depmodwrapper -a KERNEL_VERSION
-+if [ "\$1" != "-a" -a "\$2" != "-b" ]; then
++if [ "\$1" != "-a" -o "\$2" != "-b" ]; then
 +    echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
 +    exit 1
 +fi
