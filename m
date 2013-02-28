@@ -1,20 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UB581-0002Up-4z
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UB5C0-0002cr-Ml
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 16:10:37 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Feb 2013 06:54:14 -0800
+	Thu, 28 Feb 2013 16:14:56 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 28 Feb 2013 06:58:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,755,1355126400"; d="scan'208";a="291834178"
+X-IronPort-AV: E=Sophos;i="4.84,755,1355126400"; d="scan'208";a="262648298"
 Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by orsmga002.jf.intel.com with ESMTP; 28 Feb 2013 06:54:12 -0800
+	by azsmga001.ch.intel.com with ESMTP; 28 Feb 2013 06:58:20 -0800
 From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Feb 2013 16:57:35 +0200
-Message-Id: <1362063455-9980-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Thu, 28 Feb 2013 17:01:42 +0200
+Message-Id: <1362063702-18452-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gmp: updated to 5.1.0a
+Subject: [PATCH] lttng: updated lttng-ust and lttng-modules to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 15:10:37 -0000
+X-List-Received-Date: Thu, 28 Feb 2013 15:14:59 -0000
 
 Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/recipes-support/gmp/gmp.inc      |    4 +++-
- meta/recipes-support/gmp/gmp_5.1.0.bb |    6 ++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ .../lttng/{lttng-modules_2.1.0.bb => lttng-modules_2.1.1.bb}       |    4 ++--
+ .../lttng/{lttng-ust_2.1.0.bb => lttng-ust_2.1.1.bb}               |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.1.0.bb => lttng-modules_2.1.1.bb} (93%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.1.0.bb => lttng-ust_2.1.1.bb} (94%)
 
-diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
-index 823811f..709d8c4 100644
---- a/meta/recipes-support/gmp/gmp.inc
-+++ b/meta/recipes-support/gmp/gmp.inc
-@@ -3,7 +3,9 @@ DESCRIPTION = "GNU multiprecision arithmetic library"
- HOMEPAGE = "http://gmplib.org/"
- LICENSE = "GPLv3 LGPLv3"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
+similarity index 93%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.1.0.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
+index b3a25f9..1be0fc1 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.1.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
+@@ -10,8 +10,8 @@ DEPENDS = "virtual/kernel"
  
--SRC_URI = "ftp://ftp.gmplib.org/pub/gmp-${PV}/gmp-${PV}.tar.bz2 \
-+REVISION = "a"
-+
-+SRC_URI = "ftp://ftp.gmplib.org/pub/gmp-${PV}/gmp-${PV}${REVISION}.tar.bz2 \
- 	   file://configure.patch \
- 	   file://amd64.patch "
+ inherit module
  
-diff --git a/meta/recipes-support/gmp/gmp_5.1.0.bb b/meta/recipes-support/gmp/gmp_5.1.0.bb
-index 6591ebe..73a4336 100644
---- a/meta/recipes-support/gmp/gmp_5.1.0.bb
-+++ b/meta/recipes-support/gmp/gmp_5.1.0.bb
-@@ -3,13 +3,11 @@ LICENSE="LGPLv3&GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-SRCREV = "b945d6c4083ce287f390f54dff4b5e0b73a9f845"
+-PV = "2.1.0"
++SRCREV = "b374c356eb4827b68754d68adc0f1c94b5de9faa"
++PV = "2.1.1"
+ PR = "r0"
  
--PR = "r1"
--
- SRC_URI_append = " file://use-includedir.patch \
-                    file://gmp_fix_for_x32.patch \
-                    file://187b7b1646ee.patch \
-                    file://obsolete_automake_macros.patch \
-                    "
+ SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+similarity index 94%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+index 20c8b3d..71cc976 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+@@ -17,8 +17,8 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
  
--SRC_URI[md5sum] = "362cf515aff8dc240958ce47418e4c78"
--SRC_URI[sha256sum] = "dfd9aba98fe5caa54a715b4584c7d45eb0ee0c8be9a3181164ad2fad5eefc796"
-+SRC_URI[md5sum] = "cf6d7cb5915f29ce0fc41d042205c080"
-+SRC_URI[sha256sum] = "ed5239a62aeaba6cfc8d50ec36fb59215618f98c248d4bb05ca9bccd990794dc"
+-SRCREV = "0c9ad44b7604040dfcd1e67b18afc3dc5d025b19"
+-PV = "2.1.0"
++SRCREV = "05356aa2a4dca0bc9bfd716d2d6723e3941851dc"
++PV = "2.1.1"
+ PR = "r0"
+ PE = "2"
+ 
 -- 
 1.7.10.4
 
