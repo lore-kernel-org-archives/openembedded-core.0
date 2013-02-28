@@ -1,27 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wi0-f180.google.com ([209.85.212.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UB8Al-0000HI-BW
+	(envelope-from <twoerner@gmail.com>) id 1UB8BJ-0000MS-LD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 19:25:41 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r1SI9F8q010876
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 28 Feb 2013 19:26:18 +0100
+Received: by mail-wi0-f180.google.com with SMTP id hi8so2467063wib.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 10:09:15 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Thu, 28 Feb 2013 10:09:14 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Feb 2013 12:09:05 -0600
-Message-ID: <1362074946-7062-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1362074946-7062-1-git-send-email-mark.hatle@windriver.com>
-References: <1362074946-7062-1-git-send-email-mark.hatle@windriver.com>
+	Thu, 28 Feb 2013 10:09:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=SxAwD1MszvJOgRitHfAB9gzXZRDy/hgW33spr1EiAAU=;
+	b=TNl7u6wF7wdVmE3XiNYSE84nWKUxspRaPgB+hofQ2AwM1QyUvd7KsZiv+Nh0DDgdk3
+	UDWjNepppr1jvGRdrohP2+yuL4lsxGSv+Z0n2JB5TU9dZt4dDoOvSOrmpcI+1dDIAJo9
+	pbgy8phHLdGhq1PxEgt1cXnwCyRdLPlE+ScE7u62EB7xT6NjU9JNULj/B6E9RDMlB12f
+	RidemYl0HZRV62R/rtobFb2RIDqfaZfALaXJQdb9zItWPK3Od4tk+1IxeIe5a+d/Qe+h
+	vAJAgiXHaM0UIKag9onpjb72TItvI2pxqq0vxBFJ/sKv+nUnM7HtHbcBcQhkyJBtP+Pu
+	c/MQ==
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 1/2] kernel.bbclass: Add missing modules.order and modules.builtins
+X-Received: by 10.180.75.177 with SMTP id d17mr12478777wiw.16.1362074991415;
+	Thu, 28 Feb 2013 10:09:51 -0800 (PST)
+Received: by 10.194.45.100 with HTTP; Thu, 28 Feb 2013 10:09:51 -0800 (PST)
+In-Reply-To: <1362034602-30163-1-git-send-email-raj.khem@gmail.com>
+References: <1362034602-30163-1-git-send-email-raj.khem@gmail.com>
+Date: Thu, 28 Feb 2013 13:09:51 -0500
+Message-ID: <CAHUNapSbpFDttimPKO9czY3NiV4x7kTZ8ysDgq2TuifnosH0Xw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.7: Fix build with texinfo 5.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +41,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 18:25:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Feb 2013 18:26:26 -0000
+X-List-Received-Date: Thu, 28 Feb 2013 18:26:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-When running depmod, from kmod, warnings about missing modules.order
-and modules.builtins occur.  Looking back it is not clear why these
-files were being ignored, other then nobody knew what to do with them.
-
-Add the files into the kernel-base package, if they exist, ensuring
-they will always get installed if at least one module is installed.
-
-[ YOCTO #3963 ]
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel.bbclass |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 00117a6..e8c585b 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -94,8 +94,6 @@ kernel_do_install() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
--		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
--		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
- 	else
-@@ -251,6 +249,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
- PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
- FILES = ""
-+FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
- FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
- FILES_kernel-vmlinux = "/boot/vmlinux*"
--- 
-1.7.1
-
+Maybe we should wait until the person who reported this issue has had
+the time to test this fix and confirms it works before submitting it
+for inclusion?
 
 
