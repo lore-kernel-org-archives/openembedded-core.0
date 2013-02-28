@@ -1,28 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-la0-f43.google.com ([209.85.215.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UB8vu-00026w-6v
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UB99s-0002Tc-HC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Feb 2013 20:14:23 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Feb 2013 10:56:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,756,1355126400"; d="scan'208";a="269199818"
-Received: from unknown (HELO [10.255.12.231]) ([10.255.12.231])
-	by orsmga001.jf.intel.com with ESMTP; 28 Feb 2013 10:57:58 -0800
-Message-ID: <512FA8B6.4030909@linux.intel.com>
-Date: Thu, 28 Feb 2013 10:57:58 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 28 Feb 2013 20:28:50 +0100
+Received: by mail-la0-f43.google.com with SMTP id ek20so2164215lab.30
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Feb 2013 11:12:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=Xiu2StLLprMsyz4zthMW0EhlblaEH40LR23rQzdx4bs=;
+	b=iwSY9EAu8O2Rrv2d3TMKJ50WXfT1sYffdQkivgrecu6Qp8HCrSQFRsjAS7mejMMqlU
+	0/GEnM/33DU8XCnIwiLILKgC63fz6Q9kp8mAIczNWuvzZmn+NTlpWnP4ssj+weyNKiCQ
+	b9ZHH29E+462dWfdS3jsNQqt8xSJJKvUUw8+Wio4ftulQruJXIAWtlFTz37VMCyHIF8/
+	tNWsdnx1E5jxifc48tWNdjwzMouH5l8UZenQR1E5EGX/1TNH8c8QwiIK/ayHZtPXfJ5/
+	IOfK0oPpm/rJDweLC+E5jjhzY096n9pzA0hC/OEYYgLTNsjqAsf9c0xZaGOThDB8WZVS
+	Ms1g==
 MIME-Version: 1.0
-To: Tom Zanussi <tom.zanussi@linux.intel.com>
-References: <cover.1361976853.git.tom.zanussi@linux.intel.com>
-	<4a4c5cf843e4c4ff22843b8e6097786e88a06bd1.1361976853.git.tom.zanussi@linux.intel.com>
-	<512EDDE0.2060907@linux.intel.com>
-	<1362026705.2588.33.camel@empanada>
-In-Reply-To: <1362026705.2588.33.camel@empanada>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] libaudit: new package
+X-Received: by 10.112.28.102 with SMTP id a6mr3964495lbh.109.1362078745791;
+	Thu, 28 Feb 2013 11:12:25 -0800 (PST)
+Received: by 10.112.61.3 with HTTP; Thu, 28 Feb 2013 11:12:25 -0800 (PST)
+In-Reply-To: <1362074946-7062-3-git-send-email-mark.hatle@windriver.com>
+References: <1362074946-7062-1-git-send-email-mark.hatle@windriver.com>
+	<1362074946-7062-3-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 28 Feb 2013 14:12:25 -0500
+Message-ID: <CADkTA4MPHeFaE-CyK6sQuu-+zCRzsWujC4JTA-kewKOr0=dDGA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] module.bbclass: Create a new depmodwrapper to assist cross-installs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,117 +42,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Feb 2013 19:14:24 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Feb 2013 19:28:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 02/27/2013 08:45 PM, Tom Zanussi wrote:
-> On Wed, 2013-02-27 at 20:32 -0800, Saul Wold wrote:
->> On 02/27/2013 07:00 AM, tom.zanussi@linux.intel.com wrote:
->>> From: Tom Zanussi <tom.zanussi@linux.intel.com>
->>>
->>> Add libaudit, used by system call auditing applications.  From the
->>> sources:
->>>
->>>    "The audit package contains the user space utilities for storing and
->>>    searching the audit records generate by the audit subsystem in the
->>>    Linux 2.6 kernel."
->>>
->>> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
->>> ---
->>>    .../libaudit/libaudit/build-lib-only.patch         |  33 ++
->>>    .../libaudit/libaudit/fix-host-gen.patch           | 461 +++++++++++++++++++++
->>>    meta/recipes-support/libaudit/libaudit_2.2.2.bb    |  25 ++
->>>    3 files changed, 519 insertions(+)
->>>    create mode 100644 meta/recipes-support/libaudit/libaudit/build-lib-only.patch
->>>    create mode 100644 meta/recipes-support/libaudit/libaudit/fix-host-gen.patch
->>>    create mode 100644 meta/recipes-support/libaudit/libaudit_2.2.2.bb
->>
->>>
->> <SNIP>
->>
->>
->>> diff --git a/meta/recipes-support/libaudit/libaudit_2.2.2.bb b/meta/recipes-support/libaudit/libaudit_2.2.2.bb
->>> new file mode 100644
->>> index 0000000..e28b619
->>> --- /dev/null
->>> +++ b/meta/recipes-support/libaudit/libaudit_2.2.2.bb
->>> @@ -0,0 +1,25 @@
->>> +DESCRIPTION = "libaudit is the dynamic library needed for applications to use the audit framework."
->>> +SECTION = "libs"
->>> +AUTHOR = "Steve Grubb <sgrubb@redhat.com>"
->>> +HOMEPAGE = "http://people.redhat.com/sgrubb/audit/"
->>> +LICENSE = "LGPLv2+"
->>> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->>> +PR = "r0"
->>> +
->>> +SRC_URI = "http://people.redhat.com/sgrubb/audit/audit-${PV}.tar.gz \
->>> +           file://build-lib-only.patch \
->>> +           file://fix-host-gen.patch \
->>> +          "
->>> +
->>> +SRC_URI[md5sum] = "6641fde111cf5dfda6d4282ab8410df5"
->>> +SRC_URI[sha256sum] = "8bc2b45a5f08f5df6cebcd5543f24b7e68e28b64da4b23f08de2c6616384302b"
->>> +
->>> +S = "${WORKDIR}/audit-${PV}"
->>> +
->>> +inherit autotools
->>> +
->>> +EXTRA_OECONF = "--disable-dependency-tracking --disable-listener"
->>> +
->>> +do_configure() {
->>> +	       oe_runconf
->>> +}
->>>
->> Is this do_configure really needed?  Does the autotools default not work
->> correctly?  And if not why not?
+On Thu, Feb 28, 2013 at 1:09 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> Previously the build path to STAGING_KERNEL_DIR was being embedded into the
+> package post install scripts.  We avoid this behavior by generating a special
+> depmodwrapper script.  This script contains that hard-coded path, ensuring
+> that re-use of the sstate-cache (and/or packages) will always run through the
+> wrapper generated by the current build with a checksum that includes
+> STAGING_KERNEL_DIR.
 >
-> This is to avoid the autoreconf step, which ends up overwriting the
-> lib/Makefile.in changes when it regenerates it from lib/Makefile.am.
+> [ YOCTO #3962 ]
 >
-> The Makefile.in is shipped with the source tarball, so I modified it
-> directly instead of complicating things by trying to get autoreconf to
-> generate the correct Makefile for the target part of the build vs these
-> specific changes to Makefile.in for the set of programs generated to run
-> on the host.
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/classes/image.bbclass                         |    4 +-
+>  meta/classes/kernel.bbclass                        |    8 ++--
+>  meta/classes/module.bbclass                        |    4 +-
+>  .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |   34 ++++++++++++++++++++
+>  4 files changed, 42 insertions(+), 8 deletions(-)
+>  create mode 100644 meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
 >
-
-Tom,
-
-I understand your approach here and while it has good intentions, is not 
-the right way to go about this.  We want to enable upstream packages to 
-cross compile (if they are open to the idea). So changing the 
-Makefile.am would be the right way to do this and allow the standard 
-automake and autoreconf to do their work.  This would also allow the 
-patches to be possibly accepted up stream.
-
-I understand there are examples of this type of patching in OE-Core, 
-that does not mean they are good examples and they should probably be 
-looked into for fixing also.
-
-I know you have put effort in here, and we want to make sure the patches 
-are correct and good example moving forward.
-
-For example in the first build-lib-only patch you can just edit the 
-SUBDIRS line to include lib.
-
-For the larger patch, are you selectively changing CCLD and CFLAGS or is 
-it through out?  You should probably build these -native and use them 
-instead of trying to tweak around the target build.
-
-We can discuss it further as needed.
-
-Thanks
-	Sau!
-
-> Tom
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index dd78acb..af17331 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -10,7 +10,7 @@ inherit gzipnative
 >
->>
->> Sau!
->>
+>  LICENSE = "MIT"
+>  PACKAGES = ""
+> -DEPENDS += "${MLPREFIX}qemuwrapper-cross"
+> +DEPENDS += "${MLPREFIX}qemuwrapper-cross depmodwrapper-cross"
+>  RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
+>  RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+>
+> @@ -283,7 +283,7 @@ fakeroot do_rootfs () {
+>                 KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
+>
+>                 mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
+> -               depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
+> +               depmodwrapper -a -b ${IMAGE_ROOTFS} $KERNEL_VERSION
+>         fi
+>
+>         ${IMAGE_PREPROCESS_COMMAND}
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e8c585b..2bdc2fc 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -1,7 +1,7 @@
+>  inherit linux-kernel-base module_strip
+>
+>  PROVIDES += "virtual/kernel"
+> -DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native"
+> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
+>
+>  # we include gcc above, we dont need virtual/libc
+>  INHIBIT_DEFAULT_DEPS = "1"
+> @@ -272,7 +272,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+>         mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>  fi
+>  if [ -n "$D" ]; then
+> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  else
+>         depmod -a ${KERNEL_VERSION}
+>  fi
+> @@ -282,7 +282,7 @@ pkg_postinst_modules () {
+>  if [ -z "$D" ]; then
+>         depmod -a ${KERNEL_VERSION}
+>  else
+> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+>
+> @@ -290,7 +290,7 @@ pkg_postrm_modules () {
+>  if [ -z "$D" ]; then
+>         depmod -a ${KERNEL_VERSION}
+>  else
+> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+>
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index e2174a1..2c1888c 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -28,7 +28,7 @@ module_pkg_postinst () {
+>  if [ -z "$D" ]; then
+>         depmod -a ${KERNEL_VERSION}
+>  else
+> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+>
+> @@ -36,7 +36,7 @@ module_pkg_postrm () {
+>  if [ -z "$D" ]; then
+>         depmod -a ${KERNEL_VERSION}
+>  else
+> -       depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
+> +       depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+>
+> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> new file mode 100644
+> index 0000000..646c4cd
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> @@ -0,0 +1,34 @@
+> +DESCRIPTION = "Depmod wrapper script"
+> +LICENSE = "MIT"
+> +PR = "r0"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +# We need to evaluate it to the final path for vardeps to
+> +# work properly.
+> +STAGING_KERNEL_DIR := "${STAGING_KERNEL_DIR}"
+> +
+> +do_install() {
+> +       install -d ${D}${bindir_crossscripts}/
+> +
+> +       cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
+> +#!/bin/sh
+> +# Expected to be called as: depmodwrapper -a KERNEL_VERSION
+
+Can we remove the need for KERNEL_VERSION to be passed ? You are already
+looking at ${STAGING_KERNEL_DIR}, so just pulling the kernel version
+out of ${STAGING_KERNEL_DIR}/kernel-abiversion will reduce the chances
+of mistakes.
+
+Bruce
+
+
+> +if [ "\$1" != "-a" -a "\$2" != "-b" ]; then
+> +    echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
+> +    exit 1
+> +fi
+> +if [ ! -r ${STAGING_KERNEL_DIR}/System.map-\$4 ]; then
+> +    echo "Unable to read: ${STAGING_KERNEL_DIR}/System.map-\$4" >&2
+> +    exec env depmod "\$1" "\$2" "\$3" "\$4"
+> +else
+> +    exec env depmod "\$1" "\$2" "\$3" -F "${STAGING_KERNEL_DIR}/System.map-\$4" "\$4"
+> +fi
+> +EOF
+> +       chmod +x ${D}${bindir_crossscripts}/depmodwrapper
+> +}
+> +
+> +SYSROOT_PREPROCESS_FUNCS += "depmodwrapper_sysroot_preprocess"
+> +
+> +depmodwrapper_sysroot_preprocess () {
+> +       sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+> +}
+> --
+> 1.7.1
 >
 >
->
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
