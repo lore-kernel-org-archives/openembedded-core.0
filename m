@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rich.dubielzig@windriver.com>) id 1UBYgY-0007yh-Ux
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UBYra-0008IS-FY
 	for Openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 23:44:17 +0100
+	Fri, 01 Mar 2013 23:55:39 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r21MRoKm010691
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r21MdDjn011706
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 1 Mar 2013 14:27:50 -0800 (PST)
+	Fri, 1 Mar 2013 14:39:13 -0800 (PST)
 Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.328.9; Fri, 1 Mar 2013 14:27:50 -0800
+	14.2.328.9; Fri, 1 Mar 2013 14:39:13 -0800
 From: Rich Dubielzig <rich.dubielzig@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Mar 2013 14:27:48 -0800
-Message-ID: <1362176868-9648-1-git-send-email-rich.dubielzig@windriver.com>
+Date: Fri, 1 Mar 2013 14:39:12 -0800
+Message-ID: <1362177552-10996-1-git-send-email-rich.dubielzig@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
 Cc: rich.dubielzig@windriver.com
-Subject: [PATCH] Specify use of gdbm database for pulseaudio
+Subject: [PATCH V2] pulseaudio: Specify gdbm in configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 22:44:19 -0000
+X-List-Received-Date: Fri, 01 Mar 2013 22:55:40 -0000
 Content-Type: text/plain
 
 The OE code as-is makes pulseaudio depend on gdbm, but the actual configure
