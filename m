@@ -1,34 +1,24 @@
-Received: from mail-lb0-f182.google.com ([209.85.217.182])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1UBQLa-0003Tb-Lt
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 14:50:17 +0100
-Received: by mail-lb0-f182.google.com with SMTP id gg6so2198993lbb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 05:33:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=g6pwBfKYETpWXJZxEhpAs3NPF6lzxyNuFQAqVlE6sms=;
-	b=sz7qEW1PvWyMJzGuGpxe/wKkd6QxuccoXiij/+RY+a5jCM/T/XA1VJyrgp5j+GnLyB
-	um3xCmRWeUA1bFz3vUOpTWOyFjHspl4pRtLsYZGOcPOvlZUwW52lgCcgXaDxBrJaKiP0
-	A7QR11p+w+xJ+dfDWOTxqBjX+mdn4eIxM5AZT/TIS5yEUaBfpVln2nn2Ikm8loSkd7On
-	XXjKu7N30GR2Jerjt1Lr3p+oeqjTUQZvnyehyretiNJbZJ5VUSDE1VdyCJFUUpTJJ5Wj
-	ZlpXv5+pluVGyB8Sq8yM3rH+w4o7jcLe5J55yh6Gn/zlHLVTExiZhK2htiM1kT5MTbs6
-	TgZw==
+	(envelope-from <jason.wessel@windriver.com>) id 1UBRAN-0005EI-S5
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 15:42:42 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r21EQ73J029329
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 1 Mar 2013 06:26:07 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
+	Fri, 1 Mar 2013 06:26:07 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Mar 2013 08:26:05 -0600
+Message-ID: <1362147965-42559-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-X-Received: by 10.112.40.228 with SMTP id a4mr777627lbl.26.1362144819118; Fri,
-	01 Mar 2013 05:33:39 -0800 (PST)
-Received: by 10.112.61.3 with HTTP; Fri, 1 Mar 2013 05:33:38 -0800 (PST)
-In-Reply-To: <51309549.8010502@communistcode.co.uk>
-References: <51309549.8010502@communistcode.co.uk>
-Date: Fri, 1 Mar 2013 08:33:38 -0500
-Message-ID: <CADkTA4PcJitHND_Nj2vD3tDSHk11eeN-w7uWqBQ9Yht1fp3C7g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Jack Mitchell <ml@communistcode.co.uk>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] U-Boot Recipes
+Subject: [PATCH] qemu.inc: Non deterministic compile of qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 13:50:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 01 Mar 2013 14:42:52 -0000
+Content-Type: text/plain
 
-On Fri, Mar 1, 2013 at 6:47 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> Today I was building an image for the beaglebone with oe-core +
-> meta-beagleboard. meta-beagleboard pretty much provides the machine
-> definition and the kernel. In order to build the correct u-boot (2013.01+) I
-> had to add u-boot 2013.01 to oe-core. Whilst during this I noticed the mess
-> that the u-boot directory had become, I think we need to have a show of
-> hands who uses what u-boot recipes and can they migrate to newer (common)
-> versions.
+When you using a qemuppc target and sstate you might end up with
+the problem:
 
-The mpc8315e-rdb reference uses v2012.04, and a quick survey didn't turn up
-any other explicit preferred versions in the layers that I have around my
-development machine.
+qemu-system-ppc: error while loading shared libraries:
+   libfdt.so.1: cannot open shared object file: No such file or directory
 
-So for now v2012.04 needs to stay, but as we bump that board to the 3.8 kernel,
-we can give another bootloader a test run.
+The way you can force this to happen assuming you are using sstate is
+as follows:
 
->
-> When I submit a patch to get 2013.01 supported, that would make 4 different
-> releases of u-boot; which seems a bit excessive.
+bitbake dtc-native
+bitbake -c cleansstate qemu-native
+bitbake qemu-native
+bitbake -c clean dtc-native
 
-Most releases that I've ever used have kept compatibility fairly well, so I'm
-all for keeping the number of active versions to a minimum. I'd say three is
-a good number, since that matches the number of active kernel versions in
-oe-core as well.
+Now go start qemu and it will fail.  The solution is to always build
+the dtc libraries since they are used and needed by the qemuppc
+simulator.
 
-Cheers,
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Bruce
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6c44b31..eb60d43 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -2,8 +2,8 @@ DESCRIPTION = "open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
+-DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
+-DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
++DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
++DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+ RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+ 
+ require qemu-targets.inc
+-- 
+1.7.1
 
->
-> Thoughts?
->
-> --
->
->   Jack Mitchell (jack@embed.me.uk)
->   Embedded Systems Engineer
->   http://www.embed.me.uk
->
-> --
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
