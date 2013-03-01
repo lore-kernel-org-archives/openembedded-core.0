@@ -1,34 +1,34 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UBZUW-0001iA-7V for openembedded-core@lists.openembedded.org;
-	Sat, 02 Mar 2013 00:35:53 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21NQo3N024499; Fri, 1 Mar 2013 23:26:50 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ScCkRpfqK0uO; Fri,  1 Mar 2013 23:26:50 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21NQiDQ024495
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Mar 2013 23:26:47 GMT
-Message-ID: <1362179945.11004.10.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 01 Mar 2013 23:19:05 +0000
-In-Reply-To: <CAJTo0LZBGhSsxcfxjyKLb2L1XNpTMLjgfGDaLxWPrNxkiqSs4A@mail.gmail.com>
-References: <1362140387-5761-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-	<1362141704.1055.56.camel@ted> <5130FD69.1020804@linux.intel.com>
-	<CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>
-	<CAJTo0LZBGhSsxcfxjyKLb2L1XNpTMLjgfGDaLxWPrNxkiqSs4A@mail.gmail.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: the oe-core layer <openembedded-core@lists.openembedded.org>,
-	Martin Jansa <martin.jansa@gmail.com>, Patches
-Subject: Re: [PATCH v2] btrfs-tools: added PV to git package recipe
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UBZpl-0002JX-6A
+	for Openembedded-core@lists.openembedded.org;
+	Sat, 02 Mar 2013 00:57:59 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r21NfP9E011212
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 1 Mar 2013 15:41:25 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.233]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0328.009;
+	Fri, 1 Mar 2013 15:41:24 -0800
+From: "Dubielzig, Rich" <rich.dubielzig@windriver.com>
+To: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Thread-Topic: [V3] nfs-utils: Add scratch directory for NFS upcall state
+	storage (denzil)
+Thread-Index: AQHOFtWL5dE/EfA3skmIHla59zMS8piRfr/1
+Date: Fri, 1 Mar 2013 23:41:23 +0000
+Message-ID: <4DDB2CE82D9BF44DB2EC2903AD859F8185594A0F@ALA-MBB.corp.ad.wrs.com>
+References: <1362077027-25696-1-git-send-email-rich.dubielzig@windriver.com>,
+	<1362180962-13024-1-git-send-email-rich.dubielzig@windriver.com>
+In-Reply-To: <1362180962-13024-1-git-send-email-rich.dubielzig@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.80.129]
+MIME-Version: 1.0
+Subject: Re: [V3] nfs-utils: Add scratch directory for NFS upcall state storage (denzil)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,26 +41,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 23:35:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Mar 2013 23:58:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2013-03-01 at 23:09 +0000, Burton, Ross wrote:
-> On 1 March 2013 19:24, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > I don't think 0.20~rc1 sorts lower then 0.20 at least in opkg world:
-> 
-> Hmph, stupid opkg. That's just a quick change to the comparison logic
-> though right? Deb and rpm have these semantics for ~.
-
-I'm sure I've seen changes for opkg itself and I think this util is out
-of sync with the changes in opkg itself. It should really link against
-libopkg and use the *same* version comparison algorithm.
-
-Cheers,
-
-Richard
-
-
-
+I'm sorry to be filling up the forum like this.  Please disregard this patc=
+h, for some reason it is reverting my change instead of adding it.=0A=
+________________________________________=0A=
+From: Rich Dubielzig [rich.dubielzig@windriver.com]=0A=
+Sent: Friday, March 01, 2013 3:36 PM=0A=
+To: Openembedded-core@lists.openembedded.org=0A=
+Cc: Dubielzig, Rich=0A=
+Subject: [V3] nfs-utils: Add scratch directory for NFS upcall state storage=
+ (denzil)=0A=
+=0A=
+When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot=0A=
+record the upcall state and cannot end the 90-second grace period on=0A=
+startup.  This is true even when NFS4 is not being served according to=0A=
+nfsstat.=0A=
+=0A=
+Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>=0A=
+---=0A=
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    4 +---=0A=
+ 1 files changed, 1 insertions(+), 3 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/=
+recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
+index 138791b..84c4464 100644=0A=
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb=0A=
+@@ -12,7 +12,7 @@ DEPENDS =3D "libcap libnfsidmap libevent util-linux tcp-w=
+rappers"=0A=
+ RDEPENDS_${PN} =3D "rpcbind"=0A=
+ RRECOMMENDS_${PN} =3D "kernel-module-nfsd"=0A=
+=0A=
+-PR =3D "r5"=0A=
++PR =3D "r4"=0A=
+=0A=
+ SRC_URI =3D "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \=0A=
+            file://nfs-utils-1.0.6-uclibc.patch \=0A=
+@@ -53,8 +53,6 @@ RDEPENDS_${PN}-stats =3D "python"=0A=
+ do_install_append () {=0A=
+        install -d ${D}${sysconfdir}/init.d=0A=
+        install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsse=
+rver=0A=
+-       # kernel code as of 3.8 hard-codes this path as a default=0A=
+-       install -d ${D}/var/lib/nfs/v4recovery=0A=
+=0A=
+        # the following are built by CC_FOR_BUILD=0A=
+        rm -f ${D}${sbindir}/rpcdebug=0A=
+--=0A=
+1.7.1=0A=
+=0A=
 
 
