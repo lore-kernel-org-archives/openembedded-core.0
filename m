@@ -1,27 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UBN1a-0002Ka-Tu
+	(envelope-from <Kai.Kang@windriver.com>) id 1UBN1Z-0002KZ-HK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 11:17:15 +0100
+	Fri, 01 Mar 2013 11:17:13 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r21A0lDR025248
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r21A0jRV018652
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 1 Mar 2013 02:00:47 -0800 (PST)
+	Fri, 1 Mar 2013 02:00:45 -0800 (PST)
 Received: from localhost.localdomain (128.224.162.205) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Fri, 1 Mar 2013 02:00:46 -0800
+	(TLS) id 14.2.328.9; Fri, 1 Mar 2013 02:00:44 -0800
 From: Kang Kai <kai.kang@windriver.com>
 To: <ross.burton@intel.com>
-Date: Fri, 1 Mar 2013 18:02:13 +0800
-Message-ID: <2e3619405410954ad2677d905217ae92254be40b.1362123438.git.kai.kang@windriver.com>
+Date: Fri, 1 Mar 2013 18:02:12 +0800
+Message-ID: <cover.1362123438.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1362123438.git.kai.kang@windriver.com>
-References: <cover.1362123438.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.205]
 Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] package_rpm.bbclass: add more description for pre/post scriptlets
+Subject: [PATCH 0/2] Name rpm package postinstll files with their package names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +35,23 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 01 Mar 2013 10:17:18 -0000
 Content-Type: text/plain
 
-When write rpm spec file, one description line
+[YOCTO #3218]
 
-"# pkgname - script_type"
+The following changes since commit 0bedc0b80d9b46cbbf4a2c5e120a6aa52cbc7c2e:
 
-is added to pre/post scriptlets for base package but no such line
-writted for subpackage.
+  sudo : upgrade to 1.8.6p6 (2013-02-28 23:15:52 +0000)
 
-Add similiar line to subpackage to facilitate handling the pre/post
-scriptlets.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kaikang/name-rpm-postinst
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kaikang/name-rpm-postinst
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/classes/package_rpm.bbclass |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+Kang Kai (2):
+  package_rpm.bbclass: add more description for pre/post scriptlets
+  package_rpm.bbclass: name postinst files with package name
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 7a1da33..99c4d1a 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -778,19 +778,23 @@ python write_specfile () {
-         # Now process scriptlets
-         if splitrpreinst:
-             spec_scriptlets_bottom.append('%%pre -n %s' % splitname)
-+            spec_scriptlets_bottom.append('# %s - preinst' % splitname)
-             spec_scriptlets_bottom.append(splitrpreinst)
-             spec_scriptlets_bottom.append('')
-         if splitrpostinst:
-             spec_scriptlets_bottom.append('%%post -n %s' % splitname)
-+            spec_scriptlets_bottom.append('# %s - postinst' % splitname)
-             spec_scriptlets_bottom.append(splitrpostinst)
-             spec_scriptlets_bottom.append('')
-         if splitrprerm:
-             spec_scriptlets_bottom.append('%%preun -n %s' % splitname)
-+            spec_scriptlets_bottom.append('# %s - prerm' % splitname)
-             scriptvar = wrap_uninstall(splitrprerm)
-             spec_scriptlets_bottom.append(scriptvar)
-             spec_scriptlets_bottom.append('')
-         if splitrpostrm:
-             spec_scriptlets_bottom.append('%%postun -n %s' % splitname)
-+            spec_scriptlets_bottom.append('# %s - postrm' % splitname)
-             scriptvar = wrap_uninstall(splitrpostrm)
-             spec_scriptlets_bottom.append(scriptvar)
-             spec_scriptlets_bottom.append('')
+ meta/classes/package_rpm.bbclass |   15 +++++++++------
+ 1 files changed, 9 insertions(+), 6 deletions(-)
+
 -- 
 1.7.5.4
 
