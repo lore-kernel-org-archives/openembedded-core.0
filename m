@@ -1,29 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pa0-f45.google.com ([209.85.220.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UBTmn-0004Bo-40
+	(envelope-from <raj.khem@gmail.com>) id 1UBTmv-0004Bx-4H
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 18:30:27 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r21HDvjL004261
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 01 Mar 2013 18:30:29 +0100
+Received: by mail-pa0-f45.google.com with SMTP id kl14so1931515pab.18
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Mar 2013 09:13:57 -0800 (PST)
-Received: from msp-dhcp50.wrs.com (172.25.34.50) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Fri, 1 Mar 2013 09:13:55 -0800
-Message-ID: <5130E1D3.4060008@windriver.com>
-Date: Fri, 1 Mar 2013 11:13:55 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <3796.1362104349@schlepp.honig.net>
-	<20130301071228.GA2908@sakrah.homelinux.org>
-In-Reply-To: <20130301071228.GA2908@sakrah.homelinux.org>
-Subject: Re: [oe] [PATCH]: Resolve sysvinit and util-linux conflicting man pages.
+	Fri, 01 Mar 2013 09:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=0xNdZgNHpCg6jVvIdXmRiR3VWUyaZHHqFCp5Acvr/g8=;
+	b=aFl6mwnvrYn55zYPQbOkjQWJljeGJfzYLHEolM6tXDV2duyF1jmzSMdMJ65dS71Og0
+	nHpi9y3fj9UKPuScjUyz037Ak1JHjkPutW+pe7t3Kqu5NIy73F9X9cMw5Sy8HngFP16V
+	gQ4sCq92lmFdb/kCaSXf6IrQgWDv+cG3WHdg4XBcEcUpeNzkznTZqTqvON4xR6cImIJk
+	Xziah9c8mHCzN292S+PWnJutzOfqzBocWztPLQOcaFIOx9lkGPo5mYyB+4YDaXYF0ouF
+	EaRH+KQ4vs3S9SxgIA/E+xyyRrWLm970mHCoNMhlY3wf/zhuI6muFhZKxhj11Qc4PVRG
+	6bdA==
+X-Received: by 10.66.51.38 with SMTP id h6mr19520345pao.196.1362158044736;
+	Fri, 01 Mar 2013 09:14:04 -0800 (PST)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id ww9sm12619432pbc.41.2013.03.01.09.14.03
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 01 Mar 2013 09:14:04 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Mar 2013 09:13:44 -0800
+Message-Id: <1362158024-4041-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] iproute2: Fix build failure on ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,110 +40,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 17:30:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Mar 2013 17:30:30 -0000
 
-On 3/1/13 1:12 AM, Khem Raj wrote:
-> On (28/02/13 21:19), Jeffrey Honig wrote:
->> From: Jeffrey C Honig <jeffrey.honig@windriver.com>
->>
->> [ CQID: WIND00404316 ]
->
-> except above. Patch looks ok.
+Latest version bump started failing for ppc32
+attached patch is a backport from 3.9-rc1
 
-We've submitted patches before with those identifiers and nobody has complained. 
-  It's within the patch submission guidelines (and well makes our tracking 
-easier from open source back into our internal systems.)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...tion-error-of-m_ipt.c-with-Werror-enabled.patch |   46 ++++++++++++++++++++
+ .../iproute2/iproute2_3.8.0.bb                     |    6 ++-
+ 2 files changed, 50 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-Fix-compilation-error-of-m_ipt.c-with-Werror-enabled.patch
 
-With that said, if the OE community does not want those types of identifiers 
-I'll make sure my people know to exclude them in the future.  (I was the one who 
-originally said submit them, unless the community says otherwise.)
-
---Mark
-
->>
->> Use alternatives mechanism to prevent sysvlinux and util-linux
->> man pages from causing conflicts.
->>
->> Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
->> ---
->>   meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb    |   11 ++++++++++-
->>   meta/recipes-core/util-linux/util-linux.inc       |    9 +++++++++
->>   meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
->>   3 files changed, 20 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
->> index 0a11139..e64b67a 100644
->> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
->> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
->> @@ -5,7 +5,7 @@ SECTION = "base"
->>   LICENSE = "GPLv2+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
->>                       file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
->> -PR = "r10"
->> +PR = "r11"
->>
->>   RDEPENDS_${PN} = "${PN}-inittab"
->>
->> @@ -45,6 +45,15 @@ ALTERNATIVE_LINK_NAME[poweroff] = "${base_sbindir}/poweroff"
->>   ALTERNATIVE_${PN}-pidof = "pidof"
->>   ALTERNATIVE_LINK_NAME[pidof] = "${base_bindir}/pidof"
->>
->> +ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
->> +
->> +ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
->> +ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
->> +ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
->> +ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
->> +ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
->> +ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
->> +
->>   PACKAGES =+ "sysvinit-pidof sysvinit-sulogin"
->>   FILES_${PN} += "${base_sbindir}/* ${base_bindir}/*"
->>   FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit ${base_sbindir}/killall5"
->> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
->> index 10439c0..c91f4a3 100644
->> --- a/meta/recipes-core/util-linux/util-linux.inc
->> +++ b/meta/recipes-core/util-linux/util-linux.inc
->> @@ -154,6 +154,15 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
->>   ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
->>   ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
->>
->> +ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
->> +
->> +ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
->> +ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
->> +ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
->> +ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
->> +ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
->> +ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
->> +
->>   # There seems to be problem, atleast on nslu2, with these, untill they are
->>   # fixed the busybox ones have higher priority
->>   ALTERNATIVE_PRIORITY[hwclock] = "10"
->> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> index dd95573..f91784b 100644
->> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> @@ -1,5 +1,5 @@
->>   MAJOR_VERSION = "2.22"
->> -PR = "r0"
->> +PR = "r1"
->>   require util-linux.inc
->>
->>   # note that `lscpu' is under GPLv3+
->> --
->> 1.7.9.5
->>
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-Fix-compilation-error-of-m_ipt.c-with-Werror-enabled.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-Fix-compilation-error-of-m_ipt.c-with-Werror-enabled.patch
+new file mode 100644
+index 0000000..db74963
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-Fix-compilation-error-of-m_ipt.c-with-Werror-enabled.patch
+@@ -0,0 +1,46 @@
++Upstream-Status: Backport
++
++From 9235195666af7d887771cf557ef2bd3f00b9ecc8 Mon Sep 17 00:00:00 2001
++From: Vijay Subramanian <subramanian.vijay@gmail.com>
++Date: Tue, 26 Feb 2013 09:12:07 +0000
++Subject: [PATCH] Fix compilation error of m_ipt.c with -Werror enabled
++
++Commit (5a650703d47e10aa386406c855eff5a593b2120b Makefile: make warnings into
++errors ) causes the following build error.
++
++gcc -Wall -Wstrict-prototypes -Werror -Wmissing-prototypes
++-Wmissing-declarations -Wold-style-definition -O2 -I../include
++-DRESOLVE_HOSTNAMES -DLIBDIR=\"/usr/lib\" -DCONFDIR=\"/etc/iproute2\"
++-D_GNU_SOURCE -DCONFIG_GACT -DCONFIG_GACT_PROB -DIPT_LIB_DIR=\"/lib/xtables\"
++-DYY_NO_INPUT   -c -o m_ipt.o m_ipt.c
++cc1: warnings being treated as errors
++m_ipt.c:72: error: no previous prototype for 'xtables_register_target'
++m_ipt.c:361: error: no previous prototype for 'build_st'
++make[1]: *** [m_ipt.o] Error 1
++
++This is fixed by adding the prototype in the header include/iptables.h
++
++I am not sure if this is due to something wrong on my build system but I am
++using current glibc 2.17.
++
++Signed-off-by: Vijay Subramanian <subramanian.vijay@gmail.com>
++---
++ include/iptables.h |    2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/include/iptables.h b/include/iptables.h
++index dd844c1..f1e62e2 100644
++--- a/include/iptables.h
+++++ b/include/iptables.h
++@@ -143,6 +143,8 @@ extern int line;
++ /* Your shared library should call one of these. */
++ extern void register_match(struct iptables_match *me);
++ extern void register_target(struct iptables_target *me);
+++extern void xtables_register_target(struct iptables_target *me);
+++extern int build_st(struct iptables_target *target, struct ipt_entry_target *t);
++ 
++ extern struct in_addr *dotted_to_addr(const char *dotted);
++ extern char *addr_to_dotted(const struct in_addr *addrp);
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+index 70dcd2d..892d230 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+@@ -1,9 +1,11 @@
+ require iproute2.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
+-           file://configure-cross.patch"
++           file://configure-cross.patch \
++           file://0001-Fix-compilation-error-of-m_ipt.c-with-Werror-enabled.patch \
++          "
+ 
+ SRC_URI[md5sum] = "951622fd770428116dc165acba375414"
+ SRC_URI[sha256sum] = "579145749f1aaf60e7c7a5de24b7f00fa2200a961094733c792b4ff139181e4f"
+-- 
+1.7.9.5
 
 
 
