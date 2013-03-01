@@ -1,30 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lb0-f182.google.com ([209.85.217.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UBPii-00025D-Hu
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UBQLa-0003Tb-Lt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 14:10:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r21CrSIf029995
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 01 Mar 2013 14:50:17 +0100
+Received: by mail-lb0-f182.google.com with SMTP id gg6so2198993lbb.41
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Mar 2013 04:53:28 -0800 (PST)
-Received: from [128.224.162.206] (128.224.162.206) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Fri, 1 Mar 2013 04:53:27 -0800
-Message-ID: <5130A4C6.8090605@windriver.com>
-Date: Fri, 1 Mar 2013 20:53:26 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Fri, 01 Mar 2013 05:33:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=g6pwBfKYETpWXJZxEhpAs3NPF6lzxyNuFQAqVlE6sms=;
+	b=sz7qEW1PvWyMJzGuGpxe/wKkd6QxuccoXiij/+RY+a5jCM/T/XA1VJyrgp5j+GnLyB
+	um3xCmRWeUA1bFz3vUOpTWOyFjHspl4pRtLsYZGOcPOvlZUwW52lgCcgXaDxBrJaKiP0
+	A7QR11p+w+xJ+dfDWOTxqBjX+mdn4eIxM5AZT/TIS5yEUaBfpVln2nn2Ikm8loSkd7On
+	XXjKu7N30GR2Jerjt1Lr3p+oeqjTUQZvnyehyretiNJbZJ5VUSDE1VdyCJFUUpTJJ5Wj
+	ZlpXv5+pluVGyB8Sq8yM3rH+w4o7jcLe5J55yh6Gn/zlHLVTExiZhK2htiM1kT5MTbs6
+	TgZw==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1362033854.git.hongxu.jia@windriver.com>
-	<CAJTo0LaFN=Q7kJQoJGTqrZamC=OT_pRD9qYrsO2854TWcG9Q0w@mail.gmail.com>
-	<CAMKF1spTzzKjh+6+z2vEjXApLVFPU8MS0NrXVxa9UA=viOj8mQ@mail.gmail.com>
-	<1362095877.1055.23.camel@ted>
-In-Reply-To: <1362095877.1055.23.camel@ted>
-Subject: Re: [PATCH V3 0/2]fix native package compile error with gcc 4.3.4 on x86 host
+X-Received: by 10.112.40.228 with SMTP id a4mr777627lbl.26.1362144819118; Fri,
+	01 Mar 2013 05:33:39 -0800 (PST)
+Received: by 10.112.61.3 with HTTP; Fri, 1 Mar 2013 05:33:38 -0800 (PST)
+In-Reply-To: <51309549.8010502@communistcode.co.uk>
+References: <51309549.8010502@communistcode.co.uk>
+Date: Fri, 1 Mar 2013 08:33:38 -0500
+Message-ID: <CADkTA4PcJitHND_Nj2vD3tDSHk11eeN-w7uWqBQ9Yht1fp3C7g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] U-Boot Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 13:10:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Mar 2013 13:50:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 03/01/2013 07:57 AM, Richard Purdie wrote:
-> On Thu, 2013-02-28 at 07:49 -0800, Khem Raj wrote:
->> On Thu, Feb 28, 2013 at 3:06 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 28 February 2013 07:09, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->>>> Change from V2: as Khem Raj suggested, use `-march=native' to cause the
->>>> compiler to auto-detect the architecture of the build computer, if the
->>>> auto-detect is unsuccessful the option has no effect.
->>> What happens if you're in an environment where you're sharing sstate
->>> between multiple developers, and the build machine is an i7 but
->>> another developer's machine is a Core2?    These machines have
->>> different sets of extensions available
->> yes I thought about it later on. adding march=i686 when host is 32bit
->> and march=x86-64 which build host is 64bit in bitbake.conf is probably
->> one way but I feel its overkill to please an old compiler and for one recipe
->> so may be you should try to deduce the version of gcc. i think best is to
->> fix the autoconf on glib-2.0 where you would add a test to find the version
->> of compiler and inject the needed option to flags
->>
->>
->>> Using the architecture as determined by bitbake seems like a better
->>> idea (which was V1, right?) as that's embedded in the sstate hash.
-> How about we patch sanity.bbclass to test the gcc version and if its
-> 4.3.4 and march isn't in BUILD_CFLAGS, we ask the user to add:
->
-> BUILD_CFLAGS_append = " -march=native"
->
-> to their local.conf, mentioning this is to fix an issue with older gccs?
-Got it, I will work on it.
+On Fri, Mar 1, 2013 at 6:47 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> Today I was building an image for the beaglebone with oe-core +
+> meta-beagleboard. meta-beagleboard pretty much provides the machine
+> definition and the kernel. In order to build the correct u-boot (2013.01+) I
+> had to add u-boot 2013.01 to oe-core. Whilst during this I noticed the mess
+> that the u-boot directory had become, I think we need to have a show of
+> hands who uses what u-boot recipes and can they migrate to newer (common)
+> versions.
 
-Thanks
-Hongxu
+The mpc8315e-rdb reference uses v2012.04, and a quick survey didn't turn up
+any other explicit preferred versions in the layers that I have around my
+development machine.
 
-> Cheers,
+So for now v2012.04 needs to stay, but as we bump that board to the 3.8 kernel,
+we can give another bootloader a test run.
+
 >
-> Richard
+> When I submit a patch to get 2013.01 supported, that would make 4 different
+> releases of u-boot; which seems a bit excessive.
+
+Most releases that I've ever used have kept compatibility fairly well, so I'm
+all for keeping the number of active versions to a minimum. I'd say three is
+a good number, since that matches the number of active kernel versions in
+oe-core as well.
+
+Cheers,
+
+Bruce
+
 >
+> Thoughts?
+>
+> --
+>
+>   Jack Mitchell (jack@embed.me.uk)
+>   Embedded Systems Engineer
+>   http://www.embed.me.uk
+>
+> --
 >
 >
 > _______________________________________________
@@ -84,5 +90,10 @@ Hongxu
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
