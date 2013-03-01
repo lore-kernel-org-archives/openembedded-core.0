@@ -1,38 +1,36 @@
-Received: from mail-ve0-f178.google.com ([209.85.128.178])
+Received: from mail-vc0-f172.google.com ([209.85.220.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UBNYu-0004YK-9t
+	(envelope-from <ross.burton@intel.com>) id 1UBNnb-0006aE-3n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 11:51:51 +0100
-Received: by mail-ve0-f178.google.com with SMTP id db10so2749138veb.9
+	Fri, 01 Mar 2013 12:06:49 +0100
+Received: by mail-vc0-f172.google.com with SMTP id l6so1863785vcl.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 02:35:12 -0800 (PST)
+	Fri, 01 Mar 2013 02:50:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Wuy1YCSNVUxpKRu9OgICm0bKTFjMP2noDJcgJUf6V9U=;
-	b=AmCnbDYqatxRcu45UfRT/wy7v0rmclXEP/0aRjHnGEem8iQjbxJurq3u72t4Y2JwT+
-	p0Bd7QFimbhVNv5JgUSFS2tmgULxFDX5UtHRnRx+nlO+3/FCjF9kWOxVL//+ghOxg5RJ
-	T4SJreNDJ7hE9LSMaYXLQFHCvtdCpBCXShnF9I0kwNuUrgOHa6mxwWolOtT9JUY6nUiT
-	WLt+zvkba/VsJqeZm22JnXdA3Kd01rWRIFtaiCJ5cGC9QORus8TjcfnGIPjiT9sqhZ42
-	X67XSawpukAvYuQpnAma+pQPEmYg0gTjewAYFKt+m0oWyFjY9nlmKSJ0m+ygZFSbF/S6
-	2M0g==
-X-Received: by 10.52.69.74 with SMTP id c10mr3392571vdu.3.1362134112067; Fri,
-	01 Mar 2013 02:35:12 -0800 (PST)
+	:subject:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=LskEObIslWEe5MGBf7wgnXNS952Yk6y/aWP2zrdpIZM=;
+	b=IsPpWXQnsZfNih/AYBDGIvek4y5FxUZX8GYD5kKhLwjyn1IIOdhWKXdBng7+zktYt7
+	MnK5kIt5olK3LdCKs467jPthCGRWxqxfrIiEY3bMLosxr6Y6WIaxsjUD/9zGOX7UREbU
+	HcpB8ve/t263CSIZ4nN40PSR8XsC6Wt3/FYMPUi4FTlkzVlrHPBmqnpKFLAeA8L31ghR
+	0hid0e6qCqtcprvbcNjGR+6RRsaOI7VL5XQ07rvuibQ8kjqJw2P0GGHkmclnBl6hOj3H
+	Wc5QN3BK/FhZAg15TgSa1ICsuERmGZCXO5t7iwYUhI/nbBClwSdeBgIFq17HmmtRg2tE
+	WRCA==
+X-Received: by 10.220.215.73 with SMTP id hd9mr3886256vcb.19.1362135023487;
+	Fri, 01 Mar 2013 02:50:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Fri, 1 Mar 2013 02:34:51 -0800 (PST)
-In-Reply-To: <20130301091804.GF3279@jama>
-References: <cover.1362003285.git.sgw@linux.intel.com>
-	<1362093308.1055.4.camel@ted>
-	<20130228234226.GC3279@jama> <1362097609.1055.35.camel@ted>
-	<20130301091804.GF3279@jama>
+Received: by 10.58.219.195 with HTTP; Fri, 1 Mar 2013 02:50:03 -0800 (PST)
+In-Reply-To: <CA+AhUGyTXD1cBArSo82+JnSrs6KKLw0O9U78U215-RJmFbhOeg@mail.gmail.com>
+References: <CA+AhUGyTXD1cBArSo82+JnSrs6KKLw0O9U78U215-RJmFbhOeg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 Mar 2013 10:34:51 +0000
-Message-ID: <CAJTo0LaUrnbH1a+pCR8NgRK5VOu=vzigMxT=gZcbfyEd-BC2Wg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQliUgBVm8Pn91V9Xo28j9IcA8yWVa2nIH6Ulo6MyHx/O8XwHbOa9mYgSu2G2cAtkGw4coy+
+Date: Fri, 1 Mar 2013 10:50:03 +0000
+Message-ID: <CAJTo0LaCg+LKbg_OCzXf6NxvcyCHWnbY4bJxBYO13rgvv=Z9TQ@mail.gmail.com>
+To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
+X-Gm-Message-State: ALoCoQnUYs/IaM8K5Kyu70doAvC4ePEO09JEO1gAog7tq931os6qeW6dyeg02pS8J8++ve+mhw6f
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/40] Post-ELC Patches and Updates
+Subject: Re: systemd-systemctl-native not pulled in when building systemd image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,41 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 10:51:59 -0000
+X-List-Received-Date: Fri, 01 Mar 2013 11:06:50 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 1 March 2013 09:18, Martin Jansa <martin.jansa@gmail.com> wrote:
-> I'm not using poky as DISTRO and don't have access to most of those
-> distros to check lsb_release output.
->
-> I'm sure about Ubuntu where it's easy:
->             Ubuntu-10.04 \n \
->             Ubuntu-11.10 \n \
->             Ubuntu-12.04 \n \
->             Ubuntu-12.10 \n \
-> but with others I'll need some help.
+On 1 March 2013 09:25, Erik Bot=C3=B6 <erik.boto@pelagicore.com> wrote:
+> I'm building a small image with systemd as DISTRO_FEATURES_INITMAN and
+> it's also in DISTRO_FEATURES. But checking the log.do_rootfs I see
+> that systemctl is missing when running the postinst script of e.g.
+> systemd-compat-units.
 
-This is what lsb_release -a says on Debian unstable in it's
-soon-to-be-released state:
-
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID:	Debian
-Description:	Debian GNU/Linux 7.0 (wheezy)
-Release:	7.0
-Codename:	wheezy
-
-So that's "Debian-7.0".
-
-On Fedora 17:
-$ lsb_release -a
-LSB Version:	:core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarchesktop-4.1-ia32esktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarchrinting-4.1-ia32rinting-4.1-noarch
-Distributor ID:	Fedora
-Description:	Fedora release 17 (Beefy Miracle)
-Release:	17
-Codename:	BeefyMiracle
-
-So "Fedora-17".
+That's a bug in systemd-compat-units, it should be depending on
+systemd-systemctl-native - I'll fix that now.  The dependencies
+injected by systemd.bbclass will only be used if you've recipes using
+the class, so presumably you don't.
 
 Ross
 
