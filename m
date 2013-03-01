@@ -1,24 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1UBRAN-0005EI-S5
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 15:42:42 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r21EQ73J029329
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 1 Mar 2013 06:26:07 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.328.9;
-	Fri, 1 Mar 2013 06:26:07 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Mar 2013 08:26:05 -0600
-Message-ID: <1362147965-42559-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] qemu.inc: Non deterministic compile of qemu
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UBRQq-0005jr-Cv for openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 15:59:34 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r21EoSoB021584; Fri, 1 Mar 2013 14:50:29 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NPlkUYlpZusT; Fri,  1 Mar 2013 14:50:28 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r21EoJSB021581
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 1 Mar 2013 14:50:22 GMT
+Message-ID: <1362148961.1055.57.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 01 Mar 2013 14:42:41 +0000
+In-Reply-To: <CADkTA4PcJitHND_Nj2vD3tDSHk11eeN-w7uWqBQ9Yht1fp3C7g@mail.gmail.com>
+References: <51309549.8010502@communistcode.co.uk>
+	<CADkTA4PcJitHND_Nj2vD3tDSHk11eeN-w7uWqBQ9Yht1fp3C7g@mail.gmail.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: the oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: [RFC] U-Boot Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,49 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 14:42:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Mar 2013 14:59:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When you using a qemuppc target and sstate you might end up with
-the problem:
+On Fri, 2013-03-01 at 08:33 -0500, Bruce Ashfield wrote:
+> On Fri, Mar 1, 2013 at 6:47 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> > Today I was building an image for the beaglebone with oe-core +
+> > meta-beagleboard. meta-beagleboard pretty much provides the machine
+> > definition and the kernel. In order to build the correct u-boot (2013.01+) I
+> > had to add u-boot 2013.01 to oe-core. Whilst during this I noticed the mess
+> > that the u-boot directory had become, I think we need to have a show of
+> > hands who uses what u-boot recipes and can they migrate to newer (common)
+> > versions.
+> 
+> The mpc8315e-rdb reference uses v2012.04, and a quick survey didn't turn up
+> any other explicit preferred versions in the layers that I have around my
+> development machine.
+> 
+> So for now v2012.04 needs to stay, but as we bump that board to the 3.8 kernel,
+> we can give another bootloader a test run.
+> 
+> >
+> > When I submit a patch to get 2013.01 supported, that would make 4 different
+> > releases of u-boot; which seems a bit excessive.
+> 
+> Most releases that I've ever used have kept compatibility fairly well, so I'm
+> all for keeping the number of active versions to a minimum. I'd say three is
+> a good number, since that matches the number of active kernel versions in
+> oe-core as well.
 
-qemu-system-ppc: error while loading shared libraries:
-   libfdt.so.1: cannot open shared object file: No such file or directory
+I think one u-boot would be nice. Lets see if we can bump up the
+mpc8315e-rdb version...
 
-The way you can force this to happen assuming you are using sstate is
-as follows:
+Cheers,
 
-bitbake dtc-native
-bitbake -c cleansstate qemu-native
-bitbake qemu-native
-bitbake -c clean dtc-native
-
-Now go start qemu and it will fail.  The solution is to always build
-the dtc libraries since they are used and needed by the qemuppc
-simulator.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 6c44b31..eb60d43 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -2,8 +2,8 @@ DESCRIPTION = "open source processor emulator"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
- DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
--DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
--DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
-+DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
-+DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
- RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
- 
- require qemu-targets.inc
--- 
-1.7.1
+Richard
 
 
 
