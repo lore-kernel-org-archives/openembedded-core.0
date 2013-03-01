@@ -1,36 +1,38 @@
-Received: from mail-vc0-f172.google.com ([209.85.220.172])
+Received: from mail-vc0-f171.google.com ([209.85.220.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UBNnb-0006aE-3n
+	(envelope-from <ross.burton@intel.com>) id 1UBOBr-0007GC-4u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 12:06:49 +0100
-Received: by mail-vc0-f172.google.com with SMTP id l6so1863785vcl.17
+	Fri, 01 Mar 2013 12:31:51 +0100
+Received: by mail-vc0-f171.google.com with SMTP id fy7so1904174vcb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 02:50:23 -0800 (PST)
+	Fri, 01 Mar 2013 03:15:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=LskEObIslWEe5MGBf7wgnXNS952Yk6y/aWP2zrdpIZM=;
-	b=IsPpWXQnsZfNih/AYBDGIvek4y5FxUZX8GYD5kKhLwjyn1IIOdhWKXdBng7+zktYt7
-	MnK5kIt5olK3LdCKs467jPthCGRWxqxfrIiEY3bMLosxr6Y6WIaxsjUD/9zGOX7UREbU
-	HcpB8ve/t263CSIZ4nN40PSR8XsC6Wt3/FYMPUi4FTlkzVlrHPBmqnpKFLAeA8L31ghR
-	0hid0e6qCqtcprvbcNjGR+6RRsaOI7VL5XQ07rvuibQ8kjqJw2P0GGHkmclnBl6hOj3H
-	Wc5QN3BK/FhZAg15TgSa1ICsuERmGZCXO5t7iwYUhI/nbBClwSdeBgIFq17HmmtRg2tE
-	WRCA==
-X-Received: by 10.220.215.73 with SMTP id hd9mr3886256vcb.19.1362135023487;
-	Fri, 01 Mar 2013 02:50:23 -0800 (PST)
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=uLNL/yaU4KKPFVKFcAMtcI6TUL+ommiOpYqgsVZjBm0=;
+	b=UdJiP5gDRBAqAtn712c52PCHsDA/Qi1CbHI2TghLQTUiGJmWEzbD/weZvzuvT3SRt7
+	b3bVQYvATces2triXpJSJZ2ATlfxxlwSusFouDMSH8Nfj7Q1R8QpPsg0sOS2HuHAcNuG
+	htSQ4btnzIQAA9gR6ZmxIIizCu0/X5jGIRjvtaa4qi5LWohPcEDxuednVkvNfX40v/zV
+	3skb951ICVKXKHOrxLNTCvn6nlP4Ii0ZRxco/E1a+cLvNEa+j+mDKEdWHGXnGCWjfMac
+	9/kl2Aaq7CDqSBJxWtK+mFuUrTqhSzj5Va2vbivhYk3B3X+0QzPTRKOSN3h5fOANiN3M
+	/uvQ==
+X-Received: by 10.220.149.147 with SMTP id t19mr3848231vcv.36.1362136527492;
+	Fri, 01 Mar 2013 03:15:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Fri, 1 Mar 2013 02:50:03 -0800 (PST)
-In-Reply-To: <CA+AhUGyTXD1cBArSo82+JnSrs6KKLw0O9U78U215-RJmFbhOeg@mail.gmail.com>
-References: <CA+AhUGyTXD1cBArSo82+JnSrs6KKLw0O9U78U215-RJmFbhOeg@mail.gmail.com>
+Received: by 10.58.219.195 with HTTP; Fri, 1 Mar 2013 03:15:06 -0800 (PST)
+In-Reply-To: <512F76E7.9030700@digi.com>
+References: <cover.1361427542.git.hongxu.jia@windriver.com>
+	<5d8b955ad3645fb9690823db5f16d5b093cfd343.1361427542.git.hongxu.jia@windriver.com>
+	<512F76E7.9030700@digi.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 Mar 2013 10:50:03 +0000
-Message-ID: <CAJTo0LaCg+LKbg_OCzXf6NxvcyCHWnbY4bJxBYO13rgvv=Z9TQ@mail.gmail.com>
-To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
-X-Gm-Message-State: ALoCoQnUYs/IaM8K5Kyu70doAvC4ePEO09JEO1gAog7tq931os6qeW6dyeg02pS8J8++ve+mhw6f
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: systemd-systemctl-native not pulled in when building systemd image
+Date: Fri, 1 Mar 2013 11:15:06 +0000
+Message-ID: <CAJTo0La0J2ESEiB0KLbMjiRhxP-i=RwmFwmvPb6wwnf3n4GukA@mail.gmail.com>
+To: Javier Viguera <javier.viguera@digi.com>
+X-Gm-Message-State: ALoCoQkpASOBGP2vNcx+S0hF+gYW+1xGNG8EJGf2hpAIilnFRIpgN7JNhfFuM/HhzlmtfqkcjUzh
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] base-passwd.preinst:fix creating passwd and group error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,20 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 11:06:50 -0000
+X-List-Received-Date: Fri, 01 Mar 2013 11:31:51 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 1 March 2013 09:25, Erik Bot=C3=B6 <erik.boto@pelagicore.com> wrote:
-> I'm building a small image with systemd as DISTRO_FEATURES_INITMAN and
-> it's also in DISTRO_FEATURES. But checking the log.do_rootfs I see
-> that systemctl is missing when running the postinst script of e.g.
-> systemd-compat-units.
+On 28 February 2013 15:25, Javier Viguera <javier.viguera@digi.com> wrote:
+> I was bite by this one [YOCTO #3917] in *danny* branch not allowing me to
+> create a rootfs based in DEB packages. Sometimes happens, sometimes not,
+> depending on whether 'base-files' is installed in the rootfs before or after
+> 'base-passwd'.
+>
+> Cherry-picking this commit from master fixes the problem.
+>
+> So could it be also considered for backporting to 'danny' in oe-core and
+> poky?
 
-That's a bug in systemd-compat-units, it should be depending on
-systemd-systemctl-native - I'll fix that now.  The dependencies
-injected by systemd.bbclass will only be used if you've recipes using
-the class, so presumably you don't.
+Merged to danny-next, so will be in 1.3.1.
 
 Ross
 
