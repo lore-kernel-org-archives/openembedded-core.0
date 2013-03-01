@@ -1,42 +1,20 @@
-Received: from mail-ie0-f181.google.com ([209.85.223.181])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <msm-oss@mcclintock.net>) id 1UBT2L-0001s1-Vt
-	for openembedded-core@openembedded.org; Fri, 01 Mar 2013 17:42:28 +0100
-Received: by mail-ie0-f181.google.com with SMTP id 17so3759927iea.12
-	for <openembedded-core@openembedded.org>;
-	Fri, 01 Mar 2013 08:25:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mcclintock.net; s=google;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:content-type;
-	bh=FEcn5TQXtoz8C73z/Y+nWWRy0P1fgrPvV0dxECvok+A=;
-	b=e3PgmjiSlBqmZwAsAzq1F06fRMqJqDslbDzQXGCp/OM1Rz+2xWYrn293SIKuOjiT5l
-	SBePV2a0Zf1SK7o/XmlnOVRcn4WxU+PLLt3lIK9rCvxmxycMLuNstprl8mDtVf2BR1Rf
-	ziTdehy8UO60IfELqCvr04MUfKTCBOAXvCtgM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:content-type:x-gm-message-state;
-	bh=FEcn5TQXtoz8C73z/Y+nWWRy0P1fgrPvV0dxECvok+A=;
-	b=pixdKB6ND3Tsu8m4lZF4f3u1s7xz0ww5Anb2ko4ivytbKivSysM6GG2A05hRrPcGAv
-	pzqBVwsnGAu+GXEThOAqmYBFwxHVS3nWsfcmde3NiJYc+zaMZq/VtHuD4emvT5GBlyQ+
-	Gc4QMMVheG8rA82zAFop9a1fHp+ZLHnGotAMaad4LO6o4qhNVouR4M8sBXQxsn5hyJCt
-	RMx0nPo5xXiE41Oe+psJepLNJu83dH5mioRNYarFTtzu3LcyBkZYNySiK2YP8FWyxh7b
-	U2CMOt24ix9Ua4d7s/efNbdIRObq15HDNXTmuXrRy368C6zBDY3Q4E7k1BLSokyNBsV1
-	NNXQ==
-X-Received: by 10.50.106.199 with SMTP id gw7mr13111825igb.27.1362155157505;
-	Fri, 01 Mar 2013 08:25:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.64.170.103 with HTTP; Fri, 1 Mar 2013 08:25:37 -0800 (PST)
-In-Reply-To: <CAEsOVNcOVN-5=SWrXNGwS+vwKy74grTUB28T8rexvtBrp6gzEQ@mail.gmail.com>
-References: <CAEsOVNcOVN-5=SWrXNGwS+vwKy74grTUB28T8rexvtBrp6gzEQ@mail.gmail.com>
-From: Matthew McClintock <msm-oss@mcclintock.net>
-Date: Fri, 1 Mar 2013 10:25:37 -0600
-Message-ID: <CAEsOVNcEpT5bFM5G91acZwnpSdkMce5Lef-ZwwUB8aZ0mktdOA@mail.gmail.com>
-To: openembedded-core@openembedded.org, 
-	openembedded-devel <openembedded-devel@openembedded.org>
-X-Gm-Message-State: ALoCoQmit0Ez2cOS3058ilu5jyZwRK8x03bZR41WOkLdnYqBNpr/114DGLsd1/RfoQ+2J0ePYNE8
-Subject: Hello everyone
+	(envelope-from <cristian.iorga@intel.com>) id 1UBTNj-0003AR-Kw
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 18:04:29 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Mar 2013 08:46:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,762,1355126400"; d="scan'208";a="292377347"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 01 Mar 2013 08:48:01 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Mar 2013 18:48:25 +0200
+Message-Id: <1362156507-10571-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] Connman upgrade and qemu ethernet provisioning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,17 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 16:42:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 01 Mar 2013 17:04:30 -0000
 
-Hello all,
+Connman 1.12 features Ethernet provisioning
 
-If you need to contact me, please use this new email address
-msm-oss@mcclintock.net, instead of msm@freescale.com or
-b29882@freescale.com.
+As such, qemu machines will use it to prevent connman to
+loose connectivity if no network infrastructure is present.
 
-Thanks!
+Fixes Yocto bugs YB3227, YB3804, YB3843.
 
--M
+Cristian Iorga (2):
+  connman: upgrade to 1.12
+  connman: Wired inteface provisioned via qemu
+
+ meta/recipes-connectivity/connman/connman-conf.bb  |   17 +++---
+ .../connman/connman-conf/qemuall/main.conf         |    3 --
+ .../connman/connman-conf/qemuall/wired-setup       |   16 ++++++
+ .../connman/connman-conf/qemuall/wired.config      |    8 +++
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   55 --------------------
+ meta/recipes-connectivity/connman/connman/connman  |    3 ++
+ .../connman/{connman_1.10.bb => connman_1.12.bb}   |    5 +-
+ 8 files changed, 40 insertions(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+ rename meta/recipes-connectivity/connman/{connman_1.10.bb => connman_1.12.bb} (72%)
+
+-- 
+1.7.10.4
+
 
 
