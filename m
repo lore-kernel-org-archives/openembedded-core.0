@@ -1,41 +1,41 @@
-Received: from mail-da0-f48.google.com ([209.85.210.48])
+Received: from mail-pa0-f46.google.com ([209.85.220.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UBKPS-00056H-QP
+	(envelope-from <raj.khem@gmail.com>) id 1UBKQN-00059K-IB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 08:29:43 +0100
-Received: by mail-da0-f48.google.com with SMTP id w4so1254881dam.7
+	Fri, 01 Mar 2013 08:30:36 +0100
+Received: by mail-pa0-f46.google.com with SMTP id kp14so1637903pab.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Feb 2013 23:13:15 -0800 (PST)
+	Thu, 28 Feb 2013 23:14:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:mail-followup-to
 	:references:mime-version:content-type:content-disposition
 	:in-reply-to:user-agent;
-	bh=Vs2yuP+zPVMJD/Nn97Q3Ws9GGyfbYP69bqh80NX5zpI=;
-	b=iHV15XTEJyKU47GFxS2++fD9ofw7cgSCTSfawAWzHpYbO5EaE0CDWuTrPHSEjJfcs8
-	AINGBgeDH8H7aycUmcLOHCZADiNnP4qEkSLOrIcCNiuyAJ3OikjMarzdjdLohIdrIFNE
-	KZBSTl1/BCP350cydq+Kp641+C8EB0+4sAFnQDmyToffjFQ2yeb+0TK/btUYNeJbP7xF
-	PrwS7ImQiBgwTf0yYAXkfHspFSn0s/4yNXhvMiDnxNi1TGYSJCBGYJwogY9bRjy4OUxc
-	kYikX/av/PLkyD72gxaLBsHJXKhb7NgSna6DMLH/lpnxQwqDPNEvu6FWgeHnDwK+zupl
-	CcyA==
-X-Received: by 10.66.227.169 with SMTP id sb9mr17495720pac.185.1362121995072; 
-	Thu, 28 Feb 2013 23:13:15 -0800 (PST)
+	bh=wUy1Jw/y6VL5w4tCcS7KfssLVstWMhqU9KVL1wrLuLM=;
+	b=i2QFZvusVXpQk/zIBRtgTeJm3jlpVL4i300MQ9xi1bbdPJOyb7JgtuNWBNYsXfDI0G
+	rjZKsloazdzYvkquP8Nm4FZJKf+7nQl78h3ZUHO6zDM9Bckv6SIhSxz1G44dDfX9ReNc
+	tS/26hH0izWSQXi+YpiQAWvtMbaaPrEq5gdPpl4/G+z5s0BWGyT7jNlcHCWy1feP01Fd
+	MgcEk2zFlDvuJ8Td/T8u1lg/Rwfgv5WUczDzPr4fi2K0OJ/t9f3kwLm3/D4UlPyFVq/H
+	twdIS646UpD4DpL1XMZJeoct5cwL/vxxmKirzkYRjYDXOMMv+dmfyML5vwGCo31gLYUN
+	OG7Q==
+X-Received: by 10.66.52.116 with SMTP id s20mr17563213pao.70.1362122051911;
+	Thu, 28 Feb 2013 23:14:11 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id f9sm12104657paz.12.2013.02.28.23.13.13
+	by mx.google.com with ESMTPS id hu2sm11094642pbc.38.2013.02.28.23.14.10
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 28 Feb 2013 23:13:14 -0800 (PST)
-Date: Thu, 28 Feb 2013 23:12:58 -0800
+	Thu, 28 Feb 2013 23:14:11 -0800 (PST)
+Date: Thu, 28 Feb 2013 23:14:01 -0800
 From: Khem Raj <raj.khem@gmail.com>
-To: Jeffrey Honig <jeffrey.honig@windriver.com>
-Message-ID: <20130301071228.GA2908@sakrah.homelinux.org>
-Mail-Followup-To: Jeffrey Honig <jeffrey.honig@windriver.com>,
+To: jeffrey.honig@windriver.com
+Message-ID: <20130301071400.GB2908@sakrah.homelinux.org>
+Mail-Followup-To: jeffrey.honig@windriver.com,
 	openembedded-core@lists.openembedded.org
-References: <3796.1362104349@schlepp.honig.net>
+References: <1362103971-2618-1-git-send-email-jeffrey.honig@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <3796.1362104349@schlepp.honig.net>
+In-Reply-To: <1362103971-2618-1-git-send-email-jeffrey.honig@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [PATCH]: Resolve sysvinit and util-linux conflicting man pages.
+Subject: Re: [PATCH] Help ncurses-native find terminfo on RHEL 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,92 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 07:29:43 -0000
+X-List-Received-Date: Fri, 01 Mar 2013 07:30:37 -0000
+X-List-Received-Date: Fri, 01 Mar 2013 07:30:37 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On (28/02/13 21:19), Jeffrey Honig wrote:
+On (28/02/13 21:12), jeffrey.honig@windriver.com wrote:
 > From: Jeffrey C Honig <jeffrey.honig@windriver.com>
 > 
-> [ CQID: WIND00404316 ]
+> [ CQID: WIND00405305 ]
 
-except above. Patch looks ok. 
+same as the other patch
 
 > 
-> Use alternatives mechanism to prevent sysvlinux and util-linux
-> man pages from causing conflicts.
+> When using ncurses from sstate cache it is not able to find terminfo
+> for screen on RHEL 6.  While RHEL 6 has /lib/terminfo, it is not
+> complete, the complete terminfo database is in /usr/share/terminfo.  This
+> results failure of programs linked to ncurses, such as menuconfig.
 > 
 > Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
 > ---
->  meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb    |   11 ++++++++++-
->  meta/recipes-core/util-linux/util-linux.inc       |    9 +++++++++
->  meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
->  3 files changed, 20 insertions(+), 2 deletions(-)
+>  meta/recipes-core/ncurses/ncurses.inc |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> index 0a11139..e64b67a 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> @@ -5,7 +5,7 @@ SECTION = "base"
->  LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
->                      file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
-> -PR = "r10"
-> +PR = "r11"
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index 9250e9d..040495c 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+>  SECTION = "libs"
+>  DEPENDS = "ncurses-native"
+>  DEPENDS_class-native = ""
+> -INC_PR = "r14"
+> +INC_PR = "r15"
 >  
->  RDEPENDS_${PN} = "${PN}-inittab"
+>  inherit autotools binconfig multilib_header
 >  
-> @@ -45,6 +45,15 @@ ALTERNATIVE_LINK_NAME[poweroff] = "${base_sbindir}/poweroff"
->  ALTERNATIVE_${PN}-pidof = "pidof"
->  ALTERNATIVE_LINK_NAME[pidof] = "${base_bindir}/pidof"
+> @@ -51,8 +51,8 @@ EX_TERMCAP = ""
+>  EX_TERMCAP_virtclass-native = ":/etc/termcap:/usr/share/misc/termcap"
+>  EX_TERMCAP_virtclass-nativesdk = ":/etc/termcap:/usr/share/misc/termcap"
+>  EX_TERMINFO = ""
+> -EX_TERMINFO_virtclass-native = ":/etc/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
+> -EX_TERMINFO_virtclass-nativesdk = ":/etc/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
+> +EX_TERMINFO_virtclass-native = ":/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
+> +EX_TERMINFO_virtclass-nativesdk = ":/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo"
 >  
-> +ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
-> +
-> +ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
-> +ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
-> +ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
-> +ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
-> +ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
-> +ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
-> +
->  PACKAGES =+ "sysvinit-pidof sysvinit-sulogin"
->  FILES_${PN} += "${base_sbindir}/* ${base_bindir}/*"
->  FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit ${base_sbindir}/killall5"
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index 10439c0..c91f4a3 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -154,6 +154,15 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
->  ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
->  ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
->  
-> +ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
-> +
-> +ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
-> +ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
-> +ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
-> +ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
-> +ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
-> +ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
-> +
->  # There seems to be problem, atleast on nslu2, with these, untill they are
->  # fixed the busybox ones have higher priority
->  ALTERNATIVE_PRIORITY[hwclock] = "10"
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> index dd95573..f91784b 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> @@ -1,5 +1,5 @@
->  MAJOR_VERSION = "2.22"
-> -PR = "r0"
-> +PR = "r1"
->  require util-linux.inc
->  
->  # note that `lscpu' is under GPLv3+
+>  # Helper function for do_configure to allow multiple configurations
+>  # $1 the directory to run configure in
 > -- 
 > 1.7.9.5
-> 
-> 
 > 
 > 
 > _______________________________________________
