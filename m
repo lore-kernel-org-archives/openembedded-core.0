@@ -1,30 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UBRVO-0006Jc-3y for Openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 16:04:14 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21EtJRJ021875; Fri, 1 Mar 2013 14:55:19 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id isBhvVnY3mi6; Fri,  1 Mar 2013 14:55:18 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21EtEqj021871
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Mar 2013 14:55:17 GMT
-Message-ID: <1362149257.1055.58.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rich Dubielzig <rich.dubielzig@windriver.com>
-Date: Fri, 01 Mar 2013 14:47:37 +0000
-In-Reply-To: <1362077027-25696-1-git-send-email-rich.dubielzig@windriver.com>
-References: <1362077027-25696-1-git-send-email-rich.dubielzig@windriver.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] Add scratch directory for NFS upcall state storage
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UBRbJ-0006YU-27
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 16:10:46 +0100
+Received: by mail-la0-f47.google.com with SMTP id fj20so3039779lab.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2013 06:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=KNZS9hACVn8Z275wHSDT0fLEnadT6pDUtMiQuAfaj20=;
+	b=BZBEBASCwQkVPAXz+P9sAcDGxOOHLM6Os/LvmoCtLlAHI1pwv/xF/0J5u+j4nq9NDL
+	5vG0wimeigO1VXF3EmwcYdZIyd/KqSLb260Ml/XzPXQ9IBt3s7K7zyn4YerVoQl3VKY4
+	0ublhvfHxyjFq6kfSQm6ti6BolKtymSl2Ds32sS9HXWsbiNcBRTWgxnMBOc8dX5QtD7Q
+	82M14xDErJZ4xbwF3bxetOu5vKD+HKH14jL0UknvmAgHHWtl4CZkyuG9n2T1Vgf4LxGT
+	KOZnms9XP9daK/Mnqe12DOCBV5qGmzQVjG1fL3gYt79/HROxcJRMor/iGi/ERwJK7fMF
+	VHPg==
+MIME-Version: 1.0
+X-Received: by 10.152.113.164 with SMTP id iz4mr9331796lab.50.1362149634395;
+	Fri, 01 Mar 2013 06:53:54 -0800 (PST)
+Received: by 10.112.61.3 with HTTP; Fri, 1 Mar 2013 06:53:54 -0800 (PST)
+In-Reply-To: <1362148961.1055.57.camel@ted>
+References: <51309549.8010502@communistcode.co.uk>
+	<CADkTA4PcJitHND_Nj2vD3tDSHk11eeN-w7uWqBQ9Yht1fp3C7g@mail.gmail.com>
+	<1362148961.1055.57.camel@ted>
+Date: Fri, 1 Mar 2013 09:53:54 -0500
+Message-ID: <CADkTA4OPqbNrwxHdOTAWdWfMJ3v7iaw-BLuKTy4Tfh45DC+mQA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] U-Boot Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,54 +43,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 15:04:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Mar 2013 15:10:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2013-02-28 at 10:43 -0800, Rich Dubielzig wrote:
-> When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
-> record the upcall state and cannot end the 90-second grace period on
-> startup.  This is true even when NFS4 is not being served according to
-> nfsstat.
-> 
-> More details and discussion here:
-> https://lkml.org/lkml/2012/6/11/206
-> 
-> Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
-> ---
->  .../nfs-utils/nfs-utils_1.2.3.bb                   |    4 +++-
->  1 files changed, 3 insertions(+), 1 deletions(-)
+On Fri, Mar 1, 2013 at 9:42 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2013-03-01 at 08:33 -0500, Bruce Ashfield wrote:
+>> On Fri, Mar 1, 2013 at 6:47 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> > Today I was building an image for the beaglebone with oe-core +
+>> > meta-beagleboard. meta-beagleboard pretty much provides the machine
+>> > definition and the kernel. In order to build the correct u-boot (2013.01+) I
+>> > had to add u-boot 2013.01 to oe-core. Whilst during this I noticed the mess
+>> > that the u-boot directory had become, I think we need to have a show of
+>> > hands who uses what u-boot recipes and can they migrate to newer (common)
+>> > versions.
+>>
+>> The mpc8315e-rdb reference uses v2012.04, and a quick survey didn't turn up
+>> any other explicit preferred versions in the layers that I have around my
+>> development machine.
+>>
+>> So for now v2012.04 needs to stay, but as we bump that board to the 3.8 kernel,
+>> we can give another bootloader a test run.
+>>
+>> >
+>> > When I submit a patch to get 2013.01 supported, that would make 4 different
+>> > releases of u-boot; which seems a bit excessive.
+>>
+>> Most releases that I've ever used have kept compatibility fairly well, so I'm
+>> all for keeping the number of active versions to a minimum. I'd say three is
+>> a good number, since that matches the number of active kernel versions in
+>> oe-core as well.
+>
+> I think one u-boot would be nice. Lets see if we can bump up the
+> mpc8315e-rdb version...
 
-The subject line is missing the prefix ("nfs-utils: ") and this patch
-doesn't apply against master which has nfs-utils 1.2.7?
+That's always the goal, but time and effort comes into play .. I've got
+my hands full with my current items and won't commit to a bump, since
+I won't commit .. and then miss.
+
+If someone else does the bump, that's an option .. but I have no idea
+who that someone else would be.
+
+One random thought (for no real reson is that this is one particular area that
+commercial and upstream differ .. we almost never bump our u-boot versions
+once they work, since there's no benefit and only risk to updating the firmware
+and reflashing the board (heck, even *building* uboot) when it is  older and
+doesn't have any missing functionality.
+
+That being said, I'll see what I can do, but no promises. In the mean time, the
+version called out in the reference board should stay around.
 
 Cheers,
 
-Richard
+Bruce
 
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> index 84c4464..138791b 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> @@ -12,7 +12,7 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
->  RDEPENDS_${PN} = "rpcbind"
->  RRECOMMENDS_${PN} = "kernel-module-nfsd"
->  
-> -PR = "r4"
-> +PR = "r5"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
->             file://nfs-utils-1.0.6-uclibc.patch \
-> @@ -53,6 +53,8 @@ RDEPENDS_${PN}-stats = "python"
->  do_install_append () {
->  	install -d ${D}${sysconfdir}/init.d
->  	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
-> +	# kernel code as of 3.8 hard-codes this path as a default
-> +	install -d ${D}/var/lib/nfs/v4recovery
->  
->  	# the following are built by CC_FOR_BUILD
->  	rm -f ${D}${sbindir}/rpcdebug
+>
+> Cheers,
+>
+> Richard
+>
 
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
