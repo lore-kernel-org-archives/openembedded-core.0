@@ -1,36 +1,34 @@
-Received: from mail-ve0-f170.google.com ([209.85.128.170])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UBZQ6-0001XL-LC
-	for openembedded-core@lists.openembedded.org;
-	Sat, 02 Mar 2013 00:31:21 +0100
-Received: by mail-ve0-f170.google.com with SMTP id 14so3405080vea.15
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 15:14:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=/4Op64Qee0200nbtdb0OTJeVraz00AV4K3X7UeaNpUY=;
-	b=SHunbZ9/tIPSPm2r4oqy5MSP9hYrHHoCJcnkkrFVJl5R88sNZwgobakibTwB7xN+NJ
-	TZUY0DKkRWdrjuGUI40qt5fhGAHI4Yx9H+IM1QfqJuyRbGl97tPRgRu3g5M26RMSX4F4
-	1k+RB1vgQL98aC77NzWuR7clhglJY89JXXhDA1ZFfOjY8SvtPZSRTTymcLDvNrNv0Yvu
-	YdQj/YSjRVyTrUNahY6aI8Dsg0mJLszgKGVwbzMVvkf8f0hKdmwk1y1XwaDnK3pY0MH5
-	xUjyj5PR715xaDymPnchYdgwIv+l49TEjda4VRMD5vI/HwBZjU3fM7XQ8N6ge8vUhAYQ
-	rYtA==
-X-Received: by 10.52.93.20 with SMTP id cq20mr4140469vdb.38.1362179694312;
-	Fri, 01 Mar 2013 15:14:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Fri, 1 Mar 2013 15:14:34 -0800 (PST)
-In-Reply-To: <b9e02ae503da777c7d930ca1c58e95daa6092d35.1361942825.git.Qi.Chen@windriver.com>
-References: <cover.1361942825.git.Qi.Chen@windriver.com>
-	<b9e02ae503da777c7d930ca1c58e95daa6092d35.1361942825.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 Mar 2013 23:14:34 +0000
-Message-ID: <CAJTo0LaBx19cwU66Rrxk87xxEAZKHwOY=vPGbQYPCPAVr0MkUA@mail.gmail.com>
-To: Qi.Chen@windriver.com
-X-Gm-Message-State: ALoCoQn8LFCcTMyMmWw6th1YRkd8uBAdNkAHFPmWojXXm0mtzWHtaM0ZTLynbxZZ/xb0LfJ3fGxb
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] matchbox-session-sato: do not rdepend on initscripts
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UBZUW-0001iA-7V for openembedded-core@lists.openembedded.org;
+	Sat, 02 Mar 2013 00:35:53 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r21NQo3N024499; Fri, 1 Mar 2013 23:26:50 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ScCkRpfqK0uO; Fri,  1 Mar 2013 23:26:50 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r21NQiDQ024495
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 1 Mar 2013 23:26:47 GMT
+Message-ID: <1362179945.11004.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 01 Mar 2013 23:19:05 +0000
+In-Reply-To: <CAJTo0LZBGhSsxcfxjyKLb2L1XNpTMLjgfGDaLxWPrNxkiqSs4A@mail.gmail.com>
+References: <1362140387-5761-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+	<1362141704.1055.56.camel@ted> <5130FD69.1020804@linux.intel.com>
+	<CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>
+	<CAJTo0LZBGhSsxcfxjyKLb2L1XNpTMLjgfGDaLxWPrNxkiqSs4A@mail.gmail.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: the oe-core layer <openembedded-core@lists.openembedded.org>,
+	Martin Jansa <martin.jansa@gmail.com>, Patches
+Subject: Re: [PATCH v2] btrfs-tools: added PV to git package recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +41,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 23:31:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 01 Mar 2013 23:35:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 1 March 2013 08:42,  <Qi.Chen@windriver.com> wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, matchbox-session-sato depended on initscripts, thus resulting
-> in initscripts package built and installed in case of systemd init manager.
->
-> But there is actually no dependency between them. So this patch removes
-> the dependency.
+On Fri, 2013-03-01 at 23:09 +0000, Burton, Ross wrote:
+> On 1 March 2013 19:24, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > I don't think 0.20~rc1 sorts lower then 0.20 at least in opkg world:
+> 
+> Hmph, stupid opkg. That's just a quick change to the comparison logic
+> though right? Deb and rpm have these semantics for ~.
 
-Good catch, I was wondering where that package came from.  This
-probably means that systemd booting will break in subtle ways, which
-will be fun.
+I'm sure I've seen changes for opkg itself and I think this util is out
+of sync with the changes in opkg itself. It should really link against
+libopkg and use the *same* version comparison algorithm.
 
-Ross
+Cheers,
+
+Richard
+
+
+
 
 
