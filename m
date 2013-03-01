@@ -1,41 +1,34 @@
-Received: from mail-pa0-f41.google.com ([209.85.220.41])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UBSf6-000153-7a
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 17:18:22 +0100
-Received: by mail-pa0-f41.google.com with SMTP id fb11so1906419pad.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 08:01:56 -0800 (PST)
+	(envelope-from <twoerner@gmail.com>) id 1UBSi4-0001Dg-As
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 01 Mar 2013 17:21:25 +0100
+Received: by mail-wi0-f175.google.com with SMTP id l13so9267521wie.14
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2013 08:05:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Wr3M5wTDQE8Ok3vpeBsH3mC7KfRBDNVobclnwhnneoQ=;
-	b=jjFWgBT+mLU5BLeW+0DAEEL1FzsNLs4FttuHgssTuj095vv69eMhmqgOiparbS/y9O
-	PUcGR+bmhEdIBp0/Hm/N+a+k3AXzMJ6JDLw/LPdHVx4Rk8jffHN70HengDYHOj1jZnIX
-	T43UUilnlzWF7+1NVra0ZWXJpBw5uFIQtJoxi6G0nBUV6XZAiXfbU124tiJ3NSOL1rnx
-	z3HKgEcN29Z5gxNRscjX8qrBfIBlR5smjvskm+72EAjf1tiPTCM4X0/QGB2qXCJShK/t
-	S54BJpJ+uE4nJAfO2yaq89ynEdRipbJuzFZUX3uJegvvAFMiRPG46AyAfCl+fSVvMAbZ
-	zZsw==
-X-Received: by 10.68.137.131 with SMTP id qi3mr15149512pbb.47.1362153716000;
-	Fri, 01 Mar 2013 08:01:56 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id jp9sm12467000pbb.7.2013.03.01.08.01.50
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 01 Mar 2013 08:01:54 -0800 (PST)
-Date: Fri, 1 Mar 2013 17:01:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <20130301160149.GN3279@jama>
-References: <cover.1362003285.git.sgw@linux.intel.com>
-	<1362093308.1055.4.camel@ted> <20130228234226.GC3279@jama>
-	<1362097609.1055.35.camel@ted> <20130301091804.GF3279@jama>
-	<CAHUNapT1kVsUjTSMkbcVXLjBK7kGMu3dQKNuSTk4t51wEnYgZw@mail.gmail.com>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=NNGAa06F6VyfnmHxaT1bHy78Pmf6U7/4IMEQn6zlF38=;
+	b=EIxoh2z52lg1vTCyhEjKu2GAdrlS0k9c1IyG2Fzg3BK/Qe1eY3R5H/Wno3mqIE9m5y
+	RZYunIMwOUBNg076CUh/7oL+J8BG+yUWal7mfNl586hTpGnGPecmyYVPYSS1PGMMIWlf
+	E6NkVDNraPHNiTf519Dsf8PpSS8TFyKUwuWJpFO+egAdCj6Gwm6MZuop8m6OneOPcmiG
+	U4xYkx9zxaOIJVtFQNUTmL9k+3CcCyPWaDK2+aSGvRUR0qFVc7wYc5vL3GHmaMPybqnR
+	wcgMEX4d28Hq/n83gR0YIhaicoTzFAZ21geB0gP+O34VKS6GaTBD1mXWctGolaQYYHVX
+	AZbA==
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapT1kVsUjTSMkbcVXLjBK7kGMu3dQKNuSTk4t51wEnYgZw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Received: by 10.180.104.10 with SMTP id ga10mr4851597wib.23.1362153900754;
+	Fri, 01 Mar 2013 08:05:00 -0800 (PST)
+Received: by 10.194.45.100 with HTTP; Fri, 1 Mar 2013 08:05:00 -0800 (PST)
+In-Reply-To: <1362147965-42559-1-git-send-email-jason.wessel@windriver.com>
+References: <1362147965-42559-1-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 1 Mar 2013 11:05:00 -0500
+Message-ID: <CAHUNapTj+8e8fzeHt=NVQ2j5SFCZze7oVM9FqG4dRvuhB5hNDw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/40] Post-ELC Patches and Updates
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu.inc: Non deterministic compile of qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,44 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 16:18:23 -0000
-X-Groupsio-MsgNum: 36097
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Zfao1/4IORAeFOVj"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Mar 2013 16:21:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---Zfao1/4IORAeFOVj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 1, 2013 at 9:26 AM, Jason Wessel <jason.wessel@windriver.com> wrote:
+> When you using a qemuppc target and sstate you might end up with
+> the problem:
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 6c44b31..eb60d43 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -2,8 +2,8 @@ DESCRIPTION = "open source processor emulator"
+>  HOMEPAGE = "http://qemu.org"
+>  LICENSE = "GPLv2 & LGPLv2.1"
+>  DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
+> -DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
+> -DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
+> +DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+> +DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+>  RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
 
-On Fri, Mar 01, 2013 at 10:57:50AM -0500, Trevor Woerner wrote:
-> On Fri, Mar 1, 2013 at 4:18 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > I'm sure about Ubuntu where it's easy:
-> >             Ubuntu-10.04 \n \
-> >             Ubuntu-11.10 \n \
-> >             Ubuntu-12.04 \n \
-> >             Ubuntu-12.10 \n \
-> > but with others I'll need some help.
->=20
-> I can help with openSUSE, what do you need me to do?
+Is there a way to instrument this in such a way that these depends are
+included only when the target machine is qemuppc? Some sort of
+@machine_depends or something?
 
-send lsb_release -a output
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Zfao1/4IORAeFOVj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlEw0O0ACgkQN1Ujt2V2gByQOwCeOA8m7GuyEGr3mdvxJO3v87km
-dPkAnR35jTAicswxhOWA+8OFHQq3cbVE
-=UDJP
------END PGP SIGNATURE-----
-
---Zfao1/4IORAeFOVj--
