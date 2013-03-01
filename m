@@ -1,24 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-da0-f41.google.com ([209.85.210.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1UBU7L-00050U-UQ
+	(envelope-from <martin.jansa@gmail.com>) id 1UBUEN-0005PZ-4h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 18:51:36 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Mar 2013 09:34:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,762,1355126400"; d="scan'208";a="297825786"
-Received: from unknown (HELO localhost) ([10.255.12.240])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Mar 2013 09:34:34 -0800
-From: tom.zanussi@linux.intel.com
+	Fri, 01 Mar 2013 18:59:05 +0100
+Received: by mail-da0-f41.google.com with SMTP id j17so1511057dan.14
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2013 09:42:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=GT7fpNm/dckoTPf/ULVvAEv9h6o1t6w2y8OZgmkHIVg=;
+	b=gh0OZ5NpCiK47t4JCimkeiNjmSgfsnUS1HqoFV5GdM6y5GHEWXx10itcFg1YIl8vvL
+	+T6UgfkPRaJkwVaBLmkV2NAC2Hk0lpwXyAibsHRKro4MRxZ9AaoD5tu8MMi6shkr7CXy
+	+k2LChHg/YvnhxImpopoWrYMC6AYO8j5cj6YgKJucNfGx2yJ/FUn1MbqIc4fHTMoRDXA
+	PGX3uzya/dATQeja8qK9A94NAMxFVGnT6iHbPGeJdYCFrxU27Q322iERf0ZRahpMzm7/
+	x/06/pM30Rsoq5VdTRzGb6D49OpvfNI26Vc81mkmMBd7DiVMWqFVTMp0i5YM+8MdUYuC
+	wsZw==
+X-Received: by 10.68.209.134 with SMTP id mm6mr15578062pbc.3.1362159746740;
+	Fri, 01 Mar 2013 09:42:26 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id eg1sm1717554pbb.33.2013.03.01.09.42.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 01 Mar 2013 09:42:25 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Mar 2013 11:34:55 -0600
-Message-Id: <4e9a2c972a0e3254965fe12cdc8ede1f2acd6faa.1362158882.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <cover.1362158882.git.tom.zanussi@linux.intel.com>
-References: <cover.1362158882.git.tom.zanussi@linux.intel.com>
-MIME-Version: 1.0
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/3] sysprof: upgrade to 1.2.0
+Date: Fri,  1 Mar 2013 18:42:22 +0100
+Message-Id: <1362159742-20602-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] sanity.bbclass: always use oe.lsb.distro_identifier method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,82 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 17:51:37 -0000
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 01 Mar 2013 17:59:09 -0000
 
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+* even when /etc/redhat-release or /etc/SuSE-release exists
+* don't read /etc/lsb-release manually, NATIVELSBSTRING is not
+  reading it too
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...PowerPC-checks-for-__NR_perf_counter_open.patch | 35 ----------------------
- meta/recipes-kernel/sysprof/sysprof_git.bb         |  6 ++--
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch
+ meta/classes/sanity.bbclass | 36 ++++--------------------------------
+ 1 file changed, 4 insertions(+), 32 deletions(-)
 
-diff --git a/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch b/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch
-deleted file mode 100644
-index 041054e..0000000
---- a/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Upstream-Status: Backport
--
--From 4708a509aa9d65ae93e9824e42ddbc6e8d42d90c Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
--Date: Sat, 27 Aug 2011 20:04:44 +0200
--Subject: [PATCH] Fix PowerPC checks for __NR_perf_counter_open.
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--__ppc__ isn't defined here on Debian powerpc. Grepping through the headers
--installed in /usr/include, there are a few references to __ppc__ and
--__ppc64__, but I suspect they're for other OSs.
--
--Signed-off-by: Michel Dänzer <michel@daenzer.net>
-----
-- collector.c |    2 +-
-- 1 files changed, 1 insertions(+), 1 deletions(-)
--
--diff --git a/collector.c b/collector.c
--index b28964f..fe16967 100644
----- a/collector.c
--+++ b/collector.c
--@@ -175,7 +175,7 @@ sysprof_perf_counter_open (struct perf_counter_attr *attr,
-- #define __NR_perf_counter_open 337
-- #elif defined(__hppa__)
-- #define __NR_perf_counter_open 318
---#elif defined(__ppc__) || defined(__ppc64__)
--+#elif defined(__powerpc__) || defined(__powerpc64__)
-- #define __NR_perf_counter_open 319
-- #elif defined(__s390__)
-- #define __NR_perf_counter_open 331
---- 
--1.7.6.1
--
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-index 64414c0..c7506fe 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-@@ -4,13 +4,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 94c6ce3..06e95e3 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -263,39 +263,11 @@ def check_supported_distro(sanity_data):
+     if not tested_distros:
+         return
  
- DEPENDS = "gtk+ libglade"
+-    if os.path.exists("/etc/redhat-release"):
+-        f = open("/etc/redhat-release", "r")
+-        try:
+-            distro = f.readline().strip()
+-        finally:
+-            f.close()
+-    elif os.path.exists("/etc/SuSE-release"):
+-        import re
+-        f = open("/etc/SuSE-release", "r")
+-        try:
+-            distro = f.readline()
+-            # Remove the architecture suffix e.g. (i586)
+-            distro = re.sub(r' \([a-zA-Z0-9\-_]*\)$', '', distro).strip()
+-        finally:
+-            f.close()
+-    else:
+-        # Use LSB method
+-        try:
+-            distro = oe.lsb.distro_identifier()
+-        except Exception:
+-            distro = None
++    try:
++        distro = oe.lsb.distro_identifier()
++    except Exception:
++        distro = None
  
--SRCREV = "4692f85f625f4fd969cef4ab5dc47cc4655c87f9"
--PR = "r2"
--PV = "1.1.8+git${SRCPV}"
-+SRCREV = "cd44ee6644c3641507fb53b8a2a69137f2971219"
-+PV = "1.2.0+git${SRCPV}"
- 
- SRC_URI = "git://git.gnome.org/sysprof;protocol=git \
-            file://define-NT_GNU_BUILD_ID.patch \
--	   file://0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch \
-           "
- 
- SRC_URI_append_arm  = " file://rmb-arm.patch"
+-        if not distro:
+-            if os.path.exists("/etc/lsb-release"):
+-                f = open("/etc/lsb-release", "r")
+-                try:
+-                    for line in f:
+-                        lns = line.split('=')
+-                        if lns[0] == "DISTRIB_DESCRIPTION":
+-                            distro = lns[1].strip('"\n')
+-                            break
+-                finally:
+-                    f.close()
+     if distro:
+         if distro not in [x.strip() for x in tested_distros.split('\\n')]:
+             bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
 -- 
-1.7.11.4
+1.8.1.4
 
 
 
