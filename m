@@ -1,33 +1,38 @@
-Received: from mail-we0-f169.google.com ([74.125.82.169])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UBSb8-0000vc-EJ
+	(envelope-from <martin.jansa@gmail.com>) id 1UBSf6-000153-7a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Mar 2013 17:14:14 +0100
-Received: by mail-we0-f169.google.com with SMTP id t11so2693073wey.0
+	Fri, 01 Mar 2013 17:18:22 +0100
+Received: by mail-pa0-f41.google.com with SMTP id fb11so1906419pad.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Mar 2013 07:57:51 -0800 (PST)
+	Fri, 01 Mar 2013 08:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=GmgxRyy4XNO+p8Y8NNU1d8JM43Yg+mFYbXGENH+V/Lg=;
-	b=LhnMQJqhG7AK57N9VpEbM+lxWP5IedbjRYTiHmnVt+Y0UlJUcsJSg8qAyXGW+gpT7Y
-	JJGDQ/DmMw2H0e6YxacBWmpVgo+Xo56AzUXcrt4qAHbuN0+m5PbNIiRh2DbKfsqq4fnX
-	z2kNIicHvFOB5x2Kxv71byqiZZemVMv/WCzv4HGtq/htS5DT8L9qBIFDfoJNIqjPboV0
-	PP8n3FRwk6yxCoN9XFl+1gj8IFSTZooO7pvXPd7na6/YUONmL8t/cDa5UA4m+KktUNVQ
-	W/TIsmltaqvR2yL8Il9lA6p+wytpNwFImG//tagMHoYujMvR6rNrc5dXdT6gvs/gM94A
-	WhgA==
-MIME-Version: 1.0
-X-Received: by 10.181.11.198 with SMTP id ek6mr3563788wid.1.1362153470980;
-	Fri, 01 Mar 2013 07:57:50 -0800 (PST)
-Received: by 10.194.45.100 with HTTP; Fri, 1 Mar 2013 07:57:50 -0800 (PST)
-In-Reply-To: <20130301091804.GF3279@jama>
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=Wr3M5wTDQE8Ok3vpeBsH3mC7KfRBDNVobclnwhnneoQ=;
+	b=jjFWgBT+mLU5BLeW+0DAEEL1FzsNLs4FttuHgssTuj095vv69eMhmqgOiparbS/y9O
+	PUcGR+bmhEdIBp0/Hm/N+a+k3AXzMJ6JDLw/LPdHVx4Rk8jffHN70HengDYHOj1jZnIX
+	T43UUilnlzWF7+1NVra0ZWXJpBw5uFIQtJoxi6G0nBUV6XZAiXfbU124tiJ3NSOL1rnx
+	z3HKgEcN29Z5gxNRscjX8qrBfIBlR5smjvskm+72EAjf1tiPTCM4X0/QGB2qXCJShK/t
+	S54BJpJ+uE4nJAfO2yaq89ynEdRipbJuzFZUX3uJegvvAFMiRPG46AyAfCl+fSVvMAbZ
+	zZsw==
+X-Received: by 10.68.137.131 with SMTP id qi3mr15149512pbb.47.1362153716000;
+	Fri, 01 Mar 2013 08:01:56 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id jp9sm12467000pbb.7.2013.03.01.08.01.50
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 01 Mar 2013 08:01:54 -0800 (PST)
+Date: Fri, 1 Mar 2013 17:01:49 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <20130301160149.GN3279@jama>
 References: <cover.1362003285.git.sgw@linux.intel.com>
 	<1362093308.1055.4.camel@ted> <20130228234226.GC3279@jama>
 	<1362097609.1055.35.camel@ted> <20130301091804.GF3279@jama>
-Date: Fri, 1 Mar 2013 10:57:50 -0500
-Message-ID: <CAHUNapT1kVsUjTSMkbcVXLjBK7kGMu3dQKNuSTk4t51wEnYgZw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAHUNapT1kVsUjTSMkbcVXLjBK7kGMu3dQKNuSTk4t51wEnYgZw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAHUNapT1kVsUjTSMkbcVXLjBK7kGMu3dQKNuSTk4t51wEnYgZw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [CONSOLIDATED PULL 00/40] Post-ELC Patches and Updates
@@ -43,17 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2013 16:14:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 01 Mar 2013 16:18:23 -0000
+X-Groupsio-MsgNum: 36097
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Zfao1/4IORAeFOVj"
+Content-Disposition: inline
 
-On Fri, Mar 1, 2013 at 4:18 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> I'm sure about Ubuntu where it's easy:
->             Ubuntu-10.04 \n \
->             Ubuntu-11.10 \n \
->             Ubuntu-12.04 \n \
->             Ubuntu-12.10 \n \
-> but with others I'll need some help.
+--Zfao1/4IORAeFOVj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I can help with openSUSE, what do you need me to do?
+On Fri, Mar 01, 2013 at 10:57:50AM -0500, Trevor Woerner wrote:
+> On Fri, Mar 1, 2013 at 4:18 AM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> > I'm sure about Ubuntu where it's easy:
+> >             Ubuntu-10.04 \n \
+> >             Ubuntu-11.10 \n \
+> >             Ubuntu-12.04 \n \
+> >             Ubuntu-12.10 \n \
+> > but with others I'll need some help.
+>=20
+> I can help with openSUSE, what do you need me to do?
 
+send lsb_release -a output
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Zfao1/4IORAeFOVj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlEw0O0ACgkQN1Ujt2V2gByQOwCeOA8m7GuyEGr3mdvxJO3v87km
+dPkAnR35jTAicswxhOWA+8OFHQq3cbVE
+=UDJP
+-----END PGP SIGNATURE-----
+
+--Zfao1/4IORAeFOVj--
