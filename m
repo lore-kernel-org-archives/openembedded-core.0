@@ -1,32 +1,34 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-da0-f54.google.com ([209.85.210.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UBZuq-0002rh-2x for openembedded-core@lists.openembedded.org;
-	Sat, 02 Mar 2013 01:03:08 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21Ns37V025840; Fri, 1 Mar 2013 23:54:03 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gUWrCaflznW6; Fri,  1 Mar 2013 23:54:03 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r21NrtZq025836
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Mar 2013 23:53:58 GMT
-Message-ID: <1362181576.11004.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 01 Mar 2013 23:46:16 +0000
-In-Reply-To: <CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>
-References: <1362140387-5761-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-	<1362141704.1055.56.camel@ted> <5130FD69.1020804@linux.intel.com>
-	<CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [PATCH v2] btrfs-tools: added PV to git package recipe
+	(envelope-from <martin.jansa@gmail.com>) id 1UBaAC-0003Le-LO
+	for openembedded-core@lists.openembedded.org;
+	Sat, 02 Mar 2013 01:19:05 +0100
+Received: by mail-da0-f54.google.com with SMTP id p1so1630520dad.27
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Mar 2013 16:02:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=T0+BnNa1ds0uwjD8/1duUBvFKFYlIR5vFwwGlY32GPs=;
+	b=BYXG0mNw/e51z53L1ZyocmZ30ed6u4iY9p/xbt3FEnkkbMBbC1IkTvlWUhyC0jp23Q
+	Uaw981wZzUwjsXGG/3hStnXZ1s3Q0sclkKmcXpFgfv4Zcl3888Xa3dTuLMtg0HtjZYGB
+	lhw4Z1+JW0TC5+YdDwhmXTi9/ioNrrx8E/AmKWQ/QpEUjdpIS9shQq9Xa7iR7ia/KaT2
+	9/sg6ejeReMbdCuEoFO/M57j/VLtaQ66b1XCHMeJcRLFb8ijPGWMvonAgZIK8Zo49lCk
+	0AeYV6btb/dRGuW0Bialu+/CfxBIQ3m8KG2JBc5N1Xb+kMLVH0Xm5gWz+rbmzYjANKeu
+	1QHw==
+X-Received: by 10.67.22.33 with SMTP id hp1mr20969862pad.3.1362182549471;
+	Fri, 01 Mar 2013 16:02:29 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id i6sm14640317paw.19.2013.03.01.16.02.25
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 01 Mar 2013 16:02:27 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Mar 2013 01:02:17 +0100
+Message-Id: <1362182537-16716-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <1359984404.14071.160.camel@ted>
+References: <1359984404.14071.160.camel@ted>
+Subject: [PATCHv2] rm_work: remove package and packages-split dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2013 00:03:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Mar 2013 00:19:09 -0000
+X-List-Received-Date: Sat, 02 Mar 2013 00:19:09 -0000
 
-On Fri, 2013-03-01 at 20:24 +0100, Martin Jansa wrote:
-> I don't think 0.20~rc1 sorts lower then 0.20 at least in opkg world:
-> 
-> 
-> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.20~rc1 '<='
-> 0.20 && echo "Y"
-> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.20-rc1 '<='
-> 0.20 && echo "Y"
-> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.19+0.20~rc1
-> '<=' 0.20 && echo "Y"
-> Y
-> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.19+0.20-rc1
-> '<=' 0.20 && echo "Y"
-> Y
+* as described in
+  http://git.openembedded.org/openembedded-core/commit/?id=6107ee294afde395e39d084c33e8e94013c625a9
 
-Just to follow up, I added this support to opkg itself back in 2008:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/rm_work.bbclass | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-http://code.google.com/p/opkg/source/detail?spec=svn40&r=40
-
-It would be nice to finally be able to start using it!
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 997dcd1..d3be0be 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -17,15 +17,12 @@ do_rm_work () {
+     cd ${WORKDIR}
+     for dir in *
+     do
+-        if [ `basename ${S}` = $dir ]; then
+-            rm -rf $dir
+-        # The package and packages-split directories are retained by sstate for 
+-        # do_package so we retain them here too. Anything in sstate 'plaindirs' 
+-        # should be retained. Also retain logs and other files in temp.
+-        elif [ $dir != 'temp' ] && [ $dir != 'package' ]  && [ $dir != 'packages-split' ]; then
++        # Retain only logs and other files in temp.
++        if [ $dir != 'temp' ]; then
+             rm -rf $dir
+         fi
+     done
++
+     # Need to add pseudo back or subsqeuent work in this workdir
+     # might fail since setscene may not rerun to recreate it
+     mkdir ${WORKDIR}/pseudo/
+@@ -54,6 +51,15 @@ do_rm_work () {
+                 i=dummy
+                 break
+                 ;;
++            # We remove do_package entirely, including any
++            # sstate version since otherwise we'd need to leave 'plaindirs' around
++            # such as 'packages' and 'packages-split' and these can be large. No end
++            # of chain tasks depend directly on do_package anymore.
++            *do_package|*do_package.*|*do_package_setscene.*)
++                rm -f $i;
++                i=dummy
++                break
++                ;;
+             *_setscene*)
+                 i=dummy
+                 break
+@@ -71,7 +77,7 @@ do_rm_work () {
+ addtask rm_work after do_${RMWORK_ORIG_TASK}
+ 
+ do_rm_work_all () {
+-	:
++    :
+ }
+ do_rm_work_all[recrdeptask] = "do_rm_work"
+ addtask rm_work_all after do_rm_work
+-- 
+1.8.1.4
 
 
 
