@@ -1,31 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pa0-f46.google.com ([209.85.220.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UBmKv-0000Y4-Dm for Openembedded-core@lists.openembedded.org;
-	Sat, 02 Mar 2013 14:18:49 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r22D9s2T029605; Sat, 2 Mar 2013 13:09:54 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9AKuH7Vn1URk; Sat,  2 Mar 2013 13:09:54 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r22D9jEh029600
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 2 Mar 2013 13:09:48 GMT
-Message-ID: <1362229323.11004.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Sat, 02 Mar 2013 13:02:03 +0000
-In-Reply-To: <CAHUNapTj+8e8fzeHt=NVQ2j5SFCZze7oVM9FqG4dRvuhB5hNDw@mail.gmail.com>
-References: <1362147965-42559-1-git-send-email-jason.wessel@windriver.com>
-	<CAHUNapTj+8e8fzeHt=NVQ2j5SFCZze7oVM9FqG4dRvuhB5hNDw@mail.gmail.com>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: about the oe-core layer <Openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [PATCH] qemu.inc: Non deterministic compile of qemu
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1UBpDN-0007gd-Cb; Sat, 02 Mar 2013 17:23:15 +0100
+Received: by mail-pa0-f46.google.com with SMTP id kp14so2386304pab.19
+	for <multiple recipients>; Sat, 02 Mar 2013 08:06:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=BeCeDNMjkDEXkAKd2mLi4z2X2vuQHcAINRjLXla40eI=;
+	b=GBuGB5He/4EM7plR2383zTeWo5BXX2S7I3iDVvZsJ2mHMW6n7+j3xJuFlzuB3L9G4W
+	DkmwbK3wDWJ5O39FTQoMzHYvKyr3io4b63NCoTaEM2yx3v8Fz5/fbQFc0ruwwMJVUN4P
+	mVs4OeBTPKLTJnaZir+Cmg7DFpxm20j7nnTbtMtSGguXAOCQuu3pD17R2gRNLjMX+zcc
+	rvWscyynNXFyJbVdqxrF6Kqzfc0jGqaQj8g6hjln5AC03o3CMbVp0E9i6rRQuhLXRwh2
+	RMY3WB7FW0q7/Bdpa96g8xEFuzJK3NBzg5n1PM0kjF0thPXMFlgzWqR1Fv8LRCL63SKv
+	DkhQ==
+X-Received: by 10.68.75.109 with SMTP id b13mr20154664pbw.25.1362240407454;
+	Sat, 02 Mar 2013 08:06:47 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id u10sm17164533pax.14.2013.03.02.08.06.43
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 02 Mar 2013 08:06:46 -0800 (PST)
+Date: Sat, 2 Mar 2013 17:06:39 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20130302160639.GB3279@jama>
+References: <20130301144405.C22D9203A@opal>
+MIME-Version: 1.0
+In-Reply-To: <20130301144405.C22D9203A@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Mark Hatle : module.bbclass: Create a new depmodwrapper to assist cross-installs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,39 +43,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2013 13:18:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Mar 2013 16:23:18 -0000
+X-Groupsio-MsgNum: 36144
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+Xnt6BZa+I2KmHWw"
+Content-Disposition: inline
 
-On Fri, 2013-03-01 at 11:05 -0500, Trevor Woerner wrote:
-> On Fri, Mar 1, 2013 at 9:26 AM, Jason Wessel <jason.wessel@windriver.com> wrote:
-> > When you using a qemuppc target and sstate you might end up with
-> > the problem:
-> >
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> > index 6c44b31..eb60d43 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -2,8 +2,8 @@ DESCRIPTION = "open source processor emulator"
-> >  HOMEPAGE = "http://qemu.org"
-> >  LICENSE = "GPLv2 & LGPLv2.1"
-> >  DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman"
-> > -DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native"
-> > -DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman"
-> > +DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
-> > +DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
-> >  RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-> 
-> Is there a way to instrument this in such a way that these depends are
-> included only when the target machine is qemuppc? Some sort of
-> @machine_depends or something?
+--+Xnt6BZa+I2KmHWw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You could do that but it would mean you'd have a -native recipe
-rebuilding when changing machine. I'd not recommend it.
+On Fri, Mar 01, 2013 at 02:44:05PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: b18c61bae4d7161c087a004bba3c696006f7a2f6
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Db18c61bae4d7161c087a004bba3c696006f7a2f6
+>=20
+> Author: Mark Hatle <mark.hatle@windriver.com>
+> Date:   Thu Feb 28 15:51:51 2013 -0600
+>=20
+> module.bbclass: Create a new depmodwrapper to assist cross-installs
 
-Cheers,
+I've reopened
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3962
+because this does not work correctly with multiple MACHINES.
 
-Richard
+>=20
+> Previously the build path to STAGING_KERNEL_DIR was being embedded into t=
+he
+> package post install scripts.  We avoid this behavior by generating a spe=
+cial
+> depmodwrapper script.  This script contains that hard-coded path, ensuring
+> that re-use of the sstate-cache (and/or packages) will always run through=
+ the
+> wrapper generated by the current build with a checksum that includes
+> STAGING_KERNEL_DIR.
+>=20
+> [ YOCTO #3962 ]
+>=20
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/classes/image.bbclass                         |    4 +-
+>  meta/classes/kernel.bbclass                        |    8 ++--
+>  meta/classes/module.bbclass                        |    4 +-
+>  .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |   43 ++++++++++++++=
+++++++
+>  4 files changed, 51 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index dd78acb..19564d8 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -10,7 +10,7 @@ inherit gzipnative
+> =20
+>  LICENSE =3D "MIT"
+>  PACKAGES =3D ""
+> -DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross"
+> +DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cros=
+s"
+>  RDEPENDS +=3D "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INST=
+ALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
+>  RRECOMMENDS +=3D "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+> =20
+> @@ -283,7 +283,7 @@ fakeroot do_rootfs () {
+>  		KERNEL_VERSION=3D`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
+> =20
+>  		mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
+> -		depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERN=
+EL_VERSION $KERNEL_VERSION
+> +		depmodwrapper -a -b ${IMAGE_ROOTFS} $KERNEL_VERSION
+>  	fi
+> =20
+>  	${IMAGE_PREPROCESS_COMMAND}
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e8c585b..2bdc2fc 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -1,7 +1,7 @@
+>  inherit linux-kernel-base module_strip
+> =20
+>  PROVIDES +=3D "virtual/kernel"
+> -DEPENDS +=3D "virtual/${TARGET_PREFIX}gcc kmod-native"
+> +DEPENDS +=3D "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cros=
+s"
+> =20
+>  # we include gcc above, we dont need virtual/libc
+>  INHIBIT_DEFAULT_DEPS =3D "1"
+> @@ -272,7 +272,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+>  	mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>  fi
+>  if [ -n "$D" ]; then
+> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} $=
+{KERNEL_VERSION}
+> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  else
+>  	depmod -a ${KERNEL_VERSION}
+>  fi
+> @@ -282,7 +282,7 @@ pkg_postinst_modules () {
+>  if [ -z "$D" ]; then
+>  	depmod -a ${KERNEL_VERSION}
+>  else
+> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} $=
+{KERNEL_VERSION}
+> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+> =20
+> @@ -290,7 +290,7 @@ pkg_postrm_modules () {
+>  if [ -z "$D" ]; then
+>  	depmod -a ${KERNEL_VERSION}
+>  else
+> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} $=
+{KERNEL_VERSION}
+> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+> =20
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index e2174a1..2c1888c 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -28,7 +28,7 @@ module_pkg_postinst () {
+>  if [ -z "$D" ]; then
+>  	depmod -a ${KERNEL_VERSION}
+>  else
+> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} $=
+{KERNEL_VERSION}
+> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+> =20
+> @@ -36,7 +36,7 @@ module_pkg_postrm () {
+>  if [ -z "$D" ]; then
+>  	depmod -a ${KERNEL_VERSION}
+>  else
+> -	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} $=
+{KERNEL_VERSION}
+> +	depmodwrapper -a -b $D ${KERNEL_VERSION}
+>  fi
+>  }
+> =20
+> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/r=
+ecipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> new file mode 100644
+> index 0000000..efb1cac
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> @@ -0,0 +1,43 @@
+> +DESCRIPTION =3D "Depmod wrapper script"
+> +LICENSE =3D "MIT"
+> +PR =3D "r0"
+> +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbc=
+b788c80a0384361b4de20420"
+> +
+> +# We need the following for the sstate code to process the wrapper
+> +SSTATE_SCAN_FILES +=3D "depmodwrapper"
+> +
+> +do_install() {
+> +	install -d ${D}${bindir_crossscripts}/
+> +
+> +	cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
+> +#!/bin/sh
+> +# Expected to be called as: depmodwrapper -a KERNEL_VERSION
+> +if [ "\$1" !=3D "-a" -o "\$2" !=3D "-b" ]; then
+> +    echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
+> +    exit 1
+> +fi
+> +if [ ! -r ${STAGING_KERNEL_DIR}/kernel-abiversion ]; then
+> +    echo "Unable to read: ${STAGING_KERNEL_DIR}/kernel-abiversion" >&2
+> +else
+> +    kernelabi=3D\$(cat ${STAGING_KERNEL_DIR}/kernel-abiversion)
+> +    if [ "\$kernelabi" !=3D "\$4" ]; then
+> +        echo "Error: Kernel version \$4 does not match kernel-abiversion=
+ (\$kernelabi)" >&2
+> +        exit 1
+> +    fi
+> +fi
+> +
+> +if [ ! -r ${STAGING_KERNEL_DIR}/System.map-\$4 ]; then
+> +    echo "Unable to read: ${STAGING_KERNEL_DIR}/System.map-\$4" >&2
+> +    exec env depmod "\$1" "\$2" "\$3" "\$4"
+> +else
+> +    exec env depmod "\$1" "\$2" "\$3" -F "${STAGING_KERNEL_DIR}/System.m=
+ap-\$4" "\$4"
+> +fi
+> +EOF
+> +	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
+> +}
+> +
+> +SYSROOT_PREPROCESS_FUNCS +=3D "depmodwrapper_sysroot_preprocess"
+> +
+> +depmodwrapper_sysroot_preprocess () {
+> +	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir=
+_crossscripts}
+> +}
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--+Xnt6BZa+I2KmHWw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlEyI48ACgkQN1Ujt2V2gBw1GQCdESfpT7VsAR22HLcd18xiMotZ
+CwoAnj0omJwNzpz2N1DpVbABJS7gFrZD
+=Reti
+-----END PGP SIGNATURE-----
+
+--+Xnt6BZa+I2KmHWw--
