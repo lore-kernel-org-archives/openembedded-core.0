@@ -1,28 +1,31 @@
-Received: from smtpfb1-g21.free.fr ([212.27.42.9])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UCAPB-0002dL-L1
-	for openembedded-core@lists.openembedded.org;
-	Sun, 03 Mar 2013 16:00:53 +0100
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 01CE677CA5B
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCBVJ-0005N2-Rb for openembedded-core@lists.openembedded.org;
+	Sun, 03 Mar 2013 17:11:20 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r23G2Rsc003098 for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 Mar 2013 16:02:27 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3PXAURxBkhRO
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Mar 2013 15:44:23 +0100 (CET)
-Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 959DAA621F;
-	Sun,  3 Mar 2013 15:44:17 +0100 (CET)
-Date: Sun, 3 Mar 2013 15:44:15 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20130303154415.1c65b454@e6520eb>
-In-Reply-To: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
-References: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+	Sun,  3 Mar 2013 16:02:27 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r23G2Itf003094
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 Mar 2013 16:02:21 GMT
+Message-ID: <1362326069.4325.23.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 03 Mar 2013 15:54:29 +0000
+X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-danny] Proposed changes for backporting
+Subject: [PATCH] recipes: Fix ALLOW_EMPTY with no package specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,27 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2013 15:01:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 03 Mar 2013 16:11:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Le Sun, 3 Mar 2013 11:23:11 -0300,
-Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
+There are various usages of ALLOW_EMPTY with no packages specified. This
+is not recommended syntax, nor is it likely to be supported in the future.
+This patch improves the references in OE-Core, either removing them if they're
+pointless (e.g. when PACKAGES="") or specifying which package it applies to.
 
-> Hello Eric,
->=20
-> A new set of changes for evaluation for backport (in order):
->=20
-> * 3b214e2 samba: Split libnss-winbind package
->=20
-> * 1b6add9 mg: add recipe for version 20110905
->=20
-> * e8874ce evince: disable help build
->=20
-> Thanks in advance,
->=20
-pushed to danny-next
-Thanks
-Eric
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/openssl/ocf-linux.inc           |    2 +-
+ meta/recipes-core/meta/package-index.bb                   |    1 -
+ meta/recipes-devtools/installer/adt-installer_1.0.bb      |    2 --
+ meta/recipes-extended/psmisc/psmisc.inc                   |    2 +-
+ meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb   |    6 +++++-
+ meta/recipes-multimedia/gstreamer/gst-plugins-package.inc |    2 --
+ 6 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/ocf-linux.inc b/meta/recipes-connectivity/openssl/ocf-linux.inc
+index dba1f02..4efdc2f 100644
+--- a/meta/recipes-connectivity/openssl/ocf-linux.inc
++++ b/meta/recipes-connectivity/openssl/ocf-linux.inc
+@@ -20,5 +20,5 @@ do_install() {
+     install -m 0644 ${S}/ocf/*.h ${D}${includedir}/crypto/
+ }
+ 
+-ALLOW_EMPTY = "1"
++ALLOW_EMPTY_${PN} = "1"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
+index 99ac1a8..76bf331 100644
+--- a/meta/recipes-core/meta/package-index.bb
++++ b/meta/recipes-core/meta/package-index.bb
+@@ -2,7 +2,6 @@ DESCRIPTION = "Rebuild the package index"
+ LICENSE = "MIT"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+-ALLOW_EMPTY = "1"
+ PACKAGES = ""
+ 
+ do_fetch[noexec] = "1"
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index 227e866..0cc3b33 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -26,8 +26,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ LICENSE = "MIT"
+ 
+-ALLOW_EMPTY = "1"
+-
+ PACKAGES = ""
+ 
+ PR = "r11"
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 76af99e..68e0656 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -15,7 +15,7 @@ S = "${WORKDIR}/psmisc-${PV}"
+ 
+ inherit autotools gettext
+ 
+-ALLOW_EMPTY = "1"
++ALLOW_EMPTY_${PN} = "1"
+ 
+ PACKAGES =+ "fuser fuser-doc killall killall-doc pstree pstree-doc"
+ PACKAGES += "psmisc-extras"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+index 37c70c2..210da37 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+@@ -14,7 +14,11 @@ PACKAGES = "\
+     gst-meta-debug \
+     gst-meta-video"
+ 
+-ALLOW_EMPTY = "1"
++ALLOW_EMPTY_gst-meta-base = "1"
++ALLOW_EMPTY_gst-meta-x11-base = "1"
++ALLOW_EMPTY_gst-meta-audio = "1"
++ALLOW_EMPTY_gst-meta-debug = "1"
++ALLOW_EMPTY_gst-meta-video = "1"
+ 
+ RDEPENDS_gst-meta-base = "\
+     ${@base_contains('DISTRO_FEATURES', 'x11', 'gst-meta-x11-base', '', d)} \
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+index f26aca5..3e9ef92 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+@@ -24,8 +24,6 @@ python populate_packages_prepend () {
+     d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+ }
+ 
+-ALLOW_EMPTY = "1"
+-
+ PACKAGES += "${PN}-apps ${PN}-meta ${PN}-glib"
+ FILES_${PN}-apps = "${bindir}"
+ 
+
+
 
 
