@@ -1,30 +1,28 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UC8lz-0006h0-Lb; Sun, 03 Mar 2013 14:16:26 +0100
+	id 1UC8td-0006zo-5Q for openembedded-core@lists.openembedded.org;
+	Sun, 03 Mar 2013 14:24:33 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r23D7Roh027517; Sun, 3 Mar 2013 13:07:27 GMT
+	r23DFEod028026; Sun, 3 Mar 2013 13:15:14 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xfy221nZWJDu; Sun,  3 Mar 2013 13:07:27 +0000 (GMT)
+	with LMTP id XWoZ3L3McJTX; Sun,  3 Mar 2013 13:15:14 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r23D7IaO027501
+	r23DF5EP028021
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 3 Mar 2013 13:07:21 GMT
-Message-ID: <1362315570.4325.3.camel@ted>
+	verify=NOT); Sun, 3 Mar 2013 13:15:08 GMT
+Message-ID: <1362316038.4325.4.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 03 Mar 2013 12:59:30 +0000
-In-Reply-To: <20130303123903.GC3285@jama>
-References: <20121213174202.GE3356@jama.jama.net> <20130303123903.GC3285@jama>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 03 Mar 2013 13:07:18 +0000
 X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: [PATCH] buildhistory: Allow the version backwards check to be disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,65 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2013 13:16:32 -0000
+X-List-Received-Date: Sun, 03 Mar 2013 13:24:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2013-03-03 at 13:39 +0100, Martin Jansa wrote:
-> Updated state of world builds on distroless 
-> oe-core+meta-oe+meta-smartphone layers
-> this time also on qemux86 and qemux86-64:
-> 
-> qemuarm:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130301_160601.log/
-> qemux86:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130228_235947.log/
-> qemux86-64:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130302_074041.log/
-> 
+When the PR service is not enabled, the versions can go backwards and there
+are cases we don't want to know about this. This patch adds a variable
+allowing these checks to be turned off whilst still using buildhistory.
 
-> qemuarm:
->   openembedded-core/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb, do_compile
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index a20d03d..43780ad 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -14,6 +14,7 @@ BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}
+ BUILDHISTORY_COMMIT ?= "0"
+ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+ BUILDHISTORY_PUSH_REPO ?= ""
++BUILDHISTORY_CHECKVERBACKWARDS ?= "1"
+ 
+ # Must inherit package first before changing PACKAGEFUNCS
+ inherit package
+@@ -183,14 +184,15 @@ python buildhistory_emit_pkghistory() {
+         # Find out what the last version was
+         # Make sure the version did not decrease
+         #
+-        lastversion = getlastpkgversion(pkg)
+-        if lastversion:
+-            last_pkge = lastversion.pkge
+-            last_pkgv = lastversion.pkgv
+-            last_pkgr = lastversion.pkgr
+-            r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
+-            if r < 0:
+-                bb.error("Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr))
++        if d.getVar("BUILDHISTORY_CHECKVERBACKWARDS", True) == "1":
++            lastversion = getlastpkgversion(pkg)
++            if lastversion:
++                last_pkge = lastversion.pkge
++                last_pkgv = lastversion.pkgv
++                last_pkgr = lastversion.pkgr
++                r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
++                if r < 0:
++                    bb.error("Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr))
+ 
+         pkginfo = PackageInfo(pkg)
+         # Apparently the version can be different on a per-package basis (see Python)
 
-It can't find egl which is probably disabled by opengl being missing
-from DISTRO_FEATURES.
-
-> qemux86:
->   openembedded-core/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb, do_compile
->   openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.0.bb, do_compile
-> 
-> qemux86-64:
->   openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.0.bb, do_compile
-
-opengl isn't in DISTRO_FEATURES which leads xserver-xorg to have
-PACKAGECONFIG not containing glx which turns off dri2 which causes the
-video driver to fail.
-
-Not sure what we want to do about this :/.
-
-> qemux86-64 has few new QA warnings:
-> usbmuxd-git: usbmuxd: Files/directories were installed but not shipped
->   /usr/lib64
->   /usr/lib64/libusbmuxd.so.1.0.8
->   /usr/lib64/libusbmuxd.so.2
->   /usr/lib64/libusbmuxd.so
->   /usr/lib64/.debug
->   /usr/lib64/pkgconfig
->   /usr/lib64/.debug/libusbmuxd.so.1.0.8
->   /usr/lib64/pkgconfig/libusbmuxd.pc
-
-Looks like its ignoring libdir...
-
-> rpm-5.4.9: rpm: Files/directories were installed but not shipped
->   /etc
->   /etc/rcS.d
->   /etc/rcS.d/S98run-postinsts
-
-Bug in master OE-Core we need to fix.
-
-Cheers,
-
-Richard
 
 
 
