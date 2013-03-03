@@ -1,28 +1,34 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ob0-f177.google.com ([209.85.214.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UC8td-0006zo-5Q for openembedded-core@lists.openembedded.org;
-	Sun, 03 Mar 2013 14:24:33 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r23DFEod028026; Sun, 3 Mar 2013 13:15:14 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XWoZ3L3McJTX; Sun,  3 Mar 2013 13:15:14 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r23DF5EP028021
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 3 Mar 2013 13:15:08 GMT
-Message-ID: <1362316038.4325.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 03 Mar 2013 13:07:18 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: [PATCH] buildhistory: Allow the version backwards check to be disabled
+	(envelope-from <otavio.salvador@gmail.com>) id 1UCA4g-0001Oo-SB
+	for openembedded-core@lists.openembedded.org;
+	Sun, 03 Mar 2013 15:39:41 +0100
+Received: by mail-ob0-f177.google.com with SMTP id eh20so1402484obb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 Mar 2013 06:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:date:x-google-sender-auth:message-id
+	:subject:from:to:content-type;
+	bh=F5nEchtL+6GuuYduxkUnoiyoEShoEMU218l7Dht3LkE=;
+	b=zFi/RjxhdxKKCnRBsWT2NvQSZtJ7dUnWQqwsOs9KhHEX6CxSsgwQmtsPQYT/lneaaw
+	VgmZMuGfIAMzm7viIFpwDqmXbYDxLpQgRwmXXOplfOMEZMDpDOhp3p5XYCLR3yAEyExG
+	2kyEGJUcXV2Za6pAFkVBmsjsuUMeAvJUPAesQDEytvU0D4GQE/0a8ZR+B88pJ0Z1LXJz
+	ITxbRHAQUSjVGM7IgzQptHz5saiGSIuUqbhZydt87gYNVYPQhhfAgS7fMTTw0FTwFPpZ
+	Nx4rrziVj5UXF32qNW68FOZOkwDbA3jp9T1Cax5AcjPF862PEjUJ8Ss5qdNfT3Df2Cvi
+	g+dQ==
+MIME-Version: 1.0
+X-Received: by 10.182.231.39 with SMTP id td7mr13549566obc.86.1362320591783;
+	Sun, 03 Mar 2013 06:23:11 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Sun, 3 Mar 2013 06:23:11 -0800 (PST)
+Date: Sun, 3 Mar 2013 11:23:11 -0300
+X-Google-Sender-Auth: oZvtm0kzaQNaPFeY7wZg-h0OeT0
+Message-ID: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [for-danny] Proposed changes for backporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2013 13:24:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Mar 2013 14:39:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-When the PR service is not enabled, the versions can go backwards and there
-are cases we don't want to know about this. This patch adds a variable
-allowing these checks to be turned off whilst still using buildhistory.
+Hello Eric,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index a20d03d..43780ad 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -14,6 +14,7 @@ BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}
- BUILDHISTORY_COMMIT ?= "0"
- BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
- BUILDHISTORY_PUSH_REPO ?= ""
-+BUILDHISTORY_CHECKVERBACKWARDS ?= "1"
- 
- # Must inherit package first before changing PACKAGEFUNCS
- inherit package
-@@ -183,14 +184,15 @@ python buildhistory_emit_pkghistory() {
-         # Find out what the last version was
-         # Make sure the version did not decrease
-         #
--        lastversion = getlastpkgversion(pkg)
--        if lastversion:
--            last_pkge = lastversion.pkge
--            last_pkgv = lastversion.pkgv
--            last_pkgr = lastversion.pkgr
--            r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
--            if r < 0:
--                bb.error("Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr))
-+        if d.getVar("BUILDHISTORY_CHECKVERBACKWARDS", True) == "1":
-+            lastversion = getlastpkgversion(pkg)
-+            if lastversion:
-+                last_pkge = lastversion.pkge
-+                last_pkgv = lastversion.pkgv
-+                last_pkgr = lastversion.pkgr
-+                r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
-+                if r < 0:
-+                    bb.error("Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr))
- 
-         pkginfo = PackageInfo(pkg)
-         # Apparently the version can be different on a per-package basis (see Python)
+A new set of changes for evaluation for backport (in order):
 
+* 3b214e2 samba: Split libnss-winbind package
 
+* 1b6add9 mg: add recipe for version 20110905
+
+* e8874ce evince: disable help build
+
+Thanks in advance,
+
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
