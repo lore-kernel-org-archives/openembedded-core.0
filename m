@@ -1,27 +1,38 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UBvLi-0004d1-5f for openembedded-core@lists.openembedded.org;
-	Sat, 02 Mar 2013 23:56:29 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r22Mj5Z4023667; Sat, 2 Mar 2013 22:47:24 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cvYYtufWo9FM; Sat,  2 Mar 2013 22:47:24 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r22MlFlj023857
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 2 Mar 2013 22:47:18 GMT
-Message-ID: <1362263971.11004.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 02 Mar 2013 22:39:31 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Subject: [PATCH] package_rpm.bbclass: Optimise per file dependency handling
+	(envelope-from <martin.jansa@gmail.com>) id 1UBxWv-0001Qf-Kk
+	for openembedded-core@lists.openembedded.org;
+	Sun, 03 Mar 2013 02:16:33 +0100
+Received: by mail-ea0-f175.google.com with SMTP id d1so534290eab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Mar 2013 16:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=BC06m4Pa0MOV/l6KM9qGksfs3ZhQl2JVW67imBVZBcI=;
+	b=qLyOKGG0dY7XbBkx5RC60vGY1GsZDwzx3pRM8qRkWZa45naS9l55a+1T7GbPuPA9P3
+	5DskK3rLqnbFn3sshzU/Pb/Z65kCbBwJJiBXW61W5ldDpkzUhT2vgwYxsNwPJSLG8wdU
+	sJTAq7blcXRwAyNgCgHY2g2XcloxAISKOakR4RtAaJ8DHjh+gpX1xgHCIo8DDx9tnY0x
+	L7UUtcnLeEMByThVGtU6myLELTMy2YFNaYMVqFBGQd+iUFgoHrZV2LNF9JCIQ8n9f2PA
+	euWD3vDdijoj2vFRfoyTX3r/Hoe2B0ANX8YSxVttUMxDS3KxIn4gvOOyuHqwGUcA1K7U
+	c07A==
+X-Received: by 10.14.5.6 with SMTP id 6mr43021832eek.42.1362272371909;
+	Sat, 02 Mar 2013 16:59:31 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id a1sm24673441eep.2.2013.03.02.16.59.29
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 02 Mar 2013 16:59:31 -0800 (PST)
+Date: Sun, 3 Mar 2013 01:59:28 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130303005928.GA3285@jama>
+References: <1359971830-17441-1-git-send-email-Martin.Jansa@gmail.com>
+	<1359980304.14071.154.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1359980304.14071.154.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu.inc: depend on qemu-native only with runqemu DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,252 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Mar 2013 22:56:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Mar 2013 01:16:39 -0000
+X-Groupsio-MsgNum: 36153
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
+Content-Disposition: inline
 
-Currently the process for injecting the per file rpm dependencies into
-rpmbuild is painfully slow. Its done through the repeated execution of
-a script which has to return the correct value in each case. This continual
-execution means the CPU usage of rpmbuild is low.
+--EVF5PPMfhYS0aIcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch allows the option of collapsing the per file dependencies to
-a per package basis and injecting them through the .spec file. This removes
-the execution overhead and allows rpmbuild to run at 100% of cpu.
+On Mon, Feb 04, 2013 at 12:18:24PM +0000, Richard Purdie wrote:
+> On Mon, 2013-02-04 at 10:57 +0100, Martin Jansa wrote:
+> > * qemu images are usefull even without qemu installed on build machine.
+> >   Some people are building on one machine, but then downloading images
+> >   somewhere else to test them.
+> > * use new "runqemu" DISTRO_FEATURE and BACKFILL it so the behavior stays
+> >   the same, unless disabled by DISTRO_FEATURES_BACKFILL_CONSIDERED
+>=20
+> Using DISTRO_FEATURES for this is nasty since if you change this item,
+> the sstate cache is invalidated. Its really a build configuration level
+> thing, not a distro feature...
+>=20
+> So whilst I appreciate the reasoning for it, I don't think its the right
+> approach and we'll need to find another one.
 
-Ultimately it would be nice to inject the per file dependencies through
-the .spec file however that is not currently possible.
+What about removing this completely and adding check in runqemu script
+to say that qemu-native wasn't built?
 
-Since few people use the per file dependency information, this patch
-goes for the faster approach. It can be enabled if anyone needs it although
-I'd mention that its being used to us as this code may well go away in
-the future if nobody complains.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 697bb36..3ac379d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -8,6 +8,10 @@ RPMBUILD="rpmbuild"
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
- PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
- 
-+# Maintaining the perfile dependencies has singificant overhead when writing the 
-+# packages. When set, this value merges them for efficiency.
-+MERGEPERFILEDEPS = "1"
-+
- #
- # Update the packages indexes ${DEPLOY_DIR_RPM}
- #
-@@ -460,6 +464,78 @@ EOF
- 	fi
- }
- 
-+# Construct per file dependencies file
-+def write_rpm_perfiledata(srcname, d):
-+    workdir = d.getVar('WORKDIR', True)
-+    packages = d.getVar('PACKAGES', True)
-+    pkgd = d.getVar('PKGD', True)
-+
-+    def dump_filerdeps(varname, outfile, d):
-+        outfile.write("#!/usr/bin/env python\n\n")
-+        outfile.write("# Dependency table\n")
-+        outfile.write('deps = {\n')
-+        for pkg in packages.split():
-+            dependsflist_key = 'FILE' + varname + 'FLIST' + "_" + pkg
-+            dependsflist = (d.getVar(dependsflist_key, True) or "")
-+            for dfile in dependsflist.split():
-+                key = "FILE" + varname + "_" + dfile + "_" + pkg
-+                depends_dict = bb.utils.explode_dep_versions(d.getVar(key, True) or "")
-+                file = dfile.replace("@underscore@", "_")
-+                file = file.replace("@closebrace@", "]")
-+                file = file.replace("@openbrace@", "[")
-+                file = file.replace("@tab@", "\t")
-+                file = file.replace("@space@", " ")
-+                file = file.replace("@at@", "@")
-+                outfile.write('"' + pkgd + file + '" : "')
-+                for dep in depends_dict:
-+                    ver = depends_dict[dep]
-+                    if dep and ver:
-+                        ver = ver.replace("(","")
-+                        ver = ver.replace(")","")
-+                        outfile.write(dep + " " + ver + " ")
-+                    else:
-+                        outfile.write(dep + " ")
-+                outfile.write('",\n')
-+        outfile.write('}\n\n')
-+        outfile.write("import sys\n")
-+        outfile.write("while 1:\n")
-+        outfile.write("\tline = sys.stdin.readline().strip()\n")
-+        outfile.write("\tif not line:\n")
-+        outfile.write("\t\tsys.exit(0)\n")
-+        outfile.write("\tif line in deps:\n")
-+        outfile.write("\t\tprint(deps[line] + '\\n')\n")
-+
-+    # OE-core dependencies a.k.a. RPM requires
-+    outdepends = workdir + "/" + srcname + ".requires"
-+
-+    try:
-+        from __builtin__ import file
-+        dependsfile = file(outdepends, 'w')
-+    except OSError:
-+        raise bb.build.FuncFailed("unable to open spec file for writing.")
-+
-+    dump_filerdeps('RDEPENDS', dependsfile, d)
-+
-+    dependsfile.close()
-+    os.chmod(outdepends, 0755)
-+
-+    # OE-core / RPM Provides
-+    outprovides = workdir + "/" + srcname + ".provides"
-+
-+    try:
-+        from __builtin__ import file
-+        providesfile = file(outprovides, 'w')
-+    except OSError:
-+        raise bb.build.FuncFailed("unable to open spec file for writing.")
-+
-+    dump_filerdeps('RPROVIDES', providesfile, d)
-+
-+    providesfile.close()
-+    os.chmod(outprovides, 0755)
-+
-+    return (outdepends, outprovides)
-+
-+
- python write_specfile () {
-     import textwrap
-     import oe.packagedata
-@@ -576,6 +652,17 @@ python write_specfile () {
-         scr = scr[:pos] + 'if [ "$1" = "0" ] ; then\n' + scr[pos:] + '\nfi'
-         return scr
- 
-+    def get_perfile(varname, pkg, d):
-+        deps = []
-+        dependsflist_key = 'FILE' + varname + 'FLIST' + "_" + pkg
-+        dependsflist = (d.getVar(dependsflist_key, True) or "")
-+        for dfile in dependsflist.split():
-+            key = "FILE" + varname + "_" + dfile + "_" + pkg
-+            depends = d.getVar(key, True)
-+            if depends:
-+                deps.append(depends)
-+        return " ".join(deps)
-+
-     packages = d.getVar('PACKAGES', True)
-     if not packages or packages == '':
-         bb.debug(1, "No packages; nothing to do")
-@@ -626,6 +713,8 @@ python write_specfile () {
-     spec_files_top = []
-     spec_files_bottom = []
- 
-+    perfiledeps = (d.getVar("MERGEPERFILEDEPS", True) or "0") == "0"
-+
-     for pkg in packages.split():
-         localdata = bb.data.createCopy(d)
- 
-@@ -679,6 +768,12 @@ python write_specfile () {
-         splitrprerm    = localdata.getVar('pkg_prerm', True)
-         splitrpostrm   = localdata.getVar('pkg_postrm', True)
- 
-+
-+        if not perfiledeps:
-+            # Add in summary of per file dependencies
-+            splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-+            splitrprovides = splitrprovides + " " + get_perfile('RPROVIDES', pkg, d)
-+
-         # Gather special src/first package data
-         if srcname == splitname:
-             srcrdepends    = splitrdepends
-@@ -977,69 +1072,9 @@ python do_package_rpm () {
-     d.setVar('OUTSPECFILE', outspecfile)
-     bb.build.exec_func('write_specfile', d)
- 
--    # Construct per file dependencies file
--    def dump_filerdeps(varname, outfile, d):
--        outfile.write("#!/usr/bin/env python\n\n")
--        outfile.write("# Dependency table\n")
--        outfile.write('deps = {\n')
--        for pkg in packages.split():
--            dependsflist_key = 'FILE' + varname + 'FLIST' + "_" + pkg
--            dependsflist = (d.getVar(dependsflist_key, True) or "")
--            for dfile in dependsflist.split():
--                key = "FILE" + varname + "_" + dfile + "_" + pkg
--                depends_dict = bb.utils.explode_dep_versions(d.getVar(key, True) or "")
--                file = dfile.replace("@underscore@", "_")
--                file = file.replace("@closebrace@", "]")
--                file = file.replace("@openbrace@", "[")
--                file = file.replace("@tab@", "\t")
--                file = file.replace("@space@", " ")
--                file = file.replace("@at@", "@")
--                outfile.write('"' + pkgd + file + '" : "')
--                for dep in depends_dict:
--                    ver = depends_dict[dep]
--                    if dep and ver:
--                        ver = ver.replace("(","")
--                        ver = ver.replace(")","")
--                        outfile.write(dep + " " + ver + " ")
--                    else:
--                        outfile.write(dep + " ")
--                outfile.write('",\n')
--        outfile.write('}\n\n')
--        outfile.write("import sys\n")
--        outfile.write("while 1:\n")
--        outfile.write("\tline = sys.stdin.readline().strip()\n")
--        outfile.write("\tif not line:\n")
--        outfile.write("\t\tsys.exit(0)\n")
--        outfile.write("\tif line in deps:\n")
--        outfile.write("\t\tprint(deps[line] + '\\n')\n")
--
--    # OE-core dependencies a.k.a. RPM requires
--    outdepends = workdir + "/" + srcname + ".requires"
--
--    try:
--        from __builtin__ import file
--        dependsfile = file(outdepends, 'w')
--    except OSError:
--        raise bb.build.FuncFailed("unable to open spec file for writing.")
--
--    dump_filerdeps('RDEPENDS', dependsfile, d)
--
--    dependsfile.close()
--    os.chmod(outdepends, 0755)
--
--    # OE-core / RPM Provides
--    outprovides = workdir + "/" + srcname + ".provides"
--
--    try:
--        from __builtin__ import file
--        providesfile = file(outprovides, 'w')
--    except OSError:
--        raise bb.build.FuncFailed("unable to open spec file for writing.")
--
--    dump_filerdeps('RPROVIDES', providesfile, d)
--
--    providesfile.close()
--    os.chmod(outprovides, 0755)
-+    perfiledeps = (d.getVar("MERGEPERFILEDEPS", True) or "0") == "0"
-+    if perfiledeps:
-+        outdepends, outprovides = write_rpm_perfiledata(srcname, d)
- 
-     # Setup the rpmbuild arguments...
-     rpmbuild = d.getVar('RPMBUILD', True)
-@@ -1062,8 +1097,12 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
-     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
--    cmd = cmd + " --define '__find_requires " + outdepends + "'"
--    cmd = cmd + " --define '__find_provides " + outprovides + "'"
-+    if perfiledeps:
-+        cmd = cmd + " --define '__find_requires " + outdepends + "'"
-+        cmd = cmd + " --define '__find_provides " + outprovides + "'"
-+    else:
-+        cmd = cmd + " --define '__find_requires %{nil}'"
-+        cmd = cmd + " --define '__find_provides %{nil}'"
-     cmd = cmd + " --define '_unpackaged_files_terminate_build 0'"
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
+--EVF5PPMfhYS0aIcm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlEyoHAACgkQN1Ujt2V2gBwDFwCaAz9Q6TJxhxXY/IC39PuT388a
+pFAAn1UhxxKI4BpTkKivfNd+yjZNSyK7
+=1bwM
+-----END PGP SIGNATURE-----
 
-
+--EVF5PPMfhYS0aIcm--
