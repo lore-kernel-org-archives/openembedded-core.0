@@ -1,34 +1,28 @@
-Received: from mail-ob0-f177.google.com ([209.85.214.177])
+Received: from smtpfb1-g21.free.fr ([212.27.42.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UCA4g-0001Oo-SB
+	(envelope-from <eric@eukrea.com>) id 1UCAPB-0002dL-L1
 	for openembedded-core@lists.openembedded.org;
-	Sun, 03 Mar 2013 15:39:41 +0100
-Received: by mail-ob0-f177.google.com with SMTP id eh20so1402484obb.8
+	Sun, 03 Mar 2013 16:00:53 +0100
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 01CE677CA5B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Mar 2013 06:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:date:x-google-sender-auth:message-id
-	:subject:from:to:content-type;
-	bh=F5nEchtL+6GuuYduxkUnoiyoEShoEMU218l7Dht3LkE=;
-	b=zFi/RjxhdxKKCnRBsWT2NvQSZtJ7dUnWQqwsOs9KhHEX6CxSsgwQmtsPQYT/lneaaw
-	VgmZMuGfIAMzm7viIFpwDqmXbYDxLpQgRwmXXOplfOMEZMDpDOhp3p5XYCLR3yAEyExG
-	2kyEGJUcXV2Za6pAFkVBmsjsuUMeAvJUPAesQDEytvU0D4GQE/0a8ZR+B88pJ0Z1LXJz
-	ITxbRHAQUSjVGM7IgzQptHz5saiGSIuUqbhZydt87gYNVYPQhhfAgS7fMTTw0FTwFPpZ
-	Nx4rrziVj5UXF32qNW68FOZOkwDbA3jp9T1Cax5AcjPF862PEjUJ8Ss5qdNfT3Df2Cvi
-	g+dQ==
-MIME-Version: 1.0
-X-Received: by 10.182.231.39 with SMTP id td7mr13549566obc.86.1362320591783;
-	Sun, 03 Mar 2013 06:23:11 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Sun, 3 Mar 2013 06:23:11 -0800 (PST)
-Date: Sun, 3 Mar 2013 11:23:11 -0300
-X-Google-Sender-Auth: oZvtm0kzaQNaPFeY7wZg-h0OeT0
-Message-ID: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>, 
-	Patches and discussions about the oe-core layer
+	Sun,  3 Mar 2013 15:44:23 +0100 (CET)
+Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 959DAA621F;
+	Sun,  3 Mar 2013 15:44:17 +0100 (CET)
+Date: Sun, 3 Mar 2013 15:44:15 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20130303154415.1c65b454@e6520eb>
+In-Reply-To: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
+References: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [for-danny] Proposed changes for backporting
+Subject: Re: [for-danny] Proposed changes for backporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,24 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Mar 2013 14:39:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 03 Mar 2013 15:01:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Eric,
+Le Sun, 3 Mar 2013 11:23:11 -0300,
+Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
 
-A new set of changes for evaluation for backport (in order):
-
-* 3b214e2 samba: Split libnss-winbind package
-
-* 1b6add9 mg: add recipe for version 20110905
-
-* e8874ce evince: disable help build
-
-Thanks in advance,
-
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+> Hello Eric,
+>=20
+> A new set of changes for evaluation for backport (in order):
+>=20
+> * 3b214e2 samba: Split libnss-winbind package
+>=20
+> * 1b6add9 mg: add recipe for version 20110905
+>=20
+> * e8874ce evince: disable help build
+>=20
+> Thanks in advance,
+>=20
+pushed to danny-next
+Thanks
+Eric
 
 
