@@ -1,32 +1,29 @@
-Received: from mail-da0-f43.google.com ([209.85.210.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UCVeO-0008Nd-GO
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UCVuq-0000bW-AZ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 14:41:57 +0100
-Received: by mail-da0-f43.google.com with SMTP id u36so2568007dak.16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 05:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=cKaHD+kVjzSoqf6LajTVWJ67jLUiU6dvykLXdHG/7Pc=;
-	b=Bvhs2pKFtD+yAwOObJ5uFkqlx7Jm2fHtaNW7laKhDdGsxkl0kwz8BrooznBAk/MNIi
-	gpjx6xwSPzf7Js785IkdjAE6W3+uq93sa+xFj0eA16EX2UQAmZJ+sHUYWPzCqFEF40Ig
-	O9WO1CAAP758VIVQ4npM0I85usRggBpbOfxrOb+33IHQrvk9/EUb8DnAeo15rS1rbXC4
-	VvFMdSOkRO2UXeHTIUkqLgT3h4AxnnxzyNbhKeZI39f81vvPV5+pB4IfM79dMxQJgXn7
-	f1LT6zgsUcwusUEaxChsvHsXsV3lGpBY7nNxUfDLElXz/0n3cnhMxuaaJd4GpV6DCjEi
-	IIQQ==
-X-Received: by 10.68.4.97 with SMTP id j1mr27908224pbj.157.1362403527962;
-	Mon, 04 Mar 2013 05:25:27 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id is1sm16616632pbc.15.2013.03.04.05.25.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Mar 2013 05:25:26 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 14:25:14 +0100
-Message-Id: <1362403514-10122-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] avahi: move systemd support where it belongs
+	Mon, 04 Mar 2013 14:58:59 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r24DgON6024042
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Mar 2013 05:42:24 -0800 (PST)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 4 Mar 2013 05:42:23 -0800
+Message-ID: <5134A4BD.9030201@windriver.com>
+Date: Mon, 4 Mar 2013 21:42:21 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <cover.1362217827.git.liezhi.yang@windriver.com>
+	<1362224344.11004.14.camel@ted> <5133852E.2010504@linux.intel.com>
+	<513394C2.6030004@linux.intel.com>
+In-Reply-To: <513394C2.6030004@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/2] Fully support ext3/ext4 rootfs generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,49 +36,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 13:41:58 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 13:59:01 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-connectivity/avahi/avahi.inc       | 6 +-----
- meta/recipes-connectivity/avahi/avahi_0.6.31.bb | 6 ++++++
- 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 3a4547c..51cbe38 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -37,11 +37,7 @@ USERADD_PARAM_avahi-autoipd = "--system --home /var/run/avahi-autoipd \
-                               -c \"Avahi autoip daemon\" \
-                               avahi-autoipd"
- 
--inherit autotools pkgconfig update-rc.d gettext systemd useradd
--
--SYSTEMD_PACKAGES = "${PN}-daemon ${PN}-dnsconfd"
--SYSTEMD_SERVICE_avahi-daemon = "avahi-daemon.service"
--SYSTEMD_SERVICE_avahi-dnsconfd = "avahi-dnsconfd.service"
-+inherit autotools pkgconfig update-rc.d gettext useradd
- 
- EXTRA_OECONF = "--disable-introspection \
-              --with-avahi-priv-access-group=adm \
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-index cff0974..22731f9 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-@@ -1,5 +1,11 @@
- require avahi.inc
- 
-+inherit systemd
-+
-+SYSTEMD_PACKAGES = "${PN}-daemon ${PN}-dnsconfd"
-+SYSTEMD_SERVICE_avahi-daemon = "avahi-daemon.service"
-+SYSTEMD_SERVICE_avahi-dnsconfd = "avahi-dnsconfd.service"
-+
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-common/address.h;endline=25;md5=b1d1d2cda1c07eb848ea7d6215712d9d \
-                     file://avahi-core/dns.h;endline=23;md5=6fe82590b81aa0ddea5095b548e2fdcb \
--- 
-1.8.1.5
 
+On 03/04/2013 02:21 AM, Darren Hart wrote:
+>
+>
+> On 03/03/2013 09:15 AM, Darren Hart wrote:
+>>
+>>
+>> On 03/02/2013 03:39 AM, Richard Purdie wrote:
+>>> On Sat, 2013-03-02 at 18:46 +0800, Robert Yang wrote:
+>>>> Replace genext2fs with populate-extfs.sh in image_types.bbclass to fully
+>>>> support ext3/ext4 rootfs.
+>>>>
+>>>> Comments from Darren:
+>>>> We used genext2fs to create ext3/ext4 rootfs in the past, basically,
+>>>> genext2fs doesn't support creating ext4 filesystems. It creates, as I
+>>>> understand it, an ext2 filesystem, then adds a journal, and sets some
+>>>> bits. It can't support the newer features like extents. So what we end
+>>>> up with is a bit of a hack for a filesystem.
+>>>>
+>>>> The ext tools (e2fsprogs) unfortunately don't provide an integrated
+>>>> solution for generating prepopulated filesystem images as many other
+>>>> mkfs* tools do. One thing missing was symlink support in libext2fs. I
+>>>> added that support and demonstrated a script which uses the e2fsprogs
+>>>> debugfs tool that can populate the newly formatted filesystem from a
+>>>> directory and without root privileges.
+>>>>
+>>>> This patches integrate this stage of development into OE-Core. We can
+>>>> go about this in two ways. One is to just prototype this in a branch and
+>>>> use it to validate the functionality and not make any changes to oe-core
+>>>> image generation until mke2fs has initial directory support. The other
+>>>> is to merge this and get broader testing of the concept and later move
+>>>> to the full mke2fs implementation once it becomes available. I
+>>>> understand the resistance to the latter, but long term I think it will
+>>>> result in a more robust solution as we will have caught more of the
+>>>> corner cases and have been able to do a better job integrating into
+>>>> mke2fs the first time.
+>>>>
+>>>>
+>>>> * Impact:
+>>>>    + Rootfs generation time:
+>>>>      - For a core-image-minimal image, about more 3 seconds are needed
+>>>>      - For a core-image-sato image, about more 15 seconds are needed
+>>>>
+>>>>    + Disk space usage:
+>>>>      - Nearly no changes:
+>>>>      $ ls -lh BEFORE.rootfs.ext3 AFTER.rootfs.ext3 | awk '{print $5"\t"$NF}'
+>>>>      357M BEFORE.rootfs.ext3
+>>>>      357M AFTER.rootfs.ext3
+>>>>
+>>>>      $ du -sh BEFORE.rootfs.ext3 AFTER.rootfs.ext3
+>>>>      238M    BEFORE.rootfs.ext3
+>>>>      357M    AFTER.rootfs.ext3
+>>>>      # This is different because BEFORE.rootfs.ext3 has sparse files,
+>>>>      # they are very similar (less than 1M gap) after mount them and run
+>>>>      # "du -sh".
+>>>
+>>> I can live with the performance issues however as I understand this
+>>> code, its breaking both sparse files and also likely hardlinked files.
+>>> I'm not sure we have many sparse ones but we do have packages with heavy
+>>> hardlinking (the sdk image toolchain packages for example).
+>>>
+>>> Adding the script to e2fsprogs isn't a problem but I am tempted to wait
+>>> until this work is completed before we start using it instead of
+>>> genext2fs.
+>>
+>>
+>> Agreed, I thought we were within 1MB on size from my reading of the
+>> previous discussion. Robert, do you have any thoughts on what is needed
+>> to address the hardlinks? That seems like something we should be able to
+
+Yes, we do have hard links in the rootfs, e.g: core-image-sato and 
+core-image-sato-sdk:
+
+# The sato
+$ find core-image-sato/1.0-r0/rootfs/ -type f -printf "%p %i %n\n" | grep -v '1$'
+core-image-sato/1.0-r0/rootfs/etc/terminfo/v/vt200 26977609 2
+core-image-sato/1.0-r0/rootfs/etc/terminfo/v/vt220 26977609 2
+core-image-sato/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld.bfd 26978690 2
+core-image-sato/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld 26978690 2
+
+# The sato-sdk:
+$ find core-image-sato-sdk/1.0-r0/rootfs/ -type f -printf "%p %i %n\n" | grep -v 
+'1$'
+core-image-sato-sdk/1.0-r0/rootfs/etc/terminfo/v/vt200 26903519 2
+core-image-sato-sdk/1.0-r0/rootfs/etc/terminfo/v/vt220 26903519 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/include/et/com_err.h 28058656 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/include/com_err.h 28058656 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld.bfd 26900939 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/perlbug 26899680 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/gawk-4.0.1 26900368 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/psed 26899667 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/s2p 26899667 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/c2ph 26899695 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/perlthanks 26899680 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/pstruct 26899695 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld 26900939 2
+core-image-sato-sdk/1.0-r0/rootfs/usr/bin/gawk 26900368 2
+
+We can make hard links according to these information, and the find command is
+very fast, so it would not cost much time.
+
+
+>> address quickly.
+>>
+>> Same question for the sparse files, although I could see that taking
+>> some additional effort.
+>
+
+I don't find any obvious sparse files by the following command:
+
+# sato:
+$ find core-image-sato/1.0-r0/rootfs/ -size +8 -printf "%p #%S\n" | grep -v 
+'#0\|#1' | wc -l
+0
+
+# sato-sdk:
+$ find core-image-sato-sdk/1.0-r0/rootfs/ -size +8 -printf "%p #%S\n" | grep -v 
+'#0\|#1' | wc -l
+0
+
+I will send an official patch for review with the hard links solution if you
+are fine with it.
+
+// Robert
+
+
+> By the way, this is exactly the kind of thing we were hoping to catch by
+> using the debugfs as an intermediate step. If anything needs to be added
+> to libext2fs, we want to know before we jump into the mke2fs solution.
+> So this is working as planned - just maybe sooner than expected, which
+> is great.
+>
 
 
