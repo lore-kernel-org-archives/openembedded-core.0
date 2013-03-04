@@ -1,22 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UCZHO-00049q-PI
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 18:34:27 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 09:17:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,781,1355126400"; d="scan'208";a="293356290"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2013 09:17:26 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 19:17:50 +0200
-Message-Id: <1362417470-29860-3-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
-References: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH V2 2/2] connman: Wired inteface provisioned via qemu
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCZQ8-0005q5-Rf for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 18:43:29 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24HYkIM023064; Mon, 4 Mar 2013 17:34:46 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 001xodI38wkx; Mon,  4 Mar 2013 17:34:46 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24HYaeO023059
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Mar 2013 17:34:39 GMT
+Message-ID: <1362418002.29587.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 04 Mar 2013 17:26:42 +0000
+In-Reply-To: <CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
+References: <1362407704.29587.39.camel@ted>
+	<CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: yocto <yocto@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Feature Completion Deadline for 1.4 looming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,128 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 17:34:28 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 17:43:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- connman-conf package re-implemented
-- connman 1.12 introduces provisioning for
-wired interfaces also;
-- wired interface settings are read from
-kernel cmdline if present;
-- after that are passed to connman as a
-config file
-- for BA, this is not needed, as BA will
-have a network infrastructure to work with.
+On Mon, 2013-03-04 at 14:00 -0300, Otavio Salvador wrote:
+> On Mon, Mar 4, 2013 at 11:35 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > The 1.4 release is scheduled for 2013/04/26. We have one milestone
+> > release before then, M5 on 2013/03/17. This is also the feature complete
+> > deadline.
+> >
+> > This means if there are features or other changes you want to see in
+> > 1.4, they need to be in by the 17th[1]. After the 17th we'll be doing
+> > bugfixing and stabilisation and new features will have to wait for 1.5.
+> >
+> > [1] Within reason, large unexpected invasive changes appearing on the
+> > 17th will probably not make it unless the solve world hunger or have an
+> > equally impressive benefit.
+> 
+> The systemd integration? Will it be  reworked so we have an upgrade path?
 
-Fixes [YOCTO #3227];
-Fixes [YOCTO #3804];
-Fixes [YOCTO #3843].
+I'd also mention that systemd is something I know about and is a
+priority for this release so I'm going to have some flexibility in
+getting it resolved.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-connectivity/connman/connman-conf.bb     |   17 ++++++++++-------
- .../connman/connman-conf/qemuall/main.conf            |    3 ---
- .../connman/connman-conf/qemuall/wired-setup          |   16 ++++++++++++++++
- .../connman/connman-conf/qemuall/wired.config         |    8 ++++++++
- meta/recipes-connectivity/connman/connman/connman     |    3 +++
- 5 files changed, 37 insertions(+), 10 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
- create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
- create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
+The main reason for sending this out is people have wanted more notice
+about feature freeze in the past...
 
-diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
-index 7c7ef26..7b99953 100644
---- a/meta/recipes-connectivity/connman/connman-conf.bb
-+++ b/meta/recipes-connectivity/connman/connman-conf.bb
-@@ -1,18 +1,21 @@
--#connman config to ignore wired interfaces on qemu machines
-+#connman config to setup wired interface on qemu machines
- 
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
- 
--SRC_URI_append_qemuall = " file://main.conf"
--
--PR = "r0"
-+SRC_URI_append_qemuall = "file://wired.config \
-+                          file://wired-setup \
-+                         "
-+PR = "r1"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- do_install() {
--    #Blacklist ethn network interface in case of qemu* machines
--    if test -e ${WORKDIR}/main.conf; then
-+    #Configure Wired network interface in case of qemu* machines
-+    if test -e ${WORKDIR}/wired.config && test -e ${WORKDIR}/wired-setup; then
-+        install -d ${D}${localstatedir}/lib/connman
-+        install -m 0644 ${WORKDIR}/wired.config ${D}${localstatedir}/lib/connman
-         install -d ${D}${sysconfdir}/connman
--        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
-+        install -m 0755 ${WORKDIR}/wired-setup ${D}${sysconfdir}/connman
-     fi
- }
-diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
-deleted file mode 100644
-index 01973e7..0000000
---- a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
-+++ /dev/null
-@@ -1,3 +0,0 @@
--[General]
--
--NetworkInterfaceBlacklist = eth
-diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
-new file mode 100644
-index 0000000..135a6c1
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
-@@ -0,0 +1,16 @@
-+#!/bin/sh
-+
-+CONFIGF=/var/lib/connman/wired.config
-+
-+# Extract wired network config from /proc/cmdline
-+NET_CONF=`cat /proc/cmdline |sed -ne 's/^.*ip=\([^ ]*\):\([^ ]*\):\([^ ]*\):\([^ ]*\).*$/\1\/\4\/\3/p'`
-+
-+# Check if eth0 is already set via kernel cmdline
-+if [ "x$NET_CONF" = "x" ]; then
-+	# Wired interface is not configured via kernel cmdline
-+	# Remove connman config file template
-+	rm ${CONFIGF}
-+else
-+	# Setup a connman config accordingly
-+	sed -i -e "s|^\(IPv4 =\)|\1 ${NET_CONF}|" ${CONFIGF}
-+fi
-diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
-new file mode 100644
-index 0000000..996e429
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
-@@ -0,0 +1,8 @@
-+[global]
-+Name = Wired
-+Description = Wired network configuration
-+
-+[service_ethernet]
-+Type = ethernet
-+IPv4 =
-+MAC = 52:54:00:12:34:56
-diff --git a/meta/recipes-connectivity/connman/connman/connman b/meta/recipes-connectivity/connman/connman/connman
-index aed4a79..ffd7fac 100644
---- a/meta/recipes-connectivity/connman/connman/connman
-+++ b/meta/recipes-connectivity/connman/connman/connman
-@@ -32,6 +32,9 @@ do_start() {
- 		ethn=`ifconfig | grep eth | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
- 		EXTRA_PARAM="-I $ethn"
- 	fi
-+	if [ -f /etc/connman/wired-setup ] ; then
-+		. /etc/connman/wired-setup
-+	fi
- 	$DAEMON $EXTRA_PARAM
- }
- 
--- 
-1.7.10.4
+Cheers,
+
+Richard
+
 
 
 
