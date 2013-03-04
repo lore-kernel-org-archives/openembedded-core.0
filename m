@@ -1,22 +1,42 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UCU5G-00048X-Sq
+	(envelope-from <martin.jansa@gmail.com>) id 1UCU8V-0004Gk-Fj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 13:01:35 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2013 03:45:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,778,1355126400"; d="scan'208";a="298680569"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2013 03:45:05 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 13:45:03 +0200
-Message-Id: <1362397503-25593-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1362393439-23933-1-git-send-email-laurentiu.palcu@intel.com>
+	Mon, 04 Mar 2013 13:04:57 +0100
+Received: by mail-pa0-f41.google.com with SMTP id fb11so3144525pad.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Mar 2013 03:48:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=WHdkLoIG5sdkD7fUj1wz5CPCQ6NXP4sKTfNtYWigc74=;
+	b=WOB+MgWdnfG0sF8cB3C8EKJl8Wk2tIgDtF5dWC2jI0W+EF4J7tUmKrCycDvCokZGbF
+	eFaP9kK/jnF1RursFc6x7jLaOi4efpNcSHtPbdzYWdArVxyFcaRuXfivYs5kHzyksVKR
+	J5H3ffSYmKRWrG+Nw+79FnA1+Skv8ByT5Y4vYEgtvge6pgJFw8cQzdgqJQz7ljenIA7g
+	UoCg0XydHSPZ+rb6gBInPqVoy1EPZs8a9DuhAJPsTupbZcb3woMwp/OhZ9Ur60HBPnjJ
+	8xAodfGyTaF5GCONaMBJ5Pz4ws2EO1DP+r3aNDghRq2EOyTfy2yHr/w0FvWX/22s/YF7
+	kKKQ==
+X-Received: by 10.68.178.132 with SMTP id cy4mr6384435pbc.208.1362397707167;
+	Mon, 04 Mar 2013 03:48:27 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id
+	qb10sm22072576pbb.43.2013.03.04.03.48.23
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 04 Mar 2013 03:48:26 -0800 (PST)
+Date: Mon, 4 Mar 2013 12:48:15 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20130304114815.GH3268@jama>
 References: <1362393439-23933-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH v2] sstate.bbclass: consider postinstall dependencies too
+	<CA+chaQe3c3aYV6xEYsScoMWTMexe9rR4UiKCAszTjG-xrad59Q@mail.gmail.com>
+	<1362394572.29587.10.camel@ted> <20130304111337.GG3268@jama>
+	<513487B9.8000502@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <513487B9.8000502@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate.bbclass: consider postinstall dependencies too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,54 +49,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 12:01:35 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 12:04:58 -0000
+X-Groupsio-MsgNum: 36186
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gTtJ75FAzB1T2CN6"
+Content-Disposition: inline
 
-When checking the dependencies in setscene_depvalid(), make sure we also
-consider those dependencies needed when running the postinstalls on
-host.
+--gTtJ75FAzB1T2CN6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #3918]
+On Mon, Mar 04, 2013 at 01:38:33PM +0200, Laurentiu Palcu wrote:
+>=20
+>=20
+> On 03/04/2013 01:13 PM, Martin Jansa wrote:
+> > On Mon, Mar 04, 2013 at 10:56:12AM +0000, Richard Purdie wrote:
+> >> On Mon, 2013-03-04 at 11:51 +0100, Martin Jansa wrote:
+> >>> Shouldn't this list be defined in layer.conf like
+> >>> SIGGEN_EXCLUDERECIPES_ABISAFE, so that other layers can extend that
+> >>> list?
+> >>
+> >> I'm hoping we only have very small list of these problematic
+> >> dependencies. If we end up with a large number of them then yes, we'd
+> >> need to abstract it but I'd prefer to avoid that unless proven
+> >> necessary.
+> >>
+> >> Is there a specific case you have in mind?
+> >=20
+> > Isn't systemd-systemctl-native another candidate to be included?
+> >=20
+> It looks like it should be in the list... I'll resend a new version.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
-Changes in v2:
- * added systemd-systemctl-native to the list;
+what about all u-a-native implementations?
 
-Thanks,
-Laurentiu
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
- meta/classes/sstate.bbclass |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+--gTtJ75FAzB1T2CN6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 118a28a..ef12d97 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -640,6 +640,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
-             return True
-         return False
-+    def isPostInstDep(x):
-+        if x in ["qemu-native", "gdk-pixbuf-native", "gtk+-native", "qemuwrapper-cross", "depmodwrapper-cross", "systemd-systemctl-native"]:
-+            return True
-+        return False
- 
-     # We can skip these "safe" dependencies since the aren't runtime dependencies, just build time
-     if isSafeDep(taskdependees[task][0]) and taskdependees[task][1] == "do_populate_sysroot":
-@@ -658,8 +662,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         # do_package_write_* and do_package doesn't need do_package
-         if taskdependees[task][1] == "do_package" and taskdependees[dep][1] in ['do_package', 'do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
-             continue
--        # do_package_write_* and do_package doesn't need do_populate_sysroot
-+        # do_package_write_* and do_package doesn't need do_populate_sysroot, unless is a postinstall dependency
-         if taskdependees[task][1] == "do_populate_sysroot" and taskdependees[dep][1] in ['do_package', 'do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
-+            if isPostInstDep(taskdependees[task][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
-+                return False
-             continue
-         # Native/Cross packages don't exist and are noexec anyway
-         if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
--- 
-1.7.9.5
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlE0if8ACgkQN1Ujt2V2gByamwCgncmxRbM+58GD7IK16Ytr/Isz
+yJkAoJBkIfDr4KmtoefxGGmQIHzlCZp3
+=1TOP
+-----END PGP SIGNATURE-----
 
-
+--gTtJ75FAzB1T2CN6--
