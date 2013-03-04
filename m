@@ -1,20 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UCT1k-0000U0-9J
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 11:53:52 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 02:37:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,778,1355126400"; d="scan'208";a="270566218"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2013 02:37:21 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 12:37:19 +0200
-Message-Id: <1362393439-23933-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] sstate.bbclass: consider postinstall dependencies too
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCT33-0000Xe-CM for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 11:55:14 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24AkS2S025502; Mon, 4 Mar 2013 10:46:28 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id A4yKqPEwwn9D; Mon,  4 Mar 2013 10:46:28 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24AkKrU025497
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Mar 2013 10:46:22 GMT
+Message-ID: <1362393507.29587.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 04 Mar 2013 10:38:27 +0000
+In-Reply-To: <20130304103306.GF3268@jama>
+References: <1362360870-12148-1-git-send-email-randy.macleod@windriver.com>
+	<20130304081846.GC3268@jama> <1362391887.29587.5.camel@ted>
+	<20130304103306.GF3268@jama>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] apr: add libtool to SSTATE_SCAN_FILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,48 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 10:53:53 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 10:55:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When checking the dependencies in setscene_depvalid(), make sure we also
-consider those dependencies needed when running the postinstalls on
-host.
+On Mon, 2013-03-04 at 11:33 +0100, Martin Jansa wrote:
+> On Mon, Mar 04, 2013 at 10:11:27AM +0000, Richard Purdie wrote:
+> > On Mon, 2013-03-04 at 09:18 +0100, Martin Jansa wrote:
+> > > On Sun, Mar 03, 2013 at 08:34:30PM -0500, randy.macleod@windriver.com wrote:
+> > > > From: Jackie Huang <jackie.huang@windriver.com>
+> > > > 
+> > > > The hardcoded paths in libtool will cause apache2 compile fail at
+> > > > link stage when the package apr is installed from sstate cache, so
+> > > > add libtool to SSTATE_SCAN_FILES.
+> > > > 
+> > > > [ CQID: WIND00405372 ]
+> > > 
+> > > You can drop this.
+> > 
+> > Is this really a big problem? I can understand people wanting to be able
+> > to track commits back to defect reports...
+> 
+> Not big problem, but isn't link to cgit in their tracking system enough?
+> 
+> That's what I'm using for SHR bugs now, because I cannot assume that people
+> using oe-core will know where bug tracker for [SHR #666] is.
 
-[YOCTO #3918]
+I am quite happy for the meaning of some of these to be documented
+somewhere with a link to the appropriate bugzillas or other systems.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/sstate.bbclass |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+> I cannot find public windriver bug tracker where I can search 
+> WIND00405372 to find longer description why this change is needed (I
+> know why in this case) - that's why I find yocto bug tags useful, but
+> not WIND00*.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 118a28a..be29e52 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -640,6 +640,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
-             return True
-         return False
-+    def isPostInstDep(x):
-+        if x in ["qemu-native", "gdk-pixbuf-native", "gtk+-native", "qemuwrapper-cross", "depmodwrapper-cross"]:
-+            return True
-+        return False
- 
-     # We can skip these "safe" dependencies since the aren't runtime dependencies, just build time
-     if isSafeDep(taskdependees[task][0]) and taskdependees[task][1] == "do_populate_sysroot":
-@@ -658,8 +662,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         # do_package_write_* and do_package doesn't need do_package
-         if taskdependees[task][1] == "do_package" and taskdependees[dep][1] in ['do_package', 'do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
-             continue
--        # do_package_write_* and do_package doesn't need do_populate_sysroot
-+        # do_package_write_* and do_package doesn't need do_populate_sysroot, unless is a postinstall dependency
-         if taskdependees[task][1] == "do_populate_sysroot" and taskdependees[dep][1] in ['do_package', 'do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
-+            if isPostInstDep(taskdependees[task][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
-+                return False
-             continue
-         # Native/Cross packages don't exist and are noexec anyway
-         if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
--- 
-1.7.9.5
+As per the commit guidelines, these are additional information and no
+excuse for not writing a self-standing commit message. Some will be more
+useful than others but I'm not sure it makes sense to remove them just
+for the sake of it.
+
+Cheers,
+
+Richard
+
 
 
 
