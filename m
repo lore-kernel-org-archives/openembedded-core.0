@@ -1,23 +1,45 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1UCfNa-0005m7-8e
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 01:05:40 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r24NmiZk004983
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Mar 2013 15:48:44 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 4 Mar 2013 15:48:43 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Mar 2013 17:48:41 -0600
-Message-ID: <1362440921-52485-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	(envelope-from <B42214@freescale.com>) id 1UCg23-0007LI-9Q
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Mar 2013 01:47:04 +0100
+Received: from mail16-db3-R.bigfish.com (10.3.81.237) by
+	DB3EHSOBE001.bigfish.com (10.3.84.21) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 4 Mar 2013 23:45:17 +0000
+Received: from mail16-db3 (localhost [127.0.0.1])	by mail16-db3-R.bigfish.com
+	(Postfix) with ESMTP id 477DE600CC	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  4 Mar 2013 23:45:17 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail16-db3 (localhost.localdomain [127.0.0.1]) by mail16-db3
+	(MessageSwitch) id 1362440715413778_21064;
+	Mon,  4 Mar 2013 23:45:15 +0000 (UTC)
+Received: from DB3EHSMHS005.bigfish.com (unknown [10.3.81.245])	by
+	mail16-db3.bigfish.com (Postfix) with ESMTP id 5B78E4001C	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  4 Mar 2013 23:45:15 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS005.bigfish.com
+	(10.3.87.105) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 4 Mar 2013 23:45:15 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Mon, 4 Mar 2013 23:45:12 +0000
+Received: from b42214-Latitude-E6420.am.freescale.net
+	(b42214-Latitude-E6420.am.freescale.net [10.112.103.77])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r24NjBMZ012995;
+	Mon, 4 Mar 2013 16:45:12 -0700
+From: Leonardo Sandoval <leonardo.sandoval@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Mar 2013 17:45:10 -0600
+Message-ID: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Subject: [PATCH v2] syslinux.bbclass: Add a default serial console option and real boot menu support
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] sstate.bbclass: Enclose sstate search parameter with quotes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,239 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 00:05:41 -0000
+X-List-Received-Date: Tue, 05 Mar 2013 00:47:05 -0000
 Content-Type: text/plain
 
-The previous syslinux menu code did not support using both a serial
-and vga console, but this has worked for years in syslinux so there is
-no reason not to take advantage of it.  The previous menu looked like:
+In case filenames have spaces, execution of the function
+sstater_install will hang, so the print parameter %s must be
+enclosed with quotes.
 
--------------------------------------------------------
-Linux Boot Menu
-The following targets are available on this image:
-
-             boot: None
-             install: None
--------------------------------------------------------
-
-This commit makes it look something more like a traditional grub menu
-on both the serial console and vga console as well as providing the
-option to continue on using either the serial or vga console with the
-correct kernel arguments.
-
-You can see the screen shots attached to the bugzilla.
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944
-
-[ YOCTO #3944 ]
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval@freescale.com>
 ---
- meta/classes/syslinux.bbclass |  128 ++++++++++++++++-------------------------
- 1 files changed, 49 insertions(+), 79 deletions(-)
+ meta/classes/sstate.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index c4596bf..0b90eab 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -11,15 +11,17 @@
- # ${LABELS} - a list of targets for the automatic config
- # ${APPEND} - an override list of append strings for each label
- # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited
-+# ${SYSLINUX_SPLASH} - A background for the vga boot menu if using the boot menu
-+# ${SYSLINUX_SERIAL} - Set an alternate serial port or turn off serial with empty string
- 
- do_bootimg[depends] += "syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot"
- 
- SYSLINUXCFG  = "${S}/syslinux.cfg"
--SYSLINUXMENU = "${S}/menu"
- 
- ISOLINUXDIR = "/isolinux"
- SYSLINUXDIR = "/"
-+SYSLINUX_SERIAL ?= "0 115200"
- ISO_BOOTIMG = "isolinux/isolinux.bin"
- ISO_BOOTCAT = "isolinux/boot.cat"
- MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
-@@ -34,82 +36,34 @@ syslinux_populate() {
- 
- 	# Install the config files
- 	install -m 0644 ${SYSLINUXCFG} ${DEST}${BOOTDIR}/${CFGNAME}
--	if [ -f ${SYSLINUXMENU} ]; then
--		install -m 0644 ${SYSLINUXMENU} ${DEST}${BOOTDIR}
--	fi
- }
- 
- syslinux_iso_populate() {
- 	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
- 	install -m 0644 ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
-+	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
-+		install -m 0644 ${STAGING_LIBDIR}/syslinux/vesamenu.c32 ${ISODIR}${ISOLINUXDIR}/vesamenu.c32
-+		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
-+			install -m 0644 ${SYSLINUX_SPLASH} ${ISODIR}${ISOLINUXDIR}/splash.lss
-+		fi
-+	fi
- }
- 
- syslinux_hddimg_populate() {
- 	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
- 	install -m 0444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
-+	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
-+		install -m 0644 ${STAGING_LIBDIR}/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
-+		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
-+			install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
-+		fi
-+	fi
- }
- 
- syslinux_hddimg_install() {
- 	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
- }
- 
--python build_syslinux_menu () {
--    import copy
--    import sys
--
--    workdir = d.getVar('WORKDIR', True)
--    if not workdir:
--        bb.error("WORKDIR is not defined")
--        return
--        
--    labels = d.getVar('LABELS', True)
--    if not labels:
--        bb.debug(1, "LABELS not defined, nothing to do")
--        return
--    
--    if labels == []:
--        bb.debug(1, "No labels, nothing to do")
--        return
--
--    cfile = d.getVar('SYSLINUXMENU', True)
--    if not cfile:
--        raise bb.build.FuncFailed('Unable to read SYSLINUXMENU')
--
--    try:
--        cfgfile = file(cfile, 'w')
--    except OSError:
--        raise bb.build.funcFailed('Unable to open %s' % (cfile))
--
--    # Beep the speaker and Clear the screen
--    cfgfile.write('\x07\x0C')
--
--    # The title should be configurable
--    cfgfile.write('Linux Boot Menu\n')
--    cfgfile.write('The following targets are available on this image:\n')
--    cfgfile.write('\n')
--
--    for label in labels.split():
--        from copy import deepcopy
--        localdata = deepcopy(d)
--
--        overrides = localdata.getVar('OVERRIDES')
--        if not overrides:
--            raise bb.build.FuncFailed('OVERRIDES not defined')
--        overrides = localdata.expand(overrides)
--    
--        localdata.setVar('OVERRIDES', label + ':' + overrides)
--        bb.data.update_data(localdata)
--
--        usage = localdata.getVar('USAGE', True)
--        cfgfile.write('  \x0F\x30\x3E%16s\x0F\x30\x37: ' % (label))
--        cfgfile.write('%s\n' % (usage))
--
--        del localdata
--
--    cfgfile.write('\n')
--    cfgfile.close()
--}
--
- python build_syslinux_cfg () {
-     import copy
-     import sys
-@@ -146,7 +100,16 @@ python build_syslinux_cfg () {
-             cfgfile.write('%s\n' % opt)
- 
-     cfgfile.write('ALLOWOPTIONS 1\n');
--    cfgfile.write('DEFAULT %s\n' % (labels.split()[0]))
-+    syslinux_serial = d.getVar('SYSLINUX_SERIAL', True)
-+    if syslinux_serial:
-+        cfgfile.write('SERIAL %s\n' % syslinux_serial)
-+
-+    menu = d.getVar('AUTO_SYSLINUXMENU', True)
-+
-+    if menu and syslinux_serial:
-+        cfgfile.write('DEFAULT Graphics console %s\n' % (labels.split()[0]))
-+    else:
-+        cfgfile.write('DEFAULT %s\n' % (labels.split()[0]))
- 
-     timeout = d.getVar('SYSLINUX_TIMEOUT', True)
- 
-@@ -161,14 +124,13 @@ python build_syslinux_cfg () {
-     else:
-         cfgfile.write('PROMPT 1\n')
- 
--    menu = d.getVar('AUTO_SYSLINUXMENU', True)
--
--    # This is ugly.  My bad.
--
-     if menu:
--        bb.build.exec_func('build_syslinux_menu', d)
--        mfile = d.getVar('SYSLINUXMENU', True)
--        cfgfile.write('DISPLAY %s\n' % (mfile.split('/')[-1]) )
-+        cfgfile.write('ui vesamenu.c32\n')
-+        cfgfile.write('menu title Select kernel options and boot kernel\n')
-+        cfgfile.write('menu tabmsg Press [Tab] to edit, [Return] to select\n')
-+        splash = d.getVar('SYSLINUX_SPLASH', True)
-+        if splash:
-+            cfgfile.write('menu background splash.lss\n')
-     
-     for label in labels.split():
-         localdata = bb.data.createCopy(d)
-@@ -176,24 +138,32 @@ python build_syslinux_cfg () {
-         overrides = localdata.getVar('OVERRIDES', True)
-         if not overrides:
-             raise bb.build.FuncFailed('OVERRIDES not defined')
--    
-+
-         localdata.setVar('OVERRIDES', label + ':' + overrides)
-         bb.data.update_data(localdata)
-     
--        cfgfile.write('LABEL %s\nKERNEL /vmlinuz\n' % (label))
-+        btypes = [ [ "", "console=tty0" ] ]
-+        if menu and syslinux_serial:
-+            btypes = [ [ "Graphics console ", " console=tty0" ],
-+                [ "Serial console ",  " console=ttyS0,115200" ] ]
-+
-+        for btype in btypes:
-+            cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
- 
--        append = localdata.getVar('APPEND', True)
--        initrd = localdata.getVar('INITRD', True)
-+            append = localdata.getVar('APPEND', True)
-+            initrd = localdata.getVar('INITRD', True)
- 
--        if append:
--            cfgfile.write('APPEND ')
-+            if append:
-+                cfgfile.write('APPEND ')
- 
--            if initrd:
--                cfgfile.write('initrd=/initrd ')
-+                if initrd:
-+                    cfgfile.write('initrd=/initrd ')
- 
--            cfgfile.write('LABEL=%s '% (label))
-+                cfgfile.write('LABEL=%s '% (label))
- 
--            cfgfile.write('%s\n' % (append))
-+                cfgfile.write('%s %s\n' % (append, btype[1]))
-+            else:
-+                cfgfile.write('APPEND %s\n' % btype[1])
- 
-     cfgfile.close()
- }
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 118a28a..6232aa2 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -174,7 +174,7 @@ def sstate_install(ss, d):
+                     break
+             if realmatch:
+                 match.append(f)
+-                sstate_search_cmd = "grep -rl %s %s --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
++                sstate_search_cmd = "grep -rl '%s' %s --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
+                 search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
+                 if search_output != "":
+                     match.append("Matched in %s" % search_output.rstrip())
 -- 
-1.7.1
+1.7.4.1
+
 
 
 
