@@ -1,32 +1,28 @@
-Received: from mail-oa0-f44.google.com ([209.85.219.44])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UCdrE-0001qu-5j
+	(envelope-from <jason.wessel@windriver.com>) id 1UCduP-00024Z-QF
 	for Openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 23:27:59 +0100
-Received: by mail-oa0-f44.google.com with SMTP id h1so9970794oag.3
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 14:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=an050c0QMtI+8JtpmwR/TYYDCnxo3letG1O24k+q9jw=;
-	b=O2yMO1yiHEIP4KV8V3PYIKEhrm6zpuJ2ZOZAtZVG5ARfuPisL/AXCcfXHrmYDTYZZc
-	9bjhzTE2XSZAsSuvXIEbmgh5hBdHh/LL5kUEx/RPTSB6AhW9Z+WLdC74FRm80DRTTGmn
-	/T+afUUsZEQMdZ33s8qe6Luq0DRzoc/8nGfzDlY3rJvI6WvPDpnLhFb51x2d4gxI3F5I
-	iQ0ufGm6gZgPjq0dPACq28FFxTOz3mUZSC54PW/ClArj4Ts3jDk9+MZf2vItmWvWuGtw
-	zOlWMoqxfLlsuG5Eu955sUipo7eJOEL+d1G9qS4iePcjdJ0G/8k3GbBqBocKd6mCLepw
-	s7fA==
+	Mon, 04 Mar 2013 23:31:02 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r24MEUWL019101
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Mar 2013 14:14:30 -0800 (PST)
+Received: from [172.25.32.35] (172.25.32.35) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 4 Mar 2013 14:14:30 -0800
+Message-ID: <51351CC4.3060304@windriver.com>
+Date: Mon, 4 Mar 2013 16:14:28 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Received: by 10.60.172.18 with SMTP id ay18mr16815660oec.126.1362435075447; 
-	Mon, 04 Mar 2013 14:11:15 -0800 (PST)
-Received: by 10.76.173.138 with HTTP; Mon, 4 Mar 2013 14:11:15 -0800 (PST)
-In-Reply-To: <5135189F.5070203@windriver.com>
+To: Trevor Woerner <twoerner@gmail.com>
 References: <1362432115-43230-1-git-send-email-jason.wessel@windriver.com>
 	<5135189F.5070203@windriver.com>
-Date: Mon, 4 Mar 2013 17:11:15 -0500
-Message-ID: <CAHUNapQ6frnbBJKXU1KuhZCik5x4OGDv1aD1zib-5RdMLgWc2Q@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
+	<CAHUNapQ6frnbBJKXU1KuhZCik5x4OGDv1aD1zib-5RdMLgWc2Q@mail.gmail.com>
+In-Reply-To: <CAHUNapQ6frnbBJKXU1KuhZCik5x4OGDv1aD1zib-5RdMLgWc2Q@mail.gmail.com>
+X-Enigmail-Version: 1.5.1
 Cc: Patches and discussions about the oe-core layer
 	<Openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ncurses, busybox, cml1.bbclass: Fix menuconfig display corruption
@@ -42,10 +38,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 22:28:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 04 Mar 2013 22:31:02 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Is this a proposed fix for bug 3898?
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3898
+On 03/04/2013 04:11 PM, Trevor Woerner wrote:
+> Is this a proposed fix for bug 3898?
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3898
+
+Absolutely this would fix that defect.
+
+Jason.
 
 
