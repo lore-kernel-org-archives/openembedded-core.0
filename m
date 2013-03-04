@@ -1,28 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UCZgk-0007fY-0M for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 19:00:39 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r24HpTUX025227; Mon, 4 Mar 2013 17:51:47 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OFvJe-FEzg2Y; Mon,  4 Mar 2013 17:51:47 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r24HpZXj025234
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Mar 2013 17:51:42 GMT
-Message-ID: <1362419021.29587.44.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 04 Mar 2013 17:43:41 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: "saul.wold" <saul.wold@intel.com>
-Subject: [PATCH] populate_sdk_base/image: Fix races for variable mappings
+	(envelope-from <raj.khem@gmail.com>) id 1UCbs6-0004f2-D0
+	for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 21:20:30 +0100
+Received: by mail-ie0-f175.google.com with SMTP id c12so6729072ieb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Mar 2013 12:04:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=vz9iYGpFDOZQi/bRFVleolz6PN/IvJl6wR4oNidwcTs=;
+	b=AMHYxBApnslcKGqRD2P0vdF1XsKeZLkzoA3SfI7nSSikE4mx7n1rB2iwdynkLCZWMI
+	S40KKxIs2Hm8BLl7FS02OZrAA7Q9orDqquNnn1cUf2X6vqozL0nV1BpMjeOkO/21IGsv
+	xNOeYaZm0PcCpRcHCZBZKPdbRJPzNv61ujuUGHkMVOjidNV1EpyWy19SBRzc6sBvwGEl
+	Uq8AWcuIE9EGZ6VfwIRr+ySo3funBoBzXPjtzZntvrdcSRif8A5UAAfKeai3vaSazcCe
+	UkCJZbr6HFcy0gkEf5VRbt0JSGk74sKfDxyUgeCiJeoIQwmQ6rw6nqzR3IhA/OIdiayY
+	Mcew==
+X-Received: by 10.50.17.131 with SMTP id o3mr3671840igd.112.1362427441666;
+	Mon, 04 Mar 2013 12:04:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.74.163 with HTTP; Mon, 4 Mar 2013 12:03:31 -0800 (PST)
+In-Reply-To: <1362330514.4325.30.camel@ted>
+References: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAMKF1sp7G1S-B5N-HR-2P_PEhkmeJnjDtskRe6EcubxiHah=nQ@mail.gmail.com>
+	<1362330514.4325.30.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 4 Mar 2013 12:03:31 -0800
+Message-ID: <CAMKF1sr=v5uKWLsYHmB9oY8gaP_UBDK4ktx+UquKVpDjuzk6cQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: libgcc_s.so not stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,79 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 18:00:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Mar 2013 20:20:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When using the -c populate_sdk option, images are not generated quite as
-they should be under certain circumstances. For example the dropbear
-feature may not get replaced with openssh, leading to both being installed
-with an appropriate rootfs failure.
+On Sun, Mar 3, 2013 at 9:08 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-08-22 at 13:25 -0700, Khem Raj wrote:
+>> On Wed, Aug 22, 2012 at 1:15 PM, Enrico Scholz
+>> <enrico.scholz@sigma-chemnitz.de> wrote:
+>> >
+>> > I just noticed that libgcc_s.so.1 is not stripped in the .ipk.  Is
+>> > there any reason to keep the debug symbols?  Uncompressed, this makes a
+>> > difference of more than 1 MB.
+>>
+>> I dont see a reason to have debug info there. Symbol table probably
+>> should be left in.
 
-This patch moves the remapping logic to later points in the code, ensuring
-there is no conflict. The result is slightly simpler too as an added bonus.
+yes as long as symbol table is left intact it should work fine.
 
-[YOCTO #3749]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 19564d8..68bd342 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -117,6 +117,10 @@ python () {
- 
-     d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
- 
-+    if d.getVar('BB_WORKERCONTEXT', True) is not None:
-+        runtime_mapping_rename("PACKAGE_INSTALL", d)
-+        runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", d)
-+
-     # Ensure we have the vendor list for complementary package handling
-     ml_vendor_list = ""
-     multilibs = d.getVar('MULTILIBS', True) or ""
-@@ -129,19 +133,6 @@ python () {
-     d.setVar('MULTILIB_VENDORS', ml_vendor_list)
- }
- 
--python image_handler () {
--    if not isinstance(e, bb.event.RecipeParsed):
--        return
--
--    # If we don't do this we try and run the mapping hooks while parsing which is slow
--    # bitbake should really provide something to let us know this...
--    if e.data.getVar('BB_WORKERCONTEXT', True) is not None:
--        runtime_mapping_rename("PACKAGE_INSTALL", e.data)
--        runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", e.data)
--
--}
--addhandler image_handler
--
- #
- # Get a list of files containing device tables to create.
- # * IMAGE_DEVICE_TABLE is the old name to an absolute path to a device table file
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 88de1e4..7af2d2e 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -29,14 +29,9 @@ EXCLUDE_FROM_WORLD = "1"
- 
- SDK_PACKAGING_FUNC ?= "create_shar"
- 
--python () {
--    # If we don't do this we try and run the mapping hooks while parsing which is slow
--    # bitbake should really provide something to let us know this...
--    if bb.data.getVar('BB_WORKERCONTEXT', d, True) is not None:
--        runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", d)
--}
--
- fakeroot python do_populate_sdk() {
-+    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", d)
-+
-     bb.build.exec_func("populate_sdk_image", d)
- 
-     # Handle multilibs in the SDK environment, siteconfig, etc files...
-
-
+>
+> I noticed this when clearing out old emails and I've just posted a patch
+> for it.
+>
+> Worryingly, there are other non-executables in the lib directories which
+> aren't getting stripped. I've opened a bug:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3973
+>
+> Cheers,
+>
+> Richard
+>
 
 
