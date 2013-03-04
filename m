@@ -1,22 +1,20 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UCZHM-00049q-Os
+	(envelope-from <cristian.iorga@intel.com>) id 1UCZHM-00049p-Op
 	for openembedded-core@lists.openembedded.org;
 	Mon, 04 Mar 2013 18:34:25 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 09:17:26 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 09:17:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,781,1355126400"; d="scan'208";a="293356284"
+X-IronPort-AV: E=Sophos;i="4.84,781,1355126400"; d="scan'208";a="293356270"
 Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2013 09:17:25 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2013 09:17:23 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 19:17:49 +0200
-Message-Id: <1362417470-29860-2-git-send-email-cristian.iorga@intel.com>
+Date: Mon,  4 Mar 2013 19:17:48 +0200
+Message-Id: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
-References: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH V2 1/2] connman: upgrade to 1.12
+Subject: [PATCH V2 0/2] Connman upgrade and qemu ethernet provisioning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +29,34 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 04 Mar 2013 17:34:27 -0000
 
-- 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch no longer needed;
-fix included in package source code
+Connman 1.12 features Ethernet provisioning
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
+As such, qemu machines will use it to prevent connman to
+loose connectivity if no network infrastructure is present.
+
+Fixes Yocto bugs YB3227, YB3804, YB3843.
+
+Version V2 includes "connman: add header to define in6_addr" patch
+
+Cristian Iorga (2):
+  connman: upgrade to 1.12
+  connman: Wired inteface provisioned via qemu
+
+ meta/recipes-connectivity/connman/connman-conf.bb  |   17 +++---
+ .../connman/connman-conf/qemuall/main.conf         |    3 --
+ .../connman/connman-conf/qemuall/wired-setup       |   16 ++++++
+ .../connman/connman-conf/qemuall/wired.config      |    8 +++
  meta/recipes-connectivity/connman/connman.inc      |    2 +-
  ...If-there-is-no-d_type-support-use-fstatat.patch |   55 --------------------
+ meta/recipes-connectivity/connman/connman/connman  |    3 ++
  .../connman/{connman_1.10.bb => connman_1.12.bb}   |    5 +-
- 3 files changed, 3 insertions(+), 59 deletions(-)
+ 8 files changed, 40 insertions(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
  delete mode 100644 meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
  rename meta/recipes-connectivity/connman/{connman_1.10.bb => connman_1.12.bb} (74%)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index db4d26c..04b21f7 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
- 
--INC_PR = "r18"
-+INC_PR = "r0"
- 
- TIST = "--enable-tist"
- TIST_powerpc = ""
-diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-deleted file mode 100644
-index 7315545..0000000
---- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 7007ef32a959ac4717c19339a24fd90a68638a19 Mon Sep 17 00:00:00 2001
--From: Andrei Gherzan <andrei@gherzan.ro>
--Date: Tue, 17 Jul 2012 16:07:17 +0300
--Subject: [PATCH V3 2/2] storage.c: If there is no d_type support use
-- fstatat()
--
--This is useful for filesystems where d_type is always DT_UNKNOWN.
--In this case use fstatat() function.
--
--Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
--Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
--Upstream-Status: Submitted
-- 
-----
-- src/storage.c |   19 +++++++++++++++++++
-- 1 file changed, 19 insertions(+)
--
--Index: git/src/storage.c
--===================================================================
----- git.orig/src/storage.c
--+++ git/src/storage.c
--@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
-- 
-- 		switch (d->d_type) {
-- 		case DT_DIR:
---		case DT_UNKNOWN:
-- 			/*
-- 			 * If the settings file is not found, then
-- 			 * assume this directory is not a services dir.
--@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
-- 			ret = stat(str, &buf);
-- 			g_free(str);
-- 			if (ret < 0)
--+				continue;
--+
--+			g_string_append_printf(result, "%s/", d->d_name);
--+			break;
--+		case DT_UNKNOWN:
--+			/*
--+			 * If there is no d_type support use fstatat()
--+			 * to check if directory
--+			 */
--+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
--+			if (ret < 0)
--+				continue;
--+			if (!(buf.st_mode & S_IFDIR))
--+				continue;
--+			str = g_strdup_printf("%s/%s/settings", STORAGEDIR,
--+							d->d_name);
--+			ret = stat(str, &buf);
--+			g_free(str);
--+			if (ret < 0)
-- 				continue;
-- 
-- 			g_string_append_printf(result, "%s/", d->d_name);
-diff --git a/meta/recipes-connectivity/connman/connman_1.10.bb b/meta/recipes-connectivity/connman/connman_1.12.bb
-similarity index 74%
-rename from meta/recipes-connectivity/connman/connman_1.10.bb
-rename to meta/recipes-connectivity/connman/connman_1.12.bb
-index 7dca1b4..5ba4032 100644
---- a/meta/recipes-connectivity/connman/connman_1.10.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.12.bb
-@@ -1,12 +1,11 @@
- require connman.inc
- 
--# 1.10 tag
--SRCREV = "3bda76eb442c9395db1dba17352c3e78376671cc"
-+# 1.12 tag
-+SRCREV = "8397cbbc0a79d39cf3b1880f4fd3f3405b6bc6ad"
- SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
--            file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
-             file://inet-fix-ip-cleanup-functions.patch \
-             file://add-in.h-for-ipv6.patch"
- S = "${WORKDIR}/git"
 -- 
 1.7.10.4
 
