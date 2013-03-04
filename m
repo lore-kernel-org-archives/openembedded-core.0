@@ -1,20 +1,28 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1UCWjr-0003BW-1K
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 15:51:57 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 04 Mar 2013 06:35:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,779,1355126400"; d="scan'208";a="208571330"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 04 Mar 2013 06:34:57 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 16:36:14 +0200
-Message-Id: <1362407774-27299-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] ethtool: upgrade to 3.8
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCWjz-0003CI-W0 for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 15:52:00 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24EgEId009447; Mon, 4 Mar 2013 14:43:05 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id C0DWO30OEpNp; Mon,  4 Mar 2013 14:43:05 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r24EgvAn009618
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Mar 2013 14:43:00 GMT
+Message-ID: <1362407704.29587.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, yocto
+	<yocto@yoctoproject.org>
+Date: Mon, 04 Mar 2013 14:35:04 +0000
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Subject: Feature Completion Deadline for 1.4 looming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,33 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 14:52:03 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 14:52:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-extended/ethtool/{ethtool_3.7.bb => ethtool_3.8.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_3.7.bb => ethtool_3.8.bb} (79%)
+The 1.4 release is scheduled for 2013/04/26. We have one milestone
+release before then, M5 on 2013/03/17. This is also the feature complete
+deadline.
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_3.7.bb b/meta/recipes-extended/ethtool/ethtool_3.8.bb
-similarity index 79%
-rename from meta/recipes-extended/ethtool/ethtool_3.7.bb
-rename to meta/recipes-extended/ethtool/ethtool_3.8.bb
-index e04f1c0..3d84e70 100644
---- a/meta/recipes-extended/ethtool/ethtool_3.7.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_3.8.bb
-@@ -9,7 +9,7 @@ PR = "r0"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "dc4bfea23c9d966638284dded4306f61"
--SRC_URI[sha256sum] = "8ff82984ced622ef6be300972ce208f48cdc80e81e06f433ad68c45a3e073ddf"
-+SRC_URI[md5sum] = "ddceef30c99cee26874798821e9d6ab8"
-+SRC_URI[sha256sum] = "648e1c311567571f806389d85efaa063a8035e09529d0467c4ea97c9ece829d6"
- 
- inherit autotools
--- 
-1.7.11.7
+This means if there are features or other changes you want to see in
+1.4, they need to be in by the 17th[1]. After the 17th we'll be doing
+bugfixing and stabilisation and new features will have to wait for 1.5.
+
+[1] Within reason, large unexpected invasive changes appearing on the
+17th will probably not make it unless the solve world hunger or have an
+equally impressive benefit.
+
+Cheers,
+
+Richard
+
 
 
 
