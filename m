@@ -1,37 +1,34 @@
-Received: from mail-pa0-f51.google.com ([209.85.220.51])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UCQrn-00037D-T0
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 09:35:28 +0100
-Received: by mail-pa0-f51.google.com with SMTP id hz1so3009659pad.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 00:18:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=5sC26+SNj46Tx8W+e6Cpoy5V9uw6wM5KfGGGoQ+jJsA=;
-	b=whgQl7LHvJ3K668C16yMVoJ4IfaaSyN2WIe6AQVfmzovIaoZZpsYFsaNuCO6fUgA/H
-	qcXakSOXWhmE7FWH73ME6a8UkFZZSVQcHmDeM+EXgS+qwwYTJ1IWS3txSFOprqocyhIT
-	wgy4LWWTptoumGraJWo5HBWGu3LztwyCi3YuLyDEqJJbTcCL/V9+vCseWgIU/UkK4o9X
-	LxoY3ReuaZd9wyWD6WPz578MpnFSyKBWkkg1WxYjtgYCAClScYvfmkqEB4dSiv4MuvPw
-	SzIx1AEohERwp9YCo61k33oGxv0Ewv6yhGc4FNnDI4wpt3j5tdCV/Ur2IQycT/DabSHv
-	PwaQ==
-X-Received: by 10.66.251.102 with SMTP id zj6mr31198503pac.7.1362385139717;
-	Mon, 04 Mar 2013 00:18:59 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id y9sm23089367paw.1.2013.03.04.00.18.54
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 04 Mar 2013 00:18:57 -0800 (PST)
-Date: Mon, 4 Mar 2013 09:18:46 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: randy.macleod@windriver.com
-Message-ID: <20130304081846.GC3268@jama>
-References: <1362360870-12148-1-git-send-email-randy.macleod@windriver.com>
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1UCR78-0003dF-5h for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 09:51:22 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2013 00:34:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,778,1355126400"; d="scan'208";a="294390381"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2013 00:34:48 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.108]) by
+	IRSMSX101.ger.corp.intel.com ([169.254.1.96]) with mapi id
+	14.01.0355.002; Mon, 4 Mar 2013 08:34:47 +0000
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v3] btrfs-tools: added PV to git package recipe
+Thread-Index: AQHOFp8uo36MmnpFMka+mkLEHNM/V5iRNbYAgAP/ru8=
+Date: Mon, 4 Mar 2013 08:34:46 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3F2AF86@IRSMSX102.ger.corp.intel.com>
+References: <1362157892-22060-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>,
+	<5130FEE4.7050207@linux.intel.com>
+In-Reply-To: <5130FEE4.7050207@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.137]
 MIME-Version: 1.0
-In-Reply-To: <1362360870-12148-1-git-send-email-randy.macleod@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] apr: add libtool to SSTATE_SCAN_FILES
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] btrfs-tools: added PV to git package recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,81 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 08:35:28 -0000
-X-Groupsio-MsgNum: 36170
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sHrvAb52M6C8blB9"
-Content-Disposition: inline
-
---sHrvAb52M6C8blB9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Mar 2013 08:51:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 03, 2013 at 08:34:30PM -0500, randy.macleod@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->=20
-> The hardcoded paths in libtool will cause apache2 compile fail at
-> link stage when the package apr is installed from sstate cache, so
-> add libtool to SSTATE_SCAN_FILES.
->=20
-> [ CQID: WIND00405372 ]
+I rechecked the tags for the btrfs-tools package.=0A=
+There was an error - I missed looking at the year=0A=
+of the commits. We are currently before 0.20-rc1.=0A=
+0.19 should be the current PV.=0A=
+=0A=
+Thanks,=0A=
+Ema=0A=
+________________________________________=0A=
+From: Saul Wold [sgw@linux.intel.com]=0A=
+Sent: Friday, March 01, 2013 9:17 PM=0A=
+To: Ciobanu, Emilia Maria Silvia=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH v3] btrfs-tools: added PV to git package reci=
+pe=0A=
+=0A=
+On 03/01/2013 09:11 AM, Emilia Ciobanu wrote:=0A=
+> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>=0A=
+> ---=0A=
+>   .../btrfs-tools/btrfs-tools_git.bb                 |    2 ++=0A=
+>   1 file changed, 2 insertions(+)=0A=
+>=0A=
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/=
+recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
+> index e963a74..df216b1 100644=0A=
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
+> @@ -17,6 +17,8 @@ SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/=
+git/mason/btrfs-progs.git;p=0A=
+>=0A=
+>   S =3D "${WORKDIR}/git"=0A=
+>=0A=
+> +PV =3D "0.19+git${SRCPV}"=0A=
+> +=0A=
+See my previous email, since we are currently beyond the 0.20-rc1 we=0A=
+should indicated that in the version info as 0.20~rc1.=0A=
+=0A=
+Sau!=0A=
+=0A=
+>   PR =3D "r6"=0A=
+>=0A=
+>   SRC_URI +=3D " file://fix_use_of_gcc.patch \=0A=
+>=0A=
 
-You can drop this.
 
->=20
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->  meta/recipes-support/apr/apr_1.4.6.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support=
-/apr/apr_1.4.6.bb
-> index b7220e0..77dffee 100644
-> --- a/meta/recipes-support/apr/apr_1.4.6.bb
-> +++ b/meta/recipes-support/apr/apr_1.4.6.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0c35ff3c4c83b8=
-9d2f076e315caac28b \
-> =20
->  BBCLASSEXTEND =3D "native"
-> =20
-> -PR =3D "r1"
-> +PR =3D "r2"
-> =20
->  SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
->             file://configure_fixes.patch \
-> @@ -43,7 +43,7 @@ do_install_append() {
->  	cp ${S}/${HOST_SYS}-libtool ${D}${datadir}/build-1/libtool
->  }
-> =20
-> -SSTATE_SCAN_FILES +=3D "apr_rules.mk"
-> +SSTATE_SCAN_FILES +=3D "apr_rules.mk libtool"
-> =20
->  SYSROOT_PREPROCESS_FUNCS +=3D "apr_sysroot_preprocess"
-> =20
-> --=20
-> 1.8.1
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---sHrvAb52M6C8blB9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlE0WOYACgkQN1Ujt2V2gBw8eACfeRhUbpmScbpPZ4nWG9HbK/Jo
-8vMAn2U2yiWStW38xCX1sPSHTT5DSlNw
-=L9Sg
------END PGP SIGNATURE-----
-
---sHrvAb52M6C8blB9--
