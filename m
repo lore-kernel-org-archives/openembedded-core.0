@@ -1,37 +1,22 @@
-Received: from mail-ve0-f170.google.com ([209.85.128.170])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UCZGM-00044o-UX
+	(envelope-from <cristian.iorga@intel.com>) id 1UCZHM-00049q-Os
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 18:33:25 +0100
-Received: by mail-ve0-f170.google.com with SMTP id 14so4938178vea.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 09:16:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=YhvV/nEPoFbPLFtKz6QL27E7RB0pgi3TVWnaQtz/hzc=;
-	b=UD9//UEeJa7C0W4Q5OzT/C/f94fmojK11qYo5tdf0H39SGUlhTGAsB2OjbCZ/U0zk8
-	RG57C6s8/VshpPO99I/4IVyOgzrJWBFyLK+2XfsnIzpckwSPnHyYh7Na8lbxDKjl3NFu
-	PybkOlNUiPBGOjcpt/U3AP0uSTvsc6B8ApTs7pK59PBbzosKtQ0BSSFby5D2z3cGuq1i
-	HGyWrh5VWeyXD3XAM5KDarifNsv3f3LYSZFWGqUtSG/lADPCFIo7RkqCQA47Sa6wbgBx
-	eUAQTvZ5G2yckneeBBu4MzBfLiWHqgJMCRh7/Qua5jsIeaWO7UMHLFjrK07tdPz0Tc56
-	cX6w==
-X-Received: by 10.220.156.75 with SMTP id v11mr8009971vcw.1.1362417414533;
-	Mon, 04 Mar 2013 09:16:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Mon, 4 Mar 2013 09:16:34 -0800 (PST)
-In-Reply-To: <CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
-References: <1362407704.29587.39.camel@ted>
-	<CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Mar 2013 17:16:34 +0000
-Message-ID: <CAJTo0LZqk7pB4PJhumn827PNQ5-vqr8mve9Kc1Kr4ra-K+3iVA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQlvfIZElWVeIc3aSrRSoPY6Pk/t7FZUSnqdlEVWMuk/Hd38opYAb2b1qJmSdMJfXzjoH6e6
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Feature Completion Deadline for 1.4 looming
+	Mon, 04 Mar 2013 18:34:25 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 09:17:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,781,1355126400"; d="scan'208";a="293356284"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2013 09:17:25 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Mar 2013 19:17:49 +0200
+Message-Id: <1362417470-29860-2-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
+References: <1362417470-29860-1-git-send-email-cristian.iorga@intel.com>
+Subject: [PATCH V2 1/2] connman: upgrade to 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,22 +29,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 17:33:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Mar 2013 17:34:27 -0000
 
-On 4 March 2013 17:00, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> The systemd integration? Will it be  reworked so we have an upgrade path?
+- 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch no longer needed;
+fix included in package source code
 
-As discussed on yocto@ over the weekend I'm currently working on a
-branch that supports simultaneous sysvinit and systemd support.  I
-hoped to have it for review by now, but we had a family illness last
-week so I wasn't working fulltime.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   55 --------------------
+ .../connman/{connman_1.10.bb => connman_1.12.bb}   |    5 +-
+ 3 files changed, 3 insertions(+), 59 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+ rename meta/recipes-connectivity/connman/{connman_1.10.bb => connman_1.12.bb} (74%)
 
-I'm still holding the view that init scripts belong in the daemon
-package, with weaked dependencies and checks on postinst, as the
-logical conclusion of PN-systemd packages is to also create PN-sysv
-packages, and that's a serious upgrade path concern.
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index db4d26c..04b21f7 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+             "
+ 
+-INC_PR = "r18"
++INC_PR = "r0"
+ 
+ TIST = "--enable-tist"
+ TIST_powerpc = ""
+diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+deleted file mode 100644
+index 7315545..0000000
+--- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 7007ef32a959ac4717c19339a24fd90a68638a19 Mon Sep 17 00:00:00 2001
+-From: Andrei Gherzan <andrei@gherzan.ro>
+-Date: Tue, 17 Jul 2012 16:07:17 +0300
+-Subject: [PATCH V3 2/2] storage.c: If there is no d_type support use
+- fstatat()
+-
+-This is useful for filesystems where d_type is always DT_UNKNOWN.
+-In this case use fstatat() function.
+-
+-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+-Upstream-Status: Submitted
+- 
+----
+- src/storage.c |   19 +++++++++++++++++++
+- 1 file changed, 19 insertions(+)
+-
+-Index: git/src/storage.c
+-===================================================================
+---- git.orig/src/storage.c
+-+++ git/src/storage.c
+-@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
+- 
+- 		switch (d->d_type) {
+- 		case DT_DIR:
+--		case DT_UNKNOWN:
+- 			/*
+- 			 * If the settings file is not found, then
+- 			 * assume this directory is not a services dir.
+-@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
+- 			ret = stat(str, &buf);
+- 			g_free(str);
+- 			if (ret < 0)
+-+				continue;
+-+
+-+			g_string_append_printf(result, "%s/", d->d_name);
+-+			break;
+-+		case DT_UNKNOWN:
+-+			/*
+-+			 * If there is no d_type support use fstatat()
+-+			 * to check if directory
+-+			 */
+-+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
+-+			if (ret < 0)
+-+				continue;
+-+			if (!(buf.st_mode & S_IFDIR))
+-+				continue;
+-+			str = g_strdup_printf("%s/%s/settings", STORAGEDIR,
+-+							d->d_name);
+-+			ret = stat(str, &buf);
+-+			g_free(str);
+-+			if (ret < 0)
+- 				continue;
+- 
+- 			g_string_append_printf(result, "%s/", d->d_name);
+diff --git a/meta/recipes-connectivity/connman/connman_1.10.bb b/meta/recipes-connectivity/connman/connman_1.12.bb
+similarity index 74%
+rename from meta/recipes-connectivity/connman/connman_1.10.bb
+rename to meta/recipes-connectivity/connman/connman_1.12.bb
+index 7dca1b4..5ba4032 100644
+--- a/meta/recipes-connectivity/connman/connman_1.10.bb
++++ b/meta/recipes-connectivity/connman/connman_1.12.bb
+@@ -1,12 +1,11 @@
+ require connman.inc
+ 
+-# 1.10 tag
+-SRCREV = "3bda76eb442c9395db1dba17352c3e78376671cc"
++# 1.12 tag
++SRCREV = "8397cbbc0a79d39cf3b1880f4fd3f3405b6bc6ad"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+-            file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+             file://inet-fix-ip-cleanup-functions.patch \
+             file://add-in.h-for-ipv6.patch"
+ S = "${WORKDIR}/git"
+-- 
+1.7.10.4
 
-Ross
 
 
