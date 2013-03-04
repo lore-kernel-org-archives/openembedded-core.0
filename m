@@ -1,39 +1,39 @@
-Received: from mail-wg0-f52.google.com ([74.125.82.52])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UCVBC-00078b-GI
+	(envelope-from <ross.burton@intel.com>) id 1UCVBG-00078o-Ta
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 14:11:48 +0100
-Received: by mail-wg0-f52.google.com with SMTP id 12so4126069wgh.19
+	Mon, 04 Mar 2013 14:11:52 +0100
+Received: by mail-wi0-f173.google.com with SMTP id hq4so1950634wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 04:55:17 -0800 (PST)
+	Mon, 04 Mar 2013 04:55:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=ogz8nr5/qZqC14p61vlSrGrSic4oMlZKFd8MGgFpsfk=;
-	b=TiqgwaeO28/5ywwzTvGsC8fHorG5CLVkuIo9c7GN79j1i4RLV+S3dPaZSicryRHz6W
-	/k8YJn/8vMZURIregug3fMFK12vIK2Qu3pPP/TcFkcifSic0H4ownSJm9DXURJMX/C8f
-	A/SAqRc0TVsvaYpCmuZIfVUKGf3EIMihKBf0BVnOWuTQAyGmfQ0aZKIAKCsds9/HGuai
-	N4AKYEst4o0QdILVOi+yIJJySTHt4CYz9BMoTnDMIluEThdFO/YePH35a6fWS4JyHLZS
-	LwLXXJh4T4o1n5Ls/0JSR1rdvP3dncGVQIclHzgkk3lInUYaSbYzbcKy8QeHclA2PsRI
-	lPkQ==
-X-Received: by 10.194.88.138 with SMTP id bg10mr31663094wjb.13.1362401716889; 
-	Mon, 04 Mar 2013 04:55:16 -0800 (PST)
+	bh=/KIHU759QWPkkePIfEIdjJkwc6DcplhBGYJM9aaFgck=;
+	b=BeFeiO9waiehxdEVP8EboRUtAM3VQW8R8o57gRNg6zWXem7jmomyegBSHVcEfdG2Kc
+	TXqxjrwzhIBhaOTUFNuVn40+uldxE8Ckddog7OAY6tVUhicuhhjhh+XixLoqhCWSOb/R
+	B9FGCMZuG0G0BGyySr0y3RqstNryCeTmBcMUCujflRvVE8LnbqU4e5d0wJ/9gnTKpdCs
+	DBoV+oD1iCxfXax4OdJNigMqmMx7qhUxhFr5frYBh8d6w2rxXSD83lRW5F//3TS4i7h4
+	XshpM5UgN2Ps6aDcYkyguV4YxRByOwr0liaBsiAZJPRFV9K1hme52s9F4lpUVoPREdf7
+	UuPQ==
+X-Received: by 10.180.78.168 with SMTP id c8mr2921714wix.27.1362401715485;
+	Mon, 04 Mar 2013 04:55:15 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fx5sm15460507wib.11.2013.03.04.04.55.15
+	by mx.google.com with ESMTPS id fx5sm15460507wib.11.2013.03.04.04.55.14
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Mar 2013 04:55:16 -0800 (PST)
+	Mon, 04 Mar 2013 04:55:14 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 12:52:45 +0000
-Message-Id: <e137d87f9aa1b572ca3a3d7b45b7e09dbd7bb4b1.1362401323.git.ross.burton@intel.com>
+Date: Mon,  4 Mar 2013 12:52:44 +0000
+Message-Id: <eefbfac657e1cae6e2eb915ad8e101caf1d05014.1362401323.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1362401323.git.ross.burton@intel.com>
 References: <cover.1362401323.git.ross.burton@intel.com>
 In-Reply-To: <cover.1362401323.git.ross.burton@intel.com>
 References: <cover.1362401323.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmp0x2RuhTq/F05VIknTh3Ne1q4WmrFjhJ1+0j0ZztxpLwBk1sqa004CuaQzEAZvfYWLxcP
-Subject: [PATCH 2/4] default-providers: add default virtual provider for gtk-update-icon-cache
+X-Gm-Message-State: ALoCoQmVxA2HTTn6e5HBFgooBhLGSRb1vG8oXkXYkV8/8oRmcc7YIK17TXlwG02fU0g/pP5hGISV
+Subject: [PATCH 1/4] gtk-update-icon-cache-native: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 13:11:52 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 13:11:53 -0000
 
-Use a virtual provider instead of a hard dependency so that if gtk+-native is
-required in some configuration, this provider can be changed and then
-gtk+-native and gtk-update-icon-cache-native won't be both built and conflict in
-the sysroot.
+This recipe builds natively just the gtk-update-icon-cache binary that is
+required to run the gtk-icon-cache.bbclass postinstall scripts.
+
+The advantage of doing this is it means running 400 less tasks which takes four
+minutes on my machine, as the alternative is building GTK+ natively (and so
+libX11, freetype, fontconfig...).
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/default-providers.inc |    1 +
- 1 file changed, 1 insertion(+)
+ .../gtk+/gtk-update-icon-cache-native_3.4.4.bb     |   44 ++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 444176c..ebf2a09 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -12,6 +12,7 @@ PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
- PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
-+PREFERRED_PROVIDER_virtual/gtk-update-icon-cache-native ?= "gtk-update-icon-cache-native"
- 
- #
- # Default virtual runtime providers
+diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+new file mode 100644
+index 0000000..5941bbd
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+@@ -0,0 +1,44 @@
++SUMMARY = "gtk-update-icon-cache built natively"
++DESCRIPTION = "Just gtk-update-icon-cache built from GTK+ natively, for on-host postinst script execution."
++SECTION = "libs"
++
++PROVIDES = "virtual/gtk-update-icon-cache-native"
++
++DEPENDS = "gdk-pixbuf-native"
++
++LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
++                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
++                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
++                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
++
++SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz"
++SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
++SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
++
++S = "${WORKDIR}/gtk+-${PV}"
++
++inherit pkgconfig native
++
++PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
++
++do_configure() {
++	# Quite ugly but defines enough to compile the tool.
++	if ! test -f gtk/config.h; then
++		echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
++		echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
++		echo "#define HAVE_FTW_H 1" >> gtk/config.h
++
++	fi
++}
++
++do_compile() {
++	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
++		-o gtk-update-icon-cache ${S}/gtk/updateiconcache.c
++}
++
++do_install() {
++	install -d ${D}${bindir}
++        install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
++}
 -- 
 1.7.10.4
 
