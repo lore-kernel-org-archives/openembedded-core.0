@@ -1,36 +1,34 @@
-Received: from mail-ie0-f174.google.com ([209.85.223.174])
+Received: from mail-pb0-f46.google.com ([209.85.160.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UCbuZ-0004kw-Cg
+	(envelope-from <elvis.dowson@gmail.com>) id 1UCc0J-0004ym-AM
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 21:23:03 +0100
-Received: by mail-ie0-f174.google.com with SMTP id k10so6566632iea.5
+	Mon, 04 Mar 2013 21:29:00 +0100
+Received: by mail-pb0-f46.google.com with SMTP id uo15so3344614pbc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 12:06:34 -0800 (PST)
+	Mon, 04 Mar 2013 12:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=MkR734Tp/5JiMuanfLTUq1GG7hUIfR8iojdOSy76djE=;
-	b=c+1ld1iZ8W/Md0Ny72QZnjH47QKsi32wcMzPzsg6f1EwflE8k9B4JecMuHiWvFH72w
-	GVyQVh46syMB0NT2rUsQMghoKe06Kz/6YhRgocCWFP5OTW3mbXtB+ezqCjjRy4eJEdSJ
-	BnLxMNRD4Uf6dhzePWc88T/xkaUlLfcTXmdwaIgcfHaUHju8B7mTDtmaYoZLYwljZL/O
-	YODOAFso/Byi8ZHggMRafUGeMd5Ln4O0//AentZGk/+09P7LNHFru6iGl0Py1ZFmw7AI
-	qDI/C5HXuvvjHZPyK6UTZAXEEAbe8UVKSfM6yhgyU5/O0gXPrLgN50xw4z09AIFMB9zq
-	GAog==
-X-Received: by 10.50.12.193 with SMTP id a1mr3698154igc.24.1362427594845; Mon,
-	04 Mar 2013 12:06:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.74.163 with HTTP; Mon, 4 Mar 2013 12:06:04 -0800 (PST)
-In-Reply-To: <1362330269.4325.28.camel@ted>
-References: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAMKF1sp7G1S-B5N-HR-2P_PEhkmeJnjDtskRe6EcubxiHah=nQ@mail.gmail.com>
-	<1362330269.4325.28.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Mar 2013 12:06:04 -0800
-Message-ID: <CAMKF1sqdJCLdnpr4WrWzQ44yUrpe+bxtjrm+oZrm0H0NxeXhOw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libgcc: Mark libgcc_s as executable to ensure its stripped
+	h=x-received:from:content-type:content-transfer-encoding:subject
+	:message-id:date:to:mime-version:x-mailer;
+	bh=VngK591rj0SG+yRQfVX0CR0cYXPaS/BTCnX+YX4Cnf8=;
+	b=J9ZPTi70IJM5aV6Aq7mocd0ql+LhZncKdeGYIeZFJJjOlomVcSLy24oLkJkzBBmjRu
+	EKcE7WqQXgF8CUMwlPMBzMc/itoFOIkY87+TSKB3eL4DwUm7DAPNL5qqGdpaYvRqaQSb
+	YZJ4E3WMGw/dz9dRTBf36+PGK23SjBx+7RW/TndR3rlkixXWd7LAo7T5DSxbQ33hEN0N
+	CNBEZe0BA8GK6JM2+IRJkVLUuwMyGdp6TgkWBe7aTvc0pJFLZW4t7biAR17GMnfzWnwy
+	gjfLtWURNVvraiTMwmADbzvuNibV+fQk0xhVl+lAykHVB/mjbgtNqLTjUmCo30Q4XHZX
+	PHvA==
+X-Received: by 10.68.48.227 with SMTP id p3mr30794953pbn.34.1362427950086;
+	Mon, 04 Mar 2013 12:12:30 -0800 (PST)
+Received: from [192.168.1.100] ([94.205.106.4])
+	by mx.google.com with ESMTPS id gf6sm23484081pbc.24.2013.03.04.12.12.27
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 04 Mar 2013 12:12:28 -0800 (PST)
+From: Elvis Dowson <elvis.dowson@gmail.com>
+Message-Id: <6BF736AB-19CF-4DF3-B136-E462875292B5@gmail.com>
+Date: Tue, 5 Mar 2013 00:12:21 +0400
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+X-Mailer: Apple Mail (2.1499)
+Subject: Enabling microblaze support for gcc-4.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 20:23:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Mar 2013 20:29:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 3, 2013 at 9:04 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> libgcc_s is not marked as executable and hence it doesn't get stripped. This
-> means its about 1MB larger than it needs to be. There is no good reason it
-> shouldn't get stripped so ensure it does and mark as executable.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-devtools/gcc/libgcc_4.7.bb b/meta/recipes-devtools/gcc/libgcc_4.7.bb
-> index 47669a2..6a0931f 100644
-> --- a/meta/recipes-devtools/gcc/libgcc_4.7.bb
-> +++ b/meta/recipes-devtools/gcc/libgcc_4.7.bb
-> @@ -57,6 +57,9 @@ do_install () {
->         # install the runtime in /usr/lib/ not in /usr/lib/gcc on target
->         # so that cross-gcc can find it in the sysroot
->
-> +       # Ensure libs are executable else they aren't stripped
-> +       chmod a+x ${D}/${base_libdir}/*
-> +
+Hi,
+      I'm trying to build the toolchain for the microblaze processor, =
+but I get an error with gcc-cross-initial_4.7.bb:
 
-hmmm, while this solves the issue I think better fix would for
-stripper to know that its a shared object
-and can be stripped. Marking libraries with exe (except ld.so which
-can execute on its own) seems not
-right to me.
+opening microblaze-c.o: No such file or directory.
 
+If I look in the =
+build/tmp/work/microblaze-poky-linux/gcc-cross-initial/4.7.2-r18/gcc-4.7.2=
+/gcc/config folder
 
->         mv ${D}${libdir}/gcc/* ${D}${libdir}
->         rm -rf ${D}${libdir}/gcc/
->         # unwind.h is installed here which is shipped in gcc-cross
->
->
+I can only see the following processor architectures
+i386
+mips
+rs6000
+s390
+sparc
+
+If I search for microblaze-c.o, it hasn't been built.
+
+I using the meta-xilinx tree, and the yocto/poky master branch for this =
+build.
+
+How do I go about enabling support in gcc to get it to build a toolchain =
+for the microblaze processor?
+
+Elvis Dowson=
 
 
