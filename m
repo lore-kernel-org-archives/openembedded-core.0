@@ -1,34 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1UCR78-0003dF-5h for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 09:51:22 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2013 00:34:49 -0800
+	id 1UCRFC-0003xg-Pd for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 09:59:39 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2013 00:43:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,778,1355126400"; d="scan'208";a="294390381"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2013 00:34:48 -0800
+X-IronPort-AV: E=Sophos;i="4.84,778,1355126400"; d="scan'208";a="270523765"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2013 00:43:09 -0800
 Received: from irsmsx102.ger.corp.intel.com ([169.254.2.108]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.96]) with mapi id
-	14.01.0355.002; Mon, 4 Mar 2013 08:34:47 +0000
+	IRSMSX103.ger.corp.intel.com ([169.254.3.15]) with mapi id
+	14.01.0355.002; Mon, 4 Mar 2013 08:42:40 +0000
 From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v3] btrfs-tools: added PV to git package recipe
-Thread-Index: AQHOFp8uo36MmnpFMka+mkLEHNM/V5iRNbYAgAP/ru8=
-Date: Mon, 4 Mar 2013 08:34:46 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3F2AF86@IRSMSX102.ger.corp.intel.com>
-References: <1362157892-22060-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>,
-	<5130FEE4.7050207@linux.intel.com>
-In-Reply-To: <5130FEE4.7050207@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Martin Jansa
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] btrfs-tools: added PV to git package recipe
+Thread-Index: AQHOFnZxWzbj580GUk+BAY7FnDp85piQx1UAgABs74CAAAN/AIAAST0AgAO4bLo=
+Date: Mon, 4 Mar 2013 08:42:39 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3F2AF9E@IRSMSX102.ger.corp.intel.com>
+References: <1362140387-5761-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+	<1362141704.1055.56.camel@ted> <5130FD69.1020804@linux.intel.com>
+	<CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>,
+	<1362181576.11004.11.camel@ted>
+In-Reply-To: <1362181576.11004.11.camel@ted>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.3.86.137]
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] btrfs-tools: added PV to git package recipe
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] btrfs-tools: added PV to git package recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,52 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 08:51:23 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 08:59:44 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-I rechecked the tags for the btrfs-tools package.=0A=
-There was an error - I missed looking at the year=0A=
-of the commits. We are currently before 0.20-rc1.=0A=
-0.19 should be the current PV.=0A=
+I've tried building the package after added the "0.20~rc1" tag for =0A=
+PV. This format for the tag doesn't seem to be supported. I=0A=
+get the following error:=0A=
+ invalid tag value("^[A-Za-z0-9+._]+$") Version: Version: 0.20~rc1+git0+fdb=
+6c0402337d9607c7a39155088eaf033742752=0A=
 =0A=
 Thanks,=0A=
 Ema=0A=
 ________________________________________=0A=
-From: Saul Wold [sgw@linux.intel.com]=0A=
-Sent: Friday, March 01, 2013 9:17 PM=0A=
-To: Ciobanu, Emilia Maria Silvia=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v3] btrfs-tools: added PV to git package reci=
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Richard Purdie [richard.purdie@=
+linuxfoundation.org]=0A=
+Sent: Saturday, March 02, 2013 1:46 AM=0A=
+To: Martin Jansa=0A=
+Cc: oe-core layer; Patches=0A=
+Subject: Re: [OE-core] [PATCH v2] btrfs-tools: added PV to git package reci=
 pe=0A=
 =0A=
-On 03/01/2013 09:11 AM, Emilia Ciobanu wrote:=0A=
-> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>=0A=
-> ---=0A=
->   .../btrfs-tools/btrfs-tools_git.bb                 |    2 ++=0A=
->   1 file changed, 2 insertions(+)=0A=
+On Fri, 2013-03-01 at 20:24 +0100, Martin Jansa wrote:=0A=
+> I don't think 0.20~rc1 sorts lower then 0.20 at least in opkg world:=0A=
 >=0A=
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/=
-recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
-> index e963a74..df216b1 100644=0A=
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
-> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb=0A=
-> @@ -17,6 +17,8 @@ SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/=
-git/mason/btrfs-progs.git;p=0A=
 >=0A=
->   S =3D "${WORKDIR}/git"=0A=
->=0A=
-> +PV =3D "0.19+git${SRCPV}"=0A=
-> +=0A=
-See my previous email, since we are currently beyond the 0.20-rc1 we=0A=
-should indicated that in the version info as 0.20~rc1.=0A=
+> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.20~rc1 '<=3D'=0A=
+> 0.20 && echo "Y"=0A=
+> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.20-rc1 '<=3D'=0A=
+> 0.20 && echo "Y"=0A=
+> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.19+0.20~rc1=0A=
+> '<=3D' 0.20 && echo "Y"=0A=
+> Y=0A=
+> OE @ ~/projects/opkg-utils $ ./opkg-compare-versions 0.19+0.20-rc1=0A=
+> '<=3D' 0.20 && echo "Y"=0A=
+> Y=0A=
 =0A=
-Sau!=0A=
+Just to follow up, I added this support to opkg itself back in 2008:=0A=
 =0A=
->   PR =3D "r6"=0A=
->=0A=
->   SRC_URI +=3D " file://fix_use_of_gcc.patch \=0A=
->=0A=
+http://code.google.com/p/opkg/source/detail?spec=3Dsvn40&r=3D40=0A=
+=0A=
+It would be nice to finally be able to start using it!=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
+=0A=
+=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=0A=
 
 
