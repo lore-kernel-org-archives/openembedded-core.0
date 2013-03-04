@@ -1,33 +1,34 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-ve0-f170.google.com ([209.85.128.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UCZ09-0003X4-05
+	(envelope-from <ross.burton@intel.com>) id 1UCZGM-00044o-UX
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 18:16:38 +0100
-Received: by mail-ob0-f175.google.com with SMTP id uz6so1996458obc.6
+	Mon, 04 Mar 2013 18:33:25 +0100
+Received: by mail-ve0-f170.google.com with SMTP id 14so4938178vea.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 09:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=GkyTarYtFiZYvw6yI6GfpDuwdrP1HF+ek3p1rKKK988=;
-	b=qHGhfffpqB7m5pLjU3vRhnNvCDp+oozwWZ8VX7K7fJ5F4dQIt/qcpuiMAlTNq41JoZ
-	mU7q1gq18iPFChG60skL1nph0yEir+UisXxKPzju2u/EaaqKKZLcWn1f+Q6YxvFfWExe
-	Mi/TMg40pcdgMoJ8ZOfAImyZ94ou+8PjfxGQ6Y+QJNccLtCui6uwMxtQkAnUQUTP8BVn
-	pWC9Ph7e99YGBHJ+vkM+yrSkfhp0svfQXXikpn+3XbhJVNRzOVawKEeM7vK0wA/zhM/0
-	OF0SyiXOkYGb9JaLLP5GohbKBymjYje88nTr6D8ALXRF5OEwhHrv8eFsoX7jNL8s1dQw
-	9P4w==
+	Mon, 04 Mar 2013 09:16:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=YhvV/nEPoFbPLFtKz6QL27E7RB0pgi3TVWnaQtz/hzc=;
+	b=UD9//UEeJa7C0W4Q5OzT/C/f94fmojK11qYo5tdf0H39SGUlhTGAsB2OjbCZ/U0zk8
+	RG57C6s8/VshpPO99I/4IVyOgzrJWBFyLK+2XfsnIzpckwSPnHyYh7Na8lbxDKjl3NFu
+	PybkOlNUiPBGOjcpt/U3AP0uSTvsc6B8ApTs7pK59PBbzosKtQ0BSSFby5D2z3cGuq1i
+	HGyWrh5VWeyXD3XAM5KDarifNsv3f3LYSZFWGqUtSG/lADPCFIo7RkqCQA47Sa6wbgBx
+	eUAQTvZ5G2yckneeBBu4MzBfLiWHqgJMCRh7/Qua5jsIeaWO7UMHLFjrK07tdPz0Tc56
+	cX6w==
+X-Received: by 10.220.156.75 with SMTP id v11mr8009971vcw.1.1362417414533;
+	Mon, 04 Mar 2013 09:16:54 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.60.11.228 with SMTP id t4mr5491034oeb.42.1362416408502; Mon,
-	04 Mar 2013 09:00:08 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Mon, 4 Mar 2013 09:00:08 -0800 (PST)
-In-Reply-To: <1362407704.29587.39.camel@ted>
+Received: by 10.58.219.195 with HTTP; Mon, 4 Mar 2013 09:16:34 -0800 (PST)
+In-Reply-To: <CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
 References: <1362407704.29587.39.camel@ted>
-Date: Mon, 4 Mar 2013 14:00:08 -0300
-X-Google-Sender-Auth: 96Nhr0-8kTN4uoYIHy5SiX2g4Vs
-Message-ID: <CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAP9ODKozO-vpHdqDWxPMnYaaCt6eZUy_EjoEfAeDObdSjKj2_g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Mar 2013 17:16:34 +0000
+Message-ID: <CAJTo0LZqk7pB4PJhumn827PNQ5-vqr8mve9Kc1Kr4ra-K+3iVA@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQlvfIZElWVeIc3aSrRSoPY6Pk/t7FZUSnqdlEVWMuk/Hd38opYAb2b1qJmSdMJfXzjoH6e6
 Cc: yocto <yocto@yoctoproject.org>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Feature Completion Deadline for 1.4 looming
@@ -43,28 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 17:16:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 04 Mar 2013 17:33:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 4, 2013 at 11:35 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> The 1.4 release is scheduled for 2013/04/26. We have one milestone
-> release before then, M5 on 2013/03/17. This is also the feature complete
-> deadline.
->
-> This means if there are features or other changes you want to see in
-> 1.4, they need to be in by the 17th[1]. After the 17th we'll be doing
-> bugfixing and stabilisation and new features will have to wait for 1.5.
->
-> [1] Within reason, large unexpected invasive changes appearing on the
-> 17th will probably not make it unless the solve world hunger or have an
-> equally impressive benefit.
+On 4 March 2013 17:00, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> The systemd integration? Will it be  reworked so we have an upgrade path?
 
-The systemd integration? Will it be  reworked so we have an upgrade path?
+As discussed on yocto@ over the weekend I'm currently working on a
+branch that supports simultaneous sysvinit and systemd support.  I
+hoped to have it for review by now, but we had a family illness last
+week so I wasn't working fulltime.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+I'm still holding the view that init scripts belong in the daemon
+package, with weaked dependencies and checks on postinst, as the
+logical conclusion of PN-systemd packages is to also create PN-sysv
+packages, and that's a serious upgrade path concern.
+
+Ross
 
 
