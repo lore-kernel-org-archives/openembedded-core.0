@@ -1,36 +1,36 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail-ie0-f174.google.com ([209.85.223.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UCbs6-0004f2-D0
+	(envelope-from <raj.khem@gmail.com>) id 1UCbuZ-0004kw-Cg
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 21:20:30 +0100
-Received: by mail-ie0-f175.google.com with SMTP id c12so6729072ieb.34
+	Mon, 04 Mar 2013 21:23:03 +0100
+Received: by mail-ie0-f174.google.com with SMTP id k10so6566632iea.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Mar 2013 12:04:01 -0800 (PST)
+	Mon, 04 Mar 2013 12:06:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=vz9iYGpFDOZQi/bRFVleolz6PN/IvJl6wR4oNidwcTs=;
-	b=AMHYxBApnslcKGqRD2P0vdF1XsKeZLkzoA3SfI7nSSikE4mx7n1rB2iwdynkLCZWMI
-	S40KKxIs2Hm8BLl7FS02OZrAA7Q9orDqquNnn1cUf2X6vqozL0nV1BpMjeOkO/21IGsv
-	xNOeYaZm0PcCpRcHCZBZKPdbRJPzNv61ujuUGHkMVOjidNV1EpyWy19SBRzc6sBvwGEl
-	Uq8AWcuIE9EGZ6VfwIRr+ySo3funBoBzXPjtzZntvrdcSRif8A5UAAfKeai3vaSazcCe
-	UkCJZbr6HFcy0gkEf5VRbt0JSGk74sKfDxyUgeCiJeoIQwmQ6rw6nqzR3IhA/OIdiayY
-	Mcew==
-X-Received: by 10.50.17.131 with SMTP id o3mr3671840igd.112.1362427441666;
-	Mon, 04 Mar 2013 12:04:01 -0800 (PST)
+	bh=MkR734Tp/5JiMuanfLTUq1GG7hUIfR8iojdOSy76djE=;
+	b=c+1ld1iZ8W/Md0Ny72QZnjH47QKsi32wcMzPzsg6f1EwflE8k9B4JecMuHiWvFH72w
+	GVyQVh46syMB0NT2rUsQMghoKe06Kz/6YhRgocCWFP5OTW3mbXtB+ezqCjjRy4eJEdSJ
+	BnLxMNRD4Uf6dhzePWc88T/xkaUlLfcTXmdwaIgcfHaUHju8B7mTDtmaYoZLYwljZL/O
+	YODOAFso/Byi8ZHggMRafUGeMd5Ln4O0//AentZGk/+09P7LNHFru6iGl0Py1ZFmw7AI
+	qDI/C5HXuvvjHZPyK6UTZAXEEAbe8UVKSfM6yhgyU5/O0gXPrLgN50xw4z09AIFMB9zq
+	GAog==
+X-Received: by 10.50.12.193 with SMTP id a1mr3698154igc.24.1362427594845; Mon,
+	04 Mar 2013 12:06:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.74.163 with HTTP; Mon, 4 Mar 2013 12:03:31 -0800 (PST)
-In-Reply-To: <1362330514.4325.30.camel@ted>
+Received: by 10.50.74.163 with HTTP; Mon, 4 Mar 2013 12:06:04 -0800 (PST)
+In-Reply-To: <1362330269.4325.28.camel@ted>
 References: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAMKF1sp7G1S-B5N-HR-2P_PEhkmeJnjDtskRe6EcubxiHah=nQ@mail.gmail.com>
-	<1362330514.4325.30.camel@ted>
+	<1362330269.4325.28.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Mar 2013 12:03:31 -0800
-Message-ID: <CAMKF1sr=v5uKWLsYHmB9oY8gaP_UBDK4ktx+UquKVpDjuzk6cQ@mail.gmail.com>
+Date: Mon, 4 Mar 2013 12:06:04 -0800
+Message-ID: <CAMKF1sqdJCLdnpr4WrWzQ44yUrpe+bxtjrm+oZrm0H0NxeXhOw@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: libgcc_s.so not stripped
+Subject: Re: [PATCH] libgcc: Mark libgcc_s as executable to ensure its stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 20:20:30 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 20:23:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Mar 3, 2013 at 9:08 AM, Richard Purdie
+On Sun, Mar 3, 2013 at 9:04 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2012-08-22 at 13:25 -0700, Khem Raj wrote:
->> On Wed, Aug 22, 2012 at 1:15 PM, Enrico Scholz
->> <enrico.scholz@sigma-chemnitz.de> wrote:
->> >
->> > I just noticed that libgcc_s.so.1 is not stripped in the .ipk.  Is
->> > there any reason to keep the debug symbols?  Uncompressed, this makes a
->> > difference of more than 1 MB.
->>
->> I dont see a reason to have debug info there. Symbol table probably
->> should be left in.
+> libgcc_s is not marked as executable and hence it doesn't get stripped. This
+> means its about 1MB larger than it needs to be. There is no good reason it
+> shouldn't get stripped so ensure it does and mark as executable.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-devtools/gcc/libgcc_4.7.bb b/meta/recipes-devtools/gcc/libgcc_4.7.bb
+> index 47669a2..6a0931f 100644
+> --- a/meta/recipes-devtools/gcc/libgcc_4.7.bb
+> +++ b/meta/recipes-devtools/gcc/libgcc_4.7.bb
+> @@ -57,6 +57,9 @@ do_install () {
+>         # install the runtime in /usr/lib/ not in /usr/lib/gcc on target
+>         # so that cross-gcc can find it in the sysroot
+>
+> +       # Ensure libs are executable else they aren't stripped
+> +       chmod a+x ${D}/${base_libdir}/*
+> +
 
-yes as long as symbol table is left intact it should work fine.
+hmmm, while this solves the issue I think better fix would for
+stripper to know that its a shared object
+and can be stripped. Marking libraries with exe (except ld.so which
+can execute on its own) seems not
+right to me.
 
+
+>         mv ${D}${libdir}/gcc/* ${D}${libdir}
+>         rm -rf ${D}${libdir}/gcc/
+>         # unwind.h is installed here which is shipped in gcc-cross
 >
-> I noticed this when clearing out old emails and I've just posted a patch
-> for it.
->
-> Worryingly, there are other non-executables in the lib directories which
-> aren't getting stripped. I've opened a bug:
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3973
->
-> Cheers,
->
-> Richard
 >
 
 
