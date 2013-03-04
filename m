@@ -1,35 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UCSVn-0007YM-EV for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 11:20:52 +0100
+	id 1UCScr-0007pZ-14 for openembedded-core@lists.openembedded.org;
+	Mon, 04 Mar 2013 11:28:25 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r24AC0ql022856; Mon, 4 Mar 2013 10:12:00 GMT
+	r24AJOIQ023543; Mon, 4 Mar 2013 10:19:24 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VBQTLcozOHk9; Mon,  4 Mar 2013 10:12:00 +0000 (GMT)
+	with LMTP id xu-XAaKmxgxj; Mon,  4 Mar 2013 10:19:24 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r24ABpwt022847
+	r24AJJtu023521
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Mar 2013 10:11:54 GMT
-Message-ID: <1362391438.29587.4.camel@ted>
+	verify=NOT); Mon, 4 Mar 2013 10:19:22 GMT
+Message-ID: <1362391887.29587.5.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-Date: Mon, 04 Mar 2013 10:03:58 +0000
-In-Reply-To: <985E5BBDA0968D48ABDF343456A521B3F2AF9E@IRSMSX102.ger.corp.intel.com>
-References: <1362140387-5761-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-	<1362141704.1055.56.camel@ted> <5130FD69.1020804@linux.intel.com>
-	<CA+chaQewTJogM92pDtzTgQqz6f90U_F_57t8bQ0MfZx-J9h1rQ@mail.gmail.com>
-	,<1362181576.11004.11.camel@ted>
-	<985E5BBDA0968D48ABDF343456A521B3F2AF9E@IRSMSX102.ger.corp.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 04 Mar 2013 10:11:27 +0000
+In-Reply-To: <20130304081846.GC3268@jama>
+References: <1362360870-12148-1-git-send-email-randy.macleod@windriver.com>
+	<20130304081846.GC3268@jama>
 X-Mailer: Evolution 3.6.3-1 
 Mime-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] btrfs-tools: added PV to git package recipe
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] apr: add libtool to SSTATE_SCAN_FILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,23 +38,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 10:20:52 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 10:28:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-03-04 at 08:42 +0000, Ciobanu, Emilia Maria Silvia wrote:
-> I've tried building the package after added the "0.20~rc1" tag for 
-> PV. This format for the tag doesn't seem to be supported. I
-> get the following error:
->  invalid tag value("^[A-Za-z0-9+._]+$") Version: Version: 0.20~rc1+git0+fdb6c0402337d9607c7a39155088eaf033742752
+On Mon, 2013-03-04 at 09:18 +0100, Martin Jansa wrote:
+> On Sun, Mar 03, 2013 at 08:34:30PM -0500, randy.macleod@windriver.com wrote:
+> > From: Jackie Huang <jackie.huang@windriver.com>
+> > 
+> > The hardcoded paths in libtool will cause apache2 compile fail at
+> > link stage when the package apr is installed from sstate cache, so
+> > add libtool to SSTATE_SCAN_FILES.
+> > 
+> > [ CQID: WIND00405372 ]
+> 
+> You can drop this.
 
-Which part of the system did that error come from?
-
-From what you've said, we should probably go with 0.19 for now and if we
-upgrade past the tag, switch to 0.19+0.20-rc1.
-
-We need to open a bug about ~ not working in package versions with the
-bug in opkg-compare-versions and the above issue being mentioned.
+Is this really a big problem? I can understand people wanting to be able
+to track commits back to defect reports...
 
 Cheers,
 
