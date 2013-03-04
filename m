@@ -1,20 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1UCXmw-0008PX-B1
+	(envelope-from <dvhart@linux.intel.com>) id 1UCYDC-0001J4-Fu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 16:58:55 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 04 Mar 2013 07:42:25 -0800
+	Mon, 04 Mar 2013 17:26:04 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2013 08:08:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,779,1355126400"; d="scan'208";a="264098531"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by azsmga001.ch.intel.com with ESMTP; 04 Mar 2013 07:42:23 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Mar 2013 17:43:39 +0200
-Message-Id: <1362411819-28821-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] libgpg-error: upgrade to 1.11
+X-IronPort-AV: E=Sophos;i="4.84,780,1355126400"; d="scan'208";a="293324755"
+Received: from unknown (HELO envy.home) ([10.255.12.152])
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2013 08:09:32 -0800
+Message-ID: <5134C73C.2000300@linux.intel.com>
+Date: Mon, 04 Mar 2013 08:09:32 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1362217827.git.liezhi.yang@windriver.com>
+	<1362224344.11004.14.camel@ted> <5133852E.2010504@linux.intel.com>
+	<513394C2.6030004@linux.intel.com> <5134A4BD.9030201@windriver.com>
+	<1362406238.29587.28.camel@ted>
+In-Reply-To: <1362406238.29587.28.camel@ted>
+X-Enigmail-Version: 1.5.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/2] Fully support ext3/ext4 rootfs generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,55 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Mar 2013 15:59:05 -0000
+X-List-Received-Date: Mon, 04 Mar 2013 16:26:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-License checksum change due to:
-- copyright year modification
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- .../{libgpg-error-1.10 => libgpg-error-1.11}/pkgconfig.patch      | 0
- .../libgpg-error/{libgpg-error_1.10.bb => libgpg-error_1.11.bb}   | 8 ++++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error-1.10 => libgpg-error-1.11}/pkgconfig.patch (100%)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.10.bb => libgpg-error_1.11.bb} (77%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error-1.10/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error-1.11/pkgconfig.patch
-similarity index 100%
-rename from meta/recipes-support/libgpg-error/libgpg-error-1.10/pkgconfig.patch
-rename to meta/recipes-support/libgpg-error/libgpg-error-1.11/pkgconfig.patch
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.10.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.11.bb
-similarity index 77%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.10.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.11.bb
-index 64b50b9..1caa0dd 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.10.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.11.bb
-@@ -5,18 +5,18 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=508c78081f11544da0fbb8c95913a301 \
-+                    file://src/gpg-error.h.in;endline=23;md5=6ac0378874589a44d53512b3786b4bc0 \
-                     file://src/init.c;endline=20;md5=b69742f2a8827d494c6f6a4b1768416c"
- 
- 
- SECTION = "libs"
--PR = "r2"
-+PR = "r0"
- 
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch"
- 
--SRC_URI[md5sum] = "736a03daa9dc5873047d4eb4a9c22a16"
--SRC_URI[sha256sum] = "520629b4568b5c29b1991c8ffc267c8bdee5f223c7333c42a651b56f9b1c5431"
-+SRC_URI[md5sum] = "b9fa55b71cae73cb2e44254c2acc4e2c"
-+SRC_URI[sha256sum] = "ae3376480a073b120c7add08f1e6cfcc08500648ccf22461cd42db6224a218c0"
- 
- inherit autotools binconfig pkgconfig gettext
- 
+On 03/04/2013 06:10 AM, Richard Purdie wrote:
+> On Mon, 2013-03-04 at 21:42 +0800, Robert Yang wrote:
+>>
+>> On 03/04/2013 02:21 AM, Darren Hart wrote:
+>>>
+>>>
+>>> On 03/03/2013 09:15 AM, Darren Hart wrote:
+> 
+>> Yes, we do have hard links in the rootfs, e.g: core-image-sato and 
+>> core-image-sato-sdk:
+>>
+>> # The sato
+>> $ find core-image-sato/1.0-r0/rootfs/ -type f -printf "%p %i %n\n" | grep -v '1$'
+>> core-image-sato/1.0-r0/rootfs/etc/terminfo/v/vt200 26977609 2
+>> core-image-sato/1.0-r0/rootfs/etc/terminfo/v/vt220 26977609 2
+>> core-image-sato/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld.bfd 26978690 2
+>> core-image-sato/1.0-r0/rootfs/usr/bin/arm-poky-linux-gnueabi-ld 26978690 2
+> 
+> What if the count was 11? or 21? I'm just mentioning we need to improve
+> that command!
+
+Yes a -v ' 1$' would be better.
+
 -- 
-1.7.11.7
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
