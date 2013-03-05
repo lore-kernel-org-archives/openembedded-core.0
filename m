@@ -1,26 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-vb0-f45.google.com ([209.85.212.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UCrPc-0006FX-Vl
+	(envelope-from <ross.burton@intel.com>) id 1UCrUv-0006oF-N2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 13:56:10 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r25CdeOL016685
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 05 Mar 2013 14:01:38 +0100
+Received: by mail-vb0-f45.google.com with SMTP id p1so1271764vbi.32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Mar 2013 04:39:40 -0800 (PST)
-Received: from pek-usp-3.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 5 Mar 2013 04:39:37 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Mar 2013 20:42:35 +0800
-Message-ID: <4058a124fddd182115e1470762fe01b967d60ff6.1362472906.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1362472906.git.liezhi.yang@windriver.com>
-References: <cover.1362472906.git.liezhi.yang@windriver.com>
+	Tue, 05 Mar 2013 04:45:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=J8jJop+6P2A7wwPCPdNcc9K1wTJzbbSRiJiykwvadpU=;
+	b=Zh246bmG3s39h9kiBBxOmsGK+QImRKjT76eEDMJZQEmHMAQL5EPyFGf2lNO4VqnUXy
+	CGbbgD4TSMqGwS2hcX7/QaqauPEYAR960DWlnv4wYj4AiR1E91TUOrvhy4hEDKIs6pIs
+	9/ztrrXQPgJzpDIbG5AIXARY/cwhog1DMuVP+6/HuiRHtD7vRefHK6dxh1pDIjCoXHRx
+	7fF4hj8IF1vM90Q3ig+Yr95MhUcdXkMnRBClxRwJYnQXAtB9N8psza1VY5+JOTm298M/
+	GgEPBHBWGMxw/PTdstGZLjfXy5CjBjTyszUw4wYNOjPZNOagXNBvS9U674/yFwLT4lQr
+	0vsw==
+X-Received: by 10.52.93.20 with SMTP id cq20mr8303965vdb.38.1362487508133;
+	Tue, 05 Mar 2013 04:45:08 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] avahi: fix installed but not shipped warning
+Received: by 10.58.219.195 with HTTP; Tue, 5 Mar 2013 04:44:47 -0800 (PST)
+In-Reply-To: <1362486294.29587.91.camel@ted>
+References: <1362486294.29587.91.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Mar 2013 12:44:47 +0000
+Message-ID: <CAJTo0LZ5V1wXUan0FGKQy3Xb+r0=gp0845XOi_cT9sCroWa62w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQmY/yQWmG78fs3PaKJ1w1Wis1GoK6PlCcl/6XwbR7A2cBRhMnUk6pCLzosldaGRKJOurIZe
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: Fix do_package variable dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 12:56:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Mar 2013 13:01:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The avahi recipe has a warning when build without systemd feature:
+On 5 March 2013 12:24, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> When the do_package function was split into different sections, the vardeps
+> were not updated to match meaning some function changes weren't reflected
+> in the sstate checksums. Fix this.
+>
+> [YOCTO #3980]
 
-WARNING: QA Issue: avahi: Files/directories were installed but not shipped
-  /usr/share/dbus-1
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-The /usr/share/dbus-1 is empty without systemd feature, there would be
-/usr/share/dbus-1/system-services with systemd. Use rmdir to fix the
-problem, and remove the ${datadir}/dbus-1/interfaces from the FILES list
-which had been removed clearly by the do_install.
-
-[YOCTO #3939]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-connectivity/avahi/avahi.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 3a4547c..1b7e26a 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -90,7 +90,6 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/introspection/*.introspect \
-                       ${datadir}/avahi/avahi-service.dtd \
-                       ${datadir}/avahi/service-types \
--                      ${datadir}/dbus-1/interfaces \
-                       ${datadir}/dbus-1/system-services"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
- FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
-@@ -128,6 +127,7 @@ do_install() {
- 	# if /var/run become non-empty in the future, need to install it via volatile
- 	rm -rf ${D}/var/run
- 	rm -rf ${D}${datadir}/dbus-1/interfaces
-+	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
- 	rm -rf ${D}${libdir}/avahi
- 
- 	install -d ${D}${sysconfdir}/udhcpc.d
--- 
-1.7.11.2
-
+Ross
 
 
