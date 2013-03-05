@@ -1,36 +1,31 @@
-Received: from mail-ob0-f176.google.com ([209.85.214.176])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UCpzr-0003c1-Of
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 12:25:33 +0100
-Received: by mail-ob0-f176.google.com with SMTP id v19so2505077obq.7
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCrBd-0005Uv-7u for openembedded-core@lists.openembedded.org;
+	Tue, 05 Mar 2013 13:41:46 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r25CX1PM025414 for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Mar 2013 12:33:02 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0D4nXkRm5xXl
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2013 03:08:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=SekzCNS10ccd//Lep3skD0mOY9lZ5qjxubkIfOKNy4I=;
-	b=fy7WjeMjuvo6Nnx9qjujfFX8gH4vqeMb4+cBw1AUJXD3D8vYaO+sr7SQlxYm3ST5u3
-	hb/8XLquOhHW/3Qpn70bvfjnWg0GvxbG4eePD6CM9yNK/pMJQZOzQ+s7IkKrxGMMZoKF
-	+D+Ssf4soNIv5Mhewub8zIDXuCGpZXSRXUAA837zflsh4vFSi8mzaiBDuX5Fk6WEqNrx
-	d9a8ix5Ohi58/JYpCzywf9iUuhOP9E+gFMdTb7HCRd5SMAdx+uLuP+CXkqD/fKKMG1jk
-	xKPXJAlV1JvvrueJkQGrEeIZaOSOeGaZwKuPxnJaoAsVZhFZJDc+BwsNjBLYuv/1nCWr
-	i76A==
-MIME-Version: 1.0
-X-Received: by 10.182.110.33 with SMTP id hx1mr18359057obb.32.1362481738090;
-	Tue, 05 Mar 2013 03:08:58 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Tue, 5 Mar 2013 03:08:57 -0800 (PST)
-In-Reply-To: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
-References: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
-Date: Tue, 5 Mar 2013 08:08:57 -0300
-X-Google-Sender-Auth: S3UL_A6BLxbL7d7kG2rENTOFLHg
-Message-ID: <CAP9ODKqLsaVsse75A5rkj+m63=e+eY-kZ4sSema-x+=7K-VgSg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Leonardo Sandoval <leonardo.sandoval@freescale.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate.bbclass: Enclose sstate search parameter with quotes
+	Tue,  5 Mar 2013 12:33:01 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r25CWrLT025263
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Mar 2013 12:32:55 GMT
+Message-ID: <1362486294.29587.91.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 05 Mar 2013 12:24:54 +0000
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Subject: [PATCH] package.bbclass: Fix do_package variable dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 11:25:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 05 Mar 2013 12:41:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 4, 2013 at 8:45 PM, Leonardo Sandoval
-<leonardo.sandoval@freescale.com> wrote:
-> In case filenames have spaces, execution of the function
-> sstater_install will hang, so the print parameter %s must be
-> enclosed with quotes.
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval@freescale.com>
+When the do_package function was split into different sections, the vardeps
+were not updated to match meaning some function changes weren't reflected
+in the sstate checksums. Fix this.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+[YOCTO #3980]
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b9ac0e6..d37499f 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1841,7 +1841,7 @@ python do_package () {
+ }
+ 
+ do_package[dirs] = "${SHLIBSWORKDIR} ${PKGDESTWORK} ${D}"
+-do_package[vardeps] += "${PACKAGEFUNCS} ${@gen_packagevar(d)}"
++do_package[vardeps] += "${PACKAGEBUILDPKGD} ${PACKAGESPLITFUNCS} ${PACKAGEFUNCS} ${@gen_packagevar(d)}"
+ addtask package before do_build after do_install
+ 
+ PACKAGELOCK = "${STAGING_DIR}/package-output.lock"
+
+
 
 
