@@ -1,31 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UCrBd-0005Uv-7u for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 13:41:46 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r25CX1PM025414 for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Mar 2013 12:33:02 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0D4nXkRm5xXl
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UCrPa-0006FS-V5
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Mar 2013 13:56:07 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r25Cdabr003864
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Mar 2013 12:33:01 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r25CWrLT025263
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Mar 2013 12:32:55 GMT
-Message-ID: <1362486294.29587.91.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Mar 2013 12:24:54 +0000
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Subject: [PATCH] package.bbclass: Fix do_package variable dependencies
+	Tue, 5 Mar 2013 04:39:36 -0800 (PST)
+Received: from pek-usp-3.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 5 Mar 2013 04:39:36 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Mar 2013 20:42:34 +0800
+Message-ID: <cover.1362472906.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1] avahi: fix installed but not shipped warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 12:41:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Mar 2013 12:56:07 -0000
+Content-Type: text/plain
 
-When the do_package function was split into different sections, the vardeps
-were not updated to match meaning some function changes weren't reflected
-in the sstate checksums. Fix this.
+The following changes since commit 93ec7b4d1550e07caec86e2998d0f94a01c7e785:
 
-[YOCTO #3980]
+  xserver-xf86-config: atom-pc doesn't need a xorg.conf (2013-03-04 14:42:11 +0000)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index b9ac0e6..d37499f 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1841,7 +1841,7 @@ python do_package () {
- }
- 
- do_package[dirs] = "${SHLIBSWORKDIR} ${PKGDESTWORK} ${D}"
--do_package[vardeps] += "${PACKAGEFUNCS} ${@gen_packagevar(d)}"
-+do_package[vardeps] += "${PACKAGEBUILDPKGD} ${PACKAGESPLITFUNCS} ${PACKAGEFUNCS} ${@gen_packagevar(d)}"
- addtask package before do_build after do_install
- 
- PACKAGELOCK = "${STAGING_DIR}/package-output.lock"
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib robert/avahi
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/avahi
+
+Robert Yang (1):
+  avahi: fix installed but not shipped warning
+
+ meta/recipes-connectivity/avahi/avahi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.11.2
 
 
 
