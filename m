@@ -1,37 +1,36 @@
-Received: from mail-vc0-f178.google.com ([209.85.220.178])
+Received: from mail-ob0-f176.google.com ([209.85.214.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UCpv2-0003Rz-20
+	(envelope-from <otavio.salvador@gmail.com>) id 1UCpzr-0003c1-Of
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 12:20:28 +0100
-Received: by mail-vc0-f178.google.com with SMTP id m8so4001392vcd.23
+	Tue, 05 Mar 2013 12:25:33 +0100
+Received: by mail-ob0-f176.google.com with SMTP id v19so2505077obq.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2013 03:03:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Tkwxc+vJHnX6jpVM2wa6mggVEd5frw3BiQvaYS/qknw=;
-	b=Tsn68lwIeOH1uuZc1tpj0/P9Oc//XHdLWdPWHPFM7Rx+jCcdIXgfqbzdnCiSaZ9KwR
-	LIIGxju9bQFgFW06bev22TrHu1UTsyq0d2JBNsqjFA5OrUJ8mwvjdiE6/laNzflqz7uN
-	UfDtdHp+iCdCrMUv1oU/9KYOtZcsDwFIdmCWidajMRLNOc63CFr3bNBmsOi2AeIBUqrZ
-	gudtfiJZRSksAFUuOeEn1pk6weiIr1q/8u2eRyILdJ29uWKohaQY+ZwkMAIpmw4Eo34z
-	93q0fOOhRNQxcVQQpDEye6baY3cZunUE8SHDndGny+r7H6MYLkc2kri3PH+Y4eP8lM3e
-	Moyg==
-X-Received: by 10.220.156.75 with SMTP id v11mr9294671vcw.1.1362481438529;
-	Tue, 05 Mar 2013 03:03:58 -0800 (PST)
+	Tue, 05 Mar 2013 03:08:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=SekzCNS10ccd//Lep3skD0mOY9lZ5qjxubkIfOKNy4I=;
+	b=fy7WjeMjuvo6Nnx9qjujfFX8gH4vqeMb4+cBw1AUJXD3D8vYaO+sr7SQlxYm3ST5u3
+	hb/8XLquOhHW/3Qpn70bvfjnWg0GvxbG4eePD6CM9yNK/pMJQZOzQ+s7IkKrxGMMZoKF
+	+D+Ssf4soNIv5Mhewub8zIDXuCGpZXSRXUAA837zflsh4vFSi8mzaiBDuX5Fk6WEqNrx
+	d9a8ix5Ohi58/JYpCzywf9iUuhOP9E+gFMdTb7HCRd5SMAdx+uLuP+CXkqD/fKKMG1jk
+	xKPXJAlV1JvvrueJkQGrEeIZaOSOeGaZwKuPxnJaoAsVZhFZJDc+BwsNjBLYuv/1nCWr
+	i76A==
 MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Tue, 5 Mar 2013 03:03:38 -0800 (PST)
-In-Reply-To: <1552403.roegCEAHfx@helios>
-References: <1362159742-20602-1-git-send-email-Martin.Jansa@gmail.com>
-	<1552403.roegCEAHfx@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Mar 2013 11:03:38 +0000
-Message-ID: <CAJTo0LaGO+MGywaqEcTcE4s5K3naCn8=z_crXDg2jT8jddp1jg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQlV2CSu+p5Gf0hnKWPgcXOTUjuQBCKH1GNA9i5akgIhbLJBqBtkuckIWpBPxjdGPXm8yAul
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sanity.bbclass: always use oe.lsb.distro_identifier method
+X-Received: by 10.182.110.33 with SMTP id hx1mr18359057obb.32.1362481738090;
+	Tue, 05 Mar 2013 03:08:58 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Tue, 5 Mar 2013 03:08:57 -0800 (PST)
+In-Reply-To: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
+References: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
+Date: Tue, 5 Mar 2013 08:08:57 -0300
+X-Google-Sender-Auth: S3UL_A6BLxbL7d7kG2rENTOFLHg
+Message-ID: <CAP9ODKqLsaVsse75A5rkj+m63=e+eY-kZ4sSema-x+=7K-VgSg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Leonardo Sandoval <leonardo.sandoval@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate.bbclass: Enclose sstate search parameter with quotes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,20 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 11:20:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 Mar 2013 11:25:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 5 March 2013 10:54, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> Unfortunately this has been merged before I had a chance to reply. FYI I put
-> the code in here to read the files directly on purpose, because most distros
-> bundle up the lsb_release tool with all of the LSB dependencies, so if you
-> want to set up a headless server without some of the LSB dependencies (which
-> include X11) you won't have the lsb_release tool and NATIVELSBSTRING is
-> "Unknown". Yes, I know we have this problem with NATIVELSBSTRING already.
+On Mon, Mar 4, 2013 at 8:45 PM, Leonardo Sandoval
+<leonardo.sandoval@freescale.com> wrote:
+> In case filenames have spaces, execution of the function
+> sstater_install will hang, so the print parameter %s must be
+> enclosed with quotes.
+>
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval@freescale.com>
 
-Score one for Debian, which ships lsb_release in a dedicated package
-for this exact reason. :)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
