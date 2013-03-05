@@ -1,28 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UCvKg-0005sx-Fq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 18:07:31 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Mar 2013 08:50:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,787,1355126400"; d="scan'208";a="209116625"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Mar 2013 08:50:19 -0800
-Message-ID: <5136224A.90308@intel.com>
-Date: Tue, 05 Mar 2013 18:50:18 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1362494304-10179-1-git-send-email-laurentiu.palcu@intel.com>
-	<1362494304-10179-2-git-send-email-laurentiu.palcu@intel.com>
-	<1362495026.22501.129.camel@phil-desktop.brightsign>
-	<CAJTo0LbDi_P7t1Pof0UGLfKzFxnxsOi4ATR43x8KUVe9=Q44NA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbDi_P7t1Pof0UGLfKzFxnxsOi4ATR43x8KUVe9=Q44NA@mail.gmail.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UCvjR-0006Mo-Eo for openembedded-core@lists.openembedded.org;
+	Tue, 05 Mar 2013 18:32:55 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r25HMiLb016273; Tue, 5 Mar 2013 17:24:14 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zfEKH1PnqtGm; Tue,  5 Mar 2013 17:24:14 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r25HO9gQ016437
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 5 Mar 2013 17:24:12 GMT
+Message-ID: <1362503769.11727.24.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 05 Mar 2013 17:16:09 +0000
+In-Reply-To: <20130305142018.GB12023@jama.dyndns-home.com>
+References: <1362403514-10122-1-git-send-email-Martin.Jansa@gmail.com>
+	<1362492625.29587.95.camel@ted>
+	<20130305142018.GB12023@jama.dyndns-home.com>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] mesa: rename mesa-dri recipe to just mesa
+Subject: Re: [PATCH] avahi: move systemd support where it belongs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 17:07:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 Mar 2013 17:32:56 -0000
+X-List-Received-Date: Tue, 05 Mar 2013 17:32:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Thanks. I'll make the changes and resend. Also, I'll squash the commits
-into a single one to be easily bisectable.
+On Tue, 2013-03-05 at 15:20 +0100, Martin Jansa wrote:
+> On Tue, Mar 05, 2013 at 02:10:25PM +0000, Richard Purdie wrote:
+> > On Mon, 2013-03-04 at 14:25 +0100, Martin Jansa wrote:
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > ---
+> > >  meta/recipes-connectivity/avahi/avahi.inc       | 6 +-----
+> > >  meta/recipes-connectivity/avahi/avahi_0.6.31.bb | 6 ++++++
+> > >  2 files changed, 7 insertions(+), 5 deletions(-)
+> > 
+> > "where it belongs"? Is this due to the avahi-ui recipe?
+> 
+> Yes, avahi-ui is overwriting PACKAGES and systemd.bbclass was showing
+> warnings since this systemd was added to avahi.inc
 
-Laurentiu
+In future please put that in the commit message. I added it this time...
 
-On 03/05/2013 05:00 PM, Burton, Ross wrote:
-> Man, Phil was quick today.  I'll throw away my draft and reply to this
-> instead...
-> 
-> On 5 March 2013 14:50, Phil Blundell <pb@pbcl.net> wrote:
->>> -# for mesa-dri and mesa-xlib
->>> +# for mesa and mesa-xlib
->>>  FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
->>
->> Presumably you don't need that anymore.
-> 
-> I thought I had this fixed a month ago, but obviously it didn't get
-> merged - probably lost in the ELC madness.
-> 
->>> -# this needs to be lower than -1 because all mesa-dri have -1 and git version has highest PV, but shouldn't be default
->>> +# this needs to be lower than -1 because all mesa have -1 and git version has highest PV, but shouldn't be default
->>>  DEFAULT_PREFERENCE = "-2"
->>
->> Is that comment still true?
-> 
-> I was just saying to Laurentiu off-list that only mesa_git should have
-> a preference of -1, as there isn't mesa-dri/mesa-xlib to complicate
-> matters anymore.
-> 
->> Also, the commit message for this patch is exceptionally terse.  Please
->> explain why this renaming is a desirable thing.
-> 
-> It's desirable because "dri" is redundant, there isn't any
-> alternative.  It's a build of mesa, so let's call it mesa.
-> 
-> Ross
-> 
+And yes, I'm going to talk to others about commit messages too. They're
+getting too short in general.
+
+Cheers,
+
+Richard
+
 
 
