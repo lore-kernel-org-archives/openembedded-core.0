@@ -1,45 +1,28 @@
-Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B42214@freescale.com>) id 1UCg23-0007LI-9Q
+	(envelope-from <mark.hatle@windriver.com>) id 1UChJD-0002do-LG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 01:47:04 +0100
-Received: from mail16-db3-R.bigfish.com (10.3.81.237) by
-	DB3EHSOBE001.bigfish.com (10.3.84.21) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 4 Mar 2013 23:45:17 +0000
-Received: from mail16-db3 (localhost [127.0.0.1])	by mail16-db3-R.bigfish.com
-	(Postfix) with ESMTP id 477DE600CC	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2013 23:45:17 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
-Received: from mail16-db3 (localhost.localdomain [127.0.0.1]) by mail16-db3
-	(MessageSwitch) id 1362440715413778_21064;
-	Mon,  4 Mar 2013 23:45:15 +0000 (UTC)
-Received: from DB3EHSMHS005.bigfish.com (unknown [10.3.81.245])	by
-	mail16-db3.bigfish.com (Postfix) with ESMTP id 5B78E4001C	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  4 Mar 2013 23:45:15 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS005.bigfish.com
-	(10.3.87.105) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 4 Mar 2013 23:45:15 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Mon, 4 Mar 2013 23:45:12 +0000
-Received: from b42214-Latitude-E6420.am.freescale.net
-	(b42214-Latitude-E6420.am.freescale.net [10.112.103.77])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r24NjBMZ012995;
-	Mon, 4 Mar 2013 16:45:12 -0700
-From: Leonardo Sandoval <leonardo.sandoval@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Mar 2013 17:45:10 -0600
-Message-ID: <1362440710-5636-1-git-send-email-leonardo.sandoval@freescale.com>
-X-Mailer: git-send-email 1.7.4.1
+	Tue, 05 Mar 2013 03:08:52 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r251qOM1006577
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Mar 2013 17:52:24 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (147.11.118.211) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 4 Mar 2013 17:52:22 -0800
+Message-ID: <51354FD3.5040206@windriver.com>
+Date: Mon, 4 Mar 2013 19:52:19 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] sstate.bbclass: Enclose sstate search parameter with quotes
+To: <openembedded-core@lists.openembedded.org>
+References: <1362419021.29587.44.camel@ted>
+In-Reply-To: <1362419021.29587.44.camel@ted>
+Subject: Re: [PATCH] populate_sdk_base/image: Fix races for variable mappings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,34 +35,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 00:47:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Mar 2013 02:08:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In case filenames have spaces, execution of the function
-sstater_install will hang, so the print parameter %s must be
-enclosed with quotes.
+On 3/4/13 11:43 AM, Richard Purdie wrote:
+> When using the -c populate_sdk option, images are not generated quite as
+> they should be under certain circumstances. For example the dropbear
+> feature may not get replaced with openssh, leading to both being installed
+> with an appropriate rootfs failure.
+>
+> This patch moves the remapping logic to later points in the code, ensuring
+> there is no conflict. The result is slightly simpler too as an added bonus.
+>
+> [YOCTO #3749]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval@freescale.com>
----
- meta/classes/sstate.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Just an FYI, I verified this corrects the reported issue with the 
+core-image-sato-sdk as indicated in the defect.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 118a28a..6232aa2 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -174,7 +174,7 @@ def sstate_install(ss, d):
-                     break
-             if realmatch:
-                 match.append(f)
--                sstate_search_cmd = "grep -rl %s %s --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
-+                sstate_search_cmd = "grep -rl '%s' %s --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
-                 search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
-                 if search_output != "":
-                     match.append("Matched in %s" % search_output.rstrip())
--- 
-1.7.4.1
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
+> ---
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 19564d8..68bd342 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -117,6 +117,10 @@ python () {
+>
+>       d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
+>
+> +    if d.getVar('BB_WORKERCONTEXT', True) is not None:
+> +        runtime_mapping_rename("PACKAGE_INSTALL", d)
+> +        runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", d)
+> +
+>       # Ensure we have the vendor list for complementary package handling
+>       ml_vendor_list = ""
+>       multilibs = d.getVar('MULTILIBS', True) or ""
+> @@ -129,19 +133,6 @@ python () {
+>       d.setVar('MULTILIB_VENDORS', ml_vendor_list)
+>   }
+>
+> -python image_handler () {
+> -    if not isinstance(e, bb.event.RecipeParsed):
+> -        return
+> -
+> -    # If we don't do this we try and run the mapping hooks while parsing which is slow
+> -    # bitbake should really provide something to let us know this...
+> -    if e.data.getVar('BB_WORKERCONTEXT', True) is not None:
+> -        runtime_mapping_rename("PACKAGE_INSTALL", e.data)
+> -        runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", e.data)
+> -
+> -}
+> -addhandler image_handler
+> -
+>   #
+>   # Get a list of files containing device tables to create.
+>   # * IMAGE_DEVICE_TABLE is the old name to an absolute path to a device table file
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 88de1e4..7af2d2e 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -29,14 +29,9 @@ EXCLUDE_FROM_WORLD = "1"
+>
+>   SDK_PACKAGING_FUNC ?= "create_shar"
+>
+> -python () {
+> -    # If we don't do this we try and run the mapping hooks while parsing which is slow
+> -    # bitbake should really provide something to let us know this...
+> -    if bb.data.getVar('BB_WORKERCONTEXT', d, True) is not None:
+> -        runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", d)
+> -}
+> -
+>   fakeroot python do_populate_sdk() {
+> +    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", d)
+> +
+>       bb.build.exec_func("populate_sdk_image", d)
+>
+>       # Handle multilibs in the SDK environment, siteconfig, etc files...
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
