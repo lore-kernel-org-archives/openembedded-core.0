@@ -1,26 +1,28 @@
-Received: from vms173015pub.verizon.net ([206.46.173.15])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1UCiZP-00065y-TS
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UCii7-0006S1-4Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Mar 2013 04:29:44 +0100
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173015.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MJ60022L3LJPO12@vms173015.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2013 21:13:10 -0600 (CST)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 0AD5920173; Mon,
-	04 Mar 2013 22:12:55 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 04 Mar 2013 22:12:34 -0500
-Message-id: <1362453154-3207-2-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 1.8.1.5
-In-reply-to: <1362453154-3207-1-git-send-email-denis@denix.org>
-References: <1362453154-3207-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] tune-cortexa7: add tunes for ARM Cortex-A7
+	Tue, 05 Mar 2013 04:38:41 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r253M91a025381
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Mar 2013 19:22:09 -0800 (PST)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 4 Mar 2013 19:22:08 -0800
+Message-ID: <513564DA.2090103@windriver.com>
+Date: Tue, 5 Mar 2013 11:22:02 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+MIME-Version: 1.0
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1359687579.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1359687579.git.liezhi.yang@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] bitbake-whatchanged: print what is about to happen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,62 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Mar 2013 03:29:45 -0000
+X-List-Received-Date: Tue, 05 Mar 2013 03:38:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
 
-http://www.arm.com/products/processors/cortex-a/cortex-a7.php
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/conf/machine/include/tune-cortexa7.inc | 36 +++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-cortexa7.inc
+On 02/01/2013 04:55 PM, Robert Yang wrote:
+> The following changes since commit 9a26b9c69c47c87ce71a06f76682c187767e7897:
+>
+>    rpm: Ensure native binaries are correctly wrapped (2013-01-30 14:47:30 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib robert/what
 
-diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
-new file mode 100644
-index 0000000..d04aed3
---- /dev/null
-+++ b/meta/conf/machine/include/tune-cortexa7.inc
-@@ -0,0 +1,36 @@
-+DEFAULTTUNE ?= "armv7a-neon"
-+
-+require conf/machine/include/arm/arch-armv7a.inc
-+
-+TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa7", "-mtune=cortex-a7", "", d)}"
-+
-+# Little Endian base configs
-+AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon cortexa7t-neon"
-+ARMPKGARCH_tune-cortexa7 = "cortexa7"
-+ARMPKGARCH_tune-cortexa7t = "cortexa7"
-+ARMPKGARCH_tune-cortexa7-neon = "cortexa7"
-+ARMPKGARCH_tune-cortexa7t-neon = "cortexa7"
-+TUNE_FEATURES_tune-cortexa7 = "${TUNE_FEATURES_tune-armv7a} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t = "${TUNE_FEATURES_tune-armv7at} cortexa7"
-+TUNE_FEATURES_tune-cortexa7-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa7"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa7-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa7-vfp cortexa7t2-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa7-vfp cortexa7-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa7-vfp cortexa7-vfp-neon cortexa7t2-vfp cortexa7t2-vfp-neon"
-+
-+# VFP Tunes
-+AVAILTUNES += "cortexa7hf cortexa7thf cortexa7hf-neon cortexa7thf-neon"
-+ARMPKGARCH_tune-cortexa7hf = "cortexa7"
-+ARMPKGARCH_tune-cortexa7thf = "cortexa7"
-+ARMPKGARCH_tune-cortexa7hf-neon = "cortexa7"
-+ARMPKGARCH_tune-cortexa7thf-neon = "cortexa7"
-+TUNE_FEATURES_tune-cortexa7hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa7"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa7hf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa7hf-vfp cortexa7t2hf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa7hf-vfp cortexa7hf-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa7hf-vfp cortexa7hf-vfp-neon cortexa7t2-vfp cortexa7t2hf-vfp-neon"
--- 
-1.8.1.5
+Rebased to the up-to-date master branch and pushed to
 
+git://git.pokylinux.org/poky-contrib robert/what
+
+// Robert
+
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/what
+>
+> Robert Yang (2):
+>    bitbake.conf: add STAMPS_DIR for constructing STAMP
+>    bitbake-whatchanged: print what is about to happen
+>
+>   meta/conf/bitbake.conf       |   5 +-
+>   scripts/bitbake-whatchanged  | 339 +++++++++++++++++++++++++++++++++++++++++++
+>   scripts/oe-buildenv-internal |   6 +-
+>   3 files changed, 347 insertions(+), 3 deletions(-)
+>   create mode 100755 scripts/bitbake-whatchanged
+>
 
 
