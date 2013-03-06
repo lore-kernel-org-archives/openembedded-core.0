@@ -1,36 +1,36 @@
-Received: from mail-pb0-f54.google.com ([209.85.160.54])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <martin.jansa@gmail.com>)
-	id 1UD81o-00058S-KG; Wed, 06 Mar 2013 07:40:41 +0100
-Received: by mail-pb0-f54.google.com with SMTP id rr4so5532183pbb.27
-	for <multiple recipients>; Tue, 05 Mar 2013 22:24:09 -0800 (PST)
+	id 1UD8Ad-0005IQ-Jw; Wed, 06 Mar 2013 07:49:48 +0100
+Received: by mail-pb0-f48.google.com with SMTP id wy12so5497980pbc.21
+	for <multiple recipients>; Tue, 05 Mar 2013 22:33:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=CTNBxzyS/LlJYO8tSdYnDbjVWk/NhXz88zMqTzHNdPo=;
-	b=J+xX3qpp9ekLGsW4jjdgJy2qBrIGDelUcnXqVMQHfhYBF1yeA4OFfpsahnZ+5KKItI
-	GOm1QbyJIt9YVoi0U14z9lAdc+lNxwB7Rjk09Bqksyh2dbQodkGAfk2dRIFkXjjYmnUw
-	9pVLGFLrMsTwv3CNdXwDZjFBL4prY1nzh4VbdUIf5iTCUfNFB+fe/41iKnZrw68QiMlQ
-	K5R66yKHlDtrYca+zFUqs10w3Wdl6N+VU3SCmkI7E3eWTcfcaK9jFKY/tqVAzv5Gqw8R
-	oVk1LtIXUw/wJOZxdTGkVi+NHSh/2CN9GWzcAEJ7O3l8YjOlBytyowbHS7TAQ/re7297
-	Lu5A==
-X-Received: by 10.68.125.169 with SMTP id mr9mr43065462pbb.74.1362551049179;
-	Tue, 05 Mar 2013 22:24:09 -0800 (PST)
+	:user-agent; bh=ZMHRe2wtejoy5aOrm4oaTZ0EOkoR3sSVewYwecasUqA=;
+	b=cqCyJbyhpZEQhF1dCFtT0Ig1EvuYaJJf9nHD247739Ak2ixABnpj/JJfCJMo+fR/SL
+	avYlwB+3jndSSHRWPKvGLAtoCQP9sbVdmfOUA+CULGrUPgNvjrg6ZVmBboCNBb338N7l
+	fTu78AOwuZEOkWwlLC8fZJNOVS4oareIyOvCkm/jnjZ7Pnhvi/LAZ0ldKcLhixnSpJlh
+	vCWrKsBeY7n7FFwu7CQEpubKkP4zQv9oqRjj9IlkGNQr/NsPmb1AEiNqZnkzdRdxuhnw
+	UwbiZi336cU1fy+lGROxFSU7JLMzVqU1fRVpGwrkSqbzMlPVROaEGjSsaQu0+rGuSwYy
+	gRAA==
+X-Received: by 10.68.232.162 with SMTP id tp2mr3505962pbc.192.1362551596362;
+	Tue, 05 Mar 2013 22:33:16 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id rl3sm29919360pbb.28.2013.03.05.22.24.05
+	by mx.google.com with ESMTPS id pn9sm29954911pbb.22.2013.03.05.22.33.12
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 05 Mar 2013 22:24:08 -0800 (PST)
-Date: Wed, 6 Mar 2013 07:23:58 +0100
+	Tue, 05 Mar 2013 22:33:15 -0800 (PST)
+Date: Wed, 6 Mar 2013 07:33:06 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org,
-	MiLo <milo-software@users.sourceforge.net>
-Message-ID: <20130306062358.GC14869@jama>
-References: <20130228231551.3998F5022B@opal>
+	Ross Burton <ross.burton@intel.com>
+Message-ID: <20130306063306.GA32228@jama.dyndns-home.com>
+References: <20130211144549.D91302057@opal>
 MIME-Version: 1.0
-In-Reply-To: <20130228231551.3998F5022B@opal>
+In-Reply-To: <20130211144549.D91302057@opal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] MiLo : util-linux: Add package for libmount
+Subject: Re: [oe-commits] Ross Burton : update-rc.d: don't do anything if systemd. bbclass is inherited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,100 +43,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 06:40:46 -0000
-X-Groupsio-MsgNum: 36275
+X-List-Received-Date: Wed, 06 Mar 2013 06:49:49 -0000
+X-Groupsio-MsgNum: 36276
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
+	protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
 Content-Disposition: inline
 
---Y5rl02BVI9TCfPar
+--tKW2IUtsqtDRztdT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 28, 2013 at 11:15:51PM +0000, git@git.openembedded.org wrote:
+On Mon, Feb 11, 2013 at 02:45:49PM +0000, git@git.openembedded.org wrote:
 > Module: openembedded-core.git
 > Branch: master
-> Commit: 2e79110e31da940728d42411cad3d019d570fc31
+> Commit: 0273a22fec3c9360df2510b759c5bf9af610551f
 > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D2e79110e31da940728d42411cad3d019d570fc31
+;h=3D0273a22fec3c9360df2510b759c5bf9af610551f
 >=20
-> Author: MiLo <milo-software@users.sourceforge.net>
-> Date:   Tue Feb 19 18:23:15 2013 +0100
+> Author: Ross Burton <ross.burton@intel.com>
+> Date:   Fri Feb  8 22:43:16 2013 +0000
 >=20
-> util-linux: Add package for libmount
+> update-rc.d: don't do anything if systemd.bbclass is inherited
 >=20
-> The libmount shared library was part of util-linux. This caused
-> util-linux-mount to RDEPEND on util-linux, so including that would
-> also drag in all of util-linux and all its recommendations.
+> We need the update-rc.d class to work when systemd is being used so that
+> packages that only have SysV init scripts still work.  However if a recipe
+> supports both we don't want to install SysV and systemd files under syste=
+md.
 >=20
-> To break this circular dependency, add a libmount package that holds
-> the libmount.so.* files, just like the other libraries built by util-
-> linux.
+> To solve this, before doing real work in update-rc.d check if the systemd=
+ class
+> has been inherited and don't do anything if it has.
 
-Breaks upgrade path:
+Does not work very well in current dbus recipe:
 
- * check_data_file_clashes: Package libmount1 wants to install file
- * /lib/libmount.so.1.1.0
-        But that file is already provided by package  * util-linux
- * check_data_file_clashes: Package libmount1 wants to install file
- * /lib/libmount.so.1
-        But that file is already provided by package  * util-linux
+Configuring dbus-1.
+update-rc.d: /etc/init.d/dbus-1: file does not exist
+Collected errors:
+ * pkg_run_script: package "dbus-1" postinst script returned status 1.
+ * opkg_configure: dbus-1.postinst returned 1.
 
-RREPLACES is probably needed.
+dbus installs sysvinit script only when sysvinit is in DISTRO_FEATURES
+but update-rc.d is kept enabled because dbus does not inherit systemd
 
->=20
-> Signed-off-by: MiLo <milo-software@users.sourceforge.net>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >=20
 > ---
 >=20
->  meta/recipes-core/util-linux/util-linux.inc       |    3 +++
->  meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
->  2 files changed, 4 insertions(+), 1 deletions(-)
+>  meta/classes/update-rc.d.bbclass |   19 +++++++++++--------
+>  1 files changed, 11 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index 10439c0..bd7b089 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -31,6 +31,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
-/v${MAJOR_VERSION}/util-lin
->  PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util=
--linux-sfdisk \
->               util-linux-swaponoff util-linux-losetup util-linux-umount \
->               util-linux-mount util-linux-readprofile util-linux-libblkid=
- \
-> +             util-linux-libmount util-linux-libmount-dev \
->               util-linux-libblkid-dev util-linux-libuuid util-linux-libuu=
-id-dev \
->               util-linux-uuidgen util-linux-lscpu util-linux-fsck util-li=
-nux-blkid \
->               util-linux-mkfs util-linux-mcookie util-linux-reset"
-> @@ -64,6 +65,8 @@ FILES_util-linux-reset =3D "${base_bindir}/reset"
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.=
+bbclass
+> index f9d55fb..51ad8b1 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -75,12 +75,15 @@ python populate_packages_updatercd () {
+>          postrm +=3D d.getVar('updatercd_postrm', True)
+>          d.setVar('pkg_postrm_%s' % pkg, postrm)
 > =20
->  FILES_util-linux-libblkid =3D "${base_libdir}/libblkid.so.*"
->  FILES_util-linux-libblkid-dev =3D "${base_libdir}/libblkid.so ${base_lib=
-dir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
-> +FILES_util-linux-libmount =3D "${base_libdir}/libmount.so.*"
-> +FILES_util-linux-libmount-dev =3D "${base_libdir}/libmount.so ${base_lib=
-dir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
->  FILES_util-linux-libuuid =3D "${base_libdir}/libuuid.so.*"
->  FILES_util-linux-libuuid-dev =3D "${base_libdir}/libuuid.so ${base_libdi=
-r}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
->  FILES_util-linux-lscpu =3D "${bindir}/lscpu"
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/rec=
-ipes-core/util-linux/util-linux_2.22.2.bb
-> index dd95573..f91784b 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> @@ -1,5 +1,5 @@
->  MAJOR_VERSION =3D "2.22"
-> -PR =3D "r0"
-> +PR =3D "r1"
->  require util-linux.inc
-> =20
->  # note that `lscpu' is under GPLv3+
+> -    pkgs =3D d.getVar('INITSCRIPT_PACKAGES', True)
+> -    if pkgs =3D=3D None:
+> -        pkgs =3D d.getVar('UPDATERCPN', True)
+> -        packages =3D (d.getVar('PACKAGES', True) or "").split()
+> -        if not pkgs in packages and packages !=3D []:
+> -            pkgs =3D packages[0]
+> -    for pkg in pkgs.split():
+> -        update_rcd_package(pkg)
+> +    # If the systemd class has also been inherited, then don't do anythi=
+ng as
+> +    # the systemd units will override anything created by update-rc.d.
+> +    if not d.getVar("SYSTEMD_BBCLASS_ENABLED", True):
+> +        pkgs =3D d.getVar('INITSCRIPT_PACKAGES', True)
+> +        if pkgs =3D=3D None:
+> +            pkgs =3D d.getVar('UPDATERCPN', True)
+> +            packages =3D (d.getVar('PACKAGES', True) or "").split()
+> +            if not pkgs in packages and packages !=3D []:
+> +                pkgs =3D packages[0]
+> +        for pkg in pkgs.split():
+> +            update_rcd_package(pkg)
+>  }
 >=20
 >=20
 > _______________________________________________
@@ -147,16 +134,16 @@ ipes-core/util-linux/util-linux_2.22.2.bb
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Y5rl02BVI9TCfPar
+--tKW2IUtsqtDRztdT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlE24P4ACgkQN1Ujt2V2gBxWcQCgjljNBz7ZzcvFxt6wsmNh2cdV
-/1wAmwYVjWAOL5T/sqrEadITd35FJTQi
-=JSxk
+iEYEARECAAYFAlE24yIACgkQN1Ujt2V2gBwhCACfeJhyTPG991F9jppUPTxMvW38
+vSgAn1Nqc4VgbBpst5B5eZH88uYB+uEH
+=A9Au
 -----END PGP SIGNATURE-----
 
---Y5rl02BVI9TCfPar--
+--tKW2IUtsqtDRztdT--
