@@ -1,20 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UDBTf-0003RP-NB
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 11:21:46 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 06 Mar 2013 02:04:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,793,1355126400"; d="scan'208";a="209614289"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.45])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Mar 2013 02:04:02 -0800
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2013 12:04:31 +0200
-Message-Id: <1362564271-25151-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] sudo : upgrade to 1.8.6p7
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UDD6j-00066d-3n for openembedded-core@lists.openembedded.org;
+	Wed, 06 Mar 2013 13:06:19 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r26BvTf8019729; Wed, 6 Mar 2013 11:57:30 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gkDqcD3WZACx; Wed,  6 Mar 2013 11:57:29 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r26BvKek019718
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 6 Mar 2013 11:57:24 GMT
+Message-ID: <1362570557.11727.59.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Wed, 06 Mar 2013 11:49:17 +0000
+In-Reply-To: <69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
+References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
+	<69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
+X-Mailer: Evolution 3.6.3-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] package.bbclass: use oe.path.realpath()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 10:22:07 -0000
+X-List-Received-Date: Wed, 06 Mar 2013 12:06:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- .../sudo/{sudo_1.8.6p6.bb => sudo_1.8.6p7.bb}      |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.6p6.bb => sudo_1.8.6p7.bb} (84%)
+On Sun, 2013-02-10 at 13:41 +0100, Enrico Scholz wrote:
+> oe.path.realpath() provides are common and more correct implementation
+> for resolving symlinks within sysroot. Use it.
+> 
+> Old implementation suffered from lot of problems; e.g.
+> 
+> * redundant code
+> 
+> * calls 'os.stat()' which references files on host; this can give wrong
+>   results about existing/non-existing and can cause EPERM (instead of
+>   the catched ENONENT) exceptions
+> 
+> * does not deal with special cases like '..' leaving the sysroot.
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.6p6.bb b/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
-similarity index 84%
-rename from meta/recipes-extended/sudo/sudo_1.8.6p6.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.6p7.bb
-index 33cbcba..b79d0d5 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.6p6.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
-@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "394efcbfedb200ba188958f047ce76d2"
--SRC_URI[sha256sum] = "d600fee5cb2e843450263a2b8f133b9921ffa00cb6b841b0da82613447cefb7c"
-+SRC_URI[md5sum] = "126abfa2e841139e774d4c67d80f0e5b"
-+SRC_URI[sha256sum] = "301089edb22356f59d097f6abbe1303f03927a38691b02959d618546c2125036"
- 
- DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-1.7.9.5
+Whilst these changes are good, they do come at a cost:
+
+post symlink package changes
+./perfscript -c 8c22531e491e6b0cfffaaa80d6bc75db757fc1d1
+49:38.46,17:12.15
+
+pre symlink package changes
+./perfscript -c 1a80329b3fcf23ecc23e409a260b9b2182652f65
+48:16.33,13:39.97
+
+So it added 1m20 to the overall build time, but more worryingly, added
+added nearly 3m30 to the time for:
+
+bitbake virtual/kernel -c cleansstate; bitbake virtual/kernel
+
+These tests are based on the script linked from
+https://wiki.yoctoproject.org/wiki/Performance_Test where the kernel
+test is this is the second number above list, overall build time is the
+first.
+
+Have you any time to look into this performance regression?
+
+FWIW, "bitbake virtual/kernel -c package -P -f" shows that
+package_fixsymlinks() takes a rather long time in the profile output.
+
+Cheers,
+
+Richard
 
 
 
