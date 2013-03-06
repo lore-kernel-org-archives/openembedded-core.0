@@ -1,27 +1,35 @@
-Received: from smtpfb2-g21.free.fr ([212.27.42.10])
+Received: from mail-pb0-f54.google.com ([209.85.160.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UDKzo-0002Cj-VZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 21:31:40 +0100
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 979BBD1AD95
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Mar 2013 21:14:58 +0100 (CET)
-Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id C3CB3A60FD;
-	Wed,  6 Mar 2013 21:14:48 +0100 (CET)
-Date: Wed, 6 Mar 2013 21:14:47 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20130306211447.27f6b262@e6520eb>
-In-Reply-To: <cover.1362545190.git.hongxu.jia@windriver.com>
-References: <cover.1362545190.git.hongxu.jia@windriver.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [danny][PATCH 0/2]fix toolchain relocation issues
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1UDLbU-0003G8-4c; Wed, 06 Mar 2013 22:10:29 +0100
+Received: by mail-pb0-f54.google.com with SMTP id rr4so6535778pbb.27
+	for <multiple recipients>; Wed, 06 Mar 2013 12:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=GCmnczbjZwUauNgVZT6cUcjXaeS5KznoIVgRscLMkJ8=;
+	b=IIcqBY1pxWqCYPCtorOUrRLoK3VEAUIXQhvDwrFFJzzh9eMsAR5Kxhn98v/e3zO4OF
+	1iXR8iii1L/W8Nfz/VjW1BFpALHOHi5X5eS7ATPKWsBHB/Vnb6p5K4TbcIZ6XzoAWCFs
+	hxDGncAUFjGdt4JJelr+T2wXWOdtGHUMStc5p7KFUVG5sLNKQkvmoQBOlo35yL2B8HzW
+	CXMebuQQwlCycCGd0mmANUz7L/Kq5a7+jy8NnApEt7TwUduwxot3E4sZlI1dN4YWE3CX
+	hknYgTRZcrpyt/s/w+1/lk1jXSerRas4+Weak+MLoaBGBR8QEHCQk1bN38W9kS0PTB8d
+	xfwg==
+X-Received: by 10.68.134.100 with SMTP id pj4mr48964140pbb.12.1362603226516;
+	Wed, 06 Mar 2013 12:53:46 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ub1sm32788654pbc.5.2013.03.06.12.53.43
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 06 Mar 2013 12:53:45 -0800 (PST)
+Date: Wed, 6 Mar 2013 21:53:39 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130306205339.GF32228@jama.dyndns-home.com>
+References: <20130305131417.4F97A50394@opal>
+MIME-Version: 1.0
+In-Reply-To: <20130305131417.4F97A50394@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Missing gst-plugins-good package Was: [oe-commits] Richard Purdie : recipes: Fix ALLOW_EMPTY with no package specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +42,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 20:31:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 Mar 2013 21:10:31 -0000
+X-Groupsio-MsgNum: 36295
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="twz1s1Hj1O0rHoT0"
+Content-Disposition: inline
+
+--twz1s1Hj1O0rHoT0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Hongxu,
+On Tue, Mar 05, 2013 at 01:14:17PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: fe81bd4f600877e63433184cfc2e22c33bb77db6
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Dfe81bd4f600877e63433184cfc2e22c33bb77db6
+>=20
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Sun Mar  3 15:54:29 2013 +0000
+>=20
+> recipes: Fix ALLOW_EMPTY with no package specified
+>=20
+> There are various usages of ALLOW_EMPTY with no packages specified. This
+> is not recommended syntax, nor is it likely to be supported in the future.
+> This patch improves the references in OE-Core, either removing them if th=
+ey're
+> pointless (e.g. when PACKAGES=3D"") or specifying which package it applie=
+s to.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> @@ -24,8 +24,6 @@ python populate_packages_prepend () {
+>      d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+>  }
+> =20
+> -ALLOW_EMPTY =3D "1"
+> -
+>  PACKAGES +=3D "${PN}-apps ${PN}-meta ${PN}-glib"
+>  FILES_${PN}-apps =3D "${bindir}"
 
-Le Wed, 6 Mar 2013 12:58:45 +0800,
-Hongxu Jia <hongxu.jia@windriver.com> a =C3=A9crit :
+This change is correct ('ALLOW_EMPTY_' + metapkg is set few lines above).
 
-> Rebase to danny.
->=20
-> [YOCTO #3984]
->=20
-> The following changes since commit e89f812a0af56beda951c1dce6113a61d6db8c=
-da:
->=20
->   bitbake: knotty.py: fix unknown event bb.event.DiskFull (2013-03-04 10:=
-17:20 +0000)
->=20
-> are available in the git repository at:
->=20
->   git://git.pokylinux.org/poky-contrib hongxu/fix-toolchain-relocation-da=
-nny
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dhongxu/fix-tool=
-chain-relocation-danny
->=20
-> Hongxu Jia (2):
->   perl-nativesdk:fix toolchain relocation issues
->   populate_sdk_base.bbclass:fix toolchain relocation issues
->=20
-while at it, may you please also cherry-pick
-e7a21cd69a326ab7e2d0e410db28f24956f61208=20
-which is "toolchain-scripts.bbclass: add PYTHONHOME variable to
-environment-setup"
+Just wanted to warn others that I've found few examples in other layers
+which were RDEPENDing also on ${PN} not metapkg and after this cleanup
+some packages were failing to install in rootfs.
 
-as the problem described in [YOCTO #3839] is also present in danny.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Thanks
-Eric
+--twz1s1Hj1O0rHoT0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlE3rNMACgkQN1Ujt2V2gBxK/QCgn3bvfs4UI/q0tXHVwVveMakD
+vbQAoJnT6GYe5SZOQx6Gx0Bc94EfIO/F
+=rKnJ
+-----END PGP SIGNATURE-----
+
+--twz1s1Hj1O0rHoT0--
