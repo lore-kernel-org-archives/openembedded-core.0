@@ -1,28 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f54.google.com ([209.85.160.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UD7tb-0004w2-1p
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 07:32:12 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r266Fetl003691
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Mar 2013 22:15:40 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Tue, 5 Mar 2013 22:15:39 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Mar 2013 14:16:46 +0800
-Message-ID: <43b5f9785b001759b6280bf50015a5505fcb0b2b.1362550241.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1362550241.git.kai.kang@windriver.com>
-References: <cover.1362550241.git.kai.kang@windriver.com>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1UD81o-00058S-KG; Wed, 06 Mar 2013 07:40:41 +0100
+Received: by mail-pb0-f54.google.com with SMTP id rr4so5532183pbb.27
+	for <multiple recipients>; Tue, 05 Mar 2013 22:24:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=CTNBxzyS/LlJYO8tSdYnDbjVWk/NhXz88zMqTzHNdPo=;
+	b=J+xX3qpp9ekLGsW4jjdgJy2qBrIGDelUcnXqVMQHfhYBF1yeA4OFfpsahnZ+5KKItI
+	GOm1QbyJIt9YVoi0U14z9lAdc+lNxwB7Rjk09Bqksyh2dbQodkGAfk2dRIFkXjjYmnUw
+	9pVLGFLrMsTwv3CNdXwDZjFBL4prY1nzh4VbdUIf5iTCUfNFB+fe/41iKnZrw68QiMlQ
+	K5R66yKHlDtrYca+zFUqs10w3Wdl6N+VU3SCmkI7E3eWTcfcaK9jFKY/tqVAzv5Gqw8R
+	oVk1LtIXUw/wJOZxdTGkVi+NHSh/2CN9GWzcAEJ7O3l8YjOlBytyowbHS7TAQ/re7297
+	Lu5A==
+X-Received: by 10.68.125.169 with SMTP id mr9mr43065462pbb.74.1362551049179;
+	Tue, 05 Mar 2013 22:24:09 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id rl3sm29919360pbb.28.2013.03.05.22.24.05
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 05 Mar 2013 22:24:08 -0800 (PST)
+Date: Wed, 6 Mar 2013 07:23:58 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	MiLo <milo-software@users.sourceforge.net>
+Message-ID: <20130306062358.GC14869@jama>
+References: <20130228231551.3998F5022B@opal>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] sysvinit-inittab: change default runlevel for lsb
+In-Reply-To: <20130228231551.3998F5022B@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] MiLo : util-linux: Add package for libmount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +43,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 06:32:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Mar 2013 06:40:46 -0000
+X-Groupsio-MsgNum: 36275
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
+Content-Disposition: inline
 
-LSB images are used to run LSB test suite and there is no test case to
-check GUI so X/GUI is not included into LSB images. And in LSB
-specification, runlevel 5 is to boot with GUI, so change the default
-runlevel from 5 to 3 for LSB images.
+--Y5rl02BVI9TCfPar
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #3927]
+On Thu, Feb 28, 2013 at 11:15:51PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 2e79110e31da940728d42411cad3d019d570fc31
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D2e79110e31da940728d42411cad3d019d570fc31
+>=20
+> Author: MiLo <milo-software@users.sourceforge.net>
+> Date:   Tue Feb 19 18:23:15 2013 +0100
+>=20
+> util-linux: Add package for libmount
+>=20
+> The libmount shared library was part of util-linux. This caused
+> util-linux-mount to RDEPEND on util-linux, so including that would
+> also drag in all of util-linux and all its recommendations.
+>=20
+> To break this circular dependency, add a libmount package that holds
+> the libmount.so.* files, just like the other libraries built by util-
+> linux.
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+Breaks upgrade path:
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index b289853..87c701b 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -73,6 +73,10 @@ else
- fi
- }
- 
-+do_install_append_linuxstdbase() {
-+	sed -i 's/^id:5:initdefault/id:3:initdefault/' ${D}${sysconfdir}/inittab
-+}
-+
- # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
- # Set PACKAGE_ARCH appropriately.
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-1.7.5.4
+ * check_data_file_clashes: Package libmount1 wants to install file
+ * /lib/libmount.so.1.1.0
+        But that file is already provided by package  * util-linux
+ * check_data_file_clashes: Package libmount1 wants to install file
+ * /lib/libmount.so.1
+        But that file is already provided by package  * util-linux
 
+RREPLACES is probably needed.
 
+>=20
+> Signed-off-by: MiLo <milo-software@users.sourceforge.net>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>=20
+> ---
+>=20
+>  meta/recipes-core/util-linux/util-linux.inc       |    3 +++
+>  meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
+>  2 files changed, 4 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index 10439c0..bd7b089 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -31,6 +31,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
+/v${MAJOR_VERSION}/util-lin
+>  PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util=
+-linux-sfdisk \
+>               util-linux-swaponoff util-linux-losetup util-linux-umount \
+>               util-linux-mount util-linux-readprofile util-linux-libblkid=
+ \
+> +             util-linux-libmount util-linux-libmount-dev \
+>               util-linux-libblkid-dev util-linux-libuuid util-linux-libuu=
+id-dev \
+>               util-linux-uuidgen util-linux-lscpu util-linux-fsck util-li=
+nux-blkid \
+>               util-linux-mkfs util-linux-mcookie util-linux-reset"
+> @@ -64,6 +65,8 @@ FILES_util-linux-reset =3D "${base_bindir}/reset"
+> =20
+>  FILES_util-linux-libblkid =3D "${base_libdir}/libblkid.so.*"
+>  FILES_util-linux-libblkid-dev =3D "${base_libdir}/libblkid.so ${base_lib=
+dir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
+> +FILES_util-linux-libmount =3D "${base_libdir}/libmount.so.*"
+> +FILES_util-linux-libmount-dev =3D "${base_libdir}/libmount.so ${base_lib=
+dir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
+>  FILES_util-linux-libuuid =3D "${base_libdir}/libuuid.so.*"
+>  FILES_util-linux-libuuid-dev =3D "${base_libdir}/libuuid.so ${base_libdi=
+r}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+>  FILES_util-linux-lscpu =3D "${bindir}/lscpu"
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/rec=
+ipes-core/util-linux/util-linux_2.22.2.bb
+> index dd95573..f91784b 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+> @@ -1,5 +1,5 @@
+>  MAJOR_VERSION =3D "2.22"
+> -PR =3D "r0"
+> +PR =3D "r1"
+>  require util-linux.inc
+> =20
+>  # note that `lscpu' is under GPLv3+
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Y5rl02BVI9TCfPar
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlE24P4ACgkQN1Ujt2V2gBxWcQCgjljNBz7ZzcvFxt6wsmNh2cdV
+/1wAmwYVjWAOL5T/sqrEadITd35FJTQi
+=JSxk
+-----END PGP SIGNATURE-----
+
+--Y5rl02BVI9TCfPar--
