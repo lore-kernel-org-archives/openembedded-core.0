@@ -1,36 +1,34 @@
-Received: from mail-pb0-f48.google.com ([209.85.160.48])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UD8Ad-0005IQ-Jw; Wed, 06 Mar 2013 07:49:48 +0100
-Received: by mail-pb0-f48.google.com with SMTP id wy12so5497980pbc.21
-	for <multiple recipients>; Tue, 05 Mar 2013 22:33:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=ZMHRe2wtejoy5aOrm4oaTZ0EOkoR3sSVewYwecasUqA=;
-	b=cqCyJbyhpZEQhF1dCFtT0Ig1EvuYaJJf9nHD247739Ak2ixABnpj/JJfCJMo+fR/SL
-	avYlwB+3jndSSHRWPKvGLAtoCQP9sbVdmfOUA+CULGrUPgNvjrg6ZVmBboCNBb338N7l
-	fTu78AOwuZEOkWwlLC8fZJNOVS4oareIyOvCkm/jnjZ7Pnhvi/LAZ0ldKcLhixnSpJlh
-	vCWrKsBeY7n7FFwu7CQEpubKkP4zQv9oqRjj9IlkGNQr/NsPmb1AEiNqZnkzdRdxuhnw
-	UwbiZi336cU1fy+lGROxFSU7JLMzVqU1fRVpGwrkSqbzMlPVROaEGjSsaQu0+rGuSwYy
-	gRAA==
-X-Received: by 10.68.232.162 with SMTP id tp2mr3505962pbc.192.1362551596362;
-	Tue, 05 Mar 2013 22:33:16 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id pn9sm29954911pbb.22.2013.03.05.22.33.12
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 05 Mar 2013 22:33:15 -0800 (PST)
-Date: Wed, 6 Mar 2013 07:33:06 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Ross Burton <ross.burton@intel.com>
-Message-ID: <20130306063306.GA32228@jama.dyndns-home.com>
-References: <20130211144549.D91302057@opal>
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1UD8wM-0006cz-1I
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Mar 2013 08:39:09 +0100
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1UD8d8-0023vt-2M>; Wed, 06 Mar 2013 08:19:14 +0100
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1UD8d7-000f1K-TQ>; Wed, 06 Mar 2013 08:19:13 +0100
+Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
+	Exim 4.72) id 1UD8d6-0004Ki-Ql
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Mar 2013 08:19:12 +0100
+Date: Wed, 6 Mar 2013 08:19:12 +0100
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130306071912.GA16133@mi.fu-berlin.de>
+References: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
+	<1362529925-13211-1-git-send-email-obi@opendreambox.org>
 MIME-Version: 1.0
-In-Reply-To: <20130211144549.D91302057@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : update-rc.d: don't do anything if systemd. bbclass is inherited
+In-Reply-To: <1362529925-13211-1-git-send-email-obi@opendreambox.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: [PATCH v2][RFC] chrpath.bbclass: strip common parent directories from rpath#
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,107 +41,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 06:49:49 -0000
-X-Groupsio-MsgNum: 36276
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
-Content-Disposition: inline
-
---tKW2IUtsqtDRztdT
+X-List-Received-Date: Wed, 06 Mar 2013 07:39:13 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 11, 2013 at 02:45:49PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 0273a22fec3c9360df2510b759c5bf9af610551f
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D0273a22fec3c9360df2510b759c5bf9af610551f
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Fri Feb  8 22:43:16 2013 +0000
->=20
-> update-rc.d: don't do anything if systemd.bbclass is inherited
->=20
-> We need the update-rc.d class to work when systemd is being used so that
-> packages that only have SysV init scripts still work.  However if a recipe
-> supports both we don't want to install SysV and systemd files under syste=
-md.
->=20
-> To solve this, before doing real work in update-rc.d check if the systemd=
- class
-> has been inherited and don't do anything if it has.
+Hi,
 
-Does not work very well in current dbus recipe:
+I will try your patch on meta-java too, because later openjdk's vm had problem with
+the rpath too, until khem made a patch.
 
-Configuring dbus-1.
-update-rc.d: /etc/init.d/dbus-1: file does not exist
-Collected errors:
- * pkg_run_script: package "dbus-1" postinst script returned status 1.
- * opkg_configure: dbus-1.postinst returned 1.
+Bye Henning
 
-dbus installs sysvinit script only when sysvinit is in DISTRO_FEATURES
-but update-rc.d is kept enabled because dbus does not inherit systemd
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/classes/update-rc.d.bbclass |   19 +++++++++++--------
->  1 files changed, 11 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.=
-bbclass
-> index f9d55fb..51ad8b1 100644
-> --- a/meta/classes/update-rc.d.bbclass
-> +++ b/meta/classes/update-rc.d.bbclass
-> @@ -75,12 +75,15 @@ python populate_packages_updatercd () {
->          postrm +=3D d.getVar('updatercd_postrm', True)
->          d.setVar('pkg_postrm_%s' % pkg, postrm)
-> =20
-> -    pkgs =3D d.getVar('INITSCRIPT_PACKAGES', True)
-> -    if pkgs =3D=3D None:
-> -        pkgs =3D d.getVar('UPDATERCPN', True)
-> -        packages =3D (d.getVar('PACKAGES', True) or "").split()
-> -        if not pkgs in packages and packages !=3D []:
-> -            pkgs =3D packages[0]
-> -    for pkg in pkgs.split():
-> -        update_rcd_package(pkg)
-> +    # If the systemd class has also been inherited, then don't do anythi=
-ng as
-> +    # the systemd units will override anything created by update-rc.d.
-> +    if not d.getVar("SYSTEMD_BBCLASS_ENABLED", True):
-> +        pkgs =3D d.getVar('INITSCRIPT_PACKAGES', True)
-> +        if pkgs =3D=3D None:
-> +            pkgs =3D d.getVar('UPDATERCPN', True)
-> +            packages =3D (d.getVar('PACKAGES', True) or "").split()
-> +            if not pkgs in packages and packages !=3D []:
-> +                pkgs =3D packages[0]
-> +        for pkg in pkgs.split():
-> +            update_rcd_package(pkg)
->  }
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---tKW2IUtsqtDRztdT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlE24yIACgkQN1Ujt2V2gBwhCACfeJhyTPG991F9jppUPTxMvW38
-vSgAn1Nqc4VgbBpst5B5eZH88uYB+uEH
-=A9Au
------END PGP SIGNATURE-----
-
---tKW2IUtsqtDRztdT--
