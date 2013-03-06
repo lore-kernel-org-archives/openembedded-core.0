@@ -1,31 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-wg0-f52.google.com ([74.125.82.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UDD6j-00066d-3n for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 13:06:19 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r26BvTf8019729; Wed, 6 Mar 2013 11:57:30 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gkDqcD3WZACx; Wed,  6 Mar 2013 11:57:29 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r26BvKek019718
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 6 Mar 2013 11:57:24 GMT
-Message-ID: <1362570557.11727.59.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 06 Mar 2013 11:49:17 +0000
-In-Reply-To: <69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-	<69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-X-Mailer: Evolution 3.6.3-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] package.bbclass: use oe.path.realpath()
+	(envelope-from <ross.burton@intel.com>) id 1UDDEP-0006H8-KC
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Mar 2013 13:14:01 +0100
+Received: by mail-wg0-f52.google.com with SMTP id 12so7405145wgh.19
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Mar 2013 03:57:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=2ulfXiUXZ2bwV1znElJye7gPwMByAfZd29O5TYYWpaw=;
+	b=NgEezf7YcJ48sL4wQqGZ8+lQoqc0UK5kPruJGkW3co6AVjNx8b4jgo2576VxTjuOTK
+	+JAj4AXuKr7IvV9iLtKk/QCsj11g38VfKIerQM3m2MD4TbZ22R3omtBekQX9C4zepVa1
+	IFgbo52LE7+6J+Jj+5dwo+r/fuLjsRV9Xs3j6QudRf4PbSg5lR02zYS+ic7VEznc/pYd
+	0/3P/TF3AXbTIukbNdqPUm07LH+tE1aRv+4t6nLVSdCsjOFa7Kd0T6LhjncwqrLJagKR
+	cJmCoAEX/EA2340iIu9W1YLpAA/qoA+Fe+Xo0FTWc5vsNYm63SUD0wzzf+o5QpAf13YN
+	qDiw==
+X-Received: by 10.180.81.164 with SMTP id b4mr25485359wiy.34.1362571051030;
+	Wed, 06 Mar 2013 03:57:31 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dm9sm16985826wib.3.2013.03.06.03.57.29
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 06 Mar 2013 03:57:30 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Mar 2013 11:55:01 +0000
+Message-Id: <1362570902-18671-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQkoQM47K6j2VZlaBaOVVd5A27NZAbQygp984Rtphmk9J8MalPoGtAx7bfwEmR9uyPJySXYx
+Subject: [PATCH 1/2] pulseaudio: rationalise existing configuration using PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,52 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 12:06:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Mar 2013 12:14:04 -0000
 
-On Sun, 2013-02-10 at 13:41 +0100, Enrico Scholz wrote:
-> oe.path.realpath() provides are common and more correct implementation
-> for resolving symlinks within sysroot. Use it.
-> 
-> Old implementation suffered from lot of problems; e.g.
-> 
-> * redundant code
-> 
-> * calls 'os.stat()' which references files on host; this can give wrong
->   results about existing/non-existing and can cause EPERM (instead of
->   the catched ENONENT) exceptions
-> 
-> * does not deal with special cases like '..' leaving the sysroot.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |   14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Whilst these changes are good, they do come at a cost:
-
-post symlink package changes
-./perfscript -c 8c22531e491e6b0cfffaaa80d6bc75db757fc1d1
-49:38.46,17:12.15
-
-pre symlink package changes
-./perfscript -c 1a80329b3fcf23ecc23e409a260b9b2182652f65
-48:16.33,13:39.97
-
-So it added 1m20 to the overall build time, but more worryingly, added
-added nearly 3m30 to the time for:
-
-bitbake virtual/kernel -c cleansstate; bitbake virtual/kernel
-
-These tests are based on the script linked from
-https://wiki.yoctoproject.org/wiki/Performance_Test where the kernel
-test is this is the second number above list, overall build time is the
-first.
-
-Have you any time to look into this performance regression?
-
-FWIW, "bitbake virtual/kernel -c package -P -f" shows that
-package_fixsymlinks() takes a rather long time in the profile output.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 2506e41..37621e0 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -7,11 +7,9 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
+                     file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
+-DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
+-           ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxtst libice libsm libxcb gtk+', '', d)}"
++DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool"
+ # optional
+-DEPENDS += "udev alsa-lib glib-2.0 dbus gconf \
+-           ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4 sbc', '', d)}"
++DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+ 
+ SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
+            file://gcc4-compile-fix.patch \
+@@ -25,9 +23,7 @@ USE_NLS = "yes"
+ 
+ EXTRA_OECONF = "\
+ 		--disable-lynx \
+-		${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluez', '--disable-bluez', d)} \
+ 		--disable-polkit \
+-		${@base_contains('DISTRO_FEATURES', 'x11', '--enable-x11', '--disable-x11 --disable-gtk2', d)} \
+ 		--without-jack \
+ 		--with-glib \
+ 		--with-alsa \
+@@ -44,6 +40,12 @@ EXTRA_OECONF = "\
+                 ac_cv_header_valgrind_memcheck_h=no \
+ "
+ 
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk x11', '', d)}"
++PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4 sbc"
++PACKAGECONFIG[gtk] = "--enable-gtk2,--disable-gtk2,gtk+"
++PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
++
+ EXTRA_OECONF_append_arm += "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "--enable-neon-opt=no", d)}"
+ 
+ PARALLEL_MAKE = ""
+-- 
+1.7.10.4
 
 
 
