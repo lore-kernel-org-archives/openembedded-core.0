@@ -1,14 +1,16 @@
 Received: from mail.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UD1xp-0008J5-0D
+	(envelope-from <obi@opendreambox.org>) id 1UD2XI-0000PD-KB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 01:12:14 +0100
+	Wed, 06 Mar 2013 01:48:52 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2013 00:55:33 +0100
-Message-Id: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
+Date: Wed,  6 Mar 2013 01:32:05 +0100
+Message-Id: <1362529925-13211-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][RFC] chrpath.bbclass: strip common parent directories from rpath
+In-Reply-To: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
+References: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH v2][RFC] chrpath.bbclass: strip common parent directories from rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -21,7 +23,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 00:12:19 -0000
+X-List-Received-Date: Wed, 06 Mar 2013 00:48:55 -0000
 
 Allows to use shorter TMPDIRs in corner cases, e.g. with native
 perl modules, having a deep directory structure.
@@ -48,11 +50,13 @@ I understood that part of the code correctly or not.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
+v2: Fixed reassembly of libpath
+
  meta/classes/chrpath.bbclass |   17 +++++++++++++++--
  1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 0c7ab77..ed4a0b2 100644
+index 0c7ab77..454b587 100644
 --- a/meta/classes/chrpath.bbclass
 +++ b/meta/classes/chrpath.bbclass
 @@ -55,9 +55,22 @@ def process_dir (directory, d):
@@ -75,7 +79,7 @@ index 0c7ab77..ed4a0b2 100644
 +                            break
 +                        nparents += 1
 +                    if nparents > 0:
-+                        libpath = '/'.join(libdirs[:-nparents])
++                        libpath = '/' + '/'.join(libdirs[i:])
 +                        depth -= nparents
                  # otherwise (i.e. cross packages) determine a shared root based on the TMPDIR
                  # NOTE: This will not work reliably for cross packages, particularly in the case
