@@ -1,16 +1,25 @@
-Received: from mail.saftware.de ([83.141.3.46])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UD2XI-0000PD-KB
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 01:48:52 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2013 01:32:05 +0100
-Message-Id: <1362529925-13211-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
-References: <1362527733-3589-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2][RFC] chrpath.bbclass: strip common parent directories from rpath
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UD2br-0000Z7-UF
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 06 Mar 2013 01:53:35 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r260b2TE029700
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 5 Mar 2013 16:37:02 -0800 (PST)
+Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 5 Mar 2013 16:37:00 -0800
+From: Rich Dubielzig <rich.dubielzig@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Mar 2013 16:36:58 -0800
+Message-ID: <1362530218-10727-1-git-send-email-rich.dubielzig@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Cc: rich.dubielzig@windriver.com
+Subject: [PATCH V4] nfs-utils: Add scratch directory for NFS upcall state storage (denzil)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,69 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 00:48:55 -0000
+X-List-Received-Date: Wed, 06 Mar 2013 00:53:42 -0000
+Content-Type: text/plain
 
-Allows to use shorter TMPDIRs in corner cases, e.g. with native
-perl modules, having a deep directory structure.
+When the /var/lib/nfs/v4recovery directory is not present, NFSD cannot
+record the upcall state and cannot end the 90-second grace period on
+startup.  This is true even when NFS4 is not being served according to
+nfsstat.
 
-The problem is that the original absolute rpath may be shorter
-than the newly generated relative rpath.
+More details and discussion here:
+https://lkml.org/lkml/2012/6/11/206
 
-The failing rpaths were '/ab/cde/tmp/sysroots/x86_64-linux/usr/lib'
-(old) and '$ORIGIN/../../../../../../../../../usr/lib' (new) for
-'/ab/cde/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.3/auto/XML/Parser/Expat/Expat.so'
-
-The new rpath is '$ORIGIN/../../../../../../..'.
-
-The new code doesn't just compare libdir, because I guess it
-should also work if only parts of libdir share a parent directory
-with the binary.
-
-This patch also adds a check for len(basedir) > 0, because I think
-basedir is empty in the cross-compile case, in which case
-rpath.find(basedir) would always return 0, but I'm unsure whether
-I understood that part of the code correctly or not.
-
-[YOCTO #3989]
-
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
 ---
-v2: Fixed reassembly of libpath
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
- meta/classes/chrpath.bbclass |   17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 0c7ab77..454b587 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -55,9 +55,22 @@ def process_dir (directory, d):
-                 rpath =  os.path.normpath(rpath)
-                 # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
-                 # base_prefix shared root
--                if rpath.find(basedir) != -1:
--                    depth = fpath.partition(basedir)[2].count('/')
-+                if len(basedir) > 0 and rpath.find(basedir) != -1:
-+                    relfpath = fpath.partition(basedir)[2].strip()
-                     libpath = rpath.partition(basedir)[2].strip()
-+                    depth = relfpath.count('/')
-+                    # Compare common parent directories to reduce the length of the new rpath.
-+                    # Ignore the first (empty) element.
-+                    libdirs = libpath.split('/')
-+                    relfdirs = relfpath.split('/')
-+                    nparents = 0
-+                    for i in range(1, min(len(libdirs), len(relfdirs))):
-+                        if libdirs[i] != relfdirs[i]:
-+                            break
-+                        nparents += 1
-+                    if nparents > 0:
-+                        libpath = '/' + '/'.join(libdirs[i:])
-+                        depth -= nparents
-                 # otherwise (i.e. cross packages) determine a shared root based on the TMPDIR
-                 # NOTE: This will not work reliably for cross packages, particularly in the case
-                 # where your TMPDIR is a short path (i.e. /usr/poky) as chrpath cannot insert an
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+index 84c4464..138791b 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+@@ -12,7 +12,7 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
+ RDEPENDS_${PN} = "rpcbind"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
+            file://nfs-utils-1.0.6-uclibc.patch \
+@@ -53,6 +53,8 @@ RDEPENDS_${PN}-stats = "python"
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
++	# kernel code as of 3.8 hard-codes this path as a default
++	install -d ${D}/var/lib/nfs/v4recovery
+ 
+ 	# the following are built by CC_FOR_BUILD
+ 	rm -f ${D}${sbindir}/rpcdebug
 -- 
-1.7.10.4
+1.7.1
 
 
 
