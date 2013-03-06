@@ -1,32 +1,32 @@
-Received: from mail-pb0-f49.google.com ([209.85.160.49])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UD2r7-0001Gd-Mm
+	(envelope-from <Kai.Kang@windriver.com>) id 1UD3lR-0002no-Tm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 02:09:26 +0100
-Received: by mail-pb0-f49.google.com with SMTP id xa12so5154886pbc.8
+	Wed, 06 Mar 2013 03:07:30 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r261oxV4000730
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Mar 2013 16:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=x/TdclxcMhRMW0RXA7wMMxE9WJrKFrHlAzEus+IdWJE=;
-	b=F85qZaUUSJMfT8Q1DGjOEmv7WDoSKX4xPwYHXsQbtLbAzi7uArfajNj6sBayXVt8kL
-	803o0K0cBspwJlw6/i4VfpT2ZdHxO1mGNAz2Ysk9w6IOhUx/RLF2CpZ/8HXS1Ef7yxxc
-	YXGAiCSN8jE1sHzi6B4FrD4ctCa6mqNt0HHSCDNaxTq2Hl2ErClYcziE283c8whE2E07
-	KudFluoAnw+JW397HtTkmi8WfxNFgcOt7RfaZOCWTRL00JuVMPyNLMhpAq+dtt4GObEP
-	h1t0QJYuG5pCXeG/eOVCZV1uAGuo9L6/B3+/q0qktOKsUCCyNEj4PlZQQ6iYBfZc9L50
-	1Opw==
-X-Received: by 10.68.75.109 with SMTP id b13mr41805528pbw.25.1362531166814;
-	Tue, 05 Mar 2013 16:52:46 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id xr3sm28831108pbc.46.2013.03.05.16.52.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 05 Mar 2013 16:52:45 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Mar 2013 01:52:31 +0100
-Message-Id: <1362531151-1094-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] kernel-module-split: append space to RDEPENDS
+	Tue, 5 Mar 2013 17:50:59 -0800 (PST)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Tue, 5 Mar 2013 17:50:58 -0800
+Message-ID: <5136A166.4010501@windriver.com>
+Date: Wed, 6 Mar 2013 09:52:38 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: Kang Kai <kai.kang@windriver.com>
+References: <cover.1361866256.git.kai.kang@windriver.com>
+	<0e45eb2f773f3985d6cc47e78775a26271806b30.1361866257.git.kai.kang@windriver.com>
+In-Reply-To: <0e45eb2f773f3985d6cc47e78775a26271806b30.1361866257.git.kai.kang@windriver.com>
+X-Originating-IP: [128.224.162.205]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	r261oxV4000730
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] rpm: save output of postinstall scripts when image first boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +39,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 01:09:28 -0000
+X-List-Received-Date: Wed, 06 Mar 2013 02:07:32 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-* it was generating invalid RDEPENDS when KERNEL_MODULES_META_PACKAGE had
-  RDEPENDS set already without trailing space
+On 2013=E5=B9=B402=E6=9C=8826=E6=97=A5 16:14, Kang Kai wrote:
+> When image feature "debug-tweaks" is enabled, save output of post
+> install script to log file which can be configured when image first
+> boot.
+>
+> [YOCTO #3223]
+>
+> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+> ---
+>   meta/recipes-devtools/rpm/rpm_5.4.9.bb |    6 +++++-
+>   1 files changed, 5 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devt=
+ools/rpm/rpm_5.4.9.bb
+> index 0b014b6..cdfb5ff 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> @@ -223,6 +223,7 @@ FILES_${PN} =3D  "${bindir}/rpm \
+>   		${libdir}/rpm/bin/wget \
+>   		/var/lib/rpm \
+>   		/var/cache/rpm \
+> +		${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel-module-split.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Previous(4/5) patch has been merged to master but this one not, the=20
+bitbake complains:
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index aa0c499..45639c6 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -173,7 +173,7 @@ python split_kernel_module_packages () {
-     modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION", True)))
-     if modules:
-         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
--        d.appendVar('RDEPENDS_' + metapkg, ' '.join(modules))
-+        d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
- 
-     # If modules-load.d and modprobe.d are empty at this point, remove them to
-     # avoid warnings. removedirs only raises an OSError if an empty
--- 
-1.8.1.5
+WARNING: QA Issue: rpm: Files/directories were installed but not shipped
+/etc
+/etc/rcS.d
+/etc/rcS.d/S98run-postinsts
+
+This line should be split to the previous(4/5) patch. When this patch=20
+merged, the warning will disappear.
+
+Sorry for this trouble,
+Kai
+
+>   		"
+>
+>   FILES_${PN}-dbg +=3D "${libdir}/rpm/.debug \
+> @@ -374,6 +375,9 @@ do_configure() {
+>   #
+>   POSTINSTALL_INITPOSITION ?=3D "98"
+>
+> +POSTLOG ?=3D "/var/log/postinstall.log"
+> +REDIRECT_CMD =3D "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '=
+>>${POSTLOG} 2>&1', '', d)}"
+> +
+>   do_install_append() {
+>   	sed -i -e 's,%__check_files,#%%__check_files,' ${D}/${libdir}/rpm/ma=
+cros
+>   	sed -i -e 's,%__scriptlet_requires,#%%__scriptlet_requires,' ${D}/${=
+libdir}/rpm/macros
+> @@ -459,7 +463,7 @@ do_install_append() {
+>   for i in \`ls /etc/rpm-postinsts/\`; do
+>   	i=3D/etc/rpm-postinsts/$i
+>   	echo "Running postinst $i..."
+> -	if [ -f $i ]&&  $i; then
+> +	if [ -f $i ]&&  $i ${REDIRECT_CMD}; then
+>   		rm $i
+>   	else
+>   		echo "ERROR: postinst $i failed."
 
 
 
