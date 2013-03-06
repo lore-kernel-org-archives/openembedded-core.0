@@ -1,31 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from smtpfb2-g21.free.fr ([212.27.42.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UDJ0J-0007Tg-Or
+	(envelope-from <eric@eukrea.com>) id 1UDKzo-0002Cj-VZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 19:23:53 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r26I7JBC015811
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 06 Mar 2013 21:31:40 +0100
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 979BBD1AD95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Mar 2013 10:07:19 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 6 Mar 2013 10:07:19 -0800
-Message-ID: <513785D5.6030302@windriver.com>
-Date: Wed, 6 Mar 2013 12:07:17 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1362360870-12148-1-git-send-email-randy.macleod@windriver.com>
-	<20130304081846.GC3268@jama> <1362391887.29587.5.camel@ted>
-	<CAMKF1spo15CEJUyq2sf9cHA=VMgdhOHVgeHGQ3EAsJzcY9q-9g@mail.gmail.com>
-	<CAHUNapRRwtjCtfcAixq+vSt250Ep-jGPbeqv17SgRLRce-4r0g@mail.gmail.com>
-In-Reply-To: <CAHUNapRRwtjCtfcAixq+vSt250Ep-jGPbeqv17SgRLRce-4r0g@mail.gmail.com>
-Subject: Re: [PATCH] apr: add libtool to SSTATE_SCAN_FILES
+	Wed,  6 Mar 2013 21:14:58 +0100 (CET)
+Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id C3CB3A60FD;
+	Wed,  6 Mar 2013 21:14:48 +0100 (CET)
+Date: Wed, 6 Mar 2013 21:14:47 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20130306211447.27f6b262@e6520eb>
+In-Reply-To: <cover.1362545190.git.hongxu.jia@windriver.com>
+References: <cover.1362545190.git.hongxu.jia@windriver.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [danny][PATCH 0/2]fix toolchain relocation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 18:23:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Mar 2013 20:31:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 3/6/13 10:04 AM, Trevor Woerner wrote:
-> Ah... so CQID is an internal WindRiver thing?
+Hi Hongxu,
 
-Correct.  This is our internal bug tracking number.  (Our customers also get 
-access to some of the numbers as well..)
+Le Wed, 6 Mar 2013 12:58:45 +0800,
+Hongxu Jia <hongxu.jia@windriver.com> a =C3=A9crit :
 
-We include this number of items we've ported from our product back to oe-core so 
-that when we uprev it is easier for us to verify that certain problems have been 
-corrected.
+> Rebase to danny.
+>=20
+> [YOCTO #3984]
+>=20
+> The following changes since commit e89f812a0af56beda951c1dce6113a61d6db8c=
+da:
+>=20
+>   bitbake: knotty.py: fix unknown event bb.event.DiskFull (2013-03-04 10:=
+17:20 +0000)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib hongxu/fix-toolchain-relocation-da=
+nny
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dhongxu/fix-tool=
+chain-relocation-danny
+>=20
+> Hongxu Jia (2):
+>   perl-nativesdk:fix toolchain relocation issues
+>   populate_sdk_base.bbclass:fix toolchain relocation issues
+>=20
+while at it, may you please also cherry-pick
+e7a21cd69a326ab7e2d0e410db28f24956f61208=20
+which is "toolchain-scripts.bbclass: add PYTHONHOME variable to
+environment-setup"
 
-If the community decided these numbers are not acceptable we'll stop including 
-them.  (If you note, not all of our contributions include those numbers.. 
-generally only bug fixes do.)
+as the problem described in [YOCTO #3839] is also present in danny.
 
---Mark
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+Thanks
+Eric
 
 
