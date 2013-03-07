@@ -1,14 +1,35 @@
-Received: from mail.saftware.de ([83.141.3.46])
+Received: from mail-wg0-f49.google.com ([74.125.82.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UDf5a-0006kz-V2
+	(envelope-from <ross.burton@intel.com>) id 1UDfJO-0007TW-EW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 18:58:51 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Thu, 07 Mar 2013 19:13:03 +0100
+Received: by mail-wg0-f49.google.com with SMTP id 15so1405553wgd.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Mar 2013 09:56:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=fzvtXQrMYsd82uAYC5CHWeCIiVACciOwQh05DSPoWcc=;
+	b=bKLt/e3Iu+5H29S1A24TSWcSRA6K+oY4PPGRwrI5AfGXfScwwrLhTeNTYmNvaINYHx
+	pAia+vqMdnA2cPPGvAs3oqEsfj4sRpc2YRCd9CSIc0cipadZJB2hnmDsHLZEyb74n8y9
+	5WVSZVyQj4aPdgKXMlBE2z5bJbvy25qX3uKCswtobd1OYCwAd8DBTpzTpYu/G5wJR+Rp
+	Wm5rUUHXZHugi3mLK4ObgLPq2mrQQQsDBcIjlS6pOPWyj/cop6bjY0yMzOJe8waJt14k
+	Pgy1HiBD/0UZRSO9yiIari3JCWZ/3gnvcFumwB6yUvzoP/O9vllbF8GFs7ie62bbVo/u
+	vENA==
+X-Received: by 10.180.80.35 with SMTP id o3mr35644068wix.9.1362678989963;
+	Thu, 07 Mar 2013 09:56:29 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t7sm14475828wij.2.2013.03.07.09.56.28
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 07 Mar 2013 09:56:29 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2013 18:42:08 +0100
-Message-Id: <1362678128-27865-1-git-send-email-obi@opendreambox.org>
+Date: Thu,  7 Mar 2013 17:54:00 +0000
+Message-Id: <1362678841-12200-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libsoup-2.4: make libsoup-gnome optional
+X-Gm-Message-State: ALoCoQnKlrkhddzPP9RzKBFBmYWh9ZqHIgQZ+DEqkpscKyhqOiKhFtsCCR7VCuruzNAB/zsHSgzM
+Subject: [PATCH] consolekit: make policykit an option, and disable by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -21,37 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 17:58:56 -0000
+X-List-Received-Date: Thu, 07 Mar 2013 18:13:04 -0000
 
-* Weakens dependency on libgnome-keyring and sqlite3
-* Defaults to no if x11 is in DISTRO_FEATURES
+Make PolicyKit usage a PACKAGECONFIG option, and disable it by default.  Also
+migrate pam to use PACKAGECONFIG, and add systemd too.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+ConsoleKit doesn't currently have an option to force this on or off, so rely on
+a build-dependency for now.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-support/consolekit/consolekit_0.4.5.bb |   18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb
-index 9274f8c..53807af 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb
-@@ -5,11 +5,14 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index e510c45..f6a554f 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -8,12 +8,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
  
--PR = "r0"
-+PR = "r1"
+-POLKIT = "polkit"
+-POLKIT_libc-uclibc = ""
+-POLKITCONF = ""
+-POLKITCONF_libc-uclibc = "--disable-policykit"
+-
+-DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
++DEPENDS = "glib-2.0 dbus virtual/libx11"
+ RDEPENDS_${PN} += "base-files"
  
- SECTION = "x11/gnome/libs"
+ inherit gnome
+@@ -25,9 +20,13 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
  
--DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
-+DEPENDS = "glib-2.0 gnutls libxml2 libproxy"
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+ 
+-EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
+-                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+-               "
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 +
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gnome', '', d)}"
-+PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome,libgnome-keyring sqlite3"
++PACKAGECONFIG[pam] = "--enable-pam-module --with-pam-module-dir=${base_libdir}/security,--disable-pam-module,libpam"
++# No option to turn it on or off, so rely on the build dependency for now.
++PACKAGECONFIG[policykit] = ",,polkit"
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--with-systemdsystemunitdir="
  
- SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+ FILES_${PN} += "${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit \
+                 ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
+@@ -37,4 +36,3 @@ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+ PACKAGES =+ "pam-plugin-ck-connector"
+ FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
+ RDEPENDS_pam-plugin-ck-connector += "${PN}"
+-
 -- 
 1.7.10.4
 
