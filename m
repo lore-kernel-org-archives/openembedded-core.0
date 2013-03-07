@@ -1,27 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UDN6Y-0005a7-1E
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UDQ1r-0002RX-SQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Mar 2013 23:46:37 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Mar 2013 14:27:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,798,1355126400"; d="scan'208";a="272554164"
-Received: from unknown (HELO [10.255.13.12]) ([10.255.13.12])
-	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2013 14:29:14 -0800
-Message-ID: <5137C33A.4050205@linux.intel.com>
-Date: Wed, 06 Mar 2013 14:29:14 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 07 Mar 2013 02:53:56 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r271bJ8P019268
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 6 Mar 2013 17:37:19 -0800 (PST)
+Received: from [128.224.162.206] (128.224.162.206) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 6 Mar 2013 17:37:18 -0800
+Message-ID: <5137EF4C.4050302@windriver.com>
+Date: Thu, 7 Mar 2013 09:37:16 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1362159742-20602-1-git-send-email-Martin.Jansa@gmail.com>
-	<1552403.roegCEAHfx@helios>
-In-Reply-To: <1552403.roegCEAHfx@helios>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sanity.bbclass: always use oe.lsb.distro_identifier method
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+References: <cover.1362545190.git.hongxu.jia@windriver.com>
+	<20130306211447.27f6b262@e6520eb>
+In-Reply-To: <20130306211447.27f6b262@e6520eb>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r271bJ8P019268
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [danny][PATCH 0/2]fix toolchain relocation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Mar 2013 22:46:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Mar 2013 01:53:57 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 03/05/2013 02:54 AM, Paul Eggleton wrote:
-> On Friday 01 March 2013 18:42:22 Martin Jansa wrote:
->> * even when /etc/redhat-release or /etc/SuSE-release exists
->> * don't read /etc/lsb-release manually, NATIVELSBSTRING is not
->>    reading it too
+On 03/07/2013 04:14 AM, Eric B=C3=A9nard wrote:
+> Hi Hongxu,
 >
-> Unfortunately this has been merged before I had a chance to reply. FYI I put
-> the code in here to read the files directly on purpose, because most distros
-> bundle up the lsb_release tool with all of the LSB dependencies, so if you
-> want to set up a headless server without some of the LSB dependencies (which
-> include X11) you won't have the lsb_release tool and NATIVELSBSTRING is
-> "Unknown". Yes, I know we have this problem with NATIVELSBSTRING already.
+> Le Wed, 6 Mar 2013 12:58:45 +0800,
+> Hongxu Jia <hongxu.jia@windriver.com> a =C3=A9crit :
 >
-+1, but not just headless server, my FC18 release does not have 
-lsb_release installed at all.
+>> Rebase to danny.
+>>
+>> [YOCTO #3984]
+>>
+>> The following changes since commit e89f812a0af56beda951c1dce6113a61d6d=
+b8cda:
+>>
+>>    bitbake: knotty.py: fix unknown event bb.event.DiskFull (2013-03-04=
+ 10:17:20 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib hongxu/fix-toolchain-relocatio=
+n-danny
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dhongxu/fix-=
+toolchain-relocation-danny
+>>
+>> Hongxu Jia (2):
+>>    perl-nativesdk:fix toolchain relocation issues
+>>    populate_sdk_base.bbclass:fix toolchain relocation issues
+>>
+> while at it, may you please also cherry-pick
+> e7a21cd69a326ab7e2d0e410db28f24956f61208
+> which is "toolchain-scripts.bbclass: add PYTHONHOME variable to
+> environment-setup"
+>
+> as the problem described in [YOCTO #3839] is also present in danny.
+>
+> Thanks
+> Eric
+Ok, I will handle it and resend the patch later.
 
-Sau!
-
-> Cheers,
-> Paul
->
+Thanks,
+Hongxu
 
 
