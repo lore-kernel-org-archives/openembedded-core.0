@@ -1,37 +1,20 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UDdOy-00038K-Mm
+	(envelope-from <olivier.guiter@linux.intel.com>) id 1UDddn-0003oQ-Gp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 17:10:42 +0100
-Received: by mail-pa0-f47.google.com with SMTP id bj3so557267pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2013 07:54:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=rRZfSPDfFRo+xe2yvfZqrVyjlmiYZ/ck7TXCSUM1zq0=;
-	b=c88ihRYb4ceHpHNGj/ZzLgFONJblt8JycAfhgtoio0e1KZ4tZIYM9rKSVXO1mojrSC
-	DtW40qkxd3SUUuDBRdugD78nq46cgH5GAgkKPrbhBNbt2F/y6lXsY4O85ZVTM2+4dPjq
-	uR5y2kvlw2nmAKL5jPVK78kTtymQ0IWkh/+doWClfMwMlKEKunopdBWCmKjmbafC9LXE
-	u8UInwbdY8erOxdv3ydB3ysp2OlDfNs1t9FDccHMX1sAnMWTq+BgXygbrB5vAQPplCd2
-	/XPTTIF5au1ukih4F02yMc8p0Y34QF+dravSbxrH04nppOXnEkXx+mSJOJScHSLQHMPI
-	Go/Q==
-X-Received: by 10.68.196.129 with SMTP id im1mr54194958pbc.206.1362671647619; 
-	Thu, 07 Mar 2013 07:54:07 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id iv3sm2083984pbc.40.2013.03.07.07.54.04
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 07 Mar 2013 07:54:06 -0800 (PST)
-Date: Thu, 7 Mar 2013 16:54:01 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Olivier Guiter <olivier.guiter@linux.intel.com>
-Message-ID: <20130307155401.GP32228@jama.dyndns-home.com>
-References: <1362669728-4132-1-git-send-email-olivier.guiter@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1362669728-4132-1-git-send-email-olivier.guiter@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nfc: Update neard commit sha1 and start path.
+	Thu, 07 Mar 2013 17:26:00 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 07 Mar 2013 08:08:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,803,1355126400"; d="scan'208";a="266124151"
+Received: from oguiternx64.mp.intel.com ([10.237.24.27])
+	by azsmga001.ch.intel.com with ESMTP; 07 Mar 2013 08:08:19 -0800
+From: Olivier Guiter <olivier.guiter@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Mar 2013 17:09:01 +0100
+Message-Id: <1362672541-23095-1-git-send-email-olivier.guiter@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] neard: Update reference commit sha1 and script path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +27,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 16:10:52 -0000
-X-Groupsio-MsgNum: 36307
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dJyWBSYfjLochwFK"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 07 Mar 2013 16:26:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---dJyWBSYfjLochwFK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+---
+ meta/recipes-connectivity/neard/neard/neard  |    2 +-
+ meta/recipes-connectivity/neard/neard_0.9.bb |    8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
+index 5f36174..34f47f1 100644
+--- a/meta/recipes-connectivity/neard/neard/neard
++++ b/meta/recipes-connectivity/neard/neard/neard
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ 
+-DAEMON=/usr/sbin/neard
++DAEMON=/usr/lib/neard/nfc/neard
+ PIDFILE=/var/run/neard.pid
+ DESC="Linux NFC daemon"
+ 
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index 61ea58c..6dc346a 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -13,9 +13,11 @@ INITSCRIPT_PARAMS = "defaults 64"
+ 
+ # This would copy neard start-stop shell and test scripts
+ do_install_append() {
++  # start/stop
+   install -d ${D}${sysconfdir}/init.d/
+   install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
+ 
++  #test files
+   install -d ${D}${libdir}/neard
+   install -m 0755 ${S}/test/* ${D}${libdir}/neard/
+   install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
+@@ -33,9 +35,9 @@ RRECOMMENDS_${PN} = "\
+ PACKAGES =+ "${PN}-tests"
+ 
+ FILES_${PN}-tests = "${libdir}/neard/*-test"
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
++FILES_${PN}-dbg += "${libdir}/neard/*/.debug"
+ 
+-FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
+ ##=============================
+ # This is valid for 0.9+
+@@ -43,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
+ S	= "${WORKDIR}/git"
+-SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
++SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
+ PV	= "0.9-git${SRCPV}"
+ PR	= "r1"
+ 
+-- 
+1.7.9.5
 
 
-On Thu, Mar 07, 2013 at 04:22:08PM +0100, Olivier Guiter wrote:
-> ---
->  meta/recipes-connectivity/neard/neard/neard  |    2 +-
->  meta/recipes-connectivity/neard/neard_0.9.bb |    8 +++++---
->  2 files changed, 6 insertions(+), 4 deletions(-)
 
-subject should start with neard: not nfc:
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---dJyWBSYfjLochwFK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlE4uBkACgkQN1Ujt2V2gBxlNwCfU3+uwKGlvlMYoPkRuK7Dr6XK
-lK8AoK6FnswIUBgw3bTWVqnhRpUJ199L
-=J4Z4
------END PGP SIGNATURE-----
-
---dJyWBSYfjLochwFK--
