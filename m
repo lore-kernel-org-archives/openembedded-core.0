@@ -1,35 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UDd1x-0001eO-Jz
+	(envelope-from <martin.jansa@gmail.com>) id 1UDdOy-00038K-Mm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 16:46:53 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e52so420790eek.6
+	Thu, 07 Mar 2013 17:10:42 +0100
+Received: by mail-pa0-f47.google.com with SMTP id bj3so557267pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2013 07:30:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=LYJ74zzZiYLQt1FeuCx0r7Fk62ngcSj4IaaHzoYGvwo=;
-	b=C8plV8lX1qr6i60DI0Gea9WspKgSsraW9HIeJHLEMVP2y5LBoogavgSSatb8KQal00
-	MbdpINf+agnd9qIiCji5MhIvmCtYpjSrKbVxmSAxAQ48QDZXsdE4rEZNWfNLz/wYYnR6
-	iMi1z5DEmZ4SuCOT1zLXLTUFjBHAf95IBiDhS9wizuEEQ+r+FM0Iz8fDaQamNrB3/lxx
-	a7hmnfr6qkM/hZJ+IV+SIVTO6eOMyEO12ghH7ejapeFCy23/0fHJypzwQ1h4JH+JpKhR
-	hYdLmvquQwonYGtNTRwfZlrUZ1oEWqom/qOJEGuMlsUNuyi4j98rWWkIBrJ1agHaMiAL
-	KgPw==
-X-Received: by 10.194.110.69 with SMTP id hy5mr55459339wjb.1.1362670217517;
-	Thu, 07 Mar 2013 07:30:17 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id o8sm33808022wix.7.2013.03.07.07.30.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 07 Mar 2013 07:30:16 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2013 15:27:49 +0000
-Message-Id: <1362670069-7129-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnp5qD4b8//4QI8AJ8StQNIgaWOQWlSS3LN7HMCqsat4ZFv2ALVw3x/EUH9vWCzv1+puc6v
-Subject: [PATCH] gconf: make polkit an option, and disable by default
+	Thu, 07 Mar 2013 07:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=rRZfSPDfFRo+xe2yvfZqrVyjlmiYZ/ck7TXCSUM1zq0=;
+	b=c88ihRYb4ceHpHNGj/ZzLgFONJblt8JycAfhgtoio0e1KZ4tZIYM9rKSVXO1mojrSC
+	DtW40qkxd3SUUuDBRdugD78nq46cgH5GAgkKPrbhBNbt2F/y6lXsY4O85ZVTM2+4dPjq
+	uR5y2kvlw2nmAKL5jPVK78kTtymQ0IWkh/+doWClfMwMlKEKunopdBWCmKjmbafC9LXE
+	u8UInwbdY8erOxdv3ydB3ysp2OlDfNs1t9FDccHMX1sAnMWTq+BgXygbrB5vAQPplCd2
+	/XPTTIF5au1ukih4F02yMc8p0Y34QF+dravSbxrH04nppOXnEkXx+mSJOJScHSLQHMPI
+	Go/Q==
+X-Received: by 10.68.196.129 with SMTP id im1mr54194958pbc.206.1362671647619; 
+	Thu, 07 Mar 2013 07:54:07 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id iv3sm2083984pbc.40.2013.03.07.07.54.04
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 07 Mar 2013 07:54:06 -0800 (PST)
+Date: Thu, 7 Mar 2013 16:54:01 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Olivier Guiter <olivier.guiter@linux.intel.com>
+Message-ID: <20130307155401.GP32228@jama.dyndns-home.com>
+References: <1362669728-4132-1-git-send-email-olivier.guiter@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1362669728-4132-1-git-send-email-olivier.guiter@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] nfc: Update neard commit sha1 and start path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 15:46:54 -0000
+X-List-Received-Date: Thu, 07 Mar 2013 16:10:52 -0000
+X-Groupsio-MsgNum: 36307
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dJyWBSYfjLochwFK"
+Content-Disposition: inline
+
+--dJyWBSYfjLochwFK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gnome/gconf_3.2.6.bb |   19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+On Thu, Mar 07, 2013 at 04:22:08PM +0100, Olivier Guiter wrote:
+> ---
+>  meta/recipes-connectivity/neard/neard/neard  |    2 +-
+>  meta/recipes-connectivity/neard/neard_0.9.bb |    8 +++++---
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index a37bd00..a245fa2 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -3,10 +3,7 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
--POLKIT = "polkit"
--POLKIT_libc-uclibc = ""
--
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT} gobject-introspection-stub"
-+DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native gobject-introspection-stub"
- DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
- 
- PR = "r0"
-@@ -22,12 +19,16 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
- 
- S = "${WORKDIR}/GConf-${PV}"
- 
--POLKIT_OECONF = "--enable-defaults-service"
--POLKIT_OECONF_class-native = "--disable-defaults-service"
--POLKIT_OECONF_libc-uclibc = "--disable-default-service"
--
- EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
--                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
-+                --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
-+
-+# Disable PolicyKit by default
-+PACKAGECONFIG ??= ""
-+# We really don't want PolicyKit for native or uclibc
-+PACKAGECONFIG_class-native = ""
-+PACKAGECONFIG_libc-uclibc = ""
-+
-+PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
- 
- do_install_append() {
- 	# this directory need to be created to avoid an Error 256 at gdm launch
--- 
-1.7.10.4
+subject should start with neard: not nfc:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--dJyWBSYfjLochwFK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlE4uBkACgkQN1Ujt2V2gBxlNwCfU3+uwKGlvlMYoPkRuK7Dr6XK
+lK8AoK6FnswIUBgw3bTWVqnhRpUJ199L
+=J4Z4
+-----END PGP SIGNATURE-----
+
+--dJyWBSYfjLochwFK--
