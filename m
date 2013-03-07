@@ -1,20 +1,35 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ve0-f176.google.com ([209.85.128.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <olivier.guiter@linux.intel.com>) id 1UDddn-0003oQ-Gp
+	(envelope-from <ross.burton@intel.com>) id 1UDdt6-0004HO-7S
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 17:26:00 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 07 Mar 2013 08:08:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,803,1355126400"; d="scan'208";a="266124151"
-Received: from oguiternx64.mp.intel.com ([10.237.24.27])
-	by azsmga001.ch.intel.com with ESMTP; 07 Mar 2013 08:08:19 -0800
-From: Olivier Guiter <olivier.guiter@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2013 17:09:01 +0100
-Message-Id: <1362672541-23095-1-git-send-email-olivier.guiter@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] neard: Update reference commit sha1 and script path
+	Thu, 07 Mar 2013 17:41:49 +0100
+Received: by mail-ve0-f176.google.com with SMTP id cz10so512904veb.21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Mar 2013 08:25:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=YUo6thQmvmES4eNojMkTXrYArXaxDSTAmSrFvvImuEE=;
+	b=Tn4Bpo+bJRG/uJBmWKcId0L5HO8kLfS39o4Pkcqj60TE30J9/EPDvMClP12Fmo8AXW
+	14CUTmaWwgsT1rVMNtfwWOWOhP2SiQjE/ll/yWct+ykjPhdtmR28wgeIOr2omcxp6mdp
+	Lflj/zQDG0+Vn5gelSZ19iGXspzeGnsoKYFoy4PB8nL8TECuzkQvkKndfQHFYPJ5c+NA
+	iQzBPf05VQVU0B31qSbBg0MnOLSnNWgIHbBFCkvvszcT8p7Zt9ii2ZU6pTFi6LsWlhCr
+	V38YRadVCHLezvUsgCoatKhuKyOloX+CNe0yvehfvyIaDTHOTCbNMCPyGL2s4bcyhRgy
+	WyzQ==
+X-Received: by 10.52.72.40 with SMTP id a8mr11699260vdv.20.1362673515654; Thu,
+	07 Mar 2013 08:25:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.219.195 with HTTP; Thu, 7 Mar 2013 08:24:54 -0800 (PST)
+In-Reply-To: <1362672541-23095-1-git-send-email-olivier.guiter@linux.intel.com>
+References: <1362672541-23095-1-git-send-email-olivier.guiter@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Mar 2013 16:24:54 +0000
+Message-ID: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
+To: Olivier Guiter <olivier.guiter@linux.intel.com>
+X-Gm-Message-State: ALoCoQko4EjLvHCEwn1ak9TABiyTE8eDq+h+fP2PGPlBdNiE9/L9lTTOB9O4eHpG7VnLQe8qhyJw
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] neard: Update reference commit sha1 and script path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,66 +42,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 16:26:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Mar 2013 16:41:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
----
- meta/recipes-connectivity/neard/neard/neard  |    2 +-
- meta/recipes-connectivity/neard/neard_0.9.bb |    8 +++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Hi Olivier,
 
-diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
-index 5f36174..34f47f1 100644
---- a/meta/recipes-connectivity/neard/neard/neard
-+++ b/meta/recipes-connectivity/neard/neard/neard
-@@ -1,6 +1,6 @@
- #!/bin/sh
- 
--DAEMON=/usr/sbin/neard
-+DAEMON=/usr/lib/neard/nfc/neard
- PIDFILE=/var/run/neard.pid
- DESC="Linux NFC daemon"
- 
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-index 61ea58c..6dc346a 100644
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.9.bb
-@@ -13,9 +13,11 @@ INITSCRIPT_PARAMS = "defaults 64"
- 
- # This would copy neard start-stop shell and test scripts
- do_install_append() {
-+  # start/stop
-   install -d ${D}${sysconfdir}/init.d/
-   install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
- 
-+  #test files
-   install -d ${D}${libdir}/neard
-   install -m 0755 ${S}/test/* ${D}${libdir}/neard/
-   install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
-@@ -33,9 +35,9 @@ RRECOMMENDS_${PN} = "\
- PACKAGES =+ "${PN}-tests"
- 
- FILES_${PN}-tests = "${libdir}/neard/*-test"
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+FILES_${PN}-dbg += "${libdir}/neard/*/.debug"
- 
--FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
- 
- ##=============================
- # This is valid for 0.9+
-@@ -43,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
- S	= "${WORKDIR}/git"
--SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
-+SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
- PV	= "0.9-git${SRCPV}"
- PR	= "r1"
- 
--- 
-1.7.9.5
+On 7 March 2013 16:09, Olivier Guiter <olivier.guiter@linux.intel.com> wrote:
+> -DAEMON=/usr/sbin/neard
+> +DAEMON=/usr/lib/neard/nfc/neard
 
+Instead of doing this, have a neard.in that uses some variable
+(@libexecdir@, or whatever path you install to) and replace it with
+sed.   A hard-coded path like this will break is someone changes the
+file locations in their distro (which plenty of people do).
+
+Ross
 
 
