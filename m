@@ -1,35 +1,30 @@
-Received: from mail-wg0-f49.google.com ([74.125.82.49])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UDfJO-0007TW-EW
+	(envelope-from <chase.maupin@ti.com>) id 1UDjLY-00077L-Sh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 19:13:03 +0100
-Received: by mail-wg0-f49.google.com with SMTP id 15so1405553wgd.16
+	Thu, 07 Mar 2013 23:31:34 +0100
+Received: from dbdp20.itg.ti.com ([172.24.170.38])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r27MAuEj025046
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2013 09:56:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=fzvtXQrMYsd82uAYC5CHWeCIiVACciOwQh05DSPoWcc=;
-	b=bKLt/e3Iu+5H29S1A24TSWcSRA6K+oY4PPGRwrI5AfGXfScwwrLhTeNTYmNvaINYHx
-	pAia+vqMdnA2cPPGvAs3oqEsfj4sRpc2YRCd9CSIc0cipadZJB2hnmDsHLZEyb74n8y9
-	5WVSZVyQj4aPdgKXMlBE2z5bJbvy25qX3uKCswtobd1OYCwAd8DBTpzTpYu/G5wJR+Rp
-	Wm5rUUHXZHugi3mLK4ObgLPq2mrQQQsDBcIjlS6pOPWyj/cop6bjY0yMzOJe8waJt14k
-	Pgy1HiBD/0UZRSO9yiIari3JCWZ/3gnvcFumwB6yUvzoP/O9vllbF8GFs7ie62bbVo/u
-	vENA==
-X-Received: by 10.180.80.35 with SMTP id o3mr35644068wix.9.1362678989963;
-	Thu, 07 Mar 2013 09:56:29 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm14475828wij.2.2013.03.07.09.56.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 07 Mar 2013 09:56:29 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2013 17:54:00 +0000
-Message-Id: <1362678841-12200-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnKlrkhddzPP9RzKBFBmYWh9ZqHIgQZ+DEqkpscKyhqOiKhFtsCCR7VCuruzNAB/zsHSgzM
-Subject: [PATCH] consolekit: make policykit an option, and disable by default
+	Thu, 7 Mar 2013 16:10:57 -0600
+Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
+	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id r27MAtE2017542
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Mar 2013 03:40:55 +0530 (IST)
+Received: from dbdp32.itg.ti.com (172.24.170.251) by dbde70.ent.ti.com
+	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
+	Fri, 8 Mar 2013 03:40:54 +0530
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dbdp32.itg.ti.com (8.13.8/8.13.8) with ESMTP id r27MAqug019295;
+	Fri, 8 Mar 2013 03:40:53 +0530
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Mar 2013 16:10:48 -0600
+Message-ID: <1362694248-15573-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [RFC] kernel bbclass: return to original directory in do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,61 +37,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 18:13:04 -0000
+X-List-Received-Date: Thu, 07 Mar 2013 22:31:38 -0000
+Content-Type: text/plain
 
-Make PolicyKit usage a PACKAGECONFIG option, and disable it by default.  Also
-migrate pam to use PACKAGECONFIG, and add systemd too.
+All,
 
-ConsoleKit doesn't currently have an option to force this on or off, so rely on
-a build-dependency for now.
+The below patch is just one way to fix the issue of dtb files
+not being copied into the deploy directory by the linux-dtb.inc
+file.  The details below show why this failed.  The reason I am
+marking this as an RFC is because I'm not sure this is the *best*
+way to fix the issue.  What I'm concerned about is whether others
+have already adapted their do_deploy_append functions to work
+around the directory location that the script is in after running
+the kernel_do_deploy step.  For example in the meta-ti layer
+the multi-kernel.inc file first changes directory to ${S} in
+the do_deploy_append function.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+It seems likely that if anyone has adapted to this then they are
+probably just doing a cd into ${S} but I wanted to get feedback
+on whether to fix the generic kernel_do_deploy function or just
+fix the do_deploy_append function in linux-dtb.inc.
+
+* During the base kernel_do_deploy function the directory is
+  changed to DEPLOYDIR in order to do some cleanup and symlinking.
+  However, the directory is not changed back to the original
+  starting directory ${S} at the end.  For append functions this
+  means that the starting directory is not ${S} as expected but
+  instead ${DEPLOYDIR}.
+
+  For functions like the do_deploy_append in
+  recipes-kernel/linux/linux-dtb.inc there is an assumption that
+  you are still in the source directory and not the DEPLOYDIR.
+  Without this change the .dtb files are not copied because the
+  check for the existence of ${DTS_FILE} which is a relative
+  path from the ${S} directory fails.  This means that the .dtb
+  files are not copied into the deploy directory and subsequently
+  the deploy/images directory.
+
+  In the log.do_deploy file you will see lines like:
+
+    Warning: arch/arm/boot/dts/xxxxx.dts is not available!
+
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
 ---
- meta/recipes-support/consolekit/consolekit_0.4.5.bb |   18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ meta/classes/kernel.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index e510c45..f6a554f 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -8,12 +8,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 0a0430e..d57d1f5 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -352,6 +352,7 @@ kernel_do_deploy() {
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
  
--POLKIT = "polkit"
--POLKIT_libc-uclibc = ""
--POLKITCONF = ""
--POLKITCONF_libc-uclibc = "--disable-policykit"
--
--DEPENDS = "glib-2.0 dbus ${POLKIT} ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} virtual/libx11"
-+DEPENDS = "glib-2.0 dbus virtual/libx11"
- RDEPENDS_${PN} += "base-files"
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
++	cd -
+ }
+ do_deploy[dirs] = "${DEPLOYDIR} ${B}"
  
- inherit gnome
-@@ -25,9 +20,13 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
- 
- S = "${WORKDIR}/ConsoleKit-${PV}"
- 
--EXTRA_OECONF = "${POLKITCONF} --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
--                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
--               "
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-+
-+PACKAGECONFIG[pam] = "--enable-pam-module --with-pam-module-dir=${base_libdir}/security,--disable-pam-module,libpam"
-+# No option to turn it on or off, so rely on the build dependency for now.
-+PACKAGECONFIG[policykit] = ",,polkit"
-+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--with-systemdsystemunitdir="
- 
- FILES_${PN} += "${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit \
-                 ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
-@@ -37,4 +36,3 @@ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
- PACKAGES =+ "pam-plugin-ck-connector"
- FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
- RDEPENDS_pam-plugin-ck-connector += "${PN}"
--
 -- 
-1.7.10.4
+1.7.0.4
 
 
 
