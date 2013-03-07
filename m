@@ -1,20 +1,35 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <olivier.guiter@linux.intel.com>) id 1UDcuQ-000195-H0
+	(envelope-from <ross.burton@intel.com>) id 1UDd1x-0001eO-Jz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Mar 2013 16:39:12 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Mar 2013 07:21:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,803,1355126400"; d="scan'208";a="266098815"
-Received: from oguiternx64.mp.intel.com ([10.237.24.27])
-	by azsmga001.ch.intel.com with ESMTP; 07 Mar 2013 07:21:25 -0800
-From: Olivier Guiter <olivier.guiter@linux.intel.com>
+	Thu, 07 Mar 2013 16:46:53 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e52so420790eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Mar 2013 07:30:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=LYJ74zzZiYLQt1FeuCx0r7Fk62ngcSj4IaaHzoYGvwo=;
+	b=C8plV8lX1qr6i60DI0Gea9WspKgSsraW9HIeJHLEMVP2y5LBoogavgSSatb8KQal00
+	MbdpINf+agnd9qIiCji5MhIvmCtYpjSrKbVxmSAxAQ48QDZXsdE4rEZNWfNLz/wYYnR6
+	iMi1z5DEmZ4SuCOT1zLXLTUFjBHAf95IBiDhS9wizuEEQ+r+FM0Iz8fDaQamNrB3/lxx
+	a7hmnfr6qkM/hZJ+IV+SIVTO6eOMyEO12ghH7ejapeFCy23/0fHJypzwQ1h4JH+JpKhR
+	hYdLmvquQwonYGtNTRwfZlrUZ1oEWqom/qOJEGuMlsUNuyi4j98rWWkIBrJ1agHaMiAL
+	KgPw==
+X-Received: by 10.194.110.69 with SMTP id hy5mr55459339wjb.1.1362670217517;
+	Thu, 07 Mar 2013 07:30:17 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id o8sm33808022wix.7.2013.03.07.07.30.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 07 Mar 2013 07:30:16 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Mar 2013 16:22:08 +0100
-Message-Id: <1362669728-4132-1-git-send-email-olivier.guiter@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] nfc: Update neard commit sha1 and start path.
+Date: Thu,  7 Mar 2013 15:27:49 +0000
+Message-Id: <1362670069-7129-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnp5qD4b8//4QI8AJ8StQNIgaWOQWlSS3LN7HMCqsat4ZFv2ALVw3x/EUH9vWCzv1+puc6v
+Subject: [PATCH] gconf: make polkit an option, and disable by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,66 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 15:39:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 07 Mar 2013 15:46:54 -0000
 
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/neard/neard/neard  |    2 +-
- meta/recipes-connectivity/neard/neard_0.9.bb |    8 +++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb |   19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
-index 5f36174..34f47f1 100644
---- a/meta/recipes-connectivity/neard/neard/neard
-+++ b/meta/recipes-connectivity/neard/neard/neard
-@@ -1,6 +1,6 @@
- #!/bin/sh
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index a37bd00..a245fa2 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -3,10 +3,7 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
  
--DAEMON=/usr/sbin/neard
-+DAEMON=/usr/lib/neard/nfc/neard
- PIDFILE=/var/run/neard.pid
- DESC="Linux NFC daemon"
+-POLKIT = "polkit"
+-POLKIT_libc-uclibc = ""
+-
+-DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT} gobject-introspection-stub"
++DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native gobject-introspection-stub"
+ DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
  
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-index 61ea58c..6dc346a 100644
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.9.bb
-@@ -13,9 +13,11 @@ INITSCRIPT_PARAMS = "defaults 64"
+ PR = "r0"
+@@ -22,12 +19,16 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
  
- # This would copy neard start-stop shell and test scripts
+ S = "${WORKDIR}/GConf-${PV}"
+ 
+-POLKIT_OECONF = "--enable-defaults-service"
+-POLKIT_OECONF_class-native = "--disable-defaults-service"
+-POLKIT_OECONF_libc-uclibc = "--disable-default-service"
+-
+ EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
+-                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
++                --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
++
++# Disable PolicyKit by default
++PACKAGECONFIG ??= ""
++# We really don't want PolicyKit for native or uclibc
++PACKAGECONFIG_class-native = ""
++PACKAGECONFIG_libc-uclibc = ""
++
++PACKAGECONFIG[policykit] = "--enable-defaults-service,--disable-defaults-service,polkit"
+ 
  do_install_append() {
-+  # start/stop
-   install -d ${D}${sysconfdir}/init.d/
-   install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
- 
-+  #test files
-   install -d ${D}${libdir}/neard
-   install -m 0755 ${S}/test/* ${D}${libdir}/neard/
-   install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
-@@ -33,9 +35,9 @@ RRECOMMENDS_${PN} = "\
- PACKAGES =+ "${PN}-tests"
- 
- FILES_${PN}-tests = "${libdir}/neard/*-test"
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+FILES_${PN}-dbg += "${libdir}/neard/*/.debug"
- 
--FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
- 
- ##=============================
- # This is valid for 0.9+
-@@ -43,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
- S	= "${WORKDIR}/git"
--SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
-+SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
- PV	= "0.9-git${SRCPV}"
- PR	= "r1"
- 
+ 	# this directory need to be created to avoid an Error 256 at gdm launch
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
