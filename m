@@ -1,25 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1UDzkK-0003Uq-UF
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UE00h-00041o-Ga
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 17:02:14 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Mar 2013 07:45:36 -0800
+	Fri, 08 Mar 2013 17:19:12 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Mar 2013 08:02:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,809,1355126400"; d="scan'208";a="297823488"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.51])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2013 07:45:35 -0800
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 889C0560DE8; Fri,  8 Mar 2013 17:45:35 +0200 (EET)
-From: Alex DAMIAN <alexandru.damian@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,809,1355126400"; d="scan'208";a="274174213"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.12.228])
+	by orsmga001.jf.intel.com with ESMTP; 08 Mar 2013 08:02:32 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2013 17:45:28 +0200
-Message-Id: <1362757528-9240-2-git-send-email-alexandru.damian@intel.com>
+Date: Fri,  8 Mar 2013 16:02:27 +0000
+Message-Id: <1362758547-7832-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1362757528-9240-1-git-send-email-alexandru.damian@intel.com>
-References: <1362757528-9240-1-git-send-email-alexandru.damian@intel.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 2/2] Coreutils 6.9 depends on libattr
+Subject: [PATCH] dropbear: update patch upstream status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,27 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 16:02:18 -0000
+X-List-Received-Date: Fri, 08 Mar 2013 16:19:14 -0000
+X-List-Received-Date: Fri, 08 Mar 2013 16:19:14 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+Blank password option patch has now been accepted upstream.
 
-We have a build dependency, so list it out.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/coreutils/coreutils_6.9.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/dropbear/dropbear/nopw-option.patch |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
-index c0778ba..f712692 100644
---- a/meta/recipes-core/coreutils/coreutils_6.9.bb
-+++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
-@@ -9,6 +9,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://src/ls.c;beginline=4;endline=16;md5=15ed60f67b1db5fedd5dbc37cf8a9543"
- PR = "r5"
-+DEPENDS = "attr"
- DEPENDS_class-native = "gettext-native"
+diff --git a/meta/recipes-core/dropbear/dropbear/nopw-option.patch b/meta/recipes-core/dropbear/dropbear/nopw-option.patch
+index e7fcbb3..2ff84d2 100644
+--- a/meta/recipes-core/dropbear/dropbear/nopw-option.patch
++++ b/meta/recipes-core/dropbear/dropbear/nopw-option.patch
+@@ -4,7 +4,7 @@ Changes this from a compile-time switch to a command-line option.
  
- inherit autotools gettext
+ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Accepted [expected in next release after 2012.55]
+ 
+ diff --git a/options.h b/options.h
+ index 00f6179..b8d0ccb 100644
 -- 
 1.7.10.4
 
