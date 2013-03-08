@@ -1,22 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ea0-f174.google.com ([209.85.215.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <olivier.guiter@linux.intel.com>) id 1UDw0g-0003xE-7X
+	(envelope-from <koen@dominion.thruhere.net>) id 1UDxBw-0006H8-Ps
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 13:02:59 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Mar 2013 03:45:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,807,1355126400"; d="scan'208";a="274005360"
-Received: from oguiternx64.mp.intel.com ([10.237.24.27])
-	by orsmga001.jf.intel.com with ESMTP; 08 Mar 2013 03:45:10 -0800
-From: Olivier Guiter <olivier.guiter@linux.intel.com>
+	Fri, 08 Mar 2013 14:18:33 +0100
+Received: by mail-ea0-f174.google.com with SMTP id q10so170353eaj.19
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Mar 2013 05:01:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=EpXgzDTqI/Om+CsDDkLTiCGYP11DVbeanolrphNkCW4=;
+	b=VIdrPB6BpOPi/0NCMp9IKpYspZ5FYfRL1bSLhuMxHxZBGG/poroJJ0Z18R8KvI7kEz
+	k5FB/5m3cTmolTxay+MqI1LXdyJjHB4GK+CsevjTQpQASUli8m+ZuThiHr1RTeyc0UyF
+	wYZMrxW7KC18nno7+0PIvbWhc+NrowTjoCT0TCslma2LntuY578ir64EJb97PDuXFA4B
+	ODfPhB8ImvnnIrlOApqYinb7856IvK+UylNy1jgKBzbPKVQhH8RaUihXfxlgfbe0PtcN
+	23VndyImdOgNyA3R5clODWInKM6AG6wXigDB4TXddlH+X+wNsxK/4ESZ0vB2glXOnzFs
+	g1Ww==
+X-Received: by 10.14.175.129 with SMTP id z1mr5436343eel.7.1362747719250;
+	Fri, 08 Mar 2013 05:01:59 -0800 (PST)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id d47sm7650277eem.9.2013.03.08.05.01.57
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 08 Mar 2013 05:01:57 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2013 12:45:53 +0100
-Message-Id: <1362743153-29094-1-git-send-email-olivier.guiter@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
-References: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
-Subject: [PATCH v3] neard:Update reference commit sha1 and install script
+Date: Fri,  8 Mar 2013 14:01:45 +0100
+Message-Id: <1362747705-19277-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQkIdH4wMTJPzzxzG7HvTC3o6NhoW5TwI5E1O1Hwaovy96ofhJ1iVCuYQvUE0tiqNrNa2SX/
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] mkefidisk.sh: Cope with translations and modelnames with 'Disk' in it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,179 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 12:03:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Mar 2013 13:18:36 -0000
 
-This patch installs neard daemon in /usr/lib/neard.
+The script greps for 'Disk', which doesn't work when your crazy Dutch distro has parted call it 'Schijf', so force LANG=C.
+
+The second problem is that 'Disk' might be a substring in the Model entry:
+
+[root@Angstrom-F16-vm-rpm contrib] # parted /dev/sdc  unit mb print
+Model: SanDisk SDDR-113 (scsi)
+Disk /dev/sdc: 3905MB
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-connectivity/neard/neard/neard    |   42 ------------------------
- meta/recipes-connectivity/neard/neard/neard.in |   42 ++++++++++++++++++++++++
- meta/recipes-connectivity/neard/neard_0.9.bb   |   27 ++++++++++-----
- 3 files changed, 61 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/neard
- create mode 100644 meta/recipes-connectivity/neard/neard/neard.in
+ scripts/contrib/mkefidisk.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
-deleted file mode 100644
-index 5f36174..0000000
---- a/meta/recipes-connectivity/neard/neard/neard
-+++ /dev/null
-@@ -1,42 +0,0 @@
--#!/bin/sh
--
--DAEMON=/usr/sbin/neard
--PIDFILE=/var/run/neard.pid
--DESC="Linux NFC daemon"
--
--if [ -f /etc/default/neard ] ; then
--	. /etc/default/neard
--fi
--
--set -e
--
--do_start() {
--	$DAEMON
--}
--
--do_stop() {
--	start-stop-daemon --stop --name neard --quiet
--}
--
--case "$1" in
--  start)
--	echo "Starting $DESC"
--	do_start
--	;;
--  stop)
--	echo "Stopping $DESC"
--	do_stop
--	;;
--  restart|force-reload)
--	echo "Restarting $DESC"
--	do_stop
--	sleep 1
--	do_start
--	;;
--  *)
--	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
--	exit 1
--	;;
--esac
--
--exit 0
-diff --git a/meta/recipes-connectivity/neard/neard/neard.in b/meta/recipes-connectivity/neard/neard/neard.in
-new file mode 100644
-index 0000000..38361c8
---- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard/neard.in
-@@ -0,0 +1,42 @@
-+#!/bin/sh
-+
-+DAEMON=@installpath@/neard
-+PIDFILE=/var/run/neard.pid
-+DESC="Linux NFC daemon"
-+
-+if [ -f /etc/default/neard ] ; then
-+	. /etc/default/neard
-+fi
-+
-+set -e
-+
-+do_start() {
-+	$DAEMON
-+}
-+
-+do_stop() {
-+	start-stop-daemon --stop --name neard --quiet
-+}
-+
-+case "$1" in
-+  start)
-+	echo "Starting $DESC"
-+	do_start
-+	;;
-+  stop)
-+	echo "Stopping $DESC"
-+	do_stop
-+	;;
-+  restart|force-reload)
-+	echo "Restarting $DESC"
-+	do_stop
-+	sleep 1
-+	do_start
-+	;;
-+  *)
-+	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
-+	exit 1
-+	;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-index 61ea58c..afd6597 100644
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.9.bb
-@@ -11,14 +11,25 @@ inherit autotools pkgconfig update-rc.d
- INITSCRIPT_NAME = "neard"
- INITSCRIPT_PARAMS = "defaults 64"
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 38e2217..44ac130 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -18,6 +18,8 @@
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ #
  
-+do_install() {
-+	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
-+}
++LANG=C
 +
- # This would copy neard start-stop shell and test scripts
- do_install_append() {
-+
-+  # start/stop
-   install -d ${D}${sysconfdir}/init.d/
--  install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
- 
-+ sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-+		> ${D}${sysconfdir}/init.d/neard
-+
-+  chmod 0755 ${D}${sysconfdir}/init.d/neard
-+
-+  #test files
-   install -d ${D}${libdir}/neard
--  install -m 0755 ${S}/test/* ${D}${libdir}/neard/
--  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
-+  install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
-+  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
- }
- 
- RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
-@@ -32,10 +43,10 @@ RRECOMMENDS_${PN} = "\
- #Additional
- PACKAGES =+ "${PN}-tests"
- 
--FILES_${PN}-tests = "${libdir}/neard/*-test"
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
- 
--FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
- 
- ##=============================
- # This is valid for 0.9+
-@@ -43,12 +54,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
- S	= "${WORKDIR}/git"
--SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
-+SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
- PV	= "0.9-git${SRCPV}"
- PR	= "r1"
- 
- SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
--	file://neard \
-+	file://neard.in \
- 	"
- 
- EXTRA_OECONF += "--enable-tools \
+ #
+ # Defaults
+ #
+@@ -123,7 +125,7 @@ fi
+ #
+ # Partition $DEVICE
+ #
+-DEVICE_SIZE=$(parted $DEVICE unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
++DEVICE_SIZE=$(parted $DEVICE unit mb print | grep ^Disk | cut -d" " -f 3 | sed -e "s/MB//")
+ SWAP_SIZE=$((DEVICE_SIZE*SWAP_RATIO/100))
+ ROOTFS_SIZE=$((DEVICE_SIZE-BOOT_SIZE-SWAP_SIZE))
+ ROOTFS_START=$((BOOT_SIZE))
 -- 
-1.7.9.5
+1.8.1.4
 
 
 
