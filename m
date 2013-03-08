@@ -1,36 +1,22 @@
-Received: from mail-ve0-f173.google.com ([209.85.128.173])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UDtTP-00074w-NI
+	(envelope-from <olivier.guiter@linux.intel.com>) id 1UDw0g-0003xE-7X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 10:20:20 +0100
-Received: by mail-ve0-f173.google.com with SMTP id oz10so1092798veb.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2013 01:03:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=QKC/eAS/rjeL8MpH2SHhXiFit4gjCpdJGiCTswFxbac=;
-	b=FDEKg8vflaWDvCOT4i3fztMl/4uVTqX96mFKDMpRGgO+ctnBw/xvoPsDYEjtz6xEYP
-	3SxQeclFKBc9NMXAMa2dcekHuFFS7Dii/71a1zm9Zum0EzOjwRWTNjTb1Emk6AZKV4WM
-	dKcPmRa4DwoH26mZITaz32g5klFjET+Fm130Tk5I+IMwrZS5hvIP/hDkcmkCclZ3JEND
-	W8KJSQaDF30sxEf9w0ehBrJM56mB1hfMNc/S9Kv5/5wpDPzv1ubrY4ZvKMRFNc3gcU3q
-	xPmpGl0bUsGkMvtZRVeM+VBMaOUcBfrK4W8wr9Fza0Ms6bi+9OTuHmhhhD7FsnuJFbNw
-	c8zA==
-X-Received: by 10.52.69.74 with SMTP id c10mr569956vdu.3.1362733426082; Fri,
-	08 Mar 2013 01:03:46 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.219.195 with HTTP; Fri, 8 Mar 2013 01:03:26 -0800 (PST)
-In-Reply-To: <CALbNGRSbYeb1J=9_w9Y2vFfj6S8D457VOiGrYUNjdTAyFEHpwg@mail.gmail.com>
-References: <CALbNGRSbYeb1J=9_w9Y2vFfj6S8D457VOiGrYUNjdTAyFEHpwg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Mar 2013 09:03:26 +0000
-Message-ID: <CAJTo0LY3iKCEZeM_n7qhpFFkCjMdsoNqKyBkpSPzqxb1JYBmyA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQlnzWYamTI4GYzXVsW5Dwq7KjdNWiLvrRnFb9nLFKzWl3nzJ/As1j/WstUkNsleeB1x8lCE
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: multiple providers for gtk-icon-cache
+	Fri, 08 Mar 2013 13:02:59 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Mar 2013 03:45:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,807,1355126400"; d="scan'208";a="274005360"
+Received: from oguiternx64.mp.intel.com ([10.237.24.27])
+	by orsmga001.jf.intel.com with ESMTP; 08 Mar 2013 03:45:10 -0800
+From: Olivier Guiter <olivier.guiter@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Mar 2013 12:45:53 +0100
+Message-Id: <1362743153-29094-1-git-send-email-olivier.guiter@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
+References: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
+Subject: [PATCH v3] neard:Update reference commit sha1 and install script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +29,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 09:20:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Mar 2013 12:03:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 7 March 2013 23:10, Andreas M=C3=BCller <schnitzeltony@googlemail.com> w=
-rote:
-> ERROR: Multiple .bb files are due to be built which each provide
-> virtual/gtk-update-icon-cache-native
-> (/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-gnom=
-e/gtk+/gtk-update-icon-cache-native_3.4.4.bb
-> virtual:native:/home/Superandy/data/oe-core/sources/openembedded-core/met=
-a/recipes-gnome/gtk+/gtk+_2.24.15.bb).
->  This usually means one provides something the other doesn't and should.
->
-> Do both versions create same output?
->
-> If yes: why not remove from gtk+?
-> If no: ??
+This patch installs neard daemon in /usr/lib/neard.
+---
+ meta/recipes-connectivity/neard/neard/neard    |   42 ------------------------
+ meta/recipes-connectivity/neard/neard/neard.in |   42 ++++++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.9.bb   |   27 ++++++++++-----
+ 3 files changed, 61 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/neard/neard/neard
+ create mode 100644 meta/recipes-connectivity/neard/neard/neard.in
 
-I wasn't expecting this to happen so quickly.
+diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
+deleted file mode 100644
+index 5f36174..0000000
+--- a/meta/recipes-connectivity/neard/neard/neard
++++ /dev/null
+@@ -1,42 +0,0 @@
+-#!/bin/sh
+-
+-DAEMON=/usr/sbin/neard
+-PIDFILE=/var/run/neard.pid
+-DESC="Linux NFC daemon"
+-
+-if [ -f /etc/default/neard ] ; then
+-	. /etc/default/neard
+-fi
+-
+-set -e
+-
+-do_start() {
+-	$DAEMON
+-}
+-
+-do_stop() {
+-	start-stop-daemon --stop --name neard --quiet
+-}
+-
+-case "$1" in
+-  start)
+-	echo "Starting $DESC"
+-	do_start
+-	;;
+-  stop)
+-	echo "Stopping $DESC"
+-	do_stop
+-	;;
+-  restart|force-reload)
+-	echo "Restarting $DESC"
+-	do_stop
+-	sleep 1
+-	do_start
+-	;;
+-  *)
+-	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+-	exit 1
+-	;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-connectivity/neard/neard/neard.in b/meta/recipes-connectivity/neard/neard/neard.in
+new file mode 100644
+index 0000000..38361c8
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard/neard.in
+@@ -0,0 +1,42 @@
++#!/bin/sh
++
++DAEMON=@installpath@/neard
++PIDFILE=/var/run/neard.pid
++DESC="Linux NFC daemon"
++
++if [ -f /etc/default/neard ] ; then
++	. /etc/default/neard
++fi
++
++set -e
++
++do_start() {
++	$DAEMON
++}
++
++do_stop() {
++	start-stop-daemon --stop --name neard --quiet
++}
++
++case "$1" in
++  start)
++	echo "Starting $DESC"
++	do_start
++	;;
++  stop)
++	echo "Stopping $DESC"
++	do_stop
++	;;
++  restart|force-reload)
++	echo "Restarting $DESC"
++	do_stop
++	sleep 1
++	do_start
++	;;
++  *)
++	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
++	exit 1
++	;;
++esac
++
++exit 0
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index 61ea58c..afd6597 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -11,14 +11,25 @@ inherit autotools pkgconfig update-rc.d
+ INITSCRIPT_NAME = "neard"
+ INITSCRIPT_PARAMS = "defaults 64"
+ 
++do_install() {
++	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
++}
++
+ # This would copy neard start-stop shell and test scripts
+ do_install_append() {
++
++  # start/stop
+   install -d ${D}${sysconfdir}/init.d/
+-  install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
+ 
++ sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
++		> ${D}${sysconfdir}/init.d/neard
++
++  chmod 0755 ${D}${sysconfdir}/init.d/neard
++
++  #test files
+   install -d ${D}${libdir}/neard
+-  install -m 0755 ${S}/test/* ${D}${libdir}/neard/
+-  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
++  install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
++  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+ }
+ 
+ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+@@ -32,10 +43,10 @@ RRECOMMENDS_${PN} = "\
+ #Additional
+ PACKAGES =+ "${PN}-tests"
+ 
+-FILES_${PN}-tests = "${libdir}/neard/*-test"
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
++FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
++FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+ 
+-FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
+ ##=============================
+ # This is valid for 0.9+
+@@ -43,12 +54,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
+ S	= "${WORKDIR}/git"
+-SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
++SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
+ PV	= "0.9-git${SRCPV}"
+ PR	= "r1"
+ 
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+-	file://neard \
++	file://neard.in \
+ 	"
+ 
+ EXTRA_OECONF += "--enable-tools \
+-- 
+1.7.9.5
 
-As can be seen from the recipes, gtk+-native is the full GTK+
-platform, and gtk-update-icon-cache is just that single binary.  For
-the purposes of generating a rootfs with a pre-populated icon cache,
-gtk-update-icon-cache is all that is required.
-
-So, why are you building gtk+-native?  It's probably one of:
-
-1) you're building native applications that use GTK+.  In this case,
-use PREFERRED_PROVIDER_virtual/gtk-update-icon-cache-native ?=3D
-"gtk+-native".
-
-2) you've recipes that use gtk-update-icon-cache on the host and so
-depend on gtk+-native.  Change these to use the gtk-icon-cache class
-instead.
-
-Ross
 
 
