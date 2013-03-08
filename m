@@ -1,37 +1,32 @@
-Received: from mail-ea0-f174.google.com ([209.85.215.174])
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UDxBw-0006H8-Ps
+	(envelope-from <walters@verbum.org>) id 1UDxKQ-0006Yo-C6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 14:18:33 +0100
-Received: by mail-ea0-f174.google.com with SMTP id q10so170353eaj.19
+	Fri, 08 Mar 2013 14:27:23 +0100
+Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 8C4EA20B81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Mar 2013 05:01:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=EpXgzDTqI/Om+CsDDkLTiCGYP11DVbeanolrphNkCW4=;
-	b=VIdrPB6BpOPi/0NCMp9IKpYspZ5FYfRL1bSLhuMxHxZBGG/poroJJ0Z18R8KvI7kEz
-	k5FB/5m3cTmolTxay+MqI1LXdyJjHB4GK+CsevjTQpQASUli8m+ZuThiHr1RTeyc0UyF
-	wYZMrxW7KC18nno7+0PIvbWhc+NrowTjoCT0TCslma2LntuY578ir64EJb97PDuXFA4B
-	ODfPhB8ImvnnIrlOApqYinb7856IvK+UylNy1jgKBzbPKVQhH8RaUihXfxlgfbe0PtcN
-	23VndyImdOgNyA3R5clODWInKM6AG6wXigDB4TXddlH+X+wNsxK/4ESZ0vB2glXOnzFs
-	g1Ww==
-X-Received: by 10.14.175.129 with SMTP id z1mr5436343eel.7.1362747719250;
-	Fri, 08 Mar 2013 05:01:59 -0800 (PST)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id d47sm7650277eem.9.2013.03.08.05.01.57
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 08 Mar 2013 05:01:57 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Fri,  8 Mar 2013 08:10:46 -0500 (EST)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute4.internal (MEProxy); Fri, 08 Mar 2013 08:10:46 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:content-type:date
+	:message-id:mime-version; s=smtpout; bh=wA47w9CrTIEOjMzbovz3Xod5
+	LdM=; b=QaTe9qWRwUuDxHIk+uPkF4IV5IOoeBvxYb3++Z40h+11JjcC3m8Nh89y
+	DYwTr3QCXpTjdOJKqvPAC6Hs6X2tRaYOW1c0pg/8Q1M0r1QLCY8dP0TCtNoSWIEz
+	JLTAdmxISv5d18Ys4KCDIcYlWZdBk13CPj0sHUaBZARBGQE8dYY=
+X-Sasl-enc: 5/j1D1fMvoAj+CXbH0yMQ11z8dCmoQQzp8eH0FKqoWIU 1362748246
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 428CF20119F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Mar 2013 08:10:46 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2013 14:01:45 +0100
-Message-Id: <1362747705-19277-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQkIdH4wMTJPzzxzG7HvTC3o6NhoW5TwI5E1O1Hwaovy96ofhJ1iVCuYQvUE0tiqNrNa2SX/
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] mkefidisk.sh: Cope with translations and modelnames with 'Disk' in it.
+Date: Fri, 08 Mar 2013 08:10:45 -0500
+Message-ID: <1362748245.6076.748.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Subject: [PATCH] cracklib: Generate compiled dict using default dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +39,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 13:18:36 -0000
+X-List-Received-Date: Fri, 08 Mar 2013 13:27:28 -0000
+X-Groupsio-MsgNum: 36325
+Content-Type: multipart/mixed; boundary="=-Lq2SNg0praa9ApIjq4VK"
 
-The script greps for 'Disk', which doesn't work when your crazy Dutch distro has parted call it 'Schijf', so force LANG=C.
+--=-Lq2SNg0praa9ApIjq4VK
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The second problem is that 'Disk' might be a substring in the Model entry:
+While cracklib compiles, the generated library's FascistCheck() API
+will look for the default compiled dictionary, fail to find it, and
+invoke exit(1), which then in turn breaks gnome-initial-setup that
+uses cracklib via libpwquality.  (Quality here obviously referring to
+the password, and not the libraries...)
 
-[root@Angstrom-F16-vm-rpm contrib] # parted /dev/sdc  unit mb print
-Model: SanDisk SDDR-113 (scsi)
-Disk /dev/sdc: 3905MB
+What we do here is basically the same as what happens in the current
+Fedora spec file, except the latter uses a far larger dictionary.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+To make this work, we need to build cracklib-native because the
+dictionary compiler is written in native code.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
 ---
- scripts/contrib/mkefidisk.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/cracklib/cracklib_2.8.22.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 38e2217..44ac130 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -18,6 +18,8 @@
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- #
+
+
+--=-Lq2SNg0praa9ApIjq4VK
+Content-Disposition: attachment; filename*0=0001-cracklib-Generate-compiled-dict-using-default-dictio.pat; filename*1=ch
+Content-Type: text/x-patch; name="0001-cracklib-Generate-compiled-dict-using-default-dictio.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From 6d47136d108d4063e3faa9c91de33710a5a66855 Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Thu, 7 Mar 2013 18:45:22 -0500
+Subject: [PATCH] cracklib: Generate compiled dict using default dictionary
+
+While cracklib compiles, the generated library's FascistCheck() API
+will look for the default compiled dictionary, fail to find it, and
+invoke exit(1), which then in turn breaks gnome-initial-setup that
+uses cracklib via libpwquality.  (Quality here obviously referring to
+the password, and not the libraries...)
+
+What we do here is basically the same as what happens in the current
+Fedora spec file, except the latter uses a far larger dictionary.
+
+To make this work, we need to build cracklib-native because the
+dictionary compiler is written in native code.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ meta/recipes-extended/cracklib/cracklib_2.8.22.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
+index 1ae1aca..63d4c24 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
+@@ -4,7 +4,8 @@ HOMEPAGE = "http://sourceforge.net/projects/cracklib"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
-+LANG=C
+-DEPENDS = "zlib"
++DEPENDS = "cracklib-native zlib"
++DEPENDS_class-native = "zlib"
+ PR ="r0"
+ 
+ EXTRA_OECONF = "--without-python"
+@@ -15,3 +16,12 @@ SRC_URI[md5sum] = "463177b5c29c7a598c991e12a4898e06"
+ SRC_URI[sha256sum] = "feaff49bfb513ec10b2618c00d2f7f60776ba93fcc5fa22dd3479dd9cad9f770"
+ 
+ inherit autotools gettext
 +
- #
- # Defaults
- #
-@@ -123,7 +125,7 @@ fi
- #
- # Partition $DEVICE
- #
--DEVICE_SIZE=$(parted $DEVICE unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
-+DEVICE_SIZE=$(parted $DEVICE unit mb print | grep ^Disk | cut -d" " -f 3 | sed -e "s/MB//")
- SWAP_SIZE=$((DEVICE_SIZE*SWAP_RATIO/100))
- ROOTFS_SIZE=$((DEVICE_SIZE-BOOT_SIZE-SWAP_SIZE))
- ROOTFS_START=$((BOOT_SIZE))
++BBCLASSEXTEND = "native"
++
++do_install_append() {
++	create-cracklib-dict -o ${D}${datadir}/cracklib/pw_dict ${D}${datadir}/cracklib/cracklib-small
++}
++
++do_install_append_virtclass-native() {
++}
 -- 
-1.8.1.4
+1.8.1.2
 
 
-
+--=-Lq2SNg0praa9ApIjq4VK--
