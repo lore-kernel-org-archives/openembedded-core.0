@@ -1,20 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ve0-f173.google.com ([209.85.128.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1UDt47-0005zK-Tz
+	(envelope-from <ross.burton@intel.com>) id 1UDtTP-00074w-NI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 09:54:12 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Mar 2013 00:37:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,806,1355126400"; d="scan'208";a="296579867"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga002.jf.intel.com with ESMTP; 08 Mar 2013 00:37:24 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2013 10:38:21 +0200
-Message-Id: <1362731901-31963-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] apt-native: fix checksums
+	Fri, 08 Mar 2013 10:20:20 +0100
+Received: by mail-ve0-f173.google.com with SMTP id oz10so1092798veb.32
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Mar 2013 01:03:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=QKC/eAS/rjeL8MpH2SHhXiFit4gjCpdJGiCTswFxbac=;
+	b=FDEKg8vflaWDvCOT4i3fztMl/4uVTqX96mFKDMpRGgO+ctnBw/xvoPsDYEjtz6xEYP
+	3SxQeclFKBc9NMXAMa2dcekHuFFS7Dii/71a1zm9Zum0EzOjwRWTNjTb1Emk6AZKV4WM
+	dKcPmRa4DwoH26mZITaz32g5klFjET+Fm130Tk5I+IMwrZS5hvIP/hDkcmkCclZ3JEND
+	W8KJSQaDF30sxEf9w0ehBrJM56mB1hfMNc/S9Kv5/5wpDPzv1ubrY4ZvKMRFNc3gcU3q
+	xPmpGl0bUsGkMvtZRVeM+VBMaOUcBfrK4W8wr9Fza0Ms6bi+9OTuHmhhhD7FsnuJFbNw
+	c8zA==
+X-Received: by 10.52.69.74 with SMTP id c10mr569956vdu.3.1362733426082; Fri,
+	08 Mar 2013 01:03:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.219.195 with HTTP; Fri, 8 Mar 2013 01:03:26 -0800 (PST)
+In-Reply-To: <CALbNGRSbYeb1J=9_w9Y2vFfj6S8D457VOiGrYUNjdTAyFEHpwg@mail.gmail.com>
+References: <CALbNGRSbYeb1J=9_w9Y2vFfj6S8D457VOiGrYUNjdTAyFEHpwg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Mar 2013 09:03:26 +0000
+Message-ID: <CAJTo0LY3iKCEZeM_n7qhpFFkCjMdsoNqKyBkpSPzqxb1JYBmyA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+X-Gm-Message-State: ALoCoQlnzWYamTI4GYzXVsW5Dwq7KjdNWiLvrRnFb9nLFKzWl3nzJ/As1j/WstUkNsleeB1x8lCE
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: multiple providers for gtk-icon-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 08:54:15 -0000
+X-List-Received-Date: Fri, 08 Mar 2013 09:20:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-devtools/apt/apt-native_0.9.7.7.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 7 March 2013 23:10, Andreas M=C3=BCller <schnitzeltony@googlemail.com> w=
+rote:
+> ERROR: Multiple .bb files are due to be built which each provide
+> virtual/gtk-update-icon-cache-native
+> (/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-gnom=
+e/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> virtual:native:/home/Superandy/data/oe-core/sources/openembedded-core/met=
+a/recipes-gnome/gtk+/gtk+_2.24.15.bb).
+>  This usually means one provides something the other doesn't and should.
+>
+> Do both versions create same output?
+>
+> If yes: why not remove from gtk+?
+> If no: ??
 
-diff --git a/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb b/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb
-index 1e420a4..d71ab2f 100644
---- a/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb
-+++ b/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb
-@@ -1,11 +1,11 @@
- require apt-native.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI += "file://noconfigure.patch \
- 	    file://no-curl.patch"
- 
--SRC_URI[md5sum] = "3f86f4eff53c94b7f285b3c59eb89754"
--SRC_URI[sha256sum] = "71fc7ff15fda50f16c9d73f701adf3bd67c9803a2304cd3d82cb490d76d3c3b3"
-+SRC_URI[md5sum] = "039fc57668d1a0c2f62dc22e71900a16"
-+SRC_URI[sha256sum] = "6eca4285f1ac2e8cb837b9546553b0546881ed15853aa5bbeb860bab6bfa1700"
- 
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
--- 
-1.7.11.7
+I wasn't expecting this to happen so quickly.
 
+As can be seen from the recipes, gtk+-native is the full GTK+
+platform, and gtk-update-icon-cache is just that single binary.  For
+the purposes of generating a rootfs with a pre-populated icon cache,
+gtk-update-icon-cache is all that is required.
+
+So, why are you building gtk+-native?  It's probably one of:
+
+1) you're building native applications that use GTK+.  In this case,
+use PREFERRED_PROVIDER_virtual/gtk-update-icon-cache-native ?=3D
+"gtk+-native".
+
+2) you've recipes that use gtk-update-icon-cache on the host and so
+depend on gtk+-native.  Change these to use the gtk-icon-cache class
+instead.
+
+Ross
 
 
