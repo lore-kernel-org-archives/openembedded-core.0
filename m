@@ -1,24 +1,30 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UE1PX-0006ql-De
+	(envelope-from <chase.maupin@ti.com>) id 1UE1lJ-00086t-H1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 18:49:06 +0100
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 017724B0078;
-	Fri,  8 Mar 2013 18:32:13 +0100 (CET)
-Date: Fri, 8 Mar 2013 18:32:11 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20130308183211.3063c6cd@e6520eb>
-In-Reply-To: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
-References: <CAP9ODKqNAfLQ8ZTW5i8gHsmMGxz17y1K8tAEHm8u+XOU5ZQMng@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-danny] Proposed changes for backporting
+	Fri, 08 Mar 2013 19:11:22 +0100
+Received: from dbdp20.itg.ti.com ([172.24.170.38])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r28HpA0k010788
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Mar 2013 11:51:11 -0600
+Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
+	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id r28Hp9R1028827
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Mar 2013 23:21:10 +0530 (IST)
+Received: from dbdp32.itg.ti.com (172.24.170.251) by dbde70.ent.ti.com
+	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
+	Fri, 8 Mar 2013 23:21:09 +0530
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dbdp32.itg.ti.com (8.13.8/8.13.8) with ESMTP id r28Hp6k4025055;
+	Fri, 8 Mar 2013 23:21:08 +0530
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Mar 2013 11:51:04 -0600
+Message-ID: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCH] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,24 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 17:49:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Mar 2013 18:11:40 -0000
+Content-Type: text/plain
 
-Hi Otavio,
+* the current order has SOC_FAMILY settings, which are generic
+  settings for a group of devices, overriding the machine specific
+  settings.  For example:
 
-Le Sun, 3 Mar 2013 11:23:11 -0300,
-Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
-> A new set of changes for evaluation for backport (in order):
->=20
-> * 3b214e2 samba: Split libnss-winbind package
->=20
-> * 1b6add9 mg: add recipe for version 20110905
->=20
-> * e8874ce evince: disable help build
->=20
-pushed to danny
+  KERNEL_DEVICETREE_ti33x = "xxxx"
+  KERNEL_DEVICETREE_beaglebone = "yyyy"
 
-Eric
+  Should yield "yyyy" when building for the beaglebone because
+  that is a more specific device than ti33x.  However, without this
+  change the result is that the value is set to "xxxx" meaning the
+  more generic setting overrides the more specific setting.
+
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+ meta/conf/machine/include/soc-family.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/conf/machine/include/soc-family.inc b/meta/conf/machine/include/soc-family.inc
+index 612039c..0251da0 100644
+--- a/meta/conf/machine/include/soc-family.inc
++++ b/meta/conf/machine/include/soc-family.inc
+@@ -1,2 +1,2 @@
+ # Add SOC_FAMILY to machine overrides so we get access to e.g. 'omap3' and 'ti335x'
+-MACHINEOVERRIDES .= "${@['', ':${SOC_FAMILY}']['${SOC_FAMILY}' != '']}"
++MACHINEOVERRIDES =. "${@['', '${SOC_FAMILY}:']['${SOC_FAMILY}' != '']}"
+-- 
+1.7.0.4
+
 
 
