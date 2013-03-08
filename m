@@ -1,30 +1,14 @@
-Received: from mail-wg0-f45.google.com ([74.125.82.45])
+Received: from mail.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UDkDR-0000OX-PB
+	(envelope-from <obi@opendreambox.org>) id 1UDlTl-0002bJ-9A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 00:27:15 +0100
-Received: by mail-wg0-f45.google.com with SMTP id dq12so1795897wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Mar 2013 15:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=To/3LipVPv1I9PmL+zMl4kWTVYR03O241o+xbpvBxf8=;
-	b=KjiCjMP+Z2oaolXWzcPOzpiqhEBjtF8n9caUNkyH+bLjuMitwXV40XEHJu8ZWuPFEN
-	sQNn8j0KffLqzWCvT0Z5fk2HmTLtec2e84AI6V3kGmb1eraGvlTlhe9c6DP1IgiMB1Gk
-	GFjEhvIDpc9WrDbe73OBX/PLSVL6eI18btD+ZC7ghR436NvpmJwzkRYJ8oNcCzV6zFWW
-	Am89zuHZ+u83blrxKH+lMN7x9gHHfAB3WRb4M9JJGIcH3C7FT7zcl2n+3fYKFEugY3WP
-	/TMrmhQIVfRj50qqql3+EPdnE8yKH8HrMKBylIqv8q9aLuDn4DSTjVlaNQV/VDkJ3TJM
-	/qJQ==
-MIME-Version: 1.0
-X-Received: by 10.180.98.232 with SMTP id el8mr5455471wib.22.1362697841054;
-	Thu, 07 Mar 2013 15:10:41 -0800 (PST)
-Received: by 10.216.103.6 with HTTP; Thu, 7 Mar 2013 15:10:40 -0800 (PST)
-Date: Fri, 8 Mar 2013 00:10:40 +0100
-Message-ID: <CALbNGRSbYeb1J=9_w9Y2vFfj6S8D457VOiGrYUNjdTAyFEHpwg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Fri, 08 Mar 2013 01:48:20 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Subject: multiple providers for gtk-icon-cache
+Date: Fri,  8 Mar 2013 01:31:24 +0100
+Message-Id: <1362702684-23585-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] strace: fix kernel release string parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,24 +21,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Mar 2013 23:27:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Mar 2013 00:48:22 -0000
 
-Hi,
+* Strace just aborts with two-digit kernel versions (e.g. 3.0-foo).
+  Backport a patch from strace Git.
 
-I get
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ .../0032-Fix-kernel-release-string-parsing.patch   |   38 ++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.7.bb         |    3 +-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
 
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/gtk-update-icon-cache-native
-(/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
-virtual:native:/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-gnome/gtk+/gtk+_2.24.15.bb).
- This usually means one provides something the other doesn't and should.
+diff --git a/meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch b/meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
+new file mode 100644
+index 0000000..cef4222
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: Backport
++
++From 0dbc80de895c25769791b7726022a274695eec31 Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@altlinux.org>
++Date: Mon, 14 May 2012 23:42:10 +0000
++Subject: [PATCH] Fix kernel release string parsing
++
++* strace.c (get_os_release): Handle "X.Y-something" utsname.release
++strings properly.
++
++Reported-by: Bryce Gibson <bryce@gibson-consulting.com.au>
++---
++ strace.c |    8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/strace.c b/strace.c
++index 857136d..65dee7d 100644
++--- a/strace.c
+++++ b/strace.c
++@@ -1432,8 +1432,14 @@ get_os_release(void)
++ 			break;
++ 		while (*p >= '0' && *p <= '9')
++ 			p++;
++-		if (*p != '.')
+++		if (*p != '.') {
+++			if (rel >= KERNEL_VERSION(0,1,0)) {
+++				/* "X.Y-something" means "X.Y.0" */
+++				rel <<= 8;
+++				break;
+++			}
++ 			error_msg_and_die("Bad OS release string: '%s'", u.release);
+++		}
++ 		p++;
++ 	}
++ 	return rel;
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-devtools/strace/strace_4.7.bb b/meta/recipes-devtools/strace/strace_4.7.bb
+index 2d56e9a..e360e63 100644
+--- a/meta/recipes-devtools/strace/strace_4.7.bb
++++ b/meta/recipes-devtools/strace/strace_4.7.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://strace.sourceforge.net"
+ SECTION = "console/utils"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=124500c21e856f0912df29295ba104c7"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://0003-util-fix-building-when-glibc-has-a-stub-process_vm_r.patch \
+@@ -17,6 +17,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://0029-Filter-out-redundant-32-ioctl-entries.patch \
+            file://0030-Move-asm-generic-ioctl-definitions-to-linux-ioctlent.patch \
+            file://0031-Add-support-for-tracing-32-bit-ARM-EABI-binaries-on-.patch \
++           file://0032-Fix-kernel-release-string-parsing.patch \
+           "
+ 
+ SRC_URI[md5sum] = "6054c3880a00c6703f83b57f15e04642"
+-- 
+1.7.10.4
 
-Do both versions create same output?
-
-If yes: why not remove from gtk+?
-If no: ??
-
-Andreas
 
 
