@@ -1,29 +1,25 @@
-Received: from vms173005pub.verizon.net ([206.46.173.5])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1UE4ld-0001MA-C8
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 22:24:08 +0100
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173005.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MJC00DJ8YITIK81@vms173005.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 08 Mar 2013 14:06:46 -0600 (CST)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 3FA08200BE; Fri,
-	08 Mar 2013 15:06:28 -0500 (EST)
-Date: Fri, 08 Mar 2013 15:06:28 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-id: <20130308200628.GB15481@denix.org>
-References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
-	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
-MIME-version: 1.0
-In-reply-to: <CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Chase Maupin <Chase.Maupin@ti.com>
-Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
+	(envelope-from <rich.dubielzig@windriver.com>) id 1UE5i0-0002zB-H7
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 08 Mar 2013 23:24:23 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r28M7aZN010787
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 8 Mar 2013 14:07:37 -0800 (PST)
+Received: from ala-lpd-test3.wrs.com (147.11.105.112) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 8 Mar 2013 14:07:36 -0800
+From: Rich Dubielzig <rich.dubielzig@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Mar 2013 14:07:35 -0800
+Message-ID: <1362780455-31958-1-git-send-email-rich.dubielzig@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Cc: rich.dubielzig@windriver.com
+Subject: [PATCH] eglibc: Handle QA warnings in nativesdk (denzil)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2013 21:24:23 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 08 Mar 2013 22:24:33 -0000
+Content-Type: text/plain
 
-On Fri, Mar 08, 2013 at 03:52:57PM -0300, Otavio Salvador wrote:
-> On Fri, Mar 8, 2013 at 2:51 PM, Chase Maupin <Chase.Maupin@ti.com> wrote:
-> > * the current order has SOC_FAMILY settings, which are generic
-> >   settings for a group of devices, overriding the machine specific
-> >   settings.  For example:
-> >
-> >   KERNEL_DEVICETREE_ti33x = "xxxx"
-> >   KERNEL_DEVICETREE_beaglebone = "yyyy"
-> >
-> >   Should yield "yyyy" when building for the beaglebone because
-> >   that is a more specific device than ti33x.  However, without this
-> >   change the result is that the value is set to "xxxx" meaning the
-> >   more generic setting overrides the more specific setting.
-> >
-> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> 
-> Maybe while on that you could look at supporting xx:yy as SoC family?
-> like am37xx:am3715 ?
+/var/db/Makefile and /opt/(sdk path)/etc/ld.so.conf were not
+being properly handled by the do_package task in
+eglibc-nativesdk.  /var/db is now deleted and /etc/ld.so.conf
+is being included in the -utils subpackage.
 
-Did you mean am3517? That's a slightly different variant of am35x/omap35x SoC.
+Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    3 ++-
+ meta/recipes-core/eglibc/eglibc_2.15.bb     |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-But if you really meant am3715 (as well as am3705, am3725 and am3730), then 
-those are variants of am37x SoC, just with some subsystems, like SGX or DSP, 
-being absent or present. Having those variants handled by SOC_FAMILY would be 
-an overkill. Instead, we've started using MACHINE_FEATURES to distinguish 
-between those variants of the same SoC, by checking for "sgx" and/or "dsp" 
-flags there and pulling in needed software components accordingly.
-
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 3298dea..d51d943 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -50,7 +50,7 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
+ FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
+ FILES_${PN}-mtrace = "${bindir}/mtrace"
+-FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
++FILES_${PN}-utils = "${bindir}/* ${sbindir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
+@@ -121,5 +121,6 @@ PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
+ eglibc_package_preprocess () {
+ 	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
+ 	rm -rf ${PKGD}/${libdir}/locale
++	rm -rf ${PKGD}/var
+ }
+ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index fe93b4b..b4bf692 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r11"
++PR = "r12"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
 -- 
-Denys
+1.7.1
+
 
 
