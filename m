@@ -1,14 +1,16 @@
 Received: from mail.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UE6FN-00043e-NH
+	(envelope-from <obi@opendreambox.org>) id 1UE6FO-00043g-Vt
 	for openembedded-core@lists.openembedded.org;
 	Fri, 08 Mar 2013 23:58:49 +0100
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Mar 2013 23:42:01 +0100
-Message-Id: <1362782523-17438-1-git-send-email-obi@opendreambox.org>
+Date: Fri,  8 Mar 2013 23:42:03 +0100
+Message-Id: <1362782523-17438-3-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/3] wpa-supplicant: change S to point to the top-level directory
+In-Reply-To: <1362782523-17438-1-git-send-email-obi@opendreambox.org>
+References: <1362782523-17438-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH 3/3] wpa-supplicant: avoid host contamination by libnl3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,90 +25,91 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Mar 2013 22:59:18 -0000
 
-This makes it possible to apply patches to ../src.
+Removes hardcoded include path -I/usr/include/libnl3. OE's include
+path gets injected by do_configure.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- .../wpa-supplicant/wpa-supplicant-2.0.inc          |   26 ++++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ .../wpa-supplicant/wpa-supplicant-2.0.inc          |    3 +-
+ .../fix-libnl3-host-contamination.patch            |   42 ++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.0.bb           |    2 +-
+ 3 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
 
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-index 75e85ae..9e4514a 100644
+index 4e15369..dd85057 100644
 --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
 +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-@@ -3,9 +3,9 @@ HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
- BUGTRACKER = "http://hostap.epitest.fi/bugz/"
- SECTION = "network"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://../COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
--                    file://../README;md5=5cb758942d25f6f61fd4ac388fd446fa \
--                    file://wpa_supplicant.c;beginline=1;endline=12;md5=cba4fa09fa364da845ca546f21008909"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
-+                    file://README;md5=5cb758942d25f6f61fd4ac388fd446fa \
-+                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=cba4fa09fa364da845ca546f21008909"
- DEPENDS = "gnutls dbus libnl"
- RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
- 
-@@ -21,7 +21,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+@@ -19,7 +19,8 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://wpa-supplicant.sh \
+            file://wpa_supplicant.conf \
             file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant"
+-           file://99_wpa_supplicant"
++           file://99_wpa_supplicant \
++           file://fix-libnl3-host-contamination.patch"
  
--S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
-+S = "${WORKDIR}/wpa_supplicant-${PV}"
+ S = "${WORKDIR}/wpa_supplicant-${PV}"
  
- PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
- FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
-@@ -31,7 +31,7 @@ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
+new file mode 100644
+index 0000000..eb8036f
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
+@@ -0,0 +1,42 @@
++Upstream-Status: Pending
++
++From 37d6b3dd5a737cd67468e4a58b372bddd924a7be Mon Sep 17 00:00:00 2001
++From: Andreas Oberritter <obi@opendreambox.org>
++Date: Fri, 8 Mar 2013 22:55:19 +0100
++Subject: [PATCH] Revert "build: Use updated libnl3 header paths"
++
++This reverts commit e7ecddf33a446072effbc85a27a078a8e582c89e.
++---
++ src/drivers/drivers.mak |    2 +-
++ src/drivers/drivers.mk  |    2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/drivers/drivers.mak b/src/drivers/drivers.mak
++index 68ff910..1f38f57 100644
++--- a/src/drivers/drivers.mak
+++++ b/src/drivers/drivers.mak
++@@ -30,7 +30,7 @@ NEED_RFKILL=y
++ ifdef CONFIG_LIBNL32
++   DRV_LIBS += -lnl-3
++   DRV_LIBS += -lnl-genl-3
++-  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
+++  DRV_CFLAGS += -DCONFIG_LIBNL20
++ else
++   ifdef CONFIG_LIBNL_TINY
++     DRV_LIBS += -lnl-tiny
++diff --git a/src/drivers/drivers.mk b/src/drivers/drivers.mk
++index db8561a..c93e88d 100644
++--- a/src/drivers/drivers.mk
+++++ b/src/drivers/drivers.mk
++@@ -30,7 +30,7 @@ NEED_RFKILL=y
++ ifdef CONFIG_LIBNL32
++   DRV_LIBS += -lnl-3
++   DRV_LIBS += -lnl-genl-3
++-  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
+++  DRV_CFLAGS += -DCONFIG_LIBNL20
++ else
++   ifdef CONFIG_LIBNL_TINY
++     DRV_LIBS += -lnl-tiny
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
+index 22e42dd..a8b0dad 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.0.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-2.0.inc
  
- do_configure () {
- 	echo "CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> ${WORKDIR}/defconfig-gnutls
--	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
-+	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
- }
+-PR = "r0"
++PR = "r1"
  
- export EXTRA_CFLAGS = "${CFLAGS}"
-@@ -39,19 +39,19 @@ export BINDIR = "${sbindir}"
- 
- do_compile () {
- 	unset CFLAGS CPPFLAGS CXXFLAGS
--	oe_runmake
-+	oe_runmake -C wpa_supplicant
- }
- 
- do_install () {
- 	install -d ${D}${sbindir}
--	install -m 755 wpa_supplicant ${D}${sbindir}
--	install -m 755 wpa_cli        ${D}${sbindir}
-+	install -m 755 wpa_supplicant/wpa_supplicant ${D}${sbindir}
-+	install -m 755 wpa_supplicant/wpa_cli        ${D}${sbindir}
- 
- 	install -d ${D}${bindir}
--	install -m 755 wpa_passphrase ${D}${bindir}
-+	install -m 755 wpa_supplicant/wpa_passphrase ${D}${bindir}
- 
- 	install -d ${D}${docdir}/wpa_supplicant
--	install -m 644 README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
-+	install -m 644 wpa_supplicant/README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
- 
- 	install -d ${D}${sysconfdir}
- 	install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
-@@ -64,13 +64,13 @@ do_install () {
- 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
- 
- 	install -d ${D}/${sysconfdir}/dbus-1/system.d
--	install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
-+	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
- 	install -d ${D}/${datadir}/dbus-1/system-services
--	install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
-+	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
- 
- 	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
- 		install -d ${D}/${systemd_unitdir}/system
--		install -m 644 ${S}/systemd/*.service ${D}/${systemd_unitdir}/system
-+		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
- 	fi
- 
- 	install -d ${D}/etc/default/volatiles
+ SRC_URI[md5sum] = "3be2ebfdcced52e00eda0afe2889839d"
+ SRC_URI[sha256sum] = "2c115609fbb5223d51381084a5c944455a8afcda81d584173ff55ba233379e09"
 -- 
 1.7.10.4
 
