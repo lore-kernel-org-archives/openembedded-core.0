@@ -1,36 +1,34 @@
-Received: from mail-oa0-f45.google.com ([209.85.219.45])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UEJFy-0007Z9-D4
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UEKB6-0000tG-Mq
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Mar 2013 13:52:11 +0100
-Received: by mail-oa0-f45.google.com with SMTP id o6so3099226oag.32
+	Sat, 09 Mar 2013 14:51:13 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id B5636D22E8; Sat,  9 Mar 2013 14:34:41 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id C506FD20B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Mar 2013 04:35:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=bWbWGvWBh+QNUmfFuykeatntcEuqGAXJ8dqL4EuWheI=;
-	b=Xb+BPnE5ZI1R1CASCR+k5SXxHsqh8g7iIj/opJJnapsp+qhDMtXRM8x6Qa9/4+br3E
-	dMr0d+mh41MOuTmV59am4wS+dLwK80MtF69/LIAM1mK9NiF1gUemAH+Jbo/2GyF6nHlx
-	A0irQSG4SAgxoh4lvkb8O+j7JGaj7/izmcky786ukLotKlICDJ4NYa+lB9bUZdL+dQo+
-	6EA4sde+pQSU0kBjRUR2PE92Lmxd2LNgZReCyXRe9Aa1PaDDTt41x5hzwYj+Y5W7U5rN
-	IcBA1mZuQx5V1WeDctoDBX+k1t6Sm77GficIgsFKxVchCeAum1qtZTeZuqoYl+tWRArL
-	obkw==
+	Sat,  9 Mar 2013 14:34:11 +0100 (CET)
+Message-ID: <513B3A4C.10506@linaro.org>
+Date: Sat, 09 Mar 2013 14:34:04 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130227 Thunderbird/17.0.3
 MIME-Version: 1.0
-X-Received: by 10.60.19.129 with SMTP id f1mr4323995oee.82.1362832535050; Sat,
-	09 Mar 2013 04:35:35 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Sat, 9 Mar 2013 04:35:34 -0800 (PST)
-In-Reply-To: <1362784987-27907-1-git-send-email-jslater@windriver.com>
-References: <1362784987-27907-1-git-send-email-jslater@windriver.com>
-Date: Sat, 9 Mar 2013 09:35:34 -0300
-X-Google-Sender-Auth: 0u6NvpAlFgKkVEsM5RzERnUNnK4
-Message-ID: <CAP9ODKppVNMaFtpDU7G8N9Q-EUZSyPx8D1-9mo8VWG5wvMF16A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Joe Slater <jslater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzcode & tzdata: update to 2013a versions
+To: openembedded-core@lists.openembedded.org
+References: <1362748902-24053-1-git-send-email-constantinx.musca@intel.com>
+In-Reply-To: <1362748902-24053-1-git-send-email-constantinx.musca@intel.com>
+Subject: Re: [PATCH] package_deb.bbclass: set DPKG_ARCH_arm to "armel"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +41,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Mar 2013 12:52:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 09 Mar 2013 13:51:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 8, 2013 at 8:23 PM, Joe Slater <jslater@windriver.com> wrote:
-> CQID: 407425
->
-> Create new tzcode and tzdata recipes for 2013a timezone
-> data.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
+W dniu 08.03.2013 14:21, Constantin Musca pisze:
+> - the system should be using "armel" by default, not "arm"
+> 
+> [YOCTO #3741]
 
-Your commit log is confusing: short log say's update, long description
-create. Please choose one route ;-) I prefer you to update previous
-version to this one and avoid having two of them, except if you see a
-good reason to not to do that.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+And "armhf" for hard-float builds?
 
 
