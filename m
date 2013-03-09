@@ -1,30 +1,33 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pb0-f54.google.com ([209.85.160.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UESoo-0001fi-AY for openembedded-core@lists.openembedded.org;
-	Sun, 10 Mar 2013 00:04:50 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r29MuIUZ029326; Sat, 9 Mar 2013 22:56:25 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id b3CCZQHgIDyJ; Sat,  9 Mar 2013 22:56:25 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r29Mtuf5029301
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 9 Mar 2013 22:56:22 GMT
-Message-ID: <1362810871.9443.120.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Colin Walters <walters@verbum.org>
-In-Reply-To: <1362748245.6076.748.camel@localhost>
-References: <1362748245.6076.748.camel@localhost>
-Date: Sat, 09 Mar 2013 06:34:31 +0000
-Mime-Version: 1.0
-X-Mailer: Evolution 3.6.3-1 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cracklib: Generate compiled dict using default dictionary
+	(envelope-from <raj.khem@gmail.com>) id 1UETr5-000476-5P
+	for openembedded-core@lists.openembedded.org;
+	Sun, 10 Mar 2013 01:11:11 +0100
+Received: by mail-pb0-f54.google.com with SMTP id rr4so2461926pbb.27
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Mar 2013 15:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=sQWGPjZH6lo0bZ7ie1oLUr5vEP7ShnWVSDjG+gx7GG0=;
+	b=1HNqOEytqoINh/L4y3l368qMisQT2M//NCBzXpOl+OSfPlNsQsiyn4uyplBNR4I2UE
+	ynDqPCQiTtzjXmcERPwCLQXNFnOoXrSYwi8a9m9ZyaXQPY/RwSaHAZdwYIINcJ4Xaap9
+	NFSk4/odzoJVQdmVeZKS4iSUFZWhAbxeUnuj4GBtAtzdSvRyhINTa00XZU9pjyI0YckK
+	2IvGGnU6L8FVgGLrUG96aO7C92dz9SUxTXbbaW/6sdsQTLumjf4MKr31YrkE/BO+vFOC
+	0mfOR8oEQBCL7NwzXl7D5g/YYn1ehtngYWdOyOUHFP50wa0IyGZSBMVivjqj8yxOMdDd
+	Tv9A==
+X-Received: by 10.68.239.231 with SMTP id vv7mr15062986pbc.171.1362873274631; 
+	Sat, 09 Mar 2013 15:54:34 -0800 (PST)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id qd8sm12412684pbc.29.2013.03.09.15.54.33
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 09 Mar 2013 15:54:33 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  9 Mar 2013 15:54:05 -0800
+Message-Id: <cover.1362873102.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/3] systemd upgrade to 198
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Mar 2013 23:04:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 10 Mar 2013 00:11:13 -0000
 
-On Fri, 2013-03-08 at 08:10 -0500, Colin Walters wrote:
-> While cracklib compiles, the generated library's FascistCheck() API
-> will look for the default compiled dictionary, fail to find it, and
-> invoke exit(1), which then in turn breaks gnome-initial-setup that
-> uses cracklib via libpwquality.  (Quality here obviously referring to
-> the password, and not the libraries...)
-> 
-> What we do here is basically the same as what happens in the current
-> Fedora spec file, except the latter uses a far larger dictionary.
-> 
-> To make this work, we need to build cracklib-native because the
-> dictionary compiler is written in native code.
-> 
-> Signed-off-by: Colin Walters <walters@verbum.org>
-> ---
->  meta/recipes-extended/cracklib/cracklib_2.8.22.bb | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+This patchset upgrades systemd to 198
+works quite well on ppc and x86_64 build tested on uclibc and other
+architectures.
+Additionally it created more packages for new files
 
-The patch doesn't quite do what you think it does. The _appends() stack,
-not override and hence the native append is empty. You probably want to
-do a:
+The following changes since commit 05182ee354a9f773c8ab2f4cd7f1fdf552e7fcda:
 
-do_install_append_class-target () {
-....
-}
+  core-image.bbclass: support read-only rootfs (2013-03-07 11:19:59 +0000)
 
-(class not virtclass, virtclass is deprecated)
+are available in the git repository at:
 
-Cheers,
+  git://git.openembedded.org/openembedded-core-contrib kraj/systemd-198
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-198
 
-Richard
+Khem Raj (3):
+  systemd: Upgrade to 198
+  systemd: spin libnss_myhostname to package of its own
+  systemd: Package hwdb data
+
+ .../0001-systemd-analyze-rewrite-in-C.patch        | 1087 --------------------
+ .../systemd/systemd/systemd-pam-fix-msformat.patch |  140 +--
+ .../systemd/{systemd_197.bb => systemd_198.bb}     |   18 +-
+ 3 files changed, 81 insertions(+), 1164 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-systemd-analyze-rewrite-in-C.patch
+ rename meta/recipes-core/systemd/{systemd_197.bb => systemd_198.bb} (94%)
+
+-- 
+1.7.9.5
 
 
 
