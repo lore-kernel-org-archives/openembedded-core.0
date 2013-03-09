@@ -1,34 +1,30 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UEKB6-0000tG-Mq
-	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Mar 2013 14:51:13 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id B5636D22E8; Sat,  9 Mar 2013 14:34:41 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id C506FD20B7
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Mar 2013 14:34:11 +0100 (CET)
-Message-ID: <513B3A4C.10506@linaro.org>
-Date: Sat, 09 Mar 2013 14:34:04 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130227 Thunderbird/17.0.3
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1362748902-24053-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1362748902-24053-1-git-send-email-constantinx.musca@intel.com>
-Subject: Re: [PATCH] package_deb.bbclass: set DPKG_ARCH_arm to "armel"
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UESoo-0001fi-AY for openembedded-core@lists.openembedded.org;
+	Sun, 10 Mar 2013 00:04:50 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r29MuIUZ029326; Sat, 9 Mar 2013 22:56:25 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id b3CCZQHgIDyJ; Sat,  9 Mar 2013 22:56:25 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r29Mtuf5029301
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 9 Mar 2013 22:56:22 GMT
+Message-ID: <1362810871.9443.120.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Colin Walters <walters@verbum.org>
+In-Reply-To: <1362748245.6076.748.camel@localhost>
+References: <1362748245.6076.748.camel@localhost>
+Date: Sat, 09 Mar 2013 06:34:31 +0000
+Mime-Version: 1.0
+X-Mailer: Evolution 3.6.3-1 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cracklib: Generate compiled dict using default dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,15 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Mar 2013 13:51:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 09 Mar 2013 23:04:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-W dniu 08.03.2013 14:21, Constantin Musca pisze:
-> - the system should be using "armel" by default, not "arm"
+On Fri, 2013-03-08 at 08:10 -0500, Colin Walters wrote:
+> While cracklib compiles, the generated library's FascistCheck() API
+> will look for the default compiled dictionary, fail to find it, and
+> invoke exit(1), which then in turn breaks gnome-initial-setup that
+> uses cracklib via libpwquality.  (Quality here obviously referring to
+> the password, and not the libraries...)
 > 
-> [YOCTO #3741]
+> What we do here is basically the same as what happens in the current
+> Fedora spec file, except the latter uses a far larger dictionary.
+> 
+> To make this work, we need to build cracklib-native because the
+> dictionary compiler is written in native code.
+> 
+> Signed-off-by: Colin Walters <walters@verbum.org>
+> ---
+>  meta/recipes-extended/cracklib/cracklib_2.8.22.bb | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 
-And "armhf" for hard-float builds?
+The patch doesn't quite do what you think it does. The _appends() stack,
+not override and hence the native append is empty. You probably want to
+do a:
+
+do_install_append_class-target () {
+....
+}
+
+(class not virtclass, virtclass is deprecated)
+
+Cheers,
+
+Richard
+
 
 
