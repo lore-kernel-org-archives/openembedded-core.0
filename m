@@ -1,38 +1,35 @@
-Received: from mail-da0-f50.google.com ([209.85.210.50])
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UETrS-00049o-HH
+	(envelope-from <walters@verbum.org>) id 1UEi4F-000491-D3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Mar 2013 01:11:35 +0100
-Received: by mail-da0-f50.google.com with SMTP id t1so71219dae.23
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Mar 2013 15:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=Arb44HSvkFnGbpN0pED0wnA6iCU86cUMRg5QGYRctnE=;
-	b=Epi5dAobokYhBQyqBfo4hV9VhShFWs2pWAa7eogS0wGO4Dn0dtnCA3lnHc/HnkCWKk
-	1T0jiHz8lNk0wOHI5ZgOzhwyTgJ1jCtN83Dnn1U/mYkteUSP4lDSpv0prOEYFmFG6qCS
-	C7Y8Dgx4+mAaBQHbDBCgvY032Eo+6qzqAJIelA4w488FIAGoS76K7rLPhhHxquzHnDWp
-	zGq8zr9laUnKl1pAaLVy4liSERMxIlmQ2YjG3Ex+OSVt5Wm6D7BhNoYM/mFwukJ2BKkW
-	foxq5lgPQOOGiJ5soKMdfzut/oHZF/JCs9UK3yxNay7Qd/zz1qco8hRbs1GxowBWx9gB
-	85PA==
-X-Received: by 10.68.11.135 with SMTP id q7mr15180589pbb.5.1362873298052;
-	Sat, 09 Mar 2013 15:54:58 -0800 (PST)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id qp13sm12441718pbb.3.2013.03.09.15.54.57
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 09 Mar 2013 15:54:57 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Mar 2013 15:54:29 -0800
-Message-Id: <8f815c617b69812e749a5a197a3903fe8daaf645.1362873102.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <f805a0ed9311848da0a412346bc8c0baf8473d2e.1362873102.git.raj.khem@gmail.com>
-References: <f805a0ed9311848da0a412346bc8c0baf8473d2e.1362873102.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1362873102.git.raj.khem@gmail.com>
-References: <cover.1362873102.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] systemd: Package hwdb data
+	Sun, 10 Mar 2013 16:21:43 +0100
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id A5879203FA;
+	Sun, 10 Mar 2013 11:05:08 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Sun, 10 Mar 2013 11:05:08 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version; s=smtpout; bh=8M+sTZ
+	LKClws2VC7hfTwPd1p9s8=; b=eFsRRJQ2CLDCp8n/L9Lum8qdzHVpHkxPiP0iTo
+	2jtaDCD1qIduj62AlJnwrpleBZF+hpKbb3OblT3ET516enVJ8LdGGFdd7ktakpGs
+	FPa3Rh2Vh63moXOEBOXxZF3D0GbWzpnhPZ8qAWBWoP1MfMIirS3giO95QakA6wbv
+	lJVKA=
+X-Sasl-enc: hLUVHg/O8pPmBCrNqUve39gOj70Y96ilh8jKuvhOZMT1 1362927908
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 415932011A9;
+	Sun, 10 Mar 2013 11:05:08 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1362810871.9443.120.camel@ted>
+References: <1362748245.6076.748.camel@localhost>
+	<1362810871.9443.120.camel@ted>
+Date: Sun, 10 Mar 2013 11:05:07 -0400
+Message-ID: <1362927907.22094.0.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cracklib: Generate compiled dict using default dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,40 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Mar 2013 00:11:36 -0000
+X-List-Received-Date: Sun, 10 Mar 2013 15:21:43 -0000
+X-Groupsio-MsgNum: 36359
+Content-Type: multipart/mixed; boundary="=-ohysNn2oiNeC95oGlYYh"
 
-Create a new package to hold the hwdb.d
-Fixes the packaging warning as well.
+--=-ohysNn2oiNeC95oGlYYh
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Sat, 2013-03-09 at 06:34 +0000, Richard Purdie wrote:
+
+> The patch doesn't quite do what you think it does. The _appends() stack,
+> not override and hence the native append is empty. You probably want to
+> do a:
+> 
+> do_install_append_class-target () {
+> ....
+> }
+
+Ah, thanks.  Something like this then?
+
+
+
+--=-ohysNn2oiNeC95oGlYYh
+Content-Disposition: attachment; filename*0=0001-cracklib-Generate-compiled-dict-using-default-dictio.pat; filename*1=ch
+Content-Type: text/x-patch; name="0001-cracklib-Generate-compiled-dict-using-default-dictio.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From eff8b0f119ca94dea362d7df04824789ae8b61cb Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Thu, 7 Mar 2013 18:45:22 -0500
+Subject: [PATCH] cracklib: Generate compiled dict using default dictionary
+
+While cracklib compiles, the generated library's FascistCheck() API
+will look for the default compiled dictionary, fail to find it, and
+invoke exit(1), which then in turn breaks gnome-initial-setup that
+uses cracklib via libpwquality.  (Quality here obviously referring to
+the password, and not the libraries...)
+
+What we do here is basically the same as what happens in the current
+Fedora spec file, except the latter uses a far larger dictionary.
+
+To make this work, we need to build cracklib-native because the
+dictionary compiler is written in native code.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
 ---
- meta/recipes-core/systemd/systemd_198.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/cracklib/cracklib_2.8.22.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_198.bb b/meta/recipes-core/systemd/systemd_198.bb
-index 381a67b..9fc4704 100644
---- a/meta/recipes-core/systemd/systemd_198.bb
-+++ b/meta/recipes-core/systemd/systemd_198.bb
-@@ -105,7 +105,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
+index 1ae1aca..7e398f4 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
+@@ -4,7 +4,8 @@ HOMEPAGE = "http://sourceforge.net/projects/cracklib"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze"
-+PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-hwdb"
+-DEPENDS = "zlib"
++DEPENDS = "cracklib-native zlib"
++DEPENDS_class-native = "zlib"
+ PR ="r0"
  
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock"
-@@ -168,6 +168,8 @@ FILES_${PN} = " ${base_bindir}/* \
-                 /lib/udev/rules.d/99-systemd.rules \
-                "
+ EXTRA_OECONF = "--without-python"
+@@ -15,3 +16,9 @@ SRC_URI[md5sum] = "463177b5c29c7a598c991e12a4898e06"
+ SRC_URI[sha256sum] = "feaff49bfb513ec10b2618c00d2f7f60776ba93fcc5fa22dd3479dd9cad9f770"
  
-+FILES_${PN}-hwdb = "/lib/udev/hwdb.d"
+ inherit autotools gettext
 +
- FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
++BBCLASSEXTEND = "native"
++
++do_install_append_class-target() {
++	create-cracklib-dict -o ${D}${datadir}/cracklib/pw_dict ${D}${datadir}/cracklib/cracklib-small
++}
 -- 
-1.7.9.5
+1.8.1.2
 
 
-
+--=-ohysNn2oiNeC95oGlYYh--
