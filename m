@@ -1,35 +1,40 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UF8z0-0002A5-KC
+	(envelope-from <ross.burton@intel.com>) id 1UF9H6-0002sc-2C
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:06:08 +0100
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r2BJnSlb022487
+	Mon, 11 Mar 2013 21:24:51 +0100
+Received: by mail-pb0-f47.google.com with SMTP id rp2so4149813pbb.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 14:49:28 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r2BJnS94013913
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 14:49:28 -0500
-Received: from DLEE12.ent.ti.com ([fe80::3867:617:aab3:5956]) by
-	DFLE72.ent.ti.com ([fe80::5c48:b90d:af93:5822%30]) with mapi id
-	14.01.0323.003; Mon, 11 Mar 2013 14:49:28 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: "Maupin, Chase" <chase.maupin@ti.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [RFC] kernel bbclass: return to original directory in do_deploy
-Thread-Index: AQHOG4ClNJ6iEa4Thk6xLzyQRGjwUZig6/ew
-Date: Mon, 11 Mar 2013 19:49:27 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED101594544FB@DLEE12.ent.ti.com>
-References: <1362694248-15573-1-git-send-email-Chase.Maupin@ti.com>
-In-Reply-To: <1362694248-15573-1-git-send-email-Chase.Maupin@ti.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
-MIME-Version: 1.0
-Subject: Re: [RFC] kernel bbclass: return to original directory in do_deploy
+	Mon, 11 Mar 2013 13:08:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:x-gm-message-state;
+	bh=zKsUoBYNzS5RpJQxtdiQCtmSKOGkex467RIXcXgCVUA=;
+	b=o/8yNrNXSVXbHBr1ud9EoXo6RrQMu/zCHw/dL9FOlCf3hCnRzqnCKgd8cdI754dO1s
+	gh2TSR07IPRP21CpwgOgfnzlnVu32bLjAtxJ+mrsYoDS2fU4XsNgEKUjmaXwO9l98mcG
+	9jd94BIGUQHB7BR+p2J9TNMSQYj3JufvZBZRJ6bXiRuYd5Kku/uJoicj6uFDBNsD97/O
+	Co+6VNylt8aQiW19xc2G0dqapuZLxc0OskVsFx2tNOjgrCsaf4576SwmeLusMdHj0M5D
+	9dX8lrF9KwbwEKUOCBQi88ck4pH+tptR6O2iauZ2OuGfQTO965Mc12b5/wULiEkrB4kh
+	q7yQ==
+X-Received: by 10.68.225.40 with SMTP id rh8mr31429462pbc.137.1363032488789;
+	Mon, 11 Mar 2013 13:08:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
+	[67.237.97.32])
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Mar 2013 13:08:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2013 13:07:33 -0700
+Message-Id: <235fd7e6b568af089d6591d6ed8c4f2d577cc5a7.1363031776.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnaJP8arTTHO0b682cZMTdGlPo7Fu4NocsCofnjT5mlz9V93oQ7omwnwSgzWmxXqFfHIp7L
+Subject: [PATCH 3/9] systemd: make xz support (compressed journal) optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,82 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 20:06:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Mar 2013 20:25:03 -0000
 
-> -----Original Message-----
-> From: Maupin, Chase
-> Sent: Thursday, March 07, 2013 4:11 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Maupin, Chase
-> Subject: [RFC] kernel bbclass: return to original directory in
-> do_deploy
+Defaults to enabled but if you don't want to use the journal and need some
+space, this can now be disabled.
 
-Just a quick ping on this.  Is anyone else seeing this issue?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/systemd/systemd_197.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->=20
-> All,
->=20
-> The below patch is just one way to fix the issue of dtb files
-> not being copied into the deploy directory by the linux-dtb.inc
-> file.  The details below show why this failed.  The reason I am
-> marking this as an RFC is because I'm not sure this is the *best*
-> way to fix the issue.  What I'm concerned about is whether others
-> have already adapted their do_deploy_append functions to work
-> around the directory location that the script is in after running
-> the kernel_do_deploy step.  For example in the meta-ti layer
-> the multi-kernel.inc file first changes directory to ${S} in
-> the do_deploy_append function.
->=20
-> It seems likely that if anyone has adapted to this then they are
-> probably just doing a cd into ${S} but I wanted to get feedback
-> on whether to fix the generic kernel_do_deploy function or just
-> fix the do_deploy_append function in linux-dtb.inc.
->=20
-> * During the base kernel_do_deploy function the directory is
->   changed to DEPLOYDIR in order to do some cleanup and
-> symlinking.
->   However, the directory is not changed back to the original
->   starting directory ${S} at the end.  For append functions this
->   means that the starting directory is not ${S} as expected but
->   instead ${DEPLOYDIR}.
->=20
->   For functions like the do_deploy_append in
->   recipes-kernel/linux/linux-dtb.inc there is an assumption that
->   you are still in the source directory and not the DEPLOYDIR.
->   Without this change the .dtb files are not copied because the
->   check for the existence of ${DTS_FILE} which is a relative
->   path from the ${S} directory fails.  This means that the .dtb
->   files are not copied into the deploy directory and subsequently
->   the deploy/images directory.
->=20
->   In the log.do_deploy file you will see lines like:
->=20
->     Warning: arch/arm/boot/dts/xxxxx.dts is not available!
->=20
-> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> ---
->  meta/classes/kernel.bbclass |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/classes/kernel.bbclass
-> b/meta/classes/kernel.bbclass
-> index 0a0430e..d57d1f5 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -352,6 +352,7 @@ kernel_do_deploy() {
->  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
->=20
->  	cp ${COREBASE}/meta/files/deploydir_readme.txt
-> ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-> +	cd -
->  }
->  do_deploy[dirs] =3D "${DEPLOYDIR} ${B}"
->=20
-> --
-> 1.7.0.4
+diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
+index 962b120..9a66a4e 100644
+--- a/meta/recipes-core/systemd/systemd_197.bb
++++ b/meta/recipes-core/systemd/systemd_197.bb
+@@ -11,7 +11,7 @@ PROVIDES = "udev"
+ PE = "1"
+ PR = "r4"
+ 
+-DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+@@ -43,9 +43,11 @@ LDFLAGS_libc-uclibc_append = " -lrt"
+ 
+ GTKDOC_DOCDIR = "${S}/docs/"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "xz"
+ # Sign the journal for anti-tampering
+ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
++# Compress the journal
++PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ 
+ CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+ 
+-- 
+1.7.10.4
 
 
 
