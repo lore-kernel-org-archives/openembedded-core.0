@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0nR-000163-HH
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0nS-000166-Qf
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Mar 2013 12:21:54 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB4xtM018174
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB503F005797
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 04:04:59 -0700 (PDT)
+	Mon, 11 Mar 2013 04:05:00 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 11 Mar 2013 04:04:59 -0700
+	14.2.342.3; Mon, 11 Mar 2013 04:05:00 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Mar 2013 19:04:37 +0800
-Message-ID: <fa876e94726d8107fcb68424cbf1886bc16bd29e.1362985569.git.hongxu.jia@windriver.com>
+Date: Mon, 11 Mar 2013 19:04:38 +0800
+Message-ID: <73bb8331ae5df4c28cc0d759374f08a934ae5c92.1362985569.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1362985569.git.hongxu.jia@windriver.com>
 References: <cover.1362985569.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/17] automake_1.12.3.bb: update dependencies
+Subject: [PATCH 14/17] nativesdk-ncurses 5.9: fix files were installed but not shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,90 +36,62 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 11 Mar 2013 11:21:59 -0000
 Content-Type: text/plain
 
-Remove the RDEPENDS for nativesdk because the nativesdk-automake also
-needs perl modules.
+There is an warning:
 
-Add dependencies perl-module-thread-queue and perl-module-threads.
+$ bitbake nativesdk-ncurses
 
-Remove redundant dependencies that they are already required by autoconf
-and autoconf is required by automake.
+WARNING: QA Issue: nativesdk-ncurses: Files/directories were installed
+but not shipped
+  /opt/poky/1.3+snapshot/sysroots/i686-pokysdk-linux/usr/bin/clear.ncurses
+  /opt/poky/1.3+snapshot/sysroots/i686-pokysdk-linux/usr/bin/reset.ncurses
 
-In this removed list, "-->" present "required by":
+NOTE: Tasks Summary: Attempted 533 tasks of which 521 didn't need to be
+rerun and all succeeded.
 
-perl-module-cwd --> perl-module-file-path --> autoconf
-perl-module-dynaloader --> perl-module-xsloader --> perl-module-fcntl
---> perl-module-file-stat --> autoconf
+And there is no clear or reset tool in the SDK.
 
-perl-module-exporter-heavy --> perl-module-exporter --> autoconf
-perl-module-constant --> autoconf
-perl-module-errno --> autoconf
-perl-module-file-basename --> autoconf
-perl-module-file-compare --> autoconf
-perl-module-file-copy --> autoconf
-perl-module-file-glob --> autoconf
-perl-module-file-spec-unix --> perl-module-file-spec
---> perl-module-io-file --> autoconf
+This is caused by:
+ALTERNATIVE_ncurses-tools = "clear reset"
 
-perl-module-file-stat --> autoconf
-perl-module-getopt-long --> autoconf
-perl-module-io --> perl-module-IO-handle --> perl-module-IO-seekable
---> perl-module-io-file --> autoconf
+It creates clear.ncurses and reset.ncurses which are used for avoiding
+the conflicts with the target busybox, but SDK doesn't need them since
+there is no nativesdk-busybox (then no conflicts), so:
 
-perl-module-io-file --> autoconf
-perl-module-posix --> autoconf
-Bump up PR.
+ALTERNATIVE_ncurses-tools_class-target = "clear reset"
 
-Cherry-pick commit d93898b2c530681362e42d1b0477fa593a625046
+will fix the problem.
+
+Cherry-pick commit dfc39d7bd5a9ad803d7c44b21811881515f7de02
+
+[YOCTO #3325]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/automake/automake_1.12.3.bb |   20 +++-----------------
- 1 file changed, 3 insertions(+), 17 deletions(-)
+ meta/recipes-core/ncurses/ncurses.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.3.bb
-index af99dfa..362500c 100644
---- a/meta/recipes-devtools/automake/automake_1.12.3.bb
-+++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
-@@ -7,28 +7,14 @@ RDEPENDS_${PN} += "\
-     autoconf \
-     perl \
-     perl-module-bytes \
--    perl-module-constant \
--    perl-module-cwd \
-     perl-module-data-dumper \
--    perl-module-dynaloader \
--    perl-module-errno \
--    perl-module-exporter-heavy \
--    perl-module-file-basename \
--    perl-module-file-compare \
--    perl-module-file-copy \
--    perl-module-file-glob \
--    perl-module-file-spec-unix \
--    perl-module-file-stat \
--    perl-module-getopt-long \
--    perl-module-io \
--    perl-module-io-file \
--    perl-module-posix \
-     perl-module-strict \
-     perl-module-text-parsewords \
-+    perl-module-thread-queue \
-+    perl-module-threads \
-     perl-module-vars "
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index ed7f001..cce080d 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS_virtclass-native = ""
+-INC_PR = "r11"
++INC_PR = "r12"
  
- RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
--RDEPENDS_${PN}_virtclass-nativesdk = "nativesdk-autoconf"
+ inherit autotools binconfig multilib_header
  
- PATHFIXPATCH = "file://path_prog_fixes.patch"
- PATHFIXPATCH_virtclass-native = ""
-@@ -42,7 +28,7 @@ SRC_URI += "${PATHFIXPATCH} \
- SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
- SRC_URI[sha256sum] = "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae05c93730cdda9a5a0"
+@@ -218,7 +218,7 @@ inherit update-alternatives
  
--PR = "r1"
-+PR = "r2"
+ ALTERNATIVE_PRIORITY = "100"
  
- do_install () {
-     oe_runmake 'DESTDIR=${D}' install
+-ALTERNATIVE_ncurses-tools = "clear reset"
++ALTERNATIVE_ncurses-tools_class-target = "clear reset"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 1.7.10.4
 
