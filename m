@@ -1,26 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0nJ-00015c-8f
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0nN-00015o-Vq
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Mar 2013 12:21:35 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB4pNW005770
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB4tNb005776
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 04:04:51 -0700 (PDT)
+	Mon, 11 Mar 2013 04:04:55 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 11 Mar 2013 04:04:51 -0700
+	14.2.342.3; Mon, 11 Mar 2013 04:04:55 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Mar 2013 19:04:30 +0800
-Message-ID: <a358c80c55b847424b9a9c0d015e96e8c2f84d70.1362985569.git.hongxu.jia@windriver.com>
+Date: Mon, 11 Mar 2013 19:04:34 +0800
+Message-ID: <2e43166206083c7948ee4e53a618c9fe7b37cb30.1362985569.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1362985569.git.hongxu.jia@windriver.com>
 References: <cover.1362985569.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/17] perl-rdepends_5.14.2.inc:be more strict in multiline comment
+Subject: [PATCH 10/17] perl_5.14.2.bb:fix autoreconf run failed on gmae-toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,51 +36,53 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 11 Mar 2013 11:21:51 -0000
 Content-Type: text/plain
 
-* fails to parse when http://patchwork.openembedded.org/patch/40997/ is used
-Parsing recipes...ERROR: There is a confusing multiline, partially commented
-expression on line 10 of file
-/OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-(| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+=.*\(require\|use\)\>
- */+=
- \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/
- [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:]
-\).
-Please clarify whether this is all a comment or should be parsed.
-ERROR: Unable to parse
-/OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl_5.14.2.bb: Exited
-with "1"
-ERROR: Command execution failed: Exited with 1
+File warnings/register.pm has been moved to package perl, update
+RPROVIDES_perl to provides perl-module-warnings-register for backward
+compatibility.
 
-Cherry-pick commit 54b8096f91af47c72ac9abffe2f5c73fee27ad57
+Update populate_package script for:
+1 Way to deal directory 'Module/' is not right, it creates packages
+whose names end with '-pm'. Update to drop these packages.
+2 Deal directory 'auto/' to put same name module file(.pm) and library
+file(.so) into one package. That because .pm file requires the same
+name .so file at runtime.
+
+Cherry-pick commit dd65b82d24afcf3982f6fb93a6503c71fdf40dbf
+
+[Yocto #3338]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/perl/perl_5.14.2.bb |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-index 7672e48..4ab47a8 100644
---- a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-+++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-@@ -6,12 +6,12 @@
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index fbe91fe..1c52055 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -251,7 +251,8 @@ FILES_${PN} = "${bindir}/perl ${bindir}/perl${PV} \
+                ${libdir}/perl/${PV}/warnings \
+                ${libdir}/perl/${PV}/vars.pm \
+               "
+-RPROVIDES_${PN} += "perl-module-strict perl-module-vars perl-module-config perl-module-warnings"
++RPROVIDES_${PN} += "perl-module-strict perl-module-vars perl-module-config perl-module-warnings \
++                    perl-module-warnings-register"
+ FILES_${PN}-dev = "${libdir}/perl/${PV}/CORE"
+ FILES_${PN}-lib = "${libdir}/libperl.so* \
+                    ${libdir}/perl5 \
+@@ -305,9 +306,9 @@ PACKAGES_append = " perl-modules "
  
- #1 cp -r packages-split packages-split.new && cd packages-split.new
- #2 find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
--#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" \
--| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \
--| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix \
--| sort -u \
--| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' \
--| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/1
-+#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm"
-+#| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] 
-+#| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix
-+#| sort -u
-+#| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
-+#| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/
- 
- 
- # Some additional dependencies that the above doesn't manage to figure out
+ python populate_packages_prepend () {
+     libdir = d.expand('${libdir}/perl/${PV}')
+-    do_split_packages(d, libdir, 'auto/(Encode/.[^/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+-    do_split_packages(d, libdir, 'auto/([^/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+-    do_split_packages(d, libdir, 'Module/([^\/]*).*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, 'auto/(.*)/[^/]*\.(so|ld|ix|al)', 'perl-module-%s', 'perl module %s', recursive=True, match_path=True, prepend=False)
++    do_split_packages(d, libdir, 'Module/([^\/]*)\.pm', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++    do_split_packages(d, libdir, 'Module/([^\/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+     do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/|auto\/)[^\/]).*)\.(pm|pl|e2x)', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+     d.setVar("RRECOMMENDS_${PN}-modules", d.getVar('PACKAGES', True).replace('${PN}-modules ', '').replace('${PN}-dbg ', '').replace('${PN}-misc ', '').replace('${PN}-dev ', '').replace('${PN}-pod ', '').replace('${PN}-doc ', ''))
+ }
 -- 
 1.7.10.4
 
