@@ -1,20 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1UF3bf-0005px-Mb
+	(envelope-from <cristian.iorga@intel.com>) id 1UF3eU-00062f-Bt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 15:21:48 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Mar 2013 07:05:00 -0700
+	Mon, 11 Mar 2013 15:24:36 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 11 Mar 2013 07:07:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,822,1355126400"; d="scan'208";a="276420437"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 11 Mar 2013 07:04:59 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 16:06:03 +0200
-Message-Id: <1363010763-25356-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] libxi: upgrade to 1.7
+X-IronPort-AV: E=Sophos;i="4.84,822,1355126400"; d="scan'208";a="212741912"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Mar 2013 07:07:35 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Mon, 11 Mar 2013 14:06:28 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
+	14.01.0355.002; Mon, 11 Mar 2013 14:06:28 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 0/2] BlueZ 5.3 new package
+Thread-Index: AQHOHmBPxmF3sv3n502RhR1dOW67dpigg+9A
+Date: Mon, 11 Mar 2013 14:06:28 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB162157B8@IRSMSX102.ger.corp.intel.com>
+References: <1363010209-18220-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1363010209-18220-1-git-send-email-cristian.iorga@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>
+Subject: Re: [PATCH 0/2] BlueZ 5.3 new package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,36 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 14:21:55 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 14:24:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-graphics/xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb} (79%)
+Hello all,
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.6.1.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.bb
-similarity index 79%
-rename from meta/recipes-graphics/xorg-lib/libxi_1.6.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxi_1.7.bb
-index c327f25..ad5a33d 100644
---- a/meta/recipes-graphics/xorg-lib/libxi_1.6.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.bb
-@@ -14,9 +14,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=17b064789fab936a1c58c4e13d965b0f \
- DEPENDS += "libxext inputproto"
- 
- PE = "1"
--PR = "r1"
-+PR = "r0"
- 
- XORG_PN = "libXi"
- 
--SRC_URI[md5sum] = "78ee882e1ff3b192cf54070bdb19938e"
--SRC_URI[sha256sum] = "f2e3627d7292ec5eff488ab58867fba14a62f06e72a8d3337ab6222c09873109"
-+SRC_URI[md5sum] = "d77922d822cb3abdbdfb92cd66440576"
-+SRC_URI[sha256sum] = "4ebcf2b02c16ff51e41e9d045de01416d6430b6a4af6a82b17b6bfa4d6f9cbfc"
--- 
-1.7.11.7
+This is an EXPERIMENTAL bluez5 new package.
+This will not replace bluez4 and it is not an upgrade path from bluez4.
+
+Given the fact that not a lot of components has been updated to work with b=
+luez5, this package is largely untested.
+It has been provided in the hope that for YP 1.5 release, the entire Blueto=
+oth stack and related/dependent components will get updated.
+
+Most probably bugs related to this package and/or related/dependent compone=
+nts will be fixed in 1.5 release, not in 1.4 timeframe.
+
+The scope with this PU is to provide developers the needed tools/technologi=
+es in order to upgrade software to BlueZ5 BT stack.
+This stack has support for BT4.0 with the appropriate Linux kernel.
+
+Feedback for this upgrade is much appreciated.
+
+Regards,
+Cristian
+
+
+Cristian Iorga
+Linux Software Engineer
+Open Source Technology Center
+Intel
+
+
+-----Original Message-----
+From: Iorga, Cristian=20
+Sent: Monday, March 11, 2013 3:57 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Iorga, Cristian
+Subject: [PATCH 0/2] BlueZ 5.3 new package
+
+- BlueZ 5 v5.3 experimental new package;
+- bluez5 package does not replace bluez4 package,
+  as a lot of components that interact with bluez
+  are not prepared to work correctly with bluez5;
+- libical is added back, as it is a requirement for
+  bluez OBEX feature.
+
+Cristian Iorga (2):
+  libical: add recipe back in oe-core
+  bluez5: new package for v5.3
+
+ .../bluez5/bluez5-5.3/bluetooth.conf               |   16 ++++++
+ .../bluez5/bluez5-5.3/fix-udev-paths.patch         |   35 +++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   45 ++++++++++++++++=
++
+ meta/recipes-connectivity/bluez5/bluez5_5.3.bb     |   35 +++++++++++++
+ .../libical/files/pthread-fix.patch                |   52 ++++++++++++++++=
+++++
+ meta/recipes-support/libical/libical_0.48.bb       |   17 +++++++
+ 6 files changed, 200 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.3/bluetooth.c=
+onf
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.3/fix-udev-pa=
+ths.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5.inc
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.3.bb
+ create mode 100644 meta/recipes-support/libical/files/pthread-fix.patch
+ create mode 100644 meta/recipes-support/libical/libical_0.48.bb
+
+--=20
+1.7.10.4
 
 
 
