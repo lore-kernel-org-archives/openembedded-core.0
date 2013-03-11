@@ -1,37 +1,42 @@
-Received: from mail-da0-f50.google.com ([209.85.210.50])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9Gq-0002sF-Gg
+	(envelope-from <ross.burton@intel.com>) id 1UF9H2-0002sX-Ta
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:24:34 +0100
-Received: by mail-da0-f50.google.com with SMTP id t1so616427dae.37
+	Mon, 11 Mar 2013 21:24:47 +0100
+Received: by mail-pb0-f48.google.com with SMTP id wy12so4126101pbc.35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:07:53 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=k1h5yoSP254pdFSYbaToFQA5ANw/2d7TZlAH5GiM9dg=;
-	b=N0acdPj8Lc91RmkN6vINk78/CIFpknPn0RdhwWylSiPJGU9aFkPs9MxsnuY9krstUm
-	DIDMRcGflEPAwGolIgeFZrrUJ0dvQC7+FTb20GwzqZOryJvQHLJsgSeShf6KaC8QZYok
-	8BlZjVdtCg448VQ+PhufoeNRJjv1y7x1RHqBffnCnoY2cMV2eSkcofILbjvEO+hdTptD
-	0OspkoI7lUr00Qj0qzEPHj04R/D1zGib4KdgIuT6WkWfxOcIShEuIf1xFXsNiopWkZZ3
-	muDB90k/kMiw09zfWlByE1v1/H2paA0RpNpYtsrdQTHgMqw2aK38/ZOlXVtJeb51rgks
-	l55w==
-X-Received: by 10.68.225.40 with SMTP id rh8mr31427672pbc.137.1363032472639;
-	Mon, 11 Mar 2013 13:07:52 -0700 (PDT)
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=yp/FeIl+YtBcm8+Lk7qJNOSgfI867aEse01QCVgsnR8=;
+	b=ey3gHhcyVE7VeX8VQSAVi8KlrffLY5r1xUovoIwZbzvanJZpyBshMlIWsBV1hYFF+Q
+	+c4zeDcPqkuxwnb9QicV2FvsDvXdzkHMMPcHPm+H6ub9t58p2HacV63Mc8Z+2FD2NV7x
+	2C2Rd7n41Gix7pGMDj6mhdyzTrAYz2Eb7KtvzMGGX+ekZdDEm+t/Oy/z5F95sv+dWqOM
+	krSGPd/H1zAVRSq/W25riE0Cg3leoSumTeIA/kc29R+VyWYvUojhu/NGMB5RAzJqvyjm
+	tewE63bYOCuG7GxsYyRvx5YUuDx8iewJ1CSATvlY6MYCMCfsGd5TR8ogzbNcwVO982lB
+	SItQ==
+X-Received: by 10.68.225.73 with SMTP id ri9mr31537777pbc.70.1363032485374;
+	Mon, 11 Mar 2013 13:08:05 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.07.50
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.07.55
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:07:51 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:30 -0700
-Message-Id: <cover.1363031776.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 13:07:32 -0700
+Message-Id: <7e2b9e9b37bc857ec39d488f9d709f1f791e2f2f.1363031776.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQnMjLs00P1az4/9EYeSRdOgUbJKI6+WacTkAfXehY7eK+vvD5dss6sOoOsdL07XT74dCU0r
-Subject: [RFC PATCH 0/9] hybrid systemd/sysvinit
+X-Gm-Message-State: ALoCoQmVUDvtMaaW3HIEfihg1iRQdg+D/kp3eREoCLeDWXwV3DavPv7zreG2bJnkAP+BGWNoTVRy
+Subject: [PATCH 2/9] busybox: add systemd enabling for syslog and klogd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,109 +49,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
-X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
-X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:49 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Radu Moisan <radu.moisan@intel.com>
 
-This series allows you to have both sysvinit and systemd in DISTRO_FEATURES.
-Packages will be built with both init scripts, and some daemons will be linking
-to libsystemd-daemon so that will be pulled in to sysvinit images.
-
-The init manager used at image construction time is DISTRO_FEATURES_INITMAN
-(maybe this should be renamed) and that value is also backfilled into
-DISTRO_FEATURES.
-
-The key change is that systemd.bbclass only recommends systemd, and will check
-that there's a systemctl binary before calling it - this allows packages built
-like this to be installed on a systemd-free image.
-
-This is very much a RFC, I've done some basic testing but between illness and
-having to prepare for a presentation at this conference I've not been able to
-test it as much as I'd hoped.  Review and testing very much appreciated.
-
-Some metrics: adding the systemd feature but still using sysvinit when building
-the image results in just libsystemd-daemon and the service files being added to
-the image, with a negliable size increase.
-
-Ross
-
-The following changes since commit 1fd5b960dd36458b7b829f9094df18cd8b5ac201:
-
-  systemd: remove libsystemd-daemon linkage in libudev (2013-03-11 10:59:54 -0700)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/systemd
-
-for you to fetch changes up to ba7c15ae47ace8a15d97b4c58d2aa5b2ebb4c47a:
-
-  default-distrovars: don't add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES (2013-03-11 12:17:49 -0700)
-
-----------------------------------------------------------------
-Radu Moisan (1):
-      busybox: add systemd enabling for syslog and klogd
-
-Ross Burton (8):
-      systemd: merge udev-systemd into udev
-      systemd: make xz support (compressed journal) optional
-      default-providers: change udev selection logic
-      update-rcd.bbclass: handle both sysvinit and systemd features being present
-      systemd: allow postinsts to run without systemd being present
-      systemd: add udev init script for hybrid sysvinit/systemd usage
-      update-rc.d/systemd: change communication variable name
-      default-distrovars: don't add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
-
- meta/classes/systemd.bbclass                       |   37 ++++---
- meta/classes/update-rc.d.bbclass                   |    7 +-
- meta/conf/distro/include/default-distrovars.inc    |    2 +-
- meta/conf/distro/include/default-providers.inc     |    2 +-
- meta/recipes-core/busybox/busybox.inc              |   17 +++-
- meta/recipes-core/busybox/busybox_1.20.2.bb        |    2 +
- .../busybox/files/busybox-klogd.service.in         |    8 ++
- .../busybox/files/busybox-syslog.service.in        |   13 +++
- .../packagegroups/packagegroup-core-boot.bb        |    4 +-
- meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
- meta/recipes-core/systemd/systemd_197.bb           |   26 +++--
- 11 files changed, 184 insertions(+), 35 deletions(-)
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/busybox/busybox.inc                 |   17 ++++++++++++++++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb           |    2 ++
+ .../busybox/files/busybox-klogd.service.in            |    8 ++++++++
+ .../busybox/files/busybox-syslog.service.in           |   13 +++++++++++++
+ 4 files changed, 39 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
  create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
- create mode 100644 meta/recipes-core/systemd/systemd/init
 
-Radu Moisan (1):
-  busybox: add systemd enabling for syslog and klogd
-
-Ross Burton (8):
-  systemd: merge udev-systemd into udev
-  systemd: make xz support (compressed journal) optional
-  default-providers: change udev selection logic
-  update-rcd.bbclass: handle both sysvinit and systemd features being
-    present
-  systemd: allow postinsts to run without systemd being present
-  systemd: add udev init script for hybrid sysvinit/systemd usage
-  update-rc.d/systemd: change communication variable name
-  default-distrovars: don't add DISTRO_FEATURES_INITMAN to
-    DISTRO_FEATURES
-
- meta/classes/systemd.bbclass                       |   37 ++++---
- meta/classes/update-rc.d.bbclass                   |    7 +-
- meta/conf/distro/include/default-distrovars.inc    |    2 +-
- meta/conf/distro/include/default-providers.inc     |    2 +-
- meta/recipes-core/busybox/busybox.inc              |   17 +++-
- meta/recipes-core/busybox/busybox_1.20.2.bb        |    2 +
- .../busybox/files/busybox-klogd.service.in         |    8 ++
- .../busybox/files/busybox-syslog.service.in        |   13 +++
- .../packagegroups/packagegroup-core-boot.bb        |    4 +-
- meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
- meta/recipes-core/systemd/systemd_197.bb           |   26 +++--
- 11 files changed, 184 insertions(+), 35 deletions(-)
- create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
- create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
- create mode 100644 meta/recipes-core/systemd/systemd/init
-
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index fc6ca91..ddd2976 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -23,6 +23,7 @@ FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf"
+ FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
+ FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
+ FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
++FILES_${PN}-syslog = "${systemd_unitdir}/system/syslog.service"
+ 
+ INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
+ 
+@@ -32,12 +33,16 @@ INITSCRIPT_NAME_${PN}-mdev = "mdev"
+ INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
+ INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
+ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
++
++SYSTEMD_PACKAGES = "${PN}-syslog"
++SYSTEMD_SERVICE_${PN}-syslog = "${PN}-syslog.service"
++
+ CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+ CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+ 
+ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+ 
+-inherit cml1 update-rc.d
++inherit cml1 systemd update-rc.d
+ 
+ # internal helper
+ def busybox_cfg(feature, features, tokens, cnf, rem):
+@@ -213,6 +218,16 @@ do_install () {
+                fi
+ 	fi
+ 	install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
++
++    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
++            > ${D}${systemd_unitdir}/system/busybox-syslog.service
++        sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-klogd.service.in \
++            > ${D}${systemd_unitdir}/system/busybox-klogd.service
++
++        ln -sf /dev/null ${D}${systemd_unitdir}/system/syslog.service
++    fi
+ }
+ 
+ inherit update-alternatives
+diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-core/busybox/busybox_1.20.2.bb
+index 783261e..a02cd38 100644
+--- a/meta/recipes-core/busybox/busybox_1.20.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
+@@ -28,6 +28,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://fix-for-spurious-testsuite-failure.patch \
+            file://busybox-1.20.2-kernel_ver.patch \
+            file://stat-usr-bin.patch \
++           file://busybox-syslog.service.in \
++           file://busybox-klogd.service.in \
+            file://testsuite-du-du-k-works-fix-false-positive.patch"
+ 
+ SRC_URI[tarball.md5sum] = "e025414bc6cd79579cc7a32a45d3ae1c"
+diff --git a/meta/recipes-core/busybox/files/busybox-klogd.service.in b/meta/recipes-core/busybox/files/busybox-klogd.service.in
+new file mode 100644
+index 0000000..d7c7755
+--- /dev/null
++++ b/meta/recipes-core/busybox/files/busybox-klogd.service.in
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Kernel Logging Service
++
++[Service]
++ExecStart=@base_sbindir@/klogd -n
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-core/busybox/files/busybox-syslog.service.in b/meta/recipes-core/busybox/files/busybox-syslog.service.in
+new file mode 100644
+index 0000000..2e04321
+--- /dev/null
++++ b/meta/recipes-core/busybox/files/busybox-syslog.service.in
+@@ -0,0 +1,13 @@
++[Unit]
++Description=System Logging Service
++Wants=busybox-klogd.service
++
++[Service]
++EnvironmentFile=-/etc/default/busybox-syslog
++ExecStart=@base_sbindir@/syslogd -n $OPTIONS
++Sockets=syslog.socket
++
++[Install]
++WantedBy=multi-user.target
++Also=busybox-klogd.service
++Alias=syslog.service
 -- 
 1.7.10.4
 
