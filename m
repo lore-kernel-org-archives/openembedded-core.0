@@ -1,24 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-qe0-f54.google.com ([209.85.128.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UF5q0-0004Ug-Im
+	(envelope-from <stashluk@gmail.com>) id 1UF6QM-0005us-Bc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 17:44:38 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Mar 2013 09:27:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,824,1355126400"; d="scan'208";a="300091486"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2013 09:27:53 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 11 Mar 2013 18:22:13 +0100
+Received: by mail-qe0-f54.google.com with SMTP id i11so2418123qej.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2013 10:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=/rLpJhUz1uKBSg9xNyuDOJyASA/tCCzR5joJ0gSAFZ8=;
+	b=LowtfOMVtafyaXPkuGHLOIhGHTqbkvIAfpQLeCX1MGCs6Cfd6I5+Z2ESJxgahmWZzX
+	C41nl7S0T3XJMHV6+xoS2k5v3R09v3OOJViw5uARvE+l3ZUfh95AKT5UVR5Y/25whzYb
+	t5vbb0Zpb+VUtuqY6QrH9iu+PPDSm84ymt1ADw/83oX/DnYUNQVp4KLA4vjLeBpU8Gbn
+	fImRhczZnyXDF3nHSGpp19+qL/sO15y6Mgq0nr1bFdwRP/iWEzsqvneGfxIGz9+kNWC8
+	Otwiz5bt1ZliT/YvxiHU215uLVtCqdvAdmjAecxg8j8y5y33Z0T6OwP3lQcEUq9Lxepq
+	LMfw==
+X-Received: by 10.224.209.7 with SMTP id ge7mr18189292qab.10.1363021531848;
+	Mon, 11 Mar 2013 10:05:31 -0700 (PDT)
+Received: from jstashluk2.deka.local ([208.65.175.197])
+	by mx.google.com with ESMTPS id q6sm25596342qeu.1.2013.03.11.10.05.30
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Mar 2013 10:05:31 -0700 (PDT)
+From: Jeremy Stashluk <stashluk@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 18:27:43 +0200
-Message-Id: <7ea1df1d417670be7f097ceed27280a30433926c.1363018567.git.laurentiu.palcu@intel.com>
+Date: Mon, 11 Mar 2013 13:05:22 -0400
+Message-Id: <1363021522-14994-1-git-send-email-jstashluk@dekaresearch.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1363018567.git.laurentiu.palcu@intel.com>
-References: <cover.1363018567.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1363018567.git.laurentiu.palcu@intel.com>
-References: <cover.1363018567.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 4/4] xf86-video-vmware: delete references to xserver's mibstore.h
+Cc: Jeremy Stashluk <jstashluk@dekaresearch.com>
+Subject: [meta-oe][PATCH] gst-plugins-gl: allow empty packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,99 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 16:44:38 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 17:22:13 -0000
 
-mibstore.h has been deleted in the new xserver. Update the driver too.
+The patch to Poky (git://git.yoctoproject.org/poky) commit
+bd73fa69f532ca3d81ec2452a79e7a333b3543c2 titled: "recipes: Fix
+ALLOW_EMPTY with no package specified" breaks this recipe. This patch
+specifies the allowed empty packages.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Jeremy Stashluk <jstashluk@dekaresearch.com>
 ---
- .../xf86-video-vmware/Kill-mibstore.patch          |   63 ++++++++++++++++++++
- .../xorg-driver/xf86-video-vmware_13.0.0.bb        |    2 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
+ .../gstreamer/gst-plugins-gl_0.10.3.bb             |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
-new file mode 100644
-index 0000000..e85a2ea
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
-@@ -0,0 +1,63 @@
-+Upstream-Status: Backported
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+index ffda977..a6c74fb 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+@@ -17,3 +17,7 @@ inherit gettext gconf
+ # way for machines to specify their preferred GL flavour this can be
+ # automatically adapted.
+ EXTRA_OECONF += "ac_cv_header_GL_gl_h=no"
 +
-+From 23d87c92b7211cc5249eefe4ab3a2c7f370e279e Mon Sep 17 00:00:00 2001
-+From: Zack Rusin <zackr@vmware.com>
-+Date: Thu, 14 Feb 2013 14:33:01 -0800
-+Subject: [PATCH] Kill mibstore
-+
-+It was a noop for at least 5 years and it has been removed.
-+
-+Signed-off-by: Zack Rusin <zackr@vmware.com>
-+---
-+ saa/saa_priv.h         |    1 -
-+ src/vmware.c           |    2 --
-+ vmwgfx/vmwgfx_driver.c |    1 -
-+ 3 files changed, 4 deletions(-)
-+
-+diff --git a/saa/saa_priv.h b/saa/saa_priv.h
-+index 6652054..5d81453 100644
-+--- a/saa/saa_priv.h
-++++ b/saa/saa_priv.h
-+@@ -48,7 +48,6 @@
-+ #include "pixmapstr.h"
-+ #include "windowstr.h"
-+ #include "servermd.h"
-+-#include "mibstore.h"
-+ #include "colormapst.h"
-+ #include "gcstruct.h"
-+ #include "input.h"
-+diff --git a/src/vmware.c b/src/vmware.c
-+index 41201f1..6b74e14 100644
-+--- a/src/vmware.c
-++++ b/src/vmware.c
-+@@ -23,7 +23,6 @@ char rcsId_vmware[] =
-+ #include "xf86Pci.h"		/* pci */
-+ 
-+ #include "mipointer.h"		/* sw cursor */
-+-#include "mibstore.h"		/* backing store */
-+ #include "micmap.h"		/* mi color map */
-+ #include "vgaHW.h"		/* VGA hardware */
-+ #include "fb.h"
-+@@ -1483,7 +1482,6 @@ VMWAREScreenInit(SCREEN_INIT_ARGS_DECL)
-+      * If backing store is to be supported (as is usually the case),
-+      * initialise it.
-+      */
-+-    miInitializeBackingStore(pScreen);
-+     xf86SetBackingStore(pScreen);
-+     xf86SetSilkenMouse(pScreen);
-+ 
-+diff --git a/vmwgfx/vmwgfx_driver.c b/vmwgfx/vmwgfx_driver.c
-+index 9959ffb..7863ba2 100644
-+--- a/vmwgfx/vmwgfx_driver.c
-++++ b/vmwgfx/vmwgfx_driver.c
-+@@ -1036,7 +1036,6 @@ drv_screen_init(SCREEN_INIT_ARGS_DECL)
-+ 		   (ms->only_hw_presents) ? "enabled" : "disabled");
-+     }
-+ 
-+-    miInitializeBackingStore(pScreen);
-+     xf86SetBackingStore(pScreen);
-+     xf86SetSilkenMouse(pScreen);
-+     miDCInitialize(pScreen, xf86GetPointerScreenFuncs());
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-index 4399bb1..1466b86 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-@@ -6,6 +6,8 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
- 
-+SRC_URI = "file://Kill-mibstore.patch"
-+
- DEPENDS += "virtual/libx11 libxvmc drm glproto \
- 	    virtual/libgl xineramaproto libpciaccess"
- 
++ALLOW_EMPTY_${PN} = "1"
++ALLOW_EMPTY_${PN}-apps = "1"
++ALLOW_EMPTY_${PN}-glib = "1"
 -- 
 1.7.9.5
 
