@@ -1,34 +1,36 @@
-Received: from mail-vb0-f49.google.com ([209.85.212.49])
+Received: from mail-ve0-f181.google.com ([209.85.128.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UFAfm-000106-6q
+	(envelope-from <ross.burton@intel.com>) id 1UFAhy-00015j-8C
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 22:54:24 +0100
-Received: by mail-vb0-f49.google.com with SMTP id s24so1891419vbi.8
+	Mon, 11 Mar 2013 22:56:40 +0100
+Received: by mail-ve0-f181.google.com with SMTP id d10so3023460vea.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 14:37:43 -0700 (PDT)
+	Mon, 11 Mar 2013 14:39:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:content-type:x-gm-message-state;
-	bh=FrlJdwj6aXX9t3np3ML4qh0mD6HVzHvU7bZhd1f6VJk=;
-	b=EhEGQsk8WcByvpsmLzP5eRVw60KOFfjbzZCb9W9Z3BFaTeZ7WzKIt5gnNALhgkosFt
-	5uLVSuZjqnH+xuSY2tHjvOVf6UF74Ss2Cnm6Y1SZHN4yhwYSec3uKZhHysb5+Bn0kJYW
-	cOHDcrmnnvoOwn7YqQWCCH9s3Yhe3MP8azowgvOb4Q9nd8LIbFOn8V0X+r9PSSWueomw
-	DrSQmzd28yOHux6HyNxIvGxwt3u2AajtujhaCFlj3JOumYjEwm8afirlef60V6p+H9G+
-	IVQ5unlp5Ue9li9adj+GNblEdFazzgIaIUyQxXwuS1lkScPLmlOAt8uSPe9iYy1QcT9S
-	CBwQ==
-X-Received: by 10.220.141.132 with SMTP id m4mr5310050vcu.17.1363037863470;
-	Mon, 11 Mar 2013 14:37:43 -0700 (PDT)
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=yVsHpr8q52bjxGw6WI4Ie/dQYmqNDfDQitb3q5UekVA=;
+	b=Zw9mhJDWuFECobGa4bRxhzQdlGMDvx7/f3dxaA4W7SVVZeU1FLk9+rPWA9q3drx0mI
+	O8Rhd7MITYt8XeMccn5V2kd7GEQPzGct4AzsW8IUOPTafjOWcS+lczoS/3ZMyXJfHvAq
+	N8YOXihwehqdaFXt+ee27xx/FEjx7u3DZLFrdkAqHuxEnpF2cCW4h/Ek08mIz4pMLbRb
+	oC3yeSlUxgUe8dwjH35ZdrkaTJz7uh5n3owfkFSkz0jRLwzq8jcodqgnoqC8ezasNRc/
+	B7b5gSzCRm8sYjEtAWdj3A29CUhDgNWyfTKswHG9hY1ulMExaZA97l0TcDBmnJe1+EDj
+	2cSg==
+X-Received: by 10.52.65.147 with SMTP id x19mr4900028vds.27.1363037999528;
+	Mon, 11 Mar 2013 14:39:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.232.226 with HTTP; Mon, 11 Mar 2013 14:37:22 -0700 (PDT)
-In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
-References: <cover.1363031776.git.ross.burton@intel.com>
+Received: by 10.58.232.226 with HTTP; Mon, 11 Mar 2013 14:39:38 -0700 (PDT)
+In-Reply-To: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
+References: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Mar 2013 14:37:22 -0700
-Message-ID: <CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQlSIruy8LpcP7kkDqcWZsorWzv/8GpUtSSCWSFbUOWFwgAiaBqSjiwKtXAHggzXq59ly5si
-Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
+Date: Mon, 11 Mar 2013 14:39:38 -0700
+Message-ID: <CAJTo0LaRQebt9te-wiHYRS1c=EWJmwBNV6Y0L47=Zg8-P2zHEg@mail.gmail.com>
+To: eu@felipetonello.com
+X-Gm-Message-State: ALoCoQlTQ57j5IWzgKjWPAgob4lJcdRqTxckgsme4WloRE1Y4TXTLo/R1QSXVQh5HtL2Np0aSPXo
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] qt-mobility: improved recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,23 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 21:54:30 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 21:56:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 11 March 2013 13:07, Ross Burton <ross.burton@intel.com> wrote:
-> This series allows you to have both sysvinit and systemd in DISTRO_FEATURES.
-> Packages will be built with both init scripts, and some daemons will be linking
-> to libsystemd-daemon so that will be pulled in to sysvinit images.
+On 11 March 2013 14:23,  <eu@felipetonello.com> wrote:
+ OBS: We might also want to remove pulseaudio dependency. But check against
+> which DISTRO_FEATURE?
 
-Regarding the upgrade path, Richard/Paul/myself discussed this over
-lunch and proposed that oe-core could gain an include file for distro
-configuration that basically injects the backward compatibility
-dependencies.  So for meta-systemd, it would inject
-replaces/provides/conflicts for each of the packages in meta-systemd.
-This would isolate the dependencies into a single location, and be
-opt-in for distros that previously shipped meta-systemd.  Hopefully
-the implementation of this is obvious, and patches to implement this
-are welcome.
+There's a "pulseaudio" distro feature.
 
 Ross
 
