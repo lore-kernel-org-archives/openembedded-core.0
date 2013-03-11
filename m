@@ -1,39 +1,34 @@
-Received: from mail-ob0-f176.google.com ([209.85.214.176])
+Received: from mail-vb0-f49.google.com ([209.85.212.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eu@felipetonello.com>) id 1UFARZ-0000To-W5
+	(envelope-from <ross.burton@intel.com>) id 1UFAfm-000106-6q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 22:39:48 +0100
-Received: by mail-ob0-f176.google.com with SMTP id v19so3809955obq.21
+	Mon, 11 Mar 2013 22:54:24 +0100
+Received: by mail-vb0-f49.google.com with SMTP id s24so1891419vbi.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 14:23:03 -0700 (PDT)
+	Mon, 11 Mar 2013 14:37:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=bwo5hCaTSyyZIVNFTTX8kKqnEAWdOCvTLDUzj1llBpo=;
-	b=UgYYPQ6bgT4m2eLIGeafETtsMVcpgAI1E0YCiVf6xSpg0v8e+Bwwhpq1mcCYpigBVT
-	8mdUtHFgyeAD1LcKAxAisS2PZcTJovd9LuoBkWaIZEMy4vdgIjhO+C47zjU7lzQnj+Os
-	iSSMF7JGhWkRq6bhVM9w2CFeebqM0Wm95c5tvLJW7WnUvlqORi5/hIOavBGwA6DDawtX
-	NXkuUBShM89FFBmKGtbUl/IVi+pnXxPedXDK3rOflAq+qHsLp2szYoez5bIdCMUYGY3v
-	5LI6FT0s9uw4wvxGs5bpHIxNPctEOI5TPXv1/c43v4MWUvGUOxV/5+ol3fQzcK1nyoxp
-	+PDA==
-X-Received: by 10.60.3.10 with SMTP id 10mr10600987oey.61.1363036983137;
-	Mon, 11 Mar 2013 14:23:03 -0700 (PDT)
-Received: from mlabs-ftonello.masimolabs.com
-	(wsip-70-183-20-162.oc.oc.cox.net. [70.183.20.162])
-	by mx.google.com with ESMTPS id i19sm18709868obf.0.2013.03.11.14.23.01
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 14:23:02 -0700 (PDT)
-From: eu@felipetonello.com
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:content-type:x-gm-message-state;
+	bh=FrlJdwj6aXX9t3np3ML4qh0mD6HVzHvU7bZhd1f6VJk=;
+	b=EhEGQsk8WcByvpsmLzP5eRVw60KOFfjbzZCb9W9Z3BFaTeZ7WzKIt5gnNALhgkosFt
+	5uLVSuZjqnH+xuSY2tHjvOVf6UF74Ss2Cnm6Y1SZHN4yhwYSec3uKZhHysb5+Bn0kJYW
+	cOHDcrmnnvoOwn7YqQWCCH9s3Yhe3MP8azowgvOb4Q9nd8LIbFOn8V0X+r9PSSWueomw
+	DrSQmzd28yOHux6HyNxIvGxwt3u2AajtujhaCFlj3JOumYjEwm8afirlef60V6p+H9G+
+	IVQ5unlp5Ue9li9adj+GNblEdFazzgIaIUyQxXwuS1lkScPLmlOAt8uSPe9iYy1QcT9S
+	CBwQ==
+X-Received: by 10.220.141.132 with SMTP id m4mr5310050vcu.17.1363037863470;
+	Mon, 11 Mar 2013 14:37:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.232.226 with HTTP; Mon, 11 Mar 2013 14:37:22 -0700 (PDT)
+In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 14:37:22 -0700
+Message-ID: <CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 14:23:04 -0700
-Message-Id: <1363036984-29155-3-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
-References: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
-X-Gm-Message-State: ALoCoQnMQyjOcDxmztI5OYtze+Hb76urcj00AQiD5hxw3g4jqydkCYH07LAZbWVT7PJhm8OhagUw
-Cc: "Felipe F. Tonello" <ftonello@cercacor.com>
-Subject: [PATCH 2/2] qt-mobility: added list of modules to be compiled
+X-Gm-Message-State: ALoCoQlSIruy8LpcP7kkDqcWZsorWzv/8GpUtSSCWSFbUOWFwgAiaBqSjiwKtXAHggzXq59ly5si
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,51 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 21:39:52 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 21:54:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: "Felipe F. Tonello" <ftonello@cercacor.com>
+On 11 March 2013 13:07, Ross Burton <ross.burton@intel.com> wrote:
+> This series allows you to have both sysvinit and systemd in DISTRO_FEATURES.
+> Packages will be built with both init scripts, and some daemons will be linking
+> to libsystemd-daemon so that will be pulled in to sysvinit images.
 
-This is useful for users that want to .bbappend this recipe to select specific
-modules to be compiled.
+Regarding the upgrade path, Richard/Paul/myself discussed this over
+lunch and proposed that oe-core could gain an include file for distro
+configuration that basically injects the backward compatibility
+dependencies.  So for meta-systemd, it would inject
+replaces/provides/conflicts for each of the packages in meta-systemd.
+This would isolate the dependencies into a single location, and be
+opt-in for distros that previously shipped meta-systemd.  Hopefully
+the implementation of this is obvious, and patches to implement this
+are welcome.
 
-Signed-off-by: Felipe F. Tonello <ftonello@cercacor.com>
----
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-index e5e671e..b16feb7 100644
---- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -18,7 +18,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.t
- SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
- SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
- 
--PR = "r7"
-+PR = "r8"
- 
- S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
- 
-@@ -31,6 +31,8 @@ qtm_plugins	:= "/usr/lib/${qtm_dir}/plugins/QtMobility"
- qtm_data	:= "/usr/share/${qtm_dir}"
- qtm_imports	:= "/usr/lib/${qtm_dir}/imports"
- 
-+qtm_modules_list ?= "bearer contacts gallery location publishsubscribe messaging multimedia \
-+systeminfo serviceframework sensors versit organizer feedback connectivity"
- qtm_bluezflag ?= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'yes', 'no', d)}"
- 
- do_configure_prepend() {
-@@ -44,7 +46,7 @@ do_configure_prepend() {
- 	cp staticconfig.pri staticconfig.pri.old
- 	echo "include(${STAGING_DATADIR}/${qtm_dir}/mkspecs/qconfig.pri)" >staticconfig.pri
- 	cat staticconfig.pri.old >>staticconfig.pri
--	./configure -qmake-exec qmake2 -prefix /usr -examples -demos
-+	./configure -qmake-exec qmake2 -prefix /usr -examples -demos -modules ${qtm_modules_list}
- 	echo QT_MOBILITY_BIN = ${qtm_bin} >>./config.pri
- 	echo QT_MOBILITY_LIB = ${qtm_lib} >>./config.pri
- 	echo QT_MOBILITY_INCLUDE = ${qtm_include} >>./config.pri
--- 
-1.7.9.5
-
+Ross
 
 
