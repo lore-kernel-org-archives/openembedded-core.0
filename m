@@ -1,37 +1,36 @@
-Received: from mail-vb0-f53.google.com ([209.85.212.53])
+Received: from mail-pb0-f42.google.com ([209.85.160.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF7W8-0008Fw-Ee
+	(envelope-from <ross.burton@intel.com>) id 1UF7fO-00007h-6e
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 19:32:13 +0100
-Received: by mail-vb0-f53.google.com with SMTP id fj18so1770907vbb.26
+	Mon, 11 Mar 2013 19:41:46 +0100
+Received: by mail-pb0-f42.google.com with SMTP id xb4so4037996pbc.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 11:15:33 -0700 (PDT)
+	Mon, 11 Mar 2013 11:25:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=bbzenWPXidRIrZlO2KUEQK/KZPIE63wXPQYC1V8sFnE=;
-	b=Gt+eb5Ns/GrLi+gfz0sa+aT0xDgFWl4uc0ZMAVgShwzEkq+Q0jz+TY3Ujnnbwje7jV
-	xqKbvO26T2O9IfCh0yvexPiYlVUt0uexYAtDb/C4p2o1043tXFc2WokYwCCg1W08R0RA
-	cBC69OTq/pesUjqjG37rN9Br4REm3UEX2nf4/bq/7PK11fKkLzXEiOg/Hu7RIsihygZm
-	aFEB6YcqqxxUaLvlGdITpjEUyDboWYIDrDKb+NGUYTdc85395y61AIjdf56E2vgZltoa
-	E/Cok8QdvDxxYZ1lXC+/fTcl8l0OC4HEx08BRoTSWpYojtdVxKnl8guVZ4qKUlYRk0ck
-	PAog==
-X-Received: by 10.52.67.105 with SMTP id m9mr4583281vdt.128.1363025733638;
-	Mon, 11 Mar 2013 11:15:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.213.2 with HTTP; Mon, 11 Mar 2013 11:15:13 -0700 (PDT)
-In-Reply-To: <1C3733EF-6163-4090-949C-5B73BBE02DEB@dominion.thruhere.net>
-References: <f805a0ed9311848da0a412346bc8c0baf8473d2e.1362873102.git.raj.khem@gmail.com>
-	<8f815c617b69812e749a5a197a3903fe8daaf645.1362873102.git.raj.khem@gmail.com>
-	<1C3733EF-6163-4090-949C-5B73BBE02DEB@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Mar 2013 11:15:13 -0700
-Message-ID: <CAJTo0La30wR3sLJfc+7QckZdqXzugAJctZJHVDEbXQosKuuVKg@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQkvxqiw32HRk0FiVxkGMpKuyAZEmU6hrFAa3zK5Hpajl2N3vgIqioREv4AwvH5nnbiKVfl9
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] systemd: Package hwdb data
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=QyuSCtKUtry1SKjiS2iFaCKt0xcvD+a5CjcA/xw2Tdw=;
+	b=Zrkul74Kqdtnnqnvw47l/Xy9Lk/mymW02tURwTIbGjmbFIzpsbWKBZfI+EjeBt718B
+	5uz9Yy8aDqdrX+n+ufkMEguJoUtlrnJpDYn/8+NruI/uagBXuJ+HxvhQcKf175oJyUxR
+	5fh86E85fu3gjqdSPG2fLCXqwRv4HaXhrMQeYtriWyeYDttavqL8G5oPvsGEZ9fzEt/r
+	2qbdXxlPR7R6IOw768Rwq7n60KdPJxbcHF3nxMqyt4v+Y/xNmNjbDK4ACHHvVJwGpQ99
+	IHi43bu06PXRd/5CDgzBze3UfFmZu0wbBU3zqOhnScN7wg69TAAmbcZJSvfIvhXRndZM
+	KV2g==
+X-Received: by 10.68.239.3 with SMTP id vo3mr24447574pbc.184.1363026306584;
+	Mon, 11 Mar 2013 11:25:06 -0700 (PDT)
+Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
+	[67.237.97.32])
+	by mx.google.com with ESMTPS id hu2sm21402014pbc.38.2013.03.11.11.25.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Mar 2013 11:25:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2013 11:24:43 -0700
+Message-Id: <cover.1363025917.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQlMKfglYZFS6SEfnIrGjlVrMfNUv8Ap7KYYYyGWv/85V1JEpMIuEwwS+HWYlSQuqffo8eHg
+Subject: [PATCH 00/12] safe systemd patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,16 +43,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 18:32:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Mar 2013 18:41:48 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 18:41:48 -0000
 
-On 11 March 2013 07:00, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> It's a udev hwdb, so calling it systemd-hwdb would be very misleading. And aren't you missing a RRECOMMENDS?
+Hi,
 
-postinsts to run udevadm --update would be useful too (I've got these
-changes in my branch too, but this network is trying to stop me do any
-git pushes).
+This series is a set of simple/safe systemd related patches.  I've a follow-up series to
+implement hybrid system/sysvinit.
 
 Ross
+
+The following changes since commit 365eb9b5d22208c967dcd91d8ab52faed20f04b5:
+
+  bitbake: bitbake-layers: fix duplicated help info (2013-03-10 04:36:52 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/systemd-safe
+
+for you to fetch changes up to 1fd5b960dd36458b7b829f9094df18cd8b5ac201:
+
+  systemd: remove libsystemd-daemon linkage in libudev (2013-03-11 10:59:54 -0700)
+
+----------------------------------------------------------------
+Ross Burton (12):
+      connman: explicitly disable systemd if we don't want it enabled
+      polkit: explicitly disable systemd if we're using consolekit
+      xf86-video-intel: add explicit dependency on udev
+      avahi: explicitly disable systemd if we don't want it enabled
+      xkeyboard-config: remove long-gone build dependencies
+      systemd-compat-units: add missing systemd-systemctl-native dependency
+      busybox: enable swapon -p (91 byte increase)
+      systemd: busybox's swapon now supports -p
+      systemd: remove util-linux-mount dependency
+      systemd: set the location of the kill binary
+      util-linux: disable systemd support
+      systemd: remove libsystemd-daemon linkage in libudev
+
+ meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ meta/recipes-core/busybox/busybox-1.20.2/defconfig |    2 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |    2 +
+ .../systemd/systemd/udev-linkage.patch             |   62 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |    8 +--
+ meta/recipes-core/util-linux/util-linux.inc        |    1 +
+ meta/recipes-extended/polkit/polkit_0.104.bb       |    5 +-
+ .../xorg-driver/xf86-video-intel_2.21.0.bb         |    2 +-
+ .../xorg-driver/xf86-video-intel_git.bb            |    2 +-
+ .../xorg-lib/xkeyboard-config_2.8.bb               |    2 +-
+ 11 files changed, 76 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/udev-linkage.patch
+
+Ross Burton (12):
+  connman: explicitly disable systemd if we don't want it enabled
+  polkit: explicitly disable systemd if we're using consolekit
+  xf86-video-intel: add explicit dependency on udev
+  avahi: explicitly disable systemd if we don't want it enabled
+  xkeyboard-config: remove long-gone build dependencies
+  systemd-compat-units: add missing systemd-systemctl-native dependency
+  busybox: enable swapon -p (91 byte increase)
+  systemd: busybox's swapon now supports -p
+  systemd: remove util-linux-mount dependency
+  systemd: set the location of the kill binary
+  util-linux: disable systemd support
+  systemd: remove libsystemd-daemon linkage in libudev
+
+ meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ meta/recipes-core/busybox/busybox-1.20.2/defconfig |    2 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |    2 +
+ .../systemd/systemd/udev-linkage.patch             |   62 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |    8 +--
+ meta/recipes-core/util-linux/util-linux.inc        |    1 +
+ meta/recipes-extended/polkit/polkit_0.104.bb       |    5 +-
+ .../xorg-driver/xf86-video-intel_2.21.0.bb         |    2 +-
+ .../xorg-driver/xf86-video-intel_git.bb            |    2 +-
+ .../xorg-lib/xkeyboard-config_2.8.bb               |    2 +-
+ 11 files changed, 76 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/udev-linkage.patch
+
+-- 
+1.7.10.4
+
 
 
