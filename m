@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0nU-00016A-5W
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UF0q1-0001K2-GC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 12:21:55 +0100
+	Mon, 11 Mar 2013 12:24:48 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB51gW018235
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2BB7dqg018773
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 04:05:01 -0700 (PDT)
+	Mon, 11 Mar 2013 04:07:39 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 11 Mar 2013 04:05:01 -0700
+	14.2.342.3; Mon, 11 Mar 2013 04:07:39 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Mar 2013 19:04:39 +0800
-Message-ID: <5d7015385718e86cdf212ebacbda9be700fd0274.1362985569.git.hongxu.jia@windriver.com>
+Date: Mon, 11 Mar 2013 19:07:34 +0800
+Message-ID: <582c0b810b5ca744b7c83f3df2cc80a42571e85c.1362979546.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1362985569.git.hongxu.jia@windriver.com>
-References: <cover.1362985569.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1362979546.git.hongxu.jia@windriver.com>
+References: <cover.1362979546.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 15/17] populate_sdk_base: tarball installer: SDK overwrite warning
+Subject: [PATCH 1/1] qemu-native:fix do_compile failed on SLED 11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +33,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 11:21:59 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 11:24:50 -0000
 Content-Type: text/plain
 
-This patch contains two fixes:
-* if the user wants to install the SDK in a directory that already
-  contains a SDK for the same architecture, a warning will be shown;
-* when the symbolic links are relocated use -n option. Otherwise,
-  symbolic links to existing directories will be created in the
-  directory itself;
+1, When build qemu-native on SLED 11.2, there is an error:
+...
+| In file included from /usr/include/bits/sigcontext.h:28,
+|    from /usr/include/signal.h:339,
+|    from /buildarea2/tmp/work/i686-linux/qemu-native/1.4.0-r0/
+qemu-1.4.0/include/qemu-common.h:42,
+|    from fsdev/virtfs-proxy-helper.c:23:
+| /usr/include/asm/sigcontext.h:28: error: expected specifier-
+qualifier-list before '__u64'
+| /usr/include/asm/sigcontext.h:191: error: expected specifier-
+qualifier-list before '__u64'
+...
 
-Cherry-pick commit b751ec137d0228b40a90e9e32b24f5cb5732225b
+2, The virtfs-proxy-helper.c includes <sys/capability.h> and
+qemu-common.h in sequence. The header include map is:
+(`-->' presents `include')
+...
+"virtfs-proxy-helper.c" --> <sys/capability.h>
+...
+"virtfs-proxy-helper.c" --> "qemu-common.h" --> <signal.h> -->
+<bits/sigcontext.h> --> <asm/sigcontext.h> --> <linux/types.h> -->
+<asm/types.h> --> <asm-generic/types.h> --> <asm-generic/int-ll64.h>
+...
 
-[YOCTO #3401]
+4, The bug is found on SLED 11.2 x86. In libcap header file
+/usr/include/sys/capability.h, it does evil stuff like this:
+...
+  25 /*
+  26  * Make sure we can be included from userland by preventing
+  27  * capability.h from including other kernel headers
+  28  */
+  29 #define _LINUX_TYPES_H
+  30 #define _LINUX_FS_H
+  31 #define __LINUX_COMPILER_H
+  32 #define __user
+  33
+  34 typedef unsigned int __u32;
+  35 typedef __u32 __le32;
+...
+This completely prevents including /usr/include/linux/types.h.
+The above `<asm/sigcontext.h> --> <linux/types.h>' is prevented,
+and '__u64' is defined in <asm-generic/int-ll64.h>.
+
+5, Modify virtfs-proxy-helper.c to include <sys/capability.h>
+last to workaround the issue.
+
+http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html
+http://patchwork.linuxtv.org/patch/12748/
+
+[YOCTO #4001]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/populate_sdk_base.bbclass |   15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ .../fix-libcap-header-issue-on-some-distro.patch   |   79 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc                |    4 +
+ 2 files changed, 83 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 6eb6726..3f2926c 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -132,11 +132,20 @@ else
- 	target_sdk_dir=$(readlink -m $target_sdk_dir)
- fi
- 
--printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
-+if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
-+	echo "The directory \"$target_sdk_dir\" already contains a SDK for this architecture."
-+	printf "If you continue, existing files will be overwritten! Proceed[y/N]?"
+diff --git a/meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch b/meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
+new file mode 100644
+index 0000000..4c16f7c
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
+@@ -0,0 +1,79 @@
++fix libcap header issue on some distro
 +
-+	default_answer="n"
-+else
-+	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
++1, when build qemu-native on SLED 11.2, there is an error:
++...
++| In file included from /usr/include/bits/sigcontext.h:28,
++|  from /usr/include/signal.h:339,
++|  from /buildarea2/tmp/work/i686-linux/qemu-native/1.4.0-r0/
++qemu-1.4.0/include/qemu-common.h:42,
++|  from fsdev/virtfs-proxy-helper.c:23:
++|  /usr/include/asm/sigcontext.h:28: error: expected specifier-
++qualifier-list before '__u64'
++|  /usr/include/asm/sigcontext.h:191: error: expected specifier-
++qualifier-list before '__u64'
++...
 +
-+	default_answer="y"
-+fi
- read answer
++2, In the following header include map, `-->' presents `include':
++...
++"virtfs-proxy-helper.c" --> <sys/capability.h>
++...
++"virtfs-proxy-helper.c" --> "qemu-common.h" --> <signal.h> -->
++<bits/sigcontext.h> --> <asm/sigcontext.h> --> <linux/types.h> -->
++<asm/types.h> --> <asm-generic/types.h> --> <asm-generic/int-ll64.h>
++...
++and `__u64' is defined in <asm-generic/int-ll64.h>.
++
++3, The bug is found on SLED 11.2 x86. In libcap header file
++/usr/include/sys/capability.h, it does evil stuff like this:
++...
++  25 /*
++  26  * Make sure we can be included from userland by preventing
++  27  * capability.h from including other kernel headers
++  28  */
++  29 #define _LINUX_TYPES_H
++  30 #define _LINUX_FS_H
++  31 #define __LINUX_COMPILER_H
++  32 #define __user
++  33
++  34 typedef unsigned int __u32;
++  35 typedef __u32 __le32;
++...
++This completely prevents including /usr/include/linux/types.h, etc.
++The above `<asm/sigcontext.h> --> <linux/types.h>' is prevented.
++
++4, Modify virtfs-proxy-helper.c to include <sys/capability.h> last
++to workaround the issue.
++
++http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html
++http://patchwork.linuxtv.org/patch/12748/
++
++Upstream-Status: Pending
++Signed-off-by: hongxu jia <hongxu.jia@windriver.com>
++---
++ fsdev/virtfs-proxy-helper.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
++--- a/fsdev/virtfs-proxy-helper.c
+++++ b/fsdev/virtfs-proxy-helper.c
++@@ -12,7 +12,6 @@
++ #include <sys/resource.h>
++ #include <getopt.h>
++ #include <syslog.h>
++-#include <sys/capability.h>
++ #include <sys/fsuid.h>
++ #include <sys/vfs.h>
++ #include <sys/ioctl.h>
++@@ -26,6 +25,9 @@
++ #include "virtio-9p-marshal.h"
++ #include "hw/9pfs/virtio-9p-proxy.h"
++ #include "fsdev/virtio-9p-marshal.h"
+++// include this one last due to some versions of it being buggy:
+++// http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html
+++#include <sys/capability.h>
++ 
++ #define PROGNAME "virtfs-proxy-helper"
++ 
++-- 
++1.8.1.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5616a06..f9b22f3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -32,6 +32,10 @@ SRC_URI_append_class-nativesdk = "\
+     file://relocatable_sdk.patch \
+     "
  
- if [ "$answer" = "" ]; then
--	answer="y"
-+	answer="$default_answer"
- fi
++SRC_URI_append_class-native = "\
++    file://fix-libcap-header-issue-on-some-distro.patch \
++    "
++
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 ${SDL} --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman"
  
- if [ "$answer" != "Y" -a "$answer" != "y" ]; then
-@@ -176,7 +185,7 @@ find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':'
- 
- # change all symlinks pointing to ${SDKPATH}
- for l in $(find $native_sysroot -type l); do
--	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-+	ln -sfn $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
- done
- 
- echo done
+ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls \
 -- 
 1.7.10.4
 
