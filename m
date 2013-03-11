@@ -1,40 +1,40 @@
-Received: from mail-pb0-f50.google.com ([209.85.160.50])
+Received: from mail-vc0-f177.google.com ([209.85.220.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UFC0V-0004Ig-K8
+	(envelope-from <ross.burton@intel.com>) id 1UFCIr-0004fL-J4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 00:19:52 +0100
-Received: by mail-pb0-f50.google.com with SMTP id up1so4227828pbc.23
+	Tue, 12 Mar 2013 00:38:50 +0100
+Received: by mail-vc0-f177.google.com with SMTP id m18so2381371vcm.36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 16:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=G6CcvEP1ak++xQjsBMaxBnd46KhHcj2Irv/lrY7OWqk=;
-	b=NEm5ZLbQmshJU88rr8lblJpF6969SQOgusNcY+94pNJDmHgRrNbFMkA40XqfmubHZW
-	ntIo0tTbTGHc3bqnOFtbuxVQvFoqhM6RzF7KYDFMR2nttWjHyhtsPKCfKGwMOdqT6/0+
-	UENvVG6u5jiyPKaT7iMfmYfgMXTTMlmmmyuwRZXDvPf80e3JT0EPbZsxlXNylYp5Bw0L
-	xBc/wJQs+UGK4SOn4hlMwECU7TE5RN4i78o9IVRSsn4sSrm/fLw6NUzQoBQX7846H6fN
-	l+TtbWdw918WwmV/lrnnyxer0bgbH5viruS8gYqZvQNtv91ZS8xzNl2OQtDMqueLxesj
-	nZCg==
-X-Received: by 10.68.170.193 with SMTP id ao1mr28641315pbc.129.1363042992264; 
-	Mon, 11 Mar 2013 16:03:12 -0700 (PDT)
-Received: from [172.23.7.5] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id
-	rr14sm22213294pbb.34.2013.03.11.16.03.10
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 16:03:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1C3733EF-6163-4090-949C-5B73BBE02DEB@dominion.thruhere.net>
-Date: Mon, 11 Mar 2013 16:03:09 -0700
-Message-Id: <8D545500-9892-4FC1-B4DF-825AD4219165@gmail.com>
-References: <f805a0ed9311848da0a412346bc8c0baf8473d2e.1362873102.git.raj.khem@gmail.com>
-	<8f815c617b69812e749a5a197a3903fe8daaf645.1362873102.git.raj.khem@gmail.com>
-	<1C3733EF-6163-4090-949C-5B73BBE02DEB@dominion.thruhere.net>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1499)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] systemd: Package hwdb data
+	Mon, 11 Mar 2013 16:22:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=k9WOJZp1rBtaP3TquauZttkODOMhrU7fepRls7Egajc=;
+	b=Wu4xPoLzR2UpGFR1lRak1ufSi00mK8oezVhKMj8s1DfY/Yo7ks9Ll4UiLIwl0k2+dV
+	MmY8WVOZ66HkXoBPZEbbZK3B38SpRsdwG+w70baBUmemho3VayaxWt1OfuR3edzgzqTM
+	hLQ9EQ/T0LGkENVrzDMAxUwKnhIRML18Cl7kE6pi6cCkjDcIfBW0Xd/ZxQc8MCWL/clg
+	Ng5QltIgWkcgNk5FHVPE1sGXamLIbbRYD7ebPom4bOK7RWTcKwr71yCTaJp1pmEfR49R
+	hTS41LA1c/QixR2Sii6TrqFa04T0rnJSWLTkgcqQZe2YkZRAcK7iqj94z8tQKCqMF4xM
+	K1nQ==
+X-Received: by 10.52.75.65 with SMTP id a1mr4914092vdw.79.1363044130801; Mon,
+	11 Mar 2013 16:22:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.232.226 with HTTP; Mon, 11 Mar 2013 16:21:50 -0700 (PDT)
+In-Reply-To: <ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
+	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
+	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 16:21:50 -0700
+Message-ID: <CAJTo0LZiS3Sx8fKZFyiDWJ21csLiKhOvuJi4=qs16CQ+u1Doxg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQnLw1A5gKLnSz3/6A2XCJM3LMFYaDOfwhySjmzc7ywW2jn+e6ZWgtSc+E+KPDJbaP3AKkb0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,55 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 23:19:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Mar 2013 23:38:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 11 March 2013 15:49, Khem Raj <raj.khem@gmail.com> wrote:
+> using different init manager is a separate problem than what Ross tried to address here isn't it ?
 
-On Mar 11, 2013, at 7:00 AM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
+This series lets you do DISTRO_FEATURES="systemd sysvinit" and it will
+build support for both in the packages, and then based on
+DISTRO_FEATURES_INITMAN it will build different images.
 
->=20
-> Op 10 mrt. 2013, om 00:54 heeft Khem Raj <raj.khem@gmail.com> het =
-volgende geschreven:
->=20
->> Create a new package to hold the hwdb.d
->> Fixes the packaging warning as well.
->>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> meta/recipes-core/systemd/systemd_198.bb |    4 +++-
->> 1 file changed, 3 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/meta/recipes-core/systemd/systemd_198.bb =
-b/meta/recipes-core/systemd/systemd_198.bb
->> index 381a67b..9fc4704 100644
->> --- a/meta/recipes-core/systemd/systemd_198.bb
->> +++ b/meta/recipes-core/systemd/systemd_198.bb
->> @@ -105,7 +105,7 @@ python populate_packages_prepend (){
->> }
->> PACKAGES_DYNAMIC +=3D "^lib(udev|gudev|systemd).*"
->>=20
->> -PACKAGES =3D+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs =
-${PN}-analyze"
->> +PACKAGES =3D+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs =
-${PN}-analyze ${PN}-hwdb"
->>=20
->> USERADD_PACKAGES =3D "${PN}"
->> GROUPADD_PARAM_${PN} =3D "-r lock"
->> @@ -168,6 +168,8 @@ FILES_${PN} =3D " ${base_bindir}/* \
->>                /lib/udev/rules.d/99-systemd.rules \
->>               "
->>=20
->> +FILES_${PN}-hwdb =3D "/lib/udev/hwdb.d"
->> +
->=20
-> It's a udev hwdb, so calling it systemd-hwdb would be very misleading.
-
-OK I had it called udev-hwdb until I thought otherwise and changed it
-
-> And aren't you missing a RRECOMMENDS?
-
-I think Ross already has this taken care of so this patch might be moot.=
+Ross
 
 
