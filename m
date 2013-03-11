@@ -1,40 +1,40 @@
-Received: from mail-pb0-f49.google.com ([209.85.160.49])
+Received: from mail-da0-f51.google.com ([209.85.210.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9H9-0002ta-Jx
+	(envelope-from <ross.burton@intel.com>) id 1UF9HG-0002tl-5c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:25:01 +0100
-Received: by mail-pb0-f49.google.com with SMTP id xa12so4165597pbc.36
+	Mon, 11 Mar 2013 21:25:03 +0100
+Received: by mail-da0-f51.google.com with SMTP id z17so971267dal.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:08:12 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=D/Cnhw1xtiBNu1A6hfjmmey1iNSNI6DikUk+dBOeJ8M=;
-	b=UkoZeifTNuoaMqe42KZJHWlVyi6JMFAVpaxpQl5OMoQKp9QRZVlpq6xD7hvScK2CjQ
-	wkOj5zV6Ckw86UlO20deDzozXMjsuInNIEHPV9Y068RcDVw2SMbOvGlfDhniUq1+ddkp
-	6ErNk+Xcxf4L+Wp8vYuqbfmxTDwnv5UcReEzmruXT9h85TNfJDew/cxT9vTTsxAImlyS
-	h+ZEvlPLneHFXc0Q1ohpf89Zl4q6BDs9i6biPYmHjv5N6RbjPHa68OI0xOQGcxM2KXdI
-	PX4uIBDWsDe3EKh4He2qAQPDl+Pc0fyjB3wFyPyce5w0sz8xlfXfqSczex6SH+Fue/Nt
-	GcYA==
-X-Received: by 10.68.91.66 with SMTP id cc2mr31504501pbb.51.1363032492243;
-	Mon, 11 Mar 2013 13:08:12 -0700 (PDT)
+	bh=HytgPguBHIWznTA8otX3SiwNcu2YQMi3gTCdLlm92Fw=;
+	b=iO+zt7z5C2a72fkZH+QDw2Kg0JXZANtl6kLl96A/IIbqnQnMDWhJWLvxlzqnr4Zsc1
+	/zR0zyMmpWcxUhm1pIWpJ3Pv+Wm2nbXOl5Hh1wggKxr32DuHLQ/GQalxEaL2Hdl/ZIbG
+	DDX74sg06FCQvtgsRVfhkvOwwrTd1caYUZrUNKpdxcylJAVlBYv+QjhBowxFlT5+0J0w
+	AisAq1gCO1leNCctCuAXNzfDFLbZSX0/hcd/tWxDMqx1ucDvhpf8yfbkQhEHOodHdI+8
+	QGu3aeQW3IGUj9xyJyhBzAm+SQM2mrIk9lj/WXaZajb0OmBqfUVGGIxMIJ5k+yvAJanf
+	yDQg==
+X-Received: by 10.68.189.8 with SMTP id ge8mr31758931pbc.166.1363032498604;
+	Mon, 11 Mar 2013 13:08:18 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.10
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:08:11 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:17 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:35 -0700
-Message-Id: <f7ba9c2b1c0d7d520300c6c3b38f5d5e0172ad51.1363031776.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 13:07:36 -0700
+Message-Id: <4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnGWpOXMiIGlJuFF+E0Cn+NHJ3sXNPswDTxP7CpHX4YHmJ29BWmzCheDXMjq3Se3bZgJBI7
-Subject: [PATCH 5/9] update-rcd.bbclass: handle both sysvinit and systemd features being present
+X-Gm-Message-State: ALoCoQlT42uJcvrZfXVPcI0skZoBuiaDnPaQNHTHbKnpKE8CxGQHyIdFd15cQP1Uvc1ey2ME7UQa
+Subject: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,59 +49,72 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Mar 2013 20:25:33 -0000
 
-Run the helper if the sysvinit feature is present, or if the systemd feature is
-present but the systemd class hasn't been inherited.  We want to run in the
-latter case as systemd has sysvinit compatibility, but we don't want to always
-so that pure systemd images don't have redundent sysvinit files.
+These fragments may be used on a system that didn't actually boot with systemd,
+so check for systemctl first, and don't force systemd to be installed.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/update-rc.d.bbclass                          |    9 ++++++---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb |    4 ++--
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ meta/classes/systemd.bbclass |   27 +++++++++++----------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 65bf022..06b91c1 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -75,9 +75,12 @@ python populate_packages_updatercd () {
-         postrm += d.getVar('updatercd_postrm', True)
-         d.setVar('pkg_postrm_%s' % pkg, postrm)
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 564cd72..f622f9c 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -24,19 +24,23 @@ if [ -n "$D" ]; then
+     OPTS="--root=$D"
+ fi
  
--    # If the systemd class has also been inherited, then don't do anything as
--    # the systemd units will override anything created by update-rc.d.
--    if not d.getVar("SYSTEMD_BBCLASS_ENABLED", True):
-+    # Run if the sysvinit feature is present, or if the systemd feature is present
-+    # but the systemd class hasn't been inherited.  We want to run in the latter case
-+    # as systemd has sysvinit compatibility, but we don't want to always so that
-+    # pure systemd images don't have redundent sysvinit files.
-+    if "sysvinit" in d.getVar("DISTRO_FEATURES").split() or \
-+       ("systemd" in d.getVar("DISTRO_FEATURES").split() and not d.getVar("SYSTEMD_BBCLASS_ENABLED", True)):
-         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
-         if pkgs == None:
-             pkgs = d.getVar('UPDATERCPN', True)
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index b9183a8..e73b46e 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -27,7 +27,7 @@ RCONFLICTS_${PN} = "task-core-boot"
- VIRTUAL-RUNTIME_dev_manager ?= "udev"
- VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
- VIRTUAL-RUNTIME_init_manager ?= "${DISTRO_FEATURES_INITMAN}"
--VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES', 'sysvinit', 'initscripts', '',d)}"
-+VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES_INITMAN', 'sysvinit', 'initscripts', '',d)}"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+-systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
++if which systemctl >/dev/null; then
++	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
  
- RDEPENDS_${PN} = "\
-@@ -42,7 +42,7 @@ RDEPENDS_${PN} = "\
-     ${VIRTUAL-RUNTIME_login_manager} \
-     ${VIRTUAL-RUNTIME_init_manager} \
-     ${VIRTUAL-RUNTIME_initscripts} \
--    ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd-compat-units', '',d)} \
-+    ${@base_contains('DISTRO_FEATURES_INITMAN', 'systemd', 'systemd-compat-units', '',d)} \
-     ${VIRTUAL-RUNTIME_dev_manager} \
-     ${VIRTUAL-RUNTIME_update-alternatives} \
-     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
+-if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+-    systemctl start ${SYSTEMD_SERVICE}
++	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
++		systemctl start ${SYSTEMD_SERVICE}
++	fi
+ fi
+ }
+ 
+ systemd_prerm() {
+-if [ -z "$D" ]; then
+-    systemctl stop ${SYSTEMD_SERVICE}
+-fi
++if which systemctl >/dev/null; then
++	if [ -z "$D" ]; then
++		systemctl stop ${SYSTEMD_SERVICE}
++	fi
+ 
+-systemctl disable ${SYSTEMD_SERVICE}
++	systemctl disable ${SYSTEMD_SERVICE}
++fi
+ }
+ 
+ python systemd_populate_packages() {
+@@ -56,14 +60,6 @@ python systemd_populate_packages() {
+             bb.error('%s does not appear in package list, please add it' % pkg_systemd)
+ 
+ 
+-    # Add a runtime dependency on systemd to pkg
+-    def systemd_add_rdepends(pkg):
+-        rdepends = d.getVar('RDEPENDS_' + pkg, True) or ""
+-        if not 'systemd' in rdepends.split():
+-            rdepends = '%s %s' % (rdepends, 'systemd')
+-        d.setVar('RDEPENDS_' + pkg, rdepends)
+-
+-
+     def systemd_generate_package_scripts(pkg):
+         bb.debug(1, 'adding systemd calls to postinst/postrm for %s' % pkg)
+ 
+@@ -156,7 +152,6 @@ python systemd_populate_packages() {
+             systemd_check_package(pkg)
+             if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
+                 systemd_generate_package_scripts(pkg)
+-                systemd_add_rdepends(pkg)
+         systemd_check_services()
+ }
+ 
 -- 
 1.7.10.4
 
