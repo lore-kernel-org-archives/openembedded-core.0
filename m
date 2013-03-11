@@ -1,40 +1,40 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-da0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9H6-0002sc-2C
+	(envelope-from <ross.burton@intel.com>) id 1UF9Gt-0002sG-1Z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:24:51 +0100
-Received: by mail-pb0-f47.google.com with SMTP id rp2so4149813pbb.20
+	Mon, 11 Mar 2013 21:24:39 +0100
+Received: by mail-da0-f43.google.com with SMTP id u36so335465dak.16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:08:09 -0700 (PDT)
+	Mon, 11 Mar 2013 13:07:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=zKsUoBYNzS5RpJQxtdiQCtmSKOGkex467RIXcXgCVUA=;
-	b=o/8yNrNXSVXbHBr1ud9EoXo6RrQMu/zCHw/dL9FOlCf3hCnRzqnCKgd8cdI754dO1s
-	gh2TSR07IPRP21CpwgOgfnzlnVu32bLjAtxJ+mrsYoDS2fU4XsNgEKUjmaXwO9l98mcG
-	9jd94BIGUQHB7BR+p2J9TNMSQYj3JufvZBZRJ6bXiRuYd5Kku/uJoicj6uFDBNsD97/O
-	Co+6VNylt8aQiW19xc2G0dqapuZLxc0OskVsFx2tNOjgrCsaf4576SwmeLusMdHj0M5D
-	9dX8lrF9KwbwEKUOCBQi88ck4pH+tptR6O2iauZ2OuGfQTO965Mc12b5/wULiEkrB4kh
-	q7yQ==
-X-Received: by 10.68.225.40 with SMTP id rh8mr31429462pbc.137.1363032488789;
-	Mon, 11 Mar 2013 13:08:08 -0700 (PDT)
+	bh=S/5pEDjtO0BKzzy+o9HwA+qD8yz9iROcaYK5o+qNzvY=;
+	b=BfNmX0vq9rOp6y+/NR5ZbMKLB830U2r0iBGsTcQJZJGtMcQ5Dw/JbwKgciwE7pFLhu
+	vjMsLracwAJ3qeuxwI+E5XgT4BPoAUBnczvsbZFwNM/VGde00tIJk0Az4B0oAvoQMo24
+	W1z3M0SXF/NrvZbBxLJa0SE6eagYOZhkMpSfX8xKmAoM2d6I8Cvv6gouI5SoIy6yoNC5
+	0GUZKIAzQjaYzIpnbU0f9isDtfh/0u4qkgLjM971m+DaCzLjYZ6fNf0+/e+4gV6drpwB
+	NlE8GEJxLA8Lrt9k3SDA4dz1NM0nJ7M2qaqg3rzxCInciGjjwcoc/ClZFZwLXpGxaAOd
+	dVCA==
+X-Received: by 10.68.116.169 with SMTP id jx9mr30660845pbb.94.1363032475392;
+	Mon, 11 Mar 2013 13:07:55 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.05
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.07.52
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:08:08 -0700 (PDT)
+	Mon, 11 Mar 2013 13:07:54 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:33 -0700
-Message-Id: <235fd7e6b568af089d6591d6ed8c4f2d577cc5a7.1363031776.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 13:07:31 -0700
+Message-Id: <48b41b4d60b531524523588507b2b8d5bdd4be26.1363031776.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnaJP8arTTHO0b682cZMTdGlPo7Fu4NocsCofnjT5mlz9V93oQ7omwnwSgzWmxXqFfHIp7L
-Subject: [PATCH 3/9] systemd: make xz support (compressed journal) optional
+X-Gm-Message-State: ALoCoQnylw6poGWsKNRSUXHkxOZkmiWkbhXxL/OFafE/egWPB3+j8nvbMF7h85d7JemFu1zzT45C
+Subject: [PATCH 1/9] systemd: merge udev-systemd into udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,41 +47,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 20:25:03 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
 
-Defaults to enabled but if you don't want to use the journal and need some
-space, this can now be disabled.
+Merge the contents of udev-systemd, which is just the service files, into udev
+itself.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd_197.bb |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_197.bb |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 962b120..9a66a4e 100644
+index 5180eef..962b120 100644
 --- a/meta/recipes-core/systemd/systemd_197.bb
 +++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -11,7 +11,7 @@ PROVIDES = "udev"
- PE = "1"
- PR = "r4"
+@@ -171,7 +171,7 @@ FILES_${PN} = " ${base_bindir}/* \
+ FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
  
--DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-RDEPENDS_${PN} += "dbus udev-systemd"
++RDEPENDS_${PN} += "dbus"
  
- SECTION = "base/shell"
-@@ -43,9 +43,11 @@ LDFLAGS_libc-uclibc_append = " -lrt"
+ RRECOMMENDS_${PN} += "systemd-serialgetty \
+                       util-linux-agetty \
+@@ -179,7 +179,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty \
+                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
+ "
  
- GTKDOC_DOCDIR = "${S}/docs/"
+-PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils udev-systemd"
++PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils"
  
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "xz"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
-+# Compress the journal
-+PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ FILES_udev-dbg += "/lib/udev/.debug"
  
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+@@ -210,6 +210,8 @@ FILES_udev += "${base_sbindir}/udevd \
+                /lib/udev/rules.d/95*.rules \
+                ${base_libdir}/udev/hwdb.d \
+                ${sysconfdir}/udev \
++               ${systemd_unitdir}/system/*udev* \
++               ${systemd_unitdir}/system/*.wants/*udev* \
+               "
+ 
+ FILES_udev-consolekit += "/lib/ConsoleKit"
+@@ -217,9 +219,6 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
+ 
+ FILES_udev-utils = "${bindir}/udevadm"
+ 
+-FILES_udev-systemd = "${systemd_unitdir}/system/*udev* ${systemd_unitdir}/system/*.wants/*udev*"
+-RDEPENDS_udev-systemd = "udev"
+-
+ # TODO:
+ # u-a for runlevel and telinit
  
 -- 
 1.7.10.4
