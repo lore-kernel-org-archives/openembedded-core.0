@@ -1,40 +1,36 @@
-Received: from mail-pb0-f41.google.com ([209.85.160.41])
+Received: from vms173013pub.verizon.net ([206.46.173.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF7gA-00009A-RJ
+	(envelope-from <denis@denix.org>) id 1UF86g-0001el-MC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 19:42:41 +0100
-Received: by mail-pb0-f41.google.com with SMTP id um15so4084906pbc.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 11:25:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=bvnnZNaeKSfMXbgrvZhjdNMmwNr2+JZMhlNi0gV9ngY=;
-	b=LQ8frOPPT/ABB6jiveQVk7RVCSJthDEJmKFVZSWCcC9eqMZ36jSR1UKmSF0W9dX309
-	Nkzp39mra3asiQom0igRzZU8mdRQD5/KnB+6DuZIfiBcwJWoLIU+NddkSpr8pvZ7KNFf
-	kOvxakPSYx7qr8D5rCZyGwFP+chkhQWo/gvLVceFUYrwVQ2dfVJPwv3eeLOiyanlC3WB
-	aF5bBIFXsS5x+yKOaVdpnuXcaP0smbz/2AIKLr45dGPgGmfKPGGJ9YyH/Sru8G2w2HpP
-	wSw+AtqY7sXU60ehDAccRmCTeFiNaT5Ci6ECVPnkuqHKryKJCHnCPfyIJwWCrnwnzpl8
-	13aA==
-X-Received: by 10.68.11.35 with SMTP id n3mr30146598pbb.220.1363026355716;
-	Mon, 11 Mar 2013 11:25:55 -0700 (PDT)
-Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
-	[67.237.97.32])
-	by mx.google.com with ESMTPS id hu2sm21402014pbc.38.2013.03.11.11.25.53
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 11:25:55 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 11:24:54 -0700
-Message-Id: <efbb924cceca141159ab3187ec6a9af5c6203834.1363025917.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1363025917.git.ross.burton@intel.com>
-References: <cover.1363025917.git.ross.burton@intel.com>
-In-Reply-To: <cover.1363025917.git.ross.burton@intel.com>
-References: <cover.1363025917.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkOncW9SlzoRsSRTZT/12Dmu5N+uhg2c7SY4K5jnDuSmye8yHhKRucwOTBhw+8qDt6ExShH
-Subject: [PATCH 11/12] util-linux: disable systemd support
+	Mon, 11 Mar 2013 20:10:10 +0100
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173013.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MJI00JHLF3VY8O1@vms173013.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 11 Mar 2013 13:52:58 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id E2C51200BD; Mon,
+	11 Mar 2013 14:52:42 -0400 (EDT)
+Date: Mon, 11 Mar 2013 14:52:42 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Maupin, Chase" <chase.maupin@ti.com>
+Message-id: <20130311185242.GA31635@denix.org>
+References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
+	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
+	<20130308200628.GB15481@denix.org>
+	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
+	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
+	<CAP9ODKog6e+3BbDT+pLy1a8GsEuKtyZmuuoHGoc3tOX20OvLpg@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED10159453E63@DLEE12.ent.ti.com>
+MIME-version: 1.0
+In-reply-to: <7D46E86EC0A8354091174257B2FED10159453E63@DLEE12.ent.ti.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,33 +43,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 18:42:45 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 19:10:16 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 19:10:16 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-The only binary in util-linux with systemd support is uuidd, which is rarely
-used.
+On Mon, Mar 11, 2013 at 06:03:25PM +0000, Maupin, Chase wrote:
+> > -----Original Message-----
+> > From: otavio.salvador@gmail.com
+> > [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio Salvador
+> > Sent: Monday, March 11, 2013 11:24 AM
+> > To: Maupin, Chase
+> > Cc: Denys Dmytriyenko; Patches and discussions about the oe-core
+> > layer
+> > Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
+> > override order
+> > 
+> > On Mon, Mar 11, 2013 at 11:49 AM, Maupin, Chase
+> > <chase.maupin@ti.com> wrote:
+> > >> -----Original Message-----
+> > >> From: otavio.salvador@gmail.com
+> > >> [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio
+> > Salvador
+> > >> Sent: Saturday, March 09, 2013 6:11 AM
+> > >> To: Maupin, Chase
+> > >> Cc: Denys Dmytriyenko; Patches and discussions about the oe-
+> > core
+> > >> layer
+> > >> Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
+> > >> override order
+> > >>
+> > >> On Fri, Mar 8, 2013 at 7:16 PM, Maupin, Chase
+> > >> <chase.maupin@ti.com> wrote:
+> > >> >> -----Original Message-----
+> > >> >> From: otavio.salvador@gmail.com
+> > >> >> [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio
+> > >> Salvador
+> > >> >> Sent: Friday, March 08, 2013 2:27 PM
+> > >> >> To: Denys Dmytriyenko
+> > >> >> Cc: Maupin, Chase; Patches and discussions about the oe-
+> > core
+> > >> >> layer
+> > >> >> Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
+> > >> >> override order
+> > >> >>
+> > >> >> On Fri, Mar 8, 2013 at 5:06 PM, Denys Dmytriyenko
+> > >> >> <denis@denix.org> wrote:
+> > >> >> > On Fri, Mar 08, 2013 at 03:52:57PM -0300, Otavio Salvador
+> > >> >> wrote:
+> > >> >> >> On Fri, Mar 8, 2013 at 2:51 PM, Chase Maupin
+> > >> >> <Chase.Maupin@ti.com> wrote:
+> > >> >> >> > * the current order has SOC_FAMILY settings, which are
+> > >> >> generic
+> > >> >> >> >   settings for a group of devices, overriding the
+> > machine
+> > >> >> specific
+> > >> >> >> >   settings.  For example:
+> > >> >> >> >
+> > >> >> >> >   KERNEL_DEVICETREE_ti33x = "xxxx"
+> > >> >> >> >   KERNEL_DEVICETREE_beaglebone = "yyyy"
+> > >> >> >> >
+> > >> >> >> >   Should yield "yyyy" when building for the beaglebone
+> > >> >> because
+> > >> >> >> >   that is a more specific device than ti33x.  However,
+> > >> >> without this
+> > >> >> >> >   change the result is that the value is set to "xxxx"
+> > >> >> meaning the
+> > >> >> >> >   more generic setting overrides the more specific
+> > >> setting.
+> > >> >> >> >
+> > >> >> >> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > >> >> >>
+> > >> >> >> Maybe while on that you could look at supporting xx:yy
+> > as
+> > >> SoC
+> > >> >> family?
+> > >> >> >> like am37xx:am3715 ?
+> > >> >> >
+> > >> >> > Did you mean am3517? That's a slightly different variant
+> > of
+> > >> >> am35x/omap35x SoC.
+> > >> >>
+> > >> >> Yes; sorry ... what I meant was 'am35xx:am3517'
+> > >> >>
+> > >> >> > But if you really meant am3715 (as well as am3705, am3725
+> > >> and
+> > >> >> am3730), then
+> > >> >> > those are variants of am37x SoC, just with some
+> > subsystems,
+> > >> >> like SGX or DSP,
+> > >> >> > being absent or present. Having those variants handled by
+> > >> >> SOC_FAMILY would be
+> > >> >> > an overkill. Instead, we've started using
+> > MACHINE_FEATURES
+> > >> to
+> > >> >> distinguish
+> > >> >> > between those variants of the same SoC, by checking for
+> > >> "sgx"
+> > >> >> and/or "dsp"
+> > >> >> > flags there and pulling in needed software components
+> > >> >> accordingly.
+> > >> >>
+> > >> >> My main concern here is that COMPATIBLE_MACHINE also parses
+> > >> >> SOC_FAMILY
+> > >> >> however if you have two (as the 'am35xx:am3517') it is
+> > going
+> > >> to
+> > >> >> fail;
+> > >> >> it could split it and parse it individually.
+> > >> >
+> > >> > Sorry, I'm not sure if I'm following here.  Are you saying
+> > you
+> > >> would find it useful to have support for a MACHINE to have
+> > more
+> > >> than one SOC_FAMILY?  In the example above I would have
+> > expected
+> > >> that you would have a machine config file for am3517 which has
+> > an
+> > >> SOC_FAMILY of am35xx.  Why would you specify two SOC_FAMILY
+> > >> values per machine?
+> > >>
+> > >> We can have more generic to more specific combinations.
+> > >>
+> > >> > Or are you trying to build something like omap3->am35xx-
+> > >am3517
+> > >> where you can use omap3 as a more generic setting but still
+> > use
+> > >> am35xx for a slightly more restrictive group that is still
+> > >> grouping like parts, and finally you use am3517 for the exact
+> > >> part?
+> > >>
+> > >> Exactly so we avoid duplication stuff to boards or SoCs.
+> > Another
+> > >> example of use: imx -> mx6q -> mx6.
+> > >
+> > > I see.  This could be of some use and I'll play with it.  This
+> > should not be required though for this patch since right now I
+> > want to fix the order issue.  Any objection to the patch as is?
+> > 
+> > No; not really. I just wanted to ask if you could look at it as
+> > well
+> > so we can have it working. It does make things much easier for
+> > all us.
+> 
+> Sure.  Btw, I noticed a weirdness when looking at this where the 
+> COMPATIBLE_MACHINE being evaluated evaulated/matched only has to be a 
+> substring of the SOC family to work.  For example if I have:
+> 
+> MACHINE = omap5-evm
+> SOC_FAMILY = omap-a15
+> COMPATIBLE_MACHINE = omap
+> 
+> Then this will work because "omap" (the COMPATIBLE_MACHINE) is a substring 
+> of SOC_FAMILY (and technically also a substring of omap5-evm)
+> 
+> Even setting COMPATIBLE_MACHINE to omap- will work because that is a 
+> substring of omap-a15.  So the "match" operation is not really precise 
+> enough.  I'm wondering if this needs to be changed to do an exact match.
 
-I tried making this respect the systemd DISTRO_FEATURE but it ended up with a
-build cycle.  uuidd isn't critical so this can wait.
+COMPATIBLE_MACHINE is a regular expression and after thinking about it some 
+more and digging around, I believe it was implemented that way on purpose, to 
+be as inclusive as possible, so you can do things like "nokia(800|770)" or 
+what I do in Arago - "(?!arago)". Or in case of COMPATIBLE_HOST it could be
+"^(i.86|x86_64|powerpc).*-linux". So, if you need an exact match, then specify 
+it with the regular expression syntax:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/util-linux/util-linux.inc |    1 +
- 1 file changed, 1 insertion(+)
+COMPATIBLE_MACHINE = "^omap$"
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 1cb4f5f..149cdc5 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -43,6 +43,7 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-                 --disable-vipw --disable-newgrp --disable-chfn-chsh --disable-su \
-                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
-                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
-+                --disable-socket-activation --without-systemdsystemunitdir \
- 		usrsbin_execdir='${sbindir}' \
- "
- 
+The above won't match either of the examples you provided above, unless 
+MACHINE or SOC_FAMILY are specifically set to "omap".
+
+For multiple entries in COMPATIBLE_MACHINE, use "^(omap|davinci)$"
+
 -- 
-1.7.10.4
-
+Denys
 
 
