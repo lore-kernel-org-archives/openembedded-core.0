@@ -1,40 +1,40 @@
-Received: from mail-pb0-f50.google.com ([209.85.160.50])
+Received: from mail-pb0-f41.google.com ([209.85.160.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF7gD-00009G-9N
+	(envelope-from <ross.burton@intel.com>) id 1UF7gA-00009A-RJ
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Mar 2013 19:42:41 +0100
-Received: by mail-pb0-f50.google.com with SMTP id up1so4056474pbc.37
+Received: by mail-pb0-f41.google.com with SMTP id um15so4084906pbc.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 11:25:58 -0700 (PDT)
+	Mon, 11 Mar 2013 11:25:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=dtscmjUwoUNYN5ROeILen0xV1OGv5+StiHr+vR8raz4=;
-	b=Mq38Fc5CHP1UzhmYy12VinlwBrDAZVvyaUeAOundg1Uh5xAUNEZPPSBcamDGjeJlZj
-	5reXgz6iRdNM9ueFyHEMDl1/N2pg8I919c0x7bKPJVCaAnj0PjssDmMoU1odjJR3uLEE
-	pFn3v5nZSyGzwKj5Pxuhec9QNy82MF/5ccKTBnD7tswX0fv5OwVJz15VogKLUoFPkh5T
-	T4vXgv13Zk0RLryypqojJWOHPw/V0676ASjvxwUBLmeekMK6kKD3Ka1cwvAFiC5SN5fD
-	zmmj3PztIi8YHjfwl+31+pRIAuMTs2d29agDR1jklEB9ietf3UGbTQjlPxCGY25wITLW
-	oOfg==
-X-Received: by 10.68.251.169 with SMTP id zl9mr11831545pbc.17.1363026358071;
-	Mon, 11 Mar 2013 11:25:58 -0700 (PDT)
+	bh=bvnnZNaeKSfMXbgrvZhjdNMmwNr2+JZMhlNi0gV9ngY=;
+	b=LQ8frOPPT/ABB6jiveQVk7RVCSJthDEJmKFVZSWCcC9eqMZ36jSR1UKmSF0W9dX309
+	Nkzp39mra3asiQom0igRzZU8mdRQD5/KnB+6DuZIfiBcwJWoLIU+NddkSpr8pvZ7KNFf
+	kOvxakPSYx7qr8D5rCZyGwFP+chkhQWo/gvLVceFUYrwVQ2dfVJPwv3eeLOiyanlC3WB
+	aF5bBIFXsS5x+yKOaVdpnuXcaP0smbz/2AIKLr45dGPgGmfKPGGJ9YyH/Sru8G2w2HpP
+	wSw+AtqY7sXU60ehDAccRmCTeFiNaT5Ci6ECVPnkuqHKryKJCHnCPfyIJwWCrnwnzpl8
+	13aA==
+X-Received: by 10.68.11.35 with SMTP id n3mr30146598pbb.220.1363026355716;
+	Mon, 11 Mar 2013 11:25:55 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id hu2sm21402014pbc.38.2013.03.11.11.25.55
+	by mx.google.com with ESMTPS id hu2sm21402014pbc.38.2013.03.11.11.25.53
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 11:25:57 -0700 (PDT)
+	Mon, 11 Mar 2013 11:25:55 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 11:24:55 -0700
-Message-Id: <1fd5b960dd36458b7b829f9094df18cd8b5ac201.1363025917.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 11:24:54 -0700
+Message-Id: <efbb924cceca141159ab3187ec6a9af5c6203834.1363025917.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363025917.git.ross.burton@intel.com>
 References: <cover.1363025917.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363025917.git.ross.burton@intel.com>
 References: <cover.1363025917.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQl6zaxanIUcb5o1Q58KjVojlHkqg8SiTVWiFJnq17KA43lDU//SIDGMDXaGNGpaqiz+Eddw
-Subject: [PATCH 12/12] systemd: remove libsystemd-daemon linkage in libudev
+X-Gm-Message-State: ALoCoQkOncW9SlzoRsSRTZT/12Dmu5N+uhg2c7SY4K5jnDuSmye8yHhKRucwOTBhw+8qDt6ExShH
+Subject: [PATCH 11/12] util-linux: disable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,97 +49,29 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Mar 2013 18:42:45 -0000
 
-libudev was statically linking to libsystemd-shared, which was linking to
-libsystemd-daemon (via libtool).  This is a spurious dependency so backport a
-commit from upstream to remove it.
+The only binary in util-linux with systemd support is uuidd, which is rarely
+used.
+
+I tried making this respect the systemd DISTRO_FEATURE but it ended up with a
+build cycle.  uuidd isn't critical so this can wait.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../systemd/systemd/udev-linkage.patch             |   62 ++++++++++++++++++++
- meta/recipes-core/systemd/systemd_197.bb           |    1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/udev-linkage.patch
+ meta/recipes-core/util-linux/util-linux.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd/udev-linkage.patch b/meta/recipes-core/systemd/systemd/udev-linkage.patch
-new file mode 100644
-index 0000000..a0d9b4c
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/udev-linkage.patch
-@@ -0,0 +1,62 @@
-+Don't cause libudev to link against libsystemd-daemon.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 8ee37c2bed1d452d566abf85b0cdf732b7ca029a Mon Sep 17 00:00:00 2001
-+From: Kay Sievers <kay@vrfy.org>
-+Date: Thu, 7 Feb 2013 13:47:46 +0100
-+Subject: [PATCH] build-sys: at least for now, never link libudev against
-+ systemd's shared libraries
-+
-+---
-+ Makefile.am |   12 +++++++++---
-+ 1 file changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 474110a..0e6c88f 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -811,8 +811,6 @@ libsystemd_shared_la_SOURCES = \
-+ 	src/shared/calendarspec.c \
-+ 	src/shared/calendarspec.h
-+ 
-+-libsystemd_shared_la_LIBADD = libsystemd-daemon.la
-+-
-+ #-------------------------------------------------------------------------------
-+ noinst_LTLIBRARIES += \
-+ 	libsystemd-dbus.la
-+@@ -1662,6 +1660,9 @@ systemd_tty_ask_password_agent_LDADD = \
-+ libsystemd_daemon_la_SOURCES = \
-+ 	src/libsystemd-daemon/sd-daemon.c
-+ 
-++libsystemd_daemon_internal_la_SOURCES = \
-++        $(libsystemd_daemon_la_SOURCES)
-++
-+ libsystemd_daemon_la_CFLAGS = \
-+ 	$(AM_CFLAGS) \
-+ 	-fvisibility=hidden \
-+@@ -1689,6 +1690,9 @@ UNINSTALL_EXEC_HOOKS += libsystemd-daemon-uninstall-hook
-+ lib_LTLIBRARIES += \
-+ 	libsystemd-daemon.la
-+ 
-++noinst_LTLIBRARIES += \
-++        libsystemd-daemon-internal.la
-++
-+ pkgconfiglib_DATA += \
-+ 	src/libsystemd-daemon/libsystemd-daemon.pc
-+ 
-+@@ -1768,7 +1772,9 @@ libudev_la_LDFLAGS = \
-+ 	-Wl,--version-script=$(top_srcdir)/src/libudev/libudev.sym
-+ 
-+ libudev_la_LIBADD = \
-+-	libsystemd-shared.la
-++	libsystemd-shared.la \
-++	libsystemd-daemon-internal.la \
-++	libsystemd-id128-internal.la
-+ 
-+ pkgconfiglib_DATA += \
-+ 	src/libudev/libudev.pc
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index e2bf415..5180eef 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            ${UCLIBCPATCHES} \
-            file://00-create-volatile.conf \
-            file://0001-systemd-analyze-rewrite-in-C.patch \
-+           file://udev-linkage.patch \
-           "
- SRC_URI[md5sum] = "56a860dceadfafe59f40141eb5223743"
- SRC_URI[sha256sum] = "e6857ea21ae24d7056e7b0f4c2aaaba73b8bf57025b8949c0a8af0c1bc9774b5"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1cb4f5f..149cdc5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -43,6 +43,7 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+                 --disable-vipw --disable-newgrp --disable-chfn-chsh --disable-su \
+                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
+                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
++                --disable-socket-activation --without-systemdsystemunitdir \
+ 		usrsbin_execdir='${sbindir}' \
+ "
+ 
 -- 
 1.7.10.4
 
