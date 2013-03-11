@@ -1,34 +1,37 @@
-Received: from vms173001pub.verizon.net ([206.46.173.1])
+Received: from mail-oa0-f43.google.com ([209.85.219.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1UF9s1-00084Y-33
+	(envelope-from <eu@felipetonello.com>) id 1UFARR-0000TS-SN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 22:03:01 +0100
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173001.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MJI0087XKCDPVG0@vms173001.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 15:46:00 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 697E1200A9; Mon,
-	11 Mar 2013 16:45:49 -0400 (EDT)
-Date: Mon, 11 Mar 2013 16:45:49 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Maupin, Chase" <chase.maupin@ti.com>
-Message-id: <20130311204549.GC31635@denix.org>
-References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
-	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
-	<20130308200628.GB15481@denix.org>
-	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
-	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
-MIME-version: 1.0
-In-reply-to: <7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
+	Mon, 11 Mar 2013 22:39:35 +0100
+Received: by mail-oa0-f43.google.com with SMTP id l10so5030133oag.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2013 14:22:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=cZ9J3N3WY/4f9ZlSkLaZjW7ArZXJg6JrUijXsYwBO5c=;
+	b=j551O8mDvXQx2jZqEnzBBtGvftA89fF7QLP8srXZmCGsrNkzeYw/WD3CBBPt/v6kLD
+	8VeGxoYSsBgWIcLmwSLi9hu3GwXLwKYrn40Vawg5kOUWxPMAf0LfN807+0cRm1089dWN
+	Fy5JLjtuUEi48ZT7/GpEtGZmC1tQ5+HVCbnmPQkXN8J44yCpJ0jtwpHn/ZalU5k3GzpB
+	TZKGeBk7v4vcQieg5MiCQ4TBUX4fURAYXrXTpjH1Rj3ou+2fkVlL0awzOQXltj/1kt3M
+	s8ASEHxvorYxT8tCg92WikxlDBd9MeN35Co2PrriVWaRKVKeoIQ16BuBdRI3EU7+ihcY
+	8I/g==
+X-Received: by 10.182.23.101 with SMTP id l5mr10317813obf.16.1363036975008;
+	Mon, 11 Mar 2013 14:22:55 -0700 (PDT)
+Received: from mlabs-ftonello.masimolabs.com
+	(wsip-70-183-20-162.oc.oc.cox.net. [70.183.20.162])
+	by mx.google.com with ESMTPS id i19sm18709868obf.0.2013.03.11.14.22.53
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Mar 2013 14:22:53 -0700 (PDT)
+From: eu@felipetonello.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2013 14:23:02 -0700
+Message-Id: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkvACDMICKMn5L4GOstPA/hEDK9soYxkWOmXjwZ5xAPSZvSrTSra8tip9A6UQCTWDvVnxHk
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>
+Subject: [PATCH 0/2] qt-mobility: improved recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,120 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 21:03:40 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 11 Mar 2013 21:39:35 -0000
 
-On Mon, Mar 11, 2013 at 02:49:20PM +0000, Maupin, Chase wrote:
-> > -----Original Message-----
-> > From: otavio.salvador@gmail.com
-> > [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio Salvador
-> > Sent: Saturday, March 09, 2013 6:11 AM
-> > To: Maupin, Chase
-> > Cc: Denys Dmytriyenko; Patches and discussions about the oe-core
-> > layer
-> > Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
-> > override order
-> > 
-> > On Fri, Mar 8, 2013 at 7:16 PM, Maupin, Chase
-> > <chase.maupin@ti.com> wrote:
-> > >> -----Original Message-----
-> > >> From: otavio.salvador@gmail.com
-> > >> [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio
-> > Salvador
-> > >> Sent: Friday, March 08, 2013 2:27 PM
-> > >> To: Denys Dmytriyenko
-> > >> Cc: Maupin, Chase; Patches and discussions about the oe-core
-> > >> layer
-> > >> Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
-> > >> override order
-> > >>
-> > >> On Fri, Mar 8, 2013 at 5:06 PM, Denys Dmytriyenko
-> > >> <denis@denix.org> wrote:
-> > >> > On Fri, Mar 08, 2013 at 03:52:57PM -0300, Otavio Salvador
-> > >> wrote:
-> > >> >> On Fri, Mar 8, 2013 at 2:51 PM, Chase Maupin
-> > >> <Chase.Maupin@ti.com> wrote:
-> > >> >> > * the current order has SOC_FAMILY settings, which are
-> > >> generic
-> > >> >> >   settings for a group of devices, overriding the machine
-> > >> specific
-> > >> >> >   settings.  For example:
-> > >> >> >
-> > >> >> >   KERNEL_DEVICETREE_ti33x = "xxxx"
-> > >> >> >   KERNEL_DEVICETREE_beaglebone = "yyyy"
-> > >> >> >
-> > >> >> >   Should yield "yyyy" when building for the beaglebone
-> > >> because
-> > >> >> >   that is a more specific device than ti33x.  However,
-> > >> without this
-> > >> >> >   change the result is that the value is set to "xxxx"
-> > >> meaning the
-> > >> >> >   more generic setting overrides the more specific
-> > setting.
-> > >> >> >
-> > >> >> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> > >> >>
-> > >> >> Maybe while on that you could look at supporting xx:yy as
-> > SoC
-> > >> family?
-> > >> >> like am37xx:am3715 ?
-> > >> >
-> > >> > Did you mean am3517? That's a slightly different variant of
-> > >> am35x/omap35x SoC.
-> > >>
-> > >> Yes; sorry ... what I meant was 'am35xx:am3517'
-> > >>
-> > >> > But if you really meant am3715 (as well as am3705, am3725
-> > and
-> > >> am3730), then
-> > >> > those are variants of am37x SoC, just with some subsystems,
-> > >> like SGX or DSP,
-> > >> > being absent or present. Having those variants handled by
-> > >> SOC_FAMILY would be
-> > >> > an overkill. Instead, we've started using MACHINE_FEATURES
-> > to
-> > >> distinguish
-> > >> > between those variants of the same SoC, by checking for
-> > "sgx"
-> > >> and/or "dsp"
-> > >> > flags there and pulling in needed software components
-> > >> accordingly.
-> > >>
-> > >> My main concern here is that COMPATIBLE_MACHINE also parses
-> > >> SOC_FAMILY
-> > >> however if you have two (as the 'am35xx:am3517') it is going
-> > to
-> > >> fail;
-> > >> it could split it and parse it individually.
-> > >
-> > > Sorry, I'm not sure if I'm following here.  Are you saying you
-> > would find it useful to have support for a MACHINE to have more
-> > than one SOC_FAMILY?  In the example above I would have expected
-> > that you would have a machine config file for am3517 which has an
-> > SOC_FAMILY of am35xx.  Why would you specify two SOC_FAMILY
-> > values per machine?
-> > 
-> > We can have more generic to more specific combinations.
-> > 
-> > > Or are you trying to build something like omap3->am35xx->am3517
-> > where you can use omap3 as a more generic setting but still use
-> > am35xx for a slightly more restrictive group that is still
-> > grouping like parts, and finally you use am3517 for the exact
-> > part?
-> > 
-> > Exactly so we avoid duplication stuff to boards or SoCs. Another
-> > example of use: imx -> mx6q -> mx6.
-> 
-> I see.  This could be of some use and I'll play with it.  This should not be 
-> required though for this patch since right now I want to fix the order 
-> issue.  Any objection to the patch as is?
+From: "Felipe F. Tonello" <ftonello@cercacor.com>
 
-BTW, this was already pushed:
+Removed bluez forced dependency. Also extended functionality by enabling the
+user to choose which qt mobility module to build. By default, all modules
+supported will be build.
 
-http://cgit.openembedded.org/openembedded-core/commit/?id=0b836b9d79255a5b2f358fe718c67638f52ecf72
+OBS: We might also want to remove pulseaudio dependency. But check against
+which DISTRO_FEATURE?
+
+Felipe F. Tonello (2):
+  qt-mobility: Add bluez dependency if DISTRO_FEATURES has bluetooth
+  qt-mobility: added list of modules to be compiled
+
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc |   13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 -- 
-Denys
+1.7.9.5
+
 
 
