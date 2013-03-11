@@ -1,40 +1,37 @@
-Received: from mail-da0-f43.google.com ([209.85.210.43])
+Received: from mail-da0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9Gt-0002sG-1Z
+	(envelope-from <ross.burton@intel.com>) id 1UF9Gq-0002sF-Gg
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:24:39 +0100
-Received: by mail-da0-f43.google.com with SMTP id u36so335465dak.16
+	Mon, 11 Mar 2013 21:24:34 +0100
+Received: by mail-da0-f50.google.com with SMTP id t1so616427dae.37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:07:56 -0700 (PDT)
+	Mon, 11 Mar 2013 13:07:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=S/5pEDjtO0BKzzy+o9HwA+qD8yz9iROcaYK5o+qNzvY=;
-	b=BfNmX0vq9rOp6y+/NR5ZbMKLB830U2r0iBGsTcQJZJGtMcQ5Dw/JbwKgciwE7pFLhu
-	vjMsLracwAJ3qeuxwI+E5XgT4BPoAUBnczvsbZFwNM/VGde00tIJk0Az4B0oAvoQMo24
-	W1z3M0SXF/NrvZbBxLJa0SE6eagYOZhkMpSfX8xKmAoM2d6I8Cvv6gouI5SoIy6yoNC5
-	0GUZKIAzQjaYzIpnbU0f9isDtfh/0u4qkgLjM971m+DaCzLjYZ6fNf0+/e+4gV6drpwB
-	NlE8GEJxLA8Lrt9k3SDA4dz1NM0nJ7M2qaqg3rzxCInciGjjwcoc/ClZFZwLXpGxaAOd
-	dVCA==
-X-Received: by 10.68.116.169 with SMTP id jx9mr30660845pbb.94.1363032475392;
-	Mon, 11 Mar 2013 13:07:55 -0700 (PDT)
+	h=x-received:from:to:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=k1h5yoSP254pdFSYbaToFQA5ANw/2d7TZlAH5GiM9dg=;
+	b=N0acdPj8Lc91RmkN6vINk78/CIFpknPn0RdhwWylSiPJGU9aFkPs9MxsnuY9krstUm
+	DIDMRcGflEPAwGolIgeFZrrUJ0dvQC7+FTb20GwzqZOryJvQHLJsgSeShf6KaC8QZYok
+	8BlZjVdtCg448VQ+PhufoeNRJjv1y7x1RHqBffnCnoY2cMV2eSkcofILbjvEO+hdTptD
+	0OspkoI7lUr00Qj0qzEPHj04R/D1zGib4KdgIuT6WkWfxOcIShEuIf1xFXsNiopWkZZ3
+	muDB90k/kMiw09zfWlByE1v1/H2paA0RpNpYtsrdQTHgMqw2aK38/ZOlXVtJeb51rgks
+	l55w==
+X-Received: by 10.68.225.40 with SMTP id rh8mr31427672pbc.137.1363032472639;
+	Mon, 11 Mar 2013 13:07:52 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.07.52
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.07.50
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:07:54 -0700 (PDT)
+	Mon, 11 Mar 2013 13:07:51 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:31 -0700
-Message-Id: <48b41b4d60b531524523588507b2b8d5bdd4be26.1363031776.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 13:07:30 -0700
+Message-Id: <cover.1363031776.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
-References: <cover.1363031776.git.ross.burton@intel.com>
-In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
-References: <cover.1363031776.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnylw6poGWsKNRSUXHkxOZkmiWkbhXxL/OFafE/egWPB3+j8nvbMF7h85d7JemFu1zzT45C
-Subject: [PATCH 1/9] systemd: merge udev-systemd into udev
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQnMjLs00P1az4/9EYeSRdOgUbJKI6+WacTkAfXehY7eK+vvD5dss6sOoOsdL07XT74dCU0r
+Subject: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,57 +47,106 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
 X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
 X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
-X-List-Received-Date: Mon, 11 Mar 2013 20:24:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Merge the contents of udev-systemd, which is just the service files, into udev
-itself.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_197.bb |    9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+This series allows you to have both sysvinit and systemd in DISTRO_FEATURES.
+Packages will be built with both init scripts, and some daemons will be linking
+to libsystemd-daemon so that will be pulled in to sysvinit images.
 
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 5180eef..962b120 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -171,7 +171,7 @@ FILES_${PN} = " ${base_bindir}/* \
- FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
--RDEPENDS_${PN} += "dbus udev-systemd"
-+RDEPENDS_${PN} += "dbus"
- 
- RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       util-linux-agetty \
-@@ -179,7 +179,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
- "
- 
--PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils udev-systemd"
-+PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils"
- 
- FILES_udev-dbg += "/lib/udev/.debug"
- 
-@@ -210,6 +210,8 @@ FILES_udev += "${base_sbindir}/udevd \
-                /lib/udev/rules.d/95*.rules \
-                ${base_libdir}/udev/hwdb.d \
-                ${sysconfdir}/udev \
-+               ${systemd_unitdir}/system/*udev* \
-+               ${systemd_unitdir}/system/*.wants/*udev* \
-               "
- 
- FILES_udev-consolekit += "/lib/ConsoleKit"
-@@ -217,9 +219,6 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
- 
- FILES_udev-utils = "${bindir}/udevadm"
- 
--FILES_udev-systemd = "${systemd_unitdir}/system/*udev* ${systemd_unitdir}/system/*.wants/*udev*"
--RDEPENDS_udev-systemd = "udev"
--
- # TODO:
- # u-a for runlevel and telinit
- 
+The init manager used at image construction time is DISTRO_FEATURES_INITMAN
+(maybe this should be renamed) and that value is also backfilled into
+DISTRO_FEATURES.
+
+The key change is that systemd.bbclass only recommends systemd, and will check
+that there's a systemctl binary before calling it - this allows packages built
+like this to be installed on a systemd-free image.
+
+This is very much a RFC, I've done some basic testing but between illness and
+having to prepare for a presentation at this conference I've not been able to
+test it as much as I'd hoped.  Review and testing very much appreciated.
+
+Some metrics: adding the systemd feature but still using sysvinit when building
+the image results in just libsystemd-daemon and the service files being added to
+the image, with a negliable size increase.
+
+Ross
+
+The following changes since commit 1fd5b960dd36458b7b829f9094df18cd8b5ac201:
+
+  systemd: remove libsystemd-daemon linkage in libudev (2013-03-11 10:59:54 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/systemd
+
+for you to fetch changes up to ba7c15ae47ace8a15d97b4c58d2aa5b2ebb4c47a:
+
+  default-distrovars: don't add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES (2013-03-11 12:17:49 -0700)
+
+----------------------------------------------------------------
+Radu Moisan (1):
+      busybox: add systemd enabling for syslog and klogd
+
+Ross Burton (8):
+      systemd: merge udev-systemd into udev
+      systemd: make xz support (compressed journal) optional
+      default-providers: change udev selection logic
+      update-rcd.bbclass: handle both sysvinit and systemd features being present
+      systemd: allow postinsts to run without systemd being present
+      systemd: add udev init script for hybrid sysvinit/systemd usage
+      update-rc.d/systemd: change communication variable name
+      default-distrovars: don't add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+
+ meta/classes/systemd.bbclass                       |   37 ++++---
+ meta/classes/update-rc.d.bbclass                   |    7 +-
+ meta/conf/distro/include/default-distrovars.inc    |    2 +-
+ meta/conf/distro/include/default-providers.inc     |    2 +-
+ meta/recipes-core/busybox/busybox.inc              |   17 +++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    2 +
+ .../busybox/files/busybox-klogd.service.in         |    8 ++
+ .../busybox/files/busybox-syslog.service.in        |   13 +++
+ .../packagegroups/packagegroup-core-boot.bb        |    4 +-
+ meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |   26 +++--
+ 11 files changed, 184 insertions(+), 35 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/systemd/systemd/init
+
+Radu Moisan (1):
+  busybox: add systemd enabling for syslog and klogd
+
+Ross Burton (8):
+  systemd: merge udev-systemd into udev
+  systemd: make xz support (compressed journal) optional
+  default-providers: change udev selection logic
+  update-rcd.bbclass: handle both sysvinit and systemd features being
+    present
+  systemd: allow postinsts to run without systemd being present
+  systemd: add udev init script for hybrid sysvinit/systemd usage
+  update-rc.d/systemd: change communication variable name
+  default-distrovars: don't add DISTRO_FEATURES_INITMAN to
+    DISTRO_FEATURES
+
+ meta/classes/systemd.bbclass                       |   37 ++++---
+ meta/classes/update-rc.d.bbclass                   |    7 +-
+ meta/conf/distro/include/default-distrovars.inc    |    2 +-
+ meta/conf/distro/include/default-providers.inc     |    2 +-
+ meta/recipes-core/busybox/busybox.inc              |   17 +++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    2 +
+ .../busybox/files/busybox-klogd.service.in         |    8 ++
+ .../busybox/files/busybox-syslog.service.in        |   13 +++
+ .../packagegroups/packagegroup-core-boot.bb        |    4 +-
+ meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |   26 +++--
+ 11 files changed, 184 insertions(+), 35 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/systemd/systemd/init
+
 -- 
 1.7.10.4
 
