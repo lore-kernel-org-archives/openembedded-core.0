@@ -1,37 +1,26 @@
-Received: from mail-oa0-f43.google.com ([209.85.219.43])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eu@felipetonello.com>) id 1UFARR-0000TS-SN
+	(envelope-from <sgw@linux.intel.com>) id 1UFARY-0000Ti-M0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 22:39:35 +0100
-Received: by mail-oa0-f43.google.com with SMTP id l10so5030133oag.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 14:22:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=cZ9J3N3WY/4f9ZlSkLaZjW7ArZXJg6JrUijXsYwBO5c=;
-	b=j551O8mDvXQx2jZqEnzBBtGvftA89fF7QLP8srXZmCGsrNkzeYw/WD3CBBPt/v6kLD
-	8VeGxoYSsBgWIcLmwSLi9hu3GwXLwKYrn40Vawg5kOUWxPMAf0LfN807+0cRm1089dWN
-	Fy5JLjtuUEi48ZT7/GpEtGZmC1tQ5+HVCbnmPQkXN8J44yCpJ0jtwpHn/ZalU5k3GzpB
-	TZKGeBk7v4vcQieg5MiCQ4TBUX4fURAYXrXTpjH1Rj3ou+2fkVlL0awzOQXltj/1kt3M
-	s8ASEHxvorYxT8tCg92WikxlDBd9MeN35Co2PrriVWaRKVKeoIQ16BuBdRI3EU7+ihcY
-	8I/g==
-X-Received: by 10.182.23.101 with SMTP id l5mr10317813obf.16.1363036975008;
-	Mon, 11 Mar 2013 14:22:55 -0700 (PDT)
-Received: from mlabs-ftonello.masimolabs.com
-	(wsip-70-183-20-162.oc.oc.cox.net. [70.183.20.162])
-	by mx.google.com with ESMTPS id i19sm18709868obf.0.2013.03.11.14.22.53
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 14:22:53 -0700 (PDT)
-From: eu@felipetonello.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 14:23:02 -0700
-Message-Id: <1363036984-29155-1-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQkvACDMICKMn5L4GOstPA/hEDK9soYxkWOmXjwZ5xAPSZvSrTSra8tip9A6UQCTWDvVnxHk
-Cc: "Felipe F. Tonello" <ftonello@cercacor.com>
-Subject: [PATCH 0/2] qt-mobility: improved recipe
+	Mon, 11 Mar 2013 22:39:41 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 11 Mar 2013 14:23:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,825,1355126400"; d="scan'208";a="212950079"
+Received: from unknown (HELO [10.255.13.68]) ([10.255.13.68])
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Mar 2013 14:23:00 -0700
+Message-ID: <513E4B06.1020904@linux.intel.com>
+Date: Mon, 11 Mar 2013 14:22:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Alex DAMIAN <alexandru.damian@intel.com>
+References: <1363015173-24981-1-git-send-email-alexandru.damian@intel.com>
+	<1363015599-26709-1-git-send-email-alexandru.damian@intel.com>
+In-Reply-To: <1363015599-26709-1-git-send-email-alexandru.damian@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [[Patch v2]] Always use locale.h in grep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 21:39:35 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 21:39:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Felipe F. Tonello" <ftonello@cercacor.com>
 
-Removed bluez forced dependency. Also extended functionality by enabling the
-user to choose which qt mobility module to build. By default, all modules
-supported will be build.
+Please fix the subject to reflect which recipe you are affecting.
 
-OBS: We might also want to remove pulseaudio dependency. But check against
-which DISTRO_FEATURE?
+grep: Always use locale.h
 
-Felipe F. Tonello (2):
-  qt-mobility: Add bluez dependency if DISTRO_FEATURES has bluetooth
-  qt-mobility: added list of modules to be compiled
+(see below also)
+On 03/11/2013 08:26 AM, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> The changes in the grep 2.5 configuration always leave out
+> HAVE_LOCALE_H - it has been removed from other files, but
+> not from everywhere.
+>
+> This leads to a crash in certain configurations where the
+> size of int is not the size of pointer due to using
+> setlocale() while being undeclared.
+>
+Nice pickup on fixing this bug!
 
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+> [YOCTO #3959]
+> ---
+>   .../grep/grep-2.5.1a/fix64-int-to-pointer.patch       |   17 +++++++++++++++++
+>   meta/recipes-extended/grep/grep_2.5.1a.bb             |    3 ++-
+>   2 files changed, 19 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/fix64-int-to-pointer.patch
+>
+> diff --git a/meta/recipes-extended/grep/grep-2.5.1a/fix64-int-to-pointer.patch b/meta/recipes-extended/grep/grep-2.5.1a/fix64-int-to-pointer.patch
+> new file mode 100644
+> index 0000000..3b91520
+> --- /dev/null
+> +++ b/meta/recipes-extended/grep/grep-2.5.1a/fix64-int-to-pointer.patch
+> @@ -0,0 +1,17 @@
+> +Always use locale.h as HAVE_LOCALE_H is no longer handled by ./configure
+> +Upstream-Status: Inappropriate [ old version that will not be maintained ]
+> +Signed-off-by: Alex DAMIAN <alexandru.damian@intel.com>
+> +
+> +diff --recursive --unified grep-2.5.1a-orig/lib/hard-locale.c grep-2.5.1a/lib/hard-locale.c
+> +--- grep-2.5.1a-orig/lib/hard-locale.c	2001-03-04 07:33:12.000000000 +0200
+> ++++ grep-2.5.1a/lib/hard-locale.c	2013-03-11 17:05:52.086444891 +0200
+> +@@ -38,9 +38,7 @@
+> + # endif
+> + #endif
+> +
+> +-#if HAVE_LOCALE_H
+> + # include <locale.h>
+> +-#endif
+> +
+> + #if HAVE_STRING_H
+> + # include <string.h>
+> diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
+> index ebcbe23..b534066 100644
+> --- a/meta/recipes-extended/grep/grep_2.5.1a.bb
+> +++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
+> @@ -11,6 +11,7 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
+>              file://uclibc-fix.patch \
+>              file://grep_fix_for_automake-1.12.patch \
+>              file://gettext.patch \
+> +           file://fix64-int-to-pointer.patch \
+>              file://Makevars \
+>              "
+>
+> @@ -21,7 +22,7 @@ inherit autotools gettext
+>
+>   EXTRA_OECONF = "--disable-perl-regexp --disable-ncurses"
+>
+> -CFLAGS += "-D PROTOTYPES"
+> +CFLAGS += "-O0 -D PROTOTYPES"
 
--- 
-1.7.9.5
+You are also changing the CFLAGS here, does this need to be removed or 
+documented.
 
+Sau!
+>   do_configure_prepend () {
+>   	rm -f ${S}/m4/init.m4
+>   	cp -f ${WORKDIR}/Makevars ${S}/po/
+>
 
 
