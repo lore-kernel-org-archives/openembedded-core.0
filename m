@@ -1,36 +1,26 @@
-Received: from mail-ie0-f178.google.com ([209.85.223.178])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UFCgd-0005cG-Ra
+	(envelope-from <sgw@linux.intel.com>) id 1UFCoO-0005ol-Cm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 01:03:25 +0100
-Received: by mail-ie0-f178.google.com with SMTP id c13so5503917ieb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 16:46:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=6zwPSHjXt1vZqMPz7Ef39YL6Ih1SrOKLrXquQFkjFuM=;
-	b=CH+37yn3sOwWzCAADZojgDfJS9eSkkAPneZ7rLLx/CD+n6YOTFcZ/F7Fx79ZNMd35h
-	Ri+NvtQNL/ZibZFQ3b0tooIwqXEAajZJAczaz6ZClFK1WN8E1+EmXNxSe3lXbTvKdHoT
-	tkDzAQp5yBkZSt6Ir6CGVjw96VsGhEvZASZWfLPjw0dNfIPB7Z6yZjsiUcW5UaKMhlwv
-	n+JASUyDozFSz+ynUcd8oT4n9G4KNPnZZhQ5XVfj41PxqNJa4ECNfLu6iWqkwHMdUVGq
-	KrJa1Rm9+aRqA/3wH2x8QeZAuFUQpcyMYuSByDuf+w8A/i2dPjOU/BMM4fAZMyvs34p1
-	ehIg==
-X-Received: by 10.50.37.162 with SMTP id z2mr9389306igj.13.1363045604787;
-	Mon, 11 Mar 2013 16:46:44 -0700 (PDT)
-Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
-	[67.237.97.32])
-	by mx.google.com with ESMTPS id xc3sm15742315igb.10.2013.03.11.16.46.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 16:46:43 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 16:46:36 -0700
-Message-Id: <1363045596-18598-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmkVRhzFozZT2h/cuGBTRcvLWsHE1rc0QKpO2vL3ptWU1H7Fd4Z+MQpSNI3sxzEAJh0y4i8
-Subject: [PATCH] musicbrainz: remove
+	Tue, 12 Mar 2013 01:11:25 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 Mar 2013 16:54:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,825,1355126400"; d="scan'208";a="268882150"
+Received: from unknown (HELO [10.255.13.68]) ([10.255.13.68])
+	by azsmga001.ch.intel.com with ESMTP; 11 Mar 2013 16:54:43 -0700
+Message-ID: <513E6EC3.7090905@linux.intel.com>
+Date: Mon, 11 Mar 2013 16:54:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: tom.zanussi@linux.intel.com
+References: <4293cea264609a122b9cc05831fe598fcb3ff677.1362702690.git.tom.zanussi@linux.intel.com>
+	<957507c1d36185cf5c6a1ac9b5781c3344d5a40d.1362702690.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <957507c1d36185cf5c6a1ac9b5781c3344d5a40d.1362702690.git.tom.zanussi@linux.intel.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] perf: rename perf_3.4 to perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,91 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 00:03:25 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 00:11:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is in meta-multimedia now, so remove from oe-core.
+On 03/07/2013 04:39 PM, tom.zanussi@linux.intel.com wrote:
+> From: Tom Zanussi <tom.zanussi@linux.intel.com>
+>
+> There's nothing kernel-version-specific about the perf_3.4 recipe, so
+> it's actually misnamed and misleading now that it also gets used with
+> the 3.8 kernel.
+>
+> Since the recipe isn't tied to a specific PV, and simply uses
+> whatever's in STAGING_KERNEL_DIR, there's no reason to add anything
+> else either to the bare PN, so just use that as the recipe name.
+>
+This did not quite work out correctly, since the package name has now 
+gone backwards since the default PV for a recipe is 1.0 when nothing is 
+set on the recipe file name.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../musicbrainz/files/allow-libdir-override.patch  |   21 -----------
- .../musicbrainz/libmusicbrainz_git.bb              |   38 --------------------
- 2 files changed, 59 deletions(-)
- delete mode 100644 meta/recipes-multimedia/musicbrainz/files/allow-libdir-override.patch
- delete mode 100644 meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
+Is there a way to sort this out such that it picks up an incrementing PV 
+from the kernel recipe?
 
-diff --git a/meta/recipes-multimedia/musicbrainz/files/allow-libdir-override.patch b/meta/recipes-multimedia/musicbrainz/files/allow-libdir-override.patch
-deleted file mode 100644
-index d59d12e..0000000
---- a/meta/recipes-multimedia/musicbrainz/files/allow-libdir-override.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Allow LIB_INSTALL_DIR to be set by the the cmake configure invocation.  We dont
--easily have a way of determining something that patches ${LIB_SUFFIX} so we'll
--set LIB_INSTALL_DIR.
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
--
--Index: libmusicbrainz-3.0.3/CMakeLists.txt
--===================================================================
----- libmusicbrainz-3.0.3.orig/CMakeLists.txt
--+++ libmusicbrainz-3.0.3/CMakeLists.txt
--@@ -26,7 +26,7 @@ FIND_PACKAGE(DiscId)
-- SET(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
-- SET(EXEC_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE PATH "Installation prefix for executables and object code libraries" FORCE)
-- SET(BIN_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/bin CACHE PATH "Installation prefix for user executables" FORCE)
---SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries" FORCE)
--+SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries")
-- SET(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation prefix for C header files" FORCE)
-- 
-- CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/libmusicbrainz3.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libmusicbrainz3.pc)
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-deleted file mode 100644
-index 21eec6d..0000000
---- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-+++ /dev/null
-@@ -1,38 +0,0 @@
--SUMMARY = "MusicBrainz Client"
--DESCRIPTION = "The MusicBrainz client is a library which can be built into other programs.  The library allows you to access the data held on the MusicBrainz server."
--HOMEPAGE = "http://musicbrainz.org"
--LICENSE = "LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=fbc093901857fcd118f065f900982c24"
--DEPENDS = "expat neon"
--
--PV = "5.0.1+git${SRCPV}"
--PR = "r0"
--
--SRCREV = "0749dd0a35b4a54316da064475863a4ac6e28e7e"
--SRC_URI = "git://github.com/metabrainz/libmusicbrainz.git \
--           file://allow-libdir-override.patch "
--
--S = "${WORKDIR}/git"
--
--LDFLAGS_prepend_libc-uclibc = " -lpthread "
--
--
--inherit cmake pkgconfig
--
--do_configure_prepend() {
--    # The native build really doesn't like being rebuilt, so delete
--    # it if it's already present.
--    rm -rf build-native
--    mkdir build-native
--    cd build-native
--    cmake -DCMAKE_C_FLAGS=${BUILD_CFLAGS} \
--            -DCMAKE_C_COMPILER=${BUILD_CC} \
--            -DCMAKE_CXX_FLAGS=${BUILD_CXXFLAGS} \
--            -DCMAKE_CXX_COMPILER=${BUILD_CXX} \
--            ..
--    make make-c-interface
--    cd ..
--}
--
--EXTRA_OECMAKE = "-DLIB_INSTALL_DIR:PATH=${libdir} \
--                -DIMPORT_EXECUTABLES=build-native/ImportExecutables.cmake"
--- 
-1.7.10.4
+As it stands now, the PV has gone from 3.4 -> 1.0.
 
+Thanks for looking after this.
+
+Sau!
+
+> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+> ---
+>   meta/recipes-kernel/perf/{perf_3.4.bb => perf.bb} | 0
+>   1 file changed, 0 insertions(+), 0 deletions(-)
+>   rename meta/recipes-kernel/perf/{perf_3.4.bb => perf.bb} (100%)
+>
+> diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf.bb
+> similarity index 100%
+> rename from meta/recipes-kernel/perf/perf_3.4.bb
+> rename to meta/recipes-kernel/perf/perf.bb
+>
 
 
