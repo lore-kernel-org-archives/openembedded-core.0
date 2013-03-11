@@ -1,40 +1,40 @@
-Received: from mail-pb0-f48.google.com ([209.85.160.48])
+Received: from mail-pb0-f41.google.com ([209.85.160.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9HH-0002to-EJ
+	(envelope-from <ross.burton@intel.com>) id 1UF9HI-0002tp-GK
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Mar 2013 21:25:03 +0100
-Received: by mail-pb0-f48.google.com with SMTP id wy12so4106802pbc.21
+Received: by mail-pb0-f41.google.com with SMTP id um15so4178110pbc.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:08:20 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=ghD8RvB2HoXkdEMtobSzS4E3PyPxFkISLtuGNvM9o+E=;
-	b=lVECZUneds6RNkzSuIw1ohuB1y/65ov9c3ZjJvFbADc3nXtOLbjW+8k7UUfKsl4xgp
-	9VkRjyM0k+qpAt1LXzrf6tfMQVWXHYLMUn7Hd5a2MRtIMEsctTI4Rwvur5XiVdCF24kL
-	gN5cthmSp4kqELxus/Af4YkuYmFp85EDjfSXXCfhDTN83tKSGtsWzRJfb869gLbPJtj/
-	FNjrZEQ9He7irJByZb7W2oJIG0W2edULhqyMHX4wzJytY2Pm76SVpctue51Yk00CF9PC
-	8XACI+HEknINLmgFZDgh2ZIFl7vMXcOq6AYY90PapMp207q8bIaTyfe/sPaT9frWfBDz
-	MSSw==
-X-Received: by 10.68.136.97 with SMTP id pz1mr30682410pbb.205.1363032499868;
-	Mon, 11 Mar 2013 13:08:19 -0700 (PDT)
+	bh=b6//vVKhpAoEk6Vor4ha1muAjA1XX3JBELDXt58+G5Q=;
+	b=pzK/7wy3bkHBTp/F9+5FL6nkt/k91JT3eY04Agb95JHCKf6N7FqBwiaghrGXUNnt2N
+	LNDyciN8UolreqCXpVYwjI0nkPyvEbhHDt1ZluH2mfkYk7tH0UK1UdGCCR5IdpT4Cktt
+	7WeU0zQ/hd2/egw2/vCIVKJ26D1JuJo0hJqPWnwhBqoCdv4LZ1aCe1WhkS5swPiE/9qq
+	1kWdHNGEP50OyPp4LT4L4lsmFxQWhUbtvcM/F7xp44jTYgeLHEI2AMPAclC19BsXRPNe
+	NDuq8bVq3/sLPLgnNgvZ58dYxO0Of7cnR3LIqOZQ3WytjxIOsKm6Q29DzPWL1y6eh3hG
+	3/Ow==
+X-Received: by 10.68.198.97 with SMTP id jb1mr17388315pbc.23.1363032501178;
+	Mon, 11 Mar 2013 13:08:21 -0700 (PDT)
 Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
 	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.18
+	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:08:19 -0700 (PDT)
+	Mon, 11 Mar 2013 13:08:20 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:37 -0700
-Message-Id: <d770c632e670e7fe93fbe49561f719bc4546451b.1363031776.git.ross.burton@intel.com>
+Date: Mon, 11 Mar 2013 13:07:38 -0700
+Message-Id: <43743ae972f7ddb1216be7f9dab2d95e5e753604.1363031776.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnxvLN94Ctyapdk6YHj2SyCesjDf5eVWsompKwlJLxo23c3EDYFjqZ4RcbqPFF0PxV+6GEh
-Subject: [PATCH 7/9] systemd: add udev init script for hybrid sysvinit/systemd usage
+X-Gm-Message-State: ALoCoQlS8JI8n8cR3JnbJ+AS5/IENgXfxlYsFg+xRy7IjXLx6zSP5EtEG82riKBE9T/2Er0tsve+
+Subject: [PATCH 8/9] update-rc.d/systemd: change communication variable name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,176 +49,57 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Mar 2013 20:25:33 -0000
 
-If a distro is built with both sysvinit and systemd then we may be booting
-systemd's udev on sysvinit, so add a sysvinit-style init script for udev (copied
-from udev).
+Rename SYSTEMD_BBCLASS_ENABLED to INHIBIT_UPDATERCD_BBCLASS to reflect it's
+side-effect for clarity.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd/init   |  101 ++++++++++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_197.bb |   13 +++-
- 2 files changed, 113 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/init
+ meta/classes/systemd.bbclass     |   10 ++++++----
+ meta/classes/update-rc.d.bbclass |    8 +++-----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/init b/meta/recipes-core/systemd/systemd/init
-new file mode 100644
-index 0000000..be3c379
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/init
-@@ -0,0 +1,101 @@
-+#!/bin/sh
-+
-+### BEGIN INIT INFO
-+# Provides:          udev
-+# Required-Start:    mountvirtfs
-+# Required-Stop:
-+# Default-Start:     S
-+# Default-Stop:
-+# Short-Description: Start udevd, populate /dev and load drivers.
-+### END INIT INFO
-+
-+. /etc/init.d/functions
-+
-+export TZ=/etc/localtime
-+
-+[ -d /sys/class ] || exit 1
-+[ -r /proc/mounts ] || exit 1
-+[ -x /lib/udev/udevd ] || exit 1
-+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
-+[ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
-+
-+readfile () {
-+   filename=$1
-+   READDATA=""
-+   if [ -r $filename ]; then
-+       while read line; do
-+           READDATA="$READDATA$line"
-+       done < $filename
-+   fi
-+}
-+
-+case "$1" in
-+  start)
-+    export ACTION=add
-+    # propagate /dev from /sys
-+    echo "Starting udev"
-+
-+    # mount the tmpfs on /dev, if not already done
-+    LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
-+            mount -n -o mode=0755 -t tmpfs none "/dev"
-+    }
-+    [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
-+    [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
-+    mount -a -t tmpfs 2>/dev/null
-+    mkdir -p /var/volatile/run
-+
-+    # cache handling
-+    if [ "$DEVCACHE" != "" ]; then
-+            readfile /proc/version
-+            VERSION="$READDATA"
-+            readfile /proc/cmdline
-+            CMDLINE="$READDATA"
-+            readfile /proc/devices
-+            DEVICES="$READDATA"
-+            readfile /proc/atags
-+            ATAGS="$READDATA"
-+
-+            if [ -e $DEVCACHE ]; then
-+                    readfile /etc/udev/cache.data
-+                    if [ "$READDATA" = "$VERSION$CMDLINE$DEVICES$ATAGS" ]; then
-+                            (cd /; tar xf $DEVCACHE > /dev/null 2>&1)
-+                            not_first_boot=1
-+                    fi
-+
-+                    echo "$VERSION$CMDLINE$DEVICES$ATAGS" > /dev/shm/udev.cache
-+            fi
-+    fi
-+
-+    # make_extra_nodes
-+    killproc udevd > "/dev/null" 2>&1
-+
-+    # trigger the sorted events
-+    echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
-+    /lib/udev/udevd -d
-+
-+    /usr/bin/udevadm control --env=STARTUP=1
-+    if [ "$not_first_boot" != "" ];then
-+            /usr/bin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
-+            (/usr/bin/udevadm settle --timeout=3; /usr/bin/udevadm control --env=STARTUP=)&
-+    else
-+            /usr/bin/udevadm trigger --action=add
-+            /usr/bin/udevadm settle
-+    fi
-+    ;;
-+  stop)
-+    echo "Stopping udevd"
-+    start-stop-daemon --stop --name udevd --quiet
-+    ;;
-+  restart)
-+    $0 stop
-+    sleep 1
-+    $0 start
-+    ;;
-+  status)
-+    status udevd
-+    ;;
-+  *)
-+    echo "Usage: $0 {start|stop|status|restart}"
-+    exit 1
-+esac
-+exit 0
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 9a66a4e..50d052f 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -16,7 +16,7 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
- 
--inherit gtk-doc useradd pkgconfig autotools perlnative
-+inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-@@ -26,6 +26,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://00-create-volatile.conf \
-            file://0001-systemd-analyze-rewrite-in-C.patch \
-            file://udev-linkage.patch \
-+           file://init \
-           "
- SRC_URI[md5sum] = "56a860dceadfafe59f40141eb5223743"
- SRC_URI[sha256sum] = "e6857ea21ae24d7056e7b0f4c2aaaba73b8bf57025b8949c0a8af0c1bc9774b5"
-@@ -101,6 +102,11 @@ do_install() {
- 	install -m 0644 ${WORKDIR}/var-run.conf ${D}${sysconfdir}/tmpfiles.d/
- 
- 	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
-+
-+	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+		install -d ${D}${sysconfdir}/init.d
-+		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
-+	fi
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index f622f9c..e1129c6 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -10,11 +10,13 @@ SYSTEMD_AUTO_ENABLE ??= "enable"
+ # even if the systemd DISTRO_FEATURE isn't enabled.  As such don't make any
+ # changes directly but check the DISTRO_FEATURES first.
+ python __anonymous() {
+-    if "systemd" in d.getVar("DISTRO_FEATURES", True).split():
++    features = d.getVar("DISTRO_FEATURES", True).split()
++    # If the distro features have systemd but not sysvinit, inhibit update-rcd
++    # from doing any work so that pure-systemd images don't have redundant init
++    # files.
++    if "systemd" in features and "sysvinit" not in features:
+         d.appendVar("DEPENDS", " systemd-systemctl-native")
+-        # Set a variable so that update-rcd.bbclass knows we're active and can
+-        # disable itself.
+-        d.setVar("SYSTEMD_BBCLASS_ENABLED", "1")
++        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
  }
  
- python populate_packages_prepend (){
-@@ -212,6 +218,7 @@ FILES_udev += "${base_sbindir}/udevd \
-                /lib/udev/rules.d/95*.rules \
-                ${base_libdir}/udev/hwdb.d \
-                ${sysconfdir}/udev \
-+               ${sysconfdir}/init.d/udev \
-                ${systemd_unitdir}/system/*udev* \
-                ${systemd_unitdir}/system/*.wants/*udev* \
-               "
-@@ -221,6 +228,10 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
+ systemd_postinst() {
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 06b91c1..e527fcc 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -75,12 +75,10 @@ python populate_packages_updatercd () {
+         postrm += d.getVar('updatercd_postrm', True)
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
  
- FILES_udev-utils = "${bindir}/udevadm"
- 
-+INITSCRIPT_PACKAGES = "udev"
-+INITSCRIPT_NAME_udev = "udev"
-+INITSCRIPT_PARAMS_udev = "start 03 S ."
-+
- # TODO:
- # u-a for runlevel and telinit
- 
+-    # Run if the sysvinit feature is present, or if the systemd feature is present
+-    # but the systemd class hasn't been inherited.  We want to run in the latter case
+-    # as systemd has sysvinit compatibility, but we don't want to always so that
+-    # pure systemd images don't have redundent sysvinit files.
++    # Check that this class isn't being inhibited (generally, by
++    # systemd.bbclass) before doing any work.
+     if "sysvinit" in d.getVar("DISTRO_FEATURES").split() or \
+-       ("systemd" in d.getVar("DISTRO_FEATURES").split() and not d.getVar("SYSTEMD_BBCLASS_ENABLED", True)):
++       not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
+             pkgs = d.getVar('UPDATERCPN', True)
 -- 
 1.7.10.4
 
