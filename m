@@ -1,40 +1,34 @@
-Received: from mail-pb0-f54.google.com ([209.85.160.54])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UF9HJ-0002tt-R5
+	(envelope-from <denis@denix.org>) id 1UF9s1-00084Y-33
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 21:25:04 +0100
-Received: by mail-pb0-f54.google.com with SMTP id rr4so4144120pbb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 13:08:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=563WaVs8yoQVAQdE3WY/dUuieY4+C+EvpkfKtwp1m70=;
-	b=AKwMEkIxd2s7loWohBg/qn2WgCLaMbru+qO326y+K2dHE5LqcwL0K+ZH4II8abyyaC
-	7C8neUDn9cg4JeyHRbgPXnfo16bawDYH8wrV8VW3JW611Fuldl+Xt9HaaIw8xU9yuXBM
-	VX8zMy5Qe5KjdRYZuSRIZnmAt+Y/5cBgjN6T7MIDzQJq6PzFmVwihTHBPwcy4GV9AXoC
-	ORwoWgHwq+nFyM8M9aqzkEXTA/dvcS8X6P7tsIZ4tO06WM+7yHUhkASBVxoLsCYlzMef
-	KQyV8xQVCJEJgzBGKY53gFqFjcM9RfgpxW1rrlG9IEYLnGHvoiVcVioB2KlrpCxtNnZ4
-	6vVA==
-X-Received: by 10.68.202.3 with SMTP id ke3mr31179127pbc.98.1363032502411;
-	Mon, 11 Mar 2013 13:08:22 -0700 (PDT)
-Received: from flashheart.burtonini.com (or-67-237-97-32.sta.embarqhsd.net.
-	[67.237.97.32])
-	by mx.google.com with ESMTPS id eh5sm21700910pbc.44.2013.03.11.13.08.21
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 13:08:21 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 13:07:39 -0700
-Message-Id: <ba7c15ae47ace8a15d97b4c58d2aa5b2ebb4c47a.1363031776.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
-References: <cover.1363031776.git.ross.burton@intel.com>
-In-Reply-To: <cover.1363031776.git.ross.burton@intel.com>
-References: <cover.1363031776.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnIggFUchiaIVxEH+jYUA5DSgBmzK2Th44ZSgJJpU5TSse0LbpPHyP0JFYvRPKe8oINEjNy
-Subject: [PATCH 9/9] default-distrovars: don't add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+	Mon, 11 Mar 2013 22:03:01 +0100
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MJI0087XKCDPVG0@vms173001.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 11 Mar 2013 15:46:00 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 697E1200A9; Mon,
+	11 Mar 2013 16:45:49 -0400 (EDT)
+Date: Mon, 11 Mar 2013 16:45:49 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Maupin, Chase" <chase.maupin@ti.com>
+Message-id: <20130311204549.GC31635@denix.org>
+References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
+	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
+	<20130308200628.GB15481@denix.org>
+	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
+	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
+MIME-version: 1.0
+In-reply-to: <7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +41,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 20:25:39 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 21:03:40 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-It will be backfilled later, so don't add it to the default DISTRO_FEATURES.
+On Mon, Mar 11, 2013 at 02:49:20PM +0000, Maupin, Chase wrote:
+> > -----Original Message-----
+> > From: otavio.salvador@gmail.com
+> > [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio Salvador
+> > Sent: Saturday, March 09, 2013 6:11 AM
+> > To: Maupin, Chase
+> > Cc: Denys Dmytriyenko; Patches and discussions about the oe-core
+> > layer
+> > Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
+> > override order
+> > 
+> > On Fri, Mar 8, 2013 at 7:16 PM, Maupin, Chase
+> > <chase.maupin@ti.com> wrote:
+> > >> -----Original Message-----
+> > >> From: otavio.salvador@gmail.com
+> > >> [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio
+> > Salvador
+> > >> Sent: Friday, March 08, 2013 2:27 PM
+> > >> To: Denys Dmytriyenko
+> > >> Cc: Maupin, Chase; Patches and discussions about the oe-core
+> > >> layer
+> > >> Subject: Re: [OE-core] [PATCH] soc-family: fix SOC_FAMILY
+> > >> override order
+> > >>
+> > >> On Fri, Mar 8, 2013 at 5:06 PM, Denys Dmytriyenko
+> > >> <denis@denix.org> wrote:
+> > >> > On Fri, Mar 08, 2013 at 03:52:57PM -0300, Otavio Salvador
+> > >> wrote:
+> > >> >> On Fri, Mar 8, 2013 at 2:51 PM, Chase Maupin
+> > >> <Chase.Maupin@ti.com> wrote:
+> > >> >> > * the current order has SOC_FAMILY settings, which are
+> > >> generic
+> > >> >> >   settings for a group of devices, overriding the machine
+> > >> specific
+> > >> >> >   settings.  For example:
+> > >> >> >
+> > >> >> >   KERNEL_DEVICETREE_ti33x = "xxxx"
+> > >> >> >   KERNEL_DEVICETREE_beaglebone = "yyyy"
+> > >> >> >
+> > >> >> >   Should yield "yyyy" when building for the beaglebone
+> > >> because
+> > >> >> >   that is a more specific device than ti33x.  However,
+> > >> without this
+> > >> >> >   change the result is that the value is set to "xxxx"
+> > >> meaning the
+> > >> >> >   more generic setting overrides the more specific
+> > setting.
+> > >> >> >
+> > >> >> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > >> >>
+> > >> >> Maybe while on that you could look at supporting xx:yy as
+> > SoC
+> > >> family?
+> > >> >> like am37xx:am3715 ?
+> > >> >
+> > >> > Did you mean am3517? That's a slightly different variant of
+> > >> am35x/omap35x SoC.
+> > >>
+> > >> Yes; sorry ... what I meant was 'am35xx:am3517'
+> > >>
+> > >> > But if you really meant am3715 (as well as am3705, am3725
+> > and
+> > >> am3730), then
+> > >> > those are variants of am37x SoC, just with some subsystems,
+> > >> like SGX or DSP,
+> > >> > being absent or present. Having those variants handled by
+> > >> SOC_FAMILY would be
+> > >> > an overkill. Instead, we've started using MACHINE_FEATURES
+> > to
+> > >> distinguish
+> > >> > between those variants of the same SoC, by checking for
+> > "sgx"
+> > >> and/or "dsp"
+> > >> > flags there and pulling in needed software components
+> > >> accordingly.
+> > >>
+> > >> My main concern here is that COMPATIBLE_MACHINE also parses
+> > >> SOC_FAMILY
+> > >> however if you have two (as the 'am35xx:am3517') it is going
+> > to
+> > >> fail;
+> > >> it could split it and parse it individually.
+> > >
+> > > Sorry, I'm not sure if I'm following here.  Are you saying you
+> > would find it useful to have support for a MACHINE to have more
+> > than one SOC_FAMILY?  In the example above I would have expected
+> > that you would have a machine config file for am3517 which has an
+> > SOC_FAMILY of am35xx.  Why would you specify two SOC_FAMILY
+> > values per machine?
+> > 
+> > We can have more generic to more specific combinations.
+> > 
+> > > Or are you trying to build something like omap3->am35xx->am3517
+> > where you can use omap3 as a more generic setting but still use
+> > am35xx for a slightly more restrictive group that is still
+> > grouping like parts, and finally you use am3517 for the exact
+> > part?
+> > 
+> > Exactly so we avoid duplication stuff to boards or SoCs. Another
+> > example of use: imx -> mx6q -> mx6.
+> 
+> I see.  This could be of some use and I'll play with it.  This should not be 
+> required though for this patch since right now I want to fix the order 
+> issue.  Any objection to the patch as is?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/default-distrovars.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BTW, this was already pushed:
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f0fec2a..eafbcc2 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -18,7 +18,7 @@ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-b
- DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
- DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
- DISTRO_FEATURES_INITMAN ?= "sysvinit"
--DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC} ${DISTRO_FEATURES_INITMAN}"
-+DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC}"
- 
- IMAGE_FEATURES ?= ""
- 
+http://cgit.openembedded.org/openembedded-core/commit/?id=0b836b9d79255a5b2f358fe718c67638f52ecf72
+
 -- 
-1.7.10.4
-
+Denys
 
 
