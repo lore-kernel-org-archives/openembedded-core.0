@@ -1,27 +1,26 @@
-Received: from smtpfb1-g21.free.fr ([212.27.42.9])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UFBT9-0002lR-9K
+	(envelope-from <sgw@linux.intel.com>) id 1UFBlv-0003fh-6v
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 23:45:23 +0100
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 0524A2DD30
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 23:28:36 +0100 (CET)
-Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 4CC72A6297;
-	Mon, 11 Mar 2013 23:28:30 +0100 (CET)
-Date: Mon, 11 Mar 2013 23:28:28 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Message-ID: <20130311232828.04a46d8a@e6520eb>
-In-Reply-To: <1362674739-1647-1-git-send-email-radu.moisan@intel.com>
-References: <1362674739-1647-1-git-send-email-radu.moisan@intel.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
+	Tue, 12 Mar 2013 00:04:49 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Mar 2013 15:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,825,1355126400"; d="scan'208";a="304244373"
+Received: from unknown (HELO [10.255.13.68]) ([10.255.13.68])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Mar 2013 15:48:05 -0700
+Message-ID: <513E5F20.2020004@linux.intel.com>
+Date: Mon, 11 Mar 2013 15:48:00 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Olivier Guiter <olivier.guiter@linux.intel.com>
+References: <CAJTo0LbfS1ghZ3wDcmoAQC-Kvm-J9m2neDa86Ekhj3ckraUZHw@mail.gmail.com>
+	<1362743153-29094-1-git-send-email-olivier.guiter@linux.intel.com>
+In-Reply-To: <1362743153-29094-1-git-send-email-olivier.guiter@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] busybox: Upgrade to v1.21.0
+Subject: Re: [PATCH v3] neard:Update reference commit sha1 and install script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +33,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 22:45:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Mar 2013 23:04:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Radu,
+On 03/08/2013 03:45 AM, Olivier Guiter wrote:
+> This patch installs neard daemon in /usr/lib/neard.
 
-Le Thu,  7 Mar 2013 18:45:39 +0200,
-Radu Moisan <radu.moisan@intel.com> a =C3=A9crit :
+Please add a Signed-off: line
 
-> Removed obsolete patches
->=20
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Thanks
+	Sau!
+
 > ---
->  .../busybox-1.20.2/busybox-1.20.2-kernel_ver.patch |   28 ------
->  .../busybox-mkfs-minix-tests_bigendian.patch       |   34 -------
->  .../fix-for-spurious-testsuite-failure.patch       |   27 ------
->  .../busybox/busybox-1.20.2/sys_resource.patch      |   99 --------------=
-------
->  .../busybox/busybox-1.20.2/wget_dl_dir_fix.patch   |   30 ------
->  .../B921600.patch                                  |    0
->  .../busybox-appletlib-dependency.patch             |    0
->  .../busybox-udhcpc-no_deconfig.patch               |    0
->  .../{busybox-1.20.2 =3D> busybox-1.21.0}/defconfig   |    0
->  .../get_header_tar.patch                           |    0
->  .../run-parts.in.usr-bin.patch                     |    6 +-
->  .../stat-usr-bin.patch                             |    0
->  ...estsuite-du-du-k-works-fix-false-positive.patch |    0
->  .../watch.in.usr-bin.patch                         |    0
->  .../{busybox_1.20.2.bb =3D> busybox_1.21.0.bb}       |   11 +--
-
-1.21.0 is unstable and has some fixes which are not included in your
-recipe with patches available here :
-http://busybox.net/downloads/fixes-1.21.0/
-so maybe is would be better to wait for 1.21.1 or to add the fixes
-
-Eric
+>   meta/recipes-connectivity/neard/neard/neard    |   42 ------------------------
+>   meta/recipes-connectivity/neard/neard/neard.in |   42 ++++++++++++++++++++++++
+>   meta/recipes-connectivity/neard/neard_0.9.bb   |   27 ++++++++++-----
+>   3 files changed, 61 insertions(+), 50 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/neard/neard/neard
+>   create mode 100644 meta/recipes-connectivity/neard/neard/neard.in
+>
+> diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
+> deleted file mode 100644
+> index 5f36174..0000000
+> --- a/meta/recipes-connectivity/neard/neard/neard
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -#!/bin/sh
+> -
+> -DAEMON=/usr/sbin/neard
+> -PIDFILE=/var/run/neard.pid
+> -DESC="Linux NFC daemon"
+> -
+> -if [ -f /etc/default/neard ] ; then
+> -	. /etc/default/neard
+> -fi
+> -
+> -set -e
+> -
+> -do_start() {
+> -	$DAEMON
+> -}
+> -
+> -do_stop() {
+> -	start-stop-daemon --stop --name neard --quiet
+> -}
+> -
+> -case "$1" in
+> -  start)
+> -	echo "Starting $DESC"
+> -	do_start
+> -	;;
+> -  stop)
+> -	echo "Stopping $DESC"
+> -	do_stop
+> -	;;
+> -  restart|force-reload)
+> -	echo "Restarting $DESC"
+> -	do_stop
+> -	sleep 1
+> -	do_start
+> -	;;
+> -  *)
+> -	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+> -	exit 1
+> -	;;
+> -esac
+> -
+> -exit 0
+> diff --git a/meta/recipes-connectivity/neard/neard/neard.in b/meta/recipes-connectivity/neard/neard/neard.in
+> new file mode 100644
+> index 0000000..38361c8
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/neard/neard/neard.in
+> @@ -0,0 +1,42 @@
+> +#!/bin/sh
+> +
+> +DAEMON=@installpath@/neard
+> +PIDFILE=/var/run/neard.pid
+> +DESC="Linux NFC daemon"
+> +
+> +if [ -f /etc/default/neard ] ; then
+> +	. /etc/default/neard
+> +fi
+> +
+> +set -e
+> +
+> +do_start() {
+> +	$DAEMON
+> +}
+> +
+> +do_stop() {
+> +	start-stop-daemon --stop --name neard --quiet
+> +}
+> +
+> +case "$1" in
+> +  start)
+> +	echo "Starting $DESC"
+> +	do_start
+> +	;;
+> +  stop)
+> +	echo "Stopping $DESC"
+> +	do_stop
+> +	;;
+> +  restart|force-reload)
+> +	echo "Restarting $DESC"
+> +	do_stop
+> +	sleep 1
+> +	do_start
+> +	;;
+> +  *)
+> +	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+> +	exit 1
+> +	;;
+> +esac
+> +
+> +exit 0
+> diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+> index 61ea58c..afd6597 100644
+> --- a/meta/recipes-connectivity/neard/neard_0.9.bb
+> +++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+> @@ -11,14 +11,25 @@ inherit autotools pkgconfig update-rc.d
+>   INITSCRIPT_NAME = "neard"
+>   INITSCRIPT_PARAMS = "defaults 64"
+>
+> +do_install() {
+> +	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
+> +}
+> +
+>   # This would copy neard start-stop shell and test scripts
+>   do_install_append() {
+> +
+> +  # start/stop
+>     install -d ${D}${sysconfdir}/init.d/
+> -  install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
+>
+> + sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
+> +		> ${D}${sysconfdir}/init.d/neard
+> +
+> +  chmod 0755 ${D}${sysconfdir}/init.d/neard
+> +
+> +  #test files
+>     install -d ${D}${libdir}/neard
+> -  install -m 0755 ${S}/test/* ${D}${libdir}/neard/
+> -  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
+> +  install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
+> +  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+>   }
+>
+>   RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+> @@ -32,10 +43,10 @@ RRECOMMENDS_${PN} = "\
+>   #Additional
+>   PACKAGES =+ "${PN}-tests"
+>
+> -FILES_${PN}-tests = "${libdir}/neard/*-test"
+> -RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+> +FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
+> +FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+>
+> -FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
+> +RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+>
+>   ##=============================
+>   # This is valid for 0.9+
+> @@ -43,12 +54,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>    file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+>    "
+>   S	= "${WORKDIR}/git"
+> -SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
+> +SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
+>   PV	= "0.9-git${SRCPV}"
+>   PR	= "r1"
+>
+>   SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+> -	file://neard \
+> +	file://neard.in \
+>   	"
+>
+>   EXTRA_OECONF += "--enable-tools \
+>
 
 
