@@ -1,42 +1,24 @@
-Received: from mail-bk0-f50.google.com ([209.85.214.50])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1UExyC-0002KM-FX
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1UEy0S-0002Qw-G6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 09:20:34 +0100
-Received: by mail-bk0-f50.google.com with SMTP id jg9so1504480bkc.23
+	Mon, 11 Mar 2013 09:22:54 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2B86Dmj001268
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 01:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:date:message-id:in-reply-to:references
-	:user-agent:subject:mime-version:content-type
-	:content-transfer-encoding;
-	bh=tHOKyCh2l9yTlmlPzmLMfaPG7HyLoAteCk3Km3BssFA=;
-	b=vmTLcwU+eMFWsCr5bv/FszLpKAMeJPAdToZWAmQ458x2mIdfY6AuDfQW6UUC6MADxo
-	c6TtfRE6L1YzSyyKWwkUCbdHsyYurov2vfWqDpOlPUvX+CffMqqHuXvitc/8UlHN3vA8
-	xTYtazkFllYaZ7jFl1T3iV7vE4aYmg8G68aJ/xQnHq7sZA6x+eblmQceHvW/T+++7+FF
-	+opcbEkcW2zY3yR/kta98WCKi2EjDbHnZ/x0d2lpSHaJhxoukZdZL6TWo341QTiAPGCG
-	XTsaEs6vZL4qNZHO8kGRSfFwdWPrt8nNkgcdBlkXweqPjmJQMdBOXbG+y+zl41tb/KoT
-	DIBA==
-X-Received: by 10.204.186.1 with SMTP id cq1mr4058926bkb.73.1362989034853;
-	Mon, 11 Mar 2013 01:03:54 -0700 (PDT)
-Received: from [176.66.89.136] (176066089136.atmpu0051.highway.a1.net.
-	[176.66.89.136])
-	by mx.google.com with ESMTPS id x10sm3646350bkv.13.2013.03.11.01.03.53
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Mar 2013 01:03:54 -0700 (PDT)
-From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
-To: Kang Kai <kai.kang@windriver.com>, <richard.purdie@linuxfoundation.org>
-Date: Mon, 11 Mar 2013 09:06:24 +0100
-Message-ID: <13d587c67be.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-In-Reply-To: <1eab6578b55eee05f36c14d1e536c793c5d80659.1362966448.git.kai.kang@windriver.com>
-References: <cover.1362966448.git.kai.kang@windriver.com>
-	<1eab6578b55eee05f36c14d1e536c793c5d80659.1362966448.git.kai.kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.2.20 (build:
-	2100226)
+	Mon, 11 Mar 2013 01:06:13 -0700 (PDT)
+Received: from pek-wfan-d2.corp.ad.wrs.com (128.224.162.243) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 11 Mar 2013 01:06:12 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Mar 2013 16:06:01 +0800
+Message-ID: <1362989162-9619-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] insane.bbclass: make do_package_qa be a task
+Subject: [PATCH 0/1] layer.conf: Add LAYERVERSION and LAYERDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,84 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 08:20:36 -0000
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Mar 2013 08:22:57 -0000
+Content-Type: text/plain
 
-On 11 March 2013 04:31:17 Kang Kai <kai.kang@windriver.com> wrote:
-> do_package_qa is added to variable PACKAGEFUNCS and run after
-> do_package. packaging tests should not ending up in package.bbclass.
-> Split do_package_qa as a new task after do_package.
->
-> [YOCTO #3190]
->
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->  meta/classes/insane.bbclass |   15 +++++++++++++--
->  1 files changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index bd6f120..d7787ac 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -17,9 +17,9 @@
->  #   files under exec_prefix
->
->
-> -inherit package
-> +#inherit package
->  PACKAGE_DEPENDS += "${QADEPENDS}"
-> -PACKAGEFUNCS += " do_package_qa "
-> +#PACKAGEFUNCS += " do_package_qa "
+Add LAYERVERSION and LAYERDEPENDS to following oe-core layers:
 
-I'd remove those lines, they are in the history anyway.
+    meta-hob, meta-skeleton
 
->
->  # unsafe-references-in-binaries requires prelink-rtld from
->  # prelink-native, but we don't want this DEPENDS for -native builds
-> @@ -654,6 +654,15 @@ def package_qa_walk(path, warnfuncs, errorfuncs, 
-> skip, package, d):
->      target_os   = d.getVar('TARGET_OS', True)
->      target_arch = d.getVar('TARGET_ARCH', True)
->
-> +    pkgfiles = {}
-> +    packages = d.getVar('PACKAGES', True).split()
-> +    pkgdest = d.getVar('PKGDEST', True)
-> +    for pkg in packages:
-> +        pkgfiles[pkg] = []
-> +        for walkroot, dirs, files in os.walk(pkgdest + "/" + pkg):
+The following changes since commit 365eb9b5d22208c967dcd91d8ab52faed20f04b5:
 
-I'd use os.sep above, too.
-I would ACK the patch with these changes, fwiw.
-Thanks,
-> +            for file in files:
-> +                pkgfiles[pkg].append(walkroot + os.sep + file)
-> +
->      warnings = []
->      errors = []
->      for path in pkgfiles[package]:
-> @@ -823,6 +832,8 @@ python do_package_qa () {
->      bb.note("DONE with PACKAGE QA")
->  }
->
-> +addtask package_qa after do_package before do_build
-> +EXPORT_FUNCTIONS do_package_qa
->
->  python do_qa_staging() {
->      bb.note("QA checking staging")
-> --
-> 1.7.5.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  bitbake: bitbake-layers: fix duplicated help info (2013-03-10 04:36:52 +0000)
 
+are available in the git repository at:
 
-Sent with AquaMail for Android
-http://www.aqua-mail.com
+  git://git.pokylinux.org/poky-contrib wenzong/oe-layers
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/oe-layers
 
+Wenzong Fan (1):
+  layer.conf: Add LAYERVERSION and LAYERDEPENDS
+
+ meta-hob/conf/layer.conf      |    6 ++++++
+ meta-skeleton/conf/layer.conf |    5 +++++
+ 2 files changed, 11 insertions(+)
+
+-- 
+1.7.10.4
 
 
 
