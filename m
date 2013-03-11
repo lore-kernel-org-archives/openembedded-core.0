@@ -1,23 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1UF4nS-0002DM-80
+	(envelope-from <ddalex@intel.com>) id 1UF4ts-0002Q8-5K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Mar 2013 16:37:59 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Mar 2013 08:19:28 -0700
+	Mon, 11 Mar 2013 16:44:34 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Mar 2013 08:26:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,824,1355126400"; d="scan'208";a="212774684"
+X-IronPort-AV: E=Sophos;i="4.84,824,1355126400"; d="scan'208";a="300035790"
 Received: from adamian-desktop.rb.intel.com ([10.237.105.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Mar 2013 08:19:27 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2013 08:26:38 -0700
 Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id AC40556079E; Mon, 11 Mar 2013 17:19:35 +0200 (EET)
+	id D6B1956079E; Mon, 11 Mar 2013 17:26:46 +0200 (EET)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Mar 2013 17:19:33 +0200
-Message-Id: <1363015173-24981-1-git-send-email-alexandru.damian@intel.com>
+Date: Mon, 11 Mar 2013 17:26:38 +0200
+Message-Id: <1363015599-26709-1-git-send-email-alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1363015173-24981-1-git-send-email-alexandru.damian@intel.com>
+References: <1363015173-24981-1-git-send-email-alexandru.damian@intel.com>
 Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] Always use locale.h in grep
+Subject: [[Patch v2]] Always use locale.h in grep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Mar 2013 15:38:06 -0000
+X-List-Received-Date: Mon, 11 Mar 2013 15:44:36 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
