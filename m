@@ -1,44 +1,37 @@
-Received: from mail-oa0-f42.google.com ([209.85.219.42])
+Received: from mail-pb0-f44.google.com ([209.85.160.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UFOj7-0001wa-13
+	(envelope-from <martin.jansa@gmail.com>) id 1UFPHV-0003Dt-Kz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 13:54:47 +0100
-Received: by mail-oa0-f42.google.com with SMTP id i18so5705214oag.15
+	Tue, 12 Mar 2013 14:30:18 +0100
+Received: by mail-pb0-f44.google.com with SMTP id wz12so4987273pbc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 05:38:05 -0700 (PDT)
+	Tue, 12 Mar 2013 06:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=c+gHXmmaCVINMp+i5VWJlllgqSkr/OzSWjb2Y51WR+4=;
-	b=rckFo356eI+ZKoGSKRFLsgN7mgIkFbbGDz0F1X5ePbvYPfDdOJVWD8c/GziHm2j7y6
-	gdIHaQq4lJ/EXZDGosHPchauEvAQTlBZVG+fzX+0FX5WL+oX5tx594Af5Okus/poSWGd
-	0ZLCJg5Ursqy8HVe+T+svSYwXqY2x/p1d+CE8TsrTBnahRObRFjhKlekNgpJkh7und7P
-	CWuEKIAGj9X1A7RJrhq13i8rA/+WdvVbUDaKQ8zJ1J1eH+FO9iPmFPFRSKatUOZoZuY4
-	gebhrt+movAMFtntVvEohncNtEz15SGYyJyhpql3Pr1pJokzKfRSsa85VxqkpAZE++Lm
-	hvZw==
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=GHSKsoeDoOgQLixaI9xwfMrEAcMDZWmx57kf4mpeEjg=;
+	b=h4ODTy8IQcRUbHUx2uut6wGtmcZzxPx7KznZo4wuxd9o7WK22KCE4qiBN1hle5w6Hd
+	k5uP9kuBarHx0bm59mWN3oNm4u276/j1/icPlypNbQObeREldQth4g+HIa7kYz1oiulU
+	bR+FewdxAVCLbWwxev+ghPgWEti25u+BK/5X4VcSxTlRoioUUc2xMAFIzCB9K6Ni6AcN
+	No/AE+ipBtNV+gch5bvNOHEob0A3BObe+gbqR0Rhvii6J9nEB7MvcWlPJtfDcmtUKOtg
+	Ps0gdWob4bb9gTuPspw7H8gBsICew9auf2+mlXduDqNTEC5F8x62adVkBRIWeitOMPVu
+	gVFw==
+X-Received: by 10.68.252.134 with SMTP id zs6mr30685477pbc.66.1363094017470;
+	Tue, 12 Mar 2013 06:13:37 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id tm1sm25027056pbc.11.2013.03.12.06.13.34
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Mar 2013 06:13:36 -0700 (PDT)
+Date: Tue, 12 Mar 2013 14:13:36 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20130312131336.GK9724@jama.dyndns-home.com>
+References: <1363090807-23944-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
 MIME-Version: 1.0
-X-Received: by 10.182.88.103 with SMTP id bf7mr11993340obb.7.1363091885289;
-	Tue, 12 Mar 2013 05:38:05 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Tue, 12 Mar 2013 05:38:04 -0700 (PDT)
-In-Reply-To: <1363069177.9859.1.camel@ted>
-References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
-	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
-	<20130308200628.GB15481@denix.org>
-	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
-	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
-	<CAP9ODKog6e+3BbDT+pLy1a8GsEuKtyZmuuoHGoc3tOX20OvLpg@mail.gmail.com>
-	<1363069177.9859.1.camel@ted>
-Date: Tue, 12 Mar 2013 09:38:04 -0300
-X-Google-Sender-Auth: Uc8bSmGEnuOZYtcRNnMA93770QU
-Message-ID: <CAP9ODKr2+DoLbT-san4bXMOcKqAPCFA_SUuH3SxsnnABQd11gw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
+In-Reply-To: <1363090807-23944-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gst-plugins-package: set ALLOW_EMPTY_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,44 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 12:54:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 12 Mar 2013 13:30:20 -0000
+X-Groupsio-MsgNum: 36515
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fUvfsPTz/SzOZDdw"
+Content-Disposition: inline
 
-On Tue, Mar 12, 2013 at 3:19 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2013-03-11 at 13:24 -0300, Otavio Salvador wrote:
->> On Mon, Mar 11, 2013 at 11:49 AM, Maupin, Chase <chase.maupin@ti.com> wrote:
->> >> On Fri, Mar 8, 2013 at 7:16 PM, Maupin, Chase
->> >> We can have more generic to more specific combinations.
->> >>
->> >> > Or are you trying to build something like omap3->am35xx->am3517
->> >> where you can use omap3 as a more generic setting but still use
->> >> am35xx for a slightly more restrictive group that is still
->> >> grouping like parts, and finally you use am3517 for the exact
->> >> part?
->> >>
->> >> Exactly so we avoid duplication stuff to boards or SoCs. Another
->> >> example of use: imx -> mx6q -> mx6.
->> >
->> > I see.  This could be of some use and I'll play with it.  This
->> should not be required though for this patch since right now I want to
->> fix the order issue.  Any objection to the patch as is?
->>
->> No; not really. I just wanted to ask if you could look at it as well
->> so we can have it working. It does make things much easier for all us.
->
-> As pointed out this already merged.
->
-> I'd also point out that you can use MACHINEOVERRIDES directly to specify
-> additional machine overrides so I'm not sure there is much extra
-> complexity here that is really needed.
+--fUvfsPTz/SzOZDdw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes I can do it using machine overrides but it does seem to be clear
-for someone reading the code if it is included in SOC_FAMILY.
+On Tue, Mar 12, 2013 at 01:20:07PM +0100, Enrico Scholz wrote:
+> Every subpackage has a dependency on '${PN}' because
+> populate_packages_prepend() specifies "extra_depends=3Dd.expand('${PN}')"
+> when splitting the subpackages.
+>=20
+> Hence, '${PN}' must be always created
+>=20
+> Although creation of -plugin-dev and -plugin-staticdev is flawed imo
+> (.la files are not for development purposes but useless resp. required
+> for module loading on non GNU/linux platforms, and .a files are not
+> created for plugins), patch sets ALLOW_EMPTY for -dev and -staticdev
+> packages for consistency reasons.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+I've sent the same a week ago:
+http://lists.linuxtogo.org/pipermail/openembedded-core/2013-March/036752.ht=
+ml
 
+>=20
+> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> ---
+>  meta/recipes-multimedia/gstreamer/gst-plugins-package.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/=
+meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> index 3e9ef92..2f2be34 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> @@ -24,6 +24,10 @@ python populate_packages_prepend () {
+>      d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+>  }
+> =20
+> +ALLOW_EMPTY_${PN} =3D "1"
+> +ALLOW_EMPTY_${PN}-dev =3D "1"
+> +ALLOW_EMPTY_${PN}-staticdev =3D "1"
+> +
+>  PACKAGES +=3D "${PN}-apps ${PN}-meta ${PN}-glib"
+>  FILES_${PN}-apps =3D "${bindir}"
+> =20
+> --=20
+> 1.8.1.2
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--fUvfsPTz/SzOZDdw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlE/KgAACgkQN1Ujt2V2gBxOwwCfRMLNuDIV8Hf1BUlQ7Rn5SrRN
+7zoAnRt3DWDAS0zqGuLowE6u4ZKgxIjq
+=H+z1
+-----END PGP SIGNATURE-----
+
+--fUvfsPTz/SzOZDdw--
