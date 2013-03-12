@@ -1,42 +1,46 @@
-Received: from mail-ea0-f177.google.com ([209.85.215.177])
+Received: from mail-ea0-f182.google.com ([209.85.215.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UFK2Q-0007ma-Ba
+	(envelope-from <koen@dominion.thruhere.net>) id 1UFK71-0007wD-Vz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 08:54:29 +0100
-Received: by mail-ea0-f177.google.com with SMTP id r16so1526134ead.36
+	Tue, 12 Mar 2013 08:59:08 +0100
+Received: by mail-ea0-f182.google.com with SMTP id q15so1595481ead.41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 00:37:43 -0700 (PDT)
+	Tue, 12 Mar 2013 00:42:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=OG/dHVKFaUCBFywRStr3nGrIGFeFLQcPEc7/D/ewOek=;
-	b=Y6EUkqJ9fDNzYiW33GIFfa9dJo0QcsUdludUvVDr5Z+ZCZ3tb6IR7FTz5NBUAz33AG
-	5DwdyEKF4vRWCmmlatzW2xqLmq3XE1if1f+ILBEXCRlCjMiurwxDsJOnqphEsJB10ord
-	D3ZApEzSaEEsn5CZzgzEXdgzQ/54kCTjI+rgfuDyATb76qwx5+uTtGUoAyVTnVshOObE
-	TeScgM9tZySMnAE9jQAokPkj+UwWP9/la3DP+5OhoaM7+q7AHPBKjKWk6QlT+5U6vJ3g
-	0gXTFku0f0sZtDRcjd6x+2Hi/NELZPETL/hSsmvw2rklFC7g7aIRm7771vFMIsFLk6z5
-	mQpA==
-X-Received: by 10.14.183.67 with SMTP id p43mr44966467eem.10.1363073862947;
-	Tue, 12 Mar 2013 00:37:42 -0700 (PDT)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id a1sm27953566eep.2.2013.03.12.00.37.41
+	bh=45Nld9kFdYrLVdGrylipO5RYxI4Kke3h8yGntRR09yA=;
+	b=X4Nqivc39pYRuYFf9QMxN4I3yQLyNcCz3McHif+a/n7kLvgrz47tQ70f1sD3MiYReh
+	dvEKakOYO861rVD8QYFYCgfV2givteiUraDSixYBogo0cLWBVJI/NcfPZMm6vwyimJ1E
+	kaJULYwas3kHQ2ZicMPix3/bQJTN3YonnjGPdC/3r2rJnaClxyapVKpVCVQsThDLwQmF
+	1MwueKveIPkwcs4Oh+qLdklphkj69lVJ1ro0OMM2ay2F+umBQYVZJIHIRzk6WWmxPmER
+	lc5nNCnFZ0rTaaD8F/gvDW2O4rNs8HzKTbLDE86PvQ0XRDfda9cc+Q8l0JwkHhaNPqGQ
+	KtXw==
+X-Received: by 10.14.220.135 with SMTP id o7mr45549750eep.3.1363074149042;
+	Tue, 12 Mar 2013 00:42:29 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::4504:873f:60a5:8047?
+	([2001:610:612:0:4504:873f:60a5:8047])
+	by mx.google.com with ESMTPS id q5sm27957764eep.11.2013.03.12.00.42.27
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 Mar 2013 00:37:41 -0700 (PDT)
+	Tue, 12 Mar 2013 00:42:27 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20130312070827.GF9724@jama.dyndns-home.com>
-Date: Tue, 12 Mar 2013 08:37:40 +0100
-Message-Id: <05A4DB94-1EF7-400D-910E-3DF7280C10CB@dominion.thruhere.net>
-References: <cover.1363025917.git.ross.burton@intel.com>
-	<228e005f888afff7bd97f015e321a62071c09307.1363025917.git.ross.burton@intel.com>
-	<20130312070827.GF9724@jama.dyndns-home.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+Date: Tue, 12 Mar 2013 08:42:26 +0100
+Message-Id: <980599F4-DEED-41CF-B871-750758BD6D45@dominion.thruhere.net>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
+	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
+	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQlYEgiuJRqMfyvbNsTlYcSmXtcawvEimn4mmpxhae9UfBysdcTIlMRk3B3gxHN8y01HygT6
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/12] systemd-compat-units: add missing systemd-systemctl-native dependency
+X-Gm-Message-State: ALoCoQnXxdZb8zAr3plRVmCtYixW29ONKPB68w4md+/8TJZhfduRbbK0Y0Zd6iVjo7Mo0AaHJFe3
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,39 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 07:54:30 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 07:59:10 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 12 mrt. 2013, om 08:08 heeft Martin Jansa <martin.jansa@gmail.com> =
-het volgende geschreven:
+Op 11 mrt. 2013, om 23:49 heeft Khem Raj <raj.khem@gmail.com> het =
+volgende geschreven:
 
-> On Mon, Mar 11, 2013 at 11:24:49AM -0700, Ross Burton wrote:
->> This package has postinsts that run on the build host, but wasn't =
-depending on
->> systemd-systemctl-native.
->>=20
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> ---
->> meta/recipes-core/systemd/systemd-compat-units.bb |    2 ++
->> 1 file changed, 2 insertions(+)
->>=20
->> diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb =
-b/meta/recipes-core/systemd/systemd-compat-units.bb
->> index a7bfee3..19a1ea1 100644
->> --- a/meta/recipes-core/systemd/systemd-compat-units.bb
->> +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
->> @@ -5,6 +5,8 @@ LIC_FILES_CHKSUM =3D =
-"file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3
->>=20
->> PR =3D "r18"
->>=20
->> +DEPENDS =3D "systemd-systemctl-native"
 >=20
-> Do you want RDEPENDS_${PN} here?
+> On Mar 11, 2013, at 2:47 PM, Otavio Salvador <otavio@ossystems.com.br> =
+wrote:
+>=20
+>> On Mon, Mar 11, 2013 at 6:37 PM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>>> On 11 March 2013 13:07, Ross Burton <ross.burton@intel.com> wrote:
+>>>> This series allows you to have both sysvinit and systemd in =
+DISTRO_FEATURES.
+>>>> Packages will be built with both init scripts, and some daemons =
+will be linking
+>>>> to libsystemd-daemon so that will be pulled in to sysvinit images.
+>>>=20
+>>> Regarding the upgrade path, Richard/Paul/myself discussed this over
+>>> lunch and proposed that oe-core could gain an include file for =
+distro
+>>> configuration that basically injects the backward compatibility
+>>> dependencies.  So for meta-systemd, it would inject
+>>> replaces/provides/conflicts for each of the packages in =
+meta-systemd.
+>>> This would isolate the dependencies into a single location, and be
+>>> opt-in for distros that previously shipped meta-systemd.  Hopefully
+>>> the implementation of this is obvious, and patches to implement this
+>>> are welcome.
+>>=20
+>> I personally prefer to still use meta-oe systemd class and keep the
+>> possibility to product images with choosen init system. I think =
+Martin
+>> will also prefer it.
+>=20
+> using different init manager is a separate problem than what Ross =
+tried to address here isn't it ?
+> I personally don't have a use case where I would upgrade live from 1.3 =
+to 1.4 so
+> for me I could easily accept a different solution for 1.4
 
-I don't think a -native package will do something usefull on the target =
-:)=
+Upgrading between 1.3 and 1.4 is already impossible for non-systemd =
+related reasons. But that shouldn't be a reason to break upgrade paths =
+for other things, so I'd very much like to see some attention to this =
+for 1.5.=
 
 
