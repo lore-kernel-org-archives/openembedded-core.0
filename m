@@ -1,38 +1,23 @@
-Received: from mail-pb0-f51.google.com ([209.85.160.51])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UFXK4-0003Wh-54
+	(envelope-from <tom.zanussi@intel.com>) id 1UFXqx-0004TJ-6u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 23:05:29 +0100
-Received: by mail-pb0-f51.google.com with SMTP id un15so304421pbc.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 14:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=+PFiWxcBAzxXJrDa1d6N2SgyMogqqGJxQVlh8y/Cyac=;
-	b=C5ZadX1aqKFs19N2thZgfcnMY2ZBFw38MTBDU77S4n/ZGupRrnvv5UAXtgSD1r6mUk
-	fmsxkujQARTx/J39lYad22UaaubZrBBFDFPBEfb5Jd5DLko4/y+9lI3yHQGGgGn0tLan
-	u96MY+NPrOpR92s4bMeN7RT4q/xuT1GUJ/46dt8NnNtw0hSAgooShC3xpkDMnNcUaQ8A
-	QPaitYYY36FrbT5c2qqenX/4lOeeiUY/SXS6vSM/NgyZCdk5zK30X2zT6QqKx3P6cF1G
-	YU69wf8EbUAWryKtfLMFnel5kvr/h78LGvI73bDICMj2TbrZ+/9nKo8dXZWgVxX4PcJv
-	VGNg==
-X-Received: by 10.68.97.65 with SMTP id dy1mr40718503pbb.190.1363124927453;
-	Tue, 12 Mar 2013 14:48:47 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ax3sm26610656pbd.42.2013.03.12.14.48.44
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 12 Mar 2013 14:48:46 -0700 (PDT)
-Date: Tue, 12 Mar 2013 22:48:46 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20130312214846.GM9724@jama.dyndns-home.com>
-References: <1363107795-2140-1-git-send-email-cristian.iorga@intel.com>
-	<1363107795-2140-4-git-send-email-cristian.iorga@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1363107795-2140-4-git-send-email-cristian.iorga@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 3/4] bluez5: conflicts with bluez4
+	Tue, 12 Mar 2013 23:39:28 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2013 15:22:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,833,1355126400"; d="scan'208";a="301230861"
+Received: from unknown (HELO localhost) ([10.255.12.139])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2013 15:22:46 -0700
+From: tom.zanussi@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Mar 2013 17:22:45 -0500
+Message-Id: <cc3b5135364578a0069a0437b8834724a655b235.1363126772.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.4
+In-Reply-To: <cover.1363126772.git.tom.zanussi@linux.intel.com>
+References: <cover.1363126772.git.tom.zanussi@linux.intel.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 1/1] perf: bump PE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,63 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 22:05:30 -0000
-X-Groupsio-MsgNum: 36541
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="6CiRFyVmOOJ3DkBX"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 Mar 2013 22:39:28 -0000
 
---6CiRFyVmOOJ3DkBX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-On Tue, Mar 12, 2013 at 07:03:14PM +0200, Cristian Iorga wrote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5_5.3.bb |    2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.3.bb b/meta/recipe=
-s-connectivity/bluez5/bluez5_5.3.bb
-> index 311562f..5963483 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
-> @@ -6,6 +6,8 @@ SRC_URI +=3D "file://bluetooth.conf \
->  SRC_URI[md5sum] =3D "44de20f6422bf90a01b8df48e7dfe4ed"
->  SRC_URI[sha256sum] =3D "828e2cd1109835c2fc1d731fb7fd7b46951044e451cc8556=
-a37e1312d8c8c9a6"
-> =20
-> +RCONFLICTS_${PN} =3D "bluez4"
+Renaming the perf recipe to remove the PV resulted in the default PV
+of 1.0 being used instead, which precedes the previous version number,
+3.4.  As mentioned in the previous patch, the version number was
+essentially arbitrary, and happened to be set to 3.4.  There's nothing
+to peg the perf recipe to any particular version of the kernel, so
+we'll just keep the default version but bump the epoch.
 
-That's not enough for upgrade path, add RREPLACES/RPROVIDES too.
-> +
->  do_install_append() {
->  	install -d ${D}${sysconfdir}/bluetooth/
->  	install -m 0644 ${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluet=
-ooth/
-> --=20
-> 1.7.10.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 3c49922..e3b19be 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -10,6 +10,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+ PR = "r8"
++PE = "1"
+ 
+ require perf-features.inc
+ 
+-- 
+1.7.11.4
 
---6CiRFyVmOOJ3DkBX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlE/or4ACgkQN1Ujt2V2gBzzrACfXqmyeXeJcjZTX+0+6mjviJWO
-SmEAn01alvvKPV9nYFPpX4z7mFvr8H/i
-=7iyL
------END PGP SIGNATURE-----
-
---6CiRFyVmOOJ3DkBX--
