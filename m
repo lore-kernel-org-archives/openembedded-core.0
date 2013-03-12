@@ -1,43 +1,46 @@
-Received: from mail-ea0-f169.google.com ([209.85.215.169])
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UFN1L-0006on-Nu
+	(envelope-from <B28495@freescale.com>) id 1UFNYY-0007dx-MK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 12:05:28 +0100
-Received: by mail-ea0-f169.google.com with SMTP id z7so1694850eaf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 03:48:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=M3JZDt22gkch/d3nOGFHb+zCL0ay7arcVv0pZoY4Gi4=;
-	b=ZS9sEyCeKnTHhg/HP4gbwohjKgkDifiPgcFfICTj2HUoDajzLvjSZlPK5y4RQ8/tFq
-	7CNfgw91crhwGjCs3hErXd4xl6PM4JiqHhdOF745mGCpxTZNtsj0OuRLhHXCzjvDW5zN
-	A7C24vsB68lcb02vhpWNG7OJ7tqNtnswK0L9zVGj6HwoYORk4iAi1zsFuOcIm5qSISGA
-	zLxyShKY3U12yXepDEY9byhlJaEQdQhV/3aMVVmrV8t9quQ2biFtfOIi4LKcMHz6K16v
-	2qr214J+GIzzkZW4AKkA3YEyx9Pntm8f7PQQoahXs4dqM9470kAJ1kKS/7/SPPqrmoez
-	Q4fQ==
-X-Received: by 10.14.210.132 with SMTP id u4mr46509614eeo.19.1363085323560;
-	Tue, 12 Mar 2013 03:48:43 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::65ec:b798:6105:9258?
-	([2001:610:612:0:65ec:b798:6105:9258])
-	by mx.google.com with ESMTPS id ca4sm25248496eeb.15.2013.03.12.03.48.41
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 12 Mar 2013 03:48:42 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <513F0149.9080708@herbrechtsmeier.net>
-Date: Tue, 12 Mar 2013 11:48:42 +0100
-Message-Id: <8517DA88-71D7-462E-B068-163831AB5D3C@dominion.thruhere.net>
-References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
-	<513E6C46.2010909@linux.intel.com>
-	<513F0149.9080708@herbrechtsmeier.net>
-To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQlELpPtck7HeCj+4mwZrVqE59lyAE9pSsFpUdbUambHKq255S81o8+CtSFwavCaFTDIrjfi
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Split out bjam build tool and add real native support
+	Tue, 12 Mar 2013 12:39:47 +0100
+Received: from mail20-am1-R.bigfish.com (10.3.201.230) by
+	AM1EHSOBE025.bigfish.com (10.3.207.147) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 12 Mar 2013 10:52:58 +0000
+Received: from mail20-am1 (localhost [127.0.0.1])	by mail20-am1-R.bigfish.com
+	(Postfix) with ESMTP id 876F4A02F3	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 10:52:58 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz8275ch17326ah8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail20-am1 (localhost.localdomain [127.0.0.1]) by mail20-am1
+	(MessageSwitch) id 1363085576822672_17230;
+	Tue, 12 Mar 2013 10:52:56 +0000 (UTC)
+Received: from AM1EHSMHS013.bigfish.com (unknown [10.3.201.241])	by
+	mail20-am1.bigfish.com (Postfix) with ESMTP id C5CF0300050	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 10:52:56 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS013.bigfish.com
+	(10.3.207.151) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 12 Mar 2013 10:52:56 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 12 Mar 2013 10:52:55 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id r2CAqndg003473;	Tue, 12 Mar 2013 03:52:53 -0700
+From: <b28495@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Mar 2013 18:52:47 +0800
+Message-ID: <1363085567-5474-2-git-send-email-b28495@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <1363085567-5474-1-git-send-email-b28495@freescale.com>
+References: <1363085567-5474-1-git-send-email-b28495@freescale.com>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 2/2] busybox: Add inetd related files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +53,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 11:05:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Mar 2013 11:39:48 -0000
+Content-Type: text/plain
+
+From: Ting Liu <b28495@freescale.com>
+
+Add back inetd and inetd.conf files which are needed if
+CONFIG_INETD is enabled in the defconfig. Grabbed these
+files from oe-classic
+
+This patch is based on the previous patch for denzil:
+http://patches.openembedded.org/patch/33235/
+
+Change-Id: Ia68aa80962c4b14c5ba03c7d971049a2b2a330c3
+Signed-off-by: Ting Liu <b28495@freescale.com>
+---
+ meta/recipes-core/busybox/busybox.inc       |    1 +
+ meta/recipes-core/busybox/busybox_1.20.2.bb |    6 +++-
+ meta/recipes-core/busybox/files/inetd       |   33 +++++++++++++++++++++++++++
+ meta/recipes-core/busybox/files/inetd.conf  |   20 ++++++++++++++++
+ 4 files changed, 58 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/files/inetd
+ create mode 100644 meta/recipes-core/busybox/files/inetd.conf
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 093bf2e..c8cd0d6 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -204,6 +204,7 @@ do_install () {
+ 	fi
+ 	if grep "CONFIG_INETD=y" ${S}/.config; then
+ 		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
++		sed -i "s:/usr/sbin/:${sbindir}/:" ${D}${sysconfdir}/init.d/inetd.${BPN}
+ 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
+ 	fi
+         if grep "CONFIG_MDEV=y" ${S}/.config; then
+diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-core/busybox/busybox_1.20.2.bb
+index 255d56c..1e7d3c9 100644
+--- a/meta/recipes-core/busybox/busybox_1.20.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
+@@ -28,7 +28,9 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://fix-for-spurious-testsuite-failure.patch \
+            file://busybox-1.20.2-kernel_ver.patch \
+            file://stat-usr-bin.patch \
+-           file://testsuite-du-du-k-works-fix-false-positive.patch"
++           file://testsuite-du-du-k-works-fix-false-positive.patch \
++           file://inetd.conf \
++           file://inetd"
+ 
+ 
+ SRC_URI[tarball.md5sum] = "e025414bc6cd79579cc7a32a45d3ae1c"
+diff --git a/meta/recipes-core/busybox/files/inetd b/meta/recipes-core/busybox/files/inetd
+new file mode 100644
+index 0000000..cf50bcd
+--- /dev/null
++++ b/meta/recipes-core/busybox/files/inetd
+@@ -0,0 +1,33 @@
++#!/bin/sh
++#
++# start/stop inetd super server.
++
++if ! [ -x /usr/sbin/inetd ]; then
++	exit 0
++fi
++
++case "$1" in
++    start)
++	echo -n "Starting internet superserver:"
++	echo -n " inetd" ; start-stop-daemon -S -x /usr/sbin/inetd > /dev/null
++	echo "."
++	;;
++    stop)
++	echo -n "Stopping internet superserver:"
++	echo -n " inetd" ; start-stop-daemon -K -x /usr/sbin/inetd > /dev/null
++	echo "."
++	;;
++    restart)
++	echo -n "Restarting internet superserver:"
++	echo -n " inetd "
++	killall -HUP inetd
++	echo "."
++	;;
++    *)
++	echo "Usage: /etc/init.d/inetd {start|stop|restart}"
++	exit 1
++	;;
++esac
++
++exit 0
++
+diff --git a/meta/recipes-core/busybox/files/inetd.conf b/meta/recipes-core/busybox/files/inetd.conf
+new file mode 100644
+index 0000000..b02fe85
+--- /dev/null
++++ b/meta/recipes-core/busybox/files/inetd.conf
+@@ -0,0 +1,20 @@
++# /etc/inetd.conf:  see inetd(8) for further informations.
++#
++# Internet server configuration database
++#
++# If you want to disable an entry so it isn't touched during
++# package updates just comment it out with a single '#' character.
++#
++# <service_name> <sock_type> <proto> <flags> <user> <server_path> <args>
++#
++#:INTERNAL: Internal services
++#echo		stream	tcp	nowait	root	internal
++#echo		dgram	udp	wait	root	internal
++#chargen	stream	tcp	nowait	root	internal
++#chargen	dgram	udp	wait	root	internal
++#discard		stream	tcp	nowait	root	internal
++#discard		dgram	udp	wait	root	internal
++#daytime		stream	tcp	nowait	root	internal
++#daytime	dgram	udp	wait	root	internal
++#time		stream	tcp	nowait	root	internal
++#time		dgram	udp	wait	root	internal
+-- 
+1.7.5.4
 
 
-Op 12 mrt. 2013, om 11:19 heeft Stefan Herbrechtsmeier =
-<stefan@herbrechtsmeier.net> het volgende geschreven:
-
-> Am 12.03.2013 00:44, schrieb Saul Wold:
->> On 03/07/2013 08:37 AM, Stefan Herbrechtsmeier wrote:
->>> The current boost recipe only creates the bjam build tool during
->>> a native run and thereby is not usable for other native programs
->>> that depend on a boost library. Split out the build tool into its
->>> own bjam recipe and add real native support to the boost recipe.
->>> This allows recipes to depend on native boost libraries without
->>> increase of the build time for other use cases.
->>>=20
->>> Native compilation of bzip2 isn't working and therefore disabled.
->>>=20
->>> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
->>> ---
->>>  meta/recipes-support/boost/bjam_1.53.0.bb   |   21 +++++++++++
->>>  meta/recipes-support/boost/boost-1.53.0.inc |   21 +++++++++++
->>>  meta/recipes-support/boost/boost.inc        |   49 =
-++-------------------------
->>>  meta/recipes-support/boost/boost_1.53.0.bb  |    6 +--
->>>  4 files changed, 47 insertions(+), 50 deletions(-)
->>>  create mode 100644 meta/recipes-support/boost/bjam_1.53.0.bb
->>>  create mode 100644 meta/recipes-support/boost/boost-1.53.0.inc
->>>=20
->> This change seems to have caused a failure on my test build:
-> Sorry, I missed the no native case. I rename bjam to bjam-native and =
-send a new patch. Bjam make no sense on the target as it is only used =
-for compiling.
-
-And what if you need bjam to compile something on the target?=
 
 
