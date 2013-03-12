@@ -1,26 +1,39 @@
-Received: from dd19416.kasserver.com ([85.13.139.185])
+Received: from mail-vc0-f173.google.com ([209.85.220.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@herbrechtsmeier.net>) id 1UFQrl-0006kS-KT
+	(envelope-from <ross.burton@intel.com>) id 1UFR9o-0007I7-F5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 16:11:51 +0100
-Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
-	by dd19416.kasserver.com (Postfix) with ESMTPSA id 19FDA1840E0E
+	Tue, 12 Mar 2013 16:30:31 +0100
+Received: by mail-vc0-f173.google.com with SMTP id fl15so458284vcb.18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 15:55:12 +0100 (CET)
-Message-ID: <513F41CE.2060808@herbrechtsmeier.net>
-Date: Tue, 12 Mar 2013 15:55:10 +0100
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130215 Thunderbird/17.0.3
+	Tue, 12 Mar 2013 08:13:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=yoYQLKVoUkj2yALOuP8mXEiTTMvr16oaMDDgnqwJzqM=;
+	b=hkcCkR8viUQ/bNCNpy4VqG3yshHd5Tx+bgwEf8vuKC6awD9sJauGI7Nx5NewnajaZX
+	9ks8pjlpqoLNssVjz+5+0kwehKwHEDCIdvbicOpSth/MukqeTue7liP6nTyPxxCf6Jez
+	CmxElOF7Owa8OUk+NGc/AgCIXgUdhTt6utgfj8UCRlJY4RGay8XWQNMrt/xlsGHajKgZ
+	swfZKrOyslZ5yH3f9iDebTbRzJ7ZGtwrIDrJnHNjAGVLUApMz5VXxVP72N9/wyz1bmk9
+	jBSaSlQVhiTsEy7gIKSs0TnPwhmz633hhOsXmh3jVVX3bodHw+6YehQyREttcvHCjnkT
+	hV8w==
+X-Received: by 10.52.155.5 with SMTP id vs5mr5753991vdb.24.1363101228543; Tue,
+	12 Mar 2013 08:13:48 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
-	<513E6C46.2010909@linux.intel.com>
-	<513F0149.9080708@herbrechtsmeier.net>
-	<8517DA88-71D7-462E-B068-163831AB5D3C@dominion.thruhere.net>
-	<513F187B.3050207@herbrechtsmeier.net>
-In-Reply-To: <513F187B.3050207@herbrechtsmeier.net>
-Subject: Re: [PATCH] boost: Split out bjam build tool and add real native support
+Received: by 10.58.232.226 with HTTP; Tue, 12 Mar 2013 08:13:28 -0700 (PDT)
+In-Reply-To: <20130312100713.GJ9724@jama.dyndns-home.com>
+References: <1363010209-18220-1-git-send-email-cristian.iorga@intel.com>
+	<1363010209-18220-3-git-send-email-cristian.iorga@intel.com>
+	<20130312070053.GE9724@jama.dyndns-home.com>
+	<CAJTo0LZtUg+fUrLd6sVfSk1gQrauyq60ukMg5jh-_kcgeaK0Lg@mail.gmail.com>
+	<20130312100713.GJ9724@jama.dyndns-home.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Mar 2013 08:13:28 -0700
+Message-ID: <CAJTo0LZdYx9RLJ9an7LnALUOL5PkeUapnrMA5GyiDROcgwXbKw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQmVCfNXXBpXwRFW1ppUoXSuI4E8D0jJNhm+QC0ef9S0E2/u7rCzQu1/gN+NsfCrxG0Nyidt
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] bluez5: new package for v5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 15:11:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Mar 2013 15:30:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Am 12.03.2013 12:58, schrieb Stefan Herbrechtsmeier:
-> Am 12.03.2013 11:48, schrieb Koen Kooi:
->> Op 12 mrt. 2013, om 11:19 heeft Stefan Herbrechtsmeier 
->> <stefan@herbrechtsmeier.net> het volgende geschreven:
+On 12 March 2013 03:07, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> You can't just upgrade from bluez4 to bluez5 like you'd upgrade from
+>> glib 2.10 to glib 2.12 - the API was totally rewritten and the reason
+>> that we're maintaining both is because removing bluez4 would mean
+>> removing bluetooth support is most of the integration points (connman
+>> being the notable exception).
 >>
->>> Am 12.03.2013 00:44, schrieb Saul Wold:
->>>> On 03/07/2013 08:37 AM, Stefan Herbrechtsmeier wrote:
->>>>> The current boost recipe only creates the bjam build tool during
->>>>> a native run and thereby is not usable for other native programs
->>>>> that depend on a boost library. Split out the build tool into its
->>>>> own bjam recipe and add real native support to the boost recipe.
->>>>> This allows recipes to depend on native boost libraries without
->>>>> increase of the build time for other use cases.
->>>>>
->>>>> Native compilation of bzip2 isn't working and therefore disabled.
->>>>>
->>>>> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
->>>>> ---
->>>>>   meta/recipes-support/boost/bjam_1.53.0.bb   |   21 +++++++++++
->>>>>   meta/recipes-support/boost/boost-1.53.0.inc |   21 +++++++++++
->>>>>   meta/recipes-support/boost/boost.inc        |   49 
->>>>> ++-------------------------
->>>>>   meta/recipes-support/boost/boost_1.53.0.bb  |    6 +--
->>>>>   4 files changed, 47 insertions(+), 50 deletions(-)
->>>>>   create mode 100644 meta/recipes-support/boost/bjam_1.53.0.bb
->>>>>   create mode 100644 meta/recipes-support/boost/boost-1.53.0.inc
->>>>>
->>>> This change seems to have caused a failure on my test build:
->>> Sorry, I missed the no native case. I rename bjam to bjam-native and 
->>> send a new patch. Bjam make no sense on the target as it is only 
->>> used for compiling.
->> And what if you need bjam to compile something on the target?
+>> A distro upgrades from 4 to 5 when they've made the explicit decision
+>> to do so, and changes all of their dependencies to reflect this.
 >
-> Then you need to add cross compile support to bjam which is outside of 
-> the scope of this patch.
-I have realised that boost always compile bjam during do_boostconfig. I 
-have rework the recipe to use this bjam version as this simplify the 
-recipe and the update path.
+> That would work with bluez_5.3 with negative D_P too, wouldn't it?
+>
+> Now they need to refine RREPLACES/RCONFLICTS/RPROVIDES combo in distro
+> config too when they do explicit decision to change bluez version.
 
+Yes, so bluez4 and bluez5 should explicitly conflict each other.  This
+should be be done.
+
+Obviously both approaches are valid.  the approach of major-in-name
+was taken so that packages could depend on the version that they need
+for clarity.  As the linkage is over DBus there won't be any shlib
+dependencies, so it would be simple to build an image which contained
+bluezN but was using the bluezM APIs.
+
+Ross
 
 
