@@ -1,20 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from dd19416.kasserver.com ([85.13.139.185])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UFQqJ-0006hB-AT
+	(envelope-from <stefan@herbrechtsmeier.net>) id 1UFQrl-0006kS-KT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 16:10:24 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2013 07:53:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,831,1355126400"; d="scan'208";a="300107275"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2013 07:53:37 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+	Tue, 12 Mar 2013 16:11:51 +0100
+Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
+	by dd19416.kasserver.com (Postfix) with ESMTPSA id 19FDA1840E0E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 15:55:12 +0100 (CET)
+Message-ID: <513F41CE.2060808@herbrechtsmeier.net>
+Date: Tue, 12 Mar 2013 15:55:10 +0100
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130215 Thunderbird/17.0.3
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2013 16:54:11 +0200
-Message-Id: <1363100051-27944-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] psplash : update to latest SRCREV afd4e228c606a9998feae44a3fed4474803240b7
+References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+	<513E6C46.2010909@linux.intel.com>
+	<513F0149.9080708@herbrechtsmeier.net>
+	<8517DA88-71D7-462E-B068-163831AB5D3C@dominion.thruhere.net>
+	<513F187B.3050207@herbrechtsmeier.net>
+In-Reply-To: <513F187B.3050207@herbrechtsmeier.net>
+Subject: Re: [PATCH] boost: Split out bjam build tool and add real native support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,31 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 15:10:29 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 15:11:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- meta/recipes-core/psplash/psplash_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 9bdcb37..482670d 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -5,9 +5,9 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
- 
--SRCREV = "de9979aefbc56af59b4d236a4b63dd19dcdcfb53"
-+SRCREV = "afd4e228c606a9998feae44a3fed4474803240b7"
- PV = "0.1+git${SRCPV}"
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
--- 
-1.7.9.5
+Am 12.03.2013 12:58, schrieb Stefan Herbrechtsmeier:
+> Am 12.03.2013 11:48, schrieb Koen Kooi:
+>> Op 12 mrt. 2013, om 11:19 heeft Stefan Herbrechtsmeier 
+>> <stefan@herbrechtsmeier.net> het volgende geschreven:
+>>
+>>> Am 12.03.2013 00:44, schrieb Saul Wold:
+>>>> On 03/07/2013 08:37 AM, Stefan Herbrechtsmeier wrote:
+>>>>> The current boost recipe only creates the bjam build tool during
+>>>>> a native run and thereby is not usable for other native programs
+>>>>> that depend on a boost library. Split out the build tool into its
+>>>>> own bjam recipe and add real native support to the boost recipe.
+>>>>> This allows recipes to depend on native boost libraries without
+>>>>> increase of the build time for other use cases.
+>>>>>
+>>>>> Native compilation of bzip2 isn't working and therefore disabled.
+>>>>>
+>>>>> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+>>>>> ---
+>>>>>   meta/recipes-support/boost/bjam_1.53.0.bb   |   21 +++++++++++
+>>>>>   meta/recipes-support/boost/boost-1.53.0.inc |   21 +++++++++++
+>>>>>   meta/recipes-support/boost/boost.inc        |   49 
+>>>>> ++-------------------------
+>>>>>   meta/recipes-support/boost/boost_1.53.0.bb  |    6 +--
+>>>>>   4 files changed, 47 insertions(+), 50 deletions(-)
+>>>>>   create mode 100644 meta/recipes-support/boost/bjam_1.53.0.bb
+>>>>>   create mode 100644 meta/recipes-support/boost/boost-1.53.0.inc
+>>>>>
+>>>> This change seems to have caused a failure on my test build:
+>>> Sorry, I missed the no native case. I rename bjam to bjam-native and 
+>>> send a new patch. Bjam make no sense on the target as it is only 
+>>> used for compiling.
+>> And what if you need bjam to compile something on the target?
+>
+> Then you need to add cross compile support to bjam which is outside of 
+> the scope of this patch.
+I have realised that boost always compile bjam during do_boostconfig. I 
+have rework the recipe to use this bjam version as this simplify the 
+recipe and the update path.
 
 
 
