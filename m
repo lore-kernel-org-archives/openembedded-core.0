@@ -1,22 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pb0-f51.google.com ([209.85.160.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <olivier.guiter@linux.intel.com>) id 1UFWAf-0000xQ-Oq
+	(envelope-from <martin.jansa@gmail.com>) id 1UFXK4-0003Wh-54
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 21:51:46 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Mar 2013 13:32:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,833,1355126400"; d="scan'208";a="300344500"
-Received: from unknown (HELO oguiternx64.ger.corp.intel.com) ([10.252.120.189])
-	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2013 13:33:54 -0700
-From: Olivier Guiter <olivier.guiter@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2013 13:33:52 -0700
-Message-Id: <1363120432-10194-1-git-send-email-olivier.guiter@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <513E5F20.2020004@linux.intel.com>
-References: <513E5F20.2020004@linux.intel.com>
-Subject: [PATCH v4] neard: Update reference commit sha1 and install script
+	Tue, 12 Mar 2013 23:05:29 +0100
+Received: by mail-pb0-f51.google.com with SMTP id un15so304421pbc.38
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 14:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=+PFiWxcBAzxXJrDa1d6N2SgyMogqqGJxQVlh8y/Cyac=;
+	b=C5ZadX1aqKFs19N2thZgfcnMY2ZBFw38MTBDU77S4n/ZGupRrnvv5UAXtgSD1r6mUk
+	fmsxkujQARTx/J39lYad22UaaubZrBBFDFPBEfb5Jd5DLko4/y+9lI3yHQGGgGn0tLan
+	u96MY+NPrOpR92s4bMeN7RT4q/xuT1GUJ/46dt8NnNtw0hSAgooShC3xpkDMnNcUaQ8A
+	QPaitYYY36FrbT5c2qqenX/4lOeeiUY/SXS6vSM/NgyZCdk5zK30X2zT6QqKx3P6cF1G
+	YU69wf8EbUAWryKtfLMFnel5kvr/h78LGvI73bDICMj2TbrZ+/9nKo8dXZWgVxX4PcJv
+	VGNg==
+X-Received: by 10.68.97.65 with SMTP id dy1mr40718503pbb.190.1363124927453;
+	Tue, 12 Mar 2013 14:48:47 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ax3sm26610656pbd.42.2013.03.12.14.48.44
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Mar 2013 14:48:46 -0700 (PDT)
+Date: Tue, 12 Mar 2013 22:48:46 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20130312214846.GM9724@jama.dyndns-home.com>
+References: <1363107795-2140-1-git-send-email-cristian.iorga@intel.com>
+	<1363107795-2140-4-git-send-email-cristian.iorga@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1363107795-2140-4-git-send-email-cristian.iorga@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 3/4] bluez5: conflicts with bluez4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,197 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 20:51:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Mar 2013 22:05:30 -0000
+X-Groupsio-MsgNum: 36541
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6CiRFyVmOOJ3DkBX"
+Content-Disposition: inline
 
-This patch installs neard daemon in /usr/lib/neard.
+--6CiRFyVmOOJ3DkBX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Olivier Guiter <olivier.guiter@linux.intel.com>
----
- meta/recipes-connectivity/neard/neard/neard    |   42 ------------------
- meta/recipes-connectivity/neard/neard/neard.in |   54 ++++++++++++++++++++++++
- meta/recipes-connectivity/neard/neard_0.9.bb   |   32 ++++++++------
- 3 files changed, 74 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/neard
- create mode 100644 meta/recipes-connectivity/neard/neard/neard.in
+On Tue, Mar 12, 2013 at 07:03:14PM +0200, Cristian Iorga wrote:
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>  meta/recipes-connectivity/bluez5/bluez5_5.3.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.3.bb b/meta/recipe=
+s-connectivity/bluez5/bluez5_5.3.bb
+> index 311562f..5963483 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
+> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
+> @@ -6,6 +6,8 @@ SRC_URI +=3D "file://bluetooth.conf \
+>  SRC_URI[md5sum] =3D "44de20f6422bf90a01b8df48e7dfe4ed"
+>  SRC_URI[sha256sum] =3D "828e2cd1109835c2fc1d731fb7fd7b46951044e451cc8556=
+a37e1312d8c8c9a6"
+> =20
+> +RCONFLICTS_${PN} =3D "bluez4"
 
-diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
-deleted file mode 100644
-index 5f36174..0000000
---- a/meta/recipes-connectivity/neard/neard/neard
-+++ /dev/null
-@@ -1,42 +0,0 @@
--#!/bin/sh
--
--DAEMON=/usr/sbin/neard
--PIDFILE=/var/run/neard.pid
--DESC="Linux NFC daemon"
--
--if [ -f /etc/default/neard ] ; then
--	. /etc/default/neard
--fi
--
--set -e
--
--do_start() {
--	$DAEMON
--}
--
--do_stop() {
--	start-stop-daemon --stop --name neard --quiet
--}
--
--case "$1" in
--  start)
--	echo "Starting $DESC"
--	do_start
--	;;
--  stop)
--	echo "Stopping $DESC"
--	do_stop
--	;;
--  restart|force-reload)
--	echo "Restarting $DESC"
--	do_stop
--	sleep 1
--	do_start
--	;;
--  *)
--	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
--	exit 1
--	;;
--esac
--
--exit 0
-diff --git a/meta/recipes-connectivity/neard/neard/neard.in b/meta/recipes-connectivity/neard/neard/neard.in
-new file mode 100644
-index 0000000..a47d4d9
---- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard/neard.in
-@@ -0,0 +1,54 @@
-+#!/bin/sh
-+#
-+# start/stop neard daemon.
-+
-+### BEGIN INIT INFO
-+# Provides:          neard
-+# Required-Start:    $network
-+# Required-Stop:     $network
-+# Default-Start:     S 2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: NFC daemon
-+# Description:       neard is a daemon used to enable NFC features
-+### END INIT INFO
-+
-+DAEMON=@installpath@/neard
-+PIDFILE=/var/run/neard.pid
-+DESC="Linux NFC daemon"
-+
-+if [ -f /etc/default/neard ] ; then
-+	. /etc/default/neard
-+fi
-+
-+set -e
-+
-+do_start() {
-+	$DAEMON
-+}
-+
-+do_stop() {
-+	start-stop-daemon --stop --name neard --quiet
-+}
-+
-+case "$1" in
-+  start)
-+	echo "Starting $DESC"
-+	do_start
-+	;;
-+  stop)
-+	echo "Stopping $DESC"
-+	do_stop
-+	;;
-+  restart|force-reload)
-+	echo "Restarting $DESC"
-+	do_stop
-+	sleep 1
-+	do_start
-+	;;
-+  *)
-+	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
-+	exit 1
-+	;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-index 61ea58c..8e33a9d 100644
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.9.bb
-@@ -11,14 +11,24 @@ inherit autotools pkgconfig update-rc.d
- INITSCRIPT_NAME = "neard"
- INITSCRIPT_PARAMS = "defaults 64"
- 
-+do_install() {
-+	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
-+}
-+
- # This would copy neard start-stop shell and test scripts
- do_install_append() {
--  install -d ${D}${sysconfdir}/init.d/
--  install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
-+	# start/stop
-+	install -d ${D}${sysconfdir}/init.d/
-+
-+	sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-+		> ${D}${sysconfdir}/init.d/neard
-+
-+	chmod 0755 ${D}${sysconfdir}/init.d/neard
- 
--  install -d ${D}${libdir}/neard
--  install -m 0755 ${S}/test/* ${D}${libdir}/neard/
--  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
-+	#test files
-+	install -d ${D}${libdir}/neard
-+	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
-+	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
- }
- 
- RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
-@@ -32,26 +42,24 @@ RRECOMMENDS_${PN} = "\
- #Additional
- PACKAGES =+ "${PN}-tests"
- 
--FILES_${PN}-tests = "${libdir}/neard/*-test"
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
- 
--FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
- 
--##=============================
- # This is valid for 0.9+
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
- S	= "${WORKDIR}/git"
--SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
-+SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
- PV	= "0.9-git${SRCPV}"
- PR	= "r1"
- 
- SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
--	file://neard \
-+	file://neard.in \
- 	"
- 
- EXTRA_OECONF += "--enable-tools \
- 	"
- 
--
--- 
-1.7.9.5
+That's not enough for upgrade path, add RREPLACES/RPROVIDES too.
+> +
+>  do_install_append() {
+>  	install -d ${D}${sysconfdir}/bluetooth/
+>  	install -m 0644 ${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluet=
+ooth/
+> --=20
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--6CiRFyVmOOJ3DkBX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlE/or4ACgkQN1Ujt2V2gBzzrACfXqmyeXeJcjZTX+0+6mjviJWO
+SmEAn01alvvKPV9nYFPpX4z7mFvr8H/i
+=7iyL
+-----END PGP SIGNATURE-----
+
+--6CiRFyVmOOJ3DkBX--
