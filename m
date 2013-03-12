@@ -1,33 +1,29 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UFRPP-0007i7-21
+	(envelope-from <mark.hatle@windriver.com>) id 1UFRXX-000821-Dy
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 16:46:51 +0100
+	Tue, 12 Mar 2013 16:55:00 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2CFTpXa007491
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2CFcITt023664
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 08:29:53 -0700 (PDT)
+	Tue, 12 Mar 2013 08:38:19 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.234) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 12 Mar 2013 08:29:51 -0700
-Message-ID: <513F49FE.5030909@windriver.com>
-Date: Tue, 12 Mar 2013 10:30:06 -0500
+	14.2.342.3; Tue, 12 Mar 2013 08:38:19 -0700
+Message-ID: <513F4BF9.4090903@windriver.com>
+Date: Tue, 12 Mar 2013 10:38:33 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130216 Thunderbird/17.0.3
 MIME-Version: 1.0
-To: Kang Kai <Kai.Kang@windriver.com>
-References: <cover.1362035905.git.kai.kang@windriver.com>
-	<c100eba8e21c76e85e5250020c0b1d68c96e02d9.1362035905.git.kai.kang@windriver.com>
-	<512F6B04.8010102@windriver.com> <513EC3CE.9070206@windriver.com>
-In-Reply-To: <513EC3CE.9070206@windriver.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r2CFTpXa007491
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rpm: fix rpm2cpio segmentation fault
+To: <openembedded-core@lists.openembedded.org>
+References: <1363087472-32085-1-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0LZypsC9Ai9ZyBhEmS8gv4zSQd7ViJ4k_KppqwD2oBMeKw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZypsC9Ai9ZyBhEmS8gv4zSQd7ViJ4k_KppqwD2oBMeKw@mail.gmail.com>
+Subject: Re: [PATCH] package.bbclass: add debug-without-src PACKAGE_DEBUG_SPLIT_STYLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,157 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 15:47:00 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Mar 2013 15:55:00 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 3/12/13 12:57 AM, Kang Kai wrote:
-> On 2013=E5=B9=B402=E6=9C=8828=E6=97=A5 22:34, Mark Hatle wrote:
->> On 2/28/13 1:34 AM, Kang Kai wrote:
->>> When run rpm2cpio, it fails with segmentation fault. The root cause i=
-s
->>> no macro "_db_path" defined, when query its value get nothing then
->>> cause segment fault.
->>>
->>> Add patch to parse macro files first to fix this problem.
->>>
->>> [YOCTO #3656]
->>>
->>> Signed-off-by: Kang Kai <kai.kang@windriver.com>
->>> ---
->>> .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch | 24
->>> ++++++++++++++++++++
->>> meta/recipes-devtools/rpm/rpm_5.4.9.bb | 3 +-
->>> 2 files changed, 26 insertions(+), 1 deletions(-)
->>> create mode 100644
->>> meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->>>
->>> diff --git
->>> a/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->>> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->>> new file mode 100644
->>> index 0000000..b43a64e
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->>> @@ -0,0 +1,24 @@
->>> +Upstream-Status: Pending
->>> +
->>> +rpm2cpio fails on target with "Segmentation fault". Because no
->>> "_dbpath"
->>> +defined, when query it will cause seg fault.
->>> +Parse macro files first to fix this bug.
->>> +
->>> +[YOCTO #3656]
->>> +
->>> +Signed-off-by: Kang Kai <kai.kang@windriver.com>
->>> +
->>> +--- rpm-5.4.9/tools/rpm2cpio.c.orig 2013-02-28 13:14:12.453540767 +0=
-800
->>> ++++ rpm-5.4.9/tools/rpm2cpio.c 2013-02-28 15:09:41.685785192 +0800
->>> +@@ -88,6 +88,11 @@ int main(int argc, char **argv)
->>> + (void) rpmtsSetVSFlags(ts, vsflags);
->>> +
->>> + /*@-mustmod@*/ /* LCL: segfault */
->>> ++ rc =3D rpmReadConfigFiles(NULL, NULL);
->>> ++ if (rc) {
->>> ++ fprintf(stderr, _("read RPM config files failed\n"));
->>> ++ exit(EXIT_FAILURE);
->>> ++ }
->>> + rc =3D rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
->>> + /*@=3Dmustmod@*/
->>> +
->>
+On 3/12/13 10:28 AM, Burton, Ross wrote:
+> On 12 March 2013 04:24, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> * same as original and default version, but does not package source files in PN-dbg
 >
-> Hi Mark,
->
-> Sorry for missed this mail.
->
->> In the RPM2CPIO case, I'm not sure that we want to exit here. It's
->> certainly reasonable for the config files to be unavailable to us.
->
-> How about just give warning without quit when read configure files fail=
-s?
+> You can mark this as closing
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3621, which would be
+> good for my bug list.  Richard had concerns that he listed in the bug,
+> so having done tests and demonstrating that the loss of source doesn't
+> impact the usefulness of the debug files would be good.
 
-We shouldn't even need a warning.  When rpm2cpio is used on a target, muc=
-h of=20
-the time there is no associated RPM in use (or if it's available, there l=
-ikely=20
-isn't a database/home configured.)
+I am curious as to the use of the dbg package (w/o) source on the target system.
 
->>
->> If the problem is that _dbpath is undefined (and it's needed for some
->> reason), my suggestion is that "some value" be defined, even if it's
->> to a non-existent location. It's be even better if we could simply
->> avoid using the _dbpath at all in the rpm2cpio code.
->
-> The segment fault occurs on executing rpmReadPackageFile(). It is a
-> library function in rpmdb/package.c. And it finally calls rpmdbNew(),
-> and in rpmdbNew() it calls:
->
-> db->db_home =3D rpmdbURIPath( (home && *home ? home : _DB_HOME) );
->
-> home passed in is NULL, and _DB_HOME is defined by:
->
-> #define _DB_HOME "%{?_dbpath}"
+In my experience, the dbg binaries are useless without the associated source. 
+Most of the people I know either use an on-target debugger or a cross debugger, 
+both of which need the associated sources to tell you anything about what is 
+going on.
 
-Instead of a warning above, if we were unable to load the database=20
-configuration, can we just set the value of _dbpath to be "/tmp"?  This s=
-hould=20
-provide a valid 'home' path for any temp files, as well as avoid any load=
-=20
-problems.  If there is a configuration available, we can use it.
+For someone who just wants pure backtrace information, it's usually easier to 
+avoid the whole split-and-strip process that generates the dbg files.  But of 
+course this can sacrifice the usefulness of being able to do field debugging.
 
-> Then segment fault occurs with xstrdup() because no value is definedfor
-> _dbpath then it tries to xstrdup() a NULL value in rpmdbURIPath().
+(Note, I'm not against the patch.. it looks fine to me... I just don't 
+understand the usefulness..  other then the associated defect says they are "too 
+big", which again, I don't doubt.)
+
+--Mark
+
+> Ross
 >
-> That is why I think parse configure files first in rpm2cpio is the way
-> to fix the issue.
->
-> Regards,
-> Kai
->
->>
->> (Note, to folks reading this. Normally in oe-core, if we use rpm2cpio,
->> we're actually using a shell script version which does not have this
->> problem. The rpm2cpio -binary- is used by people on the target or
->> sometimes via the SDK to extract SRPM or RPM packages...)
->>
->>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->>> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->>> index 39b0481..fcfbde8 100644
->>> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->>> @@ -43,7 +43,7 @@ LICENSE =3D "LGPLv2.1"
->>> LIC_FILES_CHKSUM =3D
->>> "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f17206a5b0a1"
->>>
->>> DEPENDS =3D "libpcre attr acl popt ossp-uuid file bison-native"
->>> -PR =3D "r61"
->>> +PR =3D "r62"
->>>
->>> # rpm2cpio is a shell script, which is part of the rpm src.rpm. It is
->>> needed
->>> # in order to extract the distribution SRPM into a format we can
->>> extract...
->>> @@ -85,6 +85,7 @@ SRC_URI =3D
->>> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;e=
-x
->>> file://rpm-reloc-macros.patch \
->>> file://rpm-platform2.patch \
->>> file://rpm-remove-sykcparse-decl.patch \
->>> + file://rpm2cpio-fix-segmentation-fault.patch \
->>> "
->>>
->>> # Uncomment the following line to enable platform score debugging
->>>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
