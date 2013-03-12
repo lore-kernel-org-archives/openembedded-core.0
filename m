@@ -1,36 +1,22 @@
-Received: from mail-ve0-f169.google.com ([209.85.128.169])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UFW3V-0000ly-Qv
+	(envelope-from <olivier.guiter@linux.intel.com>) id 1UFWAf-0000xQ-Oq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 21:44:21 +0100
-Received: by mail-ve0-f169.google.com with SMTP id 15so230508vea.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 13:27:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=qVUpWnEpEtN0uQyARYWDmgVB3HZKDgCdRJWKYLZCtHc=;
-	b=HefR5LDBAIj7gtDyRN8EZg6sbGR0bkb4bGGHqLaiSlVHN+SIVR5bUgkeDzC8+CCT5x
-	qDQUlvwTBanUFGyuXQCs/WQ1ggGnlR/ITrCQ1irsGD2X5bEabC8gzg9uULVNuOvfGz53
-	QAMlbiwD1JJnrAxNr6hmh2bXWu4OWyuboD6e+zMUShbFIPWm69qAJCnODB0H/9fam6tD
-	gRrw1vr6EWOZm/AhC2rL33d8ePzlpcWJE2mfhKJVEVe/OGZDcYgimVM6ERehhgTbEErs
-	wWEVCIVu85KDJYdYdOar9nMB8bLESoxuFbJmT6epmEVgQMR8CoQaSROluwAVWAfRLAkJ
-	y0xQ==
-X-Received: by 10.52.75.65 with SMTP id a1mr6137320vdw.79.1363120056159; Tue,
-	12 Mar 2013 13:27:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.232.226 with HTTP; Tue, 12 Mar 2013 13:27:16 -0700 (PDT)
-In-Reply-To: <1363119725-5341-1-git-send-email-denis@denix.org>
-References: <1363119725-5341-1-git-send-email-denis@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Mar 2013 13:27:16 -0700
-Message-ID: <CAJTo0LZg0a5nCKOTo+=KvCkYiWZiEbrV59rZxVdOP6i405NWqA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-X-Gm-Message-State: ALoCoQnNBPiEmtwKHDJvLr9WjGSNQ8maJjPC5HyUhpgS44ypqOZMIY4G1CFvhJYw6c8VwNwg7Y4u
-Cc: Chase Maupin <Chase.Maupin@ti.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][for-danny] soc-family: fix SOC_FAMILY override order
+	Tue, 12 Mar 2013 21:51:46 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Mar 2013 13:32:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,833,1355126400"; d="scan'208";a="300344500"
+Received: from unknown (HELO oguiternx64.ger.corp.intel.com) ([10.252.120.189])
+	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2013 13:33:54 -0700
+From: Olivier Guiter <olivier.guiter@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Mar 2013 13:33:52 -0700
+Message-Id: <1363120432-10194-1-git-send-email-olivier.guiter@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <513E5F20.2020004@linux.intel.com>
+References: <513E5F20.2020004@linux.intel.com>
+Subject: [PATCH v4] neard: Update reference commit sha1 and install script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,26 +29,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 20:44:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Mar 2013 20:51:46 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 12 March 2013 13:22, Denys Dmytriyenko <denis@denix.org> wrote:
-> From: Chase Maupin <Chase.Maupin@ti.com>
->
-> * the current order has SOC_FAMILY settings, which are generic
->   settings for a group of devices, overriding the machine specific
->   settings.  For example:
->
->   KERNEL_DEVICETREE_ti33x = "xxxx"
->   KERNEL_DEVICETREE_beaglebone = "yyyy"
->
->   Should yield "yyyy" when building for the beaglebone because
->   that is a more specific device than ti33x.  However, without this
->   change the result is that the value is set to "xxxx" meaning the
->   more generic setting overrides the more specific setting.
+This patch installs neard daemon in /usr/lib/neard.
 
-Merged to danny-next locally, will be pushed later.
+Signed-off-by: Olivier Guiter <olivier.guiter@linux.intel.com>
+---
+ meta/recipes-connectivity/neard/neard/neard    |   42 ------------------
+ meta/recipes-connectivity/neard/neard/neard.in |   54 ++++++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.9.bb   |   32 ++++++++------
+ 3 files changed, 74 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/neard/neard/neard
+ create mode 100644 meta/recipes-connectivity/neard/neard/neard.in
 
-Ross
+diff --git a/meta/recipes-connectivity/neard/neard/neard b/meta/recipes-connectivity/neard/neard/neard
+deleted file mode 100644
+index 5f36174..0000000
+--- a/meta/recipes-connectivity/neard/neard/neard
++++ /dev/null
+@@ -1,42 +0,0 @@
+-#!/bin/sh
+-
+-DAEMON=/usr/sbin/neard
+-PIDFILE=/var/run/neard.pid
+-DESC="Linux NFC daemon"
+-
+-if [ -f /etc/default/neard ] ; then
+-	. /etc/default/neard
+-fi
+-
+-set -e
+-
+-do_start() {
+-	$DAEMON
+-}
+-
+-do_stop() {
+-	start-stop-daemon --stop --name neard --quiet
+-}
+-
+-case "$1" in
+-  start)
+-	echo "Starting $DESC"
+-	do_start
+-	;;
+-  stop)
+-	echo "Stopping $DESC"
+-	do_stop
+-	;;
+-  restart|force-reload)
+-	echo "Restarting $DESC"
+-	do_stop
+-	sleep 1
+-	do_start
+-	;;
+-  *)
+-	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+-	exit 1
+-	;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-connectivity/neard/neard/neard.in b/meta/recipes-connectivity/neard/neard/neard.in
+new file mode 100644
+index 0000000..a47d4d9
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard/neard.in
+@@ -0,0 +1,54 @@
++#!/bin/sh
++#
++# start/stop neard daemon.
++
++### BEGIN INIT INFO
++# Provides:          neard
++# Required-Start:    $network
++# Required-Stop:     $network
++# Default-Start:     S 2 3 4 5
++# Default-Stop:      0 1 6
++# Short-Description: NFC daemon
++# Description:       neard is a daemon used to enable NFC features
++### END INIT INFO
++
++DAEMON=@installpath@/neard
++PIDFILE=/var/run/neard.pid
++DESC="Linux NFC daemon"
++
++if [ -f /etc/default/neard ] ; then
++	. /etc/default/neard
++fi
++
++set -e
++
++do_start() {
++	$DAEMON
++}
++
++do_stop() {
++	start-stop-daemon --stop --name neard --quiet
++}
++
++case "$1" in
++  start)
++	echo "Starting $DESC"
++	do_start
++	;;
++  stop)
++	echo "Stopping $DESC"
++	do_stop
++	;;
++  restart|force-reload)
++	echo "Restarting $DESC"
++	do_stop
++	sleep 1
++	do_start
++	;;
++  *)
++	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
++	exit 1
++	;;
++esac
++
++exit 0
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index 61ea58c..8e33a9d 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -11,14 +11,24 @@ inherit autotools pkgconfig update-rc.d
+ INITSCRIPT_NAME = "neard"
+ INITSCRIPT_PARAMS = "defaults 64"
+ 
++do_install() {
++	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
++}
++
+ # This would copy neard start-stop shell and test scripts
+ do_install_append() {
+-  install -d ${D}${sysconfdir}/init.d/
+-  install -m 0755 ${WORKDIR}/neard ${D}${sysconfdir}/init.d/neard
++	# start/stop
++	install -d ${D}${sysconfdir}/init.d/
++
++	sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
++		> ${D}${sysconfdir}/init.d/neard
++
++	chmod 0755 ${D}${sysconfdir}/init.d/neard
+ 
+-  install -d ${D}${libdir}/neard
+-  install -m 0755 ${S}/test/* ${D}${libdir}/neard/
+-  install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/neard/
++	#test files
++	install -d ${D}${libdir}/neard
++	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
++	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+ }
+ 
+ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+@@ -32,26 +42,24 @@ RRECOMMENDS_${PN} = "\
+ #Additional
+ PACKAGES =+ "${PN}-tests"
+ 
+-FILES_${PN}-tests = "${libdir}/neard/*-test"
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
++FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
++FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+ 
+-FILES_${PN}-dbg += "${bindir}/neard/*/.debug"
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
+-##=============================
+ # This is valid for 0.9+
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
+ S	= "${WORKDIR}/git"
+-SRCREV	= "7abdb13d106d496e1115fab49e6448a249dfb3c8"
++SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
+ PV	= "0.9-git${SRCPV}"
+ PR	= "r1"
+ 
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+-	file://neard \
++	file://neard.in \
+ 	"
+ 
+ EXTRA_OECONF += "--enable-tools \
+ 	"
+ 
+-
+-- 
+1.7.9.5
+
 
 
