@@ -1,26 +1,38 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ie0-f179.google.com ([209.85.223.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UFJST-0006Yw-Rp
+	(envelope-from <martin.jansa@gmail.com>) id 1UFJa6-0006q5-Pw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 08:17:28 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2013 00:00:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,827,1355126400"; d="scan'208";a="299795920"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2013 00:00:27 -0700
-Message-ID: <513ED289.7070806@linux.intel.com>
-Date: Tue, 12 Mar 2013 00:00:25 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 12 Mar 2013 08:25:08 +0100
+Received: by mail-ie0-f179.google.com with SMTP id k11so5948896iea.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 00:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=Ggvi8bTyF8ph3yx2ElmVH4zSyJgzjztj899tmvRC3KU=;
+	b=dNDzWYIcb490Eel7n9neU/HWkU5WCMkDsAc8SA5iFnrIvbsXIj585Xy5NZEtQfQf92
+	iTl2CfC9u7lZZg2r51V/nPYBvqQj1BhHVkLTA8TtV5aPkNI8vD0d+DPyjybGu8nT5Czi
+	BvlG4vZxKQpwrVtGtiXNB9cJTBYO/Y/WC7z+Lc4ajjAiqmY/SC5oQeXyB6uMeoelmSd7
+	070h6CCloRzd2sqi3+vth5eZzW/cdA6CuNwEJxbPzku1EQWrNQWo6Ys4MNTSjoIaY7Lq
+	B2dxsreOJgbL8fO+9V1Gf//D4Z0TrdFzU9bMCrD4aw84D2acA8211RkWKAU7ytdaBWLE
+	1bLw==
+X-Received: by 10.50.7.242 with SMTP id m18mr10694110iga.53.1363072107498;
+	Tue, 12 Mar 2013 00:08:27 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ew5sm19699980igc.2.2013.03.12.00.08.24
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 12 Mar 2013 00:08:26 -0700 (PDT)
+Date: Tue, 12 Mar 2013 08:08:27 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130312070827.GF9724@jama.dyndns-home.com>
+References: <cover.1363025917.git.ross.burton@intel.com>
+	<228e005f888afff7bd97f015e321a62071c09307.1363025917.git.ross.burton@intel.com>
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1363018567.git.laurentiu.palcu@intel.com>
-	<7ea1df1d417670be7f097ceed27280a30433926c.1363018567.git.laurentiu.palcu@intel.com>
-In-Reply-To: <7ea1df1d417670be7f097ceed27280a30433926c.1363018567.git.laurentiu.palcu@intel.com>
+In-Reply-To: <228e005f888afff7bd97f015e321a62071c09307.1363025917.git.ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] xf86-video-vmware: delete references to xserver's mibstore.h
+Subject: Re: [PATCH 06/12] systemd-compat-units: add missing systemd-systemctl-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,110 +45,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 07:17:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Mar 2013 07:25:09 -0000
+X-Groupsio-MsgNum: 36484
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="oFbHfjnMgUMsrGjO"
+Content-Disposition: inline
 
-On 03/11/2013 09:27 AM, Laurentiu Palcu wrote:
-> mibstore.h has been deleted in the new xserver. Update the driver too.
->
-There seemed to be an issue applying this patch.
+--oFbHfjnMgUMsrGjO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you please verify this.
-
-Thanks
-	Sau!
-
-
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+On Mon, Mar 11, 2013 at 11:24:49AM -0700, Ross Burton wrote:
+> This package has postinsts that run on the build host, but wasn't dependi=
+ng on
+> systemd-systemctl-native.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->   .../xf86-video-vmware/Kill-mibstore.patch          |   63 ++++++++++++++++++++
->   .../xorg-driver/xf86-video-vmware_13.0.0.bb        |    2 +
->   2 files changed, 65 insertions(+)
->   create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
->
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
-> new file mode 100644
-> index 0000000..e85a2ea
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
-> @@ -0,0 +1,63 @@
-> +Upstream-Status: Backported
-> +
-> +From 23d87c92b7211cc5249eefe4ab3a2c7f370e279e Mon Sep 17 00:00:00 2001
-> +From: Zack Rusin <zackr@vmware.com>
-> +Date: Thu, 14 Feb 2013 14:33:01 -0800
-> +Subject: [PATCH] Kill mibstore
-> +
-> +It was a noop for at least 5 years and it has been removed.
-> +
-> +Signed-off-by: Zack Rusin <zackr@vmware.com>
-> +---
-> + saa/saa_priv.h         |    1 -
-> + src/vmware.c           |    2 --
-> + vmwgfx/vmwgfx_driver.c |    1 -
-> + 3 files changed, 4 deletions(-)
-> +
-> +diff --git a/saa/saa_priv.h b/saa/saa_priv.h
-> +index 6652054..5d81453 100644
-> +--- a/saa/saa_priv.h
-> ++++ b/saa/saa_priv.h
-> +@@ -48,7 +48,6 @@
-> + #include "pixmapstr.h"
-> + #include "windowstr.h"
-> + #include "servermd.h"
-> +-#include "mibstore.h"
-> + #include "colormapst.h"
-> + #include "gcstruct.h"
-> + #include "input.h"
-> +diff --git a/src/vmware.c b/src/vmware.c
-> +index 41201f1..6b74e14 100644
-> +--- a/src/vmware.c
-> ++++ b/src/vmware.c
-> +@@ -23,7 +23,6 @@ char rcsId_vmware[] =
-> + #include "xf86Pci.h"		/* pci */
-> +
-> + #include "mipointer.h"		/* sw cursor */
-> +-#include "mibstore.h"		/* backing store */
-> + #include "micmap.h"		/* mi color map */
-> + #include "vgaHW.h"		/* VGA hardware */
-> + #include "fb.h"
-> +@@ -1483,7 +1482,6 @@ VMWAREScreenInit(SCREEN_INIT_ARGS_DECL)
-> +      * If backing store is to be supported (as is usually the case),
-> +      * initialise it.
-> +      */
-> +-    miInitializeBackingStore(pScreen);
-> +     xf86SetBackingStore(pScreen);
-> +     xf86SetSilkenMouse(pScreen);
-> +
-> +diff --git a/vmwgfx/vmwgfx_driver.c b/vmwgfx/vmwgfx_driver.c
-> +index 9959ffb..7863ba2 100644
-> +--- a/vmwgfx/vmwgfx_driver.c
-> ++++ b/vmwgfx/vmwgfx_driver.c
-> +@@ -1036,7 +1036,6 @@ drv_screen_init(SCREEN_INIT_ARGS_DECL)
-> + 		   (ms->only_hw_presents) ? "enabled" : "disabled");
-> +     }
-> +
-> +-    miInitializeBackingStore(pScreen);
-> +     xf86SetBackingStore(pScreen);
-> +     xf86SetSilkenMouse(pScreen);
-> +     miDCInitialize(pScreen, xf86GetPointerScreenFuncs());
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-> index 4399bb1..1466b86 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.0.bb
-> @@ -6,6 +6,8 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
->
-> +SRC_URI = "file://Kill-mibstore.patch"
-> +
->   DEPENDS += "virtual/libx11 libxvmc drm glproto \
->   	    virtual/libgl xineramaproto libpciaccess"
->
->
+>  meta/recipes-core/systemd/systemd-compat-units.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/rec=
+ipes-core/systemd/systemd-compat-units.bb
+> index a7bfee3..19a1ea1 100644
+> --- a/meta/recipes-core/systemd/systemd-compat-units.bb
+> +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+> @@ -5,6 +5,8 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D3f=
+40d7994397109285ec7b81fdeb3
+> =20
+>  PR =3D "r18"
+> =20
+> +DEPENDS =3D "systemd-systemctl-native"
 
+Do you want RDEPENDS_${PN} here?
 
+> +
+>  inherit allarch
+> =20
+>  SRC_URI =3D "file://*.service"
+> --=20
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--oFbHfjnMgUMsrGjO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlE+1GsACgkQN1Ujt2V2gBw5UwCdHJdq74HJrtSlOfGmljsBUQC6
+iSYAoKIJOJYF3x4WYOLNQcmQp7nnsi8c
+=bf6M
+-----END PGP SIGNATURE-----
+
+--oFbHfjnMgUMsrGjO--
