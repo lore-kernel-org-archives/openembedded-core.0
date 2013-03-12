@@ -1,46 +1,33 @@
-Received: from co9ehsobe003.messaging.microsoft.com ([207.46.163.26]
-	helo=co9outboundpool.messaging.microsoft.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1UFHkZ-0002WC-EX
+	(envelope-from <raj.khem@gmail.com>) id 1UFI5i-000393-H9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 06:27:47 +0100
-Received: from mail219-co9-R.bigfish.com (10.236.132.239) by
-	CO9EHSOBE036.bigfish.com (10.236.130.99) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 12 Mar 2013 03:55:33 +0000
-Received: from mail219-co9 (localhost [127.0.0.1])	by
-	mail219-co9-R.bigfish.com (Postfix) with ESMTP id C3BD71001CB	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 03:55:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz936eIzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
-Received: from mail219-co9 (localhost.localdomain [127.0.0.1]) by mail219-co9
-	(MessageSwitch) id 1363060531573544_2735;
-	Tue, 12 Mar 2013 03:55:31 +0000 (UTC)
-Received: from CO9EHSMHS002.bigfish.com (unknown [10.236.132.235])	by
-	mail219-co9.bigfish.com (Postfix) with ESMTP id 8059EE011D	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 03:55:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS002.bigfish.com
-	(10.236.130.12) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 12 Mar 2013 03:55:31 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Tue, 12 Mar 2013 03:55:30 +0000
-Received: from b19537-desktop.ap.freescale.net
-	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r2C3tRBV023882;
-	Mon, 11 Mar 2013 20:55:28 -0700
-From: Zhenhua Luo <zhenhua.luo@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Mar 2013 11:58:58 +0800
-Message-ID: <1363060738-21499-1-git-send-email-zhenhua.luo@freescale.com>
+	Tue, 12 Mar 2013 06:49:55 +0100
+Received: by mail-pb0-f47.google.com with SMTP id rp2so4603360pbb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Mar 2013 22:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=xiggQE7oyMbeGT6k7rl3Ia/fdQY4lskU4Yzs2dj3GFM=;
+	b=05DekR3zSaYiOSfwDPFJNILCnY5SidpwujFpEkiWxV1YtsM8Oh/Ayrkwm09TCeXzwk
+	OPtLq9hbuG2qO6GamDZQiUCwuhaKKWEwJ6gSZYLrG+yjXhJt9uoqc5jUFvNjD5TzwYvT
+	RKdSahqMrtNf+7KkE/cVJQ6msimCJyUqBC2ko42ge/xIjwh1abWOs+3w+OvDVqx1g0L/
+	FX0tDesWxVWKb3J0I+Sj8CkBTo+AtU1NoLq22jRipx6iss1KNetu7TF0cpoOXDZ9B90B
+	alq20bdI22vGEGVGOABM7hV9P14IAXIbX0aBaIVZ4d7BkZKPhgYiXb73IPzuNLJUG3gj
+	6wbQ==
+X-Received: by 10.68.245.201 with SMTP id xq9mr34433767pbc.160.1363066378056; 
+	Mon, 11 Mar 2013 22:32:58 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id qp13sm23442794pbb.3.2013.03.11.22.32.56
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Mar 2013 22:32:57 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Mar 2013 22:32:45 -0700
+Message-Id: <1363066365-8060-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: B40290@freescale.com, Zhenhua Luo <zhenhua.luo@freescale.com>
-Subject: [oe-core master v2] elfutils: Fix size passed to snprintf for invalid sh_name case
+Subject: [PATCH] watchdog: Upgrade 5.12 -> 5.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,79 +40,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 05:27:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Mar 2013 05:50:00 -0000
 
-Following build error will appear on Fedora18.
-nm.c: In function 'show_symbols_sysv':
-nm.c:756:27: error: argument to 'sizeof' in 'snprintf' call is the same expression as the destination; did you mean to provide an explicit length? [-Werror=sizeof-pointer-memaccess]
-    snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
-                           ^
+Part of ping failure patch is already applied
+in 5.13 hence refreshed the patch.
+Tested on x86_64 box
 
-Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ssed-to-snprintf-for-invalid-sh_name-case.patch |   27 ++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    3 +-
- 2 files changed, 29 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+ .../watchdog/files/fix-ping-failure.patch          |   21 ++++++--------------
+ meta/recipes-extended/watchdog/watchdog_5.12.bb    |   21 --------------------
+ meta/recipes-extended/watchdog/watchdog_5.13.bb    |   18 +++++++++++++++++
+ 3 files changed, 24 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-extended/watchdog/watchdog_5.12.bb
+ create mode 100644 meta/recipes-extended/watchdog/watchdog_5.13.bb
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch b/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+diff --git a/meta/recipes-extended/watchdog/files/fix-ping-failure.patch b/meta/recipes-extended/watchdog/files/fix-ping-failure.patch
+index c6ee843..f5976eb 100644
+--- a/meta/recipes-extended/watchdog/files/fix-ping-failure.patch
++++ b/meta/recipes-extended/watchdog/files/fix-ping-failure.patch
+@@ -33,19 +33,10 @@ Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+  src/watchdog.c |    5 ++++-
+  2 files changed, 5 insertions(+), 2 deletions(-)
+ 
+---- a/src/net.c
+-+++ b/src/net.c
+-@@ -118,7 +118,7 @@ int check_net(char *target, int sock_fp,
+- 		    dtimeout.tv_usec -= 1000000;
+- 		    dtimeout.tv_sec++;
+- 		}
+--		if (dtimeout.tv_sec <= 0)
+-+		if (dtimeout.tv_sec < 0)
+- 		    break;
+- #if USE_SYSLOG
+- 		if (verbose && logtick && ticker == 1)
+---- a/src/watchdog.c
+-+++ b/src/watchdog.c
++Index: watchdog-5.13/src/watchdog.c
++===================================================================
++--- watchdog-5.13.orig/src/watchdog.c	2013-02-01 03:15:44.000000000 -0800
+++++ watchdog-5.13/src/watchdog.c	2013-03-11 22:27:48.741657881 -0700
+ @@ -28,6 +28,7 @@
+  #include <sys/types.h>
+  #include <sys/ioctl.h>
+@@ -54,7 +45,7 @@ Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+  #include <linux/watchdog.h>
+  #include <string.h>
+  
+-@@ -567,6 +568,8 @@ int main(int argc, char *const argv[])
++@@ -567,6 +568,8 @@
+      pid_t child_pid;
+      int oom_adjusted = 0;
+      struct stat s;
+@@ -63,7 +54,7 @@ Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+  
+  #if USE_SYSLOG
+      char *opts = "d:i:n:Ffsvbql:p:t:c:r:m:a:";
+-@@ -703,7 +706,7 @@ int main(int argc, char *const argv[])
++@@ -703,7 +706,7 @@
+  		perror(progname);
+  		exit(1);
+  	    }
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.12.bb b/meta/recipes-extended/watchdog/watchdog_5.12.bb
+deleted file mode 100644
+index 78262b8..0000000
+--- a/meta/recipes-extended/watchdog/watchdog_5.12.bb
++++ /dev/null
+@@ -1,21 +0,0 @@
+-SUMMARY = "Software watchdog"
+-DESCRIPTION = "Watchdog is a daemon that checks if your system is still \
+-working. If programs in user space are not longer executed \
+-it will reboot the system."
+-HOMEPAGE = "http://watchdog.sourceforge.net/"
+-BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194"
+-
+-LICENSE = "GPL-2.0+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
+-
+-PR = "r1"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+-	   file://fix-ping-failure.patch"
+-
+-SRC_URI[md5sum] = "cea28bea70e54f3625062bc808aef9af"
+-SRC_URI[sha256sum] = "862d5da6ab34568bbd4ea695316f063fecabe107d0939ceea6c67c9ec0b1a08e"
+-
+-inherit autotools
+-
+-RRECOMMENDS_${PN} = "kernel-module-softdog"
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.13.bb b/meta/recipes-extended/watchdog/watchdog_5.13.bb
 new file mode 100644
-index 0000000..2b5dad3
+index 0000000..610e473
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Backport
++++ b/meta/recipes-extended/watchdog/watchdog_5.13.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Software watchdog"
++DESCRIPTION = "Watchdog is a daemon that checks if your system is still \
++working. If programs in user space are not longer executed \
++it will reboot the system."
++HOMEPAGE = "http://watchdog.sourceforge.net/"
++BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194"
 +
-+nm: Fix size passed to snprintf for invalid sh_name case.
-+native build failed as following on Fedora18:
-+nm.c: In function 'show_symbols_sysv':
-+nm.c:756:27: error: argument to 'sizeof' in 'snprintf' call is the same expression as the destination; did you mean to provide an explicit length? [-Werror=sizeof-pointer-memaccess]
-+    snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
-+                           ^
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
 +
-+The original commit is http://git.fedorahosted.org/cgit/elfutils.git/commit/src/nm.c?id=57bd66cabf6e6b9ecf622cdbf350804897a8df58
++SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
++	   file://fix-ping-failure.patch"
++SRC_URI[md5sum] = "153455f008f1cf8f65f6ad9586a21ff1"
++SRC_URI[sha256sum] = "141e0faf3ee4d8187a6ff4e00b18ef7b7a4ce432a2d4c8a6e6fdc62507fc6eb0"
 +
-+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++inherit autotools
 +
-+--- elfutils-0.148/src/nm.c.org	2013-03-11 22:36:11.000000000 -0500
-++++ elfutils-0.148/src/nm.c	2013-03-11 22:46:09.000000000 -0500
-+@@ -752,8 +752,9 @@
-+ 			       gelf_getshdr (scn, &shdr_mem)->sh_name);
-+       if (unlikely (name == NULL))
-+ 	{
-+-	  name = alloca (sizeof "[invalid sh_name 0x12345678]");
-+-	  snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
-++	  const size_t bufsz = sizeof "[invalid sh_name 0x12345678]";
-++	  name = alloca (bufsz);
-++	  snprintf (name, bufsz, "[invalid sh_name %#" PRIx32 "]",
-+ 		    gelf_getshdr (scn, &shdr_mem)->sh_name);
-+ 	}
-+       scnnames[elf_ndxscn (scn)] = name;
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index 45931b0..bc9e9c6 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
-                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
- DEPENDS = "libtool bzip2 zlib virtual/libintl"
- 
--PR = "r9"
-+PR = "r10"
- 
- SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
- 
-@@ -31,6 +31,7 @@ SRC_URI += "\
- 	file://mempcpy.patch \
- 	file://fix_for_gcc-4.7.patch \
- 	file://dso-link-change.patch \
-+	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
- "
- # Only apply when building uclibc based target recipe
- SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
++RRECOMMENDS_${PN} = "kernel-module-softdog"
 -- 
-1.7.5.4
-
+1.7.9.5
 
 
 
