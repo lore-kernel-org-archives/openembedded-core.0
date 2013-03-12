@@ -1,37 +1,22 @@
-Received: from mail-pb0-f44.google.com ([209.85.160.44])
+Received: from smarthost.techfak.uni-bielefeld.de ([129.70.137.17])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UFPHV-0003Dt-Kz
+	(envelope-from <stefan@herbrechtsmeier.net>) id 1UFQmb-0006YN-DT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 14:30:18 +0100
-Received: by mail-pb0-f44.google.com with SMTP id wz12so4987273pbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 06:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=GHSKsoeDoOgQLixaI9xwfMrEAcMDZWmx57kf4mpeEjg=;
-	b=h4ODTy8IQcRUbHUx2uut6wGtmcZzxPx7KznZo4wuxd9o7WK22KCE4qiBN1hle5w6Hd
-	k5uP9kuBarHx0bm59mWN3oNm4u276/j1/icPlypNbQObeREldQth4g+HIa7kYz1oiulU
-	bR+FewdxAVCLbWwxev+ghPgWEti25u+BK/5X4VcSxTlRoioUUc2xMAFIzCB9K6Ni6AcN
-	No/AE+ipBtNV+gch5bvNOHEob0A3BObe+gbqR0Rhvii6J9nEB7MvcWlPJtfDcmtUKOtg
-	Ps0gdWob4bb9gTuPspw7H8gBsICew9auf2+mlXduDqNTEC5F8x62adVkBRIWeitOMPVu
-	gVFw==
-X-Received: by 10.68.252.134 with SMTP id zs6mr30685477pbc.66.1363094017470;
-	Tue, 12 Mar 2013 06:13:37 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id tm1sm25027056pbc.11.2013.03.12.06.13.34
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 12 Mar 2013 06:13:36 -0700 (PDT)
-Date: Tue, 12 Mar 2013 14:13:36 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Message-ID: <20130312131336.GK9724@jama.dyndns-home.com>
-References: <1363090807-23944-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-MIME-Version: 1.0
-In-Reply-To: <1363090807-23944-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gst-plugins-package: set ALLOW_EMPTY_${PN}
+	Tue, 12 Mar 2013 16:06:44 +0100
+Received: from localhost.localdomain (sarotti.TechFak.Uni-Bielefeld.DE
+	[129.70.144.156])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested) (Authenticated sender: sherbrec)
+	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
+	5100780010; Tue, 12 Mar 2013 15:49:49 +0100 (CET)
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Mar 2013 15:49:14 +0100
+Message-Id: <1363099754-3396-1-git-send-email-stefan@herbrechtsmeier.net>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+Subject: [PATCH] boost: Add real native support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,78 +29,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 13:30:20 -0000
-X-Groupsio-MsgNum: 36515
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fUvfsPTz/SzOZDdw"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 Mar 2013 15:06:46 -0000
 
---fUvfsPTz/SzOZDdw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The current boost recipe only creates the bjam build tool during
+a native run and thereby is not usable for other native recipes
+that depend on a boost library. Use instead the bjam build tool
+from the do_boostconfig task and add real native support to the
+boost recipe. Additionally remove the boost-native from DEPENDS.
 
-On Tue, Mar 12, 2013 at 01:20:07PM +0100, Enrico Scholz wrote:
-> Every subpackage has a dependency on '${PN}' because
-> populate_packages_prepend() specifies "extra_depends=3Dd.expand('${PN}')"
-> when splitting the subpackages.
->=20
-> Hence, '${PN}' must be always created
->=20
-> Although creation of -plugin-dev and -plugin-staticdev is flawed imo
-> (.la files are not for development purposes but useless resp. required
-> for module loading on non GNU/linux platforms, and .a files are not
-> created for plugins), patch sets ALLOW_EMPTY for -dev and -staticdev
-> packages for consistency reasons.
+Keep the installation of the native bjam build tool for backward
+compatibility.
 
-I've sent the same a week ago:
-http://lists.linuxtogo.org/pipermail/openembedded-core/2013-March/036752.ht=
-ml
+Native compilation of bzip2 isn't working and therefore disabled.
 
->=20
-> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-plugins-package.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/=
-meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-> index 3e9ef92..2f2be34 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-> @@ -24,6 +24,10 @@ python populate_packages_prepend () {
->      d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
->  }
-> =20
-> +ALLOW_EMPTY_${PN} =3D "1"
-> +ALLOW_EMPTY_${PN}-dev =3D "1"
-> +ALLOW_EMPTY_${PN}-staticdev =3D "1"
-> +
->  PACKAGES +=3D "${PN}-apps ${PN}-meta ${PN}-glib"
->  FILES_${PN}-apps =3D "${bindir}"
-> =20
-> --=20
-> 1.8.1.2
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+---
+ meta/recipes-support/boost/boost.inc       |   37 ++++++----------------------
+ meta/recipes-support/boost/boost_1.53.0.bb |    2 +
+ 2 files changed, 10 insertions(+), 29 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 1266666..eaba3a2 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -6,8 +6,7 @@
+ DESCRIPTION = "Free peer-reviewed portable C++ source libraries"
+ HOMEPAGE = "http://www.boost.org/"
+ SECTION = "libs"
+-DEPENDS = "boost-native zlib bzip2"
+-DEPENDS_class-native = ""
++DEPENDS = "zlib bzip2"
+ LICENSE = "BSL-1.0 & MIT & Python-2.0"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+@@ -126,6 +125,8 @@ BJAM_OPTS    = '${PARALLEL_MAKE} \
+ 		--disable-icu \
+ 		${BJAM_EXTRA}'
+ 
++# Native compilation of bzip2 isn't working
++BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
+ 
+ do_boostconfig() {
+ 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
+@@ -146,7 +147,7 @@ addtask do_boostconfig after do_patch before do_configure
+ 
+ do_compile() {
+ 	set -ex
+-	bjam ${BJAM_OPTS} --prefix=${prefix} \
++	./bjam ${BJAM_OPTS} --prefix=${prefix} \
+ 		--exec-prefix=${exec_prefix} \
+ 		--libdir=${libdir} \
+ 		--includedir=${includedir}
+@@ -154,7 +155,7 @@ do_compile() {
+ 
+ do_install() {
+ 	set -ex
+-	bjam ${BJAM_OPTS} \
++	./bjam ${BJAM_OPTS} \
+ 		--libdir=${D}${libdir} \
+ 		--includedir=${D}${includedir} \
+ 		install
+@@ -171,29 +172,7 @@ do_install() {
+ 
+ BBCLASSEXTEND = "native"
+ 
+-do_configure_class-native() {
+-	:
++do_install_append_class-native() {
++       install -d ${D}${bindir}/
++       install -c -m 755 bjam ${D}${bindir}/
+ }
+-
+-do_boostconfig_class-native() {
+-	:
+-}
+-
+-do_compile_class-native() {
+-	set -ex
+-	cd ${S}/tools/build/v2/engine
+-	rm -rf bin.*
+-	./build.sh gcc
+-}
+-
+-# This is too terrible - the build script doesn't give any good
+-# way I can see to find out where the binaries are placed, so
+-# rely on only one bin.foo directory being created.
+-do_install_class-native () {
+-	set -ex
+-	cd ${S}/tools/build/v2/engine
+-	install -d ${D}${bindir}/
+-	install -c -m 755 bin.*/bjam ${D}${bindir}/
+-}
+-
+-
+diff --git a/meta/recipes-support/boost/boost_1.53.0.bb b/meta/recipes-support/boost/boost_1.53.0.bb
+index de721c5..7527b25 100644
+--- a/meta/recipes-support/boost/boost_1.53.0.bb
++++ b/meta/recipes-support/boost/boost_1.53.0.bb
+@@ -2,6 +2,8 @@ include boost.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+ 
++PR = "r1"
++
+ SRC_URI += "file://arm-intrinsics.patch \
+            "
+ 
+-- 
+1.7.0.4
 
---fUvfsPTz/SzOZDdw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlE/KgAACgkQN1Ujt2V2gBxOwwCfRMLNuDIV8Hf1BUlQ7Rn5SrRN
-7zoAnRt3DWDAS0zqGuLowE6u4ZKgxIjq
-=H+z1
------END PGP SIGNATURE-----
-
---fUvfsPTz/SzOZDdw--
