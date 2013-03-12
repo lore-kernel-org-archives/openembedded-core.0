@@ -1,21 +1,14 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1UFXr0-0004TI-VK
+	(envelope-from <obi@opendreambox.org>) id 1UFXwR-0004fj-NN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 23:39:31 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Mar 2013 15:22:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,833,1355126400"; d="scan'208";a="213632525"
-Received: from unknown (HELO localhost) ([10.255.12.139])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Mar 2013 15:22:44 -0700
-From: tom.zanussi@linux.intel.com
+	Tue, 12 Mar 2013 23:45:09 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2013 17:22:40 -0500
-Message-Id: <cover.1363126772.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.4
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/1] Bump perf epoch
+Date: Tue, 12 Mar 2013 23:28:27 +0100
+Message-Id: <1363127307-10861-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] documentation.conf: remove unused variable QA_LOG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,31 +21,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 22:39:32 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 22:45:09 -0000
 
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/conf/documentation.conf |    3 ---
+ 1 file changed, 3 deletions(-)
 
-The perf renaming patch essentially changed version backwards to 1.0 from 3.4,
-which was unintended.  This patch bumps the epoch so we can keep the recipe
-name versionless.
-
-The following changes since commit 4da406cd50cf02a63ed76810a670aba1eb561c79:
-
-  gst-plugins-gl: allow empty packages (2013-03-12 18:33:30 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/bump-perf-epoch
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/bump-perf-epoch
-
-Tom Zanussi (1):
-  perf: bump PE
-
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
-
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 44b1f1a..0bc4230 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -114,9 +114,6 @@ SYSVINIT_ENABLED_GETTYS[doc] = "Specify which VTs should be running a getty, the
+ IPK_FEED_URIS[doc] = "List of ipkg feed records to put into generated image."
+ FEED_DEPLOYDIR_BASE_URI[doc] = "Allow to serve ipk deploy dir as an adhoc feed (bogofeed). Set to base URL of the dir as exported by HTTP. Set of adhoc feed configs will be generated in image."
+ 
+-# insane bbclass
+-QA_LOG[doc] = "Enable logging of QA errors to log.qa_package. Default is not to log."
+-
+ # palmtop build class
+ PALMTOP_USE_MULTITHREADED_QT[doc] = "Set to yes, if you want to build qt apps with CONFIG+=thread"
+ 
 -- 
-1.7.11.4
+1.7.10.4
 
 
 
