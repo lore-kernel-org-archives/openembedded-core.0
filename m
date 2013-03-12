@@ -1,22 +1,20 @@
-Received: from smarthost.techfak.uni-bielefeld.de ([129.70.137.17])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@herbrechtsmeier.net>) id 1UFQmb-0006YN-DT
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UFQqJ-0006hB-AT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 16:06:44 +0100
-Received: from localhost.localdomain (sarotti.TechFak.Uni-Bielefeld.DE
-	[129.70.144.156])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: sherbrec)
-	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
-	5100780010; Tue, 12 Mar 2013 15:49:49 +0100 (CET)
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+	Tue, 12 Mar 2013 16:10:24 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2013 07:53:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,831,1355126400"; d="scan'208";a="300107275"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2013 07:53:37 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2013 15:49:14 +0100
-Message-Id: <1363099754-3396-1-git-send-email-stefan@herbrechtsmeier.net>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
-References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
-Subject: [PATCH] boost: Add real native support
+Date: Tue, 12 Mar 2013 16:54:11 +0200
+Message-Id: <1363100051-27944-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] psplash : update to latest SRCREV afd4e228c606a9998feae44a3fed4474803240b7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,114 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 15:06:46 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 15:10:29 -0000
 
-The current boost recipe only creates the bjam build tool during
-a native run and thereby is not usable for other native recipes
-that depend on a boost library. Use instead the bjam build tool
-from the do_boostconfig task and add real native support to the
-boost recipe. Additionally remove the boost-native from DEPENDS.
-
-Keep the installation of the native bjam build tool for backward
-compatibility.
-
-Native compilation of bzip2 isn't working and therefore disabled.
-
-Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 ---
- meta/recipes-support/boost/boost.inc       |   37 ++++++----------------------
- meta/recipes-support/boost/boost_1.53.0.bb |    2 +
- 2 files changed, 10 insertions(+), 29 deletions(-)
+ meta/recipes-core/psplash/psplash_git.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 1266666..eaba3a2 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -6,8 +6,7 @@
- DESCRIPTION = "Free peer-reviewed portable C++ source libraries"
- HOMEPAGE = "http://www.boost.org/"
- SECTION = "libs"
--DEPENDS = "boost-native zlib bzip2"
--DEPENDS_class-native = ""
-+DEPENDS = "zlib bzip2"
- LICENSE = "BSL-1.0 & MIT & Python-2.0"
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 9bdcb37..482670d 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -5,9 +5,9 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
  
- ARM_INSTRUCTION_SET = "arm"
-@@ -126,6 +125,8 @@ BJAM_OPTS    = '${PARALLEL_MAKE} \
- 		--disable-icu \
- 		${BJAM_EXTRA}'
+-SRCREV = "de9979aefbc56af59b4d236a4b63dd19dcdcfb53"
++SRCREV = "afd4e228c606a9998feae44a3fed4474803240b7"
+ PV = "0.1+git${SRCPV}"
+-PR = "r6"
++PR = "r7"
  
-+# Native compilation of bzip2 isn't working
-+BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
- 
- do_boostconfig() {
- 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
-@@ -146,7 +147,7 @@ addtask do_boostconfig after do_patch before do_configure
- 
- do_compile() {
- 	set -ex
--	bjam ${BJAM_OPTS} --prefix=${prefix} \
-+	./bjam ${BJAM_OPTS} --prefix=${prefix} \
- 		--exec-prefix=${exec_prefix} \
- 		--libdir=${libdir} \
- 		--includedir=${includedir}
-@@ -154,7 +155,7 @@ do_compile() {
- 
- do_install() {
- 	set -ex
--	bjam ${BJAM_OPTS} \
-+	./bjam ${BJAM_OPTS} \
- 		--libdir=${D}${libdir} \
- 		--includedir=${D}${includedir} \
- 		install
-@@ -171,29 +172,7 @@ do_install() {
- 
- BBCLASSEXTEND = "native"
- 
--do_configure_class-native() {
--	:
-+do_install_append_class-native() {
-+       install -d ${D}${bindir}/
-+       install -c -m 755 bjam ${D}${bindir}/
- }
--
--do_boostconfig_class-native() {
--	:
--}
--
--do_compile_class-native() {
--	set -ex
--	cd ${S}/tools/build/v2/engine
--	rm -rf bin.*
--	./build.sh gcc
--}
--
--# This is too terrible - the build script doesn't give any good
--# way I can see to find out where the binaries are placed, so
--# rely on only one bin.foo directory being created.
--do_install_class-native () {
--	set -ex
--	cd ${S}/tools/build/v2/engine
--	install -d ${D}${bindir}/
--	install -c -m 755 bin.*/bjam ${D}${bindir}/
--}
--
--
-diff --git a/meta/recipes-support/boost/boost_1.53.0.bb b/meta/recipes-support/boost/boost_1.53.0.bb
-index de721c5..7527b25 100644
---- a/meta/recipes-support/boost/boost_1.53.0.bb
-+++ b/meta/recipes-support/boost/boost_1.53.0.bb
-@@ -2,6 +2,8 @@ include boost.inc
- 
- LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
-+PR = "r1"
-+
- SRC_URI += "file://arm-intrinsics.patch \
-            "
- 
+ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
+            file://psplash-init \
 -- 
-1.7.0.4
+1.7.9.5
 
 
 
