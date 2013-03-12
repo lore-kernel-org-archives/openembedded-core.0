@@ -1,42 +1,24 @@
-Received: from mail-vb0-f42.google.com ([209.85.212.42])
+Received: from vms173015pub.verizon.net ([206.46.173.15])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UFVv3-0000RZ-5f
+	(envelope-from <denis@denix.org>) id 1UFVyJ-0000YH-GL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 21:35:33 +0100
-Received: by mail-vb0-f42.google.com with SMTP id ff1so106111vbb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 13:18:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=VwMAfO9Ms/xEVVhJ7bKoswRw4M2JCVKRW8Nht8PeyH8=;
-	b=eWRQ9YJlr+gQEEk9PsusBL+WKet4ZyIofS53cpHcHPLizuIlEea2fUFFe81CNyiKPv
-	H78jhFa4AtQfJZV8DfWPHeN0/6UN08/f0g/aGdtNt/3egWsYaK4gSrK63wWct5ifrRV7
-	4NuGuxrLow7CgPzB5v8ttpgVMNg5QIFG3Is+1b5Gz/WDf4xnVNgqDTulQDKa38tjwGOk
-	As08G8/Svgpq9F3qDNb4KZfGmnEGh3F89TcIQbGhhHC/mDkLmKJx99gVn9wY0i50NdJM
-	C1Et2iX9iWCsgM+ptGBgXuasO3ehk4UaUhV+C1hTWhwfIu+Tf8voqo9+VwO8fMKHkI76
-	F1uA==
-X-Received: by 10.52.155.5 with SMTP id vs5mr6123365vdb.24.1363119533087; Tue,
-	12 Mar 2013 13:18:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.232.226 with HTTP; Tue, 12 Mar 2013 13:18:32 -0700 (PDT)
-In-Reply-To: <170DF684-F55C-4065-8D24-0295044CB17C@dominion.thruhere.net>
-References: <cover.1363031776.git.ross.burton@intel.com>
-	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
-	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
-	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
-	<CAJTo0LZiS3Sx8fKZFyiDWJ21csLiKhOvuJi4=qs16CQ+u1Doxg@mail.gmail.com>
-	<170DF684-F55C-4065-8D24-0295044CB17C@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Mar 2013 13:18:32 -0700
-Message-ID: <CAJTo0LbeitdVoZF0BjoEWT-J99tNcTHiEC178C6t-kPZXCE0=g@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQm6t7UUpnT19EmwZ9Ul+gCPG3lyox9OpF54vmlVdGkcHEifgR89TA+gHDScp8Xmi1ESmrJA
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
+	Tue, 12 Mar 2013 21:38:57 +0100
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173015.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MJK002RYDX0UTB0@vms173015.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 12 Mar 2013 15:22:12 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id E274A2008D; Tue,
+	12 Mar 2013 16:22:11 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Mar 2013 16:22:05 -0400
+Message-id: <1363119725-5341-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 1.8.1.5
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCH][for-danny] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 20:35:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Mar 2013 20:38:58 -0000
 
-On 12 March 2013 00:42, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Isn't DISTRO_FEATURES_INITMAN more like an IMAGE_FEATURE now?
+From: Chase Maupin <Chase.Maupin@ti.com>
 
-In a sense - it populates a distro feature though a backfill and is
-used when constructing an image, so if you explicitly set
-DISTRO_FEATURES to include both then swapping this will change the
-image.
+* the current order has SOC_FAMILY settings, which are generic
+  settings for a group of devices, overriding the machine specific
+  settings.  For example:
 
-As I said, it should probably be renamed.  Any suggestions?
+  KERNEL_DEVICETREE_ti33x = "xxxx"
+  KERNEL_DEVICETREE_beaglebone = "yyyy"
 
-Ross
+  Should yield "yyyy" when building for the beaglebone because
+  that is a more specific device than ti33x.  However, without this
+  change the result is that the value is set to "xxxx" meaning the
+  more generic setting overrides the more specific setting.
+
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/machine/include/soc-family.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/soc-family.inc b/meta/conf/machine/include/soc-family.inc
+index 612039c..0251da0 100644
+--- a/meta/conf/machine/include/soc-family.inc
++++ b/meta/conf/machine/include/soc-family.inc
+@@ -1,2 +1,2 @@
+ # Add SOC_FAMILY to machine overrides so we get access to e.g. 'omap3' and 'ti335x'
+-MACHINEOVERRIDES .= "${@['', ':${SOC_FAMILY}']['${SOC_FAMILY}' != '']}"
++MACHINEOVERRIDES =. "${@['', '${SOC_FAMILY}:']['${SOC_FAMILY}' != '']}"
+-- 
+1.8.1.5
+
 
 
