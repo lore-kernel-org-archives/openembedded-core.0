@@ -1,33 +1,36 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UFUUy-00064o-GX for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 20:04:33 +0100
+	id 1UFUYF-0006BH-Bc for openembedded-core@lists.openembedded.org;
+	Tue, 12 Mar 2013 20:08:00 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2CIuOon003763; Tue, 12 Mar 2013 18:56:24 GMT
+	r2CIxhWo004174; Tue, 12 Mar 2013 18:59:43 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uZ1zJgQ4yQnk; Tue, 12 Mar 2013 18:56:23 +0000 (GMT)
+	with LMTP id aLjwSOpsGj8u; Tue, 12 Mar 2013 18:59:43 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2CIuEiV003750
+	r2CIxTl0004144
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 12 Mar 2013 18:56:20 GMT
-Message-ID: <1363114053.9859.15.camel@ted>
+	verify=NOT); Tue, 12 Mar 2013 18:59:36 GMT
+Message-ID: <1363114248.9859.17.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 12 Mar 2013 18:47:33 +0000
-In-Reply-To: <lya9q8ud8c.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-	<69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-	<1362570557.11727.59.camel@ted>
-	<lya9q8ud8c.fsf@ensc-virt.intern.sigma-chemnitz.de>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 12 Mar 2013 18:50:48 +0000
+In-Reply-To: <980599F4-DEED-41CF-B871-750758BD6D45@dominion.thruhere.net>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
+	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
+	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+	<980599F4-DEED-41CF-B871-750758BD6D45@dominion.thruhere.net>
 X-Mailer: Evolution 3.6.2-0ubuntu0.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] package.bbclass: use oe.path.realpath()
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,68 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 19:04:36 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 19:08:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-03-12 at 11:25 +0100, Enrico Scholz wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+On Tue, 2013-03-12 at 08:42 +0100, Koen Kooi wrote:
+> Op 11 mrt. 2013, om 23:49 heeft Khem Raj <raj.khem@gmail.com> het volgende geschreven:
 > 
-> >> Old implementation suffered from lot of problems; e.g.
+> > 
+> > On Mar 11, 2013, at 2:47 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > 
+> >> On Mon, Mar 11, 2013 at 6:37 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> >>> On 11 March 2013 13:07, Ross Burton <ross.burton@intel.com> wrote:
+> >>>> This series allows you to have both sysvinit and systemd in DISTRO_FEATURES.
+> >>>> Packages will be built with both init scripts, and some daemons will be linking
+> >>>> to libsystemd-daemon so that will be pulled in to sysvinit images.
+> >>> 
+> >>> Regarding the upgrade path, Richard/Paul/myself discussed this over
+> >>> lunch and proposed that oe-core could gain an include file for distro
+> >>> configuration that basically injects the backward compatibility
+> >>> dependencies.  So for meta-systemd, it would inject
+> >>> replaces/provides/conflicts for each of the packages in meta-systemd.
+> >>> This would isolate the dependencies into a single location, and be
+> >>> opt-in for distros that previously shipped meta-systemd.  Hopefully
+> >>> the implementation of this is obvious, and patches to implement this
+> >>> are welcome.
 > >> 
-> >> * redundant code
-> >> 
-> >> * calls 'os.stat()' which references files on host; this can give wrong
-> >>   results about existing/non-existing and can cause EPERM (instead of
-> >>   the catched ENONENT) exceptions
-> >> 
-> >> * does not deal with special cases like '..' leaving the sysroot.
-> >
-> > Whilst these changes are good, they do come at a cost:
-> >
-> > post symlink package changes
-> > ./perfscript -c 8c22531e491e6b0cfffaaa80d6bc75db757fc1d1
-> > 49:38.46,17:12.15
-> >
-> > pre symlink package changes
-> > ./perfscript -c 1a80329b3fcf23ecc23e409a260b9b2182652f65
-> > 48:16.33,13:39.97
-> >
-> > So it added 1m20 to the overall build time, but more worryingly, added
-> > added nearly 3m30 to the time for:
-> >
-> > bitbake virtual/kernel -c cleansstate; bitbake virtual/kernel
-> >
-> > These tests are based on the script linked from
-> > https://wiki.yoctoproject.org/wiki/Performance_Test where the kernel
-> > test is this is the second number above list, overall build time is the
-> > first.
-> >
-> > Have you any time to look into this performance regression?
+> >> I personally prefer to still use meta-oe systemd class and keep the
+> >> possibility to product images with choosen init system. I think Martin
+> >> will also prefer it.
+> > 
+> > using different init manager is a separate problem than what Ross tried to address here isn't it ?
+> > I personally don't have a use case where I would upgrade live from 1.3 to 1.4 so
+> > for me I could easily accept a different solution for 1.4
 > 
-> Well, patch replaced a call to os.path.realpath() with a more accurate
-> variant honoring a sysroot. There must be more work be done to replace
-> things previously solved by the operating system with custom (python)
-> code.
-> 
-> I will try to write a C implementation of oe.path.realpath() but this
-> can take some time and I do not have an idea how to integrate it into
-> oe.
+> Upgrading between 1.3 and 1.4 is already impossible for non-systemd
+> related reasons.
 
-The issue is not an interpreted language verses C, the problem is the
-shear number of syscalls. Each isdir() and islink() call means a stat
-call into the kernel. For "bitbake virtual/kernel -c package", I'm
-seeing 400,000 stat calls for 23,000 files. We know the filesystem
-doesn't change so we could cache the stat calls and hopefully hence the
-speed. I actually have some code I tried this with but its not working
-as well as I'd like so I need to do some further investigation about
-what is happening.
+Which reasons?
 
 Cheers,
 
 Richard
-
-
 
 
 
