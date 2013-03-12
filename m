@@ -1,25 +1,40 @@
-Received: from dd19416.kasserver.com ([85.13.139.185])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@herbrechtsmeier.net>) id 1UFO78-0000fG-F3
+	(envelope-from <chase.maupin@ti.com>) id 1UFOED-0000sO-4n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 13:15:35 +0100
-Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
-	by dd19416.kasserver.com (Postfix) with ESMTPSA id 3A69C1840E73;
-	Tue, 12 Mar 2013 12:58:53 +0100 (CET)
-Message-ID: <513F187B.3050207@herbrechtsmeier.net>
-Date: Tue, 12 Mar 2013 12:58:51 +0100
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130215 Thunderbird/17.0.3
+	Tue, 12 Mar 2013 13:22:49 +0100
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r2CC6ATr010254;
+	Tue, 12 Mar 2013 07:06:10 -0500
+Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r2CC6AHO004658;
+	Tue, 12 Mar 2013 07:06:10 -0500
+Received: from DLEE12.ent.ti.com ([fe80::3867:617:aab3:5956]) by
+	DLEE71.ent.ti.com ([fe80::4dce:5c82:1ad0:d462%28]) with mapi id
+	14.02.0342.003; Tue, 12 Mar 2013 07:06:09 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Thread-Topic: [OE-core] [PATCH] soc-family: fix SOC_FAMILY override order
+Thread-Index: AQHOHDtbHD9KocCEJ0SY43LMI4w7bJicW6WAgAFOrQCAAuwc4IAAt8CAgACtE8A=
+Date: Tue, 12 Mar 2013 12:06:09 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101594569C2@DLEE12.ent.ti.com>
+References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
+	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
+	<20130308200628.GB15481@denix.org>
+	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
+	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
+	<20130311204549.GC31635@denix.org>
+In-Reply-To: <20130311204549.GC31635@denix.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.247.5.50]
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
-	<513E6C46.2010909@linux.intel.com>
-	<513F0149.9080708@herbrechtsmeier.net>
-	<8517DA88-71D7-462E-B068-163831AB5D3C@dominion.thruhere.net>
-In-Reply-To: <8517DA88-71D7-462E-B068-163831AB5D3C@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Split out bjam build tool and add real native support
+Cc: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,40 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 12:15:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Mar 2013 12:22:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Am 12.03.2013 11:48, schrieb Koen Kooi:
-> Op 12 mrt. 2013, om 11:19 heeft Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net> het volgende geschreven:
->
->> Am 12.03.2013 00:44, schrieb Saul Wold:
->>> On 03/07/2013 08:37 AM, Stefan Herbrechtsmeier wrote:
->>>> The current boost recipe only creates the bjam build tool during
->>>> a native run and thereby is not usable for other native programs
->>>> that depend on a boost library. Split out the build tool into its
->>>> own bjam recipe and add real native support to the boost recipe.
->>>> This allows recipes to depend on native boost libraries without
->>>> increase of the build time for other use cases.
->>>>
->>>> Native compilation of bzip2 isn't working and therefore disabled.
->>>>
->>>> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
->>>> ---
->>>>   meta/recipes-support/boost/bjam_1.53.0.bb   |   21 +++++++++++
->>>>   meta/recipes-support/boost/boost-1.53.0.inc |   21 +++++++++++
->>>>   meta/recipes-support/boost/boost.inc        |   49 ++-------------------------
->>>>   meta/recipes-support/boost/boost_1.53.0.bb  |    6 +--
->>>>   4 files changed, 47 insertions(+), 50 deletions(-)
->>>>   create mode 100644 meta/recipes-support/boost/bjam_1.53.0.bb
->>>>   create mode 100644 meta/recipes-support/boost/boost-1.53.0.inc
->>>>
->>> This change seems to have caused a failure on my test build:
->> Sorry, I missed the no native case. I rename bjam to bjam-native and send a new patch. Bjam make no sense on the target as it is only used for compiling.
-> And what if you need bjam to compile something on the target?
+[snip]
 
-Then you need to add cross compile support to bjam which is outside of 
-the scope of this patch.
+> > I see.  This could be of some use and I'll play with it.  This
+> should not be
+> > required though for this patch since right now I want to fix
+> the order
+> > issue.  Any objection to the patch as is?
+>=20
+> BTW, this was already pushed:
+>=20
+> http://cgit.openembedded.org/openembedded-
+> core/commit/?id=3D0b836b9d79255a5b2f358fe718c67638f52ecf72
 
+I see.  Thanks.  What are the chances of this getting picked up into Danny =
+or is this too risky of a change for the stable branch?
+
+>=20
+> --
+> Denys
 
 
