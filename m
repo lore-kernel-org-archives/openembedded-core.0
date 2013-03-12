@@ -1,14 +1,27 @@
-Received: from mail.saftware.de ([83.141.3.46])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UFXwR-0004fj-NN
+	(envelope-from <mark.hatle@windriver.com>) id 1UFY0J-0004mA-T1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 23:45:09 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Mar 2013 23:28:27 +0100
-Message-Id: <1363127307-10861-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] documentation.conf: remove unused variable QA_LOG
+	Tue, 12 Mar 2013 23:49:08 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2CMWQ7F015319
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 15:32:26 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 12 Mar 2013 15:32:26 -0700
+Message-ID: <513FACF7.5000907@windriver.com>
+Date: Tue, 12 Mar 2013 17:32:23 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: update-alternatives and kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -21,29 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 22:45:09 -0000
+X-List-Received-Date: Tue, 12 Mar 2013 22:49:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/conf/documentation.conf |    3 ---
- 1 file changed, 3 deletions(-)
+I have someone who is trying to use update-alternatives with kernel modules.
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 44b1f1a..0bc4230 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -114,9 +114,6 @@ SYSVINIT_ENABLED_GETTYS[doc] = "Specify which VTs should be running a getty, the
- IPK_FEED_URIS[doc] = "List of ipkg feed records to put into generated image."
- FEED_DEPLOYDIR_BASE_URI[doc] = "Allow to serve ipk deploy dir as an adhoc feed (bogofeed). Set to base URL of the dir as exported by HTTP. Set of adhoc feed configs will be generated in image."
- 
--# insane bbclass
--QA_LOG[doc] = "Enable logging of QA errors to log.qa_package. Default is not to log."
--
- # palmtop build class
- PALMTOP_USE_MULTITHREADED_QT[doc] = "Set to yes, if you want to build qt apps with CONFIG+=thread"
- 
--- 
-1.7.10.4
+They discovered that the rename code changes the name of the module to end in 
+.ko.${BPN}.  While the package.bbclass code specifically looks for the file name 
+to end in '.ko' in order to avoid stripping the modules... so of course the 
+modules get stripped and no longer work properly.
 
+So my question is, is it even reasonable to use update-alternatives with kernel 
+modules?  If it is, we probably need to change the trigger in packages.bbclass 
+to look for either .ko or .ko.${BPN} (or something similar).
+
+Any comments/suggestions?
+--Mark
 
 
