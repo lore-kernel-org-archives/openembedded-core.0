@@ -1,40 +1,31 @@
-Received: from arroyo.ext.ti.com ([192.94.94.40])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UFOED-0000sO-4n
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UFORs-0001R8-6a
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 13:22:49 +0100
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r2CC6ATr010254;
-	Tue, 12 Mar 2013 07:06:10 -0500
-Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r2CC6AHO004658;
-	Tue, 12 Mar 2013 07:06:10 -0500
-Received: from DLEE12.ent.ti.com ([fe80::3867:617:aab3:5956]) by
-	DLEE71.ent.ti.com ([fe80::4dce:5c82:1ad0:d462%28]) with mapi id
-	14.02.0342.003; Tue, 12 Mar 2013 07:06:09 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Thread-Topic: [OE-core] [PATCH] soc-family: fix SOC_FAMILY override order
-Thread-Index: AQHOHDtbHD9KocCEJ0SY43LMI4w7bJicW6WAgAFOrQCAAuwc4IAAt8CAgACtE8A=
-Date: Tue, 12 Mar 2013 12:06:09 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED101594569C2@DLEE12.ent.ti.com>
-References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
-	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
-	<20130308200628.GB15481@denix.org>
-	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
-	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
-	<20130311204549.GC31635@denix.org>
-In-Reply-To: <20130311204549.GC31635@denix.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
+	Tue, 12 Mar 2013 13:36:57 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2CCK9TB014706
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 12 Mar 2013 13:20:10 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UFOBd-0006Em-32; Tue, 12 Mar 2013 13:20:09 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Mar 2013 13:20:07 +0100
+Message-Id: <1363090807-23944-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.8.1.2
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.6
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] gst-plugins-package: set ALLOW_EMPTY_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 12:22:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Mar 2013 12:37:08 -0000
 
-[snip]
+Every subpackage has a dependency on '${PN}' because
+populate_packages_prepend() specifies "extra_depends=d.expand('${PN}')"
+when splitting the subpackages.
 
-> > I see.  This could be of some use and I'll play with it.  This
-> should not be
-> > required though for this patch since right now I want to fix
-> the order
-> > issue.  Any objection to the patch as is?
->=20
-> BTW, this was already pushed:
->=20
-> http://cgit.openembedded.org/openembedded-
-> core/commit/?id=3D0b836b9d79255a5b2f358fe718c67638f52ecf72
+Hence, '${PN}' must be always created
 
-I see.  Thanks.  What are the chances of this getting picked up into Danny =
-or is this too risky of a change for the stable branch?
+Although creation of -plugin-dev and -plugin-staticdev is flawed imo
+(.la files are not for development purposes but useless resp. required
+for module loading on non GNU/linux platforms, and .a files are not
+created for plugins), patch sets ALLOW_EMPTY for -dev and -staticdev
+packages for consistency reasons.
 
->=20
-> --
-> Denys
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-package.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+index 3e9ef92..2f2be34 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+@@ -24,6 +24,10 @@ python populate_packages_prepend () {
+     d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+ }
+ 
++ALLOW_EMPTY_${PN} = "1"
++ALLOW_EMPTY_${PN}-dev = "1"
++ALLOW_EMPTY_${PN}-staticdev = "1"
++
+ PACKAGES += "${PN}-apps ${PN}-meta ${PN}-glib"
+ FILES_${PN}-apps = "${bindir}"
+ 
+-- 
+1.8.1.2
+
 
 
