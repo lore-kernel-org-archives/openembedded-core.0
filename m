@@ -1,33 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UFIRw-0004Bk-Cq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 07:12:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2C5tqeq025247
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Mar 2013 22:55:52 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Mon, 11 Mar 2013 22:55:52 -0700
-Message-ID: <513EC3CE.9070206@windriver.com>
-Date: Tue, 12 Mar 2013 13:57:34 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <cover.1362035905.git.kai.kang@windriver.com>
-	<c100eba8e21c76e85e5250020c0b1d68c96e02d9.1362035905.git.kai.kang@windriver.com>
-	<512F6B04.8010102@windriver.com>
-In-Reply-To: <512F6B04.8010102@windriver.com>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r2C5tqeq025247
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rpm: fix rpm2cpio segmentation fault
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UFIpL-0004sJ-80 for openembedded-core@lists.openembedded.org;
+	Tue, 12 Mar 2013 07:36:49 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2C6SL57014498; Tue, 12 Mar 2013 06:28:36 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2fNOKc8hPVSG; Tue, 12 Mar 2013 06:28:35 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2C6SGiq014493
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 12 Mar 2013 06:28:26 GMT
+Message-ID: <1363069177.9859.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 12 Mar 2013 06:19:37 +0000
+In-Reply-To: <CAP9ODKog6e+3BbDT+pLy1a8GsEuKtyZmuuoHGoc3tOX20OvLpg@mail.gmail.com>
+References: <1362765064-27663-1-git-send-email-Chase.Maupin@ti.com>
+	<CAP9ODKphM_vr-CgBbpm60tQixxepsCcMN60yGwofnhSRhrm-kA@mail.gmail.com>
+	<20130308200628.GB15481@denix.org>
+	<CAP9ODKreEY23jZvHhQGPa27EJdH85JzH9_QmWMNU+w7aQ9u_+A@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED1015944E4E0@DLEE12.ent.ti.com>
+	<CAP9ODKrnp4VHmvOyq-D=k1oy62VT0R18Xk1KS80kAD+4JfqLJQ@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101594532C3@DLEE12.ent.ti.com>
+	<CAP9ODKog6e+3BbDT+pLy1a8GsEuKtyZmuuoHGoc3tOX20OvLpg@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: the oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: [PATCH] soc-family: fix SOC_FAMILY override order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,140 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 06:12:37 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Mar 2013 06:37:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2013=E5=B9=B402=E6=9C=8828=E6=97=A5 22:34, Mark Hatle wrote:
-> On 2/28/13 1:34 AM, Kang Kai wrote:
->> When run rpm2cpio, it fails with segmentation fault. The root cause is
->> no macro "_db_path" defined, when query its value get nothing then
->> cause segment fault.
->>
->> Add patch to parse macro files first to fix this problem.
->>
->> [YOCTO #3656]
->>
->> Signed-off-by: Kang Kai <kai.kang@windriver.com>
->> ---
->> .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch | 24=20
->> ++++++++++++++++++++
->> meta/recipes-devtools/rpm/rpm_5.4.9.bb | 3 +-
->> 2 files changed, 26 insertions(+), 1 deletions(-)
->> create mode 100644=20
->> meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->>
->> diff --git=20
->> a/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch=20
->> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->> new file mode 100644
->> index 0000000..b43a64e
->> --- /dev/null
->> +++=20
->> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
->> @@ -0,0 +1,24 @@
->> +Upstream-Status: Pending
->> +
->> +rpm2cpio fails on target with "Segmentation fault". Because no=20
->> "_dbpath"
->> +defined, when query it will cause seg fault.
->> +Parse macro files first to fix this bug.
->> +
->> +[YOCTO #3656]
->> +
->> +Signed-off-by: Kang Kai <kai.kang@windriver.com>
->> +
->> +--- rpm-5.4.9/tools/rpm2cpio.c.orig 2013-02-28 13:14:12.453540767 +08=
-00
->> ++++ rpm-5.4.9/tools/rpm2cpio.c 2013-02-28 15:09:41.685785192 +0800
->> +@@ -88,6 +88,11 @@ int main(int argc, char **argv)
->> + (void) rpmtsSetVSFlags(ts, vsflags);
->> +
->> + /*@-mustmod@*/ /* LCL: segfault */
->> ++ rc =3D rpmReadConfigFiles(NULL, NULL);
->> ++ if (rc) {
->> ++ fprintf(stderr, _("read RPM config files failed\n"));
->> ++ exit(EXIT_FAILURE);
->> ++ }
->> + rc =3D rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
->> + /*@=3Dmustmod@*/
->> +
->
+On Mon, 2013-03-11 at 13:24 -0300, Otavio Salvador wrote:
+> On Mon, Mar 11, 2013 at 11:49 AM, Maupin, Chase <chase.maupin@ti.com> wrote:
+> >> On Fri, Mar 8, 2013 at 7:16 PM, Maupin, Chase
+> >> We can have more generic to more specific combinations.
+> >>
+> >> > Or are you trying to build something like omap3->am35xx->am3517
+> >> where you can use omap3 as a more generic setting but still use
+> >> am35xx for a slightly more restrictive group that is still
+> >> grouping like parts, and finally you use am3517 for the exact
+> >> part?
+> >>
+> >> Exactly so we avoid duplication stuff to boards or SoCs. Another
+> >> example of use: imx -> mx6q -> mx6.
+> >
+> > I see.  This could be of some use and I'll play with it.  This
+> should not be required though for this patch since right now I want to
+> fix the order issue.  Any objection to the patch as is?
+> 
+> No; not really. I just wanted to ask if you could look at it as well
+> so we can have it working. It does make things much easier for all us.
 
-Hi Mark,
+As pointed out this already merged.
 
-Sorry for missed this mail.
+I'd also point out that you can use MACHINEOVERRIDES directly to specify
+additional machine overrides so I'm not sure there is much extra
+complexity here that is really needed.
 
-> In the RPM2CPIO case, I'm not sure that we want to exit here. It's=20
-> certainly reasonable for the config files to be unavailable to us.
+Cheers,
 
-How about just give warning without quit when read configure files fails?
+Richard
 
->
-> If the problem is that _dbpath is undefined (and it's needed for some=20
-> reason), my suggestion is that "some value" be defined, even if it's=20
-> to a non-existent location. It's be even better if we could simply=20
-> avoid using the _dbpath at all in the rpm2cpio code.
 
-The segment fault occurs on executing rpmReadPackageFile(). It is a=20
-library function in rpmdb/package.c. And it finally calls rpmdbNew(),=20
-and in rpmdbNew() it calls:
-
-db->db_home =3D rpmdbURIPath( (home && *home ? home : _DB_HOME) );
-
-home passed in is NULL, and _DB_HOME is defined by:
-
-#define _DB_HOME "%{?_dbpath}"
-
-Then segment fault occurs with xstrdup() because no value is definedfor=20
-_dbpath then it tries to xstrdup() a NULL value in rpmdbURIPath().
-
-That is why I think parse configure files first in rpm2cpio is the way=20
-to fix the issue.
-
-Regards,
-Kai
-
->
-> (Note, to folks reading this. Normally in oe-core, if we use rpm2cpio,=20
-> we're actually using a shell script version which does not have this=20
-> problem. The rpm2cpio -binary- is used by people on the target or=20
-> sometimes via the SDK to extract SRPM or RPM packages...)
->
->> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb=20
->> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> index 39b0481..fcfbde8 100644
->> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> @@ -43,7 +43,7 @@ LICENSE =3D "LGPLv2.1"
->> LIC_FILES_CHKSUM =3D=20
->> "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f17206a5b0a1"
->>
->> DEPENDS =3D "libpcre attr acl popt ossp-uuid file bison-native"
->> -PR =3D "r61"
->> +PR =3D "r62"
->>
->> # rpm2cpio is a shell script, which is part of the rpm src.rpm. It is=20
->> needed
->> # in order to extract the distribution SRPM into a format we can=20
->> extract...
->> @@ -85,6 +85,7 @@ SRC_URI =3D=20
->> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->> file://rpm-reloc-macros.patch \
->> file://rpm-platform2.patch \
->> file://rpm-remove-sykcparse-decl.patch \
->> + file://rpm2cpio-fix-segmentation-fault.patch \
->> "
->>
->> # Uncomment the following line to enable platform score debugging
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
 
