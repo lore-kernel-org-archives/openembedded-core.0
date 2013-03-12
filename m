@@ -1,26 +1,29 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UFCoO-0005ol-Cm
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UFDqi-0007ag-Fo
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 01:11:25 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Mar 2013 16:54:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,825,1355126400"; d="scan'208";a="268882150"
-Received: from unknown (HELO [10.255.13.68]) ([10.255.13.68])
-	by azsmga001.ch.intel.com with ESMTP; 11 Mar 2013 16:54:43 -0700
-Message-ID: <513E6EC3.7090905@linux.intel.com>
-Date: Mon, 11 Mar 2013 16:54:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 12 Mar 2013 02:18:00 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2C11B9a021891
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Mar 2013 18:01:11 -0700 (PDT)
+Received: from [128.224.162.206] (128.224.162.206) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 11 Mar 2013 18:01:11 -0700
+Message-ID: <513E7E55.9050809@windriver.com>
+Date: Tue, 12 Mar 2013 09:01:09 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-To: tom.zanussi@linux.intel.com
-References: <4293cea264609a122b9cc05831fe598fcb3ff677.1362702690.git.tom.zanussi@linux.intel.com>
-	<957507c1d36185cf5c6a1ac9b5781c3344d5a40d.1362702690.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <957507c1d36185cf5c6a1ac9b5781c3344d5a40d.1362702690.git.tom.zanussi@linux.intel.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] perf: rename perf_3.4 to perf
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1362979546.git.hongxu.jia@windriver.com>
+	<582c0b810b5ca744b7c83f3df2cc80a42571e85c.1362979546.git.hongxu.jia@windriver.com>
+	<50A4BAC6-D1E6-4F33-A961-450D7D4CCF5E@gmail.com>
+In-Reply-To: <50A4BAC6-D1E6-4F33-A961-450D7D4CCF5E@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] qemu-native:fix do_compile failed on SLED 11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 00:11:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 12 Mar 2013 01:18:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090509000405060102060005"
+
+--------------090509000405060102060005
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/07/2013 04:39 PM, tom.zanussi@linux.intel.com wrote:
-> From: Tom Zanussi <tom.zanussi@linux.intel.com>
+On 03/12/2013 01:15 AM, Khem Raj wrote:
+> On Mar 11, 2013, at 4:07 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-> There's nothing kernel-version-specific about the perf_3.4 recipe, so
-> it's actually misnamed and misleading now that it also gets used with
-> the 3.8 kernel.
+>> ++// include this one last due to some versions of it being buggy:
+>> ++// http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html
+>> ++#include <sys/capability.h>
+> upstream will probably complain about C++ style comments.
 >
-> Since the recipe isn't tied to a specific PV, and simply uses
-> whatever's in STAGING_KERNEL_DIR, there's no reason to add anything
-> else either to the bare PN, so just use that as the recipe name.
->
-This did not quite work out correctly, since the package name has now 
-gone backwards since the default PV for a recipe is 1.0 when nothing is 
-set on the recipe file name.
+Alright, I will use C style comments instead.
 
-Is there a way to sort this out such that it picks up an incrementing PV 
-from the kernel recipe?
+Thanks,
+Hongxu
 
-As it stands now, the PV has gone from 3.4 -> 1.0.
+--------------090509000405060102060005
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Thanks for looking after this.
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 03/12/2013 01:15 AM, Khem Raj wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:50A4BAC6-D1E6-4F33-A961-450D7D4CCF5E@gmail.com"
+      type="cite">
+      <pre wrap="">
+On Mar 11, 2013, at 4:07 AM, Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a> wrote:
 
-Sau!
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">++// include this one last due to some versions of it being buggy:
+++// <a class="moz-txt-link-freetext" href="http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html">http://www.linuxtv.org/pipermail/vdr/2009-August/021194.html</a>
+++#include &lt;sys/capability.h&gt;
+</pre>
+      </blockquote>
+      <pre wrap="">
+upstream will probably complain about C++ style comments. 
 
-> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> ---
->   meta/recipes-kernel/perf/{perf_3.4.bb => perf.bb} | 0
->   1 file changed, 0 insertions(+), 0 deletions(-)
->   rename meta/recipes-kernel/perf/{perf_3.4.bb => perf.bb} (100%)
->
-> diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf.bb
-> similarity index 100%
-> rename from meta/recipes-kernel/perf/perf_3.4.bb
-> rename to meta/recipes-kernel/perf/perf.bb
->
+</pre>
+    </blockquote>
+    Alright, I will use <span style="color: rgb(0, 0, 0); font-family:
+      Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif; font-size:
+      14px; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: 18px; orphans: 2;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">C style comments instead.<br>
+      <br>
+      Thanks,<br>
+      Hongxu</span>
+  </body>
+</html>
 
-
+--------------090509000405060102060005--
