@@ -1,39 +1,37 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ob0-f182.google.com ([209.85.214.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UFUr4-0006YE-Ba
+	(envelope-from <alexandru.damian@intel.com>) id 1UFVfl-0008O6-Cs
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 20:27:37 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2CJAcC2008319
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 12 Mar 2013 20:10:39 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UFUas-0001gM-8c; Tue, 12 Mar 2013 20:10:38 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <7acaf76adbd1f0c29b17da721267392533d3a703.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-	<69be0b1aae50eb097172bcfa2e9aa02157f62436.1360499939.git.enrico.scholz@sigma-chemnitz.de>
-	<1362570557.11727.59.camel@ted>
-	<lya9q8ud8c.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1363114053.9859.15.camel@ted>
-Date: Tue, 12 Mar 2013 20:10:38 +0100
-In-Reply-To: <1363114053.9859.15.camel@ted> (Richard Purdie's message of "Tue, 
-	12 Mar 2013 18:47:33 +0000")
-Message-ID: <lyzjy8qvrl.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Tue, 12 Mar 2013 21:19:50 +0100
+Received: by mail-ob0-f182.google.com with SMTP id va7so252306obc.41
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 13:03:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=kAvVPsB1g7tACUFyguKoKQ09q02jylAQw0+M3HbQQHw=;
+	b=PA+AQjJTQ/JFG52KdEofd9NA7ac4Vl+XZFebIpj2oM6St6Q+EwnwvGkMv4lTWOdaV0
+	S2tiV+nt9xso+GKlpLJ2+79e0KNqzqOsmFHgc5nKWoazMHOY64Amt+RLxCJa1P95+jwi
+	U2YXFdKfhcO2QqjJjeVFIi7dm0Gj+cCEMbYHI0jiHUsfXboPbk3D52EFLhuxrg8EtYW6
+	KcdFmo4hg8SI/uKRXIoUNZEIkRE9iNPmPkE5V/nUiEHMLQcf7fn98EltrL9FBuDVFY3i
+	lz8lryrn3AAiqv8kwR9BydyCe11nZihRzXVKuFQgi+ZNI7s+l2Y8SwJYQcHiliUGex24
+	0vBA==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -6.7
-X-Spam-Level: ------
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] package.bbclass: use oe.path.realpath()
+X-Received: by 10.182.144.6 with SMTP id si6mr13391379obb.38.1363118585181;
+	Tue, 12 Mar 2013 13:03:05 -0700 (PDT)
+Received: by 10.76.75.197 with HTTP; Tue, 12 Mar 2013 13:03:05 -0700 (PDT)
+In-Reply-To: <196712EC-5C47-410B-AF25-605049A35CF3@gmail.com>
+References: <1363082162-22911-1-git-send-email-alexandru.damian@intel.com>
+	<196712EC-5C47-410B-AF25-605049A35CF3@gmail.com>
+Date: Tue, 12 Mar 2013 22:03:05 +0200
+Message-ID: <CAJ2CSBvmyxsjNE9Wx3r64gGSTy-3QO+phRDYPjzrN9Skub15MA@mail.gmail.com>
+From: "Damian, Alexandru" <alexandru.damian@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQm8gdAS4yqjBmh0APECPVe/hMBAmyzY2eX/rjd7LvHkD9efo5mhf3nb+y7ZYycXvauPLQ5q
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch V3] Coreutils 6.9 depends on libattr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,50 +44,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 19:27:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Mar 2013 20:19:59 -0000
+Content-Type: multipart/alternative; boundary=14dae9398ead0e8b6f04d7bfc7c9
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+--14dae9398ead0e8b6f04d7bfc7c9
+Content-Type: text/plain; charset=UTF-8
 
->> > Have you any time to look into this performance regression?
->> 
->> Well, patch replaced a call to os.path.realpath() with a more accurate
->> variant honoring a sysroot. There must be more work be done to replace
->> things previously solved by the operating system with custom (python)
->> code.
->> 
->> I will try to write a C implementation of oe.path.realpath() but this
->> can take some time and I do not have an idea how to integrate it into
->> oe.
+I'm gonna take out the attr dependency altogether on advice from Saul and
+Richard
+
+
+On Tue, Mar 12, 2013 at 7:57 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
 >
-> The issue is not an interpreted language verses C, the problem is the
-> shear number of syscalls. Each isdir() and islink() call means a stat
-> call into the kernel.
+> On Mar 12, 2013, at 2:56 AM, Alex DAMIAN <alexandru.damian@intel.com>
+> wrote:
+>
+> > From: Alexandru DAMIAN <alexandru.damian@intel.com>
+> >
+> > We have a build dependency, so list it out.
+> >
+> > Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> > ---
+> > meta/recipes-core/coreutils/coreutils_6.9.bb |    1 +
+> > 1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bbb/meta/recipes-core/coreutils/
+> coreutils_6.9.bb
+> > index c0778ba..f712692 100644
+> > --- a/meta/recipes-core/coreutils/coreutils_6.9.bb
+> > +++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+> > @@ -9,6 +9,7 @@ LICENSE = "GPLv2+"
+> > LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+> >
+> file://src/ls.c;beginline=4;endline=16;md5=15ed60f67b1db5fedd5dbc37cf8a9543"
+> > PR = "r5"
+> > +DEPENDS = "attr"
+>
+> isn't it needed on native recipe too ?
+>
+> > DEPENDS_class-native = "gettext-native"
+> >
+> > inherit autotools gettext
+> > --
+> > 1.7.10.4
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
-With
+--14dae9398ead0e8b6f04d7bfc7c9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-    try:
--        is_dir = os.path.isdir(file)
-+        if assume_dir:
-+            is_dir = True
-+        else:
-+            is_dir = os.path.isdir(file)
-    except:
+<div dir=3D"ltr">I&#39;m gonna take out the attr dependency altogether on a=
+dvice from Saul and Richard</div><div class=3D"gmail_extra"><br><br><div cl=
+ass=3D"gmail_quote">On Tue, Mar 12, 2013 at 7:57 PM, Khem Raj <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@g=
+mail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im"><br>
+On Mar 12, 2013, at 2:56 AM, Alex DAMIAN &lt;<a href=3D"mailto:alexandru.da=
+mian@intel.com">alexandru.damian@intel.com</a>&gt; wrote:<br>
+<br>
+&gt; From: Alexandru DAMIAN &lt;<a href=3D"mailto:alexandru.damian@intel.co=
+m">alexandru.damian@intel.com</a>&gt;<br>
+&gt;<br>
+&gt; We have a build dependency, so list it out.<br>
+&gt;<br>
+&gt; Signed-off-by: Alexandru DAMIAN &lt;<a href=3D"mailto:alexandru.damian=
+@intel.com">alexandru.damian@intel.com</a>&gt;<br>
+&gt; ---<br>
+&gt; meta/recipes-core/coreutils/<a href=3D"http://coreutils_6.9.bb" target=
+=3D"_blank">coreutils_6.9.bb</a> | =C2=A0 =C2=A01 +<br>
+&gt; 1 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_6=
+.9.bb" target=3D"_blank">coreutils_6.9.bb</a> b/meta/recipes-core/coreutils=
+/<a href=3D"http://coreutils_6.9.bb" target=3D"_blank">coreutils_6.9.bb</a>=
+<br>
 
-in meta/lib/oe/path.py you should be able to reduce calls to isdir().
+&gt; index c0778ba..f712692 100644<br>
+&gt; --- a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_6.9.bb" =
+target=3D"_blank">coreutils_6.9.bb</a><br>
+&gt; +++ b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_6.9.bb" =
+target=3D"_blank">coreutils_6.9.bb</a><br>
+&gt; @@ -9,6 +9,7 @@ LICENSE =3D &quot;GPLv2+&quot;<br>
+&gt; LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D751419260aa954499f7aba=
+abaa882bbe \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+file://src/ls.c;beginline=3D4;endline=3D16;md5=3D15ed60f67b1db5fedd5dbc37cf=
+8a9543&quot;<br>
+&gt; PR =3D &quot;r5&quot;<br>
+&gt; +DEPENDS =3D &quot;attr&quot;<br>
+<br>
+</div>isn&#39;t it needed on native recipe too ?<br>
+<div class=3D"im"><br>
+&gt; DEPENDS_class-native =3D &quot;gettext-native&quot;<br>
+&gt;<br>
+&gt; inherit autotools gettext<br>
+&gt; --<br>
+&gt; 1.7.10.4<br>
+&gt;<br>
+&gt;<br>
+</div>&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
+edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
+stinfo/openembedded-core</a><br>
+<br>
+</blockquote></div><br></div>
 
-A
-
--                rtarget = oe.path.realpath(path, inst_root, True, assume_dir = True)
-+                rtarget = oe.path.realpath(path, inst_root, False, assume_dir = True)
-
-in package.bbclass seems to be save (pkgfiles[] is filled by os.walk() so
-that locations should be already physical) and might improve performance
-too.
-
-But I do not have numbers how much you can save by these changes.
-
-
-Enrico
-
-
+--14dae9398ead0e8b6f04d7bfc7c9--
