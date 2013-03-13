@@ -1,53 +1,37 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-vc0-f181.google.com ([209.85.220.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1UFcMw-0004V5-1y
+	(envelope-from <ross.burton@intel.com>) id 1UFdmu-0007Tg-3H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 04:28:48 +0100
-Received: from mail161-ch1-R.bigfish.com (10.43.68.249) by
-	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 13 Mar 2013 02:41:48 +0000
-Received: from mail161-ch1 (localhost [127.0.0.1])	by
-	mail161-ch1-R.bigfish.com (Postfix) with ESMTP id BDF8A1C00F6	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 02:41:48 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz9371I936eI542I1432Izz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz17326ah8275dh8275bhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ahbe9i1155h)
-Received: from mail161-ch1 (localhost.localdomain [127.0.0.1]) by mail161-ch1
-	(MessageSwitch) id 1363142506374607_5947;
-	Wed, 13 Mar 2013 02:41:46 +0000 (UTC)
-Received: from CH1EHSMHS030.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.242])	by mail161-ch1.bigfish.com (Postfix) with ESMTP id
-	590A920004A	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 02:41:46 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS030.bigfish.com
-	(10.43.70.30) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 13 Mar 2013 02:41:46 +0000
-Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.152]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0328.011; Wed, 13 Mar 2013 02:40:57 +0000
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-core master v2] elfutils: Fix size passed to snprintf for
-	invalid sh_name case
-Thread-Index: AQHOHtVwarLnASdDTUeQd/VHXdp0wZii6nUQ
-Date: Wed, 13 Mar 2013 02:40:57 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A0147BB42@039-SN2MPN1-022.039d.mgd.msft.net>
-References: <1363060738-21499-1-git-send-email-zhenhua.luo@freescale.com>
-In-Reply-To: <1363060738-21499-1-git-send-email-zhenhua.luo@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.134]
+	Wed, 13 Mar 2013 05:59:43 +0100
+Received: by mail-vc0-f181.google.com with SMTP id fw7so314622vcb.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Mar 2013 21:42:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=nfSb1BtloxCiSwXcCTE5cIUeD5aAjjql+6XpJuIQL8M=;
+	b=KbmJWzKMqJ6mpBBa4VQVPrupYivJDyPa2ii+NpwKuZdNn6/lJNVHjS8Vef4FbB1Ys3
+	OIy7XA10bTW2aJzvqvzFS/NF9658FYmes2ZI3Z6ive94Y5tFNXYA2sMaWk78LXwRVW+9
+	axH7suWOKR2fa8HVX4zE+iet0AIrqO9AK98DGMnbTK7Jr9Xn8AY5AloC9ElBZJfUvJ1l
+	Q6l4745Ho3IgBjdAjFtD5yy3Hu+lnxikiOpVPdP0esfomJiW9fsQOvBl2jWEAxV/Qkrj
+	7BUP4uC8Cb1qhBX0n218WWHTmn5Ze7A1RqRXr6YNYCKIUczD6+eFrnjme55EEg7KR2ve
+	fxwA==
+X-Received: by 10.52.230.197 with SMTP id ta5mr4391413vdc.103.1363149779267;
+	Tue, 12 Mar 2013 21:42:59 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Guo Chunrong-B40290 <B40290@freescale.com>,
-	Liu Ting-B28495 <B28495@freescale.com>,
-	Luo Zhenhua-B19537 <B19537@freescale.com>
-Subject: Re: [oe-core master v2] elfutils: Fix size passed to snprintf for invalid sh_name case
+Received: by 10.58.232.226 with HTTP; Tue, 12 Mar 2013 21:42:38 -0700 (PDT)
+In-Reply-To: <20130312214846.GM9724@jama.dyndns-home.com>
+References: <1363107795-2140-1-git-send-email-cristian.iorga@intel.com>
+	<1363107795-2140-4-git-send-email-cristian.iorga@intel.com>
+	<20130312214846.GM9724@jama.dyndns-home.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Mar 2013 21:42:38 -0700
+Message-ID: <CAJTo0LYBe10HhsMtynzpuS5arEDtXBFxcLKqryPFWEV=7Q7SbQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQnUVqAViVTVkZUEd5oolP9wrv3fkJXpGWxIejoTDAHANdxz6TUDdloZYfRYeh7Czxqd9epX
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 3/4] bluez5: conflicts with bluez4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,118 +44,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 03:28:49 -0000
-X-List-Received-Date: Wed, 13 Mar 2013 03:28:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 13 Mar 2013 04:59:44 -0000
+Content-Type: multipart/alternative; boundary=089e0111d6b05eb7a604d7c70ad6
+
+--089e0111d6b05eb7a604d7c70ad6
+Content-Type: text/plain; charset=UTF-8
+
+ But bluez4 doesn't provide bluez5 and vice versa - the runtime API are
+different.
+
+Ross
+-- 
+Ross Burton
+Sent with Sparrow <http://www.sparrowmailapp.com/?sig>
+
+On Tuesday, 12 March 2013 at 14:48, Martin Jansa wrote:
+
+On Tue, Mar 12, 2013 at 07:03:14PM +0200, Cristian Iorga wrote:
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+meta/recipes-connectivity/bluez5/bluez5_5.3.bb | 2 ++
+1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.3.bbb/meta/recipes-connectivity/bluez5/
+bluez5_5.3.bb
+index 311562f..5963483 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.3.bb
+@@ -6,6 +6,8 @@ SRC_URI += "file://bluetooth.conf \
+SRC_URI[md5sum] = "44de20f6422bf90a01b8df48e7dfe4ed"
+SRC_URI[sha256sum] =
+"828e2cd1109835c2fc1d731fb7fd7b46951044e451cc8556a37e1312d8c8c9a6"
++RCONFLICTS_${PN} = "bluez4"
+
+
+That's not enough for upgrade path, add RREPLACES/RPROVIDES too.
+
++
+do_install_append() {
+ install -d ${D}${sysconfdir}/bluetooth/
+install -m 0644 ${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
+-- 
+1.7.10.4
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+-- 
+Martin 'JaMa' Jansa jabber: Martin.Jansa@gmail.com
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--089e0111d6b05eb7a604d7c70ad6
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-V3 is sent out to include a new patch for this build issue, please ignore t=
-his one.=20
 
+    <div>
+        But bluez4 doesn&#39;t provide bluez5 and vice versa - the runtime =
+API are different.
+    </div>
+    <div><div><br></div><div>Ross</div>--=C2=A0<br>Ross Burton<br><div>Sent=
+ with <a href=3D"http://www.sparrowmailapp.com/?sig" target=3D"_blank">Spar=
+row</a></div><div><br></div></div>
+    =20
+    <p style=3D"color:#a0a0a8">On Tuesday, 12 March 2013 at 14:48, Martin J=
+ansa wrote:</p>
+    <blockquote type=3D"cite" style=3D"border-left-style:solid;border-width=
+:1px;margin-left:0px;padding-left:10px">
+        <div><div><div>On Tue, Mar 12, 2013 at 07:03:14PM +0200, Cristian I=
+orga wrote:</div><blockquote type=3D"cite"><div><div>Signed-off-by: Cristia=
+n Iorga &lt;<a href=3D"mailto:cristian.iorga@intel.com" target=3D"_blank">c=
+ristian.iorga@intel.com</a>&gt;</div>
 
-Best Regards,
+<div>---</div><div> meta/recipes-connectivity/bluez5/<a href=3D"http://blue=
+z5_5.3.bb" target=3D"_blank">bluez5_5.3.bb</a> |    2 ++</div><div> 1 file =
+changed, 2 insertions(+)</div><div><br></div><div>diff --git a/meta/recipes=
+-connectivity/bluez5/<a href=3D"http://bluez5_5.3.bb" target=3D"_blank">blu=
+ez5_5.3.bb</a> b/meta/recipes-connectivity/bluez5/<a href=3D"http://bluez5_=
+5.3.bb" target=3D"_blank">bluez5_5.3.bb</a></div>
 
-Zhenhua
+<div>index 311562f..5963483 100644</div><div>--- a/meta/recipes-connectivit=
+y/bluez5/<a href=3D"http://bluez5_5.3.bb" target=3D"_blank">bluez5_5.3.bb</=
+a></div><div>+++ b/meta/recipes-connectivity/bluez5/<a href=3D"http://bluez=
+5_5.3.bb" target=3D"_blank">bluez5_5.3.bb</a></div>
 
-> -----Original Message-----
-> From: Luo Zhenhua-B19537
-> Sent: Tuesday, March 12, 2013 11:59 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Liu Ting-B28495; Guo Chunrong-B40290; Luo Zhenhua-B19537
-> Subject: [oe-core master v2] elfutils: Fix size passed to snprintf for
-> invalid sh_name case
->=20
-> Following build error will appear on Fedora18.
-> nm.c: In function 'show_symbols_sysv':
-> nm.c:756:27: error: argument to 'sizeof' in 'snprintf' call is the same
-> expression as the destination; did you mean to provide an explicit length=
-?
-> [-Werror=3Dsizeof-pointer-memaccess]
->     snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
->                            ^
->=20
-> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
-> ---
->  ...ssed-to-snprintf-for-invalid-sh_name-case.patch |   27
-> ++++++++++++++++++++
->  meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    3 +-
->  2 files changed, 29 insertions(+), 1 deletions(-)  create mode 100644
-> meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-
-> for-invalid-sh_name-case.patch
->=20
-> diff --git a/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-
-> to-snprintf-for-invalid-sh_name-case.patch b/meta/recipes-
-> devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-
-> sh_name-case.patch
-> new file mode 100644
-> index 0000000..2b5dad3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snpr
-> +++ intf-for-invalid-sh_name-case.patch
-> @@ -0,0 +1,27 @@
-> +Upstream-Status: Backport
-> +
-> +nm: Fix size passed to snprintf for invalid sh_name case.
-> +native build failed as following on Fedora18:
-> +nm.c: In function 'show_symbols_sysv':
-> +nm.c:756:27: error: argument to 'sizeof' in 'snprintf' call is the same
-> expression as the destination; did you mean to provide an explicit length=
-?
-> [-Werror=3Dsizeof-pointer-memaccess]
-> +    snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
-> +                           ^
-> +
-> +The original commit is
-> +http://git.fedorahosted.org/cgit/elfutils.git/commit/src/nm.c?id=3D57bd6=
-6
-> +cabf6e6b9ecf622cdbf350804897a8df58
-> +
-> +Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
-> +
-> +--- elfutils-0.148/src/nm.c.org	2013-03-11 22:36:11.000000000 -0500
-> ++++ elfutils-0.148/src/nm.c	2013-03-11 22:46:09.000000000 -0500
-> +@@ -752,8 +752,9 @@
-> + 			       gelf_getshdr (scn, &shdr_mem)->sh_name);
-> +       if (unlikely (name =3D=3D NULL))
-> + 	{
-> +-	  name =3D alloca (sizeof "[invalid sh_name 0x12345678]");
-> +-	  snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
-> ++	  const size_t bufsz =3D sizeof "[invalid sh_name 0x12345678]";
-> ++	  name =3D alloca (bufsz);
-> ++	  snprintf (name, bufsz, "[invalid sh_name %#" PRIx32 "]",
-> + 		    gelf_getshdr (scn, &shdr_mem)->sh_name);
-> + 	}
-> +       scnnames[elf_ndxscn (scn)] =3D name;
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> index 45931b0..bc9e9c6 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb3\
->=20
-> file://EXCEPTION;md5=3D570adcb0c1218ab57f2249c67d0ce417"
->  DEPENDS =3D "libtool bzip2 zlib virtual/libintl"
->=20
-> -PR =3D "r9"
-> +PR =3D "r10"
->=20
->  SRC_URI =3D "https://fedorahosted.org/releases/e/l/elfutils/elfutils-
-> ${PV}.tar.bz2"
->=20
-> @@ -31,6 +31,7 @@ SRC_URI +=3D "\
->  	file://mempcpy.patch \
->  	file://fix_for_gcc-4.7.patch \
->  	file://dso-link-change.patch \
-> +	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-
-> case.patch \
->  "
->  # Only apply when building uclibc based target recipe
-> SRC_URI_append_libc-uclibc =3D " file://uclibc-support.patch"
-> --
-> 1.7.5.4
+<div>@@ -6,6 +6,8 @@ SRC_URI +=3D &quot;file://bluetooth.conf \</div><div> =
+SRC_URI[md5sum] =3D &quot;44de20f6422bf90a01b8df48e7dfe4ed&quot;</div><div>=
+ SRC_URI[sha256sum] =3D &quot;828e2cd1109835c2fc1d731fb7fd7b46951044e451cc8=
+556a37e1312d8c8c9a6&quot;</div>
 
+<div>+RCONFLICTS_${PN} =3D &quot;bluez4&quot;</div></div></blockquote><div>=
+<br></div><div>That&#39;s not enough for upgrade path, add RREPLACES/RPROVI=
+DES too.</div><blockquote type=3D"cite"><div><div>+</div><div> do_install_a=
+ppend() {</div>
 
+<div> 	install -d ${D}${sysconfdir}/bluetooth/</div><div> 	install -m 0644 =
+${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluetooth/</div><div>-- <=
+/div><div>1.7.10.4</div><div><br></div><div><br></div><div>________________=
+_______________________________</div>
 
+<div>Openembedded-core mailing list</div><div><a href=3D"mailto:Openembedde=
+d-core@lists.openembedded.org" target=3D"_blank">Openembedded-core@lists.op=
+enembedded.org</a></div><div><a href=3D"http://lists.linuxtogo.org/cgi-bin/=
+mailman/listinfo/openembedded-core" target=3D"_blank">http://lists.linuxtog=
+o.org/cgi-bin/mailman/listinfo/openembedded-core</a></div>
 
+</div></blockquote><div><br></div><div>-- </div><div>Martin &#39;JaMa&#39; =
+Jansa     jabber: <a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blan=
+k">Martin.Jansa@gmail.com</a></div><div>___________________________________=
+____________</div>
+
+<div>Openembedded-core mailing list</div><div><a href=3D"mailto:Openembedde=
+d-core@lists.openembedded.org" target=3D"_blank">Openembedded-core@lists.op=
+enembedded.org</a></div><div><a href=3D"http://lists.linuxtogo.org/cgi-bin/=
+mailman/listinfo/openembedded-core" target=3D"_blank">http://lists.linuxtog=
+o.org/cgi-bin/mailman/listinfo/openembedded-core</a></div>
+
+</div></div>
+        =20
+        =20
+        =20
+        =20
+    </blockquote>
+    =20
+    <div>
+        <br>
+    </div>
+
+--089e0111d6b05eb7a604d7c70ad6--
