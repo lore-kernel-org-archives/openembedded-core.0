@@ -1,20 +1,36 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UFjb3-0005Iw-Lz
+	(envelope-from <cristian.iorga@intel.com>) id 1UFjiY-0005Y4-6b
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 12:11:55 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E20EAD22B2;
-	Wed, 13 Mar 2013 11:55:10 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Mar 2013 11:55:07 +0100
-Message-Id: <1363172107-11549-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] elfutils: split libraries into separate packages
+	Wed, 13 Mar 2013 12:19:39 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2013 04:02:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,836,1355126400"; d="scan'208";a="305449617"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2013 04:02:51 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Wed, 13 Mar 2013 11:02:50 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
+	14.01.0355.002; Wed, 13 Mar 2013 11:02:50 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] alsa-tools: Update autotools.patch
+Thread-Index: AQHOH4/gsrFWvEgGHEO0+ofzIJhh7pijdPAw
+Date: Wed, 13 Mar 2013 11:02:50 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16216497@IRSMSX102.ger.corp.intel.com>
+References: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+In-Reply-To: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
+Subject: Re: [PATCH] alsa-tools: Update autotools.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,67 +43,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 11:11:57 -0000
+X-List-Received-Date: Wed, 13 Mar 2013 11:19:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Elfutils contains libraries which are often used by other
-applications/libraries. But sometimes there are also conflicting
-packages needed - for example libdw-dev conflicts with libdwarf-dev
-because both provide /usr/include/dwarf.h header file.
+Hello Nobuhiro-san,
 
-This change makes it more in line with Debian based systems. It also
-allows to have libdwarf-dev installed in image without having to go into
-ugly hacks or rewriting 3rdparty software.
+Can you please explain your patch?
+As far as I know, the alsa-tools present as targets were all buildable.
+This was verified by me at last update.
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Regards,
+Cristian
+
+-----Original Message-----
+From: Nobuhiro Iwamatsu [mailto:iwamatsu@nigauri.org] On Behalf Of Nobuhiro=
+ Iwamatsu
+Sent: Wednesday, March 13, 2013 4:09 AM
+To: openembedded-core@lists.openembedded.org
+Cc: Iorga, Cristian; Nobuhiro Iwamatsu
+Subject: [PATCH] alsa-tools: Update autotools.patch
+
+envy24control, rmedigicontrol and echomixer require gtk+-2.0.
+Remove envy24control rmedigicontrol and echomixer from list of tools.
+
+CC: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
 ---
- meta/recipes-devtools/elfutils/elfutils_0.148.bb | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ .../alsa/alsa-tools/autotools.patch                |    6 +++---
+ .../recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index 45931b0..8bd32f8 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
-                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
- DEPENDS = "libtool bzip2 zlib virtual/libintl"
- 
--PR = "r9"
-+PR = "r10"
- 
- SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
- 
-@@ -66,7 +66,7 @@ EXTRA_OEMAKE_class-nativesdk = ""
- BBCLASSEXTEND = "native nativesdk"
- 
- # Package utilities separately
--PACKAGES =+ "${PN}-binutils"
-+PACKAGES =+ "${PN}-binutils libelf libasm libdw libdw-dev libasm-dev libelf-dev"
- FILES_${PN}-binutils = "\
-     ${bindir}/eu-addr2line \
-     ${bindir}/eu-ld \
-@@ -75,11 +75,16 @@ FILES_${PN}-binutils = "\
-     ${bindir}/eu-size \
-     ${bindir}/eu-strip"
- 
-+FILES_libelf = "${libdir}/libelf-${PV}.so ${libdir}/libelf.so.*"
-+FILES_libasm = "${libdir}/libasm-${PV}.so ${libdir}/libasm.so.*"
-+FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils/lib*"
-+FILES_libelf-dev = "${libdir}/libelf.so ${includedir}"
-+FILES_libasm-dev = "${libdir}/libasm.so ${includedir}/elfutils/libasm.h"
-+FILES_libdw-dev  = "${libdir}/libdw.so  ${includedir}/dwarf.h ${includedir}/elfutils/libdw*.h"
- # Some packages have the version preceeding the .so instead properly
- # versioned .so.<version>, so we need to reorder and repackage.
--FILES_${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
--FILES_SOLIBSDEV = "${libdir}/libasm.so ${libdir}/libdw.so ${libdir}/libelf.so"
-+#FILES_${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
-+#FILES_SOLIBSDEV = "${libdir}/libasm.so ${libdir}/libdw.so ${libdir}/libelf.so"
- 
- # The package contains symlinks that trip up insane
--INSANE_SKIP_${PN} = "dev-so"
--
-+INSANE_SKIP_libdw = "dev-so"
--- 
-1.8.0
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta=
+/recipes-multimedia/alsa/alsa-tools/autotools.patch
+index 294e970..08dd9de 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+@@ -26,9 +26,9 @@ diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1=
+.0.24.1/Makefile
+ -	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+ -	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
+ -	  hwmixvolume hdajackretask hda-verb
+-+SUBDIRS =3D ac3dec as10k1 envy24control \
+-+	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+-+	  us428control usx2yloader vxloader echomixer \
+++SUBDIRS =3D ac3dec as10k1 \
+++	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
+++	  us428control usx2yloader vxloader \
+ +	  hwmixvolume hda-verb
+ =20
+  all:
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb b/meta/rec=
+ipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+index 0fe4bee..4b4f29b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+@@ -5,7 +5,7 @@ SECTION =3D "console/utils"
+ LICENSE =3D "GPLv2 & LGPLv2+"
+ DEPENDS =3D "alsa-lib ncurses"
+=20
+-PR =3D "r0"
++PR =3D "r1"
+=20
+ LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D94d55d512a9ba36caa9b=
+7df079bae19f \
+                     file://ld10k1/COPYING.LIB;md5=3D7fbc338309ac38fefcd64b=
+04bb903e34"
+--=20
+1.7.9.5
 
 
 
