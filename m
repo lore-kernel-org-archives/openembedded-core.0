@@ -1,32 +1,38 @@
-Received: from mail-ee0-f54.google.com ([74.125.83.54])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UFrF1-0005lK-CY
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 20:21:48 +0100
-Received: by mail-ee0-f54.google.com with SMTP id c41so638413eek.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 12:04:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=3djJc5TcAO77eQdEGmuX458wkMuaVHlLGzPanoxIoFA=;
-	b=PPLx9jDDZgu7zV11rv9wif24VYLtrK5zCmBVozEH2rvBDSk7+jTC4QyzyHRnAWWqRA
-	sC0p6/G/SyiQFU9qMq+528HNKGPQ/QVaePeKF3no7AXrt7kCwq0iYsFJ6d84xd/pW1Bd
-	gm5oTuuJikAXC+hu6y1ol4C/kK8wWvLiEhIDU0BM+dfpjJTjssIO6ZzVKTdoQOFsvg1l
-	ZHMrFFufg3Ucz5/428eyHmm2QiUVnEd1V2brYQ/E79CEiX+nY6+MrmU3Ig0ZrBMVZS4R
-	UB9cMD4ZJzU9QFouY7T2/XjqFymn0BXZdSAG1EAOS6hVxzRGRUAXlDkdqdio3ux3VvMd
-	Eesg==
-X-Received: by 10.14.4.69 with SMTP id 45mr62684257eei.0.1363201494356;
-	Wed, 13 Mar 2013 12:04:54 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id d47sm37811994eem.9.2013.03.13.12.04.52
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Mar 2013 12:04:53 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Mar 2013 20:04:51 +0100
-Message-Id: <1363201491-27766-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] icecc: improve interaction with sstate
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UFrTX-00062y-Hq for openembedded-core@lists.openembedded.org;
+	Wed, 13 Mar 2013 20:36:35 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2DJSO73030806; Wed, 13 Mar 2013 19:28:28 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sZBMPmSDI-EK; Wed, 13 Mar 2013 19:28:28 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2DJRQcm030779
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 13 Mar 2013 19:27:32 GMT
+Message-ID: <1363202319.28128.36.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 13 Mar 2013 19:18:39 +0000
+In-Reply-To: <492A89BB-593D-44E2-98B7-549EE53FFA56@dominion.thruhere.net>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
+	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
+	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+	<980599F4-DEED-41CF-B871-750758BD6D45@dominion.thruhere.net>
+	<1363114248.9859.17.camel@ted>
+	<492A89BB-593D-44E2-98B7-549EE53FFA56@dominion.thruhere.net>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,51 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 19:21:54 -0000
+X-List-Received-Date: Wed, 13 Mar 2013 19:36:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* exclude ICECC_PARALLEL_MAKE (like PARALLEL_MAKE is)
-* add ICECC_DISBLED to be able to disable whole icecc functionality
-  while keeping icecc enabled. This is useful when you want multiple
-  builders sharing same sstate-cache, but only some of them using icecc.
+On Wed, 2013-03-13 at 10:09 +0100, Koen Kooi wrote:
+> Op 12 mrt. 2013, om 19:50 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> > On Tue, 2013-03-12 at 08:42 +0100, Koen Kooi wrote:
+> >> Op 11 mrt. 2013, om 23:49 heeft Khem Raj <raj.khem@gmail.com> het volgende geschreven:
+> >> Upgrading between 1.3 and 1.4 is already impossible for non-systemd
+> >> related reasons.
+> > 
+> > Which reasons?
+> 
+> Warning, handwaving ahead: Renamed packages, differently split packages et cetera.
 
-* inheriting icecc changes all checksums because of do_*_prepends calls,
-  but because icecc should not influence binary output of task we should
-  get same checksums for tasks build with and without icecc
+I thought we'd put Conflicts/Provides and other pieces in place to try
+and avoid this? If there are issues, I'm open to patches which help
+address the problems.
 
-* ICECC_DISABLED when set (to any non-empty value will disable icecc env
-  modifications but while keeping same sstate checksum
+Cheers,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/icecc.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+Richard
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index ae74050..f3e89a9 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -26,6 +26,8 @@
- #Error checking is kept to minimum so double check any parameters you pass to the class
- ###########################################################################################
- 
-+BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED"
-+
- ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
- 
- def icecc_dep_prepend(d):
-@@ -160,6 +162,10 @@ def icc_get_tool(bb, d, tool):
-         return os.path.join(ice_dir, "%s-%s" % (target_sys, tool))
- 
- set_icecc_env() {
-+    if [ "x${ICECC_DISABLED}" != "x" ]
-+    then
-+        return
-+    fi
-     ICECC_VERSION="${@icc_version(bb, d)}"
-     if [ "x${ICECC_VERSION}" = "x" ]
-     then
--- 
-1.8.1.5
+
+
 
 
 
