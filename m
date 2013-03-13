@@ -1,28 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-vb0-f44.google.com ([209.85.212.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UFoDZ-0006CV-GB
+	(envelope-from <ross.burton@intel.com>) id 1UFofu-0006yU-BY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 17:08:20 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2DFp9Yi020262
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Mar 2013 08:51:10 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 13 Mar 2013 08:51:09 -0700
-Message-ID: <5140A06B.8090904@windriver.com>
-Date: Wed, 13 Mar 2013 10:51:07 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
+	Wed, 13 Mar 2013 17:37:58 +0100
+Received: by mail-vb0-f44.google.com with SMTP id fr13so592987vbb.31
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Mar 2013 09:20:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=QYVPK+/Kh0NUwyRSa9Oc7E17QZBQAtQ43SPjJQDi448=;
+	b=ja6+YALZtLGZUSzVnHIVk72xj0MHIog2urRONAy5Hmk3DAZXzUL9ZzskV4kLrlESHL
+	hWOmkWukY3Uq7tZfYHuFnZszDoeNeXPCAJUq7cyp3QEGJK2TtlYYwdKlHHuI5BNOGVI4
+	Avt4WKohqwpuDC5kh2xd6TWdexP/B3no35I8HI2AcDYRfb09bE9RSQRULJQC/2/ghXYJ
+	lF+umYilbKy5v+NBemPO36HSsTIuQcLO4aICDFYG2K8jmk9o50WozUMLM9fsAvPfF9Bj
+	IWK/+B61ILssKdlOsoesuuOLSrlFSpKRVCcwFfkaP4EcfN37zYzFUgALvhUtrKUX9e5y
+	8XVQ==
+X-Received: by 10.221.2.71 with SMTP id nt7mr6379927vcb.71.1363191628903; Wed,
+	13 Mar 2013 09:20:28 -0700 (PDT)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130313133524.GH3260@jama>
-In-Reply-To: <20130313133524.GH3260@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: update-alternatives automatic rename happens too late
+Received: by 10.58.232.226 with HTTP; Wed, 13 Mar 2013 09:20:07 -0700 (PDT)
+In-Reply-To: <923A8385-1063-4C78-92ED-9441F19E338B@dominion.thruhere.net>
+References: <1363010209-18220-1-git-send-email-cristian.iorga@intel.com>
+	<1363010209-18220-3-git-send-email-cristian.iorga@intel.com>
+	<20130312070053.GE9724@jama.dyndns-home.com>
+	<CAJTo0LZtUg+fUrLd6sVfSk1gQrauyq60ukMg5jh-_kcgeaK0Lg@mail.gmail.com>
+	<20130312100713.GJ9724@jama.dyndns-home.com>
+	<CAJTo0LZdYx9RLJ9an7LnALUOL5PkeUapnrMA5GyiDROcgwXbKw@mail.gmail.com>
+	<923A8385-1063-4C78-92ED-9441F19E338B@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Mar 2013 09:20:07 -0700
+Message-ID: <CAJTo0Las40Ezm=3St_tJVsVrPP4Aa4+ZLP+wd7ssAAMxGgqVeQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQnwJOYK1ioBAwUNoFeyeWrd4tOwSJfltXy2FKMZsyYl4gti8QD43NzYe00VjCIYVULMYyrK
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] bluez5: new package for v5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 16:08:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Mar 2013 16:38:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 3/13/13 8:35 AM, Martin Jansa wrote:
-> When using update-alternatives feature to rename targets to
-> target.${BPN} it happens in perform_packagecopy, but for recipes where
-> that target is also staged to sysroot it's too late, both recipes will
-> try to install the same target file to sysroot.
->
-> One way to resolve this is to rename target to target.${BPN} directly in
-> recipe's do_install, but can we move this automatic renaming to
-> do_install? More importantly do we have some examples where we need to
-> run u-a for files in sysroot (e.g. when unpacking archive from
-> sstate-cache)?
->
+On 13 March 2013 02:14, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> At the risk of sounding snarky while making a real recommendation: Why not do it oe-core > style and completely remove bluez 4.x at the start of the 1.5 cycle and work through the
+> breakage?  I guess that means I volunteer to help with that :)
 
-It was specifically NOT done via a do_install(_append) because other things 
-could have been appending and doing odd behaviors that may or may not be supported.
+Is the world going to migrate to the bluez5 API in six months?  I was
+expecting to have to carry bluez4 and 5 for at least one or two
+cycles.  We have a similar issue with GStreamer 0.10 and 1.0 - we
+could drop 0.10 and port what ships in oe-core, but the subsequent
+breakage would cause a riot.
 
-Also as far as the sysroot went, all of the files that collided were 
-executables, man pages, etc... (not libraries or headers!)  so they generally 
-are not used during the compilation process, but I can see with the additional 
-sysroot checking that this can add problems.
-
-Perhaps the right fix is to add an additional task before the do_package (where 
-the sysroot is setup) but after the do_install that is specific to the 
-update-alternatives configuration?  Change from doing it in the ${D} directory 
-as well...
-
---Mark
+Ross
 
 
