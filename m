@@ -1,27 +1,46 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from co9ehsobe002.messaging.microsoft.com ([207.46.163.25]
+	helo=co9outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UFfwU-0007id-Ho
+	(envelope-from <B19537@freescale.com>) id 1UFgmP-00012D-Pm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 08:17:51 +0100
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2D710l3027480
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 00:01:00 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 13 Mar 2013 00:01:00 -0700
-From: <Qi.Chen@windriver.com>
+	Wed, 13 Mar 2013 09:11:40 +0100
+Received: from mail8-co9-R.bigfish.com (10.236.132.236) by
+	CO9EHSOBE040.bigfish.com (10.236.130.103) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 13 Mar 2013 07:39:36 +0000
+Received: from mail8-co9 (localhost [127.0.0.1])	by mail8-co9-R.bigfish.com
+	(Postfix) with ESMTP id 4F5F6C801F5	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 13 Mar 2013 07:39:36 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz936eIzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz177df4h17326ah8275dh8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail8-co9 (localhost.localdomain [127.0.0.1]) by mail8-co9
+	(MessageSwitch) id 1363160374188570_31346;
+	Wed, 13 Mar 2013 07:39:34 +0000 (UTC)
+Received: from CO9EHSMHS007.bigfish.com (unknown [10.236.132.253])	by
+	mail8-co9.bigfish.com (Postfix) with ESMTP id 22919680050	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 13 Mar 2013 07:39:34 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS007.bigfish.com
+	(10.236.130.17) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 13 Mar 2013 07:39:33 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Wed, 13 Mar 2013 07:39:32 +0000
+Received: from b19537-desktop.ap.freescale.net
+	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r2D7dTPI009053;
+	Wed, 13 Mar 2013 00:39:30 -0700
+From: Zhenhua Luo <zhenhua.luo@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Mar 2013 15:01:33 +0800
-Message-ID: <ab888a7abe849f3170d5386b577f8a92e8ff5385.1363156578.git.Qi.Chen@windriver.com>
+Date: Wed, 13 Mar 2013 15:43:04 +0800
+Message-ID: <1363160584-9136-1-git-send-email-zhenhua.luo@freescale.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1363156578.git.Qi.Chen@windriver.com>
-References: <cover.1363156578.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
+X-OriginatorOrg: freescale.com
+Cc: Zhenhua Luo <zhenhua.luo@freescale.com>
+Subject: binutils: fix ineffectual zero of cache and array bounds issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,63 +53,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 07:17:55 -0000
+X-List-Received-Date: Wed, 13 Mar 2013 08:11:48 -0000
+X-List-Received-Date: Wed, 13 Mar 2013 08:11:48 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+binutils build fails on Fedora18+:
+1. binutils-2.23.1/bfd/elf32-xtensa.c:6078:36: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
+       memset (sec_cache, 0, sizeof (sec_cache));
+                                    ^
+2. binutils-2.23.1/bfd/elf32-xtensa.c:6120:32: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
+   memset (sec_cache, 0, sizeof (sec_cache));
+                                ^
+3. binutils-2.23.1/opcodes/arc-dis.c:430:13: error: argument to 'sizeof' in '__builtin_strncat' call is the same expression as the destination; did you mean to provide an explicit length? [-Werror=sizeof-pointer-memaccess]
+       sizeof (state->commentBuffer));
+              ^
+4. binutils-2.23.1/opcodes/rl78-dis.c:230:13: error: array subscript is above array bounds [-Werror=array-bounds]
+      if (oper->use_es && indirect_type (oper->type))
+              ^
 
-Use RM_WORK_WHITELIST to inhibit rm_work per recipe. In this way,
-one can use rm_work for the most of the recipes but still keep the
-work area for the recipe(s) one is working on.
-
-As an example, the following settings in local.conf will inhibit
-rm_work for icu-native, icu and busybox.
-    INHERIT += "rm_work"
-    RM_WORK_WHITELIST += "icu-native icu busybox"
-
-If we comment out the RM_WORK_WHITELIST line and do a rebuild, the
-working area of these recipes will be cleaned up.
-
-[YOCTO #3675]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
 ---
- meta/classes/rm_work.bbclass |   13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/recipes-devtools/binutils/binutils-2.23.1.inc |  5 +-
+ .../binutils-fix-ineffectual-zero-of-cache.patch   | 60 ++++++++++++++++++++++
+ .../binutils-replace-strncat-with-strcat.patch     | 26 ++++++++++
+ .../binutils-fix-over-array-bounds-issue.patch     | 20 ++++++++
+ 4 files changed, 110 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index d3be0be..54287bf 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -5,6 +5,11 @@
- #
- # INHERIT += "rm_work"
- #
-+# To inhibit rm_work for some recipes, specify them in RM_WORK_WHITELIST.
-+# For example, in conf/local.conf:
-+#
-+# RM_WORK_WHITELIST += "icu-native icu busybox"
-+#
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1.inc b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+index 15811d7..4523407 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.23.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.23.1.inc
+@@ -1,4 +1,4 @@
+-PR = "r2"
++PR = "r3"
  
- # Use the completion scheduler by default when rm_work is active
- # to try and reduce disk usage
-@@ -14,6 +19,14 @@ RMWORK_ORIG_TASK := "${BB_DEFAULT_TASK}"
- BB_DEFAULT_TASK = "rm_work_all"
+ LIC_FILES_CHKSUM="\
+     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
+@@ -28,6 +28,7 @@ SRC_URI = "\
+      file://binutils-armv5e.patch \
+      file://mips64-default-ld-emulation.patch \
+      ${BACKPORT} \
++     file://binutils-fix-over-array-bounds-issue.patch \
+      "
  
- do_rm_work () {
-+    # If the recipe name is in the RM_WORK_WHITELIST, skip the recipe.
-+    for p in ${RM_WORK_WHITELIST}; do
-+        if [ "$p" = "${PN}" ]; then
-+            bbnote "rm_work: Skipping ${PN} since it is in RM_WORK_WHITELIST"
-+            exit 0
-+        fi
-+    done
+ BACKPORT = "\
+@@ -44,6 +45,8 @@ BACKPORT = "\
+      file://backport/0026-ld-testsuite.patch \
+      file://backport/0001-doc-binutils.texi-elfedit-Fix-use-of-itemx-in-table.patch \
+      file://backport/0001-ld.texinfo-Replace-with-when-it-is-part-of-the-text.patch \
++     file://backport/binutils-fix-ineffectual-zero-of-cache.patch \
++     file://backport/binutils-replace-strncat-with-strcat.patch  \
+ "
+ SRC_URI[md5sum] = "33adb18c3048d057ac58d07a3f1adb38"
+ SRC_URI[sha256sum] = "2ab2e5b03e086d12c6295f831adad46b3e1410a3a234933a2e8fac66cb2e7a19"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch b/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch
+new file mode 100644
+index 0000000..a4aebf3
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch
+@@ -0,0 +1,60 @@
++Upstream-Status: Backport
 +
-     cd ${WORKDIR}
-     for dir in *
-     do
++* elf32-xtensa.c 
++  * (free_section_cache): Renamed from clear_section_cache.
++  * (section_cache_section): Remove ineffectual zero of cache.
++   Call init_section_cache instead.
++
++binutils build might fail on recent Linux distros:
++binutils-2.23.1/bfd/elf32-xtensa.c:6078:36: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
++       memset (sec_cache, 0, sizeof (sec_cache));
++                                    ^
++binutils-2.23.1/bfd/elf32-xtensa.c:6120:32: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
++   memset (sec_cache, 0, sizeof (sec_cache));
++
++The original commit is http://sourceware.org/cgi-bin/cvsweb.cgi/src/bfd/elf32-xtensa.c.diff?r1=1.135&r2=1.136&cvsroot=src
++
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++
++--- binutils-2.23.1/bfd/elf32-xtensa.c.org	2013-03-12 03:04:29.000000000 -0500
+++++ binutils-2.23.1/bfd/elf32-xtensa.c	2013-03-12 03:06:37.000000000 -0500
++@@ -6067,7 +6067,7 @@
++ 
++ 
++ static void
++-clear_section_cache (section_cache_t *sec_cache)
+++free_section_cache (section_cache_t *sec_cache)
++ {
++   if (sec_cache->sec)
++     {
++@@ -6075,7 +6075,6 @@
++       release_internal_relocs (sec_cache->sec, sec_cache->relocs);
++       if (sec_cache->ptbl)
++ 	free (sec_cache->ptbl);
++-      memset (sec_cache, 0, sizeof (sec_cache));
++     }
++ }
++ 
++@@ -6116,8 +6115,8 @@
++     goto err;
++ 
++   /* Fill in the new section cache.  */
++-  clear_section_cache (sec_cache);
++-  memset (sec_cache, 0, sizeof (sec_cache));
+++  free_section_cache (sec_cache);
+++  init_section_cache (sec_cache);
++ 
++   sec_cache->sec = sec;
++   sec_cache->contents = contents;
++@@ -8272,8 +8271,9 @@
++ #endif /* DEBUG */
++ 
++ error_return:
++-  if (prop_table) free (prop_table);
++-  clear_section_cache (&target_sec_cache);
+++  if (prop_table)
+++    free (prop_table);
+++  free_section_cache (&target_sec_cache);
++ 
++   release_contents (sec, contents);
++   release_internal_relocs (sec, internal_relocs);
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch b/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch
+new file mode 100644
+index 0000000..bc8f92b
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch
+@@ -0,0 +1,26 @@
++Upstream-Status: Backport
++
++* arc-dis.c (write_comments_): Don't use strncat due to
++  the size of state->commentBuffer pointer isn't predictable.
++
++binutils build will fail on Fedora18+. 
++binutils-2.23.1/opcodes/arc-dis.c:430:13: error: argument to 'sizeof' in '__builtin_strncat' call is the same expression as the destination; did you mean to provide an explicit length? [-Werror=sizeof-pointer-memaccess]
++       sizeof (state->commentBuffer));
++              ^
++
++The original commit is http://sourceware.org/cgi-bin/cvsweb.cgi/src/opcodes/arc-dis.c.diff?r1=1.17&r2=1.18&cvsroot=src
++
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++
++--- binutils-2.23.1/opcodes/arc-dis.c.orig	2013-03-13 00:10:27.978498158 -0500
+++++ binutils-2.23.1/opcodes/arc-dis.c	2013-03-13 00:11:28.297499381 -0500
++@@ -426,8 +426,7 @@
++ 	    strcpy (state->commentBuffer, comment_prefix);
++ 	  else
++ 	    strcat (state->commentBuffer, ", ");
++-	  strncat (state->commentBuffer, state->comm[i],
++-		   sizeof (state->commentBuffer));
+++	  strcat (state->commentBuffer, state->comm[i]);
++ 	}
++     }
++ }
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch b/meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch
+new file mode 100644
+index 0000000..aacbfef
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Pending
++
++binutils build fails on Fedora18+ due to over array bounds issue: 
++binutils-2.23.1/opcodes/rl78-dis.c:230:13: error: array subscript is above array bounds [-Werror=array-bounds]
++      if (oper->use_es && indirect_type (oper->type))
++              ^
++
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++
++--- binutils-2.23.1/opcodes/rl78-dis.c.orig	2013-03-12 22:17:47.664361066 -0500
+++++ binutils-2.23.1/opcodes/rl78-dis.c	2013-03-12 23:39:51.383460914 -0500
++@@ -221,7 +221,7 @@
++ 
++ 	    case '0':
++ 	    case '1':
++-	      oper = opcode.op + *s - '0';
+++	      oper = &opcode.op[*s - '0'];
++ 	      if (do_bang)
++ 		PC ('!');
++ 
 -- 
-1.7.9.5
+1.8.1.2
+
 
 
 
