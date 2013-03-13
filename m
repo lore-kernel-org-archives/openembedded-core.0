@@ -1,26 +1,40 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-gh0-f169.google.com ([209.85.160.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UFosd-0007eU-3O
+	(envelope-from <martin.jansa@gmail.com>) id 1UFp4W-0000gB-NV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 17:50:33 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Mar 2013 09:33:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,838,1355126400"; d="scan'208";a="301915939"
-Received: from unknown (HELO [10.255.12.163]) ([10.255.12.163])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2013 09:33:37 -0700
-Message-ID: <5140AA60.8020705@linux.intel.com>
-Date: Wed, 13 Mar 2013 09:33:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Wed, 13 Mar 2013 18:02:43 +0100
+Received: by mail-gh0-f169.google.com with SMTP id r18so211723ghr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Mar 2013 09:45:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=7jBT3s3hgXY1OoS4QU4zqsv5TuGFwf2OlmZvFbtvWPM=;
+	b=V3A619byLFXG6oxrhUZgQ2Le8Dcd6SERQ+P7iggp3JN8jSk/OswwqFrgVQDSG8LF/c
+	7JFdrW82YFv4f+UfQCHyFdSMDwzxTkqJxtNCRMe3LpuwdD/kEP9L0nY8Sur2GItscHt3
+	1nZRvwHQu8zziInVggjm1o+qJ8o1wra/0UfnVg4n+xStJI1u8ambz3d2jCrBVYJW7Usn
+	gtuyj5nsWLkIeLmPEv4HmLlrNcqcheyiU7iV/T/mcpCYmLEFVK0REb4Bc4urV4N6Gtv2
+	cG82VpjRyrwNLIfHDlF98jPECLwXDLnbyCxDzkbPGwUSQ6z3uZabgbvc9wzNnyuJFUj8
+	656Q==
+X-Received: by 10.236.134.163 with SMTP id s23mr15979332yhi.54.1363193155451; 
+	Wed, 13 Mar 2013 09:45:55 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id u2sm36353475yhl.8.2013.03.13.09.45.53
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 13 Mar 2013 09:45:54 -0700 (PDT)
+Date: Wed, 13 Mar 2013 17:45:46 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130313164546.GA3260@jama>
+References: <1362403514-10122-1-git-send-email-Martin.Jansa@gmail.com>
+	<1362492625.29587.95.camel@ted>
+	<20130305142018.GB12023@jama.dyndns-home.com>
+	<1362503769.11727.24.camel@ted>
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1363154328.git.liezhi.yang@windriver.com>
-	<055756a16301a9a8d41701c48d30cf4bddc44617.1363154328.git.liezhi.yang@windriver.com>
-In-Reply-To: <055756a16301a9a8d41701c48d30cf4bddc44617.1363154328.git.liezhi.yang@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] cairo: add libpng to EXTRA_libcairo_la_DEPENDENCIES
+In-Reply-To: <1362503769.11727.24.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] avahi: move systemd support where it belongs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,70 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 16:50:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Mar 2013 17:02:46 -0000
+X-Groupsio-MsgNum: 36581
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="MziYxCZO8WOaTd4I"
+Content-Disposition: inline
 
-On 03/13/2013 01:58 AM, Robert Yang wrote:
-> There is a build error when I update the git repo and build again:
->
-> x86_64-linux-libtool: link: cannot find the library `/path/to/sysroots/x86_64-linux/usr/lib/libpng15.la' or ...
->
-> This because libpng was 1.5 before I update the git repo, and it
-> is 1.6 now, libpng's include dir and lib dir are special, they are:
->
-> /usr/include/libpngXX/png.h
-> /usr/lib/libpngXX.la
->
-> The XX is the version, e.g, libpng15.la, cairo doesn't handle this
-> depends well, the configure finds that the lbpng is 1.6 after the
-> update, but it doesn't rebuild libcairo.la since this depends isn't in
-> the Makefile, it should have a file like cairo.def (cairo has this file,
-> but it is only used for windows) to record this dependency.  Add
-> libpng's includedir to EXTRA_libcairo_la_DEPENDENCIES as a quick fix.
->
-I understand what you are trying to do here, but this is a point fix for 
-a much bigger issue with the renaming of libpngXX, there are a number of 
-other issues that will be uncovered and making this a hard code change 
-here is not correct.
+--MziYxCZO8WOaTd4I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are other .la that will contain pngXX and cause problems, this 
-issue is also contained in SSTATE files, in the past we would do PR 
-bumps to all the affected recipes that depended on PNG.
+On Tue, Mar 05, 2013 at 05:16:09PM +0000, Richard Purdie wrote:
+> On Tue, 2013-03-05 at 15:20 +0100, Martin Jansa wrote:
+> > On Tue, Mar 05, 2013 at 02:10:25PM +0000, Richard Purdie wrote:
+> > > On Mon, 2013-03-04 at 14:25 +0100, Martin Jansa wrote:
+> > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > > ---
+> > > >  meta/recipes-connectivity/avahi/avahi.inc       | 6 +-----
+> > > >  meta/recipes-connectivity/avahi/avahi_0.6.31.bb | 6 ++++++
+> > > >  2 files changed, 7 insertions(+), 5 deletions(-)
+> > >=20
+> > > "where it belongs"? Is this due to the avahi-ui recipe?
+> >=20
+> > Yes, avahi-ui is overwriting PACKAGES and systemd.bbclass was showing
+> > warnings since this systemd was added to avahi.inc
+>=20
+> In future please put that in the commit message. I added it this time...
 
-Sau!
+Thanks for adding it, I've reported this issue with longer description
+on 27 Feb 2013, then I forgot about it and because I got no reply from
+developer who introduced it I've fixed later in hurry to get
+meta-systemd parsing again.
 
-> [YOCTO #4002]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-graphics/cairo/cairo_1.12.14.bb | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
->
-> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> index 16f9d7b..857cfa6 100644
-> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> @@ -38,6 +38,19 @@ FILES_cairo-gobject = "${libdir}/libcairo-gobject.so.*"
->   FILES_cairo-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
->   FILES_cairo-perf-utils = "${bindir}/cairo-trace ${libdir}/cairo/libcairo-trace.so.*"
->
-> +do_compile() {
-> +	# The libpng's include is special, it is usually
-> +	# usr/include/libpngXX, the XX is the version number, add it to
-> +	# libcairo.la's dependencies so that libcairo.la can be rebuilt
-> +	# when libpng upgrades.
-> +	if [ "${PN}" = "cairo-native" ]; then
-> +		libpng_DEPS="`pkg-config libpng --variable=includedir`"
-> +	else
-> +		libpng_DEPS="${STAGING_DIR_HOST}`pkg-config libpng --variable=includedir`"
-> +	fi
-> +	oe_runmake EXTRA_libcairo_la_DEPENDENCIES="$libpng_DEPS"
-> +}
-> +
->   do_install_append () {
->   	rm -rf ${D}${bindir}/cairo-sphinx
->   	rm -rf ${D}${libdir}/cairo/cairo-fdr*
->
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--MziYxCZO8WOaTd4I
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFArToACgkQN1Ujt2V2gBzx5QCcDIp5hQxEkSTu8HZA74qunYHF
+TSoAnRh9phurWGh5UVIPaPNd078Ikyhi
+=2hbU
+-----END PGP SIGNATURE-----
+
+--MziYxCZO8WOaTd4I--
