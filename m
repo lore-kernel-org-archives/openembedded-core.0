@@ -1,39 +1,34 @@
-Received: from mail-gh0-f178.google.com ([209.85.160.178])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UFmcO-0003DT-8R
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 15:25:24 +0100
-Received: by mail-gh0-f178.google.com with SMTP id g24so174257ghb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 07:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=YT9CPLYPmJJiFoe4iWED72tACNWMK/h939ntVnGzQGs=;
-	b=zPLYPWmntpr43Z8KYrEQEEWuR/4pLKbn/hvL/hZjshTBb/vB1FeKxyOkKxWK++athh
-	l6HpOMxdOUd0kelCTk668djlaj7+CZ9MOjCo/FpdNWXQZ7fgibBjRC6GGvhDy3AIuEnW
-	ixzGipTobRgWcCN1p40KSFYY2uPn34LYNxDMwea25Y6zwy9jKywMwqV5ET0yzpPAyZJY
-	cimFFczDXIJaOMrlkVOPUQOWMdW4ziBmqjd3EwvULLLA6yTDtBG4eY/vrvbKjyrKroc8
-	OcOTBkBO1SQAjhK4xvzPtbRwxgk5nkncTjrsRjhFMtbkz5t/14Vb4LHUzmhgKHjrhPng
-	QKYg==
-X-Received: by 10.236.157.8 with SMTP id n8mr15231932yhk.76.1363183723159;
-	Wed, 13 Mar 2013 07:08:43 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id s34sm35556336yhe.9.2013.03.13.07.08.40
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 13 Mar 2013 07:08:41 -0700 (PDT)
-Date: Wed, 13 Mar 2013 15:08:34 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20130313140834.GJ3260@jama>
-References: <1363087472-32085-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0LZypsC9Ai9ZyBhEmS8gv4zSQd7ViJ4k_KppqwD2oBMeKw@mail.gmail.com>
-	<513F4BF9.4090903@windriver.com>
+	(envelope-from <marcin.juszkiewicz@linaro.org>)
+	id 1UFnCb-0004Qx-Hl; Wed, 13 Mar 2013 16:03:05 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 0A289D22CD; Wed, 13 Mar 2013 15:46:10 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 34B1CD22B2;
+	Wed, 13 Mar 2013 15:45:48 +0100 (CET)
+Message-ID: <5140911A.90604@linaro.org>
+Date: Wed, 13 Mar 2013 15:45:46 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
 MIME-Version: 1.0
-In-Reply-To: <513F4BF9.4090903@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package.bbclass: add debug-without-src PACKAGE_DEBUG_SPLIT_STYLE
+To: linaro-dev@lists.linaro.org, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+X-Enigmail-Version: 1.4.6
+Subject: ATTENTION: OpenEmbedded layers from Linaro have new structure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,75 +41,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 14:25:24 -0000
-X-Groupsio-MsgNum: 36571
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Tu8ztk+XgTAiG9Id"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Mar 2013 15:03:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---Tu8ztk+XgTAiG9Id
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-On Tue, Mar 12, 2013 at 10:38:33AM -0500, Mark Hatle wrote:
-> On 3/12/13 10:28 AM, Burton, Ross wrote:
-> > On 12 March 2013 04:24, Martin Jansa <martin.jansa@gmail.com> wrote:
-> >> * same as original and default version, but does not package source fi=
-les in PN-dbg
-> >
-> > You can mark this as closing
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3621, which would be
-> > good for my bug list.  Richard had concerns that he listed in the bug,
-> > so having done tests and demonstrating that the loss of source doesn't
-> > impact the usefulness of the debug files would be good.
->=20
-> I am curious as to the use of the dbg package (w/o) source on the target =
-system.
->=20
-> In my experience, the dbg binaries are useless without the associated sou=
-rce.=20
-> Most of the people I know either use an on-target debugger or a cross deb=
-ugger,=20
-> both of which need the associated sources to tell you anything about what=
- is=20
-> going on.
->=20
-> For someone who just wants pure backtrace information, it's usually easie=
-r to=20
-> avoid the whole split-and-strip process that generates the dbg files.  Bu=
-t of=20
-> course this can sacrifice the usefulness of being able to do field debugg=
-ing.
->=20
-> (Note, I'm not against the patch.. it looks fine to me... I just don't=20
-> understand the usefulness..  other then the associated defect says they a=
-re "too=20
-> big", which again, I don't doubt.)
+Hello
 
-I've added my use-case for this in bug report:
+Today I made several changes to OpenEmbedded layers hosted on
+git.linaro.org:
 
-My use case was a bit different: to be able to build proprietary blobs
-with OE and exchange resulting .ipk files with partners without
-revealing source in PN-dbg.
+- - meta-aarch64
+- - meta-linaro
 
-So better backtrace is all we want from PN-dbg and devs with access to=20
-sources can download/checkout source on target (while using the same=20
-PN-dbg package to reproduce reported issue).
+Meta-aarch64 is now empty and is obsolete. Probably will be removed from
+server in about month or two.
+Meta-linaro repository got new structure based on meta-openembedded one
+and contains three layers:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+- - meta-aarch64
+- - meta-linaro
+- - meta-linaro-toolchain
 
---Tu8ztk+XgTAiG9Id
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Today meta-aarch64 is just a copy of old one but everything not related
+to ARMv8 will be moved from it to meta-linaro.
 
+Meta-linaro-toolchain contains just gcc-linaro and support for external
+Linaro cross toolchains (armv7a and armv8 ones).
+
+I considered creation of meta-aarch64-arm-toolchain one with ARM Ltd.
+version of gcc but it is not often used option so can stay where it is
+now (meta-aarch64).
+
+Instructions how to start building for ARMv8 (with OE) are in wiki:
+https://wiki.linaro.org/HowTo/ARMv8/OpenEmbedded
+
+Note that any scripts present in 'meta-aarch64' got dropped. If you want
+easy way then use 'jenkins-setup' scripts like it is described in wiki.
+They are written to be as easy to use as possible.
+
+If you have any problems/questions: reply to this email.
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Version: GnuPG v1.4.12 (GNU/Linux)
 
-iEYEARECAAYFAlFAiGEACgkQN1Ujt2V2gBzE2QCgnSVquD+/rw/uKwK3QLoEukpn
-y7EAoJ2b4ArbInmNJC7Jv3cKKusjkfrp
-=jxD2
+iQIcBAEBAgAGBQJRQJERAAoJECbKqQEReiUeKFgQAMUYDB1ymQs8ZspWVynJVJMQ
+InFsFQUd/QZCgNB9GcG6IepzmViHeMlIxNQ7u+KFABGV8uAz8gwdgcPtWwa/dc1b
+wu8u84mmwy77WBIMuX087AiXdg8WhJDJz5sztBoK2PL8Ljn1TFB/R17Ew90eN3zn
+o1DpPnbgMGs67phNiTy8GiQxyaaLZub0ZZZ5v00tWdt7x4vazw6n2r8/o+wzGLj2
+536KI13Sepso2dg2mrpqzrwVH8KFP7S/rRiDdKI4Gw9FlTPiaiEEadX7OPKx8YC5
+j1WIR0u66LCSe+F3NsfNfEgTOXPGVUNgqvemwGYXQuOLUKz7nnnkEdVRUegSuEVj
++bZsgzFunghOsvEgX4ynxLVXgOrkiH4PPMhD+OWcB1pso9+ZdVFTVO2oGOnDg9pK
+ov7lidEoUDDIZqHxjy5cV36jDnXt8BTI9uEIjVo9gH/0g/67QImXHVONcppg2MfM
+GDfhYorkah3VTo9zgHZKCDEIstT1OsCSg+PNeKCAN6fDUdmnzGxCJNEj2CaRAzaI
+vJekxAK0+ptscJ9c+bUmAtcBK+XRvJ9K3naN+apUm13Y6INwKuS68knWzOJc0xhd
+rpPQ2EcYd8FP1gspjNJPyQKWr2pAUGQkOGkhHrsrb4nj6mkMDDgZ2ET1x8uxI056
+vMRn7PKF7x3bItUP9NzA
+=GNf7
 -----END PGP SIGNATURE-----
 
---Tu8ztk+XgTAiG9Id--
+
