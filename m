@@ -1,30 +1,34 @@
-Received: from bear.ext.ti.com ([192.94.94.41])
+Received: from mail-lb0-f177.google.com ([209.85.217.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UFkfg-0007zJ-Ca
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UFlfJ-0001Mn-8C
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 13:20:41 +0100
-Received: from dbdp20.itg.ti.com ([172.24.170.38])
-	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id r2DC3vxk028732
+	Wed, 13 Mar 2013 14:24:26 +0100
+Received: by mail-lb0-f177.google.com with SMTP id go11so926544lbb.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 07:03:58 -0500
-Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
-	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id r2DC3tVN003990
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 17:33:56 +0530 (IST)
-Received: from dbdp32.itg.ti.com (172.24.170.251) by dbde70.ent.ti.com
-	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
-	Wed, 13 Mar 2013 17:33:55 +0530
-Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dbdp32.itg.ti.com (8.13.8/8.13.8) with ESMTP id r2DC3qvQ006784;
-	Wed, 13 Mar 2013 17:33:54 +0530
-From: Chase Maupin <Chase.Maupin@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Mar 2013 07:03:50 -0500
-Message-ID: <1363176230-12444-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	Wed, 13 Mar 2013 06:07:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=XLvhBpeIZYf6fPdDUwarMfM5Z+R82Jer2KyRC3o3Vmc=;
+	b=NFSJk4aWurk7RVRcGWSzAyVFwMOyIrT1jP9f9z5uOAbAr4FNxkkOn1Q5JYHEcdz45I
+	xgqY69zvBUNyVlrC5KpWO7GZrHDEgk9n+XmGA9a/JnBg8rrC0ZzEqwpgjVtsyfuorwhe
+	sm+gE1qJeUKyKLIitb/L5cMvj8rj9kp+NlNUBlh9oHlUk0COZWZAMkXHiKa4USYUe6R2
+	2Sj1HWUubP1y5fT4By7IA2kRD7kermdNoc/Cr8n+03pJgT/odG9DPncO5ikyx+3M61bM
+	U7J8ehGIGf0Zl9Y7NuybB/zKfRfNVZCmyDeF+EHWOyUY+x544Kunbxpr5ydbbe0+46Fx
+	dPmg==
 MIME-Version: 1.0
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH] kernel bbclass: return to original directory in do_deploy
+X-Received: by 10.112.40.228 with SMTP id a4mr7652514lbl.26.1363180060334;
+	Wed, 13 Mar 2013 06:07:40 -0700 (PDT)
+Received: by 10.112.61.3 with HTTP; Wed, 13 Mar 2013 06:07:40 -0700 (PDT)
+In-Reply-To: <513FACF7.5000907@windriver.com>
+References: <513FACF7.5000907@windriver.com>
+Date: Wed, 13 Mar 2013 08:07:40 -0500
+Message-ID: <CADkTA4O+=ot0kt-aMzHTiVLEsYMNCrWutpDUCfgxTKrBd4zcVQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: update-alternatives and kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,48 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 12:20:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Mar 2013 13:24:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* During the base kernel_do_deploy function the directory is
-  changed to DEPLOYDIR in order to do some cleanup and symlinking.
-  However, the directory is not changed back to the original
-  starting directory ${S} at the end.  For append functions this
-  means that the starting directory is not ${S} as expected but
-  instead ${DEPLOYDIR}.
+On Tue, Mar 12, 2013 at 5:32 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> I have someone who is trying to use update-alternatives with kernel modules.
+>
+> They discovered that the rename code changes the name of the module to end
+> in .ko.${BPN}.  While the package.bbclass code specifically looks for the
+> file name to end in '.ko' in order to avoid stripping the modules... so of
+> course the modules get stripped and no longer work properly.
+>
+> So my question is, is it even reasonable to use update-alternatives with
+> kernel modules?  If it is, we probably need to change the trigger in
+> packages.bbclass to look for either .ko or .ko.${BPN} (or something
+> similar).
+>
+> Any comments/suggestions?
 
-  For functions like the do_deploy_append in
-  recipes-kernel/linux/linux-dtb.inc there is an assumption that
-  you are still in the source directory and not the DEPLOYDIR.
-  Without this change the .dtb files are not copied because the
-  check for the existence of ${DTS_FILE} which is a relative
-  path from the ${S} directory fails.  This means that the .dtb
-  files are not copied into the deploy directory and subsequently
-  the deploy/images directory.
+I'm having a hard time wrapping my head around what they are trying
+to achieve. Can you describe it from a non-packaging point of view ?
 
-  In the log.do_deploy file you will see lines like:
+i.e. do they have two kernel modules that provide the same sort of
+services to the kernel and they want to switch between the two of
+them based on the alternatives mechanism ?
 
-    Warning: arch/arm/boot/dts/xxxxx.dts is not available!
+Cheers,
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
----
- meta/classes/kernel.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+Bruce
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 0a0430e..d57d1f5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -352,6 +352,7 @@ kernel_do_deploy() {
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
- 
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-+	cd -
- }
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
- 
+> --Mark
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.7.0.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
