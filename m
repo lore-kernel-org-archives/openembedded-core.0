@@ -1,27 +1,38 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f42.google.com ([209.85.160.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UFY0J-0004mA-T1
+	(envelope-from <iwamatsu@nigauri.org>) id 1UFbOA-0002k3-5I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Mar 2013 23:49:08 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2CMWQ7F015319
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 Mar 2013 03:26:00 +0100
+Received: by mail-pb0-f42.google.com with SMTP id xb4so485523pbc.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Mar 2013 15:32:26 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 12 Mar 2013 15:32:26 -0700
-Message-ID: <513FACF7.5000907@windriver.com>
-Date: Tue, 12 Mar 2013 17:32:23 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: update-alternatives and kernel modules
+	Tue, 12 Mar 2013 19:09:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=V8PndUvJOhRzMdLxsg4p0GTQpYE9v7ltUGAFr2H7rw8=;
+	b=bpODCZjeLKfnb5Zw0kKPpCERcZzS47ijFcXBXyfmhwg6AzGpWXBC6uxhvKWnYYAD3Y
+	QNLMTybmQKpZmDQJ90XM9ZgtaJ2cj+Xp7jkkolZRZAQ9V3ubUB4p7eCIMBP8MBlUVvAo
+	7kZfqIwqc4X11Y9p/0OH4w5ckMDJEu6Dms1nCR1ykgWneMeZvyExncnqiODig2daG4y3
+	cajfcIAi8tcdijWzY9hCQwQ2ktIWQFYbgHpHY46a33AhlAwjelZBoDeAe4pHSG+UsVRY
+	CK/tzpcxqymjwsgTkWG8SkpveWMIkWO9/MusAKpPye8WYwKu1h9DQ/BSXED130/gG5/2
+	4plg==
+X-Received: by 10.68.242.65 with SMTP id wo1mr20074879pbc.62.1363140556506;
+	Tue, 12 Mar 2013 19:09:16 -0700 (PDT)
+Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
+	[202.32.14.49])
+	by mx.google.com with ESMTPS id z1sm4610376pbw.19.2013.03.12.19.09.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 12 Mar 2013 19:09:15 -0700 (PDT)
+Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Mar 2013 11:09:01 +0900
+Message-Id: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQn6f+1aIQWbFHu6i184i9R1MqTNjl4434CU4JiTO/g+1BkA+t3l0LLIiW3vFJattibGT0Cy
+Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Subject: [PATCH] alsa-tools: Update autotools.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,22 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Mar 2013 22:49:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Mar 2013 02:26:06 -0000
 
-I have someone who is trying to use update-alternatives with kernel modules.
+envy24control, rmedigicontrol and echomixer require gtk+-2.0.
+Remove envy24control rmedigicontrol and echomixer from list of tools.
 
-They discovered that the rename code changes the name of the module to end in 
-.ko.${BPN}.  While the package.bbclass code specifically looks for the file name 
-to end in '.ko' in order to avoid stripping the modules... so of course the 
-modules get stripped and no longer work properly.
+CC: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+---
+ .../alsa/alsa-tools/autotools.patch                |    6 +++---
+ .../recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-So my question is, is it even reasonable to use update-alternatives with kernel 
-modules?  If it is, we probably need to change the trigger in packages.bbclass 
-to look for either .ko or .ko.${BPN} (or something similar).
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+index 294e970..08dd9de 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+@@ -26,9 +26,9 @@ diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
+ -	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+ -	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
+ -	  hwmixvolume hdajackretask hda-verb
+-+SUBDIRS = ac3dec as10k1 envy24control \
+-+	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+-+	  us428control usx2yloader vxloader echomixer \
+++SUBDIRS = ac3dec as10k1 \
+++	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
+++	  us428control usx2yloader vxloader \
+ +	  hwmixvolume hda-verb
+  
+  all:
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+index 0fe4bee..4b4f29b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+@@ -5,7 +5,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & LGPLv2+"
+ DEPENDS = "alsa-lib ncurses"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+-- 
+1.7.9.5
 
-Any comments/suggestions?
---Mark
 
 
