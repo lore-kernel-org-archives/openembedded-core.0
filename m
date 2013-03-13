@@ -1,27 +1,48 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ea0-f181.google.com ([209.85.215.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UFhjJ-0002vh-K6
+	(envelope-from <koen@dominion.thruhere.net>) id 1UFhwd-0003K7-UE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Mar 2013 10:12:23 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2D8tW9Z012466
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 Mar 2013 10:26:00 +0100
+Received: by mail-ea0-f181.google.com with SMTP id z10so294487ead.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Mar 2013 01:55:32 -0700 (PDT)
-Received: from pek-usp-3.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 13 Mar 2013 01:55:32 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Mar 2013 16:58:21 +0800
-Message-ID: <055756a16301a9a8d41701c48d30cf4bddc44617.1363154328.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1363154328.git.liezhi.yang@windriver.com>
-References: <cover.1363154328.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] cairo: add libpng to EXTRA_libcairo_la_DEPENDENCIES
+	Wed, 13 Mar 2013 02:09:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=yALQMbjoyxh64WwpVeXaA/dgkXY6tS0xsTf+uJ3ko+8=;
+	b=apjiwRWEJBAAF9trkcV07wKkXINJkyUgMWGLY0V+sebaM7foowTjjBQAoifBMfJhG1
+	hOQpm22UZc3kK8Ee9bR+YfIfG3GfHwioQZJ9wbZYykKel3YN9rD3EV9ZQL33awaCKzKD
+	sZID4khSLUuVgSTHxKxPC7tr5CvScpq9JO711lFUQub9KRg1/kaMGqplrRxkmBRMDiHd
+	UfDE8d8EDB6bvWTOjkpAnNj1fIA9TlyCJo9v9eK+k5I38RFy1dcpVJkDEzg8KDIXGiVf
+	HssLC27eM9GzWVJYic62fYdaDZbeRU8twnlUPwG1pOGIrUpytXHY6RYn+/y5RMjMujK1
+	i+Gw==
+X-Received: by 10.14.3.133 with SMTP id 5mr56854769eeh.43.1363165759413;
+	Wed, 13 Mar 2013 02:09:19 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::d9f7:1f4c:8d6f:e720?
+	([2001:610:612:0:d9f7:1f4c:8d6f:e720])
+	by mx.google.com with ESMTPS id r4sm34617628eeo.12.2013.03.13.02.09.17
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Mar 2013 02:09:18 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1363114248.9859.17.camel@ted>
+Date: Wed, 13 Mar 2013 10:09:16 +0100
+Message-Id: <492A89BB-593D-44E2-98B7-549EE53FFA56@dominion.thruhere.net>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<CAJTo0LY7vOy4_A3YJ2-jGMfLr32o7XKY-BGp9xuiB_wnVhb6Ag@mail.gmail.com>
+	<CAP9ODKr_3VVmw5vGm8EnnmOKEu8z2uzp97iBjh7315DduPegoQ@mail.gmail.com>
+	<ACE79805-5D74-40F1-8443-1410AC215E88@gmail.com>
+	<980599F4-DEED-41CF-B871-750758BD6D45@dominion.thruhere.net>
+	<1363114248.9859.17.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1499)
+X-Gm-Message-State: ALoCoQnb9mhsyAOkvD6atczqBi5X7njqDGsUwFhMJ6fgZ4GxPw10XthTS7Z/FQpE7Nz1P6fgaUk1
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/9] hybrid systemd/sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,59 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Mar 2013 09:12:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Mar 2013 09:26:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-There is a build error when I update the git repo and build again:
 
-x86_64-linux-libtool: link: cannot find the library `/path/to/sysroots/x86_64-linux/usr/lib/libpng15.la' or ...
+Op 12 mrt. 2013, om 19:50 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-This because libpng was 1.5 before I update the git repo, and it
-is 1.6 now, libpng's include dir and lib dir are special, they are:
+> On Tue, 2013-03-12 at 08:42 +0100, Koen Kooi wrote:
+>> Op 11 mrt. 2013, om 23:49 heeft Khem Raj <raj.khem@gmail.com> het =
+volgende geschreven:
+>>=20
+>>>=20
+>>> On Mar 11, 2013, at 2:47 PM, Otavio Salvador =
+<otavio@ossystems.com.br> wrote:
+>>>=20
+>>>> On Mon, Mar 11, 2013 at 6:37 PM, Burton, Ross =
+<ross.burton@intel.com> wrote:
+>>>>> On 11 March 2013 13:07, Ross Burton <ross.burton@intel.com> wrote:
+>>>>>> This series allows you to have both sysvinit and systemd in =
+DISTRO_FEATURES.
+>>>>>> Packages will be built with both init scripts, and some daemons =
+will be linking
+>>>>>> to libsystemd-daemon so that will be pulled in to sysvinit =
+images.
+>>>>>=20
+>>>>> Regarding the upgrade path, Richard/Paul/myself discussed this =
+over
+>>>>> lunch and proposed that oe-core could gain an include file for =
+distro
+>>>>> configuration that basically injects the backward compatibility
+>>>>> dependencies.  So for meta-systemd, it would inject
+>>>>> replaces/provides/conflicts for each of the packages in =
+meta-systemd.
+>>>>> This would isolate the dependencies into a single location, and be
+>>>>> opt-in for distros that previously shipped meta-systemd.  =
+Hopefully
+>>>>> the implementation of this is obvious, and patches to implement =
+this
+>>>>> are welcome.
+>>>>=20
+>>>> I personally prefer to still use meta-oe systemd class and keep the
+>>>> possibility to product images with choosen init system. I think =
+Martin
+>>>> will also prefer it.
+>>>=20
+>>> using different init manager is a separate problem than what Ross =
+tried to address here isn't it ?
+>>> I personally don't have a use case where I would upgrade live from =
+1.3 to 1.4 so
+>>> for me I could easily accept a different solution for 1.4
+>>=20
+>> Upgrading between 1.3 and 1.4 is already impossible for non-systemd
+>> related reasons.
+>=20
+> Which reasons?
 
-/usr/include/libpngXX/png.h
-/usr/lib/libpngXX.la
-
-The XX is the version, e.g, libpng15.la, cairo doesn't handle this
-depends well, the configure finds that the lbpng is 1.6 after the
-update, but it doesn't rebuild libcairo.la since this depends isn't in
-the Makefile, it should have a file like cairo.def (cairo has this file,
-but it is only used for windows) to record this dependency.  Add
-libpng's includedir to EXTRA_libcairo_la_DEPENDENCIES as a quick fix.
-
-[YOCTO #4002]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/cairo/cairo_1.12.14.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-index 16f9d7b..857cfa6 100644
---- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-@@ -38,6 +38,19 @@ FILES_cairo-gobject = "${libdir}/libcairo-gobject.so.*"
- FILES_cairo-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
- FILES_cairo-perf-utils = "${bindir}/cairo-trace ${libdir}/cairo/libcairo-trace.so.*"
- 
-+do_compile() {
-+	# The libpng's include is special, it is usually
-+	# usr/include/libpngXX, the XX is the version number, add it to
-+	# libcairo.la's dependencies so that libcairo.la can be rebuilt
-+	# when libpng upgrades.
-+	if [ "${PN}" = "cairo-native" ]; then
-+		libpng_DEPS="`pkg-config libpng --variable=includedir`"
-+	else
-+		libpng_DEPS="${STAGING_DIR_HOST}`pkg-config libpng --variable=includedir`"
-+	fi
-+	oe_runmake EXTRA_libcairo_la_DEPENDENCIES="$libpng_DEPS"
-+}
-+
- do_install_append () {
- 	rm -rf ${D}${bindir}/cairo-sphinx
- 	rm -rf ${D}${libdir}/cairo/cairo-fdr*
--- 
-1.7.11.2
-
+Warning, handwaving ahead: Renamed packages, differently split packages =
+et cetera.=
 
 
