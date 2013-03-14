@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UGCdi-0003Yd-Cf
+	(envelope-from <radu.moisan@intel.com>) id 1UGCdl-0003Yc-6e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 19:12:31 +0100
+	Thu, 14 Mar 2013 19:12:33 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:36 -0700
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773849"
+X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773873"
 Received: from unknown (HELO dell-desktop.rb.intel.com) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:35 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:39 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2013 19:55:05 +0200
-Message-Id: <da3a6d4406ba9861a30efd16d70ea69998db1b80.1363283478.git.radu.moisan@intel.com>
+Date: Thu, 14 Mar 2013 19:55:08 +0200
+Message-Id: <ebd11f2519a02442988a332de533cb526033e9bf.1363283478.git.radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
-Subject: [PATCH 06/17] u-boo-fw-utils: Upgrade to v2013.01.01
+Subject: [PATCH 09/17] atk: Upgrade to v 2.7.91
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,37 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2013 18:12:33 -0000
+X-List-Received-Date: Thu, 14 Mar 2013 18:12:35 -0000
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- ...2012.04.01.bb => u-boot-fw-utils_2013.01.01.bb} |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2012.04.01.bb => u-boot-fw-utils_2013.01.01.bb} (84%)
+ .../atk/{atk_2.6.0.bb => atk_2.7.91.bb}            |    8 +++++---
+ .../atk/files/remove-gnome-comile-warnings.patch   |   17 +++++++++++++++++
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.7.91.bb} (68%)
+ create mode 100644 meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
-similarity index 84%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
-index fe3422a..efa418f 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
-@@ -9,12 +9,12 @@ DEPENDS = "mtd-utils"
- # make it default
- DEFAULT_PREFERENCE = "-1"
+diff --git a/meta/recipes-support/atk/atk_2.6.0.bb b/meta/recipes-support/atk/atk_2.7.91.bb
+similarity index 68%
+rename from meta/recipes-support/atk/atk_2.6.0.bb
+rename to meta/recipes-support/atk/atk_2.7.91.bb
+index be797c7..c1fc295 100644
+--- a/meta/recipes-support/atk/atk_2.6.0.bb
++++ b/meta/recipes-support/atk/atk_2.7.91.bb
+@@ -13,9 +13,11 @@ DEPENDS = "glib-2.0"
  
--# This revision corresponds to the tag "v2012.04.01"
-+# This revision corresponds to the tag "v2013.01.01"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "415d386877df49eb051b85ef74fa59a16dc17c7d"
-+SRCREV = "e8ae0fa5edd152b2b29c470b88429be4cdcd2c46"
+ inherit autotools gtk-doc pkgconfig
  
--PV = "v2012.04.01+git${SRCPV}"
-+PV = "v2013.01.01+git${SRCPV}"
+-SRC_URI = "http://download.gnome.org/sources/atk/2.6/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "6b34e2a63dda4429b5692be7ca3aa5bf"
+-SRC_URI[sha256sum] = "eff663f90847620bb68c9c2cbaaf7f45e2ff44163b9ab3f10d15be763680491f"
++SRC_URI = "http://download.gnome.org/sources/atk/2.7/${BPN}-${PV}.tar.xz \
++           file://remove-gnome-comile-warnings.patch \ 
++          "
++SRC_URI[md5sum] = "52ee0f73d935b75997b5c1dd053df581"
++SRC_URI[sha256sum] = "c95adec9d3ba605c95fa0042b79d2cee2bff18be95dc36c1628ac8ff3481bfe9"
  
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ BBCLASSEXTEND = "native"
  
+diff --git a/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch b/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
+new file mode 100644
+index 0000000..7f15c92
+--- /dev/null
++++ b/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
+@@ -0,0 +1,17 @@
++Upstream-Status:Inappropriate
++
++Signed-off-by: Radu Moisan <radu.moisan@intel.com>
++
++Index: atk-2.7.91/configure.ac
++===================================================================
++--- atk-2.7.91.orig/configure.ac
+++++ atk-2.7.91/configure.ac
++@@ -215,8 +215,6 @@ if test "x$enable_rebuilds" = "xyes" &&
++ fi
++ AC_SUBST(REBUILD)
++ 
++-GNOME_COMPILE_WARNINGS([maximum])
++-
++ AC_CONFIG_FILES([
++ Makefile
++ po/Makefile.in
 -- 
 1.7.9.5
 
