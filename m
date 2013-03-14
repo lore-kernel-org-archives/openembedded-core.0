@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UGCdZ-0003Yd-4o
+	(envelope-from <radu.moisan@intel.com>) id 1UGCdY-0003Ye-VI
 	for openembedded-core@lists.openembedded.org;
 	Thu, 14 Mar 2013 19:12:25 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:33 -0700
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773782"
+X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773802"
 Received: from unknown (HELO dell-desktop.rb.intel.com) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:25 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:28 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2013 19:55:00 +0200
-Message-Id: <7d36792043017ecdbc6a32b3a02ced4b9bf7a174.1363283478.git.radu.moisan@intel.com>
+Date: Thu, 14 Mar 2013 19:55:01 +0200
+Message-Id: <941c3f0a206320b7cd06f9bd8d80a75430d0b296.1363283478.git.radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
-Subject: [PATCH 01/17] rxvt-unicode: Upgrade to v9.17
+Subject: [PATCH 02/17] iputils: Upgrade to v20121221
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,58 +32,246 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 14 Mar 2013 18:12:26 -0000
-X-List-Received-Date: Thu, 14 Mar 2013 18:12:26 -0000
+
+Removed obsolete patches
+Replaced openssl with gnutls in dependency list
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- .../rxvt.desktop                                   |    0
- .../rxvt.png                                       |  Bin 2847 -> 2847 bytes
- .../xwc.patch                                      |    0
- .../{rxvt-unicode_9.15.bb => rxvt-unicode_9.17.bb} |    6 +++---
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.15 => rxvt-unicode-9.17}/rxvt.desktop (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.15 => rxvt-unicode-9.17}/rxvt.png (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.15 => rxvt-unicode-9.17}/xwc.patch (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.15.bb => rxvt-unicode_9.17.bb} (93%)
+ .../files/debian/add-icmp-return-codes.diff        |   43 --------------------
+ .../iputils/files/debian/fix-arping-timeouts.diff  |   26 ------------
+ .../files/debian/fix-dead-host-ping-stats.diff     |   16 --------
+ .../iputils/files/debian/targets.diff              |   14 +++----
+ .../iputils/files/debian/use_gethostbyname2.diff   |   36 ++++++++--------
+ .../{iputils_s20101006.bb => iputils_s20121221.bb} |   14 +++----
+ 6 files changed, 30 insertions(+), 119 deletions(-)
+ delete mode 100644 meta/recipes-extended/iputils/files/debian/add-icmp-return-codes.diff
+ delete mode 100644 meta/recipes-extended/iputils/files/debian/fix-arping-timeouts.diff
+ delete mode 100644 meta/recipes-extended/iputils/files/debian/fix-dead-host-ping-stats.diff
+ rename meta/recipes-extended/iputils/{iputils_s20101006.bb => iputils_s20121221.bb} (80%)
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/rxvt.desktop
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/rxvt.desktop
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/rxvt.desktop
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/rxvt.png
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/rxvt.png
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/rxvt.png
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/xwc.patch
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.15/xwc.patch
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.17/xwc.patch
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.15.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.17.bb
-similarity index 93%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.15.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.17.bb
-index 69ef25d..806e354 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.15.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.17.bb
-@@ -10,15 +10,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-extended/iputils/files/debian/add-icmp-return-codes.diff b/meta/recipes-extended/iputils/files/debian/add-icmp-return-codes.diff
+deleted file mode 100644
+index 40070c3..0000000
+--- a/meta/recipes-extended/iputils/files/debian/add-icmp-return-codes.diff
++++ /dev/null
+@@ -1,43 +0,0 @@
+-Upstream-Status: Pending [from other distro Debian]
+-
+-Index: trunk/ping.c
+-===================================================================
+---- trunk.orig/ping.c	2010-05-07 23:13:54.000000000 -0700
+-+++ trunk/ping.c	2010-05-07 23:23:22.000000000 -0700
+-@@ -883,9 +883,36 @@
+- 		case ICMP_SR_FAILED:
+- 			printf("Source Route Failed\n");
+- 			break;
+-+		case ICMP_NET_UNKNOWN:
+-+			printf("Destination Net Unknown\n");
+-+			break;
+-+		case ICMP_HOST_UNKNOWN:
+-+			printf("Destination Host Unknown\n");
+-+			break;
+-+		case ICMP_HOST_ISOLATED:
+-+			printf("Source Host Isolated\n");
+-+			break;
+-+		case ICMP_NET_ANO:
+-+			printf("Destination Net Prohibited\n");
+-+			break;
+-+		case ICMP_HOST_ANO:
+-+			printf("Destination Host Prohibited\n");
+-+			break;
+-+		case ICMP_NET_UNR_TOS:
+-+			printf("Destination Net Unreachable for Type of Service\n");
+-+			break;
+-+		case ICMP_HOST_UNR_TOS:
+-+			printf("Destination Host Unreachable for Type of Service\n");
+-+			break;
+- 		case ICMP_PKT_FILTERED:
+- 			printf("Packet filtered\n");
+- 			break;
+-+		case ICMP_PREC_VIOLATION:
+-+			printf("Precedence Violation\n");
+-+			break;
+-+		case ICMP_PREC_CUTOFF:
+-+			printf("Precedence Cutoff\n");
+-+			break;
+- 		default:
+- 			printf("Dest Unreachable, Bad Code: %d\n", code);
+- 			break;
+diff --git a/meta/recipes-extended/iputils/files/debian/fix-arping-timeouts.diff b/meta/recipes-extended/iputils/files/debian/fix-arping-timeouts.diff
+deleted file mode 100644
+index 3e34788..0000000
+--- a/meta/recipes-extended/iputils/files/debian/fix-arping-timeouts.diff
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Upstream-Status: Pending [from other distro Debian]
+-
+-Index: trunk/arping.c
+-===================================================================
+---- trunk.orig/arping.c	2010-05-07 23:13:52.000000000 -0700
+-+++ trunk/arping.c	2010-05-07 23:41:16.000000000 -0700
+-@@ -182,12 +182,17 @@
+- 	if (start.tv_sec==0)
+- 		start = tv;
+- 
+--	if (count-- == 0 || (timeout && MS_TDIFF(tv,start) > timeout*1000 + 500))
+-+	if (timeout && MS_TDIFF(tv,start) > timeout*1000 + 500)
+- 		finish();
+- 
+--	if (last.tv_sec==0 || MS_TDIFF(tv,last) > 500) {
+-+	if ((!timeout) && (count == 0))
+-+		finish();
+-+
+-+	if ( count!=0  && (last.tv_sec==0 || MS_TDIFF(tv,last) > 500 ) ) {
+- 		send_pack(s, src, dst,
+- 			  (struct sockaddr_ll *)&me, (struct sockaddr_ll *)&he);
+-+		if (count >= 0)
+-+		    count--;
+- 		if (count == 0 && unsolicited)
+- 			finish();
+- 	}
+diff --git a/meta/recipes-extended/iputils/files/debian/fix-dead-host-ping-stats.diff b/meta/recipes-extended/iputils/files/debian/fix-dead-host-ping-stats.diff
+deleted file mode 100644
+index fda42bf..0000000
+--- a/meta/recipes-extended/iputils/files/debian/fix-dead-host-ping-stats.diff
++++ /dev/null
+@@ -1,16 +0,0 @@
+-Upstream-Status: Pending [from other distro Debian]
+-
+-Index: trunk/ping_common.c
+-===================================================================
+---- trunk.orig/ping_common.c	2010-05-07 23:13:51.000000000 -0700
+-+++ trunk/ping_common.c	2010-05-07 23:22:33.000000000 -0700
+-@@ -872,7 +872,8 @@
+- 		printf("%spipe %d", comma, pipesize);
+- 		comma = ", ";
+- 	}
+--	if (ntransmitted > 1 && (!interval || (options&(F_FLOOD|F_ADAPTIVE)))) {
+-+	if (ntransmitted > 1 && nreceived &&
+-+		(!interval || (options&(F_FLOOD|F_ADAPTIVE)))) {
+- 		int ipg = (1000000*(long long)tv.tv_sec+tv.tv_usec)/(ntransmitted-1);
+- 		printf("%sipg/ewma %d.%03d/%d.%03d ms",
+- 		       comma, ipg/1000, ipg%1000, rtt/8000, (rtt/8)%1000);
+diff --git a/meta/recipes-extended/iputils/files/debian/targets.diff b/meta/recipes-extended/iputils/files/debian/targets.diff
+index 6b899cb..2cb5576 100644
+--- a/meta/recipes-extended/iputils/files/debian/targets.diff
++++ b/meta/recipes-extended/iputils/files/debian/targets.diff
+@@ -1,15 +1,15 @@
+ Upstream-Status: Inappropriate [disable feature]
  
- DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf"
+-Index: trunk/Makefile
++Index: iputils-s20121221/Makefile
+ ===================================================================
+---- trunk.orig/Makefile	2010-05-07 23:43:00.000000000 -0700
+-+++ trunk/Makefile	2010-05-07 23:47:10.000000000 -0700
+-@@ -16,7 +16,7 @@
+- CCOPT=-D_GNU_SOURCE -O2 -Wstrict-prototypes -Wall -g
+- CFLAGS=$(CCOPT) $(GLIBCFIX) $(DEFINES) 
++--- iputils-s20121221.orig/Makefile
+++++ iputils-s20121221/Makefile
++@@ -106,7 +106,7 @@ endif
++ endif
+  
++ # -------------------------------------
+ -IPV4_TARGETS=tracepath ping clockdiff rdisc arping tftpd rarpd
+-+IPV4_TARGETS=tracepath ping arping clockdiff
+++IPV4_TARGETS=tracepath ping clockdiff arping
+  IPV6_TARGETS=tracepath6 traceroute6 ping6
+  TARGETS=$(IPV4_TARGETS) $(IPV6_TARGETS)
+  
+diff --git a/meta/recipes-extended/iputils/files/debian/use_gethostbyname2.diff b/meta/recipes-extended/iputils/files/debian/use_gethostbyname2.diff
+index 1d01e15..d3b1886 100644
+--- a/meta/recipes-extended/iputils/files/debian/use_gethostbyname2.diff
++++ b/meta/recipes-extended/iputils/files/debian/use_gethostbyname2.diff
+@@ -1,31 +1,31 @@
+ Upstream-Status: Pending [from other distro Debian]
  
--PR = "r1"
+-Index: trunk/tracepath.c
++Index: iputils-s20121221/tracepath.c
+ ===================================================================
+---- trunk.orig/tracepath.c	2010-05-07 23:13:52.000000000 -0700
+-+++ trunk/tracepath.c	2010-05-07 23:24:09.000000000 -0700
+-@@ -338,9 +338,9 @@
+- 		base_port = atoi(p+1);
+- 	} else
+- 		base_port = 44444;
+--	he = gethostbyname(argv[0]);
++--- iputils-s20121221.orig/tracepath.c
+++++ iputils-s20121221/tracepath.c
++@@ -370,9 +370,9 @@ main(int argc, char **argv)
++ 	}
++ #endif
++ 
++-	he = gethostbyname(p);
+ +	he = gethostbyname2(argv[0], AF_INET);
+  	if (he == NULL) {
+ -		herror("gethostbyname");
+ +		herror("gethostbyname2");
+  		exit(1);
+  	}
+- 	memcpy(&target.sin_addr, he->h_addr, 4);
+-Index: trunk/ping.c
++ 
++Index: iputils-s20121221/ping.c
+ ===================================================================
+---- trunk.orig/ping.c	2010-05-07 23:23:22.000000000 -0700
+-+++ trunk/ping.c	2010-05-07 23:24:09.000000000 -0700
+-@@ -250,7 +250,7 @@
+- 			if (argc == 1)
+- 				options |= F_NUMERIC;
+- 		} else {
+--			hp = gethostbyname(target);
+-+			hp = gethostbyname2(target, AF_INET);
++--- iputils-s20121221.orig/ping.c
+++++ iputils-s20121221/ping.c
++@@ -279,7 +279,7 @@ main(int argc, char **argv)
++ #else
++ 			idn = target;
++ #endif
++-			hp = gethostbyname(idn);
+++			hp = gethostbyname2(idn, AF_INET);
+  			if (!hp) {
+  				fprintf(stderr, "ping: unknown host %s\n", target);
+  				exit(2);
+diff --git a/meta/recipes-extended/iputils/iputils_s20101006.bb b/meta/recipes-extended/iputils/iputils_s20121221.bb
+similarity index 80%
+rename from meta/recipes-extended/iputils/iputils_s20101006.bb
+rename to meta/recipes-extended/iputils/iputils_s20121221.bb
+index 2c2766c..3892cab 100644
+--- a/meta/recipes-extended/iputils/iputils_s20101006.bb
++++ b/meta/recipes-extended/iputils/iputils_s20121221.bb
+@@ -8,25 +8,21 @@ LICENSE = "BSD & GPLv2+"
+ 
+ LIC_FILES_CHKSUM = "file://ping.c;beginline=1;endline=35;md5=f9ceb201733e9a6cf8f00766dd278d82 \
+                     file://tracepath.c;beginline=1;endline=10;md5=0ecea2bf60bff2f3d840096d87647f3d \
+-                    file://arping.c;beginline=1;endline=10;md5=ada2a6d06acc90f943bddf40d15e0541 \
++                    file://arping.c;beginline=1;endline=11;md5=fe84301b5c2655c950f8b92a057fafa6 \
+                     file://tftpd.c;beginline=1;endline=32;md5=28834bf8a91a5b8a92755dbee709ef96 "
+ 
+-DEPENDS = "openssl docbook-utils-native sgmlspl-native"
++DEPENDS = "gnutls docbook-utils-native sgmlspl-native"
+ 
+-PR = "r6"
 +PR = "r0"
  
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
- 	   file://xwc.patch \
- 	   file://rxvt.desktop \
- 	   file://rxvt.png"
+ SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
+-           file://debian/fix-dead-host-ping-stats.diff \
+-           file://debian/add-icmp-return-codes.diff \
+            file://debian/use_gethostbyname2.diff \
+            file://debian/targets.diff \
+-           file://debian/fix-arping-timeouts.diff \
+            file://nsgmls-path-fix.patch \
+-           file://arping-break-libsysfs-dependency.patch \
+           "
  
--SRC_URI[md5sum] = "15595aa326167ac5eb68c28d95432faf"
--SRC_URI[sha256sum] = "ec1aa2932da844979ed8140bd92223defb12042aa5e877e05ac31139ca81f2b1"
-+SRC_URI[md5sum] = "1270432bdc7ce17dbb07d41a607081e0"
-+SRC_URI[sha256sum] = "de017b2b2a1a7182aeada99f605da33cbee18d450e07a7fdabef48da446521e4"
+-SRC_URI[md5sum] = "a36c25e9ec17e48be514dc0485e7376c"
+-SRC_URI[sha256sum] = "fd3af46c80ebb99607c2ca1f2a3608b6fe828e25bbec6e54f2afd25f6ddb6ee7"
++SRC_URI[md5sum] = "6072aef64205720dd1893b375e184171"
++SRC_URI[sha256sum] = "450f549fc5b620c23c5929aa6d54b7ddfc7ee1cb1e8efdc5e8bb21d8d0c5319f"
  
- inherit autotools update-alternatives
- 
+ do_compile () {
+ 	oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" all man
 -- 
 1.7.9.5
 
