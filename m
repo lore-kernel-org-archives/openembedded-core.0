@@ -1,24 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UGCdr-0003Ye-6r
+	(envelope-from <mark.hatle@windriver.com>) id 1UGCm9-0004TA-57
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 19:12:39 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773925"
-Received: from unknown (HELO dell-desktop.rb.intel.com) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:47 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2013 19:55:16 +0200
-Message-Id: <7da4490f227e679e2052585c0a336901ccca7ae1.1363283478.git.radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
-References: <cover.1363283478.git.radu.moisan@intel.com>
-In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
-References: <cover.1363283478.git.radu.moisan@intel.com>
-Subject: [PATCH 17/17] mobile-broadband-provider-info: Upgrade to v20120614
+	Thu, 14 Mar 2013 19:21:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2EI4T1K016703
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Mar 2013 11:04:29 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 14 Mar 2013 11:04:29 -0700
+Message-ID: <51421128.6090201@windriver.com>
+Date: Thu, 14 Mar 2013 13:04:24 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1363282893-19390-1-git-send-email-marcin.juszkiewicz@linaro.org>
+In-Reply-To: <1363282893-19390-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Subject: Re: [PATCH] Add architecture files for AArch64 architecture.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,30 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2013 18:12:40 -0000
+X-List-Received-Date: Thu, 14 Mar 2013 18:21:13 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- .../mobile-broadband-provider-info_git.bb          |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 3/14/13 12:41 PM, Marcin Juszkiewicz wrote:
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> ---
+>   meta/conf/machine/include/aarch64/README           |  9 +++++++++
+>   meta/conf/machine/include/aarch64/arch-aarch64.inc | 16 ++++++++++++++++
+>   2 files changed, 25 insertions(+)
+>   create mode 100644 meta/conf/machine/include/aarch64/README
+>   create mode 100644 meta/conf/machine/include/aarch64/arch-aarch64.inc
+>
+> diff --git a/meta/conf/machine/include/aarch64/README b/meta/conf/machine/include/aarch64/README
+> new file mode 100644
+> index 0000000..59c8710
+> --- /dev/null
+> +++ b/meta/conf/machine/include/aarch64/README
+> @@ -0,0 +1,9 @@
+> +2013-03-14 - Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> + - Initial Revision
+> +
+> +Currently only little endian is defined for AArch64.
+> +
+> +AArch64 is 64-bit ARM architecture.
+> +
+> +Also known as ARMv8 (instruction set) or ARM64 (name in Linux kernel and
+> +architecture name in Debian and derived).
+> diff --git a/meta/conf/machine/include/aarch64/arch-aarch64.inc b/meta/conf/machine/include/aarch64/arch-aarch64.inc
+> new file mode 100644
+> index 0000000..5177d7f
+> --- /dev/null
+> +++ b/meta/conf/machine/include/aarch64/arch-aarch64.inc
+> @@ -0,0 +1,16 @@
+> +DEFAULTTUNE ?= "aarch64"
+> +
+> +ARMPKGARCH ?= "aarch64"
+> +
+> +TUNEVALID[aarch64] = "Enable instructions for aarch64"
+> +TUNECONFLICTS[aarch64] = ""
+> +MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
+> +
+> +# Little Endian base configs
+> +AVAILTUNES += "aarch64"
+> +TUNE_FEATURES_tune-aarch64 ?= "aarch64"
+> +
+> +TUNE_ARCH = "aarch64"
+> +TUNE_PKGARCH = "aarch64"
+> +
+> +PACKAGE_EXTRA_ARCHS += "aarch64"
+>
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 47c9ed9..b797f8c 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -2,8 +2,8 @@ DESCRIPTION = "Mobile Broadband Service Provider Database"
- SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
--SRCREV = "d9995ef693cb1ea7237f928df18e03cccba96f16"
--PV = "1.0.0+gitr${SRCPV}"
-+SRCREV = "4ed19e11c2975105b71b956440acdb25d46a347d"
-+PV = "20120614+gitr${SRCPV}"
- PE = "1"
- PR = "r0"
- 
--- 
-1.7.9.5
+I'm not completely familiar with aarch64.  So a couple of questions.  The first 
+is is it supposed to allow a multilib configuration?  I.e. being able to run 
+both 32-bit "arm/thumb" code & aarch64 code on the same machine?  If so, a 
+"BASE_LIB_tune-aarch64" should be defined with the right value.
+
+Second are there expected to be tuned variants for the aarch64, i.e. 
+processor/core tunings that need to get embedded into the package arch.  if so 
+the definition of the TUNE_ARCH and TUNE_PKGARCH should probably be based on the 
+tune_feature...  (This may simply not be necessary though as this is a new 
+architecture that will expand and grow...)
+
+My suggestion then, to help with future growth is:
+
+DEFAULTTUNE ?= "aarch64"
+
+ARMPKGARCH ?= "aarch64"
+
+TUNEVALID[aarch64] = "Enable instructions for aarch64"
+TUNECONFLICTS[aarch64] = ""
+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", 
+":aarch64", "" ,d)}"
+
+# Little Endian base configs
+AVAILTUNES += "aarch64"
+TUNE_FEATURES_tune-aarch64 ?= "aarch64"
+BASE_LIB_tune-aarch64 = "lib64" <-- guess on my part
+TUNE_ARCH_tune-aarch64 = "aarch64"
+TUNE_PKGARCH_tune-aarch64 = "aarch64"
+PACKAGE_EXTRA_ARCHS_tune-aarch64 += "aarch64"
 
 
 
