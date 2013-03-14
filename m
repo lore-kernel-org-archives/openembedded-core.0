@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UGCdl-0003Yc-6e
+	(envelope-from <radu.moisan@intel.com>) id 1UGCdl-0003Yd-Ny
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 19:12:33 +0100
+	Thu, 14 Mar 2013 19:12:34 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:40 -0700
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:55:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773873"
+X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="214773887"
 Received: from unknown (HELO dell-desktop.rb.intel.com) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:39 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Mar 2013 10:55:40 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2013 19:55:08 +0200
-Message-Id: <ebd11f2519a02442988a332de533cb526033e9bf.1363283478.git.radu.moisan@intel.com>
+Date: Thu, 14 Mar 2013 19:55:09 +0200
+Message-Id: <0fd95799d127599f0d4b617dfe6e133f3aa3e0dd.1363283478.git.radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
 In-Reply-To: <cover.1363283478.git.radu.moisan@intel.com>
 References: <cover.1363283478.git.radu.moisan@intel.com>
-Subject: [PATCH 09/17] atk: Upgrade to v 2.7.91
+Subject: [PATCH 10/17] hdparm: Upgrade to v9.43
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,57 +35,37 @@ X-List-Received-Date: Thu, 14 Mar 2013 18:12:35 -0000
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- .../atk/{atk_2.6.0.bb => atk_2.7.91.bb}            |    8 +++++---
- .../atk/files/remove-gnome-comile-warnings.patch   |   17 +++++++++++++++++
- 2 files changed, 22 insertions(+), 3 deletions(-)
- rename meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.7.91.bb} (68%)
- create mode 100644 meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
+ .../hdparm/{hdparm_9.39.bb => hdparm_9.43.bb}      |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/hdparm/{hdparm_9.39.bb => hdparm_9.43.bb} (87%)
 
-diff --git a/meta/recipes-support/atk/atk_2.6.0.bb b/meta/recipes-support/atk/atk_2.7.91.bb
-similarity index 68%
-rename from meta/recipes-support/atk/atk_2.6.0.bb
-rename to meta/recipes-support/atk/atk_2.7.91.bb
-index be797c7..c1fc295 100644
---- a/meta/recipes-support/atk/atk_2.6.0.bb
-+++ b/meta/recipes-support/atk/atk_2.7.91.bb
-@@ -13,9 +13,11 @@ DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb b/meta/recipes-extended/hdparm/hdparm_9.43.bb
+similarity index 87%
+rename from meta/recipes-extended/hdparm/hdparm_9.39.bb
+rename to meta/recipes-extended/hdparm/hdparm_9.43.bb
+index 1dfc57f..0371477 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.43.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
+                     file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
+                     file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
  
- inherit autotools gtk-doc pkgconfig
+-PR = "r3"
++PR = "r0"
  
--SRC_URI = "http://download.gnome.org/sources/atk/2.6/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "6b34e2a63dda4429b5692be7ca3aa5bf"
--SRC_URI[sha256sum] = "eff663f90847620bb68c9c2cbaaf7f45e2ff44163b9ab3f10d15be763680491f"
-+SRC_URI = "http://download.gnome.org/sources/atk/2.7/${BPN}-${PV}.tar.xz \
-+           file://remove-gnome-comile-warnings.patch \ 
-+          "
-+SRC_URI[md5sum] = "52ee0f73d935b75997b5c1dd053df581"
-+SRC_URI[sha256sum] = "c95adec9d3ba605c95fa0042b79d2cee2bff18be95dc36c1628ac8ff3481bfe9"
+ PACKAGES += "wiper"
  
- BBCLASSEXTEND = "native"
+@@ -18,8 +18,8 @@ RDEPENDS_wiper = "bash gawk stat"
  
-diff --git a/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch b/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
-new file mode 100644
-index 0000000..7f15c92
---- /dev/null
-+++ b/meta/recipes-support/atk/files/remove-gnome-comile-warnings.patch
-@@ -0,0 +1,17 @@
-+Upstream-Status:Inappropriate
-+
-+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-+
-+Index: atk-2.7.91/configure.ac
-+===================================================================
-+--- atk-2.7.91.orig/configure.ac
-++++ atk-2.7.91/configure.ac
-+@@ -215,8 +215,6 @@ if test "x$enable_rebuilds" = "xyes" &&
-+ fi
-+ AC_SUBST(REBUILD)
-+ 
-+-GNOME_COMPILE_WARNINGS([maximum])
-+-
-+ AC_CONFIG_FILES([
-+ Makefile
-+ po/Makefile.in
+ SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
+ 
+-SRC_URI[md5sum] = "2bc17b72403885d4faf959682944243b"
+-SRC_URI[sha256sum] = "72d550af4526aa96f0841c79321a0ee39d636cbaf1f294e52193e90c054b3cea"
++SRC_URI[md5sum] = "f73233be118d86c779a8463d8b6a3cdb"
++SRC_URI[sha256sum] = "2bbe92274971182192901ab220e94bd2e4896f924fa6b225d0cffd7d8c16b52a"
+ 
+ EXTRA_OEMAKE += 'STRIP="echo"'
+ 
 -- 
 1.7.9.5
 
