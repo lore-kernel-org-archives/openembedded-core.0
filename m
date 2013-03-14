@@ -1,20 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UGC5k-0002JZ-6k
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UGCQ5-0002p7-DW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 18:37:24 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:20:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="270875277"
-Received: from unknown (HELO sentry.rb.intel.com) ([10.237.105.54])
-	by azsmga001.ch.intel.com with ESMTP; 14 Mar 2013 10:20:23 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Thu, 14 Mar 2013 18:58:27 +0100
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 80833D22B2;
+	Thu, 14 Mar 2013 18:41:39 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Mar 2013 19:20:54 +0200
-Message-Id: <1363281654-20280-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] iptables: upgrade to 1.4.18
+Date: Thu, 14 Mar 2013 18:41:33 +0100
+Message-Id: <1363282893-19390-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] Add architecture files for AArch64 architecture.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2013 17:37:25 -0000
+X-List-Received-Date: Thu, 14 Mar 2013 17:58:28 -0000
 
-fix-link-failure-ip6t-NETMAP.patch removed;
-already included in upstream.
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 ---
- .../iptables/{iptables_1.4.17.bb => iptables_1.4.18.bb}        |    8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/iptables/{iptables_1.4.17.bb => iptables_1.4.18.bb} (88%)
+ meta/conf/machine/include/aarch64/README           |  9 +++++++++
+ meta/conf/machine/include/aarch64/arch-aarch64.inc | 16 ++++++++++++++++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/conf/machine/include/aarch64/README
+ create mode 100644 meta/conf/machine/include/aarch64/arch-aarch64.inc
 
-diff --git a/meta/recipes-extended/iptables/iptables_1.4.17.bb b/meta/recipes-extended/iptables/iptables_1.4.18.bb
-similarity index 88%
-rename from meta/recipes-extended/iptables/iptables_1.4.17.bb
-rename to meta/recipes-extended/iptables/iptables_1.4.18.bb
-index f8ef7b6..222fad9 100644
---- a/meta/recipes-extended/iptables/iptables_1.4.17.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.4.18.bb
-@@ -7,8 +7,6 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
-                     file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc"
- 
--PR = "r0"
--
- RRECOMMENDS_${PN} = "kernel-module-x-tables \
-                      kernel-module-ip-tables \
-                      kernel-module-iptable-filter \
-@@ -23,10 +21,10 @@ FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
- 
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
--           file://fix-link-failure-ip6t-NETMAP.patch \
-            file://fix-iptables-extensions-build-error.patch"
--SRC_URI[md5sum] = "c3fb2ffd5b39d0d54b06ccc4c8660116"
--SRC_URI[sha256sum] = "51e7a769469383b6ad308a6a19cdd2bd813cf4593e21a156a543a1cd70554925"
+diff --git a/meta/conf/machine/include/aarch64/README b/meta/conf/machine/include/aarch64/README
+new file mode 100644
+index 0000000..59c8710
+--- /dev/null
++++ b/meta/conf/machine/include/aarch64/README
+@@ -0,0 +1,9 @@
++2013-03-14 - Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
++ - Initial Revision
 +
-+SRC_URI[md5sum] = "a819199d5ec013b82da13a8ffbba857e"
-+SRC_URI[sha256sum] = "14a99fb8b0ca22027a9ac6eb72fa32c834ceb3073820e0ba79bf251c6a7bcf3c"
- 
- inherit autotools
- 
++Currently only little endian is defined for AArch64.
++
++AArch64 is 64-bit ARM architecture.
++
++Also known as ARMv8 (instruction set) or ARM64 (name in Linux kernel and
++architecture name in Debian and derived).
+diff --git a/meta/conf/machine/include/aarch64/arch-aarch64.inc b/meta/conf/machine/include/aarch64/arch-aarch64.inc
+new file mode 100644
+index 0000000..5177d7f
+--- /dev/null
++++ b/meta/conf/machine/include/aarch64/arch-aarch64.inc
+@@ -0,0 +1,16 @@
++DEFAULTTUNE ?= "aarch64"
++
++ARMPKGARCH ?= "aarch64"
++
++TUNEVALID[aarch64] = "Enable instructions for aarch64"
++TUNECONFLICTS[aarch64] = ""
++MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
++
++# Little Endian base configs
++AVAILTUNES += "aarch64"
++TUNE_FEATURES_tune-aarch64 ?= "aarch64"
++
++TUNE_ARCH = "aarch64"
++TUNE_PKGARCH = "aarch64"
++
++PACKAGE_EXTRA_ARCHS += "aarch64"
 -- 
-1.7.10.4
+1.8.1.2
 
 
 
