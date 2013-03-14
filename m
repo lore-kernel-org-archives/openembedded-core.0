@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UGDQD-0005qU-Ju
+	(envelope-from <sgw@linux.intel.com>) id 1UGDfr-0006CS-4W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 20:02:38 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2EIjsN3028505
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2013 11:45:54 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 14 Mar 2013 11:45:53 -0700
-Message-ID: <51421ADB.2020803@windriver.com>
-Date: Thu, 14 Mar 2013 13:45:47 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1363282893-19390-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<51421128.6090201@windriver.com> <5142148A.7010009@linaro.org>
-In-Reply-To: <5142148A.7010009@linaro.org>
-Subject: Re: [PATCH] Add architecture files for AArch64 architecture.
+	Thu, 14 Mar 2013 20:19:35 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2013 12:02:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,846,1355126400"; d="scan'208";a="306742166"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.217])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2013 12:02:03 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Mar 2013 12:02:02 -0700
+Message-Id: <cover.1363287636.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [CONSOLIDATED PULL 00/29] SystemD and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,123 +27,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2013 19:02:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Mar 2013 19:20:02 -0000
 
-On 3/14/13 1:18 PM, Marcin Juszkiewicz wrote:
-> W dniu 14.03.2013 19:04, Mark Hatle pisze:
->> I'm not completely familiar with aarch64.  So a couple of questions.
->> The first is is it supposed to allow a multilib configuration?  I.e.
->> being able to run both 32-bit "arm/thumb" code & aarch64 code on the
->> same machine?  If so, a "BASE_LIB_tune-aarch64" should be defined with
->> the right value.
->
-> AArch64 is able to run ARMv7a code but it not something we worry too
-> much now as there is no hardware yet so we mostly use OE for porting
-> software. There will be no multilib related work done by Linaro in near
-> time (if at all).
+Richard,
 
-What I'm considering are the ability to use existing (binary only) 32-bit 
-thumb/arm programs with these new cores.  I also don't have a good sense of the 
-executable and memory size requirements of the new aarch64 to decide if multilib 
-is something desired by the end users.  (if the executables are roughly the same 
-size, then it greatly diminishes the usefulness of 32-bit multilibs.)
+I pulled Ross's non-controversial systemd patches, along with some updates
+that I have reviewed and built on the AB (still in progress, but looking green)
 
->> Second are there expected to be tuned variants for the aarch64, i.e.
->> processor/core tunings that need to get embedded into the package arch.
->> if so the definition of the TUNE_ARCH and TUNE_PKGARCH should probably
->> be based on the tune_feature...  (This may simply not be necessary
->> though as this is a new architecture that will expand and grow...)
->
-> Probably big endian version will arrive sooner or later. Other than that
-> no extra tuning will be needed (no hardware yet).
->
->> My suggestion then, to help with future growth is:
->>
->> DEFAULTTUNE ?= "aarch64"
->>
->> ARMPKGARCH ?= "aarch64"
->>
->> TUNEVALID[aarch64] = "Enable instructions for aarch64"
->> TUNECONFLICTS[aarch64] = ""
->> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64",
->> ":aarch64", "" ,d)}"
->>
->> # Little Endian base configs
->> AVAILTUNES += "aarch64"
->> TUNE_FEATURES_tune-aarch64 ?= "aarch64"
->> BASE_LIB_tune-aarch64 = "lib64" <-- guess on my part
->
-> No, we do not use /lib64/ for AArch64.
+One item to verify is Martin's package.bbclass change.
 
-This will certainly limit the use of multilibs if it becomes desirable on this 
-part.  I really dislike architectures that use the same directory for two 
-"machine" compatible libraries with different ABIs.
+Thanks
+	Sau!
 
->> TUNE_ARCH_tune-aarch64 = "aarch64"
->> TUNE_PKGARCH_tune-aarch64 = "aarch64"
->> PACKAGE_EXTRA_ARCHS_tune-aarch64 += "aarch64"
->
-> Thanks, changed and attached new version.
->
->  From b303dd32eecd2fca3708eef468910f19bb903b3f Mon Sep 17 00:00:00 2001
-> From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> Date: Thu, 14 Mar 2013 18:41:08 +0100
-> Subject: [PATCH] Add architecture files for AArch64 architecture.
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
->   meta/conf/machine/include/aarch64/README           |  9 +++++++++
->   meta/conf/machine/include/aarch64/arch-aarch64.inc | 14 ++++++++++++++
->   2 files changed, 23 insertions(+)
->   create mode 100644 meta/conf/machine/include/aarch64/README
->   create mode 100644 meta/conf/machine/include/aarch64/arch-aarch64.inc
->
-> diff --git a/meta/conf/machine/include/aarch64/README b/meta/conf/machine/include/aarch64/README
-> new file mode 100644
-> index 0000000..59c8710
-> --- /dev/null
-> +++ b/meta/conf/machine/include/aarch64/README
-> @@ -0,0 +1,9 @@
-> +2013-03-14 - Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> + - Initial Revision
-> +
-> +Currently only little endian is defined for AArch64.
-> +
-> +AArch64 is 64-bit ARM architecture.
-> +
-> +Also known as ARMv8 (instruction set) or ARM64 (name in Linux kernel and
-> +architecture name in Debian and derived).
-> diff --git a/meta/conf/machine/include/aarch64/arch-aarch64.inc b/meta/conf/machine/include/aarch64/arch-aarch64.inc
-> new file mode 100644
-> index 0000000..121d339
-> --- /dev/null
-> +++ b/meta/conf/machine/include/aarch64/arch-aarch64.inc
-> @@ -0,0 +1,14 @@
-> +DEFAULTTUNE ?= "aarch64"
-> +
-> +ARMPKGARCH ?= "aarch64"
-> +
-> +TUNEVALID[aarch64] = "Enable instructions for aarch64"
-> +TUNECONFLICTS[aarch64] = ""
-> +MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "aarch64"
-> +TUNE_FEATURES_tune-aarch64 ?= "aarch64"
 
-That should be an "=".  Since that tune has a specific "feature" meaning.  If 
-someone wants to deviate, they should establish a new/custom tune.
+The following changes since commit bd03014c8fd080e04dd0a96a6b4b9211568c1cf1:
 
-> +TUNE_ARCH_tune-aarch64 = "aarch64"
-> +TUNE_PKGARCH_tune-aarch64 = "aarch64"
-> +PACKAGE_EXTRA_ARCHS_tune-aarch64 += "aarch64"
->
+  package_rpm: Ensure package dependencies have correct version numbers (2013-03-14 16:37:03 +0000)
 
-Otherwise this looks reasonable to me.  (Once real hardware exists and people 
-start building products.. the multilib question may come back...)
+are available in the git repository at:
 
---Mark
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andrei Dinu (1):
+  psplash : update to latest SRCREV
+    afd4e228c606a9998feae44a3fed4474803240b7
+
+Constantin Musca (1):
+  libxi: upgrade to 1.7
+
+Cristian Iorga (4):
+  libical: add recipe back in oe-core
+  build-appliance-image: upgrade to newer poky revision.
+  build-appliance-image: ethernet connection type is now bridged
+  build-appliance-image: fix lost net connectivity after restart
+
+Hongxu Jia (1):
+  qemu-native:fix do_compile failed on SLED 11.2
+
+Khem Raj (2):
+  sudo: Compile mksigname and mksiglist for build host
+  watchdog: Upgrade 5.12 -> 5.13
+
+Laurentiu Palcu (4):
+  inputproto: upgrade to 2.3
+  xserver-xorg: upgrade to 1.14.0
+  xf86-video-intel: upgrade to 2.21.3
+  xf86-video-*: delete references to mibstore.h
+
+Martin Jansa (2):
+  package.bbclass: add debug-without-src PACKAGE_DEBUG_SPLIT_STYLE
+  icecc: improve interaction with sstate
+
+Olivier Guiter (1):
+  neard: Update reference commit sha1 and install script
+
+Ross Burton (11):
+  connman: explicitly disable systemd if we don't want it enabled
+  polkit: explicitly disable systemd if we're using consolekit
+  xf86-video-intel: add explicit dependency on udev
+  avahi: explicitly disable systemd if we don't want it enabled
+  xkeyboard-config: remove long-gone build dependencies
+  systemd-compat-units: add missing systemd-systemctl-native dependency
+  busybox: enable swapon -p (91 byte increase)
+  systemd: busybox's swapon now supports -p
+  systemd: remove util-linux-mount dependency
+  systemd: set the location of the kill binary
+  systemd: remove libsystemd-daemon linkage in libudev
+
+Zhenhua Luo (2):
+  binutils: fix ineffectual zero of cache and array bounds issue
+  elfutils: Fix size passed to snprintf for invalid sh_name case
+
+ meta/classes/icecc.bbclass                         |  6 ++
+ meta/classes/package.bbclass                       |  6 ++
+ meta/recipes-connectivity/avahi/avahi.inc          |  2 +-
+ .../connman/connman-conf/qemuall/wired-setup       |  2 +-
+ meta/recipes-connectivity/connman/connman.inc      |  2 +-
+ .../neard/neard/{neard => neard.in}                | 14 +++-
+ meta/recipes-connectivity/neard/neard_0.9.bb       | 32 +++++----
+ meta/recipes-core/busybox/busybox-1.20.2/defconfig |  2 +-
+ meta/recipes-core/images/build-appliance-image.bb  |  4 +-
+ .../Yocto_Build_Appliance.vmx                      |  2 +-
+ meta/recipes-core/psplash/psplash_git.bb           |  4 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |  2 +
+ .../systemd/systemd/udev-linkage.patch             | 62 ++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |  8 +--
+ meta/recipes-devtools/binutils/binutils-2.23.1.inc |  5 +-
+ .../binutils-fix-ineffectual-zero-of-cache.patch   | 60 ++++++++++++++++
+ .../binutils-replace-strncat-with-strcat.patch     | 26 +++++++
+ .../binutils-fix-over-array-bounds-issue.patch     | 20 ++++++
+ ...ssed-to-snprintf-for-invalid-sh_name-case.patch | 27 +++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |  3 +-
+ .../fix-libcap-header-issue-on-some-distro.patch   | 84 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc                |  4 ++
+ meta/recipes-extended/polkit/polkit_0.104.bb       |  5 +-
+ meta/recipes-extended/sudo/sudo.inc                |  5 ++
+ .../watchdog/files/fix-ping-failure.patch          | 21 ++----
+ .../{watchdog_5.12.bb => watchdog_5.13.bb}         |  7 +-
+ .../xf86-video-fbdev/Remove-mibstore.h.patch       | 35 +++++++++
+ .../xorg-driver/xf86-video-fbdev_0.4.3.bb          |  2 +
+ ...-intel_2.21.0.bb => xf86-video-intel_2.21.3.bb} |  6 +-
+ .../xorg-driver/xf86-video-intel_git.bb            |  2 +-
+ .../xf86-video-vesa/Remove-mibstore.h.patch        | 37 ++++++++++
+ .../xorg-driver/xf86-video-vesa_2.3.2.bb           |  2 +
+ .../xf86-video-vmware/Kill-mibstore.patch          | 63 ++++++++++++++++
+ .../xorg-driver/xf86-video-vmware_13.0.0.bb        |  2 +
+ .../xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb}      |  6 +-
+ .../xorg-lib/xkeyboard-config_2.8.bb               |  2 +-
+ .../{inputproto_2.2.bb => inputproto_2.3.bb}       |  4 +-
+ .../xorg-xserver/xserver-xorg-1.13.1/aarch64.patch | 64 -----------------
+ .../xorg-xserver/xserver-xorg-1.14.0/aarch64.patch | 35 +++++++++
+ .../crosscompile.patch                             |  0
+ .../fix_compilation_when_not_using_xinerama.patch  | 21 ++++++
+ .../fix_open_max_preprocessor_error.patch          |  0
+ .../macro_tweak.patch                              |  0
+ .../mips64-compiler.patch                          |  0
+ ...erver-xorg_1.13.1.bb => xserver-xorg_1.14.0.bb} |  5 +-
+ .../libical/files/pthread-fix.patch                | 52 ++++++++++++++
+ meta/recipes-support/libical/libical_0.48.bb       | 17 +++++
+ 47 files changed, 641 insertions(+), 129 deletions(-)
+ rename meta/recipes-connectivity/neard/neard/{neard => neard.in} (59%)
+ create mode 100644 meta/recipes-core/systemd/systemd/udev-linkage.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+ create mode 100644 meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
+ rename meta/recipes-extended/watchdog/{watchdog_5.12.bb => watchdog_5.13.bb} (78%)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev/Remove-mibstore.h.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.21.0.bb => xf86-video-intel_2.21.3.bb} (79%)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vesa/Remove-mibstore.h.patch
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb} (79%)
+ rename meta/recipes-graphics/xorg-proto/{inputproto_2.2.bb => inputproto_2.3.bb} (78%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.1/aarch64.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/aarch64.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/crosscompile.patch (100%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/fix_compilation_when_not_using_xinerama.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/fix_open_max_preprocessor_error.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/macro_tweak.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/mips64-compiler.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.13.1.bb => xserver-xorg_1.14.0.bb} (84%)
+ create mode 100644 meta/recipes-support/libical/files/pthread-fix.patch
+ create mode 100644 meta/recipes-support/libical/libical_0.48.bb
+
+-- 
+1.8.0.2
+
 
 
