@@ -1,36 +1,20 @@
-Received: from mail-ob0-f169.google.com ([209.85.214.169])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UG7Rv-0002Ws-1z
+	(envelope-from <cristian.iorga@intel.com>) id 1UGC5k-0002JZ-6k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Mar 2013 13:40:08 +0100
-Received: by mail-ob0-f169.google.com with SMTP id ta14so2118734obb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Mar 2013 05:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=A9hpL97jRzXB3JKRXBasw1YU6VfkCf/l+WTn+m25MYw=;
-	b=x8jK+k4sX2+1KpJUxR5GEVyoySMNDfYf6uMeCnLC3kiFw4jjwMINXux0eyOFdcIrjT
-	Ja0+zRSYB1YiFsjUnT5mAu4L7Nx4WkQZxdrXJN79CU++D7rr8mPcUkMkKAXFpuQw2Tta
-	xDYcthaiKbM1CC8mpA4vhd4QUUkTDvaD9unjK8GBK4KOs0o6VcrciqVGP1avD3V6Q2Y/
-	dWhfuvsu1kzsIFp75S5jxf2zjGtJZ8kdDEhzwUwOGgHwG4GCFadEwS4aQuasqmYIbb07
-	3dLNtpV/VS1rFofum7HIFw8dhBmrm8EnH236r1WL0cpciiuBpGaoM7x5aNFjj8Y3KDd5
-	RE9A==
-MIME-Version: 1.0
-X-Received: by 10.60.8.40 with SMTP id o8mr960275oea.112.1363263796448; Thu,
-	14 Mar 2013 05:23:16 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Thu, 14 Mar 2013 05:23:16 -0700 (PDT)
-In-Reply-To: <1363207361-30883-1-git-send-email-jslater@windriver.com>
-References: <1363207361-30883-1-git-send-email-jslater@windriver.com>
-Date: Thu, 14 Mar 2013 09:23:16 -0300
-X-Google-Sender-Auth: nyL6TZy4MZLvirOkYidH6U5nVSA
-Message-ID: <CAP9ODKrT0EvySNSV2B=S8UsESX7sDUfiver2XdYL3DyK-+Y9fw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Joe Slater <jslater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzcode & tzdata: update to 2013b versions
+	Thu, 14 Mar 2013 18:37:24 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2013 10:20:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,845,1355126400"; d="scan'208";a="270875277"
+Received: from unknown (HELO sentry.rb.intel.com) ([10.237.105.54])
+	by azsmga001.ch.intel.com with ESMTP; 14 Mar 2013 10:20:23 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Mar 2013 19:20:54 +0200
+Message-Id: <1363281654-20280-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] iptables: upgrade to 1.4.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,20 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2013 12:40:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 14 Mar 2013 17:37:25 -0000
 
-On Wed, Mar 13, 2013 at 5:42 PM, Joe Slater <jslater@windriver.com> wrote:
-> Update tzcode and tzdata recipes for 2013b timezone
-> data.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
+fix-link-failure-ip6t-NETMAP.patch removed;
+already included in upstream.
 
-This is the v2, right? Please list which changes you did since v1.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../iptables/{iptables_1.4.17.bb => iptables_1.4.18.bb}        |    8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/iptables/{iptables_1.4.17.bb => iptables_1.4.18.bb} (88%)
 
+diff --git a/meta/recipes-extended/iptables/iptables_1.4.17.bb b/meta/recipes-extended/iptables/iptables_1.4.18.bb
+similarity index 88%
+rename from meta/recipes-extended/iptables/iptables_1.4.17.bb
+rename to meta/recipes-extended/iptables/iptables_1.4.18.bb
+index f8ef7b6..222fad9 100644
+--- a/meta/recipes-extended/iptables/iptables_1.4.17.bb
++++ b/meta/recipes-extended/iptables/iptables_1.4.18.bb
+@@ -7,8 +7,6 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+                     file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc"
+ 
+-PR = "r0"
+-
+ RRECOMMENDS_${PN} = "kernel-module-x-tables \
+                      kernel-module-ip-tables \
+                      kernel-module-iptable-filter \
+@@ -23,10 +21,10 @@ FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
+ 
+ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://types.h-add-defines-that-are-required-for-if_packet.patch \
+-           file://fix-link-failure-ip6t-NETMAP.patch \
+            file://fix-iptables-extensions-build-error.patch"
+-SRC_URI[md5sum] = "c3fb2ffd5b39d0d54b06ccc4c8660116"
+-SRC_URI[sha256sum] = "51e7a769469383b6ad308a6a19cdd2bd813cf4593e21a156a543a1cd70554925"
++
++SRC_URI[md5sum] = "a819199d5ec013b82da13a8ffbba857e"
++SRC_URI[sha256sum] = "14a99fb8b0ca22027a9ac6eb72fa32c834ceb3073820e0ba79bf251c6a7bcf3c"
+ 
+ inherit autotools
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10.4
+
 
 
