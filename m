@@ -1,28 +1,30 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UGKAd-00027I-8A for openembedded-core@lists.openembedded.org;
-	Fri, 15 Mar 2013 03:15:20 +0100
+	id 1UGKLb-0002gJ-K8 for openembedded-core@lists.openembedded.org;
+	Fri, 15 Mar 2013 03:26:21 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2F26nhN008503; Fri, 15 Mar 2013 02:06:49 GMT
+	r2F2I6ap009190; Fri, 15 Mar 2013 02:18:06 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KcnJUL3i0esn; Fri, 15 Mar 2013 02:06:49 +0000 (GMT)
+	with LMTP id 2r3v-Bcqx3HT; Fri, 15 Mar 2013 02:18:06 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2F26bMY008480
+	r2F2Hs6t009184
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 15 Mar 2013 02:06:42 GMT
-Message-ID: <1363312663.14476.12.camel@ted>
+	verify=NOT); Fri, 15 Mar 2013 02:18:00 GMT
+Message-ID: <1363313340.14476.13.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Mar 2013 01:57:43 +0000
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 15 Mar 2013 02:09:00 +0000
+In-Reply-To: <cover.1363287636.git.sgw@linux.intel.com>
+References: <cover.1363287636.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.6.2-0ubuntu0.1 
 Mime-Version: 1.0
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: package: Add cachedpath optimisation
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/29] SystemD and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,293 +37,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2013 02:15:44 -0000
+X-List-Received-Date: Fri, 15 Mar 2013 02:26:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently, various standard library operations like os.walk(),
-os.path.isdir() and os.path.islink() each call stat or lstat which
-involves a syscall into the kernel. There is no caching since they could
-conceivably have changed on disk. The result is that for something like
-the do_package task of the kernel we're spending over two minutes making
-868,000 individual stat calls for 23,000 files. This is suboptimal.
+On Thu, 2013-03-14 at 12:02 -0700, Saul Wold wrote:
+> Richard,
+> 
+> I pulled Ross's non-controversial systemd patches, along with some updates
+> that I have reviewed and built on the AB (still in progress, but looking green)
+> 
+> One item to verify is Martin's package.bbclass change.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit bd03014c8fd080e04dd0a96a6b4b9211568c1cf1:
+> 
+>   package_rpm: Ensure package dependencies have correct version numbers (2013-03-14 16:37:03 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Andrei Dinu (1):
+>   psplash : update to latest SRCREV
+>     afd4e228c606a9998feae44a3fed4474803240b7
+> 
+> Constantin Musca (1):
+>   libxi: upgrade to 1.7
+> 
+> Cristian Iorga (4):
+>   libical: add recipe back in oe-core
+>   build-appliance-image: upgrade to newer poky revision.
+>   build-appliance-image: ethernet connection type is now bridged
+>   build-appliance-image: fix lost net connectivity after restart
+> 
+> Hongxu Jia (1):
+>   qemu-native:fix do_compile failed on SLED 11.2
+> 
+> Khem Raj (2):
+>   sudo: Compile mksigname and mksiglist for build host
 
-This patch adds lib/oe/cachedpath.py which are a set of replacement
-functions for these operations which use cached stat data rather than
-hitting the kernel each time. It gives a nice performance improvement
-halving the build time of the kernel do_package.
+Took all these patches except the above which I want to double check
+whether there is an autotools method we can use for this now. Ross might
+have some knowledge about this.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
----
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 4d69caf..9d5b0ad 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -10,7 +10,7 @@ inherit utility-tasks
- inherit metadata_scm
- inherit logging
- 
--OE_IMPORTS += "os sys time oe.path oe.utils oe.data oe.package oe.packagegroup oe.sstatesig oe.lsb"
-+OE_IMPORTS += "os sys time oe.path oe.utils oe.data oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath"
- OE_IMPORTS[type] = "list"
- 
- def oe_import(d):
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 1625ebd..720e2b1 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -729,7 +729,7 @@ python split_and_strip_files () {
-     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
-     if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT', True) != '1') and \
-             (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
--        for root, dirs, files in os.walk(dvar):
-+        for root, dirs, files in oe.cachedpath.walk(dvar):
-             for f in files:
-                 file = os.path.join(root, f)
-                 if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-@@ -743,7 +743,7 @@ python split_and_strip_files () {
-                     continue
- 
-                 try:
--                    ltarget = oe.path.realpath(file, dvar, False)
-+                    ltarget = oe.cachedpath.realpath(file, dvar, False)
-                     s = os.lstat(ltarget)
-                 except OSError, (err, strerror):
-                     if err != errno.ENOENT:
-@@ -969,7 +969,7 @@ python populate_packages () {
-     os.chdir(workdir)
- 
-     unshipped = []
--    for root, dirs, files in os.walk(dvar):
-+    for root, dirs, files in oe.cachedpath.walk(dvar):
-         dir = root[len(dvar):]
-         if not dir:
-             dir = os.sep
-@@ -1003,7 +1003,7 @@ python package_fixsymlinks () {
-         for path in pkgfiles[pkg]:
-                 rpath = path[len(inst_root):]
-                 pkg_files[pkg].append(rpath)
--                rtarget = oe.path.realpath(path, inst_root, True, assume_dir = True)
-+                rtarget = oe.cachedpath.realpath(path, inst_root, True, assume_dir = True)
-                 if not os.path.lexists(rtarget):
-                     dangling_links[pkg].append(os.path.normpath(rtarget[len(inst_root):]))
- 
-@@ -1775,6 +1775,9 @@ python do_package () {
-     # as any change to rpmdeps requires this to be rerun.
-     # PACKAGE_BBCLASS_VERSION = "1"
- 
-+    # Init cachedpath
-+    oe.cachedpath.initcache()
-+
-     ###########################################################################
-     # Sanity test the setup
-     ###########################################################################
-@@ -1835,7 +1838,7 @@ python do_package () {
-     pkgdest = d.getVar('PKGDEST', True)
-     for pkg in packages:
-         pkgfiles[pkg] = []
--        for walkroot, dirs, files in os.walk(pkgdest + "/" + pkg):
-+        for walkroot, dirs, files in oe.cachedpath.walk(pkgdest + "/" + pkg):
-             for file in files:
-                 pkgfiles[pkg].append(walkroot + os.sep + file)
- 
-diff --git a/meta/lib/oe/cachedpath.py b/meta/lib/oe/cachedpath.py
-new file mode 100644
-index 0000000..bc65665
---- /dev/null
-+++ b/meta/lib/oe/cachedpath.py
-@@ -0,0 +1,190 @@
-+#
-+# Based on standard python library functions but avoid
-+# repeated stat calls. Its assumed the files will not change from under us
-+# so we can cache stat calls.
-+#
-+cachedpathstatcache = {}
-+cachedpathlstatcache = {}
-+
-+import os
-+import errno
-+import stat
-+
-+def initcache():
-+    global cachedpathstatcache
-+    global cachedpathlstatcache
-+    cachedpathstatcache = {}
-+    cachedpathlstatcache = {}
-+
-+def callstat(path):
-+    if path in cachedpathstatcache:
-+        return cachedpathstatcache[path]
-+    #bb.error("Statpath:" + path)
-+    try:
-+        st = os.stat(path)
-+        cachedpathstatcache[path] = st
-+        return st
-+    except os.error:
-+        cachedpathstatcache[path] = False
-+        return False
-+
-+def calllstat(path):
-+    if path in cachedpathlstatcache:
-+        return cachedpathlstatcache[path]
-+    #bb.error("LStatpath:" + path)
-+    try:
-+        st = os.lstat(path)
-+        cachedpathlstatcache[path] = st
-+        return st
-+    except (os.error, AttributeError):
-+        cachedpathlstatcache[path] = False
-+        return False
-+
-+# This follows symbolic links, so both islink() and isdir() can be true
-+# for the same path ono systems that support symlinks
-+def isfile(path):
-+    """Test whether a path is a regular file"""
-+    st = callstat(path)
-+    if not st:
-+        return False
-+    return stat.S_ISREG(st.st_mode)
-+
-+# Is a path a directory?
-+# This follows symbolic links, so both islink() and isdir()
-+# can be true for the same path on systems that support symlinks
-+def isdir(s):
-+    """Return true if the pathname refers to an existing directory."""
-+    st = callstat(s)
-+    if not st:
-+        return False
-+    return stat.S_ISDIR(st.st_mode)
-+
-+def islink(path):
-+    """Test whether a path is a symbolic link"""
-+    st = calllstat(path)
-+    if not st:
-+        return False
-+    return stat.S_ISLNK(st.st_mode)
-+
-+def walk(top, topdown=True, onerror=None, followlinks=False):
-+    # Matches os.walk, not os.path.walk()
-+
-+    # We may not have read permission for top, in which case we can't
-+    # get a list of the files the directory contains.  os.path.walk
-+    # always suppressed the exception then, rather than blow up for a
-+    # minor reason when (say) a thousand readable directories are still
-+    # left to visit.  That logic is copied here.
-+    try:
-+        # Note that listdir and error are globals in this module due
-+        # to earlier import-*.
-+        names = os.listdir(top)
-+    except error, err:
-+        if onerror is not None:
-+            onerror(err)
-+        return
-+
-+    dirs, nondirs = [], []
-+    for name in names:
-+        if isdir(os.path.join(top, name)):
-+            dirs.append(name)
-+        else:
-+            nondirs.append(name)
-+
-+    if topdown:
-+        yield top, dirs, nondirs
-+    for name in dirs:
-+        new_path = os.path.join(top, name)
-+        if followlinks or not islink(new_path):
-+            for x in walk(new_path, topdown, onerror, followlinks):
-+                yield x
-+    if not topdown:
-+        yield top, dirs, nondirs
-+
-+
-+
-+## realpath() related functions
-+def __is_path_below(file, root):
-+    return (file + os.path.sep).startswith(root)
-+
-+def __realpath_rel(start, rel_path, root, loop_cnt, assume_dir):
-+    """Calculates real path of symlink 'start' + 'rel_path' below
-+    'root'; no part of 'start' below 'root' must contain symlinks. """
-+    have_dir = True
-+
-+    for d in rel_path.split(os.path.sep):
-+        if not have_dir and not assume_dir:
-+            raise OSError(errno.ENOENT, "no such directory %s" % start)
-+
-+        if d == os.path.pardir: # '..'
-+            if len(start) >= len(root):
-+                # do not follow '..' before root
-+                start = os.path.dirname(start)
-+            else:
-+                # emit warning?
-+                pass
-+        else:
-+            (start, have_dir) = __realpath(os.path.join(start, d),
-+                                           root, loop_cnt, assume_dir)
-+
-+        assert(__is_path_below(start, root))
-+
-+    return start
-+
-+def __realpath(file, root, loop_cnt, assume_dir):
-+    while islink(file) and len(file) >= len(root):
-+        if loop_cnt == 0:
-+            raise OSError(errno.ELOOP, file)
-+
-+        loop_cnt -= 1
-+        target = os.path.normpath(os.readlink(file))
-+
-+        if not os.path.isabs(target):
-+            tdir = os.path.dirname(file)
-+            assert(__is_path_below(tdir, root))
-+        else:
-+            tdir = root
-+
-+        file = __realpath_rel(tdir, target, root, loop_cnt, assume_dir)
-+
-+    try:
-+        is_dir = isdir(file)
-+    except:
-+        is_dir = False
-+
-+    return (file, is_dir)
-+
-+def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False):
-+    """ Returns the canonical path of 'file' with assuming a
-+    toplevel 'root' directory. When 'use_physdir' is set, all
-+    preceding path components of 'file' will be resolved first;
-+    this flag should be set unless it is guaranteed that there is
-+    no symlink in the path. When 'assume_dir' is not set, missing
-+    path components will raise an ENOENT error"""
-+
-+    root = os.path.normpath(root)
-+    file = os.path.normpath(file)
-+
-+    if not root.endswith(os.path.sep):
-+        # letting root end with '/' makes some things easier
-+        root = root + os.path.sep
-+
-+    if not __is_path_below(file, root):
-+        raise OSError(errno.EINVAL, "file '%s' is not below root" % file)
-+
-+    try:
-+        if use_physdir:
-+            file = __realpath_rel(root, file[(len(root) - 1):], root, loop_cnt, assume_dir)
-+        else:
-+            file = __realpath(file, root, loop_cnt, assume_dir)[0]
-+    except OSError, e:
-+        if e.errno == errno.ELOOP:
-+            # make ELOOP more readable; without catching it, there will
-+            # be printed a backtrace with 100s of OSError exceptions
-+            # else
-+            raise OSError(errno.ELOOP,
-+                          "too much recursions while resolving '%s'; loop in '%s'" %
-+                          (file, e.strerror))
-+
-+        raise
-+
-+    return file
+Richard
+
+>   watchdog: Upgrade 5.12 -> 5.13
+> 
+> Laurentiu Palcu (4):
+>   inputproto: upgrade to 2.3
+>   xserver-xorg: upgrade to 1.14.0
+>   xf86-video-intel: upgrade to 2.21.3
+>   xf86-video-*: delete references to mibstore.h
+> 
+> Martin Jansa (2):
+>   package.bbclass: add debug-without-src PACKAGE_DEBUG_SPLIT_STYLE
+>   icecc: improve interaction with sstate
+> 
+> Olivier Guiter (1):
+>   neard: Update reference commit sha1 and install script
+> 
+> Ross Burton (11):
+>   connman: explicitly disable systemd if we don't want it enabled
+>   polkit: explicitly disable systemd if we're using consolekit
+>   xf86-video-intel: add explicit dependency on udev
+>   avahi: explicitly disable systemd if we don't want it enabled
+>   xkeyboard-config: remove long-gone build dependencies
+>   systemd-compat-units: add missing systemd-systemctl-native dependency
+>   busybox: enable swapon -p (91 byte increase)
+>   systemd: busybox's swapon now supports -p
+>   systemd: remove util-linux-mount dependency
+>   systemd: set the location of the kill binary
+>   systemd: remove libsystemd-daemon linkage in libudev
+> 
+> Zhenhua Luo (2):
+>   binutils: fix ineffectual zero of cache and array bounds issue
+>   elfutils: Fix size passed to snprintf for invalid sh_name case
+> 
+>  meta/classes/icecc.bbclass                         |  6 ++
+>  meta/classes/package.bbclass                       |  6 ++
+>  meta/recipes-connectivity/avahi/avahi.inc          |  2 +-
+>  .../connman/connman-conf/qemuall/wired-setup       |  2 +-
+>  meta/recipes-connectivity/connman/connman.inc      |  2 +-
+>  .../neard/neard/{neard => neard.in}                | 14 +++-
+>  meta/recipes-connectivity/neard/neard_0.9.bb       | 32 +++++----
+>  meta/recipes-core/busybox/busybox-1.20.2/defconfig |  2 +-
+>  meta/recipes-core/images/build-appliance-image.bb  |  4 +-
+>  .../Yocto_Build_Appliance.vmx                      |  2 +-
+>  meta/recipes-core/psplash/psplash_git.bb           |  4 +-
+>  meta/recipes-core/systemd/systemd-compat-units.bb  |  2 +
+>  .../systemd/systemd/udev-linkage.patch             | 62 ++++++++++++++++
+>  meta/recipes-core/systemd/systemd_197.bb           |  8 +--
+>  meta/recipes-devtools/binutils/binutils-2.23.1.inc |  5 +-
+>  .../binutils-fix-ineffectual-zero-of-cache.patch   | 60 ++++++++++++++++
+>  .../binutils-replace-strncat-with-strcat.patch     | 26 +++++++
+>  .../binutils-fix-over-array-bounds-issue.patch     | 20 ++++++
+>  ...ssed-to-snprintf-for-invalid-sh_name-case.patch | 27 +++++++
+>  meta/recipes-devtools/elfutils/elfutils_0.148.bb   |  3 +-
+>  .../fix-libcap-header-issue-on-some-distro.patch   | 84 ++++++++++++++++++++++
+>  meta/recipes-devtools/qemu/qemu.inc                |  4 ++
+>  meta/recipes-extended/polkit/polkit_0.104.bb       |  5 +-
+>  meta/recipes-extended/sudo/sudo.inc                |  5 ++
+>  .../watchdog/files/fix-ping-failure.patch          | 21 ++----
+>  .../{watchdog_5.12.bb => watchdog_5.13.bb}         |  7 +-
+>  .../xf86-video-fbdev/Remove-mibstore.h.patch       | 35 +++++++++
+>  .../xorg-driver/xf86-video-fbdev_0.4.3.bb          |  2 +
+>  ...-intel_2.21.0.bb => xf86-video-intel_2.21.3.bb} |  6 +-
+>  .../xorg-driver/xf86-video-intel_git.bb            |  2 +-
+>  .../xf86-video-vesa/Remove-mibstore.h.patch        | 37 ++++++++++
+>  .../xorg-driver/xf86-video-vesa_2.3.2.bb           |  2 +
+>  .../xf86-video-vmware/Kill-mibstore.patch          | 63 ++++++++++++++++
+>  .../xorg-driver/xf86-video-vmware_13.0.0.bb        |  2 +
+>  .../xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb}      |  6 +-
+>  .../xorg-lib/xkeyboard-config_2.8.bb               |  2 +-
+>  .../{inputproto_2.2.bb => inputproto_2.3.bb}       |  4 +-
+>  .../xorg-xserver/xserver-xorg-1.13.1/aarch64.patch | 64 -----------------
+>  .../xorg-xserver/xserver-xorg-1.14.0/aarch64.patch | 35 +++++++++
+>  .../crosscompile.patch                             |  0
+>  .../fix_compilation_when_not_using_xinerama.patch  | 21 ++++++
+>  .../fix_open_max_preprocessor_error.patch          |  0
+>  .../macro_tweak.patch                              |  0
+>  .../mips64-compiler.patch                          |  0
+>  ...erver-xorg_1.13.1.bb => xserver-xorg_1.14.0.bb} |  5 +-
+>  .../libical/files/pthread-fix.patch                | 52 ++++++++++++++
+>  meta/recipes-support/libical/libical_0.48.bb       | 17 +++++
+>  47 files changed, 641 insertions(+), 129 deletions(-)
+>  rename meta/recipes-connectivity/neard/neard/{neard => neard.in} (59%)
+>  create mode 100644 meta/recipes-core/systemd/systemd/udev-linkage.patch
+>  create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-fix-ineffectual-zero-of-cache.patch
+>  create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/binutils-replace-strncat-with-strcat.patch
+>  create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-fix-over-array-bounds-issue.patch
+>  create mode 100644 meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+>  create mode 100644 meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
+>  rename meta/recipes-extended/watchdog/{watchdog_5.12.bb => watchdog_5.13.bb} (78%)
+>  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev/Remove-mibstore.h.patch
+>  rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.21.0.bb => xf86-video-intel_2.21.3.bb} (79%)
+>  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vesa/Remove-mibstore.h.patch
+>  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
+>  rename meta/recipes-graphics/xorg-lib/{libxi_1.6.1.bb => libxi_1.7.bb} (79%)
+>  rename meta/recipes-graphics/xorg-proto/{inputproto_2.2.bb => inputproto_2.3.bb} (78%)
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.1/aarch64.patch
+>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/aarch64.patch
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/crosscompile.patch (100%)
+>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/fix_compilation_when_not_using_xinerama.patch
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/fix_open_max_preprocessor_error.patch (100%)
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/macro_tweak.patch (100%)
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.1 => xserver-xorg-1.14.0}/mips64-compiler.patch (100%)
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.13.1.bb => xserver-xorg_1.14.0.bb} (84%)
+>  create mode 100644 meta/recipes-support/libical/files/pthread-fix.patch
+>  create mode 100644 meta/recipes-support/libical/libical_0.48.bb
+> 
 
 
 
