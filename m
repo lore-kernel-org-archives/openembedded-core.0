@@ -1,27 +1,46 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from ch1ehsobe006.messaging.microsoft.com ([216.32.181.186]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1UGSsB-0007Z2-Nl
+	(envelope-from <B19537@freescale.com>) id 1UGVLY-0004D0-EH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Mar 2013 12:32:36 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2F8493U008697
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Mar 2013 01:04:09 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 15 Mar 2013 01:04:09 -0700
-From: <jackie.huang@windriver.com>
+	Fri, 15 Mar 2013 15:11:08 +0100
+Received: from mail228-ch1-R.bigfish.com (10.43.68.232) by
+	CH1EHSOBE020.bigfish.com (10.43.70.77) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 15 Mar 2013 13:23:49 +0000
+Received: from mail228-ch1 (localhost [127.0.0.1])	by
+	mail228-ch1-R.bigfish.com (Postfix) with ESMTP id C97B78C0083	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 15 Mar 2013 13:23:48 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz936eIzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz17326ah8275dh8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail228-ch1 (localhost.localdomain [127.0.0.1]) by mail228-ch1
+	(MessageSwitch) id 1363353826844281_19946;
+	Fri, 15 Mar 2013 13:23:46 +0000 (UTC)
+Received: from CH1EHSMHS016.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.231])	by mail228-ch1.bigfish.com (Postfix) with ESMTP id
+	C1B5720055 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Mar 2013 13:23:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS016.bigfish.com
+	(10.43.70.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 15 Mar 2013 13:23:46 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Fri, 15 Mar 2013 13:23:45 +0000
+Received: from b19537-desktop.ap.freescale.net
+	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r2FDNgOQ025711;
+	Fri, 15 Mar 2013 06:23:43 -0700
+From: Zhenhua Luo <zhenhua.luo@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Mar 2013 16:04:01 +0800
-Message-ID: <b058232219a5a046452fdaa4de0a97ea9e8ae962.1363333753.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1363333753.git.jackie.huang@windriver.com>
-References: <cover.1363333753.git.jackie.huang@windriver.com>
+Date: Fri, 15 Mar 2013 21:27:27 +0800
+Message-ID: <1363354047-9680-1-git-send-email-zhenhua.luo@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com, Jackie.Huang@windriver.com
-Subject: [PATCH 2/4] gnupg: fix PN -> BPN in do_install for multilibs
+X-OriginatorOrg: freescale.com
+Cc: B40290@freescale.com, Zhenhua Luo <zhenhua.luo@freescale.com>
+Subject: elfutils: fix the num passed to memset in ar.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,52 +53,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2013 11:32:45 -0000
+X-List-Received-Date: Fri, 15 Mar 2013 14:11:14 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Following build error will appear on Fedora18+:
+ar.c: In function 'do_oper_delete':
+ar.c:918:31: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
+   memset (found, '\0', sizeof (found));
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
 ---
- meta/recipes-support/gnupg/gnupg_1.4.7.bb |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ .../elfutils-ar-c-fix-num-passed-to-memset.patch   |   23 ++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-index 8c2f7f6..7fbc3d3 100644
---- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2"
+diff --git a/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch b/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
+new file mode 100644
+index 0000000..b619619
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport
++
++ar.c (do_oper_delete): Fix num passed to memset
++native build failed as following on Fedora18+: 
++ar.c: In function 'do_oper_delete':
++ar.c:918:31: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
++   memset (found, '\0', sizeof (found));
++                                ^
++The original commit is http://git.fedorahosted.org/cgit/elfutils.git/commit/src/ar.c?id=1a4d0668d18bf1090c5c08cdb5cb3ba2b8eb5410
++
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++
++--- elfutils-0.148/src/ar.c.org	2013-03-12 21:12:17.928281375 -0500
+++++ elfutils-0.148/src/ar.c	2013-03-12 21:15:30.053285271 -0500
++@@ -915,7 +915,7 @@
++ 		long int instance)
++ {
++   bool *found = alloca (sizeof (bool) * argc);
++-  memset (found, '\0', sizeof (found));
+++  memset (found, '\0', sizeof (bool) * argc);
++ 
++   /* List of the files we keep.  */
++   struct armem *to_copy = NULL;
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index bc9e9c6..e8d58fb 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3\
+                     file://EXCEPTION;md5=570adcb0c1218ab57f2249c67d0ce417"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+-PR = "r10"
++PR = "r11"
  
--PR = "r8"
-+PR = "r9"
+ SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/elfutils-${PV}.tar.bz2"
  
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2 \
-            file://long-long-thumb.patch \
-@@ -79,9 +79,9 @@ EXTRA_OECONF = "--disable-ldap \
- 
- do_install () {
- 	autotools_do_install
--	install -d ${D}${docdir}/${PN}
--	mv ${D}${datadir}/${PN}/* ${D}/${docdir}/${PN}/ || :
--	mv ${D}${prefix}/doc/* ${D}/${docdir}/${PN}/ || :
-+	install -d ${D}${docdir}/${BPN}
-+	mv ${D}${datadir}/${BPN}/* ${D}/${docdir}/${BPN}/ || :
-+	mv ${D}${prefix}/doc/* ${D}/${docdir}/${BPN}/ || :
- }
- 
- # split out gpgv from main package
-@@ -90,5 +90,5 @@ PACKAGES =+ "gpgv"
- FILES_gpgv = "${bindir}/gpgv"
- 
- # Exclude debug files from the main packages
--FILES_${PN} = "${bindir}/* ${datadir}/${PN} ${libexecdir}/${PN}/*"
--FILES_${PN}-dbg += "${libexecdir}/${PN}/.debug"
-+FILES_${PN} = "${bindir}/* ${datadir}/${BPN} ${libexecdir}/${BPN}/*"
-+FILES_${PN}-dbg += "${libexecdir}/${BPN}/.debug"
+@@ -32,6 +32,7 @@ SRC_URI += "\
+ 	file://fix_for_gcc-4.7.patch \
+ 	file://dso-link-change.patch \
+ 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
++	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
 -- 
-1.7.4.1
+1.7.9.5
+
 
 
 
