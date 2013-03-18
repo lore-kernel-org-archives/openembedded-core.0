@@ -1,24 +1,25 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1UHXWw-0005TB-Fd
+	(envelope-from <Maxin.John@enea.com>) id 1UHZQ3-0000TU-7D
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 11:43:04 +0100
+	Mon, 18 Mar 2013 13:44:03 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Mon, 18 Mar 2013 11:25:07 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 9F8E6288B02;
-	Mon, 18 Mar 2013 11:25:07 +0100 (CET)
+	Mon, 18 Mar 2013 13:27:14 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 90B03288B02;
+	Mon, 18 Mar 2013 13:27:14 +0100 (CET)
 From: <maxin.john@enea.com>
-To: <cazfi74@gmail.com>, <richard.purdie@linuxfoundation.org>
-Date: Mon, 18 Mar 2013 11:24:45 +0100
-Message-ID: <1363602285-16371-1-git-send-email-maxin.john@enea.com>
+To: <constantinx.musca@intel.com>, <radu.moisan@intel.com>,
+	<sgw@linux.intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Mon, 18 Mar 2013 13:26:43 +0100
+Message-ID: <1363609608-11554-1-git-send-email-maxin.john@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
 	designate permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org, "Maxin
-	B. John" <maxin.john@enea.com>
-Subject: [PATCH] harfbuzz: update the license information
+Cc: openembedded-core@lists.openembedded.org,
+	"Maxin B. John" <maxin.john@enea.com>, dexuan.cui@intel.com
+Subject: [PATCH 0/5] liburcu upgrade and removing COMPATIBLE_HOST check for lttng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 10:43:10 -0000
+X-List-Received-Date: Mon, 18 Mar 2013 12:44:03 -0000
 Content-Type: text/plain
 
 From: "Maxin B. John" <maxin.john@enea.com>
 
-harfbuzz is using the 'Modern Variants' of MIT License:
-https://fedoraproject.org/wiki/Licensing:MIT?rd=Licensing/MIT#Modern_Variants
+Latest version of liburcu supports MIPS architecture with this commit:
+http://git.lttng.org/?p=userspace-rcu.git;a=commit;h=e1259cb17954e4e03954ba7376d3ed61649116cd
 
-So, we can update the LICENSE as 'MIT'.
+We can remove the COMPATIBLE_HOST checks present in babeltrace, lttng-ust,
+lttng-tools and lttng-modules recipes after we upgrade to liburcu-0.7.6
 
-Fixes this warning:
-WARNING: harfbuzz: No generic license file exists for: Old-MIT in any provider
-WARNING: harfbuzz: No generic license file exists for: UCDN in any provider
-WARNING: harfbuzz: No generic license file exists for: HarfBuzz-old in any provider
+Maxin B. John (5):
+  liburcu: upgrade to 0.7.6
+  babeltrace: remove the COMPATIBLE_HOST check
+  lttng-ust: remove the COMPATIBLE_HOST check
+  lttng-tools: remove the COMPATIBLE_HOST check
+  lttng-modules: remove the COMPATIBLE_HOST check
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-kernel/lttng/babeltrace_1.0.0.bb    |    5 ----
+ meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb |    5 ----
+ meta/recipes-kernel/lttng/lttng-tools_2.1.0.bb   |    5 ----
+ meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb     |    5 ----
+ meta/recipes-support/liburcu/liburcu_0.7.4.bb    |   23 ----------------------
+ meta/recipes-support/liburcu/liburcu_0.7.6.bb    |   19 ++++++++++++++++++
+ 6 files changed, 19 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-support/liburcu/liburcu_0.7.4.bb
+ create mode 100644 meta/recipes-support/liburcu/liburcu_0.7.6.bb
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-index 19269f1..93e0e41 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "HarfBuzz is an OpenType text shaping engine."
- HOMEPAGE = "http://www.freedesktop.org/wiki/Software/HarfBuzz"
- BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=HarfBuzz"
- 
--LICENSE = "Old-MIT & UCDN & ICU & HarfBuzz-old"
-+LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
-                     file://src/hb-ucdn/COPYING;md5=994ba0f1295f15b4bda4999a5bbeddef \
-                     file://src/hb-icu-le/COPYING;md5=0ac60acf068e2cc9facdf86169a9c13e \
 -- 
 1.7.5.4
 
