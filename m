@@ -1,34 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-la0-f46.google.com ([209.85.215.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UHda5-0002zs-AL for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 18:11:17 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2IH2uwf021722; Mon, 18 Mar 2013 17:02:56 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YB5GrFqriYUB; Mon, 18 Mar 2013 17:02:56 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2IH2nV9021715
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 18 Mar 2013 17:02:52 GMT
-Message-ID: <1363625615.16482.61.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chris Larson <clarson@kergoth.com>
-Date: Mon, 18 Mar 2013 16:53:35 +0000
-In-Reply-To: <CABcZAN=qcf7gxWoAyuArPVCSieiPejOazZX9BOPx03rNWEOCOg@mail.gmail.com>
-References: <1363312663.14476.12.camel@ted>
-	<CABcZAN=qcf7gxWoAyuArPVCSieiPejOazZX9BOPx03rNWEOCOg@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r2IH2uwf021722
-Cc: Scholz <enrico.scholz@sigma-chemnitz.de>, Enrico,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: package: Add cachedpath optimisation
+	(envelope-from <kergoth@gmail.com>) id 1UHdgf-0003BD-FU
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Mar 2013 18:17:30 +0100
+Received: by mail-la0-f46.google.com with SMTP id fq12so6229038lab.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2013 10:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=VZmHXF9jJJK95u2YtEedKcjOKurc4++xdtO3DI4v8r0=;
+	b=FijmS0v4NVlPGWgMnor8RyIclJic9DPA2uIhjwQrZij4SMBZ1RTKKInYyuySnjViQw
+	SL/u6ZRB46GOUTabdnc2jc2TcWXZ1VI1otyeKGSb3YeGsZTzYeAudgK8WhZMzU+oOIyB
+	jxc9P72sg9V+Cfc28OLTTcmq2UXH+mwdWN0SfXK7BhvMYXyWIppoes2R2Hvj6+Xzl3HP
+	QCUlXTmgStQvz16iTX2eGSUQRFHb3M8TIWbao7RWSxWyhHIh0AWK9LT1SVAfsyTpHD0m
+	WG5/DYuy+YcnFyZeEyp+j1HHXf/2QBFORW+DjJpiJsMInnCjILlAiLdVa31JYnoUzOD1
+	9hTg==
+X-Received: by 10.152.105.109 with SMTP id gl13mr15206318lab.40.1363626040912; 
+	Mon, 18 Mar 2013 10:00:40 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.25.195 with HTTP; Mon, 18 Mar 2013 10:00:20 -0700 (PDT)
+In-Reply-To: <1363625236.16482.59.camel@ted>
+References: <1363625236.16482.59.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 18 Mar 2013 10:00:20 -0700
+X-Google-Sender-Auth: RkJBN0R0-VxU41ho-M8_vdjqQcE
+Message-ID: <CABcZANniUBa-RY5PHKAhuyeYuuHo4MRRrgCruAc=jZCeYsbx_Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] package: Add cachedpath optimisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,55 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 17:11:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Mar 2013 17:17:33 -0000
+Content-Type: multipart/alternative; boundary=f46d04089215c6fb4f04d835edc8
+
+--f46d04089215c6fb4f04d835edc8
+Content-Type: text/plain; charset=UTF-8
+
+On Mon, Mar 18, 2013 at 9:47 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Currently, various standard library operations like os.walk(),
+> os.path.isdir() and os.path.islink() each call stat or lstat which
+> involves a syscall into the kernel. There is no caching since they could
+> conceivably have changed on disk. The result is that for something like
+> the do_package task of the kernel we're spending over two minutes making
+> 868,000 individual stat calls for 23,000 files. This is suboptimal.
+>
+> This patch adds lib/oe/cachedpath.py which are a set of replacement
+> functions for these operations which use cached stat data rather than
+> hitting the kernel each time. It gives a nice performance improvement
+> halving the build time of the kernel do_package.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+
+Looks good, nice job.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+-- 
+Christopher Larson
+
+--f46d04089215c6fb4f04d835edc8
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-03-14 at 20:02 -0700, Chris Larson wrote:
->=20
-> On Thu, Mar 14, 2013 at 6:57 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         Currently, various standard library operations like os.walk(),
->         os.path.isdir() and os.path.islink() each call stat or lstat
->         which
->         involves a syscall into the kernel. There is no caching since
->         they could
->         conceivably have changed on disk. The result is that for
->         something like
->         the do_package task of the kernel we're spending over two
->         minutes making
->         868,000 individual stat calls for 23,000 files. This is
->         suboptimal.
->        =20
->         This patch adds lib/oe/cachedpath.py which are a set of
->         replacement
->         functions for these operations which use cached stat data
->         rather than
->         hitting the kernel each time. It gives a nice performance
->         improvement
->         halving the build time of the kernel do_package.
->        =20
->         Signed-off-by: Richard Purdie
->         <richard.purdie@linuxfoundation.org>
->=20
-> Have you considered having the initcache() return a cache object,
-> either with the rest as methods on it, or pass that in? I think it'd
-> be substantially cleaner than messing with globals, particularly given
-> with globals we tend to have issues with cache lifetime and
-> invalidation =E2=80=94 if the cache was returned, it would go away when=
- the
-> object gets collected.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Mar 18, 2013 at 9:47 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
+purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
 
-Agreed. Due to the way package.bbclass is structured, we currently need
-a global there but that is no reason we shouldn't have a sensible
-class/object structure for the new code. I've sent out a v2 which
-hopefully does better in that regard.
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1n1">Currently, various standard=
+ library operations like os.walk(),<br>
+os.path.isdir() and os.path.islink() each call stat or lstat which<br>
+involves a syscall into the kernel. There is no caching since they could<br=
+>
+conceivably have changed on disk. The result is that for something like<br>
+the do_package task of the kernel we&#39;re spending over two minutes makin=
+g<br>
+868,000 individual stat calls for 23,000 files. This is suboptimal.<br>
+<br>
+This patch adds lib/oe/cachedpath.py which are a set of replacement<br>
+functions for these operations which use cached stat data rather than<br>
+hitting the kernel each time. It gives a nice performance improvement<br>
+halving the build time of the kernel do_package.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org">richard.purdie@linuxfoundation.org</a>&gt;<br></div></blockquo=
+te></div><br>Looks good, nice job.</div><div class=3D"gmail_extra"><br></di=
+v>
 
-Cheers,
+<div class=3D"gmail_extra">Signed-off-by: Christopher Larson &lt;<a href=3D=
+"mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>-- <br>=
+Christopher Larson</div></div>
 
-Richard
->=20
-
-
-
-
+--f46d04089215c6fb4f04d835edc8--
