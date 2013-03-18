@@ -1,37 +1,26 @@
-Received: from mail-ea0-f173.google.com ([209.85.215.173])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UHcBD-0008IU-Hj
+	(envelope-from <sgw@linux.intel.com>) id 1UHcFi-0008PJ-DU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 16:40:55 +0100
-Received: by mail-ea0-f173.google.com with SMTP id h14so2540948eak.18
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2013 08:24:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=dtYUuD1qNz0F7AlwSkndY4n58opbk24sfzJ+i/pTIgQ=;
-	b=U5FG29N3pDNACs5o9hrqtxqrnX6jFfItW7c7OYbRI3zlms6xqAzGQ0bsC6KOKHfWct
-	liALU2Y4mk110v9nh1O5Jlj/EI1QXsDIOR52AT/aye1f6rcIBHlVh5ziRZA5u6oXCeVy
-	ecIREkXGgvD0stPsQ0TGvc0+yTfmVYIaDNJ17tu1YGStltHPyVpVwaFvE8uq40jZ6Qjm
-	76Jy0EnLOuN/tF4gS2Up/qHjdgdP8g6w2WXqOk8ZVfT04CKqfexyPXVpfuowWd89p5Tx
-	2QL7v8ZbG1uHnsVcW26SBpIBGM8uZ+q+jcDdYLiqjq6uKw6Ja4j5DWqZNaifZ4uUaG3e
-	Pifw==
-X-Received: by 10.14.207.73 with SMTP id m49mr50180726eeo.24.1363620247450;
-	Mon, 18 Mar 2013 08:24:07 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id ca4sm27764020eeb.15.2013.03.18.08.24.05
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 18 Mar 2013 08:24:06 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Mar 2013 16:23:55 +0100
-Message-Id: <1363620235-21698-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQm96mG/M1l/e/kS0DQMr8Ezn/6afKvTA8VsrVM3nDzrjG7pu/6QJ/qn7P+0397pSD+HKleT
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] mkefidisk.sh: create a proper ESP
+	Mon, 18 Mar 2013 16:45:36 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 18 Mar 2013 08:28:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,865,1355126400"; d="scan'208";a="272365758"
+Received: from unknown (HELO [10.255.12.246]) ([10.255.12.246])
+	by azsmga001.ch.intel.com with ESMTP; 18 Mar 2013 08:28:43 -0700
+Message-ID: <514732AB.6000502@linux.intel.com>
+Date: Mon, 18 Mar 2013 08:28:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+References: <1362558952-4483-1-git-send-email-laurentiu.palcu@intel.com>
+	<5146A039.5030507@intel.com>
+In-Reply-To: <5146A039.5030507@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/1] Rename mesa-dri recipe to mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 15:40:56 -0000
+X-List-Received-Date: Mon, 18 Mar 2013 15:45:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The script was creating a FAT fs with EFI files in it, but wasn't setting the GPT GUID.
+On 03/17/2013 10:03 PM, Laurentiu Palcu wrote:
+> Ping!
+>
 
-Using 'gummiboot install' natively failed because of the missing GPT GUID, so fix that. While we're there also set the name to "EFI System Partition".
+I have been testing them in mutt, they might require a rebase and please 
+ensure that this applies cleanly to oe-core and separate out any 
+non-oe-core to the poky part of the patch.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-Acked-by: Darren Hart <dvhart@linux.intel.com>
----
- scripts/contrib/mkefidisk.sh | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Thanks
+	Sau!
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 44ac130..b7db0a9 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -166,6 +166,14 @@ parted $DEVICE mklabel gpt
- echo "Creating boot partition on $BOOTFS"
- parted $DEVICE mkpart primary 0% $BOOT_SIZE
- 
-+# GPT doesn't have a real boot flag, parted will change the GUID to EFI System Partition, 
-+# which is what we want
-+echo "Enabling boot flag on $BOOTFS"
-+parted $DEVICE set 1 boot on
-+
-+echo "Labeling $BOOTFS as EFI System Partition"
-+parted $DEVICE name 1 "EFI System Partition"
-+
- echo "Creating ROOTFS partition on $ROOTFS"
- parted $DEVICE mkpart primary $ROOTFS_START $ROOTFS_END
- 
--- 
-1.8.1.4
 
+> On 03/06/2013 10:35 AM, Laurentiu Palcu wrote:
+>> Changes in v2:
+>>   * squashed the commits into a single one to be easily bisectable;
+>>   * removed FILESEXTRAPATHS references;
+>>   * removed a file that had to go to poky ML;
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>> Hi all,
+>>
+>> This patchset will rename the "mesa-dri" recipe to "mesa" and will replace
+>> all occurences to mesa-dri in recipes/configs.
+>>
+>> The changes and the upgrade path were tested on qemux86 and on an atom-pc
+>> ideapad s10-3t. No issues observed.
+>>
+>> For more info, as to why this was needed, go here:
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3385
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>>
+>> Laurentiu Palcu (1):
+>>    mesa: rename mesa-dri recipe to just mesa
+>>
+>>   meta/conf/distro/include/default-providers.inc     |    6 +++---
+>>   meta/conf/machine/include/ia32-base.inc            |    4 ++--
+>>   meta/conf/machine/include/qemu.inc                 |    8 ++++----
+>>   meta/conf/machine/qemux86-64.conf                  |    8 ++++----
+>>   meta/conf/machine/qemux86.conf                     |    8 ++++----
+>>   meta/recipes-graphics/mesa/libglu_9.0.0.bb         |    2 +-
+>>   meta/recipes-graphics/mesa/mesa-common.inc         |    5 +----
+>>   meta/recipes-graphics/mesa/mesa-git.inc            |    1 -
+>>   .../mesa/{mesa-dri.inc => mesa.inc}                |   11 ++++++++---
+>>   .../mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb}      |    2 +-
+>>   .../mesa/{mesa-dri_git.bb => mesa_git.bb}          |    5 ++---
+>>   meta/recipes-graphics/wayland/weston_1.0.3.bb      |    6 +++---
+>>   .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+>>   .../arch/i386/conf/machine/{{=machine}}.conf       |    2 +-
+>>   .../arch/qemu/conf/machine/{{=machine}}.conf       |    8 ++++----
+>>   15 files changed, 39 insertions(+), 39 deletions(-)
+>>   rename meta/recipes-graphics/mesa/{mesa-dri.inc => mesa.inc} (65%)
+>>   rename meta/recipes-graphics/mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb} (75%)
+>>   rename meta/recipes-graphics/mesa/{mesa-dri_git.bb => mesa_git.bb} (28%)
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
