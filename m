@@ -1,32 +1,32 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1UHPiP-0007Lo-TJ
+	(envelope-from <richard@rpsys.net>) id 1UHPiO-0007Lk-UU
 	for openembedded-core@lists.openembedded.org;
 	Mon, 18 Mar 2013 03:22:44 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2I2EYQm024770; Mon, 18 Mar 2013 02:14:35 GMT
+	r2I2EYQk024770; Mon, 18 Mar 2013 02:14:34 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hQc0oBwye1P1; Mon, 18 Mar 2013 02:14:35 +0000 (GMT)
+	with LMTP id YzRYxetVYBHh; Mon, 18 Mar 2013 02:14:34 +0000 (GMT)
 Received: from ted (bebox.config [93.97.175.187] (may be forged))
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2I2ETiu024750
+	r2I2ESUM024746
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 18 Mar 2013 02:14:30 GMT
+	Mon, 18 Mar 2013 02:14:29 GMT
 Received: from richard by ted with local (Exim 4.80)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1UHPRv-0003VK-1Y; Mon, 18 Mar 2013 02:05:19 +0000
+	id 1UHPRt-0003Uz-OZ; Mon, 18 Mar 2013 02:05:17 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Mar 2013 02:05:05 +0000
-Message-Id: <1363572312-13399-7-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Mon, 18 Mar 2013 02:05:01 +0000
+Message-Id: <1363572312-13399-3-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1363572312-13399-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1363572312-13399-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 07/13] icu: Fix case where ${B} != ${S}
+Subject: [PATCH 03/13] e2fsprogs: Fix case where ${B} != ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +41,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 18 Mar 2013 02:22:59 -0000
 
-Fix out of tree builds by fixing cwd assumptions and using correct
-full paths where needed, or just simply the correct paths.
+Fix out of tree builds by placing built objects in the correct
+location.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/icu/icu.inc |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index 64b3edf..d7cb84a 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -27,15 +27,15 @@ EXTRA_OECONF_class-native = ""
- # This is a bug of ICU. See bug reference:
- # http://bugs.icu-project.org/trac/ticket/9790
- do_configure_prepend() {
--    [ -f acinclude.m4 ] || cp aclocal.m4 acinclude.m4
-+    [ -f ${S}/acinclude.m4 ] || cp ${S}/aclocal.m4 ${S}/acinclude.m4
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+index 9e22563..3a4f5a8 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+@@ -19,7 +19,7 @@ do_configure_prepend () {
+ 
+ do_compile_prepend () {
+ 	find ./ -print | grep -v ./patches | xargs chmod u=rwX
+-	( cd ${S}/util; ${BUILD_CC} subst.c -o subst )
++	( cd ${S}/util; ${BUILD_CC} subst.c -o ${B}/util/subst )
  }
  
- do_install_append_class-native() {
- 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
--	cp -r ${S}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
--	cp -r ${S}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
--	cp -r ${S}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
--	cp -r ${S}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
-+	cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
-+	cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
-+	cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
-+	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
- 
- }
- 
+ do_install () {
 -- 
 1.7.10.4
 
