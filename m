@@ -1,24 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-la0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UHSV2-0004e5-3P
+	(envelope-from <iwamatsu@nigauri.org>) id 1UHTrw-0002Yw-GJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 06:20:47 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Mar 2013 22:03:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,862,1355126400"; d="scan'208";a="303649134"
-Received: from unknown (HELO [10.252.120.182]) ([10.252.120.182])
-	by orsmga002.jf.intel.com with ESMTP; 17 Mar 2013 22:03:54 -0700
-Message-ID: <5146A039.5030507@intel.com>
-Date: Mon, 18 Mar 2013 07:03:53 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Mon, 18 Mar 2013 07:48:28 +0100
+Received: by mail-la0-f45.google.com with SMTP id er20so5680527lab.18
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Mar 2013 23:31:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:x-gm-message-state;
+	bh=X+CtzikoIBI7Jvmvv5w/ERCDA5RUJUxpmtzX4YU2WIM=;
+	b=jcoLi2hzInD0Ff8mH8cZCKd2EXfe99aD+QwR8B8m9tr/f1ZIgYOb4lY8njdbV+3HzE
+	l4c3o5SWe9Y0/C+gPIMnPkuYTur/npjYGWnep8BEBnsh1eegh/rpRLCZID93dw0bCJPJ
+	3zLVfaXeQBevYTRt8ncJrtgaCrudDy8U82uwVoyykHWfIPLPAFn2xgkbzuu+ZWv6L32K
+	VduzJ+2jQaZGSDRGOskC3jTYxu89+sB3li+0bwweElqYJpMZNEy2inyiPWRwn6dTGvpm
+	XxOoa/GiTROZDpoqB1DvtA4cnWJn2cMOeUvnu9Jhyi0zyS3sDdwb7cVYQUq6VCBsMcmD
+	jzqw==
+X-Received: by 10.152.133.130 with SMTP id pc2mr13215422lab.51.1363588300171; 
+	Sun, 17 Mar 2013 23:31:40 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1362558952-4483-1-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1362558952-4483-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: Re: [PATCH v2 0/1] Rename mesa-dri recipe to mesa
+Sender: iwamatsu@nigauri.org
+Received: by 10.152.104.107 with HTTP; Sun, 17 Mar 2013 23:31:10 -0700 (PDT)
+In-Reply-To: <5144FA73.4040204@linux.intel.com>
+References: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16216497@IRSMSX102.ger.corp.intel.com>
+	<CABMQnVKVnoMH1B1Ri-Qmjec30BFX1TaosGq0b1Hc641m3490hA@mail.gmail.com>
+	<5144FA73.4040204@linux.intel.com>
+From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Date: Mon, 18 Mar 2013 15:31:10 +0900
+X-Google-Sender-Auth: P3-F6BTTea0TH7C-YpgJOu0DQSU
+Message-ID: <CABMQnV+bGtBD1B5xyKTzTE31Ss83r8oqKpY9sdPEtt0uHu5rGA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkbf6dnOaFj18q1jaFVr647zY1VcsskRoesVIfXEaLECn6rAhbPfS5w1i6L8Oj1y/6xH2TJ
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-tools: Update autotools.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,59 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 05:20:53 -0000
-X-List-Received-Date: Mon, 18 Mar 2013 05:20:53 -0000
+X-List-Received-Date: Mon, 18 Mar 2013 06:48:28 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-Ping!
+Hi,
 
-On 03/06/2013 10:35 AM, Laurentiu Palcu wrote:
-> Changes in v2:
->  * squashed the commits into a single one to be easily bisectable;
->  * removed FILESEXTRAPATHS references;
->  * removed a file that had to go to poky ML;
-> 
-> Thanks,
-> Laurentiu
-> 
-> Hi all,
-> 
-> This patchset will rename the "mesa-dri" recipe to "mesa" and will replace
-> all occurences to mesa-dri in recipes/configs.
-> 
-> The changes and the upgrade path were tested on qemux86 and on an atom-pc
-> ideapad s10-3t. No issues observed.
-> 
-> For more info, as to why this was needed, go here:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3385
-> 
-> Thanks,
-> Laurentiu
-> 
-> 
-> Laurentiu Palcu (1):
->   mesa: rename mesa-dri recipe to just mesa
-> 
->  meta/conf/distro/include/default-providers.inc     |    6 +++---
->  meta/conf/machine/include/ia32-base.inc            |    4 ++--
->  meta/conf/machine/include/qemu.inc                 |    8 ++++----
->  meta/conf/machine/qemux86-64.conf                  |    8 ++++----
->  meta/conf/machine/qemux86.conf                     |    8 ++++----
->  meta/recipes-graphics/mesa/libglu_9.0.0.bb         |    2 +-
->  meta/recipes-graphics/mesa/mesa-common.inc         |    5 +----
->  meta/recipes-graphics/mesa/mesa-git.inc            |    1 -
->  .../mesa/{mesa-dri.inc => mesa.inc}                |   11 ++++++++---
->  .../mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb}      |    2 +-
->  .../mesa/{mesa-dri_git.bb => mesa_git.bb}          |    5 ++---
->  meta/recipes-graphics/wayland/weston_1.0.3.bb      |    6 +++---
->  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
->  .../arch/i386/conf/machine/{{=machine}}.conf       |    2 +-
->  .../arch/qemu/conf/machine/{{=machine}}.conf       |    8 ++++----
->  15 files changed, 39 insertions(+), 39 deletions(-)
->  rename meta/recipes-graphics/mesa/{mesa-dri.inc => mesa.inc} (65%)
->  rename meta/recipes-graphics/mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb} (75%)
->  rename meta/recipes-graphics/mesa/{mesa-dri_git.bb => mesa_git.bb} (28%)
-> 
+On Sun, Mar 17, 2013 at 8:04 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 03/13/2013 06:43 PM, Nobuhiro Iwamatsu wrote:
+>>
+>> Hi,
+>>
+>> When I build alsa-tools, I could not build this with following error:
+>> ----
+>> checking for i586-oe-linux-pkg-config... no
+>> checking for pkg-config...
+>>
+>> /home/iwamatsu/yocto/alsa/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config
+>> configure: WARNING: using cross tools not prefixed with host triplet
+>> checking pkg-config is at least version 0.9.0... yes
+>> checking for ENVY24CONTROL... no
+>> configure: error: Package requirements (gtk+-2.0 alsa >= 0.9.0) were not
+>> met:
+>>
+>> No package 'gtk+-2.0' found
+>>
+> What kind of image/packages are you building, it's possible that your image
+> does not have gtk+ included and it looks like alsa-tools should depend on
+> gtk+.
+>
+> It might be better to add a PACKAGECONFIG with gtk+ for these instead of
+> just removing them.
+>
+> You can see python-smartpm_1.4.1.bb as example of how it's done.
+>
+> Sau!
+>
+
+Thank you for your point.
+I misunderstood.
+
+Best regards,
+  Nobuhiro
+
+-- 
+Nobuhiro Iwamatsu
 
 
