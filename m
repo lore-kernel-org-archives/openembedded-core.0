@@ -1,27 +1,14 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1UHZQL-0000Tf-WA
+Received: from mail.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1UHZeZ-00010n-1D
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 13:44:22 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Mon, 18 Mar 2013 13:27:24 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 557F0288B06;
-	Mon, 18 Mar 2013 13:27:24 +0100 (CET)
-From: <maxin.john@enea.com>
-To: <constantinx.musca@intel.com>, <radu.moisan@intel.com>,
-	<sgw@linux.intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Mon, 18 Mar 2013 13:26:48 +0100
-Message-ID: <1363609608-11554-6-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1363609608-11554-1-git-send-email-maxin.john@enea.com>
-References: <1363609608-11554-1-git-send-email-maxin.john@enea.com>
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org,
-	"Maxin B. John" <maxin.john@enea.com>, dexuan.cui@intel.com
-Subject: [PATCH 5/5] lttng-modules: remove the COMPATIBLE_HOST check
+	Mon, 18 Mar 2013 13:59:47 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Mar 2013 13:42:07 +0100
+Message-Id: <1363610528-10705-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] image_types.bbclass: only create links if the target exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +21,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 12:44:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Mar 2013 13:00:13 -0000
 
-From: "Maxin B. John" <maxin.john@enea.com>
+When creating images containing many partitions, rootfs.$type
+may not be available.
 
-liburcu-0.7.6 supports MIPS. So, we can remove the COMPATIBLE_HOST
-check intended for MIPS.
-
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb |    5 -----
- 1 files changed, 0 insertions(+), 5 deletions(-)
+ meta/classes/image_types.bbclass |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
-index 1be0fc1..700c4c5 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.1.1.bb
-@@ -22,8 +22,3 @@ export KERNEL_SRC="${STAGING_KERNEL_DIR}"
- 
- 
- S = "${WORKDIR}/git"
--
--# Due to liburcu not building for MIPS currently this recipe needs to
--# be limited also.
--# So here let us first suppport x86/arm/powerpc platforms now.
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux.*'
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 6bb113d..f7b8314 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -95,7 +95,9 @@ runimagecmd () {
+         # And create the symlinks
+         if [ -n "${IMAGE_LINK_NAME}" ]; then
+             for type in ${subimages}; do
+-                ln -s ${IMAGE_NAME}.rootfs.$type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type
++                if [ -e ${IMAGE_NAME}.rootfs.$type ]; then
++                    ln -s ${IMAGE_NAME}.rootfs.$type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type
++                fi
+             done
+         fi
+ }
 -- 
-1.7.5.4
+1.7.10.4
 
 
 
