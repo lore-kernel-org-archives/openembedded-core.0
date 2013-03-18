@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UHOw0-0005OO-MD for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 02:32:22 +0100
+	id 1UHPBn-0005pN-O0 for openembedded-core@lists.openembedded.org;
+	Mon, 18 Mar 2013 02:48:42 +0100
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2I1OW4u021653 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2013 01:24:32 GMT
+	r2I1eroe022385 for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Mar 2013 01:40:54 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id b7cWngvk8eoa
+	with LMTP id NDa3Jkh0lIi0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2013 01:24:32 +0000 (GMT)
+	Mon, 18 Mar 2013 01:40:53 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2I1OOSD021649
+	r2I1eocm022381
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Mar 2013 01:24:27 GMT
-Message-ID: <1363569314.4315.29.camel@ted>
+	Mon, 18 Mar 2013 01:40:52 GMT
+Message-ID: <1363570299.4315.30.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Mar 2013 01:15:14 +0000
+Date: Mon, 18 Mar 2013 01:31:39 +0000
 X-Mailer: Evolution 3.6.2-0ubuntu0.1 
 Mime-Version: 1.0
-Subject: ncurses: Fix case where ${B} != ${S}
+Subject: [PATCH] binconfig: Handle the case where ${B} != ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,29 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 01:32:23 -0000
+X-List-Received-Date: Mon, 18 Mar 2013 01:48:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This change allows ${B} != ${S} builds to work as otherwise
-gnu-configize is executed in the incorrect directory.
+This change allows ${B} != ${S} builds to work which use binconfig.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-core/ncurses/ncurses.inc
-b/meta/recipes-core/ncurses/ncurses.inc
-index 040495c..bcb9c94 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -94,7 +94,7 @@ do_configure() {
-         # not the case for /dev/null redirections)
-         export cf_cv_working_poll=yes
+diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+index 7b683a8..4c42602 100644
+--- a/meta/classes/binconfig.bbclass
++++ b/meta/classes/binconfig.bbclass
+@@ -50,7 +50,7 @@ binconfig_package_preprocess () {
+ SYSROOT_PREPROCESS_FUNCS += "binconfig_sysroot_preprocess"
  
--	gnu-configize --force
-+	( cd ${S}; gnu-configize --force )
- 	ncurses_configure "narrowc" || \
- 		return 1
- 	! ${ENABLE_WIDEC} || \
+ binconfig_sysroot_preprocess () {
+-	for config in `find ${S} -name '${BINCONFIG_GLOB}'`; do
++	for config in `find ${S} -name '${BINCONFIG_GLOB}'` `find ${B} -name '${BINCONFIG_GLOB}'`; do
+ 		configname=`basename $config`
+ 		install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
+ 		cat $config | sed ${@get_binconfig_mangle(d)} > ${SYSROOT_DESTDIR}${bindir_crossscripts}/$configname
+
 
 
 
