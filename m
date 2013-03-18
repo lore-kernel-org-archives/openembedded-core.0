@@ -1,26 +1,22 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UHcFi-0008PJ-DU
+	(envelope-from <olivier.guiter@linux.intel.com>) id 1UHcLo-0000CD-7T
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Mar 2013 16:45:36 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Mar 2013 08:28:45 -0700
+	Mon, 18 Mar 2013 16:51:59 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 18 Mar 2013 08:35:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,865,1355126400"; d="scan'208";a="272365758"
-Received: from unknown (HELO [10.255.12.246]) ([10.255.12.246])
-	by azsmga001.ch.intel.com with ESMTP; 18 Mar 2013 08:28:43 -0700
-Message-ID: <514732AB.6000502@linux.intel.com>
-Date: Mon, 18 Mar 2013 08:28:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <1362558952-4483-1-git-send-email-laurentiu.palcu@intel.com>
-	<5146A039.5030507@intel.com>
-In-Reply-To: <5146A039.5030507@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/1] Rename mesa-dri recipe to mesa
+X-IronPort-AV: E=Sophos;i="4.84,865,1355126400"; d="scan'208";a="216000083"
+Received: from unknown (HELO oguiternx64.mp.intel.com) ([10.237.24.21])
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Mar 2013 08:34:52 -0700
+From: Olivier Guiter <olivier.guiter@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Mar 2013 16:34:57 +0100
+Message-Id: <1363620897-6489-1-git-send-email-olivier.guiter@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <20130318151612.GC13277@jama.dyndns-home.com>
+References: <20130318151612.GC13277@jama.dyndns-home.com>
+Subject: [PATCH v2] neard: upgrade to 0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +29,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Mar 2013 15:45:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Mar 2013 15:52:09 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 03/17/2013 10:03 PM, Laurentiu Palcu wrote:
-> Ping!
->
+neard ver 0.10:
+	Added initial WiFi handover support.
+	Added Service Name Lookup support to nfctool.
+	Added NDEF building unit tests.
+	Added State support to Bluetooth handover agent.
+	Added neard and neard.conf man pages.
+	Added a copy of the NFC kernel header.
+	Fixed handover validation tests failures.
+	Fixed Tag and Device PropertyChanged signal.
 
-I have been testing them in mutt, they might require a rebase and please 
-ensure that this applies cleanly to oe-core and separate out any 
-non-oe-core to the poky part of the patch.
+Signed-off-by: Olivier Guiter <olivier.guiter@linux.intel.com>
+---
+ meta/recipes-connectivity/neard/neard_0.9.bb |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks
-	Sau!
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index 8e33a9d..d598666 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -47,14 +47,14 @@ FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+ 
+ RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
+-# This is valid for 0.9+
++# This is valid for 0.10+
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
+ S	= "${WORKDIR}/git"
+-SRCREV	= "1e20e396cb837017b7e5ef822bfdab6ce060d2cf"
+-PV	= "0.9-git${SRCPV}"
+-PR	= "r1"
++SRCREV	= "eb486bf35e24d7d1db61350f5ab393a0c880523d"
++PV	= "0.10+git${SRCPV}"
++PR	= "r0"
+ 
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+ 	file://neard.in \
+-- 
+1.7.9.5
 
-
-> On 03/06/2013 10:35 AM, Laurentiu Palcu wrote:
->> Changes in v2:
->>   * squashed the commits into a single one to be easily bisectable;
->>   * removed FILESEXTRAPATHS references;
->>   * removed a file that had to go to poky ML;
->>
->> Thanks,
->> Laurentiu
->>
->> Hi all,
->>
->> This patchset will rename the "mesa-dri" recipe to "mesa" and will replace
->> all occurences to mesa-dri in recipes/configs.
->>
->> The changes and the upgrade path were tested on qemux86 and on an atom-pc
->> ideapad s10-3t. No issues observed.
->>
->> For more info, as to why this was needed, go here:
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3385
->>
->> Thanks,
->> Laurentiu
->>
->>
->> Laurentiu Palcu (1):
->>    mesa: rename mesa-dri recipe to just mesa
->>
->>   meta/conf/distro/include/default-providers.inc     |    6 +++---
->>   meta/conf/machine/include/ia32-base.inc            |    4 ++--
->>   meta/conf/machine/include/qemu.inc                 |    8 ++++----
->>   meta/conf/machine/qemux86-64.conf                  |    8 ++++----
->>   meta/conf/machine/qemux86.conf                     |    8 ++++----
->>   meta/recipes-graphics/mesa/libglu_9.0.0.bb         |    2 +-
->>   meta/recipes-graphics/mesa/mesa-common.inc         |    5 +----
->>   meta/recipes-graphics/mesa/mesa-git.inc            |    1 -
->>   .../mesa/{mesa-dri.inc => mesa.inc}                |   11 ++++++++---
->>   .../mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb}      |    2 +-
->>   .../mesa/{mesa-dri_git.bb => mesa_git.bb}          |    5 ++---
->>   meta/recipes-graphics/wayland/weston_1.0.3.bb      |    6 +++---
->>   .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
->>   .../arch/i386/conf/machine/{{=machine}}.conf       |    2 +-
->>   .../arch/qemu/conf/machine/{{=machine}}.conf       |    8 ++++----
->>   15 files changed, 39 insertions(+), 39 deletions(-)
->>   rename meta/recipes-graphics/mesa/{mesa-dri.inc => mesa.inc} (65%)
->>   rename meta/recipes-graphics/mesa/{mesa-dri_9.0.2.bb => mesa_9.0.2.bb} (75%)
->>   rename meta/recipes-graphics/mesa/{mesa-dri_git.bb => mesa_git.bb} (28%)
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
 
 
