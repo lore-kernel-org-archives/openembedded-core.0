@@ -1,40 +1,35 @@
-Received: from mail-ve0-f181.google.com ([209.85.128.181])
+Received: from mail-vb0-f43.google.com ([209.85.212.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UHtzp-000389-9A
+	(envelope-from <ross.burton@intel.com>) id 1UHu4m-0003Mi-U6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 11:44:02 +0100
-Received: by mail-ve0-f181.google.com with SMTP id d10so226460vea.12
+	Tue, 19 Mar 2013 11:47:41 +0100
+Received: by mail-vb0-f43.google.com with SMTP id fs19so197432vbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 03:25:31 -0700 (PDT)
+	Tue, 19 Mar 2013 03:30:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=LWAXNSgAX59YBanlg14u0DpN3mjOgRmYz7QWocpzNhE=;
-	b=bvj6D7FRSHXR0LHU++Ifxb0QjeZir5c1xJc2Bftq6iCJdbE7A/twV7PaXgmAJk9RMY
-	W9C8K05A6SxgJVJCTzAI6PY/NNfMfxzjwMNA+erfwh1QjhUukwLKih/i5fJpL+Ss33uG
-	H60DZgn/ynsRoSoda1ZxZi0OF64+yUIf4RYZPTnJln2yQfXZ6WsuS9yz+O+zefZLoR8R
-	lxEUguYq5aSCiebviX83diT5yi4Cqo4oeH0LqMuZch4RZygkTpQ7m42CEHy2JTA4PWLQ
-	JyLo8g2g2p/yQ2nkOMN3SS1bHUVY8dAOojQsTrNz4xbR15EZU1XSd7tMx48Tz18BeodD
-	PILA==
-X-Received: by 10.220.141.132 with SMTP id m4mr1776834vcu.17.1363688731642;
-	Tue, 19 Mar 2013 03:25:31 -0700 (PDT)
+	bh=XjO31hHprwto6VF1osD4ddSmf2hlQe6d8Qhbz8vAnls=;
+	b=YpGjQGc+trwqUjfZWPqcb9IL6p40FrBQ642TPW+p2wFozDnMIB+PVivnOOZBezdIyZ
+	4D2jKB9aWwUfiOnJJDb9ZPMeogYuGGu5AcQa3pt7VpD7U1URSV1L3E6pcNPpAVg/PH+g
+	EH07DUylGfCrji65abgosYZr+fs5gfNPZ9+7h3AEQjn696r0aOHLyJ+SQzl8V5r0FbKD
+	iJIkDJwwfa+FFiHqvAhbasBolQrYl/MFttyt5km5O2XLmBtv2WY7bfNFUSMr9HHqhT+a
+	hdwfhdNT2m+6q31H9kdwxrPXVPuqpYOr3PyJefvbZjncsdQivzziJQI07p2gw3rJ/nGb
+	FUIA==
+X-Received: by 10.221.2.71 with SMTP id nt7mr1668602vcb.71.1363689039223; Tue,
+	19 Mar 2013 03:30:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.125.102 with HTTP; Tue, 19 Mar 2013 03:25:11 -0700 (PDT)
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF8436F75A5F@ALA-MBB.corp.ad.wrs.com>
-References: <1363639611-21822-1-git-send-email-jslater@windriver.com>
-	<1363639611-21822-2-git-send-email-jslater@windriver.com>
-	<CAP9ODKrk0S1g6TcLxs=iVuv3eBRgZgfhtwSDVaYzJawnAH7rRg@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF8436F75A5F@ALA-MBB.corp.ad.wrs.com>
+Received: by 10.58.125.102 with HTTP; Tue, 19 Mar 2013 03:30:19 -0700 (PDT)
+In-Reply-To: <1363613958-20200-1-git-send-email-jukka.rissanen@linux.intel.com>
+References: <1363613958-20200-1-git-send-email-jukka.rissanen@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Mar 2013 10:25:11 +0000
-Message-ID: <CAJTo0Laf2ZxBE34ncKE3rBPhBwGpYmFgwrKzt1WFOC7MHTZepw@mail.gmail.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-X-Gm-Message-State: ALoCoQkkDJIxNPjGEoQjmFbUeDgwPDPl2B/isv1EwTrpUY+rMDeJAN6zqrop5b+Lrj1Lx/znV9X/
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH [v3] 1/1] tzcode & tzdata: update to 2013b versions
+Date: Tue, 19 Mar 2013 10:30:19 +0000
+Message-ID: <CAJTo0LY48DEoi0M1ZkS5CmnS9jye333wddG=78c85vAb6JD5Rw@mail.gmail.com>
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+X-Gm-Message-State: ALoCoQlpBwwkHPSFUEeGq0f7l20fsy1r5UULF46vE2+pQAnPnFL6CD1pd0f1R9/NPEhya3iczlE0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman-conf: Initial systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,13 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 10:44:08 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 10:47:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 March 2013 22:14, Slater, Joseph <joe.slater@windriver.com> wrote:
-> Do we not use PR anymore?   Joe
+On 18 March 2013 13:39, Jukka Rissanen <jukka.rissanen@linux.intel.com> wrote:
+> Create IPv4 address for ethernet in qemu image when systemd is
+> in use.
+>
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
 
-Correct - oe-core assumes a PR Service is being used if required.
+Please patch oe-core instead of appending in meta-systemd.
 
 Ross
 
