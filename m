@@ -1,37 +1,36 @@
-Received: from mail-vc0-f181.google.com ([209.85.220.181])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UHveh-0006fK-0d
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UHvff-0006jZ-Tr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 13:28:44 +0100
-Received: by mail-vc0-f181.google.com with SMTP id hv10so289955vcb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 05:11:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=ktLrSCxfoE8BL7+5bLNXdWVeUJbjq3a2jrF41FvdMs4=;
-	b=dh4MInMzaFHzl7DUdNcTndCWaq6Hf29NX6ZsjOtIsQjNFN2jieuAY3d8L4AhvhASwu
-	BVklVmjZwwgQBXNcU7LiV/Br0gLevz9Dj620IupoQ9OR65x7PNdFmBNuqpFjGxtI7Mkr
-	ha6pdmtg3vMNkLqpmy1ERHje/VMVoWYMX9I0vLuLVKJ18cqz8/RMG94oEXiAaNNYlNlT
-	n8qizD/BcyNlA+Bae6iYmNrxxKdOgdzF7t3KKBpFlHzYsRJRembzOr1bLEXkaCk0F8JD
-	CZPuLDKn/8rl/199780y6quSYOGDBlxHfC+7Z+MVdXBG6S8SRgEZCi2kjq45vkvpA+0c
-	T5GA==
-X-Received: by 10.52.155.5 with SMTP id vs5mr1714235vdb.24.1363695109306; Tue,
-	19 Mar 2013 05:11:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.125.102 with HTTP; Tue, 19 Mar 2013 05:11:29 -0700 (PDT)
-In-Reply-To: <lyip4ny4jo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	Tue, 19 Mar 2013 13:29:44 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2JCCk46027714
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 19 Mar 2013 13:12:47 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UHvPK-0005re-6F; Tue, 19 Mar 2013 13:12:46 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
 References: <cover.1363031776.git.ross.burton@intel.com>
 	<4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
 	<ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
-	<lyip4ny4jo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Mar 2013 12:11:29 +0000
-Message-ID: <CAJTo0Lb-RGs0s6o6YHN11ud0rNTy7pzatTQEuO+u2ZXe9Hq4zw@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Gm-Message-State: ALoCoQl5lVUp0jyxaCeKN96wTMb79VCqL+SAZgd7fEJszT0ZX24FQzLpIUmSpD5TUPViO3USbBDw
+	<CAJTo0LbdxA_kSdLQd8Qbr53BRzT8-EamBCbtzgk0hYsdnB_B3Q@mail.gmail.com>
+Date: Tue, 19 Mar 2013 13:12:46 +0100
+In-Reply-To: <CAJTo0LbdxA_kSdLQd8Qbr53BRzT8-EamBCbtzgk0hYsdnB_B3Q@mail.gmail.com>
+	(Ross Burton's message of "Tue, 19 Mar 2013 11:39:53 +0000")
+Message-ID: <lyehfby4e9.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.7
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,15 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 12:28:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 19 Mar 2013 12:29:45 -0000
+Content-Type: text/plain
 
-On 19 March 2013 12:09, Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
-> 'type systemctl'; 'type -p ...' is a bashism.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-Pretty sure I tried both, and busybox source shows it won't error out
-on "-p".  I'll try again.
+>> Checking for existence of programs in scriplets is a bad hack which
+>> might hide real problems and the scriplets are getting more complicated
+>> by this.
+>>
+>> Placing scriplets and related files into separate subpackages is a much
+>> cleaner solution.
+>
+> Sure, but then you're just substituting one ugly hack for bigger
+> problems including upgrade 
 
-Ross
+What is the problem with subpackages and upgrade paths?
+
+
+Enrico
 
 
