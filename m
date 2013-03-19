@@ -1,15 +1,25 @@
-Received: from mail.saftware.de ([83.141.3.46])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1UI2f6-0006UO-1X
+	(envelope-from <mark.hatle@windriver.com>) id 1UI2fV-0006Ww-5l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 20:57:32 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Mar 2013 20:40:41 +0100
-Message-Id: <1363722041-9652-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] Revert "kernel.bbclass: add deploy link to KERNEL_IMAGETYPE"
+	Tue, 19 Mar 2013 20:57:59 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2JJf5wv019335
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 12:41:05 -0700 (PDT)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Tue, 19 Mar 2013 12:41:06 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Mar 2013 15:17:48 -0500
+Message-ID: <1363724268-31517-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH] vte: Fix conflict between FILES_${PN}-dbg and FILES_vte-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -22,32 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 19:57:32 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 19:58:06 -0000
+Content-Type: text/plain
 
-This is confusing behaviour in multi-machine builds, where the
-symlink always points to the kernel of the machine built last.
+Due to quarks with the way bitbake handles variable key values, the
+hard coded FILES_vte-dbg or automatic FILES_${PN}-dbg could replace
+each other, leaving the system in an inconsistent state.
 
-This reverts commit c1c8d2f3cffc540380c0a5fcdda48d64cbec333a.
-
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/kernel.bbclass |    1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-support/vte/vte.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index d57d1f5..6422ed7 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -349,7 +349,6 @@ kernel_do_deploy() {
- 	cd ${DEPLOYDIR}
- 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
--	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index 6e43554..b653fab 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -10,7 +10,7 @@ EXTRA_OECONF = "--disable-python --disable-introspection"
  
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 	cd -
+ PACKAGES =+ "libvte vte-termcap"
+ FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
+-FILES_vte-dbg =+ "${libexecdir}/.debug ${prefix}/src ${bindir}/.debug \
++FILES_${PN}-dbg =+ "${libexecdir}/.debug ${prefix}/src ${bindir}/.debug \
+                ${libdir}/.debug"
+ FILES_vte-termcap = "${datadir}/vte/termcap-0.0"
+ 
 -- 
-1.7.10.4
+1.8.1.2.545.g2f19ada
 
 
 
