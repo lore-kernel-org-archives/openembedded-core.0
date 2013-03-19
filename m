@@ -1,25 +1,15 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UI2eX-0006Ro-IZ
+	(envelope-from <obi@opendreambox.org>) id 1UI2f6-0006UO-1X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 20:56:59 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2JJe5bI004020
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 12:40:05 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Tue, 19 Mar 2013 12:40:06 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Mar 2013 15:16:47 -0500
-Message-ID: <1363724207-31476-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] core-image-multilib-example: Location of core-image-sato.bb changed
+	Tue, 19 Mar 2013 20:57:32 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Mar 2013 20:40:41 +0100
+Message-Id: <1363722041-9652-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] Revert "kernel.bbclass: add deploy link to KERNEL_IMAGETYPE"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,29 +22,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 19:57:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Mar 2013 19:57:32 -0000
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+This is confusing behaviour in multi-machine builds, where the
+symlink always points to the kernel of the machine built last.
+
+This reverts commit c1c8d2f3cffc540380c0a5fcdda48d64cbec333a.
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta-skeleton/recipes-multilib/images/core-image-multilib-example.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel.bbclass |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta-skeleton/recipes-multilib/images/core-image-multilib-example.bb b/meta-skeleton/recipes-multilib/images/core-image-multilib-example.bb
-index 7703731..f13186f 100644
---- a/meta-skeleton/recipes-multilib/images/core-image-multilib-example.bb
-+++ b/meta-skeleton/recipes-multilib/images/core-image-multilib-example.bb
-@@ -7,7 +7,7 @@
- #
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index d57d1f5..6422ed7 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -349,7 +349,6 @@ kernel_do_deploy() {
+ 	cd ${DEPLOYDIR}
+ 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
  
- # First include a base image to base things off
--require recipes-core/images/core-image-sato.bb
-+require recipes-sato/images/core-image-sato.bb
- 
- # Now add the multilib packages we want to install
- IMAGE_INSTALL += "lib32-bash"
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+ 	cd -
 -- 
-1.8.1.2.545.g2f19ada
+1.7.10.4
 
 
 
