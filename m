@@ -1,32 +1,29 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UHuRU-0004KF-Hg
+	(envelope-from <cristian.iorga@intel.com>) id 1UHuTD-0004P4-Bl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 12:11:00 +0100
+	Tue, 19 Mar 2013 12:12:51 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Mar 2013 03:54:06 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 19 Mar 2013 03:55:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,870,1355126400"; d="scan'208";a="308708412"
+X-IronPort-AV: E=Sophos;i="4.84,870,1355126400"; d="scan'208";a="308709370"
 Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Mar 2013 03:54:05 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Tue, 19 Mar 2013 10:52:07 +0000
+	by fmsmga002.fm.intel.com with ESMTP; 19 Mar 2013 03:55:52 -0700
 Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.185]) with mapi id
-	14.01.0355.002; Tue, 19 Mar 2013 10:52:07 +0000
+	IRSMSX103.ger.corp.intel.com ([169.254.3.198]) with mapi id
+	14.01.0355.002; Tue, 19 Mar 2013 10:55:09 +0000
 From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>, Richard Purdie
+To: "Iorga, Cristian" <cristian.iorga@intel.com>, Jukka Rissanen
+	<jukka.rissanen@linux.intel.com>, Richard Purdie
 	<richard.purdie@linuxfoundation.org>
 Thread-Topic: [OE-core] [PATCH 1/2] connman-conf: Move the setup script into
 	/usr/lib/connman
-Thread-Index: AQHOI+KPJpixoSJamUudJuNmgI2udJirg9aAgAFTQmA=
-Date: Tue, 19 Mar 2013 10:52:06 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB162180A9@IRSMSX102.ger.corp.intel.com>
+Thread-Index: AQHOI+KPJpixoSJamUudJuNmgI2udJirg9aAgAFTQmCAAAF+MA==
+Date: Tue, 19 Mar 2013 10:55:09 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB162180B9@IRSMSX102.ger.corp.intel.com>
 References: <1363613908-20116-1-git-send-email-jukka.rissanen@linux.intel.com>
 	<1363613908-20116-2-git-send-email-jukka.rissanen@linux.intel.com>
-	<1363615788.16482.28.camel@ted> <51472623.3080805@linux.intel.com>
-In-Reply-To: <51472623.3080805@linux.intel.com>
+	<1363615788.16482.28.camel@ted> <51472623.3080805@linux.intel.com> 
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -47,10 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 11:11:01 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 11:12:54 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 11:12:54 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+git grep wired-setup
+meta/recipes-connectivity/connman/connman-conf.bb:                         =
+ file://wired-setup \
+meta/recipes-connectivity/connman/connman-conf.bb:    if test -e ${WORKDIR}=
+/wired.config && test -e ${WORKDIR}/wired-set
+meta/recipes-connectivity/connman/connman-conf.bb:        install -m 0755 $=
+{WORKDIR}/wired-setup ${D}${sysconfdir}/connm
+meta/recipes-connectivity/connman/connman/connman:      if [ -f /etc/connma=
+n/wired-setup ] ; then
+meta/recipes-connectivity/connman/connman/connman:              . /etc/conn=
+man/wired-setup
+
+-----Original Message-----
+From: Iorga, Cristian=20
+Sent: Tuesday, March 19, 2013 12:52 PM
+To: 'Jukka Rissanen'; Richard Purdie
+Cc: openembedded-core@lists.openembedded.org
+Subject: RE: [OE-core] [PATCH 1/2] connman-conf: Move the setup script into=
+ /usr/lib/connman
 
 Hello Jukka,
 
@@ -86,7 +104,7 @@ On 18.03.2013 16:09, Richard Purdie wrote:
 >>   meta/recipes-connectivity/connman/connman-conf.bb | 8 +++++---
 >>   1 file changed, 5 insertions(+), 3 deletions(-)
 >>
->> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb=20
+>> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
 >> b/meta/recipes-connectivity/connman/connman-conf.bb
 >> index 7b99953..6ecfbfb 100644
 >> --- a/meta/recipes-connectivity/connman/connman-conf.bb
