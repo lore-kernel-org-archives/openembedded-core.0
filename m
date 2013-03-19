@@ -1,37 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-vb0-f48.google.com ([209.85.212.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UHuTD-0004P4-Bl
+	(envelope-from <ross.burton@intel.com>) id 1UHuuX-0004vp-0D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 12:12:51 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Mar 2013 03:55:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,870,1355126400"; d="scan'208";a="308709370"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Mar 2013 03:55:52 -0700
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.198]) with mapi id
-	14.01.0355.002; Tue, 19 Mar 2013 10:55:09 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>, Jukka Rissanen
-	<jukka.rissanen@linux.intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/2] connman-conf: Move the setup script into
-	/usr/lib/connman
-Thread-Index: AQHOI+KPJpixoSJamUudJuNmgI2udJirg9aAgAFTQmCAAAF+MA==
-Date: Tue, 19 Mar 2013 10:55:09 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB162180B9@IRSMSX102.ger.corp.intel.com>
-References: <1363613908-20116-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1363613908-20116-2-git-send-email-jukka.rissanen@linux.intel.com>
-	<1363615788.16482.28.camel@ted> <51472623.3080805@linux.intel.com> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Tue, 19 Mar 2013 12:41:01 +0100
+Received: by mail-vb0-f48.google.com with SMTP id fc21so221827vbb.21
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 04:24:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=/Npsz5S1MZtSByp3omUBE6r+PepBdnYe4n1ibTmssVI=;
+	b=cJB6K2kl/ORvkFBsL04SElfbLHXUzl9xSC7uNU0pvn/K2JUoX2P7k1sa9VKFPMwYgZ
+	8Nf3F4fvHsdfvu36iINz0xfFiGlXIRdn+cOLx3NQanwA56bhOP0Jya40ZkiVqh2FTBHb
+	FXK6vYY2x/uu/abWxUhshSzp8BN/tMwE+D9vjHMcEpJDJW7IGfcSDdMY4Sb9tKrSgjp3
+	TjF8/GnnZA+lfZpBKmyT3Sh2tfUKGKRIrerWZIeKA1e7Ugy8RkzNoBtmpqPN8zn1LBl5
+	B/XKUJAUPXDNRV0tsnTgUC/Bt/emecp7pqgO5ID1Q8FhThgdqJfsAMfU4MwReAfKR6nB
+	fSUw==
+X-Received: by 10.52.65.147 with SMTP id x19mr1589572vds.27.1363692247194;
+	Tue, 19 Mar 2013 04:24:07 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] connman-conf: Move the setup script into /usr/lib/connman
+Received: by 10.58.125.102 with HTTP; Tue, 19 Mar 2013 04:23:47 -0700 (PDT)
+In-Reply-To: <ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
+	<ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Mar 2013 11:23:47 +0000
+Message-ID: <CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Gm-Message-State: ALoCoQmy6wYP66ZbPdByXIdJbTx8WBGXNDcmeUFWQ+GzHceX1kXy7EVezacvy7me9AATOQG8b0GN
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,116 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 11:12:54 -0000
-X-List-Received-Date: Tue, 19 Mar 2013 11:12:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Mar 2013 11:41:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-git grep wired-setup
-meta/recipes-connectivity/connman/connman-conf.bb:                         =
- file://wired-setup \
-meta/recipes-connectivity/connman/connman-conf.bb:    if test -e ${WORKDIR}=
-/wired.config && test -e ${WORKDIR}/wired-set
-meta/recipes-connectivity/connman/connman-conf.bb:        install -m 0755 $=
-{WORKDIR}/wired-setup ${D}${sysconfdir}/connm
-meta/recipes-connectivity/connman/connman/connman:      if [ -f /etc/connma=
-n/wired-setup ] ; then
-meta/recipes-connectivity/connman/connman/connman:              . /etc/conn=
-man/wired-setup
-
------Original Message-----
-From: Iorga, Cristian=20
-Sent: Tuesday, March 19, 2013 12:52 PM
-To: 'Jukka Rissanen'; Richard Purdie
-Cc: openembedded-core@lists.openembedded.org
-Subject: RE: [OE-core] [PATCH 1/2] connman-conf: Move the setup script into=
- /usr/lib/connman
-
-Hello Jukka,
-
-Please check connman recipe.=20
-Inside it, check connman/connman
-
-for wired-setup support..
-
-Please add a patch for that also.
-
-Regards,
-Cristian
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Jukka Rissanen
-Sent: Monday, March 18, 2013 4:35 PM
-To: Richard Purdie
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/2] connman-conf: Move the setup script into=
- /usr/lib/connman
-
-Hi Richard,
-
-On 18.03.2013 16:09, Richard Purdie wrote:
-> On Mon, 2013-03-18 at 15:38 +0200, Jukka Rissanen wrote:
->> The /etc/connman is not suitable for the setup script.
->> There are other connman related scripts in /usr/lib/connman so moving=20
->> the wired setup script there.
->>
->> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
->> ---
->>   meta/recipes-connectivity/connman/connman-conf.bb | 8 +++++---
->>   1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
->> b/meta/recipes-connectivity/connman/connman-conf.bb
->> index 7b99953..6ecfbfb 100644
->> --- a/meta/recipes-connectivity/connman/connman-conf.bb
->> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
->> @@ -6,16 +6,18 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/co=
-mmon-licenses/GPL-2.0;md5=3D80
->>   SRC_URI_append_qemuall =3D "file://wired.config \
->>                             file://wired-setup \
->>                            "
->> -PR =3D "r1"
->> +PR =3D "r2"
->>
->>   PACKAGE_ARCH =3D "${MACHINE_ARCH}"
->>
->> +FILES_${PN} =3D "${localstatedir}/* ${libdir}/*"
->> +
->>   do_install() {
->>       #Configure Wired network interface in case of qemu* machines
->>       if test -e ${WORKDIR}/wired.config && test -e ${WORKDIR}/wired-set=
-up; then
->>           install -d ${D}${localstatedir}/lib/connman
->>           install -m 0644 ${WORKDIR}/wired.config ${D}${localstatedir}/l=
-ib/connman
->> -        install -d ${D}${sysconfdir}/connman
->> -        install -m 0755 ${WORKDIR}/wired-setup ${D}${sysconfdir}/connma=
-n
->> +        install -d ${D}${libdir}/connman
->> +        install -m 0755 ${WORKDIR}/wired-setup ${D}${libdir}/connman
->>       fi
->>   }
+On 12 March 2013 10:36, Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
+>> +if which systemctl >/dev/null; then
 >
-> You've moved the files, fine, but what uses them and do we need to=20
-> update the caller?
+> check with the shell builtin 'type $prog' is more portable and does not
+> require the external 'which' program.
 
-I sent a separate patch "[PATCH] connman-conf: Initial systemd support"=20
-for systemd support. I did not found any file that would have init.d suppor=
-t (I might have missed that one :)
+Tried that (type -p systemctl), and failed on the host.  Really not
+sure why to be honest.
 
-Really? So wired-setup was just placed there, without anybody using it?? :-=
-P :-)
-
-
-Cheers,
-Jukka
-
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Ross
 
 
