@@ -1,36 +1,38 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UHvDb-0005ui-NO for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 13:01:21 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2JBqqj1029580; Tue, 19 Mar 2013 11:52:52 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WPszbWbX4oeg; Tue, 19 Mar 2013 11:52:52 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2JBqhem029566
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 19 Mar 2013 11:52:46 GMT
-Message-ID: <1363693405.16482.97.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Mar 2013 11:43:25 +0000
-In-Reply-To: <CAJTo0Laf2ZxBE34ncKE3rBPhBwGpYmFgwrKzt1WFOC7MHTZepw@mail.gmail.com>
-References: <1363639611-21822-1-git-send-email-jslater@windriver.com>
-	<1363639611-21822-2-git-send-email-jslater@windriver.com>
-	<CAP9ODKrk0S1g6TcLxs=iVuv3eBRgZgfhtwSDVaYzJawnAH7rRg@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF8436F75A5F@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0Laf2ZxBE34ncKE3rBPhBwGpYmFgwrKzt1WFOC7MHTZepw@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH [v3] 1/1] tzcode & tzdata: update to 2013b versions
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UHvcc-0006a6-Nr
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Mar 2013 13:26:32 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2JC9WET026885
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 19 Mar 2013 13:09:32 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UHvMB-0005rH-RR; Tue, 19 Mar 2013 13:09:31 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
+	<ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
+Date: Tue, 19 Mar 2013 13:09:31 +0100
+In-Reply-To: <CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
+	(Ross Burton's message of "Tue, 19 Mar 2013 11:23:47 +0000")
+Message-ID: <lyip4ny4jo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.7
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 12:01:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Mar 2013 12:26:32 -0000
+Content-Type: text/plain
 
-On Tue, 2013-03-19 at 10:25 +0000, Burton, Ross wrote:
-> On 18 March 2013 22:14, Slater, Joseph <joe.slater@windriver.com> wrote:
-> > Do we not use PR anymore?   Joe
-> 
-> Correct - oe-core assumes a PR Service is being used if required.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-So just to be really clear, PR still works as it always has but we're no
-longer bumping values manually, we're recommending people use the PR
-service to maintain a set of consistent values for use in their feed.
-The checksums ensure things get rebuilt when they need to in other
-cases.
+>>> +if which systemctl >/dev/null; then
+>>
+>> check with the shell builtin 'type $prog' is more portable and does not
+>> require the external 'which' program.
+>
+> Tried that (type -p systemctl)
 
-Cheers,
+'type systemctl'; 'type -p ...' is a bashism.
 
-Richard
 
+
+Enrico
 
 
