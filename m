@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UI555-0003Ai-AD
+	(envelope-from <dvhart@linux.intel.com>) id 1UI556-0003A7-RZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 23:32:32 +0100
+	Tue, 19 Mar 2013 23:32:34 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 19 Mar 2013 15:15:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,874,1355126400"; d="scan'208";a="304767352"
+X-IronPort-AV: E=Sophos;i="4.84,874,1355126400"; d="scan'208";a="304767351"
 Received: from envy.jf.intel.com (HELO localhost) ([10.7.199.65])
 	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2013 15:15:22 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Mar 2013 15:15:04 -0700
-Message-Id: <94a9904b812ca1491d88458758a7700112548dbc.1363731212.git.dvhart@linux.intel.com>
+Date: Tue, 19 Mar 2013 15:15:03 -0700
+Message-Id: <0b664a4bee7c5f6a1a6226621679bedd1b28ffa5.1363731212.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1363731212.git.dvhart@linux.intel.com>
 References: <cover.1363731212.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1363731212.git.dvhart@linux.intel.com>
 References: <cover.1363731212.git.dvhart@linux.intel.com>
-Subject: [PATCH 4/6] mkefidisk: Always use rootwait and document kernel parameters used
+Subject: [PATCH 3/6] mkefidisk: Boot with ro kernel parameter instead of rw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,64 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 22:32:36 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 22:32:38 -0000
 
-Without a reliable way of knowing if the target device with be an
-asyncronous block device on the target (MMC or USB), err on the side of
-caution of always specifcy "rootwait", ensuring the kernel will wait for
-the device to appear and not abort if it hasn't appeared in time for
-mount.
+There is no need to boot with "rw". Booting with "ro" will allow for
+fsck to be run during boot, and a proper /etc/fstab will still ensure
+the rootfs is "rw" by the time the user can interact with the system.
 
-Document the remaining kernel parameters added by this script on the
-same line as rootwait.
+Change the "rw" to "ro" in the kernel parameters specified in the
+generated grub.cfg file.
+
+Fixes [YOCTO 4036] mkefidisk.sh hardcodes 'rw' as root mount option
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
 ---
- scripts/contrib/mkefidisk.sh | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ scripts/contrib/mkefidisk.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 9275ecf..f8c08dd 100755
+index c68c224..9275ecf 100755
 --- a/scripts/contrib/mkefidisk.sh
 +++ b/scripts/contrib/mkefidisk.sh
-@@ -132,9 +132,7 @@ ROOTFS_START=$((BOOT_SIZE))
- ROOTFS_END=$((ROOTFS_START+ROOTFS_SIZE))
- SWAP_START=$((ROOTFS_END))
- 
--# MMC devices are special in a couple of ways
--# 1) they use a partition prefix character 'p'
--# 2) they are detected asynchronously (need ROOTWAIT)
-+# MMC devices use a partition prefix character 'p'
- PART_PREFIX=""
- if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ]; then
- 	PART_PREFIX="p"
-@@ -143,11 +141,9 @@ BOOTFS=$DEVICE${PART_PREFIX}1
- ROOTFS=$DEVICE${PART_PREFIX}2
- SWAP=$DEVICE${PART_PREFIX}3
- 
--ROOTWAIT=""
- TARGET_PART_PREFIX=""
- if [ ! "${TARGET_DEVICE#/dev/mmcblk}" = "${TARGET_DEVICE}" ]; then
- 	TARGET_PART_PREFIX="p"
--	ROOTWAIT="rootwait"
- fi
- TARGET_ROOTFS=$TARGET_DEVICE${TARGET_PART_PREFIX}2
- TARGET_SWAP=$TARGET_DEVICE${TARGET_PART_PREFIX}3
-@@ -250,10 +246,14 @@ sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
- sed -i "/initrd /d" $GRUBCFG
- # Delete any LABEL= strings
- sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
--# Replace the ramdisk root (if any) with the install device and include other
--# kernel parameters
-+# Remove any existing root= kernel parameters and:
-+# o Add a root= parameter with the target rootfs
-+# o Specify ro so fsck can be run during boot
-+# o Specify rootwait in case the target media is an asyncronous block device
-+#   such as MMC or USB disks
-+# o Specify "quiet" to minimize boot time when using slow serial consoles
+@@ -253,7 +253,7 @@ sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
+ # Replace the ramdisk root (if any) with the install device and include other
+ # kernel parameters
  sed -i "s@ root=[^ ]*@ @" $GRUBCFG
--sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro $ROOTWAIT quiet @" $GRUBCFG
-+sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait quiet @" $GRUBCFG
+-sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS rw $ROOTWAIT quiet @" $GRUBCFG
++sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro $ROOTWAIT quiet @" $GRUBCFG
  
  # Provide a startup.nsh script for older firmware with non-standard boot
  # directories and paths.
