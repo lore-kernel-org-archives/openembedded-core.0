@@ -1,23 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pd0-f178.google.com ([209.85.192.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UHzau-0000C1-BM
+	(envelope-from <martin.jansa@gmail.com>) id 1UI0B8-0001kw-J4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 17:41:01 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2013 09:22:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,872,1355126400"; d="scan'208";a="281731378"
-Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
-	([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 19 Mar 2013 09:24:00 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Mar 2013 18:23:56 +0200
-Message-Id: <1363710237-31628-2-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1363710237-31628-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1363710237-31628-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH v3 1/1] mesa: rename mesa-dri recipe to just mesa
+	Tue, 19 Mar 2013 18:18:29 +0100
+Received: by mail-pd0-f178.google.com with SMTP id u10so246497pdi.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 10:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=r+a0vlTX2n+3PaK9+7WX1bPFnUj8FKZBCOfvIbYE2eE=;
+	b=SgB5MV5iCI+/eP9p+MRWGDSZSIcg/pytC96nSOr6Qd1NK4V5GengYxKiad7656A3x5
+	SKtbbOrN8XZIhoJH6nvlrC2yXvnCT+ga4bInaxaAbGtX4pvdX9i/d5TbUNHmMyOzgErc
+	XePgP26lKyG3GF7nmcUDJtf39n5NJHrz6oP6bvx3/znvsRDbczfNQqSFZtlydw6B1UoK
+	qkifumq/JmPj51340LO93IeHDfoJ5wqAHUSRqqTgPnSekR67IiqSmDte54N3ucPjBBAf
+	gapNYKmHwgsmBZ7CQYmaXG5b0w9k99VcyI7c4lu7iAKPasmL/BpDgnLQxN5FcT3CvEgF
+	pb8A==
+X-Received: by 10.66.126.141 with SMTP id my13mr4234422pab.178.1363712496206; 
+	Tue, 19 Mar 2013 10:01:36 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id kb3sm24950766pbc.21.2013.03.19.10.01.33
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 19 Mar 2013 10:01:35 -0700 (PDT)
+Date: Tue, 19 Mar 2013 18:01:28 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+Message-ID: <20130319170128.GA3202@jama>
+References: <20130318131702.517A650409@opal>
+MIME-Version: 1.0
+In-Reply-To: <20130318131702.517A650409@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Radu Moisan : apr-util: Upgrade to v1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,358 +44,379 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 16:41:01 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 17:18:29 -0000
+X-Groupsio-MsgNum: 36759
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
 
-Rename mesa-dri recipes to just mesa. Also, replace all references to
-mesa-dri in all recipes/configs.
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The reason for this renaming (quote from bugzilla):
+On Mon, Mar 18, 2013 at 01:17:02PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 526f6beb5a8a1844f3d2c03fe38087e4f4a7f68f
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D526f6beb5a8a1844f3d2c03fe38087e4f4a7f68f
+>=20
+> Author: Radu Moisan <radu.moisan@intel.com>
+> Date:   Thu Mar 14 18:16:02 2013 +0200
+>=20
+> apr-util: Upgrade to v1.5.1
+>=20
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-"mesa-dri is a artefact of mesa-xlib existing, which doesn't anymore.
-mesa-dri should be renamed to mesa."
+In some configurations it's now failing without --tag=3DCC in libtool
+calls, this one is from xscalete (spitz) build:
 
-[YOCTO #3385]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/conf/distro/include/default-providers.inc     |    6 ++--
- meta/conf/machine/include/ia32-base.inc            |    4 +--
- meta/conf/machine/include/qemu.inc                 |    8 ++---
- meta/conf/machine/qemux86-64.conf                  |    8 ++---
- meta/conf/machine/qemux86.conf                     |    8 ++---
- meta/recipes-graphics/mesa/libglu_9.0.0.bb         |    2 +-
- meta/recipes-graphics/mesa/mesa-common.inc         |    5 +--
- meta/recipes-graphics/mesa/mesa-dri.inc            |   28 -----------------
- meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb       |    4 ---
- meta/recipes-graphics/mesa/mesa-dri_git.bb         |    8 -----
- meta/recipes-graphics/mesa/mesa-git.inc            |    1 -
- meta/recipes-graphics/mesa/mesa.inc                |   33 ++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_9.0.2.bb           |    4 +++
- meta/recipes-graphics/mesa/mesa_git.bb             |    7 +++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb      |    6 ++--
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
- 16 files changed, 67 insertions(+), 67 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri.inc
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_git.bb
- create mode 100644 meta/recipes-graphics/mesa/mesa.inc
- create mode 100644 meta/recipes-graphics/mesa/mesa_9.0.2.bb
- create mode 100644 meta/recipes-graphics/mesa/mesa_git.bb
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index ebf2a09..39ce7cc 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -5,9 +5,9 @@ PREFERRED_PROVIDER_virtual/db ?= "db"
- PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa-dri"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-index 0798bf8..921c740 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -39,11 +39,11 @@ XSERVER_IA32_EXT = " \
-            "
- 
- XSERVER_IA32_I915 = "xf86-video-intel \
--           mesa-dri-driver-i915 \
-+           mesa-driver-i915 \
-            "
- 
- XSERVER_IA32_I965 = "xf86-video-intel \
--           mesa-dri-driver-i965 \
-+           mesa-driver-i965 \
-            "
- 
- XSERVER_IA32_VESA = "xf86-video-vesa"
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 52215b3..29caec9 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -1,10 +1,10 @@
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa-dri"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- 
- XSERVER ?= "xserver-xorg \
--            mesa-dri-driver-swrast \
-+            mesa-driver-swrast \
-             xf86-input-evdev \
-             xf86-input-mouse \
-             xf86-video-fbdev \
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 3852b89..23a7108 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -3,9 +3,9 @@
- #@DESCRIPTION: Machine configuration for running a common x86
- 
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa-dri"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- 
- require conf/machine/include/tune-x86_64.inc
- 
-@@ -14,7 +14,7 @@ KERNEL_IMAGETYPE = "bzImage"
- SERIAL_CONSOLE = "115200 ttyS0"
- 
- XSERVER ?= "xserver-xorg \
--           mesa-dri-driver-swrast \
-+           mesa-driver-swrast \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index ee14bec..d13dc84 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -3,9 +3,9 @@
- #@DESCRIPTION: Machine configuration for running a common x86
- 
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa-dri"
--PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa-dri"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- 
- require conf/machine/include/tune-i586.inc
- 
-@@ -14,7 +14,7 @@ KERNEL_IMAGETYPE = "bzImage"
- SERIAL_CONSOLE = "115200 ttyS0"
- 
- XSERVER ?= "xserver-xorg \
--           mesa-dri-driver-swrast \
-+           mesa-driver-swrast \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-diff --git a/meta/recipes-graphics/mesa/libglu_9.0.0.bb b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-index 7980749..06d30f9 100644
---- a/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-@@ -8,7 +8,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b356456e7d44471d9 \
-                     file://src/libtess/tess.c;endline=29;md5=6b79c570f644363b356456e7d44471d9"
- 
--# Epoch as this used to be part of mesa-dri
-+# Epoch as this used to be part of mesa
- PE = "2"
- PR = "0"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index aa26aee..c37ad69 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -18,9 +18,6 @@ DEPENDS = "expat makedepend-native flex-native bison-native"
- 
- PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
- 
--# for mesa-dri
--FILESEXTRAPATHS_prepend := "${THISDIR}/mesa:"
--
- inherit autotools pkgconfig pythonnative
- 
- EXTRA_OECONF = "--disable-glu \
-@@ -41,7 +38,7 @@ PACKAGECONFIG[wayland] = ",,wayland"
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
- 
--# Remove the mesa-dri dependency on mesa-dri-dev, as mesa-dri is empty
-+# Remove the mesa dependency on mesa-dev, as mesa is empty
- RDEPENDS_${PN}-dev = ""
- 
- PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-deleted file mode 100644
-index e43150b..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri.inc
-+++ /dev/null
-@@ -1,28 +0,0 @@
--DEPENDS += "libdrm expat udev"
--X11_DEPS += "dri2proto"
--
--DRIDRIVERS = "swrast"
--DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
--DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
--
--EXTRA_OECONF += "--disable-gallium --without-gallium-drivers"
--EXTRA_OECONF += "--enable-dri --with-dri-drivers=${DRIDRIVERS}"
--EXTRA_OECONF += "--enable-gbm"
--
--PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
--
--EGL_PLATFORMS  = "drm"
--EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'x11', ',x11', '', d)}"
--EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'wayland', ',wayland', '', d)}"
--PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
--
--python populate_packages_prepend() {
--    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
--
--    do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
--
--PACKAGES_DYNAMIC += "^mesa-dri-driver-.*"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
--
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb b/meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb
-deleted file mode 100644
-index 26b56e4..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require mesa-common.inc
--require mesa-${PV}.inc
--require mesa-dri.inc
--PR = "${INC_PR}.0"
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-deleted file mode 100644
-index 69a433e..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require mesa-common.inc
--require mesa-git.inc
--require mesa-dri.inc
--
--# this needs to be lower than -1 because all mesa-dri have -1 and git version has highest PV, but shouldn't be default
--DEFAULT_PREFERENCE = "-2"
--
--PR = "${INC_PR}.0"
-diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
-index 25093af..ee9a552 100644
---- a/meta/recipes-graphics/mesa/mesa-git.inc
-+++ b/meta/recipes-graphics/mesa/mesa-git.inc
-@@ -3,7 +3,6 @@ SRCREV = "1665af3066f3d58c42e9d5b13098f13615a7672c"
- PV = "9.1~git${SRCPV}"
- 
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=42d77d95cba529a3637129be87d6555d"
--FILESEXTRAPATHS_prepend := "${THISDIR}/mesa-git:"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
-            file://0002-cross-compile.patch \
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-new file mode 100644
-index 0000000..a692bb7
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -0,0 +1,33 @@
-+DEPENDS += "libdrm expat udev"
-+X11_DEPS += "dri2proto"
-+
-+DRIDRIVERS = "swrast"
-+DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
-+DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
-+
-+EXTRA_OECONF += "--disable-gallium --without-gallium-drivers"
-+EXTRA_OECONF += "--enable-dri --with-dri-drivers=${DRIDRIVERS}"
-+EXTRA_OECONF += "--enable-gbm"
-+
-+PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
-+
-+EGL_PLATFORMS  = "drm"
-+EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'x11', ',x11', '', d)}"
-+EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'wayland', ',wayland', '', d)}"
-+PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
-+
-+python populate_packages_prepend() {
-+    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
-+    
-+    pkgs = ['mesa', 'mesa-dev', 'mesa-dbg']
-+    pkgs += do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-driver-%s', 'Mesa %s DRI driver', extra_depends='')
-+    for pkg in pkgs:
-+        d.setVar("RPROVIDES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
-+        d.setVar("RCONFLICTS_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
-+        d.setVar("RREPLACES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
-+}
-+
-+PACKAGES_DYNAMIC += "^mesa-driver-.*"
-+
-+FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
-+
-diff --git a/meta/recipes-graphics/mesa/mesa_9.0.2.bb b/meta/recipes-graphics/mesa/mesa_9.0.2.bb
-new file mode 100644
-index 0000000..1a1bf24
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa_9.0.2.bb
-@@ -0,0 +1,4 @@
-+require mesa-common.inc
-+require mesa-${PV}.inc
-+require mesa.inc
-+PR = "${INC_PR}.0"
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-new file mode 100644
-index 0000000..6a4bc38
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -0,0 +1,7 @@
-+require mesa-common.inc
-+require mesa-git.inc
-+require mesa.inc
-+
-+DEFAULT_PREFERENCE = "-1"
-+
-+PR = "${INC_PR}.0"
-diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-index afe8235..f769312 100644
---- a/meta/recipes-graphics/wayland/weston_1.0.3.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-@@ -14,7 +14,7 @@ SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968
- inherit autotools pkgconfig
- 
- DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
--DEPENDS += "wayland mesa-dri virtual/egl"
-+DEPENDS += "wayland mesa virtual/egl"
- 
- EXTRA_OECONF  = "--disable-android-compositor --enable-setuid-install"
- EXTRA_OECONF += "--disable-tablet-shell --disable-xwayland"
-@@ -25,9 +25,9 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland',
-                    ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-                   "
- # Weston on KMS
--PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa-dri libpam"
-+PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa libpam"
- # Weston on Wayland (nested Weston)
--PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa-dri"
-+PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
- # Weston on X11
- PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
- 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 5d5443c..795410b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -126,7 +126,7 @@ PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '',
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
- PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
-                       --disable-dri --disable-dri2 --disable-glx,\
--                      xf86driproto dri2proto mesa-dri"
-+                      xf86driproto dri2proto mesa"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
--- 
-1.7.9.5
+| make[1]: Entering directory `/OE/shr-core/tmp-eglibc/work/xscalete-oe-lin=
+ux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1'
+| gawk -f /OE/shr-core/tmp-eglibc/sysroots/spitz/usr/share/apr//make_export=
+s.awk /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1=
+-r0/apr-util-1.5.1/include/apr_anylock.h /OE/shr-core/tmp-eglibc/work/xscal=
+ete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_base64.h =
+/OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/ap=
+r-util-1.5.1/include/apr_buckets.h /OE/shr-core/tmp-eglibc/work/xscalete-oe=
+-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_crypto.h /OE/sh=
+r-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util=
+-1.5.1/include/apr_date.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gn=
+ueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_dbd.h /OE/shr-core/tmp-e=
+glibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/inclu=
+de/apr_dbm.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-uti=
+l/1.5.1-r0/apr-util-1.5.1/include/apr_hooks.h /OE/shr-core/tmp-eglibc/work/=
+xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_ldap=
+_init.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5=
+=2E1-r0/apr-util-1.5.1/include/apr_ldap_option.h /OE/shr-core/tmp-eglibc/wo=
+rk/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_l=
+dap_rebind.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-uti=
+l/1.5.1-r0/apr-util-1.5.1/include/apr_ldap_url.h /OE/shr-core/tmp-eglibc/wo=
+rk/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_m=
+d4.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-=
+r0/apr-util-1.5.1/include/apr_md5.h /OE/shr-core/tmp-eglibc/work/xscalete-o=
+e-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_memcache.h /OE=
+/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-u=
+til-1.5.1/include/apr_optional.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-l=
+inux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_optional_hooks.h =
+/OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/ap=
+r-util-1.5.1/include/apr_queue.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-l=
+inux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_reslist.h /OE/shr=
+-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-=
+1.5.1/include/apr_rmm.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnue=
+abi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_sdbm.h /OE/shr-core/tmp-eg=
+libc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/includ=
+e/apr_sha1.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-uti=
+l/1.5.1-r0/apr-util-1.5.1/include/apr_strmatch.h /OE/shr-core/tmp-eglibc/wo=
+rk/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_t=
+hread_pool.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-uti=
+l/1.5.1-r0/apr-util-1.5.1/include/apr_uri.h /OE/shr-core/tmp-eglibc/work/xs=
+calete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_uuid.h=
+ /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/a=
+pr-util-1.5.1/include/apr_xlate.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-=
+linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_xml.h /OE/shr-co=
+re/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5=
+=2E1/include/apu_errno.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnu=
+eabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apu_version.h /OE/shr-core/tm=
+p-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/in=
+clude/private/apr_crypto_internal.h /OE/shr-core/tmp-eglibc/work/xscalete-o=
+e-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/private/apr_dbd_in=
+ternal.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.=
+5.1-r0/apr-util-1.5.1/include/private/apr_dbd_odbc_v2.h /OE/shr-core/tmp-eg=
+libc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/includ=
+e/private/apr_dbm_private.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-=
+gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/private/apu_internal.h > e=
+xports.c
+| gawk -f /OE/shr-core/tmp-eglibc/sysroots/spitz/usr/share/apr//make_var_ex=
+port.awk /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.=
+5.1-r0/apr-util-1.5.1/include/apr_anylock.h /OE/shr-core/tmp-eglibc/work/xs=
+calete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_base64=
+=2Eh /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-=
+r0/apr-util-1.5.1/include/apr_buckets.h /OE/shr-core/tmp-eglibc/work/xscale=
+te-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_crypto.h /=
+OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr=
+-util-1.5.1/include/apr_date.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-lin=
+ux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_dbd.h /OE/shr-core/=
+tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/=
+include/apr_dbm.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/ap=
+r-util/1.5.1-r0/apr-util-1.5.1/include/apr_hooks.h /OE/shr-core/tmp-eglibc/=
+work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr=
+_ldap_init.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-uti=
+l/1.5.1-r0/apr-util-1.5.1/include/apr_ldap_option.h /OE/shr-core/tmp-eglibc=
+/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/ap=
+r_ldap_rebind.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-=
+util/1.5.1-r0/apr-util-1.5.1/include/apr_ldap_url.h /OE/shr-core/tmp-eglibc=
+/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/ap=
+r_md4.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5=
+=2E1-r0/apr-util-1.5.1/include/apr_md5.h /OE/shr-core/tmp-eglibc/work/xscal=
+ete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_memcache.=
+h /OE/shr-core/tm
+p-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/in=
+clude/apr_optional.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi=
+/apr-uti
+l/1.5.1-r0/apr-util-1.5.1/include/apr_optional_hooks.h /OE/shr-core/tmp-egl=
+ibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include=
+/apr_que
+ue.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-=
+r0/apr-util-1.5.1/include/apr_reslist.h /OE/shr-core/tmp-eglibc/work/xscale=
+te-oe-li
+nux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_rmm.h /OE/shr-core=
+/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1=
+/include
+/apr_sdbm.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util=
+/1.5.1-r0/apr-util-1.5.1/include/apr_sha1.h /OE/shr-core/tmp-eglibc/work/xs=
+calete-o
+e-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_strmatch.h /OE=
+/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-u=
+til-1.5.
+1/include/apr_thread_pool.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-=
+gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_uri.h /OE/shr-core/tmp=
+-eglibc/
+work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr=
+_uuid.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5=
+=2E1-r0/ap
+r-util-1.5.1/include/apr_xlate.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-l=
+inux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/apr_xml.h /OE/shr-cor=
+e/tmp-eg
+libc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/includ=
+e/apu_errno.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-ut=
+il/1.5.1
+-r0/apr-util-1.5.1/include/apu_version.h /OE/shr-core/tmp-eglibc/work/xscal=
+ete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/private/apr_c=
+rypto_in
+ternal.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.=
+5.1-r0/apr-util-1.5.1/include/private/apr_dbd_internal.h /OE/shr-core/tmp-e=
+glibc/wo
+rk/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include/priva=
+te/apr_dbd_odbc_v2.h /OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi=
+/apr-uti
+l/1.5.1-r0/apr-util-1.5.1/include/private/apr_dbm_private.h /OE/shr-core/tm=
+p-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/in=
+clude/pr
+ivate/apu_internal.h > export_vars.c
+| sed 's,^\(location=3D\).*$,\1installed,' < apu-1-config > apu-config.out
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_brigade.lo=
+ -c buck
+ets/apr_brigade.c && touch buckets/apr_brigade.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets.lo=
+ -c buck
+ets/apr_buckets.c && touch buckets/apr_buckets.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_al=
+loc.lo -
+c buckets/apr_buckets_alloc.c && touch buckets/apr_buckets_alloc.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_eo=
+s.lo -c
+buckets/apr_buckets_eos.c && touch buckets/apr_buckets_eos.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_fi=
+le.lo -c
+ buckets/apr_buckets_file.c && touch buckets/apr_buckets_file.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_fl=
+ush.lo -
+c buckets/apr_buckets_flush.c && touch buckets/apr_buckets_flush.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_he=
+ap.lo -c
+ buckets/apr_buckets_heap.c && touch buckets/apr_buckets_heap.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/O
+E/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -feliminate-unused-debu=
+g-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/shr-core/tmp-egl=
+ibc/work
+/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1/include -I/OE/s=
+hr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-uti=
+l-1.5.1/
+include/private  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -I/O=
+E/shr-core/tmp-eglibc/sysroots/spitz/usr/include  -o buckets/apr_buckets_mm=
+ap.lo -c
+ buckets/apr_buckets_mmap.c && touch buckets/apr_buckets_mmap.lo
+| /bin/sh arm-oe-linux-gnueabi-libtool --silent --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te  -mthumb -mthumb-interwork  -mtune=3Dxscal=
+e --sysroot=3D/OE/shr-core/tmp-eglibc/sysroots/spitz   -O2 -pipe -g -felimi=
+nate-unused-debug-types -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/OE/=
+shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/apr-util/1.5.1-r0/apr-ut=
+il-1.5.1/include -I/OE/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/a=
+pr-util/1.5.1-r0/apr-util-1.5.1/include/private  -I/OE/shr-core/tmp-eglibc/=
+sysroots/spitz/usr/include  -I/OE/shr-core/tmp-eglibc/sysroots/spitz/usr/in=
+clude  -o buckets/apr_buckets_pipe.lo -c buckets/apr_buckets_pipe.c && touc=
+h buckets/apr_buckets_pipe.lo
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets.lo] Error 1
+| make[1]: *** Waiting for unfinished jobs....
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_eos.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_heap.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_file.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_mmap.lo] Error 1
+| make[1]: *** [buckets/apr_buckets_flush.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_brigade.lo] Error 1
+| arm-oe-linux-gnueabi-libtool: compile: unable to infer tagged configurati=
+on
+| arm-oe-linux-gnueabi-libtool: compile: specify a tag with `--tag'
+| make[1]: *** [buckets/apr_buckets_pipe.lo] Error 1
+| make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/xscalete-oe-linu=
+x-gnueabi/apr-util/1.5.1-r0/apr-util-1.5.1'
+| make: *** [all-recursive] Error 1
+| ERROR: oe_runmake failed
+| ERROR: Function failed: do_compile (see /OE/shr-core/tmp-eglibc/work/xsca=
+lete-oe-linux-gnueabi/apr-util/1.5.1-r0/temp/log.do_compile.14537 for furth=
+er infor
+mation)
+NOTE: recipe apr-util-1.5.1-r0: task do_compile: Failed
+ERROR: Task 6557 (/OE/shr-core/openembedded-core/meta/recipes-support/apr/a=
+pr-util_1.5.1.bb, do_compile) failed with exit code '1'
 
 
+>=20
+> ---
+>=20
+>  .../apr/{apr-util_1.4.1.bb =3D> apr-util_1.5.1.bb}   |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/apr/apr-util_1.4.1.bb b/meta/recipes-su=
+pport/apr/apr-util_1.5.1.bb
+> similarity index 91%
+> rename from meta/recipes-support/apr/apr-util_1.4.1.bb
+> rename to meta/recipes-support/apr/apr-util_1.5.1.bb
+> index 7ee3de5..e547fe0 100644
+> --- a/meta/recipes-support/apr/apr-util_1.4.1.bb
+> +++ b/meta/recipes-support/apr/apr-util_1.5.1.bb
+> @@ -9,14 +9,14 @@ LICENSE =3D "Apache-2.0"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D519e0a18e03f7c023070568c14b07=
+7bb \
+>                      file://include/apu_version.h;endline=3D17;md5=3D8066=
+85a84e71f10c80144c48eb35df42"
+> =20
+> -PR =3D "r2"
+> +PR =3D "r0"
+> =20
+>  SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+>             file://configfix.patch \
+>             file://configure_fixes.patch"
+> =20
+> -SRC_URI[md5sum] =3D "666a5d56098a9debf998510e304c8095"
+> -SRC_URI[sha256sum] =3D "d636d9ef95c6e50e47fc338d532aa375edd11e5d7a3c30de=
+e48beb38ddf4ab4c"
+> +SRC_URI[md5sum] =3D "490c2e26e2dc95fd0983ad71112ddac6"
+> +SRC_URI[sha256sum] =3D "0cf4e48d93ceb9a5e314f48fe127211b71d30234665587e2=
+eaffbb4fc13d931d"
+> =20
+>  EXTRA_OECONF =3D "--with-apr=3D${STAGING_BINDIR_CROSS}/apr-1-config \=20
+>  		--without-odbc \
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFImegACgkQN1Ujt2V2gBycHwCgmC2rr4kX34N77fvjB18AiRx1
+wdMAoJ/SeNKIRqXQ/C+aP7Fs3o7+6pLv
+=F0Sr
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
