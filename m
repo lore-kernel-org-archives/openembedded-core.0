@@ -1,33 +1,21 @@
-Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UHy3p-0005jy-4J
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UHzal-0000C1-Eo
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 16:02:52 +0100
-Received: from atl4mhob11.myregisteredsite.com
-	(atl4mhob11.myregisteredsite.com [209.17.115.49])
-	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r2JEju0W002233 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 10:45:56 -0400
-Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
-	[205.178.146.50])
-	by atl4mhob11.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r2JEjtNp015720 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 10:45:55 -0400
-Received: (qmail 5886 invoked by uid 0); 19 Mar 2013 14:45:54 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 19 Mar 2013 14:45:54 -0000
-Message-ID: <51487A22.5080900@topic.nl>
-Date: Tue, 19 Mar 2013 15:45:54 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Tue, 19 Mar 2013 17:40:56 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2013 09:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,872,1355126400"; d="scan'208";a="281731366"
+Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
+	([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 19 Mar 2013 09:23:58 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <20130228231551.3998F5022B@opal> <20130306062358.GC14869@jama>
-	<5136F97E.1030906@topic.nl>
-In-Reply-To: <5136F97E.1030906@topic.nl>
-Subject: Busybox mdev INITSCRIPT_PARAMS gets lost
+Date: Tue, 19 Mar 2013 18:23:55 +0200
+Message-Id: <1363710237-31628-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3 0/1] Rename mesa-dri recipe to mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,30 +28,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 15:02:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Mar 2013 16:40:56 -0000
 
-In busybox.inc, the recipe says:
+Changes in v3:
+ * rebased;
+ * removed another 2 files that didn't belong to oe-core;
 
-INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
+Changes in v2:
+ * squashed the commits into a single one to be easily bisectable;
+ * removed FILESEXTRAPATHS references;
+ * removed a file that had to go to poky ML;
 
-Actually "06" is alreay wrong, it should be "03" just like udev uses. 
-The modules load at runlevel 04, so they'll fail to load correctly if 
-they require firmware, soI amended this in a .bbappend to read
+Thanks,
+Laurentiu
 
-INITSCRIPT_PARAMS_${PN}-mdev = "start 03 S ."
+Hi all,
 
+This patchset will rename the "mesa-dri" recipe to "mesa" and will replace
+all occurences to mesa-dri in recipes/configs.
 
-But what ends up in the postinstall script is this (and that breaks the 
-system):
+The changes and the upgrade path were tested on qemux86 and on an atom-pc
+ideapad s10-3t. No issues observed.
 
-update-rc.d $OPT mdev defaults
+For more info, as to why this was needed, go here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3385
 
-This used to work just fine about a month ago, but it's suddenly broken. 
-Has something changed in update-rc handling?
+Thanks,
+Laurentiu
 
-Mike.
+Laurentiu Palcu (1):
+  mesa: rename mesa-dri recipe to just mesa
+
+ meta/conf/distro/include/default-providers.inc     |    6 ++--
+ meta/conf/machine/include/ia32-base.inc            |    4 +--
+ meta/conf/machine/include/qemu.inc                 |    8 ++---
+ meta/conf/machine/qemux86-64.conf                  |    8 ++---
+ meta/conf/machine/qemux86.conf                     |    8 ++---
+ meta/recipes-graphics/mesa/libglu_9.0.0.bb         |    2 +-
+ meta/recipes-graphics/mesa/mesa-common.inc         |    5 +--
+ meta/recipes-graphics/mesa/mesa-dri.inc            |   28 -----------------
+ meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb       |    4 ---
+ meta/recipes-graphics/mesa/mesa-dri_git.bb         |    8 -----
+ meta/recipes-graphics/mesa/mesa-git.inc            |    1 -
+ meta/recipes-graphics/mesa/mesa.inc                |   33 ++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_9.0.2.bb           |    4 +++
+ meta/recipes-graphics/mesa/mesa_git.bb             |    7 +++++
+ meta/recipes-graphics/wayland/weston_1.0.3.bb      |    6 ++--
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+ 16 files changed, 67 insertions(+), 67 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri.inc
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_9.0.2.bb
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_git.bb
+ create mode 100644 meta/recipes-graphics/mesa/mesa.inc
+ create mode 100644 meta/recipes-graphics/mesa/mesa_9.0.2.bb
+ create mode 100644 meta/recipes-graphics/mesa/mesa_git.bb
+
+-- 
+1.7.9.5
 
 
 
