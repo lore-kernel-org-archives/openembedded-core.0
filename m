@@ -1,39 +1,37 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-ee0-f48.google.com ([74.125.83.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UHsic-0000mQ-CK
+	(envelope-from <koen@dominion.thruhere.net>) id 1UHsoV-0000y1-Gc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 10:20:31 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 3EDF5D22E8; Tue, 19 Mar 2013 10:03:45 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 357D3D20D2
+	Tue, 19 Mar 2013 10:26:38 +0100
+Received: by mail-ee0-f48.google.com with SMTP id t10so109294eei.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 10:03:23 +0100 (CET)
-Message-ID: <514829D6.3060607@linaro.org>
-Date: Tue, 19 Mar 2013 10:03:18 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <D9D7124626ED1E43963D86B2657D5CCD03A69B7A@FRSNPREXC1.usr.ingenico.loc>
-	<50117246.2030502@windriver.com>
-	<CABcZAN=nH-rkHyVm8QwaFMyXmGPe=H3cAkM0kJkPsMLp82PEKw@mail.gmail.com>
-	<50118D35.6070105@windriver.com> <1343332730.9574.4.camel@ted>
-In-Reply-To: <1343332730.9574.4.camel@ted>
-X-Enigmail-Version: 1.4.6
-Subject: Re: SDK and external toolchain
+	Tue, 19 Mar 2013 02:09:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=jl/VxZxLDnBUtuiCA6vRcguHE5N6rsyAiKMq7hYrLsU=;
+	b=DElwNdebi5e9jEW5A+zJksYv42OpK4Ii+N1H+go+EHnfgLFQBW3GAmSY7IDqapSlQD
+	cjhVfnPzdNBMPg/BmG62pwtvN7O7CHqYO3Y55x43AacPYTjhtsvoFiA86S0NceYHUJEB
+	S26gb5vA67mmgwMhCiazbWVq8voy8AzkACnuEpsOz2oZQt48Jj8CvouTMsdf3AxvYoxe
+	3OtSAk4OoBAHv+54IMkkwQCIG1uneGxF3/iCmoYNfLfnAZd6UJD+XAGnYYs5fazV4XPX
+	B89Kz5qeS5/7uf4nRx7Zq51LtTuyIDTRCf2I46ilnOg5HfAVFCQlye1eUgB+isJ6V11s
+	vq3A==
+X-Received: by 10.14.0.135 with SMTP id 7mr58050964eeb.5.1363684186240;
+	Tue, 19 Mar 2013 02:09:46 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id k7sm31781362een.8.2013.03.19.02.09.44
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 19 Mar 2013 02:09:45 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Mar 2013 10:09:38 +0100
+Message-Id: <1363684178-28081-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQkt1DVB/1jBJn/nEtBrSLxxpjFDD0CcNLiPVvbVrCo5ehpkNuC/4aE8H0cc8lkDMlJSm1q/
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH v2] python: fix on-target use of distutils/setuptools by removing references to buildpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,56 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 09:20:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Mar 2013 09:26:41 -0000
 
-W dniu 26.07.2012 21:58, Richard Purdie pisze:
-> On Thu, 2012-07-26 at 13:32 -0500, Mark Hatle wrote:
->> On 7/26/12 1:14 PM, Chris Larson wrote:
->>> On Thu, Jul 26, 2012 at 9:37 AM, Mark Hatle <mark.hatle at windriver.com> wrote:
->>>>> index 44284c3..f5fd4d7 100644
->>>>> --- a/meta/classes/toolchain-scripts.bbclass
->>>>> +++ b/meta/classes/toolchain-scripts.bbclass
->>>>> @@ -136,7 +136,7 @@ toolchain_create_sdk_env_script_for_installer () {
->>>>>    #we get the cached site config in the runtime
->>>>>    TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
->>>>>    TOOLCHAIN_CONFIGSITE_SYSROOTCACHE =
->>>>> "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
->>>>> -TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
->>>>> +TOOLCHAIN_NEED_CONFIGSITE_CACHE = "ncurses"
->>>>
->>>>
->>>> That is incorrect.. the CONFIGSITE_CACHE should be generated for the TCLIBC.
->>>> If you don't do that, then you will be running the same configure steps --
->>>> looking for basic glibc information over and over and over, causing a fairly
->>>> expensive performance penalty.
->>>
->>> No, he's right, this is a bug in toolchain-scripts.bbclass. We could
->>> work around it in the recipe via RPROVIDES_${PN}, but
->>> TOOLCHAIN_NEED_CONFIGSITE_CACHE feeds directly into task 'depends', so
->>> it's pulling in ${TCLIBC} explicitly rather than the more accurate
->>> 'virtual/libc'.
->>>
->>
->> The config site file though isn't called "virtual/libc".  My understanding what 
->> that all that variable did was set the list of config site files, but didn't 
->> directly affect the dependency mapping.  If it does, then there is a definite 
->> issue w/ dependency vs file mappings.
-> 
-> The trouble as I understand it is we need to know both the dependency
-> name and the config/site cache name.
-> 
-> We'll probably have to change siteconfig.bbclass to generate libc_config
-> instead of ${PN}_config (create an intermediate variable the libc
-> recipes override).
-> 
-> We can then specify something like virtual/libc:libc in
-> TOOLCHAIN_NEED_CONFIGSITE_CACHE. Of course that probably still won't
-> work if you actually try and build meta-toolchain, we might just have to
-> skip things that don't exist...
+Running 'python setup.py build' would fail due to the python Makefile having
 
-Issue is still present ;(
+CC=             i586-angstrom-linux-gcc  -m32    -march=core2 -msse3 -mtune=generic -mfpmath=sse --sysroot=/home/koen/v2012.12/build/tmp-angstrom_v2012_12-eglibc/sysroots/fri2
+CXX=            i586-angstrom-linux-g++  -m32    -march=core2 -msse3 -mtune=generic -mfpmath=sse --sysroot=/home/koen/v2012.12/build/tmp-angstrom_v2012_12-eglibc/sysroots/fri2
+'--with-libtool-sysroot=/home/koen/v2012.12/build/tmp-angstrom_v2012_12-eglibc/sysroots/fri2'
+
+And more
+
+Multiple users have reported this problem:
+
+http://hipstercircuits.com/?p=499
+http://www.gigamegablog.com/2012/09/09/beaglebone-coding-101-spi-output/
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/python/python_2.7.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 1968629..65faa80 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -141,6 +141,9 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++
++	# Remove references to buildmachine paths in target Makefile
++	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ }
+ 
+ require python-${PYTHON_MAJMIN}-manifest.inc
+-- 
+1.8.1.4
 
 
 
