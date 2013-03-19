@@ -1,24 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1UI17H-0003gG-En
+	(envelope-from <sgw@linux.intel.com>) id 1UI24w-0005cq-I9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 19:18:36 +0100
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2JI1dq7002179
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 11:01:39 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 19 Mar 2013 11:01:40 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Mar 2013 11:01:38 -0700
-Message-ID: <1363716099-21136-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH [v4] 0/1] tzcode & tzdata: update to 2013b versions
+	Tue, 19 Mar 2013 20:20:10 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 19 Mar 2013 12:03:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,873,1355126400"; d="scan'208";a="216561669"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.175])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Mar 2013 12:03:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Mar 2013 12:03:18 -0700
+Message-Id: <1363719798-9369-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] alsa-tools: add patch for mips since it does not have io.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,22 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 18:19:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Mar 2013 19:20:11 -0000
 
-Now with PR-b-gone.
+[YOCTO #4051]
 
-Joe Slater (1):
-  tzcode & tzdata:  update to 2013b versions
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../alsa/alsa-tools/mips_has_no_io_h.patch                  | 13 +++++++++++++
+ meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb         |  1 +
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
 
- ...code-native_2012j.bb => tzcode-native_2013b.bb} |   14 ++++++++------
- .../tzdata/{tzdata_2012j.bb => tzdata_2013b.bb}    |    5 ++---
- 2 files changed, 10 insertions(+), 9 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2012j.bb => tzcode-native_2013b.bb} (51%)
- rename meta/recipes-extended/tzdata/{tzdata_2012j.bb => tzdata_2013b.bb} (98%)
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
+new file mode 100644
+index 0000000..7083cb2
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
+@@ -0,0 +1,13 @@
++Index: alsa-tools-1.0.26.1/hda-verb/hda-verb.c
++===================================================================
++--- alsa-tools-1.0.26.1.orig/hda-verb/hda-verb.c
+++++ alsa-tools-1.0.26.1/hda-verb/hda-verb.c
++@@ -13,7 +13,7 @@
++ #include <ctype.h>
++ #include <unistd.h>
++ #include <sys/ioctl.h>
++-#ifndef __PPC__
+++#if __PPC__ || __MIPS__
++ #include <sys/io.h>
++ #endif
++ #include <sys/types.h>
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+index 0fe4bee..2b46aaf 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
+                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
++           file://mips_has_no_io_h.patch \
+            file://autotools.patch"
+ 
+ SRC_URI[md5sum] = "805526ea5d6c40e1f2c94cee86141230"
 -- 
-1.7.3.4
+1.8.0.2
 
 
 
