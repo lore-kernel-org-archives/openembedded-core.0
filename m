@@ -1,41 +1,33 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from atl4mhfb01.myregisteredsite.com ([209.17.115.55])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UHwPi-0008Nu-FZ
+	(envelope-from <mike.looijmans@topic.nl>) id 1UHy3p-0005jy-4J
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 14:17:26 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2JD0G6d011171
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 14:00:17 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1UHw9H-0006Ff-OZ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 14:00:15 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1363031776.git.ross.burton@intel.com>
-	<4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
-	<ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
-	<lyip4ny4jo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0Lb-RGs0s6o6YHN11ud0rNTy7pzatTQEuO+u2ZXe9Hq4zw@mail.gmail.com>
-Date: Tue, 19 Mar 2013 14:00:15 +0100
-In-Reply-To: <CAJTo0Lb-RGs0s6o6YHN11ud0rNTy7pzatTQEuO+u2ZXe9Hq4zw@mail.gmail.com>
-	(Ross Burton's message of "Tue, 19 Mar 2013 12:11:29 +0000")
-Message-ID: <lyhak7mtnk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+	Tue, 19 Mar 2013 16:02:52 +0100
+Received: from atl4mhob11.myregisteredsite.com
+	(atl4mhob11.myregisteredsite.com [209.17.115.49])
+	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r2JEju0W002233 for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 10:45:56 -0400
+Received: from mailpod.hostingplatform.com (mail.networksolutionsemail.com
+	[205.178.146.50])
+	by atl4mhob11.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r2JEjtNp015720 for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 10:45:55 -0400
+Received: (qmail 5886 invoked by uid 0); 19 Mar 2013 14:45:54 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 19 Mar 2013 14:45:54 -0000
+Message-ID: <51487A22.5080900@topic.nl>
+Date: Tue, 19 Mar 2013 15:45:54 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -6.7
-X-Spam-Level: ------
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
+To: openembedded-core@lists.openembedded.org
+References: <20130228231551.3998F5022B@opal> <20130306062358.GC14869@jama>
+	<5136F97E.1030906@topic.nl>
+In-Reply-To: <5136F97E.1030906@topic.nl>
+Subject: Busybox mdev INITSCRIPT_PARAMS gets lost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,20 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 13:17:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Mar 2013 15:02:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
+In busybox.inc, the recipe says:
 
->> 'type systemctl'; 'type -p ...' is a bashism.
->
-> Pretty sure I tried both, and busybox source shows it won't error out
-> on "-p".
+INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
 
-But 'dash' on host will fail.
+Actually "06" is alreay wrong, it should be "03" just like udev uses. 
+The modules load at runlevel 04, so they'll fail to load correctly if 
+they require firmware, soI amended this in a .bbappend to read
+
+INITSCRIPT_PARAMS_${PN}-mdev = "start 03 S ."
 
 
-Enrico
+But what ends up in the postinstall script is this (and that breaks the 
+system):
+
+update-rc.d $OPT mdev defaults
+
+This used to work just fine about a month ago, but it's suddenly broken. 
+Has something changed in update-rc handling?
+
+Mike.
+
 
 
