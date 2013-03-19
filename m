@@ -1,24 +1,41 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1UHw3A-0007Kd-4w
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UHwPi-0008Nu-FZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Mar 2013 13:53:57 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 19 Mar 2013 13:37:05 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 0C1B2288B02;
-	Tue, 19 Mar 2013 13:37:06 +0100 (CET)
-From: <maxin.john@enea.com>
-To: <elizabeth.flanagan@intel.com>, <cazfi74@gmail.com>
-Date: Tue, 19 Mar 2013 13:37:04 +0100
-Message-ID: <1363696624-51163-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.5.4
+	Tue, 19 Mar 2013 14:17:26 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2JD0G6d011171
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Mar 2013 14:00:17 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1UHw9H-0006Ff-OZ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Mar 2013 14:00:15 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1363031776.git.ross.burton@intel.com>
+	<4ad7ea263a05fb3c1960623760340549a20c849c.1363031776.git.ross.burton@intel.com>
+	<ly620wucp5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0Lb7tbVpCn4-hGfs8KOKKp8LQW2p2grnGvmLfNUG9bR0eg@mail.gmail.com>
+	<lyip4ny4jo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0Lb-RGs0s6o6YHN11ud0rNTy7pzatTQEuO+u2ZXe9Hq4zw@mail.gmail.com>
+Date: Tue, 19 Mar 2013 14:00:15 +0100
+In-Reply-To: <CAJTo0Lb-RGs0s6o6YHN11ud0rNTy7pzatTQEuO+u2ZXe9Hq4zw@mail.gmail.com>
+	(Ross Burton's message of "Tue, 19 Mar 2013 12:11:29 +0000")
+Message-ID: <lyhak7mtnk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] harfbuzz: update the license information
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.7
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH 6/9] systemd: allow postinsts to run without systemd being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,41 +48,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 12:54:21 -0000
+X-List-Received-Date: Tue, 19 Mar 2013 13:17:28 -0000
 Content-Type: text/plain
 
-From: "Maxin B. John" <maxin.john@enea.com>
+"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-harfbuzz is using the 'Modern Variants' of MIT License:
-https://fedoraproject.org/wiki/Licensing:MIT?rd=Licensing/MIT#Modern_Variants
+>> 'type systemctl'; 'type -p ...' is a bashism.
+>
+> Pretty sure I tried both, and busybox source shows it won't error out
+> on "-p".
 
-We can update the LICENSE as 'MIT & ICU'.
+But 'dash' on host will fail.
 
-Fixes this warning:
-WARNING: harfbuzz: No generic license file exists for: Old-MIT in any provider
-WARNING: harfbuzz: No generic license file exists for: UCDN in any provider
-WARNING: harfbuzz: No generic license file exists for: HarfBuzz-old in any provider
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-index 19269f1..fadd076 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.12.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "HarfBuzz is an OpenType text shaping engine."
- HOMEPAGE = "http://www.freedesktop.org/wiki/Software/HarfBuzz"
- BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=HarfBuzz"
- 
--LICENSE = "Old-MIT & UCDN & ICU & HarfBuzz-old"
-+LICENSE = "MIT & ICU"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
-                     file://src/hb-ucdn/COPYING;md5=994ba0f1295f15b4bda4999a5bbeddef \
-                     file://src/hb-icu-le/COPYING;md5=0ac60acf068e2cc9facdf86169a9c13e \
--- 
-1.7.5.4
-
+Enrico
 
 
