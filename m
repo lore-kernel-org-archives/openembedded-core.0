@@ -1,40 +1,24 @@
-Received: from mail-ob0-f177.google.com ([209.85.214.177])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eu@felipetonello.com>) id 1UI5ZC-0004Kn-S0
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UI7Ad-0006wN-7m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 00:04:13 +0100
-Received: by mail-ob0-f177.google.com with SMTP id eh20so1043876obb.36
+	Wed, 20 Mar 2013 01:46:24 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2K0TVfo008087
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Mar 2013 15:46:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=KBRR7WXeIOLMuyuIdHgguU9/W88kQZl/bCAhJX1jOps=;
-	b=et01VPDjdlGYQNE/8GnCK1f2lA0GXDuPy+BgFABx7vmaF27Ejvog9+deaG9RFoPANF
-	N+RhybcSAMvw4X1A5E/RdIeraTHXiZoDaRWnQ9Lb4jD0RkMQa9kIVBs7vcKNGR9wTQZd
-	KdKCMq7GcwZBcKa7jyXqnPTajT446ogrTRAjBGobAwZ+D7bfRQL6LRoUGWXtIcHfRuku
-	EElhMcXlGWZwE1mB2SjbJVTd4AWP/76OinfjcQuIN3ROtIaQAiUR7mRcW0bo8s3Bd7FE
-	OleXysOBUDkN8fenI91lSg94KDxP3VLo2FICVIf05MM29ZS9APRYQ1pw+EW9Vw09ZLG6
-	T+2Q==
-X-Received: by 10.182.185.37 with SMTP id ez5mr2730474obc.73.1363733202242;
-	Tue, 19 Mar 2013 15:46:42 -0700 (PDT)
-Received: from [192.168.48.44] (wsip-70-183-20-162.oc.oc.cox.net.
-	[70.183.20.162])
-	by mx.google.com with ESMTPS id qk4sm13606492obc.5.2013.03.19.15.46.39
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 19 Mar 2013 15:46:41 -0700 (PDT)
-Message-ID: <5148EAD2.9060304@felipetonello.com>
-Date: Tue, 19 Mar 2013 15:46:42 -0700
-From: Felipe Ferreri Tonello <eu@felipetonello.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 19 Mar 2013 17:29:31 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 19 Mar 2013 17:29:31 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Mar 2013 08:29:21 +0800
+Message-ID: <cover.1363676392.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: openembedded-devel@lists.openembedded.org, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkmkJfn/GvtPJ12kvJ9N7IjEQvbjOHcuIZr6+fe2V7jlF6mwSXVPJfHCGDuxnmmbjwDb+Zs
-Subject: [JOB] Full-time position in California
+Subject: [PATCH 0/1]package_rpm.bbclass: fix build multilib image failed when PR Server enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,32 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Mar 2013 23:04:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Mar 2013 00:46:25 -0000
+X-List-Received-Date: Wed, 20 Mar 2013 00:46:25 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit 87cfde2559daec564731c5c25df04eec27eaf7d5:
 
-I'm sorry for this off-topic. But I think it's a good thing for oe 
-developers in general.
+  syslinux.bbclass: Add a default serial console option and real boot menu support (2013-03-18 21:42:24 +0000)
 
-I work for Cercacor Labs, and we are looking for a full-time yocto/oe 
-Linux Engineer.
+are available in the git repository at:
 
-About the company: We were medical device R&D company for Masimo. Now we 
-are developing out own medical device based on Linux. Here we develop 
-everything, since hardware, Linux kernel, middleware to multi-touch 
-applications.
+  git://git.pokylinux.org/poky-contrib hongxu/fix-multilib-rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-multilib-rpm
 
-Well.. The only issue is that due the time frame here we can't hire 
-anyone that requires H1B. So this person needs to be an American Citizen 
-or H1B holder.
+Hongxu Jia (1):
+  package_rpm.bbclass: fix build multilib image failed when PR Server
+    enabled
 
-I'm glad to provide you more information. Please contact me at 
-ftonello@cercacor.com.
+ meta/classes/package_rpm.bbclass |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-BR,
+-- 
+1.7.10.4
 
-Felipe
 
 
