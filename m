@@ -1,38 +1,36 @@
-Received: from mail-pb0-f53.google.com ([209.85.160.53])
+Received: from mail-vc0-f171.google.com ([209.85.220.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UINNr-0001zO-LX
+	(envelope-from <ross.burton@intel.com>) id 1UINRj-00028G-Ir
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 19:05:23 +0100
-Received: by mail-pb0-f53.google.com with SMTP id un1so1532593pbc.40
+	Wed, 20 Mar 2013 19:09:11 +0100
+Received: by mail-vc0-f171.google.com with SMTP id ha11so1563024vcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 10:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=ezIc0cUtiKMW8lMmxqG6xwa65PJbp0qszOdm6+jA2fc=;
-	b=aKrKVZJLYaSPG8OPj4KA3uq7EcHZ9evGVXCMG5N8VsnHaz72QqBb7aMPwZ+NszAhPs
-	K24qzAy949hHDnqRPkO1m6GqUZhiNsmGayzVBH/5L3tCB4cVZtv7EJzuGzaM7zDrIvUm
-	LYFdY8ZwjPDz5WqXNGvnJBbEhal50O5IkXLW01dSzc6BSUbw4wrRlybQtV5yFTOedNxf
-	vjwn5CF9uFcOlARL/vAI3T4pQ/DNNUEskEzQonrZjy7pvXdkgjStsrGQGrc0nv6FPa/0
-	Y+jy2ytrlwULVmRqPfl0p+jxdu+WTTVMgyJZRqcYmOiLqM5K+xO8iXzO38zDTIFxQNhx
-	FHVQ==
-X-Received: by 10.68.227.129 with SMTP id sa1mr10336230pbc.107.1363801695774; 
-	Wed, 20 Mar 2013 10:48:15 -0700 (PDT)
-Received: from sa-nc-ipg-172-23-0-70.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id gf1sm2849779pbc.24.2013.03.20.10.48.14
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 20 Mar 2013 10:48:14 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LaU2iEeg-2z=nwaw3O-kTX_VLpKcZ9TUjGGU4gmAzPKqA@mail.gmail.com>
-Date: Wed, 20 Mar 2013 10:48:14 -0700
-Message-Id: <6D1DEA39-FE6F-4D2D-AE73-0CA6A2881EE3@gmail.com>
+	Wed, 20 Mar 2013 10:52:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=lgHDDdYoO9DSDUDUtzxAug6ig5H+p/BbHxb7jQBJsWo=;
+	b=lHjPpje656sSMNckRwL7O7+24Z7uCGq4x7syc1a4xpPIE3pzye69T3XrmTTvATa/+l
+	bsY2uy+4Ic0zmGS/AMu6o/R8Caoyzb1An/Eg1QdCrVkbTGkgCzhQp9bgXvTUCouUx18D
+	ZzAqdfbHc2Fk6U8klwSYrxZKXNoVLDwmxpS4ZfjixXvCWjSwJmyA4LtJDSmIQ2lFYktk
+	mHlLgsLa0kAfXQttXGUs/4toETlGOznFktA53Fz9EQkkYSbimd6T/RbxE8YtVHsY8c5e
+	DsDPsvwWU6qrmvuvzhBL68J529MBeS1ydAOVlNJyF2F5n+OzL4rv6KgDkv6iGDbkm20/
+	hMuA==
+X-Received: by 10.220.153.143 with SMTP id k15mr9344934vcw.13.1363801936086;
+	Wed, 20 Mar 2013 10:52:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.125.102 with HTTP; Wed, 20 Mar 2013 10:51:55 -0700 (PDT)
+In-Reply-To: <6D1DEA39-FE6F-4D2D-AE73-0CA6A2881EE3@gmail.com>
 References: <cover.1363287636.git.sgw@linux.intel.com>
 	<1363313340.14476.13.camel@ted>
 	<CAJTo0LaU2iEeg-2z=nwaw3O-kTX_VLpKcZ9TUjGGU4gmAzPKqA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
+	<6D1DEA39-FE6F-4D2D-AE73-0CA6A2881EE3@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 Mar 2013 17:51:55 +0000
+Message-ID: <CAJTo0LYiTwx0xeeMPpfyXt2=vC6Bz_zdTOBkVWJP8cD0aqbEEA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQkP1d6uePAg5YyGC/Q0F97fjlEF/TzyyIE2ihuMUngxX+qdrqL1v8XZWtXhOrxVeHbsBSvL
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [CONSOLIDATED PULL 00/29] SystemD and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,16 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 18:05:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Mar 2013 18:09:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 20 March 2013 17:48, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Mar 20, 2013, at 10:41 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+>> Using ac_prog_cc_for_build.m4 to incorporate CC_FOR_BUILD would be the
+>> logical solution
+>
+> btw, I did considered that :) but thought of not pursuing it
 
-On Mar 20, 2013, at 10:41 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+Probably worth bringing it up with the upstream maintainer so we don't
+need to continue this hackery, but some maintainers certainly are...
+reluctant.
 
-> Using ac_prog_cc_for_build.m4 to incorporate CC_FOR_BUILD would be the
-> logical solution 
-
-btw, I did considered that :) but thought of not pursuing it
+Ross
 
 
