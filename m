@@ -1,35 +1,36 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-vc0-f170.google.com ([209.85.220.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UINCU-0001I5-1a
+	(envelope-from <ross.burton@intel.com>) id 1UINHj-0001Rd-R0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 18:53:23 +0100
-Received: by mail-vc0-f175.google.com with SMTP id hf12so1528000vcb.6
+	Wed, 20 Mar 2013 18:58:48 +0100
+Received: by mail-vc0-f170.google.com with SMTP id lf10so1570528vcb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 10:36:30 -0700 (PDT)
+	Wed, 20 Mar 2013 10:41:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=GJaLDTpUuwPh89gmEOdyaMV3F5ez4KIrJENstyXYGqY=;
-	b=Lr9ML0D4jRyvG8t+Zx3RteJ4dBhUtpsVkm87f7KkQaOjvdSt6oDpREm9E3HuVsRE3N
-	7qsAwFg3VDvadmu98heuVWyEDdaiXhaMdLgnCnPy0NGBcnGrT1mRWqWcCcXK7aWYb9vv
-	LaXa5UlUnqqg1eLrKLtrO8Ss700bidCh92W4a6SMZxLjF9+aTGwRXZG8wYl1fLbFaJed
-	wC1lobh/Zrt4JV66b4NLo3OQE6tnr0slPy95PYwYAY3PeSEnmeu1pv/jEBfjmEWFFP0h
-	mMrSsxXSH/S2176Qa45cesQUVZnalQ7H6rqq59bedhjCF/Cew8AgQOBjFqwJQ2Qmp5/i
-	ASWQ==
-X-Received: by 10.52.155.5 with SMTP id vs5mr7724517vdb.24.1363800990441; Wed,
-	20 Mar 2013 10:36:30 -0700 (PDT)
+	bh=BtwRn2OY/VbwP9SBUKyzATNOZdtgxzKTlxCB7SvwdpQ=;
+	b=QKsFrB2OU1N6oja1H41fYC5/t2ssB0AdFIs+ffbNwOd28z7TrYbDwC2t5RE/trYref
+	XnHEeYQKQGGE9B1LzavaCYQn6+pGKJ3TkuQYirt29d19NVsa4SiWw/11GSs6Wiyc3e6z
+	YBUyzX0/KbsJIpyYUUnYENIioo+ZXPIeq8/l7+FRyosYbosgKWphmuEoizbcGuox/T1B
+	aJXmtJzgSCuDR35U7LFhuTELgZdhJi1XfsHsWsQORkUIH7t4dLknMTiHZ0PJJKVIb54Q
+	no42IFRHcYk2XlIU6CajiP7TR/dDGl6BfdgMsxLMod6ZKGmX6LiO4t2bfSedDs4EcmEp
+	xO1A==
+X-Received: by 10.52.230.197 with SMTP id ta5mr7771652vdc.103.1363801316217;
+	Wed, 20 Mar 2013 10:41:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.125.102 with HTTP; Wed, 20 Mar 2013 10:36:10 -0700 (PDT)
-In-Reply-To: <1363730066-11361-1-git-send-email-obi@opendreambox.org>
-References: <1363730066-11361-1-git-send-email-obi@opendreambox.org>
+Received: by 10.58.125.102 with HTTP; Wed, 20 Mar 2013 10:41:36 -0700 (PDT)
+In-Reply-To: <1363313340.14476.13.camel@ted>
+References: <cover.1363287636.git.sgw@linux.intel.com>
+	<1363313340.14476.13.camel@ted>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 Mar 2013 17:36:10 +0000
-Message-ID: <CAJTo0LbN1exz6x9bFwc-YsHx5qZLHGVofGgTgOePGWJ2fEzmbw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-X-Gm-Message-State: ALoCoQkV5g3MdlDO1J4Gpu8WQ/j1LLkngCACJSxieOG1Oktf+CqW/vw5dcu7x30ZyRWtNjvEINVX
+Date: Wed, 20 Mar 2013 17:41:36 +0000
+Message-ID: <CAJTo0LaU2iEeg-2z=nwaw3O-kTX_VLpKcZ9TUjGGU4gmAzPKqA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQkXAHMdW0lBLRsaZk2tq37ctgZ7F5HK9jY1L0zRGsdX3j7PGjpO7Uz/R35iiJFBJDnFVBBW
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Revert "base-files: add fstab for systemd based systems"
+Subject: Re: [CONSOLIDATED PULL 00/29] SystemD and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 17:53:24 -0000
+X-List-Received-Date: Wed, 20 Mar 2013 17:58:48 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 March 2013 21:54, Andreas Oberritter <obi@opendreambox.org> wrote:
-> For hybrid systemd/sysvinit builds, only one fstab can be used.
-> The default fstab used by sysvinit should work fine with systemd.
+On 15 March 2013 02:09, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> Khem Raj (2):
+>>   sudo: Compile mksigname and mksiglist for build host
 >
-> Since virtually every machine will ship its own fstab in its bsp
-> layer, the bsp layer may decide how to override the fstab based
-> on distro features.
+> Took all these patches except the above which I want to double check
+> whether there is an autotools method we can use for this now. Ross might
+> have some knowledge about this.
 
-Merged into my systemd branch.  Submission coming soon.
+Using ac_prog_cc_for_build.m4 to incorporate CC_FOR_BUILD would be the
+logical solution but as it's quite intrusive this needs to be
+discussed with upstream.  Short-term, this is a perfectly good
+solution as the tools are simple to build (compared with the Mesa
+tools, which are impossible to build like this).
 
-Thanks,
 Ross
 
 
