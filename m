@@ -1,36 +1,35 @@
-Received: from mail-ve0-f180.google.com ([209.85.128.180])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UIN3r-00011m-5F
+	(envelope-from <ross.burton@intel.com>) id 1UINCU-0001I5-1a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 18:44:34 +0100
-Received: by mail-ve0-f180.google.com with SMTP id jz10so744259veb.39
+	Wed, 20 Mar 2013 18:53:23 +0100
+Received: by mail-vc0-f175.google.com with SMTP id hf12so1528000vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 10:27:35 -0700 (PDT)
+	Wed, 20 Mar 2013 10:36:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=5Hjv++C87VcH4UtxzTtTHKrtBV7xxuQgS8kEQziPgLY=;
-	b=lX915KD16PF7uNeOK6ngTWyxBiqqynac+K80clfQa01lvVMsf5PKALZtwWmXDVuZJ6
-	GAdSRmpPutkkl6ecmvfiEGOOTaA0mYEmUuRd7JxylY/OdQ4nM5X8HAXap8SWTi3R4V4J
-	0pXxnCgmUNip5zwFTZRoAuttbgFPOiiWiLTJnHdqgfDCNDcDEEnZwZgAWSmhS3JyTiRe
-	emuBCYubVZcUHuRkj3XAsNs/WdZQFW13snLnWKHpp9I8DDMMhTEKyOXIicGsYqy+ws/n
-	kZ8XjCFpFlI1rExIZ+FOSq2HrhaC42dT35Y/hxsDjGJGE5rm2qg9DDOl1qibmwpUgKeB
-	0xYQ==
-X-Received: by 10.220.141.132 with SMTP id m4mr8975867vcu.17.1363800455557;
-	Wed, 20 Mar 2013 10:27:35 -0700 (PDT)
+	bh=GJaLDTpUuwPh89gmEOdyaMV3F5ez4KIrJENstyXYGqY=;
+	b=Lr9ML0D4jRyvG8t+Zx3RteJ4dBhUtpsVkm87f7KkQaOjvdSt6oDpREm9E3HuVsRE3N
+	7qsAwFg3VDvadmu98heuVWyEDdaiXhaMdLgnCnPy0NGBcnGrT1mRWqWcCcXK7aWYb9vv
+	LaXa5UlUnqqg1eLrKLtrO8Ss700bidCh92W4a6SMZxLjF9+aTGwRXZG8wYl1fLbFaJed
+	wC1lobh/Zrt4JV66b4NLo3OQE6tnr0slPy95PYwYAY3PeSEnmeu1pv/jEBfjmEWFFP0h
+	mMrSsxXSH/S2176Qa45cesQUVZnalQ7H6rqq59bedhjCF/Cew8AgQOBjFqwJQ2Qmp5/i
+	ASWQ==
+X-Received: by 10.52.155.5 with SMTP id vs5mr7724517vdb.24.1363800990441; Wed,
+	20 Mar 2013 10:36:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.125.102 with HTTP; Wed, 20 Mar 2013 10:27:15 -0700 (PDT)
-In-Reply-To: <face120c816e78dffad876f43218920c1a7da423.1363673104.git.Qi.Chen@windriver.com>
-References: <cover.1363673104.git.Qi.Chen@windriver.com>
-	<face120c816e78dffad876f43218920c1a7da423.1363673104.git.Qi.Chen@windriver.com>
+Received: by 10.58.125.102 with HTTP; Wed, 20 Mar 2013 10:36:10 -0700 (PDT)
+In-Reply-To: <1363730066-11361-1-git-send-email-obi@opendreambox.org>
+References: <1363730066-11361-1-git-send-email-obi@opendreambox.org>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 20 Mar 2013 17:27:15 +0000
-Message-ID: <CAJTo0Lb8PcUr6MPp7EZcXKtwfYQR-MXc90FhfKedGuaL8LvWOg@mail.gmail.com>
-To: Qi.Chen@windriver.com
-X-Gm-Message-State: ALoCoQlpDlPTCknJ+d+jwqMAM73MIIe75t59Yg+Ev6nAqMmWOXdhxtg1x/t/uaRfm9/PtjVZ2ORa
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] util-linux: better co-operate with systemd
+Date: Wed, 20 Mar 2013 17:36:10 +0000
+Message-ID: <CAJTo0LbN1exz6x9bFwc-YsHx5qZLHGVofGgTgOePGWJ2fEzmbw@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+X-Gm-Message-State: ALoCoQkV5g3MdlDO1J4Gpu8WQ/j1LLkngCACJSxieOG1Oktf+CqW/vw5dcu7x30ZyRWtNjvEINVX
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "base-files: add fstab for systemd based systems"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +42,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 17:44:35 -0000
+X-List-Received-Date: Wed, 20 Mar 2013 17:53:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 March 2013 06:51,  <Qi.Chen@windriver.com> wrote:
-> util-linux upstream is now supporting systemd.
+On 19 March 2013 21:54, Andreas Oberritter <obi@opendreambox.org> wrote:
+> For hybrid systemd/sysvinit builds, only one fstab can be used.
+> The default fstab used by sysvinit should work fine with systemd.
 >
-> So in case of a systemd based image, we add to EXTRA_OECONF
-> '--with-systemdsystemunitdir' to specify the location of systemd unit
-> files, and '--enable-socket-activation' to build uuidd with socket
-> activation.
->
-> Also, package systemd unit files into util-linux if systemd is in
-> DISTRO_FEATURES.
+> Since virtually every machine will ship its own fstab in its bsp
+> layer, the bsp layer may decide how to override the fstab based
+> on distro features.
 
-I've merged a version of this to my systemd branch.
+Merged into my systemd branch.  Submission coming soon.
 
+Thanks,
 Ross
 
 
