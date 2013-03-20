@@ -1,26 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UIEHK-0006ir-Rv
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1UIEgU-00005U-DB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 09:22:12 +0100
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2K84tSs010929
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 01:04:55 -0700 (PDT)
-Received: from pek-usp-9.wrs.com (128.224.162.26) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 20 Mar 2013 01:04:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 20 Mar 2013 09:47:50 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 20 Mar 2013 09:30:55 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 2D450288AF8;
+	Wed, 20 Mar 2013 09:30:55 +0100 (CET)
+Date: Wed, 20 Mar 2013 09:30:55 +0100
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Mar 2013 15:49:31 +0800
-Message-ID: <4bd4027d61d99a9f7e35537fd94190b6a837431c.1363765543.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <cover.1363765543.git.liezhi.yang@windriver.com>
-References: <cover.1363765543.git.liezhi.yang@windriver.com>
+Message-ID: <20130320083055.GQ31812@sestofb10.enea.se>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] perl: remove the duplicated RDEPENDS
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Subject: Problems with ptest and package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 08:24:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Mar 2013 08:48:10 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Remove a duplicated line:
-RDEPENDS_${PN}-module-cpanplus += "${PN}-module-load"
+Hi. I need a little help.
 
-[YOCTO #4064]
+The ${PN}-ptest group is not added to PACKAGES by default in bitbake.conf l=
+ike all the other groups. Instead it is added to PACKAGES in ptest.bbclass.=
+ This way it is only added for those recipes that implement ptest.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../recipes-devtools/perl/perl-rdepends_5.14.3.inc |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
+However it turns out this doesn't work when package splitting. Instead of p=
+utting ptest files into packages-split/${PN}-ptest, those files are put int=
+o the core ${PN} package which is obviously not what we want.
 
-diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.3.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.3.inc
-index 87d7a32..62712ed 100644
---- a/meta/recipes-devtools/perl/perl-rdepends_5.14.3.inc
-+++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.3.inc
-@@ -383,7 +383,6 @@ RDEPENDS_${PN}-module-cpanplus += "${PN}-module-log-message"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-build"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-corelist"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-load"
--RDEPENDS_${PN}-module-cpanplus += "${PN}-module-load"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-loaded"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-pluggable"
- RDEPENDS_${PN}-module-cpanplus += "${PN}-module-object-accessor"
--- 
-1.7.7
+I'm scratching my head a bit about why this happens, and would like help fr=
+om people with deeper bitbake knowledge. I guess the splitting is somehow d=
+one outside the package scope, but why and how do we fix it?
 
+Putting ${PN}-ptest in PACKAGES in bitbake.conf "solves" this issue, but Ri=
+chard Purdie was against that earlier since we yet have only a few "ptest e=
+nabled" packages.
+
+--=20
+Bj=F6rn
 
 
