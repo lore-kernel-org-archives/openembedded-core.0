@@ -1,24 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UIK3V-0003nv-2l for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 15:31:58 +0100
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UIJnE-00041o-34; Wed, 20 Mar 2013 15:15:04 +0100
-Message-ID: <1363788804.25692.2.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Date: Wed, 20 Mar 2013 14:13:24 +0000
-In-Reply-To: <5149C2FF.4070309@linaro.org>
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UIK3u-0003on-3T
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Mar 2013 15:32:24 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id C78D8D22E8; Wed, 20 Mar 2013 15:15:30 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id D822DD20D2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Mar 2013 15:15:08 +0100 (CET)
+Message-ID: <5149C468.7060504@linaro.org>
+Date: Wed, 20 Mar 2013 15:15:04 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <1363772243-370-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1586733.G7AaCq5rbs@helios> <51499277.8000400@linaro.org>
-	<5149B097.40106@windriver.com> <5149C2FF.4070309@linaro.org>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] Switching from glibc RPC to TI RPC
+	<1363772243-370-2-git-send-email-marcin.juszkiewicz@linaro.org>
+	<43E2DC7D-6495-408A-8653-7CFBBD6160FA@gmail.com>
+In-Reply-To: <43E2DC7D-6495-408A-8653-7CFBBD6160FA@gmail.com>
+X-Enigmail-Version: 1.4.6
+Subject: Re: [PATCH 1/6] eglibc: disable RPC in favour of libtirpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,32 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 14:32:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 20 Mar 2013 14:32:29 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-03-20 at 15:09 +0100, Marcin Juszkiewicz wrote:
-> W dniu 20.03.2013 13:50, Mark Hatle pisze:
-> > On 3/20/13 5:41 AM, Marcin Juszkiewicz wrote:
-> 
-> >> Good point. YP-tools are not buildable with my changeset due to lack of
-> >> YP support in libtirpc.
-> 
-> > There is definitely a class of user (networking devices) where nis/yp
-> > are still being used.  I would love to see NIS support be a distro
-> > feature or similar configure time element.
-> 
-> Good idea.
+W dniu 20.03.2013 15:05, Khem Raj pisze:
+> NACK. tirpc is not at a point where it can replace the glibc provided
+> rpc. There is too much software that depends on it. We have tried it
+> in past 2.14 time frame and reverted back.
 
-It's not totally obvious to me that having NIS itself be a
-DISTRO_FEATURE would buy much.  Are there any packages whose
-configuration actually changes as a result?
-
-Having tirpc vs legacy rpc selectable through DISTRO_FEATURES sounds
-like a fine plan though.
-
-p.
-
-
+Thanks. We will go with other option and re-enable RPC in eglibc part of
+binary cross toolchain.
 
 
