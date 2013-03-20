@@ -1,37 +1,27 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UINmA-0002nE-Mr
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UINmn-0002qT-Au
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 19:30:26 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r2KIDGBk026871
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 20 Mar 2013 19:13:18 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UINVk-0008EC-8M; Wed, 20 Mar 2013 19:13:16 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1363673104.git.Qi.Chen@windriver.com>
-	<face120c816e78dffad876f43218920c1a7da423.1363673104.git.Qi.Chen@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 20 Mar 2013 19:13:16 +0100
-In-Reply-To: <face120c816e78dffad876f43218920c1a7da423.1363673104.git.Qi.Chen@windriver.com>
-	(Qi's message of "Tue, 19 Mar 2013 14:51:05 +0800")
-Message-ID: <lytxo6rlc3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+	Wed, 20 Mar 2013 19:30:54 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 20 Mar 2013 11:12:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,880,1355126400"; d="scan'208";a="217033438"
+Received: from unknown (HELO helios.localnet) ([10.255.13.114])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Mar 2013 11:12:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: eu@felipetonello.com
+Date: Wed, 20 Mar 2013 18:12:53 +0000
+Message-ID: <1813949.PJfGMBEi9g@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <1363730053-7719-4-git-send-email-eu@felipetonello.com>
+References: <1363730053-7719-1-git-send-email-eu@felipetonello.com>
+	<1363730053-7719-4-git-send-email-eu@felipetonello.com>
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -6.7
-X-Spam-Level: ------
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org
-Subject: Re: [PATCH 1/1] util-linux: better co-operate with systemd
+Cc: "Felipe F. Tonello" <ftonello@cercacor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 3/3] qt-mobility: added list of modules to be compiled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 18:30:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Mar 2013 18:30:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-<Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+Hi Felipe,
 
-> So in case of a systemd based image, we add to EXTRA_OECONF
-> '--with-systemdsystemunitdir' to specify the location of systemd unit
-> files, and '--enable-socket-activation' to build uuidd with socket
-> activation.
+On Tuesday 19 March 2013 14:54:13 eu@felipetonello.com wrote:
+> From: "Felipe F. Tonello" <ftonello@cercacor.com>
+> 
+> This is useful for users that want to .bbappend this recipe to select
+> specific modules to be compiled.
+> 
+> Signed-off-by: Felipe F. Tonello <ftonello@cercacor.com>
+> ---
+>  meta/recipes-qt/qt4/qt-mobility_1.2.0.inc |    6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc index fca4cb0..b0ab613 100644
+> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> @@ -18,7 +18,7 @@ SRC_URI =
+> "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.t
+> SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+>  SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc1
+> 54cf0ba44"
+> 
+> -PR = "r7"
+> +PR = "r8"
+> 
+>  S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
+> 
+> @@ -31,6 +31,8 @@ qtm_plugins	:= "/usr/lib/${qtm_dir}/plugins/QtMobility"
+>  qtm_data	:= "/usr/share/${qtm_dir}"
+>  qtm_imports	:= "/usr/lib/${qtm_dir}/imports"
+> 
+> +qtm_modules_list ?= "bearer contacts gallery location publishsubscribe
+> messaging multimedia \ +systeminfo serviceframework sensors versit
+> organizer feedback connectivity" qtm_bluezflag ?=
+> "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'yes', 'no', d)}"
 
-nak; this should go into an own subpackage:
+Typically variable names like this should be upper case; I know we've got some 
+lower case ones in here already but let's not introduce any more that we'll 
+have difficulty changing later.
 
-* the socket itself is broken: systemd tries to create the /var/uiidd/request
-  socket which will fail on ro filesystems.  It should be moved to a
-  volatile location
+Cheers,
+Paul
 
-* util-linux contains lot of other programs which might be useful for
-  other purposes; having a daemon which is activated silently is unwanted.
+-- 
 
-
-Enrico
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
