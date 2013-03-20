@@ -1,39 +1,37 @@
-Received: from mail-pd0-f176.google.com ([209.85.192.176])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UIJuH-0003XJ-NZ
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UIJy3-0003gD-Ns
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 15:22:28 +0100
-Received: by mail-pd0-f176.google.com with SMTP id t12so622018pdi.21
+	Wed, 20 Mar 2013 15:26:20 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 1D6D2D22E8; Wed, 20 Mar 2013 15:09:28 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 19744D20D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 07:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=IbvnoL88f0CYVcAPqUrSyZf8ChLOu4fUUYcdd+OgSPI=;
-	b=bgcBuARRaZPW/zhRcCHgvN82z3VR2xahrDrFuY1X8KCj3FxKC8m8zwiHrCNeBZ/qcP
-	qZuLUPEpadRUvwxr0vNqPS0tULYZp4KX5JAjDBfjh3QCiXm1XhRN7tlWWE1Nlq6RtDB1
-	h8pvTGDz/KAGqY8Fptu6XP+I5ivE8k9g34mS8WTSf6EOoxk7FEvM4m6YX/Jw9yz9/oS5
-	+RoSdq4SFaJ9yest0gqojjovcDXa1Amp9t9IA+LSiPQqVIYAuSjUP9XX9cVqUIGbJEkL
-	vm3lGPcikkdAoX8NFOX/zCCc65f31U784/7l/+glTwsR/Q6Xaj/G6xAQprFTkE21igFn
-	Vv4g==
-X-Received: by 10.68.179.1 with SMTP id dc1mr9073722pbc.128.1363788330023;
-	Wed, 20 Mar 2013 07:05:30 -0700 (PDT)
-Received: from sa-nc-ipg-172-23-0-104.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id u9sm2376642paf.22.2013.03.20.07.05.28
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 20 Mar 2013 07:05:29 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1363772243-370-2-git-send-email-marcin.juszkiewicz@linaro.org>
-Date: Wed, 20 Mar 2013 07:05:27 -0700
-Message-Id: <43E2DC7D-6495-408A-8653-7CFBBD6160FA@gmail.com>
+	Wed, 20 Mar 2013 15:09:07 +0100 (CET)
+Message-ID: <5149C2FF.4070309@linaro.org>
+Date: Wed, 20 Mar 2013 15:09:03 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <1363772243-370-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1363772243-370-2-git-send-email-marcin.juszkiewicz@linaro.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] eglibc: disable RPC in favour of libtirpc
+	<1586733.G7AaCq5rbs@helios> <51499277.8000400@linaro.org>
+	<5149B097.40106@windriver.com>
+In-Reply-To: <5149B097.40106@windriver.com>
+X-Enigmail-Version: 1.4.6
+Subject: Re: [RFC] Switching from glibc RPC to TI RPC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,45 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 14:22:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Mar 2013 14:26:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-NACK. tirpc is not at a point where it can replace the glibc provided =
-rpc. There is too much software that depends on it.
-We have tried it in past 2.14 time frame and reverted back.
+W dniu 20.03.2013 13:50, Mark Hatle pisze:
+> On 3/20/13 5:41 AM, Marcin Juszkiewicz wrote:
 
-On Mar 20, 2013, at 2:37 AM, Marcin Juszkiewicz =
-<marcin.juszkiewicz@linaro.org> wrote:
+>> Good point. YP-tools are not buildable with my changeset due to lack of
+>> YP support in libtirpc.
 
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
-> meta/recipes-core/eglibc/eglibc_2.17.bb | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.17.bb =
-b/meta/recipes-core/eglibc/eglibc_2.17.bb
-> index 22129e6..0853c08 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.17.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.17.bb
-> @@ -85,7 +85,7 @@ EXTRA_OECONF =3D "--enable-kernel=3D${OLDEST_KERNEL} =
-\
->                 --enable-add-ons \
->                 --with-headers=3D${STAGING_INCDIR} \
->                 --without-selinux \
-> -                --enable-obsolete-rpc \
-> +                --disable-obsolete-rpc \
->                 --with-kconfig=3D${STAGING_BINDIR_NATIVE} \
->                 ${GLIBC_EXTRA_OECONF}"
->=20
-> --=20
-> 1.8.1.2
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> There is definitely a class of user (networking devices) where nis/yp
+> are still being used.  I would love to see NIS support be a distro
+> feature or similar configure time element.
 
+Good idea.
+
+> -after- the upcoming release, I think we should pursue these patches,
+> assuming we can get the NIS support enabled in some way.
+
+Looks like we have to wait for TI RPC to mature more.
+
+> BTW my only other question was the busybox side.  I'm a bit confused by
+> the comment.  I thought the mount_nfs was still required because it
+> enabled the proper binding argument for the mount syscall.  While I
+> don't believe we need to still support the older kernel(s), we
+> definitely need NFS mounts to work in busybox.
+
+Since
+http://git.busybox.net/busybox/commit/?id=a86e02492d7700ce8cb4108f53646dfb025c2dff
+change (2011-11-10) this option is not needed to mount NFS with 2.6.23+
+kernel:
+
+config FEATURE_MOUNT_NFS
+	bool "Support mounting NFS file systems on Linux < 2.6.23"
+	default n
+	depends on MOUNT
+	select FEATURE_HAVE_RPC
+	select FEATURE_SYSLOG
+	help
+	  Enable mounting of NFS file systems on Linux kernels prior
+	  to version 2.6.23. Note that in this case mounting of NFS
+	  over IPv6 will not be possible.
+
+	  Note that this option links in RPC support from libc,
+	  which is rather large (~10 kbytes on uclibc).
 
 
