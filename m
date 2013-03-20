@@ -1,33 +1,25 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1UIReR-0001ii-Qe
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UIRoI-0001zs-Ug
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 23:38:36 +0100
-Received: by mail-da0-f47.google.com with SMTP id s35so1246310dak.20
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 15:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=78fJ9PgAELfDzo9kxdbIzN0tyn+Q3MAm4UGOpvrivw4=;
-	b=ZfNe6RSnhIGx2zrPjJ/BFjLnfHaH0bCW3Rdex15LlrdNca0BbFrrFATcMAvCFVmLOm
-	jJjRQrfMwO3rKIYDr9mF1iHaAP2Hpj4rwXwMXwc0+lZARqQcIn8SptBBPYoiD+AsQ17F
-	IRznQg/bfheGuveRk/1uPFvCU0hrLBE/OhKMKjLugo3YvUtn76TB4Whow0pEn4Xow6tg
-	5dgz1UhMJJGopc17ikhtFDKM48XztJUyFWdOsmMe2Y9XK6dQykmIS0EpcWaIFV08tpkZ
-	wrXmbX1LceMI/fg112tp1RfzWs9OMLB0PlvtLD9u+z//9rzHN4BbGYAmeHIXvuVSqMUd
-	knCg==
-X-Received: by 10.68.143.197 with SMTP id sg5mr11707175pbb.101.1363818099667; 
-	Wed, 20 Mar 2013 15:21:39 -0700 (PDT)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id in5sm3493991pbc.20.2013.03.20.15.21.36
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 20 Mar 2013 15:21:38 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Mar 2013 15:21:30 -0700
-Message-Id: <1363818091-22720-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.2
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/2] package_deb: don't install glibc-localedata-i18n separately
+	Wed, 20 Mar 2013 23:48:50 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Mar 2013 15:31:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,880,1355126400"; d="scan'208";a="306068897"
+Received: from unknown (HELO helios.localnet) ([10.255.13.202])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2013 15:31:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Wed, 20 Mar 2013 22:31:49 +0000
+Message-ID: <3527746.ix60sDuch3@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <1363816904-14989-1-git-send-email-otavio@ossystems.com.br>
+References: <1363816904-14989-1-git-send-email-otavio@ossystems.com.br>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-firmware: Package boardcom firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,35 +32,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 22:38:42 -0000
+X-List-Received-Date: Wed, 20 Mar 2013 22:48:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Wednesday 20 March 2013 19:01:44 Otavio Salvador wrote:
+> Adds specific packages for bcm4329, bcm4330 and bcm4334, including
+> handling of symbolic link for the needed firmware filename.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-This was removed from package_rpm and package_ipk years ago, and shouldn't be
-needed, installing the packages from package_linguas should be sufficient.
+s/boardcom/Broadcom/
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/package_deb.bbclass | 4 ----
- 1 file changed, 4 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 3174184..84b1c52 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -104,10 +104,6 @@ package_install_internal_deb () {
- 	# Uclibc builds don't provide this stuff..
- 	if [ x${TARGET_OS} = "xlinux" ] || [ x${TARGET_OS} = "xlinux-gnueabi" ] ; then
- 		if [ ! -z "${package_linguas}" ]; then
--			apt-get install glibc-localedata-i18n --force-yes --allow-unauthenticated
--			if [ $? -ne 0 ]; then
--				exit 1
--			fi
- 			for i in ${package_linguas}; do
- 				apt-get install $i --force-yes --allow-unauthenticated
- 				if [ $? -ne 0 ]; then
 -- 
-1.8.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
