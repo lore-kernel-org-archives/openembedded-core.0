@@ -1,31 +1,32 @@
-Received: from mail-ob0-f171.google.com ([209.85.214.171])
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UIJr0-0003FO-CN
+	(envelope-from <otavio.salvador@gmail.com>) id 1UIJrP-0003G4-6w
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Mar 2013 15:19:12 +0100
-Received: by mail-ob0-f171.google.com with SMTP id x4so1639195obh.30
+	Wed, 20 Mar 2013 15:19:27 +0100
+Received: by mail-oa0-f47.google.com with SMTP id o17so1764574oag.20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Mar 2013 07:02:07 -0700 (PDT)
+	Wed, 20 Mar 2013 07:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=t7zhBjQBx3Q4z53bNyiGRjWLli5KJPHVi8QNt4oBzGc=;
-	b=NhQvavQQlkv3RNvUuQCFa70ZbCni+R7Dk7le6ymfaZUeLmU9Fv1Xp5OLo0TdMoNDI6
-	lyDqJ1wQIrOUo6qGv5mpDor1+HZMbLaDI8ax+JfVNNSqKTJuWm9l/6Yl2r6y1sqdQgKQ
-	6D+8zCkqAin5NuqvzSPHF+a0Mnk/H+77wJ/GVs533QlBEAwOEb/nC9Uss4jflmCk0Vhq
-	kQwyA6863YkMo/2vTalVgt2N2J0RgXoPLemqLQ8ta8K32QAJ0N/lK5oC1IoKt4bFBsG4
-	JG1gy/feHTaWwR/Jdo5q7MkUZNOX4d+Km15g6PQeQcjxQouRJdsdpNQlCWxQ36bXyn3w
-	hb1A==
+	bh=TeVUFbnvS+8qpaCrvR3mUVEZUCjRFk68v8ywuZlFsu8=;
+	b=ByQ2m8+pKd8TRDHJ2YueQyuzOIUY9nOI/OLR0PxSxJ4EoYZFxvnr76LbPUui7djTp0
+	OYQjImvz6dECjshm3TbQuBsXtVfPu8TO+2lEkRyNX95qBSZVwkoUBQgGABZkbEpo3cT/
+	rl/aBDvQ84Nq/EHcBKwr5jNgGExrsBpkDZ7VAi5K7Wymhtb2jy7TFrV/l/6MtI9izGwD
+	iYB4vRSoGtqIMgME5+CXwHx7EG5ONq4RdMz15tsg6nrOjpripaTHFVrplB5fyPY5jS1T
+	rhEAS88HzSAFTuMimjkPE6IRdabCzoB6zo0D9iVJGgVzDh7kD6O0SMPqgBYDvtge4L3X
+	PQmw==
 MIME-Version: 1.0
-X-Received: by 10.182.157.104 with SMTP id wl8mr4162451obb.79.1363788126806;
-	Wed, 20 Mar 2013 07:02:06 -0700 (PDT)
+X-Received: by 10.182.110.33 with SMTP id hx1mr4160085obb.32.1363788151698;
+	Wed, 20 Mar 2013 07:02:31 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Wed, 20 Mar 2013 07:02:06 -0700 (PDT)
-In-Reply-To: <1363724207-31476-1-git-send-email-mark.hatle@windriver.com>
+Received: by 10.182.80.198 with HTTP; Wed, 20 Mar 2013 07:02:31 -0700 (PDT)
+In-Reply-To: <CAP9ODKpnych3aiFtvZnLyNk-KvQ_ysMH8oHC=bgD1w6q5P=feQ@mail.gmail.com>
 References: <1363724207-31476-1-git-send-email-mark.hatle@windriver.com>
-Date: Wed, 20 Mar 2013 11:02:06 -0300
-X-Google-Sender-Auth: pdYdBxMkuLB0GJ0nc7B4zOsyLeU
-Message-ID: <CAP9ODKpnych3aiFtvZnLyNk-KvQ_ysMH8oHC=bgD1w6q5P=feQ@mail.gmail.com>
+	<CAP9ODKpnych3aiFtvZnLyNk-KvQ_ysMH8oHC=bgD1w6q5P=feQ@mail.gmail.com>
+Date: Wed, 20 Mar 2013 11:02:31 -0300
+X-Google-Sender-Auth: E7bk-AacoUBUP4Kkt7WTZj415n4
+Message-ID: <CAP9ODKrmgqpoOYUGf6rgztDiQ0VsDms1EPKMC7hCF42o0+CzPA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Mark Hatle <mark.hatle@windriver.com>
 Cc: Patches and discussions about the oe-core layer
@@ -43,13 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2013 14:19:18 -0000
+X-List-Received-Date: Wed, 20 Mar 2013 14:19:28 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Mar 19, 2013 at 5:16 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+On Wed, Mar 20, 2013 at 11:02 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Tue, Mar 19, 2013 at 5:16 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>
+> I'd expect it to go to skeleton?
 
-I'd expect it to go to skeleton?
+Ignore! just noticed you did exactly that :-)
 
 -- 
 Otavio Salvador                             O.S. Systems
