@@ -1,32 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UIp4Y-0005G2-Uy for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 00:39:11 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2LNVW7i011241; Thu, 21 Mar 2013 23:31:32 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m4xNhmG1uOn7; Thu, 21 Mar 2013 23:31:32 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2LNVNET011233
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 21 Mar 2013 23:31:26 GMT
-Message-ID: <1363908112.16482.151.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Thu, 21 Mar 2013 23:21:52 +0000
-In-Reply-To: <13d8f28b861.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-References: <1363881315-24352-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1363881315-24352-15-git-send-email-richard.purdie@linuxfoundation.org>
-	<13d8f28b861.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 15/16] distro: Add separatebuilddir.inc
+	(envelope-from <sgw@linux.intel.com>) id 1UIpLn-0005ej-2t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Mar 2013 00:56:51 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2013 16:39:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,888,1355126400"; d="scan'208";a="310242310"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.200])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2013 16:39:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Mar 2013 16:39:56 -0700
+Message-Id: <1363909196-10482-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] dbus: remove uneeded RDEPENDS on ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Mar 2013 23:39:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Mar 2013 23:56:51 -0000
 
-On Thu, 2013-03-21 at 23:54 +0100, Bernhard Reutner-Fischer wrote:
-> On 21 March 2013 16:55:14 Richard Purdie 
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Going forward its going to be useful to separate build data from source data
-> > in those autotooled projects which support it. Unfortunately there is a lot
-> > of breakage so for now, this starts the creation of an opt in list which
-> > we can iterate over enable more recipes over time.
-> 
-> 
-> This does not yet seem to cover the 'O=' family, right?
+This solves a multiple provider issue along with a build failure with ptest enabled
 
-Correct. autotools seemed like the best place to start with that and the
-trick I mention above with the configure checksum change is only
-currently enabled there anyway.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-We could extend this to other places if it makes sense although I'm not
-sure how many O= recipes we have...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index affffbc..a1b56a5 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -9,8 +9,6 @@ X11DEPENDS = "virtual/libx11 libsm"
+ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+ DEPENDS_class-native = "expat-native virtual/libintl-native"
+ DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl"
+-RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '', d)}"
+-RDEPENDS_class-native = ""
+ 
+ INC_PR = "r6"
+ 
+-- 
+1.8.0.2
 
 
 
