@@ -1,40 +1,40 @@
-Received: from mail-wi0-f173.google.com ([209.85.212.173])
+Received: from mail-wi0-f175.google.com ([209.85.212.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UJ6Eb-0007gj-Vv
+	(envelope-from <ross.burton@intel.com>) id 1UJ6Ee-0007gv-QX
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 18:58:35 +0100
-Received: by mail-wi0-f173.google.com with SMTP id ez12so28096wid.0
+	Fri, 22 Mar 2013 18:58:44 +0100
+Received: by mail-wi0-f175.google.com with SMTP id c10so2796202wiw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 10:41:40 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=cHUG4ODhUZpNfkSBVALfNPzGcc2qfPM2hHp0LxRa6OI=;
-	b=Twcuy3prustG+rWqOCnw9bjDtVApLA18KVR8n8GBgT6W9PEB8fJZxZs9sWsgav2rjw
-	3d//Un6Wwx05ZblPH9Xq5tzV62fmhS12Yt1nPhas22HzHSA97mDPzCDOXVccKWAejKqi
-	NGoqNcQ2vkzW3c8T2klx3j6kICre2meU8KYFsv0xATFNzhIRrkg5tp8qpKYlmUciFLHN
-	QncaRWXQnzV0OvOVyCzc4HkaIxpGW8MQGIae3sC+6VBcR76XUM9RCH2OnRYqfkfWbWY2
-	CiwNQ/L4OlJct9kO2qDhumU/dwDW8ciMtRE0U27kZ3NrekZpo9gt5uCQxwOzwkOydTJp
-	IUiw==
-X-Received: by 10.194.83.33 with SMTP id n1mr4842573wjy.7.1363974100172;
-	Fri, 22 Mar 2013 10:41:40 -0700 (PDT)
+	bh=xuKsCGvMciHcVXwRyCf9C6f8rO4JxXqUu25hOgsMfwk=;
+	b=ahsgOWKF9zhvxmUtzN8Op85JwvZDgITsHrpI0qOOoMR3WAJwiyhcXtJh93Nd+z+tSh
+	mU4v1l1tZ8AD+LTSNpRlnfoyTtQmWMvrSz2gFeevR8A3E3GY5DeCfB4XJpQtEW8db2XE
+	suMzY2hiYhDG69Vbs+kaZ5cx7Ez4PY5shC/V7aJIFhnIs0bpi6R5CrKCwCjuaxUy5j5J
+	0LQ9QOxIOv+xjdBis5QR2UA/WxOKPNM0cwOpsp+mEzfqixTrn2Axh/75VNfISpLaznoc
+	ELywUpFEpqPbdPHjxSu8qeW1/KHFBhSSjTcRpScdq1Pf4sSNI8V7SGQDgXFw7eFeMoxk
+	Au8A==
+X-Received: by 10.194.71.241 with SMTP id y17mr4752634wju.28.1363974102982;
+	Fri, 22 Mar 2013 10:41:42 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.39
+	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.41
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 10:41:39 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:42 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 17:38:27 +0000
-Message-Id: <45454ff4a5b7d742a1483664a8f5bcd059c7d810.1363973088.git.ross.burton@intel.com>
+Date: Fri, 22 Mar 2013 17:38:29 +0000
+Message-Id: <876b70b30d4ed72bed465147dc6ecf28f331e2f7.1363973088.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmSYtk5MHAERTAfCGKvG8FdhwiiPt2mrHrC4zOeh8oju7Z98hQpnNZHKRGs5oxubngQVQ1e
+X-Gm-Message-State: ALoCoQmR3J8DOuuPlu5ATLiNdtmKILfo3noX+HM0MTSmRVrQwsJSUQT82MnfAnF0sTeepJ7fLpwO
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 07/22] systemd: split out the hwdb data
+Subject: [PATCH 09/22] update-rcd.bbclass: handle both sysvinit and systemd features being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,76 +47,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 17:59:26 -0000
-X-List-Received-Date: Fri, 22 Mar 2013 17:59:26 -0000
+X-List-Received-Date: Fri, 22 Mar 2013 17:59:30 -0000
 
-The hardware databases are not essential and also quite large, so split them out
-into udev-hwdb.
+Run the helper if the sysvinit feature is present, or if the systemd feature is
+present but the systemd class hasn't been inherited.  We want to run in the
+latter case as systemd has sysvinit compatibility, but we don't want to always
+run so that pure systemd images don't have redundant sysvinit files.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd_197.bb |   22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ meta/classes/update-rc.d.bbclass                          |    9 ++++++---
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb |    4 ++--
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 56ced66..a006ec8 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -180,13 +180,13 @@ RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
- "
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 65bf022..06b91c1 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -75,9 +75,12 @@ python populate_packages_updatercd () {
+         postrm += d.getVar('updatercd_postrm', True)
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
  
--PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils"
-+PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils udev-hwdb"
+-    # If the systemd class has also been inherited, then don't do anything as
+-    # the systemd units will override anything created by update-rc.d.
+-    if not d.getVar("SYSTEMD_BBCLASS_ENABLED", True):
++    # Run if the sysvinit feature is present, or if the systemd feature is present
++    # but the systemd class hasn't been inherited.  We want to run in the latter case
++    # as systemd has sysvinit compatibility, but we don't want to always so that
++    # pure systemd images don't have redundent sysvinit files.
++    if "sysvinit" in d.getVar("DISTRO_FEATURES").split() or \
++       ("systemd" in d.getVar("DISTRO_FEATURES").split() and not d.getVar("SYSTEMD_BBCLASS_ENABLED", True)):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
+             pkgs = d.getVar('UPDATERCPN', True)
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index b9183a8..e73b46e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -27,7 +27,7 @@ RCONFLICTS_${PN} = "task-core-boot"
+ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+ VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
+ VIRTUAL-RUNTIME_init_manager ?= "${DISTRO_FEATURES_INITMAN}"
+-VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES', 'sysvinit', 'initscripts', '',d)}"
++VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES_INITMAN', 'sysvinit', 'initscripts', '',d)}"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
- FILES_udev-dbg += "/lib/udev/.debug"
- 
- RDEPENDS_udev += "udev-utils"
- RPROVIDES_udev = "hotplug"
--RRECOMMENDS_udev += "udev-extraconf"
-+RRECOMMENDS_udev += "udev-extraconf udev-hwdb"
- 
- FILES_udev += "${base_sbindir}/udevd \
-                ${base_libdir}/systemd/systemd-udevd \
-@@ -209,7 +209,6 @@ FILES_udev += "${base_sbindir}/udevd \
-                /lib/udev/rules.d/78*.rules \
-                /lib/udev/rules.d/8*.rules \
-                /lib/udev/rules.d/95*.rules \
--               ${base_libdir}/udev/hwdb.d \
-                ${sysconfdir}/udev \
-                ${systemd_unitdir}/system/*udev* \
-                ${systemd_unitdir}/system/*.wants/*udev* \
-@@ -220,6 +219,8 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
- 
- FILES_udev-utils = "${bindir}/udevadm"
- 
-+FILES_udev-hwdb = "${base_libdir}/udev/hwdb.d"
-+
- # TODO:
- # u-a for runlevel and telinit
- 
-@@ -239,6 +240,21 @@ update-alternatives --remove shutdown ${base_bindir}/systemctl
- update-alternatives --remove poweroff ${base_bindir}/systemctl
- }
- 
-+pkg_postinst_udev-hwdb () {
-+	if test -n "$D"; then
-+		exit 1
-+	fi
-+
-+	udevadm hwdb --update
-+}
-+
-+pkg_prerm_udev-hwdb () {
-+	if test -n "$D"; then
-+		exit 1
-+	fi
-+
-+	rm -f ${sysconfdir}/udev/hwdb.bin
-+}
- 
- # As this recipe builds udev, respect the systemd DISTRO_FEATURE so we don't try
- # building udev and systemd in world builds.
+ RDEPENDS_${PN} = "\
+@@ -42,7 +42,7 @@ RDEPENDS_${PN} = "\
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ${VIRTUAL-RUNTIME_initscripts} \
+-    ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd-compat-units', '',d)} \
++    ${@base_contains('DISTRO_FEATURES_INITMAN', 'systemd', 'systemd-compat-units', '',d)} \
+     ${VIRTUAL-RUNTIME_dev_manager} \
+     ${VIRTUAL-RUNTIME_update-alternatives} \
+     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
 -- 
 1.7.10.4
 
