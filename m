@@ -1,36 +1,39 @@
-Received: from mail-pb0-f41.google.com ([209.85.160.41])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UIypG-0001Z8-K0; Fri, 22 Mar 2013 11:03:55 +0100
-Received: by mail-pb0-f41.google.com with SMTP id um15so2970982pbc.14
-	for <multiple recipients>; Fri, 22 Mar 2013 02:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=TkDWJdGj6m50UROhUTL9jwFLyU8OGrEYVT9/qKG1W2U=;
-	b=c6UOCnzq5LWfUhdbWtGxLnE6uhn52vIM4IqRX/RApe/1Nxu0U/GxdP2IFk+SqYnZmO
-	IyJt1hz42Gvtl0QJ8t7OVvoDiRNtG5AHPf80murviHJOQi4IpwiV91btz0TF9Qqc2lCo
-	JanwmFfscAWBpsk5/qbxaz1uYCsvq+VykHjEWYPQsFecqlrBH64Trpo/NNL/xd0JLZDB
-	uilvhNXJo+qZuLRDO63dBfBT2phQx98SpkDMe//cON9/gPv0cP2RiQJ6eobuGD+FP5JL
-	pGqBkrVRQolUCr6OKNgRNOH2yZ6xMV2gqRgwUl3NmNZhjPYoPdzs/wm/lz1Ofw1Ucdhv
-	4UWA==
-X-Received: by 10.66.81.2 with SMTP id v2mr2122230pax.204.1363945620176;
-	Fri, 22 Mar 2013 02:47:00 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id wm3sm1831304pbc.4.2013.03.22.02.46.57
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 02:46:59 -0700 (PDT)
-Date: Fri, 22 Mar 2013 10:46:57 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20130322094657.GR3219@jama>
+	(envelope-from <cristian.iorga@intel.com>) id 1UIzy0-00049T-Q1
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Mar 2013 12:17:02 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Mar 2013 03:58:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,891,1355126400"; d="scan'208";a="283161965"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2013 04:00:04 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Fri, 22 Mar 2013 11:00:01 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
+	14.01.0355.002; Fri, 22 Mar 2013 11:00:00 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-commits] Cristian Iorga : connman: upgrade to 1.12
+Thread-Index: AQHOGzWcSfWPJbnJlESZ8NbfD4OJ0ZixjfeAgAAULcA=
+Date: Fri, 22 Mar 2013 11:00:00 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1621958C@IRSMSX102.ger.corp.intel.com>
 References: <20130307111408.E14C2503A2@opal>
 	<20130307131301.GJ32228@jama.dyndns-home.com>
+	<20130322094657.GR3219@jama>
+In-Reply-To: <20130322094657.GR3219@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
-In-Reply-To: <20130307131301.GJ32228@jama.dyndns-home.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
 Subject: Re: [oe-commits] Cristian Iorga : connman: upgrade to 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,16 +47,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 10:03:56 -0000
-X-Groupsio-MsgNum: 36896
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Uw+RRa3pmtkgiNaD"
-Content-Disposition: inline
-
---Uw+RRa3pmtkgiNaD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Mar 2013 11:17:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Hi Martin,
+I will submit a patch on Monday.
+Regards,
+Cristian
+
+-----Original Message-----
+From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+Sent: Friday, March 22, 2013 11:47 AM
+To: openembedded-core@lists.openembedded.org; Iorga, Cristian
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : connman: upgrade to 1.12
 
 On Thu, Mar 07, 2013 at 02:13:01PM +0100, Martin Jansa wrote:
 > On Thu, Mar 07, 2013 at 11:14:08AM +0000, git@git.openembedded.org wrote:
@@ -68,9 +77,8 @@ it;h=3Dbd94ab11bbb6501013ed27ecb22685664816986c
 > >=20
 > > connman: upgrade to 1.12
 > >=20
-> > - 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch no lon=
-ger needed;
-> > fix included in package source code
+> > - 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch no=20
+> > longer needed; fix included in package source code
 > >=20
 > > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 > > Signed-off-by: Saul Wold <sgw@linux.intel.com>
@@ -83,20 +91,21 @@ ger needed;
 > >  .../connman/{connman_1.10.bb =3D> connman_1.12.bb}   |    5 +-
 > >  3 files changed, 3 insertions(+), 59 deletions(-)
 > >=20
-> > diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recip=
-es-connectivity/connman/connman.inc
+> > diff --git a/meta/recipes-connectivity/connman/connman.inc=20
+> > b/meta/recipes-connectivity/connman/connman.inc
 > > index db4d26c..04b21f7 100644
 > > --- a/meta/recipes-connectivity/connman/connman.inc
 > > +++ b/meta/recipes-connectivity/connman/connman.inc
 > > @@ -20,7 +20,7 @@ DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
-> >              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+> >              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} =
+\
 > >              "
 > > =20
 > > -INC_PR =3D "r18"
 > > +INC_PR =3D "r0"
 >=20
-> If this .inc file is reused by some other connman versions (e.g. .bb in
-> other layers) this will make PR going backwards for them.
+> If this .inc file is reused by some other connman versions (e.g. .bb=20
+> in other layers) this will make PR going backwards for them.
 >=20
 > It's OK to reset PR when changing PV, but please don't reset INC_PR too.
 
@@ -105,20 +114,24 @@ ping
 >=20
 > >  TIST =3D "--enable-tist"
 > >  TIST_powerpc =3D ""
-> > diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-I=
-f-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/=
-connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.pa=
-tch
+> > diff --git=20
+> > a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-
+> > is-no-d_type-support-use-fstatat.patch=20
+> > b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-
+> > is-no-d_type-support-use-fstatat.patch
 > > deleted file mode 100644
 > > index 7315545..0000000
-> > --- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there=
--is-no-d_type-support-use-fstatat.patch
+> > ---=20
+> > a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-
+> > is-no-d_type-support-use-fstatat.patch
 > > +++ /dev/null
 > > @@ -1,55 +0,0 @@
-> > -From 7007ef32a959ac4717c19339a24fd90a68638a19 Mon Sep 17 00:00:00 2001
+> > -From 7007ef32a959ac4717c19339a24fd90a68638a19 Mon Sep 17 00:00:00=20
+> > 2001
 > > -From: Andrei Gherzan <andrei@gherzan.ro>
 > > -Date: Tue, 17 Jul 2012 16:07:17 +0300
-> > -Subject: [PATCH V3 2/2] storage.c: If there is no d_type support use
+> > -Subject: [PATCH V3 2/2] storage.c: If there is no d_type support=20
+> > use
 > > - fstatat()
 > > -
 > > -This is useful for filesystems where d_type is always DT_UNKNOWN.
@@ -127,7 +140,7 @@ tch
 > > -Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
 > > -Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 > > -Upstream-Status: Submitted
-> > -=20
+> > -
 > > ----
 > > - src/storage.c |   19 +++++++++++++++++++
 > > - 1 file changed, 19 insertions(+)
@@ -172,8 +185,8 @@ tch
 > > - 				continue;
 > > -=20
 > > - 			g_string_append_printf(result, "%s/", d->d_name);
-> > diff --git a/meta/recipes-connectivity/connman/connman_1.10.bb b/meta/r=
-ecipes-connectivity/connman/connman_1.12.bb
+> > diff --git a/meta/recipes-connectivity/connman/connman_1.10.bb=20
+> > b/meta/recipes-connectivity/connman/connman_1.12.bb
 > > similarity index 74%
 > > rename from meta/recipes-connectivity/connman/connman_1.10.bb
 > > rename to meta/recipes-connectivity/connman/connman_1.12.bb
@@ -203,7 +216,8 @@ tatat.patch \
 > > _______________________________________________
 > > Openembedded-commits mailing list
 > > Openembedded-commits@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-com
+> > mits
 >=20
 > --=20
 > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
@@ -213,16 +227,4 @@ tatat.patch \
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Uw+RRa3pmtkgiNaD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFMKJEACgkQN1Ujt2V2gBwi4wCfY6lRGP6TdOsz0k5Xx9nDyltc
-9ZMAnRMNE/tx1U9wtYar1bFfvL7+FIUA
-=fcdh
------END PGP SIGNATURE-----
-
---Uw+RRa3pmtkgiNaD--
