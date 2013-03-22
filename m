@@ -1,40 +1,40 @@
 Received: from mail-we0-f176.google.com ([74.125.82.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UJ6Eg-0007hR-0Y
+	(envelope-from <ross.burton@intel.com>) id 1UJ6El-0007hw-2m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 18:58:44 +0100
-Received: by mail-we0-f176.google.com with SMTP id s10so332557wey.21
+	Fri, 22 Mar 2013 18:59:26 +0100
+Received: by mail-we0-f176.google.com with SMTP id s10so332617wey.21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 10:41:44 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=kQi1tSMCjpDbqM2zdkMZhLdYPoYtYECiuZEKIP1y0hA=;
-	b=Q/QPtjyoud4VHQfdaXDXvPIqp+wtwNK/XJ+5Cjh843VVdAy3Ac4mvdSnVvrikkw93q
-	Mt3n8NK3biWF39FWiCCHnnjvIZZ7lZFr6zkqv0/ISJ1QVzYsfco5DKupf7c37gWhqUzy
-	B/6m5bmPjBtKvFgfOTzfzxRBUJUUTdRqq05gTSHoNZSLQaX2ivwZ/WVzGnsUg7wv5eKv
-	8UgTPNc1wEKCzi3f9NeR9Jg1+HS6ih/ztMit4x9V2fUXCP+72YHdAX3dtCfxVylASX0t
-	deohUmgpeNQTYTTU56SoMr3PYwerW2yra3NnV4LAjVCjlnMuz0uHfL5eB+ECTrldHJhb
-	VcKg==
-X-Received: by 10.194.119.33 with SMTP id kr1mr4713790wjb.36.1363974104186;
-	Fri, 22 Mar 2013 10:41:44 -0700 (PDT)
+	bh=958vYwHxcuKpUFynxx2Uv3B9Mq3IPT5oSOB2QahcQbE=;
+	b=T7G9otRSjTEq+CP56e8vi5BEQ3Iey/ZQ/ohZHxTlm0yH9eEK/H+xKnYX5ITptPI3zS
+	ApAUcxHIiTn9kA8ICvwuxv1Wx609bTizRd4Hio02izxKkwKuHfhJKEvwgbUuoN17cGDx
+	vBPicnmmvC7+CBpcwtwnuY3Of/SnlfHq6Y5vSIlOWF0bIZn9RLmNlCy7qmD5hiu3P6rd
+	M+gigbbOMVR4ScWYO+4PyZdLqIdytK0265My5EFwANoebI1QQF1pYhfWmo2tAzFxO0YT
+	XSk0OC+p5rPedsmkXSfSsd9oVsdjj6ddaCYxzBeBn96jQr+YafYVJe8opKxyiuQdOuFJ
+	K8Tg==
+X-Received: by 10.194.92.231 with SMTP id cp7mr4768363wjb.19.1363974109286;
+	Fri, 22 Mar 2013 10:41:49 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.43
+	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.48
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 10:41:43 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:48 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 17:38:30 +0000
-Message-Id: <aee32f66f2b04b1b1d08659cd6d7d9c16ee3e7f1.1363973088.git.ross.burton@intel.com>
+Date: Fri, 22 Mar 2013 17:38:34 +0000
+Message-Id: <b93b6a12cb661026efc5864dc59e5bac3b8396a1.1363973088.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQm7dEj9rm8XHqFcIGv9iT7hx67rdWdcA/nuxSq+i3eU2HJ+Cr+/qNkHSNCVvTq6w1QsKMg2
+X-Gm-Message-State: ALoCoQljuRzQE/vJ70RnlMNf8x7uacpnmcjyLa6tBnA69E6ayVI9emDp44EDOFkwCzquxzbwP8T6
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 10/22] util-linux: split uuidd into it's own package, and enable for systemd
+Subject: [PATCH 14/22] update-rc.d/systemd: change communication variable name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,63 +48,59 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Mar 2013 17:59:39 -0000
-X-List-Received-Date: Fri, 22 Mar 2013 17:59:39 -0000
+
+Rename SYSTEMD_BBCLASS_ENABLED to INHIBIT_UPDATERCD_BBCLASS to reflect the
+action, for clarity.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc |   11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ meta/classes/systemd.bbclass     |   11 +++++++----
+ meta/classes/update-rc.d.bbclass |    8 +++-----
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 41a5471..46daab7 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=679af3e410ee112a5ec94de6501bf5c3
-                     file://libmount/COPYING;md5=152f98bc301a5ea649769ede7203ac82 \
-                     file://libblkid/COPYING;md5=152f98bc301a5ea649769ede7203ac82"
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index cca2152..42fa554 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -10,11 +10,14 @@ SYSTEMD_AUTO_ENABLE ??= "enable"
+ # even if the systemd DISTRO_FEATURE isn't enabled.  As such don't make any
+ # changes directly but check the DISTRO_FEATURES first.
+ python __anonymous() {
+-    if "systemd" in d.getVar("DISTRO_FEATURES", True).split():
++    features = d.getVar("DISTRO_FEATURES", True).split()
++    # If the distro features have systemd but not sysvinit, inhibit update-rcd
++    # from doing any work so that pure-systemd images don't have redundant init
++    # files.
++    if "systemd" in features:
+         d.appendVar("DEPENDS", " systemd-systemctl-native")
+-        # Set a variable so that update-rcd.bbclass knows we're active and can
+-        # disable itself.
+-        d.setVar("SYSTEMD_BBCLASS_ENABLED", "1")
++        if "sysvinit" not in features:
++            d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
  
--inherit autotools gettext pkgconfig
-+inherit autotools gettext pkgconfig systemd
- DEPENDS = "zlib ncurses"
- DEPENDS_append_class-native = " lzo-native"
+ systemd_postinst() {
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 0997702..9f1e28a 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -80,12 +80,10 @@ python populate_packages_updatercd () {
+         postrm += d.getVar('updatercd_postrm', True)
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
  
-@@ -34,7 +34,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-libmount util-linux-libmount-dev \
-              util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
--             util-linux-mkfs util-linux-mcookie util-linux-reset"
-+             util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-uuidd"
- 
- EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-                 --disable-makeinstall-chown --enable-elvtune --enable-init \
-@@ -46,6 +46,10 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
- 		usrsbin_execdir='${sbindir}' \
- "
- 
-+# Respect the systemd feature for uuidd
-+EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--enable-socket-activation', '--disable-socket-activation', d)}"
-+EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', d)}"
-+
- EXTRA_OECONF_append_class-native = " --disable-login --disable-su"
- 
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
-@@ -61,6 +65,7 @@ FILES_util-linux-mcookie = "${bindir}/mcookie"
- FILES_util-linux-umount = "${base_bindir}/umount.${BPN}"
- FILES_util-linux-readprofile = "${base_sbindir}/readprofile.${BPN}"
- FILES_util-linux-uuidgen = "${bindir}/uuidgen"
-+FILES_util-linux-uuidd = "${sbindir}/uuidd"
- FILES_util-linux-reset = "${base_bindir}/reset"
- 
- FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
-@@ -88,6 +93,8 @@ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-l
- RRECOMMENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-native = ""
- 
-+SYSTEMD_PACKAGES = "util-linux-uuidd"
-+SYSTEMD_SERVICE_util-linux-uuidd = "uuidd.service"
- 
- do_compile () {
- 	set -e
+-    # Run if the sysvinit feature is present, or if the systemd feature is present
+-    # but the systemd class hasn't been inherited.  We want to run in the latter case
+-    # as systemd has sysvinit compatibility, but we don't want to always so that
+-    # pure systemd images don't have redundent sysvinit files.
++    # Check that this class isn't being inhibited (generally, by
++    # systemd.bbclass) before doing any work.
+     if "sysvinit" in d.getVar("DISTRO_FEATURES").split() or \
+-       ("systemd" in d.getVar("DISTRO_FEATURES").split() and not d.getVar("SYSTEMD_BBCLASS_ENABLED", True)):
++       not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
+             pkgs = d.getVar('UPDATERCPN', True)
 -- 
 1.7.10.4
 
