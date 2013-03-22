@@ -1,35 +1,37 @@
-Received: from mail-wi0-f179.google.com ([209.85.212.179])
+Received: from mail-pb0-f41.google.com ([209.85.160.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UIyYF-0000BT-7p
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 10:46:22 +0100
-Received: by mail-wi0-f179.google.com with SMTP id hn17so1409846wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 02:29:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=HIzAJfpkw/CV9zRW+4W9dbxh6lXQkcn7bhc8O/k6xSU=;
-	b=ceTFs6IQ+7g61jF7aK9SsNV3W3KCv0wdxgS2fDxo9hJaEpzZnrsN0sEG50DC6ZeF4r
-	cQGY9/hLCnrS3VPbnEmrZtjiAFrtiCGD9gXADTcIOS7EaAR/eE8FmHh1uCye0Zx2P4xd
-	hm3swL/zMQ2LnQf30yh2f4q3Z8p6dJgxqtLFKExwIHNKq2HmNwi6Woibxj/2yOU6dd6M
-	WnBg92TsnFNk6eVIkMVB72aJfV9Sy20qHMR2xrehhCR+AakWzebq3UUw5Majj8JtEakx
-	USkDhRfVrKtKNE7HXNz+oR4IpsbImZrYHVQmwW1xKgo57ZB++GWT3A3iVJeq+h3wHHYN
-	CjcQ==
-X-Received: by 10.180.91.106 with SMTP id cd10mr1671493wib.6.1363944565463;
-	Fri, 22 Mar 2013 02:29:25 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id n2sm9599234wiy.6.2013.03.22.02.29.23
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 02:29:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 09:26:38 +0000
-Message-Id: <1363944398-6426-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnWOLbp1vHRatt8y+8fD25LXnkFcBfKgor84V1vtLQ9YErWIaFlcWFMUWCbLBYt81nbhdxf
-Subject: [PATCH] polkit: remove
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1UIypG-0001Z8-K0; Fri, 22 Mar 2013 11:03:55 +0100
+Received: by mail-pb0-f41.google.com with SMTP id um15so2970982pbc.14
+	for <multiple recipients>; Fri, 22 Mar 2013 02:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=TkDWJdGj6m50UROhUTL9jwFLyU8OGrEYVT9/qKG1W2U=;
+	b=c6UOCnzq5LWfUhdbWtGxLnE6uhn52vIM4IqRX/RApe/1Nxu0U/GxdP2IFk+SqYnZmO
+	IyJt1hz42Gvtl0QJ8t7OVvoDiRNtG5AHPf80murviHJOQi4IpwiV91btz0TF9Qqc2lCo
+	JanwmFfscAWBpsk5/qbxaz1uYCsvq+VykHjEWYPQsFecqlrBH64Trpo/NNL/xd0JLZDB
+	uilvhNXJo+qZuLRDO63dBfBT2phQx98SpkDMe//cON9/gPv0cP2RiQJ6eobuGD+FP5JL
+	pGqBkrVRQolUCr6OKNgRNOH2yZ6xMV2gqRgwUl3NmNZhjPYoPdzs/wm/lz1Ofw1Ucdhv
+	4UWA==
+X-Received: by 10.66.81.2 with SMTP id v2mr2122230pax.204.1363945620176;
+	Fri, 22 Mar 2013 02:47:00 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id wm3sm1831304pbc.4.2013.03.22.02.46.57
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 22 Mar 2013 02:46:59 -0700 (PDT)
+Date: Fri, 22 Mar 2013 10:46:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20130322094657.GR3219@jama>
+References: <20130307111408.E14C2503A2@opal>
+	<20130307131301.GJ32228@jama.dyndns-home.com>
+MIME-Version: 1.0
+In-Reply-To: <20130307131301.GJ32228@jama.dyndns-home.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : connman: upgrade to 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,301 +44,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 09:46:26 -0000
+X-List-Received-Date: Fri, 22 Mar 2013 10:03:56 -0000
+X-Groupsio-MsgNum: 36896
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Uw+RRa3pmtkgiNaD"
+Content-Disposition: inline
 
-Previous commits have meant that PolicyKit isn't used by default anymore, so
-remove this now that it's been integrated into meta-gnome.
+--Uw+RRa3pmtkgiNaD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rationales for this move inludes that PolicyKit isn't "core" for embedded
-systems, and future versions require the SpiderMonkey JavaScript runtime.
+On Thu, Mar 07, 2013 at 02:13:01PM +0100, Martin Jansa wrote:
+> On Thu, Mar 07, 2013 at 11:14:08AM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: bd94ab11bbb6501013ed27ecb22685664816986c
+> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
+it;h=3Dbd94ab11bbb6501013ed27ecb22685664816986c
+> >=20
+> > Author: Cristian Iorga <cristian.iorga@intel.com>
+> > Date:   Mon Mar  4 19:17:49 2013 +0200
+> >=20
+> > connman: upgrade to 1.12
+> >=20
+> > - 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch no lon=
+ger needed;
+> > fix included in package source code
+> >=20
+> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> >=20
+> > ---
+> >=20
+> >  meta/recipes-connectivity/connman/connman.inc      |    2 +-
+> >  ...If-there-is-no-d_type-support-use-fstatat.patch |   55 ------------=
+--------
+> >  .../connman/{connman_1.10.bb =3D> connman_1.12.bb}   |    5 +-
+> >  3 files changed, 3 insertions(+), 59 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recip=
+es-connectivity/connman/connman.inc
+> > index db4d26c..04b21f7 100644
+> > --- a/meta/recipes-connectivity/connman/connman.inc
+> > +++ b/meta/recipes-connectivity/connman/connman.inc
+> > @@ -20,7 +20,7 @@ DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
+> >              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+> >              "
+> > =20
+> > -INC_PR =3D "r18"
+> > +INC_PR =3D "r0"
+>=20
+> If this .inc file is reused by some other connman versions (e.g. .bb in
+> other layers) this will make PR going backwards for them.
+>=20
+> It's OK to reset PR when changing PV, but please don't reset INC_PR too.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...ession-Set-error-if-we-cannot-find-a-sess.patch |   70 --------------------
- ...ession-Actually-return-TRUE-if-a-session-.patch |   46 -------------
- .../polkit-0.104/obsolete_automake_macros.patch    |   23 -------
- .../polkit/polkit-0.104/polkit-1_pam.patch         |   23 -------
- meta/recipes-extended/polkit/polkit-gnome_0.102.bb |   26 --------
- meta/recipes-extended/polkit/polkit_0.104.bb       |   45 -------------
- 6 files changed, 233 deletions(-)
- delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
- delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
- delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
- delete mode 100644 meta/recipes-extended/polkit/polkit-gnome_0.102.bb
- delete mode 100644 meta/recipes-extended/polkit/polkit_0.104.bb
+ping
 
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch b/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
-deleted file mode 100644
-index c021bfb..0000000
---- a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From c46d2d13eac240d2a609b2dd8fc617ea18a78bfa Mon Sep 17 00:00:00 2001
--From: David Zeuthen <davidz@redhat.com>
--Date: Mon, 6 Feb 2012 11:24:53 -0500
--Subject: [PATCH 1/2] PolkitUnixSession: Set error if we cannot find a session for the given pid
--
--Also, don't treat the integer returned by sd_pid_get_session() as a
--boolean because that's just confusing. Also, don't confuse memory
--supposed to be freed by g_free() and free(3) with each other. See
--
-- https://bugzilla.redhat.com/show_bug.cgi?id=787222
--
--for more details.
--
--Signed-off-by: David Zeuthen <davidz@redhat.com>
-----
--
--Upstream-Status: Accepted
--
-- src/polkit/polkitunixsession-systemd.c |   21 ++++++++++++++++-----
-- 1 files changed, 16 insertions(+), 5 deletions(-)
--
--diff --git a/src/polkit/polkitunixsession-systemd.c b/src/polkit/polkitunixsession-systemd.c
--index e7e913f..94a7ee4 100644
----- a/src/polkit/polkitunixsession-systemd.c
--+++ b/src/polkit/polkitunixsession-systemd.c
--@@ -23,6 +23,7 @@
-- #  include "config.h"
-- #endif
-- 
--+#include <stdlib.h>
-- #include <string.h>
-- #include "polkitunixsession.h"
-- #include "polkitsubject.h"
--@@ -450,9 +451,8 @@ polkit_unix_session_initable_init (GInitable     *initable,
--                                    GError       **error)
-- {
--   PolkitUnixSession *session = POLKIT_UNIX_SESSION (initable);
---  gboolean ret;
---
---  ret = FALSE;
--+  gboolean ret = FALSE;
--+  char *s;
-- 
--   if (session->session_id != NULL)
--     {
--@@ -461,8 +461,19 @@ polkit_unix_session_initable_init (GInitable     *initable,
--       goto out;
--     }
-- 
---  if (!sd_pid_get_session (session->pid, &session->session_id))
---    ret = TRUE;
--+  if (sd_pid_get_session (session->pid, &s) == 0)
--+    {
--+      session->session_id = g_strdup (s);
--+      free (s);
--+      ret = TRUE;
--+      goto out;
--+    }
--+
--+  g_set_error (error,
--+               POLKIT_ERROR,
--+               POLKIT_ERROR_FAILED,
--+               "No session for pid %d",
--+               (gint) session->pid);
-- 
-- out:
--   return ret;
---- 
--1.7.2.5
--
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch b/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
-deleted file mode 100644
-index 49f8ce2..0000000
---- a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 8fb8b406bab50c5ef8c5d4f743e3f13924bd5f73 Mon Sep 17 00:00:00 2001
--From: David Zeuthen <davidz@redhat.com>
--Date: Mon, 6 Feb 2012 11:26:06 -0500
--Subject: [PATCH 2/2] PolkitUnixSession: Actually return TRUE if a session exists
--
--Also, don't treat the integer returned by sd_session_get_uid() as a
--boolean because that's just confusing.
--
--Signed-off-by: David Zeuthen <davidz@redhat.com>
-----
--
--Upstream-Status: Accepted
--
-- src/polkit/polkitunixsession-systemd.c |   12 +++++-------
-- 1 files changed, 5 insertions(+), 7 deletions(-)
--
--diff --git a/src/polkit/polkitunixsession-systemd.c b/src/polkit/polkitunixsession-systemd.c
--index 94a7ee4..8a8bf65 100644
----- a/src/polkit/polkitunixsession-systemd.c
--+++ b/src/polkit/polkitunixsession-systemd.c
--@@ -361,17 +361,15 @@ polkit_unix_session_to_string (PolkitSubject *subject)
-- 
-- static gboolean
-- polkit_unix_session_exists_sync (PolkitSubject   *subject,
---                                    GCancellable    *cancellable,
---                                    GError         **error)
--+                                 GCancellable    *cancellable,
--+                                 GError         **error)
-- {
--   PolkitUnixSession *session = POLKIT_UNIX_SESSION (subject);
---  gboolean ret;
--+  gboolean ret = FALSE;
--   uid_t uid;
-- 
---  ret = FALSE;
---
---  if (!sd_session_get_uid (session->session_id, &uid))
---    ret = FALSE;
--+  if (sd_session_get_uid (session->session_id, &uid) == 0)
--+    ret = TRUE;
-- 
--   return ret;
-- }
---- 
--1.7.2.5
--
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch b/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
-deleted file mode 100644
-index 5a6046c..0000000
---- a/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=59091]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd polkit-0.104/configure.ac polkit-0.104/configure.ac
----- polkit-0.104/configure.ac	2012-01-03 18:25:49.000000000 +0200
--+++ polkit-0.104/configure.ac	2013-01-07 03:13:31.862125625 +0200
--@@ -3,7 +3,7 @@
-- AC_PREREQ(2.59c)
-- AC_INIT(polkit, 0.104, http://lists.freedesktop.org/mailman/listinfo/polkit-devel)
-- AM_INIT_AUTOMAKE(polkit, 0.104)
---AM_CONFIG_HEADER(config.h)
--+AC_CONFIG_HEADERS(config.h)
-- AM_MAINTAINER_MODE
--
-- m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
--@@ -24,7 +24,6 @@
--
-- AC_ISC_POSIX
-- AC_PROG_CC
---AM_PROG_CC_STDC
-- AC_HEADER_STDC
-- AM_PROG_LIBTOOL
-- AC_PROG_MAKE_SET
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch b/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
-deleted file mode 100644
-index 74647ef..0000000
---- a/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--polkit: No system-auth in OE-Core, we can use common-* in place of it.
--
--Upstream-Status:Inappropriate [configuration]
--
--Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
--
----- a/configure.ac	2011-03-04 02:26:20.000000000 +0800
--+++ b/configure.ac.new	2011-07-18 10:14:12.516818852 +0800
--@@ -350,10 +350,10 @@
--     PAM_FILE_INCLUDE_PASSWORD=system
--     PAM_FILE_INCLUDE_SESSION=system
-- else
---   PAM_FILE_INCLUDE_AUTH=system-auth
---   PAM_FILE_INCLUDE_ACCOUNT=system-auth
---   PAM_FILE_INCLUDE_PASSWORD=system-auth
---   PAM_FILE_INCLUDE_SESSION=system-auth
--+   PAM_FILE_INCLUDE_AUTH=common-auth
--+   PAM_FILE_INCLUDE_ACCOUNT=common-account
--+   PAM_FILE_INCLUDE_PASSWORD=common-password
--+   PAM_FILE_INCLUDE_SESSION=common-session
-- fi
-- 
-- AC_SUBST(PAM_FILE_INCLUDE_AUTH)
-diff --git a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb b/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
-deleted file mode 100644
-index 7e9fc2b..0000000
---- a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--SUMMARY = "GNOME Authentication Agent for PolicyKit"
--DESCRIPTION = "PolicyKit-gnome provides an Authentication Agent for PolicyKit that integrates well with the GNOME desktop environment"
--HOMEPAGE = "http://www.packagekit.org/"
--BUGTRACKER = "http://bugzilla.gnome.org/"
--DEPENDS = "polkit dbus-glib gconf gtk+"
--LICENSE = "LGPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=74579fab173e4c5e12aac0cd83ee98ec \
--                    file://src/main.c;beginline=1;endline=20;md5=aba145d1802f2329ba561e3e48ecb795"
--
--SRC_URI = "http://hal.freedesktop.org/releases/polkit-gnome-${PV}.tar.bz2 \
--          "
--
--PR = "r2"
--
--EXTRA_OECONF = " --disable-scrollkeeper \
--                 --disable-man-pages \
--                 --disable-examples \
--                 --disable-introspection "
--
--inherit autotools gtk-doc pkgconfig
--
--FILES_${PN} += " ${datadir}/dbus-1 \
--                 ${datadir}/PolicyKit \
--               "
--SRC_URI[md5sum] = "f6b485ffd7bd605af815fd2747180481"
--SRC_URI[sha256sum] = "81caa6972e651e90ef4ac31d7ed41bc79543d46b850dbd5b14b40f8ef7107d11"
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-deleted file mode 100644
-index 342fbe1..0000000
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ /dev/null
-@@ -1,45 +0,0 @@
--SUMMARY = "PolicyKit Authorization Framework"
--DESCRIPTION = "The polkit package is an application-level toolkit for defining and handling the policy that allows unprivileged processes to speak to privileged processes."
--HOMEPAGE = "http://www.freedesktop.org/wiki/Software/polkit"
--LICENSE = "LGPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
--                    file://src/polkit/polkit.h;beginline=1;endline=20;md5=0a8630b0133176d0504c87a0ded39db4"
--
--DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
--
--PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
--                 ${@base_contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)}"
--
--PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
--PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
--# There is no --enable/--disable option for consolekit, so disable systemd to
--# force it.  ConsoleKit is accessed via DBus, so add it to RDEPENDS.
--PACKAGECONFIG[consolekit] = "--disable-systemd,,,consolekit"
--
--PR = "r9"
--
--PAM_SRC_URI = "file://polkit-1_pam.patch"
--SRC_URI = "http://www.freedesktop.org/software/polkit/releases/polkit-${PV}.tar.gz \
--           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
--           file://0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch \
--           file://0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch \
--           file://obsolete_automake_macros.patch \
--          "
--
--SRC_URI[md5sum] = "e380b4c6fb1e7bccf854e92edc0a8ce1"
--SRC_URI[sha256sum] = "6b0a13d8381e4a7b7e37c18a54595191b50757e0fcd186cd9918e9ad0f18c7f9"
--
--EXTRA_OECONF = "--with-os-type=moblin --disable-man-pages --disable-introspection"
--
--inherit autotools gtk-doc pkgconfig
--
--do_install_append() {
--	rm -f ${D}${libdir}/${BPN}-1/extensions/*.a
--}
--
--FILES_${PN} += "${libdir}/${BPN}-1/extensions/*.so \
--                ${datadir}/${BPN}-1/actions/* \
--                ${datadir}/dbus-1/system-services/*"
--FILES_${PN}-dbg += "${libdir}/${BPN}-1/extensions/.debug/*.so"
--FILES_${PN}-dev += "${libdir}/${BPN}-1/extensions/*.la "
--
--- 
-1.7.10.4
+>=20
+> >  TIST =3D "--enable-tist"
+> >  TIST_powerpc =3D ""
+> > diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-I=
+f-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/=
+connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.pa=
+tch
+> > deleted file mode 100644
+> > index 7315545..0000000
+> > --- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there=
+-is-no-d_type-support-use-fstatat.patch
+> > +++ /dev/null
+> > @@ -1,55 +0,0 @@
+> > -From 7007ef32a959ac4717c19339a24fd90a68638a19 Mon Sep 17 00:00:00 2001
+> > -From: Andrei Gherzan <andrei@gherzan.ro>
+> > -Date: Tue, 17 Jul 2012 16:07:17 +0300
+> > -Subject: [PATCH V3 2/2] storage.c: If there is no d_type support use
+> > - fstatat()
+> > -
+> > -This is useful for filesystems where d_type is always DT_UNKNOWN.
+> > -In this case use fstatat() function.
+> > -
+> > -Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+> > -Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> > -Upstream-Status: Submitted
+> > -=20
+> > ----
+> > - src/storage.c |   19 +++++++++++++++++++
+> > - 1 file changed, 19 insertions(+)
+> > -
+> > -Index: git/src/storage.c
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > ---- git.orig/src/storage.c
+> > -+++ git/src/storage.c
+> > -@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
+> > -=20
+> > - 		switch (d->d_type) {
+> > - 		case DT_DIR:
+> > --		case DT_UNKNOWN:
+> > - 			/*
+> > - 			 * If the settings file is not found, then
+> > - 			 * assume this directory is not a services dir.
+> > -@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
+> > - 			ret =3D stat(str, &buf);
+> > - 			g_free(str);
+> > - 			if (ret < 0)
+> > -+				continue;
+> > -+
+> > -+			g_string_append_printf(result, "%s/", d->d_name);
+> > -+			break;
+> > -+		case DT_UNKNOWN:
+> > -+			/*
+> > -+			 * If there is no d_type support use fstatat()
+> > -+			 * to check if directory
+> > -+			 */
+> > -+			ret =3D fstatat(dirfd(dir), d->d_name, &buf, 0);
+> > -+			if (ret < 0)
+> > -+				continue;
+> > -+			if (!(buf.st_mode & S_IFDIR))
+> > -+				continue;
+> > -+			str =3D g_strdup_printf("%s/%s/settings", STORAGEDIR,
+> > -+							d->d_name);
+> > -+			ret =3D stat(str, &buf);
+> > -+			g_free(str);
+> > -+			if (ret < 0)
+> > - 				continue;
+> > -=20
+> > - 			g_string_append_printf(result, "%s/", d->d_name);
+> > diff --git a/meta/recipes-connectivity/connman/connman_1.10.bb b/meta/r=
+ecipes-connectivity/connman/connman_1.12.bb
+> > similarity index 74%
+> > rename from meta/recipes-connectivity/connman/connman_1.10.bb
+> > rename to meta/recipes-connectivity/connman/connman_1.12.bb
+> > index 7dca1b4..5ba4032 100644
+> > --- a/meta/recipes-connectivity/connman/connman_1.10.bb
+> > +++ b/meta/recipes-connectivity/connman/connman_1.12.bb
+> > @@ -1,12 +1,11 @@
+> >  require connman.inc
+> > =20
+> > -# 1.10 tag
+> > -SRCREV =3D "3bda76eb442c9395db1dba17352c3e78376671cc"
+> > +# 1.12 tag
+> > +SRCREV =3D "8397cbbc0a79d39cf3b1880f4fd3f3405b6bc6ad"
+> >  SRC_URI  =3D "git://git.kernel.org/pub/scm/network/connman/connman.git=
+ \
+> >              file://0001-plugin.h-Change-visibility-to-default-for-debu=
+g-symb.patch \
+> >              file://add_xuser_dbus_permission.patch \
+> >              file://connman \
+> > -            file://0002-storage.c-If-there-is-no-d_type-support-use-fs=
+tatat.patch \
+> >              file://inet-fix-ip-cleanup-functions.patch \
+> >              file://add-in.h-for-ipv6.patch"
+> >  S =3D "${WORKDIR}/git"
+> >=20
+> >=20
+> > _______________________________________________
+> > Openembedded-commits mailing list
+> > Openembedded-commits@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Uw+RRa3pmtkgiNaD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFMKJEACgkQN1Ujt2V2gBwi4wCfY6lRGP6TdOsz0k5Xx9nDyltc
+9ZMAnRMNE/tx1U9wtYar1bFfvL7+FIUA
+=fcdh
+-----END PGP SIGNATURE-----
+
+--Uw+RRa3pmtkgiNaD--
