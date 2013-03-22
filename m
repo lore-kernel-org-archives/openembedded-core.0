@@ -1,38 +1,35 @@
-Received: from mail-pb0-f41.google.com ([209.85.160.41])
+Received: from mail-wi0-f179.google.com ([209.85.212.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UIyL8-00074E-O6
+	(envelope-from <ross.burton@intel.com>) id 1UIyYF-0000BT-7p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 10:32:47 +0100
-Received: by mail-pb0-f41.google.com with SMTP id um15so2953683pbc.0
+	Fri, 22 Mar 2013 10:46:22 +0100
+Received: by mail-wi0-f179.google.com with SMTP id hn17so1409846wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 02:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=NC+e0kiCyJVfdzmwqrEpZiVTHedTlrUIuDhvAnd/Su8=;
-	b=J9l52TgDcnrFiEOgfLL/mJoAgYpTVkjcrCvplo3XndOqxwDAVeUaWHL4y17mG2d5fz
-	SonTAmRw5chlP6BPID5Exxz2brZO+TTJXa+A6AHIbWxsLrdbygey+WvMabw5I8+/adzd
-	JFhn0JeAi7KWTzzFIlSAfqt0kYA+S61WooGOISxUZQtaUbzxx/avq5+BsZa+C/nC1hA0
-	TMzxytqoyzC2FV6FEmIwVEGrU5AIHG/XIt3OvKTnDW867fc7bJh2C2F7s32E1AcuB+N0
-	/9EpLxto9hMX/ZpfQBsVHyZtZAcTrNd9p6ZZY+6hBAb6uQpbLQse6pkbRIudehFXxENd
-	23qQ==
-X-Received: by 10.68.176.68 with SMTP id cg4mr1531888pbc.49.1363943752329;
-	Fri, 22 Mar 2013 02:15:52 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ti8sm1726653pbc.12.2013.03.22.02.15.49
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 02:15:51 -0700 (PDT)
-Date: Fri, 22 Mar 2013 10:15:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Message-ID: <20130322091549.GC3219@jama>
-References: <1363792150-24988-1-git-send-email-Martin.Jansa@gmail.com>
-	<13d91230233.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <13d91230233.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Use u-a for getopt
+	Fri, 22 Mar 2013 02:29:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=HIzAJfpkw/CV9zRW+4W9dbxh6lXQkcn7bhc8O/k6xSU=;
+	b=ceTFs6IQ+7g61jF7aK9SsNV3W3KCv0wdxgS2fDxo9hJaEpzZnrsN0sEG50DC6ZeF4r
+	cQGY9/hLCnrS3VPbnEmrZtjiAFrtiCGD9gXADTcIOS7EaAR/eE8FmHh1uCye0Zx2P4xd
+	hm3swL/zMQ2LnQf30yh2f4q3Z8p6dJgxqtLFKExwIHNKq2HmNwi6Woibxj/2yOU6dd6M
+	WnBg92TsnFNk6eVIkMVB72aJfV9Sy20qHMR2xrehhCR+AakWzebq3UUw5Majj8JtEakx
+	USkDhRfVrKtKNE7HXNz+oR4IpsbImZrYHVQmwW1xKgo57ZB++GWT3A3iVJeq+h3wHHYN
+	CjcQ==
+X-Received: by 10.180.91.106 with SMTP id cd10mr1671493wib.6.1363944565463;
+	Fri, 22 Mar 2013 02:29:25 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id n2sm9599234wiy.6.2013.03.22.02.29.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 22 Mar 2013 02:29:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Mar 2013 09:26:38 +0000
+Message-Id: <1363944398-6426-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnWOLbp1vHRatt8y+8fD25LXnkFcBfKgor84V1vtLQ9YErWIaFlcWFMUWCbLBYt81nbhdxf
+Subject: [PATCH] polkit: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,137 +42,301 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 09:32:48 -0000
-X-Groupsio-MsgNum: 36894
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4ZLFUWh1odzi/v6L"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Mar 2013 09:46:26 -0000
 
---4ZLFUWh1odzi/v6L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Previous commits have meant that PolicyKit isn't used by default anymore, so
+remove this now that it's been integrated into meta-gnome.
 
-On Fri, Mar 22, 2013 at 09:08:34AM +0100, Bernhard Reutner-Fischer wrote:
-> On 20 March 2013 16:09:10 Martin Jansa <martin.jansa@gmail.com> wrote:
-> > * when enable busybox installs getopt to ${base_bindir} and
-> >   util-linux to ${bindir}, so there is no file conflict, but
-> >   because busybox implementation does not support --long used
->=20
-> Do you mean that Busybox' getopt does not support long options?
-> If so, enable FEATURE_GETOPT_LONG in busybox instead of this patch?
+Rationales for this move inludes that PolicyKit isn't "core" for embedded
+systems, and future versions require the SpiderMonkey JavaScript runtime.
 
-Having lsb working correctly even when someone has bad busybox defconfig
-is right thing to do, isn't it?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...ession-Set-error-if-we-cannot-find-a-sess.patch |   70 --------------------
+ ...ession-Actually-return-TRUE-if-a-session-.patch |   46 -------------
+ .../polkit-0.104/obsolete_automake_macros.patch    |   23 -------
+ .../polkit/polkit-0.104/polkit-1_pam.patch         |   23 -------
+ meta/recipes-extended/polkit/polkit-gnome_0.102.bb |   26 --------
+ meta/recipes-extended/polkit/polkit_0.104.bb       |   45 -------------
+ 6 files changed, 233 deletions(-)
+ delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
+ delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
+ delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
+ delete mode 100644 meta/recipes-extended/polkit/polkit-gnome_0.102.bb
+ delete mode 100644 meta/recipes-extended/polkit/polkit_0.104.bb
 
-busybox's getopt supports --longoptions, but util-linux's also supports
---long alias for that and that's what lsb is using
+diff --git a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch b/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
+deleted file mode 100644
+index c021bfb..0000000
+--- a/meta/recipes-extended/polkit/polkit-0.104/0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From c46d2d13eac240d2a609b2dd8fc617ea18a78bfa Mon Sep 17 00:00:00 2001
+-From: David Zeuthen <davidz@redhat.com>
+-Date: Mon, 6 Feb 2012 11:24:53 -0500
+-Subject: [PATCH 1/2] PolkitUnixSession: Set error if we cannot find a session for the given pid
+-
+-Also, don't treat the integer returned by sd_pid_get_session() as a
+-boolean because that's just confusing. Also, don't confuse memory
+-supposed to be freed by g_free() and free(3) with each other. See
+-
+- https://bugzilla.redhat.com/show_bug.cgi?id=787222
+-
+-for more details.
+-
+-Signed-off-by: David Zeuthen <davidz@redhat.com>
+----
+-
+-Upstream-Status: Accepted
+-
+- src/polkit/polkitunixsession-systemd.c |   21 ++++++++++++++++-----
+- 1 files changed, 16 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/polkit/polkitunixsession-systemd.c b/src/polkit/polkitunixsession-systemd.c
+-index e7e913f..94a7ee4 100644
+---- a/src/polkit/polkitunixsession-systemd.c
+-+++ b/src/polkit/polkitunixsession-systemd.c
+-@@ -23,6 +23,7 @@
+- #  include "config.h"
+- #endif
+- 
+-+#include <stdlib.h>
+- #include <string.h>
+- #include "polkitunixsession.h"
+- #include "polkitsubject.h"
+-@@ -450,9 +451,8 @@ polkit_unix_session_initable_init (GInitable     *initable,
+-                                    GError       **error)
+- {
+-   PolkitUnixSession *session = POLKIT_UNIX_SESSION (initable);
+--  gboolean ret;
+--
+--  ret = FALSE;
+-+  gboolean ret = FALSE;
+-+  char *s;
+- 
+-   if (session->session_id != NULL)
+-     {
+-@@ -461,8 +461,19 @@ polkit_unix_session_initable_init (GInitable     *initable,
+-       goto out;
+-     }
+- 
+--  if (!sd_pid_get_session (session->pid, &session->session_id))
+--    ret = TRUE;
+-+  if (sd_pid_get_session (session->pid, &s) == 0)
+-+    {
+-+      session->session_id = g_strdup (s);
+-+      free (s);
+-+      ret = TRUE;
+-+      goto out;
+-+    }
+-+
+-+  g_set_error (error,
+-+               POLKIT_ERROR,
+-+               POLKIT_ERROR_FAILED,
+-+               "No session for pid %d",
+-+               (gint) session->pid);
+- 
+- out:
+-   return ret;
+--- 
+-1.7.2.5
+-
+diff --git a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch b/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
+deleted file mode 100644
+index 49f8ce2..0000000
+--- a/meta/recipes-extended/polkit/polkit-0.104/0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 8fb8b406bab50c5ef8c5d4f743e3f13924bd5f73 Mon Sep 17 00:00:00 2001
+-From: David Zeuthen <davidz@redhat.com>
+-Date: Mon, 6 Feb 2012 11:26:06 -0500
+-Subject: [PATCH 2/2] PolkitUnixSession: Actually return TRUE if a session exists
+-
+-Also, don't treat the integer returned by sd_session_get_uid() as a
+-boolean because that's just confusing.
+-
+-Signed-off-by: David Zeuthen <davidz@redhat.com>
+----
+-
+-Upstream-Status: Accepted
+-
+- src/polkit/polkitunixsession-systemd.c |   12 +++++-------
+- 1 files changed, 5 insertions(+), 7 deletions(-)
+-
+-diff --git a/src/polkit/polkitunixsession-systemd.c b/src/polkit/polkitunixsession-systemd.c
+-index 94a7ee4..8a8bf65 100644
+---- a/src/polkit/polkitunixsession-systemd.c
+-+++ b/src/polkit/polkitunixsession-systemd.c
+-@@ -361,17 +361,15 @@ polkit_unix_session_to_string (PolkitSubject *subject)
+- 
+- static gboolean
+- polkit_unix_session_exists_sync (PolkitSubject   *subject,
+--                                    GCancellable    *cancellable,
+--                                    GError         **error)
+-+                                 GCancellable    *cancellable,
+-+                                 GError         **error)
+- {
+-   PolkitUnixSession *session = POLKIT_UNIX_SESSION (subject);
+--  gboolean ret;
+-+  gboolean ret = FALSE;
+-   uid_t uid;
+- 
+--  ret = FALSE;
+--
+--  if (!sd_session_get_uid (session->session_id, &uid))
+--    ret = FALSE;
+-+  if (sd_session_get_uid (session->session_id, &uid) == 0)
+-+    ret = TRUE;
+- 
+-   return ret;
+- }
+--- 
+-1.7.2.5
+-
+diff --git a/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch b/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
+deleted file mode 100644
+index 5a6046c..0000000
+--- a/meta/recipes-extended/polkit/polkit-0.104/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=59091]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd polkit-0.104/configure.ac polkit-0.104/configure.ac
+---- polkit-0.104/configure.ac	2012-01-03 18:25:49.000000000 +0200
+-+++ polkit-0.104/configure.ac	2013-01-07 03:13:31.862125625 +0200
+-@@ -3,7 +3,7 @@
+- AC_PREREQ(2.59c)
+- AC_INIT(polkit, 0.104, http://lists.freedesktop.org/mailman/listinfo/polkit-devel)
+- AM_INIT_AUTOMAKE(polkit, 0.104)
+--AM_CONFIG_HEADER(config.h)
+-+AC_CONFIG_HEADERS(config.h)
+- AM_MAINTAINER_MODE
+-
+- m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+-@@ -24,7 +24,6 @@
+-
+- AC_ISC_POSIX
+- AC_PROG_CC
+--AM_PROG_CC_STDC
+- AC_HEADER_STDC
+- AM_PROG_LIBTOOL
+- AC_PROG_MAKE_SET
+diff --git a/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch b/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
+deleted file mode 100644
+index 74647ef..0000000
+--- a/meta/recipes-extended/polkit/polkit-0.104/polkit-1_pam.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-polkit: No system-auth in OE-Core, we can use common-* in place of it.
+-
+-Upstream-Status:Inappropriate [configuration]
+-
+-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+-
+---- a/configure.ac	2011-03-04 02:26:20.000000000 +0800
+-+++ b/configure.ac.new	2011-07-18 10:14:12.516818852 +0800
+-@@ -350,10 +350,10 @@
+-     PAM_FILE_INCLUDE_PASSWORD=system
+-     PAM_FILE_INCLUDE_SESSION=system
+- else
+--   PAM_FILE_INCLUDE_AUTH=system-auth
+--   PAM_FILE_INCLUDE_ACCOUNT=system-auth
+--   PAM_FILE_INCLUDE_PASSWORD=system-auth
+--   PAM_FILE_INCLUDE_SESSION=system-auth
+-+   PAM_FILE_INCLUDE_AUTH=common-auth
+-+   PAM_FILE_INCLUDE_ACCOUNT=common-account
+-+   PAM_FILE_INCLUDE_PASSWORD=common-password
+-+   PAM_FILE_INCLUDE_SESSION=common-session
+- fi
+- 
+- AC_SUBST(PAM_FILE_INCLUDE_AUTH)
+diff --git a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb b/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
+deleted file mode 100644
+index 7e9fc2b..0000000
+--- a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
++++ /dev/null
+@@ -1,26 +0,0 @@
+-SUMMARY = "GNOME Authentication Agent for PolicyKit"
+-DESCRIPTION = "PolicyKit-gnome provides an Authentication Agent for PolicyKit that integrates well with the GNOME desktop environment"
+-HOMEPAGE = "http://www.packagekit.org/"
+-BUGTRACKER = "http://bugzilla.gnome.org/"
+-DEPENDS = "polkit dbus-glib gconf gtk+"
+-LICENSE = "LGPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=74579fab173e4c5e12aac0cd83ee98ec \
+-                    file://src/main.c;beginline=1;endline=20;md5=aba145d1802f2329ba561e3e48ecb795"
+-
+-SRC_URI = "http://hal.freedesktop.org/releases/polkit-gnome-${PV}.tar.bz2 \
+-          "
+-
+-PR = "r2"
+-
+-EXTRA_OECONF = " --disable-scrollkeeper \
+-                 --disable-man-pages \
+-                 --disable-examples \
+-                 --disable-introspection "
+-
+-inherit autotools gtk-doc pkgconfig
+-
+-FILES_${PN} += " ${datadir}/dbus-1 \
+-                 ${datadir}/PolicyKit \
+-               "
+-SRC_URI[md5sum] = "f6b485ffd7bd605af815fd2747180481"
+-SRC_URI[sha256sum] = "81caa6972e651e90ef4ac31d7ed41bc79543d46b850dbd5b14b40f8ef7107d11"
+diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
+deleted file mode 100644
+index 342fbe1..0000000
+--- a/meta/recipes-extended/polkit/polkit_0.104.bb
++++ /dev/null
+@@ -1,45 +0,0 @@
+-SUMMARY = "PolicyKit Authorization Framework"
+-DESCRIPTION = "The polkit package is an application-level toolkit for defining and handling the policy that allows unprivileged processes to speak to privileged processes."
+-HOMEPAGE = "http://www.freedesktop.org/wiki/Software/polkit"
+-LICENSE = "LGPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
+-                    file://src/polkit/polkit.h;beginline=1;endline=20;md5=0a8630b0133176d0504c87a0ded39db4"
+-
+-DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
+-
+-PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+-                 ${@base_contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)}"
+-
+-PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
+-PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
+-# There is no --enable/--disable option for consolekit, so disable systemd to
+-# force it.  ConsoleKit is accessed via DBus, so add it to RDEPENDS.
+-PACKAGECONFIG[consolekit] = "--disable-systemd,,,consolekit"
+-
+-PR = "r9"
+-
+-PAM_SRC_URI = "file://polkit-1_pam.patch"
+-SRC_URI = "http://www.freedesktop.org/software/polkit/releases/polkit-${PV}.tar.gz \
+-           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           file://0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch \
+-           file://0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch \
+-           file://obsolete_automake_macros.patch \
+-          "
+-
+-SRC_URI[md5sum] = "e380b4c6fb1e7bccf854e92edc0a8ce1"
+-SRC_URI[sha256sum] = "6b0a13d8381e4a7b7e37c18a54595191b50757e0fcd186cd9918e9ad0f18c7f9"
+-
+-EXTRA_OECONF = "--with-os-type=moblin --disable-man-pages --disable-introspection"
+-
+-inherit autotools gtk-doc pkgconfig
+-
+-do_install_append() {
+-	rm -f ${D}${libdir}/${BPN}-1/extensions/*.a
+-}
+-
+-FILES_${PN} += "${libdir}/${BPN}-1/extensions/*.so \
+-                ${datadir}/${BPN}-1/actions/* \
+-                ${datadir}/dbus-1/system-services/*"
+-FILES_${PN}-dbg += "${libdir}/${BPN}-1/extensions/.debug/*.so"
+-FILES_${PN}-dev += "${libdir}/${BPN}-1/extensions/*.la "
+-
+-- 
+1.7.10.4
 
-$ getopt --longoptions
-getopt: option '--longoptions' requires an argument
-Try `getopt --help' for more information.
-$ getopt --long
-getopt: option '--longoptions' requires an argument
-Try `getopt --help' for more information.
 
-busybox (IIRC even with FEATURE_GETOPT_LONG enabled) reports
-getopt: unrecognized option '--long'
-BusyBox v1.20.2 (2013-03-16 17:45:30 PDT) multi-call binary.
 
-lsb already RDEPENDS on util-linux, changing lsb to use --longoptions
-would be good, but having /bin/getopt and /usr/bin/getopt without u-a=20
-to select preferred one is bad, that's why I used this solution instead.
-
-> >   by lsb_release (which RDEPENDS on util-linux) we need to use
-> >   util-linux getopt even when busybox defconfig has it enabled
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/recipes-core/util-linux/util-linux.inc       | 6 ++++--
-> >  meta/recipes-core/util-linux/util-linux_2.22.2.bb | 2 +-
-> >  2 files changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/util-linux/util-linux.inc=20
-> > b/meta/recipes-core/util-linux/util-linux.inc
-> > index 41a5471..c75d318 100644
-> > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > @@ -110,7 +110,7 @@ do_install () {
-> >
-> >          sbinprogs=3D"agetty ctrlaltdel cfdisk vipw vigr"
-> >          sbinprogs_a=3D"pivot_root hwclock mkswap mkfs.minix fsck.minix=
- losetup=20
-> >          swapon fdisk readprofile fsck blkid blockdev"
-> > -        usrbinprogs_a=3D"chfn chsh hexdump last logger mesg newgrp=20
-> > renice utmpdump wall setsid chrt flock"
-> > +        usrbinprogs_a=3D"chfn chsh hexdump last logger mesg newgrp=20
-> > renice utmpdump wall setsid chrt flock getopt"
-> >          binprogs_a=3D"dmesg kill more umount mount login reset"
-> >
-> >          if [ "${base_sbindir}" !=3D "${sbindir}" ]; then
-> > @@ -146,7 +146,7 @@ ALTERNATIVE_PRIORITY =3D "100"
-> >
-> >  ALTERNATIVE_${PN}  =3D "dmesg kill more mkswap blockdev pivot_root"
-> >  ALTERNATIVE_${PN} +=3D "mkfs.minix hexdump last logger mesg renice wal=
-l"
-> > -ALTERNATIVE_${PN} +=3D "setsid chrt flock hwclock utmpdump eject"
-> > +ALTERNATIVE_${PN} +=3D "setsid chrt flock hwclock utmpdump eject getop=
-t"
-> >
-> >  ALTERNATIVE_LINK_NAME[dmesg] =3D "${base_bindir}/dmesg"
-> >  ALTERNATIVE_LINK_NAME[kill] =3D "${base_bindir}/kill"
-> > @@ -156,6 +156,8 @@ ALTERNATIVE_LINK_NAME[blockdev] =3D=20
-> > "${base_sbindir}/blockdev"
-> >  ALTERNATIVE_LINK_NAME[pivot_root] =3D "${base_sbindir}/pivot_root"
-> >  ALTERNATIVE_LINK_NAME[mkfs.minix] =3D "${base_sbindir}/mkfs.minix"
-> >  ALTERNATIVE_LINK_NAME[eject] =3D "${bindir}/eject"
-> > +ALTERNATIVE_LINK_NAME[getopt] =3D "${base_bindir}/getopt"
-> > +ALTERNATIVE_TARGET[getopt] =3D "${bindir}/getopt"
-> >
-> >  ALTERNATIVE_${PN}-doc =3D "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8=
-=20
-> >  utmpdump.1"
-> >
-> > diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb=20
-> > b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> > index 9b94a47..43a55a6 100644
-> > --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> > +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> > @@ -1,5 +1,5 @@
-> >  MAJOR_VERSION =3D "2.22"
-> > -PR =3D "r2"
-> > +PR =3D "r3"
-> >  require util-linux.inc
-> >
-> >  SRC_URI +=3D "file://util-linux-ng-replace-siginterrupt.patch \
-> > --
-> > 1.8.1.5
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
->=20
-> Sent with AquaMail for Android
-> http://www.aqua-mail.com
->=20
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---4ZLFUWh1odzi/v6L
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFMIUUACgkQN1Ujt2V2gBzeuwCeK3hkhbUs/GwricL0LHZp0u5B
-2BkAoIJRMMjwtLKK3W4sZexrbdhcWX49
-=V6xt
------END PGP SIGNATURE-----
-
---4ZLFUWh1odzi/v6L--
