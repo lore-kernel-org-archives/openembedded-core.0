@@ -1,40 +1,34 @@
-Received: from mail-pb0-f48.google.com ([209.85.160.48])
+Received: from mail-gh0-f177.google.com ([209.85.160.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UJ1wh-00054C-7I
+	(envelope-from <otavio.salvador@gmail.com>) id 1UJ24m-0005Vb-3Y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 14:23:49 +0100
-Received: by mail-pb0-f48.google.com with SMTP id wy12so3038738pbc.7
+	Fri, 22 Mar 2013 14:32:08 +0100
+Received: by mail-gh0-f177.google.com with SMTP id g22so83061ghb.22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 06:06:52 -0700 (PDT)
+	Fri, 22 Mar 2013 06:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=OHg1Q+QuLQkCTrkfRV8o2fWUF5YGwHr9CAO3llQ2gLA=;
-	b=NgtT9IBva73qDMeUr3Vjr9QOEsS+wTFU0YTlXOUydWIF5YAUIYnuNM7Mgqdkv8uR+K
-	RUltPD1p9aWBvVuKjr1pXz1OeQqHHfSxwnHihmSaEhA0Y+f/Y9aCaT8IWxkK2wXAd7Hf
-	x+knT2jomfcG7t1oDo7SkW2lEvl8MSdTvGpP0I+Nl/eEaiq4MGdSyZe7k4dnO4u4pNRg
-	mZYqw74RzGz+Bg5Eu1hWc3sr6DdUTWO42wrGS0G3hMxZzhgMpt05juAvRk3eYBhre0Ui
-	WuhcHwbpTAylOiojqtZ883JcOwzdFr6iomS89IZfrMaEMTZK3O8kE+DngRqpJUfLUv9r
-	ZfUA==
-X-Received: by 10.68.230.193 with SMTP id ta1mr2502997pbc.103.1363957612621;
-	Fri, 22 Mar 2013 06:06:52 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id 4sm2352550pbn.23.2013.03.22.06.06.49
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 06:06:51 -0700 (PDT)
-Date: Fri, 22 Mar 2013 14:06:48 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Message-ID: <20130322130648.GT3219@jama>
-References: <1363792150-24988-1-git-send-email-Martin.Jansa@gmail.com>
-	<13d91230233.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-	<20130322091549.GC3219@jama>
-	<CAC1BbcRfxRkSDfs5g5eWRoHOQYApR0hhuS=rvW_Ryghv0wO50A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAC1BbcRfxRkSDfs5g5eWRoHOQYApR0hhuS=rvW_Ryghv0wO50A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Use u-a for getopt
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=viQeSdOrSv1TG0n+u51FulJJMM7W97W2TgCm64+0CEY=;
+	b=RY3niyr3hWVAMGlThZoS08rtiMqbLxEo1xjsBlypJZyfyLreSMJw2zOnAk/iU+Id0U
+	4Xgf3rV0Zx1fHxr61UfFZ17fQNRdPNy69mFIaxHrevtP2cAx+mg3Ysfl3KpHxTNgMVAT
+	ra/xlvEkEiPK3WX68G3EjnPWTVactrF5rce0f8PNXeINbRj82QUfo000SpjsaQXPJjxm
+	9Ehm7kkic0LnkZJsJwNXMtE7Ee08zV/H/7hlzmZe58rp3/2BICtO2Saein2+iyjRFx4q
+	Ogs6vrj1d0+S2H1YuS4Wb1qZoj8O4nXSQN/lySbn7R2BJCUO/Wplh7M/fPq/HDw8ujtV
+	g/hw==
+X-Received: by 10.236.70.1 with SMTP id o1mr929100yhd.4.1363958114043;
+	Fri, 22 Mar 2013 06:15:14 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.144.59])
+	by mx.google.com with ESMTPS id q69sm2679407yhe.15.2013.03.22.06.15.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 22 Mar 2013 06:15:13 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Mar 2013 10:21:00 -0300
+Message-Id: <1363958460-32570-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.1
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] linux-firmware: Package Broadcom firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,108 +41,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 13:23:50 -0000
-X-Groupsio-MsgNum: 36900
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1Dvf9Qz7hFaodvwE"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Mar 2013 13:32:09 -0000
 
---1Dvf9Qz7hFaodvwE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Adds specific packages for bcm4329, bcm4330 and bcm4334, including
+handling of symbolic link for the needed firmware filename.
 
-On Fri, Mar 22, 2013 at 12:51:42PM +0100, Bernhard Reutner-Fischer wrote:
-> On 22 March 2013 10:15, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > On Fri, Mar 22, 2013 at 09:08:34AM +0100, Bernhard Reutner-Fischer wrot=
-e:
-> >> On 20 March 2013 16:09:10 Martin Jansa <martin.jansa@gmail.com> wrote:
-> >> > * when enable busybox installs getopt to ${base_bindir} and
-> >> >   util-linux to ${bindir}, so there is no file conflict, but
-> >> >   because busybox implementation does not support --long used
-> >>
-> >> Do you mean that Busybox' getopt does not support long options?
-> >> If so, enable FEATURE_GETOPT_LONG in busybox instead of this patch?
-> >
-> > Having lsb working correctly even when someone has bad busybox defconfig
-> > is right thing to do, isn't it?
->=20
-> Probably. That aside, --long being rejected smells like a bug.
-> >
-> > busybox's getopt supports --longoptions, but util-linux's also supports
-> > --long alias for that and that's what lsb is using
-> >
-> > $ getopt --longoptions
-> > getopt: option '--longoptions' requires an argument
-> > Try `getopt --help' for more information.
-> > $ getopt --long
-> > getopt: option '--longoptions' requires an argument
-> > Try `getopt --help' for more information.
-> >
-> > busybox (IIRC even with FEATURE_GETOPT_LONG enabled) reports
-> > getopt: unrecognized option '--long'
-> > BusyBox v1.20.2 (2013-03-16 17:45:30 PDT) multi-call binary.
->=20
-> That's odd, it seems to work for me?
-> $ grep GETOPT .config
-> CONFIG_GETOPT=3Dy
-> CONFIG_FEATURE_GETOPT_LONG=3Dy
-> CONFIG_ASH_GETOPTS=3Dy
-> $ ./busybox getopt --long 2>&1 | head -n2
-> getopt: option '--longoptions' requires an argument
-> BusyBox v1.22.0.git (2013-03-22 11:20:17 CET) multi-call binary.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+Changes for v2:
+- Fix shortlog typo
 
-FWIW I have older version (from danny), but the same problem about not
-using u-a is with master.
+ .../linux-firmware/linux-firmware_git.bb           | 39 ++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
 
-> > lsb already RDEPENDS on util-linux, changing lsb to use --longoptions
-> > would be good, but having /bin/getopt and /usr/bin/getopt without u-a
-> > to select preferred one is bad, that's why I used this solution instead.
->=20
-> Yes, i see what you mean. Still,
-> a) it should not be required for lsb to RDEPEND on util-linux since
->    busybox supposedly should work fine too, iff configured correctly, of =
-course.
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 0bf5a08..b9e00fc 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
+                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
++                    file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
+                    "
+ 
+ SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
+@@ -27,7 +28,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit allarch
++inherit allarch update-alternatives
+ 
+ do_compile() {
+ 	:
+@@ -48,7 +49,9 @@ do_install() {
+ 	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
+ }
+ 
+-PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce linux-firmware-rtl8192su ${PN}-wl12xx"
++PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-rtl8192cu \
++             ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-wl12xx \
++             ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334"
+ 
+ LICENSE_${PN}-ralink = "Firmware-ralink"
+ FILES_${PN}-ralink = " \
+@@ -85,4 +88,36 @@ FILES_${PN}-wl12xx = " \
+   /lib/firmware/ti-connectivity \
+ "
+ 
++# WARNING: The ALTERNATIVE_* variables are not using ${PN} because of
++# a bug in bitbake; when this is fixed and bitbake learns how to proper
++# pass variable flags with expansion we can rework this patch.
++
++ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac-sdio.bin"
++
++LICENSE_${PN}-bcm4329 = "Firmware-bcm4329"
++FILES_${PN}-bcm4329 = " \
++  /lib/firmware/brcm/brcmfmac4329.bin \
++  /lib/firmware/LICENCE.broadcom_bcm43xx \
++"
++ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329.bin"
++
++LICENSE_${PN}-bcm4330 = "Firmware-bcm4330"
++FILES_${PN}-bcm4330 = " \
++  /lib/firmware/brcm/brcmfmac4330.bin \
++  /lib/firmware/LICENCE.broadcom_bcm43xx \
++"
++
++ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330.bin"
++
++LICENSE_${PN}-bcm4334 = "Firmware-bcm4334"
++FILES_${PN}-bcm4334 = " \
++  /lib/firmware/brcm/brcmfmac4334.bin \
++  /lib/firmware/LICENCE.broadcom_bcm43xx \
++"
++
++ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
++
+ FILES_${PN} += "/lib/firmware/*"
+-- 
+1.8.1
 
-Yes but I'm not changing that in this commit :) All I want is to make
-getopt provider deterministic in image. default busybox defconfig does
-not have GETOPT enabled at all:
-meta/recipes-core/busybox/busybox-1.20.2/defconfig:# CONFIG_GETOPT is not s=
-et
-meta/recipes-core/busybox/busybox-1.20.2/defconfig:# CONFIG_FEATURE_GETOPT_=
-LONG is not set
 
-so if someone wants to remove util-linux from lsb RDEPENDS, then he
-should also update default config.
 
-> b) busybox's getopt --lo (or other substrings of the
-> -l,--longoptions=3DLOPT[,...] opt)
->    should work correctly.
->=20
-> I'd like to know why you trip b) above.
-> Do you have CONFIG_FEATURE_GETOPT_LONG set?
-
-I've rechecked and CONFIG_FEATURE_GETOPT_LONG is not set, only
-CONFIG_GETOPT is. But this commit is still valid, I want to use getopt
-=66rom util-linux when util-linux is installed.
-
-> If so, what libc are you using?
-
-private external
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1Dvf9Qz7hFaodvwE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFMV2gACgkQN1Ujt2V2gBzPoQCePG9htFD1mdP5kZ3tDIqa+ziM
-sOcAn1bO9YTnoHasU6NrVXoPB6gO2dv+
-=atdK
------END PGP SIGNATURE-----
-
---1Dvf9Qz7hFaodvwE--
