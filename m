@@ -1,38 +1,35 @@
-Received: from mail-da0-f41.google.com ([209.85.210.41])
+Received: from mail-la0-f50.google.com ([209.85.215.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UJ0Yf-0005IY-2Q
+	(envelope-from <rep.dot.nop@gmail.com>) id 1UJ0lw-000647-B0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 12:54:54 +0100
-Received: by mail-da0-f41.google.com with SMTP id w4so2240344dam.14
+	Fri, 22 Mar 2013 13:08:36 +0100
+Received: by mail-la0-f50.google.com with SMTP id ec20so6940265lab.23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 04:37:58 -0700 (PDT)
+	Fri, 22 Mar 2013 04:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=so/o9bGEuWoPAFosBFIkf5ayS/5ZJ30+uLMnwwO8+iA=;
-	b=Bp7HCEOGAqRF+0J12uucvc/mMaY1m9vDG7XOIYzceZHrLT28cBXqG1TXOgo2cdBvj9
-	usqeftZ/iFgLbyavGsifWDRuOGcDif2JstjDuXhZ1nMw71sWF26L8zI4pc5ePz9T2GaA
-	P/XQkSjlV1yvBteJA3cvEe07AJXisQCzt+Gt0jPGz/WiAVtA/N0CKj53kRLi6RMoB2sS
-	MYgFZ05H3feWi18Y0RrzjJmjrE8aYxgmwusrXaqDsgCLbBr9Ii6adkMdSzLO1iaBqSIq
-	oFvQID698FaNhdEctdYU7NhO9uFhRoTLMnJPErN7es2IPMvjZWTfYEOkoTyEENhx2qv2
-	CR5g==
-X-Received: by 10.66.228.194 with SMTP id sk2mr2811948pac.51.1363952278494;
-	Fri, 22 Mar 2013 04:37:58 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id vc4sm2689597pab.10.2013.03.22.04.37.55
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 04:37:57 -0700 (PDT)
-Date: Fri, 22 Mar 2013 12:37:55 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20130322113755.GS3219@jama>
-References: <20130228231551.3998F5022B@opal> <20130306062358.GC14869@jama>
-	<5136F97E.1030906@topic.nl>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=bRRlapLJ4kdRQJj0C3QPbp35BRzmpTXyYsjvU+3pIEI=;
+	b=lqVEpJAt/Y7kigYY1EkzVmGF22Xm2HwSjy3wlhzBfn0920xseqPnKdps9aRMmKRAdn
+	97wSOg5HwQlwe0BB3eXge1mGsP7AKXcxhFitsN1V+ZI6mCOJm9pwdp5dTB8R7MhNXB7B
+	YgXXvz3SDmU4RgSDUQnqU4Wi443fuEAXO/Nne8nq8HJ92IpbD3OvNnC67hFqLROjMZHY
+	QTOHA9CcIoHqvaJcUum6q7q/rKC+DXQ14Rq2fepXJQYynNReA7jwRZ38PxNRoz3uLns3
+	SkotLQstGD20Ev+BYvKQRLZgY5UHFmPF38vA1Cqjqc+v8BA3stR7NlKPMY7Cm+lvtF6P
+	E1Zg==
 MIME-Version: 1.0
-In-Reply-To: <5136F97E.1030906@topic.nl>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Received: by 10.112.101.230 with SMTP id fj6mr926075lbb.115.1363953102366;
+	Fri, 22 Mar 2013 04:51:42 -0700 (PDT)
+Received: by 10.114.18.212 with HTTP; Fri, 22 Mar 2013 04:51:42 -0700 (PDT)
+In-Reply-To: <20130322091549.GC3219@jama>
+References: <1363792150-24988-1-git-send-email-Martin.Jansa@gmail.com>
+	<13d91230233.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+	<20130322091549.GC3219@jama>
+Date: Fri, 22 Mar 2013 12:51:42 +0100
+Message-ID: <CAC1BbcRfxRkSDfs5g5eWRoHOQYApR0hhuS=rvW_Ryghv0wO50A@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] MiLo : util-linux: Add package for libmount
+Subject: Re: [PATCH] util-linux: Use u-a for getopt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,159 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 11:54:55 -0000
-X-Groupsio-MsgNum: 36898
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cjNiBkmi8s9yAE0W"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Mar 2013 12:08:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---cjNiBkmi8s9yAE0W
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 22 March 2013 10:15, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Fri, Mar 22, 2013 at 09:08:34AM +0100, Bernhard Reutner-Fischer wrote:
+>> On 20 March 2013 16:09:10 Martin Jansa <martin.jansa@gmail.com> wrote:
+>> > * when enable busybox installs getopt to ${base_bindir} and
+>> >   util-linux to ${bindir}, so there is no file conflict, but
+>> >   because busybox implementation does not support --long used
+>>
+>> Do you mean that Busybox' getopt does not support long options?
+>> If so, enable FEATURE_GETOPT_LONG in busybox instead of this patch?
+>
+> Having lsb working correctly even when someone has bad busybox defconfig
+> is right thing to do, isn't it?
 
-On Wed, Mar 06, 2013 at 09:08:30AM +0100, Mike Looijmans wrote:
-> On 03/06/2013 07:23 AM, Martin Jansa wrote:
-> > On Thu, Feb 28, 2013 at 11:15:51PM +0000, git@git.openembedded.org wrot=
-e:
-> >> Module: openembedded-core.git
-> >> Branch: master
-> >> Commit: 2e79110e31da940728d42411cad3d019d570fc31
-> >> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcom=
-mit;h=3D2e79110e31da940728d42411cad3d019d570fc31
-> >>
-> >> Author: MiLo <milo-software@users.sourceforge.net>
-> >> Date:   Tue Feb 19 18:23:15 2013 +0100
-> >>
-> >> util-linux: Add package for libmount
-> >>
-> >> The libmount shared library was part of util-linux. This caused
-> >> util-linux-mount to RDEPEND on util-linux, so including that would
-> >> also drag in all of util-linux and all its recommendations.
-> >>
-> >> To break this circular dependency, add a libmount package that holds
-> >> the libmount.so.* files, just like the other libraries built by util-
-> >> linux.
-> >
-> > Breaks upgrade path:
-> >
-> >   * check_data_file_clashes: Package libmount1 wants to install file
-> >   * /lib/libmount.so.1.1.0
-> >          But that file is already provided by package  * util-linux
-> >   * check_data_file_clashes: Package libmount1 wants to install file
-> >   * /lib/libmount.so.1
-> >          But that file is already provided by package  * util-linux
-> >
-> > RREPLACES is probably needed.
->=20
-> Indeed, I can reproduce that too. But I'm not sure how to fix this, as I=
-=20
-> cannot bluntly claim that libmount replaces util-linux, because it=20
-> really doesn't. So RREPLACES_util-linux-libmount =3D "util-linux" is=20
-> probably not the way to go here. Or is it? It does not "feel" right=20
-> anyway, because the old situation should have never happened.
+Probably. That aside, --long being rejected smells like a bug.
+>
+> busybox's getopt supports --longoptions, but util-linux's also supports
+> --long alias for that and that's what lsb is using
+>
+> $ getopt --longoptions
+> getopt: option '--longoptions' requires an argument
+> Try `getopt --help' for more information.
+> $ getopt --long
+> getopt: option '--longoptions' requires an argument
+> Try `getopt --help' for more information.
+>
+> busybox (IIRC even with FEATURE_GETOPT_LONG enabled) reports
+> getopt: unrecognized option '--long'
+> BusyBox v1.20.2 (2013-03-16 17:45:30 PDT) multi-call binary.
 
-It should work (it doesn't replace util-linux completely until it also
-RPROVIDES it and opkg wont try to remove util-linux until it also
-RCONFLICTS with ti).=20
+That's odd, it seems to work for me?
+$ grep GETOPT .config
+CONFIG_GETOPT=y
+CONFIG_FEATURE_GETOPT_LONG=y
+CONFIG_ASH_GETOPTS=y
+$ ./busybox getopt --long 2>&1 | head -n2
+getopt: option '--longoptions' requires an argument
+BusyBox v1.22.0.git (2013-03-22 11:20:17 CET) multi-call binary.
 
-But to be sure test it on device as with every other change.
+>
+> lsb already RDEPENDS on util-linux, changing lsb to use --longoptions
+> would be good, but having /bin/getopt and /usr/bin/getopt without u-a
+> to select preferred one is bad, that's why I used this solution instead.
 
-> Prior to the libmount patch, it was not possible to remove util-linux=20
-> from any system that installed util-linux-mount (or any other that=20
-> requires libmount), without applying "force". And util-linux itself=20
-> depends on packages that in turn depend on util-linux. That's the circle=
-=20
-> I wanted to break out of.
->=20
-> How does one properly inform opkg that a file has moved from one=20
-> (installed) package to another?
+Yes, i see what you mean. Still,
+a) it should not be required for lsb to RDEPEND on util-linux since
+   busybox supposedly should work fine too, iff configured correctly, of course.
+b) busybox's getopt --lo (or other substrings of the
+-l,--longoptions=LOPT[,...] opt)
+   should work correctly.
 
-RREPLACES
+I'd like to know why you trip b) above.
+Do you have CONFIG_FEATURE_GETOPT_LONG set?
+If so, what libc are you using?
 
-> >> Signed-off-by: MiLo <milo-software@users.sourceforge.net>
-> >> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >>
-> >> ---
-> >>
-> >>   meta/recipes-core/util-linux/util-linux.inc       |    3 +++
-> >>   meta/recipes-core/util-linux/util-linux_2.22.2.bb |    2 +-
-> >>   2 files changed, 4 insertions(+), 1 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipe=
-s-core/util-linux/util-linux.inc
-> >> index 10439c0..bd7b089 100644
-> >> --- a/meta/recipes-core/util-linux/util-linux.inc
-> >> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> >> @@ -31,6 +31,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-li=
-nux/v${MAJOR_VERSION}/util-lin
-> >>   PACKAGES =3D+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk =
-util-linux-sfdisk \
-> >>                util-linux-swaponoff util-linux-losetup util-linux-umou=
-nt \
-> >>                util-linux-mount util-linux-readprofile util-linux-libb=
-lkid \
-> >> +             util-linux-libmount util-linux-libmount-dev \
-> >>                util-linux-libblkid-dev util-linux-libuuid util-linux-l=
-ibuuid-dev \
-> >>                util-linux-uuidgen util-linux-lscpu util-linux-fsck uti=
-l-linux-blkid \
-> >>                util-linux-mkfs util-linux-mcookie util-linux-reset"
-> >> @@ -64,6 +65,8 @@ FILES_util-linux-reset =3D "${base_bindir}/reset"
-> >>
-> >>   FILES_util-linux-libblkid =3D "${base_libdir}/libblkid.so.*"
-> >>   FILES_util-linux-libblkid-dev =3D "${base_libdir}/libblkid.so ${base=
-_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
-> >> +FILES_util-linux-libmount =3D "${base_libdir}/libmount.so.*"
-> >> +FILES_util-linux-libmount-dev =3D "${base_libdir}/libmount.so ${base_=
-libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
-> >>   FILES_util-linux-libuuid =3D "${base_libdir}/libuuid.so.*"
-> >>   FILES_util-linux-libuuid-dev =3D "${base_libdir}/libuuid.so ${base_l=
-ibdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
-> >>   FILES_util-linux-lscpu =3D "${bindir}/lscpu"
-> >> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/=
-recipes-core/util-linux/util-linux_2.22.2.bb
-> >> index dd95573..f91784b 100644
-> >> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> >> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-> >> @@ -1,5 +1,5 @@
-> >>   MAJOR_VERSION =3D "2.22"
-> >> -PR =3D "r0"
-> >> +PR =3D "r1"
-> >>   require util-linux.inc
-> >>
-> >>   # note that `lscpu' is under GPLv3+
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-commits mailing list
-> >> Openembedded-commits@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commi=
-ts
-> >
->=20
->=20
-> --=20
-> Mike Looijmans - Topic Automation
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Thanks,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---cjNiBkmi8s9yAE0W
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFMQpMACgkQN1Ujt2V2gBydzwCgpgrt5NXfEHBOYuHGWqkTnMi3
-VNIAn1HQO5K+ia428uby5TjCnbY50JaW
-=ou+U
------END PGP SIGNATURE-----
-
---cjNiBkmi8s9yAE0W--
