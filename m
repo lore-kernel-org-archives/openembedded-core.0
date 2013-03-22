@@ -1,40 +1,40 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wi0-f176.google.com ([209.85.212.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UJ6Me-0000K6-3Q
+	(envelope-from <ross.burton@intel.com>) id 1UJ6Mk-0000KI-CW
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Mar 2013 19:07:02 +0100
-Received: by mail-wi0-f177.google.com with SMTP id hm14so4668738wib.10
+Received: by mail-wi0-f176.google.com with SMTP id hm14so8149913wib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 10:49:58 -0700 (PDT)
+	Fri, 22 Mar 2013 10:50:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=e8ZEWYoOZ3WlPAlXi6JhfW0JVxjWDPBxRQhxsMnlJOU=;
-	b=dRC1UmF9f3xPP5sM23CXoD705E9tnnqclJ4J6O5wHow5NElV0U2sBCJk5TPL8mry9v
-	3w9YkQbSfIFkZZE2xvMd6rQe9WyK/naN5DglUsCyxvidvH9yhePiGouaTQjjdr+ATxdV
-	EwpBUPJ5QGLAht+JT09TtVCKcL70GiQqTmLVHAqjYNBBA+AFW7c5GShVbLZjkp72hP+Z
-	k9BWneuF8vcwmnlpin0vaX+60+NuLI0R7qDNc8/ODIjS2vzBkNDURfI/kUtqbG+I1+MT
-	eUJr6+QQ9Ghy5+/6PwpbSAI7GJ0keTST6+e4ARZzd6S1VioQ0tGgEw81UHz2TqhiinkB
-	df/w==
-X-Received: by 10.195.12.133 with SMTP id eq5mr4663822wjd.52.1363974110362;
-	Fri, 22 Mar 2013 10:41:50 -0700 (PDT)
+	bh=6yDRBlgDgHft0CiX4Ou1zVy9+M5EsDZ5MuwRuwfo8eI=;
+	b=HHHC+K+JjIUKjgLjUzxygzsKxZ+JVVh0KDCL54SU0csQksipEPWozLR35RCSy5XTTW
+	0qfz9ll7l+8TGHBwLPmwuK92ysV43liw19pk9XHEeMIzQubDglmqtnzdjbwffdKgr3Dq
+	ihQ6qe7aPe03F2ROmEJcIhvrzZEDibLgpK5mVWipEG+JRc97lXdb1psfIbhXu4HGCqsz
+	sPYZi0mfkwT2UnuXMxa7T0V7C+zmgdF6Bg7NsRwmO6efuY+/o5+yhbfvkq6/fg9ztlSz
+	U0YmBxa4WOYSgpJ8occRtx6X0FTGJmZRU+FZL80Owim5/VogsN6WTmOr5QkHfTij1Nb9
+	qIHA==
+X-Received: by 10.180.75.110 with SMTP id b14mr13014457wiw.21.1363974111763;
+	Fri, 22 Mar 2013 10:41:51 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.49
+	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.50
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 10:41:49 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:51 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 17:38:35 +0000
-Message-Id: <e6ef80ed83d8d6464ef59144c0e8f38b743c16d1.1363973088.git.ross.burton@intel.com>
+Date: Fri, 22 Mar 2013 17:38:36 +0000
+Message-Id: <657f4be6bd7fc0d2881f93698102a4788902d357.1363973088.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkPB+9eL6+Nq4NyYLHIc5iipLx5gSWDqTOeJAELyGFw5gzkGJLxpaP3y2vMBbyP/sAjMC3z
+X-Gm-Message-State: ALoCoQm6+Maxa1RweVhKFN8FPytRwhFxdB72Oaa1T4T3ZRftKZROMY8oP3eaBHUuCTjrBEXxBRss
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 15/22] default-distrovars: don't add INITMAN to DISTRO_FEATURES and DISTRO_FEATURES_BACKFILL
+Subject: [PATCH 16/22] bitbake.conf: explicitly backfill sysvinit, not DISTRO_FEATURES_INITMAN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,27 +49,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Mar 2013 18:07:23 -0000
 
-DISTRO_FEATURES_INITMAN is going away as it's not useful in a hybrid init script
-environment.
+Reflect reality by backfilling sysvinit support, instead of whatever value was
+in DISTRO_FEATURES_INITMAN.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/default-distrovars.inc |    2 +-
+ meta/conf/bitbake.conf |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f0fec2a..eafbcc2 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -18,7 +18,7 @@ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-b
- DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
- DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
- DISTRO_FEATURES_INITMAN ?= "sysvinit"
--DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC} ${DISTRO_FEATURES_INITMAN}"
-+DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 01ebad4..cd5d61e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -730,7 +730,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
  
- IMAGE_FEATURES ?= ""
+-DISTRO_FEATURES_BACKFILL = "pulseaudio ${DISTRO_FEATURES_INITMAN}"
++DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit"
+ MACHINE_FEATURES_BACKFILL = "rtc"
  
+ COMBINED_FEATURES = "\
 -- 
 1.7.10.4
 
