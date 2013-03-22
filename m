@@ -1,40 +1,40 @@
-Received: from mail-wi0-f180.google.com ([209.85.212.180])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UJ6MD-0000Hm-TG
+	(envelope-from <ross.burton@intel.com>) id 1UJ6Me-0000K6-3Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 19:06:29 +0100
-Received: by mail-wi0-f180.google.com with SMTP id c10so44509wiw.7
+	Fri, 22 Mar 2013 19:07:02 +0100
+Received: by mail-wi0-f177.google.com with SMTP id hm14so4668738wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 10:49:32 -0700 (PDT)
+	Fri, 22 Mar 2013 10:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=Bm2bzzn4aQgACt71vE2pFiKiP534t89L7Mzuep7wgrs=;
-	b=U4kY7bvibyuReWFIAGl7KpRgh7FV84re3kOWv3xNm2LM4z7FYrdB7fKoRjFbH6F6pW
-	rvAiI4LDmIr4btEUWhi3bfRzTaGQ8CmBJ98RWV+YEO9trlOai3ojLRrTPBNCBSY7rOlt
-	r5IcSevpdZoi6T6jKgm56TkGdlm/BqAOdPo8hMnqJWeie9oVFVnhghvqQl3K+6Rm1hME
-	8RD5UyDkZc9c2XB16wN/DmUifB0fqYGxAZYFoUJ59KUr26gW5PpRnPW7m9yXJRwStiWs
-	5NMnLQqU8LRG5lH0ttpk8iL0EYiNi53VRsYacLVLUswbSxcGQHTEWBsO35hpNLH7PdW4
-	K2Rg==
-X-Received: by 10.194.133.198 with SMTP id pe6mr4821450wjb.9.1363974116695;
-	Fri, 22 Mar 2013 10:41:56 -0700 (PDT)
+	bh=e8ZEWYoOZ3WlPAlXi6JhfW0JVxjWDPBxRQhxsMnlJOU=;
+	b=dRC1UmF9f3xPP5sM23CXoD705E9tnnqclJ4J6O5wHow5NElV0U2sBCJk5TPL8mry9v
+	3w9YkQbSfIFkZZE2xvMd6rQe9WyK/naN5DglUsCyxvidvH9yhePiGouaTQjjdr+ATxdV
+	EwpBUPJ5QGLAht+JT09TtVCKcL70GiQqTmLVHAqjYNBBA+AFW7c5GShVbLZjkp72hP+Z
+	k9BWneuF8vcwmnlpin0vaX+60+NuLI0R7qDNc8/ODIjS2vzBkNDURfI/kUtqbG+I1+MT
+	eUJr6+QQ9Ghy5+/6PwpbSAI7GJ0keTST6+e4ARZzd6S1VioQ0tGgEw81UHz2TqhiinkB
+	df/w==
+X-Received: by 10.195.12.133 with SMTP id eq5mr4663822wjd.52.1363974110362;
+	Fri, 22 Mar 2013 10:41:50 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.55
+	by mx.google.com with ESMTPS id dm9sm12260880wib.3.2013.03.22.10.41.49
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Mar 2013 10:41:55 -0700 (PDT)
+	Fri, 22 Mar 2013 10:41:49 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 17:38:40 +0000
-Message-Id: <df7a85119bf678a3f948539d0b38855980b44b5d.1363973088.git.ross.burton@intel.com>
+Date: Fri, 22 Mar 2013 17:38:35 +0000
+Message-Id: <e6ef80ed83d8d6464ef59144c0e8f38b743c16d1.1363973088.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
 In-Reply-To: <cover.1363973088.git.ross.burton@intel.com>
 References: <cover.1363973088.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlqrRbu+onEGcYVygYSuwt+VjSomZDhHZtAmPCMe8kYLdmphFfS6tGNh0/qtJA4SIwDuKj7
+X-Gm-Message-State: ALoCoQkPB+9eL6+Nq4NyYLHIc5iipLx5gSWDqTOeJAELyGFw5gzkGJLxpaP3y2vMBbyP/sAjMC3z
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 20/22] Revert "base-files: add fstab for systemd based systems"
+Subject: [PATCH 15/22] default-distrovars: don't add INITMAN to DISTRO_FEATURES and DISTRO_FEATURES_BACKFILL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,67 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 18:06:37 -0000
+X-List-Received-Date: Fri, 22 Mar 2013 18:07:23 -0000
 
-From: Andreas Oberritter <obi@opendreambox.org>
+DISTRO_FEATURES_INITMAN is going away as it's not useful in a hybrid init script
+environment.
 
-For hybrid systemd/sysvinit builds, only one fstab can be used.
-The default fstab used by sysvinit should work fine with systemd.
-
-Since virtually every machine will ship its own fstab in its bsp
-layer, the bsp layer may decide how to override the fstab based
-on distro features.
-
-This reverts commit 77bbb839ba25b974a538b90d346b454ccd5deefd.
-
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/base-files/base-files/fstab.systemd |    9 ---------
- meta/recipes-core/base-files/base-files_3.0.14.bb     |    7 +------
- 2 files changed, 1 insertion(+), 15 deletions(-)
- delete mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
+ meta/conf/distro/include/default-distrovars.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files/fstab.systemd b/meta/recipes-core/base-files/base-files/fstab.systemd
-deleted file mode 100644
-index cb48a0d..0000000
---- a/meta/recipes-core/base-files/base-files/fstab.systemd
-+++ /dev/null
-@@ -1,9 +0,0 @@
--# stock fstab - you probably want to override this with a machine specific one
--
--rootfs               /                    auto       defaults              1  1
--tmpfs                /var/volatile        tmpfs      defaults              0  0
--tmpfs                /media/ram           tmpfs      defaults              0  0
--
--# uncomment this if your device has a SD/MMC/Transflash slot
--#/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
--
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index e7a9d82..a56450d 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -18,7 +18,6 @@ SRC_URI = "file://rotation \
-            file://profile \
-            file://shells \
-            file://fstab \
--           file://fstab.systemd \
-            file://filesystems \
-            file://issue.net \
-            file://issue \
-@@ -92,11 +91,7 @@ do_install () {
-  		install -m 0644 ${WORKDIR}/rotation ${D}${sysconfdir}/rotation
- 	fi
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index f0fec2a..eafbcc2 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -18,7 +18,7 @@ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-b
+ DISTRO_FEATURES_LIBC ?= "${DISTRO_FEATURES_LIBC_DEFAULT}"
+ DISTRO_FEATURES_LIBC_class-nativesdk = "${DISTRO_FEATURES_LIBC_DEFAULT}"
+ DISTRO_FEATURES_INITMAN ?= "sysvinit"
+-DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC} ${DISTRO_FEATURES_INITMAN}"
++DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ${DISTRO_FEATURES_LIBC}"
  
--	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
--		install -m 0644 ${WORKDIR}/fstab.systemd ${D}${sysconfdir}/fstab
--	else
--		install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/fstab
--	fi
-+	install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/fstab
- 	install -m 0644 ${WORKDIR}/filesystems ${D}${sysconfdir}/filesystems
- 	install -m 0644 ${WORKDIR}/usbd ${D}${sysconfdir}/default/usbd
- 	sed -i "s#ROOTHOME#${ROOT_HOME}#" ${WORKDIR}/profile
+ IMAGE_FEATURES ?= ""
+ 
 -- 
 1.7.10.4
 
