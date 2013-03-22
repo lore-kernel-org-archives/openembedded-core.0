@@ -1,24 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UJ8Is-0007bO-Ff
+	(envelope-from <kevin.strasser@linux.intel.com>) id 1UJ8kt-0008Qv-Nv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 21:11:09 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Mar 2013 12:53:57 -0700
+	Fri, 22 Mar 2013 21:40:09 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Mar 2013 13:21:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,893,1355126400"; d="scan'208";a="217882354"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.1])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Mar 2013 12:53:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,893,1355126400"; d="scan'208";a="283374430"
+Received: from wrk.jf.intel.com ([10.7.202.62])
+	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2013 13:23:07 -0700
+From: Kevin Strasser <kevin.strasser@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Mar 2013 19:53:53 +0000
-Message-Id: <110eb8ac18a25271db0203b78e0447d6ace009b9.1363981980.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1363981980.git.paul.eggleton@linux.intel.com>
-References: <cover.1363981980.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1363981980.git.paul.eggleton@linux.intel.com>
-References: <cover.1363981980.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] classes/buildhistory: trim trailing spaces in file listings
+Date: Fri, 22 Mar 2013 13:19:21 -0700
+Message-Id: <cover.1363982857.git.kevin.strasser@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: kevstras@gmail.com
+Subject: [PATCH 0/1] fix srpm archiving build errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 20:11:16 -0000
+X-List-Received-Date: Fri, 22 Mar 2013 20:40:11 -0000
 
-These are mildly annoying when viewing git diffs of the buildhistory
-repository, so let's just get rid of them.
+The following changes since commit 7846f68537a942d340d5931e23a4fceb84b6edcb:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/buildhistory.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  vte: Fix conflict between FILES_${PN}-dbg and FILES_vte-dbg (2013-03-22 17:05:09 +0000)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index b559ebf..3892326 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -391,7 +391,7 @@ buildhistory_get_sdk_installed() {
- buildhistory_list_files() {
- 	# List the files in the specified directory, but exclude date/time etc.
- 	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
--	( cd $1 && find . -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' | sort -k5 > $2 )
-+	( cd $1 && find . -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' | sort -k5 | sed 's/ *$//' > $2 )
- }
- 
- 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib strassek/archiver
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=strassek/archiver
+
+Kevin Strasser (1):
+  archiver: fix srpm archiving build errors
+
+ meta/classes/archive-configured-source.bbclass |   25 +++++++++---------------
+ meta/classes/archive-original-source.bbclass   |   25 +++++++++---------------
+ meta/classes/archive-patched-source.bbclass    |   25 +++++++++---------------
+ meta/classes/archiver.bbclass                  |    4 ----
+ 4 files changed, 27 insertions(+), 52 deletions(-)
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
