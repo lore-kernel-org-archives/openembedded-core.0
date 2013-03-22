@@ -1,29 +1,23 @@
-Received: from mail-pb0-f49.google.com ([209.85.160.49])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <hirst689@gmail.com>) id 1UJ39B-0007rq-I5
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UJ3AJ-0007vc-T2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Mar 2013 15:40:47 +0100
-Received: by mail-pb0-f49.google.com with SMTP id xa12so3082109pbc.22
+	Fri, 22 Mar 2013 15:41:57 +0100
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E65F1D20D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Mar 2013 07:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=eGY1yohqynMqDNyUx/Ad7TgrxoaIc+UZD3+ixA7QWjs=;
-	b=SXK7pHACPRo10SMdQsVBYRy18u1MlSkEGEvoxHnXi4NPAGPcfLTHq3MujZT4vfqCn2
-	krXXr/Xhi1feXW0fcwMOK7Gu8WpFOQTQk0lcrMYPd9EZjl+6p219uPvk4uJShDffI/dI
-	+lynfgSNsHsBwm7PCmxOL2leOzphCTGNo4Ixl9SIdJFEhj9rgDPIaUAHleksPUoyWpKx
-	F6ROASvEtQ/XdWfo0ZuY4FwYhhPMoS4qUw+t/wuqAA3tfq+OSrEecqN6S1bFNc0HE8OJ
-	axi94J4tH8ZU4zJhlgFTO9WvQCdB9R61KorAOrHZzbZhUJnmoTzShcA/rdSK/luES4cj
-	P+2A==
-MIME-Version: 1.0
-X-Received: by 10.67.1.69 with SMTP id be5mr927245pad.154.1363962229714; Fri,
-	22 Mar 2013 07:23:49 -0700 (PDT)
-Received: by 10.68.225.166 with HTTP; Fri, 22 Mar 2013 07:23:49 -0700 (PDT)
-Date: Fri, 22 Mar 2013 10:23:49 -0400
-Message-ID: <CAHu+ux0OrR7quKU3G1fLmzvFFvLxE+k8gQ9v0UtJujfHc1-R2g@mail.gmail.com>
-From: David Hirst <hirst689@gmail.com>
+	Fri, 22 Mar 2013 15:25:06 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: adding a recipe to oe bitbake
+Date: Fri, 22 Mar 2013 15:25:00 +0100
+Message-Id: <1363962300-2770-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <1363961316.3097.2.camel@ted>
+References: <1363961316.3097.2.camel@ted>
+Subject: [PATCH] coreutils: disable ACL as we do not depend on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2013 14:40:52 -0000
-Content-Type: multipart/alternative; boundary=047d7b15ac6530753904d88434e5
+X-List-Received-Date: Fri, 22 Mar 2013 14:41:58 -0000
 
---047d7b15ac6530753904d88434e5
-Content-Type: text/plain; charset=ISO-8859-1
+Coreutils does not depend on ACL but also does not disable it. Effect is
+that from time to time I have a copy in sstate-cache which got built
+with ACL and then I have problem while building images or sdk:
 
-Hi,
-    I have been struggling with a oe/bitbake issue. I wanted to add an
-other .bb to the image file.
-I have tried multiple ways but always end up at the same spot. I have
-created a new task-XXX.bb file which includes my bb
-I edited the XXXX-rootfs-image.bb to include the task-XXX.bb.
-Once built I find that everything built fine and the new recipe was built
-but was not loaded into the XXXX-rootfs-image.tar,gz.
-If I look into the image directory for the bb file I see the compiled
-application in usr/sbin.
-I have tried this with my own .bb file and net-snmp bb file which comes
-with the default oe-layersetup installation with the same result.
-Did I not edit a file or miss some other required step?
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies for packagegroup-core-standalone-hhvm-sdk-target:
+|  *    libacl1 (>= 2.2.51) *
+|  * opkg_install_cmd: Cannot install package packagegroup-core-standalone-hhvm-sdk-target.
+
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ meta/recipes-core/coreutils/coreutils_8.14.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
+index 04c9eb2..b82bbe4 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+@@ -21,7 +21,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+ SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
+ SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
+ 
+-EXTRA_OECONF_class-native = "--without-gmp"
++EXTRA_OECONF = "--disable-acl"
++EXTRA_OECONF_class-native = "--disable-acl --without-gmp"
+ 
+ # [ df mktemp base64 gets a special treatment and is not included in this
+ bindir_progs = "basename chcon cksum comm csplit cut dir dircolors dirname du \
 -- 
-David Hirst
-hirst689@gmail.com
+1.8.1.2
 
---047d7b15ac6530753904d88434e5
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<br clear=3D"all">Hi,<br>=A0=A0=A0 I have been struggling with a oe/bitbake=
- issue. I wanted to add an other .bb to the image file.<br>I have tried mul=
-tiple ways but always end up at the same spot. I have created a new task-XX=
-X.bb file which includes my bb<br>
-I edited the XXXX-rootfs-image.bb to include the task-XXX.bb.<br>Once built=
- I find that everything built fine and the new recipe was built but was not=
- loaded into the XXXX-rootfs-image.tar,gz.<br>If I look into the image dire=
-ctory for the bb file I see the compiled application in usr/sbin.<br>
-I
- have tried this with my own .bb file and net-snmp bb file which comes=20
-with the default oe-layersetup installation with the same result.<br>Did I =
-not edit a file or miss some other required step?<br>-- <br>David Hirst<br>=
-<a href=3D"mailto:hirst689@gmail.com" target=3D"_blank">hirst689@gmail.com<=
-/a><br>
-<img src=3D"" alt=3D""><br>
 
---047d7b15ac6530753904d88434e5--
