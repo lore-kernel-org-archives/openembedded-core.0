@@ -1,34 +1,37 @@
-Received: from mail-gg0-f178.google.com ([209.85.161.178])
+Received: from mail-ye0-f170.google.com ([209.85.213.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UJVGd-0005O3-Sn
+	(envelope-from <otavio.salvador@gmail.com>) id 1UJVGh-0005O6-PT
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Mar 2013 21:42:20 +0100
-Received: by mail-gg0-f178.google.com with SMTP id 21so265626ggh.9
+	Sat, 23 Mar 2013 21:42:24 +0100
+Received: by mail-ye0-f170.google.com with SMTP id q9so264099yen.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2013 13:25:23 -0700 (PDT)
+	Sat, 23 Mar 2013 13:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=p1zXuLL2aLHPKvEZbr2DjJbxWfvPYSQRZbgpU0MxOq8=;
-	b=cn8jVleYdV1rivxe4TB2oqDrJBvsSR7x0uLbKq5GJbEKWZ3vzTpbdanQ+0Ok/EINsP
-	ODfEt58awIimaCtRHfyDHzbbAG9629S89gr64+bbqV5BewvRI4VeuQg73StXHpFKVtZZ
-	E8dARHZ4LN5oWiCwaTtl4fgZU4+vNydTpQm1zLmqf2u+oK7kRnUW4ZsLXrh5hyEJtVg8
-	RXOPjR/d4YjO7/ow4qdxcApA54/5BRXjHPjyS5xnQDqhgT9uqdx7fKAe3morJ+CZM86s
-	qJPwk/dr2dzdUlsLYu1JAfAxClPKxKaFs8ss45y5QLDZ1uTvsvpw9p5rPz2fpeUYJ/hP
-	vB8Q==
-X-Received: by 10.236.180.106 with SMTP id i70mr3901744yhm.149.1364070323825; 
-	Sat, 23 Mar 2013 13:25:23 -0700 (PDT)
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=NcRqC3wn0F072S5xRFYLWn887uR1JuDyRdinYJUWlto=;
+	b=vVvyh1w4foEfnJZyUipI57dSgpJ7FKrCxv0d9e5PQUvT6A1S6JCndboo7tn7dljD00
+	7wtO7Gp4YBxOug9AMOrekE65odQCa4XD/F0SP7iO92h2hlf13IbP42LDaEZRwg5a4ftU
+	VJtcU75MRzKHtoYcnmP8VgJUjsucs1rW0V5SdfCe632lJjMHXXlfKkwzGe0RZbJgVx1E
+	pB+9UmjUTpDVrYOXHOpE6NyrVdpL28g6wvtqEBPuBxyktik7srnKhbQDElYKy6xjj3XC
+	enBdaYv7QFxLwaN62uOw15dJrqQfYaSu41cXq3Uv315UrAeryMZanKrTRcSQrSHBPS7/
+	f8Ow==
+X-Received: by 10.236.0.20 with SMTP id 20mr3886294yha.182.1364070327825;
+	Sat, 23 Mar 2013 13:25:27 -0700 (PDT)
 Received: from nano.lab.ossystems.com.br ([187.23.144.59])
-	by mx.google.com with ESMTPS id t47sm10040150yhe.22.2013.03.23.13.25.21
+	by mx.google.com with ESMTPS id t47sm10040150yhe.22.2013.03.23.13.25.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 23 Mar 2013 13:25:23 -0700 (PDT)
+	Sat, 23 Mar 2013 13:25:27 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sat, 23 Mar 2013 17:30:57 -0300
-Message-Id: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
+Date: Sat, 23 Mar 2013 17:30:59 -0300
+Message-Id: <1364070660-13157-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.1
+In-Reply-To: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
+References: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/4] linux-firmware: Use the included Makefile for install
+Subject: [PATCH 3/4] linux-firmware: Package vt6656, ath6k, ath9k and ar9170
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,69 +44,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Mar 2013 20:42:21 -0000
-X-List-Received-Date: Sat, 23 Mar 2013 20:42:21 -0000
-X-List-Received-Date: Sat, 23 Mar 2013 20:42:21 -0000
-
-This uses the install procedure included in the Makefile which avoids
-code dupplication.
+X-List-Received-Date: Sat, 23 Mar 2013 20:42:25 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../linux-firmware/linux-firmware/makefile-fix.patch  | 19 +++++++++++++++++++
- .../linux-firmware/linux-firmware_git.bb              |  6 +++---
- 2 files changed, 22 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
+ .../linux-firmware/linux-firmware_git.bb           | 29 +++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
-new file mode 100644
-index 0000000..8a23284
---- /dev/null
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
-@@ -0,0 +1,19 @@
-+build: Avoid use of bashism and Makefile deployment
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+
-+diff --git a/Makefile b/Makefile
-+index 321a4e2..9bdeef0 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -9,4 +9,7 @@ install:
-+ 	mkdir -p $(DESTDIR)$(FIRMWAREDIR)
-+ 	cp -r * $(DESTDIR)$(FIRMWAREDIR)
-+ 	rm -f $(DESTDIR)/usbdux/*dux $(DESTDIR)/*/*.asm
-+-	rm $(DESTDIR)$(FIRMWAREDIR)/{WHENCE,LICENSE.*,LICENCE.*}
-++	rm $(DESTDIR)$(FIRMWAREDIR)/Makefile
-++	rm $(DESTDIR)$(FIRMWAREDIR)/WHENCE
-++	rm $(DESTDIR)$(FIRMWAREDIR)/LICENSE.*
-++	rm $(DESTDIR)$(FIRMWAREDIR)/LICENCE.*
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index b9e00fc..6842738 100644
+index 99c226c..b181a6b 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -24,7 +24,8 @@ SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
- PE = "1"
- PV = "0.0+git${SRCPV}"
+@@ -18,6 +18,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
+                     file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
++                    file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
++                    file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
+                    "
  
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git \
-+           file://makefile-fix.patch"
+ SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
+@@ -48,7 +50,27 @@ do_install() {
  
- S = "${WORKDIR}/git"
+ PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-rtl8192cu \
+              ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-wl12xx \
+-             ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334"
++             ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
++             ${PN}-vt6656 ${PN}-ar9170 ${PN}-ath6k \
++             ${PN}-ath9k"
++
++LICENSE_${PN}-9170 = "Firmware-atheros_firmware"
++FILES_${PN}-ar9170 = " \
++  /lib/firmware/ar9170*.fw \
++"
++
++LICENSE_${PN}-ath6k = "Firmware-atheros_firmware"
++FILES_${PN}-ath6k = " \
++  /lib/firmware/ath6k \
++"
++
++LICENSE_${PN}-ath9k = "Firmware-atheros_firmware"
++FILES_${PN}-ath9k = " \
++  /lib/firmware/ar9271.fw \
++  /lib/firmware/ar7010*.fw \
++  /lib/firmware/htc_9271.fw \
++  /lib/firmware/htc_7010.fw \
++"
  
-@@ -35,8 +36,7 @@ do_compile() {
- }
+ LICENSE_${PN}-ralink = "Firmware-ralink"
+ FILES_${PN}-ralink = " \
+@@ -82,6 +104,11 @@ FILES_${PN}-wl12xx = " \
+   /lib/firmware/ti-connectivity \
+ "
  
- do_install() {
--	install -d  ${D}/lib/firmware/
--	cp -r * ${D}/lib/firmware/
-+	oe_runmake install DESTDIR=${D}
- 
- 	# Libertas sd8686
- 	ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
++LICENSE_${PN}-vt6656 = "Firmware-via_vt6656"
++FILES_${PN}-vt6656 = " \
++  /lib/firmware/vntwusb.fw \
++"
++
+ # WARNING: The ALTERNATIVE_* variables are not using ${PN} because of
+ # a bug in bitbake; when this is fixed and bitbake learns how to proper
+ # pass variable flags with expansion we can rework this patch.
 -- 
 1.8.1
 
