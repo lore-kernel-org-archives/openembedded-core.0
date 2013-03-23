@@ -1,33 +1,34 @@
-Received: from mail-ia0-f169.google.com ([209.85.210.169])
+Received: from mail-ie0-f181.google.com ([209.85.223.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UJW9O-0007SS-0i
+	(envelope-from <raj.khem@gmail.com>) id 1UJWBJ-0007aW-JG
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Mar 2013 22:39:05 +0100
-Received: by mail-ia0-f169.google.com with SMTP id j5so4527421iaf.14
+	Sat, 23 Mar 2013 22:40:53 +0100
+Received: by mail-ie0-f181.google.com with SMTP id 17so6087219iea.26
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2013 14:21:57 -0700 (PDT)
+	Sat, 23 Mar 2013 14:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
 	:subject:from:to:cc:content-type;
-	bh=GJi8SO9+49aZqO83ZCZkXnzaTswKXZ8PlCV1mUbJfmA=;
-	b=IUcUbnkq75FamzNfP7sMyPyaoW/eG4X1QuOp0vetFFraSDQ67WjPJ4gww9hdCAHzLx
-	hBowWkZrn7vGEIaKQR1VKuIpjNb6vLd/zhXZv+bBq9RBxz3xfkWiYW89yv1xigcr8+gK
-	R6fx8jHMFCwNl+IhVd6M9KUtXeT98GiXZx5115MEsaa0fiFC2Et1f4BfWM9BGtQkDyD/
-	U4tCjOaR4jfEoMAPv3O0JOohL7CL8PLEr9IC+WP9s6qZjlxoxuY7BiNv30uNyL6puNmq
-	Xeei6ntflYn1EgJ78oa1rteX3CuZORHOxm6faA3xtz4n1UsbUP1LWOMJcdf06w2RS/MF
-	H48w==
+	bh=6nsjfXaWyUkYERAgvbeUU0EvyXJu2ncC5Fn8yxSNy88=;
+	b=QMcRX3onZ0xUrBjS4Hh/35HBcBwMsOvdHytF5uVinfvU5DKU1DwSAUrfYhtzMw07eu
+	KvKkix4gJj/P7cUfhuRf5dGSxS/bgOqMRwSVw0C+ptNSSi3Ke94kKvgs5Fi3J5sUNntM
+	zfe/wpCRpFS/C6IMsP3Pi2JAQEYOzoFTwm6rHmppOk/Iz2KhbZ7wwjYZ/1DbanU8oBJU
+	nQL/rMI5r9gKlSEZyEmK8+g7x2OsueKtHaiXuSS2ivYrvkLfclz01AfCtTVFB44frnZc
+	uxGAoqs39cwBdwcYo7ZaKDYW2Jq7xTUlgoSv0hf4FPm6TVzRhlxCJYIN0F/MvHU/hNiS
+	6mDg==
 MIME-Version: 1.0
-X-Received: by 10.50.188.135 with SMTP id ga7mr7809300igc.58.1364073717769;
-	Sat, 23 Mar 2013 14:21:57 -0700 (PDT)
-Received: by 10.50.185.134 with HTTP; Sat, 23 Mar 2013 14:21:57 -0700 (PDT)
-In-Reply-To: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
+X-Received: by 10.50.89.200 with SMTP id bq8mr4309412igb.58.1364073837462;
+	Sat, 23 Mar 2013 14:23:57 -0700 (PDT)
+Received: by 10.50.185.134 with HTTP; Sat, 23 Mar 2013 14:23:57 -0700 (PDT)
+In-Reply-To: <1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
 References: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
-Date: Sat, 23 Mar 2013 14:21:57 -0700
-Message-ID: <CAMKF1spK6DrofoT3wXMbF=JOU+qWRJvE7vukNsdaFjEnS0XDnA@mail.gmail.com>
+	<1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
+Date: Sat, 23 Mar 2013 14:23:57 -0700
+Message-ID: <CAMKF1spFFareQ_KOAgvmfi8qKf9Gp2kiBUuZE67siyz2u2RVyw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] linux-firmware: Use the included Makefile for install
+Subject: Re: [PATCH 2/4] linux-firmware: Do not deploy license files in packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,84 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Mar 2013 21:39:06 -0000
-Content-Type: multipart/alternative; boundary=14dae9340b1365496904d89e29f8
+X-List-Received-Date: Sat, 23 Mar 2013 21:40:54 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3ba32d878e5c04d89e308e
 
---14dae9340b1365496904d89e29f8
+--e89a8f3ba32d878e5c04d89e308e
 Content-Type: text/plain; charset=UTF-8
+
+Should they be packaged elsewhere
 
 On Saturday, March 23, 2013, Otavio Salvador <otavio@ossystems.com.br>
 wrote:
-> This uses the install procedure included in the Makefile which avoids
-> code dupplication.
+> We don't ship license files with packages and firmware packages are no
+> different; drop them.
 >
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
->  .../linux-firmware/linux-firmware/makefile-fix.patch  | 19
-+++++++++++++++++++
->  .../linux-firmware/linux-firmware_git.bb              |  6 +++---
->  2 files changed, 22 insertions(+), 3 deletions(-)
->  create mode 100644
-meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
+>  meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 9 ---------
+>  1 file changed, 9 deletions(-)
 >
-> diff --git
-a/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
-b/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
-> new file mode 100644
-> index 0000000..8a23284
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware/makefile-fix.patch
-> @@ -0,0 +1,19 @@
-> +build: Avoid use of bashism and Makefile deployment
-> +
-> +Upstream-Status: Submitted
-> +
-> +Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 321a4e2..9bdeef0 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -9,4 +9,7 @@ install:
-> +       mkdir -p $(DESTDIR)$(FIRMWAREDIR)
-> +       cp -r * $(DESTDIR)$(FIRMWAREDIR)
-> +       rm -f $(DESTDIR)/usbdux/*dux $(DESTDIR)/*/*.asm
-> +-      rm $(DESTDIR)$(FIRMWAREDIR)/{WHENCE,LICENSE.*,LICENCE.*}
-> ++      rm $(DESTDIR)$(FIRMWAREDIR)/Makefile
-> ++      rm $(DESTDIR)$(FIRMWAREDIR)/WHENCE
-> ++      rm $(DESTDIR)$(FIRMWAREDIR)/LICENSE.*
-> ++      rm $(DESTDIR)$(FIRMWAREDIR)/LICENCE.*
-
-Can you explain this change ?
-
 > diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bbb/meta/recipes-kernel/linux-firmware/
 linux-firmware_git.bb
-> index b9e00fc..6842738 100644
+> index 6842738..99c226c 100644
 > --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 > +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -24,7 +24,8 @@ SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
->  PE = "1"
->  PV = "0.0+git${SRCPV}"
->
-> -SRC_URI = "git://
-git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git
-"
-> +SRC_URI = "git://
-git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git\
-> +           file://makefile-fix.patch"
->
->  S = "${WORKDIR}/git"
->
-> @@ -35,8 +36,7 @@ do_compile() {
->  }
->
->  do_install() {
-> -       install -d  ${D}/lib/firmware/
-> -       cp -r * ${D}/lib/firmware/
-> +       oe_runmake install DESTDIR=${D}
->
->         # Libertas sd8686
+> @@ -42,9 +42,6 @@ do_install() {
 >         ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
+>         ln -sf libertas/sd8686_v9_helper.bin
+${D}/lib/firmware/sd8686_helper.bin
+>
+> -       # Realtek rtl8192*
+> -       install -m 0644 LICENCE.rtlwifi_firmware.txt
+${D}/lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt
+> -
+>         # fixup wl12xx location, after 2.6.37 the kernel searches a
+different location for it
+>         ( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
+>  }
+> @@ -56,20 +53,17 @@ PACKAGES =+ "${PN}-ralink ${PN}-sd8686
+${PN}-rtl8192cu \
+>  LICENSE_${PN}-ralink = "Firmware-ralink"
+>  FILES_${PN}-ralink = " \
+>    /lib/firmware/rt*.bin \
+> -  /lib/firmware/LICENSE.ralink_firmware.txt \
+>  "
+>
+>  LICENSE_${PN}-sd8686 = "Firmware-libertas"
+>  FILES_${PN}-sd8686 = " \
+>    /lib/firmware/libertas/sd8686_v9* \
+>    /lib/firmware/sd8686* \
+> -  /lib/firmware/LICENCE.libertas \
+>  "
+>
+>  LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi"
+>  FILES_${PN}-rtl8192cu = " \
+>    /lib/firmware/rtlwifi/rtl8192cufw.bin \
+> -  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
+>  "
+>
+>  LICENSE_${PN}-rtl8192ce = "Firmware-rtlwifi"
+> @@ -97,7 +91,6 @@ ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] =
+"/lib/firmware/brcm/brcmfmac-sdio.bin
+>  LICENSE_${PN}-bcm4329 = "Firmware-bcm4329"
+>  FILES_${PN}-bcm4329 = " \
+>    /lib/firmware/brcm/brcmfmac4329.bin \
+> -  /lib/firmware/LICENCE.broadcom_bcm43xx \
+>  "
+>  ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
+>  ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] =
+"/lib/firmware/brcm/brcmfmac4329.bin"
+> @@ -105,7 +98,6 @@
+ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] =
+"/lib/firmware/br
+>  LICENSE_${PN}-bcm4330 = "Firmware-bcm4330"
+>  FILES_${PN}-bcm4330 = " \
+>    /lib/firmware/brcm/brcmfmac4330.bin \
+> -  /lib/firmware/LICENCE.broadcom_bcm43xx \
+>  "
+>
+>  ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
+> @@ -114,7 +106,6 @@
+ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] =
+"/lib/firmware/br
+>  LICENSE_${PN}-bcm4334 = "Firmware-bcm4334"
+>  FILES_${PN}-bcm4334 = " \
+>    /lib/firmware/brcm/brcmfmac4334.bin \
+> -  /lib/firmware/LICENCE.broadcom_bcm43xx \
+>  "
+>
+>  ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
 > --
 > 1.8.1
 >
@@ -128,77 +139,79 @@ git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
---14dae9340b1365496904d89e29f8
+--e89a8f3ba32d878e5c04d89e308e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Saturday, March 23, 2013, Otavio Salvador &lt;<a href=3D"mailto:=
-otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt; wrote:<br>&gt; Thi=
-s uses the install procedure included in the Makefile which avoids<br>&gt; =
-code dupplication.<br>
-&gt;<br>&gt; Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@os=
-systems.com.br">otavio@ossystems.com.br</a>&gt;<br>&gt; ---<br>&gt; =C2=A0.=
-../linux-firmware/linux-firmware/makefile-fix.patch =C2=A0| 19 ++++++++++++=
-+++++++<br>
-&gt; =C2=A0.../linux-firmware/<a href=3D"http://linux-firmware_git.bb">linu=
-x-firmware_git.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=
-=A06 +++---<br>&gt; =C2=A02 files changed, 22 insertions(+), 3 deletions(-)=
-<br>&gt; =C2=A0create mode 100644 meta/recipes-kernel/linux-firmware/linux-=
-firmware/makefile-fix.patch<br>
-&gt;<br>&gt; diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware=
-/makefile-fix.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/mak=
-efile-fix.patch<br>&gt; new file mode 100644<br>&gt; index 0000000..8a23284=
-<br>
-&gt; --- /dev/null<br>&gt; +++ b/meta/recipes-kernel/linux-firmware/linux-f=
-irmware/makefile-fix.patch<br>&gt; @@ -0,0 +1,19 @@<br>&gt; +build: Avoid u=
-se of bashism and Makefile deployment<br>&gt; +<br>&gt; +Upstream-Status: S=
-ubmitted<br>
-&gt; +<br>&gt; +Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio=
-@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>&gt; +<br>&gt; +diff =
---git a/Makefile b/Makefile<br>&gt; +index 321a4e2..9bdeef0 100644<br>&gt; =
-+--- a/Makefile<br>
-&gt; ++++ b/Makefile<br>&gt; +@@ -9,4 +9,7 @@ install:<br>&gt; + =C2=A0 =C2=
-=A0 =C2=A0 mkdir -p $(DESTDIR)$(FIRMWAREDIR)<br>&gt; + =C2=A0 =C2=A0 =C2=A0=
- cp -r * $(DESTDIR)$(FIRMWAREDIR)<br>&gt; + =C2=A0 =C2=A0 =C2=A0 rm -f $(DE=
-STDIR)/usbdux/*dux $(DESTDIR)/*/*.asm<br>
-&gt; +- =C2=A0 =C2=A0 =C2=A0rm $(DESTDIR)$(FIRMWAREDIR)/{WHENCE,LICENSE.*,L=
-ICENCE.*}<br>&gt; ++ =C2=A0 =C2=A0 =C2=A0rm $(DESTDIR)$(FIRMWAREDIR)/Makefi=
-le<br>&gt; ++ =C2=A0 =C2=A0 =C2=A0rm $(DESTDIR)$(FIRMWAREDIR)/WHENCE<br>&gt=
-; ++ =C2=A0 =C2=A0 =C2=A0rm $(DESTDIR)$(FIRMWAREDIR)/LICENSE.*<br>
-&gt; ++ =C2=A0 =C2=A0 =C2=A0rm $(DESTDIR)$(FIRMWAREDIR)/LICENCE.*<br><br>Ca=
-n you explain this change ?<br><br>&gt; diff --git a/meta/recipes-kernel/li=
-nux-firmware/<a href=3D"http://linux-firmware_git.bb">linux-firmware_git.bb=
-</a> b/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-firmware_=
-git.bb">linux-firmware_git.bb</a><br>
-&gt; index b9e00fc..6842738 100644<br>&gt; --- a/meta/recipes-kernel/linux-=
+Should they be packaged elsewhere<br><br>On Saturday, March 23, 2013, Otavi=
+o Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.=
+com.br</a>&gt; wrote:<br>&gt; We don&#39;t ship license files with packages=
+ and firmware packages are no<br>
+&gt; different; drop them.<br>&gt;<br>&gt; Signed-off-by: Otavio Salvador &=
+lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&g=
+t;<br>&gt; ---<br>&gt; =C2=A0meta/recipes-kernel/linux-firmware/<a href=3D"=
+http://linux-firmware_git.bb">linux-firmware_git.bb</a> | 9 ---------<br>
+&gt; =C2=A01 file changed, 9 deletions(-)<br>&gt;<br>&gt; diff --git a/meta=
+/recipes-kernel/linux-firmware/<a href=3D"http://linux-firmware_git.bb">lin=
+ux-firmware_git.bb</a> b/meta/recipes-kernel/linux-firmware/<a href=3D"http=
+://linux-firmware_git.bb">linux-firmware_git.bb</a><br>
+&gt; index 6842738..99c226c 100644<br>&gt; --- a/meta/recipes-kernel/linux-=
 firmware/<a href=3D"http://linux-firmware_git.bb">linux-firmware_git.bb</a>=
 <br>&gt; +++ b/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-f=
 irmware_git.bb">linux-firmware_git.bb</a><br>
-&gt; @@ -24,7 +24,8 @@ SRCREV =3D &quot;c530a75c1e6a472b0eb9558310b518f0dfc=
-d8860&quot;<br>&gt; =C2=A0PE =3D &quot;1&quot;<br>&gt; =C2=A0PV =3D &quot;0=
-.0+git${SRCPV}&quot;<br>&gt;<br>&gt; -SRC_URI =3D &quot;git://<a href=3D"ht=
-tp://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;pr=
-otocol=3Dgit">git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwa=
-re.git;protocol=3Dgit</a>&quot;<br>
-&gt; +SRC_URI =3D &quot;git://<a href=3D"http://git.kernel.org/pub/scm/linu=
-x/kernel/git/firmware/linux-firmware.git;protocol=3Dgit">git.kernel.org/pub=
-/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=3Dgit</a> \<br>&=
-gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://makefile-fix.patch&quot;<br=
->
-&gt;<br>&gt; =C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>&gt;<br>&gt; @@ -35,=
-8 +36,7 @@ do_compile() {<br>&gt; =C2=A0}<br>&gt;<br>&gt; =C2=A0do_install(=
-) {<br>&gt; - =C2=A0 =C2=A0 =C2=A0 install -d =C2=A0${D}/lib/firmware/<br>&=
-gt; - =C2=A0 =C2=A0 =C2=A0 cp -r * ${D}/lib/firmware/<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0 oe_runmake install DESTDIR=3D${D}<br>&gt;<br>&g=
-t; =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Libertas sd8686<br>&gt; =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin<br>&g=
-t; --<br>&gt; 1.8.1<br>&gt;<br>&gt;<br>&gt; _______________________________=
-________________<br>
-&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-=
-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><b=
-r>&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/opene=
-mbedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembed=
-ded-core</a><br>
-&gt;
+&gt; @@ -42,9 +42,6 @@ do_install() {<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 l=
+n -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin<br>&gt; =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware=
+/sd8686_helper.bin<br>&gt;<br>&gt; - =C2=A0 =C2=A0 =C2=A0 # Realtek rtl8192=
+*<br>
+&gt; - =C2=A0 =C2=A0 =C2=A0 install -m 0644 LICENCE.rtlwifi_firmware.txt ${=
+D}/lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt<br>&gt; -<br>&gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 # fixup wl12xx location, after 2.6.37 the kernel s=
+earches a different location for it<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 ( cd ${D}/lib/firmware ; ln -sf ti-connect=
+ivity/* . )<br>&gt; =C2=A0}<br>&gt; @@ -56,20 +53,17 @@ PACKAGES =3D+ &quot=
+;${PN}-ralink ${PN}-sd8686 ${PN}-rtl8192cu \<br>&gt; =C2=A0LICENSE_${PN}-ra=
+link =3D &quot;Firmware-ralink&quot;<br>
+&gt; =C2=A0FILES_${PN}-ralink =3D &quot; \<br>&gt; =C2=A0 =C2=A0/lib/firmwa=
+re/rt*.bin \<br>&gt; - =C2=A0/lib/firmware/LICENSE.ralink_firmware.txt \<br=
+>&gt; =C2=A0&quot;<br>&gt;<br>&gt; =C2=A0LICENSE_${PN}-sd8686 =3D &quot;Fir=
+mware-libertas&quot;<br>&gt; =C2=A0FILES_${PN}-sd8686 =3D &quot; \<br>
+&gt; =C2=A0 =C2=A0/lib/firmware/libertas/sd8686_v9* \<br>&gt; =C2=A0 =C2=A0=
+/lib/firmware/sd8686* \<br>&gt; - =C2=A0/lib/firmware/LICENCE.libertas \<br=
+>&gt; =C2=A0&quot;<br>&gt;<br>&gt; =C2=A0LICENSE_${PN}-rtl8192cu =3D &quot;=
+Firmware-rtlwifi&quot;<br>&gt; =C2=A0FILES_${PN}-rtl8192cu =3D &quot; \<br>
+&gt; =C2=A0 =C2=A0/lib/firmware/rtlwifi/rtl8192cufw.bin \<br>&gt; - =C2=A0/=
+lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \<br>&gt; =C2=A0&quot;<br=
+>&gt;<br>&gt; =C2=A0LICENSE_${PN}-rtl8192ce =3D &quot;Firmware-rtlwifi&quot=
+;<br>&gt; @@ -97,7 +91,6 @@ ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] =3D &q=
+uot;/lib/firmware/brcm/brcmfmac-sdio.bin<br>
+&gt; =C2=A0LICENSE_${PN}-bcm4329 =3D &quot;Firmware-bcm4329&quot;<br>&gt; =
+=C2=A0FILES_${PN}-bcm4329 =3D &quot; \<br>&gt; =C2=A0 =C2=A0/lib/firmware/b=
+rcm/brcmfmac4329.bin \<br>&gt; - =C2=A0/lib/firmware/LICENCE.broadcom_bcm43=
+xx \<br>&gt; =C2=A0&quot;<br>&gt; =C2=A0ALTERNATIVE_linux-firmware-bcm4329 =
+=3D &quot;brcmfmac-sdio.bin&quot;<br>
+&gt; =C2=A0ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] =3D=
+ &quot;/lib/firmware/brcm/brcmfmac4329.bin&quot;<br>&gt; @@ -105,7 +98,6 @@=
+ ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] =3D &quot;/li=
+b/firmware/br<br>
+&gt; =C2=A0LICENSE_${PN}-bcm4330 =3D &quot;Firmware-bcm4330&quot;<br>&gt; =
+=C2=A0FILES_${PN}-bcm4330 =3D &quot; \<br>&gt; =C2=A0 =C2=A0/lib/firmware/b=
+rcm/brcmfmac4330.bin \<br>&gt; - =C2=A0/lib/firmware/LICENCE.broadcom_bcm43=
+xx \<br>&gt; =C2=A0&quot;<br>&gt;<br>
+&gt; =C2=A0ALTERNATIVE_linux-firmware-bcm4330 =3D &quot;brcmfmac-sdio.bin&q=
+uot;<br>&gt; @@ -114,7 +106,6 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4330[=
+brcmfmac-sdio.bin] =3D &quot;/lib/firmware/br<br>&gt; =C2=A0LICENSE_${PN}-b=
+cm4334 =3D &quot;Firmware-bcm4334&quot;<br>
+&gt; =C2=A0FILES_${PN}-bcm4334 =3D &quot; \<br>&gt; =C2=A0 =C2=A0/lib/firmw=
+are/brcm/brcmfmac4334.bin \<br>&gt; - =C2=A0/lib/firmware/LICENCE.broadcom_=
+bcm43xx \<br>&gt; =C2=A0&quot;<br>&gt;<br>&gt; =C2=A0ALTERNATIVE_linux-firm=
+ware-bcm4334 =3D &quot;brcmfmac-sdio.bin&quot;<br>
+&gt; --<br>&gt; 1.8.1<br>&gt;<br>&gt;<br>&gt; _____________________________=
+__________________<br>&gt; Openembedded-core mailing list<br>&gt; <a href=
+=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@list=
+s.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
+edded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde=
+d-core</a><br>&gt;
 
---14dae9340b1365496904d89e29f8--
+--e89a8f3ba32d878e5c04d89e308e--
