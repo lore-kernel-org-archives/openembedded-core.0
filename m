@@ -1,35 +1,24 @@
-Received: from mail-bk0-f48.google.com ([209.85.214.48])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1UJfnL-00036J-1G
+	(envelope-from <eric@eukrea.com>) id 1UJmh0-0001Zr-84
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Mar 2013 08:56:47 +0100
-Received: by mail-bk0-f48.google.com with SMTP id jf20so2350900bkc.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2013 00:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=08xesYDdhpBbhleM+5jhHXmCVbcLoZFzfTQoN8ZBtzA=;
-	b=bbi0uY+Q2urPm6WrmUftCem/mKdnh2TD6Zs9YZqGCWPWzMVkMRtAJHQn8sFKT4ptR4
-	bugDGHm1z3eBRomU2AfpmCKfqSJ+w3FSnhpV9F61kkNSpD9x+cO9O+JiE3SX8ar1SAry
-	Dx6RzbLzmwxpPfVuu5CNO7L0snavwHj9L4oRnwr0vMe9nwVVasOvbZDyB0LxRLRBp8mC
-	A5PkzsBPpPAF4D1llxzP3UibGTAXskQ3PKIrmG3jmfb9c9j4DK0OfgTbgOSnF+st4b+Y
-	5z0BHFqSIPBGQ4Ovp1r6/7RG29zgNcE9YqVjEf51WWjmNddZbiViZUlltdKvlmFA7UfT
-	mr1g==
-X-Received: by 10.204.231.73 with SMTP id jp9mr1961913bkb.116.1364110790444;
-	Sun, 24 Mar 2013 00:39:50 -0700 (PDT)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id z6sm1913330bkv.11.2013.03.24.00.39.48
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 24 Mar 2013 00:39:49 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1UJfWt-0000aF-MZ; Sun, 24 Mar 2013 09:39:47 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Mar 2013 09:39:45 +0200
-Message-Id: <cover.1364110643.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/1] coreutils update
+	Sun, 24 Mar 2013 16:18:44 +0100
+Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
+	(Authenticated sender: eukrea)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 5D55D4B020E;
+	Sun, 24 Mar 2013 16:01:40 +0100 (CET)
+Date: Sun, 24 Mar 2013 16:01:39 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20130324160139.12fbb4d7@e6520eb>
+In-Reply-To: <1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
+References: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
+	<1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] linux-firmware: Do not deploy license files in packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,37 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Mar 2013 07:56:48 -0000
+X-List-Received-Date: Sun, 24 Mar 2013 15:18:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Problems that prevented using of previous upstream version of coreutils
-fixed in latest upstream release.
+Hi Otavio,
 
-The following changes since commit 41c0241a810f0a97ddc98a834e717645e0047958:
+Le Sat, 23 Mar 2013 17:30:58 -0300,
+Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
+> We don't ship license files with packages and firmware packages are no
+> different; drop them.
+>=20
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-  tcl: Fix the location of the installed headers (2013-03-23 18:09:54 +0000)
+there may be a good reason to distribute the license files together with
+the firmware's binairies : it's often requested by the firmware's
+license.
 
-are available in the git repository at:
+For example in bcm43xx
+2.	Restrictions. Licensee shall distribute Software with a copy
+of this Agreement.=20
 
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
-
-Marko Lindqvist (1):
-  coreutils: update to upstream version 8.21
-
- .../coreutils/coreutils-8.14/remove-gets.patch     |   23 --------------------
- .../coreutils-build-with-acl.patch                 |    0
- .../coreutils/coreutils-8.21/dummy_help2man.patch  |   22 +++++++++++++++++++
- .../remove-usr-local-lib-from-m4.patch             |    0
- .../{coreutils_8.14.bb => coreutils_8.21.bb}       |   11 +++++-----
- 5 files changed, 28 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.21}/coreutils-build-with-acl.patch (100%)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.21/dummy_help2man.patch
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.21}/remove-usr-local-lib-from-m4.patch (100%)
- rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.21.bb} (91%)
-
--- 
-1.7.10.4
-
+Best regards,
+Eric
 
 
