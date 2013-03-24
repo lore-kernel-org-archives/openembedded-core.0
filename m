@@ -1,37 +1,35 @@
-Received: from mail-ob0-f171.google.com ([209.85.214.171])
+Received: from mail-bk0-f48.google.com ([209.85.214.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UJWxE-0004r7-Ue
+	(envelope-from <cazfi74@gmail.com>) id 1UJfnL-00036J-1G
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Mar 2013 23:30:28 +0100
-Received: by mail-ob0-f171.google.com with SMTP id x4so4960445obh.30
+	Sun, 24 Mar 2013 08:56:47 +0100
+Received: by mail-bk0-f48.google.com with SMTP id jf20so2350900bkc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Mar 2013 15:13:28 -0700 (PDT)
+	Sun, 24 Mar 2013 00:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=agB5ana5pg8mns+ElYzewme7QPvpFW3GOSsuwXEcrkA=;
-	b=yhZrxvapU93ltG0Dnw5HwnhMB/EZm3yvxFQtU9eb9a28u43ILSfaac9huUWu2FD1kq
-	v2/dJMmUvgatlpMVZ0GC1E7EJmJ4yCbZ8HSGoqaQlBmLykOUjmdi4HlGffJDBmTwFH6j
-	SABVZFCFlsnZjb8PSRcihb35+tNx05DClVRPjIqSZqnEj5vgxB6LCHLo0II7D6+nw4UC
-	OuGA0bbDK14Nzw7IV5aRFEMQ8HpgFeFOuS30IMLMGU0Y/ecejS2bieQY1ikV8eExYHJ5
-	PC9BL4bcJFK5MA1K3d2a50hSU/DCOUZZAReV2kobTTHJzpn14O6QEQRyStCAe/hAMxUZ
-	ZMTg==
-MIME-Version: 1.0
-X-Received: by 10.60.8.197 with SMTP id t5mr6474282oea.4.1364076808221; Sat,
-	23 Mar 2013 15:13:28 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Sat, 23 Mar 2013 15:13:28 -0700 (PDT)
-In-Reply-To: <CAMKF1spFFareQ_KOAgvmfi8qKf9Gp2kiBUuZE67siyz2u2RVyw@mail.gmail.com>
-References: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
-	<1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
-	<CAMKF1spFFareQ_KOAgvmfi8qKf9Gp2kiBUuZE67siyz2u2RVyw@mail.gmail.com>
-Date: Sat, 23 Mar 2013 19:13:28 -0300
-X-Google-Sender-Auth: QCJJy88ixp14tNQyISiHQSqmgTc
-Message-ID: <CAP9ODKpWnD8AOb9N-4HSaWEj3970NxJxVy30gauZwge62r4-2g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] linux-firmware: Do not deploy license files in packages
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=08xesYDdhpBbhleM+5jhHXmCVbcLoZFzfTQoN8ZBtzA=;
+	b=bbi0uY+Q2urPm6WrmUftCem/mKdnh2TD6Zs9YZqGCWPWzMVkMRtAJHQn8sFKT4ptR4
+	bugDGHm1z3eBRomU2AfpmCKfqSJ+w3FSnhpV9F61kkNSpD9x+cO9O+JiE3SX8ar1SAry
+	Dx6RzbLzmwxpPfVuu5CNO7L0snavwHj9L4oRnwr0vMe9nwVVasOvbZDyB0LxRLRBp8mC
+	A5PkzsBPpPAF4D1llxzP3UibGTAXskQ3PKIrmG3jmfb9c9j4DK0OfgTbgOSnF+st4b+Y
+	5z0BHFqSIPBGQ4Ovp1r6/7RG29zgNcE9YqVjEf51WWjmNddZbiViZUlltdKvlmFA7UfT
+	mr1g==
+X-Received: by 10.204.231.73 with SMTP id jp9mr1961913bkb.116.1364110790444;
+	Sun, 24 Mar 2013 00:39:50 -0700 (PDT)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPS id z6sm1913330bkv.11.2013.03.24.00.39.48
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 24 Mar 2013 00:39:49 -0700 (PDT)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1UJfWt-0000aF-MZ; Sun, 24 Mar 2013 09:39:47 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Mar 2013 09:39:45 +0200
+Message-Id: <cover.1364110643.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/1] coreutils update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Mar 2013 22:30:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 24 Mar 2013 07:56:48 -0000
 
-On Sat, Mar 23, 2013 at 6:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Should they be packaged elsewhere
+Problems that prevented using of previous upstream version of coreutils
+fixed in latest upstream release.
 
-It may come in the package license but this not at my control and I
-think it is being done already. Not in binaries for rootfs.
+The following changes since commit 41c0241a810f0a97ddc98a834e717645e0047958:
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+  tcl: Fix the location of the installed headers (2013-03-23 18:09:54 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
+
+Marko Lindqvist (1):
+  coreutils: update to upstream version 8.21
+
+ .../coreutils/coreutils-8.14/remove-gets.patch     |   23 --------------------
+ .../coreutils-build-with-acl.patch                 |    0
+ .../coreutils/coreutils-8.21/dummy_help2man.patch  |   22 +++++++++++++++++++
+ .../remove-usr-local-lib-from-m4.patch             |    0
+ .../{coreutils_8.14.bb => coreutils_8.21.bb}       |   11 +++++-----
+ 5 files changed, 28 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.21}/coreutils-build-with-acl.patch (100%)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.21/dummy_help2man.patch
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.21}/remove-usr-local-lib-from-m4.patch (100%)
+ rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.21.bb} (91%)
+
+-- 
+1.7.10.4
+
 
 
