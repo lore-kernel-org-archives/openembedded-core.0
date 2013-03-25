@@ -1,31 +1,40 @@
-Received: from smtpfb2-g21.free.fr ([212.27.42.10])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UJpN1-0006yU-Ku
+Received: from 6.mo1.mail-out.ovh.net ([46.105.43.205]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul@paulbarker.me.uk>) id 1UJwZT-000487-Hr
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Mar 2013 19:10:17 +0100
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 47EE5CA8C6A
+	Mon, 25 Mar 2013 02:51:37 +0100
+Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 9A470FF8B6D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Mar 2013 18:53:19 +0100 (CET)
-Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id C3291A624D;
-	Sun, 24 Mar 2013 18:52:32 +0100 (CET)
-Date: Sun, 24 Mar 2013 18:52:31 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: John Weber <rjohnweber@gmail.com>
-Message-ID: <20130324185231.4ed1f60b@e6520eb>
-In-Reply-To: <514F2FED.70603@gmail.com>
-References: <1364070660-13157-1-git-send-email-otavio@ossystems.com.br>
-	<1364070660-13157-2-git-send-email-otavio@ossystems.com.br>
-	<20130324160139.12fbb4d7@e6520eb>
-	<CAP9ODKoRemde2dC+emOkvu=UG927k3suOZE-Yzdppjp_LG3NeQ@mail.gmail.com>
-	<514F2FED.70603@gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] linux-firmware: Do not deploy license files in packages
+	Mon, 25 Mar 2013 02:12:29 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 25 Mar 2013 02:55:12 +0200
+Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
+	b5-server.betafive.co.uk) (mail@betafive.co.uk@94.192.12.83)
+	by ns0.ovh.net with SMTP; 25 Mar 2013 02:55:11 +0200
+Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
+	[192.168.0.100])
+	by b5-server.betafive.co.uk (Postfix) with ESMTP id 549731607E0;
+	Mon, 25 Mar 2013 00:54:41 +0000 (GMT)
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Date: Mon, 25 Mar 2013 00:55:07 +0000
+Message-Id: <1364172907-14541-3-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
+References: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
+X-Ovh-Tracer-Id: 11560458768870115778
+X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+Subject: [PATCH 2/2] gnupg: Added update-alternatives entry for gpgv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Mar 2013 18:10:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Mar 2013 01:51:38 -0000
 
-Le Sun, 24 Mar 2013 11:55:09 -0500,
-John Weber <rjohnweber@gmail.com> a =C3=A9crit :
+Added update-alternatives entry linking '/usr/bin/gpgv' to 'gpgv2'. This is
+required to allow apt-get to verify a signed repository.
 
-> Showing my ignorance here, but is a manifest created with all of the pack=
-aged=20
-> licenses?  Is it possible for the developer to ship that if they see fit?
->=20
-> I think what Otavio was trying to do was to keep /lib/firmware from being=
-=20
-> cluttered with license files.  At least, that is the benefit as I see it.
->=20
-I see the benefit, I was just giving a reason why the initial recipe
-writer may have wanted to include the license files in the packages
-together with the binaries of the firmwares.
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ meta/recipes-support/gnupg/gnupg_2.0.19.bb |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Eric
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
+index 2322a9e..63f08cb 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
+@@ -25,7 +25,10 @@ EXTRA_OECONF = "--disable-ldap \
+                 --with-readline=${STAGING_LIBDIR}/.. \
+                "
+ 
+-ALTERNATIVE_gnupg = "gpg"
++ALTERNATIVE_gnupg = "gpg gpgv"
+ ALTERNATIVE_TARGET[gpg] = "${bindir}/gpg2"
+ ALTERNATIVE_LINK_NAME[gpg] = "${bindir}/gpg"
+ ALTERNATIVE_PRIORITY[gpg] = "100"
++ALTERNATIVE_TARGET[gpgv] = "${bindir}/gpgv2"
++ALTERNATIVE_LINK_NAME[gpgv] = "${bindir}/gpgv"
++ALTERNATIVE_PRIORITY[gpgv] = "100"
+-- 
+1.7.10.4
+
 
 
