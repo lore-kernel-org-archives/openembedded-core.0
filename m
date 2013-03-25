@@ -1,41 +1,25 @@
-Received: from mail-ee0-f41.google.com ([74.125.83.41])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UK4MM-00008a-AX
+	(envelope-from <Kai.Kang@windriver.com>) id 1UK4lp-0000lW-8V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 11:10:36 +0100
-Received: by mail-ee0-f41.google.com with SMTP id c1so756036eek.28
+	Mon, 25 Mar 2013 11:36:57 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2PAJqCQ005764
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 02:53:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=TDOKUaiyHri5/30ePynZpI6Z85lgWHVSvaSwXBu/ju0=;
-	b=GKjKmB05vRKbqGgNCBpISYQOXN9oyYmynJFbda0xuJa9Pn1hNX+T4Ej9hGf70Ku//u
-	du9rpDlb6f/Fev6l1G2rAMHY2+xfA3hmOe8nRIkZkDmPgCH/OzuL+EaD1zmFoGbNU6GZ
-	BEZJHlqS626P+2AIAWbAV37Ch5f/BTB31d9LhqE8anS8KaS8fd6Xmu1v1ERjOCtoXrcx
-	KxcG7TlOCx6WISH+huzOBn8GdxUWSwmkDtjymXPAPk2SDTrTEwizKu7XCOJwyNW8zIBI
-	YL8kfKHlOrMrTWDFaTI7txBbmcH5hF2h3JjWHqvRRzKwScf5xslOirjNocOvvxUD2yqW
-	MhlQ==
-X-Received: by 10.14.216.2 with SMTP id f2mr32322394eep.44.1364205213499;
-	Mon, 25 Mar 2013 02:53:33 -0700 (PDT)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id s47sm6546447eeg.8.2013.03.25.02.53.31
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 25 Mar 2013 02:53:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <51501E03.8020907@linaro.org>
-Date: Mon, 25 Mar 2013 10:53:30 +0100
-Message-Id: <86C5E727-9B40-42A1-91BF-5B7A18AC377F@dominion.thruhere.net>
-References: <1364203928-32746-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<104941556.xik0AZR0dJ@helios> <51501E03.8020907@linaro.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQmQbmEVMSRJZ5YE7oM2YJ3sNMQPjfJXDhDYdMjrgMdl0e99ngWkMl/TnpbXok90kWoLmThA
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] powertop: add 2.3
+	Mon, 25 Mar 2013 03:19:52 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 03:19:53 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Mar 2013 18:21:34 +0800
+Message-ID: <cover.1364204199.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.205]
+Subject: [PATCH 0/2] Add libraries to lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,32 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 10:10:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Mar 2013 10:37:02 -0000
+Content-Type: text/plain
 
+[YOCTO #4015]
 
-Op 25 mrt. 2013, om 10:50 heeft Marcin Juszkiewicz =
-<marcin.juszkiewicz@linaro.org> het volgende geschreven:
+The following changes since commit 3c5f4d54d01887a117bf659fc9af6b2b892c2b08:
 
-> W dniu 25.03.2013 10:43, Paul Eggleton pisze:
->=20
->> Ah, your version misses out quite a few things from the older recipe=20=
+  separatebuilddir.inc: mxsldr should never have been added to this list, remove (2013-03-24 14:03:19 +0000)
 
->> (alternatives, uclibc compatibility, etc.)
->=20
-> What are alternatives to powertop when only powertop provides it?
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/lsb-libs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb-libs
 
-busybox, as usual :)
+Kang Kai (2):
+  libpng: add version 1.2 back
+  packagegroup-core-lsb: add nspr
 
->=20
-> I am doing uclibc build in background. Will also take care of
-> libncursesw -> libncurses change.
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ meta/conf/distro/include/default-versions.inc      |    3 ++
+ .../packagegroups/packagegroup-core-lsb.bb         |    1 +
+ meta/recipes-multimedia/libpng/libpng_1.2.50.bb    |   21 ++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.2.50.bb
+
+-- 
+1.7.5.4
 
 
 
