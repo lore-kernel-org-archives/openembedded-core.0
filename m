@@ -1,29 +1,32 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UK7sP-00072N-3J
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 14:56:01 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2PDcrRH009759
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 06:38:53 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 25 Mar 2013 06:38:53 -0700
-Message-ID: <5150536C.6000000@windriver.com>
-Date: Mon, 25 Mar 2013 08:38:52 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1364204199.git.kai.kang@windriver.com>
-	<e3e9dea5c45c1b5ba29300e4957dcd611655492e.1364204199.git.kai.kang@windriver.com>
-In-Reply-To: <e3e9dea5c45c1b5ba29300e4957dcd611655492e.1364204199.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 1/2] libpng: add version 1.2 back
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UK7ti-000775-28 for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 14:57:14 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PDnrMk006314; Mon, 25 Mar 2013 13:49:59 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gPfxxCeWDBLe; Mon, 25 Mar 2013 13:49:53 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PDnlFN006143
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 25 Mar 2013 13:49:50 GMT
+Message-ID: <1364218796.3097.49.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 25 Mar 2013 13:39:56 +0000
+In-Reply-To: <20130325133252.0000678c@unknown>
+References: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
+	<20130325125728.00004c11@unknown> <1364217957.3097.43.camel@ted>
+	<20130325133252.0000678c@unknown>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Gnupg recipe fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,72 +39,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 13:56:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 25 Mar 2013 13:57:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 3/25/13 5:21 AM, Kang Kai wrote:
-> Current LSB 4.1 test suite still check libpng12.so, so add libpng 1.2.x
-> back, and set it as default verison for linuxstdbase image.
+On Mon, 2013-03-25 at 13:32 +0000, Paul Barker wrote:
+> On Mon, 25 Mar 2013 13:25:57 +0000
+> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> 
+> > On Mon, 2013-03-25 at 12:57 +0000, Paul Barker wrote:
+> > > On Mon, 25 Mar 2013 00:55:05 +0000
+> > > Paul Barker <paul@paulbarker.me.uk> wrote:
+> > > 
+> > > > I'm setting up a signed apt repository of .deb packages built
+> > > > using OpenEmbedded and I've ran into an issue with apt-get on the
+> > > > target board not being able to find 'gpgv' to verify the
+> > > > signatures. This is installed as 'gpgv2' in the gnupg recipe.
+> > > > Therefore I've used update-alternatives to create the appropriate
+> > > > link.
+> > > > 
+> > > 
+> > > I've re-thought this already. Is update-alternatives the right
+> > > thing to use here? Maybe not as there isn't anything else that
+> > > provides gpgv and gnupg_1.* and gnupg_2.* probably can't co-exist
+> > > on the same install. I could just add a line to do_install_append()
+> > > to create the gpgv link manually, similar to how the link for gpg
+> > > is already created. Please let me know which is the better solution
+> > > here.
+> > > 
+> > > I also noticed that gnupg_1.4.7.bb splits gpgv into a separate
+> > > package but gnupg_2.0.19 doesn't. I could write a patch to modify
+> > > one of these to match the other if desired?
+> > 
+> > I glanced at this earlier and wondered what the alternative provider
+> > was. If we have no alternative, a symlink is fine.
+> > 
+> > I'm open to separate packaging of the utilities if its useful and they
+> > can use used one without the other. If we'd generally need both, they
+> > can exist in the same package fine.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+> 
+> I'll put a new patch together to add the symlink. Does this warrant
+> incrementing PR?
 
-I think this is close, but incorrect.  What should be added for compatibility is 
-a -new- package called "libpng12_1.2.50.bb".  Ensure that the libpng-config 
-(which should installed into crossscripts) is also renamed to libpng12-config.
+In the old scheme of things this was needed but is no longer required
+since we have the PR server and checksums for the tasks which change
+when details like this change.
 
-We want to make sure we have both the old and new versions to meet LSB 
-compliance (for people who have that enabled) as well as the new version for 
-newer applications.
+Cheers,
 
---Mark
-
-> [YOCTO 4015]
->
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->   meta/conf/distro/include/default-versions.inc   |    3 +++
->   meta/recipes-multimedia/libpng/libpng_1.2.50.bb |   21 +++++++++++++++++++++
->   2 files changed, 24 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->
-> diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-> index 53ec2e7..0a5b2f4 100644
-> --- a/meta/conf/distro/include/default-versions.inc
-> +++ b/meta/conf/distro/include/default-versions.inc
-> @@ -9,3 +9,6 @@ PREFERRED_VERSION_python-native ?= "2.7.3"
->
->   # Force the older version of liberation-fonts until we fix the fontforge issue
->   PREFERRED_VERSION_liberation-fonts ?= "1.04"
-> +
-> +# Set libpng default version for linuxstdbase
-> +PREFERRED_VERSION_libpng_linuxstdbase ?= "1.2.50"
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.50.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-> new file mode 100644
-> index 0000000..8fdc41b
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-> @@ -0,0 +1,21 @@
-> +SUMMARY = "PNG Library"
-> +DESCRIPTION = "PNG Library"
-> +HOMEPAGE = "http://www.libpng.org/"
-> +SECTION = "libs"
-> +LICENSE = "Libpng"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
-> +                    file://png.h;beginline=310;endline=424;md5=b87b5e9252a3e14808a27b92912d268d"
-> +DEPENDS = "zlib"
-> +PR = "r0"
-> +
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
-> +
-> +SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
-> +SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
-> +
-> +inherit autotools binconfig pkgconfig
-> +
-> +PACKAGES =+ "${PN}12"
-> +
-> +FILES_${PN}12 = "${libdir}/libpng12${SOLIBS}"
-> +RPROVIDES_${PN}-dev += "${PN}12-dev"
->
+Richard
 
 
 
