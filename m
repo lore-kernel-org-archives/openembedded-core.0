@@ -1,40 +1,23 @@
-Received: from mail-pb0-f51.google.com ([209.85.160.51])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UKB4w-00071q-Gv
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 18:21:18 +0100
-Received: by mail-pb0-f51.google.com with SMTP id rr4so1578008pbb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 10:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=I+1wPeteVN0nnI3hI8Lhod9GO0GD4zRl7q+wrrlApcg=;
-	b=Np2E4rdK+dfoBar4Sk6tnCr/1T+kQVPZk9vcRMULbTzN3m2XzhSDwk5+ldPTNIKtKS
-	TSeulPNFjIkPgFLxHy+TYilww0YBikGuYthQvj543HcLmtOSbwj74d4/mguxS6jcoj3f
-	G145LTjhJ/ZUSERMUTfan7p1t5q+Bf3A56jo3uEwTtMplyh84YZ3IE4kOGICgvTPlqHc
-	L2IK3cwIvWbU7FrOiYZyNFQstv4R0HShMNoZqXHBww9LGiLvk4Cz4ZdFHJNr3S7arMoV
-	ZXJ+1qwKPcJkciDT/sqWaV/AfORgzYD3tiZr3DhXZ5yXYFLtj1LVKzZrCrle+NxhS25C
-	QS8w==
-X-Received: by 10.66.14.232 with SMTP id s8mr19291675pac.13.1364231034735;
-	Mon, 25 Mar 2013 10:03:54 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id pb3sm14091931pbc.7.2013.03.25.10.03.51
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 25 Mar 2013 10:03:53 -0700 (PDT)
-Date: Mon, 25 Mar 2013 18:03:46 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130325170346.GD7539@jama>
-References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-	<C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
-	<CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UKB5F-000737-T1 for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 18:21:52 +0100
+Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
+	([86.14.229.168] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UKAoq-0006ts-HN; Mon, 25 Mar 2013 18:04:24 +0100
+Message-ID: <1364230955.25692.138.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 25 Mar 2013 17:02:35 +0000
+In-Reply-To: <1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
+References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
+	<1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2 RFC] rpm: Add workaround for debugedit-segv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,45 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 17:21:22 -0000
-X-Groupsio-MsgNum: 37027
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Mar 2013 17:22:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---NklN7DEeGtkPCoo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2013-03-25 at 12:19 -0500, Mark Hatle wrote:
+> +Sections 23 and 24 (.plt and .bss) which are NOBITS have a loaded data address
+> +of 0, but a size != 0.
 
-On Mon, Mar 25, 2013 at 04:23:26PM +0000, Burton, Ross wrote:
-> On 25 March 2013 16:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > So you say it's not an upgrade path, but...
-> >
-> >> - bluez5 conflicts with/replaces bluez4.
-> >
-> > ...  here you add RREPLACES. Why is that?
->=20
-> The logic was that if a *distro* does the upgrade from bluez4 to
-> bluez5, the package manager needs to be able to remove bluez4 when
-> installing bluez5, as otherwise they'd just conflict and the package
-> manager would error out.
+That doesn't seem like totally unreasonable behaviour for a NOBITS
+section.  What were you expecting libelf to do in that case?
 
-But opkg will still error out because of missing RPROVIDES, no?
+++      if (data != NULL && size != 0)
+++        hashFunctionContextUpdateMC (&ctx, &chunk);
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I suppose one could argue that allocating a chunk of zero-filled memory
+of the right size and then hashing that would be a slightly better fix.
+Whether it matters in practice or not would depend on what exactly is
+going into this hash and what it's being used for.
 
---NklN7DEeGtkPCoo3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+p.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlFQg3IACgkQN1Ujt2V2gBwcxgCeJJ/dwjyV/Qf84kU6uexlssoH
-voIAoLCR2FDU3aUNaVZNyNX8pkXO5ort
-=uMMO
------END PGP SIGNATURE-----
 
---NklN7DEeGtkPCoo3--
+
