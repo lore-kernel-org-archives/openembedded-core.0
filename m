@@ -1,31 +1,40 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pb0-f51.google.com ([209.85.160.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKAwC-0006ju-0y for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 18:12:03 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2PH4jK4023888 for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 17:04:46 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id s3MHOHrtkykF
+	(envelope-from <martin.jansa@gmail.com>) id 1UKB4w-00071q-Gv
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 18:21:18 +0100
+Received: by mail-pb0-f51.google.com with SMTP id rr4so1578008pbb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 17:04:45 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2PH4dEh023883
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 17:04:42 GMT
-Message-ID: <1364230487.3097.62.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Mar 2013 16:54:47 +0000
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: package.bbclass: Handle subprocess errors correctly
+	Mon, 25 Mar 2013 10:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=I+1wPeteVN0nnI3hI8Lhod9GO0GD4zRl7q+wrrlApcg=;
+	b=Np2E4rdK+dfoBar4Sk6tnCr/1T+kQVPZk9vcRMULbTzN3m2XzhSDwk5+ldPTNIKtKS
+	TSeulPNFjIkPgFLxHy+TYilww0YBikGuYthQvj543HcLmtOSbwj74d4/mguxS6jcoj3f
+	G145LTjhJ/ZUSERMUTfan7p1t5q+Bf3A56jo3uEwTtMplyh84YZ3IE4kOGICgvTPlqHc
+	L2IK3cwIvWbU7FrOiYZyNFQstv4R0HShMNoZqXHBww9LGiLvk4Cz4ZdFHJNr3S7arMoV
+	ZXJ+1qwKPcJkciDT/sqWaV/AfORgzYD3tiZr3DhXZ5yXYFLtj1LVKzZrCrle+NxhS25C
+	QS8w==
+X-Received: by 10.66.14.232 with SMTP id s8mr19291675pac.13.1364231034735;
+	Mon, 25 Mar 2013 10:03:54 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id pb3sm14091931pbc.7.2013.03.25.10.03.51
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 25 Mar 2013 10:03:53 -0700 (PDT)
+Date: Mon, 25 Mar 2013 18:03:46 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130325170346.GD7539@jama>
+References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
+	<C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
+	<CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,83 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 17:12:04 -0000
-X-List-Received-Date: Mon, 25 Mar 2013 17:12:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Mar 2013 17:21:22 -0000
+X-Groupsio-MsgNum: 37027
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
+Content-Disposition: inline
 
-If an error occurs in subprocess.call() we currently don't catch it. In particular
-we have issues where debugedit is segfaulting unnoticed. This fixes up
-various code paths to catch the errors.
+--NklN7DEeGtkPCoo3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #4089]
+On Mon, Mar 25, 2013 at 04:23:26PM +0000, Burton, Ross wrote:
+> On 25 March 2013 16:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > So you say it's not an upgrade path, but...
+> >
+> >> - bluez5 conflicts with/replaces bluez4.
+> >
+> > ...  here you add RREPLACES. Why is that?
+>=20
+> The logic was that if a *distro* does the upgrade from bluez4 to
+> bluez5, the package manager needs to be able to remove bluez4 when
+> installing bluez5, as otherwise they'd just conflict and the package
+> manager would error out.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index b6f8767..958f616 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -254,14 +254,23 @@ def splitdebuginfo(file, debugfile, debugsrcdir, d):
- 
-     # We need to extract the debug src information here...
-     if debugsrcdir:
--        subprocess.call("'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file), shell=True)
-+        cmd = "'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file)
-+        retval = subprocess.call(cmd, shell=True)
-+        if retval:
-+            bb.fatal("debugedit failed with exit code %s (cmd was %s)" % (retval, cmd))
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
--    subprocess.call("'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile), shell=True)
-+    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
-+    retval = subprocess.call(cmd, shell=True)
-+    if retval:
-+        bb.fatal("objcopy failed with exit code %s (cmd was %s)" % (retval, cmd))
- 
-     # Set the debuglink to have the view of the file path on the target
--    subprocess.call("'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file), shell=True)
-+    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
-+    retval = subprocess.call(cmd, shell=True)
-+    if retval:
-+        bb.fatal("objcopy failed with exit code %s (cmd was %s)" % (retval, cmd))
- 
-     if newmode:
-         os.chmod(file, origmode)
-@@ -298,10 +307,17 @@ def copydebugsources(debugsrcdir, d):
-         processdebugsrc += "fgrep -z '%s' | "
-         processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
- 
--        subprocess.call(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir), shell=True)
-+        cmd = processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir)
-+        retval = subprocess.call(cmd, shell=True)
-+        if retval:
-+            bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
-+
- 
-         # The copy by cpio may have resulted in some empty directories!  Remove these
--        subprocess.call("find %s%s -empty -type d -delete" % (dvar, debugsrcdir), shell=True)
-+        cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
-+        retval = subprocess.call(cmd, shell=True)
-+        if retval:
-+            bb.fatal("empty directory removal failed with exit code %s (cmd was %s)" % (retval, cmd))
- 
-         # Also remove debugsrcdir if its empty
-         for p in nosuchdir[::-1]:
-@@ -431,7 +447,10 @@ python perform_packagecopy () {
-     # Start by package population by taking a copy of the installed
-     # files to operate on
-     # Preserve sparse files and hard links
--    subprocess.call('tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar), shell=True)
-+    cmd = 'tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar)
-+    retval = subprocess.call(cmd, shell=True)
-+    if retval:
-+        bb.fatal("file copy failed with exit code %s (cmd was %s)" % (retval, cmd))
- 
-     # replace RPATHs for the nativesdk binaries, to make them relocatable
-     if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d):
+But opkg will still error out because of missing RPROVIDES, no?
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--NklN7DEeGtkPCoo3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlFQg3IACgkQN1Ujt2V2gBwcxgCeJJ/dwjyV/Qf84kU6uexlssoH
+voIAoLCR2FDU3aUNaVZNyNX8pkXO5ort
+=uMMO
+-----END PGP SIGNATURE-----
+
+--NklN7DEeGtkPCoo3--
