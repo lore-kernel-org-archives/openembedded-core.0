@@ -1,39 +1,28 @@
-Received: from 6.mo1.mail-out.ovh.net ([46.105.43.205]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul@paulbarker.me.uk>) id 1UJwZT-000488-II
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Sen.Zhang@windriver.com>) id 1UJwzs-0005ci-Oo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 02:51:37 +0100
-Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 99D11FF8B68
+	Mon, 25 Mar 2013 03:19:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2P21sUO026100
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 02:12:29 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 25 Mar 2013 02:55:12 +0200
-Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
-	b5-server.betafive.co.uk) (mail@betafive.co.uk@94.192.12.83)
-	by ns0.ovh.net with SMTP; 25 Mar 2013 02:55:11 +0200
-Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
-	[192.168.0.100])
-	by b5-server.betafive.co.uk (Postfix) with ESMTP id 345091607DE
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 00:54:41 +0000 (GMT)
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Date: Mon, 25 Mar 2013 00:55:05 +0000
-Message-Id: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.7.10.4
-X-Ovh-Tracer-Id: 11560458768869984706
-X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-Subject: Gnupg recipe fixes
+	Sun, 24 Mar 2013 19:01:54 -0700 (PDT)
+Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Sun, 24 Mar 2013 19:01:53 -0700
+Message-ID: <514FB058.5020805@windriver.com>
+Date: Mon, 25 Mar 2013 10:03:04 +0800
+From: Jesse Zhang <sen.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130219 Thunderbird/17.0.3
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1363658821-23679-1-git-send-email-sen.zhang@windriver.com>
+In-Reply-To: <1363658821-23679-1-git-send-email-sen.zhang@windriver.com>
+X-Originating-IP: [128.224.162.230]
+Subject: Re: [PATCH] [RFC] Perl packages shouldn't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,27 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 01:51:38 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 02:19:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I'm setting up a signed apt repository of .deb packages built using OpenEmbedded
-and I've ran into an issue with apt-get on the target board not being able to
-find 'gpgv' to verify the signatures. This is installed as 'gpgv2' in the gnupg
-recipe. Therefore I've used update-alternatives to create the appropriate link.
+Ping. Anyone has comments?
 
-Whilst I was doing this, I felt it would be a good idea to replace the manual
-creation of the 'gpg'->'gpg2' link in a do_install_append() function with proper
-usage of update-alternatives.
+jesse
 
-This is my first attempt at using git send-email and submitting patches to
-OpenEmbedded so if I've done anything wrong please point me in the right
-direction.
-
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+On 03/19/2013 10:07 AM, Jesse Zhang wrote:
+> Hi,
+> 
+> I recently found that perl packages are broken in multilib builds. On a lib32
+> image, everything including perl is lib32 and installs to /usr/lib. These perl
+> packages are "all" arch, which is fine except that they install to /usr/lib64.
+> They won't work because the lib32 perl thinks its vendorlib is under /usr/lib.
+> 
+> Removing allarch seems to solve the problem, but I want to see if people have
+> some comments.
+> 
+> I found the original commit that introduced the change, which was to fix an
+> sstate related issue (https://bugzilla.yoctoproject.org/show_bug.cgi?id=1075).
+> But I don't think these packages fit well with allarch, since they install into
+> arch-specific dirs.
+> 
+> jesse
+> 
+> Jesse Zhang (1):
+>   Perl packages shouldn't be allarch
+> 
+>  meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb         | 2 +-
+>  meta/recipes-extended/perl/libtimedate-perl_2.30.bb             | 2 +-
+>  meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb | 2 +-
+>  meta/recipes-extended/perl/libxml-sax-base-perl_1.08.bb         | 2 +-
+>  meta/recipes-extended/perl/libxml-sax-perl_0.99.bb              | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+> 
 
 
