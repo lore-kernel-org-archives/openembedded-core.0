@@ -1,37 +1,24 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UK5P4-0002G6-Cw
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Maxin.John@enea.com>) id 1UK6Dw-0003cI-UT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 12:17:27 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 63D22D22E9; Mon, 25 Mar 2013 12:00:31 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2BDADD22B2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 11:59:31 +0100 (CET)
-Message-ID: <51502E0C.3010600@linaro.org>
-Date: Mon, 25 Mar 2013 11:59:24 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+	Mon, 25 Mar 2013 13:10:01 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Mon, 25 Mar 2013 12:53:02 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 2CEC3289AA0;
+	Mon, 25 Mar 2013 12:53:02 +0100 (CET)
+From: <maxin.john@enea.com>
+To: <radu.moisan@intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Mon, 25 Mar 2013 12:52:58 +0100
+Message-ID: <1364212378-14144-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1364203928-32746-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<104941556.xik0AZR0dJ@helios> <51501E03.8020907@linaro.org>
-	<86C5E727-9B40-42A1-91BF-5B7A18AC377F@dominion.thruhere.net>
-In-Reply-To: <86C5E727-9B40-42A1-91BF-5B7A18AC377F@dominion.thruhere.net>
-X-Enigmail-Version: 1.4.6
-Subject: Re: [PATCH] powertop: add 2.3
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: anders.roxell@enea.com, "Maxin B. John" <maxin.john@enea.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] lttng: babeltrace: Update to upstream version 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 11:17:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Mar 2013 12:10:01 -0000
+Content-Type: text/plain
 
-W dniu 25.03.2013 10:53, Koen Kooi pisze:
->> > What are alternatives to powertop when only powertop provides it?
-> busybox, as usual :)
+From: "Maxin B. John" <maxin.john@enea.com>
 
-Busybox developers are crazy ;D
+Also updated the BUGTRACKER
+
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-kernel/lttng/babeltrace_1.0.3.bb |   23 -----------------------
+ meta/recipes-kernel/lttng/babeltrace_1.1.0.bb |   23 +++++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
+
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb b/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
+deleted file mode 100644
+index fe1c04f..0000000
+--- a/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
++++ /dev/null
+@@ -1,23 +0,0 @@
+-SUMMARY = "Babeltrace - Trace Format Babel Tower"
+-DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
+-HOMEPAGE = "http://www.efficios.com/babeltrace/"
+-BUGTRACKER = "n/a"
+-
+-LICENSE = "MIT & GPLv2"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+-
+-inherit autotools
+-
+-DEPENDS = "glib-2.0 util-linux popt"
+-
+-SRCREV = "9eaf25433864cefc40242e0257a0177ef4515930"
+-PV = "1.0+git${SRCPV}"
+-PR = "r0"
+-
+-SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
+-
+-S = "${WORKDIR}/git"
+-
+-do_configure_prepend () {
+-	( cd ${S}; ${S}/bootstrap )
+-}
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb b/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
+new file mode 100644
+index 0000000..dd7e056
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
+@@ -0,0 +1,23 @@
++SUMMARY = "Babeltrace - Trace Format Babel Tower"
++DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
++HOMEPAGE = "http://www.efficios.com/babeltrace/"
++BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
++
++LICENSE = "MIT & GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
++
++inherit autotools
++
++DEPENDS = "glib-2.0 util-linux popt"
++
++SRCREV = "c99b1910bea848e8f0ae5641bb63b8f4f84f3ec0"
++PV = "1.1+git${SRCPV}"
++PR = "r0"
++
++SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
++
++S = "${WORKDIR}/git"
++
++do_configure_prepend () {
++	( cd ${S}; ${S}/bootstrap )
++}
+-- 
+1.7.5.4
 
 
 
