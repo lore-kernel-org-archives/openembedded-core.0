@@ -1,24 +1,36 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1UK6Dw-0003cI-UT
+Received: from mail-la0-f41.google.com ([209.85.215.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1UK6wz-0004mM-UR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 13:10:01 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Mon, 25 Mar 2013 12:53:02 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 2CEC3289AA0;
-	Mon, 25 Mar 2013 12:53:02 +0100 (CET)
-From: <maxin.john@enea.com>
-To: <radu.moisan@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Mon, 25 Mar 2013 12:52:58 +0100
-Message-ID: <1364212378-14144-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.5.4
+	Mon, 25 Mar 2013 13:56:38 +0100
+Received: by mail-la0-f41.google.com with SMTP id fo12so11244410lab.28
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 05:39:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=XZIumHiI3nsuw28uw9XqYA289jYgQqhtLCQLoZa4PL8=;
+	b=d/tj3DkK6jEX8OW6pbsYTqkK8pkyfGb8W7ECrlJ0HjXhSSbuvrZfIpney54sFmy3NH
+	aLDeberyv5Jc4I+gj1tkOBPmEjY8RExfwaBHt3P6nagzLbbQAUe4/D7pbP8gyDR6fIhy
+	uMH93JIoB562X68vqnynD99jD7rngBdjfTQ9Vmnk1TU8Wxys2nDchfNpzrpvNgWKETCH
+	EtEiwRU8dLNO8SPxCRLYvC8v328xP/0mfFDXhPdSPM/5DgdyX04Oc3/WaAfbxFjwvU0U
+	YotJQ+rwL9ywBycWLYWi7PaCZqFc6eplaMzOCl3tzxn8P6MaUxEiT20P3SzKbN/ZRnFX
+	cDgw==
+X-Received: by 10.112.150.101 with SMTP id uh5mr2976195lbb.92.1364215175364;
+	Mon, 25 Mar 2013 05:39:35 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: anders.roxell@enea.com, "Maxin B. John" <maxin.john@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] lttng: babeltrace: Update to upstream version 1.1.0
+Received: by 10.114.81.231 with HTTP; Mon, 25 Mar 2013 05:39:15 -0700 (PDT)
+In-Reply-To: <20130322220037.GW3219@jama>
+References: <cover.1363973088.git.ross.burton@intel.com>
+	<20130322220037.GW3219@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Mar 2013 12:39:15 +0000
+Message-ID: <CAJTo0LbpOM6ZfBxQ-jOwWW91nMHDe6rFbpQBNXHNtkj-aXsgMA@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+X-Gm-Message-State: ALoCoQlsTxmfmgvQ37ig8xaFlv0MWacVb/9jUeEe6DQ3yeZSvgkE39NPmlhGhsb07iaCUW9WQpxD
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] [PATCH 00/22] hybrid systemd/sysvinit, and systemd fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,81 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 12:10:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Mar 2013 12:57:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: "Maxin B. John" <maxin.john@enea.com>
+On 22 March 2013 22:00, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Do you have one for oe-core?
 
-Also updated the BUGTRACKER
+Whoops, forgot to split it out that one commit.
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-kernel/lttng/babeltrace_1.0.3.bb |   23 -----------------------
- meta/recipes-kernel/lttng/babeltrace_1.1.0.bb |   23 +++++++++++++++++++++++
- 2 files changed, 23 insertions(+), 23 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
- create mode 100644 meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
+ross/systemd just touches oe-core files now.
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb b/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
-deleted file mode 100644
-index fe1c04f..0000000
---- a/meta/recipes-kernel/lttng/babeltrace_1.0.3.bb
-+++ /dev/null
-@@ -1,23 +0,0 @@
--SUMMARY = "Babeltrace - Trace Format Babel Tower"
--DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
--HOMEPAGE = "http://www.efficios.com/babeltrace/"
--BUGTRACKER = "n/a"
--
--LICENSE = "MIT & GPLv2"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
--
--inherit autotools
--
--DEPENDS = "glib-2.0 util-linux popt"
--
--SRCREV = "9eaf25433864cefc40242e0257a0177ef4515930"
--PV = "1.0+git${SRCPV}"
--PR = "r0"
--
--SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
--
--S = "${WORKDIR}/git"
--
--do_configure_prepend () {
--	( cd ${S}; ${S}/bootstrap )
--}
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb b/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
-new file mode 100644
-index 0000000..dd7e056
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.1.0.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "Babeltrace - Trace Format Babel Tower"
-+DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
-+HOMEPAGE = "http://www.efficios.com/babeltrace/"
-+BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
-+
-+LICENSE = "MIT & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
-+
-+inherit autotools
-+
-+DEPENDS = "glib-2.0 util-linux popt"
-+
-+SRCREV = "c99b1910bea848e8f0ae5641bb63b8f4f84f3ec0"
-+PV = "1.1+git${SRCPV}"
-+PR = "r0"
-+
-+SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+do_configure_prepend () {
-+	( cd ${S}; ${S}/bootstrap )
-+}
--- 
-1.7.5.4
-
+Ross
 
 
