@@ -1,40 +1,33 @@
-Received: from mail-ee0-f51.google.com ([74.125.83.51])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UKAEB-0004hf-Q4
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 17:26:35 +0100
-Received: by mail-ee0-f51.google.com with SMTP id c4so211958eek.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 09:09:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=szl5KXYkYNLQWJ9iO6gBAGXFi0gL3cU5++q0L1CR+QM=;
-	b=k08K/jUqXCNwUEadq2dWlPsUFlVuJGnvncKHfaqjv+u8gOjXAPPqgo4BvOXck/A5L8
-	OG+eZPPK+47PvyymhkDIIZ7Cgg1yqU5TLzrMrf2gGeiEKVhPlIjpKenQ6mBkiKGZd1Cx
-	JxZ2NjiVCQV7y7Mjbc3zsJivG5O4oQG1d2i3aXcJk9TRa5IUuI0NN93JtJJC3xJQ8cr9
-	MN7NPtG/dtL1bd84ej9CTqjUTJh63dG4bjRqGaSb0W/awuh6322W+MEj8i35alv7XPqP
-	gLpCDkh1TvibLjocIyfPxHTPyBdvs6DfrbQBXCy7r09iRCwQmg36edz0XpCo/q85wRTY
-	gQ1g==
-X-Received: by 10.14.216.2 with SMTP id f2mr35368708eep.44.1364227773610;
-	Mon, 25 Mar 2013 09:09:33 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id q42sm19944877eem.14.2013.03.25.09.09.31
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 25 Mar 2013 09:09:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-Date: Mon, 25 Mar 2013 17:09:31 +0100
-Message-Id: <C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
-References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQm9mcKx0dSAdun8/66UeEJUH8SGpHqrQiD582FK6zeF9ExTcxRrgXHnuPILpgsYJE4WuUq7
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UKANC-00056U-W0 for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 17:35:52 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PGS5Jr020838; Mon, 25 Mar 2013 16:28:08 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id UuW3iFO0wTcr; Mon, 25 Mar 2013 16:28:07 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PGRuwd020807
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 25 Mar 2013 16:28:04 GMT
+Message-ID: <1364228284.3097.58.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+Date: Mon, 25 Mar 2013 16:18:04 +0000
+In-Reply-To: <1364222065-62444-1-git-send-email-bjst@enea.com>
+References: <20130322141213.GC46421@sestofb10.enea.se>
+	<1364222065-62444-1-git-send-email-bjst@enea.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r2PGS5Jr020838
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
+Subject: Re: [PATCH v2] ptest bugfix: Make all ptest files go into -ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,24 +40,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 16:26:42 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 25 Mar 2013 16:35:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+On Mon, 2013-03-25 at 15:34 +0100, Bj=C3=B6rn Stenberg wrote:
+> Move ${PN}-ptest to start of PACKAGES to ensure all ptest files are
+> packaged in the -ptest package.
+>=20
+> Add QA exclusions to insane.bbclass to ensure -ptest packages can conta=
+in
+> any files they need.
+>=20
+> Bugfix: Add subshells for 'type' command.
+>=20
+> This patch fixes bug #4069.
+>=20
+> Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+> ---
+>  meta/classes/insane.bbclass |    6 +++---
+>  meta/classes/ptest.bbclass  |   15 ++++-----------
+>  2 files changed, 7 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 2f10688..5170580 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -216,7 +216,7 @@ def package_qa_check_dev(path, name, d, elf, messag=
+es):
+>      Check for ".so" library symlinks in non-dev packages
+>      """
+> =20
+> -    if not name.endswith("-dev") and not name.endswith("-dbg") and not=
+ name.startswith("nativesdk-") and path.endswith(".so") and os.path.islin=
+k(path):
+> +    if not name.endswith("-dev") and not name.endswith("-dbg") and not=
+ name.endswith("-ptest") and not name.startswith("nativesdk-") and path.e=
+ndswith(".so") and os.path.islink(path):
+>          messages.append("non -dev/-dbg/-nativesdk package contains sym=
+link .so: %s path '%s'" % \
+>                   (name, package_qa_clean_path(path,d)))
+> =20
+> @@ -229,7 +229,7 @@ def package_qa_check_staticdev(path, name, d, elf, =
+messages):
+>      libgcc.a, libgcov.a will be skipped in their packages
+>      """
+> =20
+> -    if not name.endswith("-pic") and not name.endswith("-staticdev") a=
+nd path.endswith(".a") and not path.endswith("_nonshared.a"):
+> +    if not name.endswith("-pic") and not name.endswith("-staticdev") a=
+nd not name.endswith("-ptest") and path.endswith(".a") and not path.endsw=
+ith("_nonshared.a"):
+>          messages.append("non -staticdev package contains static .a lib=
+rary: %s path '%s'" % \
+>                   (name, package_qa_clean_path(path,d)))
+> =20
+> @@ -273,7 +273,7 @@ def package_qa_check_dbg(path, name, d, elf, messag=
+es):
+>      Check for ".debug" files or directories outside of the dbg package
+>      """
+> =20
+> -    if not "-dbg" in name:
+> +    if not "-dbg" in name and not "-ptest" in name:
+>          if '.debug' in path.split(os.path.sep):
+>              messages.append("non debug package contains .debug directo=
+ry: %s path %s" % \
+>                       (name, package_qa_clean_path(path,d)))
+> diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+> index 6ab5ee4..c51c4e6 100644
+> --- a/meta/classes/ptest.bbclass
+> +++ b/meta/classes/ptest.bbclass
+> @@ -14,18 +14,11 @@ PTEST_ENABLED =3D "${@base_contains("DISTRO_FEATURE=
+S", "ptest", "1", "0", d)}"
+>  RDEPENDS_${PN}-ptest_virtclass-native =3D ""
+>  RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
+> =20
+> -PACKAGES +=3D "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-pte=
+st', '', d)}"
+> -
+> -FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug \
+> -                    ${PTEST_PATH}/*/.debug \
+> -                    ${PTEST_PATH}/*/*/.debug \
+> -                    ${PTEST_PATH}/*/*/*/.debug \
+> -                    ${PTEST_PATH}/*/*/*/*/.debug \
+> -                   "
 
-Op 25 mrt. 2013, om 14:07 heeft Cristian Iorga =
-<cristian.iorga@intel.com> het volgende geschreven:
+Why are we putting all the debug files into the -ptest package now? Does
+that make sense?
 
-> - BlueZ 5 v5.3 experimental new package;
-> - bluez5 package does not replace bluez4 package,
->  as a lot of components that interact with bluez
->  are not prepared to work correctly with bluez5;
-> - bluez5 is not an upgrade path from bluez4.
+Cheers,
 
-So you say it's not an upgrade path, but...
+Richard
 
-> - bluez5 conflicts with/replaces bluez4.
+> +PACKAGES =3D+ "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-pte=
+st', '', d)}"
+> =20
+>  do_configure_ptest_base() {
+>      if [ ${PTEST_ENABLED} =3D 1 ]; then
+> -        if [ type -t do_configure_ptest =3D function ]; then
+> +        if [ $(type -t do_configure_ptest) =3D function ]; then
+>              do_configure_ptest
+>          fi
+>      fi
+> @@ -33,7 +26,7 @@ do_configure_ptest_base() {
+> =20
+>  do_compile_ptest_base() {
+>      if [ ${PTEST_ENABLED} =3D 1 ]; then
+> -        if [ type -t do_compile_ptest =3D function ]; then
+> +        if [ $(type -t do_compile_ptest) =3D function ]; then
+>              do_compile_ptest
+>          fi
+>      fi
+> @@ -46,7 +39,7 @@ do_install_ptest_base() {
+>              if grep -q install-ptest: Makefile; then
+>                  oe_runmake DESTDIR=3D${D}${PTEST_PATH} install-ptest
+>              fi
+> -            if [ type -t do_install_ptest =3D function ]; then
+> +            if [ $(type -t do_install_ptest) =3D function ]; then
+>                  do_install_ptest
+>              fi
+>          fi
 
-...  here you add RREPLACES. Why is that?=20=
+
 
 
