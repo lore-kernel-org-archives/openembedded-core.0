@@ -1,10 +1,10 @@
 Received: from 6.mo1.mail-out.ovh.net ([46.105.43.205]
 	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul@paulbarker.me.uk>) id 1UJwZT-000487-Hr
+	(envelope-from <paul@paulbarker.me.uk>) id 1UJwZT-000488-II
 	for openembedded-core@lists.openembedded.org;
 	Mon, 25 Mar 2013 02:51:37 +0100
 Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 9A470FF8B6D
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 99D11FF8B68
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 25 Mar 2013 02:12:29 +0100 (CET)
 Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
@@ -14,17 +14,16 @@ Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
 	by ns0.ovh.net with SMTP; 25 Mar 2013 02:55:11 +0200
 Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
 	[192.168.0.100])
-	by b5-server.betafive.co.uk (Postfix) with ESMTP id 549731607E0;
+	by b5-server.betafive.co.uk (Postfix) with ESMTP id 345091607DE
+	for <openembedded-core@lists.openembedded.org>;
 	Mon, 25 Mar 2013 00:54:41 +0000 (GMT)
 From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
 X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Date: Mon, 25 Mar 2013 00:55:07 +0000
-Message-Id: <1364172907-14541-3-git-send-email-paul@paulbarker.me.uk>
+Date: Mon, 25 Mar 2013 00:55:05 +0000
+Message-Id: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
-References: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
-X-Ovh-Tracer-Id: 11560458768870115778
+X-Ovh-Tracer-Id: 11560458768869984706
 X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
 X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
 X-OVH-SPAMSTATE: OK
@@ -34,7 +33,7 @@ X-Spam-Check: DONE|U 0.5/N
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-Subject: [PATCH 2/2] gnupg: Added update-alternatives entry for gpgv
+Subject: Gnupg recipe fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,32 +48,25 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 25 Mar 2013 01:51:38 -0000
 
-Added update-alternatives entry linking '/usr/bin/gpgv' to 'gpgv2'. This is
-required to allow apt-get to verify a signed repository.
+I'm setting up a signed apt repository of .deb packages built using OpenEmbedded
+and I've ran into an issue with apt-get on the target board not being able to
+find 'gpgv' to verify the signatures. This is installed as 'gpgv2' in the gnupg
+recipe. Therefore I've used update-alternatives to create the appropriate link.
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/recipes-support/gnupg/gnupg_2.0.19.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Whilst I was doing this, I felt it would be a good idea to replace the manual
+creation of the 'gpg'->'gpg2' link in a do_install_append() function with proper
+usage of update-alternatives.
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-index 2322a9e..63f08cb 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-@@ -25,7 +25,10 @@ EXTRA_OECONF = "--disable-ldap \
-                 --with-readline=${STAGING_LIBDIR}/.. \
-                "
- 
--ALTERNATIVE_gnupg = "gpg"
-+ALTERNATIVE_gnupg = "gpg gpgv"
- ALTERNATIVE_TARGET[gpg] = "${bindir}/gpg2"
- ALTERNATIVE_LINK_NAME[gpg] = "${bindir}/gpg"
- ALTERNATIVE_PRIORITY[gpg] = "100"
-+ALTERNATIVE_TARGET[gpgv] = "${bindir}/gpgv2"
-+ALTERNATIVE_LINK_NAME[gpgv] = "${bindir}/gpgv"
-+ALTERNATIVE_PRIORITY[gpgv] = "100"
+This is my first attempt at using git send-email and submitting patches to
+OpenEmbedded so if I've done anything wrong please point me in the right
+direction.
+
+Thanks,
+
 -- 
-1.7.10.4
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
