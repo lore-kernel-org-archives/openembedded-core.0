@@ -1,35 +1,25 @@
-Received: from mail-la0-f52.google.com ([209.85.215.52])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1UKBbO-00083u-MF
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 18:54:36 +0100
-Received: by mail-la0-f52.google.com with SMTP id fs12so11814585lab.39
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 10:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=p39Ic5KS6ORHnGI6hQM92BofOKH2HBPVUboA+WxGY9M=;
-	b=FHZaPZPxy/huY/H/8QNyVKeP82eyzWS9m72Z/z+Bmj3Eja4hLFP31tE7oVEfHWN5pd
-	bz+Ngf5GKiIkSktb1OGHYSivlAvOXN4t2epmBuD1/hoLU+vkw4AdbLQjCPk3/BhLKdXA
-	W5z/ZiDH0Xdk+5epQyI9SKVIlhjOzUdF4XrYBOMnOzAhPgwoj/zBpq6RFDkFRcaQnohw
-	wyo+fM5S2Bwt5jZoHM7z5f14aB9qREFMctlMMRI05zCRTNoj3mOWyIZP5Z/G+pvY64ui
-	AzGx1dO3i+XL548mbed8RqXVF8YncDPcEdx5GFa0QA5lDejesbWYGlTiWrCR5Frd40ZL
-	/hUA==
-X-Received: by 10.112.28.169 with SMTP id c9mr6682675lbh.84.1364233056047;
-	Mon, 25 Mar 2013 10:37:36 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.25.195 with HTTP; Mon, 25 Mar 2013 10:37:15 -0700 (PDT)
-In-Reply-To: <1364230487.3097.62.camel@ted>
-References: <1364230487.3097.62.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 25 Mar 2013 10:37:15 -0700
-X-Google-Sender-Auth: ketreyW1eNi-RqBLCWWBsIIAYxM
-Message-ID: <CABcZANmGsNEpnwbXtO_9mme35uiOjM_jmK903ANgMFCZDRr+-A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: package.bbclass: Handle subprocess errors correctly
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UKBkg-0000Lj-Ks for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 19:04:53 +0100
+Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
+	([86.14.229.168] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UKBUH-0006w5-9f; Mon, 25 Mar 2013 18:47:13 +0100
+Message-ID: <1364233524.25692.139.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 25 Mar 2013 17:45:24 +0000
+In-Reply-To: <51508505.5080706@windriver.com>
+References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
+	<1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
+	<1364230955.25692.138.camel@phil-desktop.brightsign>
+	<51508505.5080706@windriver.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2 RFC] rpm: Add workaround for debugedit-segv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 17:54:41 -0000
-Content-Type: multipart/alternative; boundary=bcaec554d832b25fc404d8c34276
+X-List-Received-Date: Mon, 25 Mar 2013 18:05:05 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 18:05:05 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 18:05:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---bcaec554d832b25fc404d8c34276
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2013-03-25 at 12:10 -0500, Mark Hatle wrote:
+> I'm going to look into identifying if the section is a NOBITS and skipping the 
+> whole operation if it is.
 
-On Mon, Mar 25, 2013 at 9:54 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+That would mean that a change in the size of the .bss wouldn't have any
+impact on the hash.  Maybe that's fine for your application though, I
+dunno.
 
-> If an error occurs in subprocess.call() we currently don't catch it. In
-> particular
-> we have issues where debugedit is segfaulting unnoticed. This fixes up
-> various code paths to catch the errors.
->
+p.
 
-Well spotted, at a minimum we should be using check_call(), so an
-unanticipated failure results in an uncaught exception, but explicitly
-checking retval makes sense as well.
--- 
-Christopher Larson
 
---bcaec554d832b25fc404d8c34276
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Mar 25, 2013 at 9:54 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":17x">If an error occurs in subpr=
-ocess.call() we currently don&#39;t catch it. In particular<br>
-we have issues where debugedit is segfaulting unnoticed. This fixes up<br>
-various code paths to catch the errors.</div></blockquote></div><br>Well sp=
-otted, at a minimum we should be using check_call(), so an unanticipated fa=
-ilure results in an uncaught exception, but explicitly checking retval make=
-s sense as well.<br>
-
--- <br>Christopher Larson</div></div>
-
---bcaec554d832b25fc404d8c34276--
