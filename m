@@ -1,38 +1,31 @@
-Received: from 3.mo1.mail-out.ovh.net ([46.105.60.232]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul@paulbarker.me.uk>) id 1UKAm9-0006Rb-5s
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 18:01:41 +0100
-Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 40815FF8F3C
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UKAwC-0006ju-0y for openembedded-core@lists.openembedded.org;
+	Mon, 25 Mar 2013 18:12:03 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PH4jK4023888 for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 17:04:46 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id s3MHOHrtkykF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 15:12:09 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 25 Mar 2013 15:54:51 +0200
-Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
-	b5-server.betafive.co.uk) (mail@betafive.co.uk@94.192.12.83)
-	by ns0.ovh.net with SMTP; 25 Mar 2013 15:54:50 +0200
-Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
-	[192.168.0.100])
-	by b5-server.betafive.co.uk (Postfix) with ESMTP id A85C51601A6;
-	Mon, 25 Mar 2013 13:54:18 +0000 (GMT)
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Date: Mon, 25 Mar 2013 13:54:43 +0000
-Message-Id: <1364219683-17558-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.7.10.4
-X-Ovh-Tracer-Id: 6280832630375090626
-X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
-Subject: [PATCH v2] gnupg: Add symlink for gpgv
+	Mon, 25 Mar 2013 17:04:45 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2PH4dEh023883
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 17:04:42 GMT
+Message-ID: <1364230487.3097.62.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Mar 2013 16:54:47 +0000
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: package.bbclass: Handle subprocess errors correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,29 +38,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 17:01:42 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 17:12:04 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 17:12:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Gnupg 2.0.19 installs 'gpgv2' but apt-get and possibly other utilities expect
-to find this as 'gpgv'. A symlink is created in the same way as the link for
-'gpg'.
+If an error occurs in subprocess.call() we currently don't catch it. In particular
+we have issues where debugedit is segfaulting unnoticed. This fixes up
+various code paths to catch the errors.
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+[YOCTO #4089]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/gnupg/gnupg_2.0.19.bb |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-index 8cd793b..593250a 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-@@ -27,4 +27,5 @@ EXTRA_OECONF = "--disable-ldap \
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b6f8767..958f616 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -254,14 +254,23 @@ def splitdebuginfo(file, debugfile, debugsrcdir, d):
  
- do_install_append() {
- 	ln -sf gpg2 ${D}${bindir}/gpg
-+	ln -sf gpgv2 ${D}${bindir}/gpgv
- }
--- 
-1.7.10.4
+     # We need to extract the debug src information here...
+     if debugsrcdir:
+-        subprocess.call("'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file), shell=True)
++        cmd = "'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file)
++        retval = subprocess.call(cmd, shell=True)
++        if retval:
++            bb.fatal("debugedit failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+-    subprocess.call("'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile), shell=True)
++    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
++    retval = subprocess.call(cmd, shell=True)
++    if retval:
++        bb.fatal("objcopy failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+     # Set the debuglink to have the view of the file path on the target
+-    subprocess.call("'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file), shell=True)
++    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
++    retval = subprocess.call(cmd, shell=True)
++    if retval:
++        bb.fatal("objcopy failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+     if newmode:
+         os.chmod(file, origmode)
+@@ -298,10 +307,17 @@ def copydebugsources(debugsrcdir, d):
+         processdebugsrc += "fgrep -z '%s' | "
+         processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
+ 
+-        subprocess.call(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir), shell=True)
++        cmd = processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir)
++        retval = subprocess.call(cmd, shell=True)
++        if retval:
++            bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
++
+ 
+         # The copy by cpio may have resulted in some empty directories!  Remove these
+-        subprocess.call("find %s%s -empty -type d -delete" % (dvar, debugsrcdir), shell=True)
++        cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
++        retval = subprocess.call(cmd, shell=True)
++        if retval:
++            bb.fatal("empty directory removal failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+         # Also remove debugsrcdir if its empty
+         for p in nosuchdir[::-1]:
+@@ -431,7 +447,10 @@ python perform_packagecopy () {
+     # Start by package population by taking a copy of the installed
+     # files to operate on
+     # Preserve sparse files and hard links
+-    subprocess.call('tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar), shell=True)
++    cmd = 'tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar)
++    retval = subprocess.call(cmd, shell=True)
++    if retval:
++        bb.fatal("file copy failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+     # replace RPATHs for the nativesdk binaries, to make them relocatable
+     if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d):
+
 
 
 
