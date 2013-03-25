@@ -1,32 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UKDOb-0003W2-JD
+	(envelope-from <joe.slater@windriver.com>) id 1UKEae-00063l-1d
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 20:49:36 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2PJWTq6024750
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Mar 2013 12:32:29 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 25 Mar 2013 12:32:29 -0700
-Message-ID: <5150A649.8090409@windriver.com>
-Date: Mon, 25 Mar 2013 14:32:25 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
+	Mon, 25 Mar 2013 22:06:06 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2PKn0JS020423
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 13:49:00 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 25 Mar 2013 13:49:00 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Mar 2013 13:49:00 -0700
+Message-ID: <1364244540-29538-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
-	<1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
-	<1364230955.25692.138.camel@phil-desktop.brightsign>
-	<51508505.5080706@windriver.com>
-	<1364233524.25692.139.camel@phil-desktop.brightsign>
-In-Reply-To: <1364233524.25692.139.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2 RFC] rpm: Add workaround for debugedit-segv
+Subject: [PATCH 1/1] dosfstools: really compile supporting large files [ Fix: 409915 ]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 19:49:53 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Mar 2013 21:06:07 -0000
+Content-Type: text/plain
 
-On 3/25/13 12:45 PM, Phil Blundell wrote:
-> On Mon, 2013-03-25 at 12:10 -0500, Mark Hatle wrote:
->> I'm going to look into identifying if the section is a NOBITS and skipping the
->> whole operation if it is.
->
-> That would mean that a change in the size of the .bss wouldn't have any
-> impact on the hash.  Maybe that's fine for your application though, I
-> dunno.
+CQID: 409915
 
-I'm not completely familiar with how the buildid is calculated, other then an 
-md5 hash over the sections themselves.  I can't think of a case where the 
-contents of the sections wouldn't change along with the .bss and .plt size.
+Makefile in the package tries to set _FILE_OFFSET_BITS=64,
+but we clobber that with our CFLAGS, so we add it in
+the recipe.
 
-(buildid is supposed to be used by gdb to find/verify that the debuginfo matches 
-the binary actually being debugged...)
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-Through my google search, I never found a full spec of what the buildid was 
-supposed to contain, only a high-level description from an old Fedora 8 work 
-item.  (Note, as long the buildid is consistent it really doesn't appear to 
-matter how it was generated, just that both the app and debuginfo contain it.)
-
---Mark
-
-
-> p.
->
->
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+index eca54f1..b7b85f0 100644
+--- a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
++++ b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+@@ -7,7 +7,7 @@ DESCRIPTION = "DOS FAT Filesystem Utilities"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://mkdosfs/COPYING;md5=cbe67f08d6883bff587f615f0cc81aa8"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-${PV}.src.tar.gz \
+            file://mkdosfs-bootcode.patch \
+@@ -22,6 +22,11 @@ SRC_URI = "ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-${PV}
+ SRC_URI[md5sum] = "407d405ade410f7597d364ab5dc8c9f6"
+ SRC_URI[sha256sum] = "0eac6d12388b3d9ed78684529c1b0d9346fa2abbe406c4d4a3eb5a023c98a484"
+ 
++# Makefile sets this, but we clobber its CFLAGS, so
++# add this in here to for sure allow for big files.
++#
++CFLAGS_append = " -D_FILE_OFFSET_BITS=64"
++
+ do_install () {
+ 	oe_runmake "PREFIX=${D}" "SBINDIR=${D}${sbindir}" \
+ 		   "MANDIR=${D}${mandir}/man8" install
+-- 
+1.7.3.4
 
 
 
