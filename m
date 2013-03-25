@@ -1,25 +1,21 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UK1yY-0002hp-9f
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UK3LS-00064c-6h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 08:37:55 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2P7KlWe029731
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 00:20:47 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 00:20:47 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Mar 2013 15:22:17 +0800
-Message-ID: <cover.1364196012.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Subject: [PATCH 0/1] Create postinstall script for opkg conditionally
+	Mon, 25 Mar 2013 10:05:44 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 25 Mar 2013 01:48:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,904,1355126400"; d="scan'208";a="218529603"
+Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
+	([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Mar 2013 01:48:33 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Mar 2013 10:48:32 +0200
+Message-Id: <1364201312-5389-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] xf86-input-evdev: add mtdev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,25 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 07:37:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Mar 2013 09:06:14 -0000
 
-The following changes since commit 3c5f4d54d01887a117bf659fc9af6b2b892c2b08:
+This is needed in order to have multitouch protocol enabled.
 
-  separatebuilddir.inc: mxsldr should never have been added to this list, remove (2013-03-24 14:03:19 +0000)
+[YOCTO #4087]
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/debug-tweaks
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/debug-tweaks
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../xorg-driver/xf86-input-evdev_2.7.3.bb          |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Kang Kai (1):
-  opkg: create run-scripts file conditionally
-
- meta/recipes-devtools/opkg/opkg.inc |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.7.3.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.7.3.bb
+index d979622..5c4a619 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.7.3.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.7.3.bb
+@@ -14,7 +14,9 @@ xorg.conf for each input device that will use this driver. "
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
++
++DEPENDS += "mtdev"
+ 
+ SRC_URI[md5sum] = "f68920ce2921a88b4662acc972bf3a4a"
+ SRC_URI[sha256sum] = "eb389413602c3d28c44bbfab0477c98582f0e2f5be5f41986e58e93a033fa504"
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
