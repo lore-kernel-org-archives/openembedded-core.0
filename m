@@ -1,22 +1,41 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UK7NO-00066D-Im
+Received: from 12.mo1.mail-out.ovh.net ([87.98.162.229]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul@paulbarker.me.uk>) id 1UK7Uy-0006OK-7i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 14:23:52 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Mar 2013 06:06:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,905,1355126400"; d="scan'208";a="308014032"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2013 06:06:47 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Mon, 25 Mar 2013 14:31:40 +0100
+Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 5B68BFF941D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 14:14:54 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 25 Mar 2013 14:57:36 +0200
+Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
+	b5-server.betafive.co.uk) (mail@betafive.co.uk@94.192.12.83)
+	by ns0.ovh.net with SMTP; 25 Mar 2013 14:57:34 +0200
+Received: from unknown (b5-desktop.betafive.co.uk [192.168.0.20])
+	by b5-server.betafive.co.uk (Postfix) with ESMTP id 573E61601A6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 12:57:02 +0000 (GMT)
+Date: Mon, 25 Mar 2013 12:57:28 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2013 15:07:21 +0200
-Message-Id: <1364216841-32600-3-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH V3 2/2] bluez4: conflicts with/replaces bluez5
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Message-ID: <20130325125728.00004c11@unknown>
+In-Reply-To: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
+References: <1364172907-14541-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: Claws Mail 3.7.8cvs47 (GTK+ 2.16.6; i586-pc-mingw32msvc)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 5313684611823995330
+X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 5
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecuogfntfdqqdfkugfoihhnuhhstghulhgvshculdehmd
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 5
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecuogfntfdqqdfkugfoihhnuhhstghulhgvshculdehmd
+Subject: Re: Gnupg recipe fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,39 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 13:23:52 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 13:31:55 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-- RCONFLICTS/RREPLACES bluez5
+On Mon, 25 Mar 2013 00:55:05 +0000
+Paul Barker <paul@paulbarker.me.uk> wrote:
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-connectivity/bluez/bluez4_4.101.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> I'm setting up a signed apt repository of .deb packages built using
+> OpenEmbedded and I've ran into an issue with apt-get on the target
+> board not being able to find 'gpgv' to verify the signatures. This is
+> installed as 'gpgv2' in the gnupg recipe. Therefore I've used
+> update-alternatives to create the appropriate link.
+> 
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index 3ea2f25..2e98043 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-@@ -11,6 +11,9 @@ SRC_URI += "file://bluetooth.conf \
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
- SRC_URI[sha256sum] = "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4ad75fe52846f7487"
- 
-+RCONFLICTS_${PN} = "bluez5"
-+RREPLACES_${PN} = "bluez5"
-+
- do_install_append() {
- 	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
- 	install -m 0644 ${S}/network/network.conf ${D}/${sysconfdir}/bluetooth/
+I've re-thought this already. Is update-alternatives the right thing to
+use here? Maybe not as there isn't anything else that provides gpgv and
+gnupg_1.* and gnupg_2.* probably can't co-exist on the same install. I
+could just add a line to do_install_append() to create the gpgv link
+manually, similar to how the link for gpg is already created. Please
+let me know which is the better solution here.
+
+I also noticed that gnupg_1.4.7.bb splits gpgv into a separate package
+but gnupg_2.0.19 doesn't. I could write a patch to modify one of these
+to match the other if desired?
+
+Thanks,
+
 -- 
-1.7.10.4
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
