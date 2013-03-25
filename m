@@ -1,27 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UKAjN-0005rB-T8
+Received: from 3.mo1.mail-out.ovh.net ([46.105.60.232]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul@paulbarker.me.uk>) id 1UKAm9-0006Rb-5s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 17:59:02 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2PGflZ1025072
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 25 Mar 2013 18:01:41 +0100
+Received: from mail630.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 40815FF8F3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 09:41:47 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 09:41:46 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Mar 2013 12:19:53 -0500
-Message-ID: <1364231993-31670-3-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
-References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2 RFC] package.bbclass: Trigger a bb.error if split/strip fails
+	Mon, 25 Mar 2013 15:12:09 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 25 Mar 2013 15:54:51 +0200
+Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
+	b5-server.betafive.co.uk) (mail@betafive.co.uk@94.192.12.83)
+	by ns0.ovh.net with SMTP; 25 Mar 2013 15:54:50 +0200
+Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
+	[192.168.0.100])
+	by b5-server.betafive.co.uk (Postfix) with ESMTP id A85C51601A6;
+	Mon, 25 Mar 2013 13:54:18 +0000 (GMT)
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Date: Mon, 25 Mar 2013 13:54:43 +0000
+Message-Id: <1364219683-17558-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.7.10.4
+X-Ovh-Tracer-Id: 6280832630375090626
+X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeiuddrieejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+Subject: [PATCH v2] gnupg: Add symlink for gpgv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,75 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 16:59:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Mar 2013 17:01:42 -0000
 
-[ YOCTO #4089 ]
+Gnupg 2.0.19 installs 'gpgv2' but apt-get and possibly other utilities expect
+to find this as 'gpgv'. A symlink is created in the same way as the link for
+'gpg'.
 
-If debugedit, objcopy calls fail, capture the error and return a
-failure to the user.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/classes/package.bbclass | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ meta/recipes-support/gnupg/gnupg_2.0.19.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0702c92..3752bdc 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -254,14 +254,26 @@ def splitdebuginfo(file, debugfile, debugsrcdir, d):
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
+index 8cd793b..593250a 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
+@@ -27,4 +27,5 @@ EXTRA_OECONF = "--disable-ldap \
  
-     # We need to extract the debug src information here...
-     if debugsrcdir:
--        subprocess.call("'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file), shell=True)
-+        cmd = "'%s' -b '%s' -d '%s' -i -l '%s' '%s'" % (debugedit, workparentdir, debugsrcdir, sourcefile, file)
-+        ret = subprocess.call(cmd, shell=True)
-+        if ret != 0:
-+            bb.error("debugedit failed: %s - %d" % (cmd, ret))
-+            return ret
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
--    subprocess.call("'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile), shell=True)
-+    cmd = "'%s' --only-keep-debug '%s' '%s'" % (objcopy, file, debugfile)
-+    ret = subprocess.call(cmd, shell=True)
-+    if ret != 0:
-+        bb.error("debugedit failed: %s - %d" % (cmd, ret))
-+        return ret
- 
-     # Set the debuglink to have the view of the file path on the target
--    subprocess.call("'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file), shell=True)
-+    cmd = "'%s' --add-gnu-debuglink='%s' '%s'" % (objcopy, debugfile, file)
-+    ret = subprocess.call(cmd, shell=True)
-+    if ret != 0:
-+        bb.error("debugedit failed: %s - %d" % (cmd, ret))
-+        return ret
- 
-     if newmode:
-         os.chmod(file, origmode)
-@@ -806,7 +818,9 @@ python split_and_strip_files () {
-             bb.utils.mkdirhier(os.path.dirname(fpath))
-             #bb.note("Split %s -> %s" % (file, fpath))
-             # Only store off the hard link reference if we successfully split!
--            splitdebuginfo(file, fpath, debugsrcdir, d)
-+            ret = splitdebuginfo(file, fpath, debugsrcdir, d)
-+            if ret != 0:
-+                return ret
- 
-         # Hardlink our debug symbols to the other hardlink copies
-         for file in hardlinks:
-@@ -878,6 +892,8 @@ python split_and_strip_files () {
-     #
-     # End of strip
-     #
-+
-+    return 0
+ do_install_append() {
+ 	ln -sf gpg2 ${D}${bindir}/gpg
++	ln -sf gpgv2 ${D}${bindir}/gpgv
  }
- 
- python populate_packages () {
 -- 
-1.8.1.2.545.g2f19ada
+1.7.10.4
 
 
 
