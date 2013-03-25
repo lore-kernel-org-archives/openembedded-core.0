@@ -1,21 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ee0-f51.google.com ([74.125.83.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UKADY-0004gx-4g
+	(envelope-from <koen@dominion.thruhere.net>) id 1UKAEB-0004hf-Q4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Mar 2013 17:25:59 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Mar 2013 09:08:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,905,1355126400"; d="scan'208";a="308098280"
-Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
-	([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2013 09:08:20 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Mar 2013 18:08:18 +0200
-Message-Id: <1364227698-2785-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] nspr: remove unnecessary files from the main package
+	Mon, 25 Mar 2013 17:26:35 +0100
+Received: by mail-ee0-f51.google.com with SMTP id c4so211958eek.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 09:09:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=szl5KXYkYNLQWJ9iO6gBAGXFi0gL3cU5++q0L1CR+QM=;
+	b=k08K/jUqXCNwUEadq2dWlPsUFlVuJGnvncKHfaqjv+u8gOjXAPPqgo4BvOXck/A5L8
+	OG+eZPPK+47PvyymhkDIIZ7Cgg1yqU5TLzrMrf2gGeiEKVhPlIjpKenQ6mBkiKGZd1Cx
+	JxZ2NjiVCQV7y7Mjbc3zsJivG5O4oQG1d2i3aXcJk9TRa5IUuI0NN93JtJJC3xJQ8cr9
+	MN7NPtG/dtL1bd84ej9CTqjUTJh63dG4bjRqGaSb0W/awuh6322W+MEj8i35alv7XPqP
+	gLpCDkh1TvibLjocIyfPxHTPyBdvs6DfrbQBXCy7r09iRCwQmg36edz0XpCo/q85wRTY
+	gQ1g==
+X-Received: by 10.14.216.2 with SMTP id f2mr35368708eep.44.1364227773610;
+	Mon, 25 Mar 2013 09:09:33 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id q42sm19944877eem.14.2013.03.25.09.09.31
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 25 Mar 2013 09:09:32 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
+Date: Mon, 25 Mar 2013 17:09:31 +0100
+Message-Id: <C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
+References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+X-Mailer: Apple Mail (2.1499)
+X-Gm-Message-State: ALoCoQm9mcKx0dSAdun8/66UeEJUH8SGpHqrQiD582FK6zeF9ExTcxRrgXHnuPILpgsYJE4WuUq7
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,52 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2013 16:26:30 -0000
+X-List-Received-Date: Mon, 25 Mar 2013 16:26:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This patch does the following:
- * removes compile-et.pl and prerr.properties from the main package
-   because these files are needed only at compile time;
- * moves nspr-config script to nspr-dev package where it belongs;
- * adds 'perl' RDEPENDS for nspr-dev since the package contains a perl
-   script for running some tests;
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-support/nspr/nspr_4.9.5.bb |   11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Op 25 mrt. 2013, om 14:07 heeft Cristian Iorga =
+<cristian.iorga@intel.com> het volgende geschreven:
 
-diff --git a/meta/recipes-support/nspr/nspr_4.9.5.bb b/meta/recipes-support/nspr/nspr_4.9.5.bb
-index 7975d14..d18b12e 100644
---- a/meta/recipes-support/nspr/nspr_4.9.5.bb
-+++ b/meta/recipes-support/nspr/nspr_4.9.5.bb
-@@ -16,6 +16,8 @@ SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-$
- 
- SRC_URI += "file://nspr.pc.in"
- 
-+RDEPENDS_${PN}-dev += "perl"
-+
- SRC_URI[md5sum] = "b6ccfa8fcbbeb17ebeb19a3edff612bd"
- SRC_URI[sha256sum] = "616ab65c849155c9ed0e5f502530a241cc9108e278275aa448b417ae632c7604"
- 
-@@ -163,9 +165,14 @@ do_install_append() {
-     cd ${S}/pr/tests
-     mkdir -p ${D}${libdir}/nspr/tests
-     install -m 0755 ${TESTS} ${D}${libdir}/nspr/tests
-+
-+    # delete compile-et.pl and perr.properties from ${bindir} because these are
-+    # only used to generate prerr.c and prerr.h files from prerr.et at compile
-+    # time
-+    rm ${D}${bindir}/compile-et.pl ${D}${bindir}/prerr.properties
- }
- 
--FILES_${PN} = "${bindir}/* ${libdir}/lib*.so"
--FILES_${PN}-dev = "${libdir}/nspr/tests/* ${libdir}/pkgconfig \
-+FILES_${PN} = "${libdir}/lib*.so"
-+FILES_${PN}-dev = "${bindir}/* ${libdir}/nspr/tests/* ${libdir}/pkgconfig \
-                 ${includedir}/* ${datadir}/aclocal/* "
- FILES_${PN}-dbg += "${libdir}/nspr/tests/.debug/*"
--- 
-1.7.9.5
+> - BlueZ 5 v5.3 experimental new package;
+> - bluez5 package does not replace bluez4 package,
+>  as a lot of components that interact with bluez
+>  are not prepared to work correctly with bluez5;
+> - bluez5 is not an upgrade path from bluez4.
 
+So you say it's not an upgrade path, but...
+
+> - bluez5 conflicts with/replaces bluez4.
+
+...  here you add RREPLACES. Why is that?=20=
 
 
