@@ -1,31 +1,27 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKWJs-0004Wc-Ne for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 17:02:12 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QFsY9O018880; Tue, 26 Mar 2013 15:54:34 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5p65dbDVPtTD; Tue, 26 Mar 2013 15:54:34 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QFsQUW018854
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 26 Mar 2013 15:54:29 GMT
-Message-ID: <1364312670.3097.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Luo Zhenhua-B19537 <B19537@freescale.com>
-Date: Tue, 26 Mar 2013 15:44:30 +0000
-In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A01488D34@039-SN2MPN1-022.039d.mgd.msft.net>
-References: <CA452391058F6D4E9715FB2C29D9312A01488D34@039-SN2MPN1-022.039d.mgd.msft.net>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Build issue of nativesdk toolchain
+	(envelope-from <dvhart@linux.intel.com>) id 1UKWNk-0004fJ-7K
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 17:05:52 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 08:48:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="219057115"
+Received: from unknown (HELO envy.home) ([10.255.13.151])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Mar 2013 08:48:50 -0700
+Message-ID: <5151C361.7020202@linux.intel.com>
+Date: Tue, 26 Mar 2013 08:48:49 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1364308617.git.bruce.ashfield@windriver.com>
+	<cd19c63a4d2874eb48c9a96a69a38af730c00834.1364308617.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cd19c63a4d2874eb48c9a96a69a38af730c00834.1364308617.git.bruce.ashfield@windriver.com>
+X-Enigmail-Version: 1.5.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/7] linux-yocto/3.8: allow kernel feature _appends to be overriden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,24 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 16:02:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Mar 2013 16:05:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-03-26 at 14:29 +0000, Luo Zhenhua-B19537 wrote:
-> When I build nativesdk toolchain with recent poky + meta-fsl-ppc + FSL SDK specific layers, build issue similar to error-1 happens. This issue might appear for different gcc related package during different trial, e.g. libgcc, gcc, gcc-cross-initial, gcc-crosssdk, etc. 
+On 03/26/2013 07:46 AM, Bruce Ashfield wrote:
+> It was pointed out that the current way the KERNEL_FEATURES variable
+> is appended in the base linux-yocto recipe doesn't allow the appended
+> features to be prevented in a layer without using python code and
+> a recipe finalize hook.
 > 
-> When I revert http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=9bfd92243eced921f166d84b5a72d6f774e13413, error-1 build issue goes away, error-2 appears, error-2 also can't be reproduced every time. Does anyone ever meet the similar build issue and any comment on the build error?
+> To allow easier overriding of 'extra' or 'optional' features that are
+> defined in the linux-yocto recipe, we create a KERNEL_EXTRA_FEATURES
+> variable. This variable can be set in a layer to define extra features
+> or cleared to prevent the recipe's extra features from being appended
+> to the core functionality.
 
-It sounds like you've changes in gcc between some of the different
-variants, e.g. different patch sets or SRC_URI.
+You know what I'm going to say right? Docume.... right, good.
 
-gcc uses a shared source directory so the same patchset must be used for
-all variants. It has nothing to do with the above commit.
+Bruce, are you keeping a list of things that have changed and need
+documentation in the kernel-dev manual? Could you share it?
 
-Cheers,
+--
+Darren
 
-Richard
+> 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto_3.8.bb |    7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> index b395e45..f29675a 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> @@ -23,8 +23,7 @@ KMETA = "meta"
+>  COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
+>  
+>  # Functionality flags
+> -KERNEL_FEATURES_append = " features/netfilter/netfilter.scc"
+> -KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
+> -KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+> -KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm.scc"
+> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> +KERNEL_FEATURES_append_qemux86=" ${KERNEL_EXTRA_FEATURES} cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" ${KERNEL_EXTRA_FEATURES} cfg/sound.scc"
+>  KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+> 
 
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
