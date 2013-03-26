@@ -1,25 +1,35 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-vb0-f43.google.com ([209.85.212.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKXha-0000EH-Rs
+	(envelope-from <ross.burton@intel.com>) id 1UKXis-0000Gw-Fe
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:30:31 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 10:13:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="219088521"
-Received: from unknown (HELO helios.localnet) ([10.255.13.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Mar 2013 10:13:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 26 Mar 2013 17:13:24 +0000
-Message-ID: <1538359.cY3zV3t8dQ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+	Tue, 26 Mar 2013 18:31:47 +0100
+Received: by mail-vb0-f43.google.com with SMTP id fs19so4723471vbb.30
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 10:14:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=dp4x7MXeJ455l4jxX0jRQdcXGRfKyTZjiIKtnIbpdpA=;
+	b=BgDOSJ6pWIWWHSnWQwui2dPo4wkZlCcq59i8PFdSudbKF0Q3qDo8Vw+Dym4sTWof7B
+	T/gTjUhMhE+fsDXAsWSSrmVc61XxP8oD6UcBxfEB+cnnDFz0qw5tqxcbvBhZjnQ5PNYG
+	U/vhO110rxqznuoUtVgtT7wnGP5GHPeP+qwDRf7I3HrVYzg1MrpS3ms/YwoyO8W8oWnx
+	9OSlVWD+HOZBYDBKLUUVc5ElX+nbvL+lu3YrwT/EGruLzy/qJYV1iu6gZr2Lnp9FLck/
+	Li2XbhM5zxHUmyvx/gXjdYEsNYxCJtLjzd18prWJUfQAEq3AaoV3pqDRf3QF8VJNlsA+
+	oeiA==
+X-Received: by 10.58.220.229 with SMTP id pz5mr20150513vec.30.1364318084654;
+	Tue, 26 Mar 2013 10:14:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.134.74 with HTTP; Tue, 26 Mar 2013 10:14:24 -0700 (PDT)
 In-Reply-To: <5151D55D.4050300@windriver.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
 	<cb33f47af852b62bcb4cc816b10bcbe425bb5f34.1364316411.git.ross.burton@intel.com>
 	<5151D55D.4050300@windriver.com>
-MIME-Version: 1.0
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 17:14:24 +0000
+Message-ID: <CAJTo0LbWWSt_tMbOxsR7CKyett3XGV_HNVc5rN2AryDmGru2vQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQmXmj68DT8g1g9anGsHEZyk7XbytLPNqK4dNXDaaQTGrcu/l2osyhH8+qdfwMitqJ65iJJ7
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 05/24] core-image-minimal-initramfs: don't install busybox-syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,28 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:30:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Mar 2013 17:31:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 26 March 2013 12:05:33 Mark Hatle wrote:
+On 26 March 2013 17:05, Mark Hatle <mark.hatle@windriver.com> wrote:
 > On 3/26/13 11:50 AM, Ross Burton wrote:
-> > This uses BAD_RECOMMENDATIONS which isn't supported by all package
-> > backends, but it's a start.
-> 
+>>
+>> This uses BAD_RECOMMENDATIONS which isn't supported by all package
+>> backends, but
+>> it's a start.
+>
 > Since it's not supported in all backends, can you add a bugzilla to add
 > support to the various backends?
 
-FYI, Ross already filed one for RPM:
+I'd previously filed #3916 for rootfs_rpm, but failed to do the same
+for rootfs_deb (now done, #4120).
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3916
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
