@@ -1,34 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UKT85-0005wE-Ve
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKTU1-0006uN-9C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 13:37:34 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2QCKQ1E003906
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Mar 2013 05:20:26 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 26 Mar 2013 05:20:26 -0700
-Message-ID: <51519287.7010404@windriver.com>
-Date: Tue, 26 Mar 2013 07:20:23 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
-	<1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
-	<1364230955.25692.138.camel@phil-desktop.brightsign>
-	<51508505.5080706@windriver.com>
-	<1364233524.25692.139.camel@phil-desktop.brightsign>
-	<5150A649.8090409@windriver.com> <5150C603.2010207@windriver.com>
-	<1364294307.25692.146.camel@phil-desktop.brightsign>
-In-Reply-To: <1364294307.25692.146.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2 RFC] rpm: Add workaround for debugedit-segv
+	Tue, 26 Mar 2013 14:00:18 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 05:43:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276100081"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.191])
+	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 05:43:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Mar 2013 12:43:03 +0000
+Message-Id: <cover.1364301448.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] qemuimagetest debugging improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,47 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 12:37:41 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Mar 2013 13:00:20 -0000
 
-On 3/26/13 5:38 AM, Phil Blundell wrote:
-> On Mon, 2013-03-25 at 16:47 -0500, Mark Hatle wrote:
->> I've looked at the code some more.  It does checksum the header itself and then
->> if it's got contents, it also adds the contents to the checksum.. That is where
->> the failure appears to be happening:
->>
->>             if (u.shdr.sh_type != SHT_NOBITS)
->>               {
->>                 Elf_Data *d = elf_rawdata (dso->scn[i], NULL);
->>                 if (d == NULL)
->>                   goto bad;
->>                 process (d->d_buf, d->d_size);
->>               }
->>
->> So it's specifically checking for SHT_NOBITS, but it's matching so it falls
->> through and d->d_buf == 0, causing the failure.  I'll keep investigating, but
->> somehow that value (u.shdr.sh_type) is wrong [or at least unexpected!].
->
-> Ah.  If a NOBITS section is getting reported as something else then it
-> seems that this must clearly be a bug in libelf and ought to be fixed
-> there rather than working around it in rpm.  What do you actually get as
-> u.shdr.sh_type?
+A couple of fixes to hopefully help us track down the qemuimagetest
+failures on the autobuilder.
 
-I posted an updated patch last night.  debugedit was re-translating (byte 
-swapping) the header elements during the buildid calculations.  This was causing 
-the value of sh_type to be in the ELF binaries native endian during the check. 
-So big endian binaries failed to match the SHT_NOBITS, thus the problem being 
-discovered on PPC and MIPS.
 
-(Fix was to not translate the original values, but instead only translate a 
-copy.  I verified the produced buildid was expected, as I now have a better 
-understanding of how the buildid is generated.)
+The following changes since commit d60aec3f5b319f4583fa72a8357b9ddd3be62b1a:
 
---Mark
+  docbook-utils-native: Unbreak the build after source and build dir split (2013-03-25 20:51:15 +0000)
 
-> p.
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/qemuimagetest
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qemuimagetest
+
+Paul Eggleton (2):
+  qemuimagetest: fix erroneous ps errors when qemu couldn't be started
+  qemuimagetest: collect and print runqemu output
+
+ meta/classes/imagetest-qemu.bbclass    |    1 +
+ scripts/qemuimage-testlib              |   12 +++++++++---
+ scripts/qemuimage-testlib-pythonhelper |    2 +-
+ 3 files changed, 11 insertions(+), 4 deletions(-)
+
+-- 
+1.7.10.4
 
 
 
