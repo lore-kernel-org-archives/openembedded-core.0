@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UKN8u-0001Z0-GW
+	(envelope-from <Qi.Chen@windriver.com>) id 1UKNJy-0002Qy-AF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 07:14:31 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q5urRi027877
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Mar 2013 22:56:53 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 22:56:53 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 26 Mar 2013 13:58:33 +0800
-Message-ID: <cover.1364277284.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
+	Tue, 26 Mar 2013 07:25:27 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q68LEf027416
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Mar 2013 23:08:21 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 25 Mar 2013 23:08:22 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Mar 2013 14:08:19 +0800
+Message-ID: <9fef0b6956131f49f87c927619c9c0d0e6d189ce.1364266108.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1364266108.git.Qi.Chen@windriver.com>
+References: <cover.1364266108.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] V2: Add libraries to lsb image
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH 1/1] init-install.sh: remove unnecessary udev rules file to avoid error messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,29 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 06:14:33 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 06:25:29 -0000
 Content-Type: text/plain
 
-V2: put libpng_1.2.50.bb to meta-lsb4
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit f36926a264190e6202830e8520b41b30ae77ea43:
+/etc/udev/scripts/mount.sh is removed by init-install.sh, but the udev
+rules file which specifies the invocation of this script is not removed,
+thus causing the error message '/etc/udev/scripts/mount.sh: No such file
+or directory' shown at a live install.
 
-  docbook-utils-native: Unbreak the build after source and build dir split (2013-03-25 20:51:19 +0000)
+The /etc/udev/rules/automount.rules no longer works once the mount.sh script
+is removed. So we remove it to avoid the error message.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/lsb-libs
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb-libs
+[YOCTO #3924]
 
-Kang Kai (1):
-  libpng: add version 1.2 back
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../initrdscripts/files/init-install.sh            |    1 +
+ 1 file changed, 1 insertion(+)
 
- meta/conf/distro/include/default-versions.inc |    3 +++
- meta/recipes-lsb4/libpng/libpng_1.2.50.bb     |   21 +++++++++++++++++++++
- 2 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-lsb4/libpng/libpng_1.2.50.bb
-
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 2c4486a..d2a0db3 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -57,6 +57,7 @@ echo "Installing image on /dev/${device}"
+ #
+ # The udev automounter can cause pain here, kill it
+ #
++rm -f /etc/udev/rules.d/automount.rules
+ rm -f /etc/udev/scripts/mount*
+ 
+ #
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
