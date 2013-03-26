@@ -1,42 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UKRGH-0007mb-SS
+	(envelope-from <ross.burton@intel.com>) id 1UKRSG-0002AK-AV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 11:37:50 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 03:20:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276047010"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 03:20:47 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Tue, 26 Mar 2013 10:20:43 +0000
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
-	14.01.0355.002; Tue, 26 Mar 2013 10:20:43 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH V3 0/2] BlueZ 5.3 new package
-Thread-Index: AQHOKVmhCx8oCbeNBU2/6MCQzHHDspi2k5CAgAAD5ACAAAtFAIAAAwOAgAEdsWA=
-Date: Tue, 26 Mar 2013 10:20:42 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1621A5B5@IRSMSX102.ger.corp.intel.com>
-References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
-	<C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
-	<CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
-	<20130325170346.GD7539@jama>
-	<CAJTo0La=nhQTjNMLB=WwyOi-2akWsrj83m=1fbD9Y52y8+HxuQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La=nhQTjNMLB=WwyOi-2akWsrj83m=1fbD9Y52y8+HxuQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Tue, 26 Mar 2013 11:50:28 +0100
+Received: by mail-vb0-f47.google.com with SMTP id e21so4343943vbm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 03:33:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=XYSTvbfYLYnbf/0s8Y7ZBkZflS5kAe0nyVcOI4LET3c=;
+	b=Ut0Qu2jwismnRJHZiNb6IGhnagu7v52TCLmwxLCLcQLFZSSC1QCNwBlOLal729GDj7
+	VN4DLQq8CLV65cLZPoShc3+Ls6/YOMW4z9GEzDtjTOmCxChh19vUtXktU9crHLIznO2G
+	3TmyZaI6WmhPLxZaMtanuDnBwQIChrmq12IleGLnMm2rUMpoyUdVCjb/2FzDtvypsSJl
+	fVgthNnBFvB07x1dknQm5DyM05NR2LA4I3vVWS4o96wHuy4qBHFSTMQ8fm9s6ForXINl
+	rezIxJM7tDzl1/+5nBMQTJPVmeZGUd3zFPicTSSEY7njw3oIooGFv3kGXDym0pFXqnVZ
+	5Xxw==
+X-Received: by 10.52.230.197 with SMTP id ta5mr16149258vdc.103.1364293992471; 
+	Tue, 26 Mar 2013 03:33:12 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
+Received: by 10.58.125.102 with HTTP; Tue, 26 Mar 2013 03:32:52 -0700 (PDT)
+In-Reply-To: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 10:32:52 +0000
+Message-ID: <CAJTo0Lb8-CbnMtcxgximM7W_2YxbexGB49VLM+HbEqQrWHGpYg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+X-Gm-Message-State: ALoCoQl6PWfVxz2/6TPSaAXR13phwFJ+1Zo599qxRrOYARu7VaChp1UC6nYvzDJxBJxXV0Yx7/Qn
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gtk+: don't provide gtk-update-icon-cache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,44 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 10:37:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Mar 2013 10:50:43 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 10:50:43 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hello all,
+On 25 March 2013 23:47, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
+wrote:
+> fixes:
+> | ERROR: Multiple .bb files are due to be built which each provide virtua=
+l/gtk-update-icon-cache-native
+> | (/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-gn=
+ome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> | virtual:native:/home/Superandy/data/oe-core/sources/openembedded-core/m=
+eta/recipes-gnome/gtk+/gtk+_2.24.15.bb).
+> | This usually means one provides something the other doesn't and should.
 
-I will test today an install path for bluez5 using the opkg manager in a ex=
-istent image.
+NACK.
 
-I will keep you updated.
+The only way this can happen is if something is depending on
+gtk+-native, as everything in oe-core (should) depends on
+virtual/gtk-update-icon-cache:
 
-Regards,
-Cristian
+commit f07515096ea39e267cd3ebeea08cffbba1af07e0
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Mon Mar 4 12:52:45 2013 +0000
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Burton, Ross
-Sent: Monday, March 25, 2013 7:15 PM
-To: Martin Jansa
-Cc: Koen Kooi; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH V3 0/2] BlueZ 5.3 new package
+    default-providers: add default virtual provider for gtk-update-icon-cac=
+he
 
-On 25 March 2013 17:03, Martin Jansa <martin.jansa@gmail.com> wrote:
-> But opkg will still error out because of missing RPROVIDES, no?
+    Use a virtual provider instead of a hard dependency so that if
+gtk+-native is
+    required in some configuration, this provider can be changed and then
+    gtk+-native and gtk-update-icon-cache-native won't be both built
+and conflict in
+    the sysroot.
 
-I'll admit that I didn't test an upgrade path, but the scenario I can see a=
-ctually happening is that the distro flips its applications from
-bluez4 to bluez5 so they rdepend on bluez5 now.  bluez5 will get pulled in =
-through that dependency, nothing depends on bluez4 anymore, so opkg should =
-remove bluez4.  bluez4 and bluez5 don't expose the same ABI so they are not=
- suitable RPROVIDES for eachother.
+Presumably some application you've got is explicitly depending on
+gtk+-native, probably for the icon cache handling.  It should drop
+that build dependency and use the class instead.
+
+Your fix "works" but will cause file overwrite warnings in sysroot
+when you actually do want a gtk+-native, for example if you do want to
+build a native gtk+ application or some reason.
 
 Ross
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
