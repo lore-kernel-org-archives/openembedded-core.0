@@ -1,39 +1,39 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mail-we0-f172.google.com ([74.125.82.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKXOB-00078A-WE
+	(envelope-from <ross.burton@intel.com>) id 1UKXOF-00078Y-5U
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:10:25 +0100
-Received: by mail-we0-f178.google.com with SMTP id z53so1796068wey.23
+	Tue, 26 Mar 2013 18:10:29 +0100
+Received: by mail-we0-f172.google.com with SMTP id r3so2762781wey.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 09:53:24 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=6yDRBlgDgHft0CiX4Ou1zVy9+M5EsDZ5MuwRuwfo8eI=;
-	b=Kizgu/D/FZL/p19fhHDSMZAHCPqkvu0IN1V8d5/c6HLIGF+brg9uQRUwchqZKyxlHO
-	iqZg3Jybo/NIKitYNFX1A5HWx7SLvPms+8ZjgEfr6FQixW0D4hJAWtXm5If4kALCNcxx
-	foJdvCPdM/0vx/wqeRQAp4o8V5H4giWXiuxFapWwC7asvjfui6Rx7T8RiNZy1PF9tgFF
-	3hcy0k0lTp7nO0wUMeYHRGIW1hXm5Ua9/5ezM1wmxG/JBHTWkc0JbpP+RCmzk3GCcHXP
-	CyG49eIfWafm7azzAypEFQZr/kQrGMGyrJ/yVNIgjVeXFTBUZSzZSsqLmV96JOMJ9ccY
-	beVQ==
-X-Received: by 10.194.242.163 with SMTP id wr3mr25971609wjc.35.1364316804329; 
-	Tue, 26 Mar 2013 09:53:24 -0700 (PDT)
+	bh=eY0pbkHnjMZzbHtCPnKtwDzBnSRZ3cdy2Lw7hsa9iCw=;
+	b=KlaNp6qQZwB/c4hYuKoI21n4HaDLfJCDWngFcLM08vrPR36dxR4eu9LKd7RmJiyGBb
+	LZZFwjCYPmGqLT2DSGbR9Du66g8ZpkM26p4nTBG+L7/zznZJqMxr4iyjueA2MUEfnxM6
+	M4SCpImvarUpMM8/rXVicVXCinojANe7+02fsup+F00CoooofNAlcEfwU2CtO3Zzz1JZ
+	pAol6C741en1+0M5txqtalaNc7m7S+zWGUcyLEb0+6lnJl6KaEHFq9XrDg5YrFUBifAL
+	AtIzmmiVhhW2CxdrZ0X72VfX03t5xtnSqaOD1D9X8awq6UlM64/nLGH9thzMeKS7DQWM
+	Acfg==
+X-Received: by 10.180.36.48 with SMTP id n16mr4501204wij.30.1364316807111;
+	Tue, 26 Mar 2013 09:53:27 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.23
+	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.25
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Mar 2013 09:53:23 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:26 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 16:50:14 +0000
-Message-Id: <8b45abe76131daec504aefa4d11d600ba9c9250a.1364316412.git.ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 16:50:16 +0000
+Message-Id: <e9e10ffe9040875b2e17eb6b3e823de0b17d82d2.1364316412.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnaiSQE6Brhhm79QWetxGO16mhtbMU2dPS58OFsqaWSL2EI5TwObseKDubuTeKBMt+Nc4Qd
-Subject: [PATCH 16/24] bitbake.conf: explicitly backfill sysvinit, not DISTRO_FEATURES_INITMAN
+X-Gm-Message-State: ALoCoQlgOeHODTn+wx+o4Gs38/ip8FqHDZKkBF9vTulp/zY8qNW1IlP3zL/o7A5pnRBZj/R/eqih
+Subject: [PATCH 18/24] packagegroup-core-boot: revert to specifying sysvinit as default init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,27 +48,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Mar 2013 17:10:35 -0000
 
-Reflect reality by backfilling sysvinit support, instead of whatever value was
-in DISTRO_FEATURES_INITMAN.
+Don't follow DISTRO_FEATURES_INITMAN as that makes the packagegroups rebuild if
+you switch init manager.
+
+As in hybrid situations there's generally a clear primary and minimal init
+manager choice, so change VIRTUAL-RUNTIME_init_manager to set the primary init
+manager, and roll your own groups/images for the secondary.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 01ebad4..cd5d61e 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -730,7 +730,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
- MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index b9183a8..9306a34 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -26,8 +26,8 @@ RCONFLICTS_${PN} = "task-core-boot"
+ # Distro can override the following VIRTUAL-RUNTIME providers:
+ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+ VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
+-VIRTUAL-RUNTIME_init_manager ?= "${DISTRO_FEATURES_INITMAN}"
+-VIRTUAL-RUNTIME_initscripts ?= "${@base_contains('DISTRO_FEATURES', 'sysvinit', 'initscripts', '',d)}"
++VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
++VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
--DISTRO_FEATURES_BACKFILL = "pulseaudio ${DISTRO_FEATURES_INITMAN}"
-+DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit"
- MACHINE_FEATURES_BACKFILL = "rtc"
- 
- COMBINED_FEATURES = "\
+ RDEPENDS_${PN} = "\
+@@ -42,7 +42,6 @@ RDEPENDS_${PN} = "\
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ${VIRTUAL-RUNTIME_initscripts} \
+-    ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd-compat-units', '',d)} \
+     ${VIRTUAL-RUNTIME_dev_manager} \
+     ${VIRTUAL-RUNTIME_update-alternatives} \
+     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
 -- 
 1.7.10.4
 
