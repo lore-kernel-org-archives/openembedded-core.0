@@ -1,29 +1,38 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-da0-f54.google.com ([209.85.210.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKXtt-0000k0-K5; Tue, 26 Mar 2013 18:43:17 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QHZ0WN030835; Tue, 26 Mar 2013 17:35:59 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MSXWD+y8XhjB; Tue, 26 Mar 2013 17:35:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QHZqbf030865
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 26 Mar 2013 17:35:55 GMT
-Message-ID: <1364318755.3097.106.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yocto <yocto@yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, bitbake-devel
-	<bitbake-devel@lists.openembedded.org>, "poky@yoctoproject.org"
-	<poky@yoctoproject.org>
-Date: Tue, 26 Mar 2013 17:25:55 +0000
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: Status updates going forward and communication
+	(envelope-from <raj.khem@gmail.com>) id 1UKXuR-0000lb-4f
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 18:43:47 +0100
+Received: by mail-da0-f54.google.com with SMTP id p1so3750143dad.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 10:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=7olVlXf8GlC4XDoh6mhNsyE6d5S5ggD/rxiqM8MBQgw=;
+	b=VA4I0z2n3kySiBDd24oIgPh6CT496OZwUHwDAIv2IXVaw/MS0mPIWRCLDFiZj/fJWq
+	ad00HCwyvD8Q3lxrzjsOQuhKOAZ32RJXgc7+jfyHHUCoqJnu/U9fZiLQVEbCouNojfEP
+	iK2EMvpmmd3u4pZ1mwUa9sIRe4tOfZwVKhmWRtHFMNlDxSjCy2DNrTrT6PSGuzTGESHC
+	ZmA9itlSxWKA76MZCe4VeKgQW2QHuugoVaWMlIKfZyJIfnCjs/gREYfVUV9W7Jzepo3S
+	Ub8/ley4P4ZTJS9n5kyfxj2zmTLLDA/bKLK63CRU6grtDkXekAzTCldMekfAX4gstqBP
+	liYQ==
+X-Received: by 10.66.72.105 with SMTP id c9mr24731378pav.177.1364318793220;
+	Tue, 26 Mar 2013 10:26:33 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id lb8sm19908723pab.13.2013.03.26.10.26.31
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 26 Mar 2013 10:26:32 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1364314652-17317-1-git-send-email-giuseppe.condorelli@st.com>
+Date: Tue, 26 Mar 2013 10:26:27 -0700
+Message-Id: <215CBD66-C237-4B73-9F4D-D90CB207AE04@gmail.com>
+References: <1364314652-17317-1-git-send-email-giuseppe.condorelli@st.com>
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] iproute2: add bash runtime dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,50 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:43:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Mar 2013 17:43:53 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 17:43:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-There have been some concerns raised at the TSC recently about how
-transparent the Yocto Project development process is and how and where
-it connects to OpenEmbedded. When you're dealing with companies and
-engineers there does need to be a process with things like schedules and
-in the interests of transparency, all the gory details are out there.
-This is why you see some things being targeted for milestones and hence
-getting more attention than others at certain times. This isn't to say
-community input is any less valuable, there is just a balancing act I
-need to do to keep all the various areas on track. We don't always keep
-the schedules either, I've caused my share of friction by "refusing" to
-merge systemd on time several times over for example as it simply hasn't
-been ready.
+Giuseppe
 
-Talking with the TSC, its felt we need to better communicate some of the
-issues and what exactly is happening at any given time. I suspect some
-of the tension could be helped with some kind of regular status email
-about what is going on and where things are at. This would attempt to
-explain why patches were slow to merge for example of why certain things
-appear to being "ignored" (e.g. the systemd version upgrade is simply
-being postponed until after Ross' series merges which in turn is pending
-a known bug getting fixed).
+On Mar 26, 2013, at 9:17 AM, Giuseppe CONDORELLI =
+<giuseppe.condorelli@st.com> wrote:
 
-From a load perspective, I want to write these summaries like I want a
-hole in the head, its going to eat more time which I simply don't have.
-The alternatives like asking someone else to write it would likely end
-up increasing my workload anyhow though and its certainly true that I
-have some of the key information which needs to go into this. I already
-explain this several times over each week in different forums but sadly
-its not reaching everyone, particularly some of the people it needs to.
+> Add bash runtime dependence, required at package install time.
 
-I am therefore going to attempt to send out such an email. This is a
-trial for now and probably going to be a lot of work for me so let
-me/TSC/Jefro/the list know your thoughts on it. I'd love to come up with
-a way to get other people involved in the process but I'm simply not
-seeing it at the moment. I may try and cut back in my involvement in
-some of the other meetings as a consequence though.
+it would be nicer if you could find which scripts in the whole package =
+needs bash
+separate that out into a separate package and add RDEPENDS_<thatpackage> =
+=3D "bash"
 
-Cheers,
-
-Richard
+>=20
+> Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
+> ---
+> meta/recipes-connectivity/iproute2/iproute2.inc    |    1 +
+> .../iproute2/iproute2_3.8.0.bb                     |    2 +-
+> 2 files changed, 2 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc =
+b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index fb233eb..e840605 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -10,6 +10,7 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Deb723b61539feef013de476e68b5c50a \
+>                     =
+file://ip/ip.c;beginline=3D3;endline=3D8;md5=3D689d691d0410a4b64d3899f8d6e=
+31817"
+>=20
+> DEPENDS =3D "flex-native bison-native iptables"
+> +RDEPENDS_${PN} +=3D "bash"
+>=20
+> inherit update-alternatives
+>=20
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb =
+b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+> index 65164cb..99c7ede 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+> +++ b/meta/recipes-connectivity/iproute2/iproute2_3.8.0.bb
+> @@ -1,6 +1,6 @@
+> require iproute2.inc
+>=20
+> -PR =3D "r2"
+> +PR =3D "r3"
+>=20
+> SRC_URI =3D =
+"${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
+>            file://configure-cross.patch \
+> --=20
+> 1.7.7.6
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
