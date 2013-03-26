@@ -1,26 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKYT1-0002QX-EZ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 19:20:15 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Mar 2013 11:00:49 -0700
+	(envelope-from <dvhart@linux.intel.com>) id 1UKZde-0004qX-Go
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 20:34:32 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 12:17:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="307712304"
-Received: from unknown (HELO helios.localnet) ([10.255.13.152])
-	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2013 11:02:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 26 Mar 2013 18:02:24 +0000
-Message-ID: <4660079.3r9XkPrOEm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
-In-Reply-To: <20130326175514.GK7539@jama>
-References: <cover.1363156578.git.Qi.Chen@windriver.com>
-	<5482882.4phbAeRO1n@helios> <20130326175514.GK7539@jama>
+X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="276274763"
+Received: from unknown (HELO envy.home) ([10.255.13.151])
+	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 12:17:28 -0700
+Message-ID: <5151F448.4050906@linux.intel.com>
+Date: Tue, 26 Mar 2013 12:17:28 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
+To: nitin.a.kamble@intel.com
+References: <cover.1364316538.git.nitin.a.kamble@intel.com>
+	<cfbc9b44fbaff5d2ad0b74d0b78924ff9d14d5b0.1364316538.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cfbc9b44fbaff5d2ad0b74d0b78924ff9d14d5b0.1364316538.git.nitin.a.kamble@intel.com>
+X-Enigmail-Version: 1.5.1
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] grub-efi-native_2.00.bb: fix a build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 18:20:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Mar 2013 19:34:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 26 March 2013 18:55:14 Martin Jansa wrote:
-> On Tue, Mar 26, 2013 at 05:12:16PM +0000, Paul Eggleton wrote:
-> > On Wednesday 13 March 2013 15:01:33 Qi.Chen@windriver.com wrote:
-> > > From: Chen Qi <Qi.Chen@windriver.com>
-> > > 
-> > > Use RM_WORK_WHITELIST to inhibit rm_work per recipe. In this way,
-> > > one can use rm_work for the most of the recipes but still keep the
-> > > work area for the recipe(s) one is working on.
-> > > 
-> > > As an example, the following settings in local.conf will inhibit
-> > > rm_work for icu-native, icu and busybox.
-> > > 
-> > >     INHERIT += "rm_work"
-> > >     RM_WORK_WHITELIST += "icu-native icu busybox"
-> > > 
-> > > If we comment out the RM_WORK_WHITELIST line and do a rebuild, the
-> > > working area of these recipes will be cleaned up.
-> > 
-> > This is a great feature, but I just looked at it and realised that the
-> > term
-> > "whitelist" isn't really correct - this is more of a blacklist.
-> > 
-> > The question is does it matter? If so we should probably change it now
-> > before it becomes too hard to change...
-> 
-> I got similar question yesterday about BB_HASHBASE_WHITELIST:
-> 
-> 'And why is it called "WHITELIST"? Shouldn't things that are excluded be
-> in a "BLACKLIST"?'
-> 
-> Maybe term WHITELIST isn't correct in both of them, at least they are
-> consistent as it is now :)
 
-You may well be right... BB_HASHBASE_WHITELIST has been around for so long 
-though that I don't think we could consider changing it.
 
-Cheers,
-Paul
+On 03/26/2013 09:51 AM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> Due to recent change in the oecore layer grub-efi recipe uses separate
+> builddir and the paths used in the do_deply need to change accordingly.
+> 
+> This change avoids this build issue:
+> install: cannot stat `/build-fri2/tmp/work/x86_64-linux/grub-efi-i586-native/2.00-r1/grub-2.00/bootia32.efi': No such file or directory
+> ERROR: Function failed: do_deploy (see /build-fri2/tmp/work/x86_64-linux/grub-efi-i586-native/2.00-r1/temp/log.do_deploy.5875 for further information)
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+
+> ---
+>  meta/recipes-bsp/grub/grub-efi-native_2.00.bb |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> index 14ab9ea..6f8ba8e 100644
+> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> @@ -71,7 +71,7 @@ do_mkimage() {
+>  addtask mkimage after do_compile before do_install
+>  
+>  do_deploy() {
+> -	install -m 644 ${S}/${GRUB_IMAGE} ${DEPLOYDIR}
+> +	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+>  }
+>  addtask deploy after do_install before do_build
+>  
+> 
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
