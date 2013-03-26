@@ -1,25 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pa0-f54.google.com ([209.85.220.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UKKvp-0001Wq-82
+	(envelope-from <raj.khem@gmail.com>) id 1UKN7j-0001V7-23
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 04:52:19 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q3ZE7X025916
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Mar 2013 07:13:20 +0100
+Received: by mail-pa0-f54.google.com with SMTP id fa10so1428554pad.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Mar 2013 20:35:14 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 20:35:14 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Mar 2013 22:35:13 -0500
-Message-ID: <1364268913-23029-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] rpm: Fix debugedit buildid processing
+	Mon, 25 Mar 2013 22:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=bPtqvgwMbLtJZQnW/VNuJuD+cT+s8G7ogZsrAqIoSiQ=;
+	b=GwOBn4McBNGZGJNPFpPtcZVOAvnpeTGlOgqWqFgF2eaPi2O3yfx+D32+nTBKbM3Di3
+	HvWs+Q0ikB4/fvgRIRyyDewQi3KQuc6Ha+So9qIiU0bu3Fs8L9xAToKbmAZrAFj3uYxn
+	KH7nKRTj/X/NPrza7Q/b794/9U3H7h9+UTtRiZjd0US+rp1MEpNc9abukhJzPWcaFuX6
+	DgVtyoSGUKUk6ji63E9CkxlTJhcNtvS3eCaSs6c4O9eVjXZ2/qeaUdLH1aWTLHlPVqzj
+	Kqi0Sl1XizYqpiyJiigGpoDXlyuLskykbSlkSK89ghlpS35y/ISeO+JR2102zESr7E1K
+	kuuw==
+X-Received: by 10.68.25.138 with SMTP id c10mr21754513pbg.133.1364277342862;
+	Mon, 25 Mar 2013 22:55:42 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id ti8sm16202400pbc.12.2013.03.25.22.55.40
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 25 Mar 2013 22:55:41 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1363099754-3396-1-git-send-email-stefan@herbrechtsmeier.net>
+Date: Mon, 25 Mar 2013 22:55:39 -0700
+Message-Id: <2F386A63-6910-492E-B8A8-986FE6FA3906@gmail.com>
+References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+	<1363099754-3396-1-git-send-email-stefan@herbrechtsmeier.net>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] boost: Add real native support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,138 +46,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 03:52:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Mar 2013 06:14:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-[ YOCTO #4089 ]
 
-When constructing a new buildid, the items being hashed need to be
-returned to their native endian.  In the process we were munging
-the sh_type field that we relied on to determine if a section was
-loadable or not.  The patch avoids this behavior by only modifying
-a copy of the local endian data.
+On Mar 12, 2013, at 7:49 AM, Stefan Herbrechtsmeier =
+<stefan@herbrechtsmeier.net> wrote:
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/rpm/rpm/debugedit-segv.patch | 92 ++++++++++++++++++----
- 1 file changed, 78 insertions(+), 14 deletions(-)
+> The current boost recipe only creates the bjam build tool during
+> a native run and thereby is not usable for other native recipes
+> that depend on a boost library. Use instead the bjam build tool
+> from the do_boostconfig task and add real native support to the
+> boost recipe. Additionally remove the boost-native from DEPENDS.
+>=20
+> Keep the installation of the native bjam build tool for backward
+> compatibility.
+>=20
+> Native compilation of bzip2 isn't working and therefore disabled.
+>=20
 
-diff --git a/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch b/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
-index bd91693..2d620a5 100644
---- a/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
-+++ b/meta/recipes-devtools/rpm/rpm/debugedit-segv.patch
-@@ -1,19 +1,15 @@
--There are cases, especially on PPC and MIPS, where the data address
--returned is 0, but the size is not 0.
-+During the recalculation of the buildid, it's necessary to change the word
-+back to the original endian.  However, if we do this in-place, we've also
-+affected the headers that we're also working on.  The side effect of this is
-+we can no longer rely on 'sh_type' as it may have been changed.
- 
--It appears to happen when the sections headers are similar to:
-+This patch ensures that any time we translate the loaded data to the machine
-+format, we only do it in a backup copy and never the original copy.
- 
--  [21] .data             PROGBITS        000239c0 0139c0 000010 00  WA  0   0  8
--  [22] .got              PROGBITS        000239d0 0139d0 000014 04 WAX  0   0  4
--  [23] .plt              NOBITS          000239e4 0139e4 000234 00 WAX  0   0  4
--  [24] .bss              NOBITS          00023c18 0139e4 0001c8 00  WA  0   0  8
--  [25] .comment          PROGBITS        00000000 0139e4 000011 01  MS  0   0  1
--  [26] .debug_aranges    PROGBITS        00000000 0139f8 000d68 00      0   0  8
-+Note: in all other places a backup copy was used, just not buildid processing.
- 
--Sections 23 and 24 (.plt and .bss) which are NOBITS have a loaded data address
--of 0, but a size != 0.
--
--This could be a bug in libelf...
-+Also the process (...) function was modified to verify the data is not
-+NULL as well.  This is an extra check and is not strictly necessary.
- 
- Upstream-status: Pending
- 
-@@ -23,7 +19,7 @@ Index: rpm-5.4.9/tools/debugedit.c
- ===================================================================
- --- rpm-5.4.9.orig/tools/debugedit.c
- +++ rpm-5.4.9/tools/debugedit.c
--@@ -1434,7 +1434,8 @@ handle_build_id (DSO *dso, Elf_Data *bui
-+@@ -1432,21 +1432,24 @@ handle_build_id (DSO *dso, Elf_Data *bui
-      auto inline void process (const void *data, size_t size)
-      {
-        memchunk chunk = { .data = (void *) data, .size = size };
-@@ -33,3 +29,71 @@ Index: rpm-5.4.9/tools/debugedit.c
-      }
-      union
-      {
-+       GElf_Ehdr ehdr;
-+       GElf_Phdr phdr;
-+       GElf_Shdr shdr;
-+-    } u;
-+-    Elf_Data x = { .d_version = EV_CURRENT, .d_buf = &u };
-+-
-+-    x.d_type = ELF_T_EHDR;
-+-    x.d_size = sizeof u.ehdr;
-+-    u.ehdr = dso->ehdr;
-+-    u.ehdr.e_phoff = u.ehdr.e_shoff = 0;
-+-    if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
-++    } u1, u2;
-++    Elf_Data src  = { .d_version = EV_CURRENT, .d_buf = &u1 };
-++    Elf_Data dest = { .d_version = EV_CURRENT, .d_buf = &u2 };
-++
-++    src.d_type = ELF_T_EHDR;
-++    src.d_size = sizeof u1.ehdr;
-++    dest.d_size = sizeof u2.ehdr;
-++    u1.ehdr = dso->ehdr;
-++    u1.ehdr.e_phoff = u1.ehdr.e_shoff = 0;
-++    if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
-+       {
-+       bad:
-+ 	fprintf (stderr, "Failed to compute header checksum: %s\n",
-+@@ -1454,29 +1457,31 @@ handle_build_id (DSO *dso, Elf_Data *bui
-+ 	exit (1);
-+       }
-+ 
-+-    x.d_type = ELF_T_PHDR;
-+-    x.d_size = sizeof u.phdr;
-++    src.d_type = ELF_T_PHDR;
-++    src.d_size = sizeof u1.phdr;
-++    dest.d_size = sizeof u2.phdr;
-+     for (i = 0; i < dso->ehdr.e_phnum; ++i)
-+       {
-+-	if (gelf_getphdr (dso->elf, i, &u.phdr) == NULL)
-++	if (gelf_getphdr (dso->elf, i, &u1.phdr) == NULL)
-+ 	  goto bad;
-+-	if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
-++	if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
-+ 	  goto bad;
-+-	process (x.d_buf, x.d_size);
-++	process (dest.d_buf, dest.d_size);
-+       }
-+ 
-+-    x.d_type = ELF_T_SHDR;
-+-    x.d_size = sizeof u.shdr;
-++    src.d_type = ELF_T_SHDR;
-++    src.d_size = sizeof u1.shdr;
-++    dest.d_size = sizeof u2.shdr;
-+     for (i = 0; i < dso->ehdr.e_shnum; ++i)
-+       if (dso->scn[i] != NULL)
-+ 	{
-+-	  u.shdr = dso->shdr[i];
-+-	  u.shdr.sh_offset = 0;
-+-	  if (elf64_xlatetom (&x, &x, dso->ehdr.e_ident[EI_DATA]) == NULL)
-++	  u1.shdr = dso->shdr[i];
-++	  u1.shdr.sh_offset = 0;
-++	  if (elf64_xlatetom (&dest, &src, dso->ehdr.e_ident[EI_DATA]) == NULL)
-+ 	    goto bad;
-+-	  process (x.d_buf, x.d_size);
-++	  process (dest.d_buf, dest.d_size);
-+ 
-+-	  if (u.shdr.sh_type != SHT_NOBITS)
-++	  if (u1.shdr.sh_type != SHT_NOBITS)
-+ 	    {
-+ 	      Elf_Data *d = elf_rawdata (dso->scn[i], NULL);
-+ 	      if (d == NULL)
--- 
-1.8.1.2.545.g2f19ada
+would it be possible to have an independent bjam-native ?
+I was wondering if there were other recipes needing bjam
+could benefit. Now that bjam is removed from staging, this
+could cause other recipes which could have been using
+it unknowingly to fail. Although that in itself is a problem.
+
+> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+> ---
+> meta/recipes-support/boost/boost.inc       |   37 =
+++++++----------------------
+> meta/recipes-support/boost/boost_1.53.0.bb |    2 +
+> 2 files changed, 10 insertions(+), 29 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/boost/boost.inc =
+b/meta/recipes-support/boost/boost.inc
+> index 1266666..eaba3a2 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -6,8 +6,7 @@
+> DESCRIPTION =3D "Free peer-reviewed portable C++ source libraries"
+> HOMEPAGE =3D "http://www.boost.org/"
+> SECTION =3D "libs"
+> -DEPENDS =3D "boost-native zlib bzip2"
+> -DEPENDS_class-native =3D ""
+> +DEPENDS =3D "zlib bzip2"
+> LICENSE =3D "BSL-1.0 & MIT & Python-2.0"
+>=20
+> ARM_INSTRUCTION_SET =3D "arm"
+> @@ -126,6 +125,8 @@ BJAM_OPTS    =3D '${PARALLEL_MAKE} \
+> 		--disable-icu \
+> 		${BJAM_EXTRA}'
+>=20
+> +# Native compilation of bzip2 isn't working
+> +BJAM_OPTS_append_class-native =3D ' -sNO_BZIP2=3D1'
+>=20
+> do_boostconfig() {
+> 	cp -f boost/config/platform/linux.hpp =
+boost/config/platform/linux-gnueabi.hpp
+> @@ -146,7 +147,7 @@ addtask do_boostconfig after do_patch before =
+do_configure
+>=20
+> do_compile() {
+> 	set -ex
+> -	bjam ${BJAM_OPTS} --prefix=3D${prefix} \
+> +	./bjam ${BJAM_OPTS} --prefix=3D${prefix} \
+> 		--exec-prefix=3D${exec_prefix} \
+> 		--libdir=3D${libdir} \
+> 		--includedir=3D${includedir}
+> @@ -154,7 +155,7 @@ do_compile() {
+>=20
+> do_install() {
+> 	set -ex
+> -	bjam ${BJAM_OPTS} \
+> +	./bjam ${BJAM_OPTS} \
+> 		--libdir=3D${D}${libdir} \
+> 		--includedir=3D${D}${includedir} \
+> 		install
+> @@ -171,29 +172,7 @@ do_install() {
+>=20
+> BBCLASSEXTEND =3D "native"
+>=20
+> -do_configure_class-native() {
+> -	:
+> +do_install_append_class-native() {
+> +       install -d ${D}${bindir}/
+> +       install -c -m 755 bjam ${D}${bindir}/
+> }
+> -
+> -do_boostconfig_class-native() {
+> -	:
+> -}
+> -
+> -do_compile_class-native() {
+> -	set -ex
+> -	cd ${S}/tools/build/v2/engine
+> -	rm -rf bin.*
+> -	./build.sh gcc
+> -}
+> -
+> -# This is too terrible - the build script doesn't give any good
+> -# way I can see to find out where the binaries are placed, so
+> -# rely on only one bin.foo directory being created.
+> -do_install_class-native () {
+> -	set -ex
+> -	cd ${S}/tools/build/v2/engine
+> -	install -d ${D}${bindir}/
+> -	install -c -m 755 bin.*/bjam ${D}${bindir}/
+> -}
+> -
+> -
+> diff --git a/meta/recipes-support/boost/boost_1.53.0.bb =
+b/meta/recipes-support/boost/boost_1.53.0.bb
+> index de721c5..7527b25 100644
+> --- a/meta/recipes-support/boost/boost_1.53.0.bb
+> +++ b/meta/recipes-support/boost/boost_1.53.0.bb
+> @@ -2,6 +2,8 @@ include boost.inc
+>=20
+> LIC_FILES_CHKSUM =3D =
+"file://LICENSE_1_0.txt;md5=3De4224ccaecb14d942c71d31bef20d78c"
+>=20
+> +PR =3D "r1"
+> +
+> SRC_URI +=3D "file://arm-intrinsics.patch \
+>            "
+>=20
+> --=20
+> 1.7.0.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
