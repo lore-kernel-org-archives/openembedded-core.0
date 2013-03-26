@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKTU2-0006uO-FT
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKTUC-0006uN-LW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 14:00:19 +0100
+	Tue, 26 Mar 2013 14:00:23 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 05:43:09 -0700
+	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 05:43:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276100084"
+X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276100092"
 Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.191])
-	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 05:43:08 -0700
+	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 05:43:09 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 12:43:04 +0000
-Message-Id: <42427ce8cd1e9bf6907e56fb8dc09837c28a72ba.1364301448.git.paul.eggleton@linux.intel.com>
+Date: Tue, 26 Mar 2013 12:43:05 +0000
+Message-Id: <d83fc1249f83f8ffd7fa356ace6590751661c14c.1364301448.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1364301448.git.paul.eggleton@linux.intel.com>
 References: <cover.1364301448.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1364301448.git.paul.eggleton@linux.intel.com>
 References: <cover.1364301448.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] qemuimagetest: fix erroneous ps errors when qemu couldn't be started
+Subject: [PATCH 2/2] qemuimagetest: collect and print runqemu output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 13:00:20 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 13:00:25 -0000
 
-The helper script was printing an error to stdout when it couldn't find
-any qemu child processes; output this error to stderr instead and
-redirect stderr to /dev/null when running from qemuimage-testlib so that
-QEMUPID is actually blank if there are no qemu instances found.
+If runqemu (or qemu itself) fails we need to know why, so tee out to a
+log file and print it when we can't find the qemu process or determine
+its IP address.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/qemuimage-testlib              |    2 +-
- scripts/qemuimage-testlib-pythonhelper |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/imagetest-qemu.bbclass |    1 +
+ scripts/qemuimage-testlib           |   10 ++++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
+index 0d18f06..63ba087 100644
+--- a/meta/classes/imagetest-qemu.bbclass
++++ b/meta/classes/imagetest-qemu.bbclass
+@@ -74,6 +74,7 @@ def qemuimagetest_main(d):
+         os.environ["TARGET_IPSAVE"] = d.getVar("TARGET_IPSAVE", True)
+         os.environ["TEST_SERIALIZE"] = d.getVar("TEST_SERIALIZE", True)
+         os.environ["SDK_NAME"] = d.getVar("SDK_NAME", True)
++        os.environ["RUNQEMU_LOGFILE"] = d.expand("${T}/log.runqemutest.%s" % os.getpid())
+ 
+         # Add in all variables from the user's original environment which
+         # haven't subsequntly been set/changed
 diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
-index 551011c..6377c7f 100755
+index 6377c7f..a800f68 100755
 --- a/scripts/qemuimage-testlib
 +++ b/scripts/qemuimage-testlib
-@@ -420,7 +420,7 @@ Test_Create_Qemu()
+@@ -408,8 +408,8 @@ Test_Create_Qemu()
+ 		export MACHINE=$QEMUARCH
  
- 	while [ ${up_time} -lt 10 ]
- 	do
--		QEMUPID=`qemuimage-testlib-pythonhelper --findqemu $XTERMPID`
-+		QEMUPID=`qemuimage-testlib-pythonhelper --findqemu $XTERMPID 2>/dev/null`
- 		if [ $? -ne 0 ]; then
- 			Test_Info "Wait for qemu up..."
- 			up_time=`expr $up_time + 5`
-diff --git a/scripts/qemuimage-testlib-pythonhelper b/scripts/qemuimage-testlib-pythonhelper
-index 2ca61ca..2c1f557 100755
---- a/scripts/qemuimage-testlib-pythonhelper
-+++ b/scripts/qemuimage-testlib-pythonhelper
-@@ -34,7 +34,7 @@ if options.findqemu:
-         commands[data[0]] = data[2]
+ 		# Create Qemu in localhost VNC Port 1
+-		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} || /bin/sleep 60' &"
+-		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} || /bin/sleep 60" &
++		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
++		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
+ 	
+ 		# Get the pid of the xterm processor, which will be used in Test_Kill_Qemu
+ 		XTERMPID=$!
+@@ -436,6 +436,9 @@ Test_Create_Qemu()
+ 		Test_Info "No qemu process appeared to start, exiting"
+ 		ps axww -O ppid
+ 		Test_Info "Process list dumped for debugging purposes"
++		Test_Info "runqemu output log:"
++		cat ${RUNQEMU_LOGFILE}
++		echo
+ 		return 1
+ 	fi
  
-     if options.findqemu not in pids:
--        print "No children found matching %s" % options.findqemu
-+        sys.stderr.write("No children found matching %s" % options.findqemu)
-         sys.exit(1)
+@@ -446,6 +449,9 @@ Test_Create_Qemu()
+ 		Test_Info "There is no qemu process or qemu ip address found, return failed"
+ 		ps -wwf
+ 		ps axww -O ppid
++		Test_Info "runqemu output log:"
++		cat ${RUNQEMU_LOGFILE}
++		echo
+ 		return 1
+ 	fi
  
-     parents = []
 -- 
 1.7.10.4
 
