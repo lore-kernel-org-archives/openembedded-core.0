@@ -1,27 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UKNqQ-0003Mi-Uz
+	(envelope-from <Qi.Chen@windriver.com>) id 1UKOQA-0004ya-BY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 07:59:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q6fqfe002134
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Mar 2013 23:41:52 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 25 Mar 2013 23:41:52 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 26 Mar 2013 14:43:26 +0800
-Message-ID: <245c80ed5b2af21acfc2ee3cb910f26292db3909.1364279968.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1364279968.git.kai.kang@windriver.com>
-References: <cover.1364279968.git.kai.kang@windriver.com>
+	Tue, 26 Mar 2013 08:35:53 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q7Ioxf028051
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 00:18:50 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 26 Mar 2013 00:18:50 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Mar 2013 15:18:48 +0800
+Message-ID: <cover.1364281933.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] opkg: create run-scripts file conditionally
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH 0/1] xserver-nodm: change start runlevel from 2 5 to 2 3 4 5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,52 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 06:59:16 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 07:36:02 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 07:36:02 -0000
 Content-Type: text/plain
 
-This bug occurs on rpm-based sdk image.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-update-alternatives-cworth is default installed into sato image. And for
-sato-sdk image, it installs every related dev packages.
-update-alternatives-cworth is from opkg, so opkg-dev is installed and it
-requires opkg, then opkg is installed into sato-sdk image.
+The following changes since commit 3c5f4d54d01887a117bf659fc9af6b2b892c2b08:
 
-This causes the script file run-postinsts installed by rpm will be
-overwrited by opkg on rpm-based sdk image.
+  separatebuilddir.inc: mxsldr should never have been added to this list, remove (2013-03-24 14:03:19 +0000)
 
-Judge the image package type and don't create run-scripts file when
-package type is not ipk.
+are available in the git repository at:
 
-[YOCTO #3223]
+  git://git.pokylinux.org/poky-contrib ChenQi/xserver-nodm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/xserver-nodm
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-devtools/opkg/opkg.inc |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+Chen Qi (1):
+  xserver-nodm: change start runlevel from 2 5 to 2 3 4 5
 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index f9c1202..bc80cb0 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -59,10 +59,16 @@ do_install_append_class-native() {
- 
- POSTLOG ?= "/var/log/postinstall.log"
- REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG} 2>&1', '', d)}"
-+PKGTYPE = "${@d.getVar('IMAGE_PKGTYPE', True)}"
- 
- pkg_postinst_${PN} () {
- #!/bin/sh
- if [ "x$D" != "x" ]; then
-+	# if installed to a rpm/deb based image, don't create run-postinsts file
-+	if [ "x${PKGTYPE}" != "xipk" ]; then
-+		exit 0
-+	fi
-+
- 	install -d $D${sysconfdir}/rcS.d
- 	# this happens at S98 where our good 'ole packages script used to run
- 	echo "#!/bin/sh
+ .../x11-common/xserver-nodm-init.bb                |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
