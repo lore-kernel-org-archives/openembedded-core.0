@@ -1,26 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pd0-f181.google.com ([209.85.192.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKYIx-0001vH-6J
+	(envelope-from <martin.jansa@gmail.com>) id 1UKYM8-00023Z-Rm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 19:09:03 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 26 Mar 2013 10:52:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="219101279"
-Received: from unknown (HELO helios.localnet) ([10.255.13.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Mar 2013 10:52:01 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Tue, 26 Mar 2013 17:52 +0000
-Message-ID: <6500457.3vgtoKXQDv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
-In-Reply-To: <1364318752.6320.27.camel@phil-desktop.brightsign>
+	Tue, 26 Mar 2013 19:12:55 +0100
+Received: by mail-pd0-f181.google.com with SMTP id q10so3151285pdj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 10:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=fZBaIFoqBgPNO1/vri+EqHRibBZecIaf4lhofn1t3fs=;
+	b=0fiaVZYfhqC9HKJagzGUXcaS8j0HtCtR/y5CdMOWi84aTpG5gnqvzWxPCLrE7ZjKkZ
+	4AzG2YiqiOL/lTA9ygQ5c8+Q7RMSRxus6kO8YH2p8ojg3NuQZ/5egonaE+PzNR2Oiadu
+	mV3GBAylQjuJsDH6UTy8+nW7ixKo3oTFx4JlRe18BKHKv3LD77egRHgTercuZMdlSzce
+	2sPrb+D05VvX0L5KP+scgew/ka8Glv6pF4rAG87jGpqSwnPlHNutInhgeTr1Jxf+ZTcB
+	tcdiM8MXUIuJPZv6YVQpH+Fw09LeBj/Zhw1p/T9Z+wom6pSNWfnGh1FmQKvOPmAGUo8t
+	ACew==
+X-Received: by 10.66.197.136 with SMTP id iu8mr3616081pac.0.1364320520255;
+	Tue, 26 Mar 2013 10:55:20 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id to7sm4981499pab.0.2013.03.26.10.55.17
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 26 Mar 2013 10:55:18 -0700 (PDT)
+Date: Tue, 26 Mar 2013 18:55:14 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20130326175514.GK7539@jama>
 References: <cover.1363156578.git.Qi.Chen@windriver.com>
+	<ab888a7abe849f3170d5386b577f8a92e8ff5385.1363156578.git.Qi.Chen@windriver.com>
 	<5482882.4phbAeRO1n@helios>
-	<1364318752.6320.27.camel@phil-desktop.brightsign>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+In-Reply-To: <5482882.4phbAeRO1n@helios>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,43 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 18:09:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Mar 2013 18:13:00 -0000
+X-Groupsio-MsgNum: 37127
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="W2ydbIOJmkm74tJ2"
+Content-Disposition: inline
 
-On Tuesday 26 March 2013 17:25:52 Phil Blundell wrote:
-> This doesn't seem (at the risk of invoking an unintended metaphor)
-> entirely black or white.  Maybe it should just be "RM_WORK_EXCEPTIONS"
-> or something.
+--W2ydbIOJmkm74tJ2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"exception" has another meaning to my mind. I've sent out a patch to change it 
-to RM_WORK_EXCLUDE.
+On Tue, Mar 26, 2013 at 05:12:16PM +0000, Paul Eggleton wrote:
+> On Wednesday 13 March 2013 15:01:33 Qi.Chen@windriver.com wrote:
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >=20
+> > Use RM_WORK_WHITELIST to inhibit rm_work per recipe. In this way,
+> > one can use rm_work for the most of the recipes but still keep the
+> > work area for the recipe(s) one is working on.
+> >=20
+> > As an example, the following settings in local.conf will inhibit
+> > rm_work for icu-native, icu and busybox.
+> >     INHERIT +=3D "rm_work"
+> >     RM_WORK_WHITELIST +=3D "icu-native icu busybox"
+> >=20
+> > If we comment out the RM_WORK_WHITELIST line and do a rebuild, the
+> > working area of these recipes will be cleaned up.
+>=20
+> This is a great feature, but I just looked at it and realised that the te=
+rm=20
+> "whitelist" isn't really correct - this is more of a blacklist.
+>=20
+> The question is does it matter? If so we should probably change it now be=
+fore=20
+> it becomes too hard to change...
 
-> Of course, you can get the same effect in your distro configuration by
-> saying:
-> 
-> RM_WORK = "rm_work"
-> RM_WORK_pn-icu-native = ""
-> INHERIT += "${RM_WORK}"
-> 
-> so I must admit to being slightly ambivalent about whether the extra
-> syntactic sugar is all that valuable.  
+I got similar question yesterday about BB_HASHBASE_WHITELIST:
 
-True, that works; I think having an explicit variable makes it easier to 
-understand what's going on though and is a little harder to typo and have your 
-work removed when you didn't want it to be ;)
+'And why is it called "WHITELIST"? Shouldn't things that are excluded be
+in a "BLACKLIST"?'
 
-> And then again you can always use rm_old_work instead. :-)
+Maybe term WHITELIST isn't correct in both of them, at least they are
+consistent as it is now :).
 
-I'm sure this has come up before, but is rm_old_work something we ought to 
-have in OE-Core?
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Cheers,
-Paul
+--W2ydbIOJmkm74tJ2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
--- 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
-Paul Eggleton
-Intel Open Source Technology Centre
+iEYEARECAAYFAlFR4QIACgkQN1Ujt2V2gBx3SwCfb6j5vbft7wIsb4/eVH3hYRpX
+dEQAoI6Yiu4tHSKolphR2EwCFbvT/RB5
+=I2aq
+-----END PGP SIGNATURE-----
 
-
+--W2ydbIOJmkm74tJ2--
