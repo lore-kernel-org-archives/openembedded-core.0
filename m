@@ -1,24 +1,22 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from smarthost.techfak.uni-bielefeld.de ([129.70.137.17])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKTUC-0006uN-LW
+	(envelope-from <stefan@herbrechtsmeier.net>) id 1UKTn1-0007Qi-FX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 14:00:23 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 05:43:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276100092"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.191])
-	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 05:43:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 26 Mar 2013 14:19:48 +0100
+Received: from localhost.localdomain (sarotti.TechFak.Uni-Bielefeld.DE
+	[129.70.144.156])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested) (Authenticated sender: sherbrec)
+	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
+	06CDD80015; Tue, 26 Mar 2013 14:02:46 +0100 (CET)
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 12:43:05 +0000
-Message-Id: <d83fc1249f83f8ffd7fa356ace6590751661c14c.1364301448.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1364301448.git.paul.eggleton@linux.intel.com>
-References: <cover.1364301448.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1364301448.git.paul.eggleton@linux.intel.com>
-References: <cover.1364301448.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] qemuimagetest: collect and print runqemu output
+Date: Tue, 26 Mar 2013 14:02:19 +0100
+Message-Id: <1364302939-28222-1-git-send-email-stefan@herbrechtsmeier.net>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+References: <1362674233-7210-1-git-send-email-stefan@herbrechtsmeier.net>
+Subject: [PATCH V2] boost: Add real native support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,67 +29,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 13:00:25 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 13:19:48 -0000
 
-If runqemu (or qemu itself) fails we need to know why, so tee out to a
-log file and print it when we can't find the qemu process or determine
-its IP address.
+The current boost recipe only creates the bjam build tool during
+a native run and thereby is not usable for other native recipes
+that depend on a boost library. Split out the build tool into its
+own bjam-native recipe and add real native support to the boost
+recipe. Additionally replace the boost-native with bjam-native in
+the DEPENDS. This allows recipes to depend on native boost
+librarties without increase of the build time for other use cases.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Native compilation of bzip2 isn't working and therefore disabled.
+
+Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
 ---
- meta/classes/imagetest-qemu.bbclass |    1 +
- scripts/qemuimage-testlib           |   10 ++++++++--
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ meta/recipes-support/boost/bjam-native_1.53.0.bb |   15 +++++++
+ meta/recipes-support/boost/boost-1.53.0.inc      |   19 ++++++++
+ meta/recipes-support/boost/boost.inc             |   49 ++--------------------
+ meta/recipes-support/boost/boost_1.53.0.bb       |    6 +--
+ 4 files changed, 40 insertions(+), 49 deletions(-)
+ create mode 100644 meta/recipes-support/boost/bjam-native_1.53.0.bb
+ create mode 100644 meta/recipes-support/boost/boost-1.53.0.inc
 
-diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
-index 0d18f06..63ba087 100644
---- a/meta/classes/imagetest-qemu.bbclass
-+++ b/meta/classes/imagetest-qemu.bbclass
-@@ -74,6 +74,7 @@ def qemuimagetest_main(d):
-         os.environ["TARGET_IPSAVE"] = d.getVar("TARGET_IPSAVE", True)
-         os.environ["TEST_SERIALIZE"] = d.getVar("TEST_SERIALIZE", True)
-         os.environ["SDK_NAME"] = d.getVar("SDK_NAME", True)
-+        os.environ["RUNQEMU_LOGFILE"] = d.expand("${T}/log.runqemutest.%s" % os.getpid())
+diff --git a/meta/recipes-support/boost/bjam-native_1.53.0.bb b/meta/recipes-support/boost/bjam-native_1.53.0.bb
+new file mode 100644
+index 0000000..59a0310
+--- /dev/null
++++ b/meta/recipes-support/boost/bjam-native_1.53.0.bb
+@@ -0,0 +1,15 @@
++include boost-${PV}.inc
++
++DESCRIPTION = "Portable Boost.Jam build tool for boost"
++SECTION = "devel"
++
++inherit native
++
++do_compile() {
++    ./bootstrap.sh --with-toolset=gcc
++}
++
++do_install() {
++    install -d ${D}${bindir}/
++    install -c -m 755 bjam ${D}${bindir}/
++}
+diff --git a/meta/recipes-support/boost/boost-1.53.0.inc b/meta/recipes-support/boost/boost-1.53.0.inc
+new file mode 100644
+index 0000000..dbcaabc
+--- /dev/null
++++ b/meta/recipes-support/boost/boost-1.53.0.inc
+@@ -0,0 +1,19 @@
++# The Boost web site provides free peer-reviewed portable
++# C++ source libraries. The emphasis is on libraries which
++# work well with the C++ Standard Library. The libraries are
++# intended to be widely useful, and are in regular use by
++# thousands of programmers across a broad spectrum of applications.
++HOMEPAGE = "http://www.boost.org/"
++LICENSE = "BSL-1.0 & MIT & Python-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
++
++BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
++BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
++BOOST_P = "boost_${BOOST_VER}"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
++
++SRC_URI[md5sum] = "a00d22605d5dbcfb4c9936a9b35bc4c2"
++SRC_URI[sha256sum] = "f88a041b01882b0c9c5c05b39603ec8383fb881f772f6f9e6e6fd0e0cddb9196"
++
++S = "${WORKDIR}/${BOOST_P}"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 1266666..a1c35c7 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -1,25 +1,9 @@
+-# The Boost web site provides free peer-reviewed portable
+-# C++ source libraries. The emphasis is on libraries which
+-# work well with the C++ Standard Library. The libraries are
+-# intended to be widely useful, and are in regular use by
+-# thousands of programmers across a broad spectrum of applications.
+ DESCRIPTION = "Free peer-reviewed portable C++ source libraries"
+-HOMEPAGE = "http://www.boost.org/"
+ SECTION = "libs"
+-DEPENDS = "boost-native zlib bzip2"
+-DEPENDS_class-native = ""
+-LICENSE = "BSL-1.0 & MIT & Python-2.0"
++DEPENDS = "bjam-native zlib bzip2"
  
-         # Add in all variables from the user's original environment which
-         # haven't subsequntly been set/changed
-diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
-index 6377c7f..a800f68 100755
---- a/scripts/qemuimage-testlib
-+++ b/scripts/qemuimage-testlib
-@@ -408,8 +408,8 @@ Test_Create_Qemu()
- 		export MACHINE=$QEMUARCH
+ ARM_INSTRUCTION_SET = "arm"
  
- 		# Create Qemu in localhost VNC Port 1
--		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} || /bin/sleep 60' &"
--		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} || /bin/sleep 60" &
-+		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
-+		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
- 	
- 		# Get the pid of the xterm processor, which will be used in Test_Kill_Qemu
- 		XTERMPID=$!
-@@ -436,6 +436,9 @@ Test_Create_Qemu()
- 		Test_Info "No qemu process appeared to start, exiting"
- 		ps axww -O ppid
- 		Test_Info "Process list dumped for debugging purposes"
-+		Test_Info "runqemu output log:"
-+		cat ${RUNQEMU_LOGFILE}
-+		echo
- 		return 1
- 	fi
+-BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
+-BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
+-BOOST_P = "boost_${BOOST_VER}"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
+-
+-S = "${WORKDIR}/${BOOST_P}"
+-
+ BOOST_LIBS = "\
+ 	date_time \
+ 	filesystem \
+@@ -126,6 +110,8 @@ BJAM_OPTS    = '${PARALLEL_MAKE} \
+ 		--disable-icu \
+ 		${BJAM_EXTRA}'
  
-@@ -446,6 +449,9 @@ Test_Create_Qemu()
- 		Test_Info "There is no qemu process or qemu ip address found, return failed"
- 		ps -wwf
- 		ps axww -O ppid
-+		Test_Info "runqemu output log:"
-+		cat ${RUNQEMU_LOGFILE}
-+		echo
- 		return 1
- 	fi
++# Native compilation of bzip2 isn't working
++BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
  
+ do_boostconfig() {
+ 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
+@@ -138,7 +124,7 @@ do_boostconfig() {
+ 
+ 	echo "using python : ${PYTHON_VERSION} : : ${STAGING_INCDIR}/python${PYTHON_VERSION} ;" >> ${S}/tools/build/v2/user-config.jam
+ 
+-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
++	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
+ 	sed -i '/^using python/d' project-config.jam
+ }
+ 
+@@ -170,30 +156,3 @@ do_install() {
+ }
+ 
+ BBCLASSEXTEND = "native"
+-
+-do_configure_class-native() {
+-	:
+-}
+-
+-do_boostconfig_class-native() {
+-	:
+-}
+-
+-do_compile_class-native() {
+-	set -ex
+-	cd ${S}/tools/build/v2/engine
+-	rm -rf bin.*
+-	./build.sh gcc
+-}
+-
+-# This is too terrible - the build script doesn't give any good
+-# way I can see to find out where the binaries are placed, so
+-# rely on only one bin.foo directory being created.
+-do_install_class-native () {
+-	set -ex
+-	cd ${S}/tools/build/v2/engine
+-	install -d ${D}${bindir}/
+-	install -c -m 755 bin.*/bjam ${D}${bindir}/
+-}
+-
+-
+diff --git a/meta/recipes-support/boost/boost_1.53.0.bb b/meta/recipes-support/boost/boost_1.53.0.bb
+index de721c5..3a5a6cc 100644
+--- a/meta/recipes-support/boost/boost_1.53.0.bb
++++ b/meta/recipes-support/boost/boost_1.53.0.bb
+@@ -1,9 +1,7 @@
++include boost-${PV}.inc
+ include boost.inc
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
++PR = "r1"
+ 
+ SRC_URI += "file://arm-intrinsics.patch \
+            "
+-
+-SRC_URI[md5sum] = "a00d22605d5dbcfb4c9936a9b35bc4c2"
+-SRC_URI[sha256sum] = "f88a041b01882b0c9c5c05b39603ec8383fb881f772f6f9e6e6fd0e0cddb9196"
 -- 
-1.7.10.4
+1.7.0.4
 
 
 
