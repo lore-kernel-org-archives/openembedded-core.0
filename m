@@ -1,34 +1,34 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKSdZ-0005A3-U2 for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 13:06:06 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QBwcts031115; Tue, 26 Mar 2013 11:58:38 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id v6jHPYNg4uT6; Tue, 26 Mar 2013 11:58:38 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QBwSpD031094
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 26 Mar 2013 11:58:31 GMT
-Message-ID: <1364298513.3097.75.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 26 Mar 2013 11:48:33 +0000
-In-Reply-To: <CALbNGRQVd3yi7bEuCO_Yyh_RVnnfcB0k9yMG3jHg_BCF9=2Reg@mail.gmail.com>
-References: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0Lb8-CbnMtcxgximM7W_2YxbexGB49VLM+HbEqQrWHGpYg@mail.gmail.com>
-	<CALbNGRQVd3yi7bEuCO_Yyh_RVnnfcB0k9yMG3jHg_BCF9=2Reg@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r2QBwcts031115
+	(envelope-from <mark.hatle@windriver.com>) id 1UKT85-0005wE-Ve
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 13:37:34 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2QCKQ1E003906
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 26 Mar 2013 05:20:26 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 26 Mar 2013 05:20:26 -0700
+Message-ID: <51519287.7010404@windriver.com>
+Date: Tue, 26 Mar 2013 07:20:23 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Phil Blundell <pb@pbcl.net>
+References: <1364231993-31670-1-git-send-email-mark.hatle@windriver.com>
+	<1364231993-31670-2-git-send-email-mark.hatle@windriver.com>
+	<1364230955.25692.138.camel@phil-desktop.brightsign>
+	<51508505.5080706@windriver.com>
+	<1364233524.25692.139.camel@phil-desktop.brightsign>
+	<5150A649.8090409@windriver.com> <5150C603.2010207@windriver.com>
+	<1364294307.25692.146.camel@phil-desktop.brightsign>
+In-Reply-To: <1364294307.25692.146.camel@phil-desktop.brightsign>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+: don't provide gtk-update-icon-cache-native
+Subject: Re: [PATCH 1/2 RFC] rpm: Add workaround for debugedit-segv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,73 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 12:06:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Mar 2013 12:37:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-03-26 at 12:40 +0100, Andreas M=C3=BCller wrote:
-> On Tue, Mar 26, 2013 at 11:32 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
-> > On 25 March 2013 23:47, Andreas M=C3=BCller <schnitzeltony@googlemail=
-.com> wrote:
-> >> fixes:
-> >> | ERROR: Multiple .bb files are due to be built which each provide v=
-irtual/gtk-update-icon-cache-native
-> >> | (/home/Superandy/data/oe-core/sources/openembedded-core/meta/recip=
-es-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
-> >> | virtual:native:/home/Superandy/data/oe-core/sources/openembedded-c=
-ore/meta/recipes-gnome/gtk+/gtk+_2.24.15.bb).
-> >> | This usually means one provides something the other doesn't and sh=
-ould.
-> >
-> > NACK.
-> >
-> > The only way this can happen is if something is depending on
-> > gtk+-native, as everything in oe-core (should) depends on
-> > virtual/gtk-update-icon-cache:
-> >
-> > commit f07515096ea39e267cd3ebeea08cffbba1af07e0
-> > Author: Ross Burton <ross.burton@intel.com>
-> > Date:   Mon Mar 4 12:52:45 2013 +0000
-> >
-> >     default-providers: add default virtual provider for gtk-update-ic=
-on-cache
-> >
-> >     Use a virtual provider instead of a hard dependency so that if
-> > gtk+-native is
-> >     required in some configuration, this provider can be changed and =
-then
-> >     gtk+-native and gtk-update-icon-cache-native won't be both built
-> > and conflict in
-> >     the sysroot.
-> >
-> > Presumably some application you've got is explicitly depending on
-> > gtk+-native, probably for the icon cache handling.  It should drop
-> > that build dependency and use the class instead.
-> >
-> > Your fix "works" but will cause file overwrite warnings in sysroot
-> > when you actually do want a gtk+-native, for example if you do want t=
-o
-> > build a native gtk+ application or some reason.
-> >
-> > Ross
-> Why do we need two providers which need pinning doing exactly the same?
+On 3/26/13 5:38 AM, Phil Blundell wrote:
+> On Mon, 2013-03-25 at 16:47 -0500, Mark Hatle wrote:
+>> I've looked at the code some more.  It does checksum the header itself and then
+>> if it's got contents, it also adds the contents to the checksum.. That is where
+>> the failure appears to be happening:
+>>
+>>             if (u.shdr.sh_type != SHT_NOBITS)
+>>               {
+>>                 Elf_Data *d = elf_rawdata (dso->scn[i], NULL);
+>>                 if (d == NULL)
+>>                   goto bad;
+>>                 process (d->d_buf, d->d_size);
+>>               }
+>>
+>> So it's specifically checking for SHT_NOBITS, but it's matching so it falls
+>> through and d->d_buf == 0, causing the failure.  I'll keep investigating, but
+>> somehow that value (u.shdr.sh_type) is wrong [or at least unexpected!].
+>
+> Ah.  If a NOBITS section is getting reported as something else then it
+> seems that this must clearly be a bug in libelf and ought to be fixed
+> there rather than working around it in rpm.  What do you actually get as
+> u.shdr.sh_type?
 
-I'd love to remove gtk+-native.
+I posted an updated patch last night.  debugedit was re-translating (byte 
+swapping) the header elements during the buildid calculations.  This was causing 
+the value of sh_type to be in the ELF binaries native endian during the check. 
+So big endian binaries failed to match the SHT_NOBITS, thus the problem being 
+discovered on PPC and MIPS.
 
-The icon-cache-native gives about a 5% build speedup as it has a lot
-less dependencies than gtk+-native so it is a good thing. We could fix
-things to coexist however unless there is a good reason to keep gtk
-+-native around, we should switch things over. Things were therefore
-left like this to provide gentle pressure to layers that are still using
-gtk+-native.
+(Fix was to not translate the original values, but instead only translate a 
+copy.  I verified the produced buildid was expected, as I now have a better 
+understanding of how the buildid is generated.)
 
-If there are valid cases where gtk+-native is still necessary we can
-revisit this but we're not aware of any right now.
+--Mark
 
-Cheers,
-
-Richard
+> p.
+>
 
 
 
