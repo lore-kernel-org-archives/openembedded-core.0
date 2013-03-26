@@ -1,39 +1,36 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mail-we0-f171.google.com ([74.125.82.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKXNu-00076g-0M
+	(envelope-from <ross.burton@intel.com>) id 1UKXNq-00076U-82
 	for openembedded-core@lists.openembedded.org;
 	Tue, 26 Mar 2013 18:10:11 +0100
-Received: by mail-we0-f178.google.com with SMTP id z53so1833580wey.37
+Received: by mail-we0-f171.google.com with SMTP id d46so4695642wer.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 09:53:06 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=pwre65hhnjj7bEr2xRVSKF2Xt0EDlEzEYEtdK0M0hHM=;
-	b=GPWIkAfxa/z0xR3YWPdSwY5P5rOl7fmiR9Wtuume8sgd/opZxrnLuXunJlrgJ3h0oP
-	ieYLQbq7CdBiI+gwMxnPzBqmjX6K8rMzUzGRR4Ctzp1h7DjDSKASLrHyI9wKwUQOP87t
-	G4MTmYRspVfBzsVcr0xYAODC7NXh7gaRQQEZsSEf2QD+tqPiBporopTC6bZZuqahdbVJ
-	EMekLTam/j90cRhyMoHI0mLqlp7s0UEeGJz19jKuZJbbKn/Vlf90k46E+VE7Afi8qqk3
-	Z/hfNSu4t599GkPUH6W9K6RRhRUNWlTzRr0P9r62Hx9rUWkzVUSJNWJ0NQqMiam8S0hA
-	vzLg==
-X-Received: by 10.180.108.106 with SMTP id hj10mr4628431wib.0.1364316786304;
-	Tue, 26 Mar 2013 09:53:06 -0700 (PDT)
+	h=x-received:from:to:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=gUxH/2YfVQ9BJtntErCnRedP1flD5TAJNJPu7j+jqN8=;
+	b=Y83hxZDv7LahXSZWnjqVteeMDW7C6ulSDTq17dBsrXyRYfCvF3IeI2yW73QKNvMzUv
+	XwACgDtgU5wpBpuUT9nxUd8R3iF+VNweLw9BhHjBfMR6bywohlbwzu/4jn6KToltd3Mz
+	R8Ju11/ISsjCAHKu6t+TnlyD/s+LhtEZaf5qccycC2wJg/E43STNJMSIXViOIikGrCy3
+	NUqP1fktjtJu3o8p+yPHaQgZTvdw7j8b6Jgt/LUr4ia468G/3/VfbFTaugJvDMFnh8Hf
+	m6AnCEFZ62bNHLTVzoHhRAH45aygYRM+VsuIkpU6WIaqkw7YvtCKqxS/8yrSAvY+03h3
+	V+Dg==
+X-Received: by 10.194.5.4 with SMTP id o4mr25986317wjo.40.1364316782233;
+	Tue, 26 Mar 2013 09:53:02 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.05
+	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Mar 2013 09:53:05 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:01 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 16:50:01 +0000
-Message-Id: <9a7827747db176919f1dc4e17d5cc7d3601ee9c6.1364316411.git.ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 16:49:58 +0000
+Message-Id: <cover.1364316411.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
-References: <cover.1364316411.git.ross.burton@intel.com>
-In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
-References: <cover.1364316411.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmoy/f02Zr0/EcKzUZOxfVXIXdZzpYzlHAMS8IC42E+lTA7kANr6hgzfniKqXN/CVdZSauL
-Subject: [PATCH 03/24] systemd: make xz support (compressed journal) optional, defaulting to on.
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQlJA0L8jOXjRjShU7IFVeFlqF/dHmF348wpIVnBvZEJ8pueJ/PeQuPb1bGdI+Is0NLwUDwu
+Subject: [PATCH V2 00/24] hybrid systemd/sysvinit, and systemd fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,42 +45,160 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
 X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
-X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Compressed journals means using liblzma, sf the journal isn't going to be used
-this can be disabled.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_197.bb |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+An iteration on the previous series, this fixes the issues that Saul and Martin
+noticed, removes the commit that is targetted at meta-yocto, and importantly
+fixes pure-systemd booting which was previously aborting dramatically when
+populate-volatiles copied the contents of /run to /var/volatile/run (and then
+deleted the originals).  systemd really doesn't like having it's internal pipes
+and sockets deleted.
 
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index 5180eef..dc54f36 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -11,7 +11,7 @@ PROVIDES = "udev"
- PE = "1"
- PR = "r4"
- 
--DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
-@@ -43,9 +43,11 @@ LDFLAGS_libc-uclibc_append = " -lrt"
- 
- GTKDOC_DOCDIR = "${S}/docs/"
- 
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "xz"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
-+# Compress the journal
-+PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
+Ross
+
+The following changes since commit f36926a264190e6202830e8520b41b30ae77ea43:
+
+  docbook-utils-native: Unbreak the build after source and build dir split (2013-03-25 20:51:19 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/systemd
+
+for you to fetch changes up to a56f9f8d95194dc4365e83488a34f37a4ee0bce1:
+
+  udev: move /run volatile entry to udev instead of initscripts (2013-03-26 16:26:09 +0000)
+
+----------------------------------------------------------------
+Andreas Oberritter (1):
+      Revert "base-files: add fstab for systemd based systems"
+
+Radu Moisan (1):
+      busybox: enable systemd integration for syslogd
+
+Ross Burton (22):
+      busybox: add strictatime support to mount
+      systemd: make xz support (compressed journal) optional, defaulting to on.
+      systemd: merge udev-systemd into udev
+      core-image-minimal-initramfs: don't install busybox-syslog
+      systemd: don't depend on the PCI/USB databases
+      systemd: split out the hwdb data
+      default-providers: change udev selection logic
+      update-rcd.bbclass: handle both sysvinit and systemd features being present
+      util-linux: split uuidd into it's own package, and enable for systemd
+      update-rcd: drop depends to recommends, check for update-rcd in scripts
+      systemd: check for systemctl first, and don't force systemd to be installed.
+      systemd: add udev init script for hybrid sysvinit/systemd usage
+      update-rc.d/systemd: change communication variable name
+      default-distrovars: don't add INITMAN to DISTRO_FEATURES and DISTRO_FEATURES_BACKFILL
+      bitbake.conf: explicitly backfill sysvinit, not DISTRO_FEATURES_INITMAN
+      default-distrovars: remove obsolete DISTRO_FEATURES_INITMAN reference
+      packagegroup-core-boot: revert to specifying sysvinit as default init manager
+      systemd-compat-units: disable dbus-1
+      systemd: recommend systemd-compat-units
+      dbus: explicitly disable systemd when no systemd
+      busybox: order and group initscript variables logically
+      udev: move /run volatile entry to udev instead of initscripts
+
+ meta/classes/systemd.bbclass                       |   38 ++++----
+ meta/classes/update-rc.d.bbclass                   |   22 +++--
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/conf/distro/include/default-distrovars.inc    |    3 +-
+ meta/conf/distro/include/default-providers.inc     |    2 +-
+ .../base-files/base-files/fstab.systemd            |    9 --
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
+ .../busybox/busybox-1.20.2/strict-atime.patch      |   49 ++++++++++
+ meta/recipes-core/busybox/busybox.inc              |   22 ++++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    5 +-
+ .../busybox/files/busybox-klogd.service.in         |    8 ++
+ .../busybox/files/busybox-syslog.service.in        |   13 +++
+ meta/recipes-core/dbus/dbus.inc                    |    4 +-
+ .../images/core-image-minimal-initramfs.bb         |    2 +
+ .../initscripts/initscripts-1.0/volatiles          |    1 -
+ .../packagegroups/packagegroup-core-boot.bb        |    5 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |    1 +
+ meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |   49 +++++++---
+ meta/recipes-core/udev/udev.inc                    |    6 +-
+ meta/recipes-core/udev/udev/volatiles              |    1 +
+ meta/recipes-core/util-linux/util-linux.inc        |   11 ++-
+ 22 files changed, 289 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/strict-atime.patch
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/systemd/systemd/init
+ create mode 100644 meta/recipes-core/udev/udev/volatiles
+
+Andreas Oberritter (1):
+  Revert "base-files: add fstab for systemd based systems"
+
+Radu Moisan (1):
+  busybox: enable systemd integration for syslogd
+
+Ross Burton (22):
+  busybox: add strictatime support to mount
+  systemd: make xz support (compressed journal) optional, defaulting to
+    on.
+  systemd: merge udev-systemd into udev
+  core-image-minimal-initramfs: don't install busybox-syslog
+  systemd: don't depend on the PCI/USB databases
+  systemd: split out the hwdb data
+  default-providers: change udev selection logic
+  update-rcd.bbclass: handle both sysvinit and systemd features being
+    present
+  util-linux: split uuidd into it's own package, and enable for systemd
+  update-rcd: drop depends to recommends, check for update-rcd in
+    scripts
+  systemd: check for systemctl first, and don't force systemd to be
+    installed.
+  systemd: add udev init script for hybrid sysvinit/systemd usage
+  update-rc.d/systemd: change communication variable name
+  default-distrovars: don't add INITMAN to DISTRO_FEATURES and
+    DISTRO_FEATURES_BACKFILL
+  bitbake.conf: explicitly backfill sysvinit, not
+    DISTRO_FEATURES_INITMAN
+  default-distrovars: remove obsolete DISTRO_FEATURES_INITMAN reference
+  packagegroup-core-boot: revert to specifying sysvinit as default init
+    manager
+  systemd-compat-units: disable dbus-1
+  systemd: recommend systemd-compat-units
+  dbus: explicitly disable systemd when no systemd
+  busybox: order and group initscript variables logically
+  udev: move /run volatile entry to udev instead of initscripts
+
+ meta/classes/systemd.bbclass                       |   38 ++++----
+ meta/classes/update-rc.d.bbclass                   |   22 +++--
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/conf/distro/include/default-distrovars.inc    |    3 +-
+ meta/conf/distro/include/default-providers.inc     |    2 +-
+ .../base-files/base-files/fstab.systemd            |    9 --
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
+ .../busybox/busybox-1.20.2/strict-atime.patch      |   49 ++++++++++
+ meta/recipes-core/busybox/busybox.inc              |   22 ++++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    5 +-
+ .../busybox/files/busybox-klogd.service.in         |    8 ++
+ .../busybox/files/busybox-syslog.service.in        |   13 +++
+ meta/recipes-core/dbus/dbus.inc                    |    4 +-
+ .../images/core-image-minimal-initramfs.bb         |    2 +
+ .../initscripts/initscripts-1.0/volatiles          |    1 -
+ .../packagegroups/packagegroup-core-boot.bb        |    5 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |    1 +
+ meta/recipes-core/systemd/systemd/init             |  101 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_197.bb           |   49 +++++++---
+ meta/recipes-core/udev/udev.inc                    |    6 +-
+ meta/recipes-core/udev/udev/volatiles              |    1 +
+ meta/recipes-core/util-linux/util-linux.inc        |   11 ++-
+ 22 files changed, 289 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/strict-atime.patch
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/systemd/systemd/init
+ create mode 100644 meta/recipes-core/udev/udev/volatiles
+
 -- 
 1.7.10.4
 
