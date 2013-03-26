@@ -1,37 +1,37 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from mail-vb0-f41.google.com ([209.85.212.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKXk7-0000OE-Jo
+	(envelope-from <ross.burton@intel.com>) id 1UKXmR-0000TP-Rm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:33:08 +0100
-Received: by mail-vc0-f169.google.com with SMTP id kw10so5850769vcb.28
+	Tue, 26 Mar 2013 18:35:29 +0100
+Received: by mail-vb0-f41.google.com with SMTP id l22so4717235vbn.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 10:16:02 -0700 (PDT)
+	Tue, 26 Mar 2013 10:18:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=ImMgbLxHIJPvc9MyTgzK6Agjaug7Dw3WLubT6XK/+xU=;
-	b=fcfOhc0kbKufmTvpm3fPJDC+XsFoCWsL1hv2upqvd+M1GYMlvAnXfqsJWqW22zzPh8
-	BA8IuwzaW7PwgKZi0D4BL5itqwMx81SHsLD1WBjDXKRHmo9dniiclxK5lnGE7ppIdsGL
-	gwujbYBG5TygHP5J9PGUyIcjg2OPMxppJdVC44e+3Lsu6pFghIDWINN0sgj8FSszv3o/
-	7MmsT1WePG/jdO2MnVLnLCzE09hub/3EnMwF19krlLpwzxzfUM8h9ST//OhD7ITqLevP
-	gEHnDOAmHMejEHSL9a4eiWNHIVg5KMhs7fHys6V1RuGnwjZCsBw74XEp5nCoAOINh5A7
-	KHLg==
-X-Received: by 10.52.74.102 with SMTP id s6mr17068538vdv.28.1364318162602;
-	Tue, 26 Mar 2013 10:16:02 -0700 (PDT)
+	bh=U6DAgk3CvUDKDxl0O8zYi0flVoGBUkaUpYNSzgt+xqg=;
+	b=X8PzyZE1cu5ZuXDoN40R86JidiIkQFGwL3YH8TrR9dcI/VNfNfLKuDJsovo8rPSZsO
+	7h0sKvSC4ENSyRnXus+fxUyoBup/RByN9NUqO31jbnU8KWJT1Hln9pXKAxkG5VOV029y
+	QrsDuObBG/143E6d+j7qvhjlV3Kcdjs1McoecTehOtIoHZeD37IPYS/aUVkDS6epD5Hr
+	zR1k1GMkKD11zu7rEm2GO0CLArl7fKEjdWyW/qUvHZ2A3x/TSwjPVoEWe2TtF/1i0vNo
+	3bAD2Ij3BaoNvNBxl8m5ifSJVBzDE0kL7j/5rZdtNj0YeRHLmUkAAg0rfRCksDE4c375
+	+rbg==
+X-Received: by 10.58.214.231 with SMTP id od7mr20120768vec.44.1364318307400;
+	Tue, 26 Mar 2013 10:18:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.134.74 with HTTP; Tue, 26 Mar 2013 10:15:42 -0700 (PDT)
-In-Reply-To: <5482882.4phbAeRO1n@helios>
-References: <cover.1363156578.git.Qi.Chen@windriver.com>
-	<ab888a7abe849f3170d5386b577f8a92e8ff5385.1363156578.git.Qi.Chen@windriver.com>
-	<5482882.4phbAeRO1n@helios>
+Received: by 10.58.134.74 with HTTP; Tue, 26 Mar 2013 10:18:06 -0700 (PDT)
+In-Reply-To: <E7E52452-31CB-497E-B1BE-35D9961884B4@gmail.com>
+References: <1363816759-24737-1-git-send-email-obi@opendreambox.org>
+	<CAJTo0LbXkrf=8ii=OfStD03jQXM_Rxy4baoshQ_VXttgydFgcA@mail.gmail.com>
+	<E7E52452-31CB-497E-B1BE-35D9961884B4@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Mar 2013 17:15:42 +0000
-Message-ID: <CAJTo0LbtjnRzd3dymbs=Dma=k8aKhYprPNOkzmqQUyU=1PiJMQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQlqlx9J1k6VpKYY0FFET2TcfGh4Uh0RWPRknxseIIpvDmjG7UO7kImAwrlQ4FIjIc5+K5g5
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
+Date: Tue, 26 Mar 2013 17:18:06 +0000
+Message-ID: <CAJTo0Laf0Zj+j___3MrwOqdWHMWapwBJb1TGXKSYT1=z59w9yA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQnbW5PeZd3xX8UB0V1V+jF16ZcfrgFuBCbJUtXly9RU+EMrpDa64/xyAOBHkimPq2ODj3dw
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox: fix FILES_${PN}-syslog assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:33:09 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 17:35:30 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 26 March 2013 17:12, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> This is a great feature, but I just looked at it and realised that the term
-> "whitelist" isn't really correct - this is more of a blacklist.
->
-> The question is does it matter? If so we should probably change it now before
-> it becomes too hard to change...
+Hi Khem,
 
-A variable called WHITELIST that is actually a blacklist should be
-changed asap before we make a release, imho.
+On 21 March 2013 18:20, Khem Raj <raj.khem@gmail.com> wrote:
+> Ross, I have 198 update pactch in branch here
+>
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/systemd-198&id=51d4993c7375a7339a3ee91cf6b24da25b2d9b50
+>
+> this one is good. Other two I need to address comments
+> can you pick this one too into your branch ?
+> so I can ride with you
+
+I hope you don't think that I've been ignoring this - I wanted a
+stable base to finish the integration branch and a new upstream
+version wasn't the stability I was after.  I'll look at merging this
+work tomorrow.
 
 Ross
 
