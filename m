@@ -1,39 +1,39 @@
-Received: from mail-we0-f176.google.com ([74.125.82.176])
+Received: from mail-we0-f174.google.com ([74.125.82.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKXNv-00076j-Ns
+	(envelope-from <ross.burton@intel.com>) id 1UKXO1-00076w-6y
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:10:11 +0100
-Received: by mail-we0-f176.google.com with SMTP id s43so2144304wey.7
+	Tue, 26 Mar 2013 18:10:15 +0100
+Received: by mail-we0-f174.google.com with SMTP id u12so555581wey.33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 09:53:08 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=SgfdDX4Q7LQZUxidWPESHVcmWite6DutaZ6N72gfAEI=;
-	b=c/PhHrGWOoDWeoHi6cpCHb26P4wetPFN8jY+GPMtBGyDM7dEn41lCgcbfm3++YGKtS
-	7GnwBaFq8ZrGMjyhzgb4XbPRK69efLwHIYxpJ+Mf7ilXrJ1SuxhxPuV5aK40Snevxs2O
-	19wfmGucamTV1k78pSyfGTlu8XEsM6+KsbUYK2hrh9knIAe1Rnn5oxvYDSjChV9gxwzF
-	dSnFtdvLTx8GA3XiK0Ah73JDZxXc31onNpoxuuq1LFvEhGy9OY1ZOdDZLL+b0bqjJIgp
-	MYBjdt5WPwa3jTz4sRwIr2wdHdVRadqqStZ4EcBMaTstxBUNUQ6m/4nE9PioVZCf+EIM
-	XkEg==
-X-Received: by 10.180.39.207 with SMTP id r15mr4570140wik.16.1364316788110;
-	Tue, 26 Mar 2013 09:53:08 -0700 (PDT)
+	bh=aIRwDtBGdjgBAl/snTeM3gq2P14p2DSAtQgwYSzRDF0=;
+	b=ag0hFPP0oBfU6mDb1jLbE+nMeT26K2BE2RjGaCTkZjH9F5nbAoOOef68I3LbBfDF0x
+	MHqooaA3LVrIU9JoGyq7OHibmzxGFFVeTh+F3d+56BTdGDEa/Ar1Im5kcod8/AW6+6z4
+	2H8Nn871qjZy3V3dO/QJm45qoduH1G2FmsUW5UiMQCu0SyMpSxXANpSnJPUT3r2mE12y
+	4lwVBf06OVJ3oV9kvSBcB1PA4uDpvI2Ar4cVrQ8Oza7OOSFQDTcMKxOl7WlSc6WbLEtd
+	hqNGtnHHbVfnsqiZbliUBsXWwUQnA9DoxJg9Zhsw4c4MEhAqG4qjPI9rNhBfKbl1s83q
+	M5Yw==
+X-Received: by 10.180.108.3 with SMTP id hg3mr4452976wib.33.1364316793582;
+	Tue, 26 Mar 2013 09:53:13 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.06
+	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Mar 2013 09:53:07 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:12 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 16:50:02 +0000
-Message-Id: <b1187f8f99368c9936f2d6b43766c25f6dabeeb0.1364316411.git.ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 16:50:06 +0000
+Message-Id: <bb1beda34324068fdf9118a37bed4601342b87cb.1364316411.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkD4Z63R5gGSVcUCsvLPzrcE1yl63mYdVUcO0TrRs0mWnQBAxONIi3Foofx4KDBv8AMwPva
-Subject: [PATCH 04/24] systemd: merge udev-systemd into udev
+X-Gm-Message-State: ALoCoQmQXECyHuhwz4D0Z88ybpdCHyFraDNjekZCdCcvCKqkTqwDg51TAOkmMP2qexQiup9R/efG
+Subject: [PATCH 08/24] default-providers: change udev selection logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,55 +48,25 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Mar 2013 17:10:18 -0000
 
-Merge the contents of udev-systemd, which is just the service files, into udev
-itself.  This split wasn't intended to ever happen in oe-core.
+Change the logic so that the udev provider is the standalone udev, unless the
+systemd DISTRO_FEATURE is set.  The previous logic was designed to fail if both
+sysvinit and systemd were enabled, which we're supporting now.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd_197.bb |    9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ meta/conf/distro/include/default-providers.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
-index dc54f36..9a66a4e 100644
---- a/meta/recipes-core/systemd/systemd_197.bb
-+++ b/meta/recipes-core/systemd/systemd_197.bb
-@@ -173,7 +173,7 @@ FILES_${PN} = " ${base_bindir}/* \
- FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
--RDEPENDS_${PN} += "dbus udev-systemd"
-+RDEPENDS_${PN} += "dbus"
- 
- RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       util-linux-agetty \
-@@ -181,7 +181,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
- "
- 
--PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils udev-systemd"
-+PACKAGES =+ "udev-dbg udev udev-consolekit udev-utils"
- 
- FILES_udev-dbg += "/lib/udev/.debug"
- 
-@@ -212,6 +212,8 @@ FILES_udev += "${base_sbindir}/udevd \
-                /lib/udev/rules.d/95*.rules \
-                ${base_libdir}/udev/hwdb.d \
-                ${sysconfdir}/udev \
-+               ${systemd_unitdir}/system/*udev* \
-+               ${systemd_unitdir}/system/*.wants/*udev* \
-               "
- 
- FILES_udev-consolekit += "/lib/ConsoleKit"
-@@ -219,9 +221,6 @@ RDEPENDS_udev-consolekit += "${@base_contains('DISTRO_FEATURES', 'x11', 'console
- 
- FILES_udev-utils = "${bindir}/udevadm"
- 
--FILES_udev-systemd = "${systemd_unitdir}/system/*udev* ${systemd_unitdir}/system/*.wants/*udev*"
--RDEPENDS_udev-systemd = "udev"
--
- # TODO:
- # u-a for runlevel and telinit
- 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 39ce7cc..e3a44e6 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -38,4 +38,4 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
+ PREFERRED_PROVIDER_console-tools ?= "kbd"
+ PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+ PREFERRED_PROVIDER_make ?= "make"
+-PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','sysvinit','udev','',d)}${@base_contains('DISTRO_FEATURES','systemd','systemd','',d)}"
++PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
 -- 
 1.7.10.4
 
