@@ -1,28 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UKQHP-0000rC-53
+	(envelope-from <cristian.iorga@intel.com>) id 1UKRGH-0007mb-SS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 10:34:55 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2Q9HquJ029243
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 02:17:52 -0700 (PDT)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Tue, 26 Mar 2013 02:17:52 -0700
-Message-ID: <515167BF.10305@windriver.com>
-Date: Tue, 26 Mar 2013 17:17:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Tue, 26 Mar 2013 11:37:50 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 26 Mar 2013 03:20:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,911,1355126400"; d="scan'208";a="276047010"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 03:20:47 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Tue, 26 Mar 2013 10:20:43 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
+	14.01.0355.002; Tue, 26 Mar 2013 10:20:43 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH V3 0/2] BlueZ 5.3 new package
+Thread-Index: AQHOKVmhCx8oCbeNBU2/6MCQzHHDspi2k5CAgAAD5ACAAAtFAIAAAwOAgAEdsWA=
+Date: Tue, 26 Mar 2013 10:20:42 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1621A5B5@IRSMSX102.ger.corp.intel.com>
+References: <1364216841-32600-1-git-send-email-cristian.iorga@intel.com>
+	<C39A6084-A254-4AE2-A9DD-49B88EDCB164@dominion.thruhere.net>
+	<CAJTo0Lb9e4j-O2R5_wvkH=2APWYMZDnFw0pxj_YheeHZfUBdig@mail.gmail.com>
+	<20130325170346.GD7539@jama>
+	<CAJTo0La=nhQTjNMLB=WwyOi-2akWsrj83m=1fbD9Y52y8+HxuQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La=nhQTjNMLB=WwyOi-2akWsrj83m=1fbD9Y52y8+HxuQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1364286013-25970-1-git-send-email-anders.roxell@gmail.com>
-In-Reply-To: <1364286013-25970-1-git-send-email-anders.roxell@gmail.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH] initscripts: RDEPENDS sed to remove "sed: command not found".
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 0/2] BlueZ 5.3 new package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +49,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 09:34:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Mar 2013 10:37:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/26/2013 04:20 PM, anders.roxell@gmail.com wrote:
-> From: Anders Roxell <anders.roxell@enea.com>
->
-> Log:
-> /etc/rcS.d/S37populate-volatile.sh: line 13: sed: command not found
-> /etc/rcS.d/S37populate-volatile.sh: line 152: sed: command not found
-> /etc/rcS.d/S37populate-volatile.sh: line 152: sed: command not found
->
-> Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-> ---
->   meta/recipes-core/initscripts/initscripts_1.0.bb |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> index 649e182..bfd3d28 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
->   SECTION = "base"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> -PR = "r140"
-> +PR = "r141"
->   
->   INHIBIT_DEFAULT_DEPS = "1"
->   
-> @@ -39,6 +39,7 @@ KERNEL_VERSION = ""
->   
->   inherit update-alternatives
->   DEPENDS_append = " update-rc.d-native"
-> +RDEPENDS_${PN} = " sed"
->   
->   ALTERNATIVE_PRIORITY = "90"
->   ALTERNATIVE_${PN} = "functions"
+Hello all,
 
-busybox also provides sed if CONFIG_SED is enabled.
-I'm wondering whether it's necessary to insert dependency here.
-If so, then I think other packages which provide init scripts may also 
-rdepend on 'busybox' or 'coreutils' which provide basic commands like 
-'chown' or 'sed'.
+I will test today an install path for bluez5 using the opkg manager in a ex=
+istent image.
 
-Best Regards,
-Chen Qi
+I will keep you updated.
+
+Regards,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Burton, Ross
+Sent: Monday, March 25, 2013 7:15 PM
+To: Martin Jansa
+Cc: Koen Kooi; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V3 0/2] BlueZ 5.3 new package
+
+On 25 March 2013 17:03, Martin Jansa <martin.jansa@gmail.com> wrote:
+> But opkg will still error out because of missing RPROVIDES, no?
+
+I'll admit that I didn't test an upgrade path, but the scenario I can see a=
+ctually happening is that the distro flips its applications from
+bluez4 to bluez5 so they rdepend on bluez5 now.  bluez5 will get pulled in =
+through that dependency, nothing depends on bluez4 anymore, so opkg should =
+remove bluez4.  bluez4 and bluez5 don't expose the same ABI so they are not=
+ suitable RPROVIDES for eachother.
+
+Ross
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
