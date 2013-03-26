@@ -1,29 +1,29 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UKXa2-0008Mv-EW
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:22:42 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2QH5aCr008933
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 10:05:36 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 26 Mar 2013 10:05:37 -0700
-Message-ID: <5151D55D.4050300@windriver.com>
-Date: Tue, 26 Mar 2013 12:05:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130307 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1364316411.git.ross.burton@intel.com>
-	<cb33f47af852b62bcb4cc816b10bcbe425bb5f34.1364316411.git.ross.burton@intel.com>
-In-Reply-To: <cb33f47af852b62bcb4cc816b10bcbe425bb5f34.1364316411.git.ross.burton@intel.com>
-Subject: Re: [PATCH 05/24] core-image-minimal-initramfs: don't install busybox-syslog
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UKXdp-0008Ug-K0; Tue, 26 Mar 2013 18:26:34 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2QHItW0028895; Tue, 26 Mar 2013 17:19:23 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iL8ZDO-nrbZE; Tue, 26 Mar 2013 17:19:23 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2QHJI3V028910
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 26 Mar 2013 17:19:21 GMT
+Message-ID: <1364317761.3097.91.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: yocto <yocto@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, bitbake-devel
+	<bitbake-devel@lists.openembedded.org>, "poky@yoctoproject.org"
+	<poky@yoctoproject.org>
+Date: Tue, 26 Mar 2013 17:09:21 +0000
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: Yocto Project 1.5 Planning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:22:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 26 Mar 2013 17:26:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 3/26/13 11:50 AM, Ross Burton wrote:
-> This uses BAD_RECOMMENDATIONS which isn't supported by all package backends, but
-> it's a start.
+We're now in the planning stages for the 1.5 release scheduled for about
+6 months time. The process hasn't changed, if there are things you'd
+like to see worked on in this timeframe, please ensure there are entries
+for them in the bugzilla. Usually these are "enhancement" requests.
 
-Since it's not supported in all backends, can you add a bugzilla to add support 
-to the various backends?
+https://bugzilla.yoctoproject.org/
 
---Mark
+We as a project will then go through these, decide on which ones to work
+on and at which priorities and then work through these in the 1.5
+timeframe in the usual way.
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-core/images/core-image-minimal-initramfs.bb |    2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> index 7f6826c..6de24b3 100644
-> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> @@ -17,3 +17,5 @@ IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
->   inherit core-image
->
->   IMAGE_ROOTFS_SIZE = "8192"
-> +
-> +BAD_RECOMMENDATIONS += "busybox-syslog"
->
+Obviously the project members do have some say in what they ultimately
+work on, equally I've always tried to ensure OE community priorities
+also get some attention and I'd say we have a pretty good track record
+there of getting things done. What I can say for sure is that if it
+isn't there, it is unlikely to get worked on. 
+
+If you do plan to work on something yourself, it really does also help
+me and the team for it to be listed in there as I have some idea of when
+its coming and can for example make sure that we have enough runway for
+autobuilder testing and so on. It also means two people don't do the
+same thing!
+
+Cheers,
+
+Richard
+
+
+
 
 
 
