@@ -1,39 +1,39 @@
-Received: from mail-we0-f177.google.com ([74.125.82.177])
+Received: from mail-we0-f180.google.com ([74.125.82.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKXO5-00077G-3d
+	(envelope-from <ross.burton@intel.com>) id 1UKXO6-00077L-Ei
 	for openembedded-core@lists.openembedded.org;
 	Tue, 26 Mar 2013 18:10:19 +0100
-Received: by mail-we0-f177.google.com with SMTP id o45so1652893wer.8
+Received: by mail-we0-f180.google.com with SMTP id r5so3893309wey.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Mar 2013 09:53:17 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=3TcpnVljUIlsSwgzo7kVk1BBwRNQYV5370rWOrlUH2Y=;
-	b=FL6U6GxhEir6EnZi+f/yHR1PniIlG8dlrSaE8yHP9PBwdeBn3oE3WBObNok3KnbgWj
-	kXkewyXBS+Q1gNifPpHwDeLxXZRQy7+vsiPwGm9VyJ1sjmRLH08Qqkshw1SDMqzUBeEq
-	umbS+3gMi/Bu9kXa3VsQ5YxYNpqdpmXMDW9F+WP9WTJbEB7rmW7qlRMEizI5rBg7D3DE
-	CBsUWWIyfVKGQFl9oGk3ZtC+Qd25b59pVISKLiypMasFyfQ/85cxNT6nua0XrwYOsJj+
-	wJg3XtlTyYM/2u6dR0o6qXDs5Xgi1QSd+8lpuW1PiedO9EUbvjBOqBGQxMs2Z8UAOVKJ
-	+iHw==
-X-Received: by 10.194.86.234 with SMTP id s10mr10380994wjz.34.1364316797490;
-	Tue, 26 Mar 2013 09:53:17 -0700 (PDT)
+	bh=5D3Xq89X+CUJupu8k/Q0XkmmIwxNbvXcHdlB8z+S0/Q=;
+	b=hxsu+cBRzMmPBXfVXzH7QwUncPgPKh5e3pm4EMi/jAskbVdmgATSbPVtr2YEpOA/yu
+	RRuweuXAeqs4ag3EAOB7cn23B9UcXhpfmOxOcsJkBPytY+70QlB0wolxyXoeLLNNyZUL
+	RLX/dz2DJznOrqlwgYKkLCy43Z/sG9V/OW7GLdf98yLSFvxjHJQDUBOeLq5Vy+hqCXuS
+	SU40w1ElKRm82EpTfTIZoAQTrjuKMU/ypWzWodfgYq0fUzQZY3TvGi5+YL6sG75Wsf/Y
+	FK+1GdLhfvD6yjpiY0TgnOVeWJAxkvRoWONGenGQn+vGnuu4eLSCSLdU97CFWuroAmvk
+	dZ0Q==
+X-Received: by 10.194.11.70 with SMTP id o6mr17184278wjb.29.1364316798846;
+	Tue, 26 Mar 2013 09:53:18 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.16
+	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.17
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Mar 2013 09:53:16 -0700 (PDT)
+	Tue, 26 Mar 2013 09:53:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 16:50:09 +0000
-Message-Id: <7bed4b92edf4cf514f6d2fc9518bc483dab28107.1364316411.git.ross.burton@intel.com>
+Date: Tue, 26 Mar 2013 16:50:10 +0000
+Message-Id: <af2dc30ef30ece9caa1a2d4c8e68a5aeefe0282a.1364316412.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
 In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
 References: <cover.1364316411.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmuniOHyLMyca5QV7E6gct2XS6R4Zyx152mIInwbg0rx8xz4KoiT85ehv23MIMbJy/2OSq1
-Subject: [PATCH 11/24] update-rcd: drop depends to recommends, check for update-rcd in scripts
+X-Gm-Message-State: ALoCoQkvEL+fg+MmQURlVIaWjAoH3QBIEym84JNOV6SCVTGWuGNofwE5S9BCUeW2ahLJD5CnFIB5
+Subject: [PATCH 12/24] systemd: check for systemctl first, and don't force systemd to be installed.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,50 +48,70 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Mar 2013 17:10:23 -0000
 
+With both sysvinit and systemd features enabled these postinsts may actually run
+on a target without systemd, so check that systemctl is present before using it.
+
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/update-rc.d.bbclass |   15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ meta/classes/systemd.bbclass |   27 +++++++++++----------------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 06b91c1..0997702 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -6,7 +6,7 @@ UPDATERCD_virtclass-cross = ""
- UPDATERCD_class-native = ""
- UPDATERCD_class-nativesdk = ""
- 
--RDEPENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
-+RRECOMMENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
- 
- INITSCRIPT_PARAMS ?= "defaults"
- 
-@@ -18,7 +18,9 @@ if test "x$D" != "x"; then
- else
- 	OPT="-s"
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 564cd72..cca2152 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -24,19 +24,23 @@ if [ -n "$D" ]; then
+     OPTS="--root=$D"
  fi
--update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
-+if type update-rc.d >/dev/null; then
-+	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ 
+-systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
++if type systemctl >/dev/null; then
++	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+ 
+-if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+-    systemctl start ${SYSTEMD_SERVICE}
++	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
++		systemctl start ${SYSTEMD_SERVICE}
++	fi
+ fi
+ }
+ 
+ systemd_prerm() {
+-if [ -z "$D" ]; then
+-    systemctl stop ${SYSTEMD_SERVICE}
+-fi
++if type systemctl >/dev/null; then
++	if [ -z "$D" ]; then
++		systemctl stop ${SYSTEMD_SERVICE}
++	fi
+ 
+-systemctl disable ${SYSTEMD_SERVICE}
++	systemctl disable ${SYSTEMD_SERVICE}
 +fi
  }
  
- updatercd_prerm() {
-@@ -28,10 +30,13 @@ fi
- }
+ python systemd_populate_packages() {
+@@ -56,14 +60,6 @@ python systemd_populate_packages() {
+             bb.error('%s does not appear in package list, please add it' % pkg_systemd)
  
- updatercd_postrm() {
--if [ "$D" != "" ]; then
--	update-rc.d -f -r $D ${INITSCRIPT_NAME} remove
-+if test "$D" != ""; then
-+	OPT="-f -r $D"
- else
--	update-rc.d ${INITSCRIPT_NAME} remove
-+	OPT=""
-+fi
-+if type update-rc.d >/dev/null; then
-+	update-rc.d $OPT ${INITSCRIPT_NAME} remove
- fi
+ 
+-    # Add a runtime dependency on systemd to pkg
+-    def systemd_add_rdepends(pkg):
+-        rdepends = d.getVar('RDEPENDS_' + pkg, True) or ""
+-        if not 'systemd' in rdepends.split():
+-            rdepends = '%s %s' % (rdepends, 'systemd')
+-        d.setVar('RDEPENDS_' + pkg, rdepends)
+-
+-
+     def systemd_generate_package_scripts(pkg):
+         bb.debug(1, 'adding systemd calls to postinst/postrm for %s' % pkg)
+ 
+@@ -156,7 +152,6 @@ python systemd_populate_packages() {
+             systemd_check_package(pkg)
+             if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
+                 systemd_generate_package_scripts(pkg)
+-                systemd_add_rdepends(pkg)
+         systemd_check_services()
  }
  
 -- 
