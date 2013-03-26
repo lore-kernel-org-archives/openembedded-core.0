@@ -1,29 +1,26 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKXdp-0008Ug-K0; Tue, 26 Mar 2013 18:26:34 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QHItW0028895; Tue, 26 Mar 2013 17:19:23 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iL8ZDO-nrbZE; Tue, 26 Mar 2013 17:19:23 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2QHJI3V028910
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 26 Mar 2013 17:19:21 GMT
-Message-ID: <1364317761.3097.91.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yocto <yocto@yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, bitbake-devel
-	<bitbake-devel@lists.openembedded.org>, "poky@yoctoproject.org"
-	<poky@yoctoproject.org>
-Date: Tue, 26 Mar 2013 17:09:21 +0000
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: Yocto Project 1.5 Planning
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UKXgW-00009b-IB
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 18:29:31 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Mar 2013 10:12:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="307691786"
+Received: from unknown (HELO helios.localnet) ([10.255.13.152])
+	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2013 10:12:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Mar 2013 17:12:16 +0000
+Message-ID: <5482882.4phbAeRO1n@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <ab888a7abe849f3170d5386b577f8a92e8ff5385.1363156578.git.Qi.Chen@windriver.com>
+References: <cover.1363156578.git.Qi.Chen@windriver.com>
+	<ab888a7abe849f3170d5386b577f8a92e8ff5385.1363156578.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Cc: qingtao.cao@windriver.com
+Subject: Re: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:26:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Mar 2013 17:29:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-We're now in the planning stages for the 1.5 release scheduled for about
-6 months time. The process hasn't changed, if there are things you'd
-like to see worked on in this timeframe, please ensure there are entries
-for them in the bugzilla. Usually these are "enhancement" requests.
+On Wednesday 13 March 2013 15:01:33 Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Use RM_WORK_WHITELIST to inhibit rm_work per recipe. In this way,
+> one can use rm_work for the most of the recipes but still keep the
+> work area for the recipe(s) one is working on.
+> 
+> As an example, the following settings in local.conf will inhibit
+> rm_work for icu-native, icu and busybox.
+>     INHERIT += "rm_work"
+>     RM_WORK_WHITELIST += "icu-native icu busybox"
+> 
+> If we comment out the RM_WORK_WHITELIST line and do a rebuild, the
+> working area of these recipes will be cleaned up.
 
-https://bugzilla.yoctoproject.org/
+This is a great feature, but I just looked at it and realised that the term 
+"whitelist" isn't really correct - this is more of a blacklist.
 
-We as a project will then go through these, decide on which ones to work
-on and at which priorities and then work through these in the 1.5
-timeframe in the usual way.
-
-Obviously the project members do have some say in what they ultimately
-work on, equally I've always tried to ensure OE community priorities
-also get some attention and I'd say we have a pretty good track record
-there of getting things done. What I can say for sure is that if it
-isn't there, it is unlikely to get worked on. 
-
-If you do plan to work on something yourself, it really does also help
-me and the team for it to be listed in there as I have some idea of when
-its coming and can for example make sure that we have enough runway for
-autobuilder testing and so on. It also means two people don't do the
-same thing!
+The question is does it matter? If so we should probably change it now before 
+it becomes too hard to change...
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
