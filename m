@@ -1,22 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-we0-f178.google.com ([74.125.82.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1UKXMd-0006z7-A4
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 26 Mar 2013 18:08:51 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Mar 2013 09:51:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,913,1355126400"; d="scan'208";a="276214731"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by azsmga001.ch.intel.com with ESMTP; 26 Mar 2013 09:51:46 -0700
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org
-Date: Tue, 26 Mar 2013 09:51:45 -0700
-Message-Id: <cfbc9b44fbaff5d2ad0b74d0b78924ff9d14d5b0.1364316538.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1364316538.git.nitin.a.kamble@intel.com>
-References: <cover.1364316538.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] grub-efi-native_2.00.bb: fix a build issue
+	(envelope-from <ross.burton@intel.com>) id 1UKXNu-00076g-0M
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Mar 2013 18:10:11 +0100
+Received: by mail-we0-f178.google.com with SMTP id z53so1833580wey.37
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Mar 2013 09:53:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:x-gm-message-state;
+	bh=pwre65hhnjj7bEr2xRVSKF2Xt0EDlEzEYEtdK0M0hHM=;
+	b=GPWIkAfxa/z0xR3YWPdSwY5P5rOl7fmiR9Wtuume8sgd/opZxrnLuXunJlrgJ3h0oP
+	ieYLQbq7CdBiI+gwMxnPzBqmjX6K8rMzUzGRR4Ctzp1h7DjDSKASLrHyI9wKwUQOP87t
+	G4MTmYRspVfBzsVcr0xYAODC7NXh7gaRQQEZsSEf2QD+tqPiBporopTC6bZZuqahdbVJ
+	EMekLTam/j90cRhyMoHI0mLqlp7s0UEeGJz19jKuZJbbKn/Vlf90k46E+VE7Afi8qqk3
+	Z/hfNSu4t599GkPUH6W9K6RRhRUNWlTzRr0P9r62Hx9rUWkzVUSJNWJ0NQqMiam8S0hA
+	vzLg==
+X-Received: by 10.180.108.106 with SMTP id hj10mr4628431wib.0.1364316786304;
+	Tue, 26 Mar 2013 09:53:06 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id bk1sm4522670wib.2.2013.03.26.09.53.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 26 Mar 2013 09:53:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Mar 2013 16:50:01 +0000
+Message-Id: <9a7827747db176919f1dc4e17d5cc7d3601ee9c6.1364316411.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
+References: <cover.1364316411.git.ross.burton@intel.com>
+In-Reply-To: <cover.1364316411.git.ross.burton@intel.com>
+References: <cover.1364316411.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmoy/f02Zr0/EcKzUZOxfVXIXdZzpYzlHAMS8IC42E+lTA7kANr6hgzfniKqXN/CVdZSauL
+Subject: [PATCH 03/24] systemd: make xz support (compressed journal) optional, defaulting to on.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,37 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Mar 2013 17:09:00 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
+X-List-Received-Date: Tue, 26 Mar 2013 17:10:17 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Compressed journals means using liblzma, sf the journal isn't going to be used
+this can be disabled.
 
-Due to recent change in the oecore layer grub-efi recipe uses separate
-builddir and the paths used in the do_deply need to change accordingly.
-
-This change avoids this build issue:
-install: cannot stat `/build-fri2/tmp/work/x86_64-linux/grub-efi-i586-native/2.00-r1/grub-2.00/bootia32.efi': No such file or directory
-ERROR: Function failed: do_deploy (see /build-fri2/tmp/work/x86_64-linux/grub-efi-i586-native/2.00-r1/temp/log.do_deploy.5875 for further information)
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-bsp/grub/grub-efi-native_2.00.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/systemd/systemd_197.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-index 14ab9ea..6f8ba8e 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-@@ -71,7 +71,7 @@ do_mkimage() {
- addtask mkimage after do_compile before do_install
+diff --git a/meta/recipes-core/systemd/systemd_197.bb b/meta/recipes-core/systemd/systemd_197.bb
+index 5180eef..dc54f36 100644
+--- a/meta/recipes-core/systemd/systemd_197.bb
++++ b/meta/recipes-core/systemd/systemd_197.bb
+@@ -11,7 +11,7 @@ PROVIDES = "udev"
+ PE = "1"
+ PR = "r4"
  
- do_deploy() {
--	install -m 644 ${S}/${GRUB_IMAGE} ${DEPLOYDIR}
-+	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
- }
- addtask deploy after do_install before do_build
+-DEPENDS = "xz kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+@@ -43,9 +43,11 @@ LDFLAGS_libc-uclibc_append = " -lrt"
+ 
+ GTKDOC_DOCDIR = "${S}/docs/"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "xz"
+ # Sign the journal for anti-tampering
+ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
++# Compress the journal
++PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ 
+ CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
  
 -- 
-1.7.3.4
+1.7.10.4
 
 
 
