@@ -1,30 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UKlyE-00005W-Cg
+	(envelope-from <Kai.Kang@windriver.com>) id 1UKm8T-0000XE-Vk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 09:44:34 +0100
+	Wed, 27 Mar 2013 09:55:14 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2R8RVTm019912
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Mar 2013 01:27:31 -0700 (PDT)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2R8c8uF012933
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Mar 2013 01:38:08 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Wed, 27 Mar 2013 01:27:30 -0700
-Message-ID: <5152AD71.7000303@windriver.com>
-Date: Wed, 27 Mar 2013 16:27:29 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Wed, 27 Mar 2013 01:38:08 -0700
+Message-ID: <5152B05C.5030405@windriver.com>
+Date: Wed, 27 Mar 2013 16:39:56 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1364281933.git.Qi.Chen@windriver.com>
-	<6eeac889db624cc56bbf8c569e686e717f0ae9e6.1364281933.git.Qi.Chen@windriver.com>
-	<1364339479.28471.0.camel@ted>
-In-Reply-To: <1364339479.28471.0.camel@ted>
-X-Originating-IP: [128.224.163.154]
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xserver-nodm: change start runlevel from 2 5 to 2 3 4 5
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1362550241.git.kai.kang@windriver.com>
+	<43b5f9785b001759b6280bf50015a5505fcb0b2b.1362550241.git.kai.kang@windriver.com>
+In-Reply-To: <43b5f9785b001759b6280bf50015a5505fcb0b2b.1362550241.git.kai.kang@windriver.com>
+X-Originating-IP: [128.224.162.205]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r2R8c8uF012933
+Subject: Re: [PATCH 1/1] sysvinit-inittab: change default runlevel for lsb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,190 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 08:44:35 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040908000001000903000800"
-
---------------040908000001000903000800
+X-List-Received-Date: Wed, 27 Mar 2013 08:55:17 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 03/27/2013 07:11 AM, Richard Purdie wrote:
-> On Tue, 2013-03-26 at 15:18 +0800, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> This script is intended to start at runlevel 2 3 4 5, as specified
->> in its HEAD INFO area.
-> Perhaps the header is wrong?
->
->> The fact that it was not started at runlevel 3 caused splash screen
->> not going away when booting into runlevel 3.
-> I thought psplash was meant to timeout and switch to the console, or
-> switch there at boot completion anyway. I suspect the bug is somewhere
-> else.
->
-> Cheers,
->
-> Richard
-
-Thank you for reminding me of this.
-I've sent another patch to fix this problem.
-
-The root cause is in the rc script.
-
-#Uncomment to cause psplash to exit manually, otherwise it exits when it 
-sees a VC switch
-/*if [ "x$runlevel" != "xS" ] && [ ! -x /etc/init.d/xserver-nodm ]; then*/
-     if type psplash-write >/dev/null 2>&1; then
-         TMPDIR=/mnt/.psplash psplash-write "QUIT" || true
-         umount /mnt/.psplash
-     fi
-fi
-
-So psplash doesn't exit even when xserver-nodm is not started, for 
-example, at runlevel 3.
-
-I changed it to:
-/*if [ "x$runlevel" != "xS" ] && [ ! -x 
-/etc/rc${runlevel}.d/S??xserver-nodm ]; then*/
-
-Best Regards,
-Chen Qi
->> [YOCTO #3904]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../x11-common/xserver-nodm-init.bb                |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
->> index eab76c5..9faeb99 100644
->> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
->> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
->> @@ -26,7 +26,7 @@ do_install() {
->>   inherit update-rc.d useradd
->>   
->>   INITSCRIPT_NAME = "xserver-nodm"
->> -INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
->> +INITSCRIPT_PARAMS = "start 9 2 3 4 5 . stop 20 0 1 6 ."
->>   
->>   # Use fixed Xusername of xuser for now, this will need to be
->>   # fixed if the Xusername changes from xuser
->
->
->
-
-
---------------040908000001000903000800
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id r2R8RVTm019912
 
-<html>
-  <head>
-    <meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Ty=
-pe">
-  </head>
-  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <div class=3D"moz-cite-prefix">On 03/27/2013 07:11 AM, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote cite=3D"mid:1364339479.28471.0.camel@ted" type=3D"cite">
-      <pre wrap=3D"">On Tue, 2013-03-26 at 15:18 +0800, <a class=3D"moz-t=
-xt-link-abbreviated" href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windri=
-ver.com</a> wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"">From: Chen Qi <a class=3D"moz-txt-link-rfc2396E" h=
-ref=3D"mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
+On 2013=E5=B9=B403=E6=9C=8806=E6=97=A5 14:16, Kang Kai wrote:
+> LSB images are used to run LSB test suite and there is no test case to
+> check GUI so X/GUI is not included into LSB images. And in LSB
+> specification, runlevel 5 is to boot with GUI, so change the default
+> runlevel from 5 to 3 for LSB images.
+Any comment?
 
-This script is intended to start at runlevel 2 3 4 5, as specified
-in its HEAD INFO area.
-</pre>
-      </blockquote>
-      <pre wrap=3D"">
-Perhaps the header is wrong?
+--Kai
 
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"">The fact that it was not started at runlevel 3 cau=
-sed splash screen
-not going away when booting into runlevel 3.
-</pre>
-      </blockquote>
-      <pre wrap=3D"">
-I thought psplash was meant to timeout and switch to the console, or
-switch there at boot completion anyway. I suspect the bug is somewhere
-else.
-
-Cheers,
-
-Richard
-</pre>
-    </blockquote>
-    <br>
-    Thank you for reminding me of this.<br>
-    I've sent another patch to fix this problem.<br>
-    <br>
-    The root cause is in the rc script.<br>
-    <br>
-    #Uncomment to cause psplash to exit manually, otherwise it exits
-    when it sees a VC switch=C2=A0 <br>
-    <i><b>if [ "x$runlevel" !=3D "xS" ] &amp;&amp; [ ! -x
-        /etc/init.d/xserver-nodm ]; then</b></i><br>
-    =C2=A0=C2=A0=C2=A0 if type psplash-write &gt;/dev/null 2&gt;&amp;1; t=
-hen<br>
-    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TMPDIR=3D/mnt/.psplash psp=
-lash-write "QUIT" || true<br>
-    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 umount /mnt/.psplash<br>
-    =C2=A0=C2=A0=C2=A0 fi<br>
-    fi<br>
-    <br>
-    So psplash doesn't exit even when xserver-nodm is not started, for
-    example, at runlevel 3.<br>
-    <br>
-    I changed it to:<br>
-    <i><b>if [ "x$runlevel" !=3D "xS" ] &amp;&amp; [ ! -x
-        /etc/rc${runlevel}.d/S??xserver-nodm ]; then</b></i><br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <blockquote cite=3D"mid:1364339479.28471.0.camel@ted" type=3D"cite">
-      <pre wrap=3D"">
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"">[YOCTO #3904]
-
-Signed-off-by: Chen Qi <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:=
-Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
----
- .../x11-common/xserver-nodm-init.bb                |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta=
-/recipes-graphics/x11-common/xserver-nodm-init.bb
-index eab76c5..9faeb99 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-@@ -26,7 +26,7 @@ do_install() {
- inherit update-rc.d useradd
-=20
- INITSCRIPT_NAME =3D "xserver-nodm"
--INITSCRIPT_PARAMS =3D "start 9 5 2 . stop 20 0 1 6 ."
-+INITSCRIPT_PARAMS =3D "start 9 2 3 4 5 . stop 20 0 1 6 ."
-=20
- # Use fixed Xusername of xuser for now, this will need to be
- # fixed if the Xusername changes from xuser
-</pre>
-      </blockquote>
-      <pre wrap=3D"">
+>
+> [YOCTO #3927]
+>
+> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+> ---
+>   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    4 ++++
+>   1 files changed, 4 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/m=
+eta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index b289853..87c701b 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -73,6 +73,10 @@ else
+>   fi
+>   }
+>
+> +do_install_append_linuxstdbase() {
+> +	sed -i 's/^id:5:initdefault/id:3:initdefault/' ${D}${sysconfdir}/init=
+tab
+> +}
+> +
+>   # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .con=
+f.
+>   # Set PACKAGE_ARCH appropriately.
+>   PACKAGE_ARCH =3D "${MACHINE_ARCH}"
 
 
 
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------040908000001000903000800--
