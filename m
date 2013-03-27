@@ -1,40 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from eu1sys200aog102.obsmtp.com ([207.126.144.113])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UKoII-0000YP-Q9 for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 12:13:33 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2RB4Qn2006663; Wed, 27 Mar 2013 11:06:10 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bm2BitTi-8iq; Wed, 27 Mar 2013 11:06:10 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2RB61id006825
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 27 Mar 2013 11:06:04 GMT
-Message-ID: <1364381760.28471.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Mar 2013 10:56:00 +0000
-In-Reply-To: <CAJTo0LbxZfG5M4koRxRFCLDmfjxn2afT2Sd=cfFvr04BoU=i7g@mail.gmail.com>
-References: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0Lb8-CbnMtcxgximM7W_2YxbexGB49VLM+HbEqQrWHGpYg@mail.gmail.com>
-	<CALbNGRQVd3yi7bEuCO_Yyh_RVnnfcB0k9yMG3jHg_BCF9=2Reg@mail.gmail.com>
-	<1364298513.3097.75.camel@ted>
-	<CALbNGRSvGR75F4-bg123eQhTFaM_ex9Rs=Hyo2-Y6o8m2v9w0Q@mail.gmail.com>
-	<1364340556.28471.2.camel@ted>
-	<CALbNGRQE4kGAmeXQ2TqfVqb4rFkQeQJua6COxBEvQNh-FbAKSg@mail.gmail.com>
-	<CALbNGRTq6A9RoAdyHXeun_vhmsgEyRgV8wSY+xCdRsS7-BdPJA@mail.gmail.com>
-	<CAJTo0LbxZfG5M4koRxRFCLDmfjxn2afT2Sd=cfFvr04BoU=i7g@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r2RB4Qn2006663
-Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+: don't provide gtk-update-icon-cache-native
+	(envelope-from <giuseppe.condorelli@st.com>) id 1UKojr-0002Gw-PO
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Mar 2013 12:41:59 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob102.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUVLXBPrPUevdmjndI4mUgnKPqvFbzLex@postini.com;
+	Wed, 27 Mar 2013 11:24:56 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9174412B;
+	Wed, 27 Mar 2013 09:19:19 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 34A33451F;
+	Wed, 27 Mar 2013 09:19:19 +0000 (GMT)
+Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
+	by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id BAK60746 (AUTH condorg);
+	Wed, 27 Mar 2013 10:19:18 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: <openembedded-core@lists.openembedded.org>, <pb@pbcl.net>,
+	<raj.khem@gmail.com>
+Date: Wed, 27 Mar 2013 10:19:17 +0100
+Message-ID: <019d01ce2acc$289b89a0$79d29ce0$@st.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: Ac4qzCb0AOJF8H+MS0adIXthb8ZuMQ==
+Subject: Re: [PATCH] iproute2: add bash runtime dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,59 +38,315 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 11:13:46 -0000
-X-List-Received-Date: Wed, 27 Mar 2013 11:13:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Mar 2013 11:42:07 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_019E_01CE2AD4.8A61C660"
+Content-Language: it
+
+------=_NextPart_000_019E_01CE2AD4.8A61C660
+Content-Type: text/plain;
+	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2013-03-27 at 10:23 +0000, Burton, Ross wrote:
-> Hi Andreas,
->=20
-> On 27 March 2013 08:27, Andreas M=C3=BCller <schnitzeltony@googlemail.c=
-om> wrote:
-> > meta-browser: chromium
->=20
-> The latest commit to the Chromium 24 recipe changes gtk+-native to
-> gtk+, so it appears that any gtk+-native references you're seeing are
-> bad and the same fix should be applied to the other versions.
->=20
-> > openembedded-core: packagegroup-toolset-native
->=20
-> This is a packagegroup that builds ~all of the native packages.
->=20
-> > openembedded-core: sstate.bbclass
->=20
->     def isPostInstDep(x):
->         if x in ["qemu-native", "gdk-pixbuf-native", "gtk+-native",
-> "qemuwrapper-cross", "depmodwrapper-cross",
-> "systemd-systemctl-native", "gtk-update-icon-cache-native"]:
->             return True
->         return False
->=20
-> Some sstate black magic.
+Hi All,
 
-That can just be removed if we don't use gtk+-native in any postinsts
-which I don't believe we do now...
+=20
 
-> > openembedded-core: seperatebuilddir.inc
->=20
-> Just a variable saying it can be built out of tree.
+=D8  Where does this dependency come from?
 
-Right, that can also just be dropped.
+The dependency comes from the =93ip=94 subdirs, where there are three =
+bash
+scripts.
 
-> packagegroup-toolset-native is the only place that actually uses
-> gtk+-native, so anyone actually using that for whatever purpose will
-> need to set the preferred provider.
+Also there are few scripts as examples.
 
-This can also just get dropped, it was only there to allow building the
-collection of native recipes.
+=20
 
-So as far as I'm concerned all these references can just be removed.
+Khem,
 
-Cheers,
+do you think it is however the case to split the package creating the ip
+one?=20
 
-Richard
+This problem appeared when I tried to install iproute2, previously =
+packaged
+as rpm.
+
+=20
+
+Best Regards,
+
+Giuseppe
+
+=20
+
+=20
+
+From: Giuseppe Condorelli [mailto:giuseppe.condorelli@gmail.com]=20
+Sent: mercoled=EC 27 marzo 2013 10:14
+To: Giuseppe CONDORELLI
+Subject: Fwd: [OE-core] [PATCH] iproute2: add bash runtime dependence
+
+=20
+
+=20
+
+---------- Forwarded message ----------
+From: Phil Blundell <pb@pbcl.net>
+Date: 2013/3/26
+Subject: Re: [OE-core] [PATCH] iproute2: add bash runtime dependence
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+Cc: openembedded-core@lists.openembedded.org
+
+
+
+On Tue, 2013-03-26 at 17:17 +0100, Giuseppe CONDORELLI wrote:
+> Add bash runtime dependence, required at package install time.
+
+Where does this dependency come from?
+
+p.
 
 
 
 
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+=20
+
+
+------=_NextPart_000_019E_01CE2AD4.8A61C660
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1"><meta name=3DGenerator content=3D"Microsoft Word =
+14 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-priority:99;
+	mso-style-link:"Balloon Text Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.hoenzb
+	{mso-style-name:hoenzb;}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+span.EmailStyle20
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 2.0cm 2.0cm 2.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:875774935;
+	mso-list-type:hybrid;
+	mso-list-template-ids:181808130 1764363520 67698691 67698693 67698689 =
+67698691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;
+	mso-fareast-font-family:Calibri;
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US link=3Dblue =
+vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Hi All,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoListParagraph =
+style=3D'text-indent:-18.0pt;mso-list:l0 level1 lfo1'><![if =
+!supportLists]><span =
+style=3D'font-size:11.0pt;font-family:Wingdings;color:#1F497D'><span =
+style=3D'mso-list:Ignore'>=D8<span style=3D'font:7.0pt "Times New =
+Roman"'>&nbsp; </span></span></span><![endif]>Where does this dependency =
+come from?<span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>The dependency comes from the &#8220;ip&#8221; subdirs, where there =
+are three bash scripts.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Also there are few scripts as examples.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Khem,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>do you think it is however the case to split the package creating the =
+ip one? <o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>This problem appeared when I tried to install iproute2, previously =
+packaged as rpm.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Best Regards,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Giuseppe<o:p></o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><div =
+style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
+4.0pt'><div><div style=3D'border:none;border-top:solid #B5C4DF =
+1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
+style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'>From:</span>=
+</b><span style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'> =
+Giuseppe Condorelli [mailto:giuseppe.condorelli@gmail.com] =
+<br><b>Sent:</b> mercoled=EC 27 marzo 2013 10:14<br><b>To:</b> Giuseppe =
+CONDORELLI<br><b>Subject:</b> Fwd: [OE-core] [PATCH] iproute2: add bash =
+runtime dependence<o:p></o:p></span></p></div></div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'margin-bottom:12.0pt'><o:p>&nbsp;</o:p></p><div><p =
+class=3DMsoNormal style=3D'margin-bottom:12.0pt'>---------- Forwarded =
+message ----------<br>From: <b>Phil Blundell</b> &lt;<a =
+href=3D"mailto:pb@pbcl.net">pb@pbcl.net</a>&gt;<br>Date: =
+2013/3/26<br>Subject: Re: [OE-core] [PATCH] iproute2: add bash runtime =
+dependence<br>To: Giuseppe CONDORELLI &lt;<a =
+href=3D"mailto:giuseppe.condorelli@st.com">giuseppe.condorelli@st.com</a>=
+&gt;<br>Cc: <a =
+href=3D"mailto:openembedded-core@lists.openembedded.org">openembedded-cor=
+e@lists.openembedded.org</a><br><br><o:p></o:p></p><div><p =
+class=3DMsoNormal style=3D'margin-bottom:12.0pt'>On Tue, 2013-03-26 at =
+17:17 +0100, Giuseppe CONDORELLI wrote:<br>&gt; Add bash runtime =
+dependence, required at package install time.<o:p></o:p></p></div><p =
+class=3DMsoNormal>Where does this dependency come from?<br><span =
+style=3D'color:#888888'><br><span =
+class=3Dhoenzb>p.</span></span><o:p></o:p></p><div><div><p =
+class=3DMsoNormal><br><br><br>___________________________________________=
+____<br>Openembedded-core mailing list<br><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-cor=
+e@lists.openembedded.org</a><br><a =
+href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-=
+core" =
+target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/ope=
+nembedded-core</a><o:p></o:p></p></div></div></div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></div></body></html>
+
+------=_NextPart_000_019E_01CE2AD4.8A61C660--
