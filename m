@@ -1,33 +1,25 @@
-Received: from mail-pa0-f54.google.com ([209.85.220.54])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UKqIU-0007zM-RT
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <anders.roxell@gmail.com>) id 1UKqwq-000136-V3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 14:21:49 +0100
-Received: by mail-pa0-f54.google.com with SMTP id fa10so2131394pad.41
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2013 06:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=n+Gje9sC0D7f16buZDv7crSoc5w6jZ4KiKpeEHD5cyw=;
-	b=rJhsscuqGhhVuIGv0+n79/Vc7JtmZqxja0uXaeTunNUgZ/hRBA59wG90s+rpQ8r636
-	ROmKVAoxmFL2H4qATL9M8cJCFViI3PIbPwSfsRKfN+NvqHXL/U4bCfe/vCDpG4Ob7DwF
-	OuCDebeAQOhkiZx46UStiqdXFIXJCdjGP/iSaGe8eNEeTS4brKCsO1I+fvwf8VDFThEH
-	792f0On4qeUuPhcJAl84Rl8KuAf6GM+QkujVl8fpqH8IQDihaW6MgvhZvM/c6bU2Iojd
-	XvTBLhZFFdi9j76YGbS+qi5Z/mYBFQZw/7teMvgthOmkBxb9aPhn1zVfDUnkvoKwqA7N
-	iUKw==
-X-Received: by 10.68.201.227 with SMTP id kd3mr28641816pbc.65.1364389485164;
-	Wed, 27 Mar 2013 06:04:45 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id
-	rt13sm23349623pac.14.2013.03.27.06.04.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Mar 2013 06:04:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Mar 2013 14:04:23 +0100
-Message-Id: <1364389463-22332-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] runqemu-internal: use MACHINE_SUBTYPE variable for qemuarm*
+	Wed, 27 Mar 2013 15:03:42 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 27 Mar 2013 14:46:27 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 3976)	id 1BD7E288AF6;
+	Wed, 27 Mar 2013 14:46:27 +0100 (CET)
+From: <anders.roxell@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Mar 2013 14:46:22 +0100
+Message-ID: <1364391983-9919-2-git-send-email-anders.roxell@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <1364391983-9919-1-git-send-email-anders.roxell@gmail.com>
+References: <1364391983-9919-1-git-send-email-anders.roxell@gmail.com>
+MIME-Version: 1.0
+Received-SPF: Neutral (SESTOEX08.enea.se: 172.21.3.145 is neither permitted
+	nor denied by domain of anders.roxell@gmail.com)
+Cc: Anders Roxell <anders.roxell@enea.com>
+Subject: [PATCH 1/2] oe-setup-builddir: Possibility to customize text.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 13:21:50 -0000
+X-List-Received-Date: Wed, 27 Mar 2013 14:03:46 -0000
+Content-Type: text/plain
 
+From: Anders Roxell <anders.roxell@enea.com>
+
+Possibility to customize the text that is presented to the user when
+they execute the script.
+
+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+Tested-by: Maxin B. John <maxin.john@enea.com>
 ---
- scripts/runqemu-internal | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/oe-setup-builddir |   16 ++++++----------
+ 1 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f06870e..762c584 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -302,7 +302,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
-     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 560453e..be5811d 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -55,6 +55,7 @@ if [ "x" != "x$TEMPLATECONF" ]; then
      fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-@@ -311,7 +311,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-             return 1
-         fi
-         KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb --no-reboot $QEMU_UI_OPTIONS"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$MACHINE" = "qemuarmv6" ]; then
-         QEMUOPTIONS="$QEMUOPTIONS -cpu arm1136"
+     OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+     OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
++    OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
+ fi
+ 
+ if [ "x" = "x$OECORELOCALCONF" ]; then
+@@ -113,14 +114,9 @@ cat <<EOM
+ 
+ You can now run 'bitbake <target>'
+ 
+-Common targets are:
+-    core-image-minimal
+-    core-image-sato
+-    meta-toolchain
+-    meta-toolchain-sdk
+-    adt-installer
+-    meta-ide-support
+-
+-You can also run generated qemu images with a command like 'runqemu qemux86'
+-
+ EOM
++if [ "x" = "x$OECORENOTESCONF" ]; then
++    OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
++fi
++cat $OECORENOTESCONF
++unset OECORENOTESCONF
 -- 
-1.8.1.5
+1.7.5.4
 
 
 
