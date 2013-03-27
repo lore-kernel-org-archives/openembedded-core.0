@@ -1,28 +1,25 @@
-Received: from mail-ve0-f174.google.com ([209.85.128.174])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UKnmz-00059R-At
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 11:41:24 +0100
-Received: by mail-ve0-f174.google.com with SMTP id jz10so3894333veb.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2013 03:24:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=MkFCBnxXDbNqvRl7//MGX5gNcs9RF/F7VRnY7zFTLtc=;
-	b=iuuJw6/3kccDBUDjmhHhLlyzqd+uLk2PSTjnjglgtfajLR3T/BG153cQlg7V4gtJAW
-	VFQUIoz6ig7F/45aYGbOX39nnRYoLHUxNhNpgQXszIBXBcZnh08AUNY741GF873JXgRm
-	Kk7PnLIOVvzmruDns8Z8iz28Sz14xAzwDtd6JeVFV52Im908nNggPiTYPY/DHPo7mEBL
-	OtmmT7m3OK2XNrYeiBbZ8mXc+aV/pxEFHVRlVdaQKKDsrzkRzNSmXiiAiM9/nGWFCgpm
-	p2b149rFk5d5hMMbYQ0Gg6HExkVOM/qlfnECjfX5R57PFO38/fs7QKfaHL2aM74r6tN3
-	7WnA==
-X-Received: by 10.220.177.138 with SMTP id bi10mr18236295vcb.31.1364379844156; 
-	Wed, 27 Mar 2013 03:24:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.134.74 with HTTP; Wed, 27 Mar 2013 03:23:44 -0700 (PDT)
-In-Reply-To: <CALbNGRTq6A9RoAdyHXeun_vhmsgEyRgV8wSY+xCdRsS7-BdPJA@mail.gmail.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UKoII-0000YP-Q9 for openembedded-core@lists.openembedded.org;
+	Wed, 27 Mar 2013 12:13:33 +0100
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2RB4Qn2006663; Wed, 27 Mar 2013 11:06:10 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bm2BitTi-8iq; Wed, 27 Mar 2013 11:06:10 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r2RB61id006825
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 27 Mar 2013 11:06:04 GMT
+Message-ID: <1364381760.28471.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Mar 2013 10:56:00 +0000
+In-Reply-To: <CAJTo0LbxZfG5M4koRxRFCLDmfjxn2afT2Sd=cfFvr04BoU=i7g@mail.gmail.com>
 References: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
 	<CAJTo0Lb8-CbnMtcxgximM7W_2YxbexGB49VLM+HbEqQrWHGpYg@mail.gmail.com>
 	<CALbNGRQVd3yi7bEuCO_Yyh_RVnnfcB0k9yMG3jHg_BCF9=2Reg@mail.gmail.com>
@@ -31,11 +28,11 @@ References: <1364255259-2920-1-git-send-email-schnitzeltony@googlemail.com>
 	<1364340556.28471.2.camel@ted>
 	<CALbNGRQE4kGAmeXQ2TqfVqb4rFkQeQJua6COxBEvQNh-FbAKSg@mail.gmail.com>
 	<CALbNGRTq6A9RoAdyHXeun_vhmsgEyRgV8wSY+xCdRsS7-BdPJA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Mar 2013 10:23:44 +0000
-Message-ID: <CAJTo0LbxZfG5M4koRxRFCLDmfjxn2afT2Sd=cfFvr04BoU=i7g@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQkmOI1i+7aGvRNE22I24gn3rh3pCygG85MdmEY99JeWlwtZJ5LNXu08mgE/I8e8jUwqVXaS
+	<CAJTo0LbxZfG5M4koRxRFCLDmfjxn2afT2Sd=cfFvr04BoU=i7g@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r2RB4Qn2006663
 Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] gtk+: don't provide gtk-update-icon-cache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,43 +47,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 10:41:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 27 Mar 2013 11:13:46 -0000
+X-List-Received-Date: Wed, 27 Mar 2013 11:13:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+On Wed, 2013-03-27 at 10:23 +0000, Burton, Ross wrote:
+> Hi Andreas,
+>=20
+> On 27 March 2013 08:27, Andreas M=C3=BCller <schnitzeltony@googlemail.c=
+om> wrote:
+> > meta-browser: chromium
+>=20
+> The latest commit to the Chromium 24 recipe changes gtk+-native to
+> gtk+, so it appears that any gtk+-native references you're seeing are
+> bad and the same fix should be applied to the other versions.
+>=20
+> > openembedded-core: packagegroup-toolset-native
+>=20
+> This is a packagegroup that builds ~all of the native packages.
+>=20
+> > openembedded-core: sstate.bbclass
+>=20
+>     def isPostInstDep(x):
+>         if x in ["qemu-native", "gdk-pixbuf-native", "gtk+-native",
+> "qemuwrapper-cross", "depmodwrapper-cross",
+> "systemd-systemctl-native", "gtk-update-icon-cache-native"]:
+>             return True
+>         return False
+>=20
+> Some sstate black magic.
 
-On 27 March 2013 08:27, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
-wrote:
-> meta-browser: chromium
+That can just be removed if we don't use gtk+-native in any postinsts
+which I don't believe we do now...
 
-The latest commit to the Chromium 24 recipe changes gtk+-native to
-gtk+, so it appears that any gtk+-native references you're seeing are
-bad and the same fix should be applied to the other versions.
+> > openembedded-core: seperatebuilddir.inc
+>=20
+> Just a variable saying it can be built out of tree.
 
-> openembedded-core: packagegroup-toolset-native
+Right, that can also just be dropped.
 
-This is a packagegroup that builds ~all of the native packages.
+> packagegroup-toolset-native is the only place that actually uses
+> gtk+-native, so anyone actually using that for whatever purpose will
+> need to set the preferred provider.
 
-> openembedded-core: sstate.bbclass
+This can also just get dropped, it was only there to allow building the
+collection of native recipes.
 
-    def isPostInstDep(x):
-        if x in ["qemu-native", "gdk-pixbuf-native", "gtk+-native",
-"qemuwrapper-cross", "depmodwrapper-cross",
-"systemd-systemctl-native", "gtk-update-icon-cache-native"]:
-            return True
-        return False
+So as far as I'm concerned all these references can just be removed.
 
-Some sstate black magic.
+Cheers,
 
-> openembedded-core: seperatebuilddir.inc
+Richard
 
-Just a variable saying it can be built out of tree.
 
-packagegroup-toolset-native is the only place that actually uses
-gtk+-native, so anyone actually using that for whatever purpose will
-need to set the preferred provider.
-
-Ross
 
 
