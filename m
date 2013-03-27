@@ -1,39 +1,33 @@
-Received: from mail-la0-f41.google.com ([209.85.215.41])
+Received: from mail-pa0-f54.google.com ([209.85.220.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1UKpwg-0006yH-5d
+	(envelope-from <martin.jansa@gmail.com>) id 1UKqIU-0007zM-RT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 13:59:14 +0100
-Received: by mail-la0-f41.google.com with SMTP id fo12so15581723lab.14
+	Wed, 27 Mar 2013 14:21:49 +0100
+Received: by mail-pa0-f54.google.com with SMTP id fa10so2131394pad.41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2013 05:42:12 -0700 (PDT)
+	Wed, 27 Mar 2013 06:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=IIV+YgPqWNY4B3eVPzw+BXwr95MKYvZ5ymb9MQOXG2w=;
-	b=t4LZjcMMRW1yafXnHptpziSGUmQ/QEwrczhTZknuKs4E1lSfluQJGTM/9+yMVOPdMd
-	zlXkctZK3BZFwTS1MVP1gWaeVnnJial3NtTmwAZS1kDLydOCZy5KLRL2ssCRr1hiAbID
-	N1p7oM7WBemSuUukcMTvKiLheWcoagd9xShliuZ2nCx6i1FD2Mi1WEbe/4eJ5XTC98Fd
-	o+dhtV8S2wl2ck3hKFfBc+j29MVlLmltfE9yHmvNOYwkRJyHfPK7/nceftEB4hvB8mxt
-	o6cIlqWL5rTm9yYEElv+ysPhBkwB/AN3lzwC2seozHQBN5M8oUaz9t51+ozqpZ/xS9c4
-	ZYZw==
-MIME-Version: 1.0
-X-Received: by 10.112.42.37 with SMTP id k5mr10126045lbl.49.1364388132462;
-	Wed, 27 Mar 2013 05:42:12 -0700 (PDT)
-Received: by 10.112.61.3 with HTTP; Wed, 27 Mar 2013 05:42:12 -0700 (PDT)
-In-Reply-To: <CAEUf8FusP9QunJeVc-T81o4V_XT8kGkqtactZDC0+wqD04JFGg@mail.gmail.com>
-References: <1363785756-35510-1-git-send-email-anders.roxell@gmail.com>
-	<CADkTA4MZoRJp5gddPpkhKHkSXphettB=B4Fx=f0NPmtzfnGWGw@mail.gmail.com>
-	<CAEUf8FtQUc-pTOMb=yYtcjjUF7F=0ytN=OT-Y2Am71+v_oJGnA@mail.gmail.com>
-	<CADkTA4NitxAbPH-Nb=67ZwboTBFPUCMNXTQLMCYzQ2dL_On8hQ@mail.gmail.com>
-	<CAEUf8FusP9QunJeVc-T81o4V_XT8kGkqtactZDC0+wqD04JFGg@mail.gmail.com>
-Date: Wed, 27 Mar 2013 08:42:12 -0400
-Message-ID: <CADkTA4NL6QnfEBNcRd7PnUU07_YOzfFjY6Ua-CfJqM0NNfToMw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Anders Roxell <anders.roxell@gmail.com>
-Cc: Anders Roxell <anders.roxell@enea.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-kernel-base: linux/version.h path update for 3.7-rc1
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=n+Gje9sC0D7f16buZDv7crSoc5w6jZ4KiKpeEHD5cyw=;
+	b=rJhsscuqGhhVuIGv0+n79/Vc7JtmZqxja0uXaeTunNUgZ/hRBA59wG90s+rpQ8r636
+	ROmKVAoxmFL2H4qATL9M8cJCFViI3PIbPwSfsRKfN+NvqHXL/U4bCfe/vCDpG4Ob7DwF
+	OuCDebeAQOhkiZx46UStiqdXFIXJCdjGP/iSaGe8eNEeTS4brKCsO1I+fvwf8VDFThEH
+	792f0On4qeUuPhcJAl84Rl8KuAf6GM+QkujVl8fpqH8IQDihaW6MgvhZvM/c6bU2Iojd
+	XvTBLhZFFdi9j76YGbS+qi5Z/mYBFQZw/7teMvgthOmkBxb9aPhn1zVfDUnkvoKwqA7N
+	iUKw==
+X-Received: by 10.68.201.227 with SMTP id kd3mr28641816pbc.65.1364389485164;
+	Wed, 27 Mar 2013 06:04:45 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id
+	rt13sm23349623pac.14.2013.03.27.06.04.42
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 27 Mar 2013 06:04:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Mar 2013 14:04:23 +0100
+Message-Id: <1364389463-22332-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+Subject: [PATCH] runqemu-internal: use MACHINE_SUBTYPE variable for qemuarm*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,148 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 12:59:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 27 Mar 2013 13:21:50 -0000
 
-On Wed, Mar 27, 2013 at 5:25 AM, Anders Roxell <anders.roxell@gmail.com> wrote:
->
-> On Wed, Mar 20, 2013 at 4:30 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-> wrote:
->>
->> On Wed, Mar 20, 2013 at 10:55 AM, Anders Roxell <anders.roxell@gmail.com>
->> wrote:
->> >
->> >
->> >
->> > On Wed, Mar 20, 2013 at 2:42 PM, Bruce Ashfield
->> > <bruce.ashfield@gmail.com>
->> > wrote:
->> >>
->> >> On Wed, Mar 20, 2013 at 9:22 AM,  <anders.roxell@gmail.com> wrote:
->> >> > From: Anders Roxell <anders.roxell@enea.com>
->> >> >
->> >> > In mainline kernel 3.7-rc1 (hash:abbf1590de22a6d22)
->> >> > The path include/linux/version.h was updated to
->> >> > include/generated/uapi/linux/version.h
->> >>
->> >> It's true that uapi now holds the generated version.h, but what build
->> >> error were you seeing without this change in place ?
->> >
->> >
->> > We were trying to build linx
->> > (http://linx.sourceforge.net/linxdoc/doc/index.html)
->> > Please let me know if it is better to rewrite linx or include this
->> > patch?
->>
->> My concern is that as a list of alternatives builds up over time, that
->> don't
->> necessarily use the same format of the linux version, you'll end up with
->> applications that are making the wrong decisions if a fallback is used.
->> Having
->> a clear public / exported file, and throwing errors if it doesn't exist
->> would
->> ensure consistent behaviour (granted annoying if you get the error when
->> you
->> think you shouldn't).
->>
->> If you look at the code in get_kernelversion() it shouldn't even work if
->> version.h is used versus utsrelease.h.  I'd be inclined to suggest the
->> removal of the existing version.h fallback, versus adding another.
->>
->> You might not even need to modify the application code to fix this. What
->> are the dependencies of your recipe that would allow for utsrelease.h
->> to not be generated when the build calls get_kernelversion ?
->>
->
-> Sorry for the late response!
-> I agree with you that its better to use utsrelease.h rather than depending
-> on version.h.
->
-> We have added a patch for the linx source to solve this.
->
-> Thank you very much for the help and support!
+---
+ scripts/runqemu-internal | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I was wondering about how this went a day or so ago .. and now I know.
-Glad to hear it worked out!
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index f06870e..762c584 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -302,7 +302,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
+     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
+@@ -311,7 +311,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+             return 1
+         fi
+         KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb --no-reboot $QEMU_UI_OPTIONS"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$MACHINE" = "qemuarmv6" ]; then
+         QEMUOPTIONS="$QEMUOPTIONS -cpu arm1136"
+-- 
+1.8.1.5
 
-Cheers,
-
-Bruce
-
->
-> With kind regards,
-> Anders
->
->>
->> Cheers,
->>
->> Bruce
->>
->> >
->> > Regards,
->> > Anders
->> >
->> >>
->> >> utsrelease.h is
->> >> still created where it has been for some time, and should be what is
->> >> typically used for any version checks.
->> >>
->> >> Cheers,
->> >>
->> >> Bruce
->> >>
->> >>
->> >>
->> >> >
->> >> > Signed-off-by: Anders Roxell <anders.roxell@enea.com>
->> >> > ---
->> >> >  meta/classes/linux-kernel-base.bbclass |    3 +++
->> >> >  1 files changed, 3 insertions(+), 0 deletions(-)
->> >> >
->> >> > diff --git a/meta/classes/linux-kernel-base.bbclass
->> >> > b/meta/classes/linux-kernel-base.bbclass
->> >> > index 4f2b0a4..b7d0ffa 100644
->> >> > --- a/meta/classes/linux-kernel-base.bbclass
->> >> > +++ b/meta/classes/linux-kernel-base.bbclass
->> >> > @@ -8,6 +8,9 @@ def get_kernelversion(p):
->> >> >          fn = p + '/include/generated/utsrelease.h'
->> >> >      if not os.path.isfile(fn):
->> >> >          fn = p + '/include/linux/version.h'
->> >> > +    if not os.path.isfile(fn):
->> >> > +        # after 3.7-rc1
->> >> > +        fn = p + '/include/generated/uapi/linux/version.h'
->> >> >
->> >> >      import re
->> >> >      try:
->> >> > --
->> >> > 1.7.5.4
->> >> >
->> >> >
->> >> > _______________________________________________
->> >> > Openembedded-core mailing list
->> >> > Openembedded-core@lists.openembedded.org
->> >> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->> >>
->> >>
->> >>
->> >> --
->> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> >> thee at its end"
->> >
->> >
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
->
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
