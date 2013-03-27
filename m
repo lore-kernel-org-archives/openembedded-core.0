@@ -1,38 +1,34 @@
-Received: from mail-ee0-f45.google.com ([74.125.83.45])
+Received: from mail-vb0-f50.google.com ([209.85.212.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UKs9U-0003ag-KV
+	(envelope-from <ross.burton@intel.com>) id 1UKsHx-0003rc-8g
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Mar 2013 16:20:39 +0100
-Received: by mail-ee0-f45.google.com with SMTP id b57so4286052eek.4
+	Wed, 27 Mar 2013 16:29:24 +0100
+Received: by mail-vb0-f50.google.com with SMTP id fa15so655478vbb.37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Mar 2013 08:03:35 -0700 (PDT)
+	Wed, 27 Mar 2013 08:12:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=/ehzeP4ZWLaxhwCC0IgPpgZ4AIMAT7y6wPwnLYirYhc=;
-	b=YatKY+aTx+hAvdaqjUToe1ClvelSMnvohp9Roa/p7PsrdKPp2MyvggFZyK34c6IN1Y
-	9ETiSbYHTaP04IBYU/4KdLncVDTtpOXIvZrs4aDqE4lravrL4x7aib3iHSHmqRMea8bj
-	z8pTXEYwA7rLXpyP4w9Y2Oim8AOXZfkG1qZ1rKThUMnUh/nytZj5GH5cYHL5iUgPgkS8
-	jHK/Cu1fZ5RUCsGGOcjbGzbdLOIyAhSMqmV/jZB941svxEjsKfCRAF8XLZWE9ALRJy1M
-	VKG9yh+KMdY8pDDQQtYmwtwKXpfdJPVWpifEYejP1SnW3KBT7m3KauFdyZV27QKg72Hx
-	3LPQ==
-X-Received: by 10.14.210.132 with SMTP id u4mr56384169eeo.19.1364396615009;
-	Wed, 27 Mar 2013 08:03:35 -0700 (PDT)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id q42sm31834434eem.14.2013.03.27.08.03.32
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Mar 2013 08:03:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1364386111-1734-1-git-send-email-ross.burton@intel.com>
-Date: Wed, 27 Mar 2013 16:03:31 +0100
-Message-Id: <5695994C-BB2C-427C-A551-1EA6D4C2AD9D@dominion.thruhere.net>
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=btqpuDN7Chvb/M39x+3vtr00mpmkgEz2pncwGW6Fnao=;
+	b=cieZCuJadfCw3omk+eniEV1ghCQPFWdB1VP3nVppPZRjh9w5sid55+1hGlah2tGPIC
+	BlGLtFb4rAN+yTlnAj+SYf7tP2rOfn5omzP7OVCYS5dzbQFclyX3EBq2/V8UcVqm8AEM
+	scVpSCpJUEKQgf/qko6bXKSbCbXOE04Z1sI8+svOQEjns7GpvWz4dB2ly4cZ3GF9aken
+	EDtKmhb2MtnV2TtsFwHVfRmUmiUbuSTFVHTLl+bvNaybrljWylY3bO7fIxFhMdEmNV3Y
+	7J3JA2uCWaCyZUIRHUFZMxvTebKa5tV0bWTP5BY2PnT24FBBiNj60ep0l3DiFkM4iCeU
+	ce5g==
+X-Received: by 10.58.214.231 with SMTP id od7mr23648952vec.44.1364397139367;
+	Wed, 27 Mar 2013 08:12:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.134.74 with HTTP; Wed, 27 Mar 2013 08:11:59 -0700 (PDT)
+In-Reply-To: <5695994C-BB2C-427C-A551-1EA6D4C2AD9D@dominion.thruhere.net>
 References: <1364386111-1734-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQldfwn/2qTKrmg+aGP9SWiYDlQw06I0S2UY+YrrtYd2NzhjCy6ceVqckZ4tKNyI0Th73Spo
+	<5695994C-BB2C-427C-A551-1EA6D4C2AD9D@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Mar 2013 15:11:59 +0000
+Message-ID: <CAJTo0LZsYpzRk_cfLctbpaZQQJKtgb7SSXUq3Zrn7je3HXkgQw@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQlWW7adbQmWIP2nqX/6C7X10AdOAhIM3kHgnd0vHsk82nIw769/gJc19xw7XnJPK1f/oE82
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] systemd: Upgrade to 198
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,29 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Mar 2013 15:20:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Mar 2013 15:29:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 27 March 2013 15:03, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Since 199 has been released a few days back, how about upgrading to that and drag in http://cgit.freedesktop.org/systemd/systemd/commit/?id=94243ef299425d6c7089a7a05c48c9bb8f6cf3da ?
 
-Op 27 mrt. 2013, om 13:08 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
+I'm about to disappear until the middle of next week, so I can do that
+next week unless a patch beats me to it.
 
-> From: Khem Raj <raj.khem@gmail.com>
->=20
-> Tested on ppc and x86_64
-> compile tested for uclibc
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Since 199 has been released a few days back, how about upgrading to that =
-and drag in =
-http://cgit.freedesktop.org/systemd/systemd/commit/?id=3D94243ef299425d6c7=
-089a7a05c48c9bb8f6cf3da ?
-
-regards,
-
-Koen=
+Ross
 
 
