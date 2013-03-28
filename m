@@ -1,25 +1,30 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1ULIx8-0006VP-Q6
+	(envelope-from <joe.slater@windriver.com>) id 1ULJi3-00083j-8o
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Mar 2013 20:57:39 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2SJeY4b025365
+	Thu, 28 Mar 2013 21:46:07 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r2SKT3qJ002667
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2013 12:40:34 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 28 Mar 2013 12:40:34 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Mar 2013 14:40:29 -0500
-Message-ID: <1364499629-3445-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Thu, 28 Mar 2013 13:29:03 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.233]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
+	Thu, 28 Mar 2013 13:29:03 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: QEMU_UI_OPTIONS
+Thread-Index: Ac4r8f+byCzfhdoVQ3G0AaA9AZI4XA==
+Date: Thu, 28 Mar 2013 20:29:03 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436F7FAD6@ALA-MBB.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 1/1 RFC - Denzil] nativesdk.bbclass: Fix the remapping code on nativesdk
+Subject: QEMU_UI_OPTIONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,128 +37,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2013 19:57:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Mar 2013 20:46:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF8436F7FAD6ALAMBBcorpadwrs_"
 
-The following patch is being sent to the oe-core list in order to meet our
-Yocto Project compliance requirements.  We don't believe this patch is
-generally applicable to Denzil.
+--_000_007BD92917A2324FA403BCF9A464CF8436F7FAD6ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The purpose of this change is to fix the way automatic dependencies and such
-are generated when creating nativesdk packages.  (This approach was
-abandoned in the Danny development and replaced with the multilib approach.)
+I notice that, by default, we pretend we have a touchscreen instead of a
+mouse (-usbdevice wacom-tablet option) for the qemu bsp's.  Is there
+some reason for this?
 
----
+I have experimented  some and, with other adjustments, have found
+it possible to not specify it, but I do admit interaction with the target
+graphics window does seem "cleaner" if we do use it.
 
-When remapping the nativesdk we need to change the values of
-PACKAGES, as well as the various R* items.  But not only the
-values, but we need to rename the vars to their new PACKAGES
-entries.
-
-In addition, if a package has "-nativesdk" already in the name
-we want to add it to RPROVIDES to avoid compatibility problems.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/insane.bbclass    |    2 +
- meta/classes/nativesdk.bbclass |   61 +++++++++++++++++++++++++++++++++++----
- 2 files changed, 56 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 85ccdab..6a80ccf 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -213,6 +213,8 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
-     libgcc.a, libgcov.a will be skipped in their packages
-     """
- 
-+    if name.endswith("-nativesdk"):
-+        name = name.replace("-nativesdk", "")
-     if not name.endswith("-pic") and not name.endswith("-staticdev") and path.endswith(".a") and not path.endswith("_nonshared.a"):
-         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d)))
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index a58fce2..3746190 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -78,7 +78,9 @@ python () {
-         deps = bb.utils.explode_deps(deps)
-         newdeps = []
-         for dep in deps:
--            if dep.endswith("-native") or dep.endswith("-cross"):
-+            if dep.startswith("rtld"):
-+                newdeps.append(dep)
-+            elif dep.endswith("-native") or dep.endswith("-cross"):
-                 newdeps.append(dep)
-             elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
-                 newdeps.append(dep + "-crosssdk")
-@@ -88,13 +90,58 @@ python () {
-                 newdeps.append(dep)
-         d.setVar(varname, " ".join(newdeps))
- 
-+    def renameVars(varname, d, origpkg, newpkg):
-+        origV = varname + "_" + origpkg
-+        # In the case where FOO_${PN}-bar, we need to figure out the ${PN} and change it to BPN-bar-nativesdk!
-+        pnV = varname + "_" + origpkg.replace("-nativesdk", "").replace(d.getVar('PN', True).replace('-nativesdk', ""),d.getVar('PN', True))
-+        newV  = varname + "_" + newpkg
-+        if origV != newV and not d.getVar(newV, False) and d.getVar(origV, False):
-+            d.renameVar(origV, newV)
-+        elif pnV != newV and not d.getVar(newV, False) and d.getVar(pnV, False):
-+            d.renameVar(pnV, newV)
-+
-     map_dependencies("DEPENDS", d)
--    #for pkg in (d.getVar("PACKAGES", True).split() + [""]):
--    #    map_dependencies("RDEPENDS", d, pkg)
--    #    map_dependencies("RRECOMMENDS", d, pkg)
--    #    map_dependencies("RSUGGESTS", d, pkg)
--    #    map_dependencies("RPROVIDES", d, pkg)
--    #    map_dependencies("RREPLACES", d, pkg)
-+    newpkgs = ""
-+    for pkg in (d.getVar("PACKAGES", True).split() + [""]):
-+        if pkg and not pkg.endswith("-nativesdk"):
-+            newpkg = pkg.replace("-nativesdk", "") + "-nativesdk"
-+            # If we end up renaming this, we need to add ourselves as a provider
-+            if "-nativesdk" in pkg:
-+                d.appendVar("RPROVIDES_" + pkg, " " + pkg)
-+        else:
-+            newpkg = pkg
-+        newpkgs += " " + newpkg
-+
-+        renameVars("FILES", d, pkg, newpkg)
-+        renameVars("INSANE_SKIP", d, pkg, newpkg)
-+
-+        renameVars("ALTERNATIVE", d, pkg, newpkg)
-+        renameVars("ALTERNATIVE_TARGET", d, pkg, newpkg)
-+        renameVars("ALTERNATIVE_PRIORITY", d, pkg, newpkg)
-+
-+        renameVars("pkg_postinst", d, pkg, newpkg)
-+        renameVars("pkg_postrm", d, pkg, newpkg)
-+        renameVars("pkg_preinst", d, pkg, newpkg)
-+        renameVars("pkg_prerm", d, pkg, newpkg)
-+
-+        renameVars("ALLOW_EMPTY", d, pkg, newpkg)
-+
-+        renameVars("RDEPENDS", d, pkg, newpkg)
-+        map_dependencies("RDEPENDS", d, newpkg)
-+        renameVars("RRECOMMENDS", d, pkg, newpkg)
-+        map_dependencies("RRECOMMENDS", d, newpkg)
-+        renameVars("RSUGGESTS", d, pkg, newpkg)
-+        map_dependencies("RSUGGESTS", d, newpkg)
-+        renameVars("RPROVIDES", d, pkg, newpkg)
-+        map_dependencies("RPROVIDES", d, newpkg)
-+        renameVars("RREPLACES", d, pkg, newpkg)
-+        map_dependencies("RREPLACES", d, newpkg)
-+        renameVars("RCONFLICTS", d, pkg, newpkg)
-+        map_dependencies("RCONFLICTS", d, newpkg)
-+        renameVars("PKG", d, pkg, newpkg)
-+        map_dependencies("PKG", d, newpkg)
-+
-+    d.setVar("PACKAGES", newpkgs)
- 
-     provides = d.getVar("PROVIDES", True)
-     for prov in provides.split():
--- 
-1.7.1
+Joe
 
 
+--_000_007BD92917A2324FA403BCF9A464CF8436F7FAD6ALAMBBcorpadwrs_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">I notice that, by default, we pretend we have a touc=
+hscreen instead of a<o:p></o:p></p>
+<p class=3D"MsoNormal">mouse (-usbdevice wacom-tablet option) for the qemu =
+bsp's.&nbsp; Is there<o:p></o:p></p>
+<p class=3D"MsoNormal">some reason for this?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I have experimented&nbsp; some and, with other adjus=
+tments, have found<o:p></o:p></p>
+<p class=3D"MsoNormal">it possible to not specify it, but I do admit intera=
+ction with the target<o:p></o:p></p>
+<p class=3D"MsoNormal">graphics window does seem &quot;cleaner&quot; if we =
+do use it.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_007BD92917A2324FA403BCF9A464CF8436F7FAD6ALAMBBcorpadwrs_--
