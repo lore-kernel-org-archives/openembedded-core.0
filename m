@@ -1,37 +1,21 @@
-Received: from mail-pd0-f174.google.com ([209.85.192.174])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ULDLn-0005Vt-7f
+	(envelope-from <laurentiu.palcu@intel.com>) id 1ULDVs-00069c-9L
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Mar 2013 14:58:58 +0100
-Received: by mail-pd0-f174.google.com with SMTP id p12so2143786pdj.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2013 06:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=8GuZgIhqhGmf6cvgu9BxABGEDnC5S3uw79oANiamcxQ=;
-	b=iJObclG+DKywqfdZ1122A6YSWtPxxNvzMDoNCUe35tSwBc7y2+YyrSQkObwRs58d8G
-	w/IUmZwd2coM8gG426CbNtqqL40hDZYLON/7tMiDekhQ2SUFqnOThYWAC59FRxVAyOVN
-	o6IpUhZMPybZZ5oZIe6VoVUrxh4mQ1XdGdhDAS1ny6IGNbwN6yeHxsN4RDXKjOUrZMhM
-	wSU+P6EekW9yeVmQfrSjnh0c2HF8oAAVJ5Z0nOpXCMkf/7jUMtHlgfknigcvLF0H+/jX
-	7pVuCvDyKpjWgELyzYoNu5ov90Zq5HAH6Vq/Aii4TI65SVKyD3RLroyH+niwOrq5IlH4
-	psmg==
-X-Received: by 10.66.255.41 with SMTP id an9mr35824577pad.44.1364478099983;
-	Thu, 28 Mar 2013 06:41:39 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id bs1sm14815153pbc.8.2013.03.28.06.41.37
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 28 Mar 2013 06:41:38 -0700 (PDT)
-Date: Thu, 28 Mar 2013 14:41:32 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-Message-ID: <20130328134131.GB5105@jama>
-References: <CADV-EXGjHhZgOSO5tzYQt7cQjPC5_7CDytxt26Ji0NsF5jUd6Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CADV-EXGjHhZgOSO5tzYQt7cQjPC5_7CDytxt26Ji0NsF5jUd6Q@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: systemd: add python-systemd package
+	Thu, 28 Mar 2013 15:09:17 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Mar 2013 06:50:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,925,1355126400"; d="scan'208";a="308652195"
+Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
+	([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 28 Mar 2013 06:52:00 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Mar 2013 15:51:58 +0200
+Message-Id: <1364478718-21290-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] elfutils: remove i386_dis.h/x86_64_dis.h compilation targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2013 13:59:03 -0000
-X-Groupsio-MsgNum: 37192
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="H+4ONPRPur6+Ovig"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Mar 2013 14:09:17 -0000
 
---H+4ONPRPur6+Ovig
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since we provide those files manually (i386_gendis, which is needed for
+generating those files, has to be run on host and would fail when
+compiling for other architectures), the mentioned compilation targets
+in libcpu/ are not needed anymore.
 
-On Thu, Mar 28, 2013 at 03:35:48PM +0200, Yevhen Kyriukha wrote:
-> Hi!
->=20
-> It would be great if someone add changes to systemd recipe to generate
-> python-systemd package (
-> http://www.freedesktop.org/software/systemd/python-systemd/).
+This change will avoid a nasty race condition when running "make -jX
+install" resulting in a zero size libebl_i386.so file. The issue happens
+because, at "make install" time, the *_dis.h prerequisites will be newer
+than the target itself, triggering a chain of recompilations while, in
+the same time, the binary files are copied to the destination directory.
+Hence, the zero sized file...
 
-See systemd recipe in meta-systemd before it was removed and prepare
-patch for oe-core version.
+[YOCTO #4131]
 
-Cheers,
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index e8d58fb..9c0a08e 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -52,7 +52,7 @@ EXTRA_OECONF_append_class-native = " --without-bzlib"
+ EXTRA_OECONF_append_libc-uclibc = " --enable-uclibc"
+ 
+ do_configure_prepend() {
+-	sed -i 's:./i386_gendis:echo\ \#:g' ${S}/libcpu/Makefile.am
++	sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
+ 
+ 	cp ${WORKDIR}/*dis.h ${S}/libcpu
+ }
+-- 
+1.7.9.5
 
---H+4ONPRPur6+Ovig
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlFUSIsACgkQN1Ujt2V2gBzowwCcD+5yczF+g1ujsTfZE/hSiGOw
-na4An1kaAlowPsoDRuYxdPOoQDEVZbcO
-=/S1u
------END PGP SIGNATURE-----
-
---H+4ONPRPur6+Ovig--
