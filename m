@@ -1,36 +1,29 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1ULFIq-000467-H4
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1ULFLP-0004BC-68
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Mar 2013 17:04:23 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id E5FCBD22E8; Thu, 28 Mar 2013 16:46:51 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 55B84D22B2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Mar 2013 16:46:29 +0100 (CET)
-Message-ID: <515465CE.6080803@linaro.org>
-Date: Thu, 28 Mar 2013 16:46:22 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
+	Thu, 28 Mar 2013 17:06:37 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2SFn1xg020727
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Mar 2013 08:49:01 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 28 Mar 2013 08:49:00 -0700
+Message-ID: <51546669.1080700@windriver.com>
+Date: Thu, 28 Mar 2013 11:48:57 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <6B577862-4C24-49DB-80F2-3A1408AF8337@gmail.com>
-	<51540716.40400@linaro.org>
-In-Reply-To: <51540716.40400@linaro.org>
-X-Enigmail-Version: 1.4.6
-Subject: Re: [RFT] GCC 4.8 recipes
+To: Tom Zanussi <tom.zanussi@intel.com>
+References: <cover.1364308617.git.bruce.ashfield@windriver.com>
+	<80f242ef3516ce540a614dcb8ba3f6880cff19f2.1364308617.git.bruce.ashfield@windriver.com>
+	<1364485215.30283.62.camel@empanada>
+In-Reply-To: <1364485215.30283.62.camel@empanada>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/7] linux-yocto/3.8: introduce v3.8.4-rt1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,70 +36,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2013 16:04:31 -0000
-X-Groupsio-MsgNum: 37200
-Content-Type: multipart/mixed; boundary="------------010504090900010207070600"
-
---------------010504090900010207070600
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-W dniu 28.03.2013 10:02, Marcin Juszkiewicz pisze:
-> W dniu 28.03.2013 06:51, Khem Raj pisze:
->> I have added gcc 4.8 recipes and the branch is here=20
->>
->> git://git.openembedded.org/openembedded-core-contrib kraj/gcc-4.8
->=20
-> =C3=9Cbercool! Will do tests with aarch64.
-
-After some hacking (see attachment) I got it built and booted
-core-image-minimal.
-
-Problem was with paths - lib contra lib64. Will look at it more next week=
-.
-
-
---------------010504090900010207070600
-Content-Type: text/x-diff;
- name="aarch64.diff"
+X-List-Received-Date: Thu, 28 Mar 2013 16:06:48 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="aarch64.diff"
 
-diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-index 2e2f75a..39f053c 100644
---- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-@@ -78,3 +78,13 @@ FILES_libgomp-staticdev = "\
- do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
-+
-+do_install_append_aarch64() {
-+
-+    if [ -d ${D}${libdir}64 ]; then
-+        mv ${D}${libdir}64/* ${D}${libdir}
-+    fi
-+    if [ -d ${D}${libdir}64/.debug ]; then
-+        mv ${D}${libdir}64/.debug ${D}${libdir}/.debug
-+    fi
-+}
-diff --git a/meta/recipes-devtools/gcc/libgcc_4.8.bb b/meta/recipes-devtools/gcc/libgcc_4.8.bb
-index 47669a2..51ed2ff 100644
---- a/meta/recipes-devtools/gcc/libgcc_4.8.bb
-+++ b/meta/recipes-devtools/gcc/libgcc_4.8.bb
-@@ -51,7 +51,11 @@ do_install () {
- 	if [ -f ${D}${libdir}/nof/libgcc_s.so ]; then
- 		mv ${D}${libdir}/nof/libgcc* ${D}${base_libdir}
- 	else
--		mv ${D}${libdir}/libgcc* ${D}${base_libdir} || true
-+        if [ -f ${D}${libdir}64/libgcc_s.so ]; then
-+            mv ${D}${libdir}64/libgcc* ${D}${base_libdir}
-+        else
-+            mv ${D}${libdir}64/libgcc* ${D}${base_libdir} || true
-+        fi
- 	fi
- 
- 	# install the runtime in /usr/lib/ not in /usr/lib/gcc on target
+On 13-03-28 11:40 AM, Tom Zanussi wrote:
+> On Tue, 2013-03-26 at 07:46 -0700, Bruce Ashfield wrote:
+>> The -rt series has been updated for the 3.8 kernel. Updating the
+>> SRCREVs to reflet its import into the tree.
+>>
+>
+> Hi Bruce,
+>
+> I'm sure you already have -rt2 queued up, but just wanted to mention
+> that I'm getting this with -rt1:
 
---------------010504090900010207070600--
+Yah. Queued here. I'll make sure to push it as soon as possible.
+Thanks for the report.
+
+If you've picked a patch, that fixes just this error in your build ..
+I can always push just the single patch to keep things moving.
+
+Bruce
+
+>
+> kernel/built-in.o: In function `register_for_each_vma':
+> linux/kernel/events/uprobes.c:772: undefined reference to
+> `percpu_down_write'
+>
+> which should be fixed by -rt2:
+>
+> http://www.spinics.net/lists/linux-rt-users/msg09617.html
+>
+>    [- per-cpu rwsem fixed for RT (required only by uprobes so far)]
+>
+> Tom
+>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>   meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb |   29 +++++++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
+>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
+>> new file mode 100644
+>> index 0000000..97178c7
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
+>> @@ -0,0 +1,29 @@
+>> +require recipes-kernel/linux/linux-yocto.inc
+>> +
+>> +KBRANCH = "standard/preempt-rt/base"
+>> +KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+>> +
+>> +LINUX_VERSION ?= "3.8.4"
+>> +LINUX_KERNEL_TYPE = "preempt-rt"
+>> +
+>> +KMETA = "meta"
+>> +
+>> +SRCREV_machine ?= "e9b9f72029522ef142ab181e9f7f3ae71535181a"
+>> +SRCREV_machine_qemuppc ?= "7443096f0bdc6522053decd10430fc96a0ef9b94"
+>> +SRCREV_meta ?= "2a6d36e75ca0a121570a389d7bab76ec240cbfda"
+>> +
+>> +PR = "${INC_PR}.0"
+>> +PV = "${LINUX_VERSION}+git${SRCPV}"
+>> +
+>> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.8.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+>> +
+>> +# Omit broken machines from COMPATIBLE_MACHINE
+>> +#   qemuppc hangs at boot
+>> +#   qemumips panics at boot
+>> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
+>> +
+>> +# Functionality flags
+>> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+>> +KERNEL_FEATURES_append_qemux86=" ${KERNEL_EXTRA_FEATURES} cfg/sound.scc cfg/paravirt_kvm.scc"
+>> +KERNEL_FEATURES_append_qemux86-64=" ${KERNEL_EXTRA_FEATURES} cfg/sound.scc"
+>> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+>
+>
+
+
+
