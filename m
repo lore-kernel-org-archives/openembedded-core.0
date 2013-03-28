@@ -1,21 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-da0-f46.google.com ([209.85.210.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1ULDVs-00069c-9L
+	(envelope-from <martin.jansa@gmail.com>) id 1ULDY2-0006HA-1o
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Mar 2013 15:09:17 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 28 Mar 2013 06:50:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,925,1355126400"; d="scan'208";a="308652195"
-Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
-	([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 28 Mar 2013 06:52:00 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Thu, 28 Mar 2013 15:11:52 +0100
+Received: by mail-da0-f46.google.com with SMTP id y19so4506406dan.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Mar 2013 06:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=ie4U8QcJNFV5V0sj1S+raxQPzeLg56W3W4jev32zNf8=;
+	b=HrxOCFaF4eAI0PwtQB8u88pRhQqDqLqV/wJAN41BxxoiMODDire0srMZ+QKGWN9tZG
+	JT5qA9snrIgOinvUyv45D9r6WqsVT0PN7vNHaWFNKeoFfoosXl3ZD1B9y8LjIKQH1uME
+	y8ny6cbzSLhLM+XnYTP1M8eD+0ocpWKdu18oavlPL1yM3I6fVJ/lA+h0L/PN7kX11aGg
+	zWtirz1sMIkB3kgE22hKY3gEbfFwhL9+BK4lwse7UjExyzWbqdPSWcRSAqmaO/oEtRyR
+	s6YmYcKK1xCxRt6yBnz/yv7XpTBmUiNqkwg9yn6S8/A6JTD8+3pOdVKPUYPi3snic9Ev
+	CF4A==
+X-Received: by 10.66.121.1 with SMTP id lg1mr36824113pab.167.1364478858839;
+	Thu, 28 Mar 2013 06:54:18 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id qe3sm8579691pbb.0.2013.03.28.06.54.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 28 Mar 2013 06:54:17 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Mar 2013 15:51:58 +0200
-Message-Id: <1364478718-21290-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] elfutils: remove i386_dis.h/x86_64_dis.h compilation targets
+Date: Thu, 28 Mar 2013 14:54:09 +0100
+Message-Id: <1364478849-3696-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+Subject: [PATCH] openssh: don't add update-rc.d to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,42 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2013 14:09:17 -0000
+X-List-Received-Date: Thu, 28 Mar 2013 14:12:00 -0000
 
-Since we provide those files manually (i386_gendis, which is needed for
-generating those files, has to be run on host and would fail when
-compiling for other architectures), the mentioned compilation targets
-in libcpu/ are not needed anymore.
-
-This change will avoid a nasty race condition when running "make -jX
-install" resulting in a zero size libebl_i386.so file. The issue happens
-because, at "make install" time, the *_dis.h prerequisites will be newer
-than the target itself, triggering a chain of recompilations while, in
-the same time, the binary files are copied to the destination directory.
-Hence, the zero sized file...
-
-[YOCTO #4131]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+* sysvinit/systemd assumes that update-rc.d can be inhibited
+* with systemd enabled, sysvinit scripts are missing in packages
+  and update-rc.d needs to be put in BAD_RECOMMENDATIONS to prevent
+  update-rc.d trying to install them in postinst
+* update-rd.c shouldn't be in DEPENDS
 ---
- meta/recipes-devtools/elfutils/elfutils_0.148.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssh/openssh_6.1p1.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index e8d58fb..9c0a08e 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -52,7 +52,7 @@ EXTRA_OECONF_append_class-native = " --without-bzlib"
- EXTRA_OECONF_append_libc-uclibc = " --enable-uclibc"
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.1p1.bb b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
+index 32c3b2c..0cffd23 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.1p1.bb
+@@ -96,8 +96,7 @@ FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
  
- do_configure_prepend() {
--	sed -i 's:./i386_gendis:echo\ \#:g' ${S}/libcpu/Makefile.am
-+	sed -i '/^i386_dis.h:/,+4 {/.*/d}' ${S}/libcpu/Makefile.am
+ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+-DEPENDS_${PN}-sshd += "update-rc.d"
+-RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
++RDEPENDS_${PN}-sshd += "${PN}-keygen"
  
- 	cp ${WORKDIR}/*dis.h ${S}/libcpu
- }
+ CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
+ CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
 -- 
-1.7.9.5
+1.8.1.5
 
 
 
