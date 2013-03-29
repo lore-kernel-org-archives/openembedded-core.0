@@ -1,40 +1,36 @@
-Received: from mail-ve0-f181.google.com ([209.85.128.181])
+Received: from mail-wg0-f42.google.com ([74.125.82.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1ULZ7e-0007l9-CW
+	(envelope-from <twoerner@gmail.com>) id 1ULZSv-00086b-Be
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Mar 2013 14:13:34 +0100
-Received: by mail-ve0-f181.google.com with SMTP id pa12so493814veb.40
+	Fri, 29 Mar 2013 14:35:33 +0100
+Received: by mail-wg0-f42.google.com with SMTP id k13so453449wgh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Mar 2013 05:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	Fri, 29 Mar 2013 06:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=wkSyxWRl4GSGi11xETlwBUgyFPHsPLcQyRYoe+i3a74=;
-	b=ygQFF0+eBG4TQvfzFDX3gL2Qr9mWWSWhc1guj9N0UEkbSMyAvT/7bU49LcqjPe0aHQ
-	Hytj6ExF8PHSsEGITXWQ8VVZGc5yXKqCFwxOaxKrxIrA0tzQEBH36/FwDIFH2kJCWc/z
-	wALsKXSYuhC7tI+n8f5A0SXuO9oTJh+b651vixLIG90yeNAejh48MHOq+u0wywNK6Dci
-	mf2uL3i1HNpexd5jXpC8eQlDH77Xfeg0jJKcXK3gM1YoUy17c3ad2fDI4bEWGkZu8aBX
-	nlWd8AI2n0fDieHpRSE6koYpxqRMDSH6YjMjPVr4Z3mhiTXBRwM05BJVsqFxkTBnEDYu
-	D0qg==
+	:subject:from:to:cc:content-type;
+	bh=KVImcF84IxkbTtH6dHYe5CaTlze6G9iVdObMW49MOxU=;
+	b=emP8+yPwLFbwX2UcZs2ck+PzfCxP/kJqfSb+SiD0OdDQ1/wsOJjn9R2hL4LXL4TTdT
+	kAmzDlXiYYbqNYOk2LC4xir8LRTfRMhvHzl3hNiX3yheb4tkDs1Sp4wN2UE1WFR2NOoF
+	AreTscyKv5JEK9vjk9ffgvhmUXk+W50EN5/dHQo6NsS/MSS0EreMXG3xiMWGUjFnvLhw
+	vwzEW+gDP2tnmLBRfs8sXvm+e0KJHB/UAIJDijGkNy+nMdFD4e0ixg2ZdcYzZNbLWSnB
+	LPw2iBqaOKC3HxBP4v0rvTv1nA6RxOnxvhfCSxEULVYeEhkGXZ/Ie5IrQEiqP3NHeg6q
+	7WMw==
 MIME-Version: 1.0
-X-Received: by 10.52.65.147 with SMTP id x19mr1501158vds.27.1364561790123;
-	Fri, 29 Mar 2013 05:56:30 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Fri, 29 Mar 2013 05:56:30 -0700 (PDT)
-In-Reply-To: <CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
-References: <cover.1364456659.git.raj.khem@gmail.com>
-	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
-	<20130328122110.GA5105@jama>
-	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
-	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
-	<D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
-	<CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
-Date: Fri, 29 Mar 2013 13:56:30 +0100
-Message-ID: <CALbNGRSy1T1SxSGPbKK+Zz=aZi9FdmDBx5Qs2bSWgQM1=AtiwA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
+X-Received: by 10.194.58.202 with SMTP id t10mr3667753wjq.4.1364563109389;
+	Fri, 29 Mar 2013 06:18:29 -0700 (PDT)
+Received: by 10.194.45.100 with HTTP; Fri, 29 Mar 2013 06:18:29 -0700 (PDT)
+In-Reply-To: <CABMQnVKVnoMH1B1Ri-Qmjec30BFX1TaosGq0b1Hc641m3490hA@mail.gmail.com>
+References: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16216497@IRSMSX102.ger.corp.intel.com>
+	<CABMQnVKVnoMH1B1Ri-Qmjec30BFX1TaosGq0b1Hc641m3490hA@mail.gmail.com>
+Date: Fri, 29 Mar 2013 09:18:29 -0400
+Message-ID: <CAHUNapSwkvRWD13RK_x2cu-1Q9CdYSKhw9OQFcek7vYjR0UFfA@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Cc: Saul Wold <saul.wold@intel.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-tools: Update autotools.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,91 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2013 13:13:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Mar 2013 13:35:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Mar 29, 2013 at 1:50 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Fri, Mar 29, 2013 at 9:18 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Mar 29, 2013, at 1:12 AM, Koen Kooi <koen@dominion.thruhere.net> wrot=
-e:
->>
->>>
->>> Op 29 mrt. 2013, om 06:28 heeft Khem Raj <raj.khem@gmail.com> het volge=
-nde geschreven:
->>>
->>>>
->>>> On Mar 28, 2013, at 5:21 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
->>>>
->>>>> On Thu, Mar 28, 2013 at 12:48:29AM -0700, Khem Raj wrote:
->>>>>> udevadm is now moved from /usr/bin to /bin so account for that
->>>>>> bash completions for udevadm should be packages with udev-utils
->>>>>> since thats where udevadm itself is, they were in systemd package
->>>>>> which is not correct location for it
->>>>>>
->>>>>> Backport patches for readahead fixes on spinning disks
->>>>>> and to tackle error reported on missing /etc/sysctl.conf
->>>>>
->>>>> Looks like it creates few new (empty) directories:
->>>>>
->>>>> WARNING: QA Issue: systemd: Files/directories were installed but not
->>>>> shipped
->>>>> /etc/kernel
->>>>> /etc/kernel/install.d
->>>>> /usr/lib/kernel
->>>>> /usr/lib/kernel/install.d
->>>>
->>>>
->>>> OK I have created a new package called systems-kernel-install and thes=
-e dirs along with
->>>> kernel-install binary are moved into the new package and updated the p=
-ull request.
->>>
->>> There's a new releases, 200, mostly bugfixes and some hwdp and  keymap =
-updates. Your 199 patch has the most important fixes, so I'm not sure if it=
-'s worth to respin to 200 or get this in and update to 200 (or 201) later.
->>
->>
->> yeah lets stay at 199 for some time and cherry pick fixes we need.
->>
->>
-> Anybody an idea why I get this when building from scratch:
->
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Manager.xml] Error 1
-> | make[2]: *** Waiting for unfinished jobs....
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Unit.xml] Error 1
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Service.xml] Error 1
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Job.xml] Error 1
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-v=
-fp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Socket.xml] Error 1
-> | make[2]: *** [org.freedesktop.systemd1.Timer.xml] Error 1
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7a=
--vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
-> 'systemd': No such file
-> | make[2]: *** [org.freedesktop.systemd1.Target.xml] Error 1
->
-FYI: Last building version is 197
+I'm seeing this exact same error when I perform a "bitbake world", and
+have been for the last couple days
 
-Andreas
+On Wed, Mar 13, 2013 at 9:43 PM, Nobuhiro Iwamatsu
+<nobuhiro.iwamatsu.yj@renesas.com> wrote:
+> ----
+> checking for i586-oe-linux-pkg-config... no
+> checking for pkg-config...
+> /home/iwamatsu/yocto/alsa/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config
+> configure: WARNING: using cross tools not prefixed with host triplet
+> checking pkg-config is at least version 0.9.0... yes
+> checking for ENVY24CONTROL... no
+> configure: error: Package requirements (gtk+-2.0 alsa >= 0.9.0) were not met:
+>
+> No package 'gtk+-2.0' found
+>
+> Consider adjusting the PKG_CONFIG_PATH environment variable if you
+> installed software in a non-standard prefix.
+>
+> Alternatively, you may set the environment variables ENVY24CONTROL_CFLAGS
+> and ENVY24CONTROL_LIBS to avoid the need to call pkg-config.
+> See the pkg-config man page for more details.
+> make: *** [all] Error 1
+
+Is the proposed patch from this email suitable for merging to master?
+It allows my build of alsa-tools to complete without error.
 
 
