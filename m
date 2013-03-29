@@ -1,40 +1,43 @@
-Received: from mail-pa0-f52.google.com ([209.85.220.52])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1ULUmM-00007y-Qd; Fri, 29 Mar 2013 09:35:24 +0100
-Received: by mail-pa0-f52.google.com with SMTP id fb10so260436pad.25
-	for <multiple recipients>; Fri, 29 Mar 2013 01:18:14 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1ULUn4-0000Bb-Sn
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Mar 2013 09:36:12 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so148667dak.20
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Mar 2013 01:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=qC3LjVKlY4UzZ3YK0VMWrz6c2cE7PZhPwuNJR75kwGs=;
-	b=XPOGc6oDoyaxizBghPWA7zo1HgS/rUFUjHPCN81QvA1euGVyWcj+AW2UsOb6Qok7Jk
-	fACe5o3xH6raVaqopE/c//Vm4AKEeMUVpO4CFFc4Ik8t8AEMnK3gpnoJps6ROoGpUuNH
-	oFxKbvxHjFm1MT265Hk7DV3iqS6nVANdSVyW1nQf3FgaRQf23qs6usaMUrenbPWMNz9c
-	f6aL7SIWQ4Al21P0xDHzEe5mxeQtQ90DKyF9EYSdoBoiHuo7NYdCyy0G5/GAsP8JZ9Jn
-	EsEsvrC+JcAaLPr9ozdX8I04PyvajZ/P7eyH3So0Qh/m582AMqH7BwyyLUon3a/sfX5a
-	FTrg==
-X-Received: by 10.68.4.38 with SMTP id h6mr2515146pbh.5.1364545094238;
-	Fri, 29 Mar 2013 01:18:14 -0700 (PDT)
+	bh=lRg2oDk7qsc0GjL5ySAeStY62aE1JiOcwLa1vWMiXpw=;
+	b=vaNSPCbfpTuFqAih7vEI9VRtU6osSK/NK2IYrp4X42zcatracFWhfcAR0qvR2s4EQC
+	7N7g0FHlFe3jNESMIeX3m+55svisg6HWaF9D2DjcO+j+S+XLMOp4eGQ7D1BSz1mPlsGO
+	ZYSDd8BK1tWTyMD1Ab/cF0dOR8b+xhO94pCUlwUKqqzkpSkwt0NQj3/a7/0xdDu6j/J0
+	nCT+bLmYIJE+hdio+KwOErIvH8vxQggkMq8nknlTvqhnMI8ZKgRFsH8g3Ofy7QxPbSui
+	wW7pm8foE4OMn+uO0Wj6vSTaaS1pP00kISx30AsOpnWj+ia19/zk6fIISQMwiaXZ9Z7d
+	hByw==
+X-Received: by 10.68.159.133 with SMTP id xc5mr2384127pbb.155.1364545137881;
+	Fri, 29 Mar 2013 01:18:57 -0700 (PDT)
 Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
 	[66.129.224.36])
-	by mx.google.com with ESMTPS id yp2sm2581985pab.10.2013.03.29.01.18.12
+	by mx.google.com with ESMTPS id yp2sm2581985pab.10.2013.03.29.01.18.56
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 29 Mar 2013 01:18:13 -0700 (PDT)
+	Fri, 29 Mar 2013 01:18:57 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <44FDC966-90E8-43EC-9ED4-860384A085E6@gmail.com>
-Date: Fri, 29 Mar 2013 01:18:11 -0700
-Message-Id: <A9FC653E-2D41-4AD4-90B6-9898040EC6D8@gmail.com>
-References: <6B577862-4C24-49DB-80F2-3A1408AF8337@gmail.com>
-	<44FDC966-90E8-43EC-9ED4-860384A085E6@gmail.com>
-To: Elvis Dowson <elvis.dowson@gmail.com>
+In-Reply-To: <A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
+Date: Fri, 29 Mar 2013 01:18:56 -0700
+Message-Id: <D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
+References: <cover.1364456659.git.raj.khem@gmail.com>
+	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
+	<20130328122110.GA5105@jama>
+	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
+	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
+To: Koen Kooi <koen@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1503)
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] GCC 4.8 recipes
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,67 +50,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2013 08:35:28 -0000
+X-List-Received-Date: Fri, 29 Mar 2013 08:36:14 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-On Mar 29, 2013, at 1:13 AM, Elvis Dowson <elvis.dowson@gmail.com> =
+On Mar 29, 2013, at 1:12 AM, Koen Kooi <koen@dominion.thruhere.net> =
 wrote:
 
-> Hi Khem,
 >=20
-> On Mar 28, 2013, at 9:51 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> Op 29 mrt. 2013, om 06:28 heeft Khem Raj <raj.khem@gmail.com> het =
+volgende geschreven:
 >=20
->> All,
 >>=20
->> I have added gcc 4.8 recipes and the branch is here=20
+>> On Mar 28, 2013, at 5:21 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 >>=20
->> git://git.openembedded.org/openembedded-core-contrib kraj/gcc-4.8
+>>> On Thu, Mar 28, 2013 at 12:48:29AM -0700, Khem Raj wrote:
+>>>> udevadm is now moved from /usr/bin to /bin so account for that
+>>>> bash completions for udevadm should be packages with udev-utils
+>>>> since thats where udevadm itself is, they were in systemd package
+>>>> which is not correct location for it
+>>>>=20
+>>>> Backport patches for readahead fixes on spinning disks
+>>>> and to tackle error reported on missing /etc/sysctl.conf
+>>>=20
+>>> Looks like it creates few new (empty) directories:
+>>>=20
+>>> WARNING: QA Issue: systemd: Files/directories were installed but not
+>>> shipped
+>>> /etc/kernel
+>>> /etc/kernel/install.d
+>>> /usr/lib/kernel
+>>> /usr/lib/kernel/install.d
 >>=20
->> cgit
 >>=20
->> =
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-4.=
-8
->>=20
->> Please test it out on your respective environments if you can.
->>=20
->> To enable gcc 4.8 with OE-Core you would
->>=20
->> in local.conf set
->>=20
->> GCCVERSION =3D "4.8%"
->>=20
->> and if you use angstrom. Please checkout 'next' branch of =
-setup-scripts
->> and then in conf/local.conf
->>=20
->> set
->>=20
->> ANGSTROM_GCC_VERSION =3D "4.8%"
->>=20
->> My testing so far has been building systems-image for all qemu =
-machines and they
->> seem to boot as good as 4.7 did. But I am hoping for wider testing =
-and finding issues
->> or very least improve the existing recipes for now and once the 1.4 =
-release is done
->> we can then propose it for inclusion in OE-Core
->>=20
->> Thanks for your time
+>> OK I have created a new package called systems-kernel-install and =
+these dirs along with
+>> kernel-install binary are moved into the new package and updated the =
+pull request.
 >=20
-> I've built and tested the new gcc-4.8.0 recipe for the Xilinx ZC702 =
-Zynq-7020 platform
-> (dual ARM Cortex A9). The kernel (3.6) and corresponding =
-rootfilesystem boots fine.
->=20
+> There's a new releases, 200, mostly bugfixes and some hwdp and  keymap =
+updates. Your 199 patch has the most important fixes, so I'm not sure if =
+it's worth to respin to 200 or get this in and update to 200 (or 201) =
+later.
 
-Thanks,=20
 
-> Best regards,
->=20
-> Elvis Dowson
+yeah lets stay at 199 for some time and cherry pick fixes we need.=20
+
 
 
 
