@@ -1,29 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ULLkm-0003YU-QY for openembedded-core@lists.openembedded.org;
-	Thu, 28 Mar 2013 23:57:19 +0100
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2SMnkkw019318; Thu, 28 Mar 2013 22:49:46 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rtbgpp5mTi9U; Thu, 28 Mar 2013 22:49:46 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r2SMnf6d019311
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 28 Mar 2013 22:49:44 GMT
-Message-ID: <1364510372.28471.175.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 28 Mar 2013 22:39:32 +0000
-In-Reply-To: <CADkTA4Ozv+O+tfvSfbBCq7qzRQWNgVGH4r24W6U=nSLQgb-Pcw@mail.gmail.com>
+	(envelope-from <joe.slater@windriver.com>) id 1ULO2v-0007q2-RV
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Mar 2013 02:24:03 +0100
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r2T16pTH000674
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Mar 2013 18:06:51 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.233]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
+	Thu, 28 Mar 2013 18:06:51 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Bruce Ashfield
+	<bruce.ashfield@gmail.com>
+Thread-Topic: [OE-core] QEMU_UI_OPTIONS
+Thread-Index: Ac4r8f+byCzfhdoVQ3G0AaA9AZI4XAAPuqcAAAO34wAACbtWYA==
+Date: Fri, 29 Mar 2013 01:06:51 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436F7FC68@ALA-MBB.corp.ad.wrs.com>
 References: <007BD92917A2324FA403BCF9A464CF8436F7FAD6@ALA-MBB.corp.ad.wrs.com>
 	<CADkTA4Ozv+O+tfvSfbBCq7qzRQWNgVGH4r24W6U=nSLQgb-Pcw@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	<1364510372.28471.175.camel@ted>
+In-Reply-To: <1364510372.28471.175.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
+MIME-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: QEMU_UI_OPTIONS
@@ -39,28 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Mar 2013 22:57:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Mar 2013 01:24:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 2013-03-28 at 16:53 -0400, Bruce Ashfield wrote:
-> On Thu, Mar 28, 2013 at 4:29 PM, Slater, Joseph
-> <joe.slater@windriver.com> wrote:
-> > I notice that, by default, we pretend we have a touchscreen instead of a
-> >
-> > mouse (-usbdevice wacom-tablet option) for the qemu bsp's.  Is there
-> >
-> > some reason for this?
-> 
-> Avoiding screen grab is the best reason (and all that I need) to use
-> the tablet options.
-
-Exactly. A mouse only gives relative position data so it has to grab,
-the touchscreen can do absolute position and hence doesn't need a grab.
-
-Cheers,
-
-Richard
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
+W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBUaHVy
+c2RheSwgTWFyY2ggMjgsIDIwMTMgMzo0MCBQTQ0KPiBUbzogQnJ1Y2UgQXNoZmllbGQNCj4gQ2M6
+IFNsYXRlciwgSm9zZXBoOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gUUVNVV9VSV9PUFRJT05TDQo+IA0KPiBPbiBUaHUs
+IDIwMTMtMDMtMjggYXQgMTY6NTMgLTA0MDAsIEJydWNlIEFzaGZpZWxkIHdyb3RlOg0KPiA+IE9u
+IFRodSwgTWFyIDI4LCAyMDEzIGF0IDQ6MjkgUE0sIFNsYXRlciwgSm9zZXBoDQo+ID4gPGpvZS5z
+bGF0ZXJAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4gPiBJIG5vdGljZSB0aGF0LCBieSBkZWZh
+dWx0LCB3ZSBwcmV0ZW5kIHdlIGhhdmUgYSB0b3VjaHNjcmVlbiBpbnN0ZWFkIG9mIGENCj4gPiA+
+DQo+ID4gPiBtb3VzZSAoLXVzYmRldmljZSB3YWNvbS10YWJsZXQgb3B0aW9uKSBmb3IgdGhlIHFl
+bXUgYnNwJ3MuICBJcyB0aGVyZQ0KPiA+ID4NCj4gPiA+IHNvbWUgcmVhc29uIGZvciB0aGlzPw0K
+PiA+DQo+ID4gQXZvaWRpbmcgc2NyZWVuIGdyYWIgaXMgdGhlIGJlc3QgcmVhc29uIChhbmQgYWxs
+IHRoYXQgSSBuZWVkKSB0byB1c2UNCj4gPiB0aGUgdGFibGV0IG9wdGlvbnMuDQo+IA0KPiBFeGFj
+dGx5LiBBIG1vdXNlIG9ubHkgZ2l2ZXMgcmVsYXRpdmUgcG9zaXRpb24gZGF0YSBzbyBpdCBoYXMg
+dG8gZ3JhYiwNCj4gdGhlIHRvdWNoc2NyZWVuIGNhbiBkbyBhYnNvbHV0ZSBwb3NpdGlvbiBhbmQg
+aGVuY2UgZG9lc24ndCBuZWVkIGEgZ3JhYi4NCg0KVGhhdCBkb2VzIHNlZW0gY2xlYW5lci4gIEkg
+ZG8gc2VlLCBhbHNvLCB0aGF0IGlmIHRoZXJlIGlzIGEgL2Rldi9pbnB1dC90b3VjaHNjcmVlbjAs
+DQpob3N0IG1vdXNlIG1vdmVtZW50cywgZXRjLCBhbHNvIGFwcGVhciBvbiAvZGV2L2lucHV0L21p
+Y2UuICBNaWdodCB0aGF0IGJlDQpjb25mdXNpbmc/ICBJcyB0aGVyZSBzb21lIHdheSBmb3IgcWVt
+dSB0byBlbXVsYXRlIGEgdG91Y2hzY3JlZW4gd2hpbGUgc3VwcHJlc3NpbmcNCnRoZSBtb3VzZT8N
+Cg0KSm9lDQoNCg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQo=
 
 
