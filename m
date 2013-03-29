@@ -1,35 +1,26 @@
-Received: from mail-ob0-f177.google.com ([209.85.214.177])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1ULhZq-0005W1-ET; Fri, 29 Mar 2013 23:15:14 +0100
-Received: by mail-ob0-f177.google.com with SMTP id eh20so644445obb.22
-	for <multiple recipients>; Fri, 29 Mar 2013 14:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=wE/jQiENN0aDtD9mDuC1RlMjBiyht2FeX0yTJuzOcaI=;
-	b=1Ai5RnodtqXWRf8TQ4tbIReaMMxiJopvuGLrzqIFr+LgzCSyJDDnwtMnrABL22mcVg
-	0h9Rfm7Dhvpw6EJ69hR0AmMb1ht7zlkU/O8Q1s9cbwk0YQyE0rBFKTOhOqLKVY0/QsUI
-	9Q8hbewou+Pjb9E+cc1DNrH/oefpItLBKe1a4R+nXPP+1qe3OdeUCysLxlCD+0pOFEYX
-	O9qMDIKoUCA5n/pj/sqnSNhOwx3ci40zuJtLKSl7uDPi+Tl7Bzk8APXRIqgVnWCvqyo6
-	T5iwuCqRT+P/Mkl1mIbxkJLxHlnxuGAbIOk7gNRuORsS0Iq/FEVRFMM1u4s13YJP1qOX
-	/NlA==
-MIME-Version: 1.0
-X-Received: by 10.60.25.65 with SMTP id a1mr1355696oeg.40.1364594289165; Fri,
-	29 Mar 2013 14:58:09 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Fri, 29 Mar 2013 14:58:09 -0700 (PDT)
-In-Reply-To: <3982011.Guen6pOcoq@helios>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1ULhj6-0005ib-0m; Fri, 29 Mar 2013 23:24:48 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Mar 2013 15:07:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,375,1363158000"; d="scan'208";a="310496645"
+Received: from unknown (HELO helios.localnet) ([10.255.12.237])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2013 15:07:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 29 Mar 2013 22:07:39 +0000
+Message-ID: <2155964.5sB9Y5hPjU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <CAP9ODKrG4Q22XbpHBec7144kYCZD3D6ULfeHR5yH8fygcu=ZwQ@mail.gmail.com>
 References: <3982011.Guen6pOcoq@helios>
-Date: Fri, 29 Mar 2013 18:58:09 -0300
-X-Google-Sender-Auth: ob3MxVK2Dr2xiE2HdXenwSohAEs
-Message-ID: <CAP9ODKrG4Q22XbpHBec7144kYCZD3D6ULfeHR5yH8fygcu=ZwQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+	<CAP9ODKrG4Q22XbpHBec7144kYCZD3D6ULfeHR5yH8fygcu=ZwQ@mail.gmail.com>
+MIME-Version: 1.0
 Cc: yocto <yocto@yoctoproject.org>,
 	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	openembedded-core@lists.openembedded.org
 Subject: Re: New OE layer index now available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,30 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2013 22:15:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 29 Mar 2013 22:24:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Mar 29, 2013 at 6:34 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> There is a new index for OpenEmbedded layers available here:
->
->   http://layers.openembedded.org
->
-> It can be used to browse and search for existing layers, as well as the
-> recipes and machines contained within them. In addition to the short
-> description, repository location and usage link we were collecting in the
-> existing wiki, we can now store information on maintainers, layer
-> dependencies, and the associated mailing list, as well as a longer
-> description. New layers can be submitted easily using a simple form which does
-> not require a login.
+On Friday 29 March 2013 18:58:09 Otavio Salvador wrote:
+> On Fri, Mar 29, 2013 at 6:34 PM, Paul Eggleton
+> 
+> <paul.eggleton@linux.intel.com> wrote:
+> > There is a new index for OpenEmbedded layers available here:
+> >   http://layers.openembedded.org
+> > 
+> > It can be used to browse and search for existing layers, as well as the
+> > recipes and machines contained within them. In addition to the short
+> > description, repository location and usage link we were collecting in the
+> > existing wiki, we can now store information on maintainers, layer
+> > dependencies, and the associated mailing list, as well as a longer
+> > description. New layers can be submitted easily using a simple form which
+> > does not require a login.
+> 
+> I'd like to update some info in some layers I am the maintainer; how
+> can I do it?
 
-I'd like to update some info in some layers I am the maintainer; how
-can I do it?
+Just click on "login" in the top right hand corner, then on "Create one now", 
+enter your details, you'll need to confirm your email, then you should be able 
+to log in and then click on the Edit button on the layer info page.
 
+Cheers,
+Paul
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
