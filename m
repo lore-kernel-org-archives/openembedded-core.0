@@ -1,20 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1ULaH1-0000sE-3W
+	(envelope-from <cristian.iorga@intel.com>) id 1ULaIr-0000yE-QV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Mar 2013 15:27:19 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 29 Mar 2013 07:10:13 -0700
+	Fri, 29 Mar 2013 15:29:14 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Mar 2013 07:12:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,373,1363158000"; d="scan'208";a="220255361"
+X-IronPort-AV: E=Sophos;i="4.87,373,1363158000"; d="scan'208";a="310286460"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Mar 2013 07:10:12 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2013 07:12:07 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Mar 2013 16:10:51 +0200
-Message-Id: <1364566251-16209-1-git-send-email-cristian.iorga@intel.com>
+Date: Fri, 29 Mar 2013 16:12:42 +0200
+Message-Id: <1364566362-16292-1-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/3] meta/lib/oe/lsb.py: extract only the needed info from lsb-release
+Subject: [PATCH 3/3] lsb: distro codename info added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,36 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2013 14:27:19 -0000
+X-List-Received-Date: Fri, 29 Mar 2013 14:29:14 -0000
 
-Instead of running lsb_release -a, a lsb_release -ir will be run.
-This will prevent issue with distros that don't have all the needed
-info in /etc/lsb-release file, in which case lsb_release won't generate
-an error code.
+Poky distro codename info added to /etc/lsb-release file.
+lsb_release script will not complain anymore about
+the incompleteness of /etc/lsb-release file by
+returning an error code.
+Increases LSB compliance.
 
-Partial fix for [YOCTO #4071]
+Partial fix for [YOCTO #4071].
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/lib/oe/lsb.py |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/lsb/lsb_4.1.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index ebf90ba..fed1204 100644
---- a/meta/lib/oe/lsb.py
-+++ b/meta/lib/oe/lsb.py
-@@ -1,9 +1,9 @@
- def release_dict():
--    """Return the output of lsb_release -a as a dictionary"""
-+    """Return the output of lsb_release -ir as a dictionary"""
-     from subprocess import PIPE
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index 01368b3..b28e9b6 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "LSB support for OpenEmbedded"
+ SECTION = "console/utils"
+ HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
+ LICENSE = "GPLv2+"
+-PR = "r1"
++PR = "r2"
  
-     try:
--        output, err = bb.process.run(['lsb_release', '-a'], stderr=PIPE)
-+        output, err = bb.process.run(['lsb_release', '-ir'], stderr=PIPE)
-     except bb.process.CmdError as exc:
-         return None
+ # lsb_release needs getopt
+ RDEPENDS_${PN} += "util-linux"
+@@ -41,6 +41,7 @@ do_install(){
+ 	echo "\"" >> ${D}${sysconfdir}/lsb-release
+ 	echo "DISTRIB_ID=${DISTRO}" >> ${D}${sysconfdir}/lsb-release
+ 	echo "DISTRIB_RELEASE=${DISTRO_VERSION}" >> ${D}${sysconfdir}/lsb-release
++	echo "DISTRIB_CODENAME=${DISTRO_CODENAME}" >> ${D}${sysconfdir}/lsb-release
+ 	echo "DISTRIB_DESCRIPTION=\"${DISTRO_NAME} ${DISTRO_VERSION}\"" >> ${D}${sysconfdir}/lsb-release
  
+ 	if [ "${TARGET_ARCH}" = "i586" ];then
 -- 
 1.7.10.4
 
