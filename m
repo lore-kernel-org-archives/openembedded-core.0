@@ -1,27 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1ULhj6-0005ib-0m; Fri, 29 Mar 2013 23:24:48 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Mar 2013 15:07:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,375,1363158000"; d="scan'208";a="310496645"
-Received: from unknown (HELO helios.localnet) ([10.255.12.237])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2013 15:07:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 29 Mar 2013 22:07:39 +0000
-Message-ID: <2155964.5sB9Y5hPjU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
-In-Reply-To: <CAP9ODKrG4Q22XbpHBec7144kYCZD3D6ULfeHR5yH8fygcu=ZwQ@mail.gmail.com>
-References: <3982011.Guen6pOcoq@helios>
-	<CAP9ODKrG4Q22XbpHBec7144kYCZD3D6ULfeHR5yH8fygcu=ZwQ@mail.gmail.com>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1ULrxa-00071M-KT; Sat, 30 Mar 2013 10:20:29 +0100
+Received: by mail-pb0-f52.google.com with SMTP id ma3so530646pbc.39
+	for <multiple recipients>; Sat, 30 Mar 2013 02:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=o2fjRq+hSHgfzvJ51H/54QxQOyxNySySaNQVf+PhtUc=;
+	b=mAcVDA2eou00apn6/wN9uZQQYUawQJKqBEK3bc8yvFfQuu4c3w50PaQRanPiXal/wC
+	yluQaNuAco+vAJu1RRAnJNCtU+5LqPz6Sxz/Deb0Rl/AhHVwKY979TBF37VVClKxjJjm
+	aj2NqC8WGKW+4izncLsI/7rM27Kg9dbouUojXoOE9EcIRvEK2BuBoanixiAG1np293Fy
+	xr0VutkWpDj7nvg5TWwcuxBp3zwcCR9OLksFLvtN4R1vH0wRVadtan9TjQtYbSA+XJFz
+	cXe1H5g/EmyaTol+MTp6cXmWhefEU7aHPC9Q2JZCvp33TP2ucgLnyeyoOhOY4TjaUZpb
+	vmRQ==
+X-Received: by 10.68.239.194 with SMTP id vu2mr7688608pbc.147.1364634200323;
+	Sat, 30 Mar 2013 02:03:20 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id i10sm5926358pbd.1.2013.03.30.02.03.17
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 30 Mar 2013 02:03:18 -0700 (PDT)
+Date: Sat, 30 Mar 2013 10:03:19 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130330090319.GM11120@jama>
+References: <6B577862-4C24-49DB-80F2-3A1408AF8337@gmail.com>
+	<20130329145514.GH11120@jama>
 MIME-Version: 1.0
-Cc: yocto <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: New OE layer index now available
+In-Reply-To: <20130329145514.GH11120@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 4.8 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Mar 2013 22:24:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 30 Mar 2013 09:20:31 -0000
+X-Groupsio-MsgNum: 37253
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="DheUW4aQn8WJk6WR"
+Content-Disposition: inline
 
-On Friday 29 March 2013 18:58:09 Otavio Salvador wrote:
-> On Fri, Mar 29, 2013 at 6:34 PM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > There is a new index for OpenEmbedded layers available here:
-> >   http://layers.openembedded.org
-> > 
-> > It can be used to browse and search for existing layers, as well as the
-> > recipes and machines contained within them. In addition to the short
-> > description, repository location and usage link we were collecting in the
-> > existing wiki, we can now store information on maintainers, layer
-> > dependencies, and the associated mailing list, as well as a longer
-> > description. New layers can be submitted easily using a simple form which
-> > does not require a login.
-> 
-> I'd like to update some info in some layers I am the maintainer; how
-> can I do it?
+--DheUW4aQn8WJk6WR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Just click on "login" in the top right hand corner, then on "Create one now", 
-enter your details, you'll need to confirm your email, then you should be able 
-to log in and then click on the Edit button on the layer info page.
+On Fri, Mar 29, 2013 at 03:55:14PM +0100, Martin Jansa wrote:
+> On Wed, Mar 27, 2013 at 10:51:50PM -0700, Khem Raj wrote:
+> > All,
+> >=20
+> > I have added gcc 4.8 recipes and the branch is here=20
+> >=20
+> > git://git.openembedded.org/openembedded-core-contrib kraj/gcc-4.8
+> >=20
+> > cgit
+> >=20
+> > http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc=
+-4.8
+> >=20
+> > Please test it out on your respective environments if you can.
+>=20
+> First failed task in world rebuild:
 
-Cheers,
-Paul
+And now the rest of qemuarm gcc-4.8 world failure
 
--- 
+openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.148.bb, do_comp=
+ile
+ICE as reported before
 
-Paul Eggleton
-Intel Open Source Technology Centre
+openembedded-core/meta/recipes-devtools/gcc/gcc_4.8.bb, do_compile
+gcc-4.8.0/libatomic/config/linux/arm/store_n.c:46:0: fatal error:
+opening dependency file .deps/store_1_.lo.Ppo: No such file or directory
+|  #include "../../../store_n.c"
 
+openembedded-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.bb=
+, do_compile
+xf86Crtc.c:391:5: error: implicit declaration of function 'xf86InputRotatio=
+nNotify' [-Werror=3Dimplicit-function-declaration]
 
+openembedded-core/meta/recipes-graphics/xorg-app/xmodmap_1.0.7.bb, do_compi=
+le
+xmodmap.c:289:5: error: implicit declaration of function 'asprintf' [-Werro=
+r=3Dimplicit-function-declaration]
+
+meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb, do_compile
+glib-2.0/glib/gmacros.h:162:53: error: typedef '_GStaticAssertCompileTimeAs=
+sertion_0' locally defined but not used [-Werror=3Dunused-local-typedefs]
+
+meta-openembedded/meta-oe/recipes-connectivity/networkmanager/modemmanager_=
+0.6.0.0.bb, do_compile
+glib-2.0/glib/gmacros.h:162:53: error: typedef '_GStaticAssertCompileTimeAs=
+sertion_0' locally defined but not used
+
+meta-openembedded/meta-oe/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb,=
+ do_compile
+ipsec_doi.c:1321:24: error: argument to 'sizeof' in 'memset' call is the sa=
+me expression as the destination; did you mean to dereference it? [-Werror=
+=3Dsizeof-pointer-memaccess]
+|   memset(pair, 0, sizeof(pair));
+
+And couple of old failures, which are not caused by gcc upgrade for sure.
+
+Complete log:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30329_124637.log/
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--DheUW4aQn8WJk6WR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFWqlcACgkQN1Ujt2V2gBxtXgCeMOeP51A+gZxfZjpEa3yjkKj5
+oQ0AoKZ/epJmtD+2dgqVgRyXkY2CrV8q
+=w3oU
+-----END PGP SIGNATURE-----
+
+--DheUW4aQn8WJk6WR--
