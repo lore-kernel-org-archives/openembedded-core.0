@@ -1,24 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jeff.polk@windriver.com>) id 1UMkLP-0000WA-Fy
+	(envelope-from <raj.khem@gmail.com>) id 1UMkbd-0000g9-8h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 21:24:39 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r31Fq570001582
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 01 Apr 2013 21:41:25 +0200
+Received: by mail-pb0-f48.google.com with SMTP id xb4so678849pbc.35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Apr 2013 08:52:05 -0700 (PDT)
-Received: from delos.delos.com (172.25.35.98) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 1 Apr 2013 08:52:05 -0700
-From: Jeff Polk <jeff.polk@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Apr 2013 09:52:04 -0600
-Message-ID: <1364831524-28363-1-git-send-email-jeff.polk@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] sstate: add -f to mv when moving sstate files into place
+	Mon, 01 Apr 2013 12:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=nuvgtqiGEu8OsePLj635kmjw6tAXNQ0QjoPbf3XQTrY=;
+	b=UmWFAqzKl8JYXUkTOTqN3CgRdKWJHOphCiOt/oc17sK84OLs1Hn5KNd0dVYjfTPl13
+	eKjbEJM+MZkZ1uvqhST6fXBuZYWsffdzwVR2CsOfpEKXiZBMtA7qhAUTRRYBolz7GCXb
+	CZ5YMPSMXXfTltrRhnY/ncYHezYiWyrCo2G8ttvTKAAExGfZTH9tOqXwIpcj+nmp0U9U
+	h8O89KiMbsntdwyQNoe5huzsrprK9LuVyESM43VWZ2IWCqFFPIIVdCh9Qq7wYpurTBnS
+	V093vOQwfIb8MCOPYlIIWF4Z0zy+dVN+eqwaQti8AFeeuAIqWlWzquhRIEtpv+nshTvP
+	Nj5Q==
+X-Received: by 10.68.247.163 with SMTP id yf3mr19700213pbc.113.1364844255790; 
+	Mon, 01 Apr 2013 12:24:15 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id kt5sm14816986pbc.30.2013.04.01.12.24.13
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 01 Apr 2013 12:24:14 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <cover.1364835699.git.bruce.ashfield@windriver.com>
+Date: Mon, 1 Apr 2013 12:24:15 -0700
+Message-Id: <146E9829-6FA3-4124-8BF2-5B31B8CA146C@gmail.com>
+References: <cover.1364835699.git.bruce.ashfield@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] linux-yocto: mips, -rt update and yocto-custom fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,33 +45,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 19:24:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 01 Apr 2013 19:41:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Under some conditions (ACLs enabled, NFS) mv can interactively prompt
-before overwriting files.  Avoid hanging builds in that case by using
--f which should be harmless in other cases.
 
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
----
- meta/classes/sstate.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Apr 1, 2013, at 10:09 AM, Bruce Ashfield =
+<bruce.ashfield@windriver.com> wrote:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ce9f243..c7d8d68 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -547,7 +547,7 @@ sstate_create_package () {
- 		tar -cz --file=$TFILE --files-from=/dev/null
- 	fi
- 	chmod 0664 $TFILE 
--	mv $TFILE ${SSTATE_PKG}
-+	mv -f $TFILE ${SSTATE_PKG}
- 
- 	cd ${WORKDIR}
- 	rm -rf ${SSTATE_BUILDDIR}
--- 
-1.7.9.5
+> [PATCH 1/3] linux-yocto/3.8: update mips SA_RESTORER fix
+>=20
+>    During the 3.8.4 integration there was a build issue on MIPS due to
+>    SA_RESTORER changes. A solution was put in place for mips, but it
+>    didn't cover other impacted architectures.
+>=20
+>    This is a backport of the proposed fix for the next 3.8-stable,
+>    since the full -stable might not be available in the right =
+timeframe.
 
+
+Does this fix systemd/ crash and/or mips64 boot on qemu I wonder=
 
 
