@@ -1,33 +1,40 @@
-Received: from mail-pa0-f43.google.com ([209.85.220.43])
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UMeSs-0002ZO-MO
+	(envelope-from <walters@verbum.org>) id 1UMfS2-0003cW-78
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 15:07:58 +0200
-Received: by mail-pa0-f43.google.com with SMTP id hz11so1306160pad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2013 05:50:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=OU5WLmlVFBqMOrQYQl5JWLe9+z0WI5xEhre2NwP1ScM=;
-	b=0+Tik24BKBLdfSs6YyA0JI3FTDaRR1eQI9r66bK0IS4b8RwoN7nVbzmfR6m1PcNQxf
-	sPYAI/ve2vb42g02ayL+LikcokkdQMU+bucZj0gnuUD8gUz/slwbjW6QU523/aCfSIp5
-	R4I4fsZeXT7YAXOQL8NNihFEARt2EUVAgWCCadjHglCdSrosHf/sybvN6+1lUaKLNfou
-	qJ0D0FeInYFP94iq1vUho9RuDJ5gsNOPY09LL/sAGkX0tV9aB1eyvS4D4CnwLbBSYgAY
-	wPMFGyitHAxRpX1/efwRW2CW/++qGUJBN5v8KWHRzzUW/ienQUvYn9vV9YejzNsYrfb2
-	kECw==
-X-Received: by 10.66.197.197 with SMTP id iw5mr18738069pac.89.1364820649670;
-	Mon, 01 Apr 2013 05:50:49 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id
-	hw16sm15212842pab.19.2013.04.01.05.50.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Apr 2013 05:50:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2013 14:50:44 +0200
-Message-Id: <1364820644-9373-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] buildhistory: record tag names and show warning when the same tag corresponds to different revision
+	Mon, 01 Apr 2013 16:11:10 +0200
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 8C0E520CA5;
+	Mon,  1 Apr 2013 09:54:03 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute3.internal (MEProxy); Mon, 01 Apr 2013 09:54:03 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=bcHg9MmujStmt3Ns9mudJb
+	fe6ts=; b=TsK4epHHdGpJgDEU3JzSHaIypVFpjbOkZ0nNlW5v6dy7fso6ATiwYO
+	B7O+2v4j/d+M/HuQUI6ynSPQgcT8VKE/gKpky1hUbcsNhxaIqo3mRWGa7pRrCB9r
+	BIMX+RRQBd/GGwpG2yzfuVQbFg/Y0/8gIgT0kBjpxv+XcsGbqzNMY=
+X-Sasl-enc: NAB0rGWV7nrj6QDwRcYET+5Qy9M9bS08ey7UCed7dpPY 1364824443
+Received: from [192.168.1.3] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 1BEEF20006F;
+	Mon,  1 Apr 2013 09:54:03 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+In-Reply-To: <CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
+References: <cover.1364456659.git.raj.khem@gmail.com>
+	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
+	<20130328122110.GA5105@jama>
+	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
+	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
+	<D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
+	<CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
+Date: Mon, 01 Apr 2013 09:54:01 -0400
+Message-ID: <1364824441.24754.20.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,67 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 13:07:58 -0000
+X-List-Received-Date: Mon, 01 Apr 2013 14:11:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* persistent cache records tag-srcrev mappings, but is not shared between builders
-* when tag is moved in remote repo, all builders should rebuild the component to
-  use the same source, show warning when revision is different than what was used
-  in last build
+On Fri, 2013-03-29 at 13:50 +0100, Andreas M=C3=BCller wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/buildhistory.bbclass | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> Anybody an idea why I get this when building from scratch:
+>=20
+> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv=
+7a-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
+> 'systemd': No such file
+> | make[2]: *** [org.freedesktop.systemd1.Manager.xml] Error 1
+> | make[2]: *** Waiting for unfinished jobs....
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 82d0bf8..760075f 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -546,6 +546,10 @@ def _get_srcrev_values(d):
-             if rev.startswith(autoinc_templ):
-                 rev = rev[len(autoinc_templ):]
-             dict[name] = rev
-+            if 'tag' in ud.parm:
-+                tag = ud.parm['tag'];
-+                key = 'tag_'+name+'_'+tag
-+                dict[key] = rev
-     return dict
- 
- python do_write_srcrev() {
-@@ -556,8 +560,18 @@ python do_write_srcrev() {
-     if srcrevs:
-         if not os.path.exists(pkghistdir):
-             os.makedirs(pkghistdir)
-+        data = {}
-+        if os.path.exists(srcrevfile):
-+            with open(srcrevfile) as f:
-+                for line in f:
-+                    if line.startswith('# tag_'):
-+                        key, value = line.split("=", 1)
-+                        key = key.replace('# ', '').strip()
-+                        value = value.replace('"', '').strip()
-+                        data[key] = value
-         with open(srcrevfile, 'w') as f:
-             orig_srcrev = d.getVar('SRCREV', False) or 'INVALID'
-+            pkg = d.getVar('PN', True)
-             if orig_srcrev != 'INVALID':
-                 f.write('# SRCREV = "%s"\n' % orig_srcrev)
-             if len(srcrevs) > 1:
-@@ -565,6 +579,12 @@ python do_write_srcrev() {
-                     orig_srcrev = d.getVar('SRCREV_%s' % name, False)
-                     if orig_srcrev:
-                         f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
-+                    if name.startswith('tag_'):
-+                        f.write('# %s = "%s"\n' % (name, srcrev))
-+                        if name in data and data[name] != srcrev:
-+                            bb.warn("Revision for tag %s in package %s was changed since last build (from %s to %s)" % (name, pkg, data[name], srcrev))
-+                        continue
-+
-                     f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
-             else:
-                 f.write('SRCREV = "%s"\n' % srcrevs.itervalues().next())
--- 
-1.8.1.5
+http://lists.freedesktop.org/archives/systemd-devel/2013-February/008751.=
+html
+
 
 
 
