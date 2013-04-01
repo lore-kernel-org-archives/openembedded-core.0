@@ -1,26 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UMiWG-0006kN-Rc
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UMiWM-0006lB-J4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 19:27:45 +0200
+	Mon, 01 Apr 2013 19:27:51 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r31H9tfT014812
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r31H9qqU002854
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Apr 2013 10:09:55 -0700 (PDT)
+	Mon, 1 Apr 2013 10:09:52 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 1 Apr 2013 10:09:55 -0700
+	14.2.342.3; Mon, 1 Apr 2013 10:09:53 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 1 Apr 2013 10:09:35 -0700
-Message-ID: <54438b839dc8cba9f84999be60d485381d7a236b.1364835699.git.bruce.ashfield@windriver.com>
+Date: Mon, 1 Apr 2013 10:09:32 -0700
+Message-ID: <cover.1364835699.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1364835699.git.bruce.ashfield@windriver.com>
-References: <cover.1364835699.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto-rt: integrate 3.8.4-rt2
+Subject: [PATCH 0/3] linux-yocto: mips, -rt update and yocto-custom fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 17:27:45 -0000
+X-List-Received-Date: Mon, 01 Apr 2013 17:27:51 -0000
 Content-Type: text/plain
 
-Updating to 3.8.4-rt2 to fix the minor issues found with -rt1.
+Richard,
 
-From the upstream commit log:
+Here are three small fixes that I've gathered up since pushing out the
+last update to 3.8.x.
 
- changes since v3.8.4-rt1:
-   - build fix for i915 (reported by "Luis Claudio R. Goncalves")
-   - build fix for fscache (reported by tglx)
-   - build fix for !RT (kernel/softirq.c did not compile)
-   - per-cpu rwsem fixed for RT (required only by uprobes so far)
-   - slub: delay the execution of the ->ctor() hook for newly created
-     objects. This lowers the worst case latencies.
+[PATCH 1/3] linux-yocto/3.8: update mips SA_RESTORER fix
 
- Known issues:
+    During the 3.8.4 integration there was a build issue on MIPS due to
+    SA_RESTORER changes. A solution was put in place for mips, but it
+    didn't cover other impacted architectures.
 
-    - SLxB is broken on PowerPC.
+    This is a backport of the proposed fix for the next 3.8-stable,
+    since the full -stable might not be available in the right timeframe.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+[PATCH 2/3] kernel-yocto: use KBRANCH as default build branch
+
+    commit 61001aa [kernel-yocto: respect SRC_URI modified branch selection]
+    changed branch processing such that a branch specified in the SRC_URI
+    would set the branch forced as the build branch.
+
+    This change broke compatibility with the yocto-bsp, linux-yocto-custom
+    based recipes. These recipes specify the branch to be built via KBRANCH,
+    but allow the fetcher to use master for keeping the repository up to
+    date. This means that no explicit branch is set in the SRC_URI and the
+    routines return the default branch of 'master', which is not what is
+    set in KBRANCH.
+
+    To support this case, we simply pass a default branch into the routine
+    returning the branch to build, and ensure that the default is KBRANCH
+    so if no branch is passed in the SRC_URI, KBRANCH is always built.
+
+    [YOCTO #4145]
+
+[PATCH 3/3] linux-yocto-rt: integrate 3.8.4-rt2
+
+    Updating to 3.8.4-rt2 to fix the minor issues found with -rt1.
+
+    From the upstream commit log:
+
+     changes since v3.8.4-rt1:
+       - build fix for i915 (reported by "Luis Claudio R. Goncalves")
+       - build fix for fscache (reported by tglx)
+       - build fix for !RT (kernel/softirq.c did not compile)
+       - per-cpu rwsem fixed for RT (required only by uprobes so far)
+       - slub: delay the execution of the ->ctor() hook for newly created
+	 objects. This lowers the worst case latencies.
+
+  * This also fixes a build issue reported by Tom Zanussi
+
+Cheers,
+
+Bruce
+
+The following changes since commit 92aeb31341b28b193d616ab5cf38af1b9673e37d:
+
+  qemuimage-testlib: Fix quoting issue (2013-03-30 17:26:56 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/3.8: update mips SA_RESTORER fix
+  kernel-yocto: use KBRANCH as default build branch
+  linux-yocto-rt: integrate 3.8.4-rt2
+
+ meta/classes/kernel-yocto.bbclass               |   11 ++++++-----
  meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb    |   12 ++++++------
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-index 7b9a4f8..903fcb5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-@@ -8,8 +8,8 @@ LINUX_KERNEL_TYPE = "preempt-rt"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "c122468c96f47f281eb3ab51f96507d66dcc60d7"
--SRCREV_machine_qemuppc ?= "dc0440c8bbf12676a54c7aa29879155d925a7565"
-+SRCREV_machine ?= "abd0728b164f651292374e96251ee197b50e3c02"
-+SRCREV_machine_qemuppc ?= "1619988b773840ec546292a9cd65dda99d55b96c"
- SRCREV_meta ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
- 
- PR = "${INC_PR}.0"
 -- 
 1.7.10.4
 
