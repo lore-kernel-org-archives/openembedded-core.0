@@ -1,28 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UMZrF-00060S-Ks
+	(envelope-from <radu.moisan@intel.com>) id 1UMaaK-0006Kr-VS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 10:12:50 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r317tdkD024461
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Apr 2013 00:55:39 -0700 (PDT)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Mon, 1 Apr 2013 00:55:39 -0700
-Message-ID: <51593D83.3020603@windriver.com>
-Date: Mon, 1 Apr 2013 15:55:47 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Mon, 01 Apr 2013 10:59:25 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 01 Apr 2013 01:42:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,385,1363158000"; d="scan'208";a="310420503"
+Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
+	([10.237.105.59])
+	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2013 01:41:44 -0700
+Message-ID: <5159484A.1020603@intel.com>
+Date: Mon, 01 Apr 2013 11:41:46 +0300
+From: Radu Moisan <radu.moisan@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1364444326-16088-1-git-send-email-zhenhua.luo@freescale.com>
-In-Reply-To: <1364444326-16088-1-git-send-email-zhenhua.luo@freescale.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [oe-core v3] rpm: split out run-postinsts
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+References: <1364551510-8648-1-git-send-email-radu.moisan@intel.com>
+	<20130329170003.GA7125@mx.loc>
+In-Reply-To: <20130329170003.GA7125@mx.loc>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] busybox: Upgrade to v1.21.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,93 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 08:12:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 01 Apr 2013 08:59:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/28/2013 12:18 PM, Zhenhua Luo wrote:
-> 1. Split out run-postinsts script into separated package, sometimes only the
->     postinsts script is required to run all postinsts scripts in /etc/rpm-postinsts/
->     instead of the whole rpm package.
-> 2. Set ROOTFS_PKGMANAGE_BOOTSTRAP to rpm-postinsts
->
-> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
-> ---
->   meta/classes/rootfs_rpm.bbclass        |    4 +---
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb |    8 +++++---
->   2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-> index 8392a1e..07ac0e3 100644
-> --- a/meta/classes/rootfs_rpm.bbclass
-> +++ b/meta/classes/rootfs_rpm.bbclass
-> @@ -3,6 +3,7 @@
->   #
->   
->   ROOTFS_PKGMANAGE = "rpm smartpm"
-> +ROOTFS_PKGMANAGE_BOOTSTRAP = "rpm-postinsts"
->   
->   # Add 50Meg of extra space for Smart
->   IMAGE_ROOTFS_EXTRA_SPACE_append = "${@base_contains("PACKAGE_INSTALL", "smartpm", " + 51200", "" ,d)}"
-> @@ -10,9 +11,6 @@ IMAGE_ROOTFS_EXTRA_SPACE_append = "${@base_contains("PACKAGE_INSTALL", "smartpm"
->   # Smart is python based, so be sure python-native is available to us.
->   EXTRANATIVEPATH += "python-native"
->   
-> -# Postinstalls on device are handled within this class at present
-> -ROOTFS_PKGMANAGE_BOOTSTRAP = ""
-> -
->   do_rootfs[depends] += "rpm-native:do_populate_sysroot"
->   do_rootfs[depends] += "rpmresolve-native:do_populate_sysroot"
->   do_rootfs[depends] += "python-smartpm-native:do_populate_sysroot"
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> index 6286771..cfdc390 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
->   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
->   
->   DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
-> -PR = "r61"
-> +PR = "r62"
->   
->   # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
->   # in order to extract the distribution SRPM into a format we can extract...
-> @@ -199,7 +199,7 @@ CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
->   
->   LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
->   
-> -PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm-dev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
-> +PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm-dev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale ${PN}-postinsts"
->   
->   SOLIBS = "5.4.so"
->   
-> @@ -223,9 +223,11 @@ FILES_${PN} =  "${bindir}/rpm \
->   		${libdir}/rpm/bin/wget \
->   		/var/lib/rpm \
->   		/var/cache/rpm \
-> -		${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
->   		"
->   
-> +FILES_${PN}-postinsts = "${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
-> +                "
-> +
->   FILES_${PN}-dbg += "${libdir}/rpm/.debug \
->   		${libdir}/rpm/bin/.debug \
->   		"
-Hi Luo,
 
-This patch introduces a new problem, that is, rpm-postinsts is not 
-installed on sato images.
-In fact, for now, rpm-postinsts will not be installed if 
-'package-management' is in IMAGE_FEATURES.
+On 03/29/2013 07:00 PM, Bernhard Reutner-Fischer wrote:
+> On Fri, Mar 29, 2013 at 12:05:10PM +0200, Radu Moisan wrote:
+>> Removed obsolete patches
+>> Added a few new patches pending 1.21.1
+>> *busybox-1.21.0-mdev.patch
+>> *busybox-1.21.0-platform.patch
+>> *busybox-1.21.0-xz.patch
+>>
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>> .../busybox-1.20.2/busybox-1.20.2-kernel_ver.patch |   28 -
+>> .../busybox-mkfs-minix-tests_bigendian.patch       |   34 --
+>> .../fix-for-spurious-testsuite-failure.patch       |   27 -
+>> .../busybox/busybox-1.20.2/sys_resource.patch      |   99 ---
+>> .../busybox/busybox-1.20.2/wget_dl_dir_fix.patch   |   30 -
+>> .../B921600.patch                                  |    0
+>> .../busybox-1.21.0/busybox-1.21.0-mdev.patch       |  643 ++++++++++++++++++++
+>> .../busybox-1.21.0/busybox-1.21.0-platform.patch   |   24 +
+>> .../busybox/busybox-1.21.0/busybox-1.21.0-xz.patch |   84 +++
+>> .../busybox-appletlib-dependency.patch             |    0
+>> .../busybox-udhcpc-no_deconfig.patch               |    0
+>> .../{busybox-1.20.2 => busybox-1.21.0}/defconfig   |    0
+>> .../get_header_tar.patch                           |    0
+>> .../run-parts.in.usr-bin.patch                     |    6 +-
+>> .../stat-usr-bin.patch                             |    0
+>> ...estsuite-du-du-k-works-fix-false-positive.patch |    0
+>> .../watch.in.usr-bin.patch                         |    0
+>> .../{busybox_1.20.2.bb => busybox_1.21.0.bb}       |   17 +-
+>> 18 files changed, 762 insertions(+), 230 deletions(-)
+>> delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch
+>> delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-mkfs-minix-tests_bigendian.patch
+>> delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/fix-for-spurious-testsuite-failure.patch
+>> delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/sys_resource.patch
+>> delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/wget_dl_dir_fix.patch
+>> rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.0}/B921600.patch (100%)
+> I wonder how this applies without fuzz as
+> it was applied upstream back in 2009:
+> http://git.busybox.net/busybox/commit/?id=e707a3000b2f6e2f684b6e85cd60590318d157c4
 
-I've opened a bug for this problem 
-(https://bugzilla.yoctoproject.org/show_bug.cgi?id=4160).
-Comments and suggestions are appreciated.
+Many patches apply with some fuzz, and that's fine as log as it applies 
+and keeps fixing something. However this one may not be necessary to 
+carry along indeed. I'll look into it and drop, same for 
+busybox-appletlib-dependency.patch if applied upstream.
 
-Best Regards,
-Chen Qi
-
-
+Radu
 
 
