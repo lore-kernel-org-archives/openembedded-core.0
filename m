@@ -1,17 +1,17 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UMaaK-0006Kr-VS
+	(envelope-from <radu.moisan@intel.com>) id 1UMaqP-0006ud-JH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 10:59:25 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 01 Apr 2013 01:42:15 -0700
+	Mon, 01 Apr 2013 11:16:01 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 01 Apr 2013 01:58:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,385,1363158000"; d="scan'208";a="310420503"
+X-IronPort-AV: E=Sophos;i="4.87,385,1363158000"; d="scan'208";a="278925646"
 Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
 	([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2013 01:41:44 -0700
-Message-ID: <5159484A.1020603@intel.com>
-Date: Mon, 01 Apr 2013 11:41:46 +0300
+	by azsmga001.ch.intel.com with ESMTP; 01 Apr 2013 01:58:51 -0700
+Message-ID: <51594C4F.4000703@intel.com>
+Date: Mon, 01 Apr 2013 11:58:55 +0300
 From: Radu Moisan <radu.moisan@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 08:59:25 -0000
+X-List-Received-Date: Mon, 01 Apr 2013 09:16:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -77,11 +77,15 @@ On 03/29/2013 07:00 PM, Bernhard Reutner-Fischer wrote:
 > I wonder how this applies without fuzz as
 > it was applied upstream back in 2009:
 > http://git.busybox.net/busybox/commit/?id=e707a3000b2f6e2f684b6e85cd60590318d157c4
+>
+>> create mode 100644 meta/recipes-core/busybox/busybox-1.21.0/busybox-1.21.0-mdev.patch
+>> create mode 100644 meta/recipes-core/busybox/busybox-1.21.0/busybox-1.21.0-platform.patch
+>> create mode 100644 meta/recipes-core/busybox/busybox-1.21.0/busybox-1.21.0-xz.patch
+>> rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.0}/busybox-appletlib-dependency.patch (100%)
+> I think this patch is not needed.
 
-Many patches apply with some fuzz, and that's fine as log as it applies 
-and keeps fixing something. However this one may not be necessary to 
-carry along indeed. I'll look into it and drop, same for 
-busybox-appletlib-dependency.patch if applied upstream.
+I don't see any obvious reason to drop this, and while it looks safe to 
+keep it, I'll go for the later option.
 
 Radu
 
