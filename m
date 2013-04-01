@@ -1,31 +1,32 @@
-Received: from mail-bk0-f46.google.com ([209.85.214.46])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <takeshi.ken.hamasaki@gmail.com>)
-	id 1UMckb-0000eJ-4D; Mon, 01 Apr 2013 13:18:09 +0200
-Received: by mail-bk0-f46.google.com with SMTP id je9so873894bkc.33
-	for <multiple recipients>; Mon, 01 Apr 2013 04:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:from:date:x-google-sender-auth
-	:message-id:subject:to:content-type;
-	bh=/GDJSWX2zv8p253vvrewT/dNyLfzJyXFw4Tiz3KK8Zo=;
-	b=fB7NiXwR6CjT1SlwyZ9fxIdoqj14IkUbtYdAPCGz2mw/BnIHNZWBmPTOzvbmwPRarR
-	sZf3EYHnWhJSZ3R68g0G/A77R/oNVSLynm7rUFUnkA/jA3Aw7aT6IMyxdfdDIiwwIw65
-	SUquL8QtD/SdeBA2ZTYkRjwpor892mAnwejjxrrIFAEJAnp2G/ZgxaqIvZQ3eYkoLHgD
-	pCrH/tBoh4L+eQB7nZC8eNXFBe5R1gVHvvJ9UwHw5UBt5NcYUJ3/L3WpXC9tSpmMriBK
-	VgdCtkxYyJfacZhx2frop74PFcCey7F/yGtxFpOGKFjcnY8JGNTSt+MOZ80P5bpnX9as
-	PNhw==
-X-Received: by 10.205.139.71 with SMTP id iv7mr4860285bkc.86.1364814060811;
-	Mon, 01 Apr 2013 04:01:00 -0700 (PDT)
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1UMd0e-0000mK-Ku
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Apr 2013 13:34:44 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1UMck6-003nq0-Lb>; Mon, 01 Apr 2013 13:17:38 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1UMck6-001iRS-K0>; Mon, 01 Apr 2013 13:17:38 +0200
+Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
+	Exim 4.72) id 1UMck5-0005N1-H2; Mon, 01 Apr 2013 13:17:37 +0200
+Date: Mon, 1 Apr 2013 13:17:37 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <20130401111737.GA19595@mi.fu-berlin.de>
+References: <1364807444-20977-1-git-send-email-hmatrjp@users.sourceforge.jp>
 MIME-Version: 1.0
-Sender: takeshi.ken.hamasaki@gmail.com
-Received: by 10.204.25.141 with HTTP; Mon, 1 Apr 2013 04:00:40 -0700 (PDT)
-From: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>
-Date: Mon, 1 Apr 2013 20:00:40 +0900
-X-Google-Sender-Auth: J9fM9vS8ZFt0nmC5EnxT3sPEwyE
-Message-ID: <CAPESJy6rnY_YdLZtAhuwmOUEM4RULfMDk6CBCmz0DCZjjxeFxQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org, 
-	openembedded-core-admin@lists.openembedded.org
-Subject: web interface is down
+In-Reply-To: <1364807444-20977-1-git-send-email-hmatrjp@users.sourceforge.jp>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: [PATCH] pcmciautils: fix segmentation fault of pccardctl command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,23 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 11:18:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 01 Apr 2013 11:34:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi list, and administrator(s),
+On Mon, Apr 01, 2013 at 06:10:44PM +0900, Takeshi Hamasaki wrote:
+> 
+Hi,
 
-it may be already known,...
-the web interface of this list is down now.
-I used mail interface instead to subscribe so you are reading this one.
+nitpicking about spelling.
 
-Is there any plan to let web interface come back?
+> This changes difinition of PCMCIAUTILS_VERSION to string from a multichacter constant to avoid segmentation fault of pccardctl command. 
+               ^^^ 
 
-2013/3/31  <openembedded-core-owner@lists.openembedded.org>:
-> This mailinglist requires people to subscribe before posting.
->
-> Your posting was automatically rejected, please subscribe at
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
--- 
-Takeshi Hamasaki
+> Signed-off-by: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>
+> ---
+>  meta/recipes-bsp/pcmciautils/pcmciautils.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+> index 80271d6..0651236 100644
+> --- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+> +++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+> @@ -21,7 +21,7 @@ export udevrulesdir = "${nonarch_base_libdir}/udev/rules.d"
+>  export UDEV = "1"
+>  LD = "${CC}"
+>  CFLAGS =+ "-I${S}/src"
+> -CFLAGS =+ "-DPCMCIAUTILS_VERSION=\'${PV}\'"
+> +CFLAGS =+ "-DPCMCIAUTILS_VERSION=\\"${PV}\\""
+>  
+>  PARALLEL_MAKE = ""
+>  EXTRA_OEMAKE = "-e 'STRIP=echo' 'LIB_OBJS=-lc -lsysfs' 'LEX=flex'"
+> -- 
+> 1.7.10.4
+
+Bye Henning
 
 
