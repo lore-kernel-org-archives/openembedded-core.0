@@ -1,34 +1,25 @@
-Received: from mail-pa0-f50.google.com ([209.85.220.50])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <takeshi.ken.hamasaki@gmail.com>) id 1UMdNa-00015w-3I
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Apr 2013 13:58:26 +0200
-Received: by mail-pa0-f50.google.com with SMTP id bg2so1279178pad.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2013 04:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=X7ozS1MWs6apWwSUPBZ1VmcrIjwx32o/MdbXyf+t9gA=;
-	b=TFOocnvfIHmusCtF9/KHR6hkh3KziBKK9g5IdpluvEMAUvzLRHV1h5u7vRpHrXovgi
-	wAQQ0F2CMwOMFdFBc2U1Prq2Pvbt8DbPUPlnt3PtwYnPLdhpo/pAVA7QZM5tfopXmIXc
-	ceNhBrk98vxrLU81v74XLkH6hGvoUanqmgQ4Wc8DIenL/r093sYLCGym2vuP39BsJ6vf
-	NpB6CPA1mjEy9g41/7OD2duRITATRTZYi/90mEu5C0Y331MFTRcoJMQPZooPYuH43XhA
-	hk/KxgKL4Kd3a/p9ywuGbiouCvgznFtzhV5iLsF8/C4MGmxViGe7EYvR6rnMEVXm1yMA
-	IMzQ==
-X-Received: by 10.68.204.164 with SMTP id kz4mr17427199pbc.158.1364816477026; 
-	Mon, 01 Apr 2013 04:41:17 -0700 (PDT)
-Received: from widex200.islocal (ZC025230.ppp.dion.ne.jp. [221.119.25.230])
-	by mx.google.com with ESMTPS id
-	rt13sm15015265pac.14.2013.04.01.04.41.14
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Apr 2013 04:41:15 -0700 (PDT)
-Sender: Takeshi Hamasaki <takeshi.ken.hamasaki@gmail.com>
-From: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2013 20:40:57 +0900
-Message-Id: <1364816457-21720-1-git-send-email-hmatrjp@users.sourceforge.jp>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v2] pcmciautils: fix segmentation fault of pccardctl command
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1UMdct-0001gH-6q; Mon, 01 Apr 2013 14:14:15 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Apr 2013 04:57:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,385,1363158000"; d="scan'208";a="311691455"
+Received: from unknown (HELO helios.localnet) ([10.255.13.254])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2013 04:57:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Joe MacDonald <Joe.MacDonald@windriver.com>
+Date: Mon, 01 Apr 2013 12:57:03 +0100
+Message-ID: <1410613.FPl62IiBfB@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <20130401104758.GB9978@windriver.com>
+References: <3982011.Guen6pOcoq@helios> <20130401104758.GB9978@windriver.com>
+MIME-Version: 1.0
+Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: New OE layer index now available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,31 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2013 11:58:26 -0000
+X-List-Received-Date: Mon, 01 Apr 2013 12:14:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Monday 01 April 2013 06:47:59 Joe MacDonald wrote:
+> I like it, though I have a couple of questions about the accounts
+> themselves.
+> 
+>    - Any chance we could have them connected (or use the same
+>      credentials as) the patchworks ones?
 
-This changes definition of PCMCIAUTILS_VERSION to string from a multichacter constant to avoid segmentation fault of pccardctl command.
+Seems like they are both based on Django so I guess it would be possible; the 
+only impediment (assuming there was no Django version mismatch) would be that 
+patchwork is currently on different infrastructure.
 
-Signed-off-by: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>
----
- meta/recipes-bsp/pcmciautils/pcmciautils.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>    - If not, what options can we set on accounts?  Right now I just see
+>      "log out" and "change password".  Both pretty important, but I'd
+>      also like to add alternate email addresses, for example, since I
+>      use two quite regularly and update meta-networking from both.
 
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-index 80271d6..0651236 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-@@ -21,7 +21,7 @@ export udevrulesdir = "${nonarch_base_libdir}/udev/rules.d"
- export UDEV = "1"
- LD = "${CC}"
- CFLAGS =+ "-I${S}/src"
--CFLAGS =+ "-DPCMCIAUTILS_VERSION=\'${PV}\'"
-+CFLAGS =+ "-DPCMCIAUTILS_VERSION=\\"${PV}\\""
- 
- PARALLEL_MAKE = ""
- EXTRA_OEMAKE = "-e 'STRIP=echo' 'LIB_OBJS=-lc -lsysfs' 'LEX=flex'"
+There's no alternate email address field; one could be added I suppose but the 
+question is, how would you like this to be used within the index?
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
