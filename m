@@ -1,42 +1,39 @@
-Received: from mail-oa0-f51.google.com ([209.85.219.51])
+Received: from mail-da0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UN5Y6-0000jg-MT
+	(envelope-from <raj.khem@gmail.com>) id 1UN77u-0001y9-UH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 20:03:10 +0200
-Received: by mail-oa0-f51.google.com with SMTP id g12so649965oah.38
+	Tue, 02 Apr 2013 21:44:15 +0200
+Received: by mail-da0-f50.google.com with SMTP id t1so321691dae.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 10:46:00 -0700 (PDT)
+	Tue, 02 Apr 2013 12:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=nx150IvVrhlYwokIW+iKmO6dU6wuvUyBVAPH1ZhB5Os=;
-	b=OweEnrL8HVWEaK+q4z4gJhNOj7gFSx0f3hOH+PHzIgiJNyDuikaHH+rpAnSt4RPpeU
-	gq1nrkOJ53J/v8AGK/lcIJU/1zUVDsCe9mBdLyb2wN5eqyby6nvUc3x/87RDBbOh5yyY
-	0dklldVBs5efQEMalA1caJq3mTjjXzmp8li/GQM7Y52b+UdWgITlaHvVuaw8w1BN2orP
-	K4UOUqVvCjXKgHDQF8UJtAzADLl/cgp53MvLW6D+KTR/Jhv1Q/sCXz/2gt8oa+ORvkSg
-	GgYzY3+hdRTtCGH13mdv1eVyyA6NApW8CkWJ/uGUAbu3GIdx4p9vYr5LlDtGx9WuCAce
-	E33w==
-MIME-Version: 1.0
-X-Received: by 10.60.19.129 with SMTP id f1mr5742809oee.82.1364924760156; Tue,
-	02 Apr 2013 10:46:00 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Tue, 2 Apr 2013 10:46:00 -0700 (PDT)
-In-Reply-To: <515B004C.8060202@intel.com>
-References: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16216497@IRSMSX102.ger.corp.intel.com>
-	<CABMQnVKVnoMH1B1Ri-Qmjec30BFX1TaosGq0b1Hc641m3490hA@mail.gmail.com>
-	<CAHUNapSwkvRWD13RK_x2cu-1Q9CdYSKhw9OQFcek7vYjR0UFfA@mail.gmail.com>
-	<515B004C.8060202@intel.com>
-Date: Tue, 2 Apr 2013 14:46:00 -0300
-X-Google-Sender-Auth: DMRFaMpKnUedF8E4cI4WWBAOiO8
-Message-ID: <CAP9ODKrY08krCHWiL+5C4+2o4oE1-GnVbECBq4yhUvi0y3unJQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <saul.wold@intel.com>,
-	Rogerio Nunes <rogerio.nunes@freescale.com>
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-tools: Update autotools.patch
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=3LKEH7uUzXCEsbKt1K8rdOvAv4yi1Zthafkfv41kPbg=;
+	b=BZTilDB+Ejyn1NfJA8ECcinHBMhWP5ydvn9smdUbCtX3e4+D5/YTwK/d1GdWnmL1e5
+	Bi/SzvYh5pHJszI5tkd0ttP96OAQV+jHhIURgj+MaIOUV4S5wA4JgIBdj4Wa4mz791k7
+	infVAWn6EUdBZoXShjKENlTrk1JX3RSOzd2y6RRYChETIlK5HGDKKwMpIZyJTj2JdfvC
+	JsYMOMLcbqtCPaMUhio+o7S1ngwcNhW4/Ix5i5jxwW24A8LkQL2lt/aWVgNLjoUIUx96
+	YjoIbFA3C7ge5N57KODiZP3Jr4gLPc2lOcTq5DiDcQiZh0LHM7c2Onrrod1wB/i1P74I
+	X/dA==
+X-Received: by 10.68.75.109 with SMTP id b13mr26345776pbw.25.1364930823857;
+	Tue, 02 Apr 2013 12:27:03 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id li15sm3533908pab.2.2013.04.02.12.27.01
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 02 Apr 2013 12:27:02 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1364921183.6526.10.camel@ted>
+Date: Tue, 2 Apr 2013 12:27:07 -0700
+Message-Id: <0194B3E3-E469-45E4-AAB4-4ED15EF93DA6@gmail.com>
+References: <1364872704-14812-1-git-send-email-raj.khem@gmail.com>
+	<1364921183.6526.10.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Let eglibc-extra-nss-dev exist as empty package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,27 +46,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 18:03:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 02 Apr 2013 19:44:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 2, 2013 at 12:59 PM, Saul Wold <saul.wold@intel.com> wrote:
-> On 03/29/2013 06:18 AM, Trevor Woerner wrote:
->>
->> I'm seeing this exact same error when I perform a "bitbake world", and
->> have been for the last couple days
->>
-> I believe this is a real problem, and I suggested to Nobuhiro that using
-> PACKAGECONFIG with gtk+ would be a better solution, but have not see a
-> follow-up patch for this.
->
-> Patches welcome!
 
-Rogerio (added to Cc) was working in a patch for this; I think he
-should have it ready for submitting it soon.
+On Apr 2, 2013, at 9:46 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+> On Mon, 2013-04-01 at 20:18 -0700, Khem Raj wrote:
+>> eglibc-extra-nss-dev is a dependency for libc6-dev but
+>> the package is empty and is not created as a result target
+>> install of libc6-dev fails. This will create an empty package
+>>=20
+>> [Yocto Bug #4168]
+>>=20
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> meta/recipes-core/eglibc/eglibc-package.inc |    4 +++-
+>> 1 file changed, 3 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc =
+b/meta/recipes-core/eglibc/eglibc-package.inc
+>> index 88a00a4..ca0cc4c 100644
+>> --- a/meta/recipes-core/eglibc/eglibc-package.inc
+>> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+>> @@ -17,7 +17,9 @@ python __anonymous () {
+>> # Set this to zero if you don't want ldconfig in the output package
+>> USE_LDCONFIG ?=3D "1"
+>>=20
+>> -PACKAGES =3D "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils =
+eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault =
+${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev =
+${PN}-staticdev ${PN}-doc"
+>> +PACKAGES =3D "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils =
+eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault =
+${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev =
+${PN}-staticdev ${PN}-doc eglibc-extra-nss-dev"
+>> +
+>> +ALLOW_EMPTY_eglibc-extra-nss-dev  =3D "1"
+>=20
+> As discussed in the bug, I think this is an issue with smart erroring =
+on
+> recommends which it shouldn't do. More investigation/discussion
+> therefore needed as this patch just fixes one issue and there will be
+> others.
+>=20
+
+I agree. If its smart issue lets fix smart instead.
+
+> Cheers,
+>=20
+> Richard
+>=20
+
 
 
