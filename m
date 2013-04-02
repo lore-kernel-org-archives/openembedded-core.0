@@ -1,20 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UMziy-000823-OE
+	(envelope-from <radu.moisan@intel.com>) id 1UN0zu-0003fc-DP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 13:50:00 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Apr 2013 04:32:26 -0700
+	Tue, 02 Apr 2013 15:11:34 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Apr 2013 05:54:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="311109609"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2013 04:32:24 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="312345646"
+Received: from dell-desktop.rb.intel.com ([10.237.105.59])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Apr 2013 05:54:04 -0700
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2013 14:35:56 +0300
-Message-Id: <1364902556-351-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] package_deb.bbclass: fix 'armel' override
+Date: Tue,  2 Apr 2013 15:54:03 +0300
+Message-Id: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,48 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 11:50:01 -0000
+X-List-Received-Date: Tue, 02 Apr 2013 13:11:35 -0000
 
-The 'armel' override for DKPG_ARCH was causing the meta-toolchain
-build to fail. The assignment was moved to an anonymous fragment
-of Python code, so it doesn't affect the assignments in
-cross-canadian.bbclass anymore, thus fixing the issue.
+This fixes a service dependency issue;
+While graphical.target is the default mode, systemd
+will try to start display-manager.service which is not
+available.
 
-[YOCTO #4080]
+For xserver-nodm-init we would then have something like:
+inherit update-alternatives
+ALTERNATIVE_${PN} = "systemd-def-target"
+ALTERNATIVE_TARGET[systemd-def-target] = "${systemd_unitdir}/system/graphical.target"
+ALTERNATIVE_LINK_NAME[systemd-def-target] = "${systemd_unitdir}/system/default.target"
+ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- meta/classes/package_deb.bbclass |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-core/systemd/systemd_199.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 4559199..853b5ea 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -7,7 +7,6 @@ inherit package
- IMAGE_PKGTYPE ?= "deb"
- 
- DPKG_ARCH ?= "${TARGET_ARCH}" 
--DPKG_ARCH_arm ?= "armel"
- 
- PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
- 
-@@ -406,8 +405,11 @@ python () {
-         d.setVarFlag('do_package_write_deb_setscene', 'fakeroot', "1")
- 
-     # Map TARGET_ARCH to Debian's ideas about architectures
--    if d.getVar('DPKG_ARCH', True) in ["x86", "i486", "i586", "i686", "pentium"]:
--        d.setVar('DPKG_ARCH', 'i386')
-+    darch = d.getVar('DPKG_ARCH', True)
-+    if darch in ["x86", "i486", "i586", "i686", "pentium"]:
-+         d.setVar('DPKG_ARCH', 'i386')
-+    elif darch == "arm":
-+         d.setVar('DPKG_ARCH', 'armel')
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index ba1d133..bf1eb39 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -248,6 +248,7 @@ update-alternatives --install ${base_sbindir}/halt halt ${base_bindir}/systemctl
+ update-alternatives --install ${base_sbindir}/reboot reboot ${base_bindir}/systemctl 300
+ update-alternatives --install ${base_sbindir}/shutdown shutdown ${base_bindir}/systemctl 300
+ update-alternatives --install ${base_sbindir}/poweroff poweroff ${base_bindir}/systemctl 300
++update-alternatives --install ${systemd_unitdir}/system/default.target systemd-def-target ${systemd_unitdir}/system/multi-user.target 1
  }
  
- python do_package_write_deb () {
+ pkg_prerm_systemd () {
+@@ -256,6 +257,7 @@ update-alternatives --remove halt ${base_bindir}/systemctl
+ update-alternatives --remove reboot ${base_bindir}/systemctl
+ update-alternatives --remove shutdown ${base_bindir}/systemctl
+ update-alternatives --remove poweroff ${base_bindir}/systemctl
++update-alternatives --remove systemd-def-target ${systemd_unitdir}/system/multi-user.target
+ }
+ 
+ pkg_postinst_udev-hwdb () {
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
