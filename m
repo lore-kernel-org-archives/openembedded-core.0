@@ -1,36 +1,31 @@
-Received: from mail-oa0-f42.google.com ([209.85.219.42])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <erik.boto@pelagicore.com>) id 1UMzBk-0007ab-Ce
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 13:15:40 +0200
-Received: by mail-oa0-f42.google.com with SMTP id i18so251910oag.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 03:58:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:x-gm-message-state;
-	bh=uYffP+ctsl7QCca9QCb/2DRzouFtWCKmn5VAFKN+iLs=;
-	b=nFC/jReD+IRrc0Mr1ObnrWHs1BIxW1tqyzTpoBIzYQhLel89qaXlobF8qdghEOF0L/
-	f9qhIZiseORMVtKyU/Qlnrx8Td1gjnAjYNz5A1u7YPqJbANmlTSFklgU/OjijK7faA6T
-	dYLcAxqaRQJ6PRfE0OeCssa8Ju08deMT19eLlQT42Jli/UsrkI/oKY+5Kz8DHRyZ8npO
-	Dnz7QoNpzJR9a2P1A7h3P3cvQ2yis2VZMkpPJPj/7IeQI4SmOYYo4PtTgFoEAmILsGh9
-	E9sLNYeHDjvUlsmv2d8GrGo53R3pWTPtbx245F9dx5TIAtE5od2+2ctmw/2kyXtdbFEl
-	BWWw==
-MIME-Version: 1.0
-X-Received: by 10.60.118.104 with SMTP id kl8mr5390703oeb.68.1364900310177;
-	Tue, 02 Apr 2013 03:58:30 -0700 (PDT)
-Received: by 10.76.21.173 with HTTP; Tue, 2 Apr 2013 03:58:30 -0700 (PDT)
-In-Reply-To: <ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
-References: <cover.1364456659.git.raj.khem@gmail.com>
-	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
-Date: Tue, 2 Apr 2013 12:58:30 +0200
-Message-ID: <CA+AhUGyzFN2PTZUg5BESHKYdMi7gsj0V2bdJAGCd0rg9147NTQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Gm-Message-State: ALoCoQkjSDYWWmXndRyVeIS4Q7Fwjnba8lauFZIoVvovETvbTLHFAlDzOQcs6Q2AvUhM2SefOHKC
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UMzY0-0007mh-95 for openembedded-core@lists.openembedded.org;
+	Tue, 02 Apr 2013 13:38:40 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r32BVvGf029389; Tue, 2 Apr 2013 12:31:58 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OjU+aQVK4+Fq; Tue,  2 Apr 2013 12:31:57 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r32BVo4d029377
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 2 Apr 2013 12:31:54 +0100
+Message-ID: <1364901677.6526.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Qi.Chen@windriver.com
+Date: Tue, 02 Apr 2013 12:21:17 +0100
+In-Reply-To: <40756f91f56034eef88d0338fb8975ca31db9213.1364872107.git.Qi.Chen@windriver.com>
+References: <cover.1364872107.git.Qi.Chen@windriver.com>
+	<40756f91f56034eef88d0338fb8975ca31db9213.1364872107.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image.bbclass: allow override for ROOTFS_BOOTSTRAP_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,37 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 11:15:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 02 Apr 2013 11:38:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2013-04-02 at 11:31 +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Previously, if 'package-management' is in IMAGE_FEATURES, this variable
+> is set to "", otherwise, it's ${ROOTFS_PKGMANAGE_BOOTSTRAP}. It works fine
+> with deb and ipk, because their postinsts rely on their package managers.
+> However, rpm is a little different, as its postinsts are just shell scripts.
 
-On Thu, Mar 28, 2013 at 8:48 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> udevadm is now moved from /usr/bin to /bin so account for that
-> bash completions for udevadm should be packages with udev-utils
-> since thats where udevadm itself is, they were in systemd package
-> which is not correct location for it
+Why don't we just make the rpm package RDEPEND on the postinst scripts
+package like opkg and dpkg do?
 
-It looks like systemd-analyze installs into /usr/bin and therefore
-isn't picked up in PACKAGE systemd-analyze. This should fix it:
-
-diff --git a/meta/recipes-core/systemd/systemd_199.bb
-b/meta/recipes-core/systemd/systemd_199.bb
-index ba1d133..f896187 100644
---- a/meta/recipes-core/systemd/systemd_199.bb
-+++ b/meta/recipes-core/systemd/systemd_199.bb
-@@ -119,7 +119,7 @@ PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup
-${PN}-initramfs ${PN}-analyze ${PN}-
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-
--FILES_${PN}-analyze = "${base_bindir}/systemd-analyze"
-+FILES_${PN}-analyze = "${bindir}/systemd-analyze"
-
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
+I can't think of any case where that dependency would be an issue...
 
 Cheers,
-Erik
+
+Richard
+
 
 
