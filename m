@@ -1,37 +1,41 @@
-Received: from mail-ob0-f171.google.com ([209.85.214.171])
+Received: from mail-pd0-f177.google.com ([209.85.192.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1UN2GC-0000o0-RA
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 16:32:29 +0200
-Received: by mail-ob0-f171.google.com with SMTP id x4so397235obh.30
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 07:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=Ya2xNJD86dbgHsMyFwCxfEjEKiNfIVL6aRXNlZMacw0=;
-	b=WQ/Tp4Z4CVKX7oa8nyr1QxsXogweqB8bEfxC5I93PtaUlPX9aGBEIlq3Lmcg0QBWl/
-	b/OT1jKPT2wCZje+i7ckpdk+t3LKnmGSIqHz3IKu/zBSK0dsP0tdmeJWed+uCBxK2en2
-	C78psMLOFhtmNnyIX3+NH0hTza9Mia3oKphWyibh3cv/qEp+SEeEzhPmxG3J2XkQt/GF
-	JoQdDP2dpp/BnsNy3GRR2NecmKYQgvQgC1YaFJ9clO7vxskNs1oTrNDpUY6s+0BXGJ8k
-	DkmtLGguL1faThhRT17hHiSbyQJnMSnGYmBACT0YXqHoGK6VrV4LetQFQ5VYZR3zU3Jd
-	YIfg==
-MIME-Version: 1.0
-X-Received: by 10.182.72.5 with SMTP id z5mr5621217obu.24.1364912118422; Tue,
-	02 Apr 2013 07:15:18 -0700 (PDT)
-Received: by 10.60.46.69 with HTTP; Tue, 2 Apr 2013 07:15:18 -0700 (PDT)
-In-Reply-To: <515ADEA3.5030800@intel.com>
-References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
-	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
-	<515ADEA3.5030800@intel.com>
-Date: Tue, 2 Apr 2013 16:15:18 +0200
-Message-ID: <CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
+	(envelope-from <raj.khem@gmail.com>)
+	id 1UN2Mq-0001Fz-U2; Tue, 02 Apr 2013 16:39:22 +0200
+Received: by mail-pd0-f177.google.com with SMTP id u11so267390pdi.36
+	for <multiple recipients>; Tue, 02 Apr 2013 07:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=riqMsEqyhSlzpr4ywHXAvcV9RKiFvxVhQjOHlu30O3E=;
+	b=BEq8aNmya/1+psxJmvmBLvIo3T5I1xv8v5Hy3F+wm4VY3LGdf4gqp3GGDpCqzRQ9g8
+	evGXbCsaHxG3U+Y9fX2A2nL166N7ipDo9Btvm6ibVsMxwrizQAt2JJ4SknIBzXXgG7/B
+	YCyroDOB10QsBMEa49za3wAje+K9TGRIgZf1fWWm8irR52pv4br9So8lB6mU9JPBRxHL
+	YphosMYRINRdVJOQjc8xlEi4aqyKKApAJX632WvMWZw8Ka0OrQ3wi+2Dyth8dmeiBTKg
+	802H9nPmUXTmyFHNoaOH1m2sZZdBJonI4mFMPAHPep3S1VxMflJOGT1H4Z+RYHhtk4o4
+	41+g==
+X-Received: by 10.66.27.136 with SMTP id t8mr24998942pag.209.1364912530142;
+	Tue, 02 Apr 2013 07:22:10 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id tf8sm1887492pbc.42.2013.04.02.07.22.08
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 02 Apr 2013 07:22:09 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130401095202.GP11120@jama>
+Date: Tue, 2 Apr 2013 07:22:13 -0700
+Message-Id: <4669BF70-0FA8-441D-9A60-325FA8DFA54B@gmail.com>
+References: <6B577862-4C24-49DB-80F2-3A1408AF8337@gmail.com>
+	<20130329145514.GH11120@jama> <20130330090319.GM11120@jama>
+	<20130401095202.GP11120@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 4.8 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,119 +48,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 14:32:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Apr 2013 14:39:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-2013/4/2 Radu Moisan <radu.moisan@intel.com>:
->
-> On 04/02/2013 04:02 PM, Samuel Stirtzel wrote:
->>
->> 2013/4/2 Radu Moisan <radu.moisan@intel.com>:
->>>
->>> This fixes a service dependency issue;
->>> While graphical.target is the default mode, systemd
->>> will try to start display-manager.service which is not
->>> available.
->>>
->>> For xserver-nodm-init we would then have something like:
->>> inherit update-alternatives
->>> ALTERNATIVE_${PN} = "systemd-def-target"
->>> ALTERNATIVE_TARGET[systemd-def-target] =
->>> "${systemd_unitdir}/system/graphical.target"
->>> ALTERNATIVE_LINK_NAME[systemd-def-target] =
->>> "${systemd_unitdir}/system/default.target"
->>> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
->>>
->>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->>> ---
->>>   meta/recipes-core/systemd/systemd_199.bb |    2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_199.bb
->>> b/meta/recipes-core/systemd/systemd_199.bb
->>> index ba1d133..bf1eb39 100644
->>> --- a/meta/recipes-core/systemd/systemd_199.bb
->>> +++ b/meta/recipes-core/systemd/systemd_199.bb
->>> @@ -248,6 +248,7 @@ update-alternatives --install ${base_sbindir}/halt
->>> halt ${base_bindir}/systemctl
->>>   update-alternatives --install ${base_sbindir}/reboot reboot
->>> ${base_bindir}/systemctl 300
->>>   update-alternatives --install ${base_sbindir}/shutdown shutdown
->>> ${base_bindir}/systemctl 300
->>>   update-alternatives --install ${base_sbindir}/poweroff poweroff
->>> ${base_bindir}/systemctl 300
->>> +update-alternatives --install ${systemd_unitdir}/system/default.target
->>> systemd-def-target ${systemd_unitdir}/system/multi-user.target 1
->>>   }
->>>
->>>   pkg_prerm_systemd () {
->>> @@ -256,6 +257,7 @@ update-alternatives --remove halt
->>> ${base_bindir}/systemctl
->>>   update-alternatives --remove reboot ${base_bindir}/systemctl
->>>   update-alternatives --remove shutdown ${base_bindir}/systemctl
->>>   update-alternatives --remove poweroff ${base_bindir}/systemctl
->>> +update-alternatives --remove systemd-def-target
->>> ${systemd_unitdir}/system/multi-user.target
->>>   }
->>>
->>>   pkg_postinst_udev-hwdb () {
->>> --
->>> 1.7.9.5
->>>
->> Reliving a dejavu?
->>
->> This was already rejected before see [1], hope you remember this.
->>
->> [1]
->> http://lists.linuxtogo.org/pipermail/openembedded-core/2013-January/034806.html
->
-> It was not rejected, have you seen a nack from Ross? Actually I just checked
-> a few days ago with Ross and the reason it didn't merge was because it
-> didn't apply anymore. And because systemd upgrade to v199 was pending I
-> waited for that one to get pulled in. So now with systemd_199 in, here is my
-> rebased v3 as well.
->
-> There is a bug filled for this problem Bug#3816, do you have a better
-> solution in mind?
+Thanks Martin, elfutils test case is now reduced and reported others I =
+will take a look.
 
-Sorry, my terminology may be different.
-For me rejected means that the community did not agree with a change,
-otherwise I would have stated that it was NACKed previously.
+On Apr 1, 2013, at 2:52 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
 
+> On Sat, Mar 30, 2013 at 10:03:19AM +0100, Martin Jansa wrote:
+>> And now the rest of qemuarm gcc-4.8 world failure
+>>=20
+>> openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.148.bb, =
+do_compile
+>> ICE as reported before
+>>=20
+>> openembedded-core/meta/recipes-devtools/gcc/gcc_4.8.bb, do_compile
+>> gcc-4.8.0/libatomic/config/linux/arm/store_n.c:46:0: fatal error:
+>> opening dependency file .deps/store_1_.lo.Ppo: No such file or =
+directory
+>> |  #include "../../../store_n.c"
+>>=20
+>> =
+openembedded-core/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.b=
+b, do_compile
+>> xf86Crtc.c:391:5: error: implicit declaration of function =
+'xf86InputRotationNotify' [-Werror=3Dimplicit-function-declaration]
+>>=20
+>> openembedded-core/meta/recipes-graphics/xorg-app/xmodmap_1.0.7.bb, =
+do_compile
+>> xmodmap.c:289:5: error: implicit declaration of function 'asprintf' =
+[-Werror=3Dimplicit-function-declaration]
+>>=20
+>> meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb, =
+do_compile
+>> glib-2.0/glib/gmacros.h:162:53: error: typedef =
+'_GStaticAssertCompileTimeAssertion_0' locally defined but not used =
+[-Werror=3Dunused-local-typedefs]
+>>=20
+>> =
+meta-openembedded/meta-oe/recipes-connectivity/networkmanager/modemmanager=
+_0.6.0.0.bb, do_compile
+>> glib-2.0/glib/gmacros.h:162:53: error: typedef =
+'_GStaticAssertCompileTimeAssertion_0' locally defined but not used
+>>=20
+>> =
+meta-openembedded/meta-oe/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb=
+, do_compile
+>> ipsec_doi.c:1321:24: error: argument to 'sizeof' in 'memset' call is =
+the same expression as the destination; did you mean to dereference it? =
+[-Werror=3Dsizeof-pointer-memaccess]
+>> |   memset(pair, 0, sizeof(pair));
+>>=20
+>> And couple of old failures, which are not caused by gcc upgrade for =
+sure.
+>>=20
+>> Complete log:
+>> =
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20=
+130329_124637.log/
+>=20
+> And logs from qemux86:
+> =
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20=
+130330_090402.log/
+>=20
+> qemux86-64
+> =
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20=
+130331_084823.log/
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-To comment on this change:
-A developer would expect that a system (hardware or software) behaves
-in a specific matter (the default behavior).
-By changing the default, the system behavior is undefined (as the
-default behavior was changed).
-
-Every developer who designed a component for (or based upon) the
-system assumed that it is using the default behavior.
-But this patch breaks this behavior for incoherent reasons.
-
-With this change all other modules have to be adapted for this
-behavior instead of just "let it work as it was designed".
-
-
-As alternative of changing the default I would propose that a
-specialization overrides this symlink where needed, and the
-generalization stays unchanged (like OOP inheritance).
-Therefore a specialization would be image configurations or
-postinstall appends for images that have no need for the graphical
-user target.
-
-
-PS: I really hope that this statement is plausible enough to not jump
-into the abyss of changing software in a way it was not designed.
-PPS: If you would have sent this yesterday I would have taken it for
-an "April Fools' Day" hoax [1]
-
-
-[1] For people unaware of this "informal holiday"
-http://en.wikipedia.org/wiki/April_Fools%27_Day
-
---
-Regards
-Samuel
 
 
