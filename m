@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UN0zu-0003fc-DP
+	(envelope-from <cristian.iorga@intel.com>) id 1UN17J-00045O-7V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 15:11:34 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Apr 2013 05:54:23 -0700
+	Tue, 02 Apr 2013 15:19:13 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Apr 2013 06:00:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="312345646"
-Received: from dell-desktop.rb.intel.com ([10.237.105.59])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Apr 2013 05:54:04 -0700
-From: Radu Moisan <radu.moisan@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="311153090"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2013 06:02:01 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2013 15:54:03 +0300
-Message-Id: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v4] systemd: set default.target to multi-user.target
+Date: Tue,  2 Apr 2013 16:02:40 +0300
+Message-Id: <1364907760-32067-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] build-appliance-image: fix git proxy access
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,47 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 13:11:35 -0000
+X-List-Received-Date: Tue, 02 Apr 2013 13:19:14 -0000
 
-This fixes a service dependency issue;
-While graphical.target is the default mode, systemd
-will try to start display-manager.service which is not
-available.
+Updated the name of git proxy access script.
 
-For xserver-nodm-init we would then have something like:
-inherit update-alternatives
-ALTERNATIVE_${PN} = "systemd-def-target"
-ALTERNATIVE_TARGET[systemd-def-target] = "${systemd_unitdir}/system/graphical.target"
-ALTERNATIVE_LINK_NAME[systemd-def-target] = "${systemd_unitdir}/system/default.target"
-ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
+Fixes [YOCTO #4161]
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-core/systemd/systemd_199.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/builder/files/builder_hob_start.sh |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
-index ba1d133..bf1eb39 100644
---- a/meta/recipes-core/systemd/systemd_199.bb
-+++ b/meta/recipes-core/systemd/systemd_199.bb
-@@ -248,6 +248,7 @@ update-alternatives --install ${base_sbindir}/halt halt ${base_bindir}/systemctl
- update-alternatives --install ${base_sbindir}/reboot reboot ${base_bindir}/systemctl 300
- update-alternatives --install ${base_sbindir}/shutdown shutdown ${base_bindir}/systemctl 300
- update-alternatives --install ${base_sbindir}/poweroff poweroff ${base_bindir}/systemctl 300
-+update-alternatives --install ${systemd_unitdir}/system/default.target systemd-def-target ${systemd_unitdir}/system/multi-user.target 1
- }
+diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+index 1c6884e..40616f5 100644
+--- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
++++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+@@ -7,7 +7,7 @@
+ export PSEUDO_PREFIX=/usr
+ export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo
+ export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64
+-export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy-socks-command
++export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy
  
- pkg_prerm_systemd () {
-@@ -256,6 +257,7 @@ update-alternatives --remove halt ${base_bindir}/systemctl
- update-alternatives --remove reboot ${base_bindir}/systemctl
- update-alternatives --remove shutdown ${base_bindir}/systemctl
- update-alternatives --remove poweroff ${base_bindir}/systemctl
-+update-alternatives --remove systemd-def-target ${systemd_unitdir}/system/multi-user.target
- }
- 
- pkg_postinst_udev-hwdb () {
+ cd /home/builder/poky
+ . ./oe-init-build-env
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
