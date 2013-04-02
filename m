@@ -1,29 +1,36 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mail-oa0-f42.google.com ([209.85.219.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1UMyWV-0006co-Bk
+	(envelope-from <erik.boto@pelagicore.com>) id 1UMzBk-0007ab-Ce
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 12:33:03 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 21994F811F5; Tue,  2 Apr 2013 04:15:55 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 52059F811F3;
-	Tue,  2 Apr 2013 04:15:54 -0600 (MDT)
-Message-ID: <515AAFDE.4020409@mlbassoc.com>
-Date: Tue, 02 Apr 2013 04:15:58 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Tue, 02 Apr 2013 13:15:40 +0200
+Received: by mail-oa0-f42.google.com with SMTP id i18so251910oag.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Apr 2013 03:58:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=uYffP+ctsl7QCca9QCb/2DRzouFtWCKmn5VAFKN+iLs=;
+	b=nFC/jReD+IRrc0Mr1ObnrWHs1BIxW1tqyzTpoBIzYQhLel89qaXlobF8qdghEOF0L/
+	f9qhIZiseORMVtKyU/Qlnrx8Td1gjnAjYNz5A1u7YPqJbANmlTSFklgU/OjijK7faA6T
+	dYLcAxqaRQJ6PRfE0OeCssa8Ju08deMT19eLlQT42Jli/UsrkI/oKY+5Kz8DHRyZ8npO
+	Dnz7QoNpzJR9a2P1A7h3P3cvQ2yis2VZMkpPJPj/7IeQI4SmOYYo4PtTgFoEAmILsGh9
+	E9sLNYeHDjvUlsmv2d8GrGo53R3pWTPtbx245F9dx5TIAtE5od2+2ctmw/2kyXtdbFEl
+	BWWw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1364793033.git.Qi.Chen@windriver.com>
-	<be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-In-Reply-To: <be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 1/1] core-image-sato.bb: increase free space size
+X-Received: by 10.60.118.104 with SMTP id kl8mr5390703oeb.68.1364900310177;
+	Tue, 02 Apr 2013 03:58:30 -0700 (PDT)
+Received: by 10.76.21.173 with HTTP; Tue, 2 Apr 2013 03:58:30 -0700 (PDT)
+In-Reply-To: <ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
+References: <cover.1364456659.git.raj.khem@gmail.com>
+	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
+Date: Tue, 2 Apr 2013 12:58:30 +0200
+Message-ID: <CA+AhUGyzFN2PTZUg5BESHKYdMi7gsj0V2bdJAGCd0rg9147NTQ@mail.gmail.com>
+From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQkjSDYWWmXndRyVeIS4Q7Fwjnba8lauFZIoVvovETvbTLHFAlDzOQcs6Q2AvUhM2SefOHKC
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,46 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 10:33:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Apr 2013 11:15:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2013-04-01 20:30, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Sato images, by default, have about 100M free space. This is not enough
-> and it blocks automatic testing.
->
-> This patch fixes this problem by overriding the IMAGE_OVERHEAD_FACTOR
-> in the sato image recipe.
->
-> [YOCTO #4109]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-sato/images/core-image-sato.bb |    3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-> index e3246d2..8df1d08 100644
-> --- a/meta/recipes-sato/images/core-image-sato.bb
-> +++ b/meta/recipes-sato/images/core-image-sato.bb
-> @@ -9,3 +9,6 @@ LICENSE = "MIT"
->   inherit core-image
->
->   IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
-> +
-> +# Override IMAGE_OVERHEAD_FACTOR to increase the free space size on sato images.
-> +IMAGE_OVERHEAD_FACTOR = "2.0"
->
+Hi,
 
-You should make this overridable by the user:
-   IMAGE_OVERHEAD_FACTOR ?= "2.0"
+On Thu, Mar 28, 2013 at 8:48 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> udevadm is now moved from /usr/bin to /bin so account for that
+> bash completions for udevadm should be packages with udev-utils
+> since thats where udevadm itself is, they were in systemd package
+> which is not correct location for it
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+It looks like systemd-analyze installs into /usr/bin and therefore
+isn't picked up in PACKAGE systemd-analyze. This should fix it:
+
+diff --git a/meta/recipes-core/systemd/systemd_199.bb
+b/meta/recipes-core/systemd/systemd_199.bb
+index ba1d133..f896187 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -119,7 +119,7 @@ PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup
+${PN}-initramfs ${PN}-analyze ${PN}-
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+
+-FILES_${PN}-analyze = "${base_bindir}/systemd-analyze"
++FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+
+ FILES_${PN}-initramfs = "/init"
+ RDEPENDS_${PN}-initramfs = "${PN}"
+
+Cheers,
+Erik
 
 
