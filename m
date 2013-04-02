@@ -1,28 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vc0-f170.google.com ([209.85.220.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UN1di-000613-HV
+	(envelope-from <hirst689@gmail.com>) id 1UN267-0008Py-Tc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 15:52:43 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Apr 2013 06:33:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="288217131"
-Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
-	([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 02 Apr 2013 06:35:30 -0700
-Message-ID: <515ADEA3.5030800@intel.com>
-Date: Tue, 02 Apr 2013 16:35:31 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Tue, 02 Apr 2013 16:22:07 +0200
+Received: by mail-vc0-f170.google.com with SMTP id lf10so456843vcb.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Apr 2013 07:04:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=uh4GOP7SDnCSeOs4Kc+04yCNnutlUCfsNx/sP65OXj8=;
+	b=ckOJ2jNpuSmu4umcXjZrX4IPf5S6+uonfQY4o4yjDaQnrvmo8jZC49QUZh0AuRrfE9
+	wqrKKwtJVARKSRu8xIm8MsT7cB3Ke1UnbNc8RQ1+KI7cb7QMbdvrvL5O/Jjq/aekScdk
+	vcq70iOYsPgnhbeHsjdCrKGRwBgY0G3g9KYGx5QupUw7IRIAyUPQmu92LRq1K2dn6+e8
+	yuH2J5kYR13MJyUNbL6DGnCL7xrtqqn21R6n6wjXkW/7dY1X93G4/4phE2xvVQrQfpwW
+	fLqpdvs3UKvdWzNuELrvSGHf8llD3r8aCTatAvrjZgzq+Pu1ec2OMskxo0CwwCjpuU85
+	LqEg==
 MIME-Version: 1.0
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
-	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
-In-Reply-To: <CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
+X-Received: by 10.220.221.210 with SMTP id id18mr12479329vcb.74.1364911493693; 
+	Tue, 02 Apr 2013 07:04:53 -0700 (PDT)
+Received: by 10.59.11.37 with HTTP; Tue, 2 Apr 2013 07:04:53 -0700 (PDT)
+Date: Tue, 2 Apr 2013 10:04:53 -0400
+Message-ID: <CAHu+ux3OLHvwH-0yD0LVfPDTAR-dQgjXpg_Y-DJMTurYsFfv3g@mail.gmail.com>
+From: David Hirst <hirst689@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Removing qt4-embedded-gles for tisdk-rootfs-image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,68 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 13:52:45 -0000
-X-List-Received-Date: Tue, 02 Apr 2013 13:52:45 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Apr 2013 14:22:10 -0000
+Content-Type: multipart/alternative; boundary=14dae9cdc181bb9e0a04d96138ee
+
+--14dae9cdc181bb9e0a04d96138ee
+Content-Type: text/plain; charset=ISO-8859-1
+
+How can I remove qt40embedded-gles from the tisdk-rootfs-image. I do not
+feel that I require it, I am looking for a one liner removal but I seem to
+be going in circles,
+Any pointer would be great
 
 
-On 04/02/2013 04:02 PM, Samuel Stirtzel wrote:
-> 2013/4/2 Radu Moisan <radu.moisan@intel.com>:
->> This fixes a service dependency issue;
->> While graphical.target is the default mode, systemd
->> will try to start display-manager.service which is not
->> available.
->>
->> For xserver-nodm-init we would then have something like:
->> inherit update-alternatives
->> ALTERNATIVE_${PN} = "systemd-def-target"
->> ALTERNATIVE_TARGET[systemd-def-target] = "${systemd_unitdir}/system/graphical.target"
->> ALTERNATIVE_LINK_NAME[systemd-def-target] = "${systemd_unitdir}/system/default.target"
->> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
->>
->> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->> ---
->>   meta/recipes-core/systemd/systemd_199.bb |    2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
->> index ba1d133..bf1eb39 100644
->> --- a/meta/recipes-core/systemd/systemd_199.bb
->> +++ b/meta/recipes-core/systemd/systemd_199.bb
->> @@ -248,6 +248,7 @@ update-alternatives --install ${base_sbindir}/halt halt ${base_bindir}/systemctl
->>   update-alternatives --install ${base_sbindir}/reboot reboot ${base_bindir}/systemctl 300
->>   update-alternatives --install ${base_sbindir}/shutdown shutdown ${base_bindir}/systemctl 300
->>   update-alternatives --install ${base_sbindir}/poweroff poweroff ${base_bindir}/systemctl 300
->> +update-alternatives --install ${systemd_unitdir}/system/default.target systemd-def-target ${systemd_unitdir}/system/multi-user.target 1
->>   }
->>
->>   pkg_prerm_systemd () {
->> @@ -256,6 +257,7 @@ update-alternatives --remove halt ${base_bindir}/systemctl
->>   update-alternatives --remove reboot ${base_bindir}/systemctl
->>   update-alternatives --remove shutdown ${base_bindir}/systemctl
->>   update-alternatives --remove poweroff ${base_bindir}/systemctl
->> +update-alternatives --remove systemd-def-target ${systemd_unitdir}/system/multi-user.target
->>   }
->>
->>   pkg_postinst_udev-hwdb () {
->> --
->> 1.7.9.5
->>
-> Reliving a dejavu?
->
-> This was already rejected before see [1], hope you remember this.
->
-> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2013-January/034806.html
-It was not rejected, have you seen a nack from Ross? Actually I just 
-checked a few days ago with Ross and the reason it didn't merge was 
-because it didn't apply anymore. And because systemd upgrade to v199 was 
-pending I waited for that one to get pulled in. So now with systemd_199 
-in, here is my rebased v3 as well.
+-- 
+David Hirst
+hirst689@gmail.com
 
-There is a bug filled for this problem Bug#3816, do you have a better 
-solution in mind?
+--14dae9cdc181bb9e0a04d96138ee
+Content-Type: text/html; charset=ISO-8859-1
 
-Radu
+<div dir="ltr"><div><div><br clear="all"></div>How can I remove qt40embedded-gles from the tisdk-rootfs-image. I do not feel that I require it, I am looking for a one liner removal but I seem to be going in circles,<br></div>
+Any pointer would be great<br><br><br><div><div><div>-- <br>David Hirst<br><a href="mailto:hirst689@gmail.com" target="_blank">hirst689@gmail.com</a><br><img src="" alt=""><br>
+</div></div></div></div>
 
-
+--14dae9cdc181bb9e0a04d96138ee--
