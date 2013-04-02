@@ -1,48 +1,30 @@
-Received: from mail-pb0-f54.google.com ([209.85.160.54])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1UN3si-0005hn-Q5
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 18:16:20 +0200
-Received: by mail-pb0-f54.google.com with SMTP id xa7so317526pbc.41
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 08:59:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:message-id:date:from:organization:user-agent
-	:mime-version:to:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=Y3XpQuU5b2tj60dmSfiP1x/xXWaDlRahHy2zqRWLhm4=;
-	b=i8B25GmAFJulaKPxRYWqmFWhcicErJMU4YQ/8csrhHQa0T072j6ubN4wkTrxtXvt34
-	DerTQ0O9L00aUTzbzDdEVdE5lXQdF2CBDnjqFkyFRcVao/ChSwkQPQGLZ6dPS5cy96/t
-	D4JsZqYErZmIs40RREGlt28Uwpz0X+w2mhk79YqCQikmhpX7McYms/MUOATuJ2uVPFxf
-	uTfqm1VQh3qE7q3c+QItimGYSK9Z0ogneLETuvK28Nk4H52PcaeN7DIk79fHu3OlWF0Q
-	BdYZUs5OxGwL0cqrxqR9xlc9rurG2GpqoqgfojgosP/VlcnUMHmBTJgPQwo0aN2Unr8+
-	SrJw==
-X-Received: by 10.68.224.169 with SMTP id rd9mr24852516pbc.199.1364918349857; 
-	Tue, 02 Apr 2013 08:59:09 -0700 (PDT)
-Received: from [10.6.18.24] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id hw16sm2853241pab.19.2013.04.02.08.59.08
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 02 Apr 2013 08:59:09 -0700 (PDT)
-Message-ID: <515B004C.8060202@intel.com>
-Date: Tue, 02 Apr 2013 08:59:08 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Trevor Woerner <twoerner@gmail.com>
-References: <1363140541-13440-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16216497@IRSMSX102.ger.corp.intel.com>
-	<CABMQnVKVnoMH1B1Ri-Qmjec30BFX1TaosGq0b1Hc641m3490hA@mail.gmail.com>
-	<CAHUNapSwkvRWD13RK_x2cu-1Q9CdYSKhw9OQFcek7vYjR0UFfA@mail.gmail.com>
-In-Reply-To: <CAHUNapSwkvRWD13RK_x2cu-1Q9CdYSKhw9OQFcek7vYjR0UFfA@mail.gmail.com>
-X-Gm-Message-State: ALoCoQlTAcd8CjowMWw/jAgIlLg1zVo8m5omvX9Ntg5XwnszkwyGkxA1svNweTfHWdh6SwnmeM8P
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-tools: Update autotools.patch
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UN4cf-0006WU-Bk for openembedded-core@lists.openembedded.org;
+	Tue, 02 Apr 2013 19:03:49 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r32Gv7xG026020; Tue, 2 Apr 2013 17:57:07 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PiEKIUhEu3bY; Tue,  2 Apr 2013 17:57:06 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r32Guwht026011
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 2 Apr 2013 17:57:01 +0100
+Message-ID: <1364921183.6526.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 02 Apr 2013 17:46:23 +0100
+In-Reply-To: <1364872704-14812-1-git-send-email-raj.khem@gmail.com>
+References: <1364872704-14812-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Let eglibc-extra-nss-dev exist as empty package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,54 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 16:16:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 02 Apr 2013 17:03:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/29/2013 06:18 AM, Trevor Woerner wrote:
-> I'm seeing this exact same error when I perform a "bitbake world", and
-> have been for the last couple days
->
-I believe this is a real problem, and I suggested to Nobuhiro that using 
-PACKAGECONFIG with gtk+ would be a better solution, but have not see a 
-follow-up patch for this.
+On Mon, 2013-04-01 at 20:18 -0700, Khem Raj wrote:
+> eglibc-extra-nss-dev is a dependency for libc6-dev but
+> the package is empty and is not created as a result target
+> install of libc6-dev fails. This will create an empty package
+> 
+> [Yocto Bug #4168]
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/eglibc/eglibc-package.inc |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+> index 88a00a4..ca0cc4c 100644
+> --- a/meta/recipes-core/eglibc/eglibc-package.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+> @@ -17,7 +17,9 @@ python __anonymous () {
+>  # Set this to zero if you don't want ldconfig in the output package
+>  USE_LDCONFIG ?= "1"
+>  
+> -PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+> +PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc eglibc-extra-nss-dev"
+> +
+> +ALLOW_EMPTY_eglibc-extra-nss-dev  = "1"
 
-Patches welcome!
+As discussed in the bug, I think this is an issue with smart erroring on
+recommends which it shouldn't do. More investigation/discussion
+therefore needed as this patch just fixes one issue and there will be
+others.
 
-Sau!
+Cheers,
 
-
-
-> On Wed, Mar 13, 2013 at 9:43 PM, Nobuhiro Iwamatsu
-> <nobuhiro.iwamatsu.yj@renesas.com> wrote:
->> ----
->> checking for i586-oe-linux-pkg-config... no
->> checking for pkg-config...
->> /home/iwamatsu/yocto/alsa/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config
->> configure: WARNING: using cross tools not prefixed with host triplet
->> checking pkg-config is at least version 0.9.0... yes
->> checking for ENVY24CONTROL... no
->> configure: error: Package requirements (gtk+-2.0 alsa >= 0.9.0) were not met:
->>
->> No package 'gtk+-2.0' found
->>
->> Consider adjusting the PKG_CONFIG_PATH environment variable if you
->> installed software in a non-standard prefix.
->>
->> Alternatively, you may set the environment variables ENVY24CONTROL_CFLAGS
->> and ENVY24CONTROL_LIBS to avoid the need to call pkg-config.
->> See the pkg-config man page for more details.
->> make: *** [all] Error 1
->
-> Is the proposed patch from this email suitable for merging to master?
-> It allows my build of alsa-tools to complete without error.
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+Richard
 
 
 
