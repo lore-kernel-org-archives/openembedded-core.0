@@ -1,31 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UMzY0-0007mh-95 for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 13:38:40 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r32BVvGf029389; Tue, 2 Apr 2013 12:31:58 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OjU+aQVK4+Fq; Tue,  2 Apr 2013 12:31:57 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r32BVo4d029377
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 2 Apr 2013 12:31:54 +0100
-Message-ID: <1364901677.6526.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com
-Date: Tue, 02 Apr 2013 12:21:17 +0100
-In-Reply-To: <40756f91f56034eef88d0338fb8975ca31db9213.1364872107.git.Qi.Chen@windriver.com>
-References: <cover.1364872107.git.Qi.Chen@windriver.com>
-	<40756f91f56034eef88d0338fb8975ca31db9213.1364872107.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image.bbclass: allow override for ROOTFS_BOOTSTRAP_INSTALL
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UMziy-000823-OE
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Apr 2013 13:50:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 02 Apr 2013 04:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,393,1363158000"; d="scan'208";a="311109609"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2013 04:32:24 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Apr 2013 14:35:56 +0300
+Message-Id: <1364902556-351-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] package_deb.bbclass: fix 'armel' override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,26 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 11:38:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Apr 2013 11:50:01 -0000
 
-On Tue, 2013-04-02 at 11:31 +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> Previously, if 'package-management' is in IMAGE_FEATURES, this variable
-> is set to "", otherwise, it's ${ROOTFS_PKGMANAGE_BOOTSTRAP}. It works fine
-> with deb and ipk, because their postinsts rely on their package managers.
-> However, rpm is a little different, as its postinsts are just shell scripts.
+The 'armel' override for DKPG_ARCH was causing the meta-toolchain
+build to fail. The assignment was moved to an anonymous fragment
+of Python code, so it doesn't affect the assignments in
+cross-canadian.bbclass anymore, thus fixing the issue.
 
-Why don't we just make the rpm package RDEPEND on the postinst scripts
-package like opkg and dpkg do?
+[YOCTO #4080]
 
-I can't think of any case where that dependency would be an issue...
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ meta/classes/package_deb.bbclass |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 4559199..853b5ea 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -7,7 +7,6 @@ inherit package
+ IMAGE_PKGTYPE ?= "deb"
+ 
+ DPKG_ARCH ?= "${TARGET_ARCH}" 
+-DPKG_ARCH_arm ?= "armel"
+ 
+ PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
+ 
+@@ -406,8 +405,11 @@ python () {
+         d.setVarFlag('do_package_write_deb_setscene', 'fakeroot', "1")
+ 
+     # Map TARGET_ARCH to Debian's ideas about architectures
+-    if d.getVar('DPKG_ARCH', True) in ["x86", "i486", "i586", "i686", "pentium"]:
+-        d.setVar('DPKG_ARCH', 'i386')
++    darch = d.getVar('DPKG_ARCH', True)
++    if darch in ["x86", "i486", "i586", "i686", "pentium"]:
++         d.setVar('DPKG_ARCH', 'i386')
++    elif darch == "arm":
++         d.setVar('DPKG_ARCH', 'armel')
+ }
+ 
+ python do_package_write_deb () {
+-- 
+1.7.10.4
 
 
 
