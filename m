@@ -1,37 +1,28 @@
-Received: from mail-pb0-f42.google.com ([209.85.160.42])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UMrhj-0008Pf-Qe
+	(envelope-from <Qi.Chen@windriver.com>) id 1UMrmX-0008U2-IC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 05:16:12 +0200
-Received: by mail-pb0-f42.google.com with SMTP id up7so842571pbc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2013 19:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=sno2Fy8UDUOkRalOxvrAbY20p8/P+6mwSpMzsXIe78g=;
-	b=JTAseuaWtSxcEF5OvVktSjLIMAQGorDd0JM2+73d7nDkvrFsVTHmZUEsQEhsgtHD8K
-	+zzzxGln4X8wHVsmcRm5YLHHtgrLtzZWi43tMe1pR91VWLJViN6/HDTc2Eag+ASZcR53
-	L8MrmsM1KiXOxNwZm9VNIK2arTh+HotF+0UB9PHJujFIAANb9/4KOzDI1xT9Su185hRz
-	b5pKxZ91bz4IVh5ZUHoDYp9lPkXr3U4BWB8i8IwX/+DuMWjbpod6ns4kY1dXCi0BDBkC
-	DQ3KQzQazuPkm+XXE3swezWPKv2GOLY2O/m6StlkEuz/Tr5eb1vfkji0mEYDWm3pjtbE
-	o5CQ==
-X-Received: by 10.66.76.170 with SMTP id l10mr22073201paw.190.1364871541879;
-	Mon, 01 Apr 2013 19:59:01 -0700 (PDT)
-Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id qh4sm276372pac.8.2013.04.01.19.58.59
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Apr 2013 19:59:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-Date: Mon, 1 Apr 2013 19:59:02 -0700
-Message-Id: <24D31CC5-0333-455D-BE77-A4D0DF9E8AD7@gmail.com>
+	Tue, 02 Apr 2013 05:21:09 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3233xmk012461
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Apr 2013 20:03:59 -0700 (PDT)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Mon, 1 Apr 2013 20:03:58 -0700
+Message-ID: <515A4AA7.2050006@windriver.com>
+Date: Tue, 2 Apr 2013 11:04:07 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1364793033.git.Qi.Chen@windriver.com>
 	<be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-To: Qi.Chen@windriver.com
-X-Mailer: Apple Mail (2.1503)
+	<24D31CC5-0333-455D-BE77-A4D0DF9E8AD7@gmail.com>
+In-Reply-To: <24D31CC5-0333-455D-BE77-A4D0DF9E8AD7@gmail.com>
+X-Originating-IP: [128.224.163.154]
 Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] core-image-sato.bb: increase free space size
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,18 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 03:16:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Apr 2013 03:21:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 04/02/2013 10:59 AM, Khem Raj wrote:
+> On Apr 1, 2013, at 7:30 PM, Qi.Chen@windriver.com wrote:
+>
+>> +
+>> +# Override IMAGE_OVERHEAD_FACTOR to increase the free space size on sato images.
+>> +IMAGE_OVERHEAD_FACTOR = "2.0"
+> what is the size of image before and after ?
+>
+roughly 100M -> 300M.
+smart automatic testing will use over 90M. see 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4109 for more details.
 
-On Apr 1, 2013, at 7:30 PM, Qi.Chen@windriver.com wrote:
+IMAGE_OVERHEAD_FACTOR defaults to 1.3.
 
-> +
-> +# Override IMAGE_OVERHEAD_FACTOR to increase the free space size on =
-sato images.
-> +IMAGE_OVERHEAD_FACTOR =3D "2.0"
-
-what is the size of image before and after ?=
+Thanks,
+Chen Qi
 
 
