@@ -1,27 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UMrGH-0007gN-Pz
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UMrKP-0007n7-G6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Apr 2013 04:47:50 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r322UcoJ012121
+	Tue, 02 Apr 2013 04:52:05 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r322YtCw022757
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Apr 2013 19:30:39 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 1 Apr 2013 19:30:39 -0700
-From: <Qi.Chen@windriver.com>
+	Mon, 1 Apr 2013 19:34:55 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 1 Apr 2013 19:34:55 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Apr 2013 10:30:48 +0800
-Message-ID: <be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1364793033.git.Qi.Chen@windriver.com>
-References: <cover.1364793033.git.Qi.Chen@windriver.com>
+Date: Tue, 2 Apr 2013 10:34:51 +0800
+Message-ID: <cover.1364551873.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] core-image-sato.bb: increase free space size
+Subject: [PATCH 0/1][yocto-kernel-cache]meta: update atom-pc-wifi.cfg for audit purposes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 02:47:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Apr 2013 02:52:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The following changes since commit 0fac9380caa5eaf8038536413366511c48b579b0:
 
-Sato images, by default, have about 100M free space. This is not enough
-and it blocks automatic testing.
+  meta: Remove Cedartrail Machine (2013-02-10 23:54:01 -0500)
 
-This patch fixes this problem by overriding the IMAGE_OVERHEAD_FACTOR
-in the sato image recipe.
+are available in the git repository at:
 
-[YOCTO #4109]
+  git://git.pokylinux.org/poky-contrib hongxu/fix-atompc-kernel-warn
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-atompc-kernel-warn
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-sato/images/core-image-sato.bb |    3 +++
- 1 file changed, 3 insertions(+)
+Hongxu Jia (1):
+  meta: update atom-pc-wifi.cfg for audit purposes
 
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index e3246d2..8df1d08 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -9,3 +9,6 @@ LICENSE = "MIT"
- inherit core-image
- 
- IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
-+
-+# Override IMAGE_OVERHEAD_FACTOR to increase the free space size on sato images.
-+IMAGE_OVERHEAD_FACTOR = "2.0"
+ bsp/atom-pc/atom-pc-wifi.cfg |   11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
