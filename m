@@ -1,26 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1UNPlH-00034f-J8
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Maxin.John@enea.com>) id 1UNPlc-00035Q-ER
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:38:14 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 03 Apr 2013 08:20:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="311783963"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.55])
-	by orsmga002.jf.intel.com with ESMTP; 03 Apr 2013 08:20:36 -0700
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 74834560C23; Wed,  3 Apr 2013 18:20:38 +0300 (EEST)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: sgw@linux.intel.com, richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org, ross.burton@intel.com
-Date: Wed,  3 Apr 2013 18:20:36 +0300
-Message-Id: <1365002436-5355-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1364991788-29402-1-git-send-email-alexandru.damian@intel.com>
-References: <1364991788-29402-1-git-send-email-alexandru.damian@intel.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] libproxy: add dependency on glib-2.0
+	Wed, 03 Apr 2013 17:38:31 +0200
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Wed, 3 Apr 2013
+	17:21:11 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 98C32288AF7;
+	Wed,  3 Apr 2013 17:21:11 +0200 (CEST)
+From: <maxin.john@enea.com>
+To: <bogdan.a.marinescu@intel.com>, <richard.purdie@linuxfoundation.org>
+Date: Wed, 3 Apr 2013 17:20:57 +0200
+Message-ID: <1365002457-22392-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: openembedded-core@lists.openembedded.org, "Maxin
+	B. John" <maxin.john@enea.com>
+Subject: [PATCH] lttng: updated lttng-ust to 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +31,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:38:16 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 15:38:31 -0000
+Content-Type: text/plain
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+From: "Maxin B. John" <maxin.john@enea.com>
 
-libproxy uses glib-2.0, but the depends is missing
+lttng-ust: upgrade to the latest version 2.1.2
+Also updated HOMEPAGE and BUGTRACKER.
 
-Fixes intermittent build errors.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
 ---
- meta/classes/core-image.bbclass                 |    4 ++--
- meta/recipes-support/libproxy/libproxy_0.4.7.bb |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb |   33 --------------------------
+ meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb |   33 ++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 86df91d..2bd5c12 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -41,8 +41,8 @@ PACKAGE_GROUP_tools-profile = "packagegroup-core-tools-profile"
- PACKAGE_GROUP_tools-testapps = "packagegroup-core-tools-testapps"
- PACKAGE_GROUP_tools-sdk = "packagegroup-core-sdk packagegroup-core-standalone-sdk-target"
- PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
--PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
--PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
-+#PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
-+#PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
- PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
- PACKAGE_GROUP_qt4-pkgs = "packagegroup-core-qt-demoapps"
- PACKAGE_GROUP_hwcodecs = "${MACHINE_HWCODECS}"
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index 510c6b7..89f22b8 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
-                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
- 
--DEPENDS = "gconf"
-+DEPENDS = "gconf glib-2.0"
- 
- PR = "r5"
- 
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+deleted file mode 100644
+index 782e9db..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
++++ /dev/null
+@@ -1,33 +0,0 @@
+-SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+-DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
+-HOMEPAGE = "http://lttng.org/lttng2.0"
+-BUGTRACKER = "n/a"
+-
+-LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+-                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+-                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+-
+-inherit autotools
+-
+-DEPENDS = "liburcu util-linux"
+-
+-# For backwards compatibility after rename
+-RPROVIDES_${PN} = "lttng2-ust"
+-RREPLACES_${PN} = "lttng2-ust"
+-RCONFLICTS_${PN} = "lttng2-ust"
+-
+-SRCREV = "05356aa2a4dca0bc9bfd716d2d6723e3941851dc"
+-PV = "2.1.1"
+-PR = "r0"
+-PE = "2"
+-
+-SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
+-	   file://depends-liblttng-ust-tracepoin.patch \
+-	   "
+-
+-S = "${WORKDIR}/git"
+-
+-do_configure_prepend () {
+-	( cd ${S}; ${S}/bootstrap )
+-}
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+new file mode 100644
+index 0000000..93852b0
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
++DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
++HOMEPAGE = "http://lttng.org/ust"
++BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
++
++LICENSE = "LGPLv2.1+ & BSD & GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
++                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
++
++inherit autotools
++
++DEPENDS = "liburcu util-linux"
++
++# For backwards compatibility after rename
++RPROVIDES_${PN} = "lttng2-ust"
++RREPLACES_${PN} = "lttng2-ust"
++RCONFLICTS_${PN} = "lttng2-ust"
++
++SRCREV = "3f7a0876566a432ad2cc2b27a2725641e36da92d"
++PV = "2.1.2"
++PR = "r0"
++PE = "2"
++
++SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
++	   file://depends-liblttng-ust-tracepoin.patch \
++	   "
++
++S = "${WORKDIR}/git"
++
++do_configure_prepend () {
++	( cd ${S}; ${S}/bootstrap )
++}
 -- 
-1.7.10.4
+1.7.5.4
 
 
 
