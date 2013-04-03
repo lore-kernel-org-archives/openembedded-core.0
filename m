@@ -1,32 +1,29 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UND4p-0004m6-Vl
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UNFhc-00034u-Aq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 04:05:28 +0200
+	Wed, 03 Apr 2013 06:53:40 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r331mEjE029474
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r334aP0X001763
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Apr 2013 18:48:14 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Tue, 2 Apr 2013 18:48:14 -0700
-Message-ID: <515B8ACC.4060303@windriver.com>
-Date: Wed, 3 Apr 2013 09:50:04 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
+	Tue, 2 Apr 2013 21:36:25 -0700 (PDT)
+Received: from [128.224.162.206] (128.224.162.206) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 2 Apr 2013 21:36:26 -0700
+Message-ID: <515BB1C8.1060706@windriver.com>
+Date: Wed, 3 Apr 2013 12:36:24 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1364279968.git.kai.kang@windriver.com>
-	<245c80ed5b2af21acfc2ee3cb910f26292db3909.1364279968.git.kai.kang@windriver.com>
-	<515B4774.6000200@linux.intel.com>
-In-Reply-To: <515B4774.6000200@linux.intel.com>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r331mEjE029474
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] opkg: create run-scripts file conditionally
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1364551873.git.hongxu.jia@windriver.com>
+	<CADkTA4MeGQQajjwdGk0An80zS09BRs7CfOEAXdp85G5TPY8SYg@mail.gmail.com>
+In-Reply-To: <CADkTA4MeGQQajjwdGk0An80zS09BRs7CfOEAXdp85G5TPY8SYg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1][yocto-kernel-cache]meta: update atom-pc-wifi.cfg for audit purposes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 02:05:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Apr 2013 04:53:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2013=E5=B9=B404=E6=9C=8803=E6=97=A5 05:02, Saul Wold wrote:
-> On 03/25/2013 11:43 PM, Kang Kai wrote:
->> This bug occurs on rpm-based sdk image.
+On 04/03/2013 01:01 AM, Bruce Ashfield wrote:
+> On Mon, Apr 1, 2013 at 10:34 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> The following changes since commit 0fac9380caa5eaf8038536413366511c48b579b0:
 >>
->> update-alternatives-cworth is default installed into sato image. And f=
-or
->> sato-sdk image, it installs every related dev packages.
->> update-alternatives-cworth is from opkg, so opkg-dev is installed and =
-it
->> requires opkg, then opkg is installed into sato-sdk image.
+>>    meta: Remove Cedartrail Machine (2013-02-10 23:54:01 -0500)
 >>
->> This causes the script file run-postinsts installed by rpm will be
->> overwrited by opkg on rpm-based sdk image.
+>> are available in the git repository at:
 >>
->> Judge the image package type and don't create run-scripts file when
->> package type is not ipk.
->>
->> [YOCTO #3223]
->>
->> Signed-off-by: Kang Kai <kai.kang@windriver.com>
->> ---
->> meta/recipes-devtools/opkg/opkg.inc | 6 ++++++
->> 1 files changed, 6 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/opkg/opkg.inc=20
->> b/meta/recipes-devtools/opkg/opkg.inc
->> index f9c1202..bc80cb0 100644
->> --- a/meta/recipes-devtools/opkg/opkg.inc
->> +++ b/meta/recipes-devtools/opkg/opkg.inc
->> @@ -59,10 +59,16 @@ do_install_append_class-native() {
->>
->> POSTLOG ?=3D "/var/log/postinstall.log"
->> REDIRECT_CMD =3D "${@base_contains('IMAGE_FEATURES', 'debug-tweaks',=20
->> '>${POSTLOG} 2>&1', '', d)}"
->> +PKGTYPE =3D "${@d.getVar('IMAGE_PKGTYPE', True)}"
->>
->> pkg_postinst_${PN} () {
->> #!/bin/sh
->> if [ "x$D" !=3D "x" ]; then
->> + # if installed to a rpm/deb based image, don't create run-postinsts=20
->> file
->> + if [ "x${PKGTYPE}" !=3D "xipk" ]; then
->> + exit 0
->> + fi
->> +
-> I understand what you are trying to do here, I think Richard was=20
-> questioning if this is the right implementation of the change. I think=20
-> if you look at how RPM does it and then make the *run-postinsts script=20
-> an update-alternatives so each package system does it consistently,=20
-> this will also require a change to dpkg.
+>>    git://git.pokylinux.org/poky-contrib hongxu/fix-atompc-kernel-warn
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-atompc-kernel-warn
+> Thanks for the changes, they look good, but we have a couple of process items
+> to fix!
 >
-> Then there might have to be some setting of the PRIORITY for when each=20
-> package system is installed.
-Thanks. I'll re-implement it.
+>   - make sure to cc me directly on kernel config or kernel changes,
+> otherwise I may
+>     miss them.
+>
+>   - cc linux-yocto@yoctoproject.org (you need to subscribe) instead of
+> oe-core, I'll
+>     update oe-core once the changes are merged
+>
+>   - modify the linux-yocto-<version> meta branch, not the kernel cache
+> directly. I'll
+>     merge changes to the kernel-cache when integrating the change to the release
+>     kernel.
 
-Regards,
-Kai
+Got it, I will resent the pull request.
 
+Thanks,
+Hongxu
 
+> Cheers,
 >
-> Sau!
+> Bruce
 >
->> install -d $D${sysconfdir}/rcS.d
->> # this happens at S98 where our good 'ole packages script used to run
->> echo "#!/bin/sh
+>> Hongxu Jia (1):
+>>    meta: update atom-pc-wifi.cfg for audit purposes
 >>
+>>   bsp/atom-pc/atom-pc-wifi.cfg |   11 ++---------
+>>   1 file changed, 2 insertions(+), 9 deletions(-)
+>>
+>> --
+>> 1.7.10.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
 
 
