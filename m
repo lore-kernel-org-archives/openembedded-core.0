@@ -1,24 +1,30 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1UNMzL-00055H-VI
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 14:40:28 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2013 05:23:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,401,1363158000"; d="scan'208";a="316242861"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.55])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2013 05:23:08 -0700
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 53466560C23; Wed,  3 Apr 2013 15:23:10 +0300 (EEST)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: sgw@linux.intel.com, richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 15:23:08 +0300
-Message-Id: <1364991788-29402-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] libproxy: add dependency on libffi
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UNO2z-0005wF-HZ for openembedded-core@lists.openembedded.org;
+	Wed, 03 Apr 2013 15:48:17 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r33DfV0v011528; Wed, 3 Apr 2013 14:41:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wbQjQi860S2G; Wed,  3 Apr 2013 14:41:31 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r33DfOl8011515
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 3 Apr 2013 14:41:27 +0100
+Message-ID: <1364995845.6526.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Date: Wed, 03 Apr 2013 14:30:45 +0100
+In-Reply-To: <1364990305-20807-1-git-send-email-andrei.adrianx.dinu@intel.com>
+References: <1364990305-20807-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add file information to package information window
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,34 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 12:40:28 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 13:48:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On Wed, 2013-04-03 at 14:58 +0300, Andrei Dinu wrote:
+> Removed the package files parsing routine from the
+> packageinfo.bbclass file and added it to the
+> package.bbclass file.
+> 
+> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+> ---
+>  meta/classes/package.bbclass     |   14 ++++++++++++++
+>  meta/classes/packageinfo.bbclass |   20 --------------------
+>  2 files changed, 14 insertions(+), 20 deletions(-)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 3479947..121a1dd 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1130,6 +1130,17 @@ python emit_pkgdata() {
+>      workdir = d.getVar('WORKDIR', True)
+>  
+>      for pkg in packages.split():
+> +        pkgdest = d.getVar('PKGDEST', True)
+> +        files_path = pkgdest + '/' + pkg
+> +        if os.path.exists(files_path):
+> +                items = {}
+> +                for path, dirs, files in os.walk(files_path):
+> +                        files_list = []
+> +                        if os.listdir(path) != []:
+> +                            for f in files:
+> +                                files_list.append(f)
+> +                        if len(files_list) != 0:
+> +                            items[path] = files_list           
+>          subdata_file = pkgdatadir + "/runtime/%s" % pkg
 
-libproxy uses libffi, but the depends is missing
+You're now doing this in a "fastpath" so we need to look carefully at
+performance here. Can you have a look at the pkgfiles[pkg] variable and
+see if you can get the data you need from that? You should be able to
+iterate it and just strip out the prefixes?
 
-Fixes intermittent build errors.
+Cheers,
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/recipes-support/libproxy/libproxy_0.4.7.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Richard
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index 510c6b7..f396cc3 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
-                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
- 
--DEPENDS = "gconf"
-+DEPENDS = "gconf libffi"
- 
- PR = "r5"
- 
--- 
-1.7.10.4
 
 
 
