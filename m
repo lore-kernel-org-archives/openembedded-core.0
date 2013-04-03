@@ -1,24 +1,35 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1UNPlc-00035Q-ER
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:38:31 +0200
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Wed, 3 Apr 2013
-	17:21:11 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 98C32288AF7;
-	Wed,  3 Apr 2013 17:21:11 +0200 (CEST)
-From: <maxin.john@enea.com>
-To: <bogdan.a.marinescu@intel.com>, <richard.purdie@linuxfoundation.org>
-Date: Wed, 3 Apr 2013 17:20:57 +0200
-Message-ID: <1365002457-22392-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org, "Maxin
-	B. John" <maxin.john@enea.com>
-Subject: [PATCH] lttng: updated lttng-ust to 2.1.2
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UNPot-0003KW-Ox for openembedded-core@lists.openembedded.org;
+	Wed, 03 Apr 2013 17:41:56 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r33FZ6L4021256; Wed, 3 Apr 2013 16:35:06 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Y7bTinMfmMTH; Wed,  3 Apr 2013 16:35:06 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r33FYxwe021225
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 3 Apr 2013 16:35:01 +0100
+Message-ID: <1365002659.6526.45.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Wed, 03 Apr 2013 16:24:19 +0100
+In-Reply-To: <CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
+References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
+	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
+	<515ADEA3.5030800@intel.com>
+	<CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
+	<CAJTo0LZ9b3yqJ+K1Y03aC3OXhpsaB40D5PXfENqh2oe1ybErZg@mail.gmail.com>
+	<CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: the oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,102 +42,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:38:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Apr 2013 15:42:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: "Maxin B. John" <maxin.john@enea.com>
+On Wed, 2013-04-03 at 16:51 +0200, Samuel Stirtzel wrote:
+> 2013/4/3 Burton, Ross <ross.burton@intel.com>:
+> > Hi,
+> >
+> > On 2 April 2013 15:15, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
+> >>>>> For xserver-nodm-init we would then have something like:
+> >>>>> inherit update-alternatives
+> >>>>> ALTERNATIVE_${PN} = "systemd-def-target"
+> >>>>> ALTERNATIVE_TARGET[systemd-def-target] =
+> >>>>> "${systemd_unitdir}/system/graphical.target"
+> >>>>> ALTERNATIVE_LINK_NAME[systemd-def-target] =
+> >>>>> "${systemd_unitdir}/system/default.target"
+> >>>>> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
+> >>>>>
+> >>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> >
+> > This really needs to be a series of two patches, with this change
+> > implemented too.
+> >
+> >> To comment on this change:
+> >> A developer would expect that a system (hardware or software) behaves
+> >> in a specific matter (the default behavior).
+> >> By changing the default, the system behavior is undefined (as the
+> >> default behavior was changed).
+> >
+> > The behaviour is not undefined, it's perfectly clear - the default
+> > target is multi-user unless changed, and by patching the X startup
+> > recipes in oe-core and meta-oe we handle the majority of cases.
+> 
+> When we decide that we handle standard behavior different than the
+> rest of the world, then this patch is basically a fork of systemd.
 
-lttng-ust: upgrade to the latest version 2.1.2
-Also updated HOMEPAGE and BUGTRACKER.
+No, we're not forking systemd, we're talking about configuration. 
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb |   33 --------------------------
- meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb |   33 ++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+This is like saying that booting your Linux desktop at a different
+runlevel is forking Linux.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
-deleted file mode 100644
-index 782e9db..0000000
---- a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
--DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
--HOMEPAGE = "http://lttng.org/lttng2.0"
--BUGTRACKER = "n/a"
--
--LICENSE = "LGPLv2.1+ & BSD & GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
--                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
--                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
--
--inherit autotools
--
--DEPENDS = "liburcu util-linux"
--
--# For backwards compatibility after rename
--RPROVIDES_${PN} = "lttng2-ust"
--RREPLACES_${PN} = "lttng2-ust"
--RCONFLICTS_${PN} = "lttng2-ust"
--
--SRCREV = "05356aa2a4dca0bc9bfd716d2d6723e3941851dc"
--PV = "2.1.1"
--PR = "r0"
--PE = "2"
--
--SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
--	   file://depends-liblttng-ust-tracepoin.patch \
--	   "
--
--S = "${WORKDIR}/git"
--
--do_configure_prepend () {
--	( cd ${S}; ${S}/bootstrap )
--}
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
-new file mode 100644
-index 0000000..93852b0
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
-@@ -0,0 +1,33 @@
-+SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
-+DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
-+HOMEPAGE = "http://lttng.org/ust"
-+BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
-+
-+LICENSE = "LGPLv2.1+ & BSD & GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
-+                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-+                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
-+
-+inherit autotools
-+
-+DEPENDS = "liburcu util-linux"
-+
-+# For backwards compatibility after rename
-+RPROVIDES_${PN} = "lttng2-ust"
-+RREPLACES_${PN} = "lttng2-ust"
-+RCONFLICTS_${PN} = "lttng2-ust"
-+
-+SRCREV = "3f7a0876566a432ad2cc2b27a2725641e36da92d"
-+PV = "2.1.2"
-+PR = "r0"
-+PE = "2"
-+
-+SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
-+	   file://depends-liblttng-ust-tracepoin.patch \
-+	   "
-+
-+S = "${WORKDIR}/git"
-+
-+do_configure_prepend () {
-+	( cd ${S}; ${S}/bootstrap )
-+}
--- 
-1.7.5.4
+> Also we tell every affected software developer:
+> "No your software won't work with OE-core / Yocto Project without
+> adaption, we are incompatible with the systemd standard to make life
+> more comfortable for (some of) us"
+
+We're saying that graphical init scripts need to somehow tell the system
+they're a graphical init script. There are only a small number of these
+out there and adding some identification to them whilst an annoyance,
+isn't a big issue.
+
+Integrating new technology like systemd into older systems is hard. You
+sometimes need to add new information to allow the system to work
+properly. This is once such case.
+
+Cheers,
+
+Richard
+
+
+
 
 
 
