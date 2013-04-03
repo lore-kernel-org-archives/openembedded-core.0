@@ -1,32 +1,18 @@
-Received: from arroyo.ext.ti.com ([192.94.94.40])
+Received: from ptmx.org ([178.63.28.110])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UNTYg-0004rG-N1
+	(envelope-from <dv@pseudoterminal.org>) id 1UNTbJ-0004y1-5R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 21:41:23 +0200
-Received: from dbdp20.itg.ti.com ([172.24.170.38])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r33JO7Gg024634
+	Wed, 03 Apr 2013 21:44:05 +0200
+Received: from localhost.localdomain (chello080108009040.14.11.vie.surfer.at
+	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 88D332130F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Apr 2013 14:24:08 -0500
-Received: from DBDE70.ent.ti.com (localhost [127.0.0.1])
-	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id r33JO7KZ028332
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Apr 2013 00:54:07 +0530 (IST)
-Received: from dbdp32.itg.ti.com (172.24.170.251) by dbde70.ent.ti.com
-	(172.24.170.148) with Microsoft SMTP Server id 14.1.323.3;
-	Thu, 4 Apr 2013 00:54:07 +0530
-Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dbdp32.itg.ti.com (8.13.8/8.13.8) with ESMTP id r33JO1uB001716;
-	Thu, 4 Apr 2013 00:54:06 +0530
-From: Chase Maupin <Chase.Maupin@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Apr 2013 14:23:59 -0500
-Message-ID: <1365017039-21728-2-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1365017039-21728-1-git-send-email-Chase.Maupin@ti.com>
-References: <1365017039-21728-1-git-send-email-Chase.Maupin@ti.com>
-MIME-Version: 1.0
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH 2/2] linux-dtb: fix whitespace in bash functions
+	Wed,  3 Apr 2013 21:26:55 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2013 21:26:51 +0200
+Message-Id: <1365017211-17183-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.2
+Subject: [oe][PATCH] eglinfo: Add recipes for x11 and fb backends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,124 +25,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 19:41:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Apr 2013 19:44:05 -0000
 
-* Fix the whitespace in the base functions to use TAB instead
-  of spaces.  This is to address feedback from:
-        Darren Hart <dvhart@linux.intel.com>
+eglinfo is a small utility for printing out information about EGL as well
+as about its client APIs, OpenGL / OpenGLES 1.x / OpenGLES 2.x / OpenVG.
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-kernel/linux/linux-dtb.inc |   86 +++++++++++++++---------------
- 1 files changed, 43 insertions(+), 43 deletions(-)
+ meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb  | 11 ++++++
+ meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb |  6 +++
+ meta/recipes-graphics/eglinfo/eglinfo.inc        | 49 ++++++++++++++++++++++++
+ 3 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+ create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+ create mode 100644 meta/recipes-graphics/eglinfo/eglinfo.inc
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 421ffa3..58b93a1 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -12,56 +12,56 @@ python __anonymous () {
- }
- 
- do_install_append() {
--    if test -n "${KERNEL_DEVICETREE}"; then
--        for DTS_FILE in ${KERNEL_DEVICETREE}; do
--            if [ ! -f ${DTS_FILE} ]; then
--                echo "Warning: ${DTS_FILE} is not available!"
--                continue
--            fi
--            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
--            install -m 0644 ${DTS_BASE_NAME} ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
--        done
--    fi
-+	if test -n "${KERNEL_DEVICETREE}"; then
-+		for DTS_FILE in ${KERNEL_DEVICETREE}; do
-+			if [ ! -f ${DTS_FILE} ]; then
-+				echo "Warning: ${DTS_FILE} is not available!"
-+				continue
-+			fi
-+			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-+			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
-+			install -m 0644 ${DTS_BASE_NAME} ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
-+		done
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+new file mode 100644
+index 0000000..65b265f
+--- /dev/null
++++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+@@ -0,0 +1,11 @@
++EGLINFO_PLATFORM ?= "fb"
++EGLINFO_BINARY_NAME ?= "eglinfo-fb"
++
++# .bbappend files in BSP meta layers can add EGLINFO_DEVICE
++# values if necessary. eglinfo.inc contains default values for
++# the currently supported devices.
++# Consult the eglinfo README.md for details
++
++include eglinfo.inc
++
++SUMMARY += "(Framebuffer version)"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+new file mode 100644
+index 0000000..8793a25
+--- /dev/null
++++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+@@ -0,0 +1,6 @@
++EGLINFO_PLATFORM ?= "x11"
++EGLINFO_BINARY_NAME ?= "eglinfo-x11"
++
++include eglinfo.inc
++
++SUMMARY += "(X11 version)"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
+new file mode 100644
+index 0000000..116435d
+--- /dev/null
++++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
+@@ -0,0 +1,49 @@
++SUMMARY = "Utility for printing information EGL and its client APIs (OpenGL, OpenGL ES, OpenVG)"
++SECTION = "graphics"
++LICENSE = "Zlib"
++HOMEPAGE = "https://github.com/dv1/eglinfo"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
++
++DEPENDS = "virtual/egl"
++
++SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
++SRCREV = "4a49ff59545d9b6a8222badab64115f89d3a6774"
++
++S = "${WORKDIR}/git"
++
++
++# BSP layers should add .bbappend files for the -x11 and -fb .bb recipes,
++# which append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS
++# not doing that here, since some platforms might not have OpenGL ES or OpenVG support
++# (in that case, the eglinfo build scripts automatically disable the relevant code paths)
++
++EGLINFO_DEVICE ?= "generic"
++EGLINFO_DEVICE_raspberrypi ?= "raspberrypi"
++EGLINFO_DEVICE_beagleboard ?= "beagleboard"
++EGLINFO_DEVICE_mx6 ?= "imx6"
++
++
++do_clean() {
++	if [ -x ${S}/waf ]; then
++		${S}/waf distclean
 +	fi
- }
- 
- do_deploy_append() {
--    if test -n "${KERNEL_DEVICETREE}"; then
--        for DTS_FILE in ${KERNEL_DEVICETREE}; do
--            if [ ! -f ${DTS_FILE} ]; then
--                echo "Warning: ${DTS_FILE} is not available!"
--                continue
--            fi
--            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--            install -d ${DEPLOYDIR}
--            install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
--            cd ${DEPLOYDIR}
--            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
--            cd -
--        done
--    fi
-+	if test -n "${KERNEL_DEVICETREE}"; then
-+		for DTS_FILE in ${KERNEL_DEVICETREE}; do
-+			if [ ! -f ${DTS_FILE} ]; then
-+				echo "Warning: ${DTS_FILE} is not available!"
-+				continue
-+			fi
-+			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-+			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+			install -d ${DEPLOYDIR}
-+			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
-+			cd ${DEPLOYDIR}
-+			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
-+			cd -
-+		done
-+	fi
- }
- 
- pkg_postinst_kernel-devicetree () {
--    cd /${KERNEL_IMAGEDEST}
--    for DTS_FILE in ${KERNEL_DEVICETREE}
--    do
--        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--        DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--        update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
--    done
-+	cd /${KERNEL_IMAGEDEST}
-+	for DTS_FILE in ${KERNEL_DEVICETREE}
-+	do
-+		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+	done
- }
- 
- pkg_postrm_kernel-devicetree () {
--    cd /${KERNEL_IMAGEDEST}
--    for DTS_FILE in ${KERNEL_DEVICETREE}
--    do
--        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--        DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--        update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
--    done
-+	cd /${KERNEL_IMAGEDEST}
-+	for DTS_FILE in ${KERNEL_DEVICETREE}
-+	do
-+		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+		update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+	done
- }
++}
++
++do_configure() {
++	${S}/waf configure \
++		--platform=${EGLINFO_PLATFORM} \
++		--device=${EGLINFO_DEVICE} \
++		--sysroot ${STAGING_DIR_TARGET} \
++		--prefix=${prefix} \
++		${EXTRA_OECONF}
++}
++
++do_compile() {
++	${S}/waf
++}
++
++do_install() {
++	mkdir -p "${D}/${bindir}"
++	mv "${S}/build/release/eglinfo" "${D}/${bindir}/${EGLINFO_BINARY_NAME}"
++}
++
 -- 
-1.7.0.4
+1.8.2
 
 
 
