@@ -1,20 +1,40 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wg0-f47.google.com ([74.125.82.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UNI7G-0000SR-O9
+	(envelope-from <ross.burton@intel.com>) id 1UNJ1m-0001Iv-AU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 09:28:18 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Apr 2013 00:11:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,399,1363158000"; d="scan'208";a="222221662"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.234])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Apr 2013 00:10:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 08:10:53 +0100
-Message-Id: <1364973053-28019-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] classes/sstate: avoid traceback when no files have been staged
+	Wed, 03 Apr 2013 10:26:42 +0200
+Received: by mail-wg0-f47.google.com with SMTP id y10so1307888wgg.14
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2013 01:09:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:date:from:to:cc:message-id:in-reply-to:references
+	:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=8qYx5Lr22KU9oZPQnHUGISc787kdQ4XGvaIrfDd7Okw=;
+	b=TVl7H5JweGIVqLvj7Tg/PrGizAAJM2Ap2M0eWt3GasJ2uowUsYKlq6bTd19dRA5kZE
+	/AhQEIZ9pCog9g5nM6e4HS4lhslIBsTcLqeVHKwDiBI4PpgWZNrNUpXKoz/w2itrzBE+
+	J/lSlhFXeOqwohKbgm+PE71b3FFwEc2EvQs8uZf8gMMdnbHx4CK1ZcMBdylhpNOV5JIH
+	DWf+u0hqK0eJUAxHCRVMKirau1FeRu3VjLD7QJvFjWgWb61/dtdkfMjiNRXoAgHvWXn+
+	Q5iGSriDTSenJSckeHVwM4oSy9U6N48u384P+RRRKBrczXblRuWjrARztyA3z2xeWiSU
+	jItA==
+X-Received: by 10.180.11.148 with SMTP id q20mr2945099wib.18.1364976571365;
+	Wed, 03 Apr 2013 01:09:31 -0700 (PDT)
+Received: from [192.168.1.11] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id s2sm7318941wib.4.2013.04.03.01.09.29
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Wed, 03 Apr 2013 01:09:30 -0700 (PDT)
+Date: Wed, 3 Apr 2013 09:09:47 +0100
+From: Ross Burton <ross.burton@intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-ID: <D8E6D6E1514B4B1297F02DD04278253F@intel.com>
+In-Reply-To: <cover.1364942359.git.dvhart@linux.intel.com>
+References: <cover.1364942359.git.dvhart@linux.intel.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQma7Ot3FiImb4Em/aImwB6ibe/s4Ujn0Ike9lTX1vKf4ZwaKNydo1F9cXfGjSfxx3afkEGg
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] Add input group and udev rule to fix rootless X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,43 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 07:28:19 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 08:26:42 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-If no files have been staged we want to continue without error instead
-of showing a traceback.
+On Tuesday, 2 April 2013 at 23:42, Darren Hart wrote:
+> udev: Add rule adding input devices to input group
 
-Fixes [YOCTO #4056].
+Please put this in udev-extraconf so that systemd's udev can use it too.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/sstate.bbclass |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Ross 
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3f4f43d..67ddc46 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -197,7 +197,8 @@ def sstate_install(ss, d):
- 
-     # Run the actual file install
-     for state in ss['dirs']:
--        oe.path.copytree(state[1], state[2])
-+        if os.path.exists(state[1]):
-+            oe.path.copytree(state[1], state[2])
- 
-     for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
-         bb.build.exec_func(postinst, d)
-@@ -448,6 +449,8 @@ def sstate_package(ss, d):
-     bb.mkdirhier(sstatebuild)
-     bb.mkdirhier(os.path.dirname(sstatepkg))
-     for state in ss['dirs']:
-+        if not os.path.exists(state[1]):
-+            continue
-         srcbase = state[0].rstrip("/").rsplit('/', 1)[0]
-         for walkroot, dirs, files in os.walk(state[1]):
-             for file in files:
--- 
-1.7.10.4
 
 
 
