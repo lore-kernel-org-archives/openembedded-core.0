@@ -1,26 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UNPxO-0003z1-0P
+	(envelope-from <radu.moisan@intel.com>) id 1UNQEf-0005Y0-Qs
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:50:50 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2013 08:33:25 -0700
+	Wed, 03 Apr 2013 18:08:34 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 08:49:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="313059168"
-Received: from unknown (HELO [10.255.14.19]) ([10.255.14.19])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2013 08:33:25 -0700
-Message-ID: <515C4BC5.1010609@linux.intel.com>
-Date: Wed, 03 Apr 2013 08:33:25 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Alex DAMIAN <alexandru.damian@intel.com>
-References: <1364991788-29402-1-git-send-email-alexandru.damian@intel.com>
-	<1365002436-5355-1-git-send-email-alexandru.damian@intel.com>
-In-Reply-To: <1365002436-5355-1-git-send-email-alexandru.damian@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libproxy: add dependency on glib-2.0
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288834109"
+Received: from dell-desktop.rb.intel.com ([10.237.105.59])
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 08:51:16 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2013 18:51:15 +0300
+Message-Id: <1365004276-20197-2-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1365004276-20197-1-git-send-email-radu.moisan@intel.com>
+References: <1365004276-20197-1-git-send-email-radu.moisan@intel.com>
+Subject: [PATCH 1/2] initramfs-live-boot: enable multilib support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:50:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 16:08:41 -0000
 
-On 04/03/2013 08:20 AM, Alex DAMIAN wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
->
-> libproxy uses glib-2.0, but the depends is missing
->
-> Fixes intermittent build errors.
->
-> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-> ---
->   meta/classes/core-image.bbclass                 |    4 ++--
->   meta/recipes-support/libproxy/libproxy_0.4.7.bb |    2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-> index 86df91d..2bd5c12 100644
-> --- a/meta/classes/core-image.bbclass
-> +++ b/meta/classes/core-image.bbclass
-> @@ -41,8 +41,8 @@ PACKAGE_GROUP_tools-profile = "packagegroup-core-tools-profile"
->   PACKAGE_GROUP_tools-testapps = "packagegroup-core-tools-testapps"
->   PACKAGE_GROUP_tools-sdk = "packagegroup-core-sdk packagegroup-core-standalone-sdk-target"
->   PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
-> -PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
-> -PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
-> +#PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
-> +#PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
->   PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
->   PACKAGE_GROUP_qt4-pkgs = "packagegroup-core-qt-demoapps"
->   PACKAGE_GROUP_hwcodecs = "${MACHINE_HWCODECS}"
+Use base_libdir instead harcoded /lib
 
-You seem to have pulled in some other stuff also, please send a clean v2.
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |    1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks
-    Sau!
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+index 1e674a4..0c354ae 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+@@ -15,6 +15,7 @@ do_compile() {
+ }
+  
+ do_install() {
++        sed -i 's@/lib/udev@${base_libdir}/udev@g' ${WORKDIR}/init-live.sh
+         install -m 0755 ${WORKDIR}/init-live.sh ${D}/init
+ }
+ 
+-- 
+1.7.9.5
 
-
-> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> index 510c6b7..89f22b8 100644
-> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
->                       file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
->
-> -DEPENDS = "gconf"
-> +DEPENDS = "gconf glib-2.0"
->
->   PR = "r5"
->
->
 
 
