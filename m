@@ -1,24 +1,26 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vb0-f41.google.com ([209.85.212.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UNPot-0003KW-Ox for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:41:56 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r33FZ6L4021256; Wed, 3 Apr 2013 16:35:06 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Y7bTinMfmMTH; Wed,  3 Apr 2013 16:35:06 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r33FYxwe021225
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 3 Apr 2013 16:35:01 +0100
-Message-ID: <1365002659.6526.45.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Date: Wed, 03 Apr 2013 16:24:19 +0100
+	(envelope-from <ross.burton@intel.com>) id 1UNPsP-0003a4-1k
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Apr 2013 17:45:31 +0200
+Received: by mail-vb0-f41.google.com with SMTP id f13so553415vbg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2013 08:28:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=7tpQhjwEtuqw8y9uol5Yt07r7pTRDQzDzBzj08UozL0=;
+	b=lOQ0NaYDoxI7BZLmTdzCzgkNq+oldWbiSvUwUOq7aTvbTpsM/cZTB2hY/IkUk2CW2u
+	wqDaHuJPLpofduIOk2I4T5V976YpGdLeVeW5VTjvpI9PQZbKs1vW2WS104jnSw5bZVMy
+	wqsVhasFQKEst2nUNwP31bqE7NT/5VRLrH5Kzf6QRza2uucMOFamRphEcIl3u7tcKQti
+	58hOB9WgBx/W/QHmaLhHarzJkzU7pTTdC68u8GMiwtaAgpL70jrkFFH+N8T0gUnUz8LE
+	qoZSdnaHjLc88pKcjOw0YZGc75Hf7GNJ+SeRiBnGDig2Ew/DmPAJzMXFoIMt+YlMQvf0
+	hH/w==
+X-Received: by 10.220.156.75 with SMTP id v11mr1642385vcw.1.1365002897025;
+	Wed, 03 Apr 2013 08:28:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.134.74 with HTTP; Wed, 3 Apr 2013 08:27:56 -0700 (PDT)
 In-Reply-To: <CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
 References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
 	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
@@ -26,9 +28,13 @@ References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
 	<CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
 	<CAJTo0LZ9b3yqJ+K1Y03aC3OXhpsaB40D5PXfENqh2oe1ybErZg@mail.gmail.com>
 	<CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: the oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Apr 2013 16:27:56 +0100
+Message-ID: <CAJTo0La=bsNXhSA8_86n7gjL9FqFRa0wKT0OUv-siTTa2MVXbg@mail.gmail.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+X-Gm-Message-State: ALoCoQm1gk+piXWsy6uL+V3LX8/Fq02KUAcX/OhBDxF/1Qf1IjTnQcPqqIUj7Nqy7QYHTsp+RK70
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,67 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:42:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 15:45:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-04-03 at 16:51 +0200, Samuel Stirtzel wrote:
-> 2013/4/3 Burton, Ross <ross.burton@intel.com>:
-> > Hi,
-> >
-> > On 2 April 2013 15:15, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
-> >>>>> For xserver-nodm-init we would then have something like:
-> >>>>> inherit update-alternatives
-> >>>>> ALTERNATIVE_${PN} = "systemd-def-target"
-> >>>>> ALTERNATIVE_TARGET[systemd-def-target] =
-> >>>>> "${systemd_unitdir}/system/graphical.target"
-> >>>>> ALTERNATIVE_LINK_NAME[systemd-def-target] =
-> >>>>> "${systemd_unitdir}/system/default.target"
-> >>>>> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
-> >>>>>
-> >>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> >
-> > This really needs to be a series of two patches, with this change
-> > implemented too.
-> >
-> >> To comment on this change:
-> >> A developer would expect that a system (hardware or software) behaves
-> >> in a specific matter (the default behavior).
-> >> By changing the default, the system behavior is undefined (as the
-> >> default behavior was changed).
-> >
-> > The behaviour is not undefined, it's perfectly clear - the default
-> > target is multi-user unless changed, and by patching the X startup
-> > recipes in oe-core and meta-oe we handle the majority of cases.
-> 
+On 3 April 2013 15:51, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
 > When we decide that we handle standard behavior different than the
 > rest of the world, then this patch is basically a fork of systemd.
-
-No, we're not forking systemd, we're talking about configuration. 
-
-This is like saying that booting your Linux desktop at a different
-runlevel is forking Linux.
-
 > Also we tell every affected software developer:
 > "No your software won't work with OE-core / Yocto Project without
 > adaption, we are incompatible with the systemd standard to make life
 > more comfortable for (some of) us"
 
-We're saying that graphical init scripts need to somehow tell the system
-they're a graphical init script. There are only a small number of these
-out there and adding some identification to them whilst an annoyance,
-isn't a big issue.
+Changing the default target depending on the use of the image isn't
+really the same as forking systemd, and we're not making anything
+incompatible.
 
-Integrating new technology like systemd into older systems is hard. You
-sometimes need to add new information to allow the system to work
-properly. This is once such case.
+>> How would you implement this?  Register the alternative in systemd.bb
+>> defaulting to graphical, and then switch it in every image recipe in
+>> oe-core/meta-oe/etc that doesn't use an X or Wayland (patches coming
+>> shortly) session?
+>
+> If this works why not?
+> It sounds like a good idea, because this way would not break anything,
+> and we would be compatible with the standard systemd.
 
-Cheers,
+Obviously the nuances of my sentiment were lost as it was transcribed to ASCII.
 
-Richard
+I'm advocating changing the default target to multi-user and then
+patching the two recipes where X session scripts are packaged to also
+set the target to graphical.  People switching to systemd who don't
+use the standard X sessions (they roll their own, or don't use X, or
+whatever) will notice quickly that the default target needs to be
+changed, and can do it in their graphical startup recipes.
 
+You're suggesting leaving the default target as graphical and changing
+uncountable numbers of *image recipes* to override the default target,
+the alternative being errors in the log.
 
+So far "the community" disagrees on the approach here - we've had
+vocal objections to errors in the log for any image, changing the
+default target, and the other proposals.
 
+We *do* need a way of changing the default target.  Do we at least all
+agree that update-alternatives is a logical way of changing it on a
+per-image basis?
 
+Ross
 
 
