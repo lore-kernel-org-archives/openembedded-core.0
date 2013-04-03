@@ -1,33 +1,35 @@
-Received: from mail-ve0-f177.google.com ([209.85.128.177])
+Received: from mail-vc0-f179.google.com ([209.85.220.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ronunes@gmail.com>) id 1UNBvo-0007Kc-P1
+	(envelope-from <ronunes@gmail.com>) id 1UNBvp-0007Kj-Vy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 02:52:06 +0200
-Received: by mail-ve0-f177.google.com with SMTP id jw11so1244128veb.22
+	Wed, 03 Apr 2013 02:52:10 +0200
+Received: by mail-vc0-f179.google.com with SMTP id gf12so1057050vcb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 17:34:54 -0700 (PDT)
+	Tue, 02 Apr 2013 17:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=byFzwuTLYP4ldeA/y6bIn/2/aNepeoZcEDs7dUUD11s=;
-	b=p5YpwPzS3lAoe+bmBKSJ/J0CZfdUA4uutSnIPzx8WvVNWxYUrAlbuxFHQDNVkquFuG
-	LuYyEWNrW5CjYEN1b5wgOvJOoFkHkEz72ydXv7EpdiyC/V/TJ0lztxz7F7Hf1maiF/Kk
-	BHQyBOWctn8+urgbJHLP6Ge0VPSgTQ6UrMzhhahBRcIFXPQhWOqBIKTJN225vuX8eFsS
-	C6/b40RoK6z2PwvAOWXSdQUCIl7HfoY2PAQ+zFA325XRSNVKBW0S8w+3xnhI58cuwy07
-	mSa8/DvAwMTA/qQCfENGR4h9dM4h/UBNI9iZTYZeXRP5lgxKXCiR3Yu2ZcoXCUxitMtH
-	tvqQ==
-X-Received: by 10.52.98.36 with SMTP id ef4mr3257839vdb.95.1364949293929;
-	Tue, 02 Apr 2013 17:34:53 -0700 (PDT)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=gUOg7fWIka4V045oi08J52O3RujnHFhYulDafB97iyc=;
+	b=HunZtSeN9B762INrJea/zJpjE79d5d1r22Ca4O0r2jBoNiufJdRfBjYhzsQqMl8ssp
+	g0sXS/mJwBuqtvwFW6hriWAgUJuhN8ShX0/tIlU9znojMyAUw+P+PJiSaL2G/M8XW1DH
+	n3+1waXf0C2SUufr2xwQRgj5py3jQlX29wOraM+dwxN52vy5Nctz0Dje6+YvTQhgCVaU
+	ZjwAO0xmv067tom8SflzkfFpgGdMWD+5ZueYkc1/CvYYCj5Kr9ry6+K6ThS8MUb/H4S6
+	JPtjTVmpp0k9gorfRM5JmlVYopN8Egh3YkYQVGzhczvxM/EoeTKXe/c133PtQ58J0HV8
+	UHZA==
+X-Received: by 10.52.68.235 with SMTP id z11mr12179395vdt.107.1364949295216;
+	Tue, 02 Apr 2013 17:34:55 -0700 (PDT)
 Received: from B35650-11.home (pool-173-76-33-241.bstnma.fios.verizon.net.
 	[173.76.33.241])
-	by mx.google.com with ESMTPS id zd13sm4489818vdb.1.2013.04.02.17.34.52
+	by mx.google.com with ESMTPS id zd13sm4489818vdb.1.2013.04.02.17.34.54
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Apr 2013 17:34:53 -0700 (PDT)
+	Tue, 02 Apr 2013 17:34:54 -0700 (PDT)
 From: Rogerio Nunes <ronunes@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2013 20:34:43 -0400
-Message-Id: <1364949284-32569-1-git-send-email-ronunes@gmail.com>
+Date: Tue,  2 Apr 2013 20:34:44 -0400
+Message-Id: <1364949284-32569-2-git-send-email-ronunes@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/2] alsa-tools: fix build when x11 and gtk+ not available
+In-Reply-To: <1364949284-32569-1-git-send-email-ronunes@gmail.com>
+References: <1364949284-32569-1-git-send-email-ronunes@gmail.com>
+Subject: [PATCH 2/2] gst-plugins-bad: disable librsvg when x11 is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,80 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 00:52:15 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 00:52:20 -0000
 
-Current verion of gtk+ (2.15.24) does not accept pure framebuffer as
-backend and some alsa-tools sub-modules depend on gtk+.
-
-This patch removes those sub-modules from the build only when x11 is not
-set in DISTRO_FEATURES.
+librsvg depends on gtk+, which in turn does not support framebuffer
+as backend in current version (2.15.24). This patch disables librsvg
+when x11 is not in the distro.
 
 Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
 ---
- .../alsa/alsa-tools/makefile_no_gtk.patch          |   21 ++++++++++++++++++++
- .../recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb |    8 ++++++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-new file mode 100644
-index 0000000..51f934d
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-@@ -0,0 +1,21 @@
-+Remove some sub-components which need gtk+.
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index 9039f97..eb289c7 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=71a904d99ce7ae0c1cf129891b98145c"
+ 
+-DEPENDS += "gst-plugins-base tremor librsvg curl"
++DEPENDS += "gst-plugins-base tremor curl"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit gettext
+ 
+@@ -16,6 +16,9 @@ EXTRA_OECONF += "--disable-examples --disable-experimental --disable-sdl --disab
+                  --with-plugins=wavpack,ivorbis,mpegvideoparse --disable-vdpau --disable-apexsink \
+                  --disable-orc"
+ 
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'librsvg', '', d)}"
++PACKAGECONFIG[librsvg] = "--enable-librsvg,--disable-librsvg,librsvg,"
 +
-+Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+diff --git a/Makefile b/Makefile
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1,8 +1,8 @@
-+ VERSION = 1.0.26.1
-+ TOP = .
-+-SUBDIRS = ac3dec as10k1 envy24control \
-+-	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
-+-	  us428control usx2yloader vxloader echomixer \
-++SUBDIRS = ac3dec as10k1 \
-++	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
-++	  us428control usx2yloader vxloader \
-+ 	  hwmixvolume hda-verb
-+ 
-+ all:
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-index 2b46aaf..81ad55a 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-@@ -5,14 +5,15 @@ SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
- DEPENDS = "alsa-lib ncurses"
+ ARM_INSTRUCTION_SET = "arm"
  
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://mips_has_no_io_h.patch \
--           file://autotools.patch"
-+           file://autotools.patch \
-+           ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
- 
- SRC_URI[md5sum] = "805526ea5d6c40e1f2c94cee86141230"
- SRC_URI[sha256sum] = "553338693707fe6ddfc430b9edc4cd2677390e200c9e38de82ede3394e733841"
-@@ -21,6 +22,9 @@ inherit autotools
- 
- EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
- 
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
-+PACKAGECONFIG[gtk+] = ",,gtk+,"
-+
- do_compile_prepend () {
-     #Automake dir is not correctly detected in cross compilation case
-     export AUTOMAKE_DIR=${STAGING_DATADIR_NATIVE}/$(ls ${STAGING_DATADIR_NATIVE} | grep automake)
+ do_configure_prepend() {
 -- 
 1.7.9.5
 
