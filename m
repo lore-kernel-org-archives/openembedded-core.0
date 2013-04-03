@@ -1,16 +1,16 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UNSpi-0003bm-DN
+	(envelope-from <dvhart@linux.intel.com>) id 1UNSry-0003nY-UY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 20:54:54 +0200
+	Wed, 03 Apr 2013 20:57:15 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Apr 2013 11:37:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 03 Apr 2013 11:40:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288911788"
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288912996"
 Received: from unknown (HELO envy.home) ([10.7.199.68])
-	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 11:37:41 -0700
-Message-ID: <515C76F5.7000000@linux.intel.com>
-Date: Wed, 03 Apr 2013 11:37:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 11:39:53 -0700
+Message-ID: <515C7778.6000608@linux.intel.com>
+Date: Wed, 03 Apr 2013 11:39:52 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
@@ -18,7 +18,8 @@ MIME-Version: 1.0
 To: Ross Burton <ross.burton@intel.com>
 References: <cover.1364942359.git.dvhart@linux.intel.com>
 	<D8E6D6E1514B4B1297F02DD04278253F@intel.com>
-In-Reply-To: <D8E6D6E1514B4B1297F02DD04278253F@intel.com>
+	<515C76F5.7000000@linux.intel.com>
+In-Reply-To: <515C76F5.7000000@linux.intel.com>
 X-Enigmail-Version: 1.5.1
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/3] Add input group and udev rule to fix rootless X
@@ -34,19 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 18:54:54 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 18:57:15 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/03/2013 01:09 AM, Ross Burton wrote:
-> On Tuesday, 2 April 2013 at 23:42, Darren Hart wrote:
->> udev: Add rule adding input devices to input group
+
+
+On 04/03/2013 11:37 AM, Darren Hart wrote:
+> On 04/03/2013 01:09 AM, Ross Burton wrote:
+>> On Tuesday, 2 April 2013 at 23:42, Darren Hart wrote:
+>>> udev: Add rule adding input devices to input group
+>>
+>> Please put this in udev-extraconf so that systemd's udev can use it too.
 > 
-> Please put this in udev-extraconf so that systemd's udev can use it too.
+> Do you mean instead of udev? I didn't see udev-extraconf in the package
+> built for core-image-sato for atom-pc...
 
-Do you mean instead of udev? I didn't see udev-extraconf in the package
-built for core-image-sato for atom-pc...
-
+Uh, never mind me, looking in the arch dir instead of the all dir.
+Nothing to see here, move it along...
 
 -- 
 Darren Hart
