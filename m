@@ -1,25 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UNS17-0002QB-W3
+	(envelope-from <ross.burton@intel.com>) id 1UNS4N-0002VI-MA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 20:02:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r33HjQWY020063
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 03 Apr 2013 20:05:59 +0200
+Received: by mail-vc0-f175.google.com with SMTP id hf12so1662522vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Apr 2013 10:45:26 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 3 Apr 2013 10:45:24 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Apr 2013 12:47:30 -0500
-Message-ID: <1365011250-24355-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+	Wed, 03 Apr 2013 10:48:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=RmFrt91wKvUTnlrmKf7fdLXKzzaxGRCtIFTCQEOn/yY=;
+	b=kzJ1ShHkpgX6Pz6NTaBAyZEl5ZL8kf3w1qBzkv0F6UMtoa8O9OWqa/UkT0L92Wtxuz
+	V/ZyYBUldY0PMGJXbBop8BZcRNEgHAZUxyzJ0x96FIB+HlL1MpkFRmYouiejMlv77Uyz
+	E06zozaytsSRcWeHerP0or2HOwEO+k3hhq5Qk11dpWTRm2ydsz87QBRCodyIO9vVcOIQ
+	n8hS8B1+lSckaHdGblEWn6eMEzewEC6SrVmrz1b8JSJhAh8AhM8Bz3ulsG2LgBdbWrpM
+	Vp44JASC7YnSz6tQTeYxGz77fudyUI9YL/Qgd760PelJ4dU0oMQUblzJoxyElSXhnddG
+	uHWA==
+X-Received: by 10.220.39.69 with SMTP id f5mr2080221vce.45.1365011327872; Wed,
+	03 Apr 2013 10:48:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] Enable additional kernel parameters for syslinux
+Received: by 10.58.134.74 with HTTP; Wed, 3 Apr 2013 10:48:26 -0700 (PDT)
+In-Reply-To: <1365011250-24355-1-git-send-email-mark.hatle@windriver.com>
+References: <1365011250-24355-1-git-send-email-mark.hatle@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Apr 2013 18:48:26 +0100
+Message-ID: <CAJTo0LZ5a4oa7k-Mz7VbgAHaP8wvacV8vNBX_vDByvDUfeCVWw@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQk/V7ki2JvheN0NFc7ExLDZXFq/c+KlFs0c9ztXYMZefq2NSR+sBLv4QxBWyrJ5uEnXfovF
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Enable additional kernel parameters for syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 18:02:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Apr 2013 18:05:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Konrad Scherer <Konrad.Scherer@windriver.com>
+On 3 April 2013 18:47, Mark Hatle <mark.hatle@windriver.com> wrote:
+> Add additional parameter 'SYSLINUX_KERNEL_ARGS' in order to allow
+> for specific kernel parameters to be set when using syslinux.
 
-Add additional parameter 'SYSLINUX_KERNEL_ARGS' in order to allow
-for specific kernel parameters to be set when using syslinux.
+Why would you use this and not APPEND? (or am I totally
+misunderstanding something?)
 
-Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/syslinux.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 0b90eab..1eca4f8 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -13,6 +13,7 @@
- # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited
- # ${SYSLINUX_SPLASH} - A background for the vga boot menu if using the boot menu
- # ${SYSLINUX_SERIAL} - Set an alternate serial port or turn off serial with empty string
-+# ${SYSLINUX_KERNEL_ARGS} - Add additional kernel arguments
- 
- do_bootimg[depends] += "syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot"
-@@ -150,6 +151,10 @@ python build_syslinux_cfg () {
-         for btype in btypes:
-             cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
- 
-+            exargs = d.getVar('SYSLINUX_KERNEL_ARGS', True)
-+            if exargs:
-+                btype[1] += " " + exargs
-+
-             append = localdata.getVar('APPEND', True)
-             initrd = localdata.getVar('INITRD', True)
- 
--- 
-1.8.1.2.545.g2f19ada
-
+Ross
 
 
