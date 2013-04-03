@@ -1,30 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UNHGa-0007ra-Cg
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UNI7G-0000SR-O9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 08:33:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r336GeIQ003316
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Apr 2013 23:16:40 -0700 (PDT)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Tue, 2 Apr 2013 23:16:40 -0700
-Message-ID: <515BC953.2070504@windriver.com>
-Date: Wed, 3 Apr 2013 14:16:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1364793033.git.Qi.Chen@windriver.com>
-	<be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
-	<515AAFDE.4020409@mlbassoc.com>
-In-Reply-To: <515AAFDE.4020409@mlbassoc.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH 1/1] core-image-sato.bb: increase free space size
+	Wed, 03 Apr 2013 09:28:18 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 03 Apr 2013 00:11:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,399,1363158000"; d="scan'208";a="222221662"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.234])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Apr 2013 00:10:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2013 08:10:53 +0100
+Message-Id: <1364973053-28019-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] classes/sstate: avoid traceback when no files have been staged
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,50 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 06:33:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 07:28:19 -0000
 
-On 04/02/2013 06:15 PM, Gary Thomas wrote:
-> On 2013-04-01 20:30, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Sato images, by default, have about 100M free space. This is not enough
->> and it blocks automatic testing.
->>
->> This patch fixes this problem by overriding the IMAGE_OVERHEAD_FACTOR
->> in the sato image recipe.
->>
->> [YOCTO #4109]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-sato/images/core-image-sato.bb |    3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-sato/images/core-image-sato.bb 
->> b/meta/recipes-sato/images/core-image-sato.bb
->> index e3246d2..8df1d08 100644
->> --- a/meta/recipes-sato/images/core-image-sato.bb
->> +++ b/meta/recipes-sato/images/core-image-sato.bb
->> @@ -9,3 +9,6 @@ LICENSE = "MIT"
->>   inherit core-image
->>
->>   IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
->> +
->> +# Override IMAGE_OVERHEAD_FACTOR to increase the free space size on 
->> sato images.
->> +IMAGE_OVERHEAD_FACTOR = "2.0"
->>
->
-> You should make this overridable by the user:
->   IMAGE_OVERHEAD_FACTOR ?= "2.0"
->
-Yes. You're right.
-And we can use "??=" in bitbake.conf.
-A new patch set has been sent out.
+If no files have been staged we want to continue without error instead
+of showing a traceback.
 
-Thanks,
-Chen Qi
+Fixes [YOCTO #4056].
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/sstate.bbclass |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 3f4f43d..67ddc46 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -197,7 +197,8 @@ def sstate_install(ss, d):
+ 
+     # Run the actual file install
+     for state in ss['dirs']:
+-        oe.path.copytree(state[1], state[2])
++        if os.path.exists(state[1]):
++            oe.path.copytree(state[1], state[2])
+ 
+     for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
+         bb.build.exec_func(postinst, d)
+@@ -448,6 +449,8 @@ def sstate_package(ss, d):
+     bb.mkdirhier(sstatebuild)
+     bb.mkdirhier(os.path.dirname(sstatepkg))
+     for state in ss['dirs']:
++        if not os.path.exists(state[1]):
++            continue
+         srcbase = state[0].rstrip("/").rsplit('/', 1)[0]
+         for walkroot, dirs, files in os.walk(state[1]):
+             for file in files:
+-- 
+1.7.10.4
+
 
 
