@@ -1,26 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ie0-f177.google.com ([209.85.223.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UNA9U-0007ug-L1
+	(envelope-from <ronunes@gmail.com>) id 1UNBrC-0006uR-UM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 00:58:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Apr 2013 15:40:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,396,1363158000"; d="scan'208";a="311416313"
-Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
-	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2013 15:40:32 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2013 15:42:50 -0700
-Message-Id: <12c7e0621cc8f417922cf5da8cc90f6ed88e6c5a.1364942359.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <293e2e6b20a096d41ba43b70d6c3fec0d343d1ef.1364942359.git.dvhart@linux.intel.com>
-References: <293e2e6b20a096d41ba43b70d6c3fec0d343d1ef.1364942359.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1364942359.git.dvhart@linux.intel.com>
-References: <cover.1364942359.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 3/3] xserver-nodm-init: Add xuser to input group
+	Wed, 03 Apr 2013 02:47:30 +0200
+Received: by mail-ie0-f177.google.com with SMTP id tp5so1097572ieb.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Apr 2013 17:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=ohdZSpCX8Vf0PETpoyUF/y+UyeZFD1msxrqsqiwJZPQ=;
+	b=xMkAaRL1Mv95C4g7JewICf6LOppkHYdVM+aKTUMVebVxJZj73qdaJJVmnwMCmyS+FZ
+	0w+lOrt9DFpbuE543SuVZK4SllStFrvo2vGflg3o8aWe/5Sqq9yNc1LK7VNaJiPXJgOU
+	MKI02jz31zkV4zxf7sJwv2nb4q2zowSaG7vIJlf44GhOLGzojkPGTI0BvxRhnlZnS3Em
+	KkKq8RcWUbGHKi72ZM3nSvwUi37njwZNPgWMD8BwMTv86jwponwjaTaLlaTdJs2qJqrC
+	ARCP/usxLv/68B8tKcgsU2kYJCgtP0J73XFnnBSXghTeHVmvcw81QZs/hq404DcxJC55
+	0PoA==
+MIME-Version: 1.0
+X-Received: by 10.50.111.161 with SMTP id ij1mr6034615igb.85.1364949007817;
+	Tue, 02 Apr 2013 17:30:07 -0700 (PDT)
+Received: by 10.64.232.103 with HTTP; Tue, 2 Apr 2013 17:30:07 -0700 (PDT)
+Date: Tue, 2 Apr 2013 20:30:07 -0400
+Message-ID: <CACb8hfEDoLbsoiZk4d=r7Teu11i8-WwZC1QSO5_nOmQjggkZSQ@mail.gmail.com>
+From: Rogerio Nunes <ronunes@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] alsa-tools: Update autotools.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +36,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2013 22:58:17 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 00:47:36 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a8a62bf63c704d969f44a
 
-Fixes [YOCTO 4164](3/3)
+--047d7b3a8a62bf63c704d969f44a
+Content-Type: text/plain; charset=ISO-8859-1
 
-Input devices come and go, so a single chmod in this init script is not
-adequate to ensure rootless X servers can use input devices.
+My approach was to add PACKAGECONFIG with gtk+ and a new patch, instead of
+modifying autotools.patch.
 
-The o+rw method also introduces a security hole.
+This way we only eliminate some more sub-modules when not using x11 in
+distro.
 
-The newly added input group and input udev rule address this in a secure
-way. Ensure the xuser is added to the input group.
+I'm sending my patches now.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Saul Wold <sgw@linux.intel.com>
-Cc: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../x11-common/xserver-nodm-init.bb                |    4 ++--
- .../x11-common/xserver-nodm-init/xserver-nodm      |    1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+________________________________________
+From: otavio.salvador@gmail.com [otavio.salvador@gmail.com] on behalf of
+Otavio Salvador [otavio@ossystems.com.br]
+Sent: Tuesday, April 02, 2013 13:46
+To: Saul Wold; Nunes Rogerio-B35650
+Cc: Trevor Woerner; Nobuhiro Iwamatsu;
+openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] alsa-tools: Update autotools.patch
 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-index eab76c5..d2797a9 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- SECTION = "x11"
--PR = "r30"
-+PR = "r31"
- RDEPENDS_${PN} = "sudo"
- 
- SRC_URI = "file://xserver-nodm \
-@@ -34,6 +34,6 @@ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
- # USERADD_PARAM is in sync with the one in connman.inc
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--create-home \
--                       --groups video,tty,audio \
-+                       --groups video,tty,audio,input \
-                        --user-group xuser"
- 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-index e790fb0..f6692a8 100755
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-@@ -33,7 +33,6 @@ case "$1" in
-            # setting for rootless X
-            chmod o+w /var/log
-            chmod g+r /dev/tty[0-3]
--           chmod o+rw /dev/input/*
-            # hidraw device is probably needed
-            if [ -e /dev/hidraw0 ]; then
-                chmod o+rw /dev/hidraw*
--- 
-1.7.5.4
+On Tue, Apr 2, 2013 at 12:59 PM, Saul Wold <saul.wold@intel.com> wrote:
+> On 03/29/2013 06:18 AM, Trevor Woerner wrote:
+>>
+>> I'm seeing this exact same error when I perform a "bitbake world", and
+>> have been for the last couple days
+>>
+> I believe this is a real problem, and I suggested to Nobuhiro that using
+> PACKAGECONFIG with gtk+ would be a better solution, but have not see a
+> follow-up patch for this.
+>
+> Patches welcome!
 
+Rogerio (added to Cc) was working in a patch for this; I think he
+should have it ready for submitting it soon.
 
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--047d7b3a8a62bf63c704d969f44a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote">My approach was to add PACKAGEC=
+ONFIG with gtk+ and a new patch, instead of modifying autotools.patch.<br><=
+br></div><div class=3D"gmail_quote">
+This way we only eliminate some more sub-modules when not using x11 in dist=
+ro.<br><br>I&#39;m sending my patches now.<br><br>
+________________________________________<br>
+From: <a href=3D"mailto:otavio.salvador@gmail.com">otavio.salvador@gmail.co=
+m</a> [<a href=3D"mailto:otavio.salvador@gmail.com">otavio.salvador@gmail.c=
+om</a>] on behalf of Otavio Salvador [<a href=3D"mailto:otavio@ossystems.co=
+m.br">otavio@ossystems.com.br</a>]<br>
+
+Sent: Tuesday, April 02, 2013 13:46<br>
+To: Saul Wold; Nunes Rogerio-B35650<br>
+Cc: Trevor Woerner; Nobuhiro Iwamatsu; <a href=3D"mailto:openembedded-core@=
+lists.openembedded.org">openembedded-core@lists.openembedded.org</a><br>
+Subject: Re: [OE-core] [PATCH] alsa-tools: Update autotools.patch<br>
+<br>
+On Tue, Apr 2, 2013 at 12:59 PM, Saul Wold &lt;<a href=3D"mailto:saul.wold@=
+intel.com">saul.wold@intel.com</a>&gt; wrote:<br>
+&gt; On 03/29/2013 06:18 AM, Trevor Woerner wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m seeing this exact same error when I perform a &quot;bitbak=
+e world&quot;, and<br>
+&gt;&gt; have been for the last couple days<br>
+&gt;&gt;<br>
+&gt; I believe this is a real problem, and I suggested to Nobuhiro that usi=
+ng<br>
+&gt; PACKAGECONFIG with gtk+ would be a better solution, but have not see a=
+<br>
+&gt; follow-up patch for this.<br>
+&gt;<br>
+&gt; Patches welcome!<br>
+<br>
+Rogerio (added to Cc) was working in a patch for this; I think he<br>
+should have it ready for submitting it soon.<br>
+<br>
+--<br>
+Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
+. Systems<br>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br<=
+/a> =A0<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www=
+.ossystems.com.br</a><br>
+Mobile: <a href=3D"tel:%2B55%2053%209981-7854" value=3D"+555399817854">+55 =
+53 9981-7854</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossy=
+stems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
+<br>
+</div><br></div>
+
+--047d7b3a8a62bf63c704d969f44a--
