@@ -1,30 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UNQKQ-00066X-Il
+	(envelope-from <sgw@linux.intel.com>) id 1UNQKm-00067E-NY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 18:14:29 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 03 Apr 2013 08:57:14 -0700
+	Wed, 03 Apr 2013 18:15:09 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Apr 2013 08:57:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="280260806"
-Received: from unknown (HELO envy.home) ([10.255.13.219])
-	by azsmga001.ch.intel.com with ESMTP; 03 Apr 2013 08:57:13 -0700
-Message-ID: <515C5159.6030200@linux.intel.com>
-Date: Wed, 03 Apr 2013 08:57:13 -0700
-From: Darren Hart <dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288836363"
+Received: from unknown (HELO [10.255.14.19]) ([10.255.14.19])
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 08:57:35 -0700
+Message-ID: <515C516E.4060502@linux.intel.com>
+Date: Wed, 03 Apr 2013 08:57:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: "Maupin, Chase" <chase.maupin@ti.com>
-References: <1364575688-19681-1-git-send-email-Chase.Maupin@ti.com>
-	<515B455E.4030504@linux.intel.com>
-	<7D46E86EC0A8354091174257B2FED101594BAE12@DLEE11.ent.ti.com>
-In-Reply-To: <7D46E86EC0A8354091174257B2FED101594BAE12@DLEE11.ent.ti.com>
-X-Enigmail-Version: 1.5.1
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-dtb: Add simple DTB symlinks for devicetree
+To: maxin.john@enea.com
+References: <1365002457-22392-1-git-send-email-maxin.john@enea.com>
+In-Reply-To: <1365002457-22392-1-git-send-email-maxin.john@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lttng: updated lttng-ust to 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,119 +32,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 16:14:34 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Wed, 03 Apr 2013 16:15:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 04/03/2013 08:20 AM, maxin.john@enea.com wrote:
+> From: "Maxin B. John" <maxin.john@enea.com>
+>
+> lttng-ust: upgrade to the latest version 2.1.2
+> Also updated HOMEPAGE and BUGTRACKER.
+>
 
+We appreciate the update, as we are now in the stabilization period for 
+the 1.4 release we are going to hold package updated unless there is a 
+strong case to be made that it provides some stabilization or bugfix.
 
-On 04/03/2013 07:20 AM, Maupin, Chase wrote:
->> -----Original Message-----
->> From: Darren Hart [mailto:dvhart@linux.intel.com]
->> Sent: Tuesday, April 02, 2013 3:54 PM
->> To: Maupin, Chase
->> Cc: openembedded-core@lists.openembedded.org; Ashfield, Bruce
->> Subject: Re: [OE-core] [PATCH] linux-dtb: Add simple DTB symlinks
->> for devicetree
->>
->>
->>
->> On 03/29/2013 09:48 AM, Chase Maupin wrote:
->>> * This is similar to the symlinks provided for the kernel image
->>>   in the /boot directory of a file system.  The goal is to have
->>>   simply named symlinks in /boot that mirror the device tree
->>>   name in the kernel sources.  This is so that programs like
->>>   U-Boot can easily find the default device tree binary in the
->>>   /boot directory and use that when booting the kernel.
->>> * Use update-alternatives to handle proper creation and removal
->>>   of the symlinks.
->>
->> Hi Chase,
->>
->> So I have no experience myself with Device Tree. Adding Bruce A.
->> for some
->> additional review.
->>
->> I am going to assume this is the right thing to do for u-boot
->> systems.
->> Which devices have you verified this as working with?
-> 
-> OMAP5 uEVM and AM335x EVM.  For these devices U-Boot does a simple extload from the /boot directory of the dtb.  The goal here is to have the dtb name in /boot match the name that would be generated when you build the dtb in the kernel.
-> 
-> For example the omap5-uevm.dts file is compiled as omap5-uevm.dtb.  So using a symlink with this standard naming makes it easier for u-boot to detect the device it is running on and look for the standard file name vs devicetree-uImage-omap5-evm.dtb.
-> 
-> Also, for people that want to load the dtb from other locations such as a different partition on the SD card they can still just copy the dtb file from the kernel build and not need to modify u-boot to use the different file name, just the location.
+I will put this into the queue for 1.5 once it opens up.
 
+Thanks
+	Sau!
 
-And what about the comments on your patch itself below?
-
-
-> 
->>
->>>
->>> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
->>> ---
->>>  meta/recipes-kernel/linux/linux-dtb.inc |   20
->> ++++++++++++++++++++
->>>  1 files changed, 20 insertions(+), 0 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
->> b/meta/recipes-kernel/linux/linux-dtb.inc
->>> index ec6c375..66cf255 100644
->>> --- a/meta/recipes-kernel/linux/linux-dtb.inc
->>> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
->>> @@ -45,3 +45,23 @@ do_deploy_append() {
->>>          done
->>>      fi
->>>  }
->>> +
->>> +pkg_postinst_kernel-devicetree () {
->>
->> Please use tabs for bash functions. Oddly, I see the only tabs in
->> this
->> file are in the anonymous python blocks. Doh.
->>
->>> +    cd /${KERNEL_IMAGEDEST}
->>> +    for DTS_FILE in ${KERNEL_DEVICETREE}
->>> +    do
->>> +        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "."
->> '{print $1}'`
->>> +        DTB_NAME="devicetree-uImage-${DTS_BASE_NAME}.dtb"
->>
->>
->> Is "uImage" always correct here? Or should we be using
->> ${KERNEL_IMAGETYPE} here?
->>
->>
->>> +        update-alternatives --install
->> /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb
->> ${DTB_NAME} ${KERNEL_PRIORITY} || true
->>> +    done
->>> +}
->>> +
->>> +pkg_postrm_kernel-devicetree () {
->>> +    cd /${KERNEL_IMAGEDEST}
->>> +    for DTS_FILE in ${KERNEL_DEVICETREE}
->>> +    do
->>> +        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "."
->> '{print $1}'`
->>> +        DTB_NAME="devicetree-uImage-${DTS_BASE_NAME}.dtb"
->>> +        update-alternatives --remove ${DTS_BASE_NAME}.dtb
->> ${DTB_NAME} ${KERNEL_PRIORITY} || true
->>> +    done
->>> +}
->>>
->>
->> Thanks,
->>
->> --
->> Darren Hart
->> Intel Open Source Technology Center
->> Yocto Project - Technical Lead - Linux Kernel
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
+> ---
+>   meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb |   33 --------------------------
+>   meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb |   33 ++++++++++++++++++++++++++
+>   2 files changed, 33 insertions(+), 33 deletions(-)
+>   delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+>   create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+>
+> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+> deleted file mode 100644
+> index 782e9db..0000000
+> --- a/meta/recipes-kernel/lttng/lttng-ust_2.1.1.bb
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+> -DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
+> -HOMEPAGE = "http://lttng.org/lttng2.0"
+> -BUGTRACKER = "n/a"
+> -
+> -LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+> -                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+> -                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+> -
+> -inherit autotools
+> -
+> -DEPENDS = "liburcu util-linux"
+> -
+> -# For backwards compatibility after rename
+> -RPROVIDES_${PN} = "lttng2-ust"
+> -RREPLACES_${PN} = "lttng2-ust"
+> -RCONFLICTS_${PN} = "lttng2-ust"
+> -
+> -SRCREV = "05356aa2a4dca0bc9bfd716d2d6723e3941851dc"
+> -PV = "2.1.1"
+> -PR = "r0"
+> -PE = "2"
+> -
+> -SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
+> -	   file://depends-liblttng-ust-tracepoin.patch \
+> -	   "
+> -
+> -S = "${WORKDIR}/git"
+> -
+> -do_configure_prepend () {
+> -	( cd ${S}; ${S}/bootstrap )
+> -}
+> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+> new file mode 100644
+> index 0000000..93852b0
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/lttng-ust_2.1.2.bb
+> @@ -0,0 +1,33 @@
+> +SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+> +DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
+> +HOMEPAGE = "http://lttng.org/ust"
+> +BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
+> +
+> +LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+> +                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+> +                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+> +
+> +inherit autotools
+> +
+> +DEPENDS = "liburcu util-linux"
+> +
+> +# For backwards compatibility after rename
+> +RPROVIDES_${PN} = "lttng2-ust"
+> +RREPLACES_${PN} = "lttng2-ust"
+> +RCONFLICTS_${PN} = "lttng2-ust"
+> +
+> +SRCREV = "3f7a0876566a432ad2cc2b27a2725641e36da92d"
+> +PV = "2.1.2"
+> +PR = "r0"
+> +PE = "2"
+> +
+> +SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git \
+> +	   file://depends-liblttng-ust-tracepoin.patch \
+> +	   "
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +do_configure_prepend () {
+> +	( cd ${S}; ${S}/bootstrap )
+> +}
+>
 
 
