@@ -1,20 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UNMaZ-0004nv-In
+	(envelope-from <otavio.salvador@gmail.com>) id 1UNMco-0004tr-Kq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 14:14:51 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Apr 2013 04:57:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,401,1363158000"; d="scan'208";a="222306058"
-Received: from unknown (HELO adinu-Vostro-460.rb.intel.com) ([10.237.105.45])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Apr 2013 04:57:37 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 14:58:25 +0300
-Message-Id: <1364990305-20807-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] Add file information to package information window
+	Wed, 03 Apr 2013 14:17:10 +0200
+Received: by mail-oa0-f47.google.com with SMTP id o17so1378151oag.20
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2013 04:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=YkHDXFiqzDX7AaNYXPJ8kB2JUFDVCnubuKNCJ077OvY=;
+	b=br8dVx7QALXMsqCyyr4gLC3TczHrEsneMtHOLMxvhu6pwlWTHCj5TdbQ/HIqHDk1zY
+	fzmAdShnBRBmDh1rpPc9z6qZjaxLdbNLY08/DJ+B6myvl+vs3mEx6pHuDqIUwyDysuI7
+	OQLKGTrDiZGPzwtidEtpisQ3YPjLMPGonujlcLhFo0gi4nEA9qk5MYZeqqWCrZlzovb0
+	tuwMJQDFf73cqvLbCztK8MwRRAXSwxz5G/bHy2xkHYt8UjLoHtMf73qvWhzHoEZiIJRt
+	5RQru5KicwqKiNZzcGLJ0kaVKJeGxnHG6VWFTNxwlnhmm9O/w4apjP2OTDe5pzbW0Ja/
+	i6+Q==
+MIME-Version: 1.0
+X-Received: by 10.182.39.69 with SMTP id n5mr863078obk.72.1364990399006; Wed,
+	03 Apr 2013 04:59:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Wed, 3 Apr 2013 04:59:58 -0700 (PDT)
+In-Reply-To: <CAJTo0Lbe4zUsJk5rjoDJYqz3GLGPSA_mhRad5kSPw5qDEnL2gw@mail.gmail.com>
+References: <cover.1364793033.git.Qi.Chen@windriver.com>
+	<be55160b84e74f803f6dce4ba755225538a76651.1364793033.git.Qi.Chen@windriver.com>
+	<CAJTo0Lbe4zUsJk5rjoDJYqz3GLGPSA_mhRad5kSPw5qDEnL2gw@mail.gmail.com>
+Date: Wed, 3 Apr 2013 08:59:58 -0300
+X-Google-Sender-Auth: EumTGDjP8ptqgnucnurmdhC0HNk
+Message-ID: <CAP9ODKoPUnH7hhuMJWY4txiw3CHLQxgNqknGJYJE=LjCVXksHw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: qingtao.cao@windriver.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] core-image-sato.bb: increase free space size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,97 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 12:14:51 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 12:17:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Removed the package files parsing routine from the
-packageinfo.bbclass file and added it to the
-package.bbclass file.
+On Wed, Apr 3, 2013 at 7:38 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 2 April 2013 03:30,  <Qi.Chen@windriver.com> wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> Sato images, by default, have about 100M free space. This is not enough
+>> and it blocks automatic testing.
+>>
+>> This patch fixes this problem by overriding the IMAGE_OVERHEAD_FACTOR
+>> in the sato image recipe.
+>
+> If a particular build needs more disk space, you can also use
+> IMAGE_ROOTFS_EXTRA_SPACE in local.conf, i.e.:
+>
+> IMAGE_ROOTFS_EXTRA_SPACE = "524288"
+>
+> (that's add 500MB)
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- meta/classes/package.bbclass     |   14 ++++++++++++++
- meta/classes/packageinfo.bbclass |   20 --------------------
- 2 files changed, 14 insertions(+), 20 deletions(-)
+I think Chen wants a more permanent solution so automatic testing can
+work out of box. Maybe a fixed extra size would be better for this
+case but needs to be done in the image in either case.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 3479947..121a1dd 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1130,6 +1130,17 @@ python emit_pkgdata() {
-     workdir = d.getVar('WORKDIR', True)
- 
-     for pkg in packages.split():
-+        pkgdest = d.getVar('PKGDEST', True)
-+        files_path = pkgdest + '/' + pkg
-+        if os.path.exists(files_path):
-+                items = {}
-+                for path, dirs, files in os.walk(files_path):
-+                        files_list = []
-+                        if os.listdir(path) != []:
-+                            for f in files:
-+                                files_list.append(f)
-+                        if len(files_list) != 0:
-+                            items[path] = files_list           
-         subdata_file = pkgdatadir + "/runtime/%s" % pkg
- 
-         pkgval = d.getVar('PKG_%s' % pkg, True)
-@@ -1137,6 +1148,8 @@ python emit_pkgdata() {
-             pkgval = pkg
-             d.setVar('PKG_%s' % pkg, pkg)
- 
-+        d.setVar('FILES_INFO', str(items))
-+
-         sf = open(subdata_file, 'w')
-         write_if_exists(sf, pkg, 'PN')
-         write_if_exists(sf, pkg, 'PV')
-@@ -1161,6 +1174,7 @@ python emit_pkgdata() {
-         write_if_exists(sf, pkg, 'pkg_preinst')
-         write_if_exists(sf, pkg, 'pkg_prerm')
-         write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
-+        write_if_exists(sf, pkg, 'FILES_INFO')
-         for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg, True) or "").split():
-             write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
- 
-diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
-index 5e6f590..4709bea 100644
---- a/meta/classes/packageinfo.bbclass
-+++ b/meta/classes/packageinfo.bbclass
-@@ -8,24 +8,6 @@ python packageinfo_handler () {
-         package_archs = e.data.getVar('PACKAGE_ARCHS', True)
-         packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
-         deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
--        dirs = os.listdir(tmpdir + '/work/')
--        pkgsplit_dir = tmpdir + '/work/'
--        items = {}
--        passing = ''
--        for directories in dirs:
--                temp_dirs = os.listdir(pkgsplit_dir + directories)
--                for temps1 in temp_dirs:
--                        if os.path.exists(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'):
--                                subs = pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'
--                                for temps in os.listdir(subs):
--                                        items[temps] = {}
--                                        for path, dirs, files in os.walk(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split' + '/' + temps):                                                   
--                                                        file_list = []
--                                                        if os.listdir(path) != []:
--                                                                items[temps][path] = []                                                   
--                                                                for f in files:
--                                                                        file_list.append(f)
--                                                                items[temps][path].append(file_list)
-                                            
-         for arch in package_archs.split():
-             pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
-@@ -38,8 +20,6 @@ python packageinfo_handler () {
-                             try:
-                                 sdata = oe.packagedata.read_pkgdatafile(pkgdatafile)
-                                 sdata['PKG'] = pkgname
--                                if pkgname in items:
--                                        sdata['FILES_INFO'] = items[pkgname]        
-                                 pkginfolist.append(sdata)
-                             except Exception as e:
-                                 bb.warn("Failed to read pkgdata file %s: %s: %s" % (pkgdatafile, e.__class__, str(e)))
--- 
-1.7.9.5
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
