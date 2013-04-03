@@ -1,18 +1,22 @@
-Received: from ptmx.org ([178.63.28.110])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dv@pseudoterminal.org>) id 1UNTbJ-0004y1-5R
+	(envelope-from <dvhart@linux.intel.com>) id 1UNTv6-0005ig-13
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 21:44:05 +0200
-Received: from localhost.localdomain (chello080108009040.14.11.vie.surfer.at
-	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 88D332130F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2013 21:26:55 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 21:26:51 +0200
-Message-Id: <1365017211-17183-1-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 1.8.2
-Subject: [oe][PATCH] eglinfo: Add recipes for x11 and fb backends
+	Wed, 03 Apr 2013 22:04:32 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 12:45:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288954184"
+Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 12:47:17 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2013 12:49:35 -0700
+Message-Id: <cover.1365018433.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH V2 0/3] Add input group and udev rule to fix rootless X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,107 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 19:44:05 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 20:04:32 -0000
 
-eglinfo is a small utility for printing out information about EGL as well
-as about its client APIs, OpenGL / OpenGLES 1.x / OpenGLES 2.x / OpenVG.
+Fix [YOCTO 4164] (usb mouse and keyboard don't work at liveboot on atom-pc) by
+adding an input group and a udev rule to make all /dev/input/* devices added to
+the input group with g+rw permissions. Drop the o+rw setting from
+xserver-nodm-init.
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb  | 11 ++++++
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb |  6 +++
- meta/recipes-graphics/eglinfo/eglinfo.inc        | 49 ++++++++++++++++++++++++
- 3 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo.inc
+Tested on atom-pc from current poky master using core-image-sato.
 
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-new file mode 100644
-index 0000000..65b265f
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-@@ -0,0 +1,11 @@
-+EGLINFO_PLATFORM ?= "fb"
-+EGLINFO_BINARY_NAME ?= "eglinfo-fb"
-+
-+# .bbappend files in BSP meta layers can add EGLINFO_DEVICE
-+# values if necessary. eglinfo.inc contains default values for
-+# the currently supported devices.
-+# Consult the eglinfo README.md for details
-+
-+include eglinfo.inc
-+
-+SUMMARY += "(Framebuffer version)"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-new file mode 100644
-index 0000000..8793a25
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-@@ -0,0 +1,6 @@
-+EGLINFO_PLATFORM ?= "x11"
-+EGLINFO_BINARY_NAME ?= "eglinfo-x11"
-+
-+include eglinfo.inc
-+
-+SUMMARY += "(X11 version)"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
-new file mode 100644
-index 0000000..116435d
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
-@@ -0,0 +1,49 @@
-+SUMMARY = "Utility for printing information EGL and its client APIs (OpenGL, OpenGL ES, OpenVG)"
-+SECTION = "graphics"
-+LICENSE = "Zlib"
-+HOMEPAGE = "https://github.com/dv1/eglinfo"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
-+
-+DEPENDS = "virtual/egl"
-+
-+SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
-+SRCREV = "4a49ff59545d9b6a8222badab64115f89d3a6774"
-+
-+S = "${WORKDIR}/git"
-+
-+
-+# BSP layers should add .bbappend files for the -x11 and -fb .bb recipes,
-+# which append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS
-+# not doing that here, since some platforms might not have OpenGL ES or OpenVG support
-+# (in that case, the eglinfo build scripts automatically disable the relevant code paths)
-+
-+EGLINFO_DEVICE ?= "generic"
-+EGLINFO_DEVICE_raspberrypi ?= "raspberrypi"
-+EGLINFO_DEVICE_beagleboard ?= "beagleboard"
-+EGLINFO_DEVICE_mx6 ?= "imx6"
-+
-+
-+do_clean() {
-+	if [ -x ${S}/waf ]; then
-+		${S}/waf distclean
-+	fi
-+}
-+
-+do_configure() {
-+	${S}/waf configure \
-+		--platform=${EGLINFO_PLATFORM} \
-+		--device=${EGLINFO_DEVICE} \
-+		--sysroot ${STAGING_DIR_TARGET} \
-+		--prefix=${prefix} \
-+		${EXTRA_OECONF}
-+}
-+
-+do_compile() {
-+	${S}/waf
-+}
-+
-+do_install() {
-+	mkdir -p "${D}/${bindir}"
-+	mv "${S}/build/release/eglinfo" "${D}/${bindir}/${EGLINFO_BINARY_NAME}"
-+}
-+
+V2: Package the udev rule in udev-extraconf so systemd can use it also.
+
+Thanks,
+
+Darren
+
+
+The following changes since commit 92aeb31341b28b193d616ab5cf38af1b9673e37d:
+
+  qemuimage-testlib: Fix quoting issue (2013-03-30 17:26:56 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib dvhart/xuser
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/xuser
+
+Darren Hart (3):
+  base-passwd: Add input group
+  udev-extraconf: Add rule adding input devices to input group
+  xserver-nodm-init: Add xuser to input group
+
+ .../base-passwd/base-passwd-3.5.26/input.patch     |   22 ++++++++++++++++++++
+ .../recipes-core/base-passwd/base-passwd_3.5.26.bb |    5 ++-
+ .../udev/udev-extraconf/localextra.rules           |    2 +
+ meta/recipes-core/udev/udev-extraconf_1.0.bb       |    2 +-
+ .../x11-common/xserver-nodm-init.bb                |    4 +-
+ .../x11-common/xserver-nodm-init/xserver-nodm      |    1 -
+ 6 files changed, 30 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.26/input.patch
+
 -- 
-1.8.2
+1.7.5.4
 
 
 
