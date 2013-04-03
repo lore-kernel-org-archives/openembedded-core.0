@@ -1,30 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ie0-f181.google.com ([209.85.223.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UNO2z-0005wF-HZ for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 15:48:17 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r33DfV0v011528; Wed, 3 Apr 2013 14:41:31 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wbQjQi860S2G; Wed,  3 Apr 2013 14:41:31 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r33DfOl8011515
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 3 Apr 2013 14:41:27 +0100
-Message-ID: <1364995845.6526.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Date: Wed, 03 Apr 2013 14:30:45 +0100
-In-Reply-To: <1364990305-20807-1-git-send-email-andrei.adrianx.dinu@intel.com>
-References: <1364990305-20807-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add file information to package information window
+	(envelope-from <ronunes@gmail.com>) id 1UNOKd-0006bs-OE
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Apr 2013 16:06:31 +0200
+Received: by mail-ie0-f181.google.com with SMTP id 17so1679847iea.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2013 06:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=ivNANQklu33133C4qQog1tTOkUdjk5QH6EYdgF5huQc=;
+	b=Vy7uYPc1XPX85zqexwz5+ZmYh1gDlBR7CFQrFQoSw2p31FNMk4NfLzThrgZY0Ucblk
+	sJJorKLVYbW9mvsJWV+PKRhHqEpyvpxpOnOWyrZUCy5/XUoT5pElLQ5Fy0yPlUZJq2zt
+	HSy6ajtP+724HnQlzJVtVIFpJ0LQiy4uU2QYkoKX3iOXe6rJBNtUFg86FgLPzzn8UYg9
+	jP8xmDKqXgTeqfQ4IsKc4Ohvzn+BItkglLhB9mX4LuoxE9LCkFNIKCwKEzPgQqoKXDLa
+	CRi6wsHl9UzPDnsi7ULqm1a25CvpxbeQ2PPSpFAQDzXdwQTQi0OHqII6B/dwSYWHen0D
+	BkCA==
+MIME-Version: 1.0
+X-Received: by 10.50.77.110 with SMTP id r14mr397027igw.85.1364996959898; Wed,
+	03 Apr 2013 06:49:19 -0700 (PDT)
+Received: by 10.64.232.103 with HTTP; Wed, 3 Apr 2013 06:49:19 -0700 (PDT)
+In-Reply-To: <CAP9ODKoHwQQR3AHDdXEVjObEFSHzbFJ5mGH0NXk_aevmsU+VDg@mail.gmail.com>
+References: <1364949284-32569-1-git-send-email-ronunes@gmail.com>
+	<1364949284-32569-2-git-send-email-ronunes@gmail.com>
+	<CAJTo0LY14UsodYqHO2iEZfiZCfHVKG6XXNbPCRU95tWP=-qoZg@mail.gmail.com>
+	<CAP9ODKoHwQQR3AHDdXEVjObEFSHzbFJ5mGH0NXk_aevmsU+VDg@mail.gmail.com>
+Date: Wed, 3 Apr 2013 09:49:19 -0400
+Message-ID: <CACb8hfHE6LVe_w20kshhyo6qofbprKbqM37rvvE5nsfbQpkoiA@mail.gmail.com>
+From: Rogerio Nunes <ronunes@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gst-plugins-bad: disable librsvg when x11 is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,51 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 13:48:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 14:06:32 -0000
+Content-Type: multipart/alternative; boundary=047d7bd75594ea59df04d9751ef8
 
-On Wed, 2013-04-03 at 14:58 +0300, Andrei Dinu wrote:
-> Removed the package files parsing routine from the
-> packageinfo.bbclass file and added it to the
-> package.bbclass file.
-> 
-> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-> ---
->  meta/classes/package.bbclass     |   14 ++++++++++++++
->  meta/classes/packageinfo.bbclass |   20 --------------------
->  2 files changed, 14 insertions(+), 20 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 3479947..121a1dd 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1130,6 +1130,17 @@ python emit_pkgdata() {
->      workdir = d.getVar('WORKDIR', True)
->  
->      for pkg in packages.split():
-> +        pkgdest = d.getVar('PKGDEST', True)
-> +        files_path = pkgdest + '/' + pkg
-> +        if os.path.exists(files_path):
-> +                items = {}
-> +                for path, dirs, files in os.walk(files_path):
-> +                        files_list = []
-> +                        if os.listdir(path) != []:
-> +                            for f in files:
-> +                                files_list.append(f)
-> +                        if len(files_list) != 0:
-> +                            items[path] = files_list           
->          subdata_file = pkgdatadir + "/runtime/%s" % pkg
+--047d7bd75594ea59df04d9751ef8
+Content-Type: text/plain; charset=ISO-8859-1
 
-You're now doing this in a "fastpath" so we need to look carefully at
-performance here. Can you have a look at the pkgfiles[pkg] variable and
-see if you can get the data you need from that? You should be able to
-iterate it and just strip out the prefixes?
+On Wed, Apr 3, 2013 at 7:57 AM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-Cheers,
-
-Richard
+> On Wed, Apr 3, 2013 at 8:30 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > On 3 April 2013 01:34, Rogerio Nunes <ronunes@gmail.com> wrote:
+> >> librsvg depends on gtk+, which in turn does not support framebuffer
+> >> as backend in current version (2.15.24). This patch disables librsvg
+> >> when x11 is not in the distro.
+> >
+> > One of my plans is to make every optional dependency a packageconfig
+> > option in the long term, so feel free to do the rest whilst you're
+> > there! :)
+>
+> I agree with the longterm goal but let's not hold this until the goal
+> is accomplished. This fixes a real issue and delay it won't help.
 
 
+I agree with both. This is a real issue and I like the long term plan.
+Hope I can help to execute it :)
 
+--047d7bd75594ea59df04d9751ef8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div style>On Wed, Apr 3, 2013 at 7:57 AM, Otavio Salvador=
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D=
+"_blank">otavio@ossystems.com.br</a>&gt;</span> wrote:<br></div><div class=
+=3D"gmail_extra">
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
+);border-left-style:solid;padding-left:1ex"><div class=3D""><div class=3D"h=
+5">On Wed, Apr 3, 2013 at 8:30 AM, Burton, Ross &lt;<a href=3D"mailto:ross.=
+burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+
+&gt; On 3 April 2013 01:34, Rogerio Nunes &lt;<a href=3D"mailto:ronunes@gma=
+il.com">ronunes@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; librsvg depends on gtk+, which in turn does not support framebuffe=
+r<br>
+&gt;&gt; as backend in current version (2.15.24). This patch disables librs=
+vg<br>
+&gt;&gt; when x11 is not in the distro.<br>
+&gt;<br>
+&gt; One of my plans is to make every optional dependency a packageconfig<b=
+r>
+&gt; option in the long term, so feel free to do the rest whilst you&#39;re=
+<br>
+&gt; there! :)<br>
+<br>
+</div></div>I agree with the longterm goal but let&#39;s not hold this unti=
+l the goal<br>
+is accomplished. This fixes a real issue and delay it won&#39;t help.</bloc=
+kquote><div><br></div>I agree with both. This is a real issue and I like th=
+e long term plan.<div style>Hope I can help to execute it :)</div></div>
+</div></div>
+
+--047d7bd75594ea59df04d9751ef8--
