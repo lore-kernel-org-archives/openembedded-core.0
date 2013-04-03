@@ -1,29 +1,26 @@
-Received: from mail-ie0-f177.google.com ([209.85.223.177])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ronunes@gmail.com>) id 1UNBrC-0006uR-UM
+	(envelope-from <sgw@linux.intel.com>) id 1UNBsP-00070o-Nu
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 02:47:30 +0200
-Received: by mail-ie0-f177.google.com with SMTP id tp5so1097572ieb.22
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2013 17:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=ohdZSpCX8Vf0PETpoyUF/y+UyeZFD1msxrqsqiwJZPQ=;
-	b=xMkAaRL1Mv95C4g7JewICf6LOppkHYdVM+aKTUMVebVxJZj73qdaJJVmnwMCmyS+FZ
-	0w+lOrt9DFpbuE543SuVZK4SllStFrvo2vGflg3o8aWe/5Sqq9yNc1LK7VNaJiPXJgOU
-	MKI02jz31zkV4zxf7sJwv2nb4q2zowSaG7vIJlf44GhOLGzojkPGTI0BvxRhnlZnS3Em
-	KkKq8RcWUbGHKi72ZM3nSvwUi37njwZNPgWMD8BwMTv86jwponwjaTaLlaTdJs2qJqrC
-	ARCP/usxLv/68B8tKcgsU2kYJCgtP0J73XFnnBSXghTeHVmvcw81QZs/hq404DcxJC55
-	0PoA==
+	Wed, 03 Apr 2013 02:48:42 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 02 Apr 2013 17:31:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,396,1363158000"; d="scan'208";a="311458560"
+Received: from unknown (HELO [10.255.14.19]) ([10.255.14.19])
+	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2013 17:31:21 -0700
+Message-ID: <515B7859.4010504@linux.intel.com>
+Date: Tue, 02 Apr 2013 17:31:21 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.50.111.161 with SMTP id ij1mr6034615igb.85.1364949007817;
-	Tue, 02 Apr 2013 17:30:07 -0700 (PDT)
-Received: by 10.64.232.103 with HTTP; Tue, 2 Apr 2013 17:30:07 -0700 (PDT)
-Date: Tue, 2 Apr 2013 20:30:07 -0400
-Message-ID: <CACb8hfEDoLbsoiZk4d=r7Teu11i8-WwZC1QSO5_nOmQjggkZSQ@mail.gmail.com>
-From: Rogerio Nunes <ronunes@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] alsa-tools: Update autotools.patch
+To: Zhenhua Luo <zhenhua.luo@freescale.com>
+References: <1364444326-16088-1-git-send-email-zhenhua.luo@freescale.com>
+	<51593D83.3020603@windriver.com>
+In-Reply-To: <51593D83.3020603@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core v3] rpm: split out run-postinsts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,100 +33,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 00:47:36 -0000
-Content-Type: multipart/alternative; boundary=047d7b3a8a62bf63c704d969f44a
+X-List-Received-Date: Wed, 03 Apr 2013 00:48:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b3a8a62bf63c704d969f44a
-Content-Type: text/plain; charset=ISO-8859-1
+On 04/01/2013 12:55 AM, ChenQi wrote:
+> On 03/28/2013 12:18 PM, Zhenhua Luo wrote:
+>> 1. Split out run-postinsts script into separated package, sometimes
+>> only the
+>>     postinsts script is required to run all postinsts scripts in
+>> /etc/rpm-postinsts/
+>>     instead of the whole rpm package.
 
-My approach was to add PACKAGECONFIG with gtk+ and a new patch, instead of
-modifying autotools.patch.
+This change seems to draw all the RPM dependencies into the package even 
+if package-management is not added.  We are building the poky-tiny 
+distro with core-image-basic and icu and other dependencies of RPM  are 
+getting pulled in when the should not be.
 
-This way we only eliminate some more sub-modules when not using x11 in
-distro.
+ICU shows this on the autobuilder since we tweak eglibc to remove bits.
 
-I'm sending my patches now.
+Please review this patch, change as needed and test with
+DISTRO="poky-tiny" bitbake core-image-minimal
 
-________________________________________
-From: otavio.salvador@gmail.com [otavio.salvador@gmail.com] on behalf of
-Otavio Salvador [otavio@ossystems.com.br]
-Sent: Tuesday, April 02, 2013 13:46
-To: Saul Wold; Nunes Rogerio-B35650
-Cc: Trevor Woerner; Nobuhiro Iwamatsu;
-openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] alsa-tools: Update autotools.patch
+This is already in master, so we need a patch ASAP!  I will be filing a 
+bug #4175.
 
-On Tue, Apr 2, 2013 at 12:59 PM, Saul Wold <saul.wold@intel.com> wrote:
-> On 03/29/2013 06:18 AM, Trevor Woerner wrote:
+Thanks
+    Sau!
+
+>> 2. Set ROOTFS_PKGMANAGE_BOOTSTRAP to rpm-postinsts
 >>
->> I'm seeing this exact same error when I perform a "bitbake world", and
->> have been for the last couple days
+>> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+>> ---
+>>   meta/classes/rootfs_rpm.bbclass        |    4 +---
+>>   meta/recipes-devtools/rpm/rpm_5.4.9.bb |    8 +++++---
+>>   2 files changed, 6 insertions(+), 6 deletions(-)
 >>
-> I believe this is a real problem, and I suggested to Nobuhiro that using
-> PACKAGECONFIG with gtk+ would be a better solution, but have not see a
-> follow-up patch for this.
+>> diff --git a/meta/classes/rootfs_rpm.bbclass
+>> b/meta/classes/rootfs_rpm.bbclass
+>> index 8392a1e..07ac0e3 100644
+>> --- a/meta/classes/rootfs_rpm.bbclass
+>> +++ b/meta/classes/rootfs_rpm.bbclass
+>> @@ -3,6 +3,7 @@
+>>   #
+>>   ROOTFS_PKGMANAGE = "rpm smartpm"
+>> +ROOTFS_PKGMANAGE_BOOTSTRAP = "rpm-postinsts"
+>>   # Add 50Meg of extra space for Smart
+>>   IMAGE_ROOTFS_EXTRA_SPACE_append =
+>> "${@base_contains("PACKAGE_INSTALL", "smartpm", " + 51200", "" ,d)}"
+>> @@ -10,9 +11,6 @@ IMAGE_ROOTFS_EXTRA_SPACE_append =
+>> "${@base_contains("PACKAGE_INSTALL", "smartpm"
+>>   # Smart is python based, so be sure python-native is available to us.
+>>   EXTRANATIVEPATH += "python-native"
+>> -# Postinstalls on device are handled within this class at present
+>> -ROOTFS_PKGMANAGE_BOOTSTRAP = ""
+>> -
+>>   do_rootfs[depends] += "rpm-native:do_populate_sysroot"
+>>   do_rootfs[depends] += "rpmresolve-native:do_populate_sysroot"
+>>   do_rootfs[depends] += "python-smartpm-native:do_populate_sysroot"
+>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> index 6286771..cfdc390 100644
+>> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
+>>   LIC_FILES_CHKSUM =
+>> "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>>   DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
+>> -PR = "r61"
+>> +PR = "r62"
+>>   # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It
+>> is needed
+>>   # in order to extract the distribution SRPM into a format we can
+>> extract...
+>> @@ -199,7 +199,7 @@ CFLAGS_append = " -DRPM_VENDOR_WINDRIVER
+>> -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
+>>   LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
+>> -PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev
+>> ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg
+>> python-rpm-staticdev python-rpm-dev python-rpm perl-module-rpm
+>> perl-module-rpm-dev ${PN}-locale"
+>> +PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev
+>> ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg
+>> python-rpm-staticdev python-rpm-dev python-rpm perl-module-rpm
+>> perl-module-rpm-dev ${PN}-locale ${PN}-postinsts"
+>>   SOLIBS = "5.4.so"
+>> @@ -223,9 +223,11 @@ FILES_${PN} =  "${bindir}/rpm \
+>>           ${libdir}/rpm/bin/wget \
+>>           /var/lib/rpm \
+>>           /var/cache/rpm \
+>> -        ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
+>>           "
+>> +FILES_${PN}-postinsts =
+>> "${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts \
+>> +                "
+>> +
+>>   FILES_${PN}-dbg += "${libdir}/rpm/.debug \
+>>           ${libdir}/rpm/bin/.debug \
+>>           "
+> Hi Luo,
 >
-> Patches welcome!
+> This patch introduces a new problem, that is, rpm-postinsts is not
+> installed on sato images.
+> In fact, for now, rpm-postinsts will not be installed if
+> 'package-management' is in IMAGE_FEATURES.
+>
+> I've opened a bug for this problem
+> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=4160).
+> Comments and suggestions are appreciated.
+>
+> Best Regards,
+> Chen Qi
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-Rogerio (added to Cc) was working in a patch for this; I think he
-should have it ready for submitting it soon.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b3a8a62bf63c704d969f44a
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote">My approach was to add PACKAGEC=
-ONFIG with gtk+ and a new patch, instead of modifying autotools.patch.<br><=
-br></div><div class=3D"gmail_quote">
-This way we only eliminate some more sub-modules when not using x11 in dist=
-ro.<br><br>I&#39;m sending my patches now.<br><br>
-________________________________________<br>
-From: <a href=3D"mailto:otavio.salvador@gmail.com">otavio.salvador@gmail.co=
-m</a> [<a href=3D"mailto:otavio.salvador@gmail.com">otavio.salvador@gmail.c=
-om</a>] on behalf of Otavio Salvador [<a href=3D"mailto:otavio@ossystems.co=
-m.br">otavio@ossystems.com.br</a>]<br>
-
-Sent: Tuesday, April 02, 2013 13:46<br>
-To: Saul Wold; Nunes Rogerio-B35650<br>
-Cc: Trevor Woerner; Nobuhiro Iwamatsu; <a href=3D"mailto:openembedded-core@=
-lists.openembedded.org">openembedded-core@lists.openembedded.org</a><br>
-Subject: Re: [OE-core] [PATCH] alsa-tools: Update autotools.patch<br>
-<br>
-On Tue, Apr 2, 2013 at 12:59 PM, Saul Wold &lt;<a href=3D"mailto:saul.wold@=
-intel.com">saul.wold@intel.com</a>&gt; wrote:<br>
-&gt; On 03/29/2013 06:18 AM, Trevor Woerner wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;m seeing this exact same error when I perform a &quot;bitbak=
-e world&quot;, and<br>
-&gt;&gt; have been for the last couple days<br>
-&gt;&gt;<br>
-&gt; I believe this is a real problem, and I suggested to Nobuhiro that usi=
-ng<br>
-&gt; PACKAGECONFIG with gtk+ would be a better solution, but have not see a=
-<br>
-&gt; follow-up patch for this.<br>
-&gt;<br>
-&gt; Patches welcome!<br>
-<br>
-Rogerio (added to Cc) was working in a patch for this; I think he<br>
-should have it ready for submitting it soon.<br>
-<br>
---<br>
-Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
-. Systems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br<=
-/a> =A0<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%2053%209981-7854" value=3D"+555399817854">+55 =
-53 9981-7854</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossy=
-stems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
-<br>
-</div><br></div>
-
---047d7b3a8a62bf63c704d969f44a--
