@@ -1,20 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UNPu6-0003k6-MB
+	(envelope-from <sgw@linux.intel.com>) id 1UNPxO-0003z1-0P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:47:15 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 08:28:21 -0700
+	Wed, 03 Apr 2013 17:50:50 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2013 08:33:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288825220"
-Received: from unknown (HELO adinu-Vostro-460.rb.intel.com) ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 08:30:01 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 18:30:47 +0300
-Message-Id: <1365003047-10522-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V2] Add file information to package information window
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="313059168"
+Received: from unknown (HELO [10.255.14.19]) ([10.255.14.19])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2013 08:33:25 -0700
+Message-ID: <515C4BC5.1010609@linux.intel.com>
+Date: Wed, 03 Apr 2013 08:33:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Alex DAMIAN <alexandru.damian@intel.com>
+References: <1364991788-29402-1-git-send-email-alexandru.damian@intel.com>
+	<1365002436-5355-1-git-send-email-alexandru.damian@intel.com>
+In-Reply-To: <1365002436-5355-1-git-send-email-alexandru.damian@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libproxy: add dependency on glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,93 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:47:15 -0000
+X-List-Received-Date: Wed, 03 Apr 2013 15:50:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Removed the package files parsing routine from the
-packageinfo.bbclass file and added it to the
-package.bbclass file.
+On 04/03/2013 08:20 AM, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> libproxy uses glib-2.0, but the depends is missing
+>
+> Fixes intermittent build errors.
+>
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>   meta/classes/core-image.bbclass                 |    4 ++--
+>   meta/recipes-support/libproxy/libproxy_0.4.7.bb |    2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+> index 86df91d..2bd5c12 100644
+> --- a/meta/classes/core-image.bbclass
+> +++ b/meta/classes/core-image.bbclass
+> @@ -41,8 +41,8 @@ PACKAGE_GROUP_tools-profile = "packagegroup-core-tools-profile"
+>   PACKAGE_GROUP_tools-testapps = "packagegroup-core-tools-testapps"
+>   PACKAGE_GROUP_tools-sdk = "packagegroup-core-sdk packagegroup-core-standalone-sdk-target"
+>   PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
+> -PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
+> -PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
+> +#PACKAGE_GROUP_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
+> +#PACKAGE_GROUP_ssh-server-openssh = "packagegroup-core-ssh-openssh"
+>   PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
+>   PACKAGE_GROUP_qt4-pkgs = "packagegroup-core-qt-demoapps"
+>   PACKAGE_GROUP_hwcodecs = "${MACHINE_HWCODECS}"
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- meta/classes/package.bbclass     |   10 ++++++++++
- meta/classes/packageinfo.bbclass |   20 --------------------
- 2 files changed, 10 insertions(+), 20 deletions(-)
+You seem to have pulled in some other stuff also, please send a clean v2.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 3479947..cafe339 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1130,6 +1130,13 @@ python emit_pkgdata() {
-     workdir = d.getVar('WORKDIR', True)
- 
-     for pkg in packages.split():
-+        items = {}
-+        for files_list in pkgfiles[pkg]:
-+             if files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1] not in items:
-+                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]] = []
-+                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
-+             else:
-+                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
-         subdata_file = pkgdatadir + "/runtime/%s" % pkg
- 
-         pkgval = d.getVar('PKG_%s' % pkg, True)
-@@ -1137,6 +1144,8 @@ python emit_pkgdata() {
-             pkgval = pkg
-             d.setVar('PKG_%s' % pkg, pkg)
- 
-+        d.setVar('FILES_INFO', str(items))
-+
-         sf = open(subdata_file, 'w')
-         write_if_exists(sf, pkg, 'PN')
-         write_if_exists(sf, pkg, 'PV')
-@@ -1161,6 +1170,7 @@ python emit_pkgdata() {
-         write_if_exists(sf, pkg, 'pkg_preinst')
-         write_if_exists(sf, pkg, 'pkg_prerm')
-         write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
-+        write_if_exists(sf, pkg, 'FILES_INFO')
-         for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg, True) or "").split():
-             write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
- 
-diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
-index 5e6f590..4709bea 100644
---- a/meta/classes/packageinfo.bbclass
-+++ b/meta/classes/packageinfo.bbclass
-@@ -8,24 +8,6 @@ python packageinfo_handler () {
-         package_archs = e.data.getVar('PACKAGE_ARCHS', True)
-         packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
-         deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
--        dirs = os.listdir(tmpdir + '/work/')
--        pkgsplit_dir = tmpdir + '/work/'
--        items = {}
--        passing = ''
--        for directories in dirs:
--                temp_dirs = os.listdir(pkgsplit_dir + directories)
--                for temps1 in temp_dirs:
--                        if os.path.exists(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'):
--                                subs = pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'
--                                for temps in os.listdir(subs):
--                                        items[temps] = {}
--                                        for path, dirs, files in os.walk(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split' + '/' + temps):                                                   
--                                                        file_list = []
--                                                        if os.listdir(path) != []:
--                                                                items[temps][path] = []                                                   
--                                                                for f in files:
--                                                                        file_list.append(f)
--                                                                items[temps][path].append(file_list)
-                                            
-         for arch in package_archs.split():
-             pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
-@@ -38,8 +20,6 @@ python packageinfo_handler () {
-                             try:
-                                 sdata = oe.packagedata.read_pkgdatafile(pkgdatafile)
-                                 sdata['PKG'] = pkgname
--                                if pkgname in items:
--                                        sdata['FILES_INFO'] = items[pkgname]        
-                                 pkginfolist.append(sdata)
-                             except Exception as e:
-                                 bb.warn("Failed to read pkgdata file %s: %s: %s" % (pkgdatafile, e.__class__, str(e)))
--- 
-1.7.9.5
+Thanks
+    Sau!
 
+
+> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> index 510c6b7..89f22b8 100644
+> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+>                       file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+>
+> -DEPENDS = "gconf"
+> +DEPENDS = "gconf glib-2.0"
+>
+>   PR = "r5"
+>
+>
 
 
