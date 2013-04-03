@@ -1,41 +1,36 @@
-Received: from mail-bk0-f50.google.com ([209.85.214.50])
+Received: from mail-vc0-f173.google.com ([209.85.220.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UNSEE-0002jF-R5
+	(envelope-from <ross.burton@intel.com>) id 1UNSHd-0002mq-3F
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 20:16:10 +0200
-Received: by mail-bk0-f50.google.com with SMTP id jg1so987006bkc.23
+	Wed, 03 Apr 2013 20:19:41 +0200
+Received: by mail-vc0-f173.google.com with SMTP id gd11so1695247vcb.18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2013 10:58:59 -0700 (PDT)
+	Wed, 03 Apr 2013 11:02:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=3xix1ObVf29FgMpTw17P29MBnu7+OFvRDhHNRsPceek=;
-	b=lz2aVJ5eZMUTVIDRcV7Tv5DapgoZv7YNiO2T5sBv9TL2pt0zdZEoRSc2oUbpdXWtQ/
-	iOsiLFDIS4SKmOjqDt/8oU1o4eqkwH2/vQnYzP3ECB5lNKrLtAi6Mf91AYuEELPLu4Eh
-	EXoV1gwswXn6jg4KYrpAlNMAbzh47DPn83CKF6Xs2qRvs5oSBo66Cf2Utcehx1/sybHS
-	yGJ1wearAleVBE3tjyYb4WV/omXwjsMlCYFcYWiare40/PkKfG8JF9BX1LCR655pUHp8
-	M/2WdDD0Gc3D73bIXrhmnGyf0pDcjYDEayiLX5ZZItRdnZyn4zzfVX5stvMaCg0UQf16
-	NL+A==
-X-Received: by 10.204.237.201 with SMTP id kp9mr2002675bkb.42.1365011939055;
-	Wed, 03 Apr 2013 10:58:59 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::5c87:177:991a:e764?
-	([2001:610:612:0:5c87:177:991a:e764])
-	by mx.google.com with ESMTPS id x10sm3605827bkv.13.2013.04.03.10.58.56
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 03 Apr 2013 10:58:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1365006329-20964-3-git-send-email-radu.moisan@intel.com>
-Date: Wed, 3 Apr 2013 19:58:58 +0200
-Message-Id: <825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=+PMEJAhn8pEsmf+8+qljOzz9lk5zzcMEPD45FXgzfkM=;
+	b=anax7GNeMrUXCpfVWXPHSnDOcYSMIFHvsQRQ7r6+qEa2ILkaLFuGTZPSG7jnlw5KXh
+	+JjqT1zYDfb0lmaJqDNaoWlvVM/neh1Pr9I68PmVtYaOlPoKcQEC/wOI5RQBlM1UFdvj
+	4Ss5uoto0ASNdITwVx6gHlB2vac8M+JzZzz5lZszXRBN5vT5QbaTa8n3wyOro1WduCFB
+	cMVHRB6uMEwlJKtwig2S5YWSVwG89hn/2JDKkacACUWRa6GC1rPpeY/2vacUUp3Qz5+r
+	HvX+zTHlvfPy/7StBPNNeULPi5gFZozIXDSLYZ/lGs4erp1xxxv+CX3sgRbfc+aXejiS
+	UNAg==
+X-Received: by 10.52.25.99 with SMTP id b3mr1750036vdg.99.1365012149224; Wed,
+	03 Apr 2013 11:02:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.134.74 with HTTP; Wed, 3 Apr 2013 11:02:09 -0700 (PDT)
+In-Reply-To: <825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
 References: <1365006329-20964-1-git-send-email-radu.moisan@intel.com>
 	<1365006329-20964-3-git-send-email-radu.moisan@intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkFwtJakcY4C4yqx7sry4M8Ls+m+yE4CrkUva+rqzcGnhDAhMWj9D6VOIdSMaZ9/JkUvOBC
-Cc: openembedded-core@lists.openembedded.org
+	<825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Apr 2013 19:02:09 +0100
+Message-ID: <CAJTo0LbiXC_qKszpNNy5crnpXeGx99Ff9vGzpcXNk4otXgp8GQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQkwbGOvwKVNKYEY84uN5Bp6ghzZ0+8YG6C0si5Q+lW7YtV4ydCI+8DN8Gs7vaulWY5bAzyM
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] udev: enable multilib support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,38 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 18:16:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Apr 2013 18:19:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 3 April 2013 18:58, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> NACK! The udev maintainers have been clear that it is always /lib/udev, even on 64 bit systems, so you're not fixing a problem, you're creating an extra one.
 
-Op 3 apr. 2013, om 18:25 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
+Radu, can you do a multilib udev build and see what continues to fall
+into /lib64, so we can fix it?  (and the same with systemd)
 
-> Use base_libdir in place of hardcoded /lib
-> Fixes [YOCTO #4096]
->=20
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
-> meta/recipes-core/udev/udev.inc |    1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-core/udev/udev.inc =
-b/meta/recipes-core/udev/udev.inc
-> index e358d2d..6fd0240 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -76,6 +76,7 @@ FILES_udev-utils =3D "${bindir}/udevadm"
->=20
-> do_install_append () {
-> 	install -d ${D}${sysconfdir}/init.d
-> +	sed -i 's@/lib/udev@${base_libdir}/udev@g' ${WORKDIR}/init
-> 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
-> 	install -m 0755 ${WORKDIR}/udev-cache =
-${D}${sysconfdir}/init.d/udev-cache
-
-NACK! The udev maintainers have been clear that it is always /lib/udev, =
-even on 64 bit systems, so you're not fixing a problem, you're creating =
-an extra one.=
+Ross
 
 
