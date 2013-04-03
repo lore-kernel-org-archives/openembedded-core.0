@@ -1,36 +1,34 @@
-Received: from mail-pa0-f43.google.com ([209.85.220.43])
+Received: from mail-pd0-f174.google.com ([209.85.192.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UNJGd-0001Q4-4S
+	(envelope-from <martin.jansa@gmail.com>) id 1UNJee-0001y8-CZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 10:42:03 +0200
-Received: by mail-pa0-f43.google.com with SMTP id hz11so783839pad.16
+	Wed, 03 Apr 2013 11:06:52 +0200
+Received: by mail-pd0-f174.google.com with SMTP id p12so730473pdj.33
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2013 01:24:51 -0700 (PDT)
+	Wed, 03 Apr 2013 01:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Ma7YpHq19J8VPpnBw+B4ylfVkW6CF2ZJiME8Lfh6XcU=;
-	b=SUvgiDZjlxkbGfhMaT6G7RsbZkNJi4Nux8M2SDk8/+JDAs9oigG1IPkOEtBHDXYhZj
-	jKViuM6kyYae/kyoxxhrPLSTnhAdpfGkcko2l0IKldJd9yd87LbYs8gI4k55Mt+3qAT5
-	+V3WNfGRHMAFCxoAeyqSnwqMrXQSCBhIK0heKSKTx6tWDg7bzOZBNJ8cJje8x8hlKtx7
-	/BBcMlQ2tgElQC21wRdqyyzI0UT0WYerIaj/Qv2TQ+ncoMB/1RW3/X+LEYObtIe1ATvc
-	lwIZhhNkikgiSD6hjAMp0bskzoyI3arBuMM27jlFcbeMaT5rszXHq5FYqxuP2m0MGui1
-	a+SQ==
-X-Received: by 10.68.179.67 with SMTP id de3mr1055904pbc.130.1364977491475;
-	Wed, 03 Apr 2013 01:24:51 -0700 (PDT)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=KfvD0cUJaRoVtZkKhLL9mkD1Q7q2fKuSpU8tlTg217Q=;
+	b=BUoD+6qc/BqlbcX0Iiygt6wN1E5sCCN3o4kkajcdHWJ5wA/2FaKqPQyeqoCf1MQs4l
+	uirNbJSr5I1IojHGUWTuvkK6aW9BrHipV6hN0UNIxMQoFPdt/YZVIzXusimgvZwWN1re
+	3LkI61afhleb35GxjcjDgOsb5cEXjkfH823We8N8cDemXtBth1BZsh7iyQuNa3aY+wKM
+	UffvIRpQU/lF7XrZAzPjyy18M5AsGeVw5C9ZrF+dYzcbdD8zauWRZWEQvFvCk4uzSyJy
+	XrMbqk6rxcu9VA5c+z3ljbChM2HViWwo0PdigiClaJPbJlWgjyJVvbHqvNOQyjGg8RaH
+	lYXg==
+X-Received: by 10.66.16.194 with SMTP id i2mr1864413pad.112.1364978980666;
+	Wed, 03 Apr 2013 01:49:40 -0700 (PDT)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id kb3sm5109177pbc.21.2013.04.03.01.24.48
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 03 Apr 2013 01:24:50 -0700 (PDT)
-Date: Wed, 3 Apr 2013 10:24:50 +0200
+	by mx.google.com with ESMTPS id pg7sm5217142pbc.5.2013.04.03.01.49.37
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 03 Apr 2013 01:49:39 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130403082450.GE10679@jama.dyndns-home.com>
-References: <1364820644-9373-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1364820644-9373-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] buildhistory: record tag names and show warning when the same tag corresponds to different revision
+Date: Wed,  3 Apr 2013 10:49:36 +0200
+Message-Id: <1364978976-18388-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+In-Reply-To: <20130403082450.GE10679@jama.dyndns-home.com>
+References: <20130403082450.GE10679@jama.dyndns-home.com>
+Subject: [PATCHv2] buildhistory: record tag names and show warning when the same tag corresponds to different revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,109 +41,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 08:42:03 -0000
-X-Groupsio-MsgNum: 37330
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7CZp05NP8/gJM8Cl"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 03 Apr 2013 09:06:52 -0000
 
---7CZp05NP8/gJM8Cl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* persistent cache records tag-srcrev mappings, but is not shared between builders
+* when tag is moved in remote repo, all builders should rebuild the component to
+  use the same source, show warning when revision is different than what was used
+  in last build
 
-On Mon, Apr 01, 2013 at 02:50:44PM +0200, Martin Jansa wrote:
-> * persistent cache records tag-srcrev mappings, but is not shared between=
- builders
-> * when tag is moved in remote repo, all builders should rebuild the compo=
-nent to
->   use the same source, show warning when revision is different than what =
-was used
->   in last build
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->=20
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
-y.bbclass
-> index 82d0bf8..760075f 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -546,6 +546,10 @@ def _get_srcrev_values(d):
->              if rev.startswith(autoinc_templ):
->                  rev =3D rev[len(autoinc_templ):]
->              dict[name] =3D rev
-> +            if 'tag' in ud.parm:
-> +                tag =3D ud.parm['tag'];
-> +                key =3D 'tag_'+name+'_'+tag
-> +                dict[key] =3D rev
->      return dict
-> =20
->  python do_write_srcrev() {
-> @@ -556,8 +560,18 @@ python do_write_srcrev() {
->      if srcrevs:
->          if not os.path.exists(pkghistdir):
->              os.makedirs(pkghistdir)
-> +        data =3D {}
-> +        if os.path.exists(srcrevfile):
-> +            with open(srcrevfile) as f:
-> +                for line in f:
-> +                    if line.startswith('# tag_'):
-> +                        key, value =3D line.split("=3D", 1)
-> +                        key =3D key.replace('# ', '').strip()
-> +                        value =3D value.replace('"', '').strip()
-> +                        data[key] =3D value
->          with open(srcrevfile, 'w') as f:
->              orig_srcrev =3D d.getVar('SRCREV', False) or 'INVALID'
-> +            pkg =3D d.getVar('PN', True)
->              if orig_srcrev !=3D 'INVALID':
->                  f.write('# SRCREV =3D "%s"\n' % orig_srcrev)
->              if len(srcrevs) > 1:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/buildhistory.bbclass | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-Please hold this patch, this len(srcrevs) doesn't work anymore to detect
-multiple names (when there is another line for tag-srcrev).
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 82d0bf8..8c9f794 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -538,24 +538,38 @@ def _get_srcrev_values(d):
+             scms.append(u)
+ 
+     autoinc_templ = 'AUTOINC+'
+-    dict = {}
++    dict_srcrevs = {}
++    dict_tag_srcrevs = {}
+     for scm in scms:
+         ud = urldata[scm]
+         for name in ud.names:
+             rev = ud.method.sortable_revision(scm, ud, d, name)
+             if rev.startswith(autoinc_templ):
+                 rev = rev[len(autoinc_templ):]
+-            dict[name] = rev
+-    return dict
++            dict_srcrevs[name] = rev
++            if 'tag' in ud.parm:
++                tag = ud.parm['tag'];
++                key = name+'_'+tag
++                dict_tag_srcrevs[key] = rev
++    return (dict_srcrevs, dict_tag_srcrevs)
+ 
+ python do_write_srcrev() {
+     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
+     srcrevfile = os.path.join(pkghistdir, 'latest_srcrev')
+ 
+-    srcrevs = _get_srcrev_values(d)
++    srcrevs, tag_srcrevs = _get_srcrev_values(d)
+     if srcrevs:
+         if not os.path.exists(pkghistdir):
+             os.makedirs(pkghistdir)
++        old_tag_srcrevs = {}
++        if os.path.exists(srcrevfile):
++            with open(srcrevfile) as f:
++                for line in f:
++                    if line.startswith('# tag_'):
++                        key, value = line.split("=", 1)
++                        key = key.replace('# tag_', '').strip()
++                        value = value.replace('"', '').strip()
++                        old_tag_srcrevs[key] = value
+         with open(srcrevfile, 'w') as f:
+             orig_srcrev = d.getVar('SRCREV', False) or 'INVALID'
+             if orig_srcrev != 'INVALID':
+@@ -568,6 +582,13 @@ python do_write_srcrev() {
+                     f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
+             else:
+                 f.write('SRCREV = "%s"\n' % srcrevs.itervalues().next())
++            if len(tag_srcrevs) > 0:
++                for name, srcrev in tag_srcrevs.items():
++                    f.write('# tag_%s = "%s"\n' % (name, srcrev))
++                    if name in old_tag_srcrevs and old_tag_srcrevs[name] != srcrev:
++                        pkg = d.getVar('PN', True)
++                        bb.warn("Revision for tag %s in package %s was changed since last build (from %s to %s)" % (name, pkg, old_tag_srcrevs[name], srcrev))
++
+     else:
+         if os.path.exists(srcrevfile):
+             os.remove(srcrevfile)
+-- 
+1.8.1.5
 
-So it's causing changes like this for every recipe with 1 git repo in
-SRC_URI with tag parameter:
--SRCREV =3D "594dbb8992b42a33f78b57c15f194fae0923a7f8"
-+SRCREV_default =3D "594dbb8992b42a33f78b57c15f194fae0923a7f8"
 
-> @@ -565,6 +579,12 @@ python do_write_srcrev() {
->                      orig_srcrev =3D d.getVar('SRCREV_%s' % name, False)
->                      if orig_srcrev:
->                          f.write('# SRCREV_%s =3D "%s"\n' % (name, orig_s=
-rcrev))
-> +                    if name.startswith('tag_'):
-> +                        f.write('# %s =3D "%s"\n' % (name, srcrev))
-> +                        if name in data and data[name] !=3D srcrev:
-> +                            bb.warn("Revision for tag %s in package %s w=
-as changed since last build (from %s to %s)" % (name, pkg, data[name], srcr=
-ev))
-> +                        continue
-> +
->                      f.write('SRCREV_%s =3D "%s"\n' % (name, srcrev))
->              else:
->                  f.write('SRCREV =3D "%s"\n' % srcrevs.itervalues().next(=
-))
-> --=20
-> 1.8.1.5
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---7CZp05NP8/gJM8Cl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFb51IACgkQN1Ujt2V2gBzZVgCfZPDqQpns/nOyi2XYE+MtFtwj
-gGoAn0d7rvnpOaioKHVTec8Ba+vG3ZR/
-=DYkX
------END PGP SIGNATURE-----
-
---7CZp05NP8/gJM8Cl--
