@@ -1,26 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UNPsk-0003ay-JB
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UNPu6-0003k6-MB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 17:45:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Apr 2013 08:28:38 -0700
+	Wed, 03 Apr 2013 17:47:15 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 08:28:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="313056578"
-Received: from unknown (HELO [10.255.14.19]) ([10.255.14.19])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Apr 2013 08:28:37 -0700
-Message-ID: <515C4AA5.4040501@linux.intel.com>
-Date: Wed, 03 Apr 2013 08:28:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1364969701.git.Qi.Chen@windriver.com>
-	<3d56b617bac180023326d302a14d675710d4380d.1364969701.git.Qi.Chen@windriver.com>
-In-Reply-To: <3d56b617bac180023326d302a14d675710d4380d.1364969701.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] core-image-sato.bb: increase free space size
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="288825220"
+Received: from unknown (HELO adinu-Vostro-460.rb.intel.com) ([10.237.105.45])
+	by orsmga001.jf.intel.com with ESMTP; 03 Apr 2013 08:30:01 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2013 18:30:47 +0300
+Message-Id: <1365003047-10522-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH V2] Add file information to package information window
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,65 +27,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 15:45:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 15:47:15 -0000
 
-On 04/02/2013 11:16 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Sato images, by default, have about 100M free space. This is not enough
-> and it blocks automatic testing.
->
-> This patch fixes this problem by setting the default value of
-> IMAGE_OVERHEAD_FACTOR to "2.0" in the sato image recipe.
->
-We need to think hard about this one, we have a couple of conflicting 
-interests here with the amount of space.
+Removed the package files parsing routine from the
+packageinfo.bbclass file and added it to the
+package.bbclass file.
 
-The Poky distro and core-image-sato are examples of for the community 
-and developers to use, we want to set good examples where ever possible. 
-One of the intentions of core-image-sato is to show a compact image with 
-a graphical user interface, so having a minimal, but usable amount of 
-free space is important. We don't want someone new to look at this and 
-see a large image as it might put them off the project without 
-understanding the tune-ability. This is an embedded environment, not a 
-desktop with a large disk, we want to share that message.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ meta/classes/package.bbclass     |   10 ++++++++++
+ meta/classes/packageinfo.bbclass |   20 --------------------
+ 2 files changed, 10 insertions(+), 20 deletions(-)
 
-Another goal of the Poky distro is to create something that is testable 
-and automated testing is important part of this.  I read the bug report 
-and commented on it as well.  Is there a way to clean-up after the 
-tests?  Are single tests consuming the 100M available? Is it slowly 
-accumulating tmp space?
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 3479947..cafe339 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1130,6 +1130,13 @@ python emit_pkgdata() {
+     workdir = d.getVar('WORKDIR', True)
+ 
+     for pkg in packages.split():
++        items = {}
++        for files_list in pkgfiles[pkg]:
++             if files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1] not in items:
++                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]] = []
++                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
++             else:
++                 items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
+         subdata_file = pkgdatadir + "/runtime/%s" % pkg
+ 
+         pkgval = d.getVar('PKG_%s' % pkg, True)
+@@ -1137,6 +1144,8 @@ python emit_pkgdata() {
+             pkgval = pkg
+             d.setVar('PKG_%s' % pkg, pkg)
+ 
++        d.setVar('FILES_INFO', str(items))
++
+         sf = open(subdata_file, 'w')
+         write_if_exists(sf, pkg, 'PN')
+         write_if_exists(sf, pkg, 'PV')
+@@ -1161,6 +1170,7 @@ python emit_pkgdata() {
+         write_if_exists(sf, pkg, 'pkg_preinst')
+         write_if_exists(sf, pkg, 'pkg_prerm')
+         write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
++        write_if_exists(sf, pkg, 'FILES_INFO')
+         for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg, True) or "").split():
+             write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
+ 
+diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
+index 5e6f590..4709bea 100644
+--- a/meta/classes/packageinfo.bbclass
++++ b/meta/classes/packageinfo.bbclass
+@@ -8,24 +8,6 @@ python packageinfo_handler () {
+         package_archs = e.data.getVar('PACKAGE_ARCHS', True)
+         packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
+         deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
+-        dirs = os.listdir(tmpdir + '/work/')
+-        pkgsplit_dir = tmpdir + '/work/'
+-        items = {}
+-        passing = ''
+-        for directories in dirs:
+-                temp_dirs = os.listdir(pkgsplit_dir + directories)
+-                for temps1 in temp_dirs:
+-                        if os.path.exists(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'):
+-                                subs = pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'
+-                                for temps in os.listdir(subs):
+-                                        items[temps] = {}
+-                                        for path, dirs, files in os.walk(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split' + '/' + temps):                                                   
+-                                                        file_list = []
+-                                                        if os.listdir(path) != []:
+-                                                                items[temps][path] = []                                                   
+-                                                                for f in files:
+-                                                                        file_list.append(f)
+-                                                                items[temps][path].append(file_list)
+                                            
+         for arch in package_archs.split():
+             pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
+@@ -38,8 +20,6 @@ python packageinfo_handler () {
+                             try:
+                                 sdata = oe.packagedata.read_pkgdatafile(pkgdatafile)
+                                 sdata['PKG'] = pkgname
+-                                if pkgname in items:
+-                                        sdata['FILES_INFO'] = items[pkgname]        
+                                 pkginfolist.append(sdata)
+                             except Exception as e:
+                                 bb.warn("Failed to read pkgdata file %s: %s: %s" % (pkgdatafile, e.__class__, str(e)))
+-- 
+1.7.9.5
 
-What other options can we do here?  Do we need to consider a different 
-image for testing?  Or build 2 images similarly one with extra space?
-
-We need to think about the different scenarios and usage.
-
-Thanks
-	Sau!
-
-
-> [YOCTO #4109]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-sato/images/core-image-sato.bb |    4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-> index e3246d2..4b4e595 100644
-> --- a/meta/recipes-sato/images/core-image-sato.bb
-> +++ b/meta/recipes-sato/images/core-image-sato.bb
-> @@ -9,3 +9,7 @@ LICENSE = "MIT"
->   inherit core-image
->
->   IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
-> +
-> +# Increase the default value of IMAGE_OVERHEAD_FACTOR from "1.3" to "2.0"
-> +# to increase the free space size in sato images.
-> +IMAGE_OVERHEAD_FACTOR ?= "2.0"
->
 
 
