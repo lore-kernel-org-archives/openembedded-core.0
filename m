@@ -1,29 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UNFhc-00034u-Aq
+	(envelope-from <Qi.Chen@windriver.com>) id 1UNHGX-0007rV-GX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 06:53:40 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r334aP0X001763
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Apr 2013 21:36:25 -0700 (PDT)
-Received: from [128.224.162.206] (128.224.162.206) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 2 Apr 2013 21:36:26 -0700
-Message-ID: <515BB1C8.1060706@windriver.com>
-Date: Wed, 3 Apr 2013 12:36:24 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Wed, 03 Apr 2013 08:33:49 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r336GbLQ023713
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Apr 2013 23:16:37 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 2 Apr 2013 23:16:36 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 3 Apr 2013 14:16:47 +0800
+Message-ID: <cover.1364969701.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1364551873.git.hongxu.jia@windriver.com>
-	<CADkTA4MeGQQajjwdGk0An80zS09BRs7CfOEAXdp85G5TPY8SYg@mail.gmail.com>
-In-Reply-To: <CADkTA4MeGQQajjwdGk0An80zS09BRs7CfOEAXdp85G5TPY8SYg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1][yocto-kernel-cache]meta: update atom-pc-wifi.cfg for audit purposes
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH 0/2] Increase free space size on sato images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,64 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 04:53:40 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 06:33:50 -0000
+Content-Type: text/plain
 
-On 04/03/2013 01:01 AM, Bruce Ashfield wrote:
-> On Mon, Apr 1, 2013 at 10:34 PM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> The following changes since commit 0fac9380caa5eaf8038536413366511c48b579b0:
->>
->>    meta: Remove Cedartrail Machine (2013-02-10 23:54:01 -0500)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib hongxu/fix-atompc-kernel-warn
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-atompc-kernel-warn
-> Thanks for the changes, they look good, but we have a couple of process items
-> to fix!
->
->   - make sure to cc me directly on kernel config or kernel changes,
-> otherwise I may
->     miss them.
->
->   - cc linux-yocto@yoctoproject.org (you need to subscribe) instead of
-> oe-core, I'll
->     update oe-core once the changes are merged
->
->   - modify the linux-yocto-<version> meta branch, not the kernel cache
-> directly. I'll
->     merge changes to the kernel-cache when integrating the change to the release
->     kernel.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Got it, I will resent the pull request.
+The following changes since commit fd4e5c6c58183f1a017c6b5fe4d43c320e273567:
 
-Thanks,
-Hongxu
+  meta-yocto/conf: Add conf-notes.txt (2013-04-02 23:13:21 +0100)
 
-> Cheers,
->
-> Bruce
->
->> Hongxu Jia (1):
->>    meta: update atom-pc-wifi.cfg for audit purposes
->>
->>   bsp/atom-pc/atom-pc-wifi.cfg |   11 ++---------
->>   1 file changed, 2 insertions(+), 9 deletions(-)
->>
->> --
->> 1.7.10.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/sato-size
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/sato-size
+
+Chen Qi (2):
+  bitbake.conf: use weaker assignment for IMAGE_OVERHEAD_FACTOR
+  core-image-sato.bb: increase free space size
+
+ meta/conf/bitbake.conf                      |    2 +-
+ meta/recipes-sato/images/core-image-sato.bb |    4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+-- 
+1.7.9.5
 
 
 
