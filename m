@@ -1,29 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UNQWs-0002KJ-1q
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UNQem-0002rc-6J
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Apr 2013 18:27:19 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r33G9iN9017673
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 3 Apr 2013 09:09:44 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 3 Apr 2013 09:09:44 -0700
-Message-ID: <515C5442.4060307@windriver.com>
-Date: Wed, 3 Apr 2013 12:09:38 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Wed, 03 Apr 2013 18:35:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 09:16:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,402,1363158000"; d="scan'208";a="311810834"
+Received: from unknown (HELO helios.localnet) ([10.255.13.159])
+	by orsmga002.jf.intel.com with ESMTP; 03 Apr 2013 09:18:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Date: Wed, 03 Apr 2013 17:18:07 +0100
+Message-ID: <1912854.rCCW1yQxSL@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <1365003047-10522-1-git-send-email-andrei.adrianx.dinu@intel.com>
+References: <1365003047-10522-1-git-send-email-andrei.adrianx.dinu@intel.com>
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <1364575688-19681-1-git-send-email-Chase.Maupin@ti.com>
-	<515B455E.4030504@linux.intel.com>
-In-Reply-To: <515B455E.4030504@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Chase Maupin <Chase.Maupin@ti.com>
-Subject: Re: [PATCH] linux-dtb: Add simple DTB symlinks for devicetree
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] Add file information to package information window
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,97 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2013 16:27:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2013 16:35:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 13-04-02 04:53 PM, Darren Hart wrote:
->
->
-> On 03/29/2013 09:48 AM, Chase Maupin wrote:
->> * This is similar to the symlinks provided for the kernel image
->>    in the /boot directory of a file system.  The goal is to have
->>    simply named symlinks in /boot that mirror the device tree
->>    name in the kernel sources.  This is so that programs like
->>    U-Boot can easily find the default device tree binary in the
->>    /boot directory and use that when booting the kernel.
->> * Use update-alternatives to handle proper creation and removal
->>    of the symlinks.
->
-> Hi Chase,
->
-> So I have no experience myself with Device Tree. Adding Bruce A. for some
-> additional review.
->
-> I am going to assume this is the right thing to do for u-boot systems.
-> Which devices have you verified this as working with?
->
->>
->> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
->> ---
->>   meta/recipes-kernel/linux/linux-dtb.inc |   20 ++++++++++++++++++++
->>   1 files changed, 20 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
->> index ec6c375..66cf255 100644
->> --- a/meta/recipes-kernel/linux/linux-dtb.inc
->> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
->> @@ -45,3 +45,23 @@ do_deploy_append() {
->>           done
->>       fi
->>   }
->> +
->> +pkg_postinst_kernel-devicetree () {
->
-> Please use tabs for bash functions. Oddly, I see the only tabs in this
-> file are in the anonymous python blocks. Doh.
->
->> +    cd /${KERNEL_IMAGEDEST}
->> +    for DTS_FILE in ${KERNEL_DEVICETREE}
->> +    do
->> +        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
->> +        DTB_NAME="devicetree-uImage-${DTS_BASE_NAME}.dtb"
->
->
-> Is "uImage" always correct here? Or should we be using
-> ${KERNEL_IMAGETYPE} here?
+Hi Andrei,
 
-I was trying to figure out the same thing when reviewing this
-change this morning.
+On Wednesday 03 April 2013 18:30:47 Andrei Dinu wrote:
+> Removed the package files parsing routine from the
+> packageinfo.bbclass file and added it to the
+> package.bbclass file.
+> 
+> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+> ---
+>  meta/classes/package.bbclass     |   10 ++++++++++
+>  meta/classes/packageinfo.bbclass |   20 --------------------
+>  2 files changed, 10 insertions(+), 20 deletions(-)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 3479947..cafe339 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1130,6 +1130,13 @@ python emit_pkgdata() {
+>      workdir = d.getVar('WORKDIR', True)
+> 
+>      for pkg in packages.split():
+> +        items = {}
+> +        for files_list in pkgfiles[pkg]:
+> +             if
+> files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-
+> 1] not in items: +                
+> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
+> [0][:-1]] = [] +                
+> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
+> [0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1]) +     
+>        else:
+> +                
+> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
+> [0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
+> subdata_file = pkgdatadir + "/runtime/%s" % pkg
 
-I'm not alternatives expert, but isn't DTB_NAME just the name
-of the alternate being introduced ? If that's the case, why not
-continue to use what the rest of the linux-dtb file uses ?
-
-             DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed 
-"s/${MACHINE}/${DTS_BASE_NAME}/g"`
-
-But outside of that (and Darren't already pending comments), the approach
-looks fine and valid to me.
+I'd recommend the use of os.path.basename() here; additionally rather than 
+repeating the same call several times (possibly expensive within a loop), 
+assign the return value to a variable and then use that instead.
 
 Cheers,
+Paul
 
-Bruce
+-- 
 
->
->
->> +        update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb ${DTB_NAME} ${KERNEL_PRIORITY} || true
->> +    done
->> +}
->> +
->> +pkg_postrm_kernel-devicetree () {
->> +    cd /${KERNEL_IMAGEDEST}
->> +    for DTS_FILE in ${KERNEL_DEVICETREE}
->> +    do
->> +        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
->> +        DTB_NAME="devicetree-uImage-${DTS_BASE_NAME}.dtb"
->> +        update-alternatives --remove ${DTS_BASE_NAME}.dtb ${DTB_NAME} ${KERNEL_PRIORITY} || true
->> +    done
->> +}
->>
->
-> Thanks,
->
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
