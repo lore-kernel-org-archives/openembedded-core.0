@@ -1,33 +1,32 @@
-Received: from mail-ve0-f172.google.com ([209.85.128.172])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UNsvj-0006Pg-4W
-	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 00:47:33 +0200
-Received: by mail-ve0-f172.google.com with SMTP id oz10so3097728veb.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 15:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type:content-transfer-encoding;
-	bh=oWkrT2lcy1JRDRR+DfiLqobhtwSEomhh8brfmo+loHQ=;
-	b=1G0vnlubBId6Q2QfTtAon4wPTb2dUkblrxdHjF3BV7GIGBmK0ICBlRx8nBauAYusJE
-	tNJjQzV9MxH/t9oKzgJO1NqLPW5FllaW8g2zkcy4bYrkOIat5cOB6kg50klEAZTvr1oT
-	V2cvkqTGjg8Pw4enw6NWcPoEPv4O1hSY7LQqt3N6to83Zr3NWdsm/EgghWUXRCUf00ha
-	hJeeGWXl61jwf6CA9xA9dieIjaL5BXXFMJKV9+Cr8Qy5B8r9OOm/todwuNzllicPJbu4
-	6ZPsv5n4iFfZ6z2k2QKNpZprvywXiLDsbIqb03dbCkNOpeNmbu/ABZNkQntY3tx4G8uQ
-	nCQA==
-MIME-Version: 1.0
-X-Received: by 10.58.232.98 with SMTP id tn2mr28111vec.57.1365114577439; Thu,
-	04 Apr 2013 15:29:37 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Thu, 4 Apr 2013 15:29:37 -0700 (PDT)
-In-Reply-To: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
-References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
-Date: Fri, 5 Apr 2013 00:29:37 +0200
-Message-ID: <CALbNGRS4MTJny0yqf-oYx1S12O-ZETo4g9x+7BuRVh8pbuBW0g@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: experiences with images based on current layer heads
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UNt2d-0006kp-K5 for openembedded-core@lists.openembedded.org;
+	Fri, 05 Apr 2013 00:53:59 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r34MlJJ2023058; Thu, 4 Apr 2013 23:47:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QjNpKUME1Jie; Thu,  4 Apr 2013 23:47:19 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r34MlEPu023040
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 4 Apr 2013 23:47:17 +0100
+Message-ID: <1365114987.6526.120.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Thu, 04 Apr 2013 23:36:27 +0100
+In-Reply-To: <CAP9ODKoHXQt=HN7VkyeE+rWXkVV+hPLJhPFRUne+mCm7phhEdQ@mail.gmail.com>
+References: <1365017211-17183-1-git-send-email-dv@pseudoterminal.org>
+	<515D9F33.9060909@linux.intel.com>
+	<CAP9ODKoHXQt=HN7VkyeE+rWXkVV+hPLJhPFRUne+mCm7phhEdQ@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: [oe][PATCH] eglinfo: Add recipes for x11 and fb backends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,46 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 22:47:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Apr 2013 22:53:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> Hi,
->
-> when migration of systemd to oe-core turned to unbuildable I decided
-> to freeze my images and stopped further tests. Now that many issues
-> were fixed and we are close to another release I built my standard
-> xfce-based image based on latest layer HEADs. With this I face some
-> issues which I would like to share:
->
-> 1. X sessions crash with OOM. This is reproducible by opening
-> google-maps with midori and changing to satellite view. In
-> Xorg.0.log.old I see only
->
-> | (EE)
-> | (EE) Backtrace:
-> | (EE)
-> | (EE) Segmentation fault at address 0x9
-> | (EE) BUG: triggered 'if (inSignalContext)'
-> | (EE) BUG: log.c:502 in LogVMessageVerb()
-> | (EE) Warning: attempting to log data in a signal unsafe manner while
-> in signal context.
-> | Please update to check inSignalContext and/or use
-> LogMessageVerbSigSafe() or ErrorFSigSafe().
-> | The offending log format message is:
-> |
-> | Fatal server error:
-> |
-> | (EE)
-> | (EE) Backtrace:
-> | (EE)
->
-seems we are not alone [1]
+On Thu, 2013-04-04 at 14:09 -0300, Otavio Salvador wrote:
+> On Thu, Apr 4, 2013 at 12:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> >
+> > I am going to defer this to 1.5 when it opens up, I still need to review the
+> > recipe, but wanted to give you a heads up about the deferral.
+> 
+> Any reasoning to defer it when it adds a good tool for validation and
+> test? It also offers very low risk of breaking something.
 
-[1] http://www.raspberrypi.org/phpBB3/viewtopic.php?t=3D38568&p=3D321298
+We're two weeks before release and meant to be bug fixing now, new
+features add risk.
 
-Andreas
+You say this patch is low risk but it will actually break builds. Why?
+It has machine specific code but isn't marked as machine specific and it
+will not work well in world builds for example. That is just the part I
+can spot from looking at it but it means its not been widely tested.
+
+Yes, we can fix these things but I really want to focus on the bugs we
+have right now, not fixing new code and adding new build failures.
+
+So Saul is right here in deferring this.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
