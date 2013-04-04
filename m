@@ -1,32 +1,30 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from bear.ext.ti.com ([192.94.94.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UNkRO-0002sv-2M; Thu, 04 Apr 2013 15:43:01 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34DaN1M013347; Thu, 4 Apr 2013 14:36:23 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1-5EFjzVVNt6; Thu,  4 Apr 2013 14:36:23 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34DaHmZ013323
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 4 Apr 2013 14:36:20 +0100
-Message-ID: <1365081933.6526.107.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 04 Apr 2013 14:25:33 +0100
-In-Reply-To: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
-References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r34DaN1M013347
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: experiences with images based on current layer heads
+	(envelope-from <chase.maupin@ti.com>) id 1UNkRf-0002uw-7T
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Apr 2013 15:43:15 +0200
+Received: from dbdp20.itg.ti.com ([172.24.170.38])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id r34DQ2AW015082
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Apr 2013 08:26:02 -0500
+Received: from DBDE71.ent.ti.com (localhost [127.0.0.1])
+	by dbdp20.itg.ti.com (8.13.8/8.13.8) with ESMTP id r34DQ0Zi025941
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Apr 2013 18:56:01 +0530 (IST)
+Received: from dbdp32.itg.ti.com (172.24.170.251) by DBDE71.ent.ti.com
+	(172.24.170.149) with Microsoft SMTP Server id 14.1.323.3;
+	Thu, 4 Apr 2013 18:56:00 +0530
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dbdp32.itg.ti.com (8.13.8/8.13.8) with ESMTP id r34DPuNM019519;
+	Thu, 4 Apr 2013 18:55:59 +0530
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Apr 2013 08:25:54 -0500
+Message-ID: <1365081955-19381-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB symlinks for devicetree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,85 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 13:43:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Apr 2013 13:43:16 -0000
+Content-Type: text/plain
 
-On Wed, 2013-04-03 at 16:02 +0200, Andreas M=C3=BCller wrote:
-> Hi,
->=20
-> when migration of systemd to oe-core turned to unbuildable I decided
-> to freeze my images and stopped further tests. Now that many issues
-> were fixed and we are close to another release I built my standard
-> xfce-based image based on latest layer HEADs. With this I face some
-> issues which I would like to share:
->=20
-> 1. X sessions crash with OOM. This is reproducible by opening
-> google-maps with midori and changing to satellite view. In
-> Xorg.0.log.old I see only
->=20
-> | (EE)
-> | (EE) Backtrace:
-> | (EE)
-> | (EE) Segmentation fault at address 0x9
-> | (EE) BUG: triggered 'if (inSignalContext)'
-> | (EE) BUG: log.c:502 in LogVMessageVerb()
-> | (EE) Warning: attempting to log data in a signal unsafe manner while
-> in signal context.
-> | Please update to check inSignalContext and/or use
-> LogMessageVerbSigSafe() or ErrorFSigSafe().
-> | The offending log format message is:
-> |
-> | Fatal server error:
-> |
-> | (EE)
-> | (EE) Backtrace:
-> | (EE)
->=20
-> With old images only the process causing OOM were stopped. I did not
-> fully cross check but I have the feeling that OOM appears much much
-> more often than with old images. Sometimes x- session is closed
-> without opening an additional application.
->=20
-> 2. Something with udisks/gvfs/thunar-volman seems broken. When
-> auto-mounting, the partitions cannot be mounted by label-name. On
-> plugging a memory stick I see in kernel log
->=20
-> | VFS: could not find a valid V7 on sda.
->=20
-> Same kernel works properly with old images.
->=20
-> 3. dhclient.service does not start (this has never worked):
->=20
-> root@overo:~# systemctl status dhclient.service
-> dhclient.service - Dynamic Host Configuration Protocol (DHCP)
->           Loaded: loaded (/lib/systemd/system/dhclient.service; enabled=
-)
->           Active: failed (Result: resources) since Sat 2000-01-01
-> 00:58:02 UTC; 7min ago
->          Process: 177 ExecStart=3D/sbin/dhclient -cf
-> /etc/dhcp/dhclient.conf -q -lf /var/lib/dhcp/dhclient.leases
-> $INTERFACES (code=3Dexited, status=3D0/SUCCESS)
->=20
-> Jan 01 00:58:01 overo systemd[1]: Starting Dynamic Host Configuration
-> Protocol (DHCP)...
-> Jan 01 00:58:02 overo systemd[1]: PID file /var/run/dhclient.pid not
-> readable (yet?) after start.
->=20
-> I wonder what happens to networkmanager once this autostart will work...
->=20
-> will test further...
+* This is similar to the symlinks provided for the kernel image
+  in the /boot directory of a file system.  The goal is to have
+  simply named symlinks in /boot that mirror the device tree
+  name in the kernel sources.  This is so that programs like
+  U-Boot can easily find the default device tree binary in the
+  /boot directory and use that when booting the kernel.
+* Use update-alternatives to handle proper creation and removal
+  of the symlinks.
+* This patch has already been accepted into the master branch
+  http://cgit.openembedded.org/openembedded-core/commit/?id=750a9554e1b85d9bd23d18e0630723c3c193c604
 
-The data is certainly interesting, thanks for sharing. It would
-obviously be good to dig into and fix these issues, at least tracking
-the ones from OE-Core in the bugzilla might help so people are aware of
-the issue and of any progress that is made by anyone looking into it...
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+* Updated in version 2
+    * Changed the variable names to use variables that match the
+      do_install and do_deploy more closely for consistency.  i.e.
+      using DTB_SYMLINK_NAME instead of DTB_NAME.
+    * The above changes were based on input from:
+        * Darren Hart <dvhart@linux.intel.com>
+        * Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc |   20 ++++++++++++++++++++
+ 1 files changed, 20 insertions(+), 0 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index d39f49d..36852b5 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -45,3 +45,23 @@ do_deploy_append() {
+         done
+     fi
+ }
++
++pkg_postinst_kernel-devicetree () {
++    cd /${KERNEL_IMAGEDEST}
++    for DTS_FILE in ${KERNEL_DEVICETREE}
++    do
++        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++        DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++        update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
++    done
++}
++
++pkg_postrm_kernel-devicetree () {
++    cd /${KERNEL_IMAGEDEST}
++    for DTS_FILE in ${KERNEL_DEVICETREE}
++    do
++        DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++        DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++        update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
++    done
++}
+-- 
+1.7.0.4
 
 
 
