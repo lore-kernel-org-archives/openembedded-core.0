@@ -1,20 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mihai.prica@intel.com>) id 1UNjEC-0002VS-Eb
+	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1UNjJ7-0002q2-IM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 14:25:16 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 04 Apr 2013 05:08:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,408,1363158000"; d="scan'208";a="222773740"
-Received: from mihai-vostro-460.rb.intel.com ([10.237.105.142])
-	by AZSMGA002.ch.intel.com with ESMTP; 04 Apr 2013 05:08:01 -0700
-From: Mihai Prica <mihai.prica@intel.com>
+	Thu, 04 Apr 2013 14:30:23 +0200
+Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
+	[192.168.101.2])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 50E94408F4;
+	Thu,  4 Apr 2013 13:28:37 +0200 (CEST)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 15:09:15 +0300
-Message-Id: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
+Date: Thu,  4 Apr 2013 14:12:57 +0200
+Message-Id: <1365077577-477-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
+Subject: [PATCH] python: adding missing runtime dependency python-io to python-pprint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,37 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 12:25:16 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 12:30:28 -0000
 
-Enables qemu to run images with video output without the need for vncviewer.
+When trying to import python-pprint on a minimal image, it reports that
+the cStringIO python module is missing.
+This is provided with python-io, so we add python-io as runtime
+dependency.
 
-Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+The complete observed trace was:
+
+Python 2.7.3 (default, Apr  4 2013, 07:45:36)
+[GCC 4.7.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import pprint
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python2.7/pprint.py", line 40, in <module>
+    from cStringIO import StringIO as _StringIO
+ImportError: No module named cStringIO
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
 ---
- meta/recipes-devtools/qemu/qemu.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../python/python-2.7-manifest.inc                 |    2 +-
+ scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 1b5b569..06fa88b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -1,7 +1,7 @@
- DESCRIPTION = "open source processor emulator"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
--DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc"
-+DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
- DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
- DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
- RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-@@ -13,7 +13,7 @@ BBCLASSEXTEND = "native nativesdk"
- # QEMU_TARGETS is overridable variable
- QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index 84e5a0b..fb44905 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -175,7 +175,7 @@ RDEPENDS_${PN}-pkgutil="${PN}-core"
+ FILES_${PN}-pkgutil="${libdir}/python2.7/pkgutil.* "
  
--SDL ?= "--disable-sdl"
-+SDL ?= ""
- SDL_class-native ?= ""
- SDL_class-nativesdk ?= ""
+ DESCRIPTION_${PN}-pprint="Python Pretty-Print Support"
+-RDEPENDS_${PN}-pprint="${PN}-core"
++RDEPENDS_${PN}-pprint="${PN}-core ${PN}-io"
+ FILES_${PN}-pprint="${libdir}/python2.7/pprint.* "
  
+ DESCRIPTION_${PN}-profile="Python Basic Profiling Support"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 22470f9..61a068c 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -319,7 +319,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-pkgutil", "Python Package Extension Utility Support", "${PN}-core",
+     "pkgutil.*")
+ 
+-    m.addPackage( "${PN}-pprint", "Python Pretty-Print Support", "${PN}-core",
++    m.addPackage( "${PN}-pprint", "Python Pretty-Print Support", "${PN}-core ${PN}-io",
+     "pprint.*" )
+ 
+     m.addPackage( "${PN}-profile", "Python Basic Profiling Support", "${PN}-core ${PN}-textutils",
 -- 
 1.7.9.5
 
