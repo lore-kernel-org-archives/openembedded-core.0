@@ -1,20 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UNdpc-0004pz-IF
+	(envelope-from <s.stirtzel@googlemail.com>) id 1UNdrQ-00050e-IT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 08:39:38 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Apr 2013 23:20:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,405,1363158000"; d="scan'208";a="312151715"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.17])
-	by orsmga002.jf.intel.com with ESMTP; 03 Apr 2013 23:22:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2013 23:22:18 -0700
-Message-Id: <cover.1365056117.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [CONSOLIDATED PULL 0/8] Patches for build issues
+	Thu, 04 Apr 2013 08:41:25 +0200
+Received: by mail-oa0-f47.google.com with SMTP id o17so2359786oag.20
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2013 23:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=9wXEqfthr0D+cZxfn41tJo2X6Dm/9JxTzqYjXIVxATI=;
+	b=Z3zpKoXdMEUh0Jkqb5wWJev1ll8OJl0P03zSLZYPQklrUVZjrSe8w2iNcfr62Duw3V
+	P5W2dKd5iUquDmDHsjxG+SvicieAHBKKryiTawmEhQQ6hea0kKy7Pbr/UPmmFThdA/Wc
+	E9Cb7a7ZIiUDgcgI5o4uezsauo+5VUopFFJE1y5mxUcvgs58tYtzG1iZgtXegPD23Gvm
+	bojf4xltf7iseHkrhzXWFPCjT62crKMiffrpp9fvi5WuDg9R/oQ8486AyTKmt+hb2L8l
+	WCDMOOAFlD+mFTHCeThUiSdrxo1+sa/mFls4nH2GlpGdx1akSmiSFEMswiUDPwH6CiM2
+	yjOA==
+MIME-Version: 1.0
+X-Received: by 10.182.40.71 with SMTP id v7mr3050704obk.85.1365056651707; Wed,
+	03 Apr 2013 23:24:11 -0700 (PDT)
+Received: by 10.60.46.69 with HTTP; Wed, 3 Apr 2013 23:24:11 -0700 (PDT)
+In-Reply-To: <1365002659.6526.45.camel@ted>
+References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
+	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
+	<515ADEA3.5030800@intel.com>
+	<CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
+	<CAJTo0LZ9b3yqJ+K1Y03aC3OXhpsaB40D5PXfENqh2oe1ybErZg@mail.gmail.com>
+	<CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
+	<1365002659.6526.45.camel@ted>
+Date: Thu, 4 Apr 2013 08:24:11 +0200
+Message-ID: <CAGiJk9cP1GwyhBGxzsGqRRUzTaRWc6d7eXf3Hz-0MX1VF=Um=g@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,71 +48,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 06:39:40 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 06:41:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard,
+2013/4/3 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Wed, 2013-04-03 at 16:51 +0200, Samuel Stirtzel wrote:
+>> 2013/4/3 Burton, Ross <ross.burton@intel.com>:
+>> > Hi,
+>> >
+>> > On 2 April 2013 15:15, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
+>> >>>>> For xserver-nodm-init we would then have something like:
+>> >>>>> inherit update-alternatives
+>> >>>>> ALTERNATIVE_${PN} = "systemd-def-target"
+>> >>>>> ALTERNATIVE_TARGET[systemd-def-target] =
+>> >>>>> "${systemd_unitdir}/system/graphical.target"
+>> >>>>> ALTERNATIVE_LINK_NAME[systemd-def-target] =
+>> >>>>> "${systemd_unitdir}/system/default.target"
+>> >>>>> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
+>> >>>>>
+>> >>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> >
+>> > This really needs to be a series of two patches, with this change
+>> > implemented too.
+>> >
+>> >> To comment on this change:
+>> >> A developer would expect that a system (hardware or software) behaves
+>> >> in a specific matter (the default behavior).
+>> >> By changing the default, the system behavior is undefined (as the
+>> >> default behavior was changed).
+>> >
+>> > The behaviour is not undefined, it's perfectly clear - the default
+>> > target is multi-user unless changed, and by patching the X startup
+>> > recipes in oe-core and meta-oe we handle the majority of cases.
+>>
+>> When we decide that we handle standard behavior different than the
+>> rest of the world, then this patch is basically a fork of systemd.
+>
+> No, we're not forking systemd, we're talking about configuration.
+>
+> This is like saying that booting your Linux desktop at a different
+> runlevel is forking Linux.
 
-This set up patches is being built by the AB currently and the progress is good.
+No, by changing a standard configuration that requires other changes
+to repair things that are already working you are far beyond
+configuration.
 
-The changes currently proposed have been reviewed.
+>
+>> Also we tell every affected software developer:
+>> "No your software won't work with OE-core / Yocto Project without
+>> adaption, we are incompatible with the systemd standard to make life
+>> more comfortable for (some of) us"
+>
+> We're saying that graphical init scripts need to somehow tell the system
+> they're a graphical init script. There are only a small number of these
+> out there and adding some identification to them whilst an annoyance,
+> isn't a big issue.
 
-My rpm-postinsts is working, but we will need to investage similar changes for 
-deb and opkg, maybe considering a common run-postinsts package that can select the 
-correct rootfs based packaging system (maybe a 1.5 item)
+No, you are saying the default in systemd is non-graphical target.
+Why not tell the system that a non-graphical image needs multi-user.target?
+It would be compatible to the rest of the world and would archive the
+effect you want.
 
-There are other changes pending that I have not tested yet, such as Chases' DTB
-change, please review and pull as appropirate
+>
+> Integrating new technology like systemd into older systems is hard. You
+> sometimes need to add new information to allow the system to work
+> properly. This is once such case.
 
-Thank
-	Sau!
+This change is not related to the struggle of upgrading from sysvinit
+to systemd.
+Even new systems may have this problem, and I don't tell you to ignore
+it, but I am trying to contribute to fix it properly.
+I hope we can get a solution without the avalanche that breaks
+everything affected for no necessary reason.
 
-The following changes since commit ca36be708e54c0c86535bc8512295c76c48f6cf5:
 
-  classes/sstate: avoid traceback when no files have been staged (2013-04-03 17:01:09 +0100)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Carlos Rafael Giani (1):
-  gst-ffmpeg: configure-fix patch used wrong test
-
-Darren Hart (3):
-  base-passwd: Add input group
-  udev-extraconf: Add rule adding input devices to input group
-  xserver-nodm-init: Add xuser to input group
-
-Martin Jansa (2):
-  buildhistory: record tag names and show warning when the same tag
-    corresponds to different revision
-  rm_work: keep do_fetch, do_write_srcrev stamps
-
-Paul Eggleton (1):
-  icon-naming-utils: import version 0.8.90 from meta-oe
-
-Saul Wold (1):
-  rpm-postinsts: Split out run-postinsts
-
- meta/classes/buildhistory.bbclass                  | 29 +++++++++++--
- meta/classes/rm_work.bbclass                       |  8 ++++
- .../base-passwd/base-passwd-3.5.26/input.patch     | 22 ++++++++++
- .../recipes-core/base-passwd/base-passwd_3.5.26.bb |  5 ++-
- .../udev/udev-extraconf/localextra.rules           |  2 +
- meta/recipes-core/udev/udev-extraconf_1.0.bb       |  2 +-
- ...native_0.8.7.bb => icon-naming-utils_0.8.90.bb} | 15 ++++---
- meta/recipes-devtools/rpm/rpm-postinsts.bb         | 50 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             | 30 +------------
- .../x11-common/xserver-nodm-init.bb                |  4 +-
- .../x11-common/xserver-nodm-init/xserver-nodm      |  1 -
- .../gst-ffmpeg-0.10.13/configure-fix.patch         |  2 +-
- 12 files changed, 123 insertions(+), 47 deletions(-)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.26/input.patch
- rename meta/recipes-devtools/icon-naming-utils/{icon-naming-utils-native_0.8.7.bb => icon-naming-utils_0.8.90.bb} (58%)
- create mode 100644 meta/recipes-devtools/rpm/rpm-postinsts.bb
-
--- 
-1.8.0.2
-
+--
+Regards
+Samuel
 
 
