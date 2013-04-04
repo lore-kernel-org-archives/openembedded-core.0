@@ -1,38 +1,32 @@
-Received: from mail-pd0-f174.google.com ([209.85.192.174])
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UNlts-0006qL-SL
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 17:16:29 +0200
-Received: by mail-pd0-f174.google.com with SMTP id p12so1469113pdj.33
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 07:59:15 -0700 (PDT)
+	(envelope-from <ndec13@gmail.com>)
+	id 1UNlw1-00074u-CR; Thu, 04 Apr 2013 17:18:41 +0200
+Received: by mail-ob0-f174.google.com with SMTP id wm15so40925obc.19
+	for <multiple recipients>; Thu, 04 Apr 2013 08:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=UthTU8ZA/jjczs2Z7LmKjmq+aXV25tuD9LSx1FK8w3I=;
-	b=aGtsQMEq3KrQhLUZiQxM+LWKodTHfIkwf0Zl7fIwL8pEBR1X4BDMkP/Oe6gLm1GiCT
-	WTyUVblAf8trRtgx5t8spSkUX/dGybLPXA0chHtmcaPIOTwfv/TQXdslrEEJ6B2tXVo5
-	9iZ86bP4+n4vLM8v+5ltozGt6v4wqBomgzo11fNPZiLThqb9jcAI367mtQfZOCygt5Cf
-	sj0lSjBC6JGfd9do85PX9G+f+e793QrCqU3tb1I1QMnJO1hDiLQ3fcZ6WYDyWqm+lI3h
-	Svj2aej7xpqSgz+HUOaymh/pXKG/6QZOAzZ3AB6mdYssPaERovUTq/OWhfsT2llt2Uoy
-	oppw==
-X-Received: by 10.68.143.167 with SMTP id sf7mr9256500pbb.21.1365087555398;
-	Thu, 04 Apr 2013 07:59:15 -0700 (PDT)
-Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id z1sm10512550pbw.19.2013.04.04.07.59.13
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 07:59:14 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
-Date: Thu, 4 Apr 2013 07:59:12 -0700
-Message-Id: <E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
-References: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
-To: Mihai Prica <mihai.prica@intel.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=CyRfn7mKRsiQV9HksXWNWFf+bRRR6JiBVu0588bnMuQ=;
+	b=UlqhbqQthXd/z8huXU3Cm6AOXWO+xBDsN6MGjUeJmfwb+m8Tg5yBl26oQCDnsfR/E4
+	T60Rv+ZrawdSpdCzNdxV8HRIr61GozZfGiyVcUJYPh3nCaSETneGLcy9DWuADSNdwKiH
+	9O2kgB0KUkWxsAQQRyjzeNi4QKFNz8Q7J40Y5qqMPvN9ndpamWlcpQcY23y4kS9PT5I8
+	ObvR642E56RS1yitwYI+PBXT5DT0sk16hDBGByw/gJO51OngWpQejHhncvdYSSgGQT34
+	TvhmXtkccavT61sJFvxijh1gHpnxHLP5hYbasGAxFCHzZFBhO8GioOjRGXiaMxp8wyiM
+	vrzQ==
+X-Received: by 10.60.142.164 with SMTP id rx4mr4621122oeb.83.1365087687854;
+	Thu, 04 Apr 2013 08:01:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.76.34.39 with HTTP; Thu, 4 Apr 2013 08:01:07 -0700 (PDT)
+In-Reply-To: <3982011.Guen6pOcoq@helios>
+References: <3982011.Guen6pOcoq@helios>
+From: Nicolas Dechesne <ndec13@gmail.com>
+Date: Thu, 4 Apr 2013 17:01:07 +0200
+Message-ID: <CAOT3miKi62MtFGjiNYeykNKAsFQ+srtwqSbsSyge3ZzGHD4DOw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: yocto <yocto@yoctoproject.org>, openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: New OE layer index now available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,62 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 15:16:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Apr 2013 15:18:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+hi,
 
-On Apr 4, 2013, at 5:09 AM, Mihai Prica <mihai.prica@intel.com> wrote:
+this is a really useful addition! thanks!
 
-> Enables qemu to run images with video output without the need for =
-vncviewer.
->=20
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> ---
-> meta/recipes-devtools/qemu/qemu.inc |    4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc =
-b/meta/recipes-devtools/qemu/qemu.inc
-> index 1b5b569..06fa88b 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -1,7 +1,7 @@
-> DESCRIPTION =3D "open source processor emulator"
-> HOMEPAGE =3D "http://qemu.org"
-> LICENSE =3D "GPLv2 & LGPLv2.1"
-> -DEPENDS =3D "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc"
-> +DEPENDS =3D "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
-> DEPENDS_class-native =3D "zlib-native alsa-lib-native glib-2.0-native =
-pixman-native dtc-native"
-> DEPENDS_class-nativesdk =3D "nativesdk-zlib nativesdk-libsdl =
-nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
-> RDEPENDS_${PN}_class-nativesdk =3D "nativesdk-libsdl"
-> @@ -13,7 +13,7 @@ BBCLASSEXTEND =3D "native nativesdk"
-> # QEMU_TARGETS is overridable variable
-> QEMU_TARGETS ?=3D "arm i386 mips mipsel mips64 mips64el ppc sh4 =
-x86_64"
->=20
-> -SDL ?=3D "--disable-sdl"
-> +SDL ?=3D ""
+On Fri, Mar 29, 2013 at 10:34 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> The index also supports multiple branches, but for the moment there is only a
+> master branch configured as I'd like to have people check the layer data before
+> adding the additional stable branches (danny and denzil).
+>
 
-I think this is not acceptable change. Since many systems are headless =
-and its useless for them
-secondly, converting this to PACKAGECONFIG and keeping the behavior as =
-it was would be fine.
+i was thinking it might be useful (in fact at least it would be very
+useful for me right now) to get version 'history' for each supported
+branch. if i understand the design correctly, i first need to set the
+branch I want to search, then search. but what about an 'all branch
+search' that displays recipes version *and* layer for multiple
+branches, so that we can easily see version change and recipe move
+in-between layers between all branches.
 
+does that make any sense to anyone?
 
-> SDL_class-native ?=3D ""
-> SDL_class-nativesdk ?=3D ""
->=20
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+nicolas
 
 
