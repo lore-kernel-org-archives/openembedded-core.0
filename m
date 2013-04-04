@@ -1,27 +1,28 @@
-Received: from mail-ve0-f178.google.com ([209.85.128.178])
+Received: from mail-ve0-f170.google.com ([209.85.128.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UNmBW-0008Gv-Uh
+	(envelope-from <ross.burton@intel.com>) id 1UNmEw-0000DY-Qv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 17:34:45 +0200
-Received: by mail-ve0-f178.google.com with SMTP id db10so2747139veb.9
+	Thu, 04 Apr 2013 17:38:15 +0200
+Received: by mail-ve0-f170.google.com with SMTP id 15so2760925vea.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 08:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type;
-	bh=CSh3xqiXzX9ePmShfwZSTzZshgarid5oVSc2BTrvUBQ=;
-	b=fm2tzEQgwojGoQ79RBmByOJfnCPMoOtUcMemeK9TTt20foBPKs2OK8oqD3EkmBILsT
-	eve1p77+asoBUhghKFiAOFvUdOsEG4E04bIhlC3ex8Dt0g9OfX75Kegb+30C0mFuvfiQ
-	lcs3LUT/vXGWgxezKCueErwYVpTOSUuc9bDAf8fE7vr8PnPgfKmp4U16Z5N+5hX2ujBx
-	isHrBoyidpyeJc/hsby3+OygxucnAwB5A+RKJdOVVr0XrPvjjHcm2qeJr+Btc46qWIGV
-	PY7V/n8X2TUs3BTKQ0gD3aHx91JETh5PkCKLfow4A/ND34j3AuZCv5db9R8QfL81XM1I
-	TiMg==
+	Thu, 04 Apr 2013 08:21:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=yQgivLlqCfOKrnkpVCckfp0BY9Bk0heut6O/CpEjBNg=;
+	b=anYR02nKXea7Eh6gvEWN9jH0dr25QdsL4FUsJfpgCjTfxR/5AlCcxEquQH1oyNqaV0
+	w5kZaEoO3wFRKTBmyre4/LS9PuYJ7GrUUjLqUEDGj4URewOX835LDOdnvw38/8fAqs7+
+	s/OV6FJJefGqGKm6pAL/zo967mIm9IN1xIvNoQUf0SfiMqXxTZTy01+AEvUiFg4vhXYq
+	uBQtxIdemqPH7LpDquPTYIQHZfkXEoT5zN0jjGcE4c9hSDEXGKhHr+TAQAT3KrdYUX3F
+	RpNHLVWhwr9TeMu6N4q/kvryBO6PrqabDjPEnOxrgle0uxeHrAJ3NQkLSbAcZZY4EVyL
+	Sr3A==
+X-Received: by 10.52.97.131 with SMTP id ea3mr558833vdb.71.1365088861713; Thu,
+	04 Apr 2013 08:21:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.52.109.5 with SMTP id ho5mr4301276vdb.75.1365088649747; Thu,
-	04 Apr 2013 08:17:29 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Thu, 4 Apr 2013 08:17:29 -0700 (PDT)
-In-Reply-To: <CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
+Received: by 10.58.134.74 with HTTP; Thu, 4 Apr 2013 08:20:40 -0700 (PDT)
+In-Reply-To: <CALbNGRRguSWz2J5BLu58YfSMKX+N+Biw2qR4t3+4pyxQ7k7GPg@mail.gmail.com>
 References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
 	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
 	<515ADEA3.5030800@intel.com>
@@ -31,10 +32,13 @@ References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
 	<CAJTo0La=bsNXhSA8_86n7gjL9FqFRa0wKT0OUv-siTTa2MVXbg@mail.gmail.com>
 	<AEA1C7AC-2089-4F6C-A23A-1D04827A55F3@dominion.thruhere.net>
 	<CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
-Date: Thu, 4 Apr 2013 17:17:29 +0200
-Message-ID: <CALbNGRRguSWz2J5BLu58YfSMKX+N+Biw2qR4t3+4pyxQ7k7GPg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
+	<CALbNGRRguSWz2J5BLu58YfSMKX+N+Biw2qR4t3+4pyxQ7k7GPg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Apr 2013 16:20:40 +0100
+Message-ID: <CAJTo0LZ7-Hh+qAra=_sfsEyRfOHiog3TXnigirYgc0ryg5PVvA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+X-Gm-Message-State: ALoCoQl7W+58smr2FFFy+llLsGpwBwqfa5ujmxR0UGbxfmrScEUwjBZU76jowXxGsBdAvk8F3GcX
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,17 +52,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 15:34:45 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 15:38:21 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 4, 2013 at 4:30 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> In my world order, console-image uses the
-> default.target->multi-user.target as defined by systemd.  The gdm
-> package as it's a graphical session manager (like xserver-nodm-init)
-> should switch the alternative graphical.target, with a higher
-> priority.
-and lightdm-kde / lxdm / opie-login...
+On 4 April 2013 16:17, Andreas M=C3=BCller <schnitzeltony@googlemail.com> w=
+rote:
+> On Thu, Apr 4, 2013 at 4:30 PM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>> In my world order, console-image uses the
+>> default.target->multi-user.target as defined by systemd.  The gdm
+>> package as it's a graphical session manager (like xserver-nodm-init)
+>> should switch the alternative graphical.target, with a higher
+>> priority.
+> and lightdm-kde / lxdm / opie-login...
 
-Andreas
+Sure.  So do we want warnings in the log for non-graphical targets, or
+have to change the session manager recipes for graphical targets?
+This entire discussion was started because there were complaints that
+minimal images were producing warnings.
+
+Ross
 
 
