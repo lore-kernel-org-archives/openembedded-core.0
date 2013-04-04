@@ -1,33 +1,36 @@
-Received: from mail-pa0-f50.google.com ([209.85.220.50])
+Received: from mail-la0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1UNpNH-0007rD-I8
+	(envelope-from <kergoth@gmail.com>) id 1UNpOc-0008Nf-2v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 20:59:06 +0200
-Received: by mail-pa0-f50.google.com with SMTP id bg2so1604628pad.23
+	Thu, 04 Apr 2013 21:00:27 +0200
+Received: by mail-la0-f45.google.com with SMTP id er20so2803561lab.18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 11:41:49 -0700 (PDT)
+	Thu, 04 Apr 2013 11:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=AjmLSMfSbJsNUUKuW0AnMZy1UT0h8Pm8yCqfEdtKXoY=;
-	b=DdJqSlttIKRQ48vvcX00I7qteYhW7UR6ZDRBcSS+C95HBgQL8ziJCSjV0QfdS2UwCy
-	U/+OClpcaNiQ71FwWtA3OIuJP2VF/HI0YKH8LuCF8Nb8FztB/WZQOifFQiC2XPP/WbYT
-	dF7NtdJYaOgIlrcUvuh6d/EfdBO76uhiORkBfsLXPyN3AQbk1T8BplvKm0ITYzltZ8rZ
-	zOYb4P5Mm4SOJXmvT7p89hm6hQ1EjWqcqW2LHagNP7cQ4QaEGGUNmvgFrzT78IMm5Npm
-	OkieA+O7Y9eHW1y/VZVrxxNGb0ltMNSRveav/24xlmWQq6WdPREQjJSDt0KUNnVwLKbf
-	Ej9w==
-X-Received: by 10.66.250.230 with SMTP id zf6mr11155116pac.153.1365100909812; 
-	Thu, 04 Apr 2013 11:41:49 -0700 (PDT)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id kb3sm11132683pbc.21.2013.04.04.11.41.46
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 11:41:48 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 11:41:37 -0700
-Message-Id: <1365100897-14142-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.2
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=MjbVfZttMxkZ4et0UT86aeOGTsljoQ1mpvwZYFX+CjY=;
+	b=jf5dx3MFFL2oTz92wlthrEdhECHjjwO/90+7LEImwKT7Wj1LEI58Pa240AyiSJoW1Y
+	kXZqBeZdIz+14pzNYmryyj4J+K8vnmUWubhct8z0xhfvKziZ1P2Q50dFsBhahgU3RXN8
+	NhsPq9DNig9VHsi2rodaKP1napM4yYJ9FvX5hI6seh2lVTSviqFPgPVRHzhfsZr7IBCr
+	w2vn4wsXplTGCRgB/61EkbNCGwZFbrkMHFAY0LMawcwjTcmOm+FJHpChSASRjzr4+5Sw
+	vvpYp6Xo8Hb7dl6C/7MMaZAdU5vtzK6NaGZs+Crc6VqQamUB6UXZiA6ILZjtmyEFXHvp
+	oVfA==
+X-Received: by 10.112.8.164 with SMTP id s4mr4060995lba.106.1365100992923;
+	Thu, 04 Apr 2013 11:43:12 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.125.38 with HTTP; Thu, 4 Apr 2013 11:42:52 -0700 (PDT)
+In-Reply-To: <1365100897-14142-1-git-send-email-kergoth@gmail.com>
+References: <1365100897-14142-1-git-send-email-kergoth@gmail.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Thu, 4 Apr 2013 11:42:52 -0700
+X-Google-Sender-Auth: YQVTwQLSFLFYrvDpNR69YVnfoqw
+Message-ID: <CABcZAN=b_72vtPwg3ohg+VZ16bcHyJuUqde-LdwA+Teaj0t+cQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] oe.terminal: add tmux classes
+Subject: Re: [PATCH] oe.terminal: add tmux classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,74 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 18:59:09 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 19:00:28 -0000
+Content-Type: multipart/alternative; boundary=e0cb4efe293cc4133904d98d57cc
 
-From: Christopher Larson <chris_larson@mentor.com>
+--e0cb4efe293cc4133904d98d57cc
+Content-Type: text/plain; charset=UTF-8
 
-This adds two new Terminal classes. It's separated into two, so that opening
-a split inside a tmux window is preferred to the other terminal types, but
-opening a tmux session is prioritized only slightly higher than screen.
+On Thu, Apr 4, 2013 at 11:41 AM, Christopher Larson <kergoth@gmail.com>wrote:
 
-- tmuxrunning: Open a new pane in the current running tmux window. Requires
-  that the TMUX variable be added to the env whitelist to use it.
-- tmux: Open a new tmux session
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> This adds two new Terminal classes. It's separated into two, so that
+> opening
+> a split inside a tmux window is preferred to the other terminal types, but
+> opening a tmux session is prioritized only slightly higher than screen.
+>
+> - tmuxrunning: Open a new pane in the current running tmux window. Requires
+>   that the TMUX variable be added to the env whitelist to use it.
+> - tmux: Open a new tmux session
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/lib/oe/terminal.py | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Bah, ignore this, accidentally sent an old version. Resending.
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 4c1e318..b271de6 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -105,6 +105,44 @@ class Screen(Terminal):
-         else:
-             logger.warn(msg)
- 
-+class TmuxRunning(Terminal):
-+    """Open a new pane in the current running tmux window"""
-+    priority = 2.75
-+    name = 'tmux-running'
-+    command = 'tmux split-window {command}'
-+
-+    def __init__(self, sh_cmd, title=None, env=None, d=None):
-+        if not bb.utils.which(os.getenv('PATH'), 'tmux'):
-+            raise UnsupportedTerminal('tmux is not installed')
-+
-+        if not os.getenv('TMUX'):
-+            raise UnsupportedTerminal('tmux is not running')
-+
-+        Terminal.__init__(self, sh_cmd, title, env, d)
-+
-+class TmuxNewSession(Terminal):
-+    """Start a new tmux session and window"""
-+    priority = 0.5
-+    name = 'tmux'
-+
-+    def __init__(self, sh_cmd, title=None, env=None, d=None):
-+        if not bb.utils.which(os.getenv('PATH'), 'tmux'):
-+            raise UnsupportedTerminal('tmux is not installed')
-+
-+        # TODO: consider using a 'devshell' session shared amongst all
-+        # devshells, if it's already there, add a new window to it.
-+        window_name = 'devshell-%i' % os.getpid()
-+
-+        self.command = 'tmux new -d -s {0} -n {0} {{command}}'.format(window_name)
-+        Terminal.__init__(self, sh_cmd, title, env, d)
-+
-+        attach_cmd = 'tmux att -t {0}'.format(window_name)
-+        msg = 'Tmux started. Please connect in another terminal with `tmux att -t {0}`'.format(window_name)
-+        if d:
-+            bb.event.fire(bb.event.LogExecTTY(msg, attach_cmd, 0.5, 10), d)
-+        else:
-+            logger.warn(msg)
-+
- class Custom(Terminal):
-     command = 'false' # This is a placeholder
-     priority = 3
--- 
-1.8.2
+--e0cb4efe293cc4133904d98d57cc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+hu, Apr 4, 2013 at 11:41 AM, Christopher Larson <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;=
+</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1hd">From: Christopher Larson &l=
+t;<a href=3D"mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt=
+;<br>
 
 
+<br>
+This adds two new Terminal classes. It&#39;s separated into two, so that op=
+ening<br>
+a split inside a tmux window is preferred to the other terminal types, but<=
+br>
+opening a tmux session is prioritized only slightly higher than screen.<br>
+<br>
+- tmuxrunning: Open a new pane in the current running tmux window. Requires=
+<br>
+=C2=A0 that the TMUX variable be added to the env whitelist to use it.<br>
+- tmux: Open a new tmux session<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>Bah, igno=
+re this, accidentally sent an old version. Resending.</div></div>
 
+--e0cb4efe293cc4133904d98d57cc--
