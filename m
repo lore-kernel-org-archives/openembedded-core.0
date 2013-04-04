@@ -1,20 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UNhwD-0004N0-76
+	(envelope-from <mihai.prica@intel.com>) id 1UNjEC-0002VS-Eb
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 13:02:39 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2013 03:43:41 -0700
+	Thu, 04 Apr 2013 14:25:16 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 04 Apr 2013 05:08:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,408,1363158000"; d="scan'208";a="312252753"
-Received: from adinu-vostro-460.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 04 Apr 2013 03:45:21 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,408,1363158000"; d="scan'208";a="222773740"
+Received: from mihai-vostro-460.rb.intel.com ([10.237.105.142])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Apr 2013 05:08:01 -0700
+From: Mihai Prica <mihai.prica@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 13:46:09 +0300
-Message-Id: <1365072369-20998-1-git-send-email-andrei.adrianx.dinu@intel.com>
+Date: Thu,  4 Apr 2013 15:09:15 +0300
+Message-Id: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V4] Add file information to package information window
+Subject: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,91 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 11:02:41 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 12:25:16 -0000
 
-Removed the package files parsing routine from the
-packageinfo.bbclass file and added it to the
-package.bbclass file.
+Enables qemu to run images with video output without the need for vncviewer.
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Signed-off-by: Mihai Prica <mihai.prica@intel.com>
 ---
- meta/classes/package.bbclass     |   10 ++++++++++
- meta/classes/packageinfo.bbclass |   20 --------------------
- 2 files changed, 10 insertions(+), 20 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 3479947..826a54e 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1130,6 +1130,13 @@ python emit_pkgdata() {
-     workdir = d.getVar('WORKDIR', True)
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1b5b569..06fa88b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+-DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc"
++DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
+ DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+ DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+ RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+@@ -13,7 +13,7 @@ BBCLASSEXTEND = "native nativesdk"
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
  
-     for pkg in packages.split():
-+        items = {}
-+        for files_list in pkgfiles[pkg]:
-+             item_name = os.path.basename(files_list)
-+             item_path = os.path.dirname(files_list)
-+             if item_path not in items:
-+                 items[item_path] = []
-+             items[item_path].append(item_name)
-         subdata_file = pkgdatadir + "/runtime/%s" % pkg
+-SDL ?= "--disable-sdl"
++SDL ?= ""
+ SDL_class-native ?= ""
+ SDL_class-nativesdk ?= ""
  
-         pkgval = d.getVar('PKG_%s' % pkg, True)
-@@ -1137,6 +1144,8 @@ python emit_pkgdata() {
-             pkgval = pkg
-             d.setVar('PKG_%s' % pkg, pkg)
- 
-+        d.setVar('FILES_INFO', str(items))
-+
-         sf = open(subdata_file, 'w')
-         write_if_exists(sf, pkg, 'PN')
-         write_if_exists(sf, pkg, 'PV')
-@@ -1161,6 +1170,7 @@ python emit_pkgdata() {
-         write_if_exists(sf, pkg, 'pkg_preinst')
-         write_if_exists(sf, pkg, 'pkg_prerm')
-         write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
-+        write_if_exists(sf, pkg, 'FILES_INFO')
-         for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg, True) or "").split():
-             write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
- 
-diff --git a/meta/classes/packageinfo.bbclass b/meta/classes/packageinfo.bbclass
-index 5e6f590..4709bea 100644
---- a/meta/classes/packageinfo.bbclass
-+++ b/meta/classes/packageinfo.bbclass
-@@ -8,24 +8,6 @@ python packageinfo_handler () {
-         package_archs = e.data.getVar('PACKAGE_ARCHS', True)
-         packaging = e.data.getVar('PACKAGE_CLASSES', True).split()[0].split('_')[1]
-         deploy_dir = e.data.getVar('DEPLOY_DIR', True) + '/' + packaging
--        dirs = os.listdir(tmpdir + '/work/')
--        pkgsplit_dir = tmpdir + '/work/'
--        items = {}
--        passing = ''
--        for directories in dirs:
--                temp_dirs = os.listdir(pkgsplit_dir + directories)
--                for temps1 in temp_dirs:
--                        if os.path.exists(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'):
--                                subs = pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split'
--                                for temps in os.listdir(subs):
--                                        items[temps] = {}
--                                        for path, dirs, files in os.walk(pkgsplit_dir + directories + '/' + temps1 + '/' + os.listdir(pkgsplit_dir + directories + '/' + temps1)[0] + '/packages-split' + '/' + temps):                                                   
--                                                        file_list = []
--                                                        if os.listdir(path) != []:
--                                                                items[temps][path] = []                                                   
--                                                                for f in files:
--                                                                        file_list.append(f)
--                                                                items[temps][path].append(file_list)
-                                            
-         for arch in package_archs.split():
-             pkgdata_dir = tmpdir + '/pkgdata/' + arch + target_vendor + '-' + target_os + '/runtime/'
-@@ -38,8 +20,6 @@ python packageinfo_handler () {
-                             try:
-                                 sdata = oe.packagedata.read_pkgdatafile(pkgdatafile)
-                                 sdata['PKG'] = pkgname
--                                if pkgname in items:
--                                        sdata['FILES_INFO'] = items[pkgname]        
-                                 pkginfolist.append(sdata)
-                             except Exception as e:
-                                 bb.warn("Failed to read pkgdata file %s: %s: %s" % (pkgdatafile, e.__class__, str(e)))
 -- 
 1.7.9.5
 
