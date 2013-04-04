@@ -1,29 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ve0-f172.google.com ([209.85.128.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Konrad.Scherer@windriver.com>) id 1UNpr9-0002I9-A5
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UNsvj-0006Pg-4W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 21:30:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r34F77ri014434
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 05 Apr 2013 00:47:33 +0200
+Received: by mail-ve0-f172.google.com with SMTP id oz10so3097728veb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Apr 2013 08:07:07 -0700 (PDT)
-Received: from [128.224.146.207] (128.224.146.207) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 4 Apr 2013 08:07:08 -0700
-Message-ID: <515D971B.1050607@windriver.com>
-Date: Thu, 4 Apr 2013 11:07:07 -0400
-From: Konrad Scherer <konrad.scherer@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Thu, 04 Apr 2013 15:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type:content-transfer-encoding;
+	bh=oWkrT2lcy1JRDRR+DfiLqobhtwSEomhh8brfmo+loHQ=;
+	b=1G0vnlubBId6Q2QfTtAon4wPTb2dUkblrxdHjF3BV7GIGBmK0ICBlRx8nBauAYusJE
+	tNJjQzV9MxH/t9oKzgJO1NqLPW5FllaW8g2zkcy4bYrkOIat5cOB6kg50klEAZTvr1oT
+	V2cvkqTGjg8Pw4enw6NWcPoEPv4O1hSY7LQqt3N6to83Zr3NWdsm/EgghWUXRCUf00ha
+	hJeeGWXl61jwf6CA9xA9dieIjaL5BXXFMJKV9+Cr8Qy5B8r9OOm/todwuNzllicPJbu4
+	6ZPsv5n4iFfZ6z2k2QKNpZprvywXiLDsbIqb03dbCkNOpeNmbu/ABZNkQntY3tx4G8uQ
+	nCQA==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1365011250-24355-1-git-send-email-mark.hatle@windriver.com>
-	<CAJTo0LZ5a4oa7k-Mz7VbgAHaP8wvacV8vNBX_vDByvDUfeCVWw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ5a4oa7k-Mz7VbgAHaP8wvacV8vNBX_vDByvDUfeCVWw@mail.gmail.com>
-X-Originating-IP: [128.224.146.207]
-Subject: Re: [PATCH] Enable additional kernel parameters for syslinux
+X-Received: by 10.58.232.98 with SMTP id tn2mr28111vec.57.1365114577439; Thu,
+	04 Apr 2013 15:29:37 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Thu, 4 Apr 2013 15:29:37 -0700 (PDT)
+In-Reply-To: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+Date: Fri, 5 Apr 2013 00:29:37 +0200
+Message-ID: <CALbNGRS4MTJny0yqf-oYx1S12O-ZETo4g9x+7BuRVh8pbuBW0g@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: experiences with images based on current layer heads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 19:30:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Apr 2013 22:47:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 04/03/2013 01:48 PM, Burton, Ross wrote:
-> On 3 April 2013 18:47, Mark Hatle <mark.hatle@windriver.com> wrote:
->> Add additional parameter 'SYSLINUX_KERNEL_ARGS' in order to allow
->> for specific kernel parameters to be set when using syslinux.
+On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> Hi,
 >
-> Why would you use this and not APPEND? (or am I totally
-> misunderstanding something?)
+> when migration of systemd to oe-core turned to unbuildable I decided
+> to freeze my images and stopped further tests. Now that many issues
+> were fixed and we are close to another release I built my standard
+> xfce-based image based on latest layer HEADs. With this I face some
+> issues which I would like to share:
+>
+> 1. X sessions crash with OOM. This is reproducible by opening
+> google-maps with midori and changing to satellite view. In
+> Xorg.0.log.old I see only
+>
+> | (EE)
+> | (EE) Backtrace:
+> | (EE)
+> | (EE) Segmentation fault at address 0x9
+> | (EE) BUG: triggered 'if (inSignalContext)'
+> | (EE) BUG: log.c:502 in LogVMessageVerb()
+> | (EE) Warning: attempting to log data in a signal unsafe manner while
+> in signal context.
+> | Please update to check inSignalContext and/or use
+> LogMessageVerbSigSafe() or ErrorFSigSafe().
+> | The offending log format message is:
+> |
+> | Fatal server error:
+> |
+> | (EE)
+> | (EE) Backtrace:
+> | (EE)
+>
+seems we are not alone [1]
 
-A few more lines of context would have helped. Here is the code just after the 
-patch.
+[1] http://www.raspberrypi.org/phpBB3/viewtopic.php?t=3D38568&p=3D321298
 
-             if append:
-                 cfgfile.write('APPEND ')
-
-                 if initrd:
-                     cfgfile.write('initrd=/initrd ')
-
-                 cfgfile.write('LABEL=%s '% (label))
-
-                 cfgfile.write('%s %s\n' % (append, btype[1]))
-             else:
-                 cfgfile.write('APPEND %s\n' % btype[1])
-
-The extra kernel parameters are added to btype[1] and then written out as part 
-of the APPEND field.
-
-Does that make sense?
-
--- 
-Konrad Scherer, Sr. Engineer, Linux Products Group, Wind River
-direct 613-963-1342   fax 613-592-2283
+Andreas
 
 
