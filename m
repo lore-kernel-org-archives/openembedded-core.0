@@ -1,39 +1,35 @@
-Received: from mail-da0-f42.google.com ([209.85.210.42])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UNmlM-0003Ai-Ip
+	(envelope-from <mihai.prica@intel.com>) id 1UNmnW-0003LO-Uq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 18:11:46 +0200
-Received: by mail-da0-f42.google.com with SMTP id n15so1178554dad.29
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 08:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Jqjdok4PpIh42fBm0jGQ7e3XTg0VJRHdwTZfmsHLst4=;
-	b=BeyXqYvk+ptoRG6YF9Y8GAM4GuDQ7cV+ln/zKSM30iPDzWKFnKJmNSy+4u63ISGGMf
-	QUyFTOeuU7TeeY8AevmdivKF0XksOcvO0NOBfBO7d8QrU/7f10OYPzt4ScYw8aNmDFEC
-	Cf315qk7qANJb7I7Ey+8IPC3OfkM5vGmmILXRnkh1AU4WhwAT4D7amKEEc12BCyqikJV
-	Yanw3w/m2XTm6GoDNgia36V7xpg9a4HSiVjSLtT2n8jrz7h0oeGNkkUS0HsPLsvpS0KT
-	renfidJujAhonGzl23d1mpRsRNj/ER7NtHxcwt31CKZJHCz+lW2+gRU0ddIuOMscIijN
-	aZCA==
-X-Received: by 10.66.149.73 with SMTP id ty9mr10403528pab.66.1365090870666;
-	Thu, 04 Apr 2013 08:54:30 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id to7sm12005285pab.0.2013.04.04.08.54.27
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 08:54:29 -0700 (PDT)
-Date: Thu, 4 Apr 2013 17:54:30 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130404155430.GE1271@jama.dyndns-home.com>
-References: <1365006940-3863-1-git-send-email-Martin.Jansa@gmail.com>
-	<1365078717.6526.101.camel@ted>
+	Thu, 04 Apr 2013 18:13:59 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Apr 2013 08:56:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,410,1363158000"; d="scan'208";a="316941777"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2013 08:56:44 -0700
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.73]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.198]) with mapi id
+	14.01.0355.002; Thu, 4 Apr 2013 16:56:42 +0100
+From: "Prica, Mihai" <mihai.prica@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH V3] qemu: Enabled SDL when compiling for
+	target architecture
+Thread-Index: AQHOMS0cfZKP7fIzMEC8ciflCsoAG5jGFtEAgAAcB7A=
+Date: Thu, 4 Apr 2013 15:56:43 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
+References: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
+	<E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
+In-Reply-To: <E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-In-Reply-To: <1365078717.6526.101.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCH] rm_work: keep do_fetch, do_write_srcrev stamps
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,100 +42,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 16:11:46 -0000
-X-Groupsio-MsgNum: 37432
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="GxcwvYAGnODwn7V8"
-Content-Disposition: inline
-
---GxcwvYAGnODwn7V8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Apr 2013 16:14:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 04, 2013 at 01:31:57PM +0100, Richard Purdie wrote:
-> On Wed, 2013-04-03 at 18:35 +0200, Martin Jansa wrote:
-> > * otherwise do_fetch/do_write_srcrev/do_rmwork is reexecuted for each r=
-ecipe included in image
-> >   on every build
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> -----Original Message-----
+> From: Khem Raj [mailto:raj.khem@gmail.com]
+> Sent: Thursday, April 04, 2013 5:59 PM
+> To: Prica, Mihai
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH V3] qemu: Enabled SDL when compiling for ta=
+rget
+> architecture
+>=20
+>=20
+> On Apr 4, 2013, at 5:09 AM, Mihai Prica <mihai.prica@intel.com> wrote:
+>=20
+> > Enables qemu to run images with video output without the need for vncvi=
+ewer.
+> >
+> > Signed-off-by: Mihai Prica <mihai.prica@intel.com>
 > > ---
-> >  meta/classes/rm_work.bbclass | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-> > index 1642af7..2d0eb1b 100644
-> > --- a/meta/classes/rm_work.bbclass
-> > +++ b/meta/classes/rm_work.bbclass
-> > @@ -60,6 +60,14 @@ do_rm_work () {
-> >                  i=3Ddummy
-> >                  break
-> >                  ;;
-> > +            *do_fetch*)
-> > +                i=3Ddummy
-> > +                break
-> > +                ;;
-> > +            *do_write_srcrev*)
-> > +                i=3Ddummy
-> > +                break
-> > +                ;;
-> >              *do_build*)
-> >                  i=3Ddummy
-> >                  break
+> > meta/recipes-devtools/qemu/qemu.inc |    4 ++--
+> > 1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/qemu/qemu.inc
+> > b/meta/recipes-devtools/qemu/qemu.inc
+> > index 1b5b569..06fa88b 100644
+> > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > @@ -1,7 +1,7 @@
+> > DESCRIPTION =3D "open source processor emulator"
+> > HOMEPAGE =3D "http://qemu.org"
+> > LICENSE =3D "GPLv2 & LGPLv2.1"
+> > -DEPENDS =3D "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc"
+> > +DEPENDS =3D "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
+> > DEPENDS_class-native =3D "zlib-native alsa-lib-native glib-2.0-native p=
+ixman-
+> native dtc-native"
+> > DEPENDS_class-nativesdk =3D "nativesdk-zlib nativesdk-libsdl nativesdk-=
+glib-2.0
+> nativesdk-pixman nativesdk-dtc"
+> > RDEPENDS_${PN}_class-nativesdk =3D "nativesdk-libsdl"
+> > @@ -13,7 +13,7 @@ BBCLASSEXTEND =3D "native nativesdk"
+> > # QEMU_TARGETS is overridable variable QEMU_TARGETS ?=3D "arm i386 mips
+> > mipsel mips64 mips64el ppc sh4 x86_64"
+> >
+> > -SDL ?=3D "--disable-sdl"
+> > +SDL ?=3D ""
 >=20
-> We cannot do this, it is not in keeping with the rest of the system and
-> will break things and set a dangerous precedent.
+> I think this is not acceptable change. Since many systems are headless an=
+d its
+> useless for them secondly, converting this to PACKAGECONFIG and keeping t=
+he
+> behavior as it was would be fine.
+
+I sent a patch to meta-virtualization that just enabled SDL using a bbappen=
+d and the
+maintainers said I should to integrate this into poky. I talked with Richar=
+d and he=20
+said I should use a PACKAGECONFIG and enable sdl by default for the target.=
+ For=20
+headless images the user can disable it. I sent a V2 with this solution. Sa=
+ul replied=20
+and told me there are some problems with this approach and I should stick w=
+ith the
+SDL variable.
+
 >=20
-> If something subsequently tries to do some operation assuming do_fetch
-> already ran, it would run again assuming the do_fetch data is there and
-> it may not be. Right now the way things are setup with do_fetch will
-> happen to work out ok in most cases with the above but its the wrong
-> message to send out. For the do_write_srcrev case, it also means that in
-> some cases the revision will be written out, in other cases it will not
-> be and I don't think the inconsistency between the two is correct.
-
-OK, I haven't seen any issues with current state (only do_unpack was
-touching WORKDIR afaik, so do_fetch stamp wasn't "invalidated" by
-WORKDIR removal) but maybe I just haven't found the right corner case.
-
-> The other ways I can see to solve this are:
 >=20
-> a) put do_write_srcrev under sstate
-> b) change do_write_srcrev to a postfunc of do_fetch
-> c) change the "addtask write_srcrev after do_fetch before do_build" to
-> be before do_install.
->=20
-> The trouble with c) is that it will cause the sstate checksums to change
-> when enabling buildhistory (which happens anyway but is rather annoying
-> and we should be trying to fix that, not make it worse). b) is therefore
-> looking the more attractive option at this point.
+> > SDL_class-native ?=3D ""
+> > SDL_class-nativesdk ?=3D ""
+> >
+> > --
+> > 1.7.9.5
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I like b) too, because I don't care about srcrev change if foo wasn't
-fetched here (if all sstate archives for foo are reused from SSTATE_MIRROR)
 
-But maybe some people will have different use-case for write_srcrev and
-will expect to get complete set of SRCREVs from
-openembedded-core/scripts/buildhistory-collect-srcrevs
-when executed on any builder. But that's something which can be improved
-in 1.5, fixing do_fetch reexecution with rm_work or with other tasks
-covered from SSTATE_MIRROR would be nice in 1.4 (Or at least add option
-to disable do_write_srcrev task completely).
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---GxcwvYAGnODwn7V8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFdojYACgkQN1Ujt2V2gBynOACgrlFepeCn2wNy//XKgiCKHuL2
-EfMAn089dJxNcKXi7dQAp3VyEPweDMpM
-=5V0b
------END PGP SIGNATURE-----
-
---GxcwvYAGnODwn7V8--
