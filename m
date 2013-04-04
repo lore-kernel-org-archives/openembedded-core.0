@@ -1,34 +1,32 @@
-Received: from mail-pa0-f51.google.com ([209.85.220.51])
+Received: from mail-da0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UNfuq-0007ni-QT
+	(envelope-from <martin.jansa@gmail.com>) id 1UNfuq-0007nF-Qm
 	for openembedded-core@lists.openembedded.org;
 	Thu, 04 Apr 2013 10:53:09 +0200
-Received: by mail-pa0-f51.google.com with SMTP id jh10so1353211pab.24
+Received: by mail-da0-f50.google.com with SMTP id t1so1021668dae.23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 01:35:13 -0700 (PDT)
+	Thu, 04 Apr 2013 01:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=XWDxPbFpsuw83xwALsKXh6q7CPcdOiFJa4oJhMMP+4s=;
-	b=Uskh0PtkD2F/CElGkHIrp+3UQVBiAwDnPff7pe5VtK2EqrLeSsisYoc3FyaiBRcBRn
-	vispxAucVtw/KCe0c5xovJGLW+l3Pt+6xdSJdfw/Wn2ChFVyvCcmqoT3IRQvkia4qsip
-	JKyYzLUVDLYDY60h8+EtoaipyEtn7nv1Hn2r3KaSGSx+/7yPAAa3ny08i5h1AB0rASOn
-	naijk9HdCokEgVWI3Sp/raYIMapsu9ikxDz7PpgUXyFV5CRa3zyv3GUbugv6CO6UoHfd
-	h4Tea0drKQPfgjoDH2XhKRXh4yY9hrb+5jl2oI90PMcNA2Qk3jQn9+YmpR4MRBbR+U4c
-	VxBA==
-X-Received: by 10.68.196.129 with SMTP id im1mr7359971pbc.206.1365064513655;
-	Thu, 04 Apr 2013 01:35:13 -0700 (PDT)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=xDB3FjipTqDYR5gMm3/XaIuB9V4l63AsBbRTbvmqLSk=;
+	b=LNq7PXpsJFxvj5D6uHbCaZDr6ikOgRv19PPM8dNuyam3U0P4bnzasMGvtFfCuBSIBb
+	SuDsNt99OJhl7ti7RdNZm+SL/SLWqMISSCHboeQsHvtrLnrm3pOQ/xApt5uJfs0JgEk7
+	KsZTGzx5VXmFaS74PNKOi4BW3UDO2gBwXE50lneJywRik2O7gQc1Z46OZk/V+/0S+Np+
+	gELTOBtmJPSdXanYVcjzJCVjSlO0V50O5eX8LN0TsFeBhn7xFVYmqYBzlgpvx6zcZJiN
+	PvWYkzu9rV7t7sffkL49WYJ6zjS2GeEZGHhkUekbH0SiqyEVDjz0+3RHXeaRpYOgo4ua
+	Tr/Q==
+X-Received: by 10.66.220.197 with SMTP id py5mr8262186pac.86.1365064502660;
+	Thu, 04 Apr 2013 01:35:02 -0700 (PDT)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id yz4sm4352768pbc.11.2013.04.04.01.35.10
+	by mx.google.com with ESMTPS id fk10sm1169068pac.19.2013.04.04.01.34.59
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 01:35:12 -0700 (PDT)
+	Thu, 04 Apr 2013 01:35:01 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 10:35:01 +0200
-Message-Id: <1365064501-15679-2-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu,  4 Apr 2013 10:35:00 +0200
+Message-Id: <1365064501-15679-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.1.5
-In-Reply-To: <1365064501-15679-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1365064501-15679-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] gcc: add patch to disable texinfo when texinfo is 5.0 or newer
+Subject: [PATCH 1/2] qemu: Add 2 patches to fix build with texinfo-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,144 +40,308 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Apr 2013 08:53:14 -0000
-X-List-Received-Date: Thu, 04 Apr 2013 08:53:14 -0000
-
-* this is needed only for 4.7 series, newer works fine with texinfo-5*
-
-[YOCTO #3947]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc              |   1 +
- .../gcc/gcc-4.7/disable-texinfo-5.patch            | 107 +++++++++++++++++++++
- 2 files changed, 108 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
+ ...x-texinfo-table-markup-in-qemu-options.hx.patch | 213 +++++++++++++++++++++
+ ...x-generating-qemu-doc.html-with-texinfo-5.patch |  54 ++++++
+ meta/recipes-devtools/qemu/qemu.inc                |   2 +
+ 3 files changed, 269 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch
+ create mode 100644 meta/recipes-devtools/qemu/files/0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 49f4010..a05cac9 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -76,6 +76,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch \
- 	   file://use-ml-conf-files-from-B.patch \
- 	   file://wcast-qual-PR55383.patch \
-+	   file://disable-texinfo-5.patch \
- 	  "
- SRC_URI[md5sum] = "cc308a0891e778cfda7a151ab8a6e762"
- SRC_URI[sha256sum] = "8a9283d7010fb9fe5ece3ca507e0af5c19412626384f8a5e9434251ae100b084"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch b/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
+diff --git a/meta/recipes-devtools/qemu/files/0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch b/meta/recipes-devtools/qemu/files/0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch
 new file mode 100644
-index 0000000..d5c9165
+index 0000000..9435cfe
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
-@@ -0,0 +1,107 @@
-+Upstream-Status: Pending
++++ b/meta/recipes-devtools/qemu/files/0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch
+@@ -0,0 +1,213 @@
++From 9a7146ca91c04d05af36684d8b3ca79c1254abc2 Mon Sep 17 00:00:00 2001
++From: Markus Armbruster <armbru@redhat.com>
++Date: Wed, 13 Feb 2013 19:49:40 +0100
++Subject: [PATCH 1/2] doc: Fix texinfo @table markup in qemu-options.hx
 +
-+gcc-4.8 is compatible with texinfo-5, so this is only temporary fix 
-+(we don't need info files on target)
++End tables before headings, start new ones afterwards.  Fixes
++incorrect indentation of headings "File system options" and "Virtual
++File system pass-through options" in manual page and qemu-doc.
++
++Normalize markup some to increase chances it survives future edits.
++
++Upstream-Status: Backport
 +
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Signed-off-by: Markus Armbruster <armbru@redhat.com>
++Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
++Message-id: 1360781383-28635-5-git-send-email-armbru@redhat.com
++Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
++---
++ qemu-options.hx | 56 +++++++++++++++++++++++++++++++++++++-------------------
++ 1 file changed, 37 insertions(+), 19 deletions(-)
 +
-+diff -uNr gcc-4.7.2.orig/configure.ac gcc-4.7.2/configure.ac
-+--- gcc-4.7.2.orig/configure.ac	2013-04-04 09:10:24.600848496 +0200
-++++ gcc-4.7.2/configure.ac	2013-04-04 09:51:51.808031042 +0200
-+@@ -3031,7 +3031,7 @@
-+     # For an installed makeinfo, we require it to be from texinfo 4.7 or
-+     # higher, else we use the "missing" dummy.
-+     if ${MAKEINFO} --version \
-+-       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
-++       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9]))' >/dev/null 2>&1; then
-+       :
-+     else
-+       MAKEINFO="$MISSING makeinfo"
-+diff -uNr gcc-4.7.2.orig/gcc/configure.ac gcc-4.7.2/gcc/configure.ac
-+--- gcc-4.7.2.orig/gcc/configure.ac	2013-04-04 09:10:30.523848931 +0200
-++++ gcc-4.7.2/gcc/configure.ac	2013-04-04 09:52:16.111032826 +0200
-+@@ -871,7 +871,7 @@
-+ # that we can use it.
-+ ACX_CHECK_PROG_VER(MAKEINFO, makeinfo, --version,
-+   [GNU texinfo.* \([0-9][0-9.]*\)],
-+-  [4.[7-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
-++  [4.[7-9]*|4.[1-9][0-9]*])
-+ if test $gcc_cv_prog_makeinfo_modern = no; then
-+   AC_MSG_WARN([
-+ *** Makeinfo is missing or too old.
-+diff -uNr gcc-4.7.2.orig/libgomp/configure.ac gcc-4.7.2/libgomp/configure.ac
-+--- gcc-4.7.2.orig/libgomp/configure.ac	2010-12-06 01:50:04.000000000 +0100
-++++ gcc-4.7.2/libgomp/configure.ac	2013-04-04 09:51:29.571029410 +0200
-+@@ -129,7 +129,7 @@
-+ # that we can use it.
-+ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
-+                    [GNU texinfo.* \([0-9][0-9.]*\)],
-+-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
-++                   [4.[4-9]*|4.[1-9][0-9]*])
-+ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++diff --git a/qemu-options.hx b/qemu-options.hx
++index 9d7131a..54bd92a 100644
++--- a/qemu-options.hx
+++++ b/qemu-options.hx
++@@ -537,13 +537,15 @@ STEXI
++ @end table
++ ETEXI
 + 
++-DEF("usb", 0, QEMU_OPTION_usb,
++-    "-usb            enable the USB driver (will be the default soon)\n",
++-    QEMU_ARCH_ALL)
++ STEXI
++ USB options:
++ @table @option
+++ETEXI
 + 
-+diff -uNr gcc-4.7.2.orig/libiberty/configure.ac gcc-4.7.2/libiberty/configure.ac
-+--- gcc-4.7.2.orig/libiberty/configure.ac	2011-08-22 18:54:02.000000000 +0200
-++++ gcc-4.7.2/libiberty/configure.ac	2013-04-04 09:51:20.685028758 +0200
-+@@ -84,6 +84,12 @@
-+ 	    AC_MSG_WARN([
-+ *** Makeinfo is too old. Info documentation will not be built.])
-+ 	  ;;
-++	  x*\ [[5-9]].* )
-++	    MAKEINFO="@echo $MAKEINFO is too new, 5.0 or newer does not work; true"
-++	    BUILD_INFO=
-++	    AC_MSG_WARN([
-++*** Makeinfo is too new. Info documentation will not be built.])
-++	  ;;
-+ 	esac
-+ 	;;
-+     esac
-+diff -uNr gcc-4.7.2.orig/libitm/configure.ac gcc-4.7.2/libitm/configure.ac
-+--- gcc-4.7.2.orig/libitm/configure.ac	2012-02-13 22:46:38.000000000 +0100
-++++ gcc-4.7.2/libitm/configure.ac	2013-04-04 09:51:59.676031620 +0200
-+@@ -140,7 +140,7 @@
-+ # that we can use it.
-+ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
-+                    [GNU texinfo.* \([0-9][0-9.]*\)],
-+-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
-++                   [4.[4-9]*|4.[1-9][0-9]*])
-+ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
+++DEF("usb", 0, QEMU_OPTION_usb,
+++    "-usb            enable the USB driver (will be the default soon)\n",
+++    QEMU_ARCH_ALL)
+++STEXI
++ @item -usb
++ @findex -usb
++ Enable the USB driver (will be the default soon)
++@@ -610,9 +612,15 @@ possible drivers and properties, use @code{-device help} and
++ @code{-device @var{driver},help}.
++ ETEXI
 + 
+++STEXI
+++@end table
+++ETEXI
++ DEFHEADING()
 + 
-+diff -uNr gcc-4.7.2.orig/libquadmath/configure.ac gcc-4.7.2/libquadmath/configure.ac
-+--- gcc-4.7.2.orig/libquadmath/configure.ac	2012-05-31 20:57:56.000000000 +0200
-++++ gcc-4.7.2/libquadmath/configure.ac	2013-04-04 09:49:52.432022281 +0200
-+@@ -48,7 +48,7 @@
-+ # that we can use it.
-+ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
-+                    [GNU texinfo.* \([0-9][0-9.]*\)],
-+-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
-++                   [4.[4-9]*|4.[1-9][0-9]*])
-+ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ DEFHEADING(File system options:)
+++STEXI
+++@table @option
+++ETEXI
 + 
-+ ACX_BUGURL([http://gcc.gnu.org/bugs.html])
-+diff -uNr gcc-4.7.2.orig/libstdc++-v3/configure.ac gcc-4.7.2/libstdc++-v3/configure.ac
-+--- gcc-4.7.2.orig/libstdc++-v3/configure.ac	2012-08-06 16:34:27.000000000 +0200
-++++ gcc-4.7.2/libstdc++-v3/configure.ac	2013-04-04 09:49:57.483022652 +0200
-+@@ -344,7 +344,7 @@
-+ # that we can use it.
-+ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
-+ 		   [GNU texinfo.* \([0-9][0-9.]*\)],
-+-		   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
-++		   [4.[4-9]*|4.[1-9][0-9]*])
-+ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ DEF("fsdev", HAS_ARG, QEMU_OPTION_fsdev,
++     "-fsdev fsdriver,id=id[,path=path,][security_model={mapped-xattr|mapped-file|passthrough|none}]\n"
++@@ -676,9 +684,15 @@ Specifies the tag name to be used by the guest to mount this export point
 + 
-+ # Check for doxygen
-+diff -uNr gcc-4.7.2.orig/configure gcc-4.7.2/configure
-+--- gcc-4.7.2.orig/configure	2013-04-04 10:23:58.009172414 +0200
-++++ gcc-4.7.2/configure	2013-04-04 10:26:42.696184501 +0200
-+@@ -7858,7 +7858,7 @@
-+     # For an installed makeinfo, we require it to be from texinfo 4.7 or
-+     # higher, else we use the "missing" dummy.
-+     if ${MAKEINFO} --version \
-+-       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
-++       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9]))' >/dev/null 2>&1; then
-+       :
-+     else
-+       MAKEINFO="$MISSING makeinfo"
++ ETEXI
++ 
+++STEXI
+++@end table
+++ETEXI
++ DEFHEADING()
++ 
++ DEFHEADING(Virtual File system pass-through options:)
+++STEXI
+++@table @option
+++ETEXI
++ 
++ DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
++     "-virtfs local,path=path,mount_tag=tag,security_model=[mapped-xattr|mapped-file|passthrough|none]\n"
++@@ -769,11 +783,9 @@ ETEXI
++ STEXI
++ @end table
++ ETEXI
++-
++ DEFHEADING()
++ 
++ DEFHEADING(Display options:)
++-
++ STEXI
++ @table @option
++ ETEXI
++@@ -1215,7 +1227,6 @@ ETEXI
++ STEXI
++ @end table
++ ETEXI
++-
++ ARCHHEADING(, QEMU_ARCH_I386)
++ 
++ ARCHHEADING(i386 target only:, QEMU_ARCH_I386)
++@@ -1301,10 +1312,10 @@ Specify SMBIOS type 0 fields
++ Specify SMBIOS type 1 fields
++ ETEXI
++ 
++-DEFHEADING()
++ STEXI
++ @end table
++ ETEXI
+++DEFHEADING()
++ 
++ DEFHEADING(Network options:)
++ STEXI
++@@ -1718,13 +1729,19 @@ libpcap, so it can be analyzed with tools such as tcpdump or Wireshark.
++ Indicate that no network devices should be configured. It is used to
++ override the default configuration (@option{-net nic -net user}) which
++ is activated if no @option{-net} options are provided.
+++ETEXI
++ 
+++STEXI
++ @end table
++ ETEXI
++-
++ DEFHEADING()
++ 
++ DEFHEADING(Character device options:)
+++STEXI
+++
+++The general form of a character device option is:
+++@table @option
+++ETEXI
++ 
++ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
++     "-chardev null,id=id[,mux=on|off]\n"
++@@ -1766,10 +1783,6 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
++ )
++ 
++ STEXI
++-
++-The general form of a character device option is:
++-@table @option
++-
++ @item -chardev @var{backend} ,id=@var{id} [,mux=on|off] [,@var{options}]
++ @findex -chardev
++ Backend is one of:
++@@ -1990,14 +2003,15 @@ Connect to a spice virtual machine channel, such as vdiport.
++ 
++ Connect to a spice port, allowing a Spice client to handle the traffic
++ identified by a name (preferably a fqdn).
+++ETEXI
++ 
+++STEXI
++ @end table
++ ETEXI
++-
++ DEFHEADING()
++ 
++-STEXI
++ DEFHEADING(Device URL Syntax:)
+++STEXI
++ 
++ In addition to using normal file images for the emulated storage devices,
++ QEMU can also use networked resources such as iSCSI devices. These are
++@@ -2113,10 +2127,16 @@ qemu-system-x86_84 --drive file=gluster://192.0.2.1/testvol/a.img
++ @end example
++ 
++ See also @url{http://www.gluster.org}.
+++ETEXI
+++
+++STEXI
++ @end table
++ ETEXI
++ 
++ DEFHEADING(Bluetooth(R) options:)
+++STEXI
+++@table @option
+++ETEXI
++ 
++ DEF("bt", HAS_ARG, QEMU_OPTION_bt, \
++     "-bt hci,null    dumb bluetooth HCI - doesn't respond to commands\n" \
++@@ -2130,8 +2150,6 @@ DEF("bt", HAS_ARG, QEMU_OPTION_bt, \
++     "                emulate a bluetooth device 'dev' in scatternet 'n'\n",
++     QEMU_ARCH_ALL)
++ STEXI
++-@table @option
++-
++ @item -bt hci[...]
++ @findex -bt
++ Defines the function of the corresponding Bluetooth HCI.  -bt options
++@@ -2183,9 +2201,11 @@ currently:
++ @item keyboard
++ Virtual wireless keyboard implementing the HIDP bluetooth profile.
++ @end table
++-@end table
++ ETEXI
++ 
+++STEXI
+++@end table
+++ETEXI
++ DEFHEADING()
++ 
++ DEFHEADING(Linux/Multiboot boot specific:)
++@@ -2242,11 +2262,9 @@ ETEXI
++ STEXI
++ @end table
++ ETEXI
++-
++ DEFHEADING()
++ 
++ DEFHEADING(Debug/Expert options:)
++-
++ STEXI
++ @table @option
++ ETEXI
++-- 
++1.8.1.5
++
+diff --git a/meta/recipes-devtools/qemu/files/0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch b/meta/recipes-devtools/qemu/files/0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch
+new file mode 100644
+index 0000000..cabbf0e
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch
+@@ -0,0 +1,54 @@
++From f983d4978e1c49ee936ad52bf2de0c531420f5f8 Mon Sep 17 00:00:00 2001
++From: Cole Robinson <crobinso@redhat.com>
++Date: Wed, 20 Feb 2013 07:20:31 +0000
++Subject: [PATCH 2/2] docs: Fix generating qemu-doc.html with texinfo 5
++
++LC_ALL=C makeinfo --no-headers --no-split --number-sections --html qemu-doc.texi -o qemu-doc.html
++./qemu-options.texi:1521: unknown command `list'
++./qemu-options.texi:1521: table requires an argument: the formatter for @item
++./qemu-options.texi:1521: warning: @table has text but no @item
++
++Upstream-Status: Pending
++http://patchwork.ozlabs.org/patch/222131/
++
++CC: qemu-stable@nongnu.org
++Signed-off-by: Cole Robinson <crobinso@redhat.com>
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Reviewed-by: Markus Armbruster <armbru@redhat.com>
++---
++ qemu-options.hx | 19 +++++++------------
++ 1 file changed, 7 insertions(+), 12 deletions(-)
++
++diff --git a/qemu-options.hx b/qemu-options.hx
++index 54bd92a..5d2d9b8 100644
++--- a/qemu-options.hx
+++++ b/qemu-options.hx
++@@ -2089,18 +2089,13 @@ QEMU supports using either local sheepdog devices or remote networked
++ devices.
++ 
++ Syntax for specifying a sheepdog device
++-@table @list
++-``sheepdog:<vdiname>''
++-
++-``sheepdog:<vdiname>:<snapid>''
++-
++-``sheepdog:<vdiname>:<tag>''
++-
++-``sheepdog:<host>:<port>:<vdiname>''
++-
++-``sheepdog:<host>:<port>:<vdiname>:<snapid>''
++-
++-``sheepdog:<host>:<port>:<vdiname>:<tag>''
+++@table @code
+++@item sheepdog:<vdiname>
+++@item sheepdog:<vdiname>:<snapid>
+++@item sheepdog:<vdiname>:<tag>
+++@item sheepdog:<host>:<port>:<vdiname>
+++@item sheepdog:<host>:<port>:<vdiname>:<snapid>
+++@item sheepdog:<host>:<port>:<vdiname>:<tag>
++ @end table
++ 
++ Example
++-- 
++1.8.1.5
++
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1b5b569..9a55707 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -26,6 +26,8 @@ SRC_URI = "\
+     file://larger_default_ram_size.patch \
+     file://arm-bgr.patch \
+     file://Revert-vmware_vga-Add-back-some-info-in-local-state-.patch \
++    file://0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch \
++    file://0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch \
+     "
+ 
+ SRC_URI_append_class-nativesdk = "\
 -- 
 1.8.1.5
 
