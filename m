@@ -1,33 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-wg0-f45.google.com ([74.125.82.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UNn8c-00050r-QT for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 18:35:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34GScH0028535; Thu, 4 Apr 2013 17:29:06 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ScuFRDQTrbLR; Thu,  4 Apr 2013 17:29:06 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34GSv8f028560
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 4 Apr 2013 17:29:00 +0100
-Message-ID: <1365092291.6526.114.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Prica, Mihai" <mihai.prica@intel.com>
-Date: Thu, 04 Apr 2013 17:18:11 +0100
-In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
-References: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
-	<E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
-	<97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
+	(envelope-from <ross.burton@intel.com>) id 1UNnQt-0006JX-9W
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Apr 2013 18:54:40 +0200
+Received: by mail-wg0-f45.google.com with SMTP id x12so2993499wgg.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2013 09:37:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=U21C/iSJzvQ1WEPQaeumy4lSUUeLwrXRWEznZP3bXMg=;
+	b=YZfPagld0Hwbt6MwobkqKVTa2CG2BbXGUjGv8vrZXwbiVfCvWkPQnDvbNz30SOdk/C
+	oYbozKIKHDYDe44bkah2CJMPAUD/vxUBeQJ2S1bN3RE6ZwIq7Nlck2wJ3kaY6gNYhabk
+	q1fh0DFv/sX6NLWU5/2nL9WaJSLHQXDuAsiJi9G7Sh0y5OtJod5G1y6whwRnnAujM74p
+	kPGPvj9oDXgGexDSqqPOt28tnjOM2/0jknn+yW03LIeM7Hmu0iFtDhH1E05k9U/7aoog
+	lfS0r2P8V94Qxk+GZuizieqgKEQFgMqrnJWJ+XPf/Omr8/3jfYl4fowtYpO9pZ757Qp4
+	Uv5g==
+X-Received: by 10.194.81.40 with SMTP id w8mr10840161wjx.14.1365093446458;
+	Thu, 04 Apr 2013 09:37:26 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ej8sm32135190wib.9.2013.04.04.09.37.25
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 04 Apr 2013 09:37:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Apr 2013 17:34:39 +0100
+Message-Id: <1365093279-12593-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnvY04wlcybkJ1pbFBbK63fK+u1/WQbHt+h2lvKDCgZxn+x4X5+11iq/clwEPNylXSUqMRv
+Subject: [PATCH] utils: add helper to get all non-system packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,61 +42,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 16:35:48 -0000
-X-List-Received-Date: Thu, 04 Apr 2013 16:35:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Apr 2013 16:54:40 -0000
 
-On Thu, 2013-04-04 at 15:56 +0000, Prica, Mihai wrote:
-> > On Apr 4, 2013, at 5:09 AM, Mihai Prica <mihai.prica@intel.com> wrote:
-> > > Enables qemu to run images with video output without the need for vncviewer.
-> > >
-> > > Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> > > ---
-> > > meta/recipes-devtools/qemu/qemu.inc |    4 ++--
-> > > 1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-devtools/qemu/qemu.inc
-> > > b/meta/recipes-devtools/qemu/qemu.inc
-> > > index 1b5b569..06fa88b 100644
-> > > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > > @@ -1,7 +1,7 @@
-> > > DESCRIPTION = "open source processor emulator"
-> > > HOMEPAGE = "http://qemu.org"
-> > > LICENSE = "GPLv2 & LGPLv2.1"
-> > > -DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc"
-> > > +DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
-> > > DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-
-> > native dtc-native"
-> > > DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0
-> > nativesdk-pixman nativesdk-dtc"
-> > > RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-> > > @@ -13,7 +13,7 @@ BBCLASSEXTEND = "native nativesdk"
-> > > # QEMU_TARGETS is overridable variable QEMU_TARGETS ?= "arm i386 mips
-> > > mipsel mips64 mips64el ppc sh4 x86_64"
-> > >
-> > > -SDL ?= "--disable-sdl"
-> > > +SDL ?= ""
-> > 
-> > I think this is not acceptable change. Since many systems are headless and its
-> > useless for them secondly, converting this to PACKAGECONFIG and keeping the
-> > behavior as it was would be fine.
-> 
-> I sent a patch to meta-virtualization that just enabled SDL using a bbappend and the
-> maintainers said I should to integrate this into poky. I talked with Richard and he 
-> said I should use a PACKAGECONFIG and enable sdl by default for the target. For 
-> headless images the user can disable it. I sent a V2 with this solution. Saul replied 
-> and told me there are some problems with this approach and I should stick with the
-> SDL variable.
+For example if PACKAGES is "foo foo-data foo-dev foo-doc", this will return
+"foo-data".
 
-I'd ultimately like to see PACKAGECONFIG used here but we haven't
-managed the right patchset yet so I took this one earlier today as a
-short term fix :/.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/tests/test_utils.py |   27 +++++++++++++++++++++++++++
+ meta/lib/oe/utils.py            |   16 ++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/lib/oe/tests/test_utils.py
 
-Cheers,
-
-Richard
+diff --git a/meta/lib/oe/tests/test_utils.py b/meta/lib/oe/tests/test_utils.py
+new file mode 100644
+index 0000000..466c47e
+--- /dev/null
++++ b/meta/lib/oe/tests/test_utils.py
+@@ -0,0 +1,27 @@
++import unittest
++import bb, oe.utils
++
++class TestPackagesFilterOutSystem(unittest.TestCase):
++    def test_filter(self):
++        """
++        Test that oe.utils.packages_filter_out_system works.
++        """
++
++        d = bb.data_smart.DataSmart()
++        d.setVar("PN", "foo")
++
++        d.setVar("PACKAGES", "foo foo-doc foo-dev")
++        pkgs = oe.utils.packages_filter_out_system(d)
++        self.assertEqual(pkgs, [])
++
++        d.setVar("PACKAGES", "foo foo-doc foo-data foo-dev")
++        pkgs = oe.utils.packages_filter_out_system(d)
++        self.assertEqual(pkgs, ["foo-data"])
++
++        d.setVar("PACKAGES", "foo foo-locale-en-gb")
++        pkgs = oe.utils.packages_filter_out_system(d)
++        self.assertEqual(pkgs, [])
++
++        d.setVar("PACKAGES", "foo foo-data foo-locale-en-gb")
++        pkgs = oe.utils.packages_filter_out_system(d)
++        self.assertEqual(pkgs, ["foo-data"])
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index b269f32..acd3969 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -107,3 +107,19 @@ def features_backfill(var,d):
+ 
+     if addfeatures:
+         d.appendVar(var, " " + " ".join(addfeatures))
++
++
++def packages_filter_out_system(d):
++    """
++    Return a list of packages from PACKAGES with the "system" packages such as
++    PN-dbg PN-doc PN-locale-eb-gb removed.
++    """
++    pn = d.getVar('PN', True)
++    blacklist = map(lambda suffix: pn + suffix, ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev'))
++    localepkg = pn + "-locale-"
++    pkgs = []
++
++    for pkg in d.getVar('PACKAGES', True).split():
++        if pkg not in blacklist and localepkg not in pkg:
++            pkgs.append(pkg)
++    return pkgs
+-- 
+1.7.10.4
 
 
 
