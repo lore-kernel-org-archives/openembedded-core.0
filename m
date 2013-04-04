@@ -1,27 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pa0-f51.google.com ([209.85.220.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UNfgp-0004pv-1V
+	(envelope-from <martin.jansa@gmail.com>) id 1UNfuq-0007ni-QT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 10:38:42 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2013 01:19:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,405,1363158000"; d="scan'208";a="289208572"
-Received: from adinu-vostro-460.rb.intel.com (HELO [10.237.105.45])
-	([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2013 01:21:20 -0700
-Message-ID: <515D3830.1030306@intel.com>
-Date: Thu, 04 Apr 2013 11:22:08 +0300
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1365003047-10522-1-git-send-email-andrei.adrianx.dinu@intel.com>
-	<1912854.rCCW1yQxSL@helios>
-In-Reply-To: <1912854.rCCW1yQxSL@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] Add file information to package information window
+	Thu, 04 Apr 2013 10:53:09 +0200
+Received: by mail-pa0-f51.google.com with SMTP id jh10so1353211pab.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2013 01:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=XWDxPbFpsuw83xwALsKXh6q7CPcdOiFJa4oJhMMP+4s=;
+	b=Uskh0PtkD2F/CElGkHIrp+3UQVBiAwDnPff7pe5VtK2EqrLeSsisYoc3FyaiBRcBRn
+	vispxAucVtw/KCe0c5xovJGLW+l3Pt+6xdSJdfw/Wn2ChFVyvCcmqoT3IRQvkia4qsip
+	JKyYzLUVDLYDY60h8+EtoaipyEtn7nv1Hn2r3KaSGSx+/7yPAAa3ny08i5h1AB0rASOn
+	naijk9HdCokEgVWI3Sp/raYIMapsu9ikxDz7PpgUXyFV5CRa3zyv3GUbugv6CO6UoHfd
+	h4Tea0drKQPfgjoDH2XhKRXh4yY9hrb+5jl2oI90PMcNA2Qk3jQn9+YmpR4MRBbR+U4c
+	VxBA==
+X-Received: by 10.68.196.129 with SMTP id im1mr7359971pbc.206.1365064513655;
+	Thu, 04 Apr 2013 01:35:13 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id yz4sm4352768pbc.11.2013.04.04.01.35.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 04 Apr 2013 01:35:12 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Apr 2013 10:35:01 +0200
+Message-Id: <1365064501-15679-2-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+In-Reply-To: <1365064501-15679-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1365064501-15679-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/2] gcc: add patch to disable texinfo when texinfo is 5.0 or newer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,63 +41,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 08:38:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Apr 2013 08:53:14 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 08:53:14 -0000
 
-Hi Paul,
+* this is needed only for 4.7 series, newer works fine with texinfo-5*
 
-Thank you for your review!
+[YOCTO #3947]
 
-I just submitted a V3 with the changes you suggested.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |   1 +
+ .../gcc/gcc-4.7/disable-texinfo-5.patch            | 107 +++++++++++++++++++++
+ 2 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
 
-Thanks,
-
-Andrei
-
-On 04/03/2013 07:18 PM, Paul Eggleton wrote:
-> Hi Andrei,
->
-> On Wednesday 03 April 2013 18:30:47 Andrei Dinu wrote:
->> Removed the package files parsing routine from the
->> packageinfo.bbclass file and added it to the
->> package.bbclass file.
->>
->> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
->> ---
->>   meta/classes/package.bbclass     |   10 ++++++++++
->>   meta/classes/packageinfo.bbclass |   20 --------------------
->>   2 files changed, 10 insertions(+), 20 deletions(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 3479947..cafe339 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -1130,6 +1130,13 @@ python emit_pkgdata() {
->>       workdir = d.getVar('WORKDIR', True)
->>
->>       for pkg in packages.split():
->> +        items = {}
->> +        for files_list in pkgfiles[pkg]:
->> +             if
->> files_list.split(files_list.split('/')[len(files_list.split('/'))-1])[0][:-
->> 1] not in items: +
->> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
->> [0][:-1]] = [] +
->> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
->> [0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1]) +
->>         else:
->> +
->> items[files_list.split(files_list.split('/')[len(files_list.split('/'))-1])
->> [0][:-1]].append(files_list.split('/')[len(files_list.split('/'))-1])
->> subdata_file = pkgdatadir + "/runtime/%s" % pkg
-> I'd recommend the use of os.path.basename() here; additionally rather than
-> repeating the same call several times (possibly expensive within a loop),
-> assign the return value to a variable and then use that instead.
->
-> Cheers,
-> Paul
->
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 49f4010..a05cac9 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -76,6 +76,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch \
+ 	   file://use-ml-conf-files-from-B.patch \
+ 	   file://wcast-qual-PR55383.patch \
++	   file://disable-texinfo-5.patch \
+ 	  "
+ SRC_URI[md5sum] = "cc308a0891e778cfda7a151ab8a6e762"
+ SRC_URI[sha256sum] = "8a9283d7010fb9fe5ece3ca507e0af5c19412626384f8a5e9434251ae100b084"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch b/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
+new file mode 100644
+index 0000000..d5c9165
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.7/disable-texinfo-5.patch
+@@ -0,0 +1,107 @@
++Upstream-Status: Pending
++
++gcc-4.8 is compatible with texinfo-5, so this is only temporary fix 
++(we don't need info files on target)
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++diff -uNr gcc-4.7.2.orig/configure.ac gcc-4.7.2/configure.ac
++--- gcc-4.7.2.orig/configure.ac	2013-04-04 09:10:24.600848496 +0200
+++++ gcc-4.7.2/configure.ac	2013-04-04 09:51:51.808031042 +0200
++@@ -3031,7 +3031,7 @@
++     # For an installed makeinfo, we require it to be from texinfo 4.7 or
++     # higher, else we use the "missing" dummy.
++     if ${MAKEINFO} --version \
++-       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
+++       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9]))' >/dev/null 2>&1; then
++       :
++     else
++       MAKEINFO="$MISSING makeinfo"
++diff -uNr gcc-4.7.2.orig/gcc/configure.ac gcc-4.7.2/gcc/configure.ac
++--- gcc-4.7.2.orig/gcc/configure.ac	2013-04-04 09:10:30.523848931 +0200
+++++ gcc-4.7.2/gcc/configure.ac	2013-04-04 09:52:16.111032826 +0200
++@@ -871,7 +871,7 @@
++ # that we can use it.
++ ACX_CHECK_PROG_VER(MAKEINFO, makeinfo, --version,
++   [GNU texinfo.* \([0-9][0-9.]*\)],
++-  [4.[7-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
+++  [4.[7-9]*|4.[1-9][0-9]*])
++ if test $gcc_cv_prog_makeinfo_modern = no; then
++   AC_MSG_WARN([
++ *** Makeinfo is missing or too old.
++diff -uNr gcc-4.7.2.orig/libgomp/configure.ac gcc-4.7.2/libgomp/configure.ac
++--- gcc-4.7.2.orig/libgomp/configure.ac	2010-12-06 01:50:04.000000000 +0100
+++++ gcc-4.7.2/libgomp/configure.ac	2013-04-04 09:51:29.571029410 +0200
++@@ -129,7 +129,7 @@
++ # that we can use it.
++ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
++                    [GNU texinfo.* \([0-9][0-9.]*\)],
++-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
+++                   [4.[4-9]*|4.[1-9][0-9]*])
++ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ 
++ 
++diff -uNr gcc-4.7.2.orig/libiberty/configure.ac gcc-4.7.2/libiberty/configure.ac
++--- gcc-4.7.2.orig/libiberty/configure.ac	2011-08-22 18:54:02.000000000 +0200
+++++ gcc-4.7.2/libiberty/configure.ac	2013-04-04 09:51:20.685028758 +0200
++@@ -84,6 +84,12 @@
++ 	    AC_MSG_WARN([
++ *** Makeinfo is too old. Info documentation will not be built.])
++ 	  ;;
+++	  x*\ [[5-9]].* )
+++	    MAKEINFO="@echo $MAKEINFO is too new, 5.0 or newer does not work; true"
+++	    BUILD_INFO=
+++	    AC_MSG_WARN([
+++*** Makeinfo is too new. Info documentation will not be built.])
+++	  ;;
++ 	esac
++ 	;;
++     esac
++diff -uNr gcc-4.7.2.orig/libitm/configure.ac gcc-4.7.2/libitm/configure.ac
++--- gcc-4.7.2.orig/libitm/configure.ac	2012-02-13 22:46:38.000000000 +0100
+++++ gcc-4.7.2/libitm/configure.ac	2013-04-04 09:51:59.676031620 +0200
++@@ -140,7 +140,7 @@
++ # that we can use it.
++ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
++                    [GNU texinfo.* \([0-9][0-9.]*\)],
++-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
+++                   [4.[4-9]*|4.[1-9][0-9]*])
++ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ 
++ 
++diff -uNr gcc-4.7.2.orig/libquadmath/configure.ac gcc-4.7.2/libquadmath/configure.ac
++--- gcc-4.7.2.orig/libquadmath/configure.ac	2012-05-31 20:57:56.000000000 +0200
+++++ gcc-4.7.2/libquadmath/configure.ac	2013-04-04 09:49:52.432022281 +0200
++@@ -48,7 +48,7 @@
++ # that we can use it.
++ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
++                    [GNU texinfo.* \([0-9][0-9.]*\)],
++-                   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
+++                   [4.[4-9]*|4.[1-9][0-9]*])
++ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ 
++ ACX_BUGURL([http://gcc.gnu.org/bugs.html])
++diff -uNr gcc-4.7.2.orig/libstdc++-v3/configure.ac gcc-4.7.2/libstdc++-v3/configure.ac
++--- gcc-4.7.2.orig/libstdc++-v3/configure.ac	2012-08-06 16:34:27.000000000 +0200
+++++ gcc-4.7.2/libstdc++-v3/configure.ac	2013-04-04 09:49:57.483022652 +0200
++@@ -344,7 +344,7 @@
++ # that we can use it.
++ ACX_CHECK_PROG_VER([MAKEINFO], [makeinfo], [--version],
++ 		   [GNU texinfo.* \([0-9][0-9.]*\)],
++-		   [4.[4-9]*|4.[1-9][0-9]*|[5-9]*|[1-9][0-9]*])
+++		   [4.[4-9]*|4.[1-9][0-9]*])
++ AM_CONDITIONAL(BUILD_INFO, test $gcc_cv_prog_makeinfo_modern = "yes")
++ 
++ # Check for doxygen
++diff -uNr gcc-4.7.2.orig/configure gcc-4.7.2/configure
++--- gcc-4.7.2.orig/configure	2013-04-04 10:23:58.009172414 +0200
+++++ gcc-4.7.2/configure	2013-04-04 10:26:42.696184501 +0200
++@@ -7858,7 +7858,7 @@
++     # For an installed makeinfo, we require it to be from texinfo 4.7 or
++     # higher, else we use the "missing" dummy.
++     if ${MAKEINFO} --version \
++-       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
+++       | egrep 'texinfo[^0-9]*(4\.([7-9]|[1-9][0-9]))' >/dev/null 2>&1; then
++       :
++     else
++       MAKEINFO="$MISSING makeinfo"
+-- 
+1.8.1.5
 
 
 
