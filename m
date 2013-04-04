@@ -1,37 +1,42 @@
-Received: from mail-we0-f172.google.com ([74.125.82.172])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UNnxA-0000e9-1h
+	(envelope-from <raj.khem@gmail.com>) id 1UNopj-0005CG-3E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 19:28:00 +0200
-Received: by mail-we0-f172.google.com with SMTP id r3so2260246wey.17
+	Thu, 04 Apr 2013 20:24:26 +0200
+Received: by mail-pb0-f47.google.com with SMTP id rq13so1565131pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 10:10:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=SNxF+LlC3QxgmTkg9MHI8xmYSYU+cseEPqkaz23ccjw=;
-	b=nNejuDx08LQvEYfk8HFXY0FS7K8XKX3kwbW0pL2DAd9ikgMGK5VTvksMtddH+lwrem
-	etFJ24JEAAXPH8Q1ep8LKmnxTdiqTWpgWgjHERmFzpshxMc9E3EoztLmOEiKChCYd7z+
-	Vq5vAy9wct0q95y5g6Iw/6+ScJPV5tpTU16SJzwGDAceQAS5AgbWOrDklpNrvvq8xi5H
-	wfkl1qsDh1guSR8BdB835imQd6XpGi2g/I0uWQIUwhJzM6RyqplXQ35CgVc9Jd+I++om
-	27bzYXK3f79TYgahX604SXF5BSwKgGD/hkoY4pY2vS/u5MpStoe37X5/1DQbGClVS3zK
-	Ikfw==
-X-Received: by 10.194.89.234 with SMTP id br10mr11028149wjb.43.1365095447260; 
-	Thu, 04 Apr 2013 10:10:47 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fv2sm17439788wib.6.2013.04.04.10.10.45
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 10:10:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 18:08:00 +0100
-Message-Id: <1365095280-13550-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1365095280-13550-1-git-send-email-ross.burton@intel.com>
-References: <1365095280-13550-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQk2RY5kqoKrH6ZnhosnkxG1FfNEOyZG1rMrhdITxuRwaABTvCwrbBQy7zUTAIMcrFWLs3QN
-Subject: [PATCH 2/2] libxcb: remove obsolete version 1.1.91
+	Thu, 04 Apr 2013 11:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=gmyLvDtmpr7oRcMLYUWwVHNg+pqmQOzgx+zNcFd6TN0=;
+	b=j98XtQzu4pxrjjTLJKsibKKiiUcO12QIgaZ/ybRk5dFjZW29fjpB6YLuQvOTF0q1yi
+	UKFWRL6OlQ08UiIFZu8CMcvL/zllqBVvfgSDb6HBjgXN3YNoROXe+WJ4Ov+/RrF8b/Aq
+	qv06K1z8odmrAJNiiLL2AKem1XOQz6HdHTOIUOulRpgRuzUp9S0+10rlHS/I7hmkNoLP
+	gGZQRu3fYePUQIm+Sh5pI3nGnqxBfdplsDkRhkKtGQYhgQ8ry3LJKy+mGrY1vJ8KGLFd
+	Y6DHO/w4ghjGcIPIEkPzBE7M5wILVAeBcgnK/s5DmKzT05lESQl1Ns9auAAXZu8S7TRh
+	DNqQ==
+X-Received: by 10.68.44.195 with SMTP id g3mr10169908pbm.141.1365098829399;
+	Thu, 04 Apr 2013 11:07:09 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id fk1sm11014836pbd.36.2013.04.04.11.07.07
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 04 Apr 2013 11:07:08 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1365092291.6526.114.camel@ted>
+Date: Thu, 4 Apr 2013 11:07:07 -0700
+Message-Id: <248A454E-7AEF-4AFB-9200-EB361D589EF7@gmail.com>
+References: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
+	<E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
+	<97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
+	<1365092291.6526.114.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1503)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +49,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 17:28:07 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 18:24:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-We have 1.9 and git snapshot recipes, we don't also need this ancient version.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xcb/libxcb_1.1.91.bb |    4 ----
- 1 file changed, 4 deletions(-)
- delete mode 100644 meta/recipes-graphics/xcb/libxcb_1.1.91.bb
+On Apr 4, 2013, at 9:18 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb b/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-deleted file mode 100644
-index b74243e..0000000
---- a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--include libxcb.inc
--PR = "r2"
--
--PACKAGES =+ "libxcb-xinerama"
--- 
-1.7.10.4
+> I'd ultimately like to see PACKAGECONFIG used here but we haven't
+> managed the right patchset yet so I took this one earlier today as a
+> short term fix :/.
 
+i think its not a good thing for headless systems as I said earlier =
+there are additional packages showing
+up on target for no reasons, I could reverse it via a bbappend in my own =
+layer but thats not pleasant=
 
 
