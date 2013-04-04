@@ -1,32 +1,41 @@
-Received: from mail-ob0-f174.google.com ([209.85.214.174])
+Received: from mail-ve0-f178.google.com ([209.85.128.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ndec13@gmail.com>)
-	id 1UNlw1-00074u-CR; Thu, 04 Apr 2013 17:18:41 +0200
-Received: by mail-ob0-f174.google.com with SMTP id wm15so40925obc.19
-	for <multiple recipients>; Thu, 04 Apr 2013 08:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=CyRfn7mKRsiQV9HksXWNWFf+bRRR6JiBVu0588bnMuQ=;
-	b=UlqhbqQthXd/z8huXU3Cm6AOXWO+xBDsN6MGjUeJmfwb+m8Tg5yBl26oQCDnsfR/E4
-	T60Rv+ZrawdSpdCzNdxV8HRIr61GozZfGiyVcUJYPh3nCaSETneGLcy9DWuADSNdwKiH
-	9O2kgB0KUkWxsAQQRyjzeNi4QKFNz8Q7J40Y5qqMPvN9ndpamWlcpQcY23y4kS9PT5I8
-	ObvR642E56RS1yitwYI+PBXT5DT0sk16hDBGByw/gJO51OngWpQejHhncvdYSSgGQT34
-	TvhmXtkccavT61sJFvxijh1gHpnxHLP5hYbasGAxFCHzZFBhO8GioOjRGXiaMxp8wyiM
-	vrzQ==
-X-Received: by 10.60.142.164 with SMTP id rx4mr4621122oeb.83.1365087687854;
-	Thu, 04 Apr 2013 08:01:27 -0700 (PDT)
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UNmBW-0008Gv-Uh
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Apr 2013 17:34:45 +0200
+Received: by mail-ve0-f178.google.com with SMTP id db10so2747139veb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2013 08:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type;
+	bh=CSh3xqiXzX9ePmShfwZSTzZshgarid5oVSc2BTrvUBQ=;
+	b=fm2tzEQgwojGoQ79RBmByOJfnCPMoOtUcMemeK9TTt20foBPKs2OK8oqD3EkmBILsT
+	eve1p77+asoBUhghKFiAOFvUdOsEG4E04bIhlC3ex8Dt0g9OfX75Kegb+30C0mFuvfiQ
+	lcs3LUT/vXGWgxezKCueErwYVpTOSUuc9bDAf8fE7vr8PnPgfKmp4U16Z5N+5hX2ujBx
+	isHrBoyidpyeJc/hsby3+OygxucnAwB5A+RKJdOVVr0XrPvjjHcm2qeJr+Btc46qWIGV
+	PY7V/n8X2TUs3BTKQ0gD3aHx91JETh5PkCKLfow4A/ND34j3AuZCv5db9R8QfL81XM1I
+	TiMg==
 MIME-Version: 1.0
-Received: by 10.76.34.39 with HTTP; Thu, 4 Apr 2013 08:01:07 -0700 (PDT)
-In-Reply-To: <3982011.Guen6pOcoq@helios>
-References: <3982011.Guen6pOcoq@helios>
-From: Nicolas Dechesne <ndec13@gmail.com>
-Date: Thu, 4 Apr 2013 17:01:07 +0200
-Message-ID: <CAOT3miKi62MtFGjiNYeykNKAsFQ+srtwqSbsSyge3ZzGHD4DOw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: yocto <yocto@yoctoproject.org>, openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: New OE layer index now available
+X-Received: by 10.52.109.5 with SMTP id ho5mr4301276vdb.75.1365088649747; Thu,
+	04 Apr 2013 08:17:29 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Thu, 4 Apr 2013 08:17:29 -0700 (PDT)
+In-Reply-To: <CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
+References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
+	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
+	<515ADEA3.5030800@intel.com>
+	<CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
+	<CAJTo0LZ9b3yqJ+K1Y03aC3OXhpsaB40D5PXfENqh2oe1ybErZg@mail.gmail.com>
+	<CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
+	<CAJTo0La=bsNXhSA8_86n7gjL9FqFRa0wKT0OUv-siTTa2MVXbg@mail.gmail.com>
+	<AEA1C7AC-2089-4F6C-A23A-1D04827A55F3@dominion.thruhere.net>
+	<CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
+Date: Thu, 4 Apr 2013 17:17:29 +0200
+Message-ID: <CALbNGRRguSWz2J5BLu58YfSMKX+N+Biw2qR4t3+4pyxQ7k7GPg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +48,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 15:18:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 04 Apr 2013 15:34:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-hi,
+On Thu, Apr 4, 2013 at 4:30 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> In my world order, console-image uses the
+> default.target->multi-user.target as defined by systemd.  The gdm
+> package as it's a graphical session manager (like xserver-nodm-init)
+> should switch the alternative graphical.target, with a higher
+> priority.
+and lightdm-kde / lxdm / opie-login...
 
-this is a really useful addition! thanks!
-
-On Fri, Mar 29, 2013 at 10:34 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> The index also supports multiple branches, but for the moment there is only a
-> master branch configured as I'd like to have people check the layer data before
-> adding the additional stable branches (danny and denzil).
->
-
-i was thinking it might be useful (in fact at least it would be very
-useful for me right now) to get version 'history' for each supported
-branch. if i understand the design correctly, i first need to set the
-branch I want to search, then search. but what about an 'all branch
-search' that displays recipes version *and* layer for multiple
-branches, so that we can easily see version change and recipe move
-in-between layers between all branches.
-
-does that make any sense to anyone?
-
-nicolas
+Andreas
 
 
