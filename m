@@ -1,49 +1,41 @@
-Received: from mail-bk0-f46.google.com ([209.85.214.46])
+Received: from mail-da0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UNmpA-0003T4-Gu
+	(envelope-from <raj.khem@gmail.com>) id 1UNms6-0003m2-W9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 18:15:41 +0200
-Received: by mail-bk0-f46.google.com with SMTP id je9so1602861bkc.5
+	Thu, 04 Apr 2013 18:18:47 +0200
+Received: by mail-da0-f43.google.com with SMTP id u36so1193760dak.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2013 08:58:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
+	Thu, 04 Apr 2013 09:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=2/OAbhOi2eEg8grbTqUU3Rjhz5tQuJWcdLxyaTsHmAw=;
-	b=jFXHCC4etz5WVQk07LzK4xwdJ8cnZHbbp1+lmjVBE5gi4AhJE0TBvtdFYrHOqhcTny
-	x5PEn5WTcI+i7s4DGsKRyNjaWWRDFFKHMs9B3VYE+wWU0FQNmSViknsYMRPY1Jd0jB7l
-	wp5LDxxYk+Jpvfcq0ZgLU+wdJwypgBwqWdYSpNJYfnS5T0M8lChXhR3fxAWs/QC6WOMh
-	21gQqW5sCiBCqlzOj3WAZgV2MTFPhr/f2pqi6BANkACoSoKZ2ElWNKfj/9JeXY6iPG+B
-	HvZsTOuZh9AoMMja+hReZQZdU7j59NgYIKgeWAL+a1gKLaBrZG3Tf5wUpnRcoVIeOTch
-	m2DQ==
-X-Received: by 10.204.109.14 with SMTP id h14mr4919978bkp.39.1365091107500;
-	Thu, 04 Apr 2013 08:58:27 -0700 (PDT)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id b21sm6449065bkw.12.2013.04.04.08.58.25
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=Kf6/m822bRwfD2KnNAfBacsQkUiZ9aQNEgTBZcRgaK4=;
+	b=Iqs35Ct5Jrh7egZC0R5BDI0XQkjGmkhVsgdfCoyXpjrqqHhe/UYWbF7MdnG6iHNrvT
+	Kmwd06xQt/5Y6yqXLdbZymHPQCrAINRZe2XcsdSY9mdwfRJuRkPfNYsrR93wNr0pVByF
+	NXy/EJUyIlNgO7AAV9ymk8QVeOslUMDWkbD8P06VNZTShkOJk27rHjfI5NmOttIJCjhU
+	gL7hY/uzoQln6GFmi0GjR/buas4Xtszwrg8If0uLIvSbBjtlq286OTwmQ08W/yGsiTT3
+	b73356xAGaLtX+GDDvxjcf1nuo7v8QhY4XYdpjr/uvb6Q4PM5Ggb/uLX4NvycXA31bsF
+	YScA==
+X-Received: by 10.66.154.33 with SMTP id vl1mr10207707pab.60.1365091289309;
+	Thu, 04 Apr 2013 09:01:29 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id gl9sm10026515pbc.44.2013.04.04.09.01.27
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Apr 2013 08:58:26 -0700 (PDT)
+	Thu, 04 Apr 2013 09:01:28 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
-Date: Thu, 4 Apr 2013 17:58:25 +0200
-Message-Id: <CD002F6E-9167-458F-9D14-34914161D745@dominion.thruhere.net>
-References: <1364907243-26346-1-git-send-email-radu.moisan@intel.com>
-	<CAGiJk9chnOh7F9koDo2kEP5rjJ97kZ9bL6uEKkWYegS9g4AUnw@mail.gmail.com>
-	<515ADEA3.5030800@intel.com>
-	<CAGiJk9fdtf5-WVYLeS249YbV04AfOuQ4-8j0A7m5DY9NdvP=GQ@mail.gmail.com>
-	<CAJTo0LZ9b3yqJ+K1Y03aC3OXhpsaB40D5PXfENqh2oe1ybErZg@mail.gmail.com>
-	<CAGiJk9fV0rSMJaiAHF+dAmqC2jZmUbVwGsovcaXBTFFPTu8K7A@mail.gmail.com>
-	<CAJTo0La=bsNXhSA8_86n7gjL9FqFRa0wKT0OUv-siTTa2MVXbg@mail.gmail.com>
-	<AEA1C7AC-2089-4F6C-A23A-1D04827A55F3@dominion.thruhere.net>
-	<CAJTo0LbHwtHjnBhGOtEKFVs2n-1P8CjR9AUiO5HP7vTpnS-0oA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
+Date: Thu, 4 Apr 2013 09:01:26 -0700
+Message-Id: <64349FC1-10D1-4105-990B-8439F105FC6A@gmail.com>
+References: <1365077355-17673-1-git-send-email-mihai.prica@intel.com>
+	<E88E88F5-90AE-4280-AE38-735E593E6DC6@gmail.com>
+	<97BD068FB200C44AA73C2B641F162ECF97E89B@IRSMSX101.ger.corp.intel.com>
+To: "Prica, Mihai" <mihai.prica@intel.com>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQnfnbVult6jdaOfcIRnLJbRSWBA14ceOSEB369rpX4JQKQCXEaalG4Xsk4/xV+KGQFAOYP0
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: set default.target to multi-user.target
+Subject: Re: [PATCH V3] qemu: Enabled SDL when compiling for target architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,32 +48,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 16:15:42 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 16:19:33 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 4 apr. 2013, om 16:30 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+On Apr 4, 2013, at 8:56 AM, "Prica, Mihai" <mihai.prica@intel.com> =
+wrote:
 
-> On 4 April 2013 08:37, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> 1) console-image already using systemd, used as-is
->> 2) gdm-image already using systemd, used as-is
->> 3) console-image already using systemd, gdm will be opkg-installed at =
-some point.
->>=20
->> What will be different between 2 clean builds before and after these =
-changes and what will
->> happen when I 'opkg update ; opkg upgrade' those image built before =
-the change with ipks
->> built after the change?
->=20
-> In my world order, console-image uses the
-> default.target->multi-user.target as defined by systemd.  The gdm
-> package as it's a graphical session manager (like xserver-nodm-init)
-> should switch the alternative graphical.target, with a higher
-> priority.  This will mean that both (2) and (3) will both boot to gdm.
+> I sent a patch to meta-virtualization that just enabled SDL using a =
+bbappend and the
+> maintainers said I should to integrate this into poky. I talked with =
+Richard and he=20
+> said I should use a PACKAGECONFIG and enable sdl by default for the =
+target. For=20
+> headless images the user can disable it. I sent a V2 with this =
+solution. Saul replied=20
+> and told me there are some problems with this approach and I should =
+stick with the
+> SDL variable.
 
-That sounds good to me.=
+OK so you been diligent. I see this an an image/distro feature. If I =
+don't have X in my features
+this should not be enabled either. What was problem with PACKAGECONFIG ?=
 
 
