@@ -1,21 +1,29 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UNpbh-00013j-OA
+	(envelope-from <Konrad.Scherer@windriver.com>) id 1UNpr9-0002I9-A5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 21:14:02 +0200
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E95ACD22CD
+	Thu, 04 Apr 2013 21:30:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r34F77ri014434
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2013 20:56:52 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2013 20:56:43 +0200
-Message-Id: <1365101803-17607-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] site: add endianness information for libmemcached
+	Thu, 4 Apr 2013 08:07:07 -0700 (PDT)
+Received: from [128.224.146.207] (128.224.146.207) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 4 Apr 2013 08:07:08 -0700
+Message-ID: <515D971B.1050607@windriver.com>
+Date: Thu, 4 Apr 2013 11:07:07 -0400
+From: Konrad Scherer <konrad.scherer@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1365011250-24355-1-git-send-email-mark.hatle@windriver.com>
+	<CAJTo0LZ5a4oa7k-Mz7VbgAHaP8wvacV8vNBX_vDByvDUfeCVWw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ5a4oa7k-Mz7VbgAHaP8wvacV8vNBX_vDByvDUfeCVWw@mail.gmail.com>
+X-Originating-IP: [128.224.146.207]
+Subject: Re: [PATCH] Enable additional kernel parameters for syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,37 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 19:14:09 -0000
+X-List-Received-Date: Thu, 04 Apr 2013 19:30:03 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- meta/site/endian-big    | 3 +++
- meta/site/endian-little | 2 ++
- 2 files changed, 5 insertions(+)
+On 04/03/2013 01:48 PM, Burton, Ross wrote:
+> On 3 April 2013 18:47, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> Add additional parameter 'SYSLINUX_KERNEL_ARGS' in order to allow
+>> for specific kernel parameters to be set when using syslinux.
+>
+> Why would you use this and not APPEND? (or am I totally
+> misunderstanding something?)
 
-diff --git a/meta/site/endian-big b/meta/site/endian-big
-index 29edc8d..b99e96c 100644
---- a/meta/site/endian-big
-+++ b/meta/site/endian-big
-@@ -3,3 +3,6 @@ ac_cv_c_bigendian=${ac_cv_c_bigendian=yes}
- 
- # libnet
- ac_cv_libnet_endianess=${ac_cv_libnet_endianess=big}
-+
-+# libmemcached
-+ac_cv_c_endian=big
-diff --git a/meta/site/endian-little b/meta/site/endian-little
-index 9fcf31b..858db76 100644
---- a/meta/site/endian-little
-+++ b/meta/site/endian-little
-@@ -4,3 +4,5 @@ ac_cv_c_bigendian=${ac_cv_c_bigendian=no}
- # libnet
- ac_cv_libnet_endianess=${ac_cv_libnet_endianess=lil}
- 
-+# libmemcached
-+ac_cv_c_endian=little
+A few more lines of context would have helped. Here is the code just after the 
+patch.
+
+             if append:
+                 cfgfile.write('APPEND ')
+
+                 if initrd:
+                     cfgfile.write('initrd=/initrd ')
+
+                 cfgfile.write('LABEL=%s '% (label))
+
+                 cfgfile.write('%s %s\n' % (append, btype[1]))
+             else:
+                 cfgfile.write('APPEND %s\n' % btype[1])
+
+The extra kernel parameters are added to btype[1] and then written out as part 
+of the APPEND field.
+
+Does that make sense?
+
 -- 
-1.8.1.2
-
+Konrad Scherer, Sr. Engineer, Linux Products Group, Wind River
+direct 613-963-1342   fax 613-592-2283
 
 
