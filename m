@@ -1,31 +1,28 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UNjbd-00052P-IN for openembedded-core@lists.openembedded.org;
-	Thu, 04 Apr 2013 14:49:29 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34CglVv008852; Thu, 4 Apr 2013 13:42:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id O6yUmbeknPHY; Thu,  4 Apr 2013 13:42:47 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r34Cggig008834
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 4 Apr 2013 13:42:44 +0100
-Message-ID: <1365078717.6526.101.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, "Eggleton, Paul"
-	<paul.eggleton@intel.com>
-Date: Thu, 04 Apr 2013 13:31:57 +0100
-In-Reply-To: <1365006940-3863-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1365006940-3863-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	(envelope-from <radu.moisan@intel.com>) id 1UNjo4-0008HJ-7m
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Apr 2013 15:02:35 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Apr 2013 05:45:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,408,1363158000"; d="scan'208";a="313561256"
+Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
+	([10.237.105.59])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2013 05:45:04 -0700
+Message-ID: <515D75D5.4020204@intel.com>
+Date: Thu, 04 Apr 2013 15:45:09 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1365006329-20964-1-git-send-email-radu.moisan@intel.com>
+	<1365006329-20964-3-git-send-email-radu.moisan@intel.com>
+	<825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
+In-Reply-To: <825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rm_work: keep do_fetch, do_write_srcrev stamps
+Subject: Re: [PATCH 2/2] udev: enable multilib support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,71 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2013 12:49:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Apr 2013 13:02:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-04-03 at 18:35 +0200, Martin Jansa wrote:
-> * otherwise do_fetch/do_write_srcrev/do_rmwork is reexecuted for each recipe included in image
->   on every build
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/rm_work.bbclass | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-> index 1642af7..2d0eb1b 100644
-> --- a/meta/classes/rm_work.bbclass
-> +++ b/meta/classes/rm_work.bbclass
-> @@ -60,6 +60,14 @@ do_rm_work () {
->                  i=dummy
->                  break
->                  ;;
-> +            *do_fetch*)
-> +                i=dummy
-> +                break
-> +                ;;
-> +            *do_write_srcrev*)
-> +                i=dummy
-> +                break
-> +                ;;
->              *do_build*)
->                  i=dummy
->                  break
 
-We cannot do this, it is not in keeping with the rest of the system and
-will break things and set a dangerous precedent.
+On 04/03/2013 08:58 PM, Koen Kooi wrote:
+> Op 3 apr. 2013, om 18:25 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
+>
+>> Use base_libdir in place of hardcoded /lib
+>> Fixes [YOCTO #4096]
+>>
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>> meta/recipes-core/udev/udev.inc |    1 +
+>> 1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+>> index e358d2d..6fd0240 100644
+>> --- a/meta/recipes-core/udev/udev.inc
+>> +++ b/meta/recipes-core/udev/udev.inc
+>> @@ -76,6 +76,7 @@ FILES_udev-utils = "${bindir}/udevadm"
+>>
+>> do_install_append () {
+>> 	install -d ${D}${sysconfdir}/init.d
+>> +	sed -i 's@/lib/udev@${base_libdir}/udev@g' ${WORKDIR}/init
+>> 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
+>> 	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
+> NACK! The udev maintainers have been clear that it is always /lib/udev, even on 64 bit systems, so you're not fixing a problem, you're creating an extra one.
 
-If something subsequently tries to do some operation assuming do_fetch
-already ran, it would run again assuming the do_fetch data is there and
-it may not be. Right now the way things are setup with do_fetch will
-happen to work out ok in most cases with the above but its the wrong
-message to send out. For the do_write_srcrev case, it also means that in
-some cases the revision will be written out, in other cases it will not
-be and I don't think the inconsistency between the two is correct.
+Koen, do you agree with this one?
+http://patches.openembedded.org/patch/41167/
 
-The other ways I can see to solve this are:
-
-a) put do_write_srcrev under sstate
-b) change do_write_srcrev to a postfunc of do_fetch
-c) change the "addtask write_srcrev after do_fetch before do_build" to
-be before do_install.
-
-The trouble with c) is that it will cause the sstate checksums to change
-when enabling buildhistory (which happens anyway but is rather annoying
-and we should be trying to fix that, not make it worse). b) is therefore
-looking the more attractive option at this point.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
-
+Radu
 
 
