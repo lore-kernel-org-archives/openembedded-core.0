@@ -1,39 +1,36 @@
-Received: from mail-pb0-f41.google.com ([209.85.160.41])
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1UOCG3-0006QE-Vj
+	(envelope-from <otavio.salvador@gmail.com>) id 1UODG2-0002MR-Lt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 21:25:13 +0200
-Received: by mail-pb0-f41.google.com with SMTP id mc17so2173671pbc.0
+	Fri, 05 Apr 2013 22:29:12 +0200
+Received: by mail-ob0-f174.google.com with SMTP id wm15so1462423obc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2013 12:07:52 -0700 (PDT)
+	Fri, 05 Apr 2013 13:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=sMmJCM6rLZ8VW4CTPGB6/iOCwIWCkEq0NPrEl9LrRqU=;
-	b=Z8HJ+XKfvyWlp9bgY0Pjl3Xmok46NYapugul/0oVm0TuFHSM7bDW8bvOEMgrrr5Dng
-	94Ot2FbMpnMe8YBB99xL0O2Ej2BTUGO4uKqcEsUDg60OcrBxLZxJ9kEobeKULDrQReRP
-	OeW/OTS32Ot0Rma8cXuheDkJwGbLIIIGOgdF0o5CCKTiMXrjigaqHkxP6Zp0NC+yIERV
-	sbS+hXsLw+mdQTOUTHWHxZRM3iWNodzfYk67dZYrR/404XmslatAjUFDjh8KSEIEJZLF
-	vkrmEKscSgs4AZVXDGLUjQqMu3EqP9IdRLj3mK5zo/KhrJTZBwhTNJLlVvw2+QMBa7CK
-	uWKg==
-X-Received: by 10.66.228.225 with SMTP id sl1mr16763384pac.54.1365188872572;
-	Fri, 05 Apr 2013 12:07:52 -0700 (PDT)
-Received: from [192.168.1.100] ([94.205.105.6])
-	by mx.google.com with ESMTPS id yr10sm17116198pab.6.2013.04.05.12.07.49
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 12:07:51 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <515EFD76.2090009@communistcode.co.uk>
-Date: Fri, 5 Apr 2013 23:07:46 +0400
-Message-Id: <90388408-FA89-40F1-BC46-B49D56C33ED7@gmail.com>
-References: <515ED999.9040100@communistcode.co.uk>
-	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
-	<515EFD76.2090009@communistcode.co.uk>
-To: ml@communistcode.co.uk
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gcc-cross-initial Failure
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=NEMU81Q+HHtWdQQeD4VQvYxVAEvMDUE6KZPfhFJxPYM=;
+	b=lOOyzT6SqzpM7LGybrekgqG55H3MxGm677nF/OoXdqka1V5e7SLp1o4m12pL0Y0+nd
+	WE1kurX3wlCD3uhaPHvpo6konKSp+UEq4a0qh53mh/uo4GFlrM8Cufxk+rW28CfKzHRd
+	SXsW9itZurVkquXyIZy2yar2skDv+4qomRl8F/sFQKPaYChxu9dLzGICgEzy2PV1oejX
+	RdxLUb+I5i5H9baG1DH5Stqh3MZBjnk48v6sp8VRytKUZrYvWLmAlAuJMmgv5VdwsjuR
+	KIaxi1+EVTtSGd9F8ZQf6Uip3ggAsXgbspgNdkfCXCzcSX2PkG0L21+6mTYuJ+7sHk9W
+	dYxg==
+MIME-Version: 1.0
+X-Received: by 10.60.63.73 with SMTP id e9mr9045976oes.87.1365192713692; Fri,
+	05 Apr 2013 13:11:53 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Fri, 5 Apr 2013 13:11:53 -0700 (PDT)
+In-Reply-To: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
+References: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 5 Apr 2013 17:11:53 -0300
+X-Google-Sender-Auth: wDTL4mSPhDJbesxvneGyXUpjT4s
+Message-ID: <CAP9ODKowWP01_VijirCOUOQZp4W0uuV2Be151sCwjQ+02qSahw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: make the main package depend on all sub-packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,85 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 19:25:24 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Apr 2013 20:29:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Fri, Apr 5, 2013 at 2:06 PM, Ross Burton <ross.burton@intel.com> wrote:
+> Whilst splitting out specific large firmware blobs is a good move for space
+> saving, it makes installing "all the firmware" tricky.
+>
+> Make linux-firmware depend on all of the separated packages so that installing
+> that pulls in all of the sub-packages.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-On Apr 5, 2013, at 8:36 PM, Jack Mitchell <ml@communistcode.co.uk> =
-wrote:
++1 Looks great, indeed.
 
-> On 05/04/2013 17:15, Khem Raj wrote:
->> On Apr 5, 2013, at 7:03 AM, Jack Mitchell <ml@communistcode.co.uk> =
-wrote:
->>=20
->>> Doing my usual git master pull and rebuild today, resulted in =
-gcc-cross-initial failing to build.
->>>=20
->>> Please find the log attached, does anyone know what could have =
-caused it? I recently changed the TUNES, so could something not be being =
-re-built when it should be?
->>=20
->> it could be gcc is crashing on you. What TUNEs did you change
->=20
-> I build for the beaglebone and I changed them in line with your =
-default beaglebone build patch you posted a week or so ago. I think it =
-moved it form soft to hard float possibly=85
-
-
-This is the same type of error that I'm currently stuck with, while =
-attempting to build for microblaze hard-float using both gcc-4.7 and =
-gcc-4.8 recipes with the current poky master branch.
-
-I haven't tried building for soft-float, but will do so now.
-
-If you look at the errors, it is related to libgcc.
-
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [divsi3_s.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [moddi3_s.o] Error 1
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [modsi3_s.o] Error 1
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [muldi3_hard_s.o] Error 1
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [stack_overflow_exit_s.o] Error 1
-| =
-/tool/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/microblazeel-v830=
--bs-cmp-re-ml-div-fb-poky-linux/microblazeel-poky-linux-as: unrecognized =
-option '-EL'
-| make[1]: *** [mulsi3_s.o] Error 1
-| make[1]: Leaving directory =
-`/tool/yocto/poky/build/tmp/work/microblazeel-v830-bs-cmp-re-ml-div-fb-pok=
-y-linux/gcc-cross-initial/4.8.0-r0/gcc-4.8.0/build.x86_64-linux.microblaze=
-el-poky-linux/microblazeel-poky-linux/libgcc'
-| make: *** [all-target-libgcc] Error 2
-| ERROR: oe_runmake failed
-| ERROR: Function failed: do_compile (see =
-/tool/yocto/poky/build/tmp/work/microblazeel-v830-bs-cmp-re-ml-div-fb-poky=
--linux/gcc-cross-initial/4.8.0-r0/temp/log.do_compile.8602 for further =
-information)
-
-
-Best regards,
-
-Elvis Dowson=
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
