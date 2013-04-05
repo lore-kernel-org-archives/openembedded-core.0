@@ -1,35 +1,20 @@
-Received: from mail-we0-f174.google.com ([74.125.82.174])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UOAPG-0002qO-Q4
+	(envelope-from <sgw@linux.intel.com>) id 1UOAPh-0002uK-Qs
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 19:26:30 +0200
-Received: by mail-we0-f174.google.com with SMTP id u12so2966463wey.33
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2013 10:09:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=OVEuu9IGlgDnGbVjhIbpu7gJPkN/6l/5KPp6EkIxXWA=;
-	b=bVCRJpXqLy/aTdwZxrtnh5JNHO5Dwfje3u9GJ6jWVsuAa6U4XfDdXRq+6int26YcWR
-	aA24fIAcex3GG98BJZc1oPV5R+uVuvO7ITnkrhnLRBO1BTRGRViGORngHE05KNikk3OL
-	vejxKf06hHSLVVUdR9pzoIjEtaiQLebdTVy/+BfE6AXN4MjT3JqBmcR+H8QMf6dl7OjI
-	K1iB9KtqC2UN/O4MWboIS/X9JrcfSFF+oqysBitWZAYSDPOKuE8NNgFQRaYGsJQrwYor
-	4Cog8WUDgxRt8cShTL8bLv2eD4sZJs2BlU975YfXHPK/NcOm3LokyeSxCT1Loea2CgBz
-	oJ+g==
-X-Received: by 10.180.87.170 with SMTP id az10mr83787wib.3.1365181756115;
-	Fri, 05 Apr 2013 10:09:16 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bo1sm5558192wib.0.2013.04.05.10.09.14
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 10:09:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 05 Apr 2013 19:27:10 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2013 10:09:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,415,1363158000"; d="scan'208";a="314232965"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.17])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2013 10:09:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2013 18:06:31 +0100
-Message-Id: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnXIz3nmdS5IfuYJiexuF6vO6G8FuK+2O/DXaUZg/tVpp7mJZ0iKw8AEsyDgfIgLc57k6eb
-Subject: [PATCH] linux-firmware: make the main package depend on all sub-packages
+Date: Fri,  5 Apr 2013 10:09:30 -0700
+Message-Id: <1365181772-18644-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH 0/2] Fix issue with newer glibc crypt() function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 17:26:31 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 17:27:20 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 17:27:20 -0000
 
-Whilst splitting out specific large firmware blobs is a good move for space
-saving, it makes installing "all the firmware" tricky.
+The 2.17 version of glibc's crypt() was changed to returning NULL if
+it got an invalid seed, this broke tinylogin and shadow in different
+ways.
 
-Make linux-firmware depend on all of the separated packages so that installing
-that pulls in all of the sub-packages.
+Thanks to the Slackware team for "just in time patches", they found it 
+first in shadow around March 28th!
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb |    6 ++++++
- 1 file changed, 6 insertions(+)
+I do not believe that these will introduce any security concerns, please 
+review with a careful eye.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 5ee3b73..ef036cf 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -162,3 +162,9 @@ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
- 
- FILES_${PN} += "/lib/firmware/*"
-+
-+# Make linux-firmware depend on all of the split-out packages.
-+python populate_packages_prepend () {
-+    firmware_pkgs = oe.utils.packages_filter_out_system(d)
-+    d.appendVar('RDEPENDS_linux-firmware', ' ' + ' '.join(firmware_pkgs))
-+}
+Sau!
+
+
+Saul Wold (2):
+  tinylogin: fix segfault from crypt()
+  shadow: add patch to fix crypt: Invalid Argument
+
+ .../tinylogin/tinylogin-1.4/glibc_crypt_fix.patch  | 23 ++++++++
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |  4 +-
+ .../files/slackware_fix_for_glib-2.17_crypt.patch  | 63 ++++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  1 +
+ 4 files changed, 90 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch
+ create mode 100644 meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
+
 -- 
-1.7.10.4
+1.8.0.2
 
 
 
