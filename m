@@ -1,28 +1,33 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UO3cW-0007WT-So for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 12:11:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r35A5Du4030944; Fri, 5 Apr 2013 11:05:13 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DLnfxwkZxkSJ; Fri,  5 Apr 2013 11:05:13 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r35A57mQ030931
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 5 Apr 2013 11:05:10 +0100
-Message-ID: <1365155658.6526.136.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Date: Fri, 05 Apr 2013 10:54:18 +0100
-In-Reply-To: <515E976C.8060302@linaro.org>
-References: <515E976C.8060302@linaro.org>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UO3fG-0007kR-Q1
+	for openembedded-core@lists.openembedded.org;
+	Fri, 05 Apr 2013 12:14:36 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id D159FD22E9; Fri,  5 Apr 2013 11:57:29 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 5B31CD20D2;
+	Fri,  5 Apr 2013 11:57:06 +0200 (CEST)
+Message-ID: <515E9FE9.1070906@linaro.org>
+Date: Fri, 05 Apr 2013 11:56:57 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <515E976C.8060302@linaro.org> <1365155658.6526.136.camel@ted>
+In-Reply-To: <1365155658.6526.136.camel@ted>
+X-Enigmail-Version: 1.4.6
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Does support for external toolchains working in current OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,51 +42,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 10:11:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Apr 2013 10:14:37 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-04-05 at 11:20 +0200, Marcin Juszkiewicz wrote:
-> For last few months I am working on fixing Linaro binary cross
-> toolchains and their support in OpenEmbedded. Got to point when they 
-> work (both AArch64 and ARMv7a ones) for single packages but problem 
-> starts when I want to create image...
-> 
-> 11:14 hrw@puchatek:build$ bitbake core-image-minimal -g
-> Parsing of 1302 .bb files complete (1294 cached, 8 parsed). 1670 targets, 45 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: multiple providers are available for virtual/gettext (proxy-libintl, gettext)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match virtual/gettext
-> NOTE: Preparing runqueue
-> ERROR: Multiple .bb files are due to be built which each provide virtual/libc (/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb).
->  This usually means one provides something the other doesn't and should.
-> ERROR: Multiple .bb files are due to be built which each provide virtual/arm-linux-gnueabihf-libc-for-gcc (/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb).
->  This usually means one provides something the other doesn't and should.
-> ERROR: Multiple .bb files are due to be built which each provide virtual/libiconv (/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb).
->  This usually means one provides something the other doesn't and should.
-> NOTE: PN build list saved to 'pn-buildlist'
-> NOTE: PN dependencies saved to 'pn-depends.dot'
-> NOTE: Package dependencies saved to 'package-depends.dot'
-> NOTE: Task dependencies saved to 'task-depends.dot'
-> 
-> Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
-> 
-> All three virtual/ are provided by external-linaro-toolchain recipe... 
-> 
-> Is there any external toolchain which allows to create image with current
-> OpenEmbedded layers? 
-> 
-> TCMODE="external-sourcery" gives exactly same problem.
+W dniu 05.04.2013 11:54, Richard Purdie pisze:
+> This means that virtual/libc is providing something which the external
+> toolchain recipes are not. Can you share the "bitbake -DDDv" output for
+> the above command somewhere (I know there will be a lot of it). Buried
+> somewhere in there will be the answer as it does tell you what is going
+> on if you search for the right things.
 
-This means that virtual/libc is providing something which the external
-toolchain recipes are not. Can you share the "bitbake -DDDv" output for
-the above command somewhere (I know there will be a lot of it). Buried
-somewhere in there will be the answer as it does tell you what is going
-on if you search for the right things.
-
-Cheers,
-
-Richard
-
+http://tygrysek.juszkiewicz.com.pl/~hrw/tmp/rp-log.txt 3.4MB
 
 
