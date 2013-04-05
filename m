@@ -1,22 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UOAQ0-0002uK-0z
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UOBfu-00015X-SU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 19:27:29 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2013 10:09:36 -0700
+	Fri, 05 Apr 2013 20:47:52 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Apr 2013 11:30:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,415,1363158000"; d="scan'208";a="314232996"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.17])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2013 10:09:35 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2013 10:09:32 -0700
-Message-Id: <1365181772-18644-3-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-In-Reply-To: <1365181772-18644-1-git-send-email-sgw@linux.intel.com>
-References: <1365181772-18644-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2] shadow: add patch to fix crypt: Invalid Argument
+X-IronPort-AV: E=Sophos;i="4.87,416,1363158000"; d="scan'208";a="290045593"
+Received: from unknown (HELO helios.localnet) ([10.255.14.34])
+	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2013 11:30:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Fri, 05 Apr 2013 19:30:24 +0100
+Message-ID: <1772053.lXJvoCbPnm@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.1 (Linux/3.5.0-26-generic; KDE/4.10.1; i686; ; )
+In-Reply-To: <1365178346-13759-1-git-send-email-laurentiu.palcu@intel.com>
+References: <1365172122-20101-1-git-send-email-laurentiu.palcu@intel.com>
+	<1365178346-13759-1-git-send-email-laurentiu.palcu@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] postinst-intercepts, qemu.bbclass: fix issue on 32 bit hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,104 +33,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 17:27:31 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 18:48:08 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 18:48:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This patch came from Slackware and address a change in crypt()'s handling
-of an invalid seed, which in the past returned an encrypted string and now
-returns a NULL.
+On Friday 05 April 2013 19:12:26 Laurentiu Palcu wrote:
+> The intercept scripts fail to run on 32 bit hosts. Apparently, the
+> current approach worked on 64 bit hosts due to the larger virtual address
+> space (probably). On 32 bit hosts, however, calling the target binary like:
+> 
+> qemu-arm ld-linux.so --library-path /lib:/usr/lib arm_binary
+> 
+> fails with:
+> 
+> arm_binary: error while loading shared libraries: arm_binary: failed to
+> map segment from shared object: Operation not permitted
+> 
+> When run like this, qemu-arm fails to map the arm_binary executable in
+> memory because it's hitting the lower limit of
+> /proc/sys/vm/mmap_min_addr. That's because it loads the
+> ld-linux.so binary successfully, taking into account mmap_min_addr, runs
+> it, and then ld-linux.so will map the arm_binary at a fixed address but this
+> will fail because it is below mmap_min_addr. The qemu's guest base probing,
+> apparently, doesn't work fine when a program runs inside other.
+> 
+> One way around this would be to set mmap_min_addr to 0 (on recent
+> distributions is set to 65536 to avoid "kernel NULL pointer dereference"
+> defects) but this approach is not safe.
+> 
+> The other way is to call the binary directly but providing qemu with a
+> prefix (-L option) in order to find the elf interpreter correctly. This
+> way, both the target binary and dynamic loader are mapped into memory
+> under qemu's control and, only after, the dynamic loader is started.
+> 
+> [YOCTO #4179]
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+> Changes in v2:
+>  * changed the qemu_run_binary() helper function too
+> 
+> Thanks,
+> Laurentiu
+> 
+>  meta/classes/qemu.bbclass                       |    8 +-------
+>  scripts/postinst-intercepts/update_font_cache   |    4 +---
+>  scripts/postinst-intercepts/update_pixbuf_cache |    3 +--
+>  3 files changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+> index 8b03926..0e71d6a 100644
+> --- a/meta/classes/qemu.bbclass
+> +++ b/meta/classes/qemu.bbclass
+> @@ -29,10 +29,4 @@ def qemu_run_binary(data, rootfs_path, binary):
+>      if qemu_binary == "qemu-allarch":
+>          qemu_binary = "qemuwrapper"
+> 
+> -    dynamic_loader = rootfs_path + '$(readelf -l ' + rootfs_path + \
+> -                     binary + '| grep "Requesting program interpreter"|sed
+> -e \'s/^.*\[.*: \(.*\)\]/\\1/\')' -    library_path = rootfs_path +
+> data.getVar("base_libdir", True) + ":" + \ -                   rootfs_path
+> + data.getVar("libdir", True)
+> -
+> -    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + dynamic_loader + "
+> --library-path " + library_path \ -           + " " + rootfs_path + binary
+> +    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path + " " +
+> rootfs_path + binary diff --git
+> a/scripts/postinst-intercepts/update_font_cache
+> b/scripts/postinst-intercepts/update_font_cache index 562b5b3..ad1bab3
+> 100644
+> --- a/scripts/postinst-intercepts/update_font_cache
+> +++ b/scripts/postinst-intercepts/update_font_cache
+> @@ -1,7 +1,5 @@
+>  #!/bin/sh
+> 
+> -PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l $D${bindir}/fc-cache| grep
+> "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \ -     
+>   --library-path $D/lib:$D/usr/lib $D${bindir}/fc-cache \
+> -        --sysroot=$D >/dev/null 2>&1
+> +PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/fc-cache --sysroot=$D
+> >/dev/null 2>&1
+> 
+> 
+> diff --git a/scripts/postinst-intercepts/update_pixbuf_cache
+> b/scripts/postinst-intercepts/update_pixbuf_cache index 64033dc..9134529
+> 100644
+> --- a/scripts/postinst-intercepts/update_pixbuf_cache
+> +++ b/scripts/postinst-intercepts/update_pixbuf_cache
+> @@ -2,8 +2,7 @@
+> 
+>  export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
+> 
+> -PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l
+> $D${bindir}/gdk-pixbuf-query-loaders|grep "Requesting program
+> interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \ -    --library-path
+> $D/lib:$D/usr/lib $D${bindir}/gdk-pixbuf-query-loaders \ +PSEUDO_UNLOAD=1
+> qemuwrapper -L $D $D${bindir}/gdk-pixbuf-query-loaders \
+>      >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
+> 
+>      sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
 
-[YOCTO #4097] related to tinylogin segfault
+This fixes the problem for me.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../files/slackware_fix_for_glib-2.17_crypt.patch  | 63 ++++++++++++++++++++++
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-diff --git a/meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch b/meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
-new file mode 100644
-index 0000000..7cd45af
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
-@@ -0,0 +1,63 @@
-+
-+This patch is from Slackware, I tried to find the actual
-+author to add that attribution.  The comment below is the
-+best summary, I will not repeat it here.
-+
-+Upstream-Status: Backport from slackware
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: shadow-4.1.4.3/lib/encrypt.c
-+===================================================================
-+--- shadow-4.1.4.3.orig/lib/encrypt.c
-++++ shadow-4.1.4.3/lib/encrypt.c
-+@@ -45,15 +45,40 @@ char *pw_encrypt (const char *clear, con
-+ 	static char cipher[128];
-+ 	char *cp;
-+ 
-+-	cp = crypt (clear, salt);
-+-	if (!cp) {
-+-		/*
-+-		 * Single Unix Spec: crypt() may return a null pointer,
-+-		 * and set errno to indicate an error.  The caller doesn't
-+-		 * expect us to return NULL, so...
-+-		 */
-+-		perror ("crypt");
-+-		exit (EXIT_FAILURE);
-++ 	cp = crypt (clear, salt);
-++ 	if (!cp) {
-++ 		/*
-++		 * In glibc-2.17 and newer, crypt() will return NULL if
-++		 * it was called using an invalid salt format.  Previous
-++		 * versions of glibc would go ahead and compute a DES hash
-++		 * using the invalid salt.  The salt value in this case was
-++		 * always '!'.  We might arrive at this place if either the
-++		 * user does not exist, or if the hash in /etc/shadow doesn't
-++		 * have the proper magic for one of the supported hash
-++		 * formats (for example, if the account was locked using
-++		 * "passwd -l".  To handle this situation, we will recompute
-++		 * the hash using a hardcoded salt as was previously done
-++		 * by glibc.  The hash returned by the old glibc function
-++		 * always began with "!!", which would ensure that it could
-++		 * never match an otherwise valid hash in /etc/shadow that
-++		 * was disabled with a "!" at the beginning (since the second
-++		 * character would never be "!" as well), so we will also
-++		 * prepend the resulting hash with "!!".  Finally, in case
-++		 * crypt() failed for some other reason we will check to see
-++		 * if we still get NULL from crypt even with the valid salt
-++		 * and will fail if that's the case.
-++ 		 */
-++
-++		/* Recalculate hash using a hardcoded, valid SHA512 salt: */
-++		cp = crypt (clear, "$6$8IIcy/1EPOk/");
-++
-++		if (!cp) {
-++			perror ("crypt");
-++			exit (EXIT_FAILURE);
-++		} else {
-++			sprintf (cipher, "!!%s", cp);
-++			return cipher;
-++		}
-+ 	}
-+ 
-+ 	/* The GNU crypt does not return NULL if the algorithm is not
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index 8226a6e..caf24c0 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow-4.1.4.2-su_no_sanitize_env.patch \
-            file://shadow-update-pam-conf.patch \
-            file://shadow_fix_for_automake-1.12.patch \
-+           file://slackware_fix_for_glib-2.17_crypt.patch \
-            "
- 
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
 -- 
-1.8.0.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
