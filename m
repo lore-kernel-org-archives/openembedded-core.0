@@ -1,26 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UOF5H-0001bE-6k
+	(envelope-from <martin.jansa@gmail.com>) id 1UOF6K-0001l3-Jy
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Apr 2013 00:26:14 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Apr 2013 15:08:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,417,1363158000"; d="scan'208";a="314373764"
-Received: from unknown (HELO [10.255.14.17]) ([10.255.14.17])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2013 15:08:55 -0700
-Message-ID: <515F4B76.2040607@linux.intel.com>
-Date: Fri, 05 Apr 2013 15:08:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Sat, 06 Apr 2013 00:27:18 +0200
+Received: by mail-wg0-f41.google.com with SMTP id y10so2197819wgg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Apr 2013 15:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=1z5Wbpg0TBLDbkpeY8/J1nmwC/2O7nICzhMS2dDXPgc=;
+	b=wGniQclcyuJXE+/Lb+NOSEc6VkWIRSMlKdkG9obe856HbBnjffTfLs8ha+F6DKCcGa
+	h3XkYlrQe9syINOdThpyefvVgcPNoDpJB4QVQef+penEJGGTEydEbRjybvORQEyIn/sN
+	phrKOauofn0IRVDCHENQPRly1hkKV3XJ0SZA6/w0lwTK9G2vTcE0o+9Q3tXaI+TX95Gh
+	Olc8pBQbWlBQ9u1k4IfiHKxNrAdcMujZMjWfF3mF1oT/voelcbzH/N5Q/UAQMKP0f6b6
+	fnpXBDjKD1UMDAewSpGfJeN1BIqWlQQTslNB65dnM1FzJ8eKRitE3MCsJc/UGJNa7Wtf
+	5nXw==
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, Yevhen Kyriukha <kirgene@gmail.com>
-References: <1365196380-1930-1-git-send-email-kirgene@gmail.com>
-	<20130405212904.GH3191@jama>
-In-Reply-To: <20130405212904.GH3191@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: added python-systemd package generation.
+X-Received: by 10.180.82.33 with SMTP id f1mr1304124wiy.13.1365199801969; Fri,
+	05 Apr 2013 15:10:01 -0700 (PDT)
+Received: by 10.194.243.137 with HTTP; Fri, 5 Apr 2013 15:10:01 -0700 (PDT)
+In-Reply-To: <CABcZANnvkcKCA14uuOjFcK6tRdNhy27m-+bPAjQbd=W2FK+HJw@mail.gmail.com>
+References: <515E976C.8060302@linaro.org> <20130405212038.GG3191@jama>
+	<CABcZANnvkcKCA14uuOjFcK6tRdNhy27m-+bPAjQbd=W2FK+HJw@mail.gmail.com>
+Date: Sat, 6 Apr 2013 00:10:01 +0200
+Message-ID: <CA+chaQdLwM_iLaCA=aq19q941CEKKAhbJb9L8Oe=TVd4sDU9wA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Does support for external toolchains working in current OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,111 +42,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 22:26:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Apr 2013 22:27:19 -0000
+Content-Type: multipart/alternative; boundary=f46d041826da3e708804d9a45913
 
-On 04/05/2013 02:29 PM, Martin Jansa wrote:
-> On Sat, Apr 06, 2013 at 12:13:00AM +0300, Yevhen Kyriukha wrote:
->> ---
->>   meta/recipes-core/systemd/systemd_199.bb |   21 +++++++++++++++++----
->>   1 file changed, 17 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
->> index ba1d133..2a3d351 100644
->> --- a/meta/recipes-core/systemd/systemd_199.bb
->> +++ b/meta/recipes-core/systemd/systemd_199.bb
->> @@ -10,12 +10,18 @@ PROVIDES = "udev"
->>
->>   PE = "1"
->>
->> -DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
->> +DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 python"
->>   DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->>
+--f46d041826da3e708804d9a45913
+Content-Type: text/plain; charset=UTF-8
 
-I am going to defer this for 1.5, as it's a little late in the 1.4 cycle 
-to make this kind of change.  I would also like you to consider making 
-it a PACKAGECONFIG, instead of hard wiring it.
-
-If someone wants to create a minimal system with systemd, they might not 
-want to have python pulled in also, so making it more optional would be 
-better.
-
-Thanks
-	Sau!
+I've already tried that, systemd's configure does not respect that.
 
 
->>   SECTION = "base/shell"
->>
->> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
->> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d pythonnative python-dir
->> +
->> +# need to export these variables for python-config to work
->> +export BUILD_SYS
->> +export HOST_SYS
->> +export STAGING_INCDIR
->> +export STAGING_LIBDIR
->>
->>   SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
->>              file://touchscreen.rules \
->> @@ -63,9 +69,9 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
->>                    --disable-coredump \
->>                    --disable-introspection \
->>                    --disable-tcpwrap \
->> +                 --with-python \
->>                    --enable-split-usr \
->>                    --disable-microhttpd \
->> -                 --without-python \
->>                    --with-sysvrcnd-path=${sysconfdir} \
->>                    ac_cv_path_KILL=${base_bindir}/kill \
->>                  "
->> @@ -114,7 +120,7 @@ python populate_packages_prepend (){
->>   }
->>   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
->>
->> -PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
->> +PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-staticdev"
->>
->>   USERADD_PACKAGES = "${PN}"
->>   GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
->> @@ -124,6 +130,13 @@ FILES_${PN}-analyze = "${base_bindir}/systemd-analyze"
->>   FILES_${PN}-initramfs = "/init"
->>   RDEPENDS_${PN}-initramfs = "${PN}"
->>
->> +FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
->> +RDEPENDS_python-${PN} = "python-core"
->> +FILES_python-${PN}-staticdev = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.la"
->> +RDEPENDS_python-${PN} = "python-core"
->> +FILES_python-${PN}-dbg = "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
->> +RDEPENDS_python-${PN} = "python-core"
+On Sat, Apr 6, 2013 at 12:08 AM, Chris Larson <clarson@kergoth.com> wrote:
+
 >
-> You have 3x RDEPENDS_python-${PN} (maybe you wanted -dbg and -staticdev,
-> but those do not need python-core imho).
+> On Fri, Apr 5, 2013 at 2:20 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
 >
-> It's more common to start with ${PN}, but maybe it makes sense with
-> python- prefix if you think about it as python module not systemd
-> package...
->
->> +
->>   FILES_${PN}-gui = "${bindir}/systemadm"
+>> On Fri, Apr 05, 2013 at 11:20:44AM +0200, Marcin Juszkiewicz wrote:
+>> > For last few months I am working on fixing Linaro binary cross
+>> > toolchains and their support in OpenEmbedded. Got to point when they
+>> > work (both AArch64 and ARMv7a ones) for single packages but problem
+>> > starts when I want to create image...
 >>
->>   FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup \
->> --
->> 1.7.9.5
+>> Today I got different king of issue with external toolchain.
 >>
+>> systemd is using AC_PATH_TOOL(OBJCOPY, objcopy)
+>> but host prefix in OE is not the same as in binary toolchain (different
+>> TARGET_VENDOR)
+>> so it looks for configure:14545: checking for
+>> arm-foo-linux-gnueabi-objcopy
+>> while binary toolchain has only
+>> arm-bar-linux-gnueabi-objcopy
 >>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> and because arm-foo-linux-gnueabi-objcopy wasn't found it continues:
+>> configure:14588: checking for objcopy
+>> configure:14606: found /usr/bin/objcopy
+>> and bam a lot later when it tries objcopy from host on some arm lib
+>>
+>> Interesting that systemd is first recipe in our image where I've noticed
+>> issues like this
+>>
+>> Any idea how to easily resolve this without checking every configure.ac
+>> how it's looking for e.g. objcopy?
 >
 >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> export OBJCOPY in the environment to the one based on TARGET_PREFIX rather
+> than TARGET_SYS, and it'll use that.
+> --
+> Christopher Larson
 >
 
+--f46d041826da3e708804d9a45913
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">I&#39;ve already tried that, systemd&#39;s configure does =
+not respect that.</div><div class=3D"gmail_extra"><br><br><div class=3D"gma=
+il_quote">On Sat, Apr 6, 2013 at 12:08 AM, Chris Larson <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth=
+.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
+<div><div class=3D"h5"><br><div class=3D"gmail_quote">On Fri, Apr 5, 2013 a=
+t 2:20 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jans=
+a@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:=
+<br>
+
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div>On Fri, Apr 05, 2013 at 11:20:44AM +020=
+0, Marcin Juszkiewicz wrote:<br>
+&gt; For last few months I am working on fixing Linaro binary cross<br>
+&gt; toolchains and their support in OpenEmbedded. Got to point when they<b=
+r>
+&gt; work (both AArch64 and ARMv7a ones) for single packages but problem<br=
+>
+&gt; starts when I want to create image...<br>
+<br>
+</div>Today I got different king of issue with external toolchain.<br>
+<br>
+systemd is using AC_PATH_TOOL(OBJCOPY, objcopy)<br>
+but host prefix in OE is not the same as in binary toolchain (different TAR=
+GET_VENDOR)<br>
+so it looks for configure:14545: checking for arm-foo-linux-gnueabi-objcopy=
+<br>
+while binary toolchain has only =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 arm-bar-linux-gnueabi-objcopy<br>
+<br>
+and because arm-foo-linux-gnueabi-objcopy wasn&#39;t found it continues:<br=
+>
+configure:14588: checking for objcopy<br>
+configure:14606: found /usr/bin/objcopy<br>
+and bam a lot later when it tries objcopy from host on some arm lib<br>
+<br>
+Interesting that systemd is first recipe in our image where I&#39;ve notice=
+d<br>
+issues like this<br>
+<br>
+Any idea how to easily resolve this without checking every <a href=3D"http:=
+//configure.ac" target=3D"_blank">configure.ac</a><br>
+how it&#39;s looking for e.g. objcopy?</blockquote></div><br></div></div>ex=
+port OBJCOPY in the environment to the one based on TARGET_PREFIX rather th=
+an TARGET_SYS, and it&#39;ll use that.<span class=3D"HOEnZb"><font color=3D=
+"#888888"><br>
+-- <br>Christopher Larson</font></span></div></div>
+</blockquote></div><br></div>
+
+--f46d041826da3e708804d9a45913--
