@@ -1,45 +1,40 @@
-Received: from ra.se.axis.com ([195.60.68.13])
+Received: from mail-pa0-f43.google.com ([209.85.220.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <peter.kjellerstedt@axis.com>) id 1UOAG7-0001rO-Rl
+	(envelope-from <raj.khem@gmail.com>) id 1UOAJt-0002LW-3a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 19:17:03 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id 9A06213CD4
+	Fri, 05 Apr 2013 19:21:27 +0200
+Received: by mail-pa0-f43.google.com with SMTP id hz11so2142429pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2013 18:59:49 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from ra.se.axis.com ([127.0.0.1])
-	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jnHf25Etxg0y
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2013 18:59:49 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by ra.se.axis.com (Postfix) with ESMTP id B6A6F261343
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2013 18:59:48 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id B515234A69
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2013 18:59:48 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r35Gxm4e015946
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Apr 2013 18:59:48 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r35GxmOh015945
-	for openembedded-core@lists.openembedded.org;
-	Fri, 5 Apr 2013 18:59:48 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2013 18:59:45 +0200
-Message-Id: <a20f68229f1499d9020bd9cd8dc593e5f6635967.1365179842.git.pkj@axis.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1365179842.git.pkj@axis.com>
-References: <cover.1365179842.git.pkj@axis.com>
-In-Reply-To: <cover.1365179842.git.pkj@axis.com>
-References: <cover.1365179842.git.pkj@axis.com>
-Subject: [PATCH 2/3] oe-buildenv-internal: Only add to $PATH if needed
+	Fri, 05 Apr 2013 10:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=zIID2XU1yCe2CTamCtmm8P+BVS06IyMgCEhGzTBbtm4=;
+	b=zNjAjsdXHSRXgjA4afWf2hSsRADOr+YlqaXR/kt1RSZ+W+67ANoiPy0NFdeNKu4TUn
+	dyZ/0D9MV2NZBr3mxJ3oavxefgNe+n5K74P7Ue9hvXQ/LX8/Sj6KA01LJczG7x5b2JQs
+	NHfpsfJInmhjxxPjS297b/fD2Ew2isHixvyuxYpPDvpChvIOzgVOdHnMe4cQg3IcO/Wd
+	C7aDyEL8kjwDmKgLvqaHLtDgGOaFEMz5ZLZrqvDRsBhDpGHEpwm2w90v+5EQgPd2nhUk
+	+0TmKuNsC9a8XLubFTu8W3tPhnMd/1XZC/qNv8FQPp9/6X6EAl6AdjrGYcCoTXbH1OAn
+	F+8A==
+X-Received: by 10.66.145.166 with SMTP id sv6mr16575577pab.1.1365181421867;
+	Fri, 05 Apr 2013 10:03:41 -0700 (PDT)
+Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id hp1sm16764415pac.3.2013.04.05.10.03.39
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 05 Apr 2013 10:03:40 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <515EFD76.2090009@communistcode.co.uk>
+Date: Fri, 5 Apr 2013 10:03:38 -0700
+Message-Id: <0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
+References: <515ED999.9040100@communistcode.co.uk>
+	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
+	<515EFD76.2090009@communistcode.co.uk>
+To: ml@communistcode.co.uk
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gcc-cross-initial Failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,35 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 17:17:03 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 17:21:32 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-If $PATH already has the needed paths at the beginning, there is no need
-to add them again. This allows rerunning oe-init-build-env for the same
-directory without having $PATH increase unnecessarily every time.
 
-Signed-off-by: Peter Kjellerstedt <pkj@axis.com>
----
- scripts/oe-buildenv-internal | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On Apr 5, 2013, at 9:36 AM, Jack Mitchell <ml@communistcode.co.uk> =
+wrote:
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 0a4d324..df95389 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -74,8 +74,9 @@ if ! (test -d "$BITBAKEDIR"); then
-     return 1
- fi
- 
--PATH="${OEROOT}/scripts:$BITBAKEDIR/bin/:$PATH"
--unset BITBAKEDIR
-+NEWPATHS="${OEROOT}/scripts:$BITBAKEDIR/bin/:"
-+[ "${PATH#$NEWPATHS}" != "$PATH" ] || PATH="$NEWPATHS$PATH"
-+unset BITBAKEDIR NEWPATHS
- 
- # Used by the runqemu script
- export BUILDDIR
--- 
-1.7.11.7
+> I build for the beaglebone and I changed them in line with your =
+default beaglebone build patch you posted a week or so ago. I think it =
+moved it form soft to hard float possibly...
 
+yes do a clean build if possible=
 
 
