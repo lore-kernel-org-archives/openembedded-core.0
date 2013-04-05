@@ -1,21 +1,36 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UO7tv-0007jh-OP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 16:46:03 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2013 07:28:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,415,1363158000"; d="scan'208";a="317418479"
-Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
-	([10.237.105.165])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Apr 2013 07:28:43 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2013 17:28:42 +0300
-Message-Id: <1365172122-20101-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] postinst-intercepts: fix issue on 32 bit hosts
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UO80E-0008Ca-Hh for openembedded-core@lists.openembedded.org;
+	Fri, 05 Apr 2013 16:52:32 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r35EjoMk019872; Fri, 5 Apr 2013 15:45:51 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0qU+8HJby+dG; Fri,  5 Apr 2013 15:45:50 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r35EjQJE019825
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 5 Apr 2013 15:45:42 +0100
+Message-ID: <1365172473.6526.195.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Damian <alex.r.damian@gmail.com>
+Date: Fri, 05 Apr 2013 15:34:33 +0100
+In-Reply-To: <CAL7ttbc2VXkMz79oyHt69E0wsSvEYqndNHSQMLCDO56TF6v=og@mail.gmail.com>
+References: <1365006329-20964-1-git-send-email-radu.moisan@intel.com>
+	<1365006329-20964-3-git-send-email-radu.moisan@intel.com>
+	<825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
+	<515D75D5.4020204@intel.com>
+	<1B3FBA45-5658-4BF8-A854-84058F80DCBF@dominion.thruhere.net>
+	<515EBCA1.6000502@intel.com>
+	<CAL7ttbc2VXkMz79oyHt69E0wsSvEYqndNHSQMLCDO56TF6v=og@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] udev: enable multilib support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,73 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 14:46:08 -0000
+X-List-Received-Date: Fri, 05 Apr 2013 14:52:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The intercept scripts fail to run on 32 bit hosts. Apparently, the
-current approach worked on 64 bit hosts due to the larger virtual address
-space (probably). On 32 bit hosts, however, calling the target binary like:
+On Fri, 2013-04-05 at 16:29 +0300, Alex Damian wrote:
+> On udev-184 they changed the default location from /sbin/
+> to /lib/udev/ and I kept same as the upstream is.
 
-qemu-arm ld-linux.so --library-path /lib:/usr/lib arm_binary
+Firstly, I know some people did ask me questions offlist about this and
+I probably gave misleading answers. I thought this was a problem with
+the location of the rules directory initially. We need to have one rules
+directory regardless of multilibs.
 
-fails with:
+Binaries however are a very different question. The multilib code we
+have in OE is complex and does make some assumptions about layout, not
+least as we have to interface into several package managers and also
+work with all their assumptions. The situation is that:
 
-arm_binary: error while loading shared libraries: arm_binary: failed to
-map segment from shared object: Operation not permitted
+* library files are expected to go into /libX
+* binaries are expected to go into the usual bin/sbin dirs
+* files in /etc, /usr/share and other similar directories are expected 
+  to be identical
+* We have sanity tests which check for these things
 
-When run like this, qemu-arm fails to map the arm_binary executable in
-memory because it's hitting the lower limit of
-/proc/sys/vm/mmap_min_addr. That's because it loads the
-ld-linux.so binary successfully, taking into account mmap_min_addr, runs
-it, and then ld-linux.so will map the arm_binary at a fixed address but this
-will fail because it is below mmap_min_addr. The qemu's guest base probing,
-apparently, doesn't work fine when a program runs inside other.
+The package managers are taught to let certain packages "win" in
+bin/sbin and to error if overlapping files outside this are not
+identical.
 
-One way around this would be to set mmap_min_addr to 0 (on recent
-distributions is set to 65536 to avoid "kernel NULL pointer dereference"
-defects) but this approach is not safe.
+It therefore follows that we would have to start adding exceptions to
+this code if we have potential for both 32 bit and 64 bit /lib/udev/
+binaries. We'd also have to add rules about which one would be expected
+to "win" under which circumstances and so on.
 
-The other way is to call the binary directly but providing qemu with a
-prefix (-L option) in order to find the elf interpreter correctly. This
-way, both the target binary and dynamic loader are mapped into memory
-under qemu's control and only after the dynamic loader is started.
+To me, the simplest solution here is to point libexec dir at /sbin so
+that we have /sbin/udev/ since this then works with the various multilib
+rules. It means a user can install the 64 bit and 32 bit multilibs for
+udev in parallel (for libudev for example) and that things should all
+work correctly.
 
-[YOCTO #4179]
+I appreciate upstream don't agree with that approach but equally they
+don't have the generic multilib support we have to worry about. Hacking
+the multilib code to pieces just to match upstream in this case is going
+to be a lot more painful, I appreciate its the not optimal solution
+though.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- scripts/postinst-intercepts/update_font_cache   |    4 +---
- scripts/postinst-intercepts/update_pixbuf_cache |    3 +--
- 2 files changed, 2 insertions(+), 5 deletions(-)
+There is some pressure here since I would like the release to have
+working multilib support as well as sysvinit and systemd :/.
 
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 562b5b3..ad1bab3 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -1,7 +1,5 @@
- #!/bin/sh
- 
--PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l $D${bindir}/fc-cache| grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \
--        --library-path $D/lib:$D/usr/lib $D${bindir}/fc-cache \
--        --sysroot=$D >/dev/null 2>&1
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
- 
- 
-diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
-index 64033dc..9134529 100644
---- a/scripts/postinst-intercepts/update_pixbuf_cache
-+++ b/scripts/postinst-intercepts/update_pixbuf_cache
-@@ -2,8 +2,7 @@
- 
- export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
- 
--PSEUDO_UNLOAD=1 qemuwrapper $D$(readelf -l $D${bindir}/gdk-pixbuf-query-loaders|grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/') \
--    --library-path $D/lib:$D/usr/lib $D${bindir}/gdk-pixbuf-query-loaders \
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/gdk-pixbuf-query-loaders \
-     >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
-     sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
- 
--- 
-1.7.9.5
+Cheers,
+
+Richard
+
 
 
 
