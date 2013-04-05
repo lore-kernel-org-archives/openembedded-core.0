@@ -1,29 +1,35 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UO5ZP-0007Gu-6Z
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UO5uy-0008QW-6t
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 14:16:40 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Apr 2013 04:59:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,414,1363158000"; d="scan'208";a="281245365"
-Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
-	([10.237.105.59])
-	by azsmga001.ch.intel.com with ESMTP; 05 Apr 2013 04:59:23 -0700
-Message-ID: <515EBCA1.6000502@intel.com>
-Date: Fri, 05 Apr 2013 14:59:29 +0300
-From: Radu Moisan <radu.moisan@intel.com>
+	Fri, 05 Apr 2013 14:39:21 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 3AB44D22E9; Fri,  5 Apr 2013 14:21:47 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 4A0E2D20D2;
+	Fri,  5 Apr 2013 14:21:16 +0200 (CEST)
+Message-ID: <515EC1B2.4060103@linaro.org>
+Date: Fri, 05 Apr 2013 14:21:06 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1365006329-20964-1-git-send-email-radu.moisan@intel.com>
-	<1365006329-20964-3-git-send-email-radu.moisan@intel.com>
-	<825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
-	<515D75D5.4020204@intel.com>
-	<1B3FBA45-5658-4BF8-A854-84058F80DCBF@dominion.thruhere.net>
-In-Reply-To: <1B3FBA45-5658-4BF8-A854-84058F80DCBF@dominion.thruhere.net>
-Subject: Re: [PATCH 2/2] udev: enable multilib support
+To: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <515E976C.8060302@linaro.org>
+In-Reply-To: <515E976C.8060302@linaro.org>
+X-Enigmail-Version: 1.4.6
+Subject: Re: Does support for external toolchains working in current OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,78 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 12:16:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 05 Apr 2013 12:39:23 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+W dniu 05.04.2013 11:20, Marcin Juszkiewicz pisze:
 
-On 04/04/2013 04:03 PM, Koen Kooi wrote:
-> Op 4 apr. 2013, om 14:45 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
->
->> On 04/03/2013 08:58 PM, Koen Kooi wrote:
->>> Op 3 apr. 2013, om 18:25 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
->>>
->>>> Use base_libdir in place of hardcoded /lib
->>>> Fixes [YOCTO #4096]
->>>>
->>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->>>> ---
->>>> meta/recipes-core/udev/udev.inc |    1 +
->>>> 1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
->>>> index e358d2d..6fd0240 100644
->>>> --- a/meta/recipes-core/udev/udev.inc
->>>> +++ b/meta/recipes-core/udev/udev.inc
->>>> @@ -76,6 +76,7 @@ FILES_udev-utils = "${bindir}/udevadm"
->>>>
->>>> do_install_append () {
->>>> 	install -d ${D}${sysconfdir}/init.d
->>>> +	sed -i 's@/lib/udev@${base_libdir}/udev@g' ${WORKDIR}/init
->>>> 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
->>>> 	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
->>> NACK! The udev maintainers have been clear that it is always /lib/udev, even on 64 bit systems, so you're not fixing a problem, you're creating an extra one.
->> Koen, do you agree with this one?
->> http://patches.openembedded.org/patch/41167/
-> That patch seems to match what Fedora does:
->
-> koen@rrMBP setup-scripts]$ file /lib/udev/*
-> /lib/udev/accelerometer:             ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x600a72599b0896506d2cff430b7126d912370056, not stripped
-> /lib/udev/ata_id:                    ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x84bbaed9b1588de0a405bde9c7f7350f4be6839e, not stripped
-> /lib/udev/bluetooth_serial:          POSIX shell script, ASCII text executable
-> /lib/udev/cdrom_id:                  ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x8bdb6f801be7f68939ece42f4661685654699a01, not stripped
-> /lib/udev/check-ptp-camera:          Bourne-Again shell script, ASCII text executable
-> /lib/udev/collect:                   ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0xab7db8974d08b609e4750750043d8093d4aa3b80, not stripped
-> /lib/udev/findkeyboards:             POSIX shell script, ASCII text executable
-> /lib/udev/hwdb.d:                    directory
-> /lib/udev/ift-load:                  ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x49f9ba51194518eb078834e8ff5630253e84bfa0, stripped
-> /lib/udev/iphone-set-info:           ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x70bd3a730278aace048187c123d500b63d2e3adb, stripped
-> /lib/udev/ipod-set-info:             ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x52ed540687d1e2806c5c2a836b60141e2f3d8c36, stripped
-> /lib/udev/keyboard-force-release.sh: POSIX shell script, ASCII text executable
-> /lib/udev/keymap:                    ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x8b2541255989492410485c979eee55d8237fa85f, not stripped
-> /lib/udev/keymaps:                   directory
-> /lib/udev/mtd_probe:                 ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x4bb384bb9a2c32cd7a8c8cd3db15f0a44572d5a1, not stripped
-> /lib/udev/mtp-probe:                 ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x5f6e4b4944c003b08788f0bfe97840da3cfcd29b, stripped
-> /lib/udev/pcmcia-check-broken-cis:   ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x1632f66c648501cf19bb478f50ee689e5caa1590, stripped
-> /lib/udev/pcmcia-socket-startup:     ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x48bf0e8e9461ed430c7173974795f3bd1b0d42a6, stripped
-> /lib/udev/rename_device:             ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x9740fdf52fb7304ddb56ecef2d3b4e157fd208dc, stripped
-> /lib/udev/rules.d:                   directory
-> /lib/udev/scsi_id:                   ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0x9ca187eac5c28bdcf96b56002329317099870c3b, not stripped
-> /lib/udev/tascam_fpga:               POSIX shell script, ASCII text executable
-> /lib/udev/tascam_fw:                 POSIX shell script, ASCII text executable
-> /lib/udev/udev-add-printer:          Python script, ASCII text executable
-> /lib/udev/udev-configure-printer:    ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0xb0ddd749dbefd5abced9b5b64fc5f1280199f2aa, stripped
-> /lib/udev/usb_modeswitch:            POSIX shell script, ASCII text executable
-> /lib/udev/v4l_id:                    ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=0xa8f5533157c207a48ba3876ae61b1c73cb9733fc, not stripped
->
-Same thing on my ubuntu.
-What I understand from this is that Koen is referring to 64bit binary 
-files located in noarch_base_libdir, that is /lib. Please correct me if 
-I'm wrong.
-Another thing I bumped into... is there any reason why udevd ends up in 
-/lib (/lib64) and not in /sbin? On my machine is located in /sbin and 
-I'm assuming it is the same for most distributions.
+> ERROR: Multiple .bb files are due to be built which each provide virtual/libc (/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb).
+>  This usually means one provides something the other doesn't and should.
 
-Radu
+Let's enable debug:
+
+DEBUG: providers for virtual/libc are: ['eglibc', 'external-linaro-toolchain']
+NOTE: selecting external-linaro-toolchain to satisfy virtual/libc due to PREFERRED_PROVIDERS
+DEBUG: sorted providers for virtual/libc are: ['/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb', '/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb']
+DEBUG: adding /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb to satisfy virtual/libc
+DEBUG: adding /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb to satisfy virtual/libc
+
+And now - let's dig deep into BitBake code. We want two files:
+
+- lib/bb/providers.py
+- lib/bb/taskdata.py
+
+1. Bitbake jumps into taskdata/add_provider_internal(). 
+2. Then asks bb.providers.filterProviders() 
+   "is there any provider for 'virtual/libc'"?
+3. In providers/_filterProviders this output is printed:
+   "DEBUG: providers for virtual/libc are: ['eglibc', 'external-linaro-toolchain']"
+4. providers/filterProviders() (note lack of "_") checks for
+   PREFERRED_PROVIDER_virtual/libc and outputs:
+   NOTE: selecting external-linaro-toolchain to satisfy virtual/libc due to PREFERRED_PROVIDERS
+   sets foundUnique to True, outputs:
+   DEBUG: sorted providers for virtual/libc are: ['/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb', '/home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb']
+   and returns all providers + foundUnique
+5. We are back at taskdata/add_provider_internal() and we
+   have more then one entry in "eligible" array plus
+   foundUnique set to True.
+6. Here we are happy of results and skips two "if" checks.
+7. Then we add each entry as good one with this output:
+DEBUG: adding /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/meta-linaro/meta-linaro-toolchain/recipes-devtools/external-linaro-toolchain/external-linaro-toolchain.bb to satisfy virtual/libc
+DEBUG: adding /home/hrw/HDD/devel/canonical/aarch64/openembedded/repos/openembedded-core/meta/recipes-core/eglibc/eglibc_2.17.bb to satisfy virtual/libc
+
+The question is - why providers/filterProviders() returns more 
+then one entry when it founds that one of them is preferred?
+
+So I got with this change:
+
+diff --git a/lib/bb/providers.py b/lib/bb/providers.py
+index fcee6dc..0b37c44 100644
+--- a/lib/bb/providers.py
++++ b/lib/bb/providers.py
+@@ -296,8 +296,7 @@ def filterProviders(providers, item, cfgData, dataCache):
+             pn = dataCache.pkg_fn[p]
+             if dataCache.preferred[item] == pn:
+                 logger.verbose("selecting %s to satisfy %s due to PREFERRED_PROVIDERS", pn, item)
+-                eligible.remove(p)
+-                eligible = [p] + eligible
++                eligible = [p]
+                 foundUnique = True
+                 break
+
+And when I added "eglibc" into PROVIDES in 
+external-linaro-toolchain.bb I got bitbake pass!!!
+NO MULTIPLE RECIPES!!! :D
 
 
