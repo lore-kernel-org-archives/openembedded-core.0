@@ -1,40 +1,35 @@
-Received: from mail-pa0-f43.google.com ([209.85.220.43])
+Received: from mail-we0-f174.google.com ([74.125.82.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UOAJt-0002LW-3a
+	(envelope-from <ross.burton@intel.com>) id 1UOAPG-0002qO-Q4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 19:21:27 +0200
-Received: by mail-pa0-f43.google.com with SMTP id hz11so2142429pad.2
+	Fri, 05 Apr 2013 19:26:30 +0200
+Received: by mail-we0-f174.google.com with SMTP id u12so2966463wey.33
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2013 10:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=zIID2XU1yCe2CTamCtmm8P+BVS06IyMgCEhGzTBbtm4=;
-	b=zNjAjsdXHSRXgjA4afWf2hSsRADOr+YlqaXR/kt1RSZ+W+67ANoiPy0NFdeNKu4TUn
-	dyZ/0D9MV2NZBr3mxJ3oavxefgNe+n5K74P7Ue9hvXQ/LX8/Sj6KA01LJczG7x5b2JQs
-	NHfpsfJInmhjxxPjS297b/fD2Ew2isHixvyuxYpPDvpChvIOzgVOdHnMe4cQg3IcO/Wd
-	C7aDyEL8kjwDmKgLvqaHLtDgGOaFEMz5ZLZrqvDRsBhDpGHEpwm2w90v+5EQgPd2nhUk
-	+0TmKuNsC9a8XLubFTu8W3tPhnMd/1XZC/qNv8FQPp9/6X6EAl6AdjrGYcCoTXbH1OAn
-	F+8A==
-X-Received: by 10.66.145.166 with SMTP id sv6mr16575577pab.1.1365181421867;
-	Fri, 05 Apr 2013 10:03:41 -0700 (PDT)
-Received: from vspringer-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id hp1sm16764415pac.3.2013.04.05.10.03.39
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 10:03:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <515EFD76.2090009@communistcode.co.uk>
-Date: Fri, 5 Apr 2013 10:03:38 -0700
-Message-Id: <0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
-References: <515ED999.9040100@communistcode.co.uk>
-	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
-	<515EFD76.2090009@communistcode.co.uk>
-To: ml@communistcode.co.uk
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gcc-cross-initial Failure
+	Fri, 05 Apr 2013 10:09:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=OVEuu9IGlgDnGbVjhIbpu7gJPkN/6l/5KPp6EkIxXWA=;
+	b=bVCRJpXqLy/aTdwZxrtnh5JNHO5Dwfje3u9GJ6jWVsuAa6U4XfDdXRq+6int26YcWR
+	aA24fIAcex3GG98BJZc1oPV5R+uVuvO7ITnkrhnLRBO1BTRGRViGORngHE05KNikk3OL
+	vejxKf06hHSLVVUdR9pzoIjEtaiQLebdTVy/+BfE6AXN4MjT3JqBmcR+H8QMf6dl7OjI
+	K1iB9KtqC2UN/O4MWboIS/X9JrcfSFF+oqysBitWZAYSDPOKuE8NNgFQRaYGsJQrwYor
+	4Cog8WUDgxRt8cShTL8bLv2eD4sZJs2BlU975YfXHPK/NcOm3LokyeSxCT1Loea2CgBz
+	oJ+g==
+X-Received: by 10.180.87.170 with SMTP id az10mr83787wib.3.1365181756115;
+	Fri, 05 Apr 2013 10:09:16 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id bo1sm5558192wib.0.2013.04.05.10.09.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 05 Apr 2013 10:09:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Apr 2013 18:06:31 +0100
+Message-Id: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnXIz3nmdS5IfuYJiexuF6vO6G8FuK+2O/DXaUZg/tVpp7mJZ0iKw8AEsyDgfIgLc57k6eb
+Subject: [PATCH] linux-firmware: make the main package depend on all sub-packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,18 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 17:21:32 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Apr 2013 17:26:31 -0000
 
+Whilst splitting out specific large firmware blobs is a good move for space
+saving, it makes installing "all the firmware" tricky.
 
-On Apr 5, 2013, at 9:36 AM, Jack Mitchell <ml@communistcode.co.uk> =
-wrote:
+Make linux-firmware depend on all of the separated packages so that installing
+that pulls in all of the sub-packages.
 
-> I build for the beaglebone and I changed them in line with your =
-default beaglebone build patch you posted a week or so ago. I think it =
-moved it form soft to hard float possibly...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-yes do a clean build if possible=
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 5ee3b73..ef036cf 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -162,3 +162,9 @@ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
+ 
+ FILES_${PN} += "/lib/firmware/*"
++
++# Make linux-firmware depend on all of the split-out packages.
++python populate_packages_prepend () {
++    firmware_pkgs = oe.utils.packages_filter_out_system(d)
++    d.appendVar('RDEPENDS_linux-firmware', ' ' + ' '.join(firmware_pkgs))
++}
+-- 
+1.7.10.4
+
 
 
