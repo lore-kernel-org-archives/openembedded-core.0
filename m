@@ -1,37 +1,37 @@
-Received: from mail-da0-f51.google.com ([209.85.210.51])
+Received: from mail-pa0-f46.google.com ([209.85.220.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UOEKj-0004Cg-8a
+	(envelope-from <martin.jansa@gmail.com>) id 1UOESs-0005hV-2K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Apr 2013 23:38:09 +0200
-Received: by mail-da0-f51.google.com with SMTP id g27so1730984dan.24
+	Fri, 05 Apr 2013 23:46:30 +0200
+Received: by mail-pa0-f46.google.com with SMTP id lb1so2251928pab.19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2013 14:20:49 -0700 (PDT)
+	Fri, 05 Apr 2013 14:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=xue+0pbeY1MognYB9ss4YEoHliyAXFoFYvhDDbJNlLQ=;
-	b=WhaTeyr3t49eSxqUY0TyHZKjJNugLbUeCTfJYjU2lPPpn5fKKLMyyK0bkhDBnsYq4W
-	huPSbAyrOZb8p4zNEotfLT90lrxww6rXCXO2RghRl1HD8F7ioFQbhUeaFTf7o92TmHg9
-	HcLHMR8QoKt6+YPScu4qa5LovnzSMQLM0s4ptXjUy8sefiluXkKnmlv2omC1AWhLl2Iv
-	sIcPFmfLGF2EnMj46fKozSoaH4UTKauqkbqo7ZLdNhFmk76mXDnsfgxUmI/8nyqrcNrR
-	f0GLCujfqo7h21XoOeskpQk3Al4vK2Fby9ptITeO181Ku4A3GuUeZv6LsWG86fOl03y0
-	ERkQ==
-X-Received: by 10.68.31.130 with SMTP id a2mr16188039pbi.213.1365196848951;
-	Fri, 05 Apr 2013 14:20:48 -0700 (PDT)
+	:user-agent; bh=c8A4qpHnxpZNKB5cO6wf/qkpPI2DKrCDMvk7LZy9sHY=;
+	b=R3Do61cLMTWZydNJRyQLL5kGjdKmbKx1dEnsjELs7I0TbltWFrT0hted9/Ei5I5XA4
+	2X8LeT89Z04TeOUXMahsgIXAocRKHb3AyHPKh5p4Y9MQvegGZV9oA/DWTOSlnsDvrYRe
+	xD6rm6OWe4ZUK9200ojR5JXIfEDHzQN1NO+AhmMT9tOBgHOwTJNBFTTPHukJvPaBt1z7
+	+6bLduuRBoN0USDpeaK8BwgbDpdNUq3Rt465gEYKSefkEg2TSS1RA8JyC/9fKeZn/mhh
+	K25gh1gZdv3u4iGqXtaI7+TFJJXrAP9Uo6rwJXC6MPEmXBQIUdYZYqABZJdpOvSejeCS
+	iDEw==
+X-Received: by 10.68.194.8 with SMTP id hs8mr16524822pbc.44.1365197354643;
+	Fri, 05 Apr 2013 14:29:14 -0700 (PDT)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id li15sm17481864pab.2.2013.04.05.14.20.45
+	by mx.google.com with ESMTPS id in5sm15786652pbc.20.2013.04.05.14.29.11
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 14:20:47 -0700 (PDT)
-Date: Fri, 5 Apr 2013 23:20:38 +0200
+	Fri, 05 Apr 2013 14:29:13 -0700 (PDT)
+Date: Fri, 5 Apr 2013 23:29:04 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Message-ID: <20130405212038.GG3191@jama>
-References: <515E976C.8060302@linaro.org>
+To: Yevhen Kyriukha <kirgene@gmail.com>
+Message-ID: <20130405212904.GH3191@jama>
+References: <1365196380-1930-1-git-send-email-kirgene@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <515E976C.8060302@linaro.org>
+In-Reply-To: <1365196380-1930-1-git-send-email-kirgene@gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Does support for external toolchains working in current OE?
+Subject: Re: [PATCH] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,52 +44,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 21:38:15 -0000
-X-Groupsio-MsgNum: 37504
+X-List-Received-Date: Fri, 05 Apr 2013 21:46:30 -0000
+X-Groupsio-MsgNum: 37505
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FLPM4o+7JoHGki3m"
+	protocol="application/pgp-signature"; boundary="wjoFZxbW4tu+iR6v"
 Content-Disposition: inline
 
---FLPM4o+7JoHGki3m
+--wjoFZxbW4tu+iR6v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 05, 2013 at 11:20:44AM +0200, Marcin Juszkiewicz wrote:
-> For last few months I am working on fixing Linaro binary cross
-> toolchains and their support in OpenEmbedded. Got to point when they=20
-> work (both AArch64 and ARMv7a ones) for single packages but problem=20
-> starts when I want to create image...
+On Sat, Apr 06, 2013 at 12:13:00AM +0300, Yevhen Kyriukha wrote:
+> ---
+>  meta/recipes-core/systemd/systemd_199.bb |   21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core=
+/systemd/systemd_199.bb
+> index ba1d133..2a3d351 100644
+> --- a/meta/recipes-core/systemd/systemd_199.bb
+> +++ b/meta/recipes-core/systemd/systemd_199.bb
+> @@ -10,12 +10,18 @@ PROVIDES =3D "udev"
+> =20
+>  PE =3D "1"
+> =20
+> -DEPENDS =3D "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-nati=
+ve acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
+> +DEPENDS =3D "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-nati=
+ve acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 python"
+>  DEPENDS +=3D "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d=
+)}"
+> =20
+>  SECTION =3D "base/shell"
+> =20
+> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d pytho=
+nnative python-dir
+> +
+> +# need to export these variables for python-config to work
+> +export BUILD_SYS
+> +export HOST_SYS
+> +export STAGING_INCDIR
+> +export STAGING_LIBDIR
+> =20
+>  SRC_URI =3D "http://www.freedesktop.org/software/systemd/systemd-${PV}.t=
+ar.xz \
+>             file://touchscreen.rules \
+> @@ -63,9 +69,9 @@ EXTRA_OECONF =3D " --with-rootprefix=3D${base_prefix} \
+>                   --disable-coredump \
+>                   --disable-introspection \
+>                   --disable-tcpwrap \
+> +                 --with-python \
+>                   --enable-split-usr \
+>                   --disable-microhttpd \
+> -                 --without-python \
+>                   --with-sysvrcnd-path=3D${sysconfdir} \
+>                   ac_cv_path_KILL=3D${base_bindir}/kill \
+>                 "
+> @@ -114,7 +120,7 @@ python populate_packages_prepend (){
+>  }
+>  PACKAGES_DYNAMIC +=3D "^lib(udev|gudev|systemd).*"
+> =20
+> -PACKAGES =3D+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-anal=
+yze ${PN}-kernel-install"
+> +PACKAGES =3D+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-anal=
+yze ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-staticd=
+ev"
+> =20
+>  USERADD_PACKAGES =3D "${PN}"
+>  GROUPADD_PARAM_${PN} =3D "-r lock; -r systemd-journal"
+> @@ -124,6 +130,13 @@ FILES_${PN}-analyze =3D "${base_bindir}/systemd-anal=
+yze"
+>  FILES_${PN}-initramfs =3D "/init"
+>  RDEPENDS_${PN}-initramfs =3D "${PN}"
+> =20
+> +FILES_python-${PN} =3D "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHO=
+N_SITEPACKAGES_DIR}/systemd/*.so"
+> +RDEPENDS_python-${PN} =3D "python-core"
+> +FILES_python-${PN}-staticdev =3D "${PYTHON_SITEPACKAGES_DIR}/systemd/*.l=
+a"
+> +RDEPENDS_python-${PN} =3D "python-core"
+> +FILES_python-${PN}-dbg =3D "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
+> +RDEPENDS_python-${PN} =3D "python-core"
 
-Today I got different king of issue with external toolchain.
+You have 3x RDEPENDS_python-${PN} (maybe you wanted -dbg and -staticdev,
+but those do not need python-core imho).
 
-systemd is using AC_PATH_TOOL(OBJCOPY, objcopy)
-but host prefix in OE is not the same as in binary toolchain (different TAR=
-GET_VENDOR)
-so it looks for configure:14545: checking for arm-foo-linux-gnueabi-objcopy
-while binary toolchain has only               arm-bar-linux-gnueabi-objcopy
+It's more common to start with ${PN}, but maybe it makes sense with
+python- prefix if you think about it as python module not systemd
+package...
 
-and because arm-foo-linux-gnueabi-objcopy wasn't found it continues:
-configure:14588: checking for objcopy
-configure:14606: found /usr/bin/objcopy
-and bam a lot later when it tries objcopy from host on some arm lib
+> +
+>  FILES_${PN}-gui =3D "${bindir}/systemadm"
+> =20
+>  FILES_${PN}-vconsole-setup =3D "${systemd_unitdir}/systemd-vconsole-setu=
+p \
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Interesting that systemd is first recipe in our image where I've noticed
-issues like this
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Any idea how to easily resolve this without checking every configure.ac
-how it's looking for e.g. objcopy?
-
---FLPM4o+7JoHGki3m
+--wjoFZxbW4tu+iR6v
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlFfQCYACgkQN1Ujt2V2gBwypACgr1WrbUj+jl0/xgaCi9QkvcoK
-B+EAoI0A82xrMxKHXbxysyx5nUY/5dGV
-=7Hd/
+iEYEARECAAYFAlFfQiAACgkQN1Ujt2V2gByBKACfaFJN2Ets1ehfRUSE7UeLYbdD
+pUQAn1JeztYhEzZUFElSqhYPXTi54T5d
+=BvwT
 -----END PGP SIGNATURE-----
 
---FLPM4o+7JoHGki3m--
+--wjoFZxbW4tu+iR6v--
