@@ -1,33 +1,35 @@
-Received: from mail-ea0-f177.google.com ([209.85.215.177])
+Received: from mail-ve0-f172.google.com ([209.85.128.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kirgene@gmail.com>) id 1UOFXi-0004Tq-33
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UOQYT-0003TF-VG
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Apr 2013 00:55:34 +0200
-Received: by mail-ea0-f177.google.com with SMTP id q14so1492506eaj.36
+	Sat, 06 Apr 2013 12:41:08 +0200
+Received: by mail-ve0-f172.google.com with SMTP id oz10so4329842veb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2013 15:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=TNiNdJG1YYt9Z0zmgHvs/wyZoTIyHUw7vV1EtdNkHDs=;
-	b=dfVK2Ad4bFH764gCHtvhHY2j6CIAYawrL+CFvNPurEgklCd5cwGQUTOA+iT7tpnSTK
-	xGQhKdiBQFPaMjbjwXf916FVj3WTNihqo6oy+kWWXpJfIk0juCn5irsMMGI6yrIb32K9
-	Hwd4a0sjM2ivqj+V8cr/PbB6xznP86wowschBIMi7eq1W3pZrfiJLZhClcMwR1+xEREA
-	X4cWVDuedWqCSY/VrORymwoSG58xohKao8t95ZaM+ueTj7LKOVtBkqhIff5amswGsPcP
-	UuIRnpyGCDoP5u0M92FxGRgOplnUH6F+tqfFhCg9r53FP0LlIdDuBAO98aG01uZ1atci
-	s8Eg==
-X-Received: by 10.14.179.201 with SMTP id h49mr23491738eem.26.1365201499340;
-	Fri, 05 Apr 2013 15:38:19 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPS id u44sm17904799eel.7.2013.04.05.15.38.17
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 15:38:18 -0700 (PDT)
-From: Yevhen Kyriukha <kirgene@gmail.com>
+	Sat, 06 Apr 2013 03:23:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type:content-transfer-encoding;
+	bh=/Kdb9Dnr0keVMlD3QiIwEkul/fxIsACXB+A/Izr9Vo0=;
+	b=PeCm9l7X18ksXvBnfnJVFdymTTmbHb7Ei6V7KyKLUHhw8G0GJg2rnQSrCp/lxaZfBm
+	eUIHbTTr5r+L8zl8jjaHeTYp8+62jnI7WgtH2SPdUFX2p4IZ6Cjb1Gt0cEVQLA1YiLse
+	abM38SzdEkScV8jeowebNf7Zhz59+20svxjdj+iPSfN7pv/i3D047XeGFo+oLgtseuCD
+	EqCzumjNKk/c+1dsRu0b2lBpvKp91rtDAaxLi4DVTpow1NZwhSBM1oBidaXpPZa1xaRs
+	glfnCyNHk3QrU74zKHQyBoUom1aCZUH/Jco9GcSMDTeXqdUTAQJPOoXpx81P8mfvW24b
+	sZbg==
+MIME-Version: 1.0
+X-Received: by 10.52.28.101 with SMTP id a5mr9073041vdh.92.1365243830167; Sat,
+	06 Apr 2013 03:23:50 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Sat, 6 Apr 2013 03:23:50 -0700 (PDT)
+In-Reply-To: <515EF3B8.5080205@windriver.com>
+References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+	<CALbNGRS4MTJny0yqf-oYx1S12O-ZETo4g9x+7BuRVh8pbuBW0g@mail.gmail.com>
+	<515EF3B8.5080205@windriver.com>
+Date: Sat, 6 Apr 2013 12:23:50 +0200
+Message-ID: <CALbNGRS970hw+S18EQs35kr_0S5AJL+eJ9O9XsAY5mxMx7rgdg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Apr 2013 01:38:04 +0300
-Message-Id: <1365201484-3514-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v2] systemd: added python-systemd package generation.
+Subject: Re: experiences with images based on current layer heads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,77 +42,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 22:55:34 -0000
+X-List-Received-Date: Sat, 06 Apr 2013 10:41:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
----
- meta/recipes-core/systemd/systemd_199.bb |   20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+On Fri, Apr 5, 2013 at 5:54 PM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> If you are unable to look into this yourself, can you please file a bug o=
+n
+> the bugzilla.yoctoproject.org website?  This issue is likely to get more
+> attention if there is an active bug with reproducer steps.  (What you hav=
+e
+> below may be enough for someone who understands X and xfce to reproduce i=
+t,
+> but I'm not sure.)
+>
+> (I've very lightly used X under oe-core master, but I've not done anythin=
+g
+> more then xterms myself.)
+>
+> It would of course be even better if you could figure out a proper test c=
+ase
+> to reproduce this, but that's not required...
+>
+> --Mark
+>
+>
+> On 4/4/13 5:29 PM, Andreas M=C3=BCller wrote:
+>>
+>> On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
+>> <schnitzeltony@googlemail.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>> when migration of systemd to oe-core turned to unbuildable I decided
+>>> to freeze my images and stopped further tests. Now that many issues
+>>> were fixed and we are close to another release I built my standard
+>>> xfce-based image based on latest layer HEADs. With this I face some
+>>> issues which I would like to share:
+>>>
+>>> 1. X sessions crash with OOM. This is reproducible by opening
+>>> google-maps with midori and changing to satellite view. In
+>>> Xorg.0.log.old I see only
+>>>
+>>> | (EE)
+>>> | (EE) Backtrace:
+>>> | (EE)
+>>> | (EE) Segmentation fault at address 0x9
+>>> | (EE) BUG: triggered 'if (inSignalContext)'
+>>> | (EE) BUG: log.c:502 in LogVMessageVerb()
+>>> | (EE) Warning: attempting to log data in a signal unsafe manner while
+>>> in signal context.
+>>> | Please update to check inSignalContext and/or use
+>>> LogMessageVerbSigSafe() or ErrorFSigSafe().
+>>> | The offending log format message is:
+>>> |
+>>> | Fatal server error:
+>>> |
+>>> | (EE)
+>>> | (EE) Backtrace:
+>>> | (EE)
+>>>
+>> seems we are not alone [1]
+>>
+>> [1] http://www.raspberrypi.org/phpBB3/viewtopic.php?t=3D38568&p=3D321298
+>>
+>> Andreas
+I am not a friend of bugzillas because notification is missing as long
+as I don't add a comment. Anyway I will add a description for xorg
+problem.
 
-diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
-index e574548..00daf99 100644
---- a/meta/recipes-core/systemd/systemd_199.bb
-+++ b/meta/recipes-core/systemd/systemd_199.bb
-@@ -15,7 +15,13 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
- 
--inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
-+inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d pythonnative python-dir
-+
-+# need to export these variables for python-config to work
-+export BUILD_SYS
-+export HOST_SYS
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-@@ -44,11 +50,13 @@ LDFLAGS_libc-uclibc_append = " -lrt"
- 
- GTKDOC_DOCDIR = "${S}/docs/"
- 
--PACKAGECONFIG ??= "xz"
-+PACKAGECONFIG ??= "xz python"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
- # Compress the journal
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
-+# Use python-systemd
-+PACKAGECONFIG[python] = "--with-python,--without-python,python"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
-@@ -65,7 +73,6 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
-                  --disable-tcpwrap \
-                  --enable-split-usr \
-                  --disable-microhttpd \
--                 --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
-                  ac_cv_path_KILL=${base_bindir}/kill \
-                "
-@@ -114,7 +121,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
- 
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
-+PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-staticdev"
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-@@ -124,6 +131,11 @@ FILES_${PN}-analyze = "${base_bindir}/systemd-analyze"
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
- 
-+FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
-+RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
-+FILES_python-${PN}-staticdev = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.la"
-+FILES_python-${PN}-dbg = "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
-+
- FILES_${PN}-gui = "${bindir}/systemadm"
- 
- FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup \
--- 
-1.7.9.5
+Meanwhile I found another issue with libpng 1.6.0 - see
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4060
 
+Andreas
 
 
