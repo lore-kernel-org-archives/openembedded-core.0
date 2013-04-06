@@ -1,38 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-la0-f54.google.com ([209.85.215.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UObRC-0003ti-0n for openembedded-core@lists.openembedded.org;
-	Sun, 07 Apr 2013 00:18:19 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r36MBpgC021378; Sat, 6 Apr 2013 23:11:52 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id htFKm0JS3YSE; Sat,  6 Apr 2013 23:11:51 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r36MBiXp021371
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 6 Apr 2013 23:11:47 +0100
-Message-ID: <1365285646.6526.208.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sat, 06 Apr 2013 23:00:46 +0100
-In-Reply-To: <AB22E165-191E-4930-929D-E6B277A265F4@dominion.thruhere.net>
-References: <1365006329-20964-1-git-send-email-radu.moisan@intel.com>
-	<1365006329-20964-3-git-send-email-radu.moisan@intel.com>
-	<825B3AFA-0F5B-45F2-B4DE-D359A1E4414B@dominion.thruhere.net>
-	<515D75D5.4020204@intel.com>
-	<1B3FBA45-5658-4BF8-A854-84058F80DCBF@dominion.thruhere.net>
-	<515EBCA1.6000502@intel.com>
-	<CAL7ttbc2VXkMz79oyHt69E0wsSvEYqndNHSQMLCDO56TF6v=og@mail.gmail.com>
-	<1365172473.6526.195.camel@ted>
-	<AB22E165-191E-4930-929D-E6B277A265F4@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] udev: enable multilib support
+	(envelope-from <kergoth@gmail.com>) id 1UObeO-0004wt-Bn
+	for openembedded-core@lists.openembedded.org;
+	Sun, 07 Apr 2013 00:31:57 +0200
+Received: by mail-la0-f54.google.com with SMTP id gw10so4420917lab.27
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Apr 2013 15:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=sVLbj7eEZv9mSFT+4aG9Zt5An9RyDXZrmuiPj4ApR7E=;
+	b=DolAh5/k/z9RD1YhGr8JAEpmRGLh2j4vSEJUN+ZiZ1kSZvmQLFrgRCssCrf9NPFncD
+	XInmBbzHBtDv6HNU+qSW2Yt3ivIL16LOkXC21qA6KLWx6fPEexeP5gBUBGXTQlO6pdzD
+	zcy75mWMaU7kTkC0seGHtJm/NA3SxE6Bh1bMo0VnTPw8DWhH1OThnyFYkyKO75Skt6dU
+	nPLzlXDWQbXpSoCpDQKKJwxJ759ZxfbsqZ6N4MQN/xwTemVvqFSRLLba5Pj4obI+icLr
+	14RKzPJD4LVd9hV9hOry0ObLVKHcxvG3isKscBy8oIao+MmkyAPz2sgY2VYLy2CauQ5I
+	CSOQ==
+X-Received: by 10.112.8.164 with SMTP id s4mr8636019lba.106.1365286480098;
+	Sat, 06 Apr 2013 15:14:40 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.125.38 with HTTP; Sat, 6 Apr 2013 15:14:20 -0700 (PDT)
+In-Reply-To: <51601264.7060807@mlbassoc.com>
+References: <51601264.7060807@mlbassoc.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sat, 6 Apr 2013 15:14:20 -0700
+X-Google-Sender-Auth: cISbDbeXA67U2VIasb9fGmNZ3Wc
+Message-ID: <CABcZANnh=K=H-gGFbTTHH0hJsxyK_F+m4Z7k1oFZ2=+wzFbFBg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Incorrect FILESPATH usages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,78 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2013 22:18:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 06 Apr 2013 22:32:02 -0000
+Content-Type: multipart/alternative; boundary=e0cb4efe293ca9c12d04d9b88738
 
-On Sat, 2013-04-06 at 12:32 +0200, Koen Kooi wrote:
-> Op 5 apr. 2013, om 16:34 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Fri, 2013-04-05 at 16:29 +0300, Alex Damian wrote:
-> >> On udev-184 they changed the default location from /sbin/
-> >> to /lib/udev/ and I kept same as the upstream is.
-> > 
-> > Firstly, I know some people did ask me questions offlist about this and
-> > I probably gave misleading answers. I thought this was a problem with
-> > the location of the rules directory initially. We need to have one rules
-> > directory regardless of multilibs.
-> > 
-> > Binaries however are a very different question. The multilib code we
-> > have in OE is complex and does make some assumptions about layout, not
-> > least as we have to interface into several package managers and also
-> > work with all their assumptions. The situation is that:
-> > 
-> > * library files are expected to go into /libX
-> > * binaries are expected to go into the usual bin/sbin dirs
-> > * files in /etc, /usr/share and other similar directories are expected 
-> >  to be identical
-> > * We have sanity tests which check for these things
-> > 
-> > The package managers are taught to let certain packages "win" in
-> > bin/sbin and to error if overlapping files outside this are not
-> > identical.
-> > 
-> > It therefore follows that we would have to start adding exceptions to
-> > this code if we have potential for both 32 bit and 64 bit /lib/udev/
-> > binaries. We'd also have to add rules about which one would be expected
-> > to "win" under which circumstances and so on.
-> > 
-> > To me, the simplest solution here is to point libexec dir at /sbin so
-> > that we have /sbin/udev/ since this then works with the various multilib
-> > rules. It means a user can install the 64 bit and 32 bit multilibs for
-> > udev in parallel (for libudev for example) and that things should all
-> > work correctly.
-> > 
-> > I appreciate upstream don't agree with that approach but equally they
-> > don't have the generic multilib support we have to worry about. Hacking
-> > the multilib code to pieces just to match upstream in this case is going
-> > to be a lot more painful, I appreciate its the not optimal solution
-> > though.
-> 
-> 
-> FWIW, the udev *libraries* (libudev, libgudev, etc) go in
-> $prefix/lib64 on 64 bit machines, the udev *binaries* into /lib. So
-> multi*lib* should work.
+--e0cb4efe293ca9c12d04d9b88738
+Content-Type: text/plain; charset=UTF-8
 
-Which is effectively what I said.
+On Sat, Apr 6, 2013 at 5:17 AM, Gary Thomas <gary@mlbassoc.com> wrote:
 
-multilib package A has binary X in /lib. multilib package also B has
-binary X in /lib. Package A and B cannot be installed at the same time
-(package managers can't cope) and the sanity tests will fail.
+> I have run across a problem where a main recipe is written in
+> such a way that makes using .bbappend impossible.  This happens
+> if the main recipe has an explicit assignment for FILESPATH.
+> In this case, the .bbappend is unable to add to that path, e.g.
+> to add a machine specific patch, etc.
+>
 
-Sure, we can force the libraries to be in separate packages. There is no
-mechanism to force conflicts between two different multilibs easily
-though and the system can still end up trying to install both packages
-with conflicting binaries which it needs a resolution to.
+If the explicit definition calls base_set_filespath, then FILESEXTRAPATHS
+can still be used.
+-- 
+Christopher Larson
 
-So either we set udev to use paths which don't overlap with the lib
-handling or we hack the multilib code, each of the package managers and
-sanity tests.
+--e0cb4efe293ca9c12d04d9b88738
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On S=
+at, Apr 6, 2013 at 5:17 AM, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> =
+wrote:<br>
 
-Richard
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":o8">I have run across a problem =
+where a main recipe is written in<br>
+such a way that makes using .bbappend impossible. =C2=A0This happens<br>
+if the main recipe has an explicit assignment for FILESPATH.<br>
+In this case, the .bbappend is unable to add to that path, e.g.<br>
+to add a machine specific patch, etc.</div></blockquote></div><br>If the ex=
+plicit definition calls base_set_filespath, then FILESEXTRAPATHS can still =
+be used.=C2=A0<br>-- <br>Christopher Larson</div></div>
 
-
-
-
+--e0cb4efe293ca9c12d04d9b88738--
