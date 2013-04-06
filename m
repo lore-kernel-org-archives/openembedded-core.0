@@ -1,27 +1,40 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mail-pa0-f42.google.com ([209.85.220.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1UOSKc-0005IA-65
+	(envelope-from <martin.jansa@gmail.com>) id 1UOSkF-0007b1-FO
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Apr 2013 14:35:01 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id C84D8F811E1; Sat,  6 Apr 2013 06:17:39 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 640B3F811DC;
-	Sat,  6 Apr 2013 06:17:38 -0600 (MDT)
-Message-ID: <51601264.7060807@mlbassoc.com>
-Date: Sat, 06 Apr 2013 06:17:40 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	Sat, 06 Apr 2013 15:01:24 +0200
+Received: by mail-pa0-f42.google.com with SMTP id kq13so2464328pab.29
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Apr 2013 05:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=VoGIKKg/gsRiIvzv30BK4+I/Y8Ie/+ahwjg77xoiSgQ=;
+	b=atyxVSufnCf0+DdP9+jMv6FBhhCCpfxs8DuMczpaW7J8yMpcX3gWjz24PWSzSn9dJE
+	/J2NW+xswi9vxXHRZMXnV+/tvJB2lWUtc2FtOQbVadyfa9C5xVLGMWpVlzo1/L5BafA2
+	CIEh90qTLwKwf0Po+HsCMkjSPTYwbFmyLtzooRxOzaBTXgWFAMALbq2LPBUAWoGZ8VvN
+	3LDFq6Ip58MJgeimj0sC/TXVblP/sGDlkXxdJvkv58lCMAZqTZ+XtFEBRVjShAe1f2zP
+	KXBi16Mg7suEVbRiA4/OcmvThnxfwprAx+ZstK+2IfUuMcemj9OlY5jfYOnk2GCRhdTt
+	jQdw==
+X-Received: by 10.68.33.193 with SMTP id t1mr19533469pbi.43.1365252246807;
+	Sat, 06 Apr 2013 05:44:06 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id in5sm18361446pbc.20.2013.04.06.05.44.03
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 06 Apr 2013 05:44:05 -0700 (PDT)
+Date: Sat, 6 Apr 2013 14:43:57 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Message-ID: <20130406124357.GC3196@jama>
+References: <515E976C.8060302@linaro.org> <20130405212038.GG3191@jama>
+	<CABcZANnvkcKCA14uuOjFcK6tRdNhy27m-+bPAjQbd=W2FK+HJw@mail.gmail.com>
+	<CA+chaQdLwM_iLaCA=aq19q941CEKKAhbJb9L8Oe=TVd4sDU9wA@mail.gmail.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+In-Reply-To: <CA+chaQdLwM_iLaCA=aq19q941CEKKAhbJb9L8Oe=TVd4sDU9wA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Incorrect FILESPATH usages
+Subject: Re: Does support for external toolchains working in current OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,58 +47,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2013 12:35:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 06 Apr 2013 13:01:25 -0000
+X-Groupsio-MsgNum: 37521
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
+Content-Disposition: inline
 
-I have run across a problem where a main recipe is written in
-such a way that makes using .bbappend impossible.  This happens
-if the main recipe has an explicit assignment for FILESPATH.
-In this case, the .bbappend is unable to add to that path, e.g.
-to add a machine specific patch, etc.
+--Y5rl02BVI9TCfPar
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I found all of these in the current meta-data:
-   gthomas@zeus:/local/poky-cutting-edge$ find meta -type f | grep -v ' ' | xargs grep ^FILESPATH
-   meta/classes/base.bbclass:FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}", "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
-   meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb:FILESPATH = "${FILE_DIRNAME}/linuxdoc-tools-native/"
-   meta/recipes-devtools/python/python-pygobject_2.27.91.bb:FILESPATH = "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
-   meta/recipes-devtools/python/python-native_2.7.3.bb:FILESPATH = "${FILE_DIRNAME}/python-native/:${FILE_DIRNAME}/python/"
-   meta/recipes-devtools/gcc/gcc-4.7.inc:FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
-   meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb:FILESPATH = "${FILE_DIRNAME}/qemu-helper"
-   meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb:FILESPATH = "${FILE_DIRNAME}/qemu-helper"
-   meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb:FILESPATHPKG =. "squashfs-tools-${PV}:"
-   meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb:FILESPATH = "${FILE_DIRNAME}/cdrtools-native/"
-   meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb:FILESPATH = "${FILE_DIRNAME}/${PN}/"
-   meta/recipes-graphics/clutter/cogl.inc:FILESPATH = "${FILE_DIRNAME}/cogl"
-   meta/recipes-graphics/clutter/clutter-gst.inc:FILESPATH = "${FILE_DIRNAME}/clutter-gst"
-   meta/recipes-graphics/clutter/clutter.inc:FILESPATH = "${FILE_DIRNAME}/clutter"
-   meta/recipes-graphics/clutter/clutter-gtk.inc:FILESPATH = "${FILE_DIRNAME}/clutter-gtk"
-   meta/recipes-graphics/xorg-lib/libx11.inc:FILESPATH = "${FILE_DIRNAME}/libx11"
-   meta/recipes-bsp/x-load/x-load_git.bb:FILESPATH = "${FILE_DIRNAME}/x-load-git/${MACHINE}:${FILE_DIRNAME}/x-load-git/"
-   meta/recipes-bsp/u-boot/u-boot.inc:FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
-   meta/recipes-support/libpcre/libpcre_8.32.bb:FILESPATH .= ":${@base_set_filespath([bb.which(BBPATH, 'recipes-support/libpcre/files', direction=True)], d)}"
-   meta/recipes-core/dbus/dbus-ptest_1.6.8.bb:FILESPATH = "${FILE_DIRNAME}/dbus-${PV}"
-   meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb:FILESPATH = "${FILE_DIRNAME}/${PN}-${PV}/"
-   meta/recipes-core/eglibc/eglibc_2.17.bb:FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' 
-], d)}"
-   meta/recipes-core/eglibc/cross-localedef-native_2.17.bb:FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
-   meta/recipes-core/uclibc/uclibc-git.inc:FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
-   meta/recipes-kernel/systemtap/systemtap_git.inc:FILESPATH = "${FILE_DIRNAME}/systemtap"
-   meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb:FILESPATH = "${FILE_DIRNAME}/trace-cmd"
-   meta/recipes-multimedia/gstreamer/gst-plugins.inc:FILESPATH =. "${FILE_DIRNAME}/gst-plugins:"
+On Sat, Apr 06, 2013 at 12:10:01AM +0200, Martin Jansa wrote:
+> I've already tried that, systemd's configure does not respect that.
 
-In my case, I wanted to write recipes-devtools/python/python-pygobject_2.27.91.bbappend
-to add a patch I'm working on here.  The only way I could get my .bbappend file to
-function was to remove the FILESPATH assignment from the main recipe.
+I've patch for systemd which "fixes" this:
 
-I believe that most of these assignments are incorrect and should be removed.
-I can send a patch for the one that I've built & tested, but I'm not sure I
-should be mucking about with all the others...
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/s=
+ystemd/systemd_199.bb
+index e574548..2bb9566 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -76,6 +76,15 @@ EXTRA_OECONF_append_libc-uclibc =3D " --disable-myhostna=
+me "
+ do_configure_prepend() {
+        export CPP=3D"${HOST_PREFIX}cpp ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH=
+}"
+=20
++       # Allow to override them from shell variables with right prefix
++       # in some cases (external toolchain) HOST_PREFIX is not the same as=
+ HOST_SYS
++       sed -i "s#AC_PATH_TOOL(OBJCOPY,#AC_CHECK_TOOL(OBJCOPY,#g; \
++               s#AC_PATH_TOOL(STRINGS,#AC_CHECK_TOOL(STRINGS,#g; \
++               s#AC_PATH_TOOL(GPERF,#AC_CHECK_TOOL(GPERF,#g" ${S}/configur=
+e.ac
++       # OBJCOPY is already exported by default
++       export STRINGS=3D"${HOST_PREFIX}strings"
++       export GPERF=3D"${HOST_PREFIX}gperf"
++
+        sed -i -e 's:=3D/root:=3D${ROOT_HOME}:g' units/*.service*
+ }
+=20
+But I'm still looking for some more global solution, what can go wrong when
+external toolchain overwrites HOST_SYS to match overwritten TARGET_PREFIX?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+e.g.
+tcmode-external-sourcery.inc:TARGET_PREFIX =3D "${CSL_TARGET_SYS}-"
 
+bitbake.conf:
+HOST_ARCH =3D "${TARGET_ARCH}"
+HOST_OS =3D "${TARGET_OS}"
+HOST_VENDOR =3D "${TARGET_VENDOR}"
+HOST_SYS =3D "${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+HOST_PREFIX =3D "${TARGET_PREFIX}"
 
+TARGET_ARCH =3D "${TUNE_ARCH}"
+TARGET_OS =3D "linux${LIBCEXTENSION}${ABIEXTENSION}"
+TARGET_VENDOR =3D "-oe"
+TARGET_SYS =3D "${TARGET_ARCH}${TARGET_VENDOR}${@['-' + d.getVar('TARGET_OS=
+', True), ''][d.getVar('TARGET_OS', True) =3D=3D ('' or 'custom')]}"
+TARGET_PREFIX =3D "${TARGET_SYS}-"
+
+So when external-tc changes TARGET_PREFIX, it modifies HOST_PREFIX and=20
+both are inconsistent with TARGET_SYS/HOST_SYS which is used by autoconf=20
+for AC_PATH_TOOL.
+
+> On Sat, Apr 6, 2013 at 12:08 AM, Chris Larson <clarson@kergoth.com> wrote:
+>=20
+> >
+> > On Fri, Apr 5, 2013 at 2:20 PM, Martin Jansa <martin.jansa@gmail.com>wr=
+ote:
+> >
+> >> On Fri, Apr 05, 2013 at 11:20:44AM +0200, Marcin Juszkiewicz wrote:
+> >> > For last few months I am working on fixing Linaro binary cross
+> >> > toolchains and their support in OpenEmbedded. Got to point when they
+> >> > work (both AArch64 and ARMv7a ones) for single packages but problem
+> >> > starts when I want to create image...
+> >>
+> >> Today I got different king of issue with external toolchain.
+> >>
+> >> systemd is using AC_PATH_TOOL(OBJCOPY, objcopy)
+> >> but host prefix in OE is not the same as in binary toolchain (different
+> >> TARGET_VENDOR)
+> >> so it looks for configure:14545: checking for
+> >> arm-foo-linux-gnueabi-objcopy
+> >> while binary toolchain has only
+> >> arm-bar-linux-gnueabi-objcopy
+> >>
+> >> and because arm-foo-linux-gnueabi-objcopy wasn't found it continues:
+> >> configure:14588: checking for objcopy
+> >> configure:14606: found /usr/bin/objcopy
+> >> and bam a lot later when it tries objcopy from host on some arm lib
+> >>
+> >> Interesting that systemd is first recipe in our image where I've notic=
+ed
+> >> issues like this
+> >>
+> >> Any idea how to easily resolve this without checking every configure.ac
+> >> how it's looking for e.g. objcopy?
+> >
+> >
+> > export OBJCOPY in the environment to the one based on TARGET_PREFIX rat=
+her
+> > than TARGET_SYS, and it'll use that.
+> > --
+> > Christopher Larson
+> >
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Y5rl02BVI9TCfPar
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFgGI0ACgkQN1Ujt2V2gBx9hACdGzm73qSmmXewM8dLOxU9kW0o
+5HgAoJXtvplac+LlJhE1vOsWwc1GAv0X
+=nwxP
+-----END PGP SIGNATURE-----
+
+--Y5rl02BVI9TCfPar--
