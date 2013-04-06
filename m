@@ -1,40 +1,34 @@
-Received: from mail-ea0-f177.google.com ([209.85.215.177])
+Received: from mail-qe0-f41.google.com ([209.85.128.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UOQax-0003oH-0z
+	(envelope-from <kirgene@gmail.com>) id 1UOQgF-0004RQ-He
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Apr 2013 12:43:42 +0200
-Received: by mail-ea0-f177.google.com with SMTP id q14so1593393eaj.36
+	Sat, 06 Apr 2013 12:49:11 +0200
+Received: by mail-qe0-f41.google.com with SMTP id b10so1174055qen.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Apr 2013 03:26:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=y/uNGBPFFJSAN/H0auHxfl29ZiTcIJ0QJMQVAncF1Yo=;
-	b=YgdNJPKnYeJr48Yiu7rUMbwfTMXHShBQh97RoWh4kjayVVhAzjAhgdfHLwJkCPQPXO
-	FDYYsEt8Wx5JRxMWnT7A060o4W15pNzdvCAZW49EyBo8sUbgdt0PpfcwKXAcH8eFEX7A
-	4Oem70TJBe1hBt7m6e6WKiFVdgra6aUa099vervKPn9k4LB2VpUMOUIeSTFLjTlv3VU8
-	c3Fcw1ZE3ec/J2EE1fi9x/7exImXG24rM2IX5bZg5Rp9GznQ62i8RFHKzwV+4S91aqIi
-	dvTU1J7CEag7mSmqa3iA4FhCKsmJyah832cAKuiCVHD+T/Zx+/9F6GQS7ef06yAldCze
-	Sp/g==
-X-Received: by 10.14.184.68 with SMTP id r44mr28092908eem.40.1365243983619;
-	Sat, 06 Apr 2013 03:26:23 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id f47sm20129259eep.13.2013.04.06.03.26.21
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 06 Apr 2013 03:26:22 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
-Date: Sat, 6 Apr 2013 12:26:23 +0200
-Message-Id: <5BDCDCEF-35EC-4641-962B-DFBAE1570201@dominion.thruhere.net>
-References: <1365181591-6728-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQlXEPyKLdLLPHj/eknyjZkBG5/1fnMDPCAfX1mzVIcRyLB1pONw0vL2jCjfnDsM6pxXDDBJ
+	Sat, 06 Apr 2013 03:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=tS7sQDB7o4BtLmOs6Ez02XYx+m4DyFloYg6UN8i+el8=;
+	b=JLcLvmdIzJ01KB7mZ01XY+yRSOy/Ro0i/nTjB4h8f22HKriXqsCV6HVk3UhiPFmWas
+	TF56RUvM4tqygifhAnAklR9J55/6kuafH+7KfoQWwZd8Kz64D8mpTMlMtmJymHcc0NMY
+	Vr5N9yZnp3+czbPYTs21Tts70TrSiHipdNFfu+cYl9QB2dmhBckki3yB1tOjceIKuUtj
+	94gebr9mlDBlDTqcSntYuJUEocobP9EpIESwuHy+oyNnC6hEvWUYGQHoIIFhP96I/yRF
+	xYaB+ap39jquZmMjfOXeXaxCaJcXWZcsqm34m6VwdWTt4DgmYkfiho2Yld+tTnU7eOfQ
+	aaOw==
+MIME-Version: 1.0
+X-Received: by 10.49.60.1 with SMTP id d1mr13080098qer.33.1365244311677; Sat,
+	06 Apr 2013 03:31:51 -0700 (PDT)
+Received: by 10.49.36.41 with HTTP; Sat, 6 Apr 2013 03:31:51 -0700 (PDT)
+In-Reply-To: <230587AC-FD28-420F-8DED-B6AADBD5DE28@dominion.thruhere.net>
+References: <1365201484-3514-1-git-send-email-kirgene@gmail.com>
+	<230587AC-FD28-420F-8DED-B6AADBD5DE28@dominion.thruhere.net>
+Date: Sat, 6 Apr 2013 13:31:51 +0300
+Message-ID: <CADV-EXE609FFWX2MjciFwOcpEbT8h1xYc0vy20OqzVj6+qdKDw@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-firmware: make the main package depend on all sub-packages
+Subject: Re: [PATCH v2] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,26 +41,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2013 10:43:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 06 Apr 2013 10:49:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+2013/4/6 Koen Kooi <koen@dominion.thruhere.net>:
+>
+> Op 6 apr. 2013, om 00:38 heeft Yevhen Kyriukha <kirgene@gmail.com> het volgende geschreven:
+>
+>> ---
+>> meta/recipes-core/systemd/systemd_199.bb |   20 ++++++++++++++++----
+>> 1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+>> index e574548..00daf99 100644
+>> --- a/meta/recipes-core/systemd/systemd_199.bb
+>> +++ b/meta/recipes-core/systemd/systemd_199.bb
+>> @@ -15,7 +15,13 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>>
+>> SECTION = "base/shell"
+>>
+>> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+>> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d pythonnative python-dir
+>> +
+>> +# need to export these variables for python-config to work
+>> +export BUILD_SYS
+>> +export HOST_SYS
+>> +export STAGING_INCDIR
+>> +export STAGING_LIBDIR
+>>
+>> SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+>>            file://touchscreen.rules \
+>> @@ -44,11 +50,13 @@ LDFLAGS_libc-uclibc_append = " -lrt"
+>>
+>> GTKDOC_DOCDIR = "${S}/docs/"
+>>
+>> -PACKAGECONFIG ??= "xz"
+>> +PACKAGECONFIG ??= "xz python"
+>> # Sign the journal for anti-tampering
+>> PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+>> # Compress the journal
+>> PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+>> +# Use python-systemd
+>> +PACKAGECONFIG[python] = "--with-python,--without-python,python"
+>>
+>> CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+>>
+>> @@ -65,7 +73,6 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
+>>                  --disable-tcpwrap \
+>>                  --enable-split-usr \
+>>                  --disable-microhttpd \
+>> -                 --without-python \
+>
+> --with-python ?
+>
+I use
+>> +PACKAGECONFIG[python] = "--with-python,--without-python,python"
 
-Op 5 apr. 2013, om 19:06 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
+>>                  --with-sysvrcnd-path=${sysconfdir} \
+>>                  ac_cv_path_KILL=${base_bindir}/kill \
+>>                "
+>> @@ -114,7 +121,7 @@ python populate_packages_prepend (){
+>> }
+>> PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+>>
+>> -PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
+>> +PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-staticdev"
+>>
+>> USERADD_PACKAGES = "${PN}"
+>> GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+>> @@ -124,6 +131,11 @@ FILES_${PN}-analyze = "${base_bindir}/systemd-analyze"
+>> FILES_${PN}-initramfs = "/init"
+>> RDEPENDS_${PN}-initramfs = "${PN}"
+>>
+>> +FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
+>> +RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
+>> +FILES_python-${PN}-staticdev = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.la"
+>
+> Do libtool archives belong in -staticdev?
+>
+>
+>> +FILES_python-${PN}-dbg = "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
+>> +
+>> FILES_${PN}-gui = "${bindir}/systemadm"
+>>
+>> FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup \
+>> --
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-> Whilst splitting out specific large firmware blobs is a good move for =
-space
-> saving, it makes installing "all the firmware" tricky.
->=20
-> Make linux-firmware depend on all of the separated packages so that =
-installing
-> that pulls in all of the sub-packages.
-
-Speaking of firmwares, is anybody working on fixing the clashes between =
-kernel-firmware-foo and linux-firmware-foo? It should only be a matter =
-of adding RREPLACES to the linux-firmware subpackages.
-
-Koen=
+Best regards,
+Yevhen
 
 
