@@ -1,33 +1,19 @@
-Received: from mail-ia0-f172.google.com ([209.85.210.172])
+Received: from ptmx.org ([178.63.28.110])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UOyPl-0000su-6X
+	(envelope-from <dv@pseudoterminal.org>) id 1UOzRN-000654-7l
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 00:50:37 +0200
-Received: by mail-ia0-f172.google.com with SMTP id k38so914890iah.31
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2013 15:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=bRl5XYpZbKeRZaOkOVWHNkRUQthsb5dT5SSjKUYqVeA=;
-	b=pBxXJ7qfXq9Swt8QZ5FT8KQh6NuJsfvFNOkhNn1o0lN3w3bCYPZ1TcX+hW8BymTvFI
-	W4/6jK2qP+nUZTXWY4YCnSjV+82OHrR+cxAjksSBdx2Dcb2IJOaJX4gtVEpdQKWKjkCB
-	IcHUQWU1efeprSs5J1G8RuUHsJjww3IPPQUQErwvXvWAh8gryj9zvYQ/7uUw9yWf0jie
-	j0ClhvvmA0vWnnL0NQCzzQ6hbtt2SoE0hXX0kxAzbDTd6J2YSPeoIYpb2L05Dpor+V+V
-	y2F47McnNtmlSp8tSCcDX/+eaigq6IzmC4SUvHqnzijNtw6B1Ou/870rLR/w4w+ectqU
-	Y0iQ==
-X-Received: by 10.50.164.162 with SMTP id yr2mr5198113igb.0.1365373982971;
-	Sun, 07 Apr 2013 15:33:02 -0700 (PDT)
+	Mon, 08 Apr 2013 01:56:10 +0200
+Received: from [192.168.178.14] (chello080108009040.14.11.vie.surfer.at
+	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 608C626D32;
+	Mon,  8 Apr 2013 01:38:49 +0200 (CEST)
+Message-ID: <5162038C.2020706@pseudoterminal.org>
+Date: Mon, 08 Apr 2013 01:38:52 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.50.191.170 with HTTP; Sun, 7 Apr 2013 15:32:31 -0700 (PDT)
-In-Reply-To: <1365323007.6526.229.camel@ted>
-References: <1365323007.6526.229.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 7 Apr 2013 15:32:31 -0700
-Message-ID: <CAMKF1sp4L_N6NDG8=qeWTu4sewV2O8T9f7Xzt8s7xCBv_9MtjQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Sanity Failures - Segfaults in qemu images
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: RFC: gstreamer 1.0 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,50 +26,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2013 22:50:58 -0000
-Content-Type: multipart/alternative; boundary=089e013a09ca3d9ca104d9cce7c9
+X-List-Received-Date: Sun, 07 Apr 2013 23:56:12 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000805030704040601030707"
 
---089e013a09ca3d9ca104d9cce7c9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--------------000805030704040601030707
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Apr 7, 2013 at 1:23 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Hello all,
 
->
-> http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64-lsb/buil=
-ds/87/steps/Running%20Sanity%20Tests/logs/stdio
->
->
+to start working with GStreamer 1.0 on several embedded platforms, I 
+decided to adapt the existing GStreamer recipes from danny for 1.0. Out 
+of this I created a layer, which is hosted at 
+https://github.com/dv1/meta-gstreamer1.0 .
 
-what does complete dmesg output looks like ? I have seen ld.so segfaults on
-real x86_64 hardware but havent narrowed it down since
-it does not seem to bother my testing.=E2=80=8B
+I write this RFC, because I figure that GStreamer 1.0 support is already 
+on TODO lists of several people, and will eventually end up in OE-Core, 
+just like GStreamer 0.10 did. For this reason, I also didn't add it to 
+the layer index.
 
---089e013a09ca3d9ca104d9cce7c9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I built the packages for several platforms (cubox, beagleboard, imx6), 
+and they worked well. Since 1.0 has been designed to be able to coexist 
+with 0.10 in the same rootfs, I changed the naming convention for the 
+packages: they all start with "gstreamer1.0-" .
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Sun, Apr 7, 2013 at 1:23 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.p=
-urdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+I also tried to reuse the existing patches. I was able to reuse three. 
+Several others are no longer necessary. Four are unclear to me, so I did 
+not port them:
+* gstreamer: check_fix.patch (I could not reproduce the documented 
+problem), and gstregistrybin.c/.h (why are these present?)
+* gst-plugins-base: configure.ac-fix-subparse-plugin.patch (not sure 
+what this is trying to fix, and this line does not exist in 1.0), and 
+gst-plugins-base-tremor.patch (again, works well without it)
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><a href=3D"http://autobuilder.yoctoproject.o=
-rg:8011/builders/nightly-x86-64-lsb/builds/87/steps/Running%20Sanity%20Test=
-s/logs/stdio" target=3D"_blank">http://autobuilder.yoctoproject.org:8011/bu=
-ilders/nightly-x86-64-lsb/builds/87/steps/Running%20Sanity%20Tests/logs/std=
-io</a><br>
+gst-ffmpeg was replaced by gst-libav upstream. So was gst-openmax 
+(gst-omx is its successor). gst-omx has special support for the 
+Raspberry Pi and its custom OpenMax IL implementation. The recipe is 
+designed in a way that allows for setting the target to something like 
+"rpi", and the recipe then sets the PACKAGE_ARCH automatically to 
+MACHINE_ARCH. However, I wasn't able to test it on an RPi yet, since I 
+do not have one. I will get access to one in a few days.
 
+I am also considering some kind of autodetection for when yasm and 
+liborc are available (for example, because meta-oe was added to 
+bblayers.conf), and then switches on Orc and enables yasm in gst-libav. 
+Or better yet, if libav is available as a recipe, it lets gst-libav use 
+it instead of its internal copy. These autodetections would improve 
+performance significantly.
 
-<br></blockquote></div><br><br></div><div class=3D"gmail_extra"><div style=
-=3D"font-family:&#39;courier new&#39;,monospace;font-size:small" class=3D"g=
-mail_default">what does complete dmesg output looks like ? I have seen ld.s=
-o segfaults on real x86_64 hardware but havent narrowed it down since</div>
+Thoughts?
 
-<div style=3D"font-family:&#39;courier new&#39;,monospace;font-size:small" =
-class=3D"gmail_default">it does not seem to bother my testing.=E2=80=8B</di=
-v><br></div></div>
+cheers,
+Carlos
 
---089e013a09ca3d9ca104d9cce7c9--
+--------------000805030704040601030707
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hello all,<br>
+    <br>
+    to start working with GStreamer 1.0 on several embedded platforms, I
+    decided to adapt the existing GStreamer recipes from danny for 1.0.
+    Out of this I created a layer, which is hosted at
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    <a href="https://github.com/dv1/meta-gstreamer1.0">https://github.com/dv1/meta-gstreamer1.0</a>
+    .<br>
+    <br>
+    I write this RFC, because I figure that GStreamer 1.0 support is
+    already on TODO lists of several people, and will eventually end up
+    in OE-Core, just like GStreamer 0.10 did. For this reason, I also
+    didn't add it to the layer index.<br>
+    <br>
+    I built the packages for several platforms (cubox, beagleboard,
+    imx6), and they worked well. Since 1.0 has been designed to be able
+    to coexist with 0.10 in the same rootfs, I changed the naming
+    convention for the packages: they all start with "gstreamer1.0-" .<br>
+    <br>
+    I also tried to reuse the existing patches. I was able to reuse
+    three. Several others are no longer necessary. Four are unclear to
+    me, so I did not port them:<br>
+    * gstreamer:
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    check_fix.patch (I could not reproduce the documented problem), and
+    gstregistrybin.c/.h (why are these present?)<br>
+    * gst-plugins-base: configure.ac-fix-subparse-plugin.patch (not sure
+    what this is trying to fix, and this line does not exist in 1.0),
+    and gst-plugins-base-tremor.patch (again, works well without it)<br>
+    <br>
+    gst-ffmpeg was replaced by gst-libav upstream. So was gst-openmax
+    (gst-omx is its successor). gst-omx has special support for the
+    Raspberry Pi and its custom OpenMax IL implementation. The recipe is
+    designed in a way that allows for setting the target to something
+    like "rpi", and the recipe then sets the PACKAGE_ARCH automatically
+    to MACHINE_ARCH. However, I wasn't able to test it on an RPi yet,
+    since I do not have one. I will get access to one in a few days.<br>
+    <br>
+    I am also considering some kind of autodetection for when yasm and
+    liborc are available (for example, because meta-oe was added to
+    bblayers.conf), and then switches on Orc and enables yasm in
+    gst-libav. Or better yet, if libav is available as a recipe, it lets
+    gst-libav use it instead of its internal copy. These autodetections
+    would improve performance significantly.<br>
+    <br>
+    Thoughts?<br>
+    <br>
+    cheers,<br>
+    Carlos<br>
+  </body>
+</html>
+
+--------------000805030704040601030707--
