@@ -1,28 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UPGSL-0002Gf-89
+	(envelope-from <sgw@linux.intel.com>) id 1UPGbD-0003Ct-Hl
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 20:06:14 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2013 10:48:53 -0700
+	Mon, 08 Apr 2013 20:15:23 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Apr 2013 10:58:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="314866042"
-Received: from unknown (HELO helios.localnet) ([10.255.13.125])
-	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2013 10:48:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Mon, 08 Apr 2013 18:48:50 +0100
-Message-ID: <3664366.6RB48HkoAG@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.5.0-26-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CAHUNapRCw6pqVL1MfSkPqDZQL-adp-AHQba8+nGTPoi44BTguQ@mail.gmail.com>
-References: <cover.1365179842.git.pkj@axis.com>
-	<a20f68229f1499d9020bd9cd8dc593e5f6635967.1365179842.git.pkj@axis.com>
-	<CAHUNapRCw6pqVL1MfSkPqDZQL-adp-AHQba8+nGTPoi44BTguQ@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="319238465"
+Received: from unknown (HELO [10.255.14.17]) ([10.255.14.17])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2013 10:57:36 -0700
+Message-ID: <51630510.7080105@linux.intel.com>
+Date: Mon, 08 Apr 2013 10:57:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] oe-buildenv-internal: Only add to $PATH if needed
+To: Alex DAMIAN <alexandru.damian@intel.com>
+References: <1365425799-25357-1-git-send-email-alexandru.damian@intel.com>
+In-Reply-To: <1365425799-25357-1-git-send-email-alexandru.damian@intel.com>
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bluez4: add readline dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 18:06:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 08 Apr 2013 18:15:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday 08 April 2013 13:31:50 Trevor Woerner wrote:
-> On Fri, Apr 5, 2013 at 12:59 PM, Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com> wrote:
-> > +[ "${PATH#$NEWPATHS}" != "$PATH" ] || PATH="$NEWPATHS$PATH"
-> 
-> This is certainly a welcome addition in functionality, but it relies
-> on the pattern remaining at the start of the PATH (i.e. the user
-> hasn't played with PATH in any way). Could we not use the
-> ${parameter/pattern/string} parameter expansion instead (e.g.
-> "${PATH/$NEWPATHS/}") so it doesn't matter whether the user has
-> further modified the PATH?
+On 04/08/2013 05:56 AM, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> bluez4 uses readline to be build, but the dependency is not listed
+> This is listed in the configuration log.
+> So we add it.
+>
+As far as I can tell it's needed only for gatttool, is this a tool that 
+we need / want to provide for bluez?
 
-Unfortunately I think this is specific to bash, so it may not be portable. 
-Maybe the equivalent can be achieved with sed however.
+This seems to be a tools for viewing the Generic Attribute Profile (GATT).
 
-Cheers,
-Paul
+It can be disabled by setting "ac_cv_lib_readline_main=no"
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Sau!
+
+
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>   meta/recipes-connectivity/bluez/bluez4.inc |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
+> index bff24d3..42d82b0 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4.inc
+> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>                       file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+>                       file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
+>                       file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
+> -DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck"
+> +DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
+>   RDEPENDS_${PN}-dev = "bluez-hcidump"
+>
+>   PACKAGECONFIG ??= "\
+>
 
 
