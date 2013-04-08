@@ -1,20 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-oa0-f44.google.com ([209.85.219.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UPJ2i-0006iG-5Q
+	(envelope-from <otavio.salvador@gmail.com>) id 1UPJ8a-0007BI-KM
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 22:51:56 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2013 13:34:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="291937563"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.17])
-	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2013 13:34:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Apr 2013 13:34:20 -0700
-Message-Id: <1365453260-32342-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] alsa-tools: Fix sys/io.h patch
+	Mon, 08 Apr 2013 22:58:05 +0200
+Received: by mail-oa0-f44.google.com with SMTP id h1so6724725oag.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Apr 2013 13:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=MF5J7WHx6B6R3f5Y6vf3kKnWFou+aF+U9WGlmcRtqv0=;
+	b=tX8z9yxzAco5Q/0Tu8c7zI78iQWvWgMWj7mW6yv5tUEhk2TZOJPG0bO2mvlv3ZkhR+
+	VlbVXxrGoKDNMVf3T24oyy+NPuxpOrAIxznwIzg34q4M3XF3u+Q6VGo6ERaw6XXgD2bR
+	DRNatARU3kL7o7cOqUMY5DuBmfVWeCUg9p3FeJN34UXb6ZP4GKEA5vEEhiWad42YYe18
+	PkS84lVuai9jKM6Q9UVZpMhKf+oZfihmKl3tmrZyFHZvJ1n+eYz29VaXs+gOUCX9pU68
+	iz/25JJ49dteEet6W1+xSZBJ/Z4DkevftbCT+sicKUDNdMT1VlS0Vy+ziVb5A4SxEupD
+	ElGg==
+MIME-Version: 1.0
+X-Received: by 10.182.110.33 with SMTP id hx1mr16668656obb.32.1365453640369;
+	Mon, 08 Apr 2013 13:40:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Mon, 8 Apr 2013 13:40:40 -0700 (PDT)
+In-Reply-To: <25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
+References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
+	<25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
+Date: Mon, 8 Apr 2013 17:40:40 -0300
+X-Google-Sender-Auth: kujJXMWwgPNr6B8gWV0QKfqDlWA
+Message-ID: <CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,37 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 20:51:56 -0000
+X-List-Received-Date: Mon, 08 Apr 2013 20:58:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-I blew my #if expression!
+On Mon, Apr 8, 2013 at 5:32 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 8 apr. 2013, om 18:29 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
+>
+>> Along with v182 upgrade udevd was moved to ${base_libdir}
+>
+> By upstream, yes
+>
+>> making scripts like init-live.sh to fail in finding udevd
+>
+> So you should fix those scripts, not mess around with udev.
+>
+>> Fixes [Yocto #4046]
+>>
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This move has been done long time ago so I agree with Koen here: the
+scripts needs to be fixed. Another thing, it should also be tested
+with systemd feature enabled as udev will be called systemd-udevd in
+this case, IIRC.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
-index 7083cb2..09b10f1 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
-@@ -1,3 +1,6 @@
-+Upstream-Status: Pending
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
- Index: alsa-tools-1.0.26.1/hda-verb/hda-verb.c
- ===================================================================
- --- alsa-tools-1.0.26.1.orig/hda-verb/hda-verb.c
-@@ -7,7 +10,7 @@ Index: alsa-tools-1.0.26.1/hda-verb/hda-verb.c
-  #include <unistd.h>
-  #include <sys/ioctl.h>
- -#ifndef __PPC__
--+#if __PPC__ || __MIPS__
-++#if !(__PPC__ || __mips__)
-  #include <sys/io.h>
-  #endif
-  #include <sys/types.h>
--- 
-1.8.0.2
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
