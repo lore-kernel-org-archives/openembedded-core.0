@@ -1,27 +1,35 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UPCWw-0006NA-08
+	(envelope-from <otavio.salvador@gmail.com>) id 1UPCYc-0006b4-75
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 15:54:44 +0200
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id B8BBD4B028C;
-	Mon,  8 Apr 2013 15:37:19 +0200 (CEST)
-Date: Mon, 8 Apr 2013 15:37:18 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20130408153718.78a8dfb3@e6520eb>
-In-Reply-To: <CAP9ODKqfL7o1pjTALefq148uiLQcUBOzv5Tdc5d_wMwfZW8PFw@mail.gmail.com>
-References: <1365268668-15483-1-git-send-email-otavio@ossystems.com.br>
-	<20130406200203.6eca6094@e6520eb>
-	<CAP9ODKoG2xAL+45oqL++9rWWGC+CRBQyFa3jtX-fFUYKdvCOMA@mail.gmail.com>
-	<20130407073745.54c2d0e8@e6520eb>
-	<CAP9ODKqfL7o1pjTALefq148uiLQcUBOzv5Tdc5d_wMwfZW8PFw@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: Fix matching of SOC_FAMILY in COMPATIBLE_MACHINE
+	Mon, 08 Apr 2013 15:56:29 +0200
+Received: by mail-ob0-f174.google.com with SMTP id wm15so3130477obc.19
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Apr 2013 06:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=36vYsfx5vzWzbWBCVhW6Euy9RW5Pl244WQi8Qp3Fr/0=;
+	b=N0gmoBCD0OFMbpHgfWyDn4MI9662cr9pHk11I6O7MxEVkgGob3vkAkAGumpZh8syfl
+	dcLPiTQ/E5rR6hh6CtzIgBZlgRIJyp7vYAE01sK/VzGMOoDcQK6+KmyF29gI+PM3atmQ
+	eDQvsycaUGX0Zx76Pa5cgCcPCCdhUCxdbOyv1VkNR4oO7QGicnAcoovLBdDl0mGpcg1h
+	+T5Xvia4ESuosZDixVKz5t1IG79D21a5UlZ80A1MAwiXip5Zcpk4PV8S3mNYnjbn1xet
+	ZdNaXtEkKmrJLvJjs6lpdMDaeqsZlP15Q/wYoUXb+M7MCUCDig69GsBYnFkAYocrN090
+	BfpQ==
+MIME-Version: 1.0
+X-Received: by 10.182.106.16 with SMTP id gq16mr15339083obb.27.1365428346477; 
+	Mon, 08 Apr 2013 06:39:06 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Mon, 8 Apr 2013 06:39:06 -0700 (PDT)
+In-Reply-To: <5162038C.2020706@pseudoterminal.org>
+References: <5162038C.2020706@pseudoterminal.org>
+Date: Mon, 8 Apr 2013 10:39:06 -0300
+X-Google-Sender-Auth: Qu4Xl3hdKDGOXK1cUKUWSiI9aXc
+Message-ID: <CAP9ODKp9xrRbh4Mq+ZkBEuYZbvOKH=B+mmbXkJXWO275-F2UPQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: gstreamer 1.0 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,56 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 13:54:50 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Apr 2013 13:56:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Otavio,
+On Sun, Apr 7, 2013 at 8:38 PM, Carlos Rafael Giani
+<dv@pseudoterminal.org> wrote:
+> Hello all,
+>
+> to start working with GStreamer 1.0 on several embedded platforms, I decided
+> to adapt the existing GStreamer recipes from danny for 1.0. Out of this I
+> created a layer, which is hosted at https://github.com/dv1/meta-gstreamer1.0
+> .
+>
+> I write this RFC, because I figure that GStreamer 1.0 support is already on
+> TODO lists of several people, and will eventually end up in OE-Core, just
+> like GStreamer 0.10 did. For this reason, I also didn't add it to the layer
+> index.
+>
+> I built the packages for several platforms (cubox, beagleboard, imx6), and
+> they worked well. Since 1.0 has been designed to be able to coexist with
+> 0.10 in the same rootfs, I changed the naming convention for the packages:
+> they all start with "gstreamer1.0-" .
+>
+> I also tried to reuse the existing patches. I was able to reuse three.
+> Several others are no longer necessary. Four are unclear to me, so I did not
+> port them:
+> * gstreamer: check_fix.patch (I could not reproduce the documented problem),
+> and gstregistrybin.c/.h (why are these present?)
+> * gst-plugins-base: configure.ac-fix-subparse-plugin.patch (not sure what
+> this is trying to fix, and this line does not exist in 1.0), and
+> gst-plugins-base-tremor.patch (again, works well without it)
+>
+> gst-ffmpeg was replaced by gst-libav upstream. So was gst-openmax (gst-omx
+> is its successor). gst-omx has special support for the Raspberry Pi and its
+> custom OpenMax IL implementation. The recipe is designed in a way that
+> allows for setting the target to something like "rpi", and the recipe then
+> sets the PACKAGE_ARCH automatically to MACHINE_ARCH. However, I wasn't able
+> to test it on an RPi yet, since I do not have one. I will get access to one
+> in a few days.
+>
+> I am also considering some kind of autodetection for when yasm and liborc
+> are available (for example, because meta-oe was added to bblayers.conf), and
+> then switches on Orc and enables yasm in gst-libav. Or better yet, if libav
+> is available as a recipe, it lets gst-libav use it instead of its internal
+> copy. These autodetections would improve performance significantly.
+>
+> Thoughts?
 
-Le Mon, 8 Apr 2013 10:31:17 -0300,
-Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
+Neat!!! :-D
 
-> On Sun, Apr 7, 2013 at 2:37 AM, Eric B=C3=A9nard <eric@eukrea.com> wrote:
-> > Le Sat, 6 Apr 2013 17:58:30 -0300,
-> > Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
-> >
-> >> On Sat, Apr 6, 2013 at 3:02 PM, Eric B=C3=A9nard <eric@eukrea.com> wro=
-te:
-> >> > Hi Otavio,
-> >> >
-> >> > Le Sat,  6 Apr 2013 14:17:48 -0300,
-> >> > Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
-> >> >> +            compat_machines =3D [d.getVar('MACHINE', True)]
-> >> >> +            compat_machines.extend((d.getVar('SOC_FAMILY', True) o=
-r "").split(":"))
-> >> >> +            for this_machine in compat_machines:
-> >> >> +                if re.match(need_machine, this_machine):
-> >> >> +                    break
-> >> >> +            else:
-> >> >> +                raise bb.parse.SkipPackage("incompatible with mach=
-ine %s (not in COMPATIBLE_MACHINE)" % this_machine)
-> >> >>
-> >> > aren't you breaking this log here vs what is was supposed to
-> >> > print before ?
-> >>
-> >> The 'else' is used when no 'break' is done inside of for loop.
-> >>
-> > but will this_machine contain the value of the MACHINE variable ?
->=20
-> Yes, check:
->=20
-> ...
-> +            compat_machines =3D [d.getVar('MACHINE', True)]
-> +            compat_machines.extend((d.getVar('SOC_FAMILY', True) or
-> "").split(":"))
-> ...
->=20
-I'm not very experienced in python so sorry is that's a stupid
-remark but after these lines you are using this_machine to go
-through the content of compat_machines so in the end, when it reach the
-log message it will contain the last value in compat_machine (and thus
-the last one in SOC_FAMILY instead of the machine name) ?
-
-Eric
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
