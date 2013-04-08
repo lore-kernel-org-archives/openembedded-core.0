@@ -1,33 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UPJiF-0001bG-9R for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 23:34:55 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r38LSXZt019476; Mon, 8 Apr 2013 22:28:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ou0lsG3wzs1p; Mon,  8 Apr 2013 22:28:33 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r38LSQ4O019459
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 8 Apr 2013 22:28:29 +0100
-Message-ID: <1365455838.12407.58.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 08 Apr 2013 22:17:18 +0100
-In-Reply-To: <CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
-References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
-	<25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
-	<CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Patches,
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
+	(envelope-from <Michel.Thebeau@windriver.com>) id 1UPJob-0002HF-Vd
+	for openembedded-core@lists.openembedded.org;
+	Mon, 08 Apr 2013 23:41:26 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r38LO4d6010837
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 8 Apr 2013 14:24:04 -0700 (PDT)
+Received: from [128.224.146.59] (128.224.146.59) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 8 Apr 2013 14:24:03 -0700
+Message-ID: <51633572.6080202@windriver.com>
+Date: Mon, 8 Apr 2013 17:24:02 -0400
+From: Michel Thebeau <michel.thebeau@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1365452153-21650-1-git-send-email-michel.thebeau@windriver.com>
+	<1365452153-21650-3-git-send-email-michel.thebeau@windriver.com>
+	<1365454473.12407.51.camel@ted>
+In-Reply-To: <1365454473.12407.51.camel@ted>
+Cc: Bruce.Ashfield@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] kernel.bbclass: do_strip: allow recipes to strip the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,44 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 21:35:01 -0000
+X-List-Received-Date: Mon, 08 Apr 2013 21:41:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-04-08 at 17:40 -0300, Otavio Salvador wrote:
-> On Mon, Apr 8, 2013 at 5:32 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >
-> > Op 8 apr. 2013, om 18:29 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
-> >
-> >> Along with v182 upgrade udevd was moved to ${base_libdir}
-> >
-> > By upstream, yes
-> >
-> >> making scripts like init-live.sh to fail in finding udevd
-> >
-> > So you should fix those scripts, not mess around with udev.
-> >
-> >> Fixes [Yocto #4046]
-> >>
-> >> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+
+
+On 13-04-08 04:54 PM, Richard Purdie wrote:
+> On Mon, 2013-04-08 at 16:15 -0400, michel.thebeau@windriver.com wrote:
+>> From: Michel Thebeau <michel.thebeau@windriver.com>
+>>
+>> Allow recipes to specify sections to be stripped from the kernel output
+>> using KERNEL_IMAGE_STRIP_EXTRA_SECTIONS.  For example:
+>>
+>> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS = ".comment .unwanted"
+>>
+>> The file to be stripped is a copy of ${KERNEL_OUTPUT} and will be given
+>> the same name with an additional ".stripped" suffix.  The suffix can be
+>> overridden using KERNEL_STRIP_SUFFIX.
+>>
+>> Since the toolchain does not give indication when the specified sections
+>> are absent, we read the sections first and make this report by issuing a
+>> warning to the developer.
+>>
+>> The toolchain by default strips the image with the -s option (even
+>> when -s is not specified):
+>> -s --strip-all       Remove all symbol and relocation information
+>>
+>> For example, these sections are always removed:
+>> .debug_aranges
+>> .debug_info
+>> .debug_abbrev
+>> .debug_line
+>> .debug_frame
+>> .debug_str
+>> .debug_loc
+>> .debug_ranges
+>> .symtab
+>> .strtab
+>>
+>> In addition to these, the sections listed in
+>> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS will also be removed.
+>>
+>> Only stripping of vmlinux (elf) is supported at this time.  A warning
+>> will be given if the image type is not vmlinux.
+>>
+>> Stripping the image could also be done in the kernel, but that would
+>> only work for linux-yocto based kernels, so it's not the route we
+>> decided to go.
+>>
+>> [YOCTO 3515]
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
 > 
-> This move has been done long time ago so I agree with Koen here: the
-> scripts needs to be fixed. Another thing, it should also be tested
-> with systemd feature enabled as udev will be called systemd-udevd in
-> this case, IIRC.
-
-It is not the scripts, see the previous discussion that was sent out and
-Koen at least replied to. The scripts are the least of the problems.
-
-Yes, the commit message here could be more accurate but that doesn't
-change the problem of the issue reported in #4046 and previously
-discussed.
-
-Cheers,
-
-Richard
+> Can we please just have one output kernel, not two. Is the unstripped
+> version useful anywhere?
+> 
 
 
+The unstripped image is bootable, and it is conceivable that someone may
+even want to do load -m tftp from the boot script.
 
+But, if a single image is desirable then I'd go with the image stripped
+in place.  Here is that other patch...   I'll make sure to add text to
+the log so it is clear about what happened to the image.
+
+M
+
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
 
 
