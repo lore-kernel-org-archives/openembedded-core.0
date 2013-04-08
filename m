@@ -1,37 +1,31 @@
-Received: from mail-oa0-f44.google.com ([209.85.219.44])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UPJ8a-0007BI-KM
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 22:58:05 +0200
-Received: by mail-oa0-f44.google.com with SMTP id h1so6724725oag.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 13:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=MF5J7WHx6B6R3f5Y6vf3kKnWFou+aF+U9WGlmcRtqv0=;
-	b=tX8z9yxzAco5Q/0Tu8c7zI78iQWvWgMWj7mW6yv5tUEhk2TZOJPG0bO2mvlv3ZkhR+
-	VlbVXxrGoKDNMVf3T24oyy+NPuxpOrAIxznwIzg34q4M3XF3u+Q6VGo6ERaw6XXgD2bR
-	DRNatARU3kL7o7cOqUMY5DuBmfVWeCUg9p3FeJN34UXb6ZP4GKEA5vEEhiWad42YYe18
-	PkS84lVuai9jKM6Q9UVZpMhKf+oZfihmKl3tmrZyFHZvJ1n+eYz29VaXs+gOUCX9pU68
-	iz/25JJ49dteEet6W1+xSZBJ/Z4DkevftbCT+sicKUDNdMT1VlS0Vy+ziVb5A4SxEupD
-	ElGg==
-MIME-Version: 1.0
-X-Received: by 10.182.110.33 with SMTP id hx1mr16668656obb.32.1365453640369;
-	Mon, 08 Apr 2013 13:40:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Mon, 8 Apr 2013 13:40:40 -0700 (PDT)
-In-Reply-To: <25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
-References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
-	<25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
-Date: Mon, 8 Apr 2013 17:40:40 -0300
-X-Google-Sender-Auth: kujJXMWwgPNr6B8gWV0QKfqDlWA
-Message-ID: <CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UPJMG-00009H-B5 for openembedded-core@lists.openembedded.org;
+	Mon, 08 Apr 2013 23:12:09 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38L5puc017618; Mon, 8 Apr 2013 22:05:51 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VIZSSwS2CuZE; Mon,  8 Apr 2013 22:05:51 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38L5fnd017611
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 8 Apr 2013 22:05:47 +0100
+Message-ID: <1365454473.12407.51.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: michel.thebeau@windriver.com
+Date: Mon, 08 Apr 2013 21:54:33 +0100
+In-Reply-To: <1365452153-21650-3-git-send-email-michel.thebeau@windriver.com>
+References: <1365452153-21650-1-git-send-email-michel.thebeau@windriver.com>
+	<1365452153-21650-3-git-send-email-michel.thebeau@windriver.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Bruce.Ashfield@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] kernel.bbclass: do_strip: allow recipes to strip the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,33 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 20:58:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 08 Apr 2013 21:12:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 8, 2013 at 5:32 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 8 apr. 2013, om 18:29 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
->
->> Along with v182 upgrade udevd was moved to ${base_libdir}
->
-> By upstream, yes
->
->> making scripts like init-live.sh to fail in finding udevd
->
-> So you should fix those scripts, not mess around with udev.
->
->> Fixes [Yocto #4046]
->>
->> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+On Mon, 2013-04-08 at 16:15 -0400, michel.thebeau@windriver.com wrote:
+> From: Michel Thebeau <michel.thebeau@windriver.com>
+> 
+> Allow recipes to specify sections to be stripped from the kernel output
+> using KERNEL_IMAGE_STRIP_EXTRA_SECTIONS.  For example:
+> 
+> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS = ".comment .unwanted"
+> 
+> The file to be stripped is a copy of ${KERNEL_OUTPUT} and will be given
+> the same name with an additional ".stripped" suffix.  The suffix can be
+> overridden using KERNEL_STRIP_SUFFIX.
+> 
+> Since the toolchain does not give indication when the specified sections
+> are absent, we read the sections first and make this report by issuing a
+> warning to the developer.
+> 
+> The toolchain by default strips the image with the -s option (even
+> when -s is not specified):
+> -s --strip-all       Remove all symbol and relocation information
+> 
+> For example, these sections are always removed:
+> .debug_aranges
+> .debug_info
+> .debug_abbrev
+> .debug_line
+> .debug_frame
+> .debug_str
+> .debug_loc
+> .debug_ranges
+> .symtab
+> .strtab
+> 
+> In addition to these, the sections listed in
+> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS will also be removed.
+> 
+> Only stripping of vmlinux (elf) is supported at this time.  A warning
+> will be given if the image type is not vmlinux.
+> 
+> Stripping the image could also be done in the kernel, but that would
+> only work for linux-yocto based kernels, so it's not the route we
+> decided to go.
+> 
+> [YOCTO 3515]
+> 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
 
-This move has been done long time ago so I agree with Koen here: the
-scripts needs to be fixed. Another thing, it should also be tested
-with systemd feature enabled as udev will be called systemd-udevd in
-this case, IIRC.
+Can we please just have one output kernel, not two. Is the unstripped
+version useful anywhere?
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Cheers,
+
+Richard
+
+
+
 
 
