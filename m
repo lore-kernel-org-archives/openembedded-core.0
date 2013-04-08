@@ -1,34 +1,29 @@
-Received: from mail-ob0-f171.google.com ([209.85.214.171])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UPJtq-0002jr-8r
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 23:46:53 +0200
-Received: by mail-ob0-f171.google.com with SMTP id v19so3136673obq.30
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 14:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+jfqqEqT+KxOr31/An+gr9xZufGQUOO0l0YlwQ6HG/Y=;
-	b=IWJ9ut3iziMRliAiWfL82D+h9KT570CAAtaDMTgIbWL7ZLPWX3qAqbXCSdTQF+3iOQ
-	kv/LFfl5xgOwfNTTKeM/TO9dImAlfXc6TadFPC+Q4bgRGIM9FYXhFvSG2COfhpQz610c
-	Xgy0NlDZzun1gj8WjnHpYm3c+upEl4i71+za0JfEb/StBZVGl1+mB3DmHrrIir+rme2b
-	j/WND567H/NzvjNketWBCW5jBmZ56fYyB1DR7TZXmMX9rLuhcct/pbGcdO/qXCPc8U5l
-	Fi9V+JJSfIKDh1A9R327bj5gR9bCxKs+oWMRDEV9AvBulFunOz8z4qASWVIsTXuoGlu+
-	acHg==
-MIME-Version: 1.0
-X-Received: by 10.60.63.73 with SMTP id e9mr16606748oes.87.1365456570692; Mon,
-	08 Apr 2013 14:29:30 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Mon, 8 Apr 2013 14:29:30 -0700 (PDT)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UPJvT-0002tw-45 for openembedded-core@lists.openembedded.org;
+	Mon, 08 Apr 2013 23:48:33 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38LgFVJ020890; Mon, 8 Apr 2013 22:42:15 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hnJ5Qvg94zz3; Mon,  8 Apr 2013 22:42:15 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38LgAjf020804
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 8 Apr 2013 22:42:13 +0100
+Message-ID: <1365456662.12407.61.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 08 Apr 2013 22:31:02 +0100
 In-Reply-To: <1365454686-951-1-git-send-email-otavio@ossystems.com.br>
 References: <1365454686-951-1-git-send-email-otavio@ossystems.com.br>
-Date: Mon, 8 Apr 2013 18:29:30 -0300
-X-Google-Sender-Auth: _ZM0w-7b9W1ttSZxINJ5L4GcQUY
-Message-ID: <CAP9ODKo+xmN1X4DMUX7v2Q+P=W6ON8j17a6XFBrzYiQ7aN1txw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3] base.bbclass: Fix matching of MACHINEOVERRIDES in COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,26 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 21:46:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 08 Apr 2013 21:48:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 8, 2013 at 5:58 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+On Mon, 2013-04-08 at 17:58 -0300, Otavio Salvador wrote:
 > When a MACHINEOVERRIDES has more than one value, split by ':' as usual
 > OVERRIDES, this were not being properly checked in COMPATIBLE_MACHINE
 > matching as we need to iterate over each SoC family and check if it is
 > compatible or not.
->
+> 
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-...
+> ---
+> Changes for v3:
+> - Stop checking for SOC_FAMILY as it is just for compatibility with
+>   old BSPs; we move to MACHINEOVERRIDES for this case (RP)
+> 
+>  meta/classes/base.bbclass | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index abd6a52..313359c 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -515,11 +515,12 @@ python () {
+>          need_machine = d.getVar('COMPATIBLE_MACHINE', True)
+>          if need_machine:
+>              import re
+> -            this_machine = d.getVar('MACHINE', True)
+> -            if this_machine and not re.match(need_machine, this_machine):
+> -                this_soc_family = d.getVar('SOC_FAMILY', True)
+> -                if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
+> -                    raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
 > +            compat_machines.extend((d.getVar('MACHINEOVERRIDES', True) or "").split(":"))
-...
 
-I did run it and it fails. I am fixing it and will send a new  version
-well tested.
+No variable "compat_machines" exists before this line so this patch
+cannot possibly work. What did you test?
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+We're close to release and I'm getting pushed hard in places like IRC to
+take patches like this which clearly don't work :(
+
+I'm not happy.
+
+Cheers,
+
+Richard
+
 
 
