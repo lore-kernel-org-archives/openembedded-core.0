@@ -1,34 +1,33 @@
-Received: from mail-qe0-f51.google.com ([209.85.128.51])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UPJPn-0000SB-1U
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 23:15:47 +0200
-Received: by mail-qe0-f51.google.com with SMTP id 1so1606207qec.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 13:58:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=CuFnKzENP+EBVaZLOjIaLmhLuuwQeZqu+A5RnxrIiTs=;
-	b=BdED0zFY6iwBdgTJkwiL7jA/QB7871dtvCCmIZMWdUVLcvcLObyMX2xLoUm4lzzsjE
-	YaLQd3cer7+J7CL+7L/TND7yUQ5D6EK141uPdcqqFCYJhG/pubfe+u+HEnr/3koKQRbX
-	igE5KQ2xYSCuPsHTfAzEUaJDM5nemMETWW3Pfo97ydskTaupeJaHlshVuEeuTPUK8lT6
-	AMi4YPme1t+hfCuHMnngIcm6HlnmHJpj/0AGpQM7alJu6w5Tdl3Khc+Z2HpyrHLNMq2J
-	1PgGfdc+aPKBgZniS9Lk0kMtpFmBszCaHE7uQXJz2Xfyw1rns5chDRrpnOKr7aV9oFFL
-	eRhw==
-X-Received: by 10.49.48.43 with SMTP id i11mr20816391qen.65.1365454707665;
-	Mon, 08 Apr 2013 13:58:27 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([187.23.144.59])
-	by mx.google.com with ESMTPS id e3sm24258045qeo.0.2013.04.08.13.58.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 08 Apr 2013 13:58:27 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  8 Apr 2013 17:58:06 -0300
-Message-Id: <1365454686-951-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.1
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] base.bbclass: Fix matching of MACHINEOVERRIDES in COMPATIBLE_MACHINE
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UPJiF-0001bG-9R for openembedded-core@lists.openembedded.org;
+	Mon, 08 Apr 2013 23:34:55 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38LSXZt019476; Mon, 8 Apr 2013 22:28:33 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ou0lsG3wzs1p; Mon,  8 Apr 2013 22:28:33 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38LSQ4O019459
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 8 Apr 2013 22:28:29 +0100
+Message-ID: <1365455838.12407.58.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 08 Apr 2013 22:17:18 +0100
+In-Reply-To: <CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
+References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
+	<25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
+	<CAP9ODKpRz1VtMewDO92D2XdbZS5DF+s8pURJt6x=SmX8trKhdQ@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Patches,
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,46 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 21:15:49 -0000
+X-List-Received-Date: Mon, 08 Apr 2013 21:35:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When a MACHINEOVERRIDES has more than one value, split by ':' as usual
-OVERRIDES, this were not being properly checked in COMPATIBLE_MACHINE
-matching as we need to iterate over each SoC family and check if it is
-compatible or not.
+On Mon, 2013-04-08 at 17:40 -0300, Otavio Salvador wrote:
+> On Mon, Apr 8, 2013 at 5:32 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >
+> > Op 8 apr. 2013, om 18:29 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
+> >
+> >> Along with v182 upgrade udevd was moved to ${base_libdir}
+> >
+> > By upstream, yes
+> >
+> >> making scripts like init-live.sh to fail in finding udevd
+> >
+> > So you should fix those scripts, not mess around with udev.
+> >
+> >> Fixes [Yocto #4046]
+> >>
+> >> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> 
+> This move has been done long time ago so I agree with Koen here: the
+> scripts needs to be fixed. Another thing, it should also be tested
+> with systemd feature enabled as udev will be called systemd-udevd in
+> this case, IIRC.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-Changes for v3:
-- Stop checking for SOC_FAMILY as it is just for compatibility with
-  old BSPs; we move to MACHINEOVERRIDES for this case (RP)
+It is not the scripts, see the previous discussion that was sent out and
+Koen at least replied to. The scripts are the least of the problems.
 
- meta/classes/base.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Yes, the commit message here could be more accurate but that doesn't
+change the problem of the issue reported in #4046 and previously
+discussed.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index abd6a52..313359c 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -515,11 +515,12 @@ python () {
-         need_machine = d.getVar('COMPATIBLE_MACHINE', True)
-         if need_machine:
-             import re
--            this_machine = d.getVar('MACHINE', True)
--            if this_machine and not re.match(need_machine, this_machine):
--                this_soc_family = d.getVar('SOC_FAMILY', True)
--                if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
--                    raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
-+            compat_machines.extend((d.getVar('MACHINEOVERRIDES', True) or "").split(":"))
-+            for m in compat_machines:
-+                if re.match(need_machine, m):
-+                    break
-+            else:
-+                raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % d.getVar('MACHINE', True))
- 
- 
-         bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
--- 
-1.8.1
+Cheers,
+
+Richard
+
+
 
 
 
