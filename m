@@ -1,32 +1,36 @@
-Received: from mail-wg0-f47.google.com ([74.125.82.47])
+Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UPANe-0003vt-MN
+	(envelope-from <chase.maupin@ti.com>) id 1UPAci-0005qs-Tq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 13:36:59 +0200
-Received: by mail-wg0-f47.google.com with SMTP id y10so5489563wgg.26
+	Mon, 08 Apr 2013 13:52:35 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r38BZFlF015344
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 04:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=briBzlK/2Nac2eD8BfmII7ceCre4PcMcowarkN+N3/8=;
-	b=WB1UXxYRwxzeGolo5IiVAA/RJRHqidioaosFGEnXaMBylhgKKWRFLP2BS1o+xYIya7
-	FDJ3T6xsgVIo+v6hx1fkM+mXG+I30d9xzyoYZmG0IlN/NnKrMpRCGj53tjVEbRqvW+y3
-	Qhd6sxaEWtYEFGTE9Lc4uZKwwF6VBJKIOCH8zI7NeUarFqOPREtXC/9RBrVpFzV+XRDS
-	/huI2UsjCSd6SRyFLASmAmV62yVNFdfPkmscZBDVTF2roCpol8kWupMjXYazxyNhQsH3
-	1sbWIJhi7U9v9whYeHi2mgEbxmStNvRojcKQMJevI8Oa/QdklBgBBUA3/Y7ckcvdU16U
-	2l8g==
-X-Received: by 10.194.23.105 with SMTP id l9mr8835675wjf.41.1365419980036;
-	Mon, 08 Apr 2013 04:19:40 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id fv2sm21461174wib.6.2013.04.08.04.19.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 08 Apr 2013 04:19:39 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Apr 2013 13:19:40 +0200
-Message-Id: <1365419980-19384-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] tinylogin: Fix mix of tabs and spaces for SRC_URI indentation
+	Mon, 8 Apr 2013 06:35:15 -0500
+Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r38BZFZU014456
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Apr 2013 06:35:15 -0500
+Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
+	DLEE70.ent.ti.com ([fe80::c4c6:f618:54e7:ad11%28]) with mapi id
+	14.02.0342.003; Mon, 8 Apr 2013 06:35:15 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: "Maupin, Chase" <chase.maupin@ti.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB symlinks
+	for devicetree
+Thread-Index: AQHOMTf07NtieyGeLEqohYKImIYnvJjMN8QA
+Date: Mon, 8 Apr 2013 11:35:14 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101594CB39E@DLEE11.ent.ti.com>
+References: <1365081955-19381-1-git-send-email-Chase.Maupin@ti.com>
+In-Reply-To: <1365081955-19381-1-git-send-email-Chase.Maupin@ti.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [157.170.170.90]
+MIME-Version: 1.0
+Subject: Re: [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB symlinks for devicetree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,39 +43,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 11:37:01 -0000
+X-List-Received-Date: Mon, 08 Apr 2013 11:52:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
----
- meta/recipes-core/tinylogin/tinylogin_1.4.bb | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Ping on this set
 
-diff --git a/meta/recipes-core/tinylogin/tinylogin_1.4.bb b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-index 6e08011..d1da0e2 100644
---- a/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-+++ b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-@@ -12,13 +12,13 @@ PR = "r9"
- inherit update-alternatives
- 
- SRC_URI = "http://www.angstrom-distribution.org/unstable/sources/tinylogin-${PV}.tar.bz2 \
--	file://cvs-20040608.patch \
--	file://add-system.patch \
--	file://adduser-empty_pwd.patch \
--	file://remove-index.patch \
--	file://use_O2_option.patch \
--	file://passwd_rotate_check.patch \
--	file://avoid_static.patch \
-+        file://cvs-20040608.patch \
-+        file://add-system.patch \
-+        file://adduser-empty_pwd.patch \
-+        file://remove-index.patch \
-+        file://use_O2_option.patch \
-+        file://passwd_rotate_check.patch \
-+        file://avoid_static.patch \
-         file://glibc_crypt_fix.patch \
-         "
- 
--- 
-1.8.1.5
+
+> -----Original Message-----
+> From: Maupin, Chase
+> Sent: Thursday, April 04, 2013 8:26 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Maupin, Chase
+> Subject: [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB
+> symlinks for devicetree
+>=20
+> * This is similar to the symlinks provided for the kernel image
+>   in the /boot directory of a file system.  The goal is to have
+>   simply named symlinks in /boot that mirror the device tree
+>   name in the kernel sources.  This is so that programs like
+>   U-Boot can easily find the default device tree binary in the
+>   /boot directory and use that when booting the kernel.
+> * Use update-alternatives to handle proper creation and removal
+>   of the symlinks.
+> * This patch has already been accepted into the master branch
+>   http://cgit.openembedded.org/openembedded-
+> core/commit/?id=3D750a9554e1b85d9bd23d18e0630723c3c193c604
+>=20
+> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> ---
+> * Updated in version 2
+>     * Changed the variable names to use variables that match the
+>       do_install and do_deploy more closely for consistency.
+> i.e.
+>       using DTB_SYMLINK_NAME instead of DTB_NAME.
+>     * The above changes were based on input from:
+>         * Darren Hart <dvhart@linux.intel.com>
+>         * Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-dtb.inc |   20
+> ++++++++++++++++++++
+>  1 files changed, 20 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
+> b/meta/recipes-kernel/linux/linux-dtb.inc
+> index d39f49d..36852b5 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -45,3 +45,23 @@ do_deploy_append() {
+>          done
+>      fi
+>  }
+> +
+> +pkg_postinst_kernel-devicetree () {
+> +    cd /${KERNEL_IMAGEDEST}
+> +    for DTS_FILE in ${KERNEL_DEVICETREE}
+> +    do
+> +        DTS_BASE_NAME=3D`basename ${DTS_FILE} | awk -F "." '{print
+> $1}'`
+> +        DTB_SYMLINK_NAME=3D`echo ${KERNEL_IMAGE_SYMLINK_NAME} |
+> sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +        update-alternatives --install
+> /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb
+> devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +    done
+> +}
+> +
+> +pkg_postrm_kernel-devicetree () {
+> +    cd /${KERNEL_IMAGEDEST}
+> +    for DTS_FILE in ${KERNEL_DEVICETREE}
+> +    do
+> +        DTS_BASE_NAME=3D`basename ${DTS_FILE} | awk -F "." '{print
+> $1}'`
+> +        DTB_SYMLINK_NAME=3D`echo ${KERNEL_IMAGE_SYMLINK_NAME} |
+> sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +        update-alternatives --remove ${DTS_BASE_NAME}.dtb
+> devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +    done
+> +}
+> --
+> 1.7.0.4
 
 
 
