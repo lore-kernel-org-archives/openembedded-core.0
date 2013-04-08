@@ -1,30 +1,26 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1UP7uo-00046u-9H
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1UP856-0005Qx-K1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 10:59:03 +0200
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Mon, 8 Apr 2013
-	10:41:43 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 692F22837E9;
-	Mon,  8 Apr 2013 10:41:43 +0200 (CEST)
-Date: Mon, 8 Apr 2013 10:41:43 +0200
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130408084143.GC24646@sestofb10.enea.se>
-References: <20130322141213.GC46421@sestofb10.enea.se>
-	<1364222065-62444-1-git-send-email-bjst@enea.com>
-	<1364228284.3097.58.camel@ted>
+	Mon, 08 Apr 2013 11:09:42 +0200
+Message-ID: <51628545.6050106@communistcode.co.uk>
+Date: Mon, 08 Apr 2013 09:52:21 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
 MIME-Version: 1.0
-In-Reply-To: <1364228284.3097.58.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
+To: Khem Raj <raj.khem@gmail.com>
+References: <515ED999.9040100@communistcode.co.uk>
+	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
+	<515EFD76.2090009@communistcode.co.uk>
+	<0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
+In-Reply-To: <0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] ptest bugfix: Make all ptest files go into -ptest package
+Subject: Re: gcc-cross-initial Failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -34,25 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 08:59:03 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Apr 2013 09:09:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Richard Purdie wrote:
-> Why are we putting all the debug files into the -ptest package now? Does
-> that make sense?
+On 05/04/13 18:03, Khem Raj wrote:
+> On Apr 5, 2013, at 9:36 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>
+>> I build for the beaglebone and I changed them in line with your default beaglebone build patch you posted a week or so ago. I think it moved it form soft to hard float possibly...
+> yes do a clean build if possible
 
-(Sorry, I missed this comment.)
+Hi Khem,
 
-My reasoning is that we want all ptest data to be contained in -ptest packa=
-ges and not "leak" into other packages.=20
+Clean build results in the same failure.
 
-If we keep debug data in the normal -dbg packages, you will always get ptes=
-t debug data installed in your image when defining distro-feature "ptest", =
-even if it doesn't include any -ptest packages. That feels wrong to me.
+Host GCC:
 
---=20
-Bj=F6rn
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: /build/src/gcc-4.8.0/configure --prefix=/usr 
+--libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man 
+--infodir=/usr/share/info --with-bugurl=https://bugs.archlinux.org/ 
+--enable-languages=c,c++,ada,fortran,go,lto,objc,obj-c++ --enable-shared 
+--enable-threads=posix --with-system-zlib --enable-__cxa_atexit 
+--disable-libunwind-exceptions --enable-clocale=gnu 
+--disable-libstdcxx-pch --enable-gnu-unique-object 
+--enable-linker-build-id --enable-cloog-backend=isl 
+--disable-cloog-version-check --enable-lto --enable-gold 
+--enable-ld=default --enable-plugin --with-plugin-ld=ld.gold 
+--with-linker-hash-style=gnu --disable-install-libiberty 
+--disable-multilib --disable-libssp --disable-werror 
+--enable-checking=release
+Thread model: posix
+gcc version 4.8.0 (GCC)
+
+
+Tune:
+
+DEFAULTTUNE_beaglebone = "cortexa8hf-neon"
+
+Cheers,
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
