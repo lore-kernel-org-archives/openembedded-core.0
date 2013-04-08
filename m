@@ -1,41 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UPJ0G-0006SU-Mv
+	(envelope-from <sgw@linux.intel.com>) id 1UPJ2i-0006iG-5Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 22:49:28 +0200
-Received: by mail-ee0-f47.google.com with SMTP id t10so2522293eei.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 13:32:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=kbiWrOg1s20J5DlKpUwBgZDpC09BdY6NrhcMmizP5LM=;
-	b=Eo0aR1sOnFVaXKHjpdGlc2u2dlgxaVsMrQ4sliEUnpRP+xWplSCswecJ9AMpeLxPhg
-	ECH8WtMsBJ8XxpproAgn2FLci+JdTssyaGtUR3I/fUmaAomdfZUkZk79fl46oJilX6YO
-	8txXvE0IG9guqBkBzHd+QFnIUGKTR/AE4h+OMb8MkHnztB+BTb9gH5RM50rW+jlJ1YeF
-	Uuws+1KvG+sRX0moNN1kHO/wbetPTetwMBmYeTX4rddx6oaSL9/fc+1rN65N8Ktwsg/o
-	SJIl4ErUC2Vaeh3WsDK1Ffxdjy4g0IyAO+rdFaKpAMYo993L2Rk73+JB2sXmj+8xsRQS
-	CKRg==
-X-Received: by 10.15.43.132 with SMTP id x4mr52620123eev.31.1365453125680;
-	Mon, 08 Apr 2013 13:32:05 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::d49d:a01b:fdce:f41f?
-	([2001:610:612:0:d49d:a01b:fdce:f41f])
-	by mx.google.com with ESMTPS id bj2sm9372636eeb.1.2013.04.08.13.32.02
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 08 Apr 2013 13:32:03 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
-Date: Mon, 8 Apr 2013 22:32:01 +0200
-Message-Id: <25B01A83-A45B-4614-97B0-CB8E434CA168@dominion.thruhere.net>
-References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkgn1Iatke/2blV/+Ua5TPPOCx0ElNqoaV/rxq3QjoPFVxKItHJGvYwE2KHUWJ5Q2wrZVUs
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
+	Mon, 08 Apr 2013 22:51:56 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2013 13:34:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="291937563"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.17])
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2013 13:34:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Apr 2013 13:34:20 -0700
+Message-Id: <1365453260-32342-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] alsa-tools: Fix sys/io.h patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,73 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 20:49:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Apr 2013 20:51:56 -0000
 
+I blew my #if expression!
 
-Op 8 apr. 2013, om 18:29 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> Along with v182 upgrade udevd was moved to ${base_libdir}
-
-By upstream, yes
-
-> making scripts like init-live.sh to fail in finding udevd
-
-So you should fix those scripts, not mess around with udev.
-
-> Fixes [Yocto #4046]
->=20
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
-> meta/recipes-core/udev/udev.inc    |    3 ++-
-> meta/recipes-core/udev/udev_182.bb |    2 +-
-> 2 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/udev/udev.inc =
-b/meta/recipes-core/udev/udev.inc
-> index e358d2d..c4d2ce4 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -40,7 +40,7 @@ EXTRA_OECONF =3D "--disable-introspection \
->                 ac_cv_file__usr_share_hwdata_pci_ids=3Dno \
->                 ac_cv_file__usr_share_misc_pci_ids=3Dyes \
->                 --sbindir=3D${base_sbindir} \
-> -                --libexecdir=3D${base_libdir} \
-> +                --libexecdir=3D${base_sbindir} \
->                 --with-rootlibdir=3D${base_libdir} \
->                 --with-rootprefix=3D \
->                "
-> @@ -61,6 +61,7 @@ RRECOMMENDS_${PN} +=3D "udev-utils"
-> FILES_${PN}-dbg +=3D "${libexecdir}/.debug"
-> FILES_${PN}-dbg +=3D "${base_libdir}/udev/.debug/"
-> FILES_${PN}-dbg +=3D "${base_libdir}/udev/.debug/*"
-> +FILES_${PN}-dbg +=3D "${base_sbindir}/udev/.debug/*"
-> FILES_${PN}-dev =3D "${datadir}/pkgconfig/udev.pc"
-> FILES_libudev =3D "${base_libdir}/libudev.so.*"
-> FILES_libudev-dbg =3D "${base_libdir}/.debug/libudev.so.*"
-> diff --git a/meta/recipes-core/udev/udev_182.bb =
-b/meta/recipes-core/udev/udev_182.bb
-> index 42b4d08..d66292e 100644
-> --- a/meta/recipes-core/udev/udev_182.bb
-> +++ b/meta/recipes-core/udev/udev_182.bb
-> @@ -1,6 +1,6 @@
-> include udev.inc
->=20
-> -PR =3D "r6"
-> +PR =3D "r7"
->=20
-> # module-init-tools from kmod_git will provide libkmod runtime
-> DEPENDS +=3D "module-init-tools"
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
+index 7083cb2..09b10f1 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
+@@ -1,3 +1,6 @@
++Upstream-Status: Pending
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
+ Index: alsa-tools-1.0.26.1/hda-verb/hda-verb.c
+ ===================================================================
+ --- alsa-tools-1.0.26.1.orig/hda-verb/hda-verb.c
+@@ -7,7 +10,7 @@ Index: alsa-tools-1.0.26.1/hda-verb/hda-verb.c
+  #include <unistd.h>
+  #include <sys/ioctl.h>
+ -#ifndef __PPC__
+-+#if __PPC__ || __MIPS__
+++#if !(__PPC__ || __mips__)
+  #include <sys/io.h>
+  #endif
+  #include <sys/types.h>
+-- 
+1.8.0.2
 
 
 
