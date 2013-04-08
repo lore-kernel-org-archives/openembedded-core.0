@@ -1,27 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1UPEx4-0007Cn-Ar
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UPF3Y-0007rr-JR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 18:30:00 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Apr 2013 09:12:30 -0700
+	Mon, 08 Apr 2013 18:36:37 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2013 09:18:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="224618493"
-Received: from dell-desktop.rb.intel.com (HELO [10.237.105.59])
-	([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Apr 2013 09:12:19 -0700
-Message-ID: <5162EC6E.5080505@intel.com>
-Date: Mon, 08 Apr 2013 19:12:30 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1365431958-22005-1-git-send-email-radu.moisan@intel.com>
-	<CD6D3298-FD47-421C-A35A-C9C34106A4DE@dominion.thruhere.net>
-In-Reply-To: <CD6D3298-FD47-421C-A35A-C9C34106A4DE@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: Move udevd back to /sbin
+X-IronPort-AV: E=Sophos;i="4.87,432,1363158000"; d="scan'208";a="291827932"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.125])
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2013 09:18:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Apr 2013 17:18:44 +0100
+Message-Id: <1365437924-22949-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] scripts/oe-pkgdata-util: find complementary packages for split packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,19 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 16:30:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Apr 2013 16:36:38 -0000
 
+Check after getting the original package name (e.g. undoing Debian
+renaming) if there is a complementary package for that name, e.g. if
+the glob is *-dev, then libudev0 -> libudev -> libudev-dev.
 
-On 04/08/2013 06:42 PM, Koen Kooi wrote:
-> Op 8 apr. 2013, om 16:39 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
->
->> Fixes [Yocto #4046]
-> Can you eloborate a bit in the commit message?
+Fixes [YOCTO #4136].
 
-Yes, will follow up with a v2
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/oe-pkgdata-util |   13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Radu
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 900c27a..629b2d5 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -115,14 +115,21 @@ def glob(args):
+                     if not os.path.exists(fwdfile + ".packaged"):
+                         mappedpkg = ""
+                 else:
+-                    # That didn't work, so now get the PN, substitute that, then map in the other direction
+                     revlink = revpkgdata(pkg)
+                     if os.path.exists(revlink):
+-                        pn = readpn(revlink)
+-                        newpkg = g.replace("*", pn)
++                        # Check if we can map after undoing the package renaming (by resolving the symlink)
++                        origpkg = os.path.basename(os.readlink(revlink))
++                        newpkg = g.replace("*", origpkg)
+                         fwdfile = fwdpkgdata(newpkg)
+                         if os.path.exists(fwdfile):
+                             mappedpkg = readrenamed(fwdfile)
++                        else:
++                            # That didn't work, so now get the PN, substitute that, then map in the other direction
++                            pn = readpn(revlink)
++                            newpkg = g.replace("*", pn)
++                            fwdfile = fwdpkgdata(newpkg)
++                            if os.path.exists(fwdfile):
++                                mappedpkg = readrenamed(fwdfile)
+                         if not os.path.exists(fwdfile + ".packaged"):
+                             mappedpkg = ""
+                     else:
+-- 
+1.7.10.4
+
 
 
