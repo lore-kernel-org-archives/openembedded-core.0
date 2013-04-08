@@ -1,19 +1,50 @@
-Received: from ptmx.org ([178.63.28.110])
+Received: from co9ehsobe005.messaging.microsoft.com ([207.46.163.28]
+	helo=co9outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dv@pseudoterminal.org>) id 1UOzRN-000654-7l
+	(envelope-from <nathan.rossi@xilinx.com>) id 1UP6Jj-0003nt-Ss
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 01:56:10 +0200
-Received: from [192.168.178.14] (chello080108009040.14.11.vie.surfer.at
-	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 608C626D32;
-	Mon,  8 Apr 2013 01:38:49 +0200 (CEST)
-Message-ID: <5162038C.2020706@pseudoterminal.org>
-Date: Mon, 08 Apr 2013 01:38:52 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
+	Mon, 08 Apr 2013 09:16:43 +0200
+Received: from mail103-co9-R.bigfish.com (10.236.132.233) by
+	CO9EHSOBE038.bigfish.com (10.236.130.101) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 8 Apr 2013 06:29:07 +0000
+Received: from mail103-co9 (localhost [127.0.0.1])	by
+	mail103-co9-R.bigfish.com (Postfix) with ESMTP id 761281C0052	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  8 Apr 2013 06:29:07 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VPS1(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzz177df4h17326ah8275bh8275dhz2fh95h668h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah906i1155h)
+Received-SPF: pass (mail103-co9: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail103-co9 (localhost.localdomain [127.0.0.1]) by mail103-co9
+	(MessageSwitch) id 1365402546493785_20890;
+	Mon,  8 Apr 2013 06:29:06 +0000 (UTC)
+Received: from CO9EHSMHS022.bigfish.com (unknown [10.236.132.233])	by
+	mail103-co9.bigfish.com (Postfix) with ESMTP id 7609A48005B	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  8 Apr 2013 06:29:06 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by CO9EHSMHS022.bigfish.com
+	(10.236.130.32) with Microsoft SMTP Server id 14.1.225.23;
+	Mon, 8 Apr 2013 06:29:06 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]
+	helo=xsj-smtp1.xilinx.com)	by xsj-gw1 with esmtp (Exim
+	4.63)	(envelope-from
+	<nathan.rossi@xilinx.com>)	id 1UP5Zi-0003GK-46	for
+	openembedded-core@lists.openembedded.org;
+	Sun, 07 Apr 2013 23:29:06 -0700
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Apr 2013 16:28:38 +1000
+X-Mailer: git-send-email 1.7.5.4
+X-RCIS-Action: ALLOW
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: RFC: gstreamer 1.0 recipes
+Message-ID: <482e6583-90f5-4116-b3c6-856f5b51a452@CO9EHSMHS022.ehs.local>
+X-OriginatorOrg: xilinx.com
+Cc: sipkev@xilinx.com
+Subject: [PATCH] insane.bbclass: Updated MicroBlaze machine definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,122 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2013 23:56:12 -0000
-Content-Type: multipart/alternative;
-	boundary="------------000805030704040601030707"
+X-List-Received-Date: Mon, 08 Apr 2013 07:16:43 -0000
+Content-Type: text/plain
 
---------------000805030704040601030707
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+* Removed existing definition with machine 47787, this
+  definition is outdated, a sanity error should occur if an ELF uses this
+  value.
+* Added new definition with machine 189. This value replaces the existing
+  value since August 2009. See binutils thread for more information.
+  (http://sourceware.org/ml/binutils/2009-08/msg00127.html)
 
-Hello all,
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+---
+ meta/classes/insane.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-to start working with GStreamer 1.0 on several embedded platforms, I 
-decided to adapt the existing GStreamer recipes from danny for 1.0. Out 
-of this I created a layer, which is hosted at 
-https://github.com/dv1/meta-gstreamer1.0 .
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 2f10688..75db7a2 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -60,6 +60,8 @@ def package_qa_get_machine_dict():
+                         "s390":       (22,     0,    0,          False,         32),
+                         "sh4":        (42,     0,    0,          True,          32),
+                         "sparc":      ( 2,     0,    0,          False,         32),
++                        "microblaze":  (189,   0,    0,          False,         32),
++                        "microblazeel":(189,   0,    0,          True,          32),
+                       },
+             "linux-uclibc" : { 
+                         "arm" :       (  40,    97,    0,          True,          32),
+@@ -97,8 +99,6 @@ def package_qa_get_machine_dict():
+                       },
+             "linux-gnu" :       {
+                         "powerpc":    (20,     0,    0,          False,         32),
+-                        "microblaze":   (47787,  0,    0,          False,         32),
+-                        "microblazeel": (47787,  0,    0,          True,          32),
+                         "sh4":        (42,     0,    0,          True,          32),
+                       },
+             "linux-gnux32" :       {
+-- 
+1.7.5.4
 
-I write this RFC, because I figure that GStreamer 1.0 support is already 
-on TODO lists of several people, and will eventually end up in OE-Core, 
-just like GStreamer 0.10 did. For this reason, I also didn't add it to 
-the layer index.
 
-I built the packages for several platforms (cubox, beagleboard, imx6), 
-and they worked well. Since 1.0 has been designed to be able to coexist 
-with 0.10 in the same rootfs, I changed the naming convention for the 
-packages: they all start with "gstreamer1.0-" .
 
-I also tried to reuse the existing patches. I was able to reuse three. 
-Several others are no longer necessary. Four are unclear to me, so I did 
-not port them:
-* gstreamer: check_fix.patch (I could not reproduce the documented 
-problem), and gstregistrybin.c/.h (why are these present?)
-* gst-plugins-base: configure.ac-fix-subparse-plugin.patch (not sure 
-what this is trying to fix, and this line does not exist in 1.0), and 
-gst-plugins-base-tremor.patch (again, works well without it)
 
-gst-ffmpeg was replaced by gst-libav upstream. So was gst-openmax 
-(gst-omx is its successor). gst-omx has special support for the 
-Raspberry Pi and its custom OpenMax IL implementation. The recipe is 
-designed in a way that allows for setting the target to something like 
-"rpi", and the recipe then sets the PACKAGE_ARCH automatically to 
-MACHINE_ARCH. However, I wasn't able to test it on an RPi yet, since I 
-do not have one. I will get access to one in a few days.
-
-I am also considering some kind of autodetection for when yasm and 
-liborc are available (for example, because meta-oe was added to 
-bblayers.conf), and then switches on Orc and enables yasm in gst-libav. 
-Or better yet, if libav is available as a recipe, it lets gst-libav use 
-it instead of its internal copy. These autodetections would improve 
-performance significantly.
-
-Thoughts?
-
-cheers,
-Carlos
-
---------------000805030704040601030707
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hello all,<br>
-    <br>
-    to start working with GStreamer 1.0 on several embedded platforms, I
-    decided to adapt the existing GStreamer recipes from danny for 1.0.
-    Out of this I created a layer, which is hosted at
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    <a href="https://github.com/dv1/meta-gstreamer1.0">https://github.com/dv1/meta-gstreamer1.0</a>
-    .<br>
-    <br>
-    I write this RFC, because I figure that GStreamer 1.0 support is
-    already on TODO lists of several people, and will eventually end up
-    in OE-Core, just like GStreamer 0.10 did. For this reason, I also
-    didn't add it to the layer index.<br>
-    <br>
-    I built the packages for several platforms (cubox, beagleboard,
-    imx6), and they worked well. Since 1.0 has been designed to be able
-    to coexist with 0.10 in the same rootfs, I changed the naming
-    convention for the packages: they all start with "gstreamer1.0-" .<br>
-    <br>
-    I also tried to reuse the existing patches. I was able to reuse
-    three. Several others are no longer necessary. Four are unclear to
-    me, so I did not port them:<br>
-    * gstreamer:
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    check_fix.patch (I could not reproduce the documented problem), and
-    gstregistrybin.c/.h (why are these present?)<br>
-    * gst-plugins-base: configure.ac-fix-subparse-plugin.patch (not sure
-    what this is trying to fix, and this line does not exist in 1.0),
-    and gst-plugins-base-tremor.patch (again, works well without it)<br>
-    <br>
-    gst-ffmpeg was replaced by gst-libav upstream. So was gst-openmax
-    (gst-omx is its successor). gst-omx has special support for the
-    Raspberry Pi and its custom OpenMax IL implementation. The recipe is
-    designed in a way that allows for setting the target to something
-    like "rpi", and the recipe then sets the PACKAGE_ARCH automatically
-    to MACHINE_ARCH. However, I wasn't able to test it on an RPi yet,
-    since I do not have one. I will get access to one in a few days.<br>
-    <br>
-    I am also considering some kind of autodetection for when yasm and
-    liborc are available (for example, because meta-oe was added to
-    bblayers.conf), and then switches on Orc and enables yasm in
-    gst-libav. Or better yet, if libav is available as a recipe, it lets
-    gst-libav use it instead of its internal copy. These autodetections
-    would improve performance significantly.<br>
-    <br>
-    Thoughts?<br>
-    <br>
-    cheers,<br>
-    Carlos<br>
-  </body>
-</html>
-
---------------000805030704040601030707--
