@@ -1,40 +1,33 @@
-Received: from mail-ea0-f172.google.com ([209.85.215.172])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UPETY-0003xP-B1
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Apr 2013 17:59:20 +0200
-Received: by mail-ea0-f172.google.com with SMTP id z7so2345827eaf.17
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2013 08:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=nZ9NhBnH/fRfpM33OoSkV5cq8QkSMjmBp53jEMr4qvg=;
-	b=pxrM33pWRsF0YkWfPqUFjA0nK+8ylxaFXttYXt1ihCIOAIV7Yhs4qnv40dI3WmndXc
-	V3Me7/X0MjE0Bug3wjSwO0IAxMxzJijNaoXGIZkNV8FZuYYqOcAwRk5y5Pitevkmc2Nv
-	1PG2pHTb8HdpUNQT6/5aHZq6HP5PvfBDpxELJHUMBNmTlQXznNZ1TrDq5WWHujTXtHGR
-	r3XZUsxeQFD2sjBH/ll/jnRFNTbKHtBGi6VKwjM4aWufAE5P7Hc2vQSAkm8CMB3DFBP8
-	32GtCxgTK1NUSS1YRg9iSRNul0IfxvYUuP7ZiWBf7Z03guxLY58IWwVsMQFljwMc8Aon
-	LWBA==
-X-Received: by 10.14.215.193 with SMTP id e41mr50089268eep.32.1365435721519;
-	Mon, 08 Apr 2013 08:42:01 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id a1sm32797467eep.2.2013.04.08.08.41.59
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 08 Apr 2013 08:42:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1365431958-22005-1-git-send-email-radu.moisan@intel.com>
-Date: Mon, 8 Apr 2013 17:42:00 +0200
-Message-Id: <CD6D3298-FD47-421C-A35A-C9C34106A4DE@dominion.thruhere.net>
-References: <1365431958-22005-1-git-send-email-radu.moisan@intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQnNQzak7JTFb8Z3zBYfXRIpARzqAYbur4pwqOP9XkZ8nRKewOuOb/hULBUnerED7lN1XlAI
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: Move udevd back to /sbin
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UPEfO-0005S6-1d for openembedded-core@lists.openembedded.org;
+	Mon, 08 Apr 2013 18:11:37 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38G5GvS025417; Mon, 8 Apr 2013 17:05:16 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id n6iZXCrQ0Z-p; Mon,  8 Apr 2013 17:05:16 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r38G5Bnt025408
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 8 Apr 2013 17:05:14 +0100
+Message-ID: <1365436444.12407.48.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 08 Apr 2013 16:54:04 +0100
+In-Reply-To: <CAMKF1sp4L_N6NDG8=qeWTu4sewV2O8T9f7Xzt8s7xCBv_9MtjQ@mail.gmail.com>
+References: <1365323007.6526.229.camel@ted>
+	<CAMKF1sp4L_N6NDG8=qeWTu4sewV2O8T9f7Xzt8s7xCBv_9MtjQ@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r38G5GvS025417
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Sanity Failures - Segfaults in qemu images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,16 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2013 15:59:20 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 08 Apr 2013 16:11:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+On Sun, 2013-04-07 at 15:32 -0700, Khem Raj wrote:
+> On Sun, Apr 7, 2013 at 1:23 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>         http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-6=
+4-lsb/builds/87/steps/Running%20Sanity%20Tests/logs/stdio
+>
+>
+> what does complete dmesg output looks like ? I have seen ld.so
+> segfaults on real x86_64 hardware but havent narrowed it down since
+> it does not seem to bother my testing.=E2=80=8B
 
-Op 8 apr. 2013, om 16:39 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
+I don't have the full dmesg output however I have put a wealth of info
+about this into:
 
-> Fixes [Yocto #4046]
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4216
 
-Can you eloborate a bit in the commit message?=
+Basically these do look like "random" segfaults happening any point on
+the system and having a variety of effects. The double fault is
+particularly worrying as it suggests the problem is kernel or qemu. I've
+put a script which tends to reproduce the issue into the bugzilla.
+
+When you say you've seen ld.so faults on real hardware, have you any
+more details? Are they happening often? Just ld.so?
+
+I need to know if this is a qemu issue or on real hardware too since the
+latter is a release blocker and extremely serious.
+
+Cheers,
+
+Richard
+
 
 
