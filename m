@@ -1,33 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f177.google.com ([74.125.82.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UPb49-0004aP-BI
+	(envelope-from <ross.burton@intel.com>) id 1UPb5w-0004j1-4W
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 18:06:44 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r39FnFpT029933
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 09 Apr 2013 18:08:33 +0200
+Received: by mail-we0-f177.google.com with SMTP id o45so5445377wer.36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Apr 2013 08:49:15 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 9 Apr 2013 08:49:16 -0700
-Message-ID: <51643879.30605@windriver.com>
-Date: Tue, 9 Apr 2013 10:49:13 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1365438555-19397-1-git-send-email-radu.moisan@intel.com>
-	<1365510909.12407.79.camel@ted>
-	<CAP9ODKqEJCS56UaKT3M1cPpA-escn5f7d_kEBL2kasnLYN2avQ@mail.gmail.com>
-	<3528EE5E-C07B-4EBC-83E2-B425A1DD5F22@dominion.thruhere.net>
-	<BD05C246-767C-4B72-A7B7-0776A5E98355@dominion.thruhere.net>
-	<1365520076.12407.88.camel@ted>
-In-Reply-To: <1365520076.12407.88.camel@ted>
-Subject: Re: [PATCH v2] udev: Move udevd back to /sbin
+	Tue, 09 Apr 2013 08:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=T3pFugQ4GJqhbG0KTXOwwqZ9q9swCK9kaJ4tqSlE7oM=;
+	b=P9u2K/uDPFMWg77ZeSq5r9e+tfokIhUGVdZNdr1rNtyFBGHo9nHF1OOCaV0VP0757v
+	FDo3v2IOuiB2NllcLSv3YYTfUXWZUQ0xyU9WlDg90M67fjiQosjPhrXjoT6oQYsxsTdk
+	zwdKRJNlfRqETPvK++G5s2aRmm0g+70QXBp+1sjDtkZIaRdQirleKZENKYDbCWAv7ETF
+	ZCn3HKAxo/usd0eZpbWtl+DF0Yn0egLaXUwmdSYbq/ub6R8u37nnTCD5GSUej26lmpPe
+	2WDwUMPTzwyRF7y/KAKPLKSF9X/NZnshyLXiHHYvB0g/9jD14TqiZxKdT8hDgEmD8oSM
+	SNUg==
+X-Received: by 10.180.82.68 with SMTP id g4mr20523944wiy.26.1365522667743;
+	Tue, 09 Apr 2013 08:51:07 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id bo1sm29719582wib.0.2013.04.09.08.51.06
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 09 Apr 2013 08:51:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Apr 2013 16:48:21 +0100
+Message-Id: <1365522501-7439-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnvXsqiDaIHle7dNTGycLeVxXDwd5FJ6mgAcuJqlrSgpWwCxydUwsbWQ3a6J1aOm+FU/sFF
+Subject: [PATCH] systemd.bbclass: restart service in postinst, not start
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,97 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 16:06:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Apr 2013 16:08:39 -0000
 
-On 4/9/13 10:07 AM, Richard Purdie wrote:
-> On Tue, 2013-04-09 at 16:44 +0200, Koen Kooi wrote:
->> Op 9 apr. 2013, om 16:41 heeft Koen Kooi <koen@dominion.thruhere.net> het volgende geschreven:
->>
->>>
->>> Op 9 apr. 2013, om 16:36 heeft Otavio Salvador <otavio@ossystems.com.br> het volgende geschreven:
->>>
->>>> On Tue, Apr 9, 2013 at 9:35 AM, Richard Purdie
->>>> <richard.purdie@linuxfoundation.org> wrote:
->>>>> On Mon, 2013-04-08 at 19:29 +0300, Radu Moisan wrote:
->>>>>> Along with v182 upgrade udevd was moved to ${base_libdir}
->>>>>> making scripts like init-live.sh to fail in finding udevd
->>>>>>
->>>>>> Fixes [Yocto #4046]
->>>>>>
->>>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->>>>>> ---
->>>>>> meta/recipes-core/udev/udev.inc    |    3 ++-
->>>>>> meta/recipes-core/udev/udev_182.bb |    2 +-
->>>>>> 2 files changed, 3 insertions(+), 2 deletions(-)
->>>>>
->>>>> We needed a decision on this. I've rewritten the commit message and
->>>>> merged it. Most of the feedback was about the commit message, not the
->>>>> patch itself. There were also no better proposals for how we could
->>>>> actually fix the bugs we were seeing.
->>>>
->>>> If I read the thread right, it had two NACK's. So it wasn't a cosmetic
->>>> commit log issue.
->>>
->>> 4 replies to the patch:
->>>
->>> 1) me asking about the commit log
->>> 2) me NACK'ing the patch
->
-> Without any constructive way of fixing the issues. As I've said,
-> "fixing" the other scripts does not work. Nobody has proposed any
-> reasonable realistic way of unbreaking the multilib support which worked
-> prior to the udev upgrade. Nobody has actually taken the time to even
-> understand what is breaking as far as I can tell.
+When upgrading packages it's possible that the service is already running
+because opkg doesn't actually execute the prerm hooks on upgrades, which is
+where the service should be stopped.
 
-Let me task a whack at this.  If the binary belongs in /usr/lib/udevd/ (or 
-/lib/udevd/) then that tells me it's being treated as a libexecdir and not a 
-"libdir".  So the 64-bit versions of udev should NOT be installing into 
-/usr/lib64/...  (nor /usr/lib32/...)
+Handle this case by restarting in postinst instead of starting.  If the service
+isn't already running then this doesn't make a difference, but if it is running
+then the service will be restarted.
 
-If that is the case, and all multilibs end up in /usr/lib/udevd (or /lib/udevd) 
-then the multilib system should continue to work as expected.
+[ YOCTO #4213 ]
 
-(Note, prefer /lib/udevd myself... but that is a separate issue.)
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/systemd.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If this sounds reasonable, I can try to make the changes and test the multilib 
-config.  But I am far from a systemd/udev expert!
-
---Mark
-
->>> 3) Otavio NACK'ing the ptch
->
-> Again, not constructively. People saying "no" just because they dislike
-> it doesn't really work.
->
->>> 4) RP mentioning other discussions
->>
->> And by the way, does anyone actually bother testing patches to important infrastructure like udev?
->>
->> [koen@rrMBP udev]$ git log --oneline -1
->> a866e1e udev: Move udevd back to /sbin
->>
->> [koen@rrMBP udev]$ git grep /lib/udev/udevd
->> udev/init:[ -x /lib/udev/udevd ] || exit 1
->> udev/init:    /lib/udev/udevd -d
->> udev/udev-cache:[ -x /lib/udev/udevd ] || exit 1
->>
->> So the patch broke the sysvinit script, congratulations!
->
-> Patch screw up :(. This will get fixed shortly, sorry about that.
->
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 69eeb9e..8084251 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -31,7 +31,7 @@ if type systemctl >/dev/null 2>/dev/null; then
+ 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+ 
+ 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+-		systemctl start ${SYSTEMD_SERVICE}
++		systemctl restart ${SYSTEMD_SERVICE}
+ 	fi
+ fi
+ }
+-- 
+1.7.10.4
 
 
 
