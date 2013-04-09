@@ -1,36 +1,36 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mail-vb0-f43.google.com ([209.85.212.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UPaCw-0006wH-TF
+	(envelope-from <ross.burton@intel.com>) id 1UPaHY-0007H6-CF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 17:11:58 +0200
-Received: by mail-vb0-f47.google.com with SMTP id x13so4722677vbb.20
+	Tue, 09 Apr 2013 17:16:27 +0200
+Received: by mail-vb0-f43.google.com with SMTP id q12so4753043vbe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 07:54:18 -0700 (PDT)
+	Tue, 09 Apr 2013 07:59:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=jA+iWqwtAz4iAtxBHsSLLK2K6D26tNntAyP38cWZ5Vk=;
-	b=QU3rlqEMc1UM0HcgNaEKv+yK2ir0MjeUfiUFS8mwXfPB3Fd9IuBYCbwv0hLaHj2Ap5
-	caC9GUC6DwRMYNl5oJwtqeQTJqQQUwmrj64bwE8elBSgk2MMkDgtxb+doNUSgTqWC62j
-	sl9VMI/+//XBQyadlmG6sauFmGH8E6yXvVc9WzMIo9cvrl0BpC9KUzrHTBIKBQm2ZdEd
-	AvT3dDl9hVdRbpqbfdapC1WeLfecMQo+An8mPVOi+jPJ913vwXlcErmG4xtJXPv7bn7V
-	ZL4bfN3plWBZRKY1Y5nq1UCGKTvsSgFSexRtRTo95ppABJHTuxTcXzJjg/cRVTi69ajG
-	VYKw==
-X-Received: by 10.58.188.48 with SMTP id fx16mr19499847vec.22.1365519258430;
-	Tue, 09 Apr 2013 07:54:18 -0700 (PDT)
+	bh=BbGfGtZrd6uLaS9CckmJqC+nHIWZYm3DjDgQus0h2lQ=;
+	b=IgBfAoHJ4TVw1umR8mni2NNHfKuKrLd/ZW8U1FRRP/prDOM6D5zdf9e2KwCW6KJ3i0
+	GFg3zQ0LlGS2/nr7hXQnQc/5wGt8+fP9+PQyCvfU4SZk0SMcBbcKnsL3TbeJ5s8Nh8pE
+	cVb98CmM3+sAFSKwf5G6FW4Ot0xoEhB24pMlVONrnmjLYmEjN8GtfLu7ZT8yV3c6qu/U
+	1FoM1XInrY2+N4y1s07vK+94lYtzVoWqTg8oyYSZk3pqhM0p2GeDBjyrkL+h9u/4EVdC
+	wwgk2NqYx2i2bWXNMgMYTJzkxF/VsBXKyalzfLPZ8PXbEHxIsaPV2+OfvnR9ZQdQ4Xds
+	5Uaw==
+X-Received: by 10.220.140.18 with SMTP id g18mr19673042vcu.54.1365519543629;
+	Tue, 09 Apr 2013 07:59:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 9 Apr 2013 07:53:58 -0700 (PDT)
-In-Reply-To: <1365516144-5157-2-git-send-email-radu.moisan@intel.com>
+Received: by 10.220.100.68 with HTTP; Tue, 9 Apr 2013 07:58:43 -0700 (PDT)
+In-Reply-To: <1365516144-5157-3-git-send-email-radu.moisan@intel.com>
 References: <1365516144-5157-1-git-send-email-radu.moisan@intel.com>
-	<1365516144-5157-2-git-send-email-radu.moisan@intel.com>
+	<1365516144-5157-3-git-send-email-radu.moisan@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Apr 2013 15:53:58 +0100
-Message-ID: <CAJTo0Lb3xU54Ne_LN_Lg9my5Pixc-Snk4tkm4=7w3c44rZKKzA@mail.gmail.com>
+Date: Tue, 9 Apr 2013 15:58:43 +0100
+Message-ID: <CAJTo0Lb_21hReZ_=g1FGrjnXUp4KZ9J+dXo5XyAO2RP5ksQZNA@mail.gmail.com>
 To: Radu Moisan <radu.moisan@intel.com>
-X-Gm-Message-State: ALoCoQkuTZULwvx/v/5pF/YIpoFNj7LpC7g+hNta0C2RnbVjMJrm7ySunxEmeX98TPq22X8HbAV4
+X-Gm-Message-State: ALoCoQl6cghY5D13ZyQk4Xo0MYPm+bzrfN0h57eB7Cka9YPmMEuRGuKzUNV9I3aNY5v9tPKbOj/+
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] systemd: use update-alternatives.bbclass
+Subject: Re: [PATCH 2/2] systemd: set default.target to multi-user.target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,16 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 15:11:59 -0000
+X-List-Received-Date: Tue, 09 Apr 2013 15:16:27 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 9 April 2013 15:02, Radu Moisan <radu.moisan@intel.com> wrote:
-> switch from using plain update-alternatives command to
-> update-alternatives.bbclass style
+> This fixes a service dependency issue;
+> When graphical.target is the default mode, systemd
+> will try to start display-manager.service which is not
+> available on some targets.
 >
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> For xserver-nodm-init we would then have something like:
+> inherit update-alternatives
+> ALTERNATIVE_${PN} = "systemd-def-target"
+> ALTERNATIVE_TARGET[systemd-def-target] =
+> "${systemd_unitdir}/system/graphical.target"
+> ALTERNATIVE_LINK_NAME[systemd-def-target] =
+> "${systemd_unitdir}/system/default.target"
+> ALTERNATIVE_PRIORITY[systemd-def-target] ?= "10"
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+If we're going to make this change we also need to fix
+xserver-nodm-init at the same time otherwise we break graphical boots
+in oe-core.
 
 Ross
 
