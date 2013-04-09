@@ -1,38 +1,35 @@
-Received: from mail-oa0-f50.google.com ([209.85.219.50])
+Received: from mail-ve0-f171.google.com ([209.85.128.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UPbmP-0001bx-KF
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UPc01-0002pv-1r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 18:52:22 +0200
-Received: by mail-oa0-f50.google.com with SMTP id n1so7732356oag.9
+	Tue, 09 Apr 2013 19:06:27 +0200
+Received: by mail-ve0-f171.google.com with SMTP id b10so6555573vea.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 09:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=Ep7WKJ3xAviA9zh2Z3uh1hxmkfNl7w5h4CixsA8r6w0=;
-	b=ga2IQGZ22k1iOP9yPvStv70LmJU5sGiZMyn89IMhlMRAFOpZamJkfb9jEwsinCNqV+
-	a8iDh+ND6BKMHT9o0bzBy4sLNyBm9shKlQNVqjtps8GCgoI/ctUxudJkjlAoJWC/ZWW1
-	8DLy0udmejxfv3GdE+GzG+xmLskRgqMH1IFZZttmCTzQqyh1+ysdJV2tsAUpouvadB9n
-	QsLKaZpsb5lQpQZD5yQH3hxlW50gSO8OAICbs6L+uAKDP3hn/zO8tBV4sPrxLFd2Ef6h
-	kFgPnR62nKJw1OJa1VLBxln8Oz1D7UWE4HMX55e+NS99ocQ2xYRbWj3vJnocxXxMUhp0
-	Deiw==
+	Tue, 09 Apr 2013 09:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=XPDuoUHcAs0py3ph8XZ9SAjnzoHeSLqZ3eaCOYMa+cM=;
+	b=KzjYbUNtdMs1Yb4XLeBfTt8rYs9zZSwTdlhDzIXM5xBaxLI4PXY/SkjRnTeRkfQayN
+	wiNfFyOQW15chppxIJTR9rp2VT8C+kVDKZIvDIMyHuxIc/U24xjgRsu8AnlydbRQ1eP5
+	lyt+jmEL8aMpCPZDn2sJ76WjJqvaMg2ucKGZNGKl452/HAPXNO7dFtTf5iL9yj41WeSq
+	SFMT1kZsMoygyMo/8Dg0A0PU1l1NDi6fLfatBVdle/6TMih8n91yJPbw8HBQbfOSsw/7
+	9HfwRrEY2tKnJ7r/Dv6/0vLKNb+6exn4m2S58uAE3EK00jrQxx4gJzLtPaWmTJXJDKjF
+	KfUA==
 MIME-Version: 1.0
-X-Received: by 10.182.125.132 with SMTP id mq4mr7351086obb.79.1365525300867;
-	Tue, 09 Apr 2013 09:35:00 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.80.198 with HTTP; Tue, 9 Apr 2013 09:35:00 -0700 (PDT)
-In-Reply-To: <51643CAF.4070407@linux.intel.com>
-References: <1365523119-27605-1-git-send-email-alexandru.damian@intel.com>
-	<51643CAF.4070407@linux.intel.com>
-Date: Tue, 9 Apr 2013 13:35:00 -0300
-X-Google-Sender-Auth: E54t0RKGAW7Hn4EGpEUPC09QzMo
-Message-ID: <CAP9ODKq9qBVe2zQrmw_a2nK8ApPDDxZ3BS1y0k+g4GKkvgG90Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Alex DAMIAN <alexandru.damian@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] udev: changed location of udevd to /sbin/udev/udevd
+X-Received: by 10.52.34.168 with SMTP id a8mr144383vdj.75.1365526142724; Tue,
+	09 Apr 2013 09:49:02 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Tue, 9 Apr 2013 09:49:02 -0700 (PDT)
+In-Reply-To: <1365517194-30916-1-git-send-email-m.cavallini@koansoftware.com>
+References: <1365517194-30916-1-git-send-email-m.cavallini@koansoftware.com>
+Date: Tue, 9 Apr 2013 18:49:02 +0200
+Message-ID: <CALbNGRQ0y3+eMKJESmwo0LnwihNZ_H8NViE1BSr+9igjonJ3XQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Marco Cavallini <koansoftware@gmail.com>
+Cc: Marco Cavallini <m.cavallini@koansoftware.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe][meta-oe][PATCH 1/4] xinput-calibrator: calibrate touch screen with xorg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +42,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 16:52:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 09 Apr 2013 17:06:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 9, 2013 at 1:07 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 04/09/2013 08:58 AM, Alex DAMIAN wrote:
->>
->> From: Alexandru DAMIAN <alexandru.damian@intel.com>
->>
->> This ammends the init script after changing the location from
->> /lib to /sbin.
->>
-> This only fixes one location and does not make it dynamic, I will have a
-> patch shortly to fix this.
+On Tue, Apr 9, 2013 at 4:19 PM, Marco Cavallini <koansoftware@gmail.com> wrote:
+>  * Taken from oe-classic
+>  * This patch includes pointercal-xinput
+>
+> Signed-off-by: Marco Cavallini <m.cavallini@koansoftware.com>
+> ---
+>  .../pointercal-xinput/pointercal.xinput            |  1 +
+>  .../xinput-calibrator/pointercal-xinput_0.0.bb     | 19 +++++++++++++
+>  .../xinput-calibrator/xinput-calibrator_git.bb     | 31 ++++++++++++++++++++++
+>  3 files changed, 51 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput
+>  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+>  create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+>
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput
+> new file mode 100644
+> index 0000000..9633fc5
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput
+> @@ -0,0 +1 @@
+> +# replace with valid machine specific pointercal.xinput
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> new file mode 100644
+> index 0000000..9b68d54
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> @@ -0,0 +1,19 @@
+> +DESCRIPTION = "Touchscreen calibration data from xinput-calibrator"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +PR = "r4"
+> +
+> +SRC_URI = "file://pointercal.xinput"
+> +S = "${WORKDIR}"
+> +
+> +do_install() {
+> +       # Only install file if it has a contents
+> +       if [ -s ${S}/pointercal.xinput ]; then
+> +               install -d ${D}${sysconfdir}/
+> +               install -m 0644 ${S}/pointercal.xinput ${D}${sysconfdir}/
+> +       fi
+> +}
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
+> diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+> new file mode 100644
+> index 0000000..97f9343
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+> @@ -0,0 +1,31 @@
+> +DESCRIPTION = "A generic touchscreen calibration program for X.Org"
+> +HOMEPAGE = "http://www.freedesktop.org/wiki/Software/xinput_calibrator"
+> +LICENSE = "MIT-X"
+> +LIC_FILES_CHKSUM = "file://src/calibrator.cpp;endline=22;md5=1bcba08f67cdb56f34021557898e4b5a"
+> +DEPENDS = "virtual/libx11 libxi"
+> +
+> +PV = "0.7.5+git${SRCPV}"
+> +PR = "r1"
+> +
+> +inherit autotools
+> +
+> +SRCREV = "c01c5af807cb4b0157b882ab07a893df9a810111"
+> +SRC_URI = "git://github.com/tias/xinput_calibrator.git;protocol=git"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +# force native X11 ui as we don't have gtk+ in DEPENDS
+> +EXTRA_OECONF += "--with-gui=x11"
+> +
+> +do_install_append() {
+> +        install -d ${D}${bindir}
+> +        install -m 0755 scripts/xinput_calibrator_pointercal.sh ${D}${bindir}/xinput_calibrator_once.sh
+> +
+> +        install -d ${D}${sysconfdir}/xdg/autostart
+> +        sed -i -e 's,^Exec=.*,Exec=${bindir}/xinput_calibrator_once.sh,' scripts/xinput_calibrator.desktop
+> +        install -m 0644 scripts/xinput_calibrator.desktop ${D}${sysconfdir}/xdg/autostart
+> +}
+> +
+> +FILES_${PN} += "${sysconfdir}/xdg/autostart"
+> +RDEPENDS_${PN} = "xinput xterm"
+> +RRECOMMENDS_${PN} = "pointercal-xinput"
+> --
+> 1.8.2.1
+>
+1. Is this a 'core' component?
+2. If so: Why not importing from meta-oe there were several
+enhancements (mainline) meanwhile?
+3. I am again(still) working on this ( systemd/udev plug & play ). It
+would make my life easier if we wait with this migration
 
-Your fix does not make it dynamic but staticly set at build time.
-Please iterate over the possible alternatives, as I did in
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/initrdscripts?id=1b99640481882d23dc3ded41d9f2aef906f77e67
-
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Andreas
 
 
