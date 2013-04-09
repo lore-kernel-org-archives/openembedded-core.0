@@ -1,28 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wg0-f45.google.com ([74.125.82.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UPdJD-0000el-0C
+	(envelope-from <twoerner@gmail.com>) id 1UPdjt-00031J-E6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 20:30:24 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Apr 2013 11:12:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,441,1363158000"; d="scan'208";a="319850361"
-Received: from unknown (HELO helios.localnet) ([10.255.13.195])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2013 11:12:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 09 Apr 2013 19:12:56 +0100
-Message-ID: <1900245.DLqfxs0so2@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.5.0-26-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CAHUNapTps6emz9UTtLgKer5yuLzh8haJyg3V=8yTzfxbZRd8rQ@mail.gmail.com>
-References: <cover.1365179842.git.pkj@axis.com>
-	<CAHUNapTSbxqXuj7LOsNSrZL5Ank+ngvkXF=cnhvM7aUK-DQZZA@mail.gmail.com>
-	<CAHUNapTps6emz9UTtLgKer5yuLzh8haJyg3V=8yTzfxbZRd8rQ@mail.gmail.com>
+	Tue, 09 Apr 2013 20:57:56 +0200
+Received: by mail-wg0-f45.google.com with SMTP id x12so7170405wgg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Apr 2013 11:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=1CsB/mVXFWvWK1zK2bOfHoqoQctjKdgt7Y4qYFBHcfE=;
+	b=m+G9VtAmMLzv/QyeDqTTVyqbCZVnYO1dNSGkc5WSazizyVnsEdUjplSBwQrcdlRWpK
+	hDfVOxEJeUuE06HccIrdsOi92SLRxgxBMAFn2MbWSk6slGNeVhPUK2U8/71FEcKxyU+r
+	WXA5j8px+fEyjXvTHehTLcH1nr+TIC5mSeGRoDL1efXll+agDVzBBTsDwYi7IH4Y1flk
+	ToQuvIhM32LTPskdmUWbGtX1BX6XpGPYxodOiUSAW8T6zYWjAuWjW+4KRY+2xh1D7X/Q
+	JOxhwEqkuMkA0kzhk6YxYBOPF30feIWIUPAdY0HSyBv26O4k5swtV8rWd0r2RBhVPE6j
+	k+xg==
 MIME-Version: 1.0
+X-Received: by 10.194.178.100 with SMTP id cx4mr40761380wjc.47.1365532833037; 
+	Tue, 09 Apr 2013 11:40:33 -0700 (PDT)
+Received: by 10.194.45.100 with HTTP; Tue, 9 Apr 2013 11:40:32 -0700 (PDT)
+In-Reply-To: <1491180.EIgD7lcAzZ@helios>
+References: <cover.1365517068.git.paul.eggleton@linux.intel.com>
+	<CAHUNapQLmeRw2jz=caaGk-db3UkggOLVL_MrGg_VSeJPwnL+DQ@mail.gmail.com>
+	<1491180.EIgD7lcAzZ@helios>
+Date: Tue, 9 Apr 2013 14:40:32 -0400
+Message-ID: <CAHUNapSj6UYDFxZVruTQ3jByxuoV_kHKZY046Cc8CE+Y6jB63Q@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] oe-buildenv-internal: Only add to $PATH if needed
+Subject: Re: [PATCH 0/3] Minor comment/doc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 18:30:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Apr 2013 18:58:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tuesday 09 April 2013 13:34:43 Trevor Woerner wrote:
-> On Tue, Apr 9, 2013 at 1:29 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> > Under which shells do we expect a Yocto build to succeed?
-> 
-> Whoops! My bad.
-> 
-> sh -> yes
-> bash -> not so much
-> 
-> Let me rephrase: are bash-specific features to be so feared?
+On Tue, Apr 9, 2013 at 2:02 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> The openembedded-core-contrib and poky-contrib repos are entirely separate.
 
-If we can avoid them, yes. The stuff we absolutely must not have is:
+D'oh!
 
-* bashisms in scripts that start with #!/bin/sh as opposed to #!/bin/bash (and 
-for scripts that are installed on the target we try to avoid the latter as it 
-just means bash has to be installed on the target as well, which is often not 
-desirable)
+Retrying:
 
-* bashisms in shell functions within recipes since these are executed under 
-/bin/sh
+$ git remote add contrib git://git.openembedded.org/meta-openembedded-contrib
 
-Even if we were to ignore alternative shells such as zsh and tcsh, bashisms in 
-the above cases will cause breakages on Ubuntu (where /bin/sh is dash by 
-default). From the denzil (Yocto Project 1.2) release onwards we have been 
-stamping out bashisms and trying to avoid introducing any new ones.
+$ git remote -v
+contrib git://git.openembedded.org/meta-openembedded-contrib (fetch)
+contrib git://git.openembedded.org/meta-openembedded-contrib (push)
+origin  git://git.openembedded.org/meta-openembedded (fetch)
+origin  git://git.openembedded.org/meta-openembedded (push)
 
-Cheers,
-Paul
+$ git fetch contrib
+remote: Counting objects: 1288, done.
+remote: Compressing objects: 100% (554/554), done.
+remote: Total 903 (delta 491), reused 592 (delta 296)
+Receiving objects: 100% (903/903), 155.45 KiB | 55 KiB/s, done.
+Resolving deltas: 100% (491/491), completed with 119 local objects.
+From git://git.openembedded.org/meta-openembedded-contrib
+ * [new branch]      gnutoo/gpsd-3.4 -> contrib/gnutoo/gpsd-3.4
+ * [new branch]      gnutoo/gpsd-3.7 -> contrib/gnutoo/gpsd-3.7
+ * [new branch]      gnutoo/libsdl -> contrib/gnutoo/libsdl
+ * [new branch]      gnutoo/vala-0.16.0 -> contrib/gnutoo/vala-0.16.0
+ * [new branch]      hrw/aarch64-support -> contrib/hrw/aarch64-support
+ * [new branch]      hrw/world-cleanups -> contrib/hrw/world-cleanups
+ * [new branch]      jansa/for-danny -> contrib/jansa/for-danny
+ * [new branch]      jansa/for-danny2 -> contrib/jansa/for-danny2
+ * [new branch]      jansa/for-danny3 -> contrib/jansa/for-danny3
+ * [new branch]      jansa/in-test -> contrib/jansa/in-test
+ * [new branch]      jansa/in-test-cbrake -> contrib/jansa/in-test-cbrake
+ * [new branch]      jansa/in-test-felipe -> contrib/jansa/in-test-felipe
+ * [new branch]      jansa/in-test-hrw -> contrib/jansa/in-test-hrw
+ * [new branch]      jansa/in-test-khem -> contrib/jansa/in-test-khem
+ * [new branch]      jansa/in-test-koen -> contrib/jansa/in-test-koen
+ * [new branch]      jansa/in-test-ross -> contrib/jansa/in-test-ross
+ * [new branch]      jansa/test -> contrib/jansa/test
+ * [new branch]      jansa/world -> contrib/jansa/world
+ * [new branch]      kraj/updates -> contrib/kraj/updates
+ * [new branch]      master     -> contrib/master
+ * [new branch]      obi/denzil -> contrib/obi/denzil
+ * [new branch]      obi/master -> contrib/obi/master
+ * [new branch]      paule/ajenti -> contrib/paule/ajenti
+ * [new branch]      paule/cleanup6 -> contrib/paule/cleanup6
+ * [new branch]      paule/collectd -> contrib/paule/collectd
+ * [new branch]      ross/danny -> contrib/ross/danny
+ * [new branch]      ross/gtk   -> contrib/ross/gtk
+ * [new branch]      ross/master -> contrib/ross/master
+ * [new branch]      ross/piglit -> contrib/ross/piglit
+ * [new branch]      ross/pinpoint -> contrib/ross/pinpoint
+ * [new branch]      ross/xorg  -> contrib/ross/xorg
+ * [new branch]      shr        -> contrib/shr
+ * [new branch]      trini/misc-v2 -> contrib/trini/misc-v2
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+I still don't see a paule/layer-tweaks-core :-(
 
 
