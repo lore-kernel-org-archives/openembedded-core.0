@@ -1,22 +1,29 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UPVh8-0000VE-3c for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 12:22:32 +0200
-Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
-	([86.14.229.168] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UPVQO-0000Ib-B5; Tue, 09 Apr 2013 12:05:12 +0200
-Message-ID: <1365501911.7011.38.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 09 Apr 2013 11:05:11 +0100
-In-Reply-To: <1365457364-3089-1-git-send-email-otavio@ossystems.com.br>
-References: <1365457364-3089-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] base.bbclass: Fix matching of MACHINEOVERRIDES in COMPATIBLE_MACHINE
+Received: from mail-vb0-f46.google.com ([209.85.212.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <hirst689@gmail.com>) id 1UPVrc-0001Rk-Fk
+	for openembedded-core@lists.openembedded.org;
+	Tue, 09 Apr 2013 12:33:21 +0200
+Received: by mail-vb0-f46.google.com with SMTP id 11so4497367vbe.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Apr 2013 03:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=SCcqDAFb1YQRCdHtdLxzBlcW5lnlSvJsBGDqM5soZig=;
+	b=NO3FiyGCs/Yvb3erCKloAo7YxES7dtpmyM3s04F1RJdD7jdfzn4mGnVSIA/YW7Rxbv
+	jI7wFU8kgGjKyrrz6EKHZo9SAvh5GRPaU47BZygcr4+tZq8xDJcif2y6GEtehSzF8A1U
+	FpW4ivZvHqEFFa4Tbd4Xwmnb/VjdLfsCYhb6B5Q3IuXblSEd/SFNqGulyGqUZ+lNMRmR
+	lh+JlY/dI2gzKAYd3eVyEwtRxAk1P9/zO/pUouXkolZX6NbYv4hbXfQcuq1HMw/BWBs+
+	+rESY/MK9KjFnMV0ebPZ0BBdwxBSan0rlyReuBlLZYD9dDfAyFgn68evQD8nhpI41Lcm
+	P4Nw==
+MIME-Version: 1.0
+X-Received: by 10.220.161.4 with SMTP id p4mr18845457vcx.32.1365502560319;
+	Tue, 09 Apr 2013 03:16:00 -0700 (PDT)
+Received: by 10.59.11.37 with HTTP; Tue, 9 Apr 2013 03:16:00 -0700 (PDT)
+Date: Tue, 9 Apr 2013 06:16:00 -0400
+Message-ID: <CAHu+ux0pWKar5pRvsdqkPXq2E2A4+oBRmMqO8W7=h-iX2iKh9w@mail.gmail.com>
+From: David Hirst <hirst689@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Achiving My OE environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,42 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 10:22:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Apr 2013 10:33:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c206320c990d04d9ead7ea
 
-On Mon, 2013-04-08 at 18:42 -0300, Otavio Salvador wrote:
-> When a MACHINEOVERRIDES has more than one value, split by ':' as usual
-> OVERRIDES, this were not being properly checked in COMPATIBLE_MACHINE
-> matching as we need to iterate over each SoC family and check if it is
-> compatible or not.
+--001a11c206320c990d04d9ead7ea
+Content-Type: text/plain; charset=ISO-8859-1
 
-[...]
+I am trying to achive (svn or tar ball) my whole oe_layersetup directory
+structure.
+However I seem to have problems when I check it out or untar it on a
+different machine.
+It does not seems to build correctly. I set up the paths to the build tools
+and use /conf/setenv
+to set up other paths.
+It seems impossible to build everything correctly without going through a
+comlete installation of the oe-layersetup form the git clone and setup
+script. Does anyone have experiance with this? and have some advice?
 
->              import re
-> -            this_machine = d.getVar('MACHINE', True)
-> -            if this_machine and not re.match(need_machine, this_machine):
-> -                this_soc_family = d.getVar('SOC_FAMILY', True)
-> -                if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
-> -                    raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
-> +            compat_machines = (d.getVar('MACHINEOVERRIDES', True) or "").split(":")
-> +            for m in compat_machines:
-> +                if re.match(need_machine, m):
+Thanks
 
-The checkin comment above doesn't really capture the semantic changes
-going on in this patch.  The comment implies that there was previously
-an issue with MACHINEOVERRIDES not being split when it contains multiple
-entries, but this is misleading: prior to this patch, COMPATIBLE_MACHINE
-wasn't being matched against MACHINEOVERRIDES at all.  So, the effect of
-this is that anything in MACHINEOVERRIDES (which could potentially be
-quite a large set of strings) will be considered as a candidate for
-matching COMPATIBLE_MACHINE.
+-- 
+David Hirst
+hirst689@gmail.com
 
-It's not abundantly clear to me whether this is a good thing or not, but
-it certainly ought to be accurately described in the commit log.
+--001a11c206320c990d04d9ead7ea
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-p.
+<div dir=3D"ltr"><div>I am trying to achive (svn or tar ball) my whole oe_l=
+ayersetup directory structure.</div><div>However I seem to have problems wh=
+en I check it out or untar it on a different machine.</div><div>It does not=
+ seems to build correctly. I set up the paths to the build tools and use /c=
+onf/setenv<br clear=3D"all">
+to set up other paths.</div><div>It seems impossible to build everything co=
+rrectly without going through a comlete installation of the oe-layersetup f=
+orm the git clone and setup script. Does anyone have experiance with this? =
+and have some advice?</div>
+<div>=A0</div><div>Thanks</div><div>=A0</div><div>-- <br>David Hirst<br><a =
+href=3D"mailto:hirst689@gmail.com" target=3D"_blank">hirst689@gmail.com</a>=
+<br><img alt=3D""><br>
+</div></div>
 
-
-
-
+--001a11c206320c990d04d9ead7ea--
