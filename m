@@ -1,38 +1,30 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UPaHm-0007J6-Rq
+	(envelope-from <mark.hatle@windriver.com>) id 1UPaJh-0007S3-9X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 17:16:39 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Apr 2013 07:59:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,439,1363158000"; 
-	d="scan'208,217";a="316630682"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Apr 2013 07:59:16 -0700
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.244]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.198]) with mapi id
-	14.01.0355.002; Tue, 9 Apr 2013 15:58:55 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Damian, Alexandru" <alexandru.damian@intel.com>, Saul Wold
-	<sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] bluez4: add readline dependency
-Thread-Index: AQHONFiajwebS2H/l02VWvo9k/YIjpjMi6UAgAFepICAABI1YA==
-Date: Tue, 9 Apr 2013 14:58:55 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16220ADC@IRSMSX102.ger.corp.intel.com>
-References: <1365425799-25357-1-git-send-email-alexandru.damian@intel.com>
-	<51630510.7080105@linux.intel.com>
-	<CAJ2CSBtXbDgz76Ryt8tqR+dbeLvLXsWL_F1W8WWVnJyDE=g8WA@mail.gmail.com>
-In-Reply-To: <CAJ2CSBtXbDgz76Ryt8tqR+dbeLvLXsWL_F1W8WWVnJyDE=g8WA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Tue, 09 Apr 2013 17:18:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r39F1DiK028836
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Apr 2013 08:01:15 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 9 Apr 2013 08:01:14 -0700
+Message-ID: <51642D38.2000600@windriver.com>
+Date: Tue, 9 Apr 2013 10:01:12 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bluez4: add readline dependency
+To: Kang Kai <kai.kang@windriver.com>
+References: <cover.1365477246.git.kai.kang@windriver.com>
+	<754d3131a0b2491dd42f52112a652a211e2662d2.1365477246.git.kai.kang@windriver.com>
+In-Reply-To: <754d3131a0b2491dd42f52112a652a211e2662d2.1365477246.git.kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libpng12: rename libpng_1.2.50 to libpng12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,192 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 15:16:39 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB16220ADCIRSMSX102gercor_"
+X-List-Received-Date: Tue, 09 Apr 2013 15:18:38 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_000_969F26A8BAB325438E7EB80D3C3134FB16220ADCIRSMSX102gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 4/8/13 10:16 PM, Kang Kai wrote:
+> As Mark's suggestion, rename libpng_1.2.50 to libpng12 that
+> multi-versions libpng could coexist.
+>
+> We want to make sure we have both the old and new versions to meet LSB
+> compliance (for people who have that enabled) as well as the new version
+> for newer applications.
+>
+> And drop link files that conflict with higher version.
+>
+> [YOCTO #4221]
+>
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> CC: Mark Hatle <mark.hatle@windriver.com>
 
-R0FUVCBzZWVtcyB0byBiZSByZWxhdGVkIG9ubHkgdG8gQlQgNC4wLCBCbHVldG9vdGggTG93IEVu
-ZXJneSAoTEUpLg0KDQpIb3dldmVyLCBpdCB3aWxsIGJlIHVzZWZ1bCBvbmNlIEJsdWV6NSB3aWxs
-IGJlIGluIHBsYWNlLg0KDQpJIHNheSB3ZSBzaG91bGQgYWRkIGl0Lg0KDQoNCg0KUmVnYXJkcywN
-Cg0KQ3Jpc3RpYW4NCg0KDQpGcm9tOiBEYW1pYW4sIEFsZXhhbmRydSBbbWFpbHRvOmFsZXhhbmRy
-dS5kYW1pYW5AaW50ZWwuY29tXQ0KU2VudDogVHVlc2RheSwgQXByaWwgMDksIDIwMTMgNTo1MyBQ
-TQ0KVG86IFNhdWwgV29sZA0KQ2M6IFBhdWwgRWdnbGV0b247IEtoZW0gUmFqOyBJb3JnYSwgQ3Jp
-c3RpYW47IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmx1ZXo0OiBhZGQgcmVhZGxpbmUgZGVwZW5k
-ZW5jeQ0KDQpJIGd1ZXNzIGl0J3MgdXAgdG8gdGhlIHBhdGNoIG1haW50YWluZXIgdG8gZGVjaWRl
-IDopLg0KDQpBbGV4DQoNCk9uIE1vbiwgQXByIDgsIDIwMTMgYXQgODo1NyBQTSwgU2F1bCBXb2xk
-IDxzZ3dAbGludXguaW50ZWwuY29tPG1haWx0bzpzZ3dAbGludXguaW50ZWwuY29tPj4gd3JvdGU6
-DQpPbiAwNC8wOC8yMDEzIDA1OjU2IEFNLCBBbGV4IERBTUlBTiB3cm90ZToNCkZyb206IEFsZXhh
-bmRydSBEQU1JQU4gPGFsZXhhbmRydS5kYW1pYW5AaW50ZWwuY29tPG1haWx0bzphbGV4YW5kcnUu
-ZGFtaWFuQGludGVsLmNvbT4+DQoNCmJsdWV6NCB1c2VzIHJlYWRsaW5lIHRvIGJlIGJ1aWxkLCBi
-dXQgdGhlIGRlcGVuZGVuY3kgaXMgbm90IGxpc3RlZA0KVGhpcyBpcyBsaXN0ZWQgaW4gdGhlIGNv
-bmZpZ3VyYXRpb24gbG9nLg0KU28gd2UgYWRkIGl0Lg0KQXMgZmFyIGFzIEkgY2FuIHRlbGwgaXQn
-cyBuZWVkZWQgb25seSBmb3IgZ2F0dHRvb2wsIGlzIHRoaXMgYSB0b29sIHRoYXQgd2UgbmVlZCAv
-IHdhbnQgdG8gcHJvdmlkZSBmb3IgYmx1ZXo/DQoNClRoaXMgc2VlbXMgdG8gYmUgYSB0b29scyBm
-b3Igdmlld2luZyB0aGUgR2VuZXJpYyBBdHRyaWJ1dGUgUHJvZmlsZSAoR0FUVCkuDQoNCkl0IGNh
-biBiZSBkaXNhYmxlZCBieSBzZXR0aW5nICJhY19jdl9saWJfcmVhZGxpbmVfbWFpbj1ubyINCg0K
-DQpTYXUhDQoNCg0KU2lnbmVkLW9mZi1ieTogQWxleGFuZHJ1IERBTUlBTiA8YWxleGFuZHJ1LmRh
-bWlhbkBpbnRlbC5jb208bWFpbHRvOmFsZXhhbmRydS5kYW1pYW5AaW50ZWwuY29tPj4NCi0tLQ0K
-ICBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6L2JsdWV6NC5pbmMgfCAgICAyICstDQog
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlei9ibHVlejQuaW5jIGIvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlei9ibHVlejQuaW5jDQppbmRleCBiZmYyNGQzLi40MmQ4
-MmIwIDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlei9ibHVlejQu
-aW5jDQorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6L2JsdWV6NC5pbmMNCkBA
-IC03LDcgKzcsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xMmY4
-ODRkMmFlMWZmODdjMDllNWI3Y2NjMmM0Y2E3ZSBcDQogICAgICAgICAgICAgICAgICAgICAgZmls
-ZTovL0NPUFlJTkcuTElCO21kNT1mYjUwNGI2N2M1MDMzMWZjNzg3MzRmZWQ5MGZiMGUwOSBcDQog
-ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy9tYWluLmM7YmVnaW5saW5lPTE7ZW5kbGlu
-ZT0yNDttZDU9OWJjNTRiOTNjZDdlMTdiZjAzZjUyNTEzZjM5ZjkyNmUgXA0KICAgICAgICAgICAg
-ICAgICAgICAgIGZpbGU6Ly9zYmMvc2JjLmM7YmVnaW5saW5lPTE7ZW5kbGluZT0yNTttZDU9MWE0
-MDc4MWVkMzBkNTBkODYzOTMyM2ExODRhZWIxOTE8ZmlsZTovLy9cXENPUFlJTkc7bWQ1PTEyZjg4
-NGQyYWUxZmY4N2MwOWU1YjdjY2MyYzRjYTdlJTIwXCUwYsKgJTIwwqAlMjDCoCUyMMKgJTIwwqAl
-MjDCoCUyMMKgJTIwwqAlMjDCoCUyMMKgJTIwwqAlMjBmaWxlOlxDT1BZSU5HLkxJQjttZDU9ZmI1
-MDRiNjdjNTAzMzFmYzc4NzM0ZmVkOTBmYjBlMDklMjBcJTBiwqAlMjDCoCUyMMKgJTIwwqAlMjDC
-oCUyMMKgJTIwwqAlMjDCoCUyMMKgJTIwwqAlMjDCoCUyMGZpbGU6XHNyY1xtYWluLmM7YmVnaW5s
-aW5lPTE7ZW5kbGluZT0yNDttZDU9OWJjNTRiOTNjZDdlMTdiZjAzZjUyNTEzZjM5ZjkyNmUlMjBc
-JTBiwqAlMjDCoCUyMMKgJTIwwqAlMjDCoCUyMMKgJTIwwqAlMjDCoCUyMMKgJTIwwqAlMjDCoCUy
-MGZpbGU6XHNiY1xzYmMuYztiZWdpbmxpbmU9MTtlbmRsaW5lPTI1O21kNT0xYTQwNzgxZWQzMGQ1
-MGQ4NjM5MzIzYTE4NGFlYjE5MT4iDQotREVQRU5EUyA9ICJ1ZGV2IGxpYnVzYiBkYnVzLWdsaWIg
-Z2xpYi0yLjAgbGliY2hlY2siDQorREVQRU5EUyA9ICJ1ZGV2IGxpYnVzYiBkYnVzLWdsaWIgZ2xp
-Yi0yLjAgbGliY2hlY2sgcmVhZGxpbmUiDQogIFJERVBFTkRTXyR7UE59LWRldiA9ICJibHVlei1o
-Y2lkdW1wIg0KDQogIFBBQ0tBR0VDT05GSUcgPz89ICJcDQoNCg==
+Thanks for the additional comment below.  I'm happy with this, it should help 
+resolve one of the LSB test failures.
 
---_000_969F26A8BAB325438E7EB80D3C3134FB16220ADCIRSMSX102gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+--Mark
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTIgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAxMSA2
-IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglw
-YW5vc2UtMToyIDExIDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
-cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
-CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0K
-CXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28t
-c3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRl
-cmxpbmU7fQ0KcC5Nc29QbGFpblRleHQsIGxpLk1zb1BsYWluVGV4dCwgZGl2Lk1zb1BsYWluVGV4
-dA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IlBsYWluIFRleHQg
-Q2hhciI7DQoJbWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXpl
-OjEwLjVwdDsNCglmb250LWZhbWlseTpDb25zb2xhczt9DQpwLk1zb0FjZXRhdGUsIGxpLk1zb0Fj
-ZXRhdGUsIGRpdi5Nc29BY2V0YXRlDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5
-bGUtbGluazoiQmFsbG9vbiBUZXh0IENoYXIiOw0KCW1hcmdpbjowaW47DQoJbWFyZ2luLWJvdHRv
-bTouMDAwMXB0Ow0KCWZvbnQtc2l6ZTo4LjBwdDsNCglmb250LWZhbWlseToiVGFob21hIiwic2Fu
-cy1zZXJpZiI7fQ0Kc3Bhbi5CYWxsb29uVGV4dENoYXINCgl7bXNvLXN0eWxlLW5hbWU6IkJhbGxv
-b24gVGV4dCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6
-IkJhbGxvb24gVGV4dCI7DQoJZm9udC1mYW1pbHk6IlRhaG9tYSIsInNhbnMtc2VyaWYiO30NCnNw
-YW4uRW1haWxTdHlsZTE5DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQpzcGFuLlBs
-YWluVGV4dENoYXINCgl7bXNvLXN0eWxlLW5hbWU6IlBsYWluIFRleHQgQ2hhciI7DQoJbXNvLXN0
-eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJQbGFpbiBUZXh0IjsNCglmb250LWZh
-bWlseTpDb25zb2xhczt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQt
-b25seTt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2lu
-OjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3Jk
-U2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
-ZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0t
-LT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4N
-CjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1s
-PjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZs
-aW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Q
-bGFpblRleHQiPkdBVFQgc2VlbXMgdG8gYmUgcmVsYXRlZCBvbmx5IHRvIEJUIDQuMCwgQmx1ZXRv
-b3RoIExvdyBFbmVyZ3kgKExFKS48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRl
-eHQiPkhvd2V2ZXIsIGl0IHdpbGwgYmUgdXNlZnVsIG9uY2UgQmx1ZXo1IHdpbGwgYmUgaW4gcGxh
-Y2UuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij5JIHNheSB3ZSBzaG91
-bGQgYWRkIGl0LjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij5SZWdhcmRzLDxvOnA+PC9v
-OnA+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+Q3Jpc3RpYW48bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8
-L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xp
-ZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IERhbWlhbiwgQWxleGFuZHJ1IFttYWlsdG86YWxl
-eGFuZHJ1LmRhbWlhbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2RheSwgQXBy
-aWwgMDksIDIwMTMgNTo1MyBQTTxicj4NCjxiPlRvOjwvYj4gU2F1bCBXb2xkPGJyPg0KPGI+Q2M6
-PC9iPiBQYXVsIEVnZ2xldG9uOyBLaGVtIFJhajsgSW9yZ2EsIENyaXN0aWFuOyBQYXRjaGVzIGFu
-ZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjxicj4NCjxiPlN1YmplY3Q6PC9i
-PiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmx1ZXo0OiBhZGQgcmVhZGxpbmUgZGVwZW5kZW5jeTxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBndWVzcyBpdCdz
-IHVwIHRvIHRoZSBwYXRjaCBtYWludGFpbmVyIHRvIGRlY2lkZSA6KS48bzpwPjwvbzpwPjwvcD4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFsZXg8bzpwPjwvbzpwPjwvcD4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5PbiBNb24sIEFwciA4LCAyMDEzIGF0IDg6NTcgUE0sIFNhdWwgV29s
-ZCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnNnd0BsaW51eC5pbnRlbC5jb20iIHRhcmdldD0iX2JsYW5r
-Ij5zZ3dAbGludXguaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMDQvMDgvMjAxMyAwNTo1NiBBTSwgQWxleCBEQU1J
-QU4gd3JvdGU6PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
-Z2luLWJvdHRvbToxMi4wcHQiPkZyb206IEFsZXhhbmRydSBEQU1JQU4gJmx0OzxhIGhyZWY9Im1h
-aWx0bzphbGV4YW5kcnUuZGFtaWFuQGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFsZXhhbmRy
-dS5kYW1pYW5AaW50ZWwuY29tPC9hPiZndDs8YnI+DQo8YnI+DQpibHVlejQgdXNlcyByZWFkbGlu
-ZSB0byBiZSBidWlsZCwgYnV0IHRoZSBkZXBlbmRlbmN5IGlzIG5vdCBsaXN0ZWQ8YnI+DQpUaGlz
-IGlzIGxpc3RlZCBpbiB0aGUgY29uZmlndXJhdGlvbiBsb2cuPGJyPg0KU28gd2UgYWRkIGl0Ljxv
-OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BcyBmYXIgYXMgSSBj
-YW4gdGVsbCBpdCdzIG5lZWRlZCBvbmx5IGZvciBnYXR0dG9vbCwgaXMgdGhpcyBhIHRvb2wgdGhh
-dCB3ZSBuZWVkIC8gd2FudCB0byBwcm92aWRlIGZvciBibHVlej88YnI+DQo8YnI+DQpUaGlzIHNl
-ZW1zIHRvIGJlIGEgdG9vbHMgZm9yIHZpZXdpbmcgdGhlIEdlbmVyaWMgQXR0cmlidXRlIFByb2Zp
-bGUgKEdBVFQpLjxicj4NCjxicj4NCkl0IGNhbiBiZSBkaXNhYmxlZCBieSBzZXR0aW5nICZxdW90
-O2FjX2N2X2xpYl9yZWFkbGluZV9tYWluPW5vJnF1b3Q7PGJyPg0KPGJyPg0KPGJyPg0KU2F1ITxv
-OnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-bWFyZ2luLWJvdHRvbToxMi4wcHQiPjxicj4NCjxicj4NCjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5TaWduZWQtb2ZmLWJ5
-OiBBbGV4YW5kcnUgREFNSUFOICZsdDs8YSBocmVmPSJtYWlsdG86YWxleGFuZHJ1LmRhbWlhbkBp
-bnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5hbGV4YW5kcnUuZGFtaWFuQGludGVsLmNvbTwvYT4m
-Z3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXov
-Ymx1ZXo0LmluYyB8ICZuYnNwOyAmbmJzcDsyICYjNDM7LTxicj4NCiZuYnNwOyAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oJiM0MzspLCAxIGRlbGV0aW9uKC0pPGJyPg0KPGJyPg0KZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXovYmx1ZXo0LmluYyBiL21ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXovYmx1ZXo0LmluYzxicj4NCmluZGV4IGJmZjI0ZDMu
-LjQyZDgyYjAgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVl
-ei9ibHVlejQuaW5jPGJyPg0KJiM0MzsmIzQzOyYjNDM7IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9ibHVlei9ibHVlejQuaW5jPGJyPg0KQEAgLTcsNyAmIzQzOzcsNyBAQCBMSUNfRklMRVNf
-Q0hLU1VNID0gJnF1b3Q7PGEgaHJlZj0iZmlsZTovLy9cXENPUFlJTkc7bWQ1PTEyZjg4NGQyYWUx
-ZmY4N2MwOWU1YjdjY2MyYzRjYTdlJTIwXCUwYiZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZu
-YnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNw
-OyUyMCZuYnNwOyUyMGZpbGU6XENPUFlJTkcuTElCO21kNT1mYjUwNGI2N2M1MDMzMWZjNzg3MzRm
-ZWQ5MGZiMGUwOSUyMFwlMGImbmJzcDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJz
-cDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJzcDslMjAmbmJzcDsl
-MjBmaWxlOlxzcmNcbWFpbi5jO2JlZ2lubGluZT0xO2VuZGxpbmU9MjQ7bWQ1PTliYzU0YjkzY2Q3
-ZTE3YmYwM2Y1MjUxM2YzOWY5MjZlJTIwXCUwYiZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZu
-YnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNw
-OyUyMCZuYnNwOyUyMGZpbGU6XHNiY1xzYmMuYztiZWdpbmxpbmU9MTtlbmRsaW5lPTI1O21kNT0x
-YTQwNzgxZWQzMGQ1MGQ4NjM5MzIzYTE4NGFlYjE5MSI+ZmlsZTovL0NPUFlJTkc7bWQ1PTEyZjg4
-NGQyYWUxZmY4N2MwOWU1YjdjY2MyYzRjYTdlDQogXDxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-ZmlsZTovL0NPUFlJTkcuTElCO21kNT1mYjUwNGI2N2M1MDMzMWZjNzg3MzRmZWQ5MGZiMGUwOSBc
-PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmaWxlOi8vc3JjL21haW4uYztiZWdpbmxpbmU9MTtl
-bmRsaW5lPTI0O21kNT05YmM1NGI5M2NkN2UxN2JmMDNmNTI1MTNmMzlmOTI2ZSBcPGJyPg0KJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyBmaWxlOi8vc2JjL3NiYy5jO2JlZ2lubGluZT0xO2VuZGxpbmU9MjU7
-bWQ1PTFhNDA3ODFlZDMwZDUwZDg2MzkzMjNhMTg0YWViMTkxPC9hPiZxdW90Ozxicj4NCi1ERVBF
-TkRTID0gJnF1b3Q7dWRldiBsaWJ1c2IgZGJ1cy1nbGliIGdsaWItMi4wIGxpYmNoZWNrJnF1b3Q7
-PGJyPg0KJiM0MztERVBFTkRTID0gJnF1b3Q7dWRldiBsaWJ1c2IgZGJ1cy1nbGliIGdsaWItMi4w
-IGxpYmNoZWNrIHJlYWRsaW5lJnF1b3Q7PGJyPg0KJm5ic3A7IFJERVBFTkRTXyR7UE59LWRldiA9
-ICZxdW90O2JsdWV6LWhjaWR1bXAmcXVvdDs8YnI+DQo8YnI+DQombmJzcDsgUEFDS0FHRUNPTkZJ
-RyA/Pz0gJnF1b3Q7XDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+> ---
+>   .../{libpng_1.2.50.bb => libpng12_1.2.50.bb}       |   20 +++++++++++++++++---
+>   1 files changed, 17 insertions(+), 3 deletions(-)
+>   rename meta/recipes-lsb4/libpng/{libpng_1.2.50.bb => libpng12_1.2.50.bb} (55%)
+>
+> diff --git a/meta/recipes-lsb4/libpng/libpng_1.2.50.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+> similarity index 55%
+> rename from meta/recipes-lsb4/libpng/libpng_1.2.50.bb
+> rename to meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+> index 8fdc41b..cfefd41 100644
+> --- a/meta/recipes-lsb4/libpng/libpng_1.2.50.bb
+> +++ b/meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+> @@ -8,14 +8,28 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
+>   DEPENDS = "zlib"
+>   PR = "r0"
+>
+> +PN = "libpng12"
+> +S = "${WORKDIR}/libpng-${PV}"
+> +
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
+>
+>   SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
+>   SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
+>
+> +BINCONFIG_GLOB = "${PN}-config"
+> +
+>   inherit autotools binconfig pkgconfig
+>
+> -PACKAGES =+ "${PN}12"
+> +do_install_append() {
+> +	# The follow link files link to corresponding png12*.h and libpng12* files
+> +	# They conflict with higher verison, so drop them
+> +	unlink ${D}/${includedir}/png.h
+> +	unlink ${D}/${includedir}/pngconf.h
+> +
+> +	unlink ${D}/${libdir}/libpng.la
+> +	unlink ${D}/${libdir}/libpng.so
+> +	unlink ${D}/${libdir}/libpng.a
+> +	unlink ${D}/${libdir}/pkgconfig/libpng.pc
+>
+> -FILES_${PN}12 = "${libdir}/libpng12${SOLIBS}"
+> -RPROVIDES_${PN}-dev += "${PN}12-dev"
+> +	unlink ${D}/${bindir}/libpng-config
+> +}
+>
 
---_000_969F26A8BAB325438E7EB80D3C3134FB16220ADCIRSMSX102gercor_--
+
+
