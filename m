@@ -1,28 +1,28 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1UPPI9-0007Uw-56
+	(envelope-from <Kai.Kang@windriver.com>) id 1UPPI7-0007Ur-Vo
 	for openembedded-core@lists.openembedded.org;
 	Tue, 09 Apr 2013 05:32:21 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r393EvXW016006
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r393EtLe028970
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Apr 2013 20:14:57 -0700 (PDT)
+	Mon, 8 Apr 2013 20:14:55 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.205) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 8 Apr 2013 20:14:57 -0700
+	(TLS) id 14.2.342.3; Mon, 8 Apr 2013 20:14:55 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <mark.hatle@windriver.com>
-Date: Tue, 9 Apr 2013 11:16:38 +0800
-Message-ID: <cee1398450813ace46c04a4d79979df1134a59db.1365477246.git.kai.kang@windriver.com>
+Date: Tue, 9 Apr 2013 11:16:37 +0800
+Message-ID: <754d3131a0b2491dd42f52112a652a211e2662d2.1365477246.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1365477246.git.kai.kang@windriver.com>
 References: <cover.1365477246.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.205]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] libpng12: remove prefer version and add it to lsb packagegroup
+Subject: [PATCH 1/2] libpng12: rename libpng_1.2.50 to libpng12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +38,63 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 09 Apr 2013 03:32:47 -0000
 Content-Type: text/plain
 
-Because rename libpng_1.2.50 to libpng, remove the perfer verion from
-default-versions.inc and add libpng12 to lsb packagegroup.
+As Mark's suggestion, rename libpng_1.2.50 to libpng12 that
+multi-versions libpng could coexist.
+
+We want to make sure we have both the old and new versions to meet LSB
+compliance (for people who have that enabled) as well as the new version
+for newer applications.
+
+And drop link files that conflict with higher version.
+
+[YOCTO #4221]
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
+CC: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/conf/distro/include/default-versions.inc      |    3 ---
- .../packagegroups/packagegroup-core-lsb.bb         |    1 +
- 2 files changed, 1 insertions(+), 3 deletions(-)
+ .../{libpng_1.2.50.bb => libpng12_1.2.50.bb}       |   20 +++++++++++++++++---
+ 1 files changed, 17 insertions(+), 3 deletions(-)
+ rename meta/recipes-lsb4/libpng/{libpng_1.2.50.bb => libpng12_1.2.50.bb} (55%)
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 0a5b2f4..53ec2e7 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -9,6 +9,3 @@ PREFERRED_VERSION_python-native ?= "2.7.3"
+diff --git a/meta/recipes-lsb4/libpng/libpng_1.2.50.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+similarity index 55%
+rename from meta/recipes-lsb4/libpng/libpng_1.2.50.bb
+rename to meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+index 8fdc41b..cfefd41 100644
+--- a/meta/recipes-lsb4/libpng/libpng_1.2.50.bb
++++ b/meta/recipes-lsb4/libpng/libpng12_1.2.50.bb
+@@ -8,14 +8,28 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
+ DEPENDS = "zlib"
+ PR = "r0"
  
- # Force the older version of liberation-fonts until we fix the fontforge issue
- PREFERRED_VERSION_liberation-fonts ?= "1.04"
--
--# Set libpng default version for linuxstdbase
--PREFERRED_VERSION_libpng_linuxstdbase ?= "1.2.50"
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index d692a26..cf04f0f 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -161,6 +161,7 @@ RDEPENDS_packagegroup-core-lsb-core = "\
-     ncurses \
-     zlib \
-     nspr \
-+    libpng12 \
- "
++PN = "libpng12"
++S = "${WORKDIR}/libpng-${PV}"
++
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
  
- SUMMARY_packagegroup-core-lsb-perl = "LSB Runtime Languages (Perl)"
+ SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
+ SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
+ 
++BINCONFIG_GLOB = "${PN}-config"
++
+ inherit autotools binconfig pkgconfig
+ 
+-PACKAGES =+ "${PN}12"
++do_install_append() {
++	# The follow link files link to corresponding png12*.h and libpng12* files
++	# They conflict with higher verison, so drop them
++	unlink ${D}/${includedir}/png.h
++	unlink ${D}/${includedir}/pngconf.h
++
++	unlink ${D}/${libdir}/libpng.la
++	unlink ${D}/${libdir}/libpng.so
++	unlink ${D}/${libdir}/libpng.a
++	unlink ${D}/${libdir}/pkgconfig/libpng.pc
+ 
+-FILES_${PN}12 = "${libdir}/libpng12${SOLIBS}"
+-RPROVIDES_${PN}-dev += "${PN}12-dev"
++	unlink ${D}/${bindir}/libpng-config
++}
 -- 
 1.7.5.4
 
