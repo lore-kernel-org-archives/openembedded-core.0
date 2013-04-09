@@ -1,35 +1,21 @@
-Received: from mail-we0-f177.google.com ([74.125.82.177])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UPb5w-0004j1-4W
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UPbAb-00059t-EE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 18:08:33 +0200
-Received: by mail-we0-f177.google.com with SMTP id o45so5445377wer.36
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 08:51:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=T3pFugQ4GJqhbG0KTXOwwqZ9q9swCK9kaJ4tqSlE7oM=;
-	b=P9u2K/uDPFMWg77ZeSq5r9e+tfokIhUGVdZNdr1rNtyFBGHo9nHF1OOCaV0VP0757v
-	FDo3v2IOuiB2NllcLSv3YYTfUXWZUQ0xyU9WlDg90M67fjiQosjPhrXjoT6oQYsxsTdk
-	zwdKRJNlfRqETPvK++G5s2aRmm0g+70QXBp+1sjDtkZIaRdQirleKZENKYDbCWAv7ETF
-	ZCn3HKAxo/usd0eZpbWtl+DF0Yn0egLaXUwmdSYbq/ub6R8u37nnTCD5GSUej26lmpPe
-	2WDwUMPTzwyRF7y/KAKPLKSF9X/NZnshyLXiHHYvB0g/9jD14TqiZxKdT8hDgEmD8oSM
-	SNUg==
-X-Received: by 10.180.82.68 with SMTP id g4mr20523944wiy.26.1365522667743;
-	Tue, 09 Apr 2013 08:51:07 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bo1sm29719582wib.0.2013.04.09.08.51.06
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 09 Apr 2013 08:51:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 09 Apr 2013 18:13:18 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 09 Apr 2013 08:54:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,439,1363158000"; d="scan'208";a="283743164"
+Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
+	([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 09 Apr 2013 08:53:53 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2013 16:48:21 +0100
-Message-Id: <1365522501-7439-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnvXsqiDaIHle7dNTGycLeVxXDwd5FJ6mgAcuJqlrSgpWwCxydUwsbWQ3a6J1aOm+FU/sFF
-Subject: [PATCH] systemd.bbclass: restart service in postinst, not start
+Date: Tue,  9 Apr 2013 18:53:51 +0300
+Message-Id: <1365522831-17183-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] postinst-intercepts, qemu.bbclass: fix segfaults in postinstalls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +28,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 16:08:39 -0000
+X-List-Received-Date: Tue, 09 Apr 2013 16:13:19 -0000
 
-When upgrading packages it's possible that the service is already running
-because opkg doesn't actually execute the prerm hooks on upgrades, which is
-where the service should be stopped.
+Postinstalls that use qemu are throwing a segmentation fault when
+building for qemux86-64 on a 64bit host (it might also happen for
+qemux86 if building on a 32bit host but I didn't test). It looks like
+qemu looks for ld.so.cache which is not found because it is generated
+after rootfs_(rpm|ipk|deb)_do_rootfs is called and then it tries to load
+libraries from the default paths (which are the host's). In order to
+avoid this, pass the LD_LIBRARY_PATH explicitly to the target's dynamic
+loader.
 
-Handle this case by restarting in postinst instead of starting.  If the service
-isn't already running then this doesn't make a difference, but if it is running
-then the service will be restarted.
-
-[ YOCTO #4213 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/systemd.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/qemu.bbclass                       |    4 +++-
+ scripts/postinst-intercepts/update_font_cache   |    3 ++-
+ scripts/postinst-intercepts/update_pixbuf_cache |    3 ++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 69eeb9e..8084251 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -31,7 +31,7 @@ if type systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 0e71d6a..6881826 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -29,4 +29,6 @@ def qemu_run_binary(data, rootfs_path, binary):
+     if qemu_binary == "qemu-allarch":
+         qemu_binary = "qemuwrapper"
  
- 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
--		systemctl start ${SYSTEMD_SERVICE}
-+		systemctl restart ${SYSTEMD_SERVICE}
- 	fi
- fi
- }
+-    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path + " " + rootfs_path + binary
++    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
++            + " -E LD_LIBRARY_PATH=" + rootfs_path + "/lib:" + rootfs_path\
++            + "/usr/lib " + rootfs_path + binary
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index ad1bab3..fa2c0ef 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -1,5 +1,6 @@
+ #!/bin/sh
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
++					$D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
+ 
+ 
+diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
+index 9134529..fbb6fd1 100644
+--- a/scripts/postinst-intercepts/update_pixbuf_cache
++++ b/scripts/postinst-intercepts/update_pixbuf_cache
+@@ -2,7 +2,8 @@
+ 
+ export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/gdk-pixbuf-query-loaders \
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
++    $D${bindir}/gdk-pixbuf-query-loaders \
+     >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
+     sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
+ 
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
