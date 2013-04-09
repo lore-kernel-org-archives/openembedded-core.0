@@ -1,34 +1,35 @@
-Received: from mail-ve0-f179.google.com ([209.85.128.179])
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UPcBS-0003db-4U
+	(envelope-from <otavio.salvador@gmail.com>) id 1UPcH2-000422-Qx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 19:18:15 +0200
-Received: by mail-ve0-f179.google.com with SMTP id cz11so6773825veb.10
+	Tue, 09 Apr 2013 19:24:04 +0200
+Received: by mail-ob0-f174.google.com with SMTP id wm15so4563057obc.19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 10:00:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=uc4gAv4irUEIhL/EmLRnnBXIDUPxd1b2moO9ze92OCU=;
-	b=iQg0eGoZVyk7TbID3+9AyqGochQ6ynZwpO7r2usnSbDaxpG209ZL/em7XzqdyCI+XT
-	uGKHXVEdkVEMH/4io6wDh8Al/z9tsbF7hCBYb9XkJWtiMXQLcvj0M9P9Vb/C4pYgo6f6
-	GJSkQZZD9yI6DdAZ0RHN+p0mALZwdMcj/ZLF/lP9CFZ2xC96ZIBG47leWXOHBnZKzGU0
-	CzoE4EksjU/OU/UZjfct6gsn81Rn/CH8YxgIRG5HRlVeN59nJAf5PnMZucrKJy4vXAmX
-	gRY5xU/vI33h5Z88prklpLCRTKBO03ljw60gcbjuHHf5ebshzDrhoPpzuj7PE0CKOLTp
-	ld3g==
-X-Received: by 10.220.153.2 with SMTP id i2mr19712884vcw.53.1365526853033;
-	Tue, 09 Apr 2013 10:00:53 -0700 (PDT)
+	Tue, 09 Apr 2013 10:06:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=flxiZSSykuTrZrhcNjuk8EZWj8HvgOraj9KswzouIUI=;
+	b=NU9etLhXOkKVLv3bU70wSISotFDlvO2sEB+DmtxwrxZcKv5YKLUdflAt6451FmPeGT
+	1uqsHif7gOC7Bbx3Tg2Rw79QOlZcEHjimNP2hugh7AZGjIDtb2Cc5iRDrixjS6wiuBlj
+	I1pefffApi3t3+3wPWGeA0HNSx6E6qK8DdeLcI8h+u9/bsRHQ7LW0bOM53U6O9wDv934
+	bEVaO+rPjZFdvpWyaXJP3MGL/sEiEshfyKKh94U147+KRnaWcOL+hDk1azlQqQ/lZl/i
+	WmpSkS8CeZIzmU7APybRDei/P1N1/x5m983g2H5C2GKuOY7MAdqOl4frt5++jyCWWQU4
+	9QEg==
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 9 Apr 2013 10:00:32 -0700 (PDT)
-In-Reply-To: <CAP9ODKpdu79HJPSA7a9-q_XXP1YffeXNq6g9c=ts4ktvMJfJhA@mail.gmail.com>
+X-Received: by 10.182.125.132 with SMTP id mq4mr7428699obb.79.1365527199790;
+	Tue, 09 Apr 2013 10:06:39 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.80.198 with HTTP; Tue, 9 Apr 2013 10:06:39 -0700 (PDT)
+In-Reply-To: <CAJTo0LZOu21EYan2-wa3HSVfYM=rriTPozn+fdb4Xme=bABFVw@mail.gmail.com>
 References: <1365523730-15141-1-git-send-email-sgw@linux.intel.com>
 	<CAP9ODKpdu79HJPSA7a9-q_XXP1YffeXNq6g9c=ts4ktvMJfJhA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Apr 2013 18:00:32 +0100
-Message-ID: <CAJTo0LZOu21EYan2-wa3HSVfYM=rriTPozn+fdb4Xme=bABFVw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQlCcm48e+9dcIAKQ587abLsuorskk5QKWXATXaGXxgcTwqMyCT7kb0Xnrv1HEPtH46R6JCo
+	<CAJTo0LZOu21EYan2-wa3HSVfYM=rriTPozn+fdb4Xme=bABFVw@mail.gmail.com>
+Date: Tue, 9 Apr 2013 14:06:39 -0300
+X-Google-Sender-Auth: ZjimAjeTFkXZaxlfQ_glSifbn24
+Message-ID: <CAP9ODKotVnJyN8RyJCG6-LukhA3jkkrc0DPgq2VVfMVC66Yj5Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] udev: fix init script for the location of udevd
@@ -44,22 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 17:18:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Apr 2013 17:24:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 9 April 2013 17:33, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Tue, Apr 9, 2013 at 1:08 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> Ensure we can update the script base don the location of the udevd installation
+On Tue, Apr 9, 2013 at 2:00 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 9 April 2013 17:33, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> On Tue, Apr 9, 2013 at 1:08 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>>> Ensure we can update the script base don the location of the udevd installation
+>>>
+>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 >>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> This does not work as we have systemd-udevd as possible binary.
 >
-> This does not work as we have systemd-udevd as possible binary.
+> But these changes are in the "udev" package, so will only be used on
+> systems which are booting udev.
+>
+> Related, all of the changes happening to udev need to happen to systemd aswell.
 
-But these changes are in the "udev" package, so will only be used on
-systems which are booting udev.
+The init-live problem people are concerned about is not fixed for
+systemd-udevd as well.
 
-Related, all of the changes happening to udev need to happen to systemd aswell.
-
-Ross
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
