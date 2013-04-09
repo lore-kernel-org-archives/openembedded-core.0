@@ -1,44 +1,22 @@
-Received: from ra.se.axis.com ([195.60.68.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <peter.kjellerstedt@axis.com>) id 1UPVf6-0000D8-Nq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 12:20:29 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id 5E8EC11EAB;
-	Tue,  9 Apr 2013 12:03:04 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
-Received: from ra.se.axis.com ([127.0.0.1])
-	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id V9onEG3hbU53; Tue,  9 Apr 2013 12:03:03 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by ra.se.axis.com (Postfix) with ESMTP id 3FA302613D5;
-	Tue,  9 Apr 2013 12:01:05 +0200 (CEST)
-Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
-	by thoth.se.axis.com (Postfix) with ESMTP id 237563415E;
-	Tue,  9 Apr 2013 12:01:05 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
-	([10.0.5.75]) with mapi; Tue, 9 Apr 2013 12:01:05 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Chris Larson <clarson@kergoth.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-Date: Tue, 9 Apr 2013 12:01:03 +0200
-Thread-Topic: [OE-core] [PATCH 2/3] oe-buildenv-internal: Only add to $PATH
-	if needed
-Thread-Index: Ac40qhxWK4VEpTpHTdS6bfy0Mi4cZQAUSQAw
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC755FF49C469@xmail3.se.axis.com>
-References: <cover.1365179842.git.pkj@axis.com>
-	<a20f68229f1499d9020bd9cd8dc593e5f6635967.1365179842.git.pkj@axis.com>
-	<CAHUNapRCw6pqVL1MfSkPqDZQL-adp-AHQba8+nGTPoi44BTguQ@mail.gmail.com>
-	<3664366.6RB48HkoAG@helios>
-	<CABcZANk=ttfyLhq-z8Fnj1_mjv5hhPAmauvKXjfWzG-q-B4cxA@mail.gmail.com>
-In-Reply-To: <CABcZANk=ttfyLhq-z8Fnj1_mjv5hhPAmauvKXjfWzG-q-B4cxA@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
-MIME-Version: 1.0
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [PATCH 2/3] oe-buildenv-internal: Only add to $PATH if needed
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UPVh8-0000VE-3c for openembedded-core@lists.openembedded.org;
+	Tue, 09 Apr 2013 12:22:32 +0200
+Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
+	([86.14.229.168] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UPVQO-0000Ib-B5; Tue, 09 Apr 2013 12:05:12 +0200
+Message-ID: <1365501911.7011.38.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 09 Apr 2013 11:05:11 +0100
+In-Reply-To: <1365457364-3089-1-git-send-email-otavio@ossystems.com.br>
+References: <1365457364-3089-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] base.bbclass: Fix matching of MACHINEOVERRIDES in COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,200 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 10:20:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_A612847CFE53224C91B23E3A5B48BAC755FF49C469xmail3seaxisc_"
+X-List-Received-Date: Tue, 09 Apr 2013 10:22:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---_000_A612847CFE53224C91B23E3A5B48BAC755FF49C469xmail3seaxisc_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Mon, 2013-04-08 at 18:42 -0300, Otavio Salvador wrote:
+> When a MACHINEOVERRIDES has more than one value, split by ':' as usual
+> OVERRIDES, this were not being properly checked in COMPATIBLE_MACHINE
+> matching as we need to iterate over each SoC family and check if it is
+> compatible or not.
 
-VGhlIGNvbG9uIHNlcGFyYXRvciBpcyBpbmNsdWRlZCBhdCB0aGUgZW5kIG9mICRORVdQQVRIUyBz
-byBpdCBzaG91bGQgbm90IGJlIHBvc3NpYmxlIGZvciBhbnkgZmFsc2UgcG9zaXRpdmVzLg0KDQpU
-aGUgaW50ZW50aW9uIG9mIHRoZSBwYXRjaCB3YXMgdG8gYXZvaWQgJFBBVEggZ3Jvd2luZyB3aGVu
-IHJlcnVubmluZyBvZS1pbml0LWJ1aWxkLWVudiBpbiB0aGUgc2FtZSBkaXJlY3RvcnkgbXVsdGlw
-bGUgdGltZXMuIEkgb25seSBtYXRjaCBhdCB0aGUgc3RhcnQgb2YgJFBBVEggYXMgSSB3YW50ZWQg
-dG8gbWFpbnRhaW4gdGhlIGN1cnJlbnQgZnVuY3Rpb25hbGl0eSB0aGF0IGd1YXJhbnRlZXMgdGhh
-dCB0aGUgcGF0aHMgYXJlIGFkZGVkIHRvIHRoZSBiZWdpbm5pbmcgb2YgJFBBVEggYW5kIHRoZXJl
-Zm9yZSBzZWFyY2hlZCBiZWZvcmUgYW55dGhpbmcgZWxzZS4NCg0KSSBkaWQgbm90IHdhbnQgdG8g
-Z28gaW50byBhbmFseXppbmcgJFBBVEggd2hpY2ggd291bGQgaGF2ZSBiZWVuIG5lZWRlZCB0byBy
-ZW1vdmUgcGF0aHMgZm9yIG90aGVyIGJ1aWxkIHRyZWVzLiBBbHNvLCBJIGRvIG5vdCBhY3R1YWxs
-eSBzZWUgdGhpcyBhcyBwb3NzaWJsZSBzaW5jZSB0aGUgc3RhdGljIHBhcnRzIG9mIHRoZSBhZGRl
-ZCBwYXRocyAoL3NjcmlwdHMgYW5kIC9iaW4vKSBhcmUgdG8gZ2VuZXJpYyB0byBiZSBhYmxlIHRv
-IHJlbW92ZSB0aG9zZSBwYXRocyB3aXRob3V0IHRoZSByaXNrIG9mIGFjY2lkZW50YWxseSByZW1v
-dmluZyBzb21ldGhpbmcgdW5yZWxhdGVkLg0KDQpIb3dldmVyLCBvbmUgdGhpbmcgdGhhdCBjYW4g
-ZWFzaWx5IGJlIGRvbmUgaXMgdG8gaW5zdGVhZCByZW9yZGVyIOKAnCRTT01FUEFUSFM6JE5FV1BB
-VEhTJFNPTUVPVEhFUlBBVEhT4oCdIHRvIOKAnCRORVdQQVRIUyRTT01FUEFUSFM6JFNPTUVPVEhF
-UlBBVEhT4oCdLiBUaGF0IHNob3VsZCBtYWludGFpbiB0aGUgcHJvcGVydHkgb2YgaGF2aW5nIHRo
-ZSBuZXcgcGF0aHMgYXQgdGhlIGJlZ2lubmluZywgd2hpbGUgYXQgdGhlIHNhbWUgdGltZSBub3Qg
-Z3JvdyAkUEFUSCB1bm5lY2Vzc2FyaWx5IGlmIHRoZSBwYXRocyBhcmUgYWxyZWFkeSBwcmVzZW50
-LCBidXQgcHJlY2VkZWQgYnkgc29tZSBvdGhlciBwYXRocy4NCg0KSSB3aWxsIHByb3ZpZGUgYSBz
-ZWNvbmQgdmVyc2lvbiBvZiB0aGUgcGF0Y2ggd2l0aCB0aGUgcmVsZXZhbnQgcGFydCBjaGFuZ2Vk
-IHRvOg0KDQojIE1ha2Ugc3VyZSBvdXIgcGF0aHMgYXJlIGF0IHRoZSBiZWdpbm5pbmcgb2YgJFBB
-VEgNCk5FV1BBVEhTPSIke09FUk9PVH0vc2NyaXB0czokQklUQkFLRURJUi9iaW46Ig0KUEFUSD0k
-TkVXUEFUSFMkKGVjaG8gJFBBVEggfCBzZWQgLWUgInN8OiRORVdQQVRIU3w6fGciIC1lICJzfF4k
-TkVXUEFUSFN8fCIpDQp1bnNldCBCSVRCQUtFRElSIE5FV1BBVEhTDQoNCi8vUGV0ZXINCg0KRnJv
-bToga2VyZ290aEBnbWFpbC5jb20gW21haWx0bzprZXJnb3RoQGdtYWlsLmNvbV0gT24gQmVoYWxm
-IE9mIENocmlzIExhcnNvbg0KU2VudDogZGVuIDkgYXByaWwgMjAxMyAwMDo0MA0KVG86IFBhdWwg
-RWdnbGV0b24NCkNjOiBUcmV2b3IgV29lcm5lcjsgUGV0ZXIgS2plbGxlcnN0ZWR0OyBQYXRjaGVz
-IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0ggMi8zXSBvZS1idWlsZGVudi1pbnRlcm5hbDogT25seSBhZGQgdG8gJFBB
-VEggaWYgbmVlZGVkDQoNCg0KT24gTW9uLCBBcHIgOCwgMjAxMyBhdCAxMDo0OCBBTSwgUGF1bCBF
-Z2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb208bWFpbHRvOnBhdWwuZWdnbGV0
-b25AbGludXguaW50ZWwuY29tPj4gd3JvdGU6DQpPbiBNb25kYXkgMDggQXByaWwgMjAxMyAxMzoz
-MTo1MCBUcmV2b3IgV29lcm5lciB3cm90ZToNCj4gT24gRnJpLCBBcHIgNSwgMjAxMyBhdCAxMjo1
-OSBQTSwgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208
-bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4+IHdyb3RlOg0KPiA+ICtbICIke1BB
-VEgjJE5FV1BBVEhTfSIgIT0gIiRQQVRIIiBdIHx8IFBBVEg9IiRORVdQQVRIUyRQQVRIIg0KPg0K
-PiBUaGlzIGlzIGNlcnRhaW5seSBhIHdlbGNvbWUgYWRkaXRpb24gaW4gZnVuY3Rpb25hbGl0eSwg
-YnV0IGl0IHJlbGllcw0KPiBvbiB0aGUgcGF0dGVybiByZW1haW5pbmcgYXQgdGhlIHN0YXJ0IG9m
-IHRoZSBQQVRIIChpLmUuIHRoZSB1c2VyDQo+IGhhc24ndCBwbGF5ZWQgd2l0aCBQQVRIIGluIGFu
-eSB3YXkpLiBDb3VsZCB3ZSBub3QgdXNlIHRoZQ0KPiAke3BhcmFtZXRlci9wYXR0ZXJuL3N0cmlu
-Z30gcGFyYW1ldGVyIGV4cGFuc2lvbiBpbnN0ZWFkIChlLmcuDQo+ICIke1BBVEgvJE5FV1BBVEhT
-L30iKSBzbyBpdCBkb2Vzbid0IG1hdHRlciB3aGV0aGVyIHRoZSB1c2VyIGhhcw0KPiBmdXJ0aGVy
-IG1vZGlmaWVkIHRoZSBQQVRIPw0KVW5mb3J0dW5hdGVseSBJIHRoaW5rIHRoaXMgaXMgc3BlY2lm
-aWMgdG8gYmFzaCwgc28gaXQgbWF5IG5vdCBiZSBwb3J0YWJsZS4NCk1heWJlIHRoZSBlcXVpdmFs
-ZW50IGNhbiBiZSBhY2hpZXZlZCB3aXRoIHNlZCBob3dldmVyLg0KDQpBbHNvLCBuZWl0aGVyIHZl
-cnNpb24gbWF0Y2hlcyB0aGUgOiBzZXBhcmF0b3IsIHdoaWNoIG1lYW5zIHdlIGNvdWxkIGluIHRo
-ZW9yeSBnZXQgZmFsc2UgcG9zaXRpdmUgbWF0Y2hlcy4NCi0tDQpDaHJpc3RvcGhlciBMYXJzb24N
-Cg==
+[...]
 
---_000_A612847CFE53224C91B23E3A5B48BAC755FF49C469xmail3seaxisc_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+>              import re
+> -            this_machine = d.getVar('MACHINE', True)
+> -            if this_machine and not re.match(need_machine, this_machine):
+> -                this_soc_family = d.getVar('SOC_FAMILY', True)
+> -                if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
+> -                    raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
+> +            compat_machines = (d.getVar('MACHINEOVERRIDES', True) or "").split(":")
+> +            for m in compat_machines:
+> +                if re.match(need_machine, m):
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj1Db250ZW50LVR5cGUgY29udGVu
-dD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij48bWV0YSBuYW1lPUdlbmVyYXRvciBjb250ZW50
-PSJNaWNyb3NvZnQgV29yZCAxNCAoZmlsdGVyZWQgbWVkaXVtKSI+PHN0eWxlPjwhLS0NCi8qIEZv
-bnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6U2ltU3VuOw0KCXBh
-bm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToi
-Q2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZh
-Y2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIg
-NDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYg
-NCAzIDUgNCA0IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNvbnNvbGFzOw0KCXBh
-bm9zZS0xOjIgMTEgNiA5IDIgMiA0IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IlxAU2ltU3VuIjsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAxO30NCi8qIFN0eWxlIERl
-ZmluaXRpb25zICovDQpwLk1zb05vcm1hbCwgbGkuTXNvTm9ybWFsLCBkaXYuTXNvTm9ybWFsDQoJ
-e21hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQtc2l6ZToxMi4wcHQ7
-DQoJZm9udC1mYW1pbHk6IlRpbWVzIE5ldyBSb21hbiIsInNlcmlmIjt9DQphOmxpbmssIHNwYW4u
-TXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRl
-eHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0Zv
-bGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1k
-ZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlw
-ZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0K
-CWNvbG9yOiM5NDM2MzQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
-LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpAcGFnZSBXb3Jk
-U2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcyLjBwdCA3Mi4wcHQg
-NzIuMHB0IDcyLjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30N
-Ci0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6
-ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBn
-dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2
-OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0t
-LT48L2hlYWQ+PGJvZHkgbGFuZz1FTi1VUyBsaW5rPWJsdWUgdmxpbms9cHVycGxlPjxkaXYgY2xh
-c3M9V29yZFNlY3Rpb24xPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQn
-PlRoZSBjb2xvbiBzZXBhcmF0b3IgaXMgaW5jbHVkZWQgYXQgdGhlIGVuZCBvZiAkTkVXUEFUSFMg
-c28gaXQgc2hvdWxkIG5vdCBiZSBwb3NzaWJsZSBmb3IgYW55IGZhbHNlIHBvc2l0aXZlcy48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYz
-NCc+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBz
-dHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYi
-O2NvbG9yOiM5NDM2MzQnPlRoZSBpbnRlbnRpb24gb2YgdGhlIHBhdGNoIHdhcyB0byBhdm9pZCAk
-UEFUSCBncm93aW5nIHdoZW4gcmVydW5uaW5nIG9lLWluaXQtYnVpbGQtZW52IGluIHRoZSBzYW1l
-IGRpcmVjdG9yeSBtdWx0aXBsZSB0aW1lcy4gSSBvbmx5IG1hdGNoIGF0IHRoZSBzdGFydCBvZiAk
-UEFUSCBhcyBJIHdhbnRlZCB0byBtYWludGFpbiB0aGUgY3VycmVudCBmdW5jdGlvbmFsaXR5IHRo
-YXQgZ3VhcmFudGVlcyB0aGF0IHRoZSBwYXRocyBhcmUgYWRkZWQgdG8gdGhlIGJlZ2lubmluZyBv
-ZiAkUEFUSCBhbmQgdGhlcmVmb3JlIHNlYXJjaGVkIGJlZm9yZSBhbnl0aGluZyBlbHNlLjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0
-Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0
-eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7
-Y29sb3I6Izk0MzYzNCc+SSBkaWQgbm90IHdhbnQgdG8gZ28gaW50byBhbmFseXppbmcgJFBBVEgg
-d2hpY2ggd291bGQgaGF2ZSBiZWVuIG5lZWRlZCB0byByZW1vdmUgcGF0aHMgZm9yIG90aGVyIGJ1
-aWxkIHRyZWVzLiBBbHNvLCBJIGRvIG5vdCBhY3R1YWxseSBzZWUgdGhpcyBhcyBwb3NzaWJsZSBz
-aW5jZSB0aGUgc3RhdGljIHBhcnRzIG9mIHRoZSBhZGRlZCBwYXRocyAoL3NjcmlwdHMgYW5kIC9i
-aW4vKSBhcmUgdG8gZ2VuZXJpYyB0byBiZSBhYmxlIHRvIHJlbW92ZSB0aG9zZSBwYXRocyB3aXRo
-b3V0IHRoZSByaXNrIG9mIGFjY2lkZW50YWxseSByZW1vdmluZyBzb21ldGhpbmcgdW5yZWxhdGVk
-LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2Zv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjoj
-OTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxz
-cGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1z
-ZXJpZiI7Y29sb3I6Izk0MzYzNCc+SG93ZXZlciwgb25lIHRoaW5nIHRoYXQgY2FuIGVhc2lseSBi
-ZSBkb25lIGlzIHRvIGluc3RlYWQgcmVvcmRlciDigJwkU09NRVBBVEhTOiRORVdQQVRIUyRTT01F
-T1RIRVJQQVRIU+KAnSB0byDigJwkTkVXUEFUSFMkU09NRVBBVEhTOiRTT01FT1RIRVJQQVRIU+KA
-nS4gVGhhdCBzaG91bGQgbWFpbnRhaW4gdGhlIHByb3BlcnR5IG9mIGhhdmluZyB0aGUgbmV3IHBh
-dGhzIGF0IHRoZSBiZWdpbm5pbmcsIHdoaWxlIGF0IHRoZSBzYW1lIHRpbWUgbm90IGdyb3cgJFBB
-VEggdW5uZWNlc3NhcmlseSBpZiB0aGUgcGF0aHMgYXJlIGFscmVhZHkgcHJlc2VudCwgYnV0IHBy
-ZWNlZGVkIGJ5IHNvbWUgb3RoZXIgcGF0aHMuPG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNz
-PU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseToiQ2Fs
-aWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQnPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0Jz5JIHdpbGwgcHJv
-dmlkZSBhIHNlY29uZCB2ZXJzaW9uIG9mIHRoZSBwYXRjaCB3aXRoIHRoZSByZWxldmFudCBwYXJ0
-IGNoYW5nZWQgdG86PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3Bh
-biBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
-aWYiO2NvbG9yOiM5NDM2MzQnPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1N
-c29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q29uc29s
-YXM7Y29sb3I6Izk0MzYzNCc+IyBNYWtlIHN1cmUgb3VyIHBhdGhzIGFyZSBhdCB0aGUgYmVnaW5u
-aW5nIG9mICRQQVRIPG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3Bh
-biBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQz
-NjM0Jz5ORVdQQVRIUz0mcXVvdDske09FUk9PVH0vc2NyaXB0czokQklUQkFLRURJUi9iaW46JnF1
-b3Q7PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0n
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0Jz5QQVRI
-PSRORVdQQVRIUyQoZWNobyAkUEFUSCB8IHNlZCAtZSAmcXVvdDtzfDokTkVXUEFUSFN8OnxnJnF1
-b3Q7IC1lICZxdW90O3N8XiRORVdQQVRIU3x8JnF1b3Q7KTxvOnA+PC9vOnA+PC9zcGFuPjwvcD48
-cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNCc+dW5zZXQgQklUQkFLRURJUiBORVdQQVRIUzxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0
-Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0
-eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7
-Y29sb3I6Izk0MzYzNCc+Ly9QZXRlcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29O
-b3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmki
-LCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
-PGRpdiBzdHlsZT0nYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRk
-aW5nOjBjbSAwY20gMGNtIDQuMHB0Jz48ZGl2PjxkaXYgc3R5bGU9J2JvcmRlcjpub25lO2JvcmRl
-ci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtJz48cCBj
-bGFzcz1Nc29Ob3JtYWw+PGI+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
-bHk6IlRhaG9tYSIsInNhbnMtc2VyaWYiJz5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9J2Zv
-bnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6IlRhaG9tYSIsInNhbnMtc2VyaWYiJz4ga2VyZ290
-aEBnbWFpbC5jb20gW21haWx0bzprZXJnb3RoQGdtYWlsLmNvbV0gPGI+T24gQmVoYWxmIE9mIDwv
-Yj5DaHJpcyBMYXJzb248YnI+PGI+U2VudDo8L2I+IGRlbiA5IGFwcmlsIDIwMTMgMDA6NDA8YnI+
-PGI+VG86PC9iPiBQYXVsIEVnZ2xldG9uPGJyPjxiPkNjOjwvYj4gVHJldm9yIFdvZXJuZXI7IFBl
-dGVyIEtqZWxsZXJzdGVkdDsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNv
-cmUgbGF5ZXI8YnI+PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvM10gb2Ut
-YnVpbGRlbnYtaW50ZXJuYWw6IE9ubHkgYWRkIHRvICRQQVRIIGlmIG5lZWRlZDxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD48L2Rpdj48L2Rpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8L286
-cD48L3A+PGRpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpwPjwvcD48
-ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD5PbiBNb24sIEFwciA4LCAyMDEzIGF0IDEwOjQ4IEFNLCBQ
-YXVsIEVnZ2xldG9uICZsdDs8YSBocmVmPSJtYWlsdG86cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRl
-bC5jb20iIHRhcmdldD0iX2JsYW5rIj5wYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbTwvYT4m
-Z3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPjxkaXY+PHAgY2xhc3M9TXNvTm9ybWFsIHN0eWxlPSdt
-YXJnaW4tYm90dG9tOjEyLjBwdCc+T24gTW9uZGF5IDA4IEFwcmlsIDIwMTMgMTM6MzE6NTAgVHJl
-dm9yIFdvZXJuZXIgd3JvdGU6PGJyPiZndDsgT24gRnJpLCBBcHIgNSwgMjAxMyBhdCAxMjo1OSBQ
-TSwgUGV0ZXIgS2plbGxlcnN0ZWR0PGJyPiZndDsgJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5r
-amVsbGVyc3RlZHRAYXhpcy5jb20iPnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTwvYT4mZ3Q7
-IHdyb3RlOjxicj4mZ3Q7ICZndDsgK1sgJnF1b3Q7JHtQQVRIIyRORVdQQVRIU30mcXVvdDsgIT0g
-JnF1b3Q7JFBBVEgmcXVvdDsgXSB8fCBQQVRIPSZxdW90OyRORVdQQVRIUyRQQVRIJnF1b3Q7PGJy
-PiZndDs8YnI+Jmd0OyBUaGlzIGlzIGNlcnRhaW5seSBhIHdlbGNvbWUgYWRkaXRpb24gaW4gZnVu
-Y3Rpb25hbGl0eSwgYnV0IGl0IHJlbGllczxicj4mZ3Q7IG9uIHRoZSBwYXR0ZXJuIHJlbWFpbmlu
-ZyBhdCB0aGUgc3RhcnQgb2YgdGhlIFBBVEggKGkuZS4gdGhlIHVzZXI8YnI+Jmd0OyBoYXNuJ3Qg
-cGxheWVkIHdpdGggUEFUSCBpbiBhbnkgd2F5KS4gQ291bGQgd2Ugbm90IHVzZSB0aGU8YnI+Jmd0
-OyAke3BhcmFtZXRlci9wYXR0ZXJuL3N0cmluZ30gcGFyYW1ldGVyIGV4cGFuc2lvbiBpbnN0ZWFk
-IChlLmcuPGJyPiZndDsgJnF1b3Q7JHtQQVRILyRORVdQQVRIUy99JnF1b3Q7KSBzbyBpdCBkb2Vz
-bid0IG1hdHRlciB3aGV0aGVyIHRoZSB1c2VyIGhhczxicj4mZ3Q7IGZ1cnRoZXIgbW9kaWZpZWQg
-dGhlIFBBVEg/PG86cD48L286cD48L3A+PC9kaXY+PHAgY2xhc3M9TXNvTm9ybWFsPlVuZm9ydHVu
-YXRlbHkgSSB0aGluayB0aGlzIGlzIHNwZWNpZmljIHRvIGJhc2gsIHNvIGl0IG1heSBub3QgYmUg
-cG9ydGFibGUuPGJyPk1heWJlIHRoZSBlcXVpdmFsZW50IGNhbiBiZSBhY2hpZXZlZCB3aXRoIHNl
-ZCBob3dldmVyLjxvOnA+PC9vOnA+PC9wPjwvZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48YnI+QWxz
-bywgbmVpdGhlciB2ZXJzaW9uIG1hdGNoZXMgdGhlIDogc2VwYXJhdG9yLCB3aGljaCBtZWFucyB3
-ZSBjb3VsZCBpbiB0aGVvcnkgZ2V0IGZhbHNlIHBvc2l0aXZlIG1hdGNoZXMuPGJyPi0tIDxicj5D
-aHJpc3RvcGhlciBMYXJzb248bzpwPjwvbzpwPjwvcD48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48
-L2JvZHk+PC9odG1sPg==
+The checkin comment above doesn't really capture the semantic changes
+going on in this patch.  The comment implies that there was previously
+an issue with MACHINEOVERRIDES not being split when it contains multiple
+entries, but this is misleading: prior to this patch, COMPATIBLE_MACHINE
+wasn't being matched against MACHINEOVERRIDES at all.  So, the effect of
+this is that anything in MACHINEOVERRIDES (which could potentially be
+quite a large set of strings) will be considered as a candidate for
+matching COMPATIBLE_MACHINE.
 
---_000_A612847CFE53224C91B23E3A5B48BAC755FF49C469xmail3seaxisc_--
+It's not abundantly clear to me whether this is a good thing or not, but
+it certainly ought to be accurately described in the commit log.
+
+p.
+
+
+
+
