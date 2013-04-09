@@ -1,41 +1,26 @@
-Received: from mail-pa0-f48.google.com ([209.85.220.48])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UPe8x-0007T8-UE
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 21:23:48 +0200
-Received: by mail-pa0-f48.google.com with SMTP id lj1so3928323pab.21
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 12:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=fNsIA3GiUHTCh7soZJCvXxAVAB0sYx0IGYfW0lv4aGw=;
-	b=opbCcArvVt4dl4MeS5JJiiWvBKZ2mmf573XLEN9HhT2wAT7GtFZiwse4dq0VoXiqHu
-	Ku4f9S5w+VRAWxwL/cuUZuiy77TjoUpfIL/fBTH5rm6phHmQRCszemayJW3cfeU4gxrj
-	HNFMG+QTJ+UMFNoG5WlAqvsu0MW/B9N7LOvAnj1MapCcWBPTd9Zn3UQucWEL9XrmQe5S
-	2svL2jPrdY1V9L3C3hIW0jkRYYlJe1VIK/nZTJpUUTMWqPC0MMaT09TaeuyXfbgpaz2Y
-	L6HYMXOUrhp/BUS61L2jVxD9mvCVSS6XaBwqNFLi12d07ey3JxoTg7EvmjStPpndVFy8
-	W7OQ==
-X-Received: by 10.66.121.202 with SMTP id lm10mr45801619pab.138.1365534386832; 
-	Tue, 09 Apr 2013 12:06:26 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id fq1sm3210718pbb.33.2013.04.09.12.06.23
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 09 Apr 2013 12:06:25 -0700 (PDT)
-Date: Tue, 9 Apr 2013 21:06:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Message-ID: <20130409190616.GE2474@jama>
-References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
-	<CAJTo0LZ6tKy0pDvPzdNw+z80NkXHB0kX7HxntsY_Hd+u3pUPwg@mail.gmail.com>
-	<20130409174646.GD2474@jama>
-	<C59D9F91-BDCD-496F-B6DA-8C6BB5990939@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <C59D9F91-BDCD-496F-B6DA-8C6BB5990939@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Marco Cavallini <m.cavallini@koansoftware.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe][meta-oe][PATCH 2/4] xterm: add latest version of xterm
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UPfw3-00082D-Cb for openembedded-core@lists.openembedded.org;
+	Tue, 09 Apr 2013 23:18:38 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UPffH-0001GW-QM; Tue, 09 Apr 2013 23:01:16 +0200
+Message-ID: <1365541265.2116.9.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Tue, 09 Apr 2013 22:01:05 +0100
+In-Reply-To: <6500457.3vgtoKXQDv@helios>
+References: <cover.1363156578.git.Qi.Chen@windriver.com>
+	<5482882.4phbAeRO1n@helios>
+	<1364318752.6320.27.camel@phil-desktop.brightsign>
+	<6500457.3vgtoKXQDv@helios>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] rm_work.bbclass: inhibit rm_work per recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,58 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 19:23:48 -0000
-X-Groupsio-MsgNum: 37697
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="RpqchZ26BWispMcB"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 09 Apr 2013 21:18:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---RpqchZ26BWispMcB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2013-03-26 at 17:52 +0000, Paul Eggleton wrote:
+> I'm sure this has come up before, but is rm_old_work something we ought to 
+> have in OE-Core?
 
-On Tue, Apr 09, 2013 at 08:01:21PM +0200, Koen Kooi wrote:
->=20
-> Op 9 apr. 2013, om 19:46 heeft Martin Jansa <martin.jansa@gmail.com> het =
-volgende geschreven:
->=20
-> > On Tue, Apr 09, 2013 at 03:26:58PM +0100, Burton, Ross wrote:
-> >> On 9 April 2013 15:21, Marco Cavallini <koansoftware@gmail.com> wrote:
-> >>> * Recipe taken from oe-classic
-> >>> * Required by xinput-calibrator
-> >>=20
-> >> oe-core already ships not one but two terminal emulators, let's not
-> >> add another one.  Can we make this configurable in the recipe somehow
-> >> and default to use matchbox-terminal (which is in the Sato images)?
-> >>=20
-> >> Long-term, alternatives along the lines of Debian's
-> >> x-terminal-emulator is probably something we want.  Then again I'm
-> >> still not entirely sure why this is even spawning a terminal in the
-> >> first place.
-> >=20
-> > u-a is not enough, we also need VIRTUAL-RUNTIME-x-terminal-emulator for
-> > other recipes to RDEPENDS/RSUGGESTS/RRECOMMENDS on if they need some
-> > terminal (and don't care which one will be used).
->=20
-> Isn't this what xdg-utils are for?
+Obviously it's not for me to say, but I suspect probably not.  It
+requires ${WORKDIR} to follow a particular pattern, which not everybody
+will necessarily want, and I don't think you could really argue that it
+represents "core" functionality either.
 
-Maybe I'm missing something, but I don't see how xdg-utils will help
-bitbake to find suitable runtime provider for "any-x-terminal-emulator".
+p.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---RpqchZ26BWispMcB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlFkZqgACgkQN1Ujt2V2gBzkVwCgoAIt4F7noUYbJ4ClPcZCxm+F
-aW8AoLCE7acfXyWKbUQlNT/xq6Ir5JOD
-=uys8
------END PGP SIGNATURE-----
-
---RpqchZ26BWispMcB--
