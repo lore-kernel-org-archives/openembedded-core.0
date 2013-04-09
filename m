@@ -1,37 +1,35 @@
-Received: from mail-vc0-f181.google.com ([209.85.220.181])
+Received: from mail-we0-f170.google.com ([74.125.82.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UPcYt-0005NF-I1
+	(envelope-from <twoerner@gmail.com>) id 1UPcZt-0005Tg-NV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 19:42:27 +0200
-Received: by mail-vc0-f181.google.com with SMTP id ia10so2214070vcb.40
+	Tue, 09 Apr 2013 19:43:31 +0200
+Received: by mail-we0-f170.google.com with SMTP id z2so5690427wey.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 10:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	Tue, 09 Apr 2013 10:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=gDntJxTDtjdXoNvCR8ghJFaA3Ldhika+jRjQlZCOUoc=;
-	b=wbMXM/dbrW0YnORVeHOSZcQq5Cg28Ss51HyR1knJddit5BM6tWxIA8AoG2ychE+Wqw
-	rydszOkRN08Jg8zBD2OZg80YacIsD5olG07YtZLtXjFujz63jt7wbUZFlHuyvDUoA/pD
-	9YIoVbhz0gstfGIeDHKrI4MQpHt+hSg6MSMZIbbdRUdi3BZGDHOSbGAX6uzfjDe1SzSD
-	dX/5KH6V794vYOurwOjPWyvqzThSJA8L0Fqjl/J70cyQ/MLQla90XMqaSwSItzKh3Wnr
-	3+qDbLdo+RQ2lPd+BXvTc5r2ghpCK3+62vTqqOlDLMo5lyBRu6lTrUKcYgpW+LJA7sLF
-	XduQ==
+	:subject:from:to:cc:content-type;
+	bh=7zdY/0A0C605laMrWJ4/5vgMaLgrhX+nJTGsh7U6EBw=;
+	b=hfPb+f5MNVNFhJkshgBaR2PXKQQ2Jxy2aAQb6llOpfQ0Dkhr+DnmEY+XNirN5r0bcH
+	iFO3wbcmUDpQD+oBLedaYmb5+rD1o92mXx/rBqiBOu+FCVK+9vxtVr+q+zgZ/et9u9q1
+	SjGUGYlXfF2NnAaRu446LTadh47cAcxXfXuunejcPgfd72xUlAixo9wbcQrYRzx8ooRN
+	chPMTc9WDdyfWW6ZoGisc0IO93Arb5Pzyr8HDHSzQ/u7uyGKV9KG4IfhVWDtVXiQ8Nyh
+	wtqAJYRjHD5dGwLXgpPMRty9xjFzFvyBS+hRH0AgDMjfxUkpZR1H5mwO1dqfJAjBKnsQ
+	pwOQ==
 MIME-Version: 1.0
-X-Received: by 10.52.65.147 with SMTP id x19mr17256165vds.27.1365528306889;
-	Tue, 09 Apr 2013 10:25:06 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Tue, 9 Apr 2013 10:25:06 -0700 (PDT)
-In-Reply-To: <CAJTo0LaQXb_1LU=APaUJbkNnyXSjEsKngj7vB1sBAC538WufQw@mail.gmail.com>
-References: <1365517194-30916-1-git-send-email-m.cavallini@koansoftware.com>
-	<CALbNGRQ0y3+eMKJESmwo0LnwihNZ_H8NViE1BSr+9igjonJ3XQ@mail.gmail.com>
-	<CAJTo0LaQXb_1LU=APaUJbkNnyXSjEsKngj7vB1sBAC538WufQw@mail.gmail.com>
-Date: Tue, 9 Apr 2013 19:25:06 +0200
-Message-ID: <CALbNGRSmV++=N=FO3gSv0ZpxtGuDvv5V-eSVa7ew7yFM2SD9kA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Marco Cavallini <m.cavallini@koansoftware.com>
-Subject: Re: [oe][meta-oe][PATCH 1/4] xinput-calibrator: calibrate touch screen with xorg
+X-Received: by 10.194.157.42 with SMTP id wj10mr40457423wjb.12.1365528369399; 
+	Tue, 09 Apr 2013 10:26:09 -0700 (PDT)
+Received: by 10.194.45.100 with HTTP; Tue, 9 Apr 2013 10:26:09 -0700 (PDT)
+In-Reply-To: <e2901c2ad30a411fb90c6b5eaca242563257085c.1365517068.git.paul.eggleton@linux.intel.com>
+References: <cover.1365517068.git.paul.eggleton@linux.intel.com>
+	<e2901c2ad30a411fb90c6b5eaca242563257085c.1365517068.git.paul.eggleton@linux.intel.com>
+Date: Tue, 9 Apr 2013 13:26:09 -0400
+Message-ID: <CAHUNapQnYrWDDnoj8RGgb-f4oUE8xaArtPDYhLvCoV8fHsZ8OQ@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] meta-*/conf/layer.conf: tweak BBFILES comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 17:42:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Apr 2013 17:43:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Apr 9, 2013 at 6:56 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 9 April 2013 17:49, Andreas M=C3=BCller <schnitzeltony@googlemail.com>=
- wrote:
->> On Tue, Apr 9, 2013 at 4:19 PM, Marco Cavallini <koansoftware@gmail.com>=
- wrote:
->>>  * Taken from oe-classic
->>>  * This patch includes pointercal-xinput
->>
->> 1. Is this a 'core' component?
->> 2. If so: Why not importing from meta-oe there were several
->> enhancements (mainline) meanwhile?
->> 3. I am again(still) working on this ( systemd/udev plug & play ). It
->> would make my life easier if we wait with this migration
->
-> Erm, yeah.  I didn't notice this was from oe-classic.  My xterm
-> grumble still applies though!
->
-Yes I had the same feeling (gtk-UI looks much smarter). I would like
-to address these issues but have some questions:
+On Tue, Apr 9, 2013 at 10:19 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> -# We have a packages directory, add to BBFILES
+> +# We have recipes-* directories, add to BBFILES
+[etc]
 
-* xterm: for me it was just a useless package in my image. With the
-approach I am working on (first shot [1] - but there were some
-enhancements since then) I simply removed xterm from RDEPENDS assuming
-people who want manual recalibrating (only those need a terminal for
-calibration) will take care in their images which terminal to install.
-Is that OK - or other suggestions?
-* gtk-UI: Upon what would you suggest to make this decision? Distro
-feature? If yes: Which entry?
-
-[1] http://lists.linuxtogo.org/pipermail/openembedded-devel/2013-February/0=
-43854.html
-
-Andreas
+Thank you :-)
 
 
