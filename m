@@ -1,21 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UPbAb-00059t-EE
+	(envelope-from <ddalex@intel.com>) id 1UPbD5-0005Qb-6n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 18:13:18 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 Apr 2013 08:54:18 -0700
+	Tue, 09 Apr 2013 18:15:52 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Apr 2013 08:58:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,439,1363158000"; d="scan'208";a="283743164"
-Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
-	([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 09 Apr 2013 08:53:53 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2013 18:53:51 +0300
-Message-Id: <1365522831-17183-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] postinst-intercepts, qemu.bbclass: fix segfaults in postinstalls
+X-IronPort-AV: E=Sophos;i="4.87,439,1363158000"; d="scan'208";a="319771574"
+Received: from adamian-desktop.rb.intel.com ([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2013 08:58:28 -0700
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id 8262F560EBE; Tue,  9 Apr 2013 18:58:40 +0300 (EEST)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: sgw@linux.intel.com, richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Date: Tue,  9 Apr 2013 18:58:39 +0300
+Message-Id: <1365523119-27605-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH] udev: changed location of udevd to /sbin/udev/udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,64 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 16:13:19 -0000
+X-List-Received-Date: Tue, 09 Apr 2013 16:15:53 -0000
 
-Postinstalls that use qemu are throwing a segmentation fault when
-building for qemux86-64 on a 64bit host (it might also happen for
-qemux86 if building on a 32bit host but I didn't test). It looks like
-qemu looks for ld.so.cache which is not found because it is generated
-after rootfs_(rpm|ipk|deb)_do_rootfs is called and then it tries to load
-libraries from the default paths (which are the host's). In order to
-avoid this, pass the LD_LIBRARY_PATH explicitly to the target's dynamic
-loader.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+This ammends the init script after changing the location from
+/lib to /sbin.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/classes/qemu.bbclass                       |    4 +++-
- scripts/postinst-intercepts/update_font_cache   |    3 ++-
- scripts/postinst-intercepts/update_pixbuf_cache |    3 ++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-core/udev/udev/init |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index 0e71d6a..6881826 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -29,4 +29,6 @@ def qemu_run_binary(data, rootfs_path, binary):
-     if qemu_binary == "qemu-allarch":
-         qemu_binary = "qemuwrapper"
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 95d2672..ea87d64 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -15,7 +15,7 @@ export TZ=/etc/localtime
  
--    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path + " " + rootfs_path + binary
-+    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
-+            + " -E LD_LIBRARY_PATH=" + rootfs_path + "/lib:" + rootfs_path\
-+            + "/usr/lib " + rootfs_path + binary
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index ad1bab3..fa2c0ef 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -1,5 +1,6 @@
- #!/bin/sh
+ [ -d /sys/class ] || exit 1
+ [ -r /proc/mounts ] || exit 1
+-[ -x /lib/udev/udevd ] || exit 1
++[ -x /sbin/udev/udevd ] || exit 1
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
  
--PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
-+					$D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
+@@ -71,7 +71,7 @@ case "$1" in
  
+     # trigger the sorted events
+     echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
+-    /lib/udev/udevd -d
++    /sbin/udev/udevd -d
  
-diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
-index 9134529..fbb6fd1 100644
---- a/scripts/postinst-intercepts/update_pixbuf_cache
-+++ b/scripts/postinst-intercepts/update_pixbuf_cache
-@@ -2,7 +2,8 @@
- 
- export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
- 
--PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/gdk-pixbuf-query-loaders \
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
-+    $D${bindir}/gdk-pixbuf-query-loaders \
-     >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
-     sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
- 
+     /usr/bin/udevadm control --env=STARTUP=1
+     if [ "$not_first_boot" != "" ];then
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
