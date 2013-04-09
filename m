@@ -1,34 +1,34 @@
-Received: from mail-we0-f176.google.com ([74.125.82.176])
+Received: from mail-we0-f180.google.com ([74.125.82.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koansoftware@gmail.com>) id 1UPZet-0003pe-Tj
+	(envelope-from <koansoftware@gmail.com>) id 1UPZfH-0003qe-16
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 16:36:33 +0200
-Received: by mail-we0-f176.google.com with SMTP id s43so5250717wey.21
+	Tue, 09 Apr 2013 16:36:55 +0200
+Received: by mail-we0-f180.google.com with SMTP id r5so5328949wey.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 07:19:08 -0700 (PDT)
+	Tue, 09 Apr 2013 07:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=h20zU0pCeX28Uzvcc4Djhaj9UEeM3vsChhimk6AjwwU=;
-	b=r3f8jB1KX9oHZlGcsWdNBo1YK25Y/gkXHaAtNlPZbC71hcAwBFSwJ/9zWVNx42TxV+
-	EJt9Ms7MMGWSh78luUHab7ayEe8DDyEHSvAjfZ1XF6O/0dimXwzd+WBxQ6KttaHqMOLs
-	bt2xVp+ZSmhowBb5AqcLXKGs9ad5BCfyZk+LAV/0SyOh/ccMSEC3MdPEWre0lxuNMo62
-	tMD6sJv1SFmUR+7vA7TJbC+BEtDyqx8OJVZLC7fAWCuxEFHCOHNBmQo21S4EUjAKzUhI
-	tZTifLpt9ZzrHA5UgdjBsb9TAmD667fBGwYgrSTbZYdkCszqAtzy2A6CsUK5d6Jkd+xc
-	rqDQ==
-X-Received: by 10.194.157.42 with SMTP id wj10mr39174630wjb.12.1365517148052; 
-	Tue, 09 Apr 2013 07:19:08 -0700 (PDT)
+	bh=2/nMMuF8cpbf6De3sWzHPhGREBHOgQN+y0gph0eboLU=;
+	b=bkqspP8OmTuThR9ruPDEK8VjMmU519HQiQH/ldQHVK4+2yJDiPV5LUQ1XvthZdh5n5
+	KdnrZMMyGERR1w1m97P59IdvwmffbyHEwijGNeRD5WAVMIXF00/72g2XMjPomebhGS9P
+	wgriKjnTC7JewR3H4IzSfwimCvkdf8rPFmA5DpcRq05s7io7aymphETfm2tpMYE7hpVs
+	acMDtrvJKxf1WodpQjL8lYFnO7Pb6Wi5L4eRNoMe6MhlWFMiP2kdhSKnOsxwotHQw1vm
+	ask78RoVRUx3Jr/18w0+XEJDBdluRkky36grndorgeIgmAoqKcFExI+sQz9zTxi6uHEZ
+	mHzw==
+X-Received: by 10.180.85.103 with SMTP id g7mr20100530wiz.23.1365517171125;
+	Tue, 09 Apr 2013 07:19:31 -0700 (PDT)
 Received: from quad.modzo.koansoftware.com
 	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
-	by mx.google.com with ESMTPS id t7sm26097852wij.2.2013.04.09.07.19.05
+	by mx.google.com with ESMTPS id q13sm32961788wie.0.2013.04.09.07.19.29
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 09 Apr 2013 07:19:07 -0700 (PDT)
+	Tue, 09 Apr 2013 07:19:30 -0700 (PDT)
 From: Marco Cavallini <koansoftware@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2013 16:21:48 +0200
-Message-Id: <1365517308-31004-1-git-send-email-m.cavallini@koansoftware.com>
+Date: Tue,  9 Apr 2013 16:22:10 +0200
+Message-Id: <1365517330-31050-1-git-send-email-m.cavallini@koansoftware.com>
 X-Mailer: git-send-email 1.8.2.1
 Cc: Marco Cavallini <m.cavallini@koansoftware.com>
-Subject: [oe][meta-oe][PATCH 3/4] libxaw: add version 1.0.10
+Subject: [oe][meta-oe][PATCH 4/4] xmlto: added version 0.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,54 +41,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 14:36:36 -0000
+X-List-Received-Date: Tue, 09 Apr 2013 14:36:57 -0000
 
  * Recipe from oe-classic
  * Required by xinput-calibrator
 
 Signed-off-by: Marco Cavallini <m.cavallini@koansoftware.com>
 ---
- meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb | 31 +++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
+ .../xmlto/xmlto-0.0.25/obsolete_automake_macros.patch  | 12 ++++++++++++
+ meta/recipes-support/xmlto/xmlto_0.0.25.bb             | 18 ++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-support/xmlto/xmlto-0.0.25/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/xmlto/xmlto_0.0.25.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
+diff --git a/meta/recipes-support/xmlto/xmlto-0.0.25/obsolete_automake_macros.patch b/meta/recipes-support/xmlto/xmlto-0.0.25/obsolete_automake_macros.patch
 new file mode 100644
-index 0000000..f5a4a6f
+index 0000000..faa8acc
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
-@@ -0,0 +1,31 @@
-+require recipes-graphics/xorg-lib/xorg-lib-common.inc
-+DESCRIPTION = "X Athena Widget Set"
-+DEPENDS += "xproto virtual/libx11 libxext xextproto libxt libxmu libxpm libxau xmlto-native"
++++ b/meta/recipes-support/xmlto/xmlto-0.0.25/obsolete_automake_macros.patch
+@@ -0,0 +1,12 @@
++diff -Nurd xmlto-0.0.25/configure.in xmlto-0.0.25/configure.in
++--- xmlto-0.0.25/configure.in	2011-12-01 17:49:00.000000000 +0200
+++++ xmlto-0.0.25/configure.in	2013-01-07 05:24:16.169953519 +0200
++@@ -1,7 +1,7 @@
++ AC_INIT(xmlto, 0.0.25)
++ AC_CONFIG_SRCDIR(xmlto.spec.in)
++ AM_INIT_AUTOMAKE([dist-bzip2 subdir-objects 1.6])
++-AM_CONFIG_HEADER(config.h)
+++AC_CONFIG_HEADERS(config.h)
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1c65719d42900bb81b83e8293c20a364"
++ AC_PROG_CC
++ AM_PROG_CC_C_O
+diff --git a/meta/recipes-support/xmlto/xmlto_0.0.25.bb b/meta/recipes-support/xmlto/xmlto_0.0.25.bb
+new file mode 100644
+index 0000000..447c791
+--- /dev/null
++++ b/meta/recipes-support/xmlto/xmlto_0.0.25.bb
+@@ -0,0 +1,18 @@
++DESCRIPTION = "A shell-script tool for converting XML files to various formats" 
++HOMEPAGE = "https://fedorahosted.org/xmlto/" 
++SECTION = "docs/xmlto" 
++LICENSE = "GPLv2" 
 +
-+PE = "1"
-+PR = "r2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
 +
-+SRC_URI[md5sum] = "f1ea52debce7a18cc26b21647a00ad8b"
-+SRC_URI[sha256sum] = "2d96bcf92638b8ec5c91d379f5ec2e7b15133adeb2ba22066d48bf3239ee1bdd"
++PR = "r1"
 +
-+# disable docs as groff detection doesn't work on some hosts while cross compilling
-+EXTRA_OECONF += " --disable-docs "
++SRC_URI = "https://fedorahosted.org/releases/x/m/xmlto/xmlto-${PV}.tar.gz \
++           file://obsolete_automake_macros.patch \
++"
++SRC_URI[md5sum] = "a88cd3f08789b4825d1ac89fa065170d"
++SRC_URI[sha256sum] = "c52b56d929e8d20fc19cd3b7ec238f8d039730c56ee311cc352e843147e3e31a"
 +
-+do_install_append () {
-+        ln -sf libXaw6.so.6 ${D}${libdir}/libXaw.so.6
-+        ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so.7
-+        ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so
-+}
++inherit autotools  
 +
-+PACKAGES =+ "libxaw6 libxaw7 libxaw8"
-+
-+FILES_libxaw6 = "${libdir}/libXaw*.so.6*"
-+FILES_libxaw7 = "${libdir}/libXaw*.so.7*"
-+FILES_libxaw8 = "${libdir}/libXaw8.so.8*"
-+
-+# Avoid dependency on libxaw as it is not build
-+RDEPENDS_${PN}-dev = ""
-+
-+XORG_PN = "libXaw"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.8.2.1
 
