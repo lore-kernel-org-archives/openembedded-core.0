@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Michel.Thebeau@windriver.com>) id 1UPYBW-0005TY-1q
+	(envelope-from <radu.moisan@intel.com>) id 1UPZOw-0002Xh-Eu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 15:02:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r39CiaaT026823
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Apr 2013 05:44:38 -0700 (PDT)
-Received: from [128.224.146.59] (128.224.146.59) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 9 Apr 2013 05:44:36 -0700
-Message-ID: <51640D33.1000703@windriver.com>
-Date: Tue, 9 Apr 2013 08:44:35 -0400
-From: Michel Thebeau <michel.thebeau@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1365454473.12407.51.camel@ted>
-	<1365456279-30162-1-git-send-email-michel.thebeau@windriver.com>
-	<51633682.2030305@windriver.com> <1365457704.12407.63.camel@ted>
-In-Reply-To: <1365457704.12407.63.camel@ted>
-Cc: Bruce.Ashfield@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] kernel.bbclass: do_strip: allow recipes to strip the kernel
+	Tue, 09 Apr 2013 16:20:00 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Apr 2013 07:00:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,439,1363158000"; d="scan'208";a="292357296"
+Received: from dell-desktop.rb.intel.com ([10.237.105.59])
+	by orsmga001.jf.intel.com with ESMTP; 09 Apr 2013 07:02:11 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Apr 2013 17:02:22 +0300
+Message-Id: <1365516144-5157-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] update-alternatives rework with update-alternatives.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,41 +27,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 13:02:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Apr 2013 14:20:10 -0000
 
+Radu Moisan (2):
+  systemd: use update-alternatives.bbclass
+  systemd: set default.target to multi-user.target
 
+ meta/recipes-core/systemd/systemd_199.bb |   40 +++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
 
-On 13-04-08 05:48 PM, Richard Purdie wrote:
-> On Mon, 2013-04-08 at 17:28 -0400, Michel Thebeau wrote:
->>
->> On 13-04-08 05:24 PM, michel.thebeau@windriver.com wrote:
->>> From: Michel Thebeau <michel.thebeau@windriver.com>
->>>
->>> Allow recipes to specify sections to be stripped from the kernel output
->>> using KERNEL_IMAGE_STRIP.  For example:
->>>
->>> KERNEL_IMAGE_STRIP = ".comment .unwanted"
->>
->> s/KERNEL_IMAGE_STRIP/KERNEL_IMAGE_STRIP_EXTRA_SECTIONS
->>
->> Throughout
-> 
-> So are you resending this with the appropriate changes, tested? It looks
-> much better this way to me than the first version anyway, thanks.
-> 
+-- 
+1.7.9.5
 
-Yes, I will update this patch to address the same comments given for the
-first version and retest before sending it out.
-
-Thanks Richard,
-
-M
-
-> Richard
-> 
-> 
-> 
 
 
