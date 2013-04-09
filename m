@@ -1,33 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f181.google.com ([209.85.220.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UPcH8-00042F-Ml for openembedded-core@lists.openembedded.org;
-	Tue, 09 Apr 2013 19:24:12 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r39HHSsK004693; Tue, 9 Apr 2013 18:17:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F34fnvORjVQM; Tue,  9 Apr 2013 18:17:35 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r39HHRhG004685
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 9 Apr 2013 18:17:30 +0100
-Message-ID: <1365527174.12407.89.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 09 Apr 2013 18:06:14 +0100
-In-Reply-To: <CAP9ODKq9qBVe2zQrmw_a2nK8ApPDDxZ3BS1y0k+g4GKkvgG90Q@mail.gmail.com>
-References: <1365523119-27605-1-git-send-email-alexandru.damian@intel.com>
-	<51643CAF.4070407@linux.intel.com>
-	<CAP9ODKq9qBVe2zQrmw_a2nK8ApPDDxZ3BS1y0k+g4GKkvgG90Q@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: layer <openembedded-core@lists.openembedded.org>,
-	Alex DAMIAN <alexandru.damian@intel.com>, Patches
-Subject: Re: [PATCH] udev: changed location of udevd to /sbin/udev/udevd
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UPcYt-0005NF-I1
+	for openembedded-core@lists.openembedded.org;
+	Tue, 09 Apr 2013 19:42:27 +0200
+Received: by mail-vc0-f181.google.com with SMTP id ia10so2214070vcb.40
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Apr 2013 10:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=gDntJxTDtjdXoNvCR8ghJFaA3Ldhika+jRjQlZCOUoc=;
+	b=wbMXM/dbrW0YnORVeHOSZcQq5Cg28Ss51HyR1knJddit5BM6tWxIA8AoG2ychE+Wqw
+	rydszOkRN08Jg8zBD2OZg80YacIsD5olG07YtZLtXjFujz63jt7wbUZFlHuyvDUoA/pD
+	9YIoVbhz0gstfGIeDHKrI4MQpHt+hSg6MSMZIbbdRUdi3BZGDHOSbGAX6uzfjDe1SzSD
+	dX/5KH6V794vYOurwOjPWyvqzThSJA8L0Fqjl/J70cyQ/MLQla90XMqaSwSItzKh3Wnr
+	3+qDbLdo+RQ2lPd+BXvTc5r2ghpCK3+62vTqqOlDLMo5lyBRu6lTrUKcYgpW+LJA7sLF
+	XduQ==
+MIME-Version: 1.0
+X-Received: by 10.52.65.147 with SMTP id x19mr17256165vds.27.1365528306889;
+	Tue, 09 Apr 2013 10:25:06 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Tue, 9 Apr 2013 10:25:06 -0700 (PDT)
+In-Reply-To: <CAJTo0LaQXb_1LU=APaUJbkNnyXSjEsKngj7vB1sBAC538WufQw@mail.gmail.com>
+References: <1365517194-30916-1-git-send-email-m.cavallini@koansoftware.com>
+	<CALbNGRQ0y3+eMKJESmwo0LnwihNZ_H8NViE1BSr+9igjonJ3XQ@mail.gmail.com>
+	<CAJTo0LaQXb_1LU=APaUJbkNnyXSjEsKngj7vB1sBAC538WufQw@mail.gmail.com>
+Date: Tue, 9 Apr 2013 19:25:06 +0200
+Message-ID: <CALbNGRSmV++=N=FO3gSv0ZpxtGuDvv5V-eSVa7ew7yFM2SD9kA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Marco Cavallini <m.cavallini@koansoftware.com>
+Subject: Re: [oe][meta-oe][PATCH 1/4] xinput-calibrator: calibrate touch screen with xorg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2013 17:24:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Apr 2013 17:42:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2013-04-09 at 13:35 -0300, Otavio Salvador wrote:
-> On Tue, Apr 9, 2013 at 1:07 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > On 04/09/2013 08:58 AM, Alex DAMIAN wrote:
-> >>
-> >> From: Alexandru DAMIAN <alexandru.damian@intel.com>
-> >>
-> >> This ammends the init script after changing the location from
-> >> /lib to /sbin.
-> >>
-> > This only fixes one location and does not make it dynamic, I will have a
-> > patch shortly to fix this.
-> 
-> Your fix does not make it dynamic but staticly set at build time.
-> Please iterate over the possible alternatives, as I did in
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-core/initrdscripts?id=1b99640481882d23dc3ded41d9f2aef906f77e67
+On Tue, Apr 9, 2013 at 6:56 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 9 April 2013 17:49, Andreas M=C3=BCller <schnitzeltony@googlemail.com>=
+ wrote:
+>> On Tue, Apr 9, 2013 at 4:19 PM, Marco Cavallini <koansoftware@gmail.com>=
+ wrote:
+>>>  * Taken from oe-classic
+>>>  * This patch includes pointercal-xinput
+>>
+>> 1. Is this a 'core' component?
+>> 2. If so: Why not importing from meta-oe there were several
+>> enhancements (mainline) meanwhile?
+>> 3. I am again(still) working on this ( systemd/udev plug & play ). It
+>> would make my life easier if we wait with this migration
+>
+> Erm, yeah.  I didn't notice this was from oe-classic.  My xterm
+> grumble still applies though!
+>
+Yes I had the same feeling (gtk-UI looks much smarter). I would like
+to address these issues but have some questions:
 
-In the case of udev itself, we don't need to do this since it knows
-where it installed the binaries to.
+* xterm: for me it was just a useless package in my image. With the
+approach I am working on (first shot [1] - but there were some
+enhancements since then) I simply removed xterm from RDEPENDS assuming
+people who want manual recalibrating (only those need a terminal for
+calibration) will take care in their images which terminal to install.
+Is that OK - or other suggestions?
+* gtk-UI: Upon what would you suggest to make this decision? Distro
+feature? If yes: Which entry?
 
-Cheers,
+[1] http://lists.linuxtogo.org/pipermail/openembedded-devel/2013-February/0=
+43854.html
 
-Richard
-
-
+Andreas
 
 
