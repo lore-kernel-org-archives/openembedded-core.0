@@ -1,37 +1,41 @@
-Received: from mail-ea0-f179.google.com ([209.85.215.179])
+Received: from mail-ea0-f177.google.com ([209.85.215.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UPqId-0008Kf-EX
+	(envelope-from <koen@dominion.thruhere.net>) id 1UPqJO-0008QH-83
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 10:22:38 +0200
-Received: by mail-ea0-f179.google.com with SMTP id f15so83429eak.10
+	Wed, 10 Apr 2013 10:23:24 +0200
+Received: by mail-ea0-f177.google.com with SMTP id q14so84380eaj.22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2013 01:05:14 -0700 (PDT)
+	Wed, 10 Apr 2013 01:06:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=HdD1FaoaAku6vbLvQ4KdBy87x7oygY/oLSSBdHY/LJY=;
-	b=Xng63K/1CaJ9MZIjj0SxYegAoHiZsOn+y6dfK8sCW4+tsmPIRe92rPdvBEJzkgjyNr
-	UtQtFEufWNu+EJ/dtaWG0byGoQ0enTF0feRo6xrNG5/2MpuG1FRvbKSQQRFvx25qEKdX
-	MAs8ylk12+azp8htNa8TGf35Eq4hfFsu0j4rDFKfCBl8PYNj/otclPfLPFbAADbDIE0B
-	xIwO5HYoyYukZaDL4BXemADMoHP5ut+UJwiqb/be2yY6ZJr/8ZCvbGbLJo2Q1BcySjId
-	EXp6AZmA145efCBLGQjhoDh4a4rEZ0Lll1zsgWk5mQ57YZFdM0n5OBbqJHbbtSG+39Ub
-	vSfg==
-X-Received: by 10.15.98.141 with SMTP id bj13mr2948097eeb.29.1365581114212;
-	Wed, 10 Apr 2013 01:05:14 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id v6sm4035641eel.10.2013.04.10.01.05.11
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 10 Apr 2013 01:05:12 -0700 (PDT)
+	bh=iwmQ6AT+cLhu6y7P+CB40dUWKXBRXFGx+fKY4h83eRQ=;
+	b=UBsRdbDx5OSIKfEuRkglvSObs+wUgTgrOFjn6YgCUYYBEQv6zy6tJHaq2SWoPpOXMD
+	xQuomPYEbPyO/Rci2gnnQHjdhfVValqp8qRZ9AdPFaxwYc2CmbBjoUZJ/w51YsNzGHQ6
+	stNKVXyxveXQjsORx1/06O3lPKFbSmF6tGUnTFYtpylk1M34Cm4qxNOGzNuiywieiLE3
+	Lcw6d2dliFkoGpEk6D+jAgDprfD9Cv4PDko3mxGHQ/2vIW/8crHm623ziULSxbekQ5ww
+	neTkmM1kpaSMe+luoC3qVnIZYFe+FjSRddH/HuBmMSN5oHi0Yi9upFZINkQHbYQlGjjD
+	4W2w==
+X-Received: by 10.15.107.205 with SMTP id cb53mr3088873eeb.14.1365581161240;
+	Wed, 10 Apr 2013 01:06:01 -0700 (PDT)
+Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id cd3sm32404072eeb.6.2013.04.10.01.05.59
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 10 Apr 2013 01:06:00 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Apr 2013 10:05:01 +0200
-Message-Id: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQmmv0AwiZtm2kJCv5vu49HqPYXIl/cUPB9qjPUXvCAtlBhGeUfqdJoHhXjv0LOoCFn/Wl0d
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC][PATCHv2] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
+In-Reply-To: <1365579840.12407.123.camel@ted>
+Date: Wed, 10 Apr 2013 10:05:59 +0200
+Message-Id: <544B6E02-5D93-409C-9B4B-F51980066B27@dominion.thruhere.net>
+References: <1365578806-1907-1-git-send-email-koen@dominion.thruhere.net>
+	<1365579840.12407.123.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQnnYIVIcLTMn43gHKrU8jIu615ecxecRlaE3WlMFGm3zC8/Thd1jyAQchsBfka4Y2iwC5nU
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,103 +48,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 08:22:39 -0000
+X-List-Received-Date: Wed, 10 Apr 2013 08:23:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This allows a clean seperation between all image outputs and making it possible to have convinience symlinks to make it ready to deploy. And while it isn't a valid reason, it must be mentioned: BSP layers which do use convenience symlinks already don't step on files owned by others anymore.
 
-I assumed this was the default behaviour in OE-classic, but as it turns out every DISTRO set it to deploy/images/$MACHINE on its own.
+Op 10 apr. 2013, om 09:44 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-Code inspections shows that the all references to the image deploy dir in classes and scripts in OE-core do the right thing and parse the DEPLOY_DIR_IMAGE variable, except runqemu.
+> On Wed, 2013-04-10 at 09:26 +0200, Koen Kooi wrote:
+>> This allows a clean seperation between all image outputs and making =
+it
+>> possible to have convinience symlinks to make it ready to deploy. And
+>> while it isn't a valid reason, it must be mentioned: BSP layers which
+>> do use convenience symlinks already don't step on files owned by
+>> others anymore.
+>>=20
+>> I assumed this was the default behaviour in OE-classic, but as it
+>> turns out every DISTRO set it to deploy/images/$MACHINE on its own.
+>>=20
+>> Code inspections shows that the all references to the image deploy =
+dir
+>> in classes and scripts in OE-core do the right thing and parse the
+>> DEPLOY_DIR_IMAGE variable.
+>>=20
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/conf/bitbake.conf | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> I'm pretty sure someone proposed something like this (relocating =
+output)
+> just before danny. Changing something like this just before release is =
+a
+> *really* bad idea. It breaks the docs and the assumptions the
+> autobuilder and several scripts (e.g. runqemu and the qemuimage =
+testing)
+> make about where output ends up.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/conf/bitbake.conf |  2 +-
- scripts/runqemu        | 37 ++++++++++++++++++++++++++++++++++---
- 2 files changed, 35 insertions(+), 4 deletions(-)
+It is weird that runqemu gets some vars from bitbake -e, and others from =
+hardcoding them. v2 should address that.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index cd5d61e..0540766 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -379,7 +379,7 @@ DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
- DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
- DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
- DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
--DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images"
-+DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
- DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
- 
- PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 8ed1226..94aa054 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -339,6 +339,34 @@ setup_tmpdir() {
-     fi
- }
- 
-+setup_deploydir() {
-+    if [ -z "$DEPLOY_DIR_IMAGE" ]; then
-+        # Try to get DEPLOY_DIR_IMAGE from bitbake
-+        type -P bitbake &>/dev/null || {
-+            echo "In order for this script to dynamically infer paths";
-+            echo "to kernels or filesystem images, you either need";
-+            echo "bitbake in your PATH or to source oe-init-build-env";
-+            echo "before running this script" >&2;
-+            exit 1; }
-+
-+        # We have bitbake in PATH, get DEPLOY_DIR_IMAGE from bitbake
-+        OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
-+        if [ -z "$DEPLOY_DIR_IMAGE" ]; then
-+            # Check for errors from bitbake that the user needs to know about
-+            BITBAKE_OUTPUT=`bitbake -e | wc -l`
-+            if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
-+                echo "Error: this script needs to be run from your build directory,"
-+                echo "or you need to explicitly set DEPLOY_DIR_IMAGE in your environment"
-+            else
-+                echo "There was an error running bitbake to determine DEPLOY_DIR_IMAGE"
-+                echo "Here is the output from 'bitbake -e':"
-+                bitbake -e
-+            fi
-+            exit 1
-+        fi
-+    fi
-+}
-+
- setup_sysroot() {
-     # Toolchain installs set up $OECORE_NATIVE_SYSROOT in their
-     # environment script. If that variable isn't set, we're
-@@ -395,8 +423,9 @@ fi
- 
- if [ -z "$KERNEL" -a "x$FSTYPE" != "xvmdk" ]; then
-     setup_tmpdir
-+    setup_deploydir
-     eval kernel_file=\$${machine2}_DEFAULT_KERNEL
--    KERNEL=$OE_TMPDIR/deploy/images/$kernel_file
-+    KERNEL=$DEPLOY_DIR_IMAGE/$kernel_file
- 
-     if [ -z "$KERNEL" ]; then
-         error "Unable to determine default kernel for MACHINE [$MACHINE]"
-@@ -418,13 +447,15 @@ fi
- # core-image-sato
- if [ "$LAZY_ROOTFS" = "true" ]; then
-     setup_tmpdir
-+    setup_deploydir
-     echo "Assuming $ROOTFS really means $OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE"
--    ROOTFS=$OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE
-+    ROOTFS=$DEPLOY_DIR_IMAGE/$ROOTFS-$MACHINE.$FSTYPE
- fi
- 
- if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
-     setup_tmpdir
--    T=$OE_TMPDIR/deploy/images
-+    setup_deploydir
-+    T=$DEPLOY_DIR_IMAGE
-     eval rootfs_list=\$${machine2}_DEFAULT_ROOTFS
-     findimage $T $MACHINE $FSTYPE
- 
--- 
-1.8.1.4
+> So as I said last time, if we want to do something like this, lets do =
+it
+> at the start of development of a release, not the end.
 
+I sent it to be in time for the start of the new release :) It sure =
+wasn't meant to go into 1.4.=20
+
+regards,
+
+Koen=
 
 
