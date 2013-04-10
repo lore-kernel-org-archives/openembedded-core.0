@@ -1,46 +1,40 @@
-Received: from mail-ee0-f54.google.com ([74.125.83.54])
+Received: from mail-ea0-f177.google.com ([209.85.215.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UPo6G-0002lL-BC
+	(envelope-from <koen@dominion.thruhere.net>) id 1UPo8U-0002tt-TI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 08:01:52 +0200
-Received: by mail-ee0-f54.google.com with SMTP id e51so34622eek.27
+	Wed, 10 Apr 2013 08:04:00 +0200
+Received: by mail-ea0-f177.google.com with SMTP id q14so35597eaj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2013 22:44:19 -0700 (PDT)
+	Tue, 09 Apr 2013 22:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=VOIk92BSRzeGrhqfAaRQabQynBqPkCXQhV3pUDEvxUE=;
-	b=VGfSjt72jZphVVn1NK5wpv0Fjs5VXMDBbg1Pp0a2NgINyg9Rnr3aOtQa5SowYMUdrC
-	1LgDE2fa/NqxMBqjIH5lbkh+qRQeqAi0uVHKnzbJLhj+U1BIX6vPl/GJjto1tMM9GoJW
-	XeDQGDiEyCecxf9MXEg3mfB0XXTREYqYIdGQzOkrd26I9MNjSzhYy4LG2YfQjY7lrmKX
-	wjoBeltXYrMa/QKWVVGCItpHdcx7dlBF85b3qDxsMWePVE1rPlB+pkVKap3gsJZMpSgy
-	rv/eHPuGsEiYbk6ht6RuSz/TPZyRgcqcloKpm7bZJ4PlPc0Zv3+nW94UtRE9b7/FBfr1
-	kxhg==
-X-Received: by 10.15.43.73 with SMTP id w49mr1913496eev.12.1365572659248;
-	Tue, 09 Apr 2013 22:44:19 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::31a6:4231:f81d:656?
-	([2001:610:612:0:31a6:4231:f81d:656])
-	by mx.google.com with ESMTPS id q5sm41554853eeo.17.2013.04.09.22.44.17
+	bh=/bT4bU8h7IPPMopq6qP1l2NpTRlukPS7FIfMmOjUixU=;
+	b=gi+inGPijGCPEvmuL+43kkCnqu2rbjKPZZ9LPyQzZiX9D3y3+XlsLrXnGk4fmBz9M2
+	UlwCCnUjsp/85bJv6khhhlz33mq2KSG3ZjzMgl2XPm0I/m2TzhpYSAVsCJOLXicvmapK
+	zF2Ibn0toliPreUB5rITO2gQApSW/KDzq1DcqElMxQUolayJ08o0xJ2T97f8FjVpuOqS
+	g1/u4aesv1DVIHqcw4T1a/TLHrJep7mKK4qOlMG3OZW5cIDqgQ7HjY8yXIxM9OeouYTa
+	d8XINbSuGbvWHCIxTdCi2Pn4FFT5Qjq6WsqWVKnbQYHtTXjzZ90x6qS89QJLi2YuFaFj
+	a8GA==
+X-Received: by 10.15.101.200 with SMTP id bp48mr1723139eeb.38.1365572797952;
+	Tue, 09 Apr 2013 22:46:37 -0700 (PDT)
+Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id bc1sm41557282eeb.11.2013.04.09.22.46.35
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 09 Apr 2013 22:44:17 -0700 (PDT)
+	Tue, 09 Apr 2013 22:46:36 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20130409190616.GE2474@jama>
-Date: Wed, 10 Apr 2013 07:44:19 +0200
-Message-Id: <929FF6AF-2956-41F0-92E5-E08C5C966909@dominion.thruhere.net>
-References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
-	<CAJTo0LZ6tKy0pDvPzdNw+z80NkXHB0kX7HxntsY_Hd+u3pUPwg@mail.gmail.com>
-	<20130409174646.GD2474@jama>
-	<C59D9F91-BDCD-496F-B6DA-8C6BB5990939@dominion.thruhere.net>
-	<20130409190616.GE2474@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <1365522501-7439-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 10 Apr 2013 07:46:37 +0200
+Message-Id: <B8613191-4B51-4494-8AF8-1ED589E1F54F@dominion.thruhere.net>
+References: <1365522501-7439-1-git-send-email-ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQnSdAY5XIwrnuOyOLoRb7hgFvnUos3OkWSgD2Wv2hue2W3LJRCoS5S9sifaska+6eJ9eGC9
-Cc: Marco Cavallini <m.cavallini@koansoftware.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe][meta-oe][PATCH 2/4] xterm: add latest version of xterm
+X-Gm-Message-State: ALoCoQlF/zOrpCLTEDhIostLanMlSXqGyAWqAT3bKjWE8GOnnu/Dnpnf3CBu4T3XN0yANCPwVnaH
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd.bbclass: restart service in postinst, not start
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,46 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 06:02:05 -0000
+X-List-Received-Date: Wed, 10 Apr 2013 06:04:01 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 9 apr. 2013, om 21:06 heeft Martin Jansa <martin.jansa@gmail.com> het =
+Op 9 apr. 2013, om 17:48 heeft Ross Burton <ross.burton@intel.com> het =
 volgende geschreven:
 
-> On Tue, Apr 09, 2013 at 08:01:21PM +0200, Koen Kooi wrote:
->>=20
->> Op 9 apr. 2013, om 19:46 heeft Martin Jansa <martin.jansa@gmail.com> =
-het volgende geschreven:
->>=20
->>> On Tue, Apr 09, 2013 at 03:26:58PM +0100, Burton, Ross wrote:
->>>> On 9 April 2013 15:21, Marco Cavallini <koansoftware@gmail.com> =
-wrote:
->>>>> * Recipe taken from oe-classic
->>>>> * Required by xinput-calibrator
->>>>=20
->>>> oe-core already ships not one but two terminal emulators, let's not
->>>> add another one.  Can we make this configurable in the recipe =
-somehow
->>>> and default to use matchbox-terminal (which is in the Sato images)?
->>>>=20
->>>> Long-term, alternatives along the lines of Debian's
->>>> x-terminal-emulator is probably something we want.  Then again I'm
->>>> still not entirely sure why this is even spawning a terminal in the
->>>> first place.
->>>=20
->>> u-a is not enough, we also need VIRTUAL-RUNTIME-x-terminal-emulator =
-for
->>> other recipes to RDEPENDS/RSUGGESTS/RRECOMMENDS on if they need some
->>> terminal (and don't care which one will be used).
->>=20
->> Isn't this what xdg-utils are for?
+> When upgrading packages it's possible that the service is already =
+running
+> because opkg doesn't actually execute the prerm hooks on upgrades, =
+which is
+> where the service should be stopped.
 >=20
-> Maybe I'm missing something, but I don't see how xdg-utils will help
-> bitbake to find suitable runtime provider for =
-"any-x-terminal-emulator".
+> Handle this case by restarting in postinst instead of starting.  If =
+the service
+> isn't already running then this doesn't make a difference, but if it =
+is running
+> then the service will be restarted.
 
-Ah, I thought you were after runtime resolving of that, sorry.=
+In the specific case of upgrades you'll need to add a
+
+	systemctl --system daemon-reload
+
+to catch changed unit files as well.
+
+regards,
+
+Koen=
 
 
