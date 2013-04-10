@@ -1,26 +1,20 @@
-Received: from mail-wg0-f47.google.com ([74.125.82.47])
+Received: from vms173013pub.verizon.net ([206.46.173.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UQ41Q-0001LH-0q
+	(envelope-from <denis@denix.org>) id 1UQ4Aq-0002O5-Tm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 01:01:46 +0200
-Received: by mail-wg0-f47.google.com with SMTP id y10so1008809wgg.26
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2013 15:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type;
-	bh=/hitMSeOlCHWtsy9tjuYer2F0Oujn9afjBc7/x3/ha4=;
-	b=cvnB6sRADbHzryDV+WmCe8tbChJPAsvJAvlHeNtOZfTqdBsWWzEFTd6epFJrLQk+5z
-	EEthBeEA3SLGEcdYLGFexKhiFzVyYJZBLoGkbaTIrG5BSUQICfjIOjiyt95NlUFd/yG9
-	1wzPxaHKpYQA2FuBdqT2fgnIgWPBiWAXULdEqLAA54tL3nY2T05OT6CnAlFj69ynClIw
-	F/ke9Koowh5WO40Uimqh7OXjmtEl6jkKbwAU3E92f77XxlgWE/e0NH55wgisz8HORPpm
-	EAnVtnQC6gDihyX813W93g1DEK9Uk+FGWVuIYjD2rEv3M2gQr4Qw1cbChuv1NK7GrBy3
-	sPeg==
-MIME-Version: 1.0
-X-Received: by 10.194.109.227 with SMTP id hv3mr6506187wjb.32.1365633862034;
-	Wed, 10 Apr 2013 15:44:22 -0700 (PDT)
-Received: by 10.194.167.73 with HTTP; Wed, 10 Apr 2013 15:44:21 -0700 (PDT)
-In-Reply-To: <5165AB03.8020404@gmail.com>
+	Thu, 11 Apr 2013 01:11:31 +0200
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173013.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0ML200GNGA9TCLB2@vms173013.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 10 Apr 2013 17:53:53 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id E0D8D200DB; Wed,
+	10 Apr 2013 18:53:52 -0400 (EDT)
+Date: Wed, 10 Apr 2013 18:53:52 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Trevor Woerner <twoerner@gmail.com>
+Message-id: <20130410225352.GA28466@denix.org>
 References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
 	<CAJTo0LZ6tKy0pDvPzdNw+z80NkXHB0kX7HxntsY_Hd+u3pUPwg@mail.gmail.com>
 	<20130409174646.GD2474@jama>
@@ -29,10 +23,11 @@ References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
 	<929FF6AF-2956-41F0-92E5-E08C5C966909@dominion.thruhere.net>
 	<CAHUNapRiB5a6XPwSC_geg+QML4raP2LHHfDCUe__U0hc=WDRSA@mail.gmail.com>
 	<5165AB03.8020404@gmail.com>
-Date: Wed, 10 Apr 2013 18:44:21 -0400
-Message-ID: <CAHUNapQJ0qWxW7KZuUTvVhd62=nx4Y8GEdi30c-WHv+Te01rPw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Patches and discussions about the oe-core layer
+	<CAHUNapQJ0qWxW7KZuUTvVhd62=nx4Y8GEdi30c-WHv+Te01rPw@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAHUNapQJ0qWxW7KZuUTvVhd62=nx4Y8GEdi30c-WHv+Te01rPw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe][meta-oe][PATCH 2/4] xterm: add latest version of xterm
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,23 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 23:01:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Apr 2013 23:11:36 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Wed, Apr 10, 2013 at 2:10 PM, Marco <koansoftware@gmail.com> wrote:
-> Yes, it is copied from meta-openembedded into oe-core
+On Wed, Apr 10, 2013 at 06:44:21PM -0400, Trevor Woerner wrote:
+> On Wed, Apr 10, 2013 at 2:10 PM, Marco <koansoftware@gmail.com> wrote:
+> > Yes, it is copied from meta-openembedded into oe-core
+> 
+> I'm sorry, I thought the [meta-oe] in the subject line implied this
+> patch was destined for meta-openembedded, not coming from
+> meta-openembedded.
 
-I'm sorry, I thought the [meta-oe] in the subject line implied this
-patch was destined for meta-openembedded, not coming from
-meta-openembedded.
+Agree.
 
-It seems rather confusing that both openembedded-core and
-meta-openembedded use the same mailing list :-)
 
-Is openembedded-core sometimes referred to as oe-classic? Or is that
-something else?
+> It seems rather confusing that both openembedded-core and
+> meta-openembedded use the same mailing list :-)
 
-Do poky and openembedded-core maintain their own meta-hob and
-meta-skeleton components?
+They are not - meta-openembedded uses the old 
+openembedded-devel@lists.openembedded.org list from Classic OE days:
+http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/README
+
+
+> Is openembedded-core sometimes referred to as oe-classic? Or is that
+> something else?
+
+That's something else:
+http://openembedded.org/wiki/OpenEmbedded-Core
+
+
+> Do poky and openembedded-core maintain their own meta-hob and
+> meta-skeleton components?
+
+http://cgit.openembedded.org/openembedded-core/tree/
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/
+
+-- 
+Denys
 
 
