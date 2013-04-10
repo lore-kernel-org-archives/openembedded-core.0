@@ -1,36 +1,35 @@
-Received: from mail-ve0-f174.google.com ([209.85.128.174])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UPsDY-0003Qa-De
+	(envelope-from <ross.burton@intel.com>) id 1UPsTG-0004sn-Ku
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 12:25:38 +0200
-Received: by mail-ve0-f174.google.com with SMTP id jz10so233729veb.33
+	Wed, 10 Apr 2013 12:41:43 +0200
+Received: by mail-wg0-f41.google.com with SMTP id y10so5813051wgg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2013 03:08:06 -0700 (PDT)
+	Wed, 10 Apr 2013 03:24:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Y4ltE7LSqSMIEpN4cw1HGVZNL5LgRMC9/PkMOMWinn8=;
-	b=Q9dp7R5x8+SgAHSYkId9gFM+X02cYxaB5JGnb4lQp9Rv5wYhcTO5+f5Mb9bwPS4zTz
-	sXzE8Ri4C1UV0yb1R73mThbD3lJMrUn3WIHhGtPx92ndA0S735jq+vV6xtyIeMqxgo1P
-	NucKOsMZC+HomAE2Lfs8Hp4faALqxf8zNKh/cXZxeIX8FjPHxDFAVA1WeG5hP7K6PdFJ
-	g0IH7Z3sQ6gcZrTOABNLftIsq2j8mhhkXfKF2ve0IMHs9Xq9KQXVncMgeNBkualZiUOQ
-	ANyEO7i40ftmK8u/NOGfw3K3W+TdNFyvUWQKptjBIZjoN7uW3lgMunGNp997S1B8r1aO
-	jORw==
-X-Received: by 10.58.15.193 with SMTP id z1mr891827vec.40.1365588486503; Wed,
-	10 Apr 2013 03:08:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Wed, 10 Apr 2013 03:07:46 -0700 (PDT)
-In-Reply-To: <51487A22.5080900@topic.nl>
-References: <20130228231551.3998F5022B@opal> <20130306062358.GC14869@jama>
-	<5136F97E.1030906@topic.nl> <51487A22.5080900@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Apr 2013 11:07:46 +0100
-Message-ID: <CAJTo0Lb8vkk1yJ1Ax747BGu8rf9BVYUSOToEPxiB+WiS3iXtbg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Gm-Message-State: ALoCoQkiqFtCULGlJT6K/t9aXWLTrzuI0W3mPYvjjD2RzuP9ab7x7hL35bJ25bjxY6ERRLUb08M9
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Busybox mdev INITSCRIPT_PARAMS gets lost
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=x/Enxzd8Sepk7XP92kuGZJeVCjGeFRPJYdKwDHNY+Uw=;
+	b=Iwe/N6VNOKCi0qmBjMrA7ktNxcFv90w98hket1fIXNtIkjbCanB6A0HM9jCPZSMR1t
+	+WUs5Hm+/c4Ycvv28NwQuLFTT3QraWGPKLKRs5TLEgjVoL8T1wTLv7pdbcCbxdnOXWVg
+	miiuEkNJMrT9FLTNs+gMXKjdrO45pvG66zdpKd1vhNnKZIbDVioICg7V1UIhn0t4qSNz
+	3Zp49TJwkJ+IpFfXMrJD03c20PCjFvO6MwHh6GUyJFQBm+nc0FRoFxxi6A2rqAOiwtQw
+	+jbO8NbocHnsXWnzolgZKdbN2GBjCteBXKAu1bZSxgbcYtyC2R1O2jhDBBLoh4NYoO4x
+	1qoQ==
+X-Received: by 10.194.81.71 with SMTP id y7mr2377591wjx.19.1365589461264;
+	Wed, 10 Apr 2013 03:24:21 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dm9sm30882682wib.3.2013.04.10.03.24.19
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 10 Apr 2013 03:24:20 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Apr 2013 11:21:33 +0100
+Message-Id: <1365589293-16745-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQkL5INI1F2ZDGE1M9j1pl7Oc9OfC8bskIIp0aFhsJl62RMHfTqh+WWLbS2cRqjiVO2JuFrY
+Subject: [PATCH] update-rc.d: correctly look up the initscript params with overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,33 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 10:25:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Apr 2013 10:41:45 -0000
 
-On 19 March 2013 14:45, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> In busybox.inc, the recipe says:
->
-> INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
->
-> Actually "06" is alreay wrong, it should be "03" just like udev uses. The
-> modules load at runlevel 04, so they'll fail to load correctly if they
-> require firmware, soI amended this in a .bbappend to read
->
-> INITSCRIPT_PARAMS_${PN}-mdev = "start 03 S ."
->
->
-> But what ends up in the postinstall script is this (and that breaks the
-> system):
->
-> update-rc.d $OPT mdev defaults
->
-> This used to work just fine about a month ago, but it's suddenly broken. Has
-> something changed in update-rc handling?
+The creation of a clone of d with extra OVERRIDES was removed in
+72c1fd72d3b479c728e249eaa763116d352e945b but some of the lookups are essential
+so that variables such as ${INITSCRIPT_PARAMS} get overriden and resolved
+correctly on a per-package basis.
 
-Did you resolve this?  We just noticed the same thing is happening to
-udev too.  I'm digging into it now but any leads (or a fix!) would be
-appreciated.
+[ YOCTO #3960 ]
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/update-rc.d.bbclass |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 0c2b94a..d8cc342 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -62,22 +62,28 @@ python populate_packages_updatercd () {
+         execute on the target. Not doing so may cause update_rc.d postinst invoked
+         twice to cause unwanted warnings.
+         """ 
++
++        localdata = bb.data.createCopy(d)
++        overrides = localdata.getVar("OVERRIDES", True)
++        localdata.setVar("OVERRIDES", "%s:%s" % (pkg, overrides))
++        bb.data.update_data(localdata)
++
+         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
+-        postinst += d.getVar('updatercd_postinst', True)
++        postinst += localdata.getVar('updatercd_postinst', True)
+         d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+         prerm = d.getVar('pkg_prerm_%s' % pkg, True)
+         if not prerm:
+             prerm = '#!/bin/sh\n'
+-        prerm += d.getVar('updatercd_prerm', True)
++        prerm += localdata.getVar('updatercd_prerm', True)
+         d.setVar('pkg_prerm_%s' % pkg, prerm)
+ 
+         postrm = d.getVar('pkg_postrm_%s' % pkg, True)
+         if not postrm:
+                 postrm = '#!/bin/sh\n'
+-        postrm += d.getVar('updatercd_postrm', True)
++        postrm += localdata.getVar('updatercd_postrm', True)
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
+ 
+     # Check that this class isn't being inhibited (generally, by
+-- 
+1.7.10.4
+
 
 
