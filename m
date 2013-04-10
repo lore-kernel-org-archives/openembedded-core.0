@@ -1,27 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ve0-f174.google.com ([209.85.128.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UPrgh-0008Og-Sp
+	(envelope-from <ross.burton@intel.com>) id 1UPsDY-0003Qa-De
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 11:51:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3A9Y9Xs016351
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 Apr 2013 02:34:09 -0700 (PDT)
-Received: from [128.224.162.147] (128.224.162.147) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 10 Apr 2013 02:34:08 -0700
-Message-ID: <5165320E.1050803@windriver.com>
-Date: Wed, 10 Apr 2013 17:34:06 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Wed, 10 Apr 2013 12:25:38 +0200
+Received: by mail-ve0-f174.google.com with SMTP id jz10so233729veb.33
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2013 03:08:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=Y4ltE7LSqSMIEpN4cw1HGVZNL5LgRMC9/PkMOMWinn8=;
+	b=Q9dp7R5x8+SgAHSYkId9gFM+X02cYxaB5JGnb4lQp9Rv5wYhcTO5+f5Mb9bwPS4zTz
+	sXzE8Ri4C1UV0yb1R73mThbD3lJMrUn3WIHhGtPx92ndA0S735jq+vV6xtyIeMqxgo1P
+	NucKOsMZC+HomAE2Lfs8Hp4faALqxf8zNKh/cXZxeIX8FjPHxDFAVA1WeG5hP7K6PdFJ
+	g0IH7Z3sQ6gcZrTOABNLftIsq2j8mhhkXfKF2ve0IMHs9Xq9KQXVncMgeNBkualZiUOQ
+	ANyEO7i40ftmK8u/NOGfw3K3W+TdNFyvUWQKptjBIZjoN7uW3lgMunGNp997S1B8r1aO
+	jORw==
+X-Received: by 10.58.15.193 with SMTP id z1mr891827vec.40.1365588486503; Wed,
+	10 Apr 2013 03:08:06 -0700 (PDT)
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1365575154-25919-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1365575154-25919-1-git-send-email-sgw@linux.intel.com>
+Received: by 10.220.100.68 with HTTP; Wed, 10 Apr 2013 03:07:46 -0700 (PDT)
+In-Reply-To: <51487A22.5080900@topic.nl>
+References: <20130228231551.3998F5022B@opal> <20130306062358.GC14869@jama>
+	<5136F97E.1030906@topic.nl> <51487A22.5080900@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Apr 2013 11:07:46 +0100
+Message-ID: <CAJTo0Lb8vkk1yJ1Ax747BGu8rf9BVYUSOToEPxiB+WiS3iXtbg@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+X-Gm-Message-State: ALoCoQkiqFtCULGlJT6K/t9aXWLTrzuI0W3mPYvjjD2RzuP9ab7x7hL35bJ25bjxY6ERRLUb08M9
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] udev-extraconf: Add -o silent to auto mount
+Subject: Re: Busybox mdev INITSCRIPT_PARAMS gets lost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,58 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 09:51:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Apr 2013 10:25:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 04/10/2013 02:25 PM, Saul Wold wrote:
-> This will silence some of the noisy output from mount and the kernel
-> when trying to automount filesystems or devices
+On 19 March 2013 14:45, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> In busybox.inc, the recipe says:
 >
-> [YOCTO #3935]
+> INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
 >
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Actually "06" is alreay wrong, it should be "03" just like udev uses. The
+> modules load at runlevel 04, so they'll fail to load correctly if they
+> require firmware, soI amended this in a .bbappend to read
 >
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index 99c76b2..7b58361 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -22,7 +22,7 @@ automount() {
->   
->   	! test -d "/media/$name" && mkdir -p "/media/$name"
->   	
-> -	if ! $MOUNT -t auto $DEVNAME "/media/$name"
-> +	if ! $MOUNT -o silent -t auto $DEVNAME "/media/$name"
->   	then
->   		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
->   		rm_dir "/media/$name"
-I have tested on atom-pc,  mount option "silent" is unrecognized.
-...
-root@atom-pc:~# mount -o silent -t auto /dev/sdb1 /media/sdb1
-mount: mounting /dev/sdb1 on /media/sdb1 failed: Invalid argument
-...
+> INITSCRIPT_PARAMS_${PN}-mdev = "start 03 S ."
+>
+>
+> But what ends up in the postinstall script is this (and that breaks the
+> system):
+>
+> update-rc.d $OPT mdev defaults
+>
+> This used to work just fine about a month ago, but it's suddenly broken. Has
+> something changed in update-rc handling?
 
-Without this option, mount is ok
-...
-root@atom-pc:~# mount -t auto /dev/sdb1 /media/sdb1
-root@atom-pc:~# mount
-/dev/sdb1 on /media/sdb1 type ext4 (rw,relatime,data=ordered)
-...
+Did you resolve this?  We just noticed the same thing is happening to
+udev too.  I'm digging into it now but any leads (or a fix!) would be
+appreciated.
 
-root@atom-pc:~# which mount
-/bin/mount
-root@atom-pc:~# ls /bin/mount -al
-lrwxrwxrwx    1 root     root            12 Apr 10 07:44 /bin/mount -> 
-/bin/busybox
-
-branch master 6d4d42d63db4c3fcffd831ce359599f3ee1d710e
-
-Thanks,
-Hongxu
-
-
+Ross
 
 
