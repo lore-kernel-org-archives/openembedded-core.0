@@ -1,24 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UPp3K-0008BQ-Kz
+	(envelope-from <koen@dominion.thruhere.net>) id 1UPphZ-0004vO-LI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 09:02:43 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 09 Apr 2013 23:45:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,444,1363158000"; d="scan'208";a="315819786"
-Received: from unknown (HELO [10.255.14.7]) ([10.255.14.7])
-	by orsmga002.jf.intel.com with ESMTP; 09 Apr 2013 23:45:20 -0700
-Message-ID: <51650A7F.2020904@linux.intel.com>
-Date: Tue, 09 Apr 2013 23:45:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Bj=F6rn_Stenberg?= <bjst@enea.com>
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: ptest results
+	Wed, 10 Apr 2013 09:44:19 +0200
+Received: by mail-ea0-f175.google.com with SMTP id r16so68734ead.34
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2013 00:26:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=aS1GtS/4/Vo+QdpkyLbmuExHKRO7zeZXhCVnNjr0kPY=;
+	b=ncAzfo+TEUyWLQLzaOtkDhlzI79J/5jBXEpfK1q4bS1wN90z8dnE4aMQH1uHDJ0uTy
+	MVasBHu1rlHecZnegImEkDnh36MkOHC7r/frL9fINrrD7KpiJQvdA4cGQIlCdgAB3gXH
+	uAZL7cpE65dgWxSo1OPMYRcclk6g1DWmjl2FKdSf51GrLcb+N2IUdwsNC+XRNO96eMjT
+	wg2OOzHxsHm1qX7J1BD6aH6U1+MWc5TP6X7sJVq33n/e2yUUnb7UcCs9A5DbAWhFR420
+	NRY0JW+GesEahK96rQZbNVz1VpVhBxFFqxd6v4hBfhM+KCD0boQBKDjFLFoU7yh6xtX/
+	WJ/w==
+X-Received: by 10.15.98.141 with SMTP id bj13mr2618934eeb.29.1365578816417;
+	Wed, 10 Apr 2013 00:26:56 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id u44sm42023633eel.7.2013.04.10.00.26.54
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 10 Apr 2013 00:26:55 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Apr 2013 09:26:46 +0200
+Message-Id: <1365578806-1907-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQkkGr9/4c0MchJnD8kmTgi6HNbpmULwz7dkx1mQMovKmjyxYsHz3EqYNQDV1fAPtoy2UDQB
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC][PATCH] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,34 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 07:02:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Apr 2013 07:44:30 -0000
 
+This allows a clean seperation between all image outputs and making it possible to have convinience symlinks to make it ready to deploy. And while it isn't a valid reason, it must be mentioned: BSP layers which do use convenience symlinks already don't step on files owned by others anymore.
 
-Bjorn:
+I assumed this was the default behaviour in OE-classic, but as it turns out every DISTRO set it to deploy/images/$MACHINE on its own.
 
-I ran ptest-runner finally I saw that there were failures, I am 
-wondering if these are expected?
+Code inspections shows that the all references to the image deploy dir in classes and scripts in OE-core do the right thing and parse the DEPLOY_DIR_IMAGE variable.
 
-http://pastebin.com/PAH3gJT0
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The bash packages did not seem to get split out correct, the ptest seem 
-to land in ${PN} not in ${PN}-ptest, you might want to look into this also.
-
-With your patch, the ptest related debug files did go into the 
-${PN}-dbg, is this what you intend or should they go into a 
-${PN}-ptest-dbg package?
-
-Thanks
-
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index cd5d61e..0540766 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -379,7 +379,7 @@ DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
+ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
+ DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+ DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
+-DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images"
++DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
 -- 
-     Sau!
-
-Saul Wold
-Yocto Component Wrangler @ Intel
-Yocto Project / Poky Build System
+1.8.1.4
 
 
 
