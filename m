@@ -1,37 +1,27 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UPphZ-0004vO-LI
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UPpsm-0005kJ-FO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 09:44:19 +0200
-Received: by mail-ea0-f175.google.com with SMTP id r16so68734ead.34
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2013 00:26:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=aS1GtS/4/Vo+QdpkyLbmuExHKRO7zeZXhCVnNjr0kPY=;
-	b=ncAzfo+TEUyWLQLzaOtkDhlzI79J/5jBXEpfK1q4bS1wN90z8dnE4aMQH1uHDJ0uTy
-	MVasBHu1rlHecZnegImEkDnh36MkOHC7r/frL9fINrrD7KpiJQvdA4cGQIlCdgAB3gXH
-	uAZL7cpE65dgWxSo1OPMYRcclk6g1DWmjl2FKdSf51GrLcb+N2IUdwsNC+XRNO96eMjT
-	wg2OOzHxsHm1qX7J1BD6aH6U1+MWc5TP6X7sJVq33n/e2yUUnb7UcCs9A5DbAWhFR420
-	NRY0JW+GesEahK96rQZbNVz1VpVhBxFFqxd6v4hBfhM+KCD0boQBKDjFLFoU7yh6xtX/
-	WJ/w==
-X-Received: by 10.15.98.141 with SMTP id bj13mr2618934eeb.29.1365578816417;
-	Wed, 10 Apr 2013 00:26:56 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id u44sm42023633eel.7.2013.04.10.00.26.54
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 10 Apr 2013 00:26:55 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Apr 2013 09:26:46 +0200
-Message-Id: <1365578806-1907-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQkkGr9/4c0MchJnD8kmTgi6HNbpmULwz7dkx1mQMovKmjyxYsHz3EqYNQDV1fAPtoy2UDQB
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC][PATCH] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
+	Wed, 10 Apr 2013 09:56:27 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 10 Apr 2013 00:38:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,444,1363158000"; d="scan'208";a="225412257"
+Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
+	([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Apr 2013 00:38:28 -0700
+Message-ID: <516516F3.5000401@intel.com>
+Date: Wed, 10 Apr 2013 10:38:27 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1365522831-17183-1-git-send-email-laurentiu.palcu@intel.com>
+	<1365544739.12407.115.camel@ted>
+In-Reply-To: <1365544739.12407.115.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] postinst-intercepts, qemu.bbclass: fix segfaults in postinstalls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 07:44:30 -0000
+X-List-Received-Date: Wed, 10 Apr 2013 07:56:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This allows a clean seperation between all image outputs and making it possible to have convinience symlinks to make it ready to deploy. And while it isn't a valid reason, it must be mentioned: BSP layers which do use convenience symlinks already don't step on files owned by others anymore.
 
-I assumed this was the default behaviour in OE-classic, but as it turns out every DISTRO set it to deploy/images/$MACHINE on its own.
 
-Code inspections shows that the all references to the image deploy dir in classes and scripts in OE-core do the right thing and parse the DEPLOY_DIR_IMAGE variable.
+On 04/10/2013 12:58 AM, Richard Purdie wrote:
+> On Tue, 2013-04-09 at 18:53 +0300, Laurentiu Palcu wrote:
+>> Postinstalls that use qemu are throwing a segmentation fault when
+>> building for qemux86-64 on a 64bit host (it might also happen for
+>> qemux86 if building on a 32bit host but I didn't test). It looks like
+>> qemu looks for ld.so.cache which is not found because it is generated
+>> after rootfs_(rpm|ipk|deb)_do_rootfs is called and then it tries to load
+>> libraries from the default paths (which are the host's). In order to
+>> avoid this, pass the LD_LIBRARY_PATH explicitly to the target's dynamic
+>> loader.
+>>
+>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> ---
+>>  meta/classes/qemu.bbclass                       |    4 +++-
+>>  scripts/postinst-intercepts/update_font_cache   |    3 ++-
+>>  scripts/postinst-intercepts/update_pixbuf_cache |    3 ++-
+>>  3 files changed, 7 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+>> index 0e71d6a..6881826 100644
+>> --- a/meta/classes/qemu.bbclass
+>> +++ b/meta/classes/qemu.bbclass
+>> @@ -29,4 +29,6 @@ def qemu_run_binary(data, rootfs_path, binary):
+>>      if qemu_binary == "qemu-allarch":
+>>          qemu_binary = "qemuwrapper"
+>>  
+>> -    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path + " " + rootfs_path + binary
+>> +    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
+>> +            + " -E LD_LIBRARY_PATH=" + rootfs_path + "/lib:" + rootfs_path\
+>> +            + "/usr/lib " + rootfs_path + binary
+> 
+> This isn't going to work with multilibs. Can we reorder the rootfs code
+> so the ld.so.cache piece happens before the intercepts?
+I keep forgetting about multilib... :( I'll find another way.
+Unfortunately, it's not enough to generate ld.so.cache before running
+the intercept hooks because there are other package postinstalls that
+need qemu and those will be run before that. What if, instead of
+hardcoding, we use ${libdir} and ${base_libdir}?. These should always
+point to the right locations even when working with multilib.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index cd5d61e..0540766 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -379,7 +379,7 @@ DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
- DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
- DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
- DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
--DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images"
-+DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
- DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
- 
- PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
--- 
-1.8.1.4
-
+Thanks,
+Laurentiu
+> 
+> Cheers,
+> 
+> Richard
+> 
+>> diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+>> index ad1bab3..fa2c0ef 100644
+>> --- a/scripts/postinst-intercepts/update_font_cache
+>> +++ b/scripts/postinst-intercepts/update_font_cache
+>> @@ -1,5 +1,6 @@
+>>  #!/bin/sh
+>>  
+>> -PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
+>> +PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
+>> +					$D${bindir}/fc-cache --sysroot=$D >/dev/null 2>&1
+>>  
+>>
+>> diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
+>> index 9134529..fbb6fd1 100644
+>> --- a/scripts/postinst-intercepts/update_pixbuf_cache
+>> +++ b/scripts/postinst-intercepts/update_pixbuf_cache
+>> @@ -2,7 +2,8 @@
+>>  
+>>  export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
+>>  
+>> -PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${bindir}/gdk-pixbuf-query-loaders \
+>> +PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/lib:$D/usr/lib\
+>> +    $D${bindir}/gdk-pixbuf-query-loaders \
+>>      >$GDK_PIXBUF_MODULEDIR/../loaders.cache 2>/dev/null && \
+>>      sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
+>>  
+> 
+> 
 
 
