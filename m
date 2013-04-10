@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UPxRM-0006Jg-Il
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UPxRZ-0006Je-H8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 18:00:07 +0200
+	Wed, 10 Apr 2013 18:00:26 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 10 Apr 2013 08:42:41 -0700
+	by azsmga102.ch.intel.com with ESMTP; 10 Apr 2013 08:42:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,447,1363158000"; d="scan'208";a="284331494"
+X-IronPort-AV: E=Sophos;i="4.87,447,1363158000"; d="scan'208";a="284331507"
 Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.14.51])
-	by azsmga001.ch.intel.com with ESMTP; 10 Apr 2013 08:42:40 -0700
+	by azsmga001.ch.intel.com with ESMTP; 10 Apr 2013 08:42:42 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Apr 2013 16:42:25 +0100
-Message-Id: <d4302eaad7f35db943d35af87799b442ecc9b06b.1365608262.git.paul.eggleton@linux.intel.com>
+Date: Wed, 10 Apr 2013 16:42:27 +0100
+Message-Id: <0ed65e5bbc29236f77d84ae7c594874d6b627056.1365608262.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1365608262.git.paul.eggleton@linux.intel.com>
 References: <cover.1365608262.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1365608262.git.paul.eggleton@linux.intel.com>
 References: <cover.1365608262.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] rpm-postinsts: don't create broken postinst script
+Subject: [PATCH 3/4] initscripts: fix read-only-rootfs-hook.sh to avoid using unionfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 16:00:26 -0000
+X-List-Received-Date: Wed, 10 Apr 2013 16:00:40 -0000
 
-Not only was the variable reference in this line broken, but it wasn't
-going to work anyway - we install the script directly into /etc/rcS.d
-and not into /etc/init.d, so the code in update-rc.d.bbclass couldn't
-find anything there. This resulted in a postinstall script for
-rpm-postinsts being created in /etc/rpm-postinsts which can't work when
-the root filesystem is read-only. To simplify things just remove the use
-of update-rc.d.bbclass since we don't really need the added complexity
-here.
-
-Fixes [YOCTO #4222].
+Unionfs isn't available everywhere, and we can get similar results (if
+not quite as neatly) by using bind mounts + tmpfs and copying the data
+over.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/rpm/rpm-postinsts.bb |    5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ .../initscripts-1.0/read-only-rootfs-hook.sh            |   15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-index 27ef2aa..0a62da0 100644
---- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
-+++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-@@ -5,15 +5,12 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/LGPL-2.1;md5=1
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index 3a295ee..4f3e0d9 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -4,16 +4,9 @@
  
- RDEPENDS_${PN} = "base-files"
+ [ "$ROOTFS_READ_ONLY" = "no" ] && exit 0
  
--inherit update-rc.d allarch
-+inherit allarch
- #
- # Allow distributions to alter when [postponed] package install scripts are run
- #
- POSTINSTALL_INITPOSITION ?= "98"
+-# Make sure unionfs is in /proc/filesystems
+-if ! grep -q unionfs /proc/filesystems; then
+-    echo "ERROR: unionfs not supported by kernel!"
+-    exit 1
++if [ "$1" = "start" ] ; then
++	mkdir -p /var/volatile/lib
++	cp -a /var/lib/* /var/volatile/lib
++	mount --bind /var/volatile/lib /var/lib
+ fi
  
--INITSCRIPT_NAME = "run-postinsts"
--INITSCRIPT_PARAMS = "start ${{POSTINSTALL_INITPOSITION} S ."
+-mkdir -p /var/volatile/lib
+-mount -t unionfs -o dirs=/var/volatile/lib:/var/lib=ro none /var/lib
 -
- POSTLOG ?= "/var/log/postinstall.log"
- REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
- 
+-if [ $? != 0 ]; then
+-    echo "ERROR: Union mount failed!"
+-    exit 1
+-fi
 -- 
 1.7.10.4
 
