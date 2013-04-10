@@ -1,31 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ea0-f179.google.com ([209.85.215.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UPqGx-0008AD-Lg for openembedded-core@lists.openembedded.org;
-	Wed, 10 Apr 2013 10:20:56 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3A8EMlP030552; Wed, 10 Apr 2013 09:14:34 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LtxhYyTVdNac; Wed, 10 Apr 2013 09:14:33 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3A8ESR7030562
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 10 Apr 2013 09:14:31 +0100
-Message-ID: <1365580992.16702.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Wed, 10 Apr 2013 09:03:12 +0100
-In-Reply-To: <516516F3.5000401@intel.com>
-References: <1365522831-17183-1-git-send-email-laurentiu.palcu@intel.com>
-	<1365544739.12407.115.camel@ted> <516516F3.5000401@intel.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] postinst-intercepts, qemu.bbclass: fix segfaults in postinstalls
+	(envelope-from <koen@dominion.thruhere.net>) id 1UPqId-0008Kf-EX
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Apr 2013 10:22:38 +0200
+Received: by mail-ea0-f179.google.com with SMTP id f15so83429eak.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2013 01:05:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=HdD1FaoaAku6vbLvQ4KdBy87x7oygY/oLSSBdHY/LJY=;
+	b=Xng63K/1CaJ9MZIjj0SxYegAoHiZsOn+y6dfK8sCW4+tsmPIRe92rPdvBEJzkgjyNr
+	UtQtFEufWNu+EJ/dtaWG0byGoQ0enTF0feRo6xrNG5/2MpuG1FRvbKSQQRFvx25qEKdX
+	MAs8ylk12+azp8htNa8TGf35Eq4hfFsu0j4rDFKfCBl8PYNj/otclPfLPFbAADbDIE0B
+	xIwO5HYoyYukZaDL4BXemADMoHP5ut+UJwiqb/be2yY6ZJr/8ZCvbGbLJo2Q1BcySjId
+	EXp6AZmA145efCBLGQjhoDh4a4rEZ0Lll1zsgWk5mQ57YZFdM0n5OBbqJHbbtSG+39Ub
+	vSfg==
+X-Received: by 10.15.98.141 with SMTP id bj13mr2948097eeb.29.1365581114212;
+	Wed, 10 Apr 2013 01:05:14 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id v6sm4035641eel.10.2013.04.10.01.05.11
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 10 Apr 2013 01:05:12 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Apr 2013 10:05:01 +0200
+Message-Id: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQmmv0AwiZtm2kJCv5vu49HqPYXIl/cUPB9qjPUXvCAtlBhGeUfqdJoHhXjv0LOoCFn/Wl0d
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC][PATCHv2] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,68 +44,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 08:21:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Apr 2013 08:22:39 -0000
 
-On Wed, 2013-04-10 at 10:38 +0300, Laurentiu Palcu wrote:
-> 
-> On 04/10/2013 12:58 AM, Richard Purdie wrote:
-> > On Tue, 2013-04-09 at 18:53 +0300, Laurentiu Palcu wrote:
-> >> Postinstalls that use qemu are throwing a segmentation fault when
-> >> building for qemux86-64 on a 64bit host (it might also happen for
-> >> qemux86 if building on a 32bit host but I didn't test). It looks like
-> >> qemu looks for ld.so.cache which is not found because it is generated
-> >> after rootfs_(rpm|ipk|deb)_do_rootfs is called and then it tries to load
-> >> libraries from the default paths (which are the host's). In order to
-> >> avoid this, pass the LD_LIBRARY_PATH explicitly to the target's dynamic
-> >> loader.
-> >>
-> >> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> >> ---
-> >>  meta/classes/qemu.bbclass                       |    4 +++-
-> >>  scripts/postinst-intercepts/update_font_cache   |    3 ++-
-> >>  scripts/postinst-intercepts/update_pixbuf_cache |    3 ++-
-> >>  3 files changed, 7 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> >> index 0e71d6a..6881826 100644
-> >> --- a/meta/classes/qemu.bbclass
-> >> +++ b/meta/classes/qemu.bbclass
-> >> @@ -29,4 +29,6 @@ def qemu_run_binary(data, rootfs_path, binary):
-> >>      if qemu_binary == "qemu-allarch":
-> >>          qemu_binary = "qemuwrapper"
-> >>  
-> >> -    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path + " " + rootfs_path + binary
-> >> +    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
-> >> +            + " -E LD_LIBRARY_PATH=" + rootfs_path + "/lib:" + rootfs_path\
-> >> +            + "/usr/lib " + rootfs_path + binary
-> > 
-> > This isn't going to work with multilibs. Can we reorder the rootfs code
-> > so the ld.so.cache piece happens before the intercepts?
-> I keep forgetting about multilib... :( I'll find another way.
-> Unfortunately, it's not enough to generate ld.so.cache before running
-> the intercept hooks because there are other package postinstalls that
-> need qemu and those will be run before that. What if, instead of
-> hardcoding, we use ${libdir} and ${base_libdir}?. These should always
-> point to the right locations even when working with multilib.
+This allows a clean seperation between all image outputs and making it possible to have convinience symlinks to make it ready to deploy. And while it isn't a valid reason, it must be mentioned: BSP layers which do use convenience symlinks already don't step on files owned by others anymore.
 
-With any given binary, you're not going to know which libdir is the
-right one though?
+I assumed this was the default behaviour in OE-classic, but as it turns out every DISTRO set it to deploy/images/$MACHINE on its own.
 
-Looking at a multilib image, the cache is bust on multilib anyway. In
-reality this just makes things slower, it will still work. The source to
-ldconfig-native hardcodes LIBDIR/SLIBDIR.
+Code inspections shows that the all references to the image deploy dir in classes and scripts in OE-core do the right thing and parse the DEPLOY_DIR_IMAGE variable, except runqemu.
 
-What is the path being used for? Just to find ld.so? Once we get ld.so,
-does it provide the right paths from then onwards? If I understand the
-changes here, we appear to by bypassing ld.so?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/conf/bitbake.conf |  2 +-
+ scripts/runqemu        | 37 ++++++++++++++++++++++++++++++++++---
+ 2 files changed, 35 insertions(+), 4 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index cd5d61e..0540766 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -379,7 +379,7 @@ DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
+ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
+ DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+ DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
+-DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images"
++DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 8ed1226..94aa054 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -339,6 +339,34 @@ setup_tmpdir() {
+     fi
+ }
+ 
++setup_deploydir() {
++    if [ -z "$DEPLOY_DIR_IMAGE" ]; then
++        # Try to get DEPLOY_DIR_IMAGE from bitbake
++        type -P bitbake &>/dev/null || {
++            echo "In order for this script to dynamically infer paths";
++            echo "to kernels or filesystem images, you either need";
++            echo "bitbake in your PATH or to source oe-init-build-env";
++            echo "before running this script" >&2;
++            exit 1; }
++
++        # We have bitbake in PATH, get DEPLOY_DIR_IMAGE from bitbake
++        OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
++        if [ -z "$DEPLOY_DIR_IMAGE" ]; then
++            # Check for errors from bitbake that the user needs to know about
++            BITBAKE_OUTPUT=`bitbake -e | wc -l`
++            if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
++                echo "Error: this script needs to be run from your build directory,"
++                echo "or you need to explicitly set DEPLOY_DIR_IMAGE in your environment"
++            else
++                echo "There was an error running bitbake to determine DEPLOY_DIR_IMAGE"
++                echo "Here is the output from 'bitbake -e':"
++                bitbake -e
++            fi
++            exit 1
++        fi
++    fi
++}
++
+ setup_sysroot() {
+     # Toolchain installs set up $OECORE_NATIVE_SYSROOT in their
+     # environment script. If that variable isn't set, we're
+@@ -395,8 +423,9 @@ fi
+ 
+ if [ -z "$KERNEL" -a "x$FSTYPE" != "xvmdk" ]; then
+     setup_tmpdir
++    setup_deploydir
+     eval kernel_file=\$${machine2}_DEFAULT_KERNEL
+-    KERNEL=$OE_TMPDIR/deploy/images/$kernel_file
++    KERNEL=$DEPLOY_DIR_IMAGE/$kernel_file
+ 
+     if [ -z "$KERNEL" ]; then
+         error "Unable to determine default kernel for MACHINE [$MACHINE]"
+@@ -418,13 +447,15 @@ fi
+ # core-image-sato
+ if [ "$LAZY_ROOTFS" = "true" ]; then
+     setup_tmpdir
++    setup_deploydir
+     echo "Assuming $ROOTFS really means $OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE"
+-    ROOTFS=$OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE
++    ROOTFS=$DEPLOY_DIR_IMAGE/$ROOTFS-$MACHINE.$FSTYPE
+ fi
+ 
+ if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
+     setup_tmpdir
+-    T=$OE_TMPDIR/deploy/images
++    setup_deploydir
++    T=$DEPLOY_DIR_IMAGE
+     eval rootfs_list=\$${machine2}_DEFAULT_ROOTFS
+     findimage $T $MACHINE $FSTYPE
+ 
+-- 
+1.8.1.4
 
 
 
