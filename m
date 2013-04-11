@@ -1,20 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UQJBN-0005tK-1c
+	(envelope-from <ross.burton@intel.com>) id 1UQJGL-0006G4-QY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 17:13:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2013 07:53:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,455,1363158000"; d="scan'208";a="316649845"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.202])
-	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2013 07:55:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 11 Apr 2013 17:18:13 +0200
+Received: by mail-wi0-f172.google.com with SMTP id hr17so658912wib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2013 08:00:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=DIPElhdOGP5E3i/3Mh+pCgps9Vw8mkmD0JVYP3pYeo4=;
+	b=OwWnX2UFuaR1egXzTEDR4BdY+3zOw1/G+LwtXA8hS5h2q+prlWtYrqs84wHJrsBSde
+	r0D3d0hJxn6lAkT/nGUBafDCrWc6tgnlBD+2RLklDirAhkMOyF6LNBXzgnx5wXu3ZH/w
+	+HvOm8NxsRqo7azCVG5qpRii7hKelV3Tl/nqVMDTHwpkreRLIIBWor+3PbgTrN0M2F95
+	ymNoCcRV55pd3RaaPRHKF57zOUxBxYbcuSZj3uCAFCNVN2HwsKqIgBpCxqBG+dEkCLLT
+	q+Jd77N01pgVkc/0mRw/91jFU+zgpCmsvqpDTatRzw8vKz0AUOU/M+vwzA2zTAOaZLGY
+	fR4g==
+X-Received: by 10.180.182.36 with SMTP id eb4mr15261144wic.8.1365692446374;
+	Thu, 11 Apr 2013 08:00:46 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ej8sm3627871wib.9.2013.04.11.08.00.44
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 11 Apr 2013 08:00:45 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2013 15:55:15 +0100
-Message-Id: <1365692115-9752-1-git-send-email-paul.eggleton@linux.intel.com>
+Date: Thu, 11 Apr 2013 15:57:58 +0100
+Message-Id: <1365692278-28827-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] dpkg, opkg, rpm-postinsts: avoid repackaging when changing IMAGE_FEATURES
+X-Gm-Message-State: ALoCoQns4pSaeeFZsbpnEZelCQ43uecLJDKWdy9ckIlC0TujJaKIeE67sDr6Ziiuma1GXhyzhB6P
+Subject: [PATCH] sudo: handle glibc 2.17 crypt semantics
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,62 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 15:13:01 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 15:18:19 -0000
 
-Recipes cannot depend on the value of IMAGE_FEATURES; in this case the
-result is do_package task signatures changing every time IMAGE_FEATURES
-changes, causing a large number of task re-executions. The
-implementation of the log capturing really needs to be changed to
-capture these in a different place and possibly not even conditional
-upon IMAGE_FEATURES at all, but this will be invasive at this point in
-the development cycle. For now, remove the variable dependencies to fix
-the immediate problem.
+Staring from glibc 2.17 the crypt() function will error out and return NULL if
+the seed or "correct" is invalid. The failure case for this is the sudo user
+having a locked account in /etc/shadow, so their password is "!", which is an
+invalid hash.  crypt() never returned NULL previously so this is crashing in
+strcmp().
 
-Fixes [YOCTO #4246].
+[ YOCTO #4241 ]
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc        |    1 +
- meta/recipes-devtools/opkg/opkg.inc        |    1 +
- meta/recipes-devtools/rpm/rpm-postinsts.bb |    1 +
- 3 files changed, 3 insertions(+)
+ meta/recipes-extended/sudo/files/crypt.patch |   24 ++++++++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.8.6p7.bb   |    1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/crypt.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 5554920..35cd6e7 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -37,6 +37,7 @@ do_configure () {
+diff --git a/meta/recipes-extended/sudo/files/crypt.patch b/meta/recipes-extended/sudo/files/crypt.patch
+new file mode 100644
+index 0000000..53a257f
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/crypt.patch
+@@ -0,0 +1,24 @@
++Staring from glibc 2.17 the crypt() function will error out and return NULL if
++the seed or "correct" is invalid. The failure case for this is the sudo user
++having a locked account in /etc/shadow, so their password is "!", which is an
++invalid hash.  crypt() never returned NULL previously so this is crashing in
++strcmp().
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++Index: sudo-1.8.6p7/plugins/sudoers/auth/passwd.c
++===================================================================
++--- sudo-1.8.6p7.orig/plugins/sudoers/auth/passwd.c	2013-04-11 15:26:28.456416867 +0100
+++++ sudo-1.8.6p7/plugins/sudoers/auth/passwd.c	2013-04-11 15:31:31.156421718 +0100
++@@ -96,7 +96,9 @@
++      */
++     epass = (char *) crypt(pass, pw_epasswd);
++     pass[8] = sav;
++-    if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
+++    if (epass == NULL)
+++	error = AUTH_FAILURE;
+++    else if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
++ 	error = strncmp(pw_epasswd, epass, DESLEN);
++     else
++ 	error = strcmp(pw_epasswd, epass);
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.6p7.bb b/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
+index b79d0d5..7198fd3 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
+@@ -4,6 +4,7 @@ PR = "r0"
  
- POSTLOG ?= "/var/log/postinstall.log"
- REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG} 2>&1', '', d)}"
-+REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
+ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+            file://libtool.patch \
++           file://crypt.patch \
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
  
- DPKG_INIT_POSITION ?= "98"
- 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index ff26b04..c1798b1 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -59,6 +59,7 @@ do_install_append_class-native() {
- 
- POSTLOG ?= "/var/log/postinstall.log"
- REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG} 2>&1', '', d)}"
-+REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
- 
- pkg_postinst_${PN} () {
- #!/bin/sh
-diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-index b551c8d..a5310b5 100644
---- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
-+++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-@@ -13,6 +13,7 @@ POSTINSTALL_INITPOSITION ?= "98"
- 
- POSTLOG ?= "/var/log/postinstall.log"
- REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
-+REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
- 
- do_fetch() {
- 	:
+ PAM_SRC_URI = "file://sudo.pam"
 -- 
 1.7.10.4
 
