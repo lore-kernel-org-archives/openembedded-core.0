@@ -1,31 +1,31 @@
-Received: from mail-bk0-f45.google.com ([209.85.214.45])
+Received: from mail-bk0-f54.google.com ([209.85.214.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koansoftware@gmail.com>) id 1UQDfn-0005rH-2F
+	(envelope-from <koansoftware@gmail.com>) id 1UQDhe-000663-Vy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 11:20:04 +0200
-Received: by mail-bk0-f45.google.com with SMTP id j10so684950bkw.18
+	Thu, 11 Apr 2013 11:22:00 +0200
+Received: by mail-bk0-f54.google.com with SMTP id q16so695586bkw.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 02:02:40 -0700 (PDT)
+	Thu, 11 Apr 2013 02:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:message-id:date:from:reply-to:organization:user-agent
 	:mime-version:to:subject:references:in-reply-to:content-type
 	:content-transfer-encoding;
-	bh=VS64sGUnEf9eJqSISDEnwBq39XIzz68sDwza1nye4q0=;
-	b=Q3xe6zWLrrG2fTaws0/W7P6azlxLO1AB+e+82ZBLO7SjveP2a6pah2zybC1jk/MFJa
-	ZS6XI3DJfxCMY7mGPZL6NR+XekobjXJlGfkymA0rwvt3hZzWVRDddS9FQ1sIvogSg4b8
-	G9rqJ1uRLmGljgtBzkfFa9tjdeDn71yCjIa7Wfdw0VPbyhSo0ZvoFej+C7Gu89zhCmUb
-	rK7OotSmtVdVuUwKPcLlbgnE2wnoGQcqSBd6hgGR8VZG/VmHk7lyxtAhBqx+LrHIKURo
-	dgywxTJVQo0xmpAnVrwUlLNkpJ3Z3GOVMCI7WIB1EUAyVxNxKLYNjPWvtRWcSrZCCFAH
-	4YiQ==
-X-Received: by 10.204.80.140 with SMTP id t12mr2088312bkk.85.1365670960418;
-	Thu, 11 Apr 2013 02:02:40 -0700 (PDT)
+	bh=RNrH8kKZ51YH2xzAmutq1G6Kc7qwFNgK5ay1vCXcSXk=;
+	b=xVGJLlhvf20Pu7R9alWCMxRB23pWmfV1esWrJOi3Y/CZQjfP6e4SsfLqDB0VBUp6C3
+	dHJld9udvBtHHRdzIT8LRm2gwC7CdnZfgrEtzFptFLagtk5W+NZKW6Bd8502jebwS/Hq
+	UU9Ai/T9fxz4SpHs12eTvoeRX7uxexQyOz8rM7T5RngMto/wbqN0NkU8Wc9jmRXUwyzL
+	6INTR2r8INpR3gDWYlcITaFLQRmhmrVLtwr68Cee7qzSRPg/VrL1OVx0oy+FXjlQteEr
+	PUGap/t6r/xU2GGccw7SqhGnKiDfnc8iwubTW11YXaHO/PsNLrdR7zMjmFqInLK+Qx2o
+	WA0w==
+X-Received: by 10.204.167.73 with SMTP id p9mr2065123bky.99.1365671076259;
+	Thu, 11 Apr 2013 02:04:36 -0700 (PDT)
 Received: from [192.168.0.5]
 	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
-	by mx.google.com with ESMTPS id b21sm1375961bkw.12.2013.04.11.02.02.38
+	by mx.google.com with ESMTPS id jt9sm1368730bkb.18.2013.04.11.02.04.34
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 11 Apr 2013 02:02:39 -0700 (PDT)
-Message-ID: <51667C2D.1040007@gmail.com>
-Date: Thu, 11 Apr 2013 11:02:37 +0200
+	Thu, 11 Apr 2013 02:04:35 -0700 (PDT)
+Message-ID: <51667CA1.8050003@gmail.com>
+Date: Thu, 11 Apr 2013 11:04:33 +0200
 From: Marco <koansoftware@gmail.com>
 Organization: MC
 User-Agent: Mozilla/5.0 (X11; Linux i686;
@@ -39,9 +39,10 @@ References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
 	<20130409190616.GE2474@jama>
 	<929FF6AF-2956-41F0-92E5-E08C5C966909@dominion.thruhere.net>
 	<CAHUNapRiB5a6XPwSC_geg+QML4raP2LHHfDCUe__U0hc=WDRSA@mail.gmail.com>
-	<5165AB03.8020404@gmail.com> <20130410193611.GF2471@jama>
-	<5165C0E7.8030203@windriver.com>
-In-Reply-To: <5165C0E7.8030203@windriver.com>
+	<5165AB03.8020404@gmail.com>
+	<CAHUNapQJ0qWxW7KZuUTvVhd62=nx4Y8GEdi30c-WHv+Te01rPw@mail.gmail.com>
+	<20130410225352.GA28466@denix.org>
+In-Reply-To: <20130410225352.GA28466@denix.org>
 Subject: Re: [oe][meta-oe][PATCH 2/4] xterm: add latest version of xterm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -56,33 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 09:20:05 -0000
-X-List-Received-Date: Thu, 11 Apr 2013 09:20:05 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 09:22:06 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 10/04/2013 21:43, Mark Hatle ha scritto:
-
+Il 11/04/2013 00:53, Denys Dmytriyenko ha scritto:
+> On Wed, Apr 10, 2013 at 06:44:21PM -0400, Trevor Woerner wrote:
+>> On Wed, Apr 10, 2013 at 2:10 PM, Marco <koansoftware@gmail.com> wrote:
 >>> Yes, it is copied from meta-openembedded into oe-core
 >>
->> Then you should fix commit message too
->>
->>   * Recipe taken from oe-classic
->>
->> In all recipes you sent to oe-core.
+>> I'm sorry, I thought the [meta-oe] in the subject line implied this
+>> patch was destined for meta-openembedded, not coming from
+>> meta-openembedded.
 >
-> See: http://openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> Specifically the Example: Importing fro Elsewhere Unmodified (and modified)
->
-> It's a good idea to list where it came from the commit.. that way if the
-> original location is ever changed, people can track what changes may
-> need to be merged in.
+> Agree.
 >
 
-OK
-thank you Mark
 
+[meta-oe] was my fauly, I already sent my apologies in IRC yesterday :-(
+Sorry
 
 -- 
 Marco
