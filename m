@@ -1,33 +1,37 @@
-Received: from mail-pd0-f174.google.com ([209.85.192.174])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UQHr9-00063c-7y; Thu, 11 Apr 2013 15:48:05 +0200
-Received: by mail-pd0-f174.google.com with SMTP id p12so854165pdj.5
-	for <multiple recipients>; Thu, 11 Apr 2013 06:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=dBcZAF4fFm1C35f9+6Y9bim+6XwZobel0H0ppYFOGcY=;
-	b=wdtuN3/HimWsrBhNOv/IBsRvKDEneIsSAjKvj40CIlddQIfcMZpyt4dMhAOb5QYrXk
-	W3QmstNh0KtmYw97132UGg9GjVZe7zenwP2hopiPYbc7e9eIWLIypxTRDoGj070MRkj0
-	Aze+Bxz3oTViB2xgzUTeW+IqgM+c1CzdNySsLktSX8hfbPVGta5wFmP+PiP3yOT97NKh
-	iEItQ09JvLmS8qTTnTcnQ4yQiD0PVNoqxxM38XHr/WYbDqVi4keBx20zTh+xRh8o/OnD
-	ChsIndnlbOVgmakBKn5Jbm4Rd9wE/Lgz5iN5bihmnyHOKQpPLFT85MgfaGbiZ3q7kfm8
-	NTJg==
-X-Received: by 10.66.72.3 with SMTP id z3mr9539778pau.125.1365687039445;
-	Thu, 11 Apr 2013 06:30:39 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id qh4sm5018877pac.8.2013.04.11.06.30.36
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 11 Apr 2013 06:30:38 -0700 (PDT)
-Date: Thu, 11 Apr 2013 15:30:31 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130411133031.GF2477@jama>
+	(envelope-from <chase.maupin@ti.com>) id 1UQI0l-00072i-CR
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Apr 2013 15:58:00 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3BDeajF019468;
+	Thu, 11 Apr 2013 08:40:36 -0500
+Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3BDeaJ7023843;
+	Thu, 11 Apr 2013 08:40:36 -0500
+Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
+	DFLE73.ent.ti.com ([fe80::c9be:a3a9:7cd8:c8b3%28]) with mapi id
+	14.02.0342.003; Thu, 11 Apr 2013 08:40:36 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Thread-Topic: [OE-core] [PATCH][for-danny] kernel bbclass: return to
+	original directory in do_deploy
+Thread-Index: AQHONj9zTM/tkxIz0E+0T10m73f8mJjQ98EwgABcVYD//7OgkA==
+Date: Thu, 11 Apr 2013 13:40:35 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101594DE2F5@DLEE11.ent.ti.com>
+References: <1363628359-18023-1-git-send-email-Chase.Maupin@ti.com>
+	<20130410230157.GB28466@denix.org>
+	<7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
+	<20130411131339.GC28466@denix.org>
+In-Reply-To: <20130411131339.GC28466@denix.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [157.170.170.90]
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: bitbake-devel@lists.openembedded.org
-Subject: Checksum failure encountered with download
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][for-danny] kernel bbclass: return to original directory in do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,53 +44,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 13:48:17 -0000
-X-Groupsio-MsgNum: 37789
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="TeJTyD9hb8KJN2Jy"
-Content-Disposition: inline
-
---TeJTyD9hb8KJN2Jy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Apr 2013 13:58:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+> -----Original Message-----
+> From: Denys Dmytriyenko [mailto:denis@denix.org]
+> Sent: Thursday, April 11, 2013 8:14 AM
+> To: Maupin, Chase
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass: return
+> to original directory in do_deploy
+>=20
+> On Thu, Apr 11, 2013 at 12:43:30PM +0000, Maupin, Chase wrote:
+> > > -----Original Message-----
+> > > From: Denys Dmytriyenko [mailto:denis@denix.org]
+> > > Sent: Wednesday, April 10, 2013 6:02 PM
+> > > To: Maupin, Chase
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
+> return
+> > > to original directory in do_deploy
+> > >
+> > > Ping.
+> > >
+> > > Ross, is it in your queue for your next danny merge?
+> >
+> > I see that one as already being commited to danny
+>=20
+> Hmm, where? I don't see it here:
+>=20
+> http://cgit.openembedded.org/openembedded-core/log/?h=3Ddanny
 
-when fetcher fails with ChecksumError it shows error like in subject and
-tries another MIRRORs
+http://cgit.openembedded.org/meta-openembedded/commit/?id=3D0738c3c8089480d=
+ec9e26d7de08c35ba8106b15a=20
 
-Would anyone object to keep fetched source with wrong checksum in
-downloads directory (renamed so it does not conflict with file with
-correct checksum downloaded later)?
+>=20
+>=20
+> > > On Mon, Mar 18, 2013 at 12:39:19PM -0500, Chase Maupin wrote:
+> > > > * During the base kernel_do_deploy function the directory
+> is
+> > > >   changed to DEPLOYDIR in order to do some cleanup and
+> > > symlinking.
+> > > >   However, the directory is not changed back to the
+> original
+> > > >   starting directory ${S} at the end.  For append functions
+> > > this
+> > > >   means that the starting directory is not ${S} as expected
+> but
+> > > >   instead ${DEPLOYDIR}.
+> > > >
+> > > >   For functions like the do_deploy_append in
+> > > >   recipes-kernel/linux/linux-dtb.inc there is an assumption
+> > > that
+> > > >   you are still in the source directory and not the
+> DEPLOYDIR.
+> > > >   Without this change the .dtb files are not copied because
+> the
+> > > >   check for the existence of ${DTS_FILE} which is a
+> relative
+> > > >   path from the ${S} directory fails.  This means that the
+> .dtb
+> > > >   files are not copied into the deploy directory and
+> > > subsequently
+> > > >   the deploy/images directory.
+> > > >
+> > > >   In the log.do_deploy file you will see lines like:
+> > > >
+> > > >     Warning: arch/arm/boot/dts/xxxxx.dts is not available!
+> > > >
+> > > > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > > > ---
+> > > >  meta/classes/kernel.bbclass |    1 +
+> > > >  1 files changed, 1 insertions(+), 0 deletions(-)
+> > > >
+> > > > diff --git a/meta/classes/kernel.bbclass
+> > > b/meta/classes/kernel.bbclass
+> > > > index 88ce561..9691c25 100644
+> > > > --- a/meta/classes/kernel.bbclass
+> > > > +++ b/meta/classes/kernel.bbclass
+> > > > @@ -529,6 +529,7 @@ kernel_do_deploy() {
+> > > >  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin
+> ${KERNEL_IMAGETYPE}
+> > > >
+> > > >  	cp ${COREBASE}/meta/files/deploydir_readme.txt
+> > > ${DEPLOYDIR}/README_-
+> _DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> > > > +	cd -
+> > > >  }
+> > > >  do_deploy[dirs] =3D "${DEPLOYDIR} ${B}"
+> > > >
+> > > > --
+> > > > 1.7.0.4
+> > > >
+> > > >
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.linuxtogo.org/cgi-
+> > > bin/mailman/listinfo/openembedded-core
+> >
 
-Right now it just removes the file:
-                        # Remove any incomplete fetch
-                        m.clean(ud, self.d)
 
-The problem with this is when upstream repacks some archive I would like
-to be able to compare old tarball and new one.
-
-My proposal is to add md5sum of downloaded file to ChecksumError and
-rename it to <file>.<md5sum> in "if isinstance(e, ChecksumError):"
-
-Does it make sense (should I send patch for this)?
-
-FWIW: Emerge in gentoo does something similar.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---TeJTyD9hb8KJN2Jy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFmuvcACgkQN1Ujt2V2gBxm+gCfURhJs3bOxkZT4MnPkhxzB5cA
-1SgAn0OMSw42C27Sv9OoDOiE0obbLe1T
-=8VEK
------END PGP SIGNATURE-----
-
---TeJTyD9hb8KJN2Jy--
