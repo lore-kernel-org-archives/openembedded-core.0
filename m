@@ -1,39 +1,25 @@
-Received: from mail-wg0-f53.google.com ([74.125.82.53])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UQKfv-0000k6-2K
+	(envelope-from <sgw@linux.intel.com>) id 1UQKjg-0001BV-HW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 18:48:39 +0200
-Received: by mail-wg0-f53.google.com with SMTP id c11so1888508wgh.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 09:31:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references:x-gm-message-state;
-	bh=7P2wr+8cAo/LVq+t+bVLmfTnt0Twq+81/qEUBUnfQvA=;
-	b=oH6iPafSzOP2XYR8iz8I+A5XVWtkVpYp/e0jJSl299NQaeya/HTEA0DcVucYIE6LwZ
-	vK35RTR9artSjAsMgavYKGWV/UrheOXufxwIj/LdVWlYkPCb/hwP6eNofgkBNjsoTNk/
-	Nixcm0NMusm/mpCHnf+HotEyq6XoOmCStZ530kqspGx2Q4ls8zWwjcE5H0I57+zilama
-	2rzkkCVjH6yC22lnXt4UZHley6HSct5DIw7s6H0xiH8nrz9RqB512NESVrDCMuQ3D5gb
-	ko9rYQXfRQQgt3m0M761CPARHMsQD5Vsrue4raY0aIMvIOb0IVeIHMB8ViaqUN2GXAI7
-	SiHg==
-X-Received: by 10.194.219.162 with SMTP id pp2mr12052700wjc.27.1365697876071; 
-	Thu, 11 Apr 2013 09:31:16 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id q13sm4179375wie.0.2013.04.11.09.31.14
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 11 Apr 2013 09:31:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2013 17:28:26 +0100
-Message-Id: <0154334c32234d70dc064fb7dac6b499ca91cf3a.1365697555.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1365697555.git.ross.burton@intel.com>
-References: <cover.1365697555.git.ross.burton@intel.com>
-In-Reply-To: <cover.1365697555.git.ross.burton@intel.com>
-References: <cover.1365697555.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkB7Kkdleu8gbyJt63jM2Lwmjfgs297pNzSzG9xpLKlHwO730xi7SRW3mRt/a2z6yClUU8s
-Subject: [PATCH 2/2] initrdscripts: look for new systemd-udevd location
+	Thu, 11 Apr 2013 18:52:36 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2013 09:33:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,455,1363158000"; d="scan'208";a="293572254"
+Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
+	by orsmga001.jf.intel.com with ESMTP; 11 Apr 2013 09:35:06 -0700
+Message-ID: <5166E63A.7040008@linux.intel.com>
+Date: Thu, 11 Apr 2013 09:35:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Cristian Iorga <cristian.iorga@intel.com>
+References: <1365685469-19415-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1365685469-19415-1-git-send-email-cristian.iorga@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] build-appliance-image: update to newer poky revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,44 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 16:48:39 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 16:52:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-As per the previous commit, systemd-udevd is now in /sbin/systemd/.
+On 04/11/2013 06:04 AM, Cristian Iorga wrote:
+> Src rev for BA is now ae353c229cfe7e82588dc53fbed10c6ba8370d26.
+>
+Let's wait and update this on Sunday, please work with RP and myself to 
+get the correct SRCREV into the core.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh       |    2 +-
- meta/recipes-core/initrdscripts/initramfs-framework/udev |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 9fe1cd6..4bd1b52 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -12,7 +12,7 @@ UNIONFS="no"
- # Copied from initramfs-framework. The core of this script probably should be
- # turned into initramfs-framework modules to reduce duplication.
- udev_daemon() {
--	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
-+	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
- 
- 	for o in $OPTIONS; do
- 		if [ -x "$o" ]; then
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index bb462dc..18d44a5 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -11,7 +11,7 @@ udev_shutdown_hook_handler() {
- }
- 
- udev_daemon() {
--	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
-+	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
- 
- 	for o in $OPTIONS; do
- 		if [ -x "$o" ]; then
--- 
-1.7.10.4
-
+> Includes improvements to:
+> - Hob;
+> - git proxy mechanism;
+> - LSB compliance for Yocto Linux;
+> - postinstall fixes.
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   meta/recipes-core/images/build-appliance-image.bb |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
+> index 43f0574..ae89684 100644
+> --- a/meta/recipes-core/images/build-appliance-image.bb
+> +++ b/meta/recipes-core/images/build-appliance-image.bb
+> @@ -19,7 +19,7 @@ IMAGE_FSTYPES = "vmdk"
+>
+>   inherit core-image
+>
+> -SRCREV ?= "d823759b4594143d522eae0b2a2498436a6dcb1e"
+> +SRCREV ?= "ae353c229cfe7e82588dc53fbed10c6ba8370d26"
+>   SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
+>              file://Yocto_Build_Appliance.vmx \
+>              file://Yocto_Build_Appliance.vmxf \
+>
 
 
