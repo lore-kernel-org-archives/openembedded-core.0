@@ -1,30 +1,52 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-bk0-f45.google.com ([209.85.214.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UQDNm-00048N-Fu
+	(envelope-from <koansoftware@gmail.com>) id 1UQDfn-0005rH-2F
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 11:01:51 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Apr 2013 01:44:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,454,1363158000"; d="scan'208";a="317611166"
-Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
-	([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2013 01:44:01 -0700
-Message-ID: <516677D0.6070802@intel.com>
-Date: Thu, 11 Apr 2013 11:44:00 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+	Thu, 11 Apr 2013 11:20:04 +0200
+Received: by mail-bk0-f45.google.com with SMTP id j10so684950bkw.18
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2013 02:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:reply-to:organization:user-agent
+	:mime-version:to:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=VS64sGUnEf9eJqSISDEnwBq39XIzz68sDwza1nye4q0=;
+	b=Q3xe6zWLrrG2fTaws0/W7P6azlxLO1AB+e+82ZBLO7SjveP2a6pah2zybC1jk/MFJa
+	ZS6XI3DJfxCMY7mGPZL6NR+XekobjXJlGfkymA0rwvt3hZzWVRDddS9FQ1sIvogSg4b8
+	G9rqJ1uRLmGljgtBzkfFa9tjdeDn71yCjIa7Wfdw0VPbyhSo0ZvoFej+C7Gu89zhCmUb
+	rK7OotSmtVdVuUwKPcLlbgnE2wnoGQcqSBd6hgGR8VZG/VmHk7lyxtAhBqx+LrHIKURo
+	dgywxTJVQo0xmpAnVrwUlLNkpJ3Z3GOVMCI7WIB1EUAyVxNxKLYNjPWvtRWcSrZCCFAH
+	4YiQ==
+X-Received: by 10.204.80.140 with SMTP id t12mr2088312bkk.85.1365670960418;
+	Thu, 11 Apr 2013 02:02:40 -0700 (PDT)
+Received: from [192.168.0.5]
+	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
+	by mx.google.com with ESMTPS id b21sm1375961bkw.12.2013.04.11.02.02.38
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 11 Apr 2013 02:02:39 -0700 (PDT)
+Message-ID: <51667C2D.1040007@gmail.com>
+Date: Thu, 11 Apr 2013 11:02:37 +0200
+From: Marco <koansoftware@gmail.com>
+Organization: MC
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1365662568-24980-1-git-send-email-laurentiu.palcu@intel.com>
-	<1365665593.16702.31.camel@ted>
-In-Reply-To: <1365665593.16702.31.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dpkg, opkg, rpm-postinst: fix overwriting the run-postinstall script
+To: openembedded-core@lists.openembedded.org
+References: <1365517275-30955-1-git-send-email-m.cavallini@koansoftware.com>
+	<CAJTo0LZ6tKy0pDvPzdNw+z80NkXHB0kX7HxntsY_Hd+u3pUPwg@mail.gmail.com>
+	<20130409174646.GD2474@jama>
+	<C59D9F91-BDCD-496F-B6DA-8C6BB5990939@dominion.thruhere.net>
+	<20130409190616.GE2474@jama>
+	<929FF6AF-2956-41F0-92E5-E08C5C966909@dominion.thruhere.net>
+	<CAHUNapRiB5a6XPwSC_geg+QML4raP2LHHfDCUe__U0hc=WDRSA@mail.gmail.com>
+	<5165AB03.8020404@gmail.com> <20130410193611.GF2471@jama>
+	<5165C0E7.8030203@windriver.com>
+In-Reply-To: <5165C0E7.8030203@windriver.com>
+Subject: Re: [oe][meta-oe][PATCH 2/4] xterm: add latest version of xterm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: koansoftware@gmail.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -34,150 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 09:01:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Apr 2013 09:20:05 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 09:20:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Il 10/04/2013 21:43, Mark Hatle ha scritto:
 
-
-On 04/11/2013 10:33 AM, Richard Purdie wrote:
-> On Thu, 2013-04-11 at 09:42 +0300, Laurentiu Palcu wrote:
->> If multiple package managers are installed in the image, they will
->> overwrite each other's run-postinsts script, resulting in postinstalls
->> not beeing run at all at first boot.
+>>> Yes, it is copied from meta-openembedded into oe-core
 >>
->> What this patch does:
->>  * checks whether opkg/dpks/rpm is actually used to install
->>    the packages and, only after, creates the run-postinsts script;
->>  * brings dpkg recipe in sync with opkg: moves the script creation from
->>    do_install to postinstall;
->>  * move creation of run-postinsts script (rpm-postinsts recipe) to the
->>    postinstall scriptlet in order to better control the creation of the
->>    script according to the package manager used;
+>> Then you should fix commit message too
 >>
->> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->> ---
->>  meta/recipes-devtools/dpkg/dpkg.inc        |   23 ++++++++++++++---------
->>  meta/recipes-devtools/opkg/opkg.inc        |    3 ++-
->>  meta/recipes-devtools/rpm/rpm-postinsts.bb |   19 ++++++++++++-------
->>  3 files changed, 28 insertions(+), 17 deletions(-)
+>>   * Recipe taken from oe-classic
 >>
->> diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
->> index 6bb1e16..f7f7b01 100644
->> --- a/meta/recipes-devtools/dpkg/dpkg.inc
->> +++ b/meta/recipes-devtools/dpkg/dpkg.inc
->> @@ -39,15 +39,6 @@ POSTLOG ?= "/var/log/postinstall.log"
->>  REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG} 2>&1', '', d)}"
->>  
->>  DPKG_INIT_POSITION ?= "98"
->> -do_install_prepend () {
->> -	install -d ${D}/${sysconfdir}/rcS.d
->> -	# this happens at S98 where our good 'ole packages script used to run
->> -	echo "#!/bin/sh
->> -dpkg --configure -a ${REDIRECT_CMD}
->> -rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> -" > ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> -	chmod 0755 ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> -}
->>  
->>  do_install_append () {
->>  	if [ "${PN}" = "dpkg-native" ]; then
->> @@ -67,6 +58,20 @@ do_install_append_class-native () {
->>  	done
->>  }
->>  
->> +pkg_postinst_${PN} () {
->> +#!/bin/sh
->> +if [ "x$D" != "x" ] && [ "deb" = "${IMAGE_PKGTYPE}" ]; then
-> 
-> This is the right direction but this check will mean that rpm/dpkg/opkg
-> rebuilt each time IMAGE_PKGTYPE changes. Rather than hardcode this in,
-> can we test on something else which would be in the final runtime image
-> e.g. /var/lib/dpkg/status, the opkg status file and find some rpm
-> runtime file too?
-Hmm, my original solution was to check for the existence of status file
-but for some reason, it doesn't work for deb (maybe the status file is
-not created by the time dpkg package is installed, but I'm not sure)...
-Also, this seemed like a consistent solution for all package managers.
-I'll try to see what other options I can find.
+>> In all recipes you sent to oe-core.
+>
+> See: http://openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> Specifically the Example: Importing fro Elsewhere Unmodified (and modified)
+>
+> It's a good idea to list where it came from the commit.. that way if the
+> original location is ever changed, people can track what changes may
+> need to be merged in.
+>
 
-Thanks,
-Laurentiu
+OK
+thank you Mark
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
->> +	install -d ${D}/${sysconfdir}/rcS.d
->> +
->> +	# this happens at S98 where our good 'ole packages script used to run
->> +	echo "#!/bin/sh
->> +dpkg --configure -a ${REDIRECT_CMD}
->> +rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> +" > ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> +	chmod 0755 ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
->> +fi
->> +}
->> +
->>  PROV = "virtual/update-alternatives"
->>  PROV_class-native = ""
->>  
->> diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
->> index f9c1202..d400dcd 100644
->> --- a/meta/recipes-devtools/opkg/opkg.inc
->> +++ b/meta/recipes-devtools/opkg/opkg.inc
->> @@ -62,8 +62,9 @@ REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG}
->>  
->>  pkg_postinst_${PN} () {
->>  #!/bin/sh
->> -if [ "x$D" != "x" ]; then
->> +if [ "x$D" != "x" ] && [ "ipk" = "${IMAGE_PKGTYPE}" ]; then
->>  	install -d $D${sysconfdir}/rcS.d
->> +
->>  	# this happens at S98 where our good 'ole packages script used to run
->>  	echo "#!/bin/sh
->>  opkg-cl configure ${REDIRECT_CMD}
->> diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
->> index fb05ad6..281cb14 100644
->> --- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
->> +++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
->> @@ -27,15 +27,17 @@ do_compile() {
->>  }
->>  
->>  do_install() {
->> -	install -d ${D}/${sysconfdir}/rcS.d
->> -	# Stop $i getting expanded below...
->> -	i=\$i
->> -	cat > ${D}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << EOF
->> -#!/bin/sh
->> +	:
->> +}
->>  
->> +pkg_postinst_${PN} () {
->> +if [ "x$D" != "x" ] && [ "rpm" = "${IMAGE_PKGTYPE}" ]; then
->> +	install -d $D/${sysconfdir}/rcS.d
->> +	cat > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
->> +#!/bin/sh
->>  . /etc/default/rcS
->>  
->> -[ -d /etc/rpm-postinsts ] && for i in \`ls /etc/rpm-postinsts/ \`; do
->> +[ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
->>  	i=/etc/rpm-postinsts/$i
->>  	echo "Running postinst $i..."
->>  	if [ -f $i ] && $i ${REDIRECT_CMD}; then
->> @@ -46,5 +48,8 @@ do_install() {
->>  done
->>  rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts 2>/dev/null
->>  EOF
->> -	chmod 0755 ${D}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
->> +	chmod 0755 $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
->> +fi
->>  }
->> +
->> +ALLOW_EMPTY_${PN} = "1"
-> 
-> 
+
+-- 
+Marco
 
 
