@@ -1,31 +1,21 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1UQBQ8-0008FG-0Q
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UQBUl-0000eN-0I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 08:56:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3B6cI5W005421
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 Apr 2013 23:38:18 -0700 (PDT)
-Received: from [128.224.162.243] (128.224.162.243) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 10 Apr 2013 23:38:18 -0700
-Message-ID: <51665A56.2040805@windriver.com>
-Date: Thu, 11 Apr 2013 14:38:14 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-References: <cover.1365564103.git.wenzong.fan@windriver.com>
-	<1365564397-2851-1-git-send-email-wenzong.fan@windriver.com>
-	<20130410080012.GA2471@jama>
-	<CAJTo0LauKA1u8koLWXi=XUehoeAAahEeMvafLR7aCq580jDL0w@mail.gmail.com>
-In-Reply-To: <CAJTo0LauKA1u8koLWXi=XUehoeAAahEeMvafLR7aCq580jDL0w@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xcursor-transparent-theme: install index.theme explicitly
+	Thu, 11 Apr 2013 09:00:43 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Apr 2013 23:42:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,453,1363158000"; d="scan'208";a="317568646"
+Received: from lpalcu-linux.rb.intel.com (HELO localhost.localdomain)
+	([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2013 23:42:49 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2013 09:42:48 +0300
+Message-Id: <1365662568-24980-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] dpkg, opkg, rpm-postinst: fix overwriting the run-postinstall script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,49 +28,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 06:56:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Apr 2013 07:00:57 -0000
 
-On 04/10/2013 05:17 PM, Burton, Ross wrote:
-> On 10 April 2013 09:00, Martin Jansa <martin.jansa@gmail.com> wrote:
->> On Wed, Apr 10, 2013 at 11:26:35AM +0800, wenzong.fan@windriver.com wrote:
->>> The xcursor-transparent-theme doesn't install index.theme by default,
->>> this might cause below command fails on target:
->>>
->>>      $ gtk-update-icon-cache -q /usr/share/icons/xcursor-transparent
->>>      Error: "gtk-update-icon-cache: No theme index file"
->>>
->>> Just install index.theme explicitly to remove those error, its content
->>> is from xcursor-transparent-theme's README file.
->>
->> Wasn't this discussed and fixed before? IIRC the conclusion was that
->> postinst should check if there is index.theme or ignore it missing, not
->> adding index.theme.
->
-> NACK.
->
-> Martin is right, the gtk-icon-cache class uses -t when updating the caches:
->
->         --ignore-theme-index, -t
->             Don't check for the existence of 'index.theme' in the icon theme
->             directory. Without this option, gtk-update-icon-cache refuses to
->             create an icon cache in a directory which does not appear to be the
->             toplevel directory of an icon theme.
->
-> If someone is not using gtk-icon-cache.bbclass they either should, or
-> have a good reason and also use -t.
+If multiple package managers are installed in the image, they will
+overwrite each other's run-postinsts script, resulting in postinstalls
+not beeing run at all at first boot.
 
-Oh, I did think I missed something about the discussion of index.theme & 
-gtk-update-icon-cache. I recall this patch and sorry for the noise.
+What this patch does:
+ * checks whether opkg/dpks/rpm is actually used to install
+   the packages and, only after, creates the run-postinsts script;
+ * brings dpkg recipe in sync with opkg: moves the script creation from
+   do_install to postinstall;
+ * move creation of run-postinsts script (rpm-postinsts recipe) to the
+   postinstall scriptlet in order to better control the creation of the
+   script according to the package manager used;
 
-I appreciate your clarifications!
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc        |   23 ++++++++++++++---------
+ meta/recipes-devtools/opkg/opkg.inc        |    3 ++-
+ meta/recipes-devtools/rpm/rpm-postinsts.bb |   19 ++++++++++++-------
+ 3 files changed, 28 insertions(+), 17 deletions(-)
 
-Thanks
-Wenzong
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 6bb1e16..f7f7b01 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -39,15 +39,6 @@ POSTLOG ?= "/var/log/postinstall.log"
+ REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG} 2>&1', '', d)}"
+ 
+ DPKG_INIT_POSITION ?= "98"
+-do_install_prepend () {
+-	install -d ${D}/${sysconfdir}/rcS.d
+-	# this happens at S98 where our good 'ole packages script used to run
+-	echo "#!/bin/sh
+-dpkg --configure -a ${REDIRECT_CMD}
+-rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
+-" > ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
+-	chmod 0755 ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
+-}
+ 
+ do_install_append () {
+ 	if [ "${PN}" = "dpkg-native" ]; then
+@@ -67,6 +58,20 @@ do_install_append_class-native () {
+ 	done
+ }
+ 
++pkg_postinst_${PN} () {
++#!/bin/sh
++if [ "x$D" != "x" ] && [ "deb" = "${IMAGE_PKGTYPE}" ]; then
++	install -d ${D}/${sysconfdir}/rcS.d
++
++	# this happens at S98 where our good 'ole packages script used to run
++	echo "#!/bin/sh
++dpkg --configure -a ${REDIRECT_CMD}
++rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
++" > ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
++	chmod 0755 ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
++fi
++}
++
+ PROV = "virtual/update-alternatives"
+ PROV_class-native = ""
+ 
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index f9c1202..d400dcd 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -62,8 +62,9 @@ REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>${POSTLOG}
+ 
+ pkg_postinst_${PN} () {
+ #!/bin/sh
+-if [ "x$D" != "x" ]; then
++if [ "x$D" != "x" ] && [ "ipk" = "${IMAGE_PKGTYPE}" ]; then
+ 	install -d $D${sysconfdir}/rcS.d
++
+ 	# this happens at S98 where our good 'ole packages script used to run
+ 	echo "#!/bin/sh
+ opkg-cl configure ${REDIRECT_CMD}
+diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
+index fb05ad6..281cb14 100644
+--- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
++++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
+@@ -27,15 +27,17 @@ do_compile() {
+ }
+ 
+ do_install() {
+-	install -d ${D}/${sysconfdir}/rcS.d
+-	# Stop $i getting expanded below...
+-	i=\$i
+-	cat > ${D}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << EOF
+-#!/bin/sh
++	:
++}
+ 
++pkg_postinst_${PN} () {
++if [ "x$D" != "x" ] && [ "rpm" = "${IMAGE_PKGTYPE}" ]; then
++	install -d $D/${sysconfdir}/rcS.d
++	cat > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
++#!/bin/sh
+ . /etc/default/rcS
+ 
+-[ -d /etc/rpm-postinsts ] && for i in \`ls /etc/rpm-postinsts/ \`; do
++[ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
+ 	i=/etc/rpm-postinsts/$i
+ 	echo "Running postinst $i..."
+ 	if [ -f $i ] && $i ${REDIRECT_CMD}; then
+@@ -46,5 +48,8 @@ do_install() {
+ done
+ rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts 2>/dev/null
+ EOF
+-	chmod 0755 ${D}${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
++	chmod 0755 $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
++fi
+ }
++
++ALLOW_EMPTY_${PN} = "1"
+-- 
+1.7.9.5
 
->
-> Ross
->
 
 
