@@ -1,36 +1,35 @@
-Received: from mail-ve0-f173.google.com ([209.85.128.173])
+Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UQH0l-00015t-9L
+	(envelope-from <chase.maupin@ti.com>) id 1UQH7X-00020j-Bm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 14:53:55 +0200
-Received: by mail-ve0-f173.google.com with SMTP id cy12so1376019veb.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 05:36:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=qYh8eFkpRErsCFPkySxQJci9eebXo7nMI5sRiWzG/wk=;
-	b=ZqNPoKide5Z/vYnG8z76xVHybRpTEL4ojXjuuX+HPvirHnoULtC7lBUJ8TB4Tl64qa
-	DduQ1r7AWJxh+qLvJCPVWbVTbDtRml6BMHlEDW8UjrIlZKwLUPasVxgx6MLZoTasgeCM
-	LNhC43+Gp7po7lwP6esKT26oEv3FhXW5mS7sqsNNeOIVoCfNqmQrUv3FBuzD3pvuVYzD
-	4X8VLsI1MLyO1b9tb+BH9mmq+nbSL0VpZdOLTj49rsBvNKB8iK23WYXwjSssavq/V59E
-	VZ82fEsP4AEl+P0rI6HIHIBlU+OZ5ZWRI1vz7w6ASv1nMMGu8cI6Cu6PTrZ0FXF54Ral
-	Ljgg==
-X-Received: by 10.220.119.200 with SMTP id a8mr4808354vcr.38.1365683791906;
-	Thu, 11 Apr 2013 05:36:31 -0700 (PDT)
+	Thu, 11 Apr 2013 15:01:24 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3BChUJV023787;
+	Thu, 11 Apr 2013 07:43:30 -0500
+Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3BChUdV021516;
+	Thu, 11 Apr 2013 07:43:30 -0500
+Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
+	DLEE71.ent.ti.com ([fe80::4dce:5c82:1ad0:d462%28]) with mapi id
+	14.02.0342.003; Thu, 11 Apr 2013 07:43:30 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Thread-Topic: [OE-core] [PATCH][for-danny] kernel bbclass: return to
+	original directory in do_deploy
+Thread-Index: AQHONj9zTM/tkxIz0E+0T10m73f8mJjQ98Ew
+Date: Thu, 11 Apr 2013 12:43:30 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
+References: <1363628359-18023-1-git-send-email-Chase.Maupin@ti.com>
+	<20130410230157.GB28466@denix.org>
+In-Reply-To: <20130410230157.GB28466@denix.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [157.170.170.90]
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Thu, 11 Apr 2013 05:36:11 -0700 (PDT)
-In-Reply-To: <1365681363-29778-1-git-send-email-erik.boto@pelagicore.com>
-References: <1365681363-29778-1-git-send-email-erik.boto@pelagicore.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Apr 2013 13:36:11 +0100
-Message-ID: <CAJTo0Lb2uQcErVk5aZpUQPPu81gXX+9MM7rcUHTAXs-CZfimCw@mail.gmail.com>
-To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
-X-Gm-Message-State: ALoCoQkIAQyG/BOPlSZcG5FDd1qc0/1qEV+enQKSUGtq+XYrQvxLw7w/yGzhHTm6aUAnGe3Wftg9
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Fix path to systemd-analyze so it end up in the right package.
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][for-danny] kernel bbclass: return to original directory in do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +42,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 12:53:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Apr 2013 13:01:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-On 11 April 2013 12:56, Erik Bot=C3=B6 <erik.boto@pelagicore.com> wrote:
-> Since the upgrade to version 199 the location for systemd-analyze has cha=
-nge
-> this caused the systemd-analyze package to be empty and the binary was
-> shipped with the systemd package instead.
->
-> Signed-off-by: Erik Bot=C3=B6 <erik.boto@pelagicore.com>
+> -----Original Message-----
+> From: Denys Dmytriyenko [mailto:denis@denix.org]
+> Sent: Wednesday, April 10, 2013 6:02 PM
+> To: Maupin, Chase
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass: return
+> to original directory in do_deploy
+>=20
+> Ping.
+>=20
+> Ross, is it in your queue for your next danny merge?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+I see that one as already being commited to danny
 
-Richard, can we get this into dylan please.
-
-Ross
+>=20
+> --
+> Denys
+>=20
+>=20
+> On Mon, Mar 18, 2013 at 12:39:19PM -0500, Chase Maupin wrote:
+> > * During the base kernel_do_deploy function the directory is
+> >   changed to DEPLOYDIR in order to do some cleanup and
+> symlinking.
+> >   However, the directory is not changed back to the original
+> >   starting directory ${S} at the end.  For append functions
+> this
+> >   means that the starting directory is not ${S} as expected but
+> >   instead ${DEPLOYDIR}.
+> >
+> >   For functions like the do_deploy_append in
+> >   recipes-kernel/linux/linux-dtb.inc there is an assumption
+> that
+> >   you are still in the source directory and not the DEPLOYDIR.
+> >   Without this change the .dtb files are not copied because the
+> >   check for the existence of ${DTS_FILE} which is a relative
+> >   path from the ${S} directory fails.  This means that the .dtb
+> >   files are not copied into the deploy directory and
+> subsequently
+> >   the deploy/images directory.
+> >
+> >   In the log.do_deploy file you will see lines like:
+> >
+> >     Warning: arch/arm/boot/dts/xxxxx.dts is not available!
+> >
+> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > ---
+> >  meta/classes/kernel.bbclass |    1 +
+> >  1 files changed, 1 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/meta/classes/kernel.bbclass
+> b/meta/classes/kernel.bbclass
+> > index 88ce561..9691c25 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -529,6 +529,7 @@ kernel_do_deploy() {
+> >  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+> >
+> >  	cp ${COREBASE}/meta/files/deploydir_readme.txt
+> ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> > +	cd -
+> >  }
+> >  do_deploy[dirs] =3D "${DEPLOYDIR} ${B}"
+> >
+> > --
+> > 1.7.0.4
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-
+> bin/mailman/listinfo/openembedded-core
 
 
