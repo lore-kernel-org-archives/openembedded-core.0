@@ -1,20 +1,29 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1UQHS1-0003n5-VT
+	(envelope-from <denis@denix.org>) id 1UQHb6-0004TE-3S
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 15:22:06 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Apr 2013 06:04:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,455,1363158000"; d="scan'208";a="225969041"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Apr 2013 06:04:20 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2013 16:04:29 +0300
-Message-Id: <1365685469-19415-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] build-appliance-image: update to newer poky revision
+	Thu, 11 Apr 2013 15:31:31 +0200
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0ML3008UYE2TV0N0@vms173001.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 11 Apr 2013 08:13:51 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 3EDEF201AD; Thu,
+	11 Apr 2013 09:13:39 -0400 (EDT)
+Date: Thu, 11 Apr 2013 09:13:39 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Maupin, Chase" <chase.maupin@ti.com>
+Message-id: <20130411131339.GC28466@denix.org>
+References: <1363628359-18023-1-git-send-email-Chase.Maupin@ti.com>
+	<20130410230157.GB28466@denix.org>
+	<7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
+MIME-version: 1.0
+In-reply-to: <7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][for-danny] kernel bbclass: return to original directory in do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,36 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 13:22:06 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 13:31:36 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 13:31:36 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Src rev for BA is now ae353c229cfe7e82588dc53fbed10c6ba8370d26.
+On Thu, Apr 11, 2013 at 12:43:30PM +0000, Maupin, Chase wrote:
+> > -----Original Message-----
+> > From: Denys Dmytriyenko [mailto:denis@denix.org]
+> > Sent: Wednesday, April 10, 2013 6:02 PM
+> > To: Maupin, Chase
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass: return
+> > to original directory in do_deploy
+> > 
+> > Ping.
+> > 
+> > Ross, is it in your queue for your next danny merge?
+> 
+> I see that one as already being commited to danny
 
-Includes improvements to:
-- Hob;
-- git proxy mechanism;
-- LSB compliance for Yocto Linux;
-- postinstall fixes.
+Hmm, where? I don't see it here:
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/images/build-appliance-image.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://cgit.openembedded.org/openembedded-core/log/?h=danny
 
-diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
-index 43f0574..ae89684 100644
---- a/meta/recipes-core/images/build-appliance-image.bb
-+++ b/meta/recipes-core/images/build-appliance-image.bb
-@@ -19,7 +19,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV ?= "d823759b4594143d522eae0b2a2498436a6dcb1e"
-+SRCREV ?= "ae353c229cfe7e82588dc53fbed10c6ba8370d26"
- SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
--- 
-1.7.10.4
 
+> > On Mon, Mar 18, 2013 at 12:39:19PM -0500, Chase Maupin wrote:
+> > > * During the base kernel_do_deploy function the directory is
+> > >   changed to DEPLOYDIR in order to do some cleanup and
+> > symlinking.
+> > >   However, the directory is not changed back to the original
+> > >   starting directory ${S} at the end.  For append functions
+> > this
+> > >   means that the starting directory is not ${S} as expected but
+> > >   instead ${DEPLOYDIR}.
+> > >
+> > >   For functions like the do_deploy_append in
+> > >   recipes-kernel/linux/linux-dtb.inc there is an assumption
+> > that
+> > >   you are still in the source directory and not the DEPLOYDIR.
+> > >   Without this change the .dtb files are not copied because the
+> > >   check for the existence of ${DTS_FILE} which is a relative
+> > >   path from the ${S} directory fails.  This means that the .dtb
+> > >   files are not copied into the deploy directory and
+> > subsequently
+> > >   the deploy/images directory.
+> > >
+> > >   In the log.do_deploy file you will see lines like:
+> > >
+> > >     Warning: arch/arm/boot/dts/xxxxx.dts is not available!
+> > >
+> > > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > > ---
+> > >  meta/classes/kernel.bbclass |    1 +
+> > >  1 files changed, 1 insertions(+), 0 deletions(-)
+> > >
+> > > diff --git a/meta/classes/kernel.bbclass
+> > b/meta/classes/kernel.bbclass
+> > > index 88ce561..9691c25 100644
+> > > --- a/meta/classes/kernel.bbclass
+> > > +++ b/meta/classes/kernel.bbclass
+> > > @@ -529,6 +529,7 @@ kernel_do_deploy() {
+> > >  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+> > >
+> > >  	cp ${COREBASE}/meta/files/deploydir_readme.txt
+> > ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> > > +	cd -
+> > >  }
+> > >  do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+> > >
+> > > --
+> > > 1.7.0.4
+> > >
+> > >
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.linuxtogo.org/cgi-
+> > bin/mailman/listinfo/openembedded-core
+> 
 
 
