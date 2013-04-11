@@ -1,26 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UQHnm-0005ZF-R6
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UQHnn-0005ZM-Uk
 	for openembedded-core@lists.openembedded.org;
 	Thu, 11 Apr 2013 15:44:40 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3BDRAen014173
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3BDRBbr014176
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 06:27:10 -0700 (PDT)
+	Thu, 11 Apr 2013 06:27:12 -0700 (PDT)
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.145.220) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Apr 2013 06:27:11 -0700
+	14.2.342.3; Thu, 11 Apr 2013 06:27:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2013 06:27:01 -0700
-Message-ID: <9c22995dd4af48aa22d8abbe01113d9f34a51dad.1365686481.git.bruce.ashfield@windriver.com>
+Date: Thu, 11 Apr 2013 06:27:03 -0700
+Message-ID: <81e6b47d5dfb48716e2a438153e3081684403cfb.1365686481.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1365686481.git.bruce.ashfield@windriver.com>
 References: <cover.1365686481.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] linux-yocto/3.8: fix atom-pc config audit warnings
+Subject: [PATCH 4/8] kern-tools: fix excluded configuration processing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 13:44:57 -0000
+X-List-Received-Date: Thu, 11 Apr 2013 13:44:58 -0000
 Content-Type: text/plain
 
-The atom-pc was referencing some invalid and unecessary config
-options that are causing kernel config audit warnings.
+One of the features introduced early on in the 1.4 release cycle was the
+ability to include a kernel feature, but only get its patches and not configs
+(and vice versa).
 
-With this SRCREV update, the configuration is clean against the
-3.8 kernel.
+As it turns out, this only was exercised recently and once a single include
+with dropped configs was started, ALL configuration values following the
+commit were dropped.
 
-[YOCTO #3490]
+To fix the problem, the processing of kernel features has been split into
+two. Where the features are preprocessed and the assembled/complete file is
+used to generate the meta-series (which is later applied to the tree). The
+logic of the tools is the same, but the two phases of processing allows
+configuration values to be excluded properly and simply, while keeping the
+logic for modifying the tree in a separate step.
 
-(From OE-Core rev: 9f3ff1f907a0cf65d8aff82134463c4321d4b1e2)
+All changes are invisible to the user, and are done within the existing
+scripts and build system bindings. Output series and manipulations to
+the tree are the same as they were before this change.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Updating the kern-tools SRCREV to pickup the kern-tools changes for this.
+
+(From OE-Core rev: 961ab0ac53de317c22409d90244a313998959714)
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.8.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-index 3632a28..7452a8f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-@@ -10,7 +10,7 @@ KMETA = "meta"
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index affd66e..5334f75 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
  
- SRCREV_machine ?= "abd0728b164f651292374e96251ee197b50e3c02"
- SRCREV_machine_qemuppc ?= "1619988b773840ec546292a9cd65dda99d55b96c"
--SRCREV_meta ?= "70dac5a56c245ca01d2d4e18fc2c9fb112749bf3"
-+SRCREV_meta ?= "f86199dd4c142fae61517a993b3f7162bb6d4f94"
+ DEPENDS = "git-native guilt-native"
  
- PR = "${INC_PR}.0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-index c589fa0..f1dfbc4 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-@@ -9,7 +9,7 @@ SRCREV_machine_qemuppc ?= "f8848d222d1fcd1ebc517d28f289735621708449"
- SRCREV_machine_qemux86 ?= "42ddf06111efe45f3c36012d5a04a1eeb9781f42"
- SRCREV_machine_qemux86-64 ?= "42ddf06111efe45f3c36012d5a04a1eeb9781f42"
- SRCREV_machine ?= "42ddf06111efe45f3c36012d5a04a1eeb9781f42"
--SRCREV_meta ?= "70dac5a56c245ca01d2d4e18fc2c9fb112749bf3"
-+SRCREV_meta ?= "f86199dd4c142fae61517a993b3f7162bb6d4f94"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.8.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+-SRCREV = "d484e3f731f38f5b4e05e13102c97d06106edfb5"
++SRCREV = "89821213a5df891254f40c9ddccdcfd780d25c3f"
+ PR = "r12"
+ PV = "0.1+git${SRCPV}"
  
 -- 
 1.7.10.4
