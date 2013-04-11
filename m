@@ -1,41 +1,23 @@
-Received: from bear.ext.ti.com ([192.94.94.41])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UQI4A-0007pm-Nl
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UQIOd-0001Cq-Mc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 16:01:33 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3BDi6PG020377;
-	Thu, 11 Apr 2013 08:44:06 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3BDi692027759;
-	Thu, 11 Apr 2013 08:44:06 -0500
-Received: from DLEE74.ent.ti.com (157.170.170.8) by DFLE73.ent.ti.com
-	(128.247.5.110) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 11 Apr 2013 08:44:06 -0500
-Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
-	DLEE74.ent.ti.com ([fe80::a0f1:125b:e7e3:7ed8%18]) with mapi id
-	14.01.0323.003; Thu, 11 Apr 2013 08:44:06 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: "Maupin, Chase" <chase.maupin@ti.com>, Denys Dmytriyenko <denis@denix.org>
-Thread-Topic: [OE-core] [PATCH][for-danny] kernel bbclass: return to
-	original directory in do_deploy
-Thread-Index: AQHONj9zTM/tkxIz0E+0T10m73f8mJjQ98EwgABcVYD//7OgkIAAANWA
-Date: Thu, 11 Apr 2013 13:44:05 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED101594DE395@DLEE11.ent.ti.com>
-References: <1363628359-18023-1-git-send-email-Chase.Maupin@ti.com>
-	<20130410230157.GB28466@denix.org>
-	<7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
-	<20130411131339.GC28466@denix.org>
-	<7D46E86EC0A8354091174257B2FED101594DE2F5@DLEE11.ent.ti.com>
-In-Reply-To: <7D46E86EC0A8354091174257B2FED101594DE2F5@DLEE11.ent.ti.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [157.170.170.90]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][for-danny] kernel bbclass: return to original directory in do_deploy
+	Thu, 11 Apr 2013 16:22:40 +0200
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2F378D20DC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2013 16:05:26 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2013 16:05:14 +0200
+Message-Id: <1365689114-24696-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <1364209106-10506-1-git-send-email-marcin.juszkiewicz@linaro.org>
+References: <1364209106-10506-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Subject: [PATCHv4] powertop: add 2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,139 +30,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 14:01:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Apr 2013 14:22:44 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On
-> Behalf Of Maupin, Chase
-> Sent: Thursday, April 11, 2013 8:41 AM
-> To: Denys Dmytriyenko
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass: return
-> to original directory in do_deploy
->=20
-> > -----Original Message-----
-> > From: Denys Dmytriyenko [mailto:denis@denix.org]
-> > Sent: Thursday, April 11, 2013 8:14 AM
-> > To: Maupin, Chase
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
-> return
-> > to original directory in do_deploy
-> >
-> > On Thu, Apr 11, 2013 at 12:43:30PM +0000, Maupin, Chase wrote:
-> > > > -----Original Message-----
-> > > > From: Denys Dmytriyenko [mailto:denis@denix.org]
-> > > > Sent: Wednesday, April 10, 2013 6:02 PM
-> > > > To: Maupin, Chase
-> > > > Cc: openembedded-core@lists.openembedded.org
-> > > > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
-> > return
-> > > > to original directory in do_deploy
-> > > >
-> > > > Ping.
-> > > >
-> > > > Ross, is it in your queue for your next danny merge?
-> > >
-> > > I see that one as already being commited to danny
-> >
-> > Hmm, where? I don't see it here:
-> >
-> > http://cgit.openembedded.org/openembedded-core/log/?h=3Ddanny
->=20
-> http://cgit.openembedded.org/meta-
-> openembedded/commit/?id=3D0738c3c8089480dec9e26d7de08c35ba8106b15a
+With all tweaks from 1.13:
+- uclibc buildable
+- libncurses instead of libncursesw
 
-Nevermind.  I remember now that this was in 3 places.
+Changes from v3:
+- proper update-alternatives path
 
-Oe-core master
-Oe-core danny
-Meta-openembedded danny
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ .../stub_out_the_ncurses_calls_in_dump_mode.patch  | 33 -----------------
+ meta/recipes-kernel/powertop/powertop_1.13.bb      | 41 ----------------------
+ meta/recipes-kernel/powertop/powertop_2.3.bb       | 30 ++++++++++++++++
+ 3 files changed, 30 insertions(+), 74 deletions(-)
+ delete mode 100644 meta/recipes-kernel/powertop/powertop-1.13/stub_out_the_ncurses_calls_in_dump_mode.patch
+ delete mode 100644 meta/recipes-kernel/powertop/powertop_1.13.bb
+ create mode 100644 meta/recipes-kernel/powertop/powertop_2.3.bb
 
-So you are right that the oe-core danny commit seems to be missing.
+diff --git a/meta/recipes-kernel/powertop/powertop-1.13/stub_out_the_ncurses_calls_in_dump_mode.patch b/meta/recipes-kernel/powertop/powertop-1.13/stub_out_the_ncurses_calls_in_dump_mode.patch
+deleted file mode 100644
+index ae4cf5d..0000000
+--- a/meta/recipes-kernel/powertop/powertop-1.13/stub_out_the_ncurses_calls_in_dump_mode.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Upstream-Status: Inappropriate [this patch is 1.13 specific and 2.0 will be coming.]
+-
+-Running PowerTop in Poky in dump mode (with --dump) always ends with a
+-segmentation fault.
+-
+-The cause is: in dump mode, setup_windows() is not invoked so the
+-*_window variables, like cstate_window, are still NULL; later in
+-main() -> show_cstates(), the functions, like wrefresh(), will trigger
+-segfault.
+-
+-After discussing in PowerTop mailling list, I think the right solution is
+-we should stub out the ncurses calls in dump mode.
+-
+-(The patch was also sent to upstream PowerTop mailling list.)
+-
+-Signed-off-by Dexuan Cui <dexuan.cui@intel.com>, 2010-08-20
+-(this patch is licensed under GPLv2)
+-
+---- a/display.c
+-+++ b/display.c
+-@@ -44,6 +44,12 @@
+- static WINDOW *status_bar_window;
+- 
+- #define print(win, y, x, fmt, args...) do { if (dump) printf(fmt, ## args); else mvwprintw(win, y, x, fmt, ## args); } while (0)
+-+#define wattrset(win, c) do { if (!dump ) wattrset(win, c); } while (0)
+-+#define wbkgd(win, c) do { if (!dump ) wbkgd(win, c); } while (0)
+-+#define werase(win) do { if (!dump ) werase(win); } while (0)
+-+#define wrefresh(win) do { if (!dump ) wrefresh(win); } while (0)
+-+#define wattron(win, a) do { if (!dump ) wattron(win, a); } while (0)
+-+#define wattroff(win, a) do { if (!dump ) wattroff(win, a); } while (0)
+- 
+- char status_bar_slots[10][40];
+- 
+diff --git a/meta/recipes-kernel/powertop/powertop_1.13.bb b/meta/recipes-kernel/powertop/powertop_1.13.bb
+deleted file mode 100644
+index db54ed0..0000000
+--- a/meta/recipes-kernel/powertop/powertop_1.13.bb
++++ /dev/null
+@@ -1,41 +0,0 @@
+-SUMMARY = "Power usage tool"
+-DESCRIPTION = "PowerTOP, a tool that helps you find what software is using the most power."
+-HOMEPAGE = "http://www.lesswatts.org/"
+-BUGTRACKER = "http://bugzilla.lesswatts.org/"
+-
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-
+-DEPENDS = "virtual/libintl ncurses"
+-
+-# powertop 1.13 needs lspci
+-RDEPENDS_${PN} = "pciutils"
+-
+-PR = "r4"
+-
+-SRC_URI = "http://www.lesswatts.org/projects/powertop/download/powertop-${PV}.tar.gz \
+-           file://stub_out_the_ncurses_calls_in_dump_mode.patch \
+-          "
+-
+-SRC_URI[md5sum] = "78aa17c8f55178004223bf236654298e"
+-SRC_URI[sha256sum] = "2bc866089496877dd26d2d316ad5763ab8ecb5e28aefba44bc5d355dcdc58d98"
+-
+-CFLAGS += "${LDFLAGS}"
+-EXTRA_OEMAKE = "VERSION=\"${PV}\" EXTRA_LIBS=${EXTRA_LIBS}"
+-
+-EXTRA_LIBS_libc-uclibc = "-lintl"
+-
+-do_configure() {
+-	# We do not build ncurses with wide char support
+-	sed -i -e 's:lncursesw:lncurses ${EXTRA_LIBS}:g' ${S}/Makefile
+-}
+-
+-do_install() {
+-	oe_runmake install DESTDIR=${D}
+-}
+-
+-inherit update-alternatives
+-ALTERNATIVE_${PN} = "powertop"
+-ALTERNATIVE_TARGET[powertop] = "${bindir}/powertop"
+-ALTERNATIVE_LINK_NAME[powertop] = "${base_bindir}/powertop"
+-ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-kernel/powertop/powertop_2.3.bb b/meta/recipes-kernel/powertop/powertop_2.3.bb
+new file mode 100644
+index 0000000..8d290d3
+--- /dev/null
++++ b/meta/recipes-kernel/powertop/powertop_2.3.bb
+@@ -0,0 +1,30 @@
++SUMMARY = "Power usage tool"
++DESCRIPTION = "Linux tool to diagnose issues with power consumption and power management."
++HOMEPAGE = "http://01.org/powertop/"
++BUGTRACKER = "http://bugzilla.lesswatts.org/"
++DEPENDS = "ncurses virtual/gettext libnl pciutils"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
++
++SRC_URI = "http://01.org/powertop/sites/default/files/downloads/powertop-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "dc03608f20e56cdc99d121a6191556f6"
++SRC_URI[sha256sum] = "b8c1add69afee28c77dca56fdcedb4a46820f3a71c86aae7891b0c5c595cd744"
++
++inherit autotools
++
++# we need to explicitly link with libintl in uClibc systems
++LDFLAGS += "${EXTRA_LDFLAGS}"
++EXTRA_LDFLAGS_libc-uclibc = "-lintl"
++
++# we do not want libncursesw if we can
++do_configure_prepend() {
++    # configure.ac checks for delwin() in "ncursesw ncurses" so let's drop first one
++    sed -i -e "s/ncursesw//g" ${S}/configure.ac
++}
++
++inherit update-alternatives
++ALTERNATIVE_${PN} = "powertop"
++ALTERNATIVE_TARGET[powertop] = "${sbindir}/powertop"
++ALTERNATIVE_LINK_NAME[powertop] = "${base_bindir}/powertop"
++ALTERNATIVE_PRIORITY = "100"
+-- 
+1.8.1.2
 
->=20
-> >
-> >
-> > > > On Mon, Mar 18, 2013 at 12:39:19PM -0500, Chase Maupin
-> wrote:
-> > > > > * During the base kernel_do_deploy function the directory
-> > is
-> > > > >   changed to DEPLOYDIR in order to do some cleanup and
-> > > > symlinking.
-> > > > >   However, the directory is not changed back to the
-> > original
-> > > > >   starting directory ${S} at the end.  For append
-> functions
-> > > > this
-> > > > >   means that the starting directory is not ${S} as
-> expected
-> > but
-> > > > >   instead ${DEPLOYDIR}.
-> > > > >
-> > > > >   For functions like the do_deploy_append in
-> > > > >   recipes-kernel/linux/linux-dtb.inc there is an
-> assumption
-> > > > that
-> > > > >   you are still in the source directory and not the
-> > DEPLOYDIR.
-> > > > >   Without this change the .dtb files are not copied
-> because
-> > the
-> > > > >   check for the existence of ${DTS_FILE} which is a
-> > relative
-> > > > >   path from the ${S} directory fails.  This means that
-> the
-> > .dtb
-> > > > >   files are not copied into the deploy directory and
-> > > > subsequently
-> > > > >   the deploy/images directory.
-> > > > >
-> > > > >   In the log.do_deploy file you will see lines like:
-> > > > >
-> > > > >     Warning: arch/arm/boot/dts/xxxxx.dts is not
-> available!
-> > > > >
-> > > > > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> > > > > ---
-> > > > >  meta/classes/kernel.bbclass |    1 +
-> > > > >  1 files changed, 1 insertions(+), 0 deletions(-)
-> > > > >
-> > > > > diff --git a/meta/classes/kernel.bbclass
-> > > > b/meta/classes/kernel.bbclass
-> > > > > index 88ce561..9691c25 100644
-> > > > > --- a/meta/classes/kernel.bbclass
-> > > > > +++ b/meta/classes/kernel.bbclass
-> > > > > @@ -529,6 +529,7 @@ kernel_do_deploy() {
-> > > > >  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin
-> > ${KERNEL_IMAGETYPE}
-> > > > >
-> > > > >  	cp ${COREBASE}/meta/files/deploydir_readme.txt
-> > > > ${DEPLOYDIR}/README_-
-> > _DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-> > > > > +	cd -
-> > > > >  }
-> > > > >  do_deploy[dirs] =3D "${DEPLOYDIR} ${B}"
-> > > > >
-> > > > > --
-> > > > > 1.7.0.4
-> > > > >
-> > > > >
-> > > > > _______________________________________________
-> > > > > Openembedded-core mailing list
-> > > > > Openembedded-core@lists.openembedded.org
-> > > > > http://lists.linuxtogo.org/cgi-
-> > > > bin/mailman/listinfo/openembedded-core
-> > >
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
-> core
 
 
