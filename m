@@ -1,30 +1,41 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ve0-f180.google.com ([209.85.128.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UQPVE-00058o-Cs; Thu, 11 Apr 2013 23:57:56 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3BLppwq006356; Thu, 11 Apr 2013 22:51:51 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Q56QywOtSYfv; Thu, 11 Apr 2013 22:51:51 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3BLphb0006352
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 11 Apr 2013 22:51:46 +0100
-Message-ID: <1365716419.16702.63.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 11 Apr 2013 22:40:19 +0100
-In-Reply-To: <20130411133031.GF2477@jama>
-References: <20130411133031.GF2477@jama>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [bitbake-devel] Checksum failure encountered with download
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UQQvV-0003nf-2t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 12 Apr 2013 01:29:10 +0200
+Received: by mail-ve0-f180.google.com with SMTP id da11so79651veb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=Q9cseCrWYM6C5hUutsSVmzz7kbUaZR76rreaeDgliLk=;
+	b=N8gXdKcWFYlouEPnO2REK70yIbg7tZVFxYkLvSmHwf491IGSNBQ2zzlsfxNPJ+l9d3
+	bZncWt6sPpgVzR8L524XwK7XhYI241r9nNU88h7t19loWXxVNh+8rFSYKdISeLjnIUFE
+	BNJaLvXdCfxvMy22h+3Y/h3CtJ1XMH6sD+wjhxES6pv5NCluE3A+Xr5zH0EmW7Kpo5hz
+	s/vZvuGv11Nx6Xn+NOMVNv+3t/7NnchzjqtLKXoH3mzGT2Zk7+TPiO/ox3rcJFcnybrd
+	r0heMwEJlIkPomWhw4EHis+dS31ZnNGxAIk4KSyJAIKFxZKzOsWl8+g+iiMq/V3ZQ4DG
+	mIoQ==
+MIME-Version: 1.0
+X-Received: by 10.52.65.147 with SMTP id x19mr5774962vds.27.1365721905154;
+	Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
+In-Reply-To: <1364824441.24754.20.camel@localhost>
+References: <cover.1364456659.git.raj.khem@gmail.com>
+	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
+	<20130328122110.GA5105@jama>
+	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
+	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
+	<D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
+	<CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
+	<1364824441.24754.20.camel@localhost>
+Date: Fri, 12 Apr 2013 01:11:45 +0200
+Message-ID: <CALbNGRSqEdebP4WsrH9xrW30k+MuxfaXousVfNfjdufS4yCfSw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Colin Walters <walters@verbum.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 21:57:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Apr 2013 23:29:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-04-11 at 15:30 +0200, Martin Jansa wrote:
-> Hi,
-> 
-> when fetcher fails with ChecksumError it shows error like in subject and
-> tries another MIRRORs
-> 
-> Would anyone object to keep fetched source with wrong checksum in
-> downloads directory (renamed so it does not conflict with file with
-> correct checksum downloaded later)?
-> 
-> Right now it just removes the file:
->                         # Remove any incomplete fetch
->                         m.clean(ud, self.d)
-> 
-> The problem with this is when upstream repacks some archive I would like
-> to be able to compare old tarball and new one.
-> 
-> My proposal is to add md5sum of downloaded file to ChecksumError and
-> rename it to <file>.<md5sum> in "if isinstance(e, ChecksumError):"
-> 
-> Does it make sense (should I send patch for this)?
+On Mon, Apr 1, 2013 at 3:54 PM, Colin Walters <walters@verbum.org> wrote:
+> On Fri, 2013-03-29 at 13:50 +0100, Andreas M=C3=BCller wrote:
+>
+>> Anybody an idea why I get this when building from scratch:
+>>
+>> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7=
+a-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
+>> 'systemd': No such file
+>> | make[2]: *** [org.freedesktop.systemd1.Manager.xml] Error 1
+>> | make[2]: *** Waiting for unfinished jobs....
+>
+> http://lists.freedesktop.org/archives/systemd-devel/2013-February/008751.=
+html
+>
+>
+Had no make-native so did manually build it and now systemd compiles fine n=
+ow.
 
-I'm fine with that.
+Is there a reason why we don't build make-native - If remember correct
+there were fixes also for webkit-gtk parallel-make issues (ok - these
+are wiped away for me by retry loop).
 
-Cheers,
-
-Richard
-
-
+Andreas
 
 
