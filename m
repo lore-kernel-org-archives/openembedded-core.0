@@ -1,35 +1,42 @@
-Received: from mail-pa0-f48.google.com ([209.85.220.48])
+Received: from mail-ee0-f49.google.com ([74.125.83.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1UQ5ra-0004SP-Sa
+	(envelope-from <rep.dot.nop@gmail.com>) id 1UQBF7-0007HI-4e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Apr 2013 02:59:50 +0200
-Received: by mail-pa0-f48.google.com with SMTP id lj1so592188pab.21
+	Thu, 11 Apr 2013 08:44:23 +0200
+Received: by mail-ee0-f49.google.com with SMTP id l10so565478eei.22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2013 17:42:19 -0700 (PDT)
+	Wed, 10 Apr 2013 23:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=WZcTXdbIi2Q+q7tyrnuO2Pg6bnTVZnJ23gXc8+8GTeI=;
-	b=wfeYLxcB2zYQ92tYjro0yRU5aQ7viA/I9FuHhi8VM3Vhwis/WuA0W2RljgBPO/J1Mc
-	vrjMeO7T1niG+44GSkmTPquJn/oeAomlcDjY+DZVBT+xMVQI3aXK8e3nFgsRmpMcWLt+
-	C/1IQm0dBc8M328kZEyOxFNvYAp+onTMszOfgAJRByaCnf1QuOcrQemsW75x6dum1TWj
-	x42txqwaa6ig7/9SjbkCt1xPr5c5/+ZoQUhgPX/Cn+JYCh/0r0M6IMQRZLdGKn2gATUZ
-	SncTSyiR/nFXI5yM8KmlQvnGskgU5VgpbsbsdBiAvH7UuCjZabiJYL/FjDoo46VAFd4d
-	f90Q==
-MIME-Version: 1.0
-X-Received: by 10.66.145.166 with SMTP id sv6mr6677160pab.1.1365640939887;
-	Wed, 10 Apr 2013 17:42:19 -0700 (PDT)
-Received: by 10.68.216.7 with HTTP; Wed, 10 Apr 2013 17:42:19 -0700 (PDT)
-In-Reply-To: <1365630434-7008-2-git-send-email-Chase.Maupin@ti.com>
-References: <1365630434-7008-1-git-send-email-Chase.Maupin@ti.com>
-	<1365630434-7008-2-git-send-email-Chase.Maupin@ti.com>
-Date: Wed, 10 Apr 2013 20:42:19 -0400
-Message-ID: <CADkTA4P-9V7X_R12n8SDSAgYxGE9M0Mhfadp85hPwFPFFaM7NQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chase Maupin <Chase.Maupin@ti.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-received:from:to:date:message-id:in-reply-to:references
+	:user-agent:subject:mime-version:content-type
+	:content-transfer-encoding;
+	bh=b5xGHaj9SNEl1TIlJa3qhnvtria4O4yobelmB2V/wUY=;
+	b=Kxxt77h+TYSX2XuNQTxpyUprDYdzqjooFRnHBTjGDormFlBR4OGx1on2gxJX9khmwP
+	GKtXT+94/Wwb2BA1NLXabPrA+uyuhRLhljDUT5RAUO0uo3JJOWPa+6mI5G0d3X1MFtSC
+	ajrAtDf6u/yZmOzr46Q+1memYK3VPX3qoK6dAZgzMUdWL4/dQ2i3i8X0hGcbo1KT2JE2
+	nBXtWSXb3RCAl8j7azY5MbN0iRBuxghYz39gWduGHIrzi6RfhBIDwnGwroKILCEdqh1Q
+	i4iRYSb8MI40ARgAFy0lA7ZbRG8faNEvBFpE8j6szaGZs0Nw3Yy2KdvkZjg5OpHsjyHh
+	F4QQ==
+X-Received: by 10.14.5.137 with SMTP id 9mr9191432eel.30.1365661618650;
+	Wed, 10 Apr 2013 23:26:58 -0700 (PDT)
+Received: from [46.206.159.72] (046206159072.atmpu0021.highway.a1.net.
+	[46.206.159.72])
+	by mx.google.com with ESMTPS id r4sm3727345eeo.12.2013.04.10.23.26.57
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 10 Apr 2013 23:26:58 -0700 (PDT)
+From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: Add KERNEL_LOCALVERSION to control version string
+Date: Thu, 11 Apr 2013 08:29:49 +0200
+Message-ID: <13df7c921cb.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <23e03f4a9118bbae6033f9d88925d6f8b542ee5d.1365608262.git.paul.eggleton@linux.intel.com>
+References: <cover.1365608262.git.paul.eggleton@linux.intel.com>
+	<23e03f4a9118bbae6033f9d88925d6f8b542ee5d.1365608262.git.paul.eggleton@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.3.4 (build:
+	2100270)
+MIME-Version: 1.0
+Subject: Re: [PATCH 4/4] initscripts: fix read-only-rootfs-hook.sh to start earlier
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,77 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 00:59:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 11 Apr 2013 06:44:36 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 10, 2013 at 5:47 PM, Chase Maupin <Chase.Maupin@ti.com> wrote:
-> * Add a variable called KERNEL_LOCALVERSION which when set will
->   place a version string in the .scmversion file of the kernel
->   sources.  This string will be picked up by the kernel Makefile
->   and will be appended to the kernel version.  This is done to
->   make it easier to identify what revision of the kernel sources
->   are being run.  For example you can use a setting like the
->   following to add the short commit id to the kernel version
->   string:
+On 10 April 2013 17:42:28 Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> Mount /var/volatile ourselves so that we can set up the writable area
+> first. This fixes the urandom service not starting properly when
+> read-only-rootfs is enabled.
 >
-> KERNEL_LOCALVERSION = "-g${@d.getVar('SRCPV', True).partition('+')[2][0:7]}"
->
-> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 > ---
->  meta/classes/kernel.bbclass |    6 +++++-
->  1 files changed, 5 insertions(+), 1 deletions(-)
+>  .../initscripts/initscripts-1.0/read-only-rootfs-hook.sh             |    1 +
+>  meta/recipes-core/initscripts/initscripts_1.0.bb                     |    2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index af58887..9757465 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -48,6 +48,9 @@ export CMDLINE_CONSOLE = "console=${@d.getVar("KERNEL_CONSOLE",1) or "ttyS0"}"
+> diff --git 
+> a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh 
+> b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+> index 4f3e0d9..9cf0921 100644
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+> @@ -5,6 +5,7 @@
+>  [ "$ROOTFS_READ_ONLY" = "no" ] && exit 0
 >
->  KERNEL_VERSION = "${@get_kernelversion('${B}')}"
->
-> +# Setting KERNEL_LOCALVERSION will place a string in the .scmversion file
-> +# of the kernel tree.  This string will be picked up by the build system
-> +# of the kernel and appended to the kernel version.
->  KERNEL_LOCALVERSION ?= ""
->
->  # kernels are generally machine specific
-> @@ -210,7 +213,8 @@ kernel_do_configure() {
->         # $ scripts/setlocalversion . => +
->         # $ make kernelversion => 2.6.37
->         # $ make kernelrelease => 2.6.37+
-> -       touch ${B}/.scmversion ${S}/.scmversion
-> +       echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
-> +       echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
+>  if [ "$1" = "start" ] ; then
+> +	grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
 
-This would clobber trees that already patch, or otherwise have the file in place
-in their source directory.  A test to see if it already exists and only echo
-the variable if no one has already set it in their tree would be safer.
-
-This will still be overridden by CONFIG_LOCALVERSION, so it is safe
-from that angle, but also note that it can be inhibited by setting
-# CONFIG_LOCALVERSION_AUTO is not set, in your .config and
-setting LOCALVERSION, but you probably already knew that!
-
-Cheers,
-
-Bruce
-
->
->         # Copy defconfig to .config if .config does not exist. This allows
->         # recipes to manage the .config themselves in do_configure_prepend().
-> --
-> 1.7.0.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Or just use mountpoint(1)?
 
 
+Sent with AquaMail for Android
+http://www.aqua-mail.com
 
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
 
 
