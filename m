@@ -1,24 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UQXfQ-00057h-BF
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UQXfS-00057m-B7
 	for openembedded-core@lists.openembedded.org;
 	Fri, 12 Apr 2013 08:41:04 +0200
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3C6NZTw000043
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3C6NcLx000046
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 23:23:35 -0700 (PDT)
+	Thu, 11 Apr 2013 23:23:38 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.147) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Apr 2013 23:23:34 -0700
+	14.2.342.3; Thu, 11 Apr 2013 23:23:37 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Apr 2013 14:23:28 +0800
-Message-ID: <cover.1365732443.git.hongxu.jia@windriver.com>
+Date: Fri, 12 Apr 2013 14:23:30 +0800
+Message-ID: <1e5101b393677a48b7bb07e064e24894218977ce.1365732443.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1365732443.git.hongxu.jia@windriver.com>
+References: <cover.1365732443.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3]udev-extraconf:fix rootless X write to usb storage failed
+Subject: [PATCH 2/3] connman.inc: Add xuser to disk group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +36,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 12 Apr 2013 06:41:05 -0000
 Content-Type: text/plain
 
-The following need to be discussed:
-1, Is it proper to change the group of storage dir to `disk', and grant
-   it with w/r/x permissions?
+1, Add xuser to disk group, so it could have permissions to access disk storage.
 
-2, Is it proper to add xuser to group `disk', is there a security issue?
+2, When fix [YOCTO #4164] xserver-nodm-init: Add xuser to input group, it
+missed to sync with this file.
 
+[YOCTO #4004]
 
-The following changes since commit 95b71d2b03a3a6dc5d32a7d6a84ec3420f39aa61:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  routerstationpro: strip the output kernel of .comment section (2013-04-11 09:03:21 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-udev-xuser-2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-udev-xuser-2
-
-Hongxu Jia (3):
-  xserver-nodm-init: Add xuser to disk group
-  connman.inc: Add xuser to disk group
-  udev-extraconf:fix rootless X write to usb storage failed
-
- meta/recipes-connectivity/connman/connman.inc      |    2 +-
- meta/recipes-core/udev/udev-extraconf/mount.sh     |   25 ++++++++++++++++++--
- .../x11-common/xserver-nodm-init.bb                |    4 ++--
- 3 files changed, 26 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 5d35bc2..1af93b1 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -53,7 +53,7 @@ SYSTEMD_WIRED_SETUP = "ExecStartPre=-/usr/lib/connman/wired-setup"
+ # USERADD_PARAM is in sync with the one in xserver-nodm-init.bb
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--create-home \
+-                       --groups video,tty,audio \
++                       --groups video,tty,audio,input,disk \
+                        --user-group xuser"
+ 
+ inherit autotools gtk-doc pkgconfig systemd update-rc.d useradd
 -- 
 1.7.10.4
 
