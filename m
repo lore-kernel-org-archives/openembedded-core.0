@@ -1,41 +1,42 @@
-Received: from mail-ve0-f180.google.com ([209.85.128.180])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UQQvV-0003nf-2t
+	(envelope-from <saul.wold@intel.com>) id 1UQSSm-0003l4-5u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 01:29:10 +0200
-Received: by mail-ve0-f180.google.com with SMTP id da11so79651veb.39
+	Fri, 12 Apr 2013 03:07:41 +0200
+Received: by mail-pa0-f41.google.com with SMTP id kx1so1183469pab.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=Q9cseCrWYM6C5hUutsSVmzz7kbUaZR76rreaeDgliLk=;
-	b=N8gXdKcWFYlouEPnO2REK70yIbg7tZVFxYkLvSmHwf491IGSNBQ2zzlsfxNPJ+l9d3
-	bZncWt6sPpgVzR8L524XwK7XhYI241r9nNU88h7t19loWXxVNh+8rFSYKdISeLjnIUFE
-	BNJaLvXdCfxvMy22h+3Y/h3CtJ1XMH6sD+wjhxES6pv5NCluE3A+Xr5zH0EmW7Kpo5hz
-	s/vZvuGv11Nx6Xn+NOMVNv+3t/7NnchzjqtLKXoH3mzGT2Zk7+TPiO/ox3rcJFcnybrd
-	r0heMwEJlIkPomWhw4EHis+dS31ZnNGxAIk4KSyJAIKFxZKzOsWl8+g+iiMq/V3ZQ4DG
-	mIoQ==
+	Thu, 11 Apr 2013 17:50:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:message-id:date:from:organization:user-agent
+	:mime-version:to:subject:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=5YUMv6c1f54d9lN3WyziW0B+lIlxvDibrwcroE0xv8Y=;
+	b=Yu2qRrThm7tO5jPqTw3RiL7QEQuj6tZ/0BlwszgNxE3cU0+SY8TNMcw+ln5eWgJUfg
+	y7qAFJaroGUk8/dJ+Tz5Y6H6K4WhG6IFUqT1nH7wQ/uaU8pfwPTXmLDq7uhmkX6lLKWg
+	NP2aj4bCsZx2jQbpcHLyUDJ02ShmHY1tJlymQi6EDAkHHkc00zHlXQvnmskx1T/Fhdc6
+	OZH+n6TRofvt/Jodgq0u5UliVCvQJiX4DXFxNgbglNH7yPQf85CnfbGcTF4+eYhy7QS3
+	upkkblwI4HhvImw5v3KReQ8Gu/EJZBVn9veTu9hDbgd1wOuO3V6oIIMrWOLTibPXf72y
+	AMHQ==
+X-Received: by 10.68.105.193 with SMTP id go1mr12058277pbb.13.1365727810382;
+	Thu, 11 Apr 2013 17:50:10 -0700 (PDT)
+Received: from [172.31.2.29] (wsip-24-120-36-131.lv.lv.cox.net.
+	[24.120.36.131])
+	by mx.google.com with ESMTPS id ad7sm6138825pbd.14.2013.04.11.17.50.09
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Thu, 11 Apr 2013 17:50:09 -0700 (PDT)
+Message-ID: <51675A40.6080600@intel.com>
+Date: Thu, 11 Apr 2013 17:50:08 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.52.65.147 with SMTP id x19mr5774962vds.27.1365721905154;
-	Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Thu, 11 Apr 2013 16:11:45 -0700 (PDT)
-In-Reply-To: <1364824441.24754.20.camel@localhost>
-References: <cover.1364456659.git.raj.khem@gmail.com>
-	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
-	<20130328122110.GA5105@jama>
-	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
-	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
-	<D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
-	<CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
-	<1364824441.24754.20.camel@localhost>
-Date: Fri, 12 Apr 2013 01:11:45 +0200
-Message-ID: <CALbNGRSqEdebP4WsrH9xrW30k+MuxfaXousVfNfjdufS4yCfSw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Colin Walters <walters@verbum.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
+To: Khem Raj <raj.khem@gmail.com>, 
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQllP+oC3PgUkqhKhlqrNR8JMekgMaTqxfyF8lVHe/edOUdxd5oFOHG21tlYwgBuWKHhiJfQ
+Subject: Master under test with gcc-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,32 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 23:29:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Apr 2013 01:07:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 1, 2013 at 3:54 PM, Colin Walters <walters@verbum.org> wrote:
-> On Fri, 2013-03-29 at 13:50 +0100, Andreas M=C3=BCller wrote:
->
->> Anybody an idea why I get this when building from scratch:
->>
->> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/armv7=
-a-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-objcopy:
->> 'systemd': No such file
->> | make[2]: *** [org.freedesktop.systemd1.Manager.xml] Error 1
->> | make[2]: *** Waiting for unfinished jobs....
->
-> http://lists.freedesktop.org/archives/systemd-devel/2013-February/008751.=
-html
->
->
-Had no make-native so did manually build it and now systemd compiles fine n=
-ow.
 
-Is there a reason why we don't build make-native - If remember correct
-there were fixes also for webkit-gtk parallel-make issues (ok - these
-are wiped away for me by retry loop).
+Khem,
 
-Andreas
+Just an FYI, I am firing the autobuilder tonight with Master_Under_Test 
+(MUT) with your latest GCC-4.8 recipe enabled, so we can get an across 
+the board look at what's happening.
+
+I have seen a couple of failures with an initial build in xmodmap and 
+matchbox-panel (when building a sato image for x86).
+
+Just wanted you to keep your eye on the build, I will send you any failures.
+
+Thanks for looking after the toolchain!
+
+Sau!
 
 
