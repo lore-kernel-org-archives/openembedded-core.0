@@ -1,36 +1,35 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mail-vb0-f49.google.com ([209.85.212.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UQfTP-0005jX-UC
+	(envelope-from <ross.burton@intel.com>) id 1UQfc1-0006U7-5s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 17:01:15 +0200
-Received: by mail-da0-f47.google.com with SMTP id s35so1171903dak.20
+	Fri, 12 Apr 2013 17:10:02 +0200
+Received: by mail-vb0-f49.google.com with SMTP id 11so2180398vbf.22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 07:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=PA35fBSEaU9NRSfUqhoRkT8vxbteYLkExSXr8yZv4XA=;
-	b=YZZrFAZhmbwOzkinZHig2aAeztIRLUmo4VBN0wE4aQTLZZacSll4drgjIH5LPPrqrR
-	ZIzdc44n4SVo0bUIn373Gfq5c9Kwxcg2b3L/qo/bF4iXIBzG2we7h5upYLtcukS6sJ+G
-	Ix6qDzhOv83yy9OPQ5ZMyCrnjcCgZ6ENqRqe8vqc5Iiu9Mf5HRzEmdGUx605O8UGPu1Y
-	/CBjt3DmQjMgNh1D9aOWJYZZ/8T/XYjZLwXrCrl48wek+HBze3/O3bMHx5qtUIChVrBm
-	KiYdqvCz0IIo8M1tArCD0vvgJ7E/dWVGgKHVfgQ/OJXNsGIH9WlXtCN2hrf0xJvf81Dg
-	6+Yg==
-X-Received: by 10.68.247.100 with SMTP id yd4mr15111866pbc.47.1365777822555;
-	Fri, 12 Apr 2013 07:43:42 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id jw10sm8863112pbb.3.2013.04.12.07.43.39
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 12 Apr 2013 07:43:41 -0700 (PDT)
-Date: Fri, 12 Apr 2013 16:43:35 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130412144335.GR2477@jama>
+	Fri, 12 Apr 2013 07:52:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=q1/0VAxdRhX3MnYelbJNKoW+ZLOsc1crEBjvoe5YOXQ=;
+	b=gQbYLjfuTnz52UFmQaLTJEcsCl549CaQjAeGZ0ZJ6Ud+i9CBPB3V7OXRGH0N/xaVeD
+	E5J7pEcEaOc+JEzJbhjhxUigsz/b4Y5f0vPHeIY/9JSTbWk1DQ/t17Jq8CK1e2cnKMH6
+	ARYNxthcHmpapaQhArNevPlUSWGqCiqd6rCixjb8ERTuGJcKE878BpbckM1E8ClDlElk
+	ln6WbacayB/EJvzIxdTS9qR1jVbc+sVhwxF/wrSwt9emE8CduHsErioTu2PuAEIB+ptE
+	fXsIZYHf8h5qz5IY5UeHgjVswqZj/U7IefAEok7H14dz6ndUSkcTaBXwq4hO+hT/q9Xs
+	zNXQ==
+X-Received: by 10.220.140.18 with SMTP id g18mr8725996vcu.54.1365778356232;
+	Fri, 12 Apr 2013 07:52:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.100.68 with HTTP; Fri, 12 Apr 2013 07:52:16 -0700 (PDT)
+In-Reply-To: <20130412144335.GR2477@jama>
 References: <20130412142015.GP2477@jama>
 	<CAJTo0LayWKMpxzsX4t67LepAg3AjhJXWtQvoU8-NVG5Qi5eTpA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LayWKMpxzsX4t67LepAg3AjhJXWtQvoU8-NVG5Qi5eTpA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<20130412144335.GR2477@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 12 Apr 2013 15:52:16 +0100
+Message-ID: <CAJTo0Lbirs+atokCCyL8d5QGgNVCTS1Wb+Dj2BRi2etq0A0TSA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQk0x1rbvGGCSlZjpKV7d2wNNYs53BErbk+5xNToHGVSHacREg4Vk0u+N79QY/yz0irtZ2Kc
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: wpa-supplicant postinsts failing without sysvinit in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,55 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 15:01:16 -0000
-X-Groupsio-MsgNum: 37834
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FiqEyLLt06qkB6ow"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Apr 2013 15:10:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
---FiqEyLLt06qkB6ow
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12 April 2013 15:43, Martin Jansa <martin.jansa@gmail.com> wrote:
+> I have noticed this when testing upgrade paths, but general-purpose
+> abstraction will became quite complicated in images which have both
+> sysvinit and systemd scripts (I guess that checking which init is
+> running will be needed to decide if /etc/init.d/foo or systemctl should be
+> called :/).
 
-On Fri, Apr 12, 2013 at 03:24:57PM +0100, Burton, Ross wrote:
-> On 12 April 2013 15:20, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > oe-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-> >
-> > defines pkg_postinst_wpa-supplicant
-> > with:
-> >         if [ "x$DBUSPID" !=3D "x" ]; then
-> >                 /etc/init.d/dbus-1 reload || true
-> >         fi
-> >
-> > and /etc/init.d/dbus-1 is missing without sysvinit in DISTRO_FEATURES
-> >
-> > Thanks to "true" it doesn't fail completely, but if the goal is no
-> > warnings in images then errors should be fixed too :)
->=20
-> We're going to see stuff like this a lot - clearly we need some
-> abstraction over this.  One-off for dbus, or a general-purpose small
-> abstraction over invoking systemctl or init scripts?
+Something along the lines of
 
-I have noticed this when testing upgrade paths, but general-purpose
-abstraction will became quite complicated in images which have both
-sysvinit and systemd scripts (I guess that checking which init is
-running will be needed to decide if /etc/init.d/foo or systemctl should be
-called :/).
+  if which systemctl && test -d /run/systemd/system
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+should do the job.  Checking that directory exists is how
+libsystemd-daemon determines if systemd is active or not, so if it's
+good enough for them it's good enough for us.
 
---FiqEyLLt06qkB6ow
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Ross
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlFoHZcACgkQN1Ujt2V2gBz7hwCfV82qhhLhWsHkpL5GH1jV8py+
-8jkAn2XsuhcHhoRnmTVUtKG7zxvhSz1x
-=vCo1
------END PGP SIGNATURE-----
-
---FiqEyLLt06qkB6ow--
