@@ -1,39 +1,26 @@
-Received: from mail-pb0-f44.google.com ([209.85.160.44])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UQSZq-0004XW-AF
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UQXfR-00057i-Mt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 03:14:58 +0200
-Received: by mail-pb0-f44.google.com with SMTP id wz12so1130272pbc.31
+	Fri, 12 Apr 2013 08:41:04 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3C6NasH029287
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 17:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=XfTT5wFnNXVonWUoVKhhEffbI/HknF6SjzpkPhK+ecU=;
-	b=A1zveybrEO9iFFJxuvTvbPTOFjAmqzuNPnczLv+giTKHBgVbCACANbzJfZS96C/26J
-	9VBQvluaMWuwKwyMrTfoxXeMyLG3IlH5FI/GuZYupfbQgbCM0E0/SCnJ1Qk4J15IQrtC
-	gl9Ru+nMtWNychJNn0fHfx3hRTbQH0tiG6EjCUoaTBXXp/1XhwBRjtEMc8Ell3Phg93m
-	X3HjYhd5c+TTWLUa9Hc4ysX+cBpiPk/Kcrxgt2RJNU7w35+lvwvi+p8eO+DiUtiOYVhv
-	3ruA8eXYc9EgW+5cylbm+1ZMJceOa/5bYbsM1dPuyYwEiG5NAJT5rp/u4KUz7azxeWcm
-	sERw==
-X-Received: by 10.66.26.44 with SMTP id i12mr12815683pag.151.1365728249661;
-	Thu, 11 Apr 2013 17:57:29 -0700 (PDT)
-Received: from jchheda-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id sf5sm6108357pbb.44.2013.04.11.17.57.27
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 11 Apr 2013 17:57:28 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <51675A40.6080600@intel.com>
-Date: Thu, 11 Apr 2013 17:57:29 -0700
-Message-Id: <27105F8C-BD23-4A88-81EE-36EF75E55513@gmail.com>
-References: <51675A40.6080600@intel.com>
-To: Saul Wold <saul.wold@intel.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Master under test with gcc-4.8
+	Thu, 11 Apr 2013 23:23:36 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.147) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 11 Apr 2013 23:23:35 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Apr 2013 14:23:29 +0800
+Message-ID: <4298644470a269564bd52245e57f53e567f7519a.1365732443.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1365732443.git.hongxu.jia@windriver.com>
+References: <cover.1365732443.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/3] xserver-nodm-init: Add xuser to disk group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 01:15:20 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Apr 2013 06:41:05 -0000
+Content-Type: text/plain
 
+Add xuser to disk group, so it could have permissions to access disk storage.
 
-On Apr 11, 2013, at 5:50 PM, Saul Wold <saul.wold@intel.com> wrote:
+[YOCTO #4004]
 
->=20
-> Khem,
->=20
-> Just an FYI, I am firing the autobuilder tonight with =
-Master_Under_Test (MUT) with your latest GCC-4.8 recipe enabled, so we =
-can get an across the board look at what's happening.
->=20
-> I have seen a couple of failures with an initial build in xmodmap and =
-matchbox-panel (when building a sato image for x86).
->=20
-> Just wanted you to keep your eye on the build, I will send you any =
-failures.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-graphics/x11-common/xserver-nodm-init.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-yay.  Thats good, lets open a bug and track all build failures there.  I =
-know one thing that linux-yocto-3.8 segfaults when building with 4.8=20
-there is another ICE in gcc which is already reported to gcc ml. Other =
-stuff that Martin reported seemed more like code changes in packages
-themselves.
-
-but lets track it in one place.
->=20
-> Thanks for looking after the toolchain!
->=20
-> Sau!
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+index d2797a9..204a53d 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-PR = "r31"
++PR = "r32"
+ RDEPENDS_${PN} = "sudo"
+ 
+ SRC_URI = "file://xserver-nodm \
+@@ -34,6 +34,6 @@ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+ # USERADD_PARAM is in sync with the one in connman.inc
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--create-home \
+-                       --groups video,tty,audio,input \
++                       --groups video,tty,audio,input,disk \
+                        --user-group xuser"
+ 
+-- 
+1.7.10.4
 
 
 
