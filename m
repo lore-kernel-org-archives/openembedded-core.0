@@ -1,31 +1,34 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UQa3P-0003TZ-16
+	(envelope-from <Kai.Kang@windriver.com>) id 1UQaNA-0005X0-Ju
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 11:13:57 +0200
-Received: by mail-vb0-f47.google.com with SMTP id x13so1927391vbb.6
+	Fri, 12 Apr 2013 11:34:22 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3C9GsTN001941
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 01:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to:cc
-	:content-type:content-transfer-encoding;
-	bh=klDrgMj0oUn9XMMHsilJTLZZ/S9DEQ3eZ7AK5yIEIZ0=;
-	b=uSpXS6MJwpAFcQ1utR5h8D0egcOmAXPbGzVdJP5jC3pm7E7yTGNwhzHys2INBHhLbE
-	FsuwkpWkMyVAKWx1rUoBpIF8ExcZ0ZhwmV2tGNEnGcopkDXdpZwLZ63w9vpZ/gc6F/78
-	9KwBZ/FfRo443AbTPCrm05Hr22FAnMFFd454ed89Ax6kk/JjtX8N9RlJ1n0276wfBkej
-	S+w4DQAkyBVaXXCbK9IGqXBb8/jf8DzjscAMCTavlVmNf1GHBsFsbNj5ej5QsTQfUvzh
-	mNo4dfswOBAkS3WIF6Otqjs8q0qVSkWcP9Ji/oOhpOstzCPtoAKwXwS3lF5sDFnMAO/z
-	ee4g==
+	Fri, 12 Apr 2013 02:16:55 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Fri, 12 Apr 2013 02:16:55 -0700
+Message-ID: <5167D179.5040602@windriver.com>
+Date: Fri, 12 Apr 2013 17:18:49 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-X-Received: by 10.58.13.10 with SMTP id d10mr7810316vec.2.1365756990457; Fri,
-	12 Apr 2013 01:56:30 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Fri, 12 Apr 2013 01:56:30 -0700 (PDT)
-Date: Fri, 12 Apr 2013 10:56:30 +0200
-Message-ID: <CALbNGRRgm8MspqB0ouUFp2s+y_7CGL+qEFFWRZLC+6bh9sJOGg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: systemd/sysvinit switches (was [meta-systemd][PATCH 1/2] Delete systemd class)
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1362035905.git.kai.kang@windriver.com>
+	<c100eba8e21c76e85e5250020c0b1d68c96e02d9.1362035905.git.kai.kang@windriver.com>
+	<512F6B04.8010102@windriver.com> <513EC3CE.9070206@windriver.com>
+	<513F49FE.5030909@windriver.com>
+In-Reply-To: <513F49FE.5030909@windriver.com>
+X-Originating-IP: [128.224.162.205]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	r3C9GsTN001941
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] rpm: fix rpm2cpio segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,84 +41,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 09:13:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Apr 2013 09:34:24 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 11, 2013 at 2:12 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Tue, Apr 9, 2013 at 10:01 PM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> On Tue, Mar 05, 2013 at 11:59:07PM +0100, Martin Jansa wrote:
->>> On Tue, Mar 05, 2013 at 11:50:41PM +0100, Andreas M=C3=BCller wrote:
->>> > On Tue, Mar 5, 2013 at 11:18 PM, Martin Jansa <martin.jansa@gmail.com=
-> wrote:
->>> > > On Wed, Feb 13, 2013 at 09:25:34AM -0800, Khem Raj wrote:
->>> > >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> > >
->>> > > good old meta-systemd should now parse again,
->>> > Thanks - will come back to test HEADs soon.
+On 2013=E5=B9=B403=E6=9C=8812=E6=97=A5 23:30, Mark Hatle wrote:
+> On 3/12/13 12:57 AM, Kang Kai wrote:
+>> On 2013=E5=B9=B402=E6=9C=8828=E6=97=A5 22:34, Mark Hatle wrote:
+>>> On 2/28/13 1:34 AM, Kang Kai wrote:
+>>>> When run rpm2cpio, it fails with segmentation fault. The root cause =
+is
+>>>> no macro "_db_path" defined, when query its value get nothing then
+>>>> cause segment fault.
+>>>>
+>>>> Add patch to parse macro files first to fix this problem.
+>>>>
+>>>> [YOCTO #3656]
+>>>>
+>>>> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+>>>> ---
+>>>> .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch | 24
+>>>> ++++++++++++++++++++
+>>>> meta/recipes-devtools/rpm/rpm_5.4.9.bb | 3 +-
+>>>> 2 files changed, 26 insertions(+), 1 deletions(-)
+>>>> create mode 100644
+>>>> meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
+>>>>
+>>>> diff --git
+>>>> a/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patc=
+h
+>>>> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patc=
+h
+>>>> new file mode 100644
+>>>> index 0000000..b43a64e
+>>>> --- /dev/null
+>>>> +++
+>>>> b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patc=
+h
+>>>> @@ -0,0 +1,24 @@
+>>>> +Upstream-Status: Pending
+>>>> +
+>>>> +rpm2cpio fails on target with "Segmentation fault". Because no
+>>>> "_dbpath"
+>>>> +defined, when query it will cause seg fault.
+>>>> +Parse macro files first to fix this bug.
+>>>> +
+>>>> +[YOCTO #3656]
+>>>> +
+>>>> +Signed-off-by: Kang Kai <kai.kang@windriver.com>
+>>>> +
+>>>> +--- rpm-5.4.9/tools/rpm2cpio.c.orig 2013-02-28 13:14:12.453540767=20
+>>>> +0800
+>>>> ++++ rpm-5.4.9/tools/rpm2cpio.c 2013-02-28 15:09:41.685785192 +0800
+>>>> +@@ -88,6 +88,11 @@ int main(int argc, char **argv)
+>>>> + (void) rpmtsSetVSFlags(ts, vsflags);
+>>>> +
+>>>> + /*@-mustmod@*/ /* LCL: segfault */
+>>>> ++ rc =3D rpmReadConfigFiles(NULL, NULL);
+>>>> ++ if (rc) {
+>>>> ++ fprintf(stderr, _("read RPM config files failed\n"));
+>>>> ++ exit(EXIT_FAILURE);
+>>>> ++ }
+>>>> + rc =3D rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
+>>>> + /*@=3Dmustmod@*/
+>>>> +
 >>>
->>> But be aware that I've fixed only parsing of avahi and wpa-supplicant.
->>>
->>> I haven't tested it properly in runtime because my upgrade path is a bi=
-t
->>> broken (because I was building images with khem's patches for a while t=
-o
->>> test other stuff) and even clean build with failed to boot with
->>> qemux86-64 and I don't have time to debug it now.
->>>
->>> > > I wont apply this 2 commits
->>> > > until systemd discussion in oe-core is finished and future of
->>> > > meta-systemd decided.
->>> > >
->>> > After systemd regression is worked around yocto 1.4 release regressio=
-n
->>> > is knocking at the door...
->>>
->>> yes :/
->>>
->>> If we need to maintain meta-systemd bbappends for upgrade path we can
->>> also maintain them with PN-systemd packages and good old systemd bbclas=
-s.
 >>
->> Khem pinged me about this patch, so here are my thoughts:
+>> Hi Mark,
 >>
->> PN-systemd discussion in oe-core haven't moved a bit since this patch
->> was proposed, I think we have 2-3 options, lets vote about meta-systemd =
-future.
+>> Sorry for missed this mail.
 >>
->> 1) keep PN-systemd separation in meta-systemd and fixup .bbappends to
->> resolve issues created by oe-core (I've fixed some issues, but still a
->> lot of issues in postinst/postrm/prerm scripts when both inits are
->> sharing the same PN)
+>>> In the RPM2CPIO case, I'm not sure that we want to exit here. It's
+>>> certainly reasonable for the config files to be unavailable to us.
 >>
->> 2) give up on clean separation of PN-<init> and provide upgrade path
->> from PN-systemd to PN (mostly done by these 2 commits from khem).
->>
->> 3) give up on clean separation of PN-<init> and upgrade path (there are
->> many issues in other parts of oe-core, so upgrade path from danny to
->> dylan doesn't look usable.
->>
->> A) migrate existing .bbappends to their recipes to .bb files and
->> remove this layer. Any volunteer for that?
->>
->> My vote: 3) + A) later in 1.5
-> A bit off-topic and mentioned here & there: I am working on
-> network-manager(-applet) 0.9.8.0 update and xinput-calibrator. I could
-> add 3) + A) for them if agreed. Hope to send them beginning of next
-> week.
+>> How about just give warning without quit when read configure files=20
+>> fails?
 >
-OK - just in case I have spare cycles to start this: I am afraid I
-lost overview regarding distro features. I found systemd and sysvinit
-which can be set both - still correct?
+> We shouldn't even need a warning.  When rpm2cpio is used on a target,=20
+> much of the time there is no associated RPM in use (or if it's=20
+> available, there likely isn't a database/home configured.)
+>
+>>>
+>>> If the problem is that _dbpath is undefined (and it's needed for some
+>>> reason), my suggestion is that "some value" be defined, even if it's
+>>> to a non-existent location. It's be even better if we could simply
+>>> avoid using the _dbpath at all in the rpm2cpio code.
+>>
+>> The segment fault occurs on executing rpmReadPackageFile(). It is a
+>> library function in rpmdb/package.c. And it finally calls rpmdbNew(),
+>> and in rpmdbNew() it calls:
+>>
+>> db->db_home =3D rpmdbURIPath( (home && *home ? home : _DB_HOME) );
+>>
+>> home passed in is NULL, and _DB_HOME is defined by:
+>>
+>> #define _DB_HOME "%{?_dbpath}"
+>
 
-Ross could you please link me to the information how the use case 'I
-want to build for both init-systems but let image decide which one to
-use' is set up.
-Sorry I didn't follow the last changes in detail because of other
-issues (and personally I just use sysvinit).
+Hi Mark,
 
-Andreas
+> Instead of a warning above, if we were unable to load the database=20
+> configuration, can we just set the value of _dbpath to be "/tmp"? =20
+> This should provide a valid 'home' path for any temp files, as well as=20
+> avoid any load problems.  If there is a configuration available, we=20
+> can use it.
+
+More vars found need to be set with a value. When run rpm2cpio, it calls=20
+rpmReadPackageFile() to open the rpm file, and then do some read and=20
+test work. When call rpmVerifySignature() it calls rpmdbOpen() and=20
+finally calls db3new(). In function db3new() in rpmdb/dbconfig.c around=20
+line 485, vars "_dbi_config_*" are expanded and var "_dbi_config" is=20
+asserted not to be NULL. But without parsing the macros file, assertion=20
+fails. "_dbi_config" is a complicated var and seems can not be set direct=
+ly.
+
+Would you like to give more help?
+
+Thanks,
+Kai
+
+>
+>> Then segment fault occurs with xstrdup() because no value is definedfo=
+r
+>> _dbpath then it tries to xstrdup() a NULL value in rpmdbURIPath().
+>>
+>> That is why I think parse configure files first in rpm2cpio is the way
+>> to fix the issue.
+>>
+>> Regards,
+>> Kai
+>>
+>>>
+>>> (Note, to folks reading this. Normally in oe-core, if we use rpm2cpio=
+,
+>>> we're actually using a shell script version which does not have this
+>>> problem. The rpm2cpio -binary- is used by people on the target or
+>>> sometimes via the SDK to extract SRPM or RPM packages...)
+>>>
+>>>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>>> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>>> index 39b0481..fcfbde8 100644
+>>>> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>>> @@ -43,7 +43,7 @@ LICENSE =3D "LGPLv2.1"
+>>>> LIC_FILES_CHKSUM =3D
+>>>> "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f17206a5b0a1"
+>>>>
+>>>> DEPENDS =3D "libpcre attr acl popt ossp-uuid file bison-native"
+>>>> -PR =3D "r61"
+>>>> +PR =3D "r62"
+>>>>
+>>>> # rpm2cpio is a shell script, which is part of the rpm src.rpm. It i=
+s
+>>>> needed
+>>>> # in order to extract the distribution SRPM into a format we can
+>>>> extract...
+>>>> @@ -85,6 +85,7 @@ SRC_URI =3D
+>>>> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;=
+ex
+>>>> file://rpm-reloc-macros.patch \
+>>>> file://rpm-platform2.patch \
+>>>> file://rpm-remove-sykcparse-decl.patch \
+>>>> + file://rpm2cpio-fix-segmentation-fault.patch \
+>>>> "
+>>>>
+>>>> # Uncomment the following line to enable platform score debugging
+>>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>
+>
+
+
+--=20
+Regards,
+Neil | Kai Kang
+
 
 
