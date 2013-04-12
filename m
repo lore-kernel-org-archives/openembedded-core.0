@@ -1,35 +1,29 @@
-Received: from mail-pb0-f53.google.com ([209.85.160.53])
+Received: from mail-ve0-f179.google.com ([209.85.128.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UQc8O-0001dc-SB
+	(envelope-from <hirst689@gmail.com>) id 1UQc8r-0001fD-Kf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 13:27:17 +0200
-Received: by mail-pb0-f53.google.com with SMTP id un15so1355232pbc.26
+	Fri, 12 Apr 2013 13:27:49 +0200
+Received: by mail-ve0-f179.google.com with SMTP id cz11so2337218veb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 04:09:48 -0700 (PDT)
+	Fri, 12 Apr 2013 04:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=cAhei/8ZXLzeA5EybxBavobJhqBdUoLdt68u6GHEQjw=;
-	b=hVd4nAWLOpysRVlhTyNyur4r5MXyWPsxr+iE8PhQrK4/bXXcAD+uiAvDNKYyZRJUUb
-	p1FpaSBMdAu00Eir5kzo2NYsNqlrY0B0YEFXDRb1UVqu3Ljvw8o00Q9Twc3crtUWd0iI
-	+DGGr0FyP7laP2Zbp2pNo4x0XvSlyoEiHVyJuusH9Xlet8VG9TFJpdFnw16aGsiB0UEr
-	4GxiL40KNg1BV3/G0Sm5oJAlckYPyo3ypA56MAEV77CvUfXx0mALlWLazlgjhGA5ihkh
-	4Hsr90CbNF55RhOtIcWxq8p/xBM4FMgyiqVbA3WbHiQNAgUeY3LE+mCW9ap+ZUfqVakK
-	ad3g==
-X-Received: by 10.66.25.147 with SMTP id c19mr14598712pag.207.1365764987933;
-	Fri, 12 Apr 2013 04:09:47 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id fq1sm8150047pbb.33.2013.04.12.04.09.45
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 12 Apr 2013 04:09:46 -0700 (PDT)
-Date: Fri, 12 Apr 2013 13:09:41 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130412110941.GM2477@jama>
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=fuINGDagkCALMfdgGzgs9g1ClPYkrRQWheSga/3m+nA=;
+	b=rHmZBhY3d/uq+e5RymX+maRIjnUCcFrrzvYvyFkJX8v8D8X/etbOoA4CQsS5DhKSVh
+	mNM8xiAaazxD6BdiIa+81GKBl2cZF+q/jYw47gfZmCFAq7Igh7xYABzhtx3VdFF+zFwr
+	+VfSCrRAkmpvPHlH/dwltdrAjo/QpHNZdDS8tew/CgL2vDZSZzUHRQY7gJWDsaQBWef+
+	kQrghsdVrnIYWVNhvSgNmH+rnEu0TQxS+WP8hKKZVRGwmvKkJ4xEqdJarqw3x+t7ngB2
+	xstKEdL6anJmzn79xWet9WUOqY3U6dSY6TtQpJxdcpco6BZKe6ir4tqSwOzt0lRYsSWY
+	wcKw==
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: systemd postinsts failing when trying to enable masked service
+X-Received: by 10.52.75.65 with SMTP id a1mr6786718vdw.79.1365765016948; Fri,
+	12 Apr 2013 04:10:16 -0700 (PDT)
+Received: by 10.59.11.37 with HTTP; Fri, 12 Apr 2013 04:10:16 -0700 (PDT)
+Date: Fri, 12 Apr 2013 07:10:16 -0400
+Message-ID: <CAHu+ux2oBDWYgWwZc8GUvCqaHCO4KHD=9M1WMM6Jho_Yqgcfjw@mail.gmail.com>
+From: David Hirst <hirst689@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: recipe for openssl 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,44 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 11:27:25 -0000
-X-Groupsio-MsgNum: 37823
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="F7w+4yMapWozG0Ib"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Apr 2013 11:27:52 -0000
+Content-Type: multipart/alternative; boundary=20cf3071cf72ae941204da27f2e2
 
---F7w+4yMapWozG0Ib
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--20cf3071cf72ae941204da27f2e2
+Content-Type: text/plain; charset=ISO-8859-1
 
-We had crond.service masked to prevent crond sysvinit script being
-started.
+Is there as recipe for openssl version 1.0.1, having problems with it and
+wondered if I am just re-inventing the wheel.
+if any one has pointers or a recipe coudl you let me know
 
-Now with crond.service pulled by PN (cronie) it tries to start it and
-fails:
+Thanks
+-- 
+David Hirst
+hirst689@gmail.com
 
-Configuring cronie.
-Failed to issue method call: Unit crond.service is masked.
+--20cf3071cf72ae941204da27f2e2
+Content-Type: text/html; charset=ISO-8859-1
 
-I guess I can disable it again with SYSTEMD_AUTO_ENABLE or keep it
-enabled now with both sysvinit and systemd scripts available in image,
-so just FYI (this could be another reason why run-postinsts are failing
-for some people on first boot of systemd images..).
+<div dir="ltr"><div><div><div><br clear="all"></div>Is there as recipe for openssl version 1.0.1, having problems with it and wondered if I am just re-inventing the wheel.<br></div>if any one has pointers or a recipe coudl you let me know<br>
+<br></div>Thanks<br><div><div><div>-- <br>David Hirst<br><a href="mailto:hirst689@gmail.com" target="_blank">hirst689@gmail.com</a><br><img src="" alt=""><br>
+</div></div></div></div>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---F7w+4yMapWozG0Ib
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFn63UACgkQN1Ujt2V2gBzzQACbBh2vWW5RX5W3I6GqY9S1aU+6
-daMAn2tIG0BIEyfmYwmEEVrvolZAWXkS
-=Ixxa
------END PGP SIGNATURE-----
-
---F7w+4yMapWozG0Ib--
+--20cf3071cf72ae941204da27f2e2--
