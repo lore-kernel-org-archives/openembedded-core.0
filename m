@@ -1,41 +1,35 @@
-Received: from mail-pd0-f179.google.com ([209.85.192.179])
+Received: from mail-ea0-f174.google.com ([209.85.215.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UQf6q-00038H-N7
+	(envelope-from <martin.jansa@gmail.com>) id 1UQf6f-00037j-CN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 16:38:05 +0200
-Received: by mail-pd0-f179.google.com with SMTP id x11so1431894pdj.38
+	Fri, 12 Apr 2013 16:38:02 +0200
+Received: by mail-ea0-f174.google.com with SMTP id m14so1293981eaj.33
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 07:20:23 -0700 (PDT)
+	Fri, 12 Apr 2013 07:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=RBa4DBma8Ijmdi9uJwgtOWFnbijEBq4jSHtp6gZT8so=;
-	b=lCjTf+lOZrmhCQJAoJaHaKIaObBESCuFO+yBVwUrl1MJu52aSv0yuZQGsx1z6MVISP
-	i937Cirgs0FSlNX98U1rjVYUAJXIGYomOlAAeI79FAt/e5+5v6C0KUgTAV/wDyYeYF1w
-	CJStJpD2+gEr2ViUQeFkodyDMP4GjtTZRWHkkkqgPfFtuyWXAeoZbOBObiBuNFg9ECea
-	4ZpQW5QIYht0mRZ4vefVbHZROBTLf7PP8ouyK99vB94L6WH/UmW7riNZm9Sei+9TQtpO
-	+kOwzUBbREfnPntoIsUksZcDPW6Qjtdd2aTTd0Vwcmkd1Ish5MCNcr6Nt7btIhiCa8hl
-	aXfw==
-X-Received: by 10.68.229.163 with SMTP id sr3mr14995338pbc.54.1365776423377;
-	Fri, 12 Apr 2013 07:20:23 -0700 (PDT)
-Received: from jchheda-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPS id t1sm9749191pab.12.2013.04.12.07.20.21
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 12 Apr 2013 07:20:22 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0Lb1G6XTUMdXFsiEo9dgvbyTj-h1F+1FJ4sB83va2frfHQ@mail.gmail.com>
-Date: Fri, 12 Apr 2013 07:20:20 -0700
-Message-Id: <317BEB9F-B534-4162-B2FB-7C4E6816F0FE@gmail.com>
-References: <51675A40.6080600@intel.com>
-	<CAJTo0Lb0GK3+TBpsytc=-atsz6DYo3Obw_Ezz4c9qpUHcwpdcg@mail.gmail.com>
-	<CAJTo0Lb1G6XTUMdXFsiEo9dgvbyTj-h1F+1FJ4sB83va2frfHQ@mail.gmail.com>
+	h=x-received:date:from:to:cc:subject:message-id:mime-version
+	:content-type:content-disposition:user-agent;
+	bh=mhliYf703eG6GoRGA9ymhnSLOxh4WDa8DgzXFSOpX+Q=;
+	b=oz2PQpSGVTDTHneVZ10MAzKpb/eqphFZ3hbsYkUxQ5Pb6iwSKpyfZJeJc3tnInsaV8
+	5zZ5REn2qlh4n/U8oQi9MLW9/OFwfn2ToeaWYrBn22LBvWwpmeNtgBpO1NK2qOS+J7L5
+	DBc5EuBfyYI8OZetI5dBdXDekNncNLdWcRNXXpJHcrbxW8gpoJMK9wrT9nRKVFHrmtIU
+	yHqxAXyoZyMvlXj4p4/+edDd2T30sEs85EjLXgCFrqhC/WNaXO2V30csvPlfcpCOVFlS
+	1sj2w2ZHlSdKX0h+/P7NunDeHyKQpmv9awBzuYNzkvwQ1/0vRbWUamDDp+9Zx2FMxoyf
+	/wdQ==
+X-Received: by 10.14.210.132 with SMTP id u4mr28686841eeo.19.1365776413120;
+	Fri, 12 Apr 2013 07:20:13 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id q5sm11267527eeo.17.2013.04.12.07.20.12
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 12 Apr 2013 07:20:12 -0700 (PDT)
+Date: Fri, 12 Apr 2013 16:20:15 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Saul Wold <saul.wold@intel.com>
-Subject: Re: Master under test with gcc-4.8
+Message-ID: <20130412142015.GP2477@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: wpa-supplicant postinsts failing without sysvinit in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,29 +43,46 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Apr 2013 14:38:21 -0000
+X-Groupsio-MsgNum: 37830
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+hz2tM55CCA8Ej21"
+Content-Disposition: inline
+
+--+hz2tM55CCA8Ej21
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Thanks Ross
+oe-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
 
-On Apr 12, 2013, at 3:02 AM, "Burton, Ross" <ross.burton@intel.com> =
-wrote:
+defines pkg_postinst_wpa-supplicant
+with:
+        if [ "x$DBUSPID" !=3D "x" ]; then
+                /etc/init.d/dbus-1 reload || true
+        fi
 
-> On 12 April 2013 10:18, Burton, Ross <ross.burton@intel.com> wrote:
->> On 12 April 2013 01:50, Saul Wold <saul.wold@intel.com> wrote:
->>> I have seen a couple of failures with an initial build in xmodmap =
-and
->>> matchbox-panel (when building a sato image for x86).
->>=20
->> xmodmap is probably fixed by integrating this commit upstream:
->>=20
->> =
-http://cgit.freedesktop.org/xorg/app/xmodmap/commit/?id=3D42f99a7a7b836f6f=
-9704a7b1747eb722c93446ec
->=20
-> Patch sent to oe-core.
->=20
-> Ross
+and /etc/init.d/dbus-1 is missing without sysvinit in DISTRO_FEATURES
 
+Thanks to "true" it doesn't fail completely, but if the goal is no
+warnings in images then errors should be fixed too :)
 
+Configuring wpa-supplicant.
+//var/lib/opkg/info/wpa-supplicant.postinst: line 9: /etc/init.d/dbus-1:
+//No such file or directory
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--+hz2tM55CCA8Ej21
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFoGB8ACgkQN1Ujt2V2gBwFpACbBdyryvTKDVdQh8MYmDaySIfe
+lKgAn3jMqOKEC6Oq65vkhkwAW8nbrlll
+=eqIB
+-----END PGP SIGNATURE-----
+
+--+hz2tM55CCA8Ej21--
