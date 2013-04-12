@@ -1,32 +1,31 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from comal.ext.ti.com ([198.47.26.152])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1UQlPm-0001WK-Gd
+	(envelope-from <chase.maupin@ti.com>) id 1UQlQB-0001Zn-Ow
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 23:21:47 +0200
+	Fri, 12 Apr 2013 23:22:12 +0200
 Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3CL4KOZ021792;
-	Fri, 12 Apr 2013 16:04:20 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3CL4KVE010492;
-	Fri, 12 Apr 2013 16:04:20 -0500
+	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3CL4ljt027097;
+	Fri, 12 Apr 2013 16:04:47 -0500
+Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3CL4lj8010815;
+	Fri, 12 Apr 2013 16:04:47 -0500
 Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
-	DFLE73.ent.ti.com ([fe80::c9be:a3a9:7cd8:c8b3%28]) with mapi id
-	14.02.0342.003; Fri, 12 Apr 2013 16:04:19 -0500
+	DLEE70.ent.ti.com ([fe80::c4c6:f618:54e7:ad11%28]) with mapi id
+	14.02.0342.003; Fri, 12 Apr 2013 16:04:47 -0500
 From: "Maupin, Chase" <chase.maupin@ti.com>
-To: "Maupin, Chase" <chase.maupin@ti.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB
-	symlinks for devicetree
-Thread-Index: AQHOMTf07NtieyGeLEqohYKImIYnvJjMN8QAgANiI7CAAABKIIAAVt2AgAAHJvCAAyfUAA==
-Date: Fri, 12 Apr 2013 21:04:19 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED101594E6081@DLEE11.ent.ti.com>
-References: <1365081955-19381-1-git-send-email-Chase.Maupin@ti.com>
-	<7D46E86EC0A8354091174257B2FED101594CB39E@DLEE11.ent.ti.com>
-	<7D46E86EC0A8354091174257B2FED101594D8E0F@DLEE11.ent.ti.com>
-	<7D46E86EC0A8354091174257B2FED101594D8E8A@DLEE11.ent.ti.com>
-	<CAJTo0LZP+Z1a_ty1qEU7cGLSnW1jgTO_17-M0SCgVU1DzpeZ7g@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED101594DACED@DLEE11.ent.ti.com>
-In-Reply-To: <7D46E86EC0A8354091174257B2FED101594DACED@DLEE11.ent.ti.com>
+To: "Maupin, Chase" <chase.maupin@ti.com>, Denys Dmytriyenko <denis@denix.org>
+Thread-Topic: [OE-core] [PATCH][for-danny] kernel bbclass: return to
+	original directory in do_deploy
+Thread-Index: AQHONj9zTM/tkxIz0E+0T10m73f8mJjQ98EwgABcVYD//7OgkIAAANWAgAINm0A=
+Date: Fri, 12 Apr 2013 21:04:46 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101594E60CA@DLEE11.ent.ti.com>
+References: <1363628359-18023-1-git-send-email-Chase.Maupin@ti.com>
+	<20130410230157.GB28466@denix.org>
+	<7D46E86EC0A8354091174257B2FED101594DD843@DLEE11.ent.ti.com>
+	<20130411131339.GC28466@denix.org>
+	<7D46E86EC0A8354091174257B2FED101594DE2F5@DLEE11.ent.ti.com>
+	<7D46E86EC0A8354091174257B2FED101594DE395@DLEE11.ent.ti.com>
+In-Reply-To: <7D46E86EC0A8354091174257B2FED101594DE395@DLEE11.ent.ti.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -34,7 +33,7 @@ x-originating-ip: [157.170.170.90]
 MIME-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2][for-danny] linux-dtb: Add simple DTB symlinks for devicetree
+Subject: Re: [PATCH][for-danny] kernel bbclass: return to original directory in do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +46,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 21:21:47 -0000
+X-List-Received-Date: Fri, 12 Apr 2013 21:22:12 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-
 > -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On
-> Behalf Of Maupin, Chase
-> Sent: Wednesday, April 10, 2013 3:53 PM
-> To: Burton, Ross
+> From: Maupin, Chase
+> Sent: Thursday, April 11, 2013 8:44 AM
+> To: Maupin, Chase; Denys Dmytriyenko
 > Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCHv2 1/2][for-danny] linux-dtb: Add
-> simple DTB symlinks for devicetree
+> Subject: RE: [OE-core] [PATCH][for-danny] kernel bbclass: return
+> to original directory in do_deploy
 >=20
 > > -----Original Message-----
-> > From: Burton, Ross [mailto:ross.burton@intel.com]
-> > Sent: Wednesday, April 10, 2013 10:27 AM
-> > To: Maupin, Chase
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On
+> > Behalf Of Maupin, Chase
+> > Sent: Thursday, April 11, 2013 8:41 AM
+> > To: Denys Dmytriyenko
 > > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCHv2 1/2][for-danny] linux-dtb: Add
-> > simple DTB symlinks for devicetree
+> > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
+> return
+> > to original directory in do_deploy
 > >
-> > On 10 April 2013 16:16, Maupin, Chase <chase.maupin@ti.com>
+> > > -----Original Message-----
+> > > From: Denys Dmytriyenko [mailto:denis@denix.org]
+> > > Sent: Thursday, April 11, 2013 8:14 AM
+> > > To: Maupin, Chase
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
+> > return
+> > > to original directory in do_deploy
+> > >
+> > > On Thu, Apr 11, 2013 at 12:43:30PM +0000, Maupin, Chase
+> wrote:
+> > > > > -----Original Message-----
+> > > > > From: Denys Dmytriyenko [mailto:denis@denix.org]
+> > > > > Sent: Wednesday, April 10, 2013 6:02 PM
+> > > > > To: Maupin, Chase
+> > > > > Cc: openembedded-core@lists.openembedded.org
+> > > > > Subject: Re: [OE-core] [PATCH][for-danny] kernel bbclass:
+> > > return
+> > > > > to original directory in do_deploy
+> > > > >
+> > > > > Ping.
+> > > > >
+> > > > > Ross, is it in your queue for your next danny merge?
+> > > >
+> > > > I see that one as already being commited to danny
+> > >
+> > > Hmm, where? I don't see it here:
+> > >
+> > > http://cgit.openembedded.org/openembedded-core/log/?h=3Ddanny
+> >
+> > http://cgit.openembedded.org/meta-
+> >
+> openembedded/commit/?id=3D0738c3c8089480dec9e26d7de08c35ba8106b15a
+>=20
+> Nevermind.  I remember now that this was in 3 places.
+>=20
+> Oe-core master
+> Oe-core danny
+> Meta-openembedded danny
+>=20
+> So you are right that the oe-core danny commit seems to be
+> missing.
+
+So the ping from Denys stands.  Any update on this?
+
+>=20
+> >
+> > >
+> > >
+> > > > > On Mon, Mar 18, 2013 at 12:39:19PM -0500, Chase Maupin
 > > wrote:
-> > > In that case ping on this.
+> > > > > > * During the base kernel_do_deploy function the
+> directory
+> > > is
+> > > > > >   changed to DEPLOYDIR in order to do some cleanup and
+> > > > > symlinking.
+> > > > > >   However, the directory is not changed back to the
+> > > original
+> > > > > >   starting directory ${S} at the end.  For append
+> > functions
+> > > > > this
+> > > > > >   means that the starting directory is not ${S} as
+> > expected
+> > > but
+> > > > > >   instead ${DEPLOYDIR}.
+> > > > > >
+> > > > > >   For functions like the do_deploy_append in
+> > > > > >   recipes-kernel/linux/linux-dtb.inc there is an
+> > assumption
+> > > > > that
+> > > > > >   you are still in the source directory and not the
+> > > DEPLOYDIR.
+> > > > > >   Without this change the .dtb files are not copied
+> > because
+> > > the
+> > > > > >   check for the existence of ${DTS_FILE} which is a
+> > > relative
+> > > > > >   path from the ${S} directory fails.  This means that
+> > the
+> > > .dtb
+> > > > > >   files are not copied into the deploy directory and
+> > > > > subsequently
+> > > > > >   the deploy/images directory.
+> > > > > >
+> > > > > >   In the log.do_deploy file you will see lines like:
+> > > > > >
+> > > > > >     Warning: arch/arm/boot/dts/xxxxx.dts is not
+> > available!
+> > > > > >
+> > > > > > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> > > > > > ---
+> > > > > >  meta/classes/kernel.bbclass |    1 +
+> > > > > >  1 files changed, 1 insertions(+), 0 deletions(-)
+> > > > > >
+> > > > > > diff --git a/meta/classes/kernel.bbclass
+> > > > > b/meta/classes/kernel.bbclass
+> > > > > > index 88ce561..9691c25 100644
+> > > > > > --- a/meta/classes/kernel.bbclass
+> > > > > > +++ b/meta/classes/kernel.bbclass
+> > > > > > @@ -529,6 +529,7 @@ kernel_do_deploy() {
+> > > > > >  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin
+> > > ${KERNEL_IMAGETYPE}
+> > > > > >
+> > > > > >  	cp ${COREBASE}/meta/files/deploydir_readme.txt
+> > > > > ${DEPLOYDIR}/README_-
+> > > _DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> > > > > > +	cd -
+> > > > > >  }
+> > > > > >  do_deploy[dirs] =3D "${DEPLOYDIR} ${B}"
+> > > > > >
+> > > > > > --
+> > > > > > 1.7.0.4
+> > > > > >
+> > > > > >
+> > > > > > _______________________________________________
+> > > > > > Openembedded-core mailing list
+> > > > > > Openembedded-core@lists.openembedded.org
+> > > > > > http://lists.linuxtogo.org/cgi-
+> > > > > bin/mailman/listinfo/openembedded-core
+> > > >
 > >
-> > It's in my pending list, but the 1.4 release freeze has been
-> > taking my
-> > time.  I'll merge it tomorrow.
->=20
-
-Ross.  Ping on this.  I know your busy, just wanted to keep this on the lis=
-t :)
-
-> Thanks.
->=20
-> >
-> > Ross
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
-> core
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-
+> bin/mailman/listinfo/openembedded-
+> > core
 
 
