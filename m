@@ -1,31 +1,27 @@
-Received: from dan.rpsys.net ([93.97.175.187])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UQhOU-0000Tg-JN for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 19:04:18 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3CGkisT017097 for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 17:46:44 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lO7OX__t5O2Z
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 17:46:44 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3CGkcDu017093
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 17:46:41 +0100
-Message-ID: <1365785190.16702.65.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Apr 2013 17:46:30 +0100
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UQhd8-0003Aq-Iq for openembedded-core@lists.openembedded.org;
+	Fri, 12 Apr 2013 19:19:18 +0200
+Received: from cpc14-cmbg17-2-0-cust423.5-4.cable.virginmedia.com
+	([86.14.229.168] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UQhM9-0002DZ-K3; Fri, 12 Apr 2013 19:01:45 +0200
+Message-ID: <1365786104.7011.112.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 12 Apr 2013 18:01:44 +0100
+In-Reply-To: <5166CB45.6080701@linux.intel.com>
+References: <5166CB45.6080701@linux.intel.com>
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Subject: [PATCH] multilib.conf: Workaround opkg multilib issues
+Cc: Jim.Somerville@windriver.com, Phil Staub <Phil.Staub@windriver.com>,
+	discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>, "Ashfield,
+	Bruce" <Bruce.Ashfield@windriver.com>, Andrei,
+	Phil Blundell <philb@gnu.org>, Joe Slater <jslater@windriver.com>,
+	Constantin Musca <constantinx.musca@intel.com>, 'Patches
+Subject: Re: Missing Upstream-Status tag in patch files.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 17:04:26 -0000
+X-List-Received-Date: Fri, 12 Apr 2013 17:19:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Multilib with opkg hasn't worked since the --force-overwrite option was dropped in
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=88a9f6db3482623c9cb54fb03db1045051cec9f6
+On Thu, 2013-04-11 at 07:40 -0700, Saul Wold wrote:
+> 
+> > Li Wang - meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch
+> > Khem Raj - meta/recipes-core/eglibc/eglibc-2.17/eglibc-2.17-r22178.patch
+> > Khem Raj - meta/recipes-core/eglibc/eglibc-2.17/eglibc-2.17-PR15003-r22243.patch
+> > Li Wang - meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch
+> > Andrei Dinu - meta/recipes-connectivity/openssh/openssh-6.1p1/openssh-CVE-2011-4327.patch
+> > Jim Somerville -
+> 
+> Folks,
+> 
+> This is a reminder that patches need to have Upstream-Status and 
+> Signed-off-by tags in the patches themselves.
+> 
+> Please review this list below (I have most of the people on the To: line 
+> also) and fix these patches with the required tags.
 
-Since we merged the libexecdir changes, we also need the --force-maintainer flag
-to avoid conf file conflicts.
+Saul
 
-Both these changes are suboptimal however the alternative is completely broken and
-these changes only affect people who have multilibs enabled and use opkg.
+You included me in the To: field but I can't see any patches listed
+below with my name against them.  Can you be more specific about which
+ones (if any) you want me to fix?
 
-[YOCTO #3453]
+Also, I seem to recall that the actual rule is that the patch just needs
+to contain details of who wrote it, not necessarily a Signed-off-by line
+necessarily.  Has that policy changed?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 9a129f1..9ff06cc 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -14,3 +14,5 @@ INHERIT += "multilib_global"
- BBCLASSEXTEND_append = " ${MULTILIBS}"
- 
- MULTILIB_GLOBAL_VARIANTS  = "lib32 lib64 libx32"
-+
-+OPKG_ARGS_append = " --force-maintainer --force-overwrite"
+thanks
+
+p.
+
+> 
+> We want these tags in order to get correct attribution of the patches 
+> along with how things are working with the Upstream Project itself, as 
+> we want to continue to reduce the number of patches we carry and help 
+> improve the upstream project stability.
+> 
+> Thanks for your help with this effort
+> 
+> Sau!
+> 
+> 
+> > Richard Purdie - meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0001-bfd.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0017-ld-elf-comm-data.exp-Add-XFAIL-for-arm-targets-refer.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0013-gas-ChangeLog.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0003-Assemble-all-sources-files-in-each-test.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0010-bfd-ChangeLog.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0026-ld-testsuite.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0005-bfd.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0012-Fix-TLS-LD-to-LE-optimization-for-x32.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0018-bfd.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0014-Fix-opcode-for-64-bit-jecxz.patch
+> > Khem Raj - meta/recipes-devtools/binutils/binutils-2.23.1/backport/0024-bfd.patch
+> > Bruce Ashfield - meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
+> > Mark Hatle - meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch
+> > Bogdan Marinescu - meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
+> > Constantin Musca - meta/recipes-devtools/apt/apt-0.9.7.7/no-nls-dpkg.patch
+> > Constantin Musca - meta/recipes-devtools/apt/apt-0.9.7.7/use-host.patch
+> > Constantin Musca - meta/recipes-devtools/apt/apt-0.9.7.7/fix-gcc-4.6-null-not-defined.patch
+> > Joe Slater - meta/recipes-support/curl/curl/configure_ac.patch
+> > Matthew McClintock - meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch
+> > Bogdan Marinescu - meta/recipes-kernel/oprofile/oprofile/opstart.patch
+> > Dexuan Cui - meta/recipes-kernel/oprofile/oprofile/opstart.patch
+> > Richard Purdie - meta/recipes-kernel/oprofile/oprofile/opstart.patch
+> > Matthew McClintock - meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch
+> > Matthew McClintock - meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch
+> > Phil Staub - meta/recipes-extended/libaio/libaio/libaio_fix_for_mips_syscalls.patch
+> 
 
 
 
