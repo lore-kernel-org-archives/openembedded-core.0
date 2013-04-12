@@ -1,42 +1,39 @@
-Received: from mail-pa0-f41.google.com ([209.85.220.41])
+Received: from mail-pb0-f44.google.com ([209.85.160.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1UQSSm-0003l4-5u
+	(envelope-from <raj.khem@gmail.com>) id 1UQSZq-0004XW-AF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 03:07:41 +0200
-Received: by mail-pa0-f41.google.com with SMTP id kx1so1183469pab.14
+	Fri, 12 Apr 2013 03:14:58 +0200
+Received: by mail-pb0-f44.google.com with SMTP id wz12so1130272pbc.31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2013 17:50:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:message-id:date:from:organization:user-agent
-	:mime-version:to:subject:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=5YUMv6c1f54d9lN3WyziW0B+lIlxvDibrwcroE0xv8Y=;
-	b=Yu2qRrThm7tO5jPqTw3RiL7QEQuj6tZ/0BlwszgNxE3cU0+SY8TNMcw+ln5eWgJUfg
-	y7qAFJaroGUk8/dJ+Tz5Y6H6K4WhG6IFUqT1nH7wQ/uaU8pfwPTXmLDq7uhmkX6lLKWg
-	NP2aj4bCsZx2jQbpcHLyUDJ02ShmHY1tJlymQi6EDAkHHkc00zHlXQvnmskx1T/Fhdc6
-	OZH+n6TRofvt/Jodgq0u5UliVCvQJiX4DXFxNgbglNH7yPQf85CnfbGcTF4+eYhy7QS3
-	upkkblwI4HhvImw5v3KReQ8Gu/EJZBVn9veTu9hDbgd1wOuO3V6oIIMrWOLTibPXf72y
-	AMHQ==
-X-Received: by 10.68.105.193 with SMTP id go1mr12058277pbb.13.1365727810382;
-	Thu, 11 Apr 2013 17:50:10 -0700 (PDT)
-Received: from [172.31.2.29] (wsip-24-120-36-131.lv.lv.cox.net.
-	[24.120.36.131])
-	by mx.google.com with ESMTPS id ad7sm6138825pbd.14.2013.04.11.17.50.09
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 11 Apr 2013 17:50:09 -0700 (PDT)
-Message-ID: <51675A40.6080600@intel.com>
-Date: Thu, 11 Apr 2013 17:50:08 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, 
-	'Patches and discussions about the oe-core layer'
+	Thu, 11 Apr 2013 17:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=XfTT5wFnNXVonWUoVKhhEffbI/HknF6SjzpkPhK+ecU=;
+	b=A1zveybrEO9iFFJxuvTvbPTOFjAmqzuNPnczLv+giTKHBgVbCACANbzJfZS96C/26J
+	9VBQvluaMWuwKwyMrTfoxXeMyLG3IlH5FI/GuZYupfbQgbCM0E0/SCnJ1Qk4J15IQrtC
+	gl9Ru+nMtWNychJNn0fHfx3hRTbQH0tiG6EjCUoaTBXXp/1XhwBRjtEMc8Ell3Phg93m
+	X3HjYhd5c+TTWLUa9Hc4ysX+cBpiPk/Kcrxgt2RJNU7w35+lvwvi+p8eO+DiUtiOYVhv
+	3ruA8eXYc9EgW+5cylbm+1ZMJceOa/5bYbsM1dPuyYwEiG5NAJT5rp/u4KUz7azxeWcm
+	sERw==
+X-Received: by 10.66.26.44 with SMTP id i12mr12815683pag.151.1365728249661;
+	Thu, 11 Apr 2013 17:57:29 -0700 (PDT)
+Received: from jchheda-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPS id sf5sm6108357pbb.44.2013.04.11.17.57.27
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 11 Apr 2013 17:57:28 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51675A40.6080600@intel.com>
+Date: Thu, 11 Apr 2013 17:57:29 -0700
+Message-Id: <27105F8C-BD23-4A88-81EE-36EF75E55513@gmail.com>
+References: <51675A40.6080600@intel.com>
+To: Saul Wold <saul.wold@intel.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQllP+oC3PgUkqhKhlqrNR8JMekgMaTqxfyF8lVHe/edOUdxd5oFOHG21tlYwgBuWKHhiJfQ
-Subject: Master under test with gcc-4.8
+Subject: Re: Master under test with gcc-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,24 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 01:07:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Apr 2013 01:15:20 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
 
-Khem,
+On Apr 11, 2013, at 5:50 PM, Saul Wold <saul.wold@intel.com> wrote:
 
-Just an FYI, I am firing the autobuilder tonight with Master_Under_Test 
-(MUT) with your latest GCC-4.8 recipe enabled, so we can get an across 
-the board look at what's happening.
-
-I have seen a couple of failures with an initial build in xmodmap and 
+>=20
+> Khem,
+>=20
+> Just an FYI, I am firing the autobuilder tonight with =
+Master_Under_Test (MUT) with your latest GCC-4.8 recipe enabled, so we =
+can get an across the board look at what's happening.
+>=20
+> I have seen a couple of failures with an initial build in xmodmap and =
 matchbox-panel (when building a sato image for x86).
+>=20
+> Just wanted you to keep your eye on the build, I will send you any =
+failures.
 
-Just wanted you to keep your eye on the build, I will send you any failures.
+yay.  Thats good, lets open a bug and track all build failures there.  I =
+know one thing that linux-yocto-3.8 segfaults when building with 4.8=20
+there is another ICE in gcc which is already reported to gcc ml. Other =
+stuff that Martin reported seemed more like code changes in packages
+themselves.
 
-Thanks for looking after the toolchain!
+but lets track it in one place.
+>=20
+> Thanks for looking after the toolchain!
+>=20
+> Sau!
 
-Sau!
 
 
