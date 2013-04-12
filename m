@@ -1,34 +1,36 @@
-Received: from mail-vc0-f172.google.com ([209.85.220.172])
+Received: from mail-pd0-f182.google.com ([209.85.192.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UQblx-0007hR-1r
+	(envelope-from <martin.jansa@gmail.com>) id 1UQbuh-0000G6-7x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Apr 2013 13:04:05 +0200
-Received: by mail-vc0-f172.google.com with SMTP id gd11so2071426vcb.17
+	Fri, 12 Apr 2013 13:13:06 +0200
+Received: by mail-pd0-f182.google.com with SMTP id 3so1358827pdj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2013 03:46:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=GI7ALV8CoUcL4CXDYSlJFslP16iEzob9bjAzh6hRKcY=;
-	b=YAnAT4V0sjYD1jHvy8EVLqkSoTSnQ54e6QXPzJjWdEez2NpXVOBCjt47Tj6d/oJeWe
-	kImD9HFbtaZVR+yTiEfNK+P6KR0qCOCv+L4Tr6/uI+hOzsMMTSEO1e51SbtTUUACkUpV
-	zbq6jNzVB3mxuDyLv8WMAp0YNRkJxVOfdBdGjgUEpmFPTrDwc4ZNpu5opzMyfcfdVr2+
-	ovkVDbfw8OqjXDegexnv4eXGsAxiqD3P/vg6P8bz7xVezAoSiga5Zy7JRwYROh5drt7m
-	A0lXPhOhcdUaWKJZjjWV14wswqggKJDuGNsTXyeEIh8FL/fyZ4JBP2hdmFvHsOhTT8HF
-	4QHw==
-X-Received: by 10.52.108.10 with SMTP id hg10mr6719367vdb.34.1365763596440;
-	Fri, 12 Apr 2013 03:46:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Fri, 12 Apr 2013 03:46:16 -0700 (PDT)
-In-Reply-To: <CALbNGRRgm8MspqB0ouUFp2s+y_7CGL+qEFFWRZLC+6bh9sJOGg@mail.gmail.com>
+	Fri, 12 Apr 2013 03:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=W3DlXqBx+vM+XMGtGygSsQ0tzwNhDUKcv8CS4qwBjtE=;
+	b=sAUbykVinCzF5QCdrHqaiC6dcbBub306dh+apXo9yITgjliaWJSkuQr5YpkEqTDgxF
+	+mH2CfFLDkw3Z0mzX1nqJU7CrlwSzxBuYkv1dqltvzduKwzJMnmcnGFh1Sfgw9n7v63m
+	AeR4lrb4b6Hqnoxy6MFMDCXLHu2kUIAqCk+jKwiVQ6jrvRQNscxG3ZFb4WZOv89vOjs/
+	JRU2DHw5csBrv9xtgKgd0/gXgwVArRkQlHcWuNxx0xrkaouZ0VZHL/7yQSbnAF0N/gWD
+	xYeT3p6wTeE/q2YPwWl02FCykl1ByHjbI4Wbv1HmzG5BgY+GnpQpT++1tGnsmNgphtsc
+	iFIw==
+X-Received: by 10.68.102.2 with SMTP id fk2mr14186928pbb.168.1365764138106;
+	Fri, 12 Apr 2013 03:55:38 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id jw10sm8160719pbb.3.2013.04.12.03.55.35
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 12 Apr 2013 03:55:37 -0700 (PDT)
+Date: Fri, 12 Apr 2013 12:55:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130412105530.GL2477@jama>
 References: <CALbNGRRgm8MspqB0ouUFp2s+y_7CGL+qEFFWRZLC+6bh9sJOGg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Apr 2013 11:46:16 +0100
-Message-ID: <CAJTo0LZWKopuBHzAp5g7Uj03kmqfTDzTF8Aq+mWax27wHz11wA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQmsMZVspnz90zLIYE9onyXQyHhXGnRYlW7OuevPkPdNneEd0UeGg+N1XzNYahSpur5/Vmbi
+	<CAJTo0LZWKopuBHzAp5g7Uj03kmqfTDzTF8Aq+mWax27wHz11wA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZWKopuBHzAp5g7Uj03kmqfTDzTF8Aq+mWax27wHz11wA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: systemd/sysvinit switches (was [meta-systemd][PATCH 1/2] Delete systemd class)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,32 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 11:04:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Apr 2013 11:13:31 -0000
+X-Groupsio-MsgNum: 37822
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WuT04sMzYDXq8et0"
+Content-Disposition: inline
+
+--WuT04sMzYDXq8et0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+On Fri, Apr 12, 2013 at 11:46:16AM +0100, Burton, Ross wrote:
+> Hi Andreas,
+>=20
+> On 12 April 2013 09:56, Andreas M=FCller <schnitzeltony@googlemail.com> w=
+rote:
+> > OK - just in case I have spare cycles to start this: I am afraid I
+> > lost overview regarding distro features. I found systemd and sysvinit
+> > which can be set both - still correct?
+> >
+> > Ross could you please link me to the information how the use case 'I
+> > want to build for both init-systems but let image decide which one to
+> > use' is set up.
+> > Sorry I didn't follow the last changes in detail because of other
+> > issues (and personally I just use sysvinit).
+>=20
+> It's in the manual!  Okay, only just, and it's still being worked on:
+>=20
+> http://www.yoctoproject.org/docs/1.4/dev-manual/dev-manual.html#selecting=
+-an-initialization-manager
+>=20
+> (obviously the DISTRO_FEATURES =3D "systemd" bit is wrong, but you can
+> see what the intention is)
 
-On 12 April 2013 09:56, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
-wrote:
-> OK - just in case I have spare cycles to start this: I am afraid I
-> lost overview regarding distro features. I found systemd and sysvinit
-> which can be set both - still correct?
->
-> Ross could you please link me to the information how the use case 'I
-> want to build for both init-systems but let image decide which one to
-> use' is set up.
-> Sorry I didn't follow the last changes in detail because of other
-> issues (and personally I just use sysvinit).
+for systemd-only case it should also recommend:
 
-It's in the manual!  Okay, only just, and it's still being worked on:
+# sysvinit scripts are often missing in recipe
+BAD_RECOMMENDATIONS +=3D "update-rc.d"
 
-http://www.yoctoproject.org/docs/1.4/dev-manual/dev-manual.html#selecting-a=
-n-initialization-manager
+Because at least dbus/udev are missing sysvinit scripts without sysvinit in
+DISTRO_FEATURES and postinst scripts are failing when there is
+udpate-rc.d but not script which it is trying to enable..
 
-(obviously the DISTRO_FEATURES =3D "systemd" bit is wrong, but you can
-see what the intention is)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Ross
+--WuT04sMzYDXq8et0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlFn6CIACgkQN1Ujt2V2gBx1IgCeMrRspI/Mg1u0gHd1w4v6wxwX
+CFkAoIzqFARtRpeOLvowpyixZpXxeQoI
+=phUZ
+-----END PGP SIGNATURE-----
+
+--WuT04sMzYDXq8et0--
