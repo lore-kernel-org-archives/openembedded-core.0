@@ -1,42 +1,27 @@
-Received: from mail-da0-f54.google.com ([209.85.210.54])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UR1xw-0000XR-Vc; Sat, 13 Apr 2013 17:02:09 +0200
-Received: by mail-da0-f54.google.com with SMTP id p1so1497834dad.41
-	for <multiple recipients>; Sat, 13 Apr 2013 07:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=yRBZD3pSIcch7Z0IVppIuwsp8iZatAxlrL/htIwpQI8=;
-	b=MbA+kRrPipyU8nswescqMgcy3HwBRAQ285SyEGssIeV/2LSuOxpEKcIxWhg1Z+DeNi
-	1FkGAvYFwFFMTAWPODSscuk5XnqOh9OAReYQrib3mjluFio5g9tJh6nZ1lcoV2nZA1uU
-	G6ZHugb0HVSmlQ8SgWDw9XFRNCE3CxCqMv9ywlcr5gZhEWd8DAuhuCClR9qSd9c+PE/S
-	PJ4UpaiN5dOO73WyibB7bA6pRE9w4CMgDxmcR5QWbR04w/Ty0hmzEJRMOOTyc0aZUAzT
-	Bou7suidYnKpU92o4AzD5SvwDBidXokBZDBwAwVd1SZ4WuF4SpuG5jWwtJoZQvC1VhK3
-	oCmA==
-X-Received: by 10.68.236.134 with SMTP id uu6mr20223529pbc.55.1365864281934;
-	Sat, 13 Apr 2013 07:44:41 -0700 (PDT)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id
-	ba10sm12845801pbd.21.2013.04.13.07.44.38
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 13 Apr 2013 07:44:40 -0700 (PDT)
-Date: Sat, 13 Apr 2013 16:44:35 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130413144435.GF2477@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20121223201634.GN8988@jama.palm1.palmone.com>
-	<20121224091242.GS8988@jama.palm1.palmone.com>
-	<20130109132813.GJ3722@jama.palm1.palmone.com>
-	<CALbNGRTEiLQ8JkN1PvRc6k2rbuvnozP79ywYudMaUyXNViGpSg@mail.gmail.com>
-	<CAJTo0LZT_b4mRrYJOVJzfTzgU4-ipZhswQme-=FqFNGD6q845g@mail.gmail.com>
+	(envelope-from <sgw@linux.intel.com>) id 1UR40o-0005r0-GN
+	for openembedded-core@lists.openembedded.org;
+	Sat, 13 Apr 2013 19:13:20 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 Apr 2013 09:55:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,468,1363158000"; d="scan'208";a="294495038"
+Received: from unknown (HELO [10.255.14.73]) ([10.255.14.73])
+	by orsmga001.jf.intel.com with ESMTP; 13 Apr 2013 09:55:46 -0700
+Message-ID: <51698E12.9070103@linux.intel.com>
+Date: Sat, 13 Apr 2013 09:55:46 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZT_b4mRrYJOVJzfTzgU4-ipZhswQme-=FqFNGD6q845g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+References: <1365838096-11843-1-git-send-email-sgw@linux.intel.com>
+	<1365848798.16702.75.camel@ted>
+	<13e0390dbb6.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <13e0390dbb6.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] udev-extraconf: Add -o silent to auto mount for mount.util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,50 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2013 15:02:10 -0000
-X-Groupsio-MsgNum: 37860
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="0NUq3YI6/rBc6tSL"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 13 Apr 2013 17:13:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---0NUq3YI6/rBc6tSL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 04/13/2013 06:23 AM, Bernhard Reutner-Fischer wrote:
+> On 13 April 2013 12:26:38 Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Sat, 2013-04-13 at 00:28 -0700, Saul Wold wrote:
+>> > This will silence some of the noisy output from mount.util-linux and
+>> the kernel
+>> > when trying to automount filesystems or devices. Busybox does not
+>> accept the silent
+>> > option, it uses a "loud" option instead.
+>> > [YOCTO #3935]
+>> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> > ---
+>> >  meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> As far as I can see this will break with busybox mount. Is there a 2/2
+>> missing?
+>
+> IIRC Busybox defaults to be silent (right?), I will thus add (and
+> ignore) silent. I will have a look in the evening.
+>
 
-On Wed, Jan 09, 2013 at 04:25:40PM +0000, Burton, Ross wrote:
-> On 9 January 2013 15:17, Andreas M=FCller <schnitzeltony@googlemail.com> =
-wrote:
-> > 2. bitbake libnotify3 -> Tons of: 'WARNING: The recipe libnotify3 is
-> > trying to install files into a shared area when those files already
-> > exist. Those files and their manifest location are:
-> >    /home/andreas/tmp/oe-core-eglibc/sysroots/overo/usr/lib/libnotify.a
-> >    Matched in manifest-overo-libnotify
->=20
-> The current libnotify doesn't actually depend on GTK+ 2 or GTK+ 3
-> (well, the tests do, but that's trivially resolved with an
-> upstreamable patch to add --disable-tests), so we don't need two
-> recipes.
->=20
-> Speaking of GTK+ 3, I'm about to start pushing a series to add it to oe-c=
-ore.
+Dangit, I sent the wrong patch, I have the correct one, will resend.
 
-Is someone working on making libnotify and libnotify3 playing nice
-together? Would be nice to fix it before branching..
+Sau!
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> Thanks for the heads up!
+> Cheers,
+>>
+>> > diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> > index 99c76b2..7b58361 100644
+>> > --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> > +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> > @@ -22,7 +22,7 @@ automount() {
+>> >      ! test -d "/media/$name" && mkdir -p "/media/$name"
+>> >
+>> > -    if ! $MOUNT -t auto $DEVNAME "/media/$name"
+>> > +    if ! $MOUNT -o silent -t auto $DEVNAME "/media/$name"
+>> >      then
+>> >          #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME
+>> \"/media/$name\" failed!"
+>> >          rm_dir "/media/$name"
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> Sent with AquaMail for Android
+> http://www.aqua-mail.com
+>
+>
+>
+>
 
---0NUq3YI6/rBc6tSL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFpb1MACgkQN1Ujt2V2gBwvlwCgg85HM7xsMrKH3MiWZd2kJsYm
-pi0AoI+jRfH2231GnjPy27WtidiaTdUo
-=smmt
------END PGP SIGNATURE-----
-
---0NUq3YI6/rBc6tSL--
