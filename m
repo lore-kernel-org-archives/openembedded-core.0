@@ -1,35 +1,41 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mail-ea0-f172.google.com ([209.85.215.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1UR5ZE-0006qv-77
+	(envelope-from <koen@dominion.thruhere.net>) id 1UR5yX-00018l-0P
 	for openembedded-core@lists.openembedded.org;
-	Sat, 13 Apr 2013 20:52:52 +0200
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id F1F3E2232545
+	Sat, 13 Apr 2013 21:19:01 +0200
+Received: by mail-ea0-f172.google.com with SMTP id z7so1709622eaf.31
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2013 20:35:14 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 79D2E2232544
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2013 20:35:13 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (f052239062.adsl.alicedsl.de
-	[78.52.239.62]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2013 20:35:13 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 97CF93C510; Sat, 13 Apr 2013 20:35:11 +0200 (CEST)
-From: "Henning Heinold" <heinold@inf.fu-berlin.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Apr 2013 20:35:11 +0200
-Message-Id: <1365878111-23737-1-git-send-email-heinold@inf.fu-berlin.de>
-X-Mailer: git-send-email 1.7.10.4
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH] qemu: define fdt_t types in libfdt_env.h from qemu
+	Sat, 13 Apr 2013 12:01:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=xeCFWHzxikeNzZWhAomFxCNnXSQnb2Y600uQBrURlcg=;
+	b=fN6Fi2U8RR8B+6qgUoh7PQthsm0KMU20N8rz6r8/GeM1ktnXTvon+N4+AsZlQU29hj
+	IKEabedZjyZ6VeG5eqJ+YwvODTkcdn2jYn36TO+hlKuKWA+028r+yd3XnWFYXUho9Mun
+	KG6c8yl7yQYHlSSaWWEggzUdaXUlJb7/N05PNnBHocNn56XJQ2+YXQyVB+hm8O6cGPmu
+	vq1HMwRu6S3QHjKRXuhqnp7NXe/gF61BrPOUZNcyekTlJGPhrY9A1eCvCjbNeULBbVS5
+	6NpsWWbeGKs5jUzBrHccHL+8+ZTNuwRiFQkDk5lBPpgi4JfYSbSDi4YjY7Br/pqBqUo/
+	Jx3g==
+X-Received: by 10.15.34.199 with SMTP id e47mr42117323eev.35.1365879694416;
+	Sat, 13 Apr 2013 12:01:34 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::bd86:e691:6957:cf66?
+	([2001:610:612:0:bd86:e691:6957:cf66])
+	by mx.google.com with ESMTPS id t4sm17907208eel.0.2013.04.13.12.01.32
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 13 Apr 2013 12:01:33 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1365878111-23737-1-git-send-email-heinold@inf.fu-berlin.de>
+Date: Sat, 13 Apr 2013 21:01:33 +0200
+Message-Id: <8758D8EB-B063-4E8F-9407-632C3DF0AEAC@dominion.thruhere.net>
+References: <1365878111-23737-1-git-send-email-heinold@inf.fu-berlin.de>
+To: Henning Heinold <heinold@inf.fu-berlin.de>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQmRQyqbPige6s2obafFodLslC7xaCqSv1IaxxrxyfEsNylkcLQyRClG3Wz44KobJ4i5iJQT
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu: define fdt_t types in libfdt_env.h from qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,98 +48,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2013 18:52:52 -0000
+X-List-Received-Date: Sat, 13 Apr 2013 19:19:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Henning Heinold <heinold@inf.fu-berlin.de>
 
-* fixes
-In file included from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
-                 from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
-/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
+Op 13 apr. 2013, om 20:35 heeft Henning Heinold =
+<heinold@inf.fu-berlin.de> het volgende geschreven:
 
-Signed-off-by: Henning Heinold <heinold@inf.fu-berlin.de>
----
- meta/recipes-devtools/qemu/files/fdt_header.patch |   39 +++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.4.0.bb          |    4 ++-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
+> From: Henning Heinold <heinold@inf.fu-berlin.de>
+>=20
+> * fixes
+> In file included from =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/libfdt.h:55:0,
+>                 from =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qe=
+mu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
+> =
+/home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linu=
+x/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
+>=20
+> Signed-off-by: Henning Heinold <heinold@inf.fu-berlin.de>
 
-diff --git a/meta/recipes-devtools/qemu/files/fdt_header.patch b/meta/recipes-devtools/qemu/files/fdt_header.patch
-new file mode 100644
-index 0000000..dccfe53
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/files/fdt_header.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Pending 
-+
-+qemu: define fdt types in libfdt_env.h from qemu
-+    
-+    * fixes
-+    In file included from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
-+                     from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
-+    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
-+
-+Index: qemu-1.4.0/include/libfdt_env.h
-+===================================================================
-+--- qemu-1.4.0.orig/include/libfdt_env.h	2013-02-15 23:05:35.000000000 +0000
-++++ qemu-1.4.0/include/libfdt_env.h	2013-04-13 14:17:27.918885225 +0000
-+@@ -21,6 +21,10 @@
-+ 
-+ #include "qemu/bswap.h"
-+ 
-++typedef uint16_t fdt16_t;
-++typedef uint32_t fdt32_t;
-++typedef uint64_t fdt64_t;
-++
-+ #ifdef HOST_WORDS_BIGENDIAN
-+ #define fdt32_to_cpu(x)  (x)
-+ #define cpu_to_fdt32(x)  (x)
-diff --git a/meta/recipes-devtools/qemu/qemu_1.4.0.bb b/meta/recipes-devtools/qemu/qemu_1.4.0.bb
-index e705a03..d968782 100644
---- a/meta/recipes-devtools/qemu/qemu_1.4.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.4.0.bb
-@@ -3,7 +3,9 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--SRC_URI += "file://3f08ffb4a4741d147634761dc053ed386243a0de.patch"
-+SRC_URI += "file://3f08ffb4a4741d147634761dc053ed386243a0de.patch \
-+            file://fdt_header.patch \
-+           "
- 
- SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
- SRC_URI[md5sum] = "78f13b774814b6b7ebcaf4f9b9204318"
--- 
-1.7.10.4
+
+
+Tested-by: Koen Kooi <koen@dominion.thruhere.net>=
 
 
