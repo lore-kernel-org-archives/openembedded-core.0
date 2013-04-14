@@ -1,42 +1,35 @@
-Received: from mail-ea0-f178.google.com ([209.85.215.178])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URQuj-0000eP-Uy
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1URRJt-0002u0-Kp
 	for openembedded-core@lists.openembedded.org;
-	Sun, 14 Apr 2013 19:40:30 +0200
-Received: by mail-ea0-f178.google.com with SMTP id o10so1909634eaj.37
+	Sun, 14 Apr 2013 20:06:49 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1URR31-000T7a-IO>; Sun, 14 Apr 2013 19:49:03 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1URR31-003K87-DE>; Sun, 14 Apr 2013 19:49:03 +0200
+Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
+	Exim 4.72) id 1URR30-0005lg-AO
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2013 10:23:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=xg7DKtJjjz9m+Avze6LkRmHgCCls+QUy8OlnnQPADfw=;
-	b=AYkz287YFeEDOvFz6PwdfsKuSa2NP9Dod4QPxdWGMm/yGc1sIbPG8kCZOdrcdSxoSU
-	Q0WP/EZRrwKSWaMa62bAPi0PGxv0yDwyB8V9C3PLxsZDspZX3qOYgjqQCbtkju2OX645
-	zXnh0YGTO6b2w9GoTBkyR+2QToSBnJb6MibOzJS3ZUPLRa7sGIMtLbx4n1zWVFGju9sF
-	SsDyvHX0Mky7eLeqYq7AG4HeQq2c9BIl22ZsUsE2wYrmioEaOyzVqaNAukccGola2nFG
-	mvlhqiXDXM0l6BnZksESboHB5UFcSsTVuz2L96llcdjBSWAE6lG6FUz7XDrNhSGWs3hD
-	qKIA==
-X-Received: by 10.15.99.201 with SMTP id bl49mr52663967eeb.43.1365960182117;
-	Sun, 14 Apr 2013 10:23:02 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::1cd5:7e72:317b:cd33?
-	([2001:610:612:0:1cd5:7e72:317b:cd33])
-	by mx.google.com with ESMTPS id i53sm22526291eeu.5.2013.04.14.10.23.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 14 Apr 2013 10:23:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20130414170556.GH2475@jama>
-Date: Sun, 14 Apr 2013 19:23:01 +0200
-Message-Id: <6F9FB6C8-5BBD-46FA-9FAB-96A319D9949C@dominion.thruhere.net>
-References: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
-	<20130414170556.GH2475@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQlfKhyqrHlUmNkvtlMJWBE5jXlDrXCqIueNrIweJ7pAL4jEMVp4hmW8Z6SSazM0VqARQff+
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCHv2] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
+	Sun, 14 Apr 2013 19:49:02 +0200
+Date: Sun, 14 Apr 2013 19:49:02 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130414174901.GA13492@mi.fu-berlin.de>
+References: <1365878111-23737-1-git-send-email-heinold@inf.fu-berlin.de>
+	<2868224.qKIdN0gebe@helios> <516AC6D3.2030102@communistcode.co.uk>
+	<6800403.eSx3nnyBtB@helios>
+MIME-Version: 1.0
+In-Reply-To: <6800403.eSx3nnyBtB@helios>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: [PATCH] qemu: define fdt_t types in libfdt_env.h from qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,35 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Apr 2013 17:40:32 -0000
+X-List-Received-Date: Sun, 14 Apr 2013 18:06:49 -0000
+X-List-Received-Date: Sun, 14 Apr 2013 18:06:49 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
+On Sun, Apr 14, 2013 at 04:25:30PM +0100, Paul Eggleton wrote:
+> FWIW, the reason I asked is not because I think the fix is wrong, but to try to 
+> determine - given that I couldn't reproduce the issue and the lack of 
+> information about what might cause it given in the patch header - whether this 
+> fix ought to be merged into the dylan branch immediately or not.
+> 
+> Cheers,
+> Paul
 
-Op 14 apr. 2013, om 19:05 heeft Martin Jansa <martin.jansa@gmail.com> =
-het volgende geschreven:
+Hi Paul,
 
-> On Wed, Apr 10, 2013 at 10:05:01AM +0200, Koen Kooi wrote:
->> This allows a clean seperation between all image outputs and making =
-it possible to have convinience symlinks to make it ready to deploy. And =
-while it isn't a valid reason, it must be mentioned: BSP layers which do =
-use convenience symlinks already don't step on files owned by others =
-anymore.
->>=20
->> I assumed this was the default behaviour in OE-classic, but as it =
-turns out every DISTRO set it to deploy/images/$MACHINE on its own.
->>=20
->> Code inspections shows that the all references to the image deploy =
-dir in classes and scripts in OE-core do the right thing and parse the =
-DEPLOY_DIR_IMAGE variable, except runqemu.
->=20
-> I'm not using runqemu scripts, but the change looks OK:
->=20
-> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+okay now I see the problem, why you do not see the problem.
 
-Thanks!
+meta-beagleboard overrides dtc/libdtc for the latest git version.
 
-Since one part of this patch is a legitimate fix, should I split it and =
-submit the runqemu fix for dylan?=
+dtc changed the following 3 headers
+
+libenv_fdt.h
+fdt.h
+libfdt.h
+
+to typedef fdt16_t, fdt32_t and fdt64_t. The typedef happens in libenv_fdt.h.
+Now qemu ships its own version of libenv_fdt.h, which does not have the typedefs.
+
+The right solution would have been letting meta-beagleboard append the patch for qemu.
+
+On the other hand the typedefs now in qemu's version of libenv_fdt.h does not
+hurt something and Richard already applied it.
+
+Bye Henning
 
 
