@@ -1,34 +1,37 @@
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+Received: from mail-ee0-f48.google.com ([74.125.83.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1URMy9-0006Jn-CM
+	(envelope-from <koen@dominion.thruhere.net>) id 1URNZF-0000cG-R8
 	for openembedded-core@lists.openembedded.org;
-	Sun, 14 Apr 2013 15:27:53 +0200
-Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 2B8FF203FF;
-	Sun, 14 Apr 2013 09:02:14 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute6.internal (MEProxy); Sun, 14 Apr 2013 09:02:14 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=gmMLt4KbmMREpgq0FSOxl4
-	Ap2JU=; b=cQUGAwhvYeHZ9Af37mKdXGvaEPw740oq+tHvY/mreWKVa7CYSvu3+H
-	aNnaZClWR3eUL2zwexL5UA2sqKbxIXh61AAJH+RILqxzkbW6TBQATN1JIl3cA9Ek
-	Lo5shHbOCv8q4O25Foj4Sc6OCYDrDrnrsYeBs2LESmBY4N0AChWLs=
-X-Sasl-enc: vFDaVJEmMkyFNiEvMRG2Q9LUrcW1RAbJGEde7rduXzPW 1365944533
-Received: from [10.0.1.61] (unknown [46.65.197.81])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 4F3A82001BB;
-	Sun, 14 Apr 2013 09:02:13 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1365848719.16702.74.camel@ted>
-References: <1365848719.16702.74.camel@ted>
-Date: Sun, 14 Apr 2013 09:02:12 -0400
-Message-ID: <1365944532.5651.12.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
+	Sun, 14 Apr 2013 16:06:21 +0200
+Received: by mail-ee0-f48.google.com with SMTP id b15so1899552eek.21
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Apr 2013 06:48:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=mFi+Kf5sA9QxRByLEicrWP5c3njkkgDpQYzR5/f0StE=;
+	b=B3MiCQuj2RKphTmSpmef+fGs/mN32GWj9MfIBZxCOMz+OVZt0vwhmfkWo7QYxpGCaf
+	BHPUEfbxH+fAo0GhXvO+HKc/JhpzCVH92lCNxRqH5v9DhXJHpYuaLlHJa9gqOZrynGFZ
+	Q7m5YUA0jk5ZfrGPq+/5jx/xd9q5IeqCJAfdCzhbQnY4v2IW/oCU3X6pB2bSHNiCikVy
+	SrAK85pyCv+1FChvbXgOpBeaDF+anIOHkSYPzeiq/bOUyjpc//+C6Nlot2hV9QPY36Vc
+	SEAJcMIXdX3FsbkGdRVNOsn6H5cEQau4s3sUBqXcsACAqIUuSMMwUZw/hvuu4WKuOLBM
+	mPPw==
+X-Received: by 10.15.43.73 with SMTP id w49mr51332250eev.12.1365947318473;
+	Sun, 14 Apr 2013 06:48:38 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174]) by mx.google.com with ESMTPS id
+	cb50sm21570517eeb.14.2013.04.14.06.48.36
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 14 Apr 2013 06:48:37 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 14 Apr 2013 15:48:26 +0200
+Message-Id: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQkAeAobXExQqzPyfU2sZ47TYZX3fTn5rNNfLnIQcUak/2BTdoResUtXVNNyfOKDxynhLmsS
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,79 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Apr 2013 13:27:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 14 Apr 2013 14:06:27 -0000
 
-Is "libpng" the new canonical name for 1.6?  I assume there was a reason
-it was listed last.  It looks like the current logic came from:
+When using busybox mount the filesystem won't get remounted as 'rw' and bootup will fail.
 
-https://git.gnome.org/browse/gdk-pixbuf/commit/?id=ddedf5a2c2c63bfe8d6f04376cf2bba215a5eb19
+This fixes the regression seen after switching from 'danny' to 'dylan'.
 
-Which is a not very enlightening commit message.  It looks like the
-Fedora 18 "libpng" package provides both libpng.pc and libpng15.pc.
-RHEL6 has the same except it's libpng12.pc too.  My Ubuntu 12.10 VM has
-libpng12 with just libpng12.pc, no libpng.pc.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/systemd/systemd_199.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My main concern with this patch was ensuring that people aren't getting
-a suddenly ancient and deprecated libpng, but that seems unlikely, so
-unless there are other comments I can take care of turning this into
-"git format-patch" style and pushing upstream.
-
-On Sat, 2013-04-13 at 11:25 +0100, Richard Purdie wrote:
-> We now have libpng 1.6. If we build libpng12 as well as libpng 1.6, the 1.2
-> version gets preferred which is not desirable and does not give deterministic builds.
-> 
-> We really do want to use libpng since the item in DEPENDS will provide this so
-> manipulate the search list so the one we DEPEND on gets chosen. This was the cause of a
-> recent autobuilder failure.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
-> new file mode 100644
-> index 0000000..81a3d06
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
-> @@ -0,0 +1,23 @@
-> +We now have libpng 1.6. If we build libpng12 as well as libpng 1.6, the 1.2 version gets 
-> +preferred which is not desirable and does not give deterministic builds.
-> +
-> +We really do want to use libpng since the item in DEPENDS will provide this so
-> +manipulate the search list so the one we DEPEND on gets chosen.
-> +
-> +RP 2013/4/13
-> +
-> +Upstream-Status: Pending [worth discussing at least]
-> +
-> +Index: gdk-pixbuf-2.26.5/configure.ac
-> +===================================================================
-> +--- gdk-pixbuf-2.26.5.orig/configure.ac	2013-03-26 15:45:16.594820303 +0000
-> ++++ gdk-pixbuf-2.26.5/configure.ac	2013-04-13 10:15:19.241433789 +0000
-> +@@ -588,7 +588,7 @@
-> + 
-> + dnl Test for libpng
-> +   if test x$with_libpng != xno && test -z "$LIBPNG"; then
-> +-    for l in libpng15 libpng14 libpng12 libpng13 libpng10 libpng ; do
-> ++    for l in libpng libpng15 libpng14 libpng12 libpng13 libpng10 ; do
-> +       AC_MSG_CHECKING(for $l)
-> +       if $PKG_CONFIG --exists $l ; then
-> +         AC_MSG_RESULT(yes)
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-> index cc2ea50..b35f7c6 100644
-> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.26/gdk-pixbuf-${
->             file://hardcoded_libtool.patch \
->             file://configure_fix.patch \
->             file://extending-libinstall-dependencies.patch \
-> +           file://pngversion.patch \
->             "
->  
->  SRC_URI[md5sum] = "339329e6d619ee3e1cb93979111b04c0"
-> 
-> 
-
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index 2de9c14..0d07f85 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -188,7 +188,7 @@ FILES_${PN} = " ${base_bindir}/* \
+ FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+ 
+-RDEPENDS_${PN} += "dbus"
++RDEPENDS_${PN} += "dbus util-linux-mount"
+ 
+ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
+                       util-linux-agetty \
+-- 
+1.8.1.4
 
 
 
