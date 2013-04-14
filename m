@@ -1,35 +1,35 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail-ea0-f179.google.com ([209.85.215.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1URRJt-0002u0-Kp
-	for openembedded-core@lists.openembedded.org;
-	Sun, 14 Apr 2013 20:06:49 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1URR31-000T7a-IO>; Sun, 14 Apr 2013 19:49:03 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.80.1)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1URR31-003K87-DE>; Sun, 14 Apr 2013 19:49:03 +0200
-Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
-	Exim 4.72) id 1URR30-0005lg-AO
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2013 19:49:02 +0200
-Date: Sun, 14 Apr 2013 19:49:02 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1URRSB-0003az-PF; Sun, 14 Apr 2013 20:15:04 +0200
+Received: by mail-ea0-f179.google.com with SMTP id f15so1838901eak.38
+	for <multiple recipients>; Sun, 14 Apr 2013 10:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=qgebn8qcWw6nNajaCG6k/q4XFZ07A6I6oRiQ9OYmJoE=;
+	b=SGJfdxwivIiBX13IByLZb0MTLZxykQLbN+sZX7IARopk5sYw+769cfGdGGVko7Wkxq
+	OJjdeq///0fIrur51m+udsgm0FOat6/fGcOaCL6wNEUhMe9MBFUCIP3cfj0nCgszeK4b
+	2JQsgx6JP5glOIso8NdaHZeN7K1xargUC0NcB0TvUTaLfaDvTLYugCJw0krahDDOtSsh
+	f7cDd4MwdJf2A8d7T8kXXzLBfpzmhk/YYGm8x1GAJ8BLc8ACCm8dNjxosYNYZQq75ONH
+	GvqERAr397SBZ+Nm7sUN/HNDFS3JpseIQlSRYVSKNi7QqoXMEs/WfNzqPCTbtF8NWmT9
+	SxNA==
+X-Received: by 10.14.0.5 with SMTP id 5mr8957643eea.13.1365962255925;
+	Sun, 14 Apr 2013 10:57:35 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id b5sm22566244eew.16.2013.04.14.10.57.34
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 14 Apr 2013 10:57:35 -0700 (PDT)
+Date: Sun, 14 Apr 2013 19:57:40 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130414174901.GA13492@mi.fu-berlin.de>
-References: <1365878111-23737-1-git-send-email-heinold@inf.fu-berlin.de>
-	<2868224.qKIdN0gebe@helios> <516AC6D3.2030102@communistcode.co.uk>
-	<6800403.eSx3nnyBtB@helios>
+Message-ID: <20130414175740.GI2475@jama>
+References: <20130318131702.8ADB35040D@opal>
 MIME-Version: 1.0
-In-Reply-To: <6800403.eSx3nnyBtB@helios>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Subject: Re: [PATCH] qemu: define fdt_t types in libfdt_env.h from qemu
+In-Reply-To: <20130318131702.8ADB35040D@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Marcin Juszkiewicz : nss-myhostname: add 0.3 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,40 +42,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Apr 2013 18:06:49 -0000
-X-List-Received-Date: Sun, 14 Apr 2013 18:06:49 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Sun, 14 Apr 2013 18:15:05 -0000
+X-Groupsio-MsgNum: 37880
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SdaPbLtAangIkrMZ"
 Content-Disposition: inline
 
-On Sun, Apr 14, 2013 at 04:25:30PM +0100, Paul Eggleton wrote:
-> FWIW, the reason I asked is not because I think the fix is wrong, but to try to 
-> determine - given that I couldn't reproduce the issue and the lack of 
-> information about what might cause it given in the patch header - whether this 
-> fix ought to be merged into the dylan branch immediately or not.
-> 
-> Cheers,
-> Paul
+--SdaPbLtAangIkrMZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+On Mon, Mar 18, 2013 at 01:17:02PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 9f46e4c195e4d8bc638191428492e09f1e57cc76
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D9f46e4c195e4d8bc638191428492e09f1e57cc76
+>=20
+> Author: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> Date:   Thu Mar 14 22:16:34 2013 +0100
+>=20
+> nss-myhostname: add 0.3 version
+>=20
+> Meta-linaro layer had own netbase.bbappend which took care of adding
+> MACHINE name to /etc/hosts to get it resolvable.
+>=20
+> Koen Kooi pointed to nss-myhostname as better solution. Tested, works
+> fine so I add it for other users.
+>=20
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-okay now I see the problem, why you do not see the problem.
+Does this conflict with systemd?
 
-meta-beagleboard overrides dtc/libdtc for the latest git version.
+WARNING: The recipe systemd is trying to install files into a shared
+area when those files already exist. Those files and their manifest
+location are:
+   /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/=
+usr/lib/libnss_myhostname.so.2
+   Matched in manifest-qemuarm-nss-myhostname
+Please verify which package should provide the above files.
 
-dtc changed the following 3 headers
+>=20
+> ---
+>=20
+>  .../nss-myhostname/nss-myhostname_0.3.bb           |   25 ++++++++++++++=
+++++++
+>  1 files changed, 25 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/=
+meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+> new file mode 100644
+> index 0000000..d5ed084
+> --- /dev/null
+> +++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+> @@ -0,0 +1,25 @@
+> +DESCRIPTION =3D "plugin for the GNU Name Service Switch (NSS) functional=
+ity of \
+> +the GNU C Library (glibc) providing host name resolution for the locally=
+ \
+> +configured system hostname as returned by gethostname(2)."
+> +HOMEPAGE =3D "http://0pointer.de/lennart/projects/nss-myhostname/"
+> +LICENSE =3D "LGPLv2.1"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2d5025d4aa3495befef8f17206a5b=
+0a1"
+> +
+> +SRC_URI =3D "http://0pointer.de/lennart/projects/nss-myhostname/nss-myho=
+stname-${PV}.tar.gz"
+> +
+> +SRC_URI[md5sum] =3D "d4ab9ac36c053ab8fb836db1cbd4a48f"
+> +SRC_URI[sha256sum] =3D "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d=
+3a7f6c4d67e7caf2"
+> +
+> +inherit autotools
+> +
+> +pkg_postinst_${PN} () {
+> +	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostnam=
+e \3\4\5/' \
+> +		-i $D/etc/nsswitch.conf
+> +}
+> +
+> +pkg_prerm_${PN} () {
+> +	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +		-e '/^hosts:/s/\s*myhostname//' \
+> +		-i $D/etc/nsswitch.conf
+> +}
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
-libenv_fdt.h
-fdt.h
-libfdt.h
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-to typedef fdt16_t, fdt32_t and fdt64_t. The typedef happens in libenv_fdt.h.
-Now qemu ships its own version of libenv_fdt.h, which does not have the typedefs.
+--SdaPbLtAangIkrMZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-The right solution would have been letting meta-beagleboard append the patch for qemu.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
-On the other hand the typedefs now in qemu's version of libenv_fdt.h does not
-hurt something and Richard already applied it.
+iEYEARECAAYFAlFq7hQACgkQN1Ujt2V2gByDMwCfXFlAXWTo8+Mie7A+Mz1JpGDT
+NDsAn2DZ56FdBiCiGxfqnrhDreDoZm15
+=4SRn
+-----END PGP SIGNATURE-----
 
-Bye Henning
-
-
+--SdaPbLtAangIkrMZ--
