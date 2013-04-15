@@ -1,44 +1,35 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-vc0-f174.google.com ([209.85.220.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B28495@freescale.com>) id 1URgo1-0002Tt-KO
+	(envelope-from <ross.burton@intel.com>) id 1URgol-0002Xm-0U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:38:38 +0200
-Received: from mail157-ch1-R.bigfish.com (10.43.68.235) by
-	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 15 Apr 2013 09:50:55 +0000
-Received: from mail157-ch1 (localhost [127.0.0.1])	by
-	mail157-ch1-R.bigfish.com (Postfix) with ESMTP id 7AC9A3600EE	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 09:50:55 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzz17326ah8275bh8275chz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
-Received: from mail157-ch1 (localhost.localdomain [127.0.0.1]) by mail157-ch1
-	(MessageSwitch) id 1366019454207618_7306;
-	Mon, 15 Apr 2013 09:50:54 +0000 (UTC)
-Received: from CH1EHSMHS031.bigfish.com (snatpool2.int.messaging.microsoft.com
-	[10.43.68.238])	by mail157-ch1.bigfish.com (Postfix) with ESMTP id
-	3078A2A0064	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 09:50:54 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS031.bigfish.com
-	(10.43.70.31) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 15 Apr 2013 09:50:54 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Mon, 15 Apr 2013 09:50:53 +0000
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	r3F9oqPf018978; Mon, 15 Apr 2013 02:50:52 -0700
-From: <b28495@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Apr 2013 04:50:51 -0500
-Message-ID: <1366019452-4265-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
+	Mon, 15 Apr 2013 12:40:27 +0200
+Received: by mail-vc0-f174.google.com with SMTP id kw10so3711244vcb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2013 03:21:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=OmyEJWHeSBKkHXXznvDHROG2N3cZ/EsmODIVRl8I9vk=;
+	b=WAnAXwaxFnS+WGGpZ7GbnbOvLSvaXyweqtQzrlwrFodxLwydOQSrVTdnePV12Fk+GI
+	sfZ2vUZjI22tucFpFYE7VtfjQnqLmKS1ZjFdydcHxrQVFJIh8Zj/o0h/LruFoZN8Zuz7
+	1SDlubHbgcmfPXGpO6zVKQ7GIxEpqdDWuULncgnynFZv7gDGR5HnCGLJzhZ6afBX6p8Q
+	a7UxYEdlA5trZ6hwuQRItqkGpBY+UIiXX5jaZU0OrI4wxq6T1zSe0cvf4bhw4NJqGFR9
+	+iwBjz4QwF22I6DnA/dAfD36zUkfyiOiZ9wL8Uh7rc3cgYxEJhROTQHEasgmdeu9q0S4
+	wRNg==
+X-Received: by 10.58.15.193 with SMTP id z1mr15567422vec.40.1366021314095;
+	Mon, 15 Apr 2013 03:21:54 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v2 1/2] busybox: detects customized configs when do_install
+Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 03:21:34 -0700 (PDT)
+In-Reply-To: <1366020744-2958-1-git-send-email-koen@dominion.thruhere.net>
+References: <1366020744-2958-1-git-send-email-koen@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Apr 2013 11:21:34 +0100
+Message-ID: <CAJTo0LbZztWUJa3wVDrCqe0seLcM64LTkjJc=drjxBNCv5HvsA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQnilIYYnjDqB1Nc58retbwlm1ngLjKhRTVNDvqiPznQpadCSM30r1IWs7xWVmOKT9ywCKfG
+Subject: Re: [PATCH] udev: remove udev-extraconf from RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,104 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:38:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Apr 2013 10:40:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Ting Liu <b28495@freescale.com>
+On 15 April 2013 11:12, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> In the original udev and systemd updates these extra conf rules and scrip=
+ts where removed and moved to a different recipe to avoid pulling them in b=
+y default, making them opt-in. The systemd merge into oe-core regressed thi=
+s into making it impossible to opt out of it when using package feeds for u=
+pgrades.
 
-After using 'bitbake -c menuconfig busybox' to customize defconfig,
-do_install fail to detect the changes. Grep configs in ${B}/.config
-instead of ${WORKDIR}/defconfig.
+If/when this merges initramfs-live-boot will potentially (read: will
+break in Poky) break, I've just sent a fix for that. Another fix
+incoming for Sato images.
 
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- meta/recipes-core/busybox/busybox.inc       |   26 +++++++++++++-------------
- meta/recipes-core/busybox/busybox_1.20.2.bb |    2 +-
- 2 files changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 655cb3c..a2e83ec 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -153,14 +153,14 @@ do_install () {
- 
- 	install -d ${D}${sysconfdir}/init.d
- 
--	if ! grep -q "CONFIG_FEATURE_INDIVIDUAL=y" ${WORKDIR}/defconfig; then
-+	if ! grep -q "CONFIG_FEATURE_INDIVIDUAL=y" ${B}/.config; then
- 		# Install /bin/busybox, and the /bin/sh link so the postinst script
- 		# can run. Let update-alternatives handle the rest.
- 		install -d ${D}${base_bindir}
--		if grep -q "CONFIG_FEATURE_SUID=y" ${WORKDIR}/defconfig; then
--			install -m 4755 ${S}/busybox ${D}${base_bindir}
-+		if grep -q "CONFIG_FEATURE_SUID=y" ${B}/.config; then
-+			install -m 4755 ${B}/busybox ${D}${base_bindir}
- 		else
--			install -m 0755 ${S}/busybox ${D}${base_bindir}
-+			install -m 0755 ${B}/busybox ${D}${base_bindir}
- 		fi
- 		ln -sf busybox ${D}${base_bindir}/sh
- 	else
-@@ -183,36 +183,36 @@ do_install () {
- 		fi
- 	fi
- 
--	if grep -q "CONFIG_SYSLOGD=y" ${WORKDIR}/defconfig; then
-+	if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${BPN}
- 		install -m 644 ${WORKDIR}/syslog-startup.conf ${D}${sysconfdir}/syslog-startup.conf.${BPN}
- 	fi
--	if grep "CONFIG_CROND=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_CROND=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_HTTPD=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_HTTPD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-httpd ${D}${sysconfdir}/init.d/
- 		install -d ${D}/srv/www
- 	fi
--	if grep "CONFIG_UDHCPD=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_UDHCPD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_HWCLOCK=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
- 		install -d ${D}${sysconfdir}/udhcpc.d
- 		install -d ${D}${datadir}/udhcpc
-                 install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
- 	fi
--	if grep "CONFIG_INETD=y" ${WORKDIR}/defconfig; then
-+	if grep "CONFIG_INETD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
- 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
- 	fi
--        if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
-+        if grep "CONFIG_MDEV=y" ${B}/.config; then
-                install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
--               if grep "CONFIG_FEATURE_MDEV_CONF=y" ${WORKDIR}/defconfig; then
-+               if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
-                        install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
-                fi
- 	fi
-diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-core/busybox/busybox_1.20.2.bb
-index 401c1eb..bb97044 100644
---- a/meta/recipes-core/busybox/busybox_1.20.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://B921600.patch \
--- 
-1.7.9.7
-
-
+Ross
 
 
