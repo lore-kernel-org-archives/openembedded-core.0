@@ -1,36 +1,41 @@
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+Received: from mail-ee0-f48.google.com ([74.125.83.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1URgbl-0001Au-LA
+	(envelope-from <koen@dominion.thruhere.net>) id 1URgcv-0001GX-Fg
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:26:02 +0200
-Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 0555E20B13;
-	Mon, 15 Apr 2013 06:08:31 -0400 (EDT)
-Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
-	by compute5.internal (MEProxy); Mon, 15 Apr 2013 06:08:31 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version; s=smtpout; bh=byFODz
-	2l6jITJrMbWYnr+jNarSE=; b=Q0DXjY3eEdtUltLahoJ4a9hKwuvfgPN7mozg2o
-	IJltK6nSe+Xs7OtYe0UbGeArahTnp86+sHnZA0AsSH7dzB/m7tQG4tvscERzylJM
-	vSJAwRZ9oM+KpX8jWJLOpFX8rrtW6m69xZ4KCVNoQ4yJjdOKGBtG5ajRf9YBlCm/
-	v9lOU=
-X-Sasl-enc: h4AH84PD8RLzIhAma6eUBtQLhoOJVCmi/HJs+9h50EZi 1366020510
-Received: from [10.0.0.87] (unknown [46.65.197.81])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 1B622C80005;
-	Mon, 15 Apr 2013 06:08:30 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1365953596.8670.9.camel@ted>
-References: <1365848719.16702.74.camel@ted>
-	<1365944532.5651.12.camel@localhost>  <1365953596.8670.9.camel@ted>
-Date: Mon, 15 Apr 2013 06:08:28 -0400
-Message-ID: <1366020508.2896.16.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
-Cc: mclasen@redhat.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
+	Mon, 15 Apr 2013 12:27:09 +0200
+Received: by mail-ee0-f48.google.com with SMTP id b15so2195724eek.21
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2013 03:09:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=wiMgK7Jw6FPMx6qC9RuEQHRsJc4blWEyQaf1Du8kxbo=;
+	b=H6SdPzVMmltppQh4UmGwBBQWQ7mdqI5VCyVAO8rl+CoreXejEZzhY+cqCputXnHHdl
+	1ZKbgzHETLhakltbOHt+VcQafmWMU7n7geOyExSKI+g1hVWOqYAd9NUpqqm+wuRvWJN7
+	9JXZIxtcpWUghaNRBvzI7P62oTzLZkoCH6H7CRDwmf0xAleXpcqsu52lUHaHJePwRid2
+	FbfTXtnDzff8JkHKWDickUGUXZrWaJ15Z/sFv1Ub7lXAp2+nQpE4gZg4aKYaO5gI/+Z3
+	rmWlk1rK6HJVDgfJ3+UxYzziBsN6zebh2O7q0L+QOdc5l6TH2XZvuQj6kmzsuN2pJOOK
+	MMQQ==
+X-Received: by 10.14.5.137 with SMTP id 9mr56023332eel.30.1366020580899;
+	Mon, 15 Apr 2013 03:09:40 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id b5sm25925111eew.16.2013.04.15.03.09.39
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 03:09:40 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+Date: Mon, 15 Apr 2013 12:09:38 +0200
+Message-Id: <9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
+References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQkie6KTg5g0QqcH/W9FwcIhrTEG1YQOEgEh5IQR3D7CQmXUyEF0MdPajywTHrqm8zBf4RE8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,89 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:26:15 -0000
-X-Groupsio-MsgNum: 37898
-Content-Type: multipart/mixed; boundary="=-itZjtzzUMHnVZ/JP7/AI"
-
---=-itZjtzzUMHnVZ/JP7/AI
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Sun, 2013-04-14 at 16:33 +0100, Richard Purdie wrote:
-> On Sun, 2013-04-14 at 09:02 -0400, Colin Walters wrote:
-> The more interesting change is:
-> 
-> https://git.gnome.org/browse/gdk-pixbuf/commit/configure.ac?id=d430bc4df3314a88cd538474d26ff7764d1f408c
-> 
-> and following that to the bugzilla 'For this to make sense, I changed
-> the order so that a version specific dep, such as libpng15 or
-> libpng12,
-> is found before just "libpng".'
-> 
-> I'm not sure I entirely follow that logic.
-
-I added Matthias to CC as he touched this last then.
-
-> I think the intent of the symlink is to provide the system with a
-> default libpng to use in the absence of a specific version requirement.
-> As the code stands today, each time a new libpng comes out, gdk-pixbuf
-> will need changes before it will be able to use it. 
-
-Right, we need configure.ac changes, but the rationale behind that is
-that we'd also need *code* changes for each new major version of libpng.
-But it sounds like what you're saying is that gdk-pixbuf compiles and
-operates correctly with 1.6?  If that's the case, then the least
-invasive change here is to simply add 1.6.
-
-Blah, I tried changing the gnome-ostree build to fetch libpng's v1.6.1
-git tag to test, but it hard requires Automake 1.13.
-
-Anyways, if it works (looks like the latest oe-core has it), then
-what about the attached?
-
-> In the meantime, it
-> will potentially link against something old, e.g. 1.2, since 1.2 is in
-> the LSB 4.X spec so most LSB like systems would have 1.6 and 1.2.
-> 
-> If we can justify changing this upstream, that would be great :). It may
-> be worth adding libpng16 into the list too so everything is covered too.
-
-At this point I'm hoping the parade of libpng versions will
-settle down, so hopefully no further tweaking of the configure script or
-code will be required...
+X-List-Received-Date: Mon, 15 Apr 2013 10:27:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 15 apr. 2013, om 11:59 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
---=-itZjtzzUMHnVZ/JP7/AI
-Content-Disposition: attachment; filename="0001-build-We-also-support-libpng16.patch"
-Content-Type: text/x-patch; name="0001-build-We-also-support-libpng16.patch"; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+> On 14 April 2013 14:48, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> When using busybox mount the filesystem won't get remounted as 'rw' =
+and bootup will fail.
+>>=20
+>> This fixes the regression seen after switching from 'danny' to =
+'dylan'.
+>=20
+> I was going to say that I've never noticed this and have been running
+> busybox's mount, but on reading the hddimg boot scripts I see it
+> mounts / as read-write before switching the root.
+>=20
+> Does busybox produce any useful errors as to why it's not working? =20
 
-From 829379cfa2b48e966125df2d070d2af40cb3f990 Mon Sep 17 00:00:00 2001
-From: Colin Walters <walters@verbum.org>
-Date: Mon, 15 Apr 2013 05:59:09 -0400
-Subject: [PATCH] build: We also support libpng16
+No, it pretends everything is OK and the remount succeeded.=20
 
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/038321.html
----
- configure.ac |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+regards,
 
-diff --git a/configure.ac b/configure.ac
-index 8ec8b1f..106fab1 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -586,7 +586,7 @@ fi
- 
- dnl Test for libpng
-   if test x$with_libpng != xno && test -z "$LIBPNG"; then
--    for l in libpng15 libpng14 libpng12 libpng13 libpng10 libpng ; do
-+    for l in libpng16 libpng15 libpng14 libpng12 libpng13 libpng10 libpng; do
-       AC_MSG_CHECKING(for $l)
-       if $PKG_CONFIG --exists $l ; then
-         AC_MSG_RESULT(yes)
--- 
-1.7.1
+Koen=
 
 
---=-itZjtzzUMHnVZ/JP7/AI--
