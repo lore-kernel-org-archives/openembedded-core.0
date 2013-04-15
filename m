@@ -1,30 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1URaDf-0006px-23
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1URd5C-0002Kr-Jx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 05:36:42 +0200
+	Mon, 15 Apr 2013 08:40:26 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3F3J91W013375
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3F6Mb4G021640
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2013 20:19:10 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Sun, 14 Apr 2013 20:19:09 -0700
-Message-ID: <516B7221.5010409@windriver.com>
-Date: Mon, 15 Apr 2013 11:21:05 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
+	Sun, 14 Apr 2013 23:22:37 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 14 Apr 2013 23:22:37 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1365995348.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1365995348.git.kai.kang@windriver.com>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r3F3J91W013375
-Subject: Re: [PATCH 0/1] V2: Fix rpm2cpio segment fault
+Date: Mon, 15 Apr 2013 14:22:32 +0800
+Message-ID: <91285501c1167a2e642490b19fc0bb47c94a6512.1366006383.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1366006383.git.hongxu.jia@windriver.com>
+References: <cover.1366006383.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 3/3] udev-extraconf:fix rootless X write to usb storage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,54 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 03:36:45 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Apr 2013 06:40:29 -0000
+Content-Type: text/plain
 
-On 2013=E5=B9=B404=E6=9C=8815=E6=97=A5 11:17, Kang Kai wrote:
-> Hi Mark,
->
-> As my last mail on Apr 12 mentioned, not only macro "_dbpath" need to b=
-e defined. Macros "_dbi_config*" are needed too, and they can't be simply=
- assigned some value.
->
-> I think parse config files first could be a workaround to fix rpm2cpio =
-segment fault error for now.
+Rootless X is owned by xuser, the problem is xuser doesn't have permissions to
+write usb storage when the type of filesystem is not one of ext2/3/4 and btrfs.
+...
+mount
+/dev/sdb1 on /media/sdb1 type ext4
+/dev/sdb2 on /media/sdb2 type vfat
+/dev/sdb3 on /media/sdb3 type ntfs
+/dev/sdb4 on /media/sdb4 type btrfs
+/dev/sdb2 on /media/sdb5 type jfs
+/dev/sdb1 on /media/sdb6 type xfs
+...
+ls /media/ -al
+drwx------    3 xuser    xuser         1024 Apr 10 09:08 sdb1
+drwxr-xr-x    2 root     root         16384 Jan  1  1970 sdb2
+drwx------    1 root     root          4096 Apr 10 09:12 sdb3
+drwx------    1 xuser    xuser            0 Apr 10 09:14 sdb4
+drwxr-xr-x    2 root     root             6 Apr 10 09:39 sdb5
+drwxr-xr-x    2 root     root           256 Apr 10 09:39 sdb6
+...
 
-Update:
-If parse config files fails, just give warning.
+The usb storage is mounted to dir `/media/sd**' by a udev's mount.sh script,
+Modify the script to change the group owner of dir to `disk', and grant w/r/x
+permissions to it, so the one (such as xuser) in the disk group could access
+the storage.
 
->
-> Thanks,
-> Kai
->
->
-> The following changes since commit 4c02dd5f6432c6e683a57d47b610f56433e9=
-ca0d:
->
->    kern-tools: fix conditional configuration items (2013-04-11 08:27:41=
- +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib kangkai/rpm2cpio-segfault
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/rpm2=
-cpio-segfault
->
-> Kang Kai (1):
->    rpm: fix rpm2cpio segmentation fault
->
->   .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch  |   28 +++++++++++=
-+++++++++
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
->   2 files changed, 29 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segment=
-ation-fault.patch
->
+There are two solutions to do according to the type of USB's filesystem.
+1, For vfat, fat, ntfs, add mount option `gid' and `umask'.
+2, For others, invoke chgrp and chmod after mount.
 
+[YOCTO #4004]
 
---=20
-Regards,
-Neil | Kai Kang
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh |   19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 97af608..fbec5b4 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -27,11 +27,30 @@ automount() {
+ 		MOUNT="$MOUNT -o silent"
+ 	fi
+ 	
++	local invoke_chown=""
++	# According to the type of filesystem, there are two solutions to change
++	# the group owner of storage to `disk' and grant w/r/x permissions.
++	case $ID_FS_TYPE in
++	vfat|fat|ntfs)
++		# By mount.
++		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++		;;
++	# Such as btrfs, minix, xfs, jfs, ext2, ext3, ext4, nilfs2.
++	*)
++		# By invoking chgrp and chmod after mount.
++		invoke_chgrp="1"
++		;;
++	esac
++
+ 	if ! $MOUNT -t auto $DEVNAME "/media/$name"
+ 	then
+ 		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
+ 		rm_dir "/media/$name"
+ 	else
++		if [ "$invoke_chgrp" = "1" ]; then
++			chgrp "disk" "/media/$name"
++			chmod g+wrx "/media/$name"
++		fi
+ 		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
+ 		touch "/tmp/.automount-$name"
+ 	fi
+-- 
+1.7.10.4
 
 
 
