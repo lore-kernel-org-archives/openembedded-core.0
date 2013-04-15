@@ -1,37 +1,36 @@
-Received: from mail-ea0-f181.google.com ([209.85.215.181])
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URgax-00014i-9e
+	(envelope-from <walters@verbum.org>) id 1URgbl-0001Au-LA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:25:08 +0200
-Received: by mail-ea0-f181.google.com with SMTP id z10so2070353ead.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 03:07:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=3EUDGUKxbQv6W58aovyam8ts23ewrb1/oLD9/bXR7Gw=;
-	b=dKAkdLk0LrMZNlaWTOjlSpHR20svyV8WNfwRBS7TJu4dI2U1Dsyj38oF17+lK/5gzC
-	cMRv/x2WyRbcj3FdXaPVWeE51IqcuAST7Mh+KvO5KrQt2LKGMpDbKBcmctMHWgUtwjxv
-	gQaJ2N1LOcbjpreH4+DPYS7nAYKeH7+tp2oVbsEaPiR5xP3Qbdxhx2v4aKBG2rcfF9wo
-	ycl8kF8Onk9pI6hMwaAcdBIRTV4B0t+0FwsbKoX1/Nf8SIPFjDzCQrRkZN3/ai2FIiA0
-	KkU6HqZFa1a8yPNPIHmmxO62TYalYs3GBz8jiodbEz60RqoOYyxwOQz6Aic+Wz3r0WmM
-	CcWg==
-X-Received: by 10.15.41.2 with SMTP id r2mr60434320eev.20.1366020458786;
-	Mon, 15 Apr 2013 03:07:38 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id b47sm6468118eez.2.2013.04.15.03.07.36
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 15 Apr 2013 03:07:37 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2013 12:07:31 +0200
-Message-Id: <1366020451-2664-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQm+7D74jHM6umxv7iyZyGXkkf9T8rB4kMfeSTEkPG1U2cZJ+JW5nwAi7huaBJn+JojXmAMx
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFT][PATCH] libpng: update to 1.6.1
+	Mon, 15 Apr 2013 12:26:02 +0200
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 0555E20B13;
+	Mon, 15 Apr 2013 06:08:31 -0400 (EDT)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute5.internal (MEProxy); Mon, 15 Apr 2013 06:08:31 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version; s=smtpout; bh=byFODz
+	2l6jITJrMbWYnr+jNarSE=; b=Q0DXjY3eEdtUltLahoJ4a9hKwuvfgPN7mozg2o
+	IJltK6nSe+Xs7OtYe0UbGeArahTnp86+sHnZA0AsSH7dzB/m7tQG4tvscERzylJM
+	vSJAwRZ9oM+KpX8jWJLOpFX8rrtW6m69xZ4KCVNoQ4yJjdOKGBtG5ajRf9YBlCm/
+	v9lOU=
+X-Sasl-enc: h4AH84PD8RLzIhAma6eUBtQLhoOJVCmi/HJs+9h50EZi 1366020510
+Received: from [10.0.0.87] (unknown [46.65.197.81])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 1B622C80005;
+	Mon, 15 Apr 2013 06:08:30 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1365953596.8670.9.camel@ted>
+References: <1365848719.16702.74.camel@ted>
+	<1365944532.5651.12.camel@localhost>  <1365953596.8670.9.camel@ted>
+Date: Mon, 15 Apr 2013 06:08:28 -0400
+Message-ID: <1366020508.2896.16.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Cc: mclasen@redhat.com,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,151 +43,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:25:10 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 10:26:15 -0000
+X-Groupsio-MsgNum: 37898
+Content-Type: multipart/mixed; boundary="=-itZjtzzUMHnVZ/JP7/AI"
 
-This attempts to fix [YOCTO #4060]  - connman-applet spews warnings, but with this one PNG images still don't work in weston :(
+--=-itZjtzzUMHnVZ/JP7/AI
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The ARM NEON option was added because the autodetection code in configure.ac is broken:
+On Sun, 2013-04-14 at 16:33 +0100, Richard Purdie wrote:
+> On Sun, 2013-04-14 at 09:02 -0400, Colin Walters wrote:
+> The more interesting change is:
+> 
+> https://git.gnome.org/browse/gdk-pixbuf/commit/configure.ac?id=d430bc4df3314a88cd538474d26ff7764d1f408c
+> 
+> and following that to the bugzilla 'For this to make sense, I changed
+> the order so that a version specific dep, such as libpng15 or
+> libpng12,
+> is found before just "libpng".'
+> 
+> I'm not sure I entirely follow that logic.
 
-	/usr/lib/weston/weston-desktop-shell: symbol lookup error: /usr/lib/libpng16.so.16: undefined symbol: png_init_filter_functions_neon
+I added Matthias to CC as he touched this last then.
 
-License checksums update due to date and package version changes:
+> I think the intent of the symlink is to provide the system with a
+> default libpng to use in the absence of a specific version requirement.
+> As the code stands today, each time a new libpng comes out, gdk-pixbuf
+> will need changes before it will be able to use it. 
 
-index e95d359..d86a7da 100644
---- a/LICENSE
-+++ b/LICENSE
+Right, we need configure.ac changes, but the rationale behind that is
+that we'd also need *code* changes for each new major version of libpng.
+But it sounds like what you're saying is that gdk-pixbuf compiles and
+operates correctly with 1.6?  If that's the case, then the least
+invasive change here is to simply add 1.6.
 
--libpng versions 1.2.6, August 15, 2004, through 1.6.0, February 14, 2013, are
-+libpng versions 1.2.6, August 15, 2004, through 1.6.1, March 28, 2013, are
+Blah, I tried changing the gnome-ostree build to fetch libpng's v1.6.1
+git tag to test, but it hard requires Automake 1.13.
 
--February 14, 2013
-+March 28, 2013
+Anyways, if it works (looks like the latest oe-core has it), then
+what about the attached?
 
-index 448fe88..0ad09eb 100644
---- a/png.h
-+++ b/png.h
+> In the meantime, it
+> will potentially link against something old, e.g. 1.2, since 1.2 is in
+> the LSB 4.X spec so most LSB like systems would have 1.6 and 1.2.
+> 
+> If we can justify changing this upstream, that would be great :). It may
+> be worth adding libpng16 into the list too so everything is covered too.
 
-- * libpng version 1.6.0 - February 14, 2013
-+ * libpng version 1.6.1 - March 28, 2013
+At this point I'm hoping the parade of libpng versions will
+settle down, so hopefully no further tweaking of the configure script or
+code will be required...
 
-- *   libpng versions 0.97, January 1998, through 1.6.0 - February 14, 2013: Glenn
-+ *   libpng versions 0.97, January 1998, through 1.6.1 - March 28, 2013: Glenn
 
-+ *    1.6.1beta01-10          16    10601  16.so.16.1[.0]
-+ *    1.6.1rc01               16    10601  16.so.16.1[.0]
-+ *    1.6.1                   16    10601  16.so.16.1[.0]
 
-- * libpng versions 1.2.6, August 15, 2004, through 1.6.0, February 14, 2013, are
-+ * libpng versions 1.2.6, August 15, 2004, through 1.6.1, March 28, 2013, are
+--=-itZjtzzUMHnVZ/JP7/AI
+Content-Disposition: attachment; filename="0001-build-We-also-support-libpng16.patch"
+Content-Type: text/x-patch; name="0001-build-We-also-support-libpng16.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- *    February 14, 2013
-+ *    March 28, 2013
+From 829379cfa2b48e966125df2d070d2af40cb3f990 Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Mon, 15 Apr 2013 05:59:09 -0400
+Subject: [PATCH] build: We also support libpng16
 
-- *    upward through 1.6.0 are Y2K compliant.  It is my belief that
-+ *    upward through 1.6.1 are Y2K compliant.  It is my belief that
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+See http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/038321.html
 ---
- ...0001-configure-lower-automake-requirement.patch | 30 ++++++++++++++++++++++
- meta/recipes-multimedia/libpng/libpng_1.6.0.bb     | 20 ---------------
- meta/recipes-multimedia/libpng/libpng_1.6.1.bb     | 22 ++++++++++++++++
- 3 files changed, 52 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
- delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.0.bb
- create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.1.bb
+ configure.ac |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch b/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
-new file mode 100644
-index 0000000..da5df48
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
-@@ -0,0 +1,30 @@
-+From a4fd84bdc69e9929a1040f20ea291ee3115bf5b2 Mon Sep 17 00:00:00 2001
-+From: Koen Kooi <koen@dominion.thruhere.net>
-+Date: Mon, 15 Apr 2013 11:16:20 +0200
-+Subject: [PATCH] configure: lower automake requirement
-+
-+We're not using parallel tests in OE-core yet
-+
-+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-+
-+Upstream-status: Inapropriate [OE specific build hack]
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 1745d31..7f015fe 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -27,7 +27,7 @@ AC_CONFIG_MACRO_DIR([scripts])
-+ # dist-xz requires automake 1.11 or later
-+ # 1.12.2 fixes a security issue in 1.11.2 and 1.12.1
-+ # 1.13 is required for parallel tests
-+-AM_INIT_AUTOMAKE([1.13 foreign dist-xz color-tests silent-rules])
-++AM_INIT_AUTOMAKE([1.12.2 foreign dist-xz color-tests silent-rules])
-+ # The following line causes --disable-maintainer-mode to be the default to
-+ # configure, this is necessary because libpng distributions cannot rely on the
-+ # time stamps of the autotools generated files being correct
-+-- 
-+1.8.1.4
-+
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
-deleted file mode 100644
-index 951e34a..0000000
---- a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
-+++ /dev/null
-@@ -1,20 +0,0 @@
--SUMMARY = "PNG Library"
--DESCRIPTION = "PNG Library"
--HOMEPAGE = "http://www.libpng.org/"
--SECTION = "libs"
--LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=03b8ec701cb796c0ec84af22f884edef \
--                    file://png.h;beginline=207;endline=321;md5=e829cebefd08488ba5142ea5faea6821"
--DEPENDS = "zlib"
--PR = "r0"
--LIBV = "16"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
--          "
--
--SRC_URI[md5sum] = "3ee623b9a4d33bda7310a5124080b14d"
--SRC_URI[sha256sum] = "5e13c31321083b03956b5ff298bacffab7a7ad35c34c122acef314593944b97b"
--
--inherit autotools binconfig pkgconfig
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.1.bb b/meta/recipes-multimedia/libpng/libpng_1.6.1.bb
-new file mode 100644
-index 0000000..7895a6c
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.1.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "PNG Library"
-+DESCRIPTION = "PNG Library"
-+HOMEPAGE = "http://www.libpng.org/"
-+SECTION = "libs"
-+LICENSE = "Libpng"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8273188b2e21c831f5a09fd9285db62f \
-+                    file://png.h;beginline=207;endline=321;md5=de107fb61766e9d826943f3b6a354fc9"
-+DEPENDS = "zlib"
-+LIBV = "16"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-+           file://0001-configure-lower-automake-requirement.patch \
-+          "
-+SRC_URI[md5sum] = "93fc0b0841ce2db0e6756673e22dafc3"
-+SRC_URI[sha256sum] = "5ef57f8b9ef591c8504e2a8f78d31779f0c8f2b34b34d01d533360d2483c8946"
-+
-+inherit autotools binconfig pkgconfig
-+
-+# Work around missing symbols
-+EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/configure.ac b/configure.ac
+index 8ec8b1f..106fab1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -586,7 +586,7 @@ fi
+ 
+ dnl Test for libpng
+   if test x$with_libpng != xno && test -z "$LIBPNG"; then
+-    for l in libpng15 libpng14 libpng12 libpng13 libpng10 libpng ; do
++    for l in libpng16 libpng15 libpng14 libpng12 libpng13 libpng10 libpng; do
+       AC_MSG_CHECKING(for $l)
+       if $PKG_CONFIG --exists $l ; then
+         AC_MSG_RESULT(yes)
 -- 
-1.8.1.4
+1.7.1
 
 
-
+--=-itZjtzzUMHnVZ/JP7/AI--
