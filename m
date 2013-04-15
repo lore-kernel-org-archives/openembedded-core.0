@@ -1,33 +1,40 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1URhuf-00024j-Kc for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 13:49:42 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FBWBW5005248; Mon, 15 Apr 2013 12:32:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eSHcV5Ptltd0; Mon, 15 Apr 2013 12:32:11 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FBW6BS005240
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 15 Apr 2013 12:32:08 +0100
-Message-ID: <1366025504.8670.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Colin Walters <walters@verbum.org>
-Date: Mon, 15 Apr 2013 12:31:44 +0100
-In-Reply-To: <1366020508.2896.16.camel@localhost>
-References: <1365848719.16702.74.camel@ted>
-	<1365944532.5651.12.camel@localhost>  <1365953596.8670.9.camel@ted>
-	<1366020508.2896.16.camel@localhost>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Burton, mclasen@redhat.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
+	(envelope-from <ross.burton@intel.com>) id 1URhwM-0002KB-TG
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Apr 2013 13:51:19 +0200
+Received: by mail-vc0-f175.google.com with SMTP id ib11so3813263vcb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2013 04:33:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=xrKYwi3cunsfTyP6VrM8TBLeV1vOOLHTMzjF1G6aCAc=;
+	b=odY7uI90ArC/31ipBtWu+JIgKSwvlqvC7y9iUFw197qui5Q34b9kTmLYqL+hFKLT2k
+	jzKjGD7tw9gnAavA4Pg5zAItGRaG0mzLzCW6LgM2y+k4ty056uAQ+Cyf0pFviO5IVUIF
+	bkPZQwOcMtwpiaDYvZFAeqiQ0KqDbCWvjET9fD1PHvMaqhf3NvUISuR1UYPNDsihUuJ+
+	1eEmGvCcMNfDgUbfGJP8vWJixY3H5VsKfY0kZoiUiBFko83mG9pSDZ++0llw2rlpQwEm
+	OzQzl6CygYisEbUuV5yRgowCKwT08VG3QxWw5+aulwbUVxBWUnofAdVgvzm5u13qoiAA
+	lNHg==
+X-Received: by 10.58.188.48 with SMTP id fx16mr8714325vec.22.1366025629715;
+	Mon, 15 Apr 2013 04:33:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 04:33:29 -0700 (PDT)
+In-Reply-To: <CCA3D6B4-A857-47C4-AC09-CD642F627078@dominion.thruhere.net>
+References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
+	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
+	<CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
+	<CCA3D6B4-A857-47C4-AC09-CD642F627078@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Apr 2013 12:33:29 +0100
+Message-ID: <CAJTo0LZhTJR-gm0jss8zSseA+VtZOrT2aX-P8kHPs7WXe20-mQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQniCkDpDBLIcobLNg/rEX4QMLND9VDh4+Gc+2oZu8aTUl31LS9YLy8PpvhOSd49agTRn0KL
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,71 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 11:49:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Apr 2013 11:51:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-04-15 at 06:08 -0400, Colin Walters wrote:
-> On Sun, 2013-04-14 at 16:33 +0100, Richard Purdie wrote:
-> > On Sun, 2013-04-14 at 09:02 -0400, Colin Walters wrote:
-> > The more interesting change is:
-> > 
-> > https://git.gnome.org/browse/gdk-pixbuf/commit/configure.ac?id=d430bc4df3314a88cd538474d26ff7764d1f408c
-> > 
-> > and following that to the bugzilla 'For this to make sense, I changed
-> > the order so that a version specific dep, such as libpng15 or
-> > libpng12,
-> > is found before just "libpng".'
-> > 
-> > I'm not sure I entirely follow that logic.
-> 
-> I added Matthias to CC as he touched this last then.
-> 
-> > I think the intent of the symlink is to provide the system with a
-> > default libpng to use in the absence of a specific version requirement.
-> > As the code stands today, each time a new libpng comes out, gdk-pixbuf
-> > will need changes before it will be able to use it. 
-> 
-> Right, we need configure.ac changes, but the rationale behind that is
-> that we'd also need *code* changes for each new major version of libpng.
-> But it sounds like what you're saying is that gdk-pixbuf compiles and
-> operates correctly with 1.6?  If that's the case, then the least
-> invasive change here is to simply add 1.6.
+On 15 April 2013 12:31, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> So busybox mount is still worthless
 
-It compiles and operates correctly as far as we can tell, yes.
+Thanks.
 
-Given that rationale, I'd suggest "libpng" should be dropped from the
-list.
+In that case, I ACK your patch.
 
-> Blah, I tried changing the gnome-ostree build to fetch libpng's v1.6.1
-> git tag to test, but it hard requires Automake 1.13.
-> 
-> Anyways, if it works (looks like the latest oe-core has it), then
-> what about the attached?
-
-It will make our builds work again for now until the next time someone
-upgrades libpng and and then it will potentially silently start using an
-old version in some builds :(.
-
-We're therefore probably going to get stuck carrying a patch for
-this :/.
-
-> > In the meantime, it
-> > will potentially link against something old, e.g. 1.2, since 1.2 is in
-> > the LSB 4.X spec so most LSB like systems would have 1.6 and 1.2.
-> > 
-> > If we can justify changing this upstream, that would be great :). It may
-> > be worth adding libpng16 into the list too so everything is covered too.
-> 
-> At this point I'm hoping the parade of libpng versions will
-> settle down, so hopefully no further tweaking of the configure script or
-> code will be required...
-
-Its the case things silently break that really worry me.
-
-Cheers,
-
-Richard
-
+Ross
 
 
