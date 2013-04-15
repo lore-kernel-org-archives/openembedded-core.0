@@ -1,36 +1,30 @@
-Received: from mail-ve0-f180.google.com ([209.85.128.180])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URluq-0003dK-DQ
+	(envelope-from <mark.hatle@windriver.com>) id 1URlvc-0003iZ-Pf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 18:06:15 +0200
-Received: by mail-ve0-f180.google.com with SMTP id pb11so612943veb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 08:48:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=hVZYWhc6a+pHhqtw8eLpsi9PZhc/iwRxtY+jsVzo2ns=;
-	b=EH0TNrjIUhU9fzOvawomRFqb8hRESDEANZ0B6i+WVE5FM1kFiALn/xw0xFMmoFSpCw
-	di0JIBkdmxiJI75T7d5CjWbBMih4F0mgRA379qP/bIyZte/R6KzRNRgcyC4cTx8qOM8h
-	6/VV0W6vKv50nTcSxrGWsAMObIk9bhpjjY9BEMns/EKHqf5POMCL25IYzbSMIqoGPfmq
-	EDdvosYoNuhyt5nSInLcvETDUOliaXJIDHzHyKb0qvD/M8AEfahH4VLtXhl8P6vCg0SB
-	f/oFsb1OnzyeocBEJLWpVKqYC+/bdUvzIgsq2mdfvt1wuA/NENhJv6/84vD5TyMULbBi
-	VLwQ==
-X-Received: by 10.58.90.66 with SMTP id bu2mr16516176veb.29.1366040911039;
-	Mon, 15 Apr 2013 08:48:31 -0700 (PDT)
+	Mon, 15 Apr 2013 18:07:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3FFnHAB013677
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Apr 2013 08:49:17 -0700 (PDT)
+Received: from msp-dhcp4.wrs.com (172.25.34.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 15 Apr 2013 08:49:17 -0700
+Message-ID: <516C2180.7070001@windriver.com>
+Date: Mon, 15 Apr 2013 10:49:20 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 08:48:09 -0700 (PDT)
-In-Reply-To: <20130414164848.GG2475@jama>
-References: <20130329103919.019B350446@opal> <20130414164848.GG2475@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 16:48:09 +0100
-Message-ID: <CAJTo0La1xtXvufCej0XVWAoO=vet-CPqTCPCULTrw1nobx+q6Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQlOhWY615wfRwFU4yf4zueInm6BjFlAIlY8N9l9mhF25KVH+QxUs8z5SONxX1X/xgJVrCP+
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Marko Lindqvist : coreutils: update to upstream version 8.21
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1366024028-24911-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1366024028-24911-8-git-send-email-richard.purdie@linuxfoundation.org>
+	<516C19C6.9080807@windriver.com> <1366040453.8670.66.camel@ted>
+In-Reply-To: <1366040453.8670.66.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/7] allarch: Drop various problematic allarch usages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 16:06:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 16:07:26 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 April 2013 17:48, Martin Jansa <martin.jansa@gmail.com> wrote:
-> coreutils-8.15 and newer build realpath which conflicts with busybox's
-> u-a.
+On 4/15/13 10:40 AM, Richard Purdie wrote:
+> On Mon, 2013-04-15 at 10:16 -0500, Mark Hatle wrote:
+>> On 4/15/13 6:07 AM, Richard Purdie wrote:
+>>> In each of these cases allarch is used where the package in question has a
+>>> dependency on things which are not allach and change when MACHINE is changed.
+>>>
+>>> This leads to a rebuild of the package each time MACHINE is switched and
+>>> the sstate checksum changes. The dependencies in question are not suited
+>>> be being marked as ABISAFE.
+>>
+>> In each of these cases, does the contents of the package change when the MACHINE
+>> (or something in that machine) are modified?  If so, I agree they are definitely
+>> not allarch.
 >
-> Please add u-a settings for that in coreutils to fix upgrade path:
+> The contents does not, the sstate checksum however does due to the
+> dependencies. The dependencies are thinks like gtk+ and dbus.
 >
-> Configuring busybox.
-> ln: /usr/bin/realpath: File exists
-> ....
-> update-alternatives: Error: not linking //usr/bin/realpath to /bin/busybox since //usr/bin/realpath exists and is not a link
+>> However, if the dependency really doesn't matter, then why isn't ABISAFE correct
+>> in each case?
+>
+> I'm using ABISAFE in this context as shorthand for
+> SIGGEN_EXCLUDERECIPES_ABISAFE and those are defined as things which
+> don't need to rebuild if the dependency changes.
 
-Patch just sent.
+So this can't be set on a package specific basis?  If that is the case, it may 
+make sense to look into a recipe specific way of declaring a 'lack' of 
+dependency on rebuilding others in the future.
 
-Ross
+> gtk+ and dbus both provide libraries and we do want software to rebuild
+> if they change. In the allarch case we could whitelist the dependency
+> however in the general case we shouldn't.
+
+Ya I agree, I thought it could be done easily on a per-package basis.
+
+> Even with that problem addressed somehow, it leaves an issue with ipk
+> multilibs where the distcc-config allarch recipe would always depend
+> upon "distcc" and hence distcc would get pulled into the image,
+> regardless of any other multilib settings (which in turn pulls in gtk+
+> for example). A "lib64-xxx-image" would therefore end up with near
+> enough two copies of half the system due to this. This is something we
+> really need to fix in the opkg implementation of multilibs but I have no
+> idea how.
+
+This is more then just a problem in opkg, it may be more evident there.. but it 
+is something we should look into as well.
+
+> Combine the two issues together, neither of which can be addressed at
+> this point of the release cycle and I put the above patch forwards until
+> we can better resolve this.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
 
 
