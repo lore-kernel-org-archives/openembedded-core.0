@@ -1,42 +1,27 @@
-Received: from mail-ee0-f45.google.com ([74.125.83.45])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URmhk-00006m-B6
+	(envelope-from <anders@chargestorm.se>) id 1URo5M-0000l1-Vq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 18:56:40 +0200
-Received: by mail-ee0-f45.google.com with SMTP id c50so2292718eek.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 09:39:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=FUkvGfQxAcgIAesORyFxpGp9lCGnJ+sAkNCtQnoBZmU=;
-	b=WkRtfoW86k6jb/dwobP02PWBpK1aacM5WWQTPPTZbj0XczL92Z7OGUArZ+cZDZl2fg
-	jZjmvE/8RuCStvsfg65UhovOptKNRdvX11DuWhpfFLOblQBeHS4fHIzKwnUbhRm4wlX9
-	qbTG8u63Oqmh0mDl8k1nddDeOn2bcYHEyxBQbdMwYGc/pkJquqbItdqqB/+IhHgQKL3X
-	W9ZzW9LbSyrSPkR253R9DabcxJTo9SdTNoAmT4lEM3ekyl+i/iydJgQlk/619RJP0cyM
-	E3ePyAYszDqqNki/tf5Fb+TwhQPW12Xmwq/CawkKkOa0/VSJ7pCiG5rmu4xxHwbFQt9R
-	IiPA==
-X-Received: by 10.14.5.137 with SMTP id 9mr59209980eel.30.1366043943522;
-	Mon, 15 Apr 2013 09:39:03 -0700 (PDT)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id b5sm27641938eew.16.2013.04.15.09.39.01
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 15 Apr 2013 09:39:02 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LYOO8c25RRhX-qpOjJCuyJiALqc1tt=SXq5kg=t0QQPQA@mail.gmail.com>
-Date: Mon, 15 Apr 2013 18:39:03 +0200
-Message-Id: <164CF406-7A27-47B1-8ABA-D4789B3BEB9C@dominion.thruhere.net>
-References: <CADV-EXHFSOppcEJezD_OEUFF_Xo=c9J=560ssn5J=WKAj2x_+w@mail.gmail.com>
-	<CAJTo0LYOO8c25RRhX-qpOjJCuyJiALqc1tt=SXq5kg=t0QQPQA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQmwn6S+a4QPDxNrhu0qLdHoNm1uA1RUpgKCS0qW71fnfKb804hAjNZE8bjEIq63f7gJdFrn
-Cc: Yevhen Kyriukha <kirgene@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: psplash and systemd
+	Mon, 15 Apr 2013 20:25:01 +0200
+Received: from ad.chargestorm.se (83.252.253.85) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Mon, 15 Apr 2013 20:06:25 +0200
+Date: Mon, 15 Apr 2013 20:07:16 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20130415180716.GA30774@ad.chargestorm.se>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+MIME-Version: 1.0
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: linux-yocto-custom. error in patch step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,24 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 16:56:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Apr 2013 18:25:01 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
 
-Op 15 apr. 2013, om 18:24 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+Hi,
 
-> On 15 April 2013 17:16, Yevhen Kyriukha <kirgene@gmail.com> wrote:
->> Is there a way to display image with progress bar during boot (using
->> psplash) with systemd?
->=20
-> Theoretically yes, but this is one place where there isn't any
-> integration yet.  Systemd has native support for the plymouth splash,
-> so abstracting that would be the way forward.
+I've been playing around a little bit with linux-yocto-custom, however,
+i'm currently getting a build error (rather patch error)...
 
-There's also 'dietsplash' in meta-oe, haven't tried it in a while, but =
-it has native systemd support.
+Skipping my own layers and machines, I've reproduced the same issue by
+just taking oe-core (or poky), and editing
+meta-skeleton/recipes-kernel/linux-yocto-custom.bb accoring to the
+partial patch below, and adding a defconfig in
+meta-skeletons/recipes-kernel/linux/linux-yocto-custom/defconfig:
 
+---------------------
+@@ -47,18 +47,23 @@ require recipes-kernel/linux/linux-yocto.inc
+ # Override SRC_URI in a bbappend file to point at a different source
+ # tree if you do not want to build from Linus' tree.
+ SRC_URI =
+"git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1"
++SRC_URI += "file://defconfig"
+ 
+-LINUX_VERSION ?= "3.4"
++LINUX_VERSION ?= "3.8"
+ LINUX_VERSION_EXTENSION ?= "-custom"
+ 
+ # Override SRCREV to point to a different commit in a bbappend file to
+ # build a different release of the Linux kernel.
+ # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+-SRCREV="76e10d158efb6d4516018846f60c2ab5501900bc"
++SRCREV="19f949f52599ba7c3f67a5897ac6be14bfcb1200"
++
++
+ 
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ # Override COMPATIBLE_MACHINE to include your machine in a bbappend
+ # file. Leaving it empty here ensures an early explicit build failure.
+-COMPATIBLE_MACHINE = "(^$)"
++COMPATIBLE_MACHINE = "qemuarm"
+----------------------
+
+I'm using qemuarm as a playground (as I'm normally running a custom arm
+machine).
+
+This gives the following error:
+ERROR: Function failed: do_patch (see
+/home/anders/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/linux-yocto-custom/3.8+gitAUTOINC+19f949f52599ba7c3f67a5897ac6be14bfcb1200-r1/temp/log.do_patch.8972
+for further information)
+ERROR: Logfile of failure stored in:
+/home/anders/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/linux-yocto-custom/3.8+gitAUTOINC+19f949f52599ba7c3f67a5897ac6be14bfcb1200-r1/temp/log.do_patch.8972
+Log data follows:
+| DEBUG: Executing shell function do_patch
+| WARNING: no meta data branch found ...
+| Already on 'master'
+| Your branch is behind 'origin/master' by 12742 commits, and can be
+fast-forwarded.
+| ERROR. input file "meta/cfg/scratch/obj/qemuarm-standard.scc" does not
+exist
+| ERROR. A meta series could not be created for
+meta/cfg/scratch/obj/qemuarm-standard.scc
+| ERROR. Could not locate meta series for qemuarm
+| ERROR. Could not apply patches for qemuarm.
+|        Patch failures can be resolved in the devshell (bitbake -c
+devshell linux-yocto-custom)
+| ERROR: Function failed: do_patch (see
+/home/anders/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/linux-yocto-custom/3.8+gitAUTOINC+19f949f52599ba7c3f67a5897ac6be14bfcb1200-r1/temp/log.do_patch.8972
+for further information)
+ERROR: Task 3
+(/home/anders/poky/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb,
+do_patch) failed with exit code '1'
+
+
+Using my own machine, I got a similar error, that
+${MACHINE}-standard.scc didn't exist. 
+
+The plan is to use a defconfig as the main configuration, and possibly
+later on add config fragments for certain featuers.
+
+However, I'm missing one step, as I'm not able to build without the
+meta/cfg/scratch/obj/qemuarm-standard.scc file.
+
+Any hints on what step I've currently overlooked would be nice...
+
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
