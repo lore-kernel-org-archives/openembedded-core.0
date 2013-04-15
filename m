@@ -1,34 +1,41 @@
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
+Received: from mail-ee0-f45.google.com ([74.125.83.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URmTl-0007RR-Ge
+	(envelope-from <koen@dominion.thruhere.net>) id 1URmhk-00006m-B6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 18:42:10 +0200
-Received: by mail-vc0-f180.google.com with SMTP id m16so4090617vca.11
+	Mon, 15 Apr 2013 18:56:40 +0200
+Received: by mail-ee0-f45.google.com with SMTP id c50so2292718eek.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 09:24:36 -0700 (PDT)
+	Mon, 15 Apr 2013 09:39:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=e2/DNnQRwRMCFFRfM0ea/MnWfebCouqwsMN2M0vwt3o=;
-	b=OVn0Gz4mixf0+QEdE8o/UmMoppNL1uW5fIQOTGLdEvRoOn1Qdl1Y0uZT0BaMIPCsdT
-	0TYeu2reik4P5FKG1BxQDeS9nqj5xTrzeHVMD1l22XW8yMHVgJzcvqU12l6YHGyFyJbi
-	9RspiBmtpno0dCIzDkpsTK+5ao/88hhhdn3HNNRtgPl/MqnCu5vw5G5ONF8pKVdFO6Ji
-	nLy8emaPRxd/VxuQyQFvjVfFMLBRi0h/1ri7U1fl1sP+wiLlPRyrvDiXdimL/VrcU0aI
-	aLLZwgCzWwIaQVhUC/aEnFmut+622vXBfXftCdznLgAsgc8sQL+ePm83PFvDn2CKUz8n
-	bbig==
-X-Received: by 10.58.90.66 with SMTP id bu2mr16633032veb.29.1366043076153;
-	Mon, 15 Apr 2013 09:24:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 09:24:16 -0700 (PDT)
-In-Reply-To: <CADV-EXHFSOppcEJezD_OEUFF_Xo=c9J=560ssn5J=WKAj2x_+w@mail.gmail.com>
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=FUkvGfQxAcgIAesORyFxpGp9lCGnJ+sAkNCtQnoBZmU=;
+	b=WkRtfoW86k6jb/dwobP02PWBpK1aacM5WWQTPPTZbj0XczL92Z7OGUArZ+cZDZl2fg
+	jZjmvE/8RuCStvsfg65UhovOptKNRdvX11DuWhpfFLOblQBeHS4fHIzKwnUbhRm4wlX9
+	qbTG8u63Oqmh0mDl8k1nddDeOn2bcYHEyxBQbdMwYGc/pkJquqbItdqqB/+IhHgQKL3X
+	W9ZzW9LbSyrSPkR253R9DabcxJTo9SdTNoAmT4lEM3ekyl+i/iydJgQlk/619RJP0cyM
+	E3ePyAYszDqqNki/tf5Fb+TwhQPW12Xmwq/CawkKkOa0/VSJ7pCiG5rmu4xxHwbFQt9R
+	IiPA==
+X-Received: by 10.14.5.137 with SMTP id 9mr59209980eel.30.1366043943522;
+	Mon, 15 Apr 2013 09:39:03 -0700 (PDT)
+Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id b5sm27641938eew.16.2013.04.15.09.39.01
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 09:39:02 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LYOO8c25RRhX-qpOjJCuyJiALqc1tt=SXq5kg=t0QQPQA@mail.gmail.com>
+Date: Mon, 15 Apr 2013 18:39:03 +0200
+Message-Id: <164CF406-7A27-47B1-8ABA-D4789B3BEB9C@dominion.thruhere.net>
 References: <CADV-EXHFSOppcEJezD_OEUFF_Xo=c9J=560ssn5J=WKAj2x_+w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 17:24:16 +0100
-Message-ID: <CAJTo0LYOO8c25RRhX-qpOjJCuyJiALqc1tt=SXq5kg=t0QQPQA@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-X-Gm-Message-State: ALoCoQl5sQCD5UyvpbZFUgP2XVdwdlWxMHC15XQEMEyfbk/JrsFyIb7JvR6Fw05/d6lpJ63oVG1b
-Cc: openembedded-core@lists.openembedded.org
+	<CAJTo0LYOO8c25RRhX-qpOjJCuyJiALqc1tt=SXq5kg=t0QQPQA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQmwn6S+a4QPDxNrhu0qLdHoNm1uA1RUpgKCS0qW71fnfKb804hAjNZE8bjEIq63f7gJdFrn
+Cc: Yevhen Kyriukha <kirgene@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: psplash and systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,17 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 16:42:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 16:56:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 15 April 2013 17:16, Yevhen Kyriukha <kirgene@gmail.com> wrote:
-> Is there a way to display image with progress bar during boot (using
-> psplash) with systemd?
 
-Theoretically yes, but this is one place where there isn't any
-integration yet.  Systemd has native support for the plymouth splash,
-so abstracting that would be the way forward.
+Op 15 apr. 2013, om 18:24 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-Ross
+> On 15 April 2013 17:16, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+>> Is there a way to display image with progress bar during boot (using
+>> psplash) with systemd?
+>=20
+> Theoretically yes, but this is one place where there isn't any
+> integration yet.  Systemd has native support for the plymouth splash,
+> so abstracting that would be the way forward.
+
+There's also 'dietsplash' in meta-oe, haven't tried it in a while, but =
+it has native systemd support.
+
 
 
