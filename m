@@ -1,41 +1,37 @@
-Received: from mail-ee0-f48.google.com ([74.125.83.48])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URgcv-0001GX-Fg
+	(envelope-from <koen@dominion.thruhere.net>) id 1URgfj-0001dy-6Y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:27:09 +0200
-Received: by mail-ee0-f48.google.com with SMTP id b15so2195724eek.21
+	Mon, 15 Apr 2013 12:30:13 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so2162634eae.16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 03:09:41 -0700 (PDT)
+	Mon, 15 Apr 2013 03:12:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer
 	:x-gm-message-state;
-	bh=wiMgK7Jw6FPMx6qC9RuEQHRsJc4blWEyQaf1Du8kxbo=;
-	b=H6SdPzVMmltppQh4UmGwBBQWQ7mdqI5VCyVAO8rl+CoreXejEZzhY+cqCputXnHHdl
-	1ZKbgzHETLhakltbOHt+VcQafmWMU7n7geOyExSKI+g1hVWOqYAd9NUpqqm+wuRvWJN7
-	9JXZIxtcpWUghaNRBvzI7P62oTzLZkoCH6H7CRDwmf0xAleXpcqsu52lUHaHJePwRid2
-	FbfTXtnDzff8JkHKWDickUGUXZrWaJ15Z/sFv1Ub7lXAp2+nQpE4gZg4aKYaO5gI/+Z3
-	rmWlk1rK6HJVDgfJ3+UxYzziBsN6zebh2O7q0L+QOdc5l6TH2XZvuQj6kmzsuN2pJOOK
-	MMQQ==
-X-Received: by 10.14.5.137 with SMTP id 9mr56023332eel.30.1366020580899;
-	Mon, 15 Apr 2013 03:09:40 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id b5sm25925111eew.16.2013.04.15.03.09.39
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 15 Apr 2013 03:09:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+	bh=PYAYGEdog+5TZlqGjU8YoyCBQLDdNKMv/ntKjZjLNV0=;
+	b=DkRHWy1iCudLs2afNWWeZ9eWSodBN0KIaLFL5CIYoa2xG8p6pnRQ7LB8AYZwrIwtGY
+	LbDLwVXn4kkKviv2F3lmGrJCdRmIn0qM63KDTZcFmRD1ea8jwmaEzna3xIKwt0U+CtQA
+	+4Q5vWJlp8yqMLQunea/F/DuBSc4Znb0Z+bGom21MidRAank/5sHXqD/PW2+lcNN2ppF
+	sRIpgEeP3sXto4HRJ5ZNqkmn4Wx1ZyCoTzjyfuWBiwBQKE/NGer7Gc9QYfMfyKi/w3ql
+	srR+TOhAsdhihZaM5VbxsfGfK2jD1FawvzwIxdsJ4Bgt650ns1uxkQ8sAxRqOLg3tO6C
+	BUOA==
+X-Received: by 10.15.75.70 with SMTP id k46mr15113743eey.4.1366020754718;
+	Mon, 15 Apr 2013 03:12:34 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id bj2sm26086814eeb.1.2013.04.15.03.12.33
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 03:12:33 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
-Date: Mon, 15 Apr 2013 12:09:38 +0200
-Message-Id: <9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
-References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkie6KTg5g0QqcH/W9FwcIhrTEG1YQOEgEh5IQR3D7CQmXUyEF0MdPajywTHrqm8zBf4RE8
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2013 12:12:24 +0200
+Message-Id: <1366020744-2958-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQmxGk+YYxcANRu3yGCsFIe8Xl3d1JymqqZZgJDLb3K2I31Pf478MwcBwVGpcsiCPthVjIPc
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] udev: remove udev-extraconf from RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:27:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Apr 2013 10:30:13 -0000
 
+In the original udev and systemd updates these extra conf rules and scripts where removed and moved to a different recipe to avoid pulling them in by default, making them opt-in. The systemd merge into oe-core regressed this into making it impossible to opt out of it when using package feeds for upgrades.
 
-Op 15 apr. 2013, om 11:59 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+Change it back to opt-in for images/packagegroups.
 
-> On 14 April 2013 14:48, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> When using busybox mount the filesystem won't get remounted as 'rw' =
-and bootup will fail.
->>=20
->> This fixes the regression seen after switching from 'danny' to =
-'dylan'.
->=20
-> I was going to say that I've never noticed this and have been running
-> busybox's mount, but on reading the hddimg boot scripts I see it
-> mounts / as read-write before switching the root.
->=20
-> Does busybox produce any useful errors as to why it's not working? =20
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/udev/udev.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, it pretends everything is OK and the remount succeeded.=20
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index d025458..b9f479a 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -14,7 +14,7 @@ LDFLAGS += "-lrt"
+ 
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native util-linux"
+ RPROVIDES_${PN} = "hotplug"
+-RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
++RRECOMMENDS_${PN} += "usbutils-ids pciutils-ids"
+ RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+-- 
+1.8.1.4
 
-regards,
-
-Koen=
 
 
