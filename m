@@ -1,36 +1,44 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1URhQ7-0006xt-Ei
+	(envelope-from <koen@dominion.thruhere.net>) id 1URhQ9-0006xs-9H
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 13:17:59 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3FB0SFv009907
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 15 Apr 2013 13:00:29 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1URh9A-0005kW-17; Mon, 15 Apr 2013 13:00:28 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1365697555.git.ross.burton@intel.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 15 Apr 2013 13:00:28 +0200
-In-Reply-To: <cover.1365697555.git.ross.burton@intel.com> (Ross Burton's
-	message of "Thu, 11 Apr 2013 17:28:24 +0100")
-Message-ID: <lyli8k12k3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.9
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/2] Move systemd binaries to /sbin/systemd
+	Mon, 15 Apr 2013 13:18:05 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so2184350eae.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2013 04:00:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Z8XdmOe4VVfFjlCVmkf/SIXgvCkzcEMyhrRiBl+sOyo=;
+	b=SeReVz0kYdVESCCcHrym6ULf1Lg5Rkc5fNbXOIkT7EGwHAY1CQO14HdLmfQ2XCRQKN
+	LP3+KyxpSP7kazliJHgxsLycUpd4TQ2LIy5N+a7IpbybXSTsm//5XNQ/+iMsFT0pTKLa
+	8EADfz1Uo4TK2w8BJEBawJMJoIJNUjHqygqevJ4QMOHpuZmPdaCPSG+BTnpAlWoRUmcG
+	4lL9TYwgR0+1IMV5FQf4I6+4Ch10f2Vwk8RyZxtFwM2bNj/9Cm7KLItOwGc78JbRCW4I
+	kZkP5bkArX1BtlIlqNSdaiA79hR+2QMzXnwnOhxrBLG9gmhq8ci78kIGG9pQZwL6UnGA
+	z7HQ==
+X-Received: by 10.14.5.137 with SMTP id 9mr56423347eel.30.1366023632739;
+	Mon, 15 Apr 2013 04:00:32 -0700 (PDT)
+Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id n48sm12697546eeg.12.2013.04.15.04.00.30
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 04:00:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
+Date: Mon, 15 Apr 2013 13:00:32 +0200
+Message-Id: <053E167B-AF9D-4E0B-B8D8-D518096D2C49@dominion.thruhere.net>
+References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
+	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
+	<CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQkg5zL4mfc0Bw+DBgu9KQO8DnMX9u2hG2CtA4TqGfujhWGp4Ynei2H65jFh26FoCigHzyaK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +52,31 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 15 Apr 2013 11:18:18 -0000
-X-List-Received-Date: Mon, 15 Apr 2013 11:18:18 -0000
-Content-Type: text/plain
-
-Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
-
-> Following the example set by udev, move the binaries to /sbin/systemd
-> and hardcode less paths in general.  Tested on atom-pc with a .hddimg
-> so the live boot/initrd paths were tested.
-
-At least the moving of udev breaks a lot of local recipes here which
-install e.g. local rules or keymaps in /lib/udev.  This is a silent break
-which is detected at device runtime only.  The global 'bitbake.conf' has
-not been updated for the new paths neither.
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-There should be:
+Op 15 apr. 2013, om 12:42 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-1. added some QA checks which detect this broken packaging
+> Hi Koen,
+>=20
+> On 15 April 2013 11:16, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 15 April 2013 11:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>> Does busybox produce any useful errors as to why it's not working?
+>>>=20
+>>> No, it pretends everything is OK and the remount succeeded.
+>>=20
+>> Thanks busybox!
+>=20
+> There's several fixes upstream that we don't have in our busybox, it
+> would be much appreciated if you could try this patch which rolls them
+> all up.
+>=20
+> =
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mo=
+unt&id=3D1fc11cc25938b6a0c1e9b69a30326de8608cb98f
 
-2. added some global variables (e.g. 'udev_basedir') which can be used
-   in the rules.
-
-
-
-Enrico
+Do you have an oe-core patch?=
 
 
