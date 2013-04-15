@@ -1,37 +1,35 @@
-Received: from mail-vb0-f52.google.com ([209.85.212.52])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URgjV-00023A-Ha
+	(envelope-from <ross.burton@intel.com>) id 1URglm-0002H3-EL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:34:02 +0200
-Received: by mail-vb0-f52.google.com with SMTP id w8so3578204vbf.25
+	Mon, 15 Apr 2013 12:36:33 +0200
+Received: by mail-wi0-f173.google.com with SMTP id l13so787621wie.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 03:16:28 -0700 (PDT)
+	Mon, 15 Apr 2013 03:18:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=keJBpMfpTnhxCJYsO/Nd08uX1QQ0GATMDbV0WmvVlk0=;
-	b=hHPMnbz1eGfYS3K9dVT+NHLv9xDUOpVwztQxjWP2ar5XRIPgUUd/CpKK4EUiQSruFB
-	/wFDSiBlpkNUjunmyQcXi8dSSKsWD99DVYov9nTjVaywLjKvLW/fQYaJ/zJDUfgkhD69
-	xi/9v7Gsbj7gGOxl6ifDjQm0OmCRuYmBCUKaienAGsUi9qQnlMEVjqsxD9ztwUyN25ED
-	lg9s+9wEFxfHtz9XgcASRtT8lMspnd6pblGPYXyNPkOs31z3AONzHI6ITNZR50wRVtCJ
-	Cg9aKLr2jM++7DpaYFVcRd7mCu555OKBsC12z2Einu/fe6MihSNNnmjfQFXQY1RY+bm6
-	6zdw==
-X-Received: by 10.52.73.234 with SMTP id o10mr13300478vdv.29.1366020988442;
-	Mon, 15 Apr 2013 03:16:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 03:16:08 -0700 (PDT)
-In-Reply-To: <9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
-References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
-	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 11:16:08 +0100
-Message-ID: <CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnrwBj8h7ipRRFuLm111Ky2t9xfiRr8M8MGA8Dg4mKs7Zk4YObKt8S6weAL2l54HUF7gSoy
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=7jzJGRKJylZzRpzT6aASJa8NHyJJad8vj7kTYQGfsQk=;
+	b=GrvGC9MtB/+eHsZYIqmszHCeJ+KItPE7Iuvn+wac0dUGQdCmQjqwPZNztp8NWAsXGd
+	UrWbaipPvX3XyeeDjnVYLRCRJ9del1VXv+e+kJykP/PRbi7PStdvaiR/RcZtGKzSlvat
+	7NdMIwmG3xysECCrr3lEskp940mgnii5nIS8X50MAHdgicSYBW7R0oYsGdFPu658gC2y
+	YVZ706L1F7ZafwB1B6T34KtoM7KqzA5TwhHwq+Tv/WRrsXMF2lNJSCAhIcdV34xfiMPk
+	1HiRwHN8cwgHNXMiZiddgmEpg1wv4ahfTk1KrG1xnB4fvGBreN2GPErtwSjgshdzvqwO
+	nAVQ==
+X-Received: by 10.180.13.34 with SMTP id e2mr10917112wic.29.1366021129780;
+	Mon, 15 Apr 2013 03:18:49 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t7sm12565372wij.2.2013.04.15.03.18.48
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 03:18:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2013 11:16:01 +0100
+Message-Id: <1366020961-8549-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQl8ql6/9zZkFBY8QVVtBJ+m/YxHW7aVcMX7ljYRiGfJGxLjnL2qpqZmeZVpPgoefwKH9DC6
+Subject: [PATCH] initramfs-live-boot: explicitly depend on udev-extraconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:34:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 10:37:26 -0000
 
-On 15 April 2013 11:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Does busybox produce any useful errors as to why it's not working?
->
-> No, it pretends everything is OK and the remount succeeded.
+init-live.sh depends on udev performing automounting, which happens in
+udev-extraconf.  Explicitly depend on it so that we always have it installed.
 
-Thanks busybox!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/me sighs
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+index 1e674a4..0cbfe02 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "A live image init script"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ DEPENDS = "virtual/kernel"
+-RDEPENDS_${PN} = "udev"
++RDEPENDS_${PN} = "udev udev-extraconf"
+ SRC_URI = "file://init-live.sh"
+ 
+ PR = "r11"
+-- 
+1.7.10.4
 
-Ross
 
 
