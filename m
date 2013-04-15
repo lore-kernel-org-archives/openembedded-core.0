@@ -1,30 +1,40 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1URlvc-0003iZ-Pf
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1URm4J-0004jb-Rd
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 18:07:14 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3FFnHAB013677
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Apr 2013 08:49:17 -0700 (PDT)
-Received: from msp-dhcp4.wrs.com (172.25.34.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 15 Apr 2013 08:49:17 -0700
-Message-ID: <516C2180.7070001@windriver.com>
-Date: Mon, 15 Apr 2013 10:49:20 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
+	Mon, 15 Apr 2013 18:15:52 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3FFwDIJ005494
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 15 Apr 2013 17:58:14 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1URlnI-00065L-H7; Mon, 15 Apr 2013 17:58:12 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1366024028-24911-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1366024028-24911-8-git-send-email-richard.purdie@linuxfoundation.org>
-	<516C19C6.9080807@windriver.com> <1366040453.8670.66.camel@ted>
-In-Reply-To: <1366040453.8670.66.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 7/7] allarch: Drop various problematic allarch usages
+References: <cover.1365697555.git.ross.burton@intel.com>
+	<lyli8k12k3.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<155F9D05-94DF-4B6B-8CC7-E75D22696C81@dominion.thruhere.net>
+	<1366038901.8670.53.camel@ted>
+Date: Mon, 15 Apr 2013 17:58:12 +0200
+In-Reply-To: <1366038901.8670.53.camel@ted> (Richard Purdie's message of "Mon, 
+	15 Apr 2013 16:15:01 +0100")
+Message-ID: <lyip3nzsyz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Move systemd binaries to /sbin/systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,65 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 16:07:26 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Apr 2013 16:15:59 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 16:15:59 -0000
+Content-Type: text/plain
 
-On 4/15/13 10:40 AM, Richard Purdie wrote:
-> On Mon, 2013-04-15 at 10:16 -0500, Mark Hatle wrote:
->> On 4/15/13 6:07 AM, Richard Purdie wrote:
->>> In each of these cases allarch is used where the package in question has a
->>> dependency on things which are not allach and change when MACHINE is changed.
->>>
->>> This leads to a rebuild of the package each time MACHINE is switched and
->>> the sstate checksum changes. The dependencies in question are not suited
->>> be being marked as ABISAFE.
->>
->> In each of these cases, does the contents of the package change when the MACHINE
->> (or something in that machine) are modified?  If so, I agree they are definitely
->> not allarch.
->
-> The contents does not, the sstate checksum however does due to the
-> dependencies. The dependencies are thinks like gtk+ and dbus.
->
->> However, if the dependency really doesn't matter, then why isn't ABISAFE correct
->> in each case?
->
-> I'm using ABISAFE in this context as shorthand for
-> SIGGEN_EXCLUDERECIPES_ABISAFE and those are defined as things which
-> don't need to rebuild if the dependency changes.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-So this can't be set on a package specific basis?  If that is the case, it may 
-make sense to look into a recipe specific way of declaring a 'lack' of 
-dependency on rebuilding others in the future.
-
-> gtk+ and dbus both provide libraries and we do want software to rebuild
-> if they change. In the allarch case we could whitelist the dependency
-> however in the general case we shouldn't.
-
-Ya I agree, I thought it could be done easily on a per-package basis.
-
-> Even with that problem addressed somehow, it leaves an issue with ipk
-> multilibs where the distcc-config allarch recipe would always depend
-> upon "distcc" and hence distcc would get pulled into the image,
-> regardless of any other multilib settings (which in turn pulls in gtk+
-> for example). A "lib64-xxx-image" would therefore end up with near
-> enough two copies of half the system due to this. This is something we
-> really need to fix in the opkg implementation of multilibs but I have no
-> idea how.
-
-This is more then just a problem in opkg, it may be more evident there.. but it 
-is something we should look into as well.
-
-> Combine the two issues together, neither of which can be addressed at
-> this point of the release cycle and I put the above patch forwards until
-> we can better resolve this.
+>> >> Following the example set by udev, move the binaries to /sbin/systemd
+>> >> and hardcode less paths in general.  Tested on atom-pc with a .hddimg
+>> >> so the live boot/initrd paths were tested.
+>> > 
+>> > At least the moving of udev breaks a lot of local recipes here which
+>> > install e.g. local rules or keymaps in /lib/udev.  This is a silent break
+>> > which is detected at device runtime only.  The global 'bitbake.conf' has
+>> > not been updated for the new paths neither.
+>> > 
+>> > 
+>> > There should be:
+>> > 
+>> > 1. added some QA checks which detect this broken packaging
+>> > 
+>> > 2. added some global variables (e.g. 'udev_basedir') which can be used
+>> >   in the rules.
+>> 
+>> These patches can get NAK'd all you want, but they will go in. I still
+>> say: NAK, this is a bad, bad idea. It diverges from upstream and
+>> introduces silent breakage as you point out due to that.
 >
-> Cheers,
->
-> Richard
->
->
+> In the 1.5 timeframe I want to look at this again and see how we can
+> better solve it as it may be we can do something to the multilib code to
+> avoid the issues. We ran out of runway with this for 1.4 :(.
+
+Does this mean, this last-minute and invasive patch gets reverted (-->
+it is already in oe). Or, that it stays and we have to live in 1.4 with
+bad surprises[1] because an undefined number of packages[2] uses still
+the upstream defaults?
+
+
+
+Enrico
+
+Footnotes: 
+[1]  udev rules, keymaps and firmware at the wrong location
+
+[2]  surprisingly, 'systemd' itself where this change has been applied
+     still refers to /lib/udev/rules.d
 
 
 
