@@ -1,20 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1URlEF-0007Br-It
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 17:22:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2013 08:02:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,476,1363158000"; d="scan'208";a="318472657"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2013 08:04:02 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2013 18:04:47 +0300
-Message-Id: <1366038287-15125-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] connman: Fix wrong INC_PR reset
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1URlG2-0007R9-P8; Mon, 15 Apr 2013 17:23:55 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so2311951eae.16
+	for <multiple recipients>; Mon, 15 Apr 2013 08:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=6CgeLgKieRXGpNWbdfynBD6mtcPRLiZ+s5Nz8WuGfto=;
+	b=QsGd+P0Uffcu8ydvYHfWCZ+ptoxaYjJx1MgoZEwd52OHZZMq+sj7Clk3D8PQpqULQ1
+	PXvfXyL3LQAH9EP5B2rt4h6y1TSk5JFMSNMZ49KrEc4vmCKllpY/byeNgSPY3ahbs5kn
+	oNF3MfRC+261lndDUEUKYEdFODYGzQ9ti+UUekCmMzXABVmA4c09J1vvVpUf9nPMLh8U
+	dScsOvUem1eG3a7hoz11lkOAKrGLS/MMI5QwwmhNdtuWgwPWOIS+JYBdFczTfWUzmvz8
+	duafrhdo2xT7809+nufX+9/diQR4MBfQ700L3JrSEggVsh7Q7iZU7c4jVR1gbyedjebb
+	11AA==
+X-Received: by 10.15.31.197 with SMTP id y45mr62806648eeu.18.1366038381765;
+	Mon, 15 Apr 2013 08:06:21 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id 8sm10622628eeg.15.2013.04.15.08.06.20
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 15 Apr 2013 08:06:21 -0700 (PDT)
+Date: Mon, 15 Apr 2013 17:06:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130415150627.GG10628@jama.dyndns-home.com>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<kkh3q2$gl0$1@ger.gmane.org>
+	<CAJTo0LY7XoYcC9F0N2qCPzQRF6-VPkR+MZUDvfMP=NNUp9a6LA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY7XoYcC9F0N2qCPzQRF6-VPkR+MZUDvfMP=NNUp9a6LA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,33 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 15:22:01 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 15:24:05 -0000
+X-Groupsio-MsgNum: 37955
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jt0yj30bxbg11sci"
+Content-Disposition: inline
 
-Other recipe versions in other layers
-may be using connman.inc, so by resetting
-INC_PR they go backwards in version.
-Set the INC_PR correctly.
+--jt0yj30bxbg11sci
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-connectivity/connman/connman.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Apr 15, 2013 at 03:52:24PM +0100, Burton, Ross wrote:
+> On 15 April 2013 15:45, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > Speaking of GNOME, I noticed that I have to manually (re)run postinst f=
+or
+> > gconf schemas after first boot to get the apps to work. Is anyone seein=
+g the
+> > same?
+>=20
+> Urgh.  No.  There was recent changes (breakage/fixage) to the postinst
+> stuff, are you totally up to date?
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 5d35bc2..589ece8 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
- 
--INC_PR = "r1"
-+INC_PR = "r19"
- 
- TIST = "--enable-tist"
- TIST_powerpc = ""
--- 
-1.7.10.4
+I had 2 gnome related postinst issues when upgrading from very old
+image.
 
+1) gconf calling dbus which was complaining about /etc/machine-id and
+recommending to use dbus-uuidgen
 
+2) *cache*update (sorry don't remember the name) being killed by OOM
+killer spitz is quite memory limited (iirc not fatal for postinst,=20
+so it marked such recipes as configured).
 
+gnome unrelated is that opkg upgrade was often ending with disk out=20
+of space, all recipes PR bumped by PR service introduction and opkg
+needed more free space then what current root-fs was using in order to
+upgrade *everything* in one go.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--jt0yj30bxbg11sci
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFsF3MACgkQN1Ujt2V2gBwaowCfa0hMeD4/iPl9zBHBru28TfjM
+D8kAn0FPsFEIZHY3ObTTqMoX4RaDit3H
+=npGl
+-----END PGP SIGNATURE-----
+
+--jt0yj30bxbg11sci--
