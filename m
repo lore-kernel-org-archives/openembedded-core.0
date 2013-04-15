@@ -1,37 +1,20 @@
-Received: from mail-ve0-f182.google.com ([209.85.128.182])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URl2t-0005tw-Mt
+	(envelope-from <cristian.iorga@intel.com>) id 1URlEF-0007Br-It
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 17:10:31 +0200
-Received: by mail-ve0-f182.google.com with SMTP id da11so432698veb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 07:52:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=7pQTf0qfHRaD2JyVvoQ2xnztBjLXWH03uAaDjaLQ84U=;
-	b=MKrCCN9krR6QWf1xWqZlnbLJJEmfaNjNfnGMNxj6/rgFN3bJmq1Kan9JKUW9udO5Bn
-	Q0p7Cv+2+ty0Qxbh3H8Ba4ugTAHupzWpLUlf8CBlyrbdfFVP5rYAsZj/xGUaOyVWwYqJ
-	Nj42yPWqXGCaV/uCkBHzoXWYtpSRsy+177vZPawIiq5+2seuyZYsm9DI+BMOlXj+kUfq
-	xcOME9qe7Jp7o0IVz1DdpKNSep0PUUaC3HK3wj+RIAuMsMMpYhuCywE1lasb0fYRyxvH
-	ZrF2RdgsUmJjBU67OgENGfIDG1g/zlbPXKlPamZOOruRBcrc//pGNVrnJ5MsFZA3jUus
-	A0dQ==
-X-Received: by 10.52.23.115 with SMTP id l19mr14021393vdf.55.1366037565455;
-	Mon, 15 Apr 2013 07:52:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 07:52:24 -0700 (PDT)
-In-Reply-To: <kkh3q2$gl0$1@ger.gmane.org>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<kkh3q2$gl0$1@ger.gmane.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 15:52:24 +0100
-Message-ID: <CAJTo0LY7XoYcC9F0N2qCPzQRF6-VPkR+MZUDvfMP=NNUp9a6LA@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org
-X-Gm-Message-State: ALoCoQlHLYXYW+Kp0QVHGZU2G7jA0Z9z7qVmIeA+bJo9jQyLPYdabqlg7mpRXgQ4TzKcEw9J0PYN
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] State of bitbake world
+	Mon, 15 Apr 2013 17:22:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2013 08:02:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,476,1363158000"; d="scan'208";a="318472657"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2013 08:04:02 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2013 18:04:47 +0300
+Message-Id: <1366038287-15125-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] connman: Fix wrong INC_PR reset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,17 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 15:10:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 15:22:01 -0000
 
-On 15 April 2013 15:45, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Speaking of GNOME, I noticed that I have to manually (re)run postinst for
-> gconf schemas after first boot to get the apps to work. Is anyone seeing the
-> same?
+Other recipe versions in other layers
+may be using connman.inc, so by resetting
+INC_PR they go backwards in version.
+Set the INC_PR correctly.
 
-Urgh.  No.  There was recent changes (breakage/fixage) to the postinst
-stuff, are you totally up to date?
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 5d35bc2..589ece8 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+             "
+ 
+-INC_PR = "r1"
++INC_PR = "r19"
+ 
+ TIST = "--enable-tist"
+ TIST_powerpc = ""
+-- 
+1.7.10.4
+
 
 
