@@ -1,28 +1,21 @@
 Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1URm4J-0004jb-Rd
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1URmIv-0006IN-Hg
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 18:15:52 +0200
+	Mon, 15 Apr 2013 18:30:55 +0200
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3FFwDIJ005494
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3FGDJ1R008204
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 15 Apr 2013 17:58:14 +0200
+	Mon, 15 Apr 2013 18:13:20 +0200
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
 	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1URlnI-00065L-H7; Mon, 15 Apr 2013 17:58:12 +0200
+	id 1URm1v-0004H1-08; Mon, 15 Apr 2013 18:13:19 +0200
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1365697555.git.ross.burton@intel.com>
-	<lyli8k12k3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<155F9D05-94DF-4B6B-8CC7-E75D22696C81@dominion.thruhere.net>
-	<1366038901.8670.53.camel@ted>
-Date: Mon, 15 Apr 2013 17:58:12 +0200
-In-Reply-To: <1366038901.8670.53.camel@ted> (Richard Purdie's message of "Mon, 
-	15 Apr 2013 16:15:01 +0100")
-Message-ID: <lyip3nzsyz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2013 18:13:02 +0200
+Message-Id: <1366042382-13213-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.8.1.4
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 X-DSPAM-Result: Innocent
 X-DSPAM-Probability: 0
@@ -31,10 +24,8 @@ X-Spam-Score: -5.8
 X-Spam-Level: -----
 X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.73
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Move systemd binaries to /sbin/systemd
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] systemd: remove modprobe.rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,51 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 16:15:59 -0000
-X-List-Received-Date: Mon, 15 Apr 2013 16:15:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Apr 2013 16:30:56 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 16:30:56 -0000
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+Content of this udev rules files is outdated because it calls the
+external 'modprobe' tool (which might be not installed) instead of the
+'kmod' builtin.
 
->> >> Following the example set by udev, move the binaries to /sbin/systemd
->> >> and hardcode less paths in general.  Tested on atom-pc with a .hddimg
->> >> so the live boot/initrd paths were tested.
->> > 
->> > At least the moving of udev breaks a lot of local recipes here which
->> > install e.g. local rules or keymaps in /lib/udev.  This is a silent break
->> > which is detected at device runtime only.  The global 'bitbake.conf' has
->> > not been updated for the new paths neither.
->> > 
->> > 
->> > There should be:
->> > 
->> > 1. added some QA checks which detect this broken packaging
->> > 
->> > 2. added some global variables (e.g. 'udev_basedir') which can be used
->> >   in the rules.
->> 
->> These patches can get NAK'd all you want, but they will go in. I still
->> say: NAK, this is a bad, bad idea. It diverges from upstream and
->> introduces silent breakage as you point out due to that.
->
-> In the 1.5 timeframe I want to look at this again and see how we can
-> better solve it as it may be we can do something to the multilib code to
-> avoid the issues. We ran out of runway with this for 1.4 :(.
+Its functionality is provided by systemd's '80-drivers.rules' already
+so it can be removed.
 
-Does this mean, this last-minute and invasive patch gets reverted (-->
-it is already in oe). Or, that it stays and we have to live in 1.4 with
-bad surprises[1] because an undefined number of packages[2] uses still
-the upstream defaults?
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-core/systemd/systemd/modprobe.rules | 17 -----------------
+ meta/recipes-core/systemd/systemd_199.bb         |  1 -
+ 2 files changed, 18 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
 
-
-
-Enrico
-
-Footnotes: 
-[1]  udev rules, keymaps and firmware at the wrong location
-
-[2]  surprisingly, 'systemd' itself where this change has been applied
-     still refers to /lib/udev/rules.d
+diff --git a/meta/recipes-core/systemd/systemd/modprobe.rules b/meta/recipes-core/systemd/systemd/modprobe.rules
+deleted file mode 100644
+index d4a096b..0000000
+--- a/meta/recipes-core/systemd/systemd/modprobe.rules
++++ /dev/null
+@@ -1,17 +0,0 @@
+-# There are a number of modifiers that are allowed to be used in some
+-# of the different fields. They provide the following subsitutions:
+-#
+-# %n the "kernel number" of the device.
+-#    For example, 'sda3' has a "kernel number" of '3'
+-# %e the smallest number for that name which does not matches an existing node
+-# %k the kernel name for the device
+-# %M the kernel major number for the device
+-# %m the kernel minor number for the device
+-# %b the bus id for the device
+-# %c the string returned by the PROGRAM
+-# %s{filename} the content of a sysfs attribute
+-# %% the '%' char itself
+-#
+-
+-# Try and modprobe for drivers for new hardware
+-ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index 5240443..4eb459a 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -20,7 +20,6 @@ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-altern
+ 
+ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+            file://touchscreen.rules \
+-           file://modprobe.rules \
+            file://var-run.conf \
+            ${UCLIBCPATCHES} \
+            file://00-create-volatile.conf \
+-- 
+1.8.1.4
 
 
 
