@@ -1,32 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1URiS3-0005jr-IA for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 14:24:04 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FC6mDr007889; Mon, 15 Apr 2013 13:06:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2EAme698NFkE; Mon, 15 Apr 2013 13:06:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FC6hu0007852
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 15 Apr 2013 13:06:45 +0100
-Message-ID: <1366027581.8670.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 15 Apr 2013 13:06:21 +0100
-In-Reply-To: <20130415114312.GP2475@jama>
-References: <1366024028-24911-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1366024028-24911-2-git-send-email-richard.purdie@linuxfoundation.org>
-	<20130415114312.GP2475@jama>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+	(envelope-from <walters@verbum.org>) id 1URiXV-0006Dm-I4
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Apr 2013 14:29:46 +0200
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 7448B20A0A;
+	Mon, 15 Apr 2013 08:12:14 -0400 (EDT)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute1.internal (MEProxy); Mon, 15 Apr 2013 08:12:14 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version; s=smtpout; bh=PCICnz
+	ph0v9AX14Q0jOJ9G70shk=; b=W2ded+xayvajIM+1S9IjX90OjimbIiUaku9ixW
+	NXtmtCQlEeKs9NZxCJELpQvYGwaLxVDGnKGbNX482wQIn8RlXpYhXJAoT9xSOhZx
+	CMin1YSCAM8WERoJ41hZuurHSvBLTS8z25bCMDngwR0Xv1zh/uQAKpyKIMjTiXYP
+	Qs6bQ=
+X-Sasl-enc: YXA/D0SghxtstF4jscqpj/T9zanvQC9sVGF5CE+DS9Xd 1366027934
+Received: from [10.0.0.87] (unknown [46.65.197.129])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 8FFFDC80005;
+	Mon, 15 Apr 2013 08:12:13 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1366025504.8670.30.camel@ted>
+References: <1365848719.16702.74.camel@ted>
+	<1365944532.5651.12.camel@localhost>  <1365953596.8670.9.camel@ted>
+	<1366020508.2896.16.camel@localhost>  <1366025504.8670.30.camel@ted>
+Date: Mon, 15 Apr 2013 08:12:12 -0400
+Message-ID: <1366027932.32176.4.camel@localhost>
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] recipes: Fix ALLOW_EMPTY with no package specified
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
+Cc: mclasen@redhat.com,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,26 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 12:24:15 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 12:29:50 -0000
+X-Groupsio-MsgNum: 37938
+Content-Type: multipart/mixed; boundary="=-COyJxeLSl0ox1FCIqNVg"
+
+--=-COyJxeLSl0ox1FCIqNVg
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-04-15 at 13:43 +0200, Martin Jansa wrote:
-> On Mon, Apr 15, 2013 at 12:07:02PM +0100, Richard Purdie wrote:
-> > There are various usages of ALLOW_EMPTY with no packages specified. This
-> > is not recommended syntax, nor is it likely to be supported in the future.
-> > This patch improves the references in OE-Core, either removing them if they're
-> > pointless (e.g. when PACKAGES="") or specifying which package it applies to.
-> 
-> Was this one sent by accident?
-> 
-> http://git.openembedded.org/openembedded-core/commit/?id=fe81bd4f600877e63433184cfc2e22c33bb77db6
+On Mon, 2013-04-15 at 12:31 +0100, Richard Purdie wrote:
 
-Yes, sent by accident, sorry about the noise.
+> It will make our builds work again for now until the next time someone
+> upgrades libpng and and then it will potentially silently start using an
+> old version in some builds :(.
 
-Cheers,
+So something like the attached on top of the previous patch?
 
-Richard
+If this looks good I'll push both to master.
 
 
+--=-COyJxeLSl0ox1FCIqNVg
+Content-Disposition: attachment; filename="0001-build-drop-libpng-from-detected-list.patch"
+Content-Type: text/x-patch; name="0001-build-drop-libpng-from-detected-list.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+From 91074d01a0e2b4508f7f253f1e0a7669363cb128 Mon Sep 17 00:00:00 2001
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 15 Apr 2013 08:06:45 -0400
+Subject: [PATCH] build: drop "libpng" from detected list
+
+This gives us an arbitrary version depending on the build root, and we
+may not be upwards compatible with future versions.  Or it's possible
+that the ancient (but LSB mandated) 1.2 claims the "libpng.pc" name.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ configure.ac |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 106fab1..5efc1b6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -586,7 +586,7 @@ fi
+ 
+ dnl Test for libpng
+   if test x$with_libpng != xno && test -z "$LIBPNG"; then
+-    for l in libpng16 libpng15 libpng14 libpng12 libpng13 libpng10 libpng; do
++    for l in libpng16 libpng15 libpng14 libpng12 libpng13 libpng10; do
+       AC_MSG_CHECKING(for $l)
+       if $PKG_CONFIG --exists $l ; then
+         AC_MSG_RESULT(yes)
+-- 
+1.7.1
+
+
+--=-COyJxeLSl0ox1FCIqNVg--
