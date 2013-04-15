@@ -1,44 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URhtv-0001yB-2N
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 13:48:56 +0200
-Received: by mail-ee0-f47.google.com with SMTP id t10so2158548eei.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 04:31:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=b8ojdlIKPdqkHy8sVpK6N7E2x7BWvhsu7Knrb9HSy24=;
-	b=CZZ8hDSPIuAHchxFhHtmUqxzaf1EAFjDDTDGlVWjb4tRYXrLKDYooNb/eZD6kJOwKq
-	63lfpDWwKsg35cSbCiwnQPHvRxZkw4HCp1sjJopq03HpRKC6Kd4bMq0A6QON676H6AJS
-	8dzYgrU2bbEOM+9ketuGgNYr9SJwXs7+AlxKKa9t/K63jE0qf9+MB+Sv3KUhvij0GlPm
-	r01DwzxFzSH/vcT5vUacUmYiy7mrTTecAcWqHbgNtydlMvUjWY6dLE3+TGwEvblzruo7
-	7YGzfWeQg7ahR//PRtkUOSPgAY41aRJyCDirh/WTop6601qI05JO4rzt3Iqy+8ztyyGy
-	UrMQ==
-X-Received: by 10.15.35.193 with SMTP id g41mr61394710eev.45.1366025478493;
-	Mon, 15 Apr 2013 04:31:18 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id i53sm26398979eeu.5.2013.04.15.04.31.17
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 15 Apr 2013 04:31:17 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
-Date: Mon, 15 Apr 2013 13:31:18 +0200
-Message-Id: <CCA3D6B4-A857-47C4-AC09-CD642F627078@dominion.thruhere.net>
-References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
-	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
-	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
-	<CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQmiEslvAFPhcNEwPf1ceAT4Fk9jj1inMV2wuel8ulb+iAj1vNoh4fVUOEE9VxV3tVqB/je/
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1URhuf-00024j-Kc for openembedded-core@lists.openembedded.org;
+	Mon, 15 Apr 2013 13:49:42 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3FBWBW5005248; Mon, 15 Apr 2013 12:32:12 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eSHcV5Ptltd0; Mon, 15 Apr 2013 12:32:11 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3FBW6BS005240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 15 Apr 2013 12:32:08 +0100
+Message-ID: <1366025504.8670.30.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Colin Walters <walters@verbum.org>
+Date: Mon, 15 Apr 2013 12:31:44 +0100
+In-Reply-To: <1366020508.2896.16.camel@localhost>
+References: <1365848719.16702.74.camel@ted>
+	<1365944532.5651.12.camel@localhost>  <1365953596.8670.9.camel@ted>
+	<1366020508.2896.16.camel@localhost>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Burton, mclasen@redhat.com,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf: Fix libpng determinism issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,63 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 11:48:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Apr 2013 11:49:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Mon, 2013-04-15 at 06:08 -0400, Colin Walters wrote:
+> On Sun, 2013-04-14 at 16:33 +0100, Richard Purdie wrote:
+> > On Sun, 2013-04-14 at 09:02 -0400, Colin Walters wrote:
+> > The more interesting change is:
+> > 
+> > https://git.gnome.org/browse/gdk-pixbuf/commit/configure.ac?id=d430bc4df3314a88cd538474d26ff7764d1f408c
+> > 
+> > and following that to the bugzilla 'For this to make sense, I changed
+> > the order so that a version specific dep, such as libpng15 or
+> > libpng12,
+> > is found before just "libpng".'
+> > 
+> > I'm not sure I entirely follow that logic.
+> 
+> I added Matthias to CC as he touched this last then.
+> 
+> > I think the intent of the symlink is to provide the system with a
+> > default libpng to use in the absence of a specific version requirement.
+> > As the code stands today, each time a new libpng comes out, gdk-pixbuf
+> > will need changes before it will be able to use it. 
+> 
+> Right, we need configure.ac changes, but the rationale behind that is
+> that we'd also need *code* changes for each new major version of libpng.
+> But it sounds like what you're saying is that gdk-pixbuf compiles and
+> operates correctly with 1.6?  If that's the case, then the least
+> invasive change here is to simply add 1.6.
 
-Op 15 apr. 2013, om 12:42 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+It compiles and operates correctly as far as we can tell, yes.
 
-> Hi Koen,
->=20
-> On 15 April 2013 11:16, Burton, Ross <ross.burton@intel.com> wrote:
->> On 15 April 2013 11:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>> Does busybox produce any useful errors as to why it's not working?
->>>=20
->>> No, it pretends everything is OK and the remount succeeded.
->>=20
->> Thanks busybox!
->=20
-> There's several fixes upstream that we don't have in our busybox, it
-> would be much appreciated if you could try this patch which rolls them
-> all up.
->=20
-> =
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mo=
-unt&id=3D1fc11cc25938b6a0c1e9b69a30326de8608cb98f
+Given that rationale, I'd suggest "libpng" should be dropped from the
+list.
 
-With that patch included and util-linux-mount removed:
+> Blah, I tried changing the gnome-ostree build to fetch libpng's v1.6.1
+> git tag to test, but it hard requires Automake 1.13.
+> 
+> Anyways, if it works (looks like the latest oe-core has it), then
+> what about the attached?
 
-[    3.027961] systemd-random-seed[107]: Failed to write new random seed =
-file: Bad file descriptor
-[    3.189475] systemd-tmpfiles[108]: rm_rf(/var/run/udisks): Read-only =
-file system
-[    3.262564] systemd-tmpfiles[108]: rm_rf(/var/run/pm-utils): =
-Read-only file system
-[    3.310582] systemd-tmpfiles[108]: rm_rf(/var/run/dbus): Read-only =
-file system
-[    3.331494] systemd-tmpfiles[108]: rm_rf(/var/run/utmp): Read-only =
-file system
-[    3.357310] systemd-tmpfiles[108]: rm_rf(/var/run/avahi-daemon): =
-Read-only file system
-[    3.383427] systemd-tmpfiles[108]: rm_rf(/var/run/syslogd.pid): =
-Read-only file system
-[    3.410699] systemd-tmpfiles[108]: rm_rf(/var/run/gdm): Read-only =
-file system
-[    3.435955] systemd-tmpfiles[108]: rm_rf(/var/run/connman): Read-only =
-file system
-[    3.462494] systemd-tmpfiles[108]: rm_rf(/var/run/ConsoleKit): =
-Read-only file system
-[    3.492882] systemd-tmpfiles[108]: Failed to create file =
-/var/log/wtmp: Read-only file system
-[    3.522076] systemd-tmpfiles[108]: Failed to create file =
-/var/log/btmp: Read-only file system
-[    3.554021] systemd-tmpfiles[108]: chmod(/var/tmp) failed: Read-only =
-file system
-[    4.676901] systemd-update-utmp[162]: Failed to write utmp record: =
-Read-only file system
+It will make our builds work again for now until the next time someone
+upgrades libpng and and then it will potentially silently start using an
+old version in some builds :(.
 
-So busybox mount is still worthless=
+We're therefore probably going to get stuck carrying a patch for
+this :/.
+
+> > In the meantime, it
+> > will potentially link against something old, e.g. 1.2, since 1.2 is in
+> > the LSB 4.X spec so most LSB like systems would have 1.6 and 1.2.
+> > 
+> > If we can justify changing this upstream, that would be great :). It may
+> > be worth adding libpng16 into the list too so everything is covered too.
+> 
+> At this point I'm hoping the parade of libpng versions will
+> settle down, so hopefully no further tweaking of the configure script or
+> code will be required...
+
+Its the case things silently break that really worry me.
+
+Cheers,
+
+Richard
+
 
 
