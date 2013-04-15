@@ -1,28 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1URaAh-0006On-4r
+	(envelope-from <Kai.Kang@windriver.com>) id 1URaDf-0006px-23
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 05:33:36 +0200
+	Mon, 15 Apr 2013 05:36:42 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3F3G5nj006096
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3F3J91W013375
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2013 20:16:06 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Sun, 14 Apr 2013 20:16:05 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <mark.hatle@windriver.com>
-Date: Mon, 15 Apr 2013 11:17:55 +0800
-Message-ID: <c36637e238a4d08d3f16cfa6039c783eb19327f6.1365995348.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1365995348.git.kai.kang@windriver.com>
-References: <cover.1365995348.git.kai.kang@windriver.com>
+	Sun, 14 Apr 2013 20:19:10 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Sun, 14 Apr 2013 20:19:09 -0700
+Message-ID: <516B7221.5010409@windriver.com>
+Date: Mon, 15 Apr 2013 11:21:05 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1365995348.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1365995348.git.kai.kang@windriver.com>
 X-Originating-IP: [128.224.162.205]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] rpm: fix rpm2cpio segmentation fault
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	r3F3J91W013375
+Subject: Re: [PATCH 0/1] V2: Fix rpm2cpio segment fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,72 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 03:33:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Apr 2013 03:36:45 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-When run rpm2cpio, it fails with segmentation fault. The root cause is
-no macros "_db_path" and "_dbi_config*" defined, when query these macros
-get nothing then cause segment fault.
+On 2013=E5=B9=B404=E6=9C=8815=E6=97=A5 11:17, Kang Kai wrote:
+> Hi Mark,
+>
+> As my last mail on Apr 12 mentioned, not only macro "_dbpath" need to b=
+e defined. Macros "_dbi_config*" are needed too, and they can't be simply=
+ assigned some value.
+>
+> I think parse config files first could be a workaround to fix rpm2cpio =
+segment fault error for now.
 
-Add patch to parse macro files first to fix this problem.
+Update:
+If parse config files fails, just give warning.
 
-[YOCTO #3656]
+>
+> Thanks,
+> Kai
+>
+>
+> The following changes since commit 4c02dd5f6432c6e683a57d47b610f56433e9=
+ca0d:
+>
+>    kern-tools: fix conditional configuration items (2013-04-11 08:27:41=
+ +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib kangkai/rpm2cpio-segfault
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/rpm2=
+cpio-segfault
+>
+> Kang Kai (1):
+>    rpm: fix rpm2cpio segmentation fault
+>
+>   .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch  |   28 +++++++++++=
++++++++++
+>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>   2 files changed, 29 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segment=
+ation-fault.patch
+>
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch  |   28 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
- 2 files changed, 29 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
-new file mode 100644
-index 0000000..a99769a
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Pending
-+
-+rpm2cpio fails on target with "Segmentation fault". Because macros
-+"_dbpath" and "_dbi_config*" need to be defined, otherwise query these
-+macros will cause segment fault.
-+
-+Parse config files first to fix this bug. If parse fails, give a warning.
-+
-+[YOCTO #3656]
-+
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+
-+--- rpm-5.4.9/tools/rpm2cpio.c.orig	2013-04-15 10:35:14.269398890 +0800
-++++ rpm-5.4.9/tools/rpm2cpio.c	2013-04-15 10:44:12.777417885 +0800
-+@@ -87,6 +87,13 @@
-+ #endif
-+ 	(void) rpmtsSetVSFlags(ts, vsflags);
-+ 
-++	/* If macros "_dbpath" and "_dbi_config*" are not defined,
-++	 * sigment fault occurs */
-++	rc = rpmReadConfigFiles(NULL, NULL);
-++	if (rc) {
-++		fprintf(stderr, _("Read RPM config files failed, that may cause sigment fault.\n"));
-++	}
-++
-+ 	/*@-mustmod@*/      /* LCL: segfault */
-+ 	rc = rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
-+ 	/*@=mustmod@*/
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 7d2cba4..1defc78 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -86,6 +86,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://rpm-platform2.patch \
- 	   file://rpm-remove-sykcparse-decl.patch \
- 	   file://debugedit-segv.patch \
-+	   file://rpm2cpio-fix-segmentation-fault.patch \
- 	  "
- 
- # Uncomment the following line to enable platform score debugging
--- 
-1.7.5.4
+--=20
+Regards,
+Neil | Kai Kang
 
 
 
