@@ -1,35 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1URjwG-0006RC-GW; Mon, 15 Apr 2013 15:59:21 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FDg5EA012707; Mon, 15 Apr 2013 14:42:05 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VD2146BqF1_W; Mon, 15 Apr 2013 14:42:05 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3FDfxWw012702
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 15 Apr 2013 14:42:00 +0100
-Message-ID: <1366033296.8670.44.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	(envelope-from <ml@communistcode.co.uk>) id 1URjzx-0007Cp-Lb
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Apr 2013 16:03:17 +0200
+Message-ID: <516C0484.7050402@communistcode.co.uk>
+Date: Mon, 15 Apr 2013 14:45:40 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
+MIME-Version: 1.0
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 15 Apr 2013 14:41:36 +0100
-In-Reply-To: <20130412203746.GW2477@jama>
-References: <20130411133031.GF2477@jama>
-	<CAHUNapRzKJrofFbKX2=5rJZJxSdo+S+5c38GHkp0J8Mhz=C+sw@mail.gmail.com>
-	<20130412203746.GW2477@jama>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>, Patches
-Subject: Re: [bitbake-devel] Checksum failure encountered with download
+References: <CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
+	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+	<511D0669.6020903@communistcode.co.uk>
+	<20130221222728.GA1833@sakrah.homelinux.org>
+	<512738BF.9000404@communistcode.co.uk>
+	<51277D87.3090703@communistcode.co.uk>
+	<512785CE.5020508@communistcode.co.uk>
+	<516BF98C.2080603@communistcode.co.uk>
+	<20130415131058.GB10628@jama.dyndns-home.com>
+In-Reply-To: <20130415131058.GB10628@jama.dyndns-home.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -39,42 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 13:59:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 15 Apr 2013 14:03:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-04-12 at 22:37 +0200, Martin Jansa wrote:
-> On Fri, Apr 12, 2013 at 03:44:41PM -0400, Trevor Woerner wrote:
-> > Sorry for not noticing this sooner.
-> > 
-> > On Thu, Apr 11, 2013 at 9:30 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > > My proposal is to add md5sum of downloaded file to ChecksumError and
-> > > rename it to <file>.<md5sum> in "if isinstance(e, ChecksumError):"
-> > 
-> > Would it be possible to make this behaviour configurable for those who
-> > might be concerned about disk space? Or perhaps while renaming and
-> > saving it, also move it into the $TMPDIR directory and/or tie this
-> > feature in with rm_work?
-> > 
-> > I'm just thinking that over time one's DL_DIR could potentially become
-> > rather cluttered with lots of failed downloads. Only some people would
-> > be interested in seeing the failures and the rest would have to remove
-> > them manually. I'm also thinking of the scenario where the DL_DIR is
-> > shared/sync'ed among a group of people/computers; that could add up to
-> > quite a bit of data to share.
-> 
-> I can make it configurable, but I think that bad-checksums should be
-> only in few exceptional cases, while package upgrades are common.
-> 
-> That said 90% of my downloads directory are old versions I keep just to
-> be able to recreate old builds with upstream sources already gone and
-> now I've one renamed bad-checksum tarball from evas-1.7.6.1...
+On 15/04/13 14:10, Martin Jansa wrote:
+> On Mon, Apr 15, 2013 at 01:58:52PM +0100, Jack Mitchell wrote:
+>> Ok, I have just come back to trying out the new systemd implementation,
+>> and this bug still exists.
+>>
+>> Exactly the same error as before:
+>>
+>> [    2.390730] systemd[1]: Failed to mount /run: No such file or directory
+>>
+>> Can we shed any light on why this directory is failing to be created and
+>> what can be done to fix it. Having looked in my final target filesystem
+>> there are no links to the volatiles in /var/voltatile/* to /*, should
+>> there be? The base-files packages looks like it should do it but
+>> obviously something is going wrong.
+>>
+>>     for d in ${volatiles}; do
+>>       ln -sf volatile/$d ${D}${localstatedir}/$d
+>>     done
+> We're using base-files bbappend to create it and also replacing few
+> symlinks to volatile with real directories (not mandatory for systemd
+> iirc, but useful in some cases).
+>
+> https://github.com/shr-distribution/meta-smartphone/commit/24161eed3c185867b2fd91aab6532f370d327cdd
+>
 
-Agreed, I'd hope this isn't something which happens that often.
+Ok, manually adding /run to 775dirs in a base-files append fixed this 
+for me. I still don't understand why this should be needed as an 
+addition though...
 
-Cheers,
+-- 
 
-Richard
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
