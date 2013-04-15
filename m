@@ -1,39 +1,32 @@
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URliv-0001uH-J3
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 17:53:42 +0200
-Received: by mail-vc0-f180.google.com with SMTP id m16so3969126vca.39
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 08:36:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Lc9pa/SIV8vyK4OHiuXvZmpriN923xEoNBvVbKHsifo=;
-	b=komc/dUjXX4/y8UcXiV0RImybQdMjRPfFEy2iRyASENy6r6OFD0mc2ZSSpPzOHRe7z
-	nj5//dWtgChAltQwEW+b7J31qF5aI5bmrihHSMRJxOfpPcIiGiCl5sy/IV2ckg1dWGTd
-	aTE0Ukx7U2s1XHdjvOeoQxNw4EtM2XHllYoVww4qiJylXqlhGwlhf2dCvZHP3fxoSB3j
-	YieHKf2DWgSze+0oYd8wXtZwjPEQD84GRWlHqq5u9L9PCleb5V6687V5h5nU0wWkQ1aU
-	gUwTqsvF5c3765XMVPbd+aTdA6+BZvTa1xsClYrZvNkOjclz9t7i79bXTmWpL+Pmdzkt
-	cEZA==
-X-Received: by 10.220.119.200 with SMTP id a8mr16423366vcr.38.1366040172192;
-	Mon, 15 Apr 2013 08:36:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 08:35:52 -0700 (PDT)
-In-Reply-To: <341AED6F-8BBF-4203-B5D0-6F215C8E7F14@dominion.thruhere.net>
-References: <1366020744-2958-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0Lbcv-GkQs-PWoW3mtJWzfp_WuNbwU=A1NVd9R7-=uF0tQ@mail.gmail.com>
-	<66033B10-A10A-4660-85F5-D06E1B9C21D7@dominion.thruhere.net>
-	<CAJTo0LZWt2W2w5FvOcPsh5OnrGWcnFCR2mjzYDWCkq8K7etJ6g@mail.gmail.com>
-	<341AED6F-8BBF-4203-B5D0-6F215C8E7F14@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 16:35:52 +0100
-Message-ID: <CAJTo0LYtwVYHNcTc=oKC0-nqpogR6UKVHdg2Pw7ex56j=o6GJA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQkKhJ4hdDTL6rUuZWuqAt2ObdfmpTYwo6heTh6GTV2cXd3g6sbNxchrH+n8ZAl/+wpvUGI3
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1URlne-0002H5-OL for openembedded-core@lists.openembedded.org;
+	Mon, 15 Apr 2013 17:58:37 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3FFeV2S021371; Mon, 15 Apr 2013 16:41:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lchLy5GrC2-7; Mon, 15 Apr 2013 16:41:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3FFfGJK021397
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 15 Apr 2013 16:41:17 +0100
+Message-ID: <1366040453.8670.66.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 15 Apr 2013 16:40:53 +0100
+In-Reply-To: <516C19C6.9080807@windriver.com>
+References: <1366024028-24911-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1366024028-24911-8-git-send-email-richard.purdie@linuxfoundation.org>
+	<516C19C6.9080807@windriver.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: remove udev-extraconf from RRECOMMENDS
+Subject: Re: [PATCH 7/7] allarch: Drop various problematic allarch usages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,14 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 15:53:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 15:58:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 15 April 2013 16:31, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> It was deleted in favour of systemd.bb providing udev, angstrom hasn't udev the standalone udev since it was merged into the systemd repo.
+On Mon, 2013-04-15 at 10:16 -0500, Mark Hatle wrote:
+> On 4/15/13 6:07 AM, Richard Purdie wrote:
+> > In each of these cases allarch is used where the package in question has a
+> > dependency on things which are not allach and change when MACHINE is changed.
+> >
+> > This leads to a rebuild of the package each time MACHINE is switched and
+> > the sstate checksum changes. The dependencies in question are not suited
+> > be being marked as ABISAFE.
+> 
+> In each of these cases, does the contents of the package change when the MACHINE 
+> (or something in that machine) are modified?  If so, I agree they are definitely 
+> not allarch.
 
-Right, makes sense.
+The contents does not, the sstate checksum however does due to the
+dependencies. The dependencies are thinks like gtk+ and dbus.
 
-Ross
+> However, if the dependency really doesn't matter, then why isn't ABISAFE correct 
+> in each case?
+
+I'm using ABISAFE in this context as shorthand for
+SIGGEN_EXCLUDERECIPES_ABISAFE and those are defined as things which
+don't need to rebuild if the dependency changes.
+
+gtk+ and dbus both provide libraries and we do want software to rebuild
+if they change. In the allarch case we could whitelist the dependency
+however in the general case we shouldn't.
+
+Even with that problem addressed somehow, it leaves an issue with ipk
+multilibs where the distcc-config allarch recipe would always depend
+upon "distcc" and hence distcc would get pulled into the image,
+regardless of any other multilib settings (which in turn pulls in gtk+
+for example). A "lib64-xxx-image" would therefore end up with near
+enough two copies of half the system due to this. This is something we
+really need to fix in the opkg implementation of multilibs but I have no
+idea how.
+
+Combine the two issues together, neither of which can be addressed at
+this point of the release cycle and I put the above patch forwards until
+we can better resolve this.
+
+Cheers,
+
+Richard
+
+
 
 
