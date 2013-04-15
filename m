@@ -1,42 +1,46 @@
-Received: from mail-ee0-f53.google.com ([74.125.83.53])
+Received: from mail-ea0-f177.google.com ([209.85.215.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1URhkE-0000s6-5o
+	(envelope-from <koen@dominion.thruhere.net>) id 1URhlH-00011A-CC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 13:39:07 +0200
-Received: by mail-ee0-f53.google.com with SMTP id c13so2137206eek.12
+	Mon, 15 Apr 2013 13:39:51 +0200
+Received: by mail-ea0-f177.google.com with SMTP id q14so2111969eaj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 04:21:06 -0700 (PDT)
+	Mon, 15 Apr 2013 04:22:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=pLxuCesXtninadE0MBjxOvHIL3t4UlpcLm1uZi+vfIQ=;
-	b=UpmJUv6zGrsG8XHymR24/XMB4kNgiqKbfR899CwG9OXUySYICGHFdtaoJt7Cf5saar
-	KWMdCkVEoV8fadD0beBofgW5aP5Xkbdll0IWqqfopzgSU93cPJfTuE3g4fyiTj6M+oDl
-	OhNPjPVDyk/1TTRjbd8fOtGyRquqFLhHF4KNqsXxsFbo9dB+E4VwJHcPcIGZnnxJSc6t
-	M1B2mwYoQwOVJHsySi2XDuPkuLrBw29yAinMR5EhXQJSmi/pI0vw2Bcu62mwPz42nrRX
-	qEf+8qXSTQ+jFML8iZaw3mqc4vlleCdjk6lOodJeS0snt55YVwPEKbfxFvwxJ9StNs3e
-	OBFA==
-X-Received: by 10.15.34.199 with SMTP id e47mr60801891eev.35.1366024866266;
-	Mon, 15 Apr 2013 04:21:06 -0700 (PDT)
+	bh=f+u4loavOdq0cbor37LWR9ZryDvDV1D/0j++A9MSnZ8=;
+	b=VdFeJQgjl521+RsTlLnpcSdxuwrxpPNz2gFwlrknae0/LIs/ehUbbn3ZY0fMbPDa9k
+	ACtuyh0mdIkBwsg8dmv2qpflgfDILpjQbmPioqWTlLiDZcwKy9tLfCrnTiDWG5SelbWI
+	7gqg5w6hwQnz0/mm7zRY12leS1sKvfH8n6zMJwOZx8vMAxZ6icjue9nErXohXmw8g8IF
+	DzCasggl7LmZwE2ldAwD5XrrGUx5nmWdUSk4LQzNdq9uo0xBn3lALom8XWaR6snyHhaO
+	0uG8VkLZdLKxTbp1iFAM/X+uL8TmB+YCiSFJUVsY93pTC46bEkwRoMWHX7Z1FQW1cnzw
+	WfDA==
+X-Received: by 10.15.36.135 with SMTP id i7mr61374551eev.34.1366024942792;
+	Mon, 15 Apr 2013 04:22:22 -0700 (PDT)
 Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id j44sm16794134eeu.10.2013.04.15.04.21.04
+	by mx.google.com with ESMTPS id cd3sm26350637eeb.6.2013.04.15.04.22.21
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 15 Apr 2013 04:21:05 -0700 (PDT)
+	Mon, 15 Apr 2013 04:22:21 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <lyli8k12k3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Mon, 15 Apr 2013 13:21:05 +0200
-Message-Id: <155F9D05-94DF-4B6B-8CC7-E75D22696C81@dominion.thruhere.net>
-References: <cover.1365697555.git.ross.burton@intel.com>
-	<lyli8k12k3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+In-Reply-To: <CAJTo0LakpuA=dRgETNpqMh59AXmc+-2uEbfo2q-spfzqaB5z9w@mail.gmail.com>
+Date: Mon, 15 Apr 2013 13:22:22 +0200
+Message-Id: <B557195F-91BB-4812-8D80-ECBD8BADB753@dominion.thruhere.net>
+References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
+	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
+	<CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
+	<053E167B-AF9D-4E0B-B8D8-D518096D2C49@dominion.thruhere.net>
+	<CAJTo0LakpuA=dRgETNpqMh59AXmc+-2uEbfo2q-spfzqaB5z9w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkR2GjzIIdIJguu4V/pifARAJquXJKRzVoJiDMKfckSf/W6U57ujJ66xUj/E1myW6wOOGTD
-Cc: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Move systemd binaries to /sbin/systemd
+X-Gm-Message-State: ALoCoQn2eO3KUEOIr7Y00Y2RzLqE4ycZYK1UbBO45pdp/+4fUIiBw7IaLb8wli+35a7YcIjF8l+i
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,38 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 11:39:08 -0000
+X-List-Received-Date: Mon, 15 Apr 2013 11:39:52 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 15 apr. 2013, om 13:00 heeft Enrico Scholz =
-<enrico.scholz@sigma-chemnitz.de> het volgende geschreven:
+Op 15 apr. 2013, om 13:05 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-> Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> writes:
+> On 15 April 2013 12:00, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>> =
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mo=
+unt&id=3D1fc11cc25938b6a0c1e9b69a30326de8608cb98f
+>>=20
+>> Do you have an oe-core patch?
 >=20
->> Following the example set by udev, move the binaries to /sbin/systemd
->> and hardcode less paths in general.  Tested on atom-pc with a .hddimg
->> so the live boot/initrd paths were tested.
->=20
-> At least the moving of udev breaks a lot of local recipes here which
-> install e.g. local rules or keymaps in /lib/udev.  This is a silent =
-break
-> which is detected at device runtime only.  The global 'bitbake.conf' =
-has
-> not been updated for the new paths neither.
->=20
->=20
-> There should be:
->=20
-> 1. added some QA checks which detect this broken packaging
->=20
-> 2. added some global variables (e.g. 'udev_basedir') which can be used
->   in the rules.
+> =
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/patch/?id=3D1fc11cc=
+25938b6a0c1e9b69a30326de8608cb98f
+> will apply to oe-core just as well as it applies to poky.
 
-These patches can get NAK'd all you want, but they will go in. I still =
-say: NAK, this is a bad, bad idea. It diverges from upstream and =
-introduces silent breakage as you point out due to that.=
+'git merge' was very unhappy with it.=
 
 
