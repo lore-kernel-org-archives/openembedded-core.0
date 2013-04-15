@@ -1,40 +1,37 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-qe0-f49.google.com ([209.85.128.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1URhwM-0002KB-TG
+	(envelope-from <kirgene@gmail.com>) id 1URhwv-0002Nr-5w
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 13:51:19 +0200
-Received: by mail-vc0-f175.google.com with SMTP id ib11so3813263vcb.34
+	Mon, 15 Apr 2013 13:51:58 +0200
+Received: by mail-qe0-f49.google.com with SMTP id 6so2601158qeb.36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 04:33:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=xrKYwi3cunsfTyP6VrM8TBLeV1vOOLHTMzjF1G6aCAc=;
-	b=odY7uI90ArC/31ipBtWu+JIgKSwvlqvC7y9iUFw197qui5Q34b9kTmLYqL+hFKLT2k
-	jzKjGD7tw9gnAavA4Pg5zAItGRaG0mzLzCW6LgM2y+k4ty056uAQ+Cyf0pFviO5IVUIF
-	bkPZQwOcMtwpiaDYvZFAeqiQ0KqDbCWvjET9fD1PHvMaqhf3NvUISuR1UYPNDsihUuJ+
-	1eEmGvCcMNfDgUbfGJP8vWJixY3H5VsKfY0kZoiUiBFko83mG9pSDZ++0llw2rlpQwEm
-	OzQzl6CygYisEbUuV5yRgowCKwT08VG3QxWw5+aulwbUVxBWUnofAdVgvzm5u13qoiAA
-	lNHg==
-X-Received: by 10.58.188.48 with SMTP id fx16mr8714325vec.22.1366025629715;
-	Mon, 15 Apr 2013 04:33:49 -0700 (PDT)
+	Mon, 15 Apr 2013 04:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=WGI5Ol/akMom8GFhyDe29JBJW/FP89N0wN+PSnKkkwM=;
+	b=vxniz15628H6VXSflNDB3nJ2exHXGyNlMvNv7nQ/mk/vRA/b1ed3qM+JdVBqlybvGg
+	LQnwEMzw86wCdQELFBxCozEh+yZ4MIKguZgYsT9L76QNew+0JT4vg4tmOanr/f1KQNfX
+	fVVwbbjVMUYhGVdIcEjehfdqMsMU+wZw07rbUzmUgnmf4oYjoWIj43JVfhSAVngv3naL
+	eV6TcOt0C6bVrjJhBVL3y3ZZlHKJmWo+sv8h47BiHBm/94o2TFRebdYK2mq+vbPxKh6q
+	RutODPuSeg506cfHv5hnQ+0hUXK0c3IRu6CPhqN1ugJ4QVZf+RsRWg7JfpS6o3rIZMO+
+	Jh1w==
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 04:33:29 -0700 (PDT)
-In-Reply-To: <CCA3D6B4-A857-47C4-AC09-CD642F627078@dominion.thruhere.net>
-References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
-	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
-	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
-	<CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
-	<CCA3D6B4-A857-47C4-AC09-CD642F627078@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Apr 2013 12:33:29 +0100
-Message-ID: <CAJTo0LZhTJR-gm0jss8zSseA+VtZOrT2aX-P8kHPs7WXe20-mQ@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQniCkDpDBLIcobLNg/rEX4QMLND9VDh4+Gc+2oZu8aTUl31LS9YLy8PpvhOSd49agTRn0KL
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
+X-Received: by 10.49.60.1 with SMTP id d1mr25486508qer.33.1366025664078; Mon,
+	15 Apr 2013 04:34:24 -0700 (PDT)
+Received: by 10.49.4.170 with HTTP; Mon, 15 Apr 2013 04:34:23 -0700 (PDT)
+In-Reply-To: <1366025009.8670.25.camel@ted>
+References: <CADV-EXFrm6O3x7mNEz4X87inG-jLd6Kb5UNDhszh4hLXGgOvXw@mail.gmail.com>
+	<D36FF37C-5906-4F9E-AC08-57B159AEF560@dominion.thruhere.net>
+	<CADV-EXHK9oo177UySi8kcpu4xrDx_Pw8q=S=0mXts3OyJrn28w@mail.gmail.com>
+	<1366025009.8670.25.camel@ted>
+Date: Mon, 15 Apr 2013 14:34:23 +0300
+Message-ID: <CADV-EXF-_FHVhfXje=4z7ayCpEOYNCp74=3wVpxKR7UZufUH_A@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Multiple *.bbappend files support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,16 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 11:51:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Apr 2013 11:52:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 15 April 2013 12:31, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> So busybox mount is still worthless
+2013/4/15 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Mon, 2013-04-15 at 13:37 +0300, Yevhen Kyriukha wrote:
+>> Great, thanks!
+>> Best regards,
+>> Yevhen
+>>
+>>
+>> 2013/4/15 Koen Kooi <koen@dominion.thruhere.net>:
+>> >
+>> > Op 15 apr. 2013, om 12:26 heeft Yevhen Kyriukha <kirgene@gmail.com> het volgende geschreven:
+>> >
+>> >> Is there a way to use multiple *.bbappend files in different layers?
+>> >>
+>> >> I'm using meta-raspberrypi and my own layer.
+>> >> Both extend base-files with *.bbappend and both have PRINC = "1".
+>> >> But only first of *.bbappend files applied (that is in meta-raspberrypi).
+>> >> PR of base-files also increments by one (not by two).
+>> >
+>> > Yeah, try to make all bbappends use:
+>> >
+>> >         PRINC := "${@int(PRINC) + 1}"
+>> >
+>
+> I'd just add that with the PR server now in use, the need to add this
+> PRINC stuff should be removed...
+>
+> Cheers,
+>
+> Richard
+>
 
-Thanks.
+And what does it mean? What do I need to write in bbappend instead of PRINC?
 
-In that case, I ACK your patch.
-
-Ross
+Best regards,
+Yevhen
 
 
