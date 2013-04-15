@@ -1,34 +1,38 @@
-Received: from mail-qc0-f181.google.com ([209.85.216.181])
+Received: from mail-vb0-f53.google.com ([209.85.212.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kirgene@gmail.com>) id 1URh3n-0004AB-5U
+	(envelope-from <ross.burton@intel.com>) id 1URh9U-0005F8-SC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Apr 2013 12:54:59 +0200
-Received: by mail-qc0-f181.google.com with SMTP id a22so577031qcs.26
+	Mon, 15 Apr 2013 13:00:50 +0200
+Received: by mail-vb0-f53.google.com with SMTP id i3so3621771vbh.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2013 03:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=1N/a9zki2nRRu+samzz3GFU61qZt9qpt330l3N0dDNI=;
-	b=U3p362oVtCPnW7cxTyzIBz8vTG57rltVpQIEO5hOhAd2SoqHqji0OgcJrw5XSbMUYp
-	Jp86MYaMD4yAMdKAmJk377fflWHTCpddv0hlMFicF7D9/admNFc8DCKelgqdpOzDDxju
-	WTWfeytMBAx4pwK5lwvzJ5YogYFJoAJZ0shH4U6XHzpnZE7xEM6m3KRPoAfUZoCFfRoi
-	LApqn4lRKj2BHOVW4qsBH5iAJHIQafon6DjCHJ7/3zYsvkz488h2k/kId/K+epT2rXsa
-	KYfZ5Kbb/vi9tRcb05d66BPLU+po2Irw2kOYMkfNm83WBlKypQzoE/wpHCiOsPGPsMN1
-	7u2Q==
+	Mon, 15 Apr 2013 03:43:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=SaeAGtyX1wBnSvjBgl9n2JJcUPzHxv0q7eWGoQNyG8w=;
+	b=fJQRjSFmnZxI3nCHdpdDC9MIKtzka6DYBx6+t+a8Rhw/xaYyIPelAxFDGnEB2JHMCM
+	ziWKUjq046HrB84fvMtCcjV/QF9S2u7Ion9LZVO7LxNTn+1BoV8EQv0WmoExjiJcdZq6
+	0efzkBus709xP4idI7wqOXCQrav26grgj6+ze8q2ZwpeNPedqHyS+6S1Zv8bwVTdXMRF
+	21opnzT1M7zDTuX909m5YT4LSVvsMsvIpRJ8NJ0N0pW0KojGvQXTbumzWHK0D92Mj6zX
+	QQVP16bORYmK+8V4C6qp2ZDqgP8mxxpyDP3OvFbmcFFqqK7ETN5zSm05mVaQie0fRpoD
+	19Dw==
+X-Received: by 10.52.158.163 with SMTP id wv3mr13343666vdb.82.1366022599706;
+	Mon, 15 Apr 2013 03:43:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.224.94.4 with SMTP id x4mr21592571qam.60.1366022246288; Mon,
-	15 Apr 2013 03:37:26 -0700 (PDT)
-Received: by 10.49.4.170 with HTTP; Mon, 15 Apr 2013 03:37:26 -0700 (PDT)
-In-Reply-To: <D36FF37C-5906-4F9E-AC08-57B159AEF560@dominion.thruhere.net>
-References: <CADV-EXFrm6O3x7mNEz4X87inG-jLd6Kb5UNDhszh4hLXGgOvXw@mail.gmail.com>
-	<D36FF37C-5906-4F9E-AC08-57B159AEF560@dominion.thruhere.net>
-Date: Mon, 15 Apr 2013 13:37:26 +0300
-Message-ID: <CADV-EXHK9oo177UySi8kcpu4xrDx_Pw8q=S=0mXts3OyJrn28w@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
+Received: by 10.220.100.68 with HTTP; Mon, 15 Apr 2013 03:42:59 -0700 (PDT)
+In-Reply-To: <CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
+References: <1365947306-15542-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LYxbJBVqYTCiz2BaBaoPz=pzpm5w49Ube+SpnX_ZOLh5Q@mail.gmail.com>
+	<9D7AC92D-FF69-4A31-B99C-D2008675A27B@dominion.thruhere.net>
+	<CAJTo0Laqc93oxZcHZ+vF99q_UqJ_8TUV4QAxPy6VfBLDBUxOYg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Apr 2013 11:42:59 +0100
+Message-ID: <CAJTo0LbfDu6bOAPYjd3ohzZJcvPDmYiT4RcUhZC9JXkQB6dmOw@mail.gmail.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQl5hWuoSjqARBrRMOsWNrFCC/Ze1owHxO2boGtTSHg52JLSc3+xCFFsbj5BZEM+2vSTA9L1
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Multiple *.bbappend files support
+Subject: Re: [for-dylan][PATCH] systemd: fix bootup with 'ro' by re-adding util-linux-mount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,31 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2013 10:55:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 15 Apr 2013 11:00:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Great, thanks!
-Best regards,
-Yevhen
+Hi Koen,
 
-
-2013/4/15 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 15 apr. 2013, om 12:26 heeft Yevhen Kyriukha <kirgene@gmail.com> het volgende geschreven:
->
->> Is there a way to use multiple *.bbappend files in different layers?
+On 15 April 2013 11:16, Burton, Ross <ross.burton@intel.com> wrote:
+> On 15 April 2013 11:09, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>> Does busybox produce any useful errors as to why it's not working?
 >>
->> I'm using meta-raspberrypi and my own layer.
->> Both extend base-files with *.bbappend and both have PRINC = "1".
->> But only first of *.bbappend files applied (that is in meta-raspberrypi).
->> PR of base-files also increments by one (not by two).
+>> No, it pretends everything is OK and the remount succeeded.
 >
-> Yeah, try to make all bbappends use:
->
->         PRINC := "${@int(PRINC) + 1}"
->
-> regards,
->
-> Koen
+> Thanks busybox!
+
+There's several fixes upstream that we don't have in our busybox, it
+would be much appreciated if you could try this patch which rolls them
+all up.
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mount&id=1fc11cc25938b6a0c1e9b69a30326de8608cb98f
+
+(yes, I'll fix the patch to have a proper comment :)
+
+Cheers,
+Ross
 
 
