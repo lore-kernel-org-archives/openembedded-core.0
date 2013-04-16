@@ -1,32 +1,33 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1USDO1-0006O4-GM for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 23:26:00 +0200
+	id 1USDX1-0007K8-3L for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 23:35:21 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3GL8UaA021592; Tue, 16 Apr 2013 22:08:46 +0100
+	r3GLI5nI021952; Tue, 16 Apr 2013 22:18:05 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sKJm0HC9KHR9; Tue, 16 Apr 2013 22:08:46 +0100 (BST)
+	with LMTP id 7YxXxiMhm6Q9; Tue, 16 Apr 2013 22:18:04 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3GL8fPX021602
+	r3GLHwoA021941
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 16 Apr 2013 22:08:43 +0100
-Message-ID: <1366146492.8670.104.camel@ted>
+	verify=NOT); Tue, 16 Apr 2013 22:17:59 +0100
+Message-ID: <1366147047.8670.105.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 16 Apr 2013 22:08:12 +0100
-In-Reply-To: <1CEA2C6F-2993-40DD-AC27-34B1A763BA0F@dominion.thruhere.net>
-References: <1366112971-3644-1-git-send-email-koen@dominion.thruhere.net>
-	<1366127627.8670.98.camel@ted>
-	<1CEA2C6F-2993-40DD-AC27-34B1A763BA0F@dominion.thruhere.net>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 16 Apr 2013 22:17:27 +0100
+In-Reply-To: <CALbNGRQM15TSn5M52Bk0SuadUOEMN2f8qM0RHV3rBTL4jRbUQA@mail.gmail.com>
+References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+	<CALbNGRQM15TSn5M52Bk0SuadUOEMN2f8qM0RHV3rBTL4jRbUQA@mail.gmail.com>
 X-Mailer: Evolution 3.6.2-0ubuntu0.1 
 Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r3GLI5nI021952
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] seperatebuilddir.inc: disable seperate build dir for consolekit
+Subject: Re: experiences with images based on current layer heads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 21:26:01 -0000
+X-List-Received-Date: Tue, 16 Apr 2013 21:35:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2013-04-16 at 18:29 +0200, Koen Kooi wrote:
-> Op 16 apr. 2013, om 17:53 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Tue, 2013-04-16 at 13:49 +0200, Koen Kooi wrote:
-> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> >> ---
-> >> meta/conf/distro/include/seperatebuilddir.inc | 4 +++-
-> >> 1 file changed, 3 insertions(+), 1 deletion(-)
-> >> 
-> >> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-> >> index a9ca240..f60dc5c 100644
-> >> --- a/meta/conf/distro/include/seperatebuilddir.inc
-> >> +++ b/meta/conf/distro/include/seperatebuilddir.inc
-> >> @@ -78,7 +78,9 @@ B_pn-compositeproto = "${SEPB}"
-> >> B_pn-compositeproto-native = "${SEPB}"
-> >> #B_pn-connman = "${SEPB}"
-> >> #B_pn-connman-gnome = "${SEPB}"
-> >> -B_pn-consolekit = "${SEPB}"
-> >> +#B_pn-consolekit = "${SEPB}"
-> >> +#| /build/setup-scripts/build/tmp-angstrom_next-eglibc/work/cortexa8hf-vfp-neon-angstrom-linux-gnueabi/consolekit/0.4.5-r10/ConsoleKit-0.4.5/pam-ck-connector/pam-ck-connector.c:64:26: fatal error: ck-connector.h: No such file or directory
-> >> +#| compilation terminated.
-> >> B_pn-console-tools = "${SEPB}"
-> >> B_pn-coreutils = "${SEPB}"
-> >> B_pn-coreutils-native = "${SEPB}"
-> > 
-> > Neither my local builds or the autobuilder see this. Any idea why some
-> > builds would fail and others would work?
-> 
-> No idea, it was building fine, then I enabled seperate-builddir,
-> removed TMPDIR, kicked off a build and ck started failing, so I
-> disabled SEPB, -c clean and it started working again. This is on
-> quadcore i7, make -j8, spinning rust.
-> 
-> So far it's the only recipe failing over here for OE-core and seperate builddir.
+On Tue, 2013-04-16 at 14:17 +0200, Andreas M=C3=BCller wrote:
+> On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+> > Hi,
+> >
+> > when migration of systemd to oe-core turned to unbuildable I decided
+> > to freeze my images and stopped further tests. Now that many issues
+> > were fixed and we are close to another release I built my standard
+> > xfce-based image based on latest layer HEADs. With this I face some
+> > issues which I would like to share:
+> >
+> > 1. X sessions crash with OOM. This is reproducible by opening
+> > google-maps with midori and changing to satellite view. In
+> > Xorg.0.log.old I see only
+> >
+> > | (EE)
+> > | (EE) Backtrace:
+> > | (EE)
+> > | (EE) Segmentation fault at address 0x9
+> > | (EE) BUG: triggered 'if (inSignalContext)'
+> > | (EE) BUG: log.c:502 in LogVMessageVerb()
+> > | (EE) Warning: attempting to log data in a signal unsafe manner whil=
+e
+> > in signal context.
+> > | Please update to check inSignalContext and/or use
+> > LogMessageVerbSigSafe() or ErrorFSigSafe().
+> > | The offending log format message is:
+> > |
+> > | Fatal server error:
+> > |
+> > | (EE)
+> > | (EE) Backtrace:
+> > | (EE)
+>=20
+> Seems I found this one: it is caused by undefined signedness for char.
+> ARM uses unsigned by default but in the code we find
+>=20
+> if (pClient->smart_priority < 0)
+>=20
+> After final tests and sending upstream I'll send a patch here.
 
-The answer would appear to be, you need "pam" in DISTRO_FEATURES, it
-works otherwise. Means it should be easy to fix to build properly.
+Nice work in tracking that down! :)
 
 Cheers,
 
