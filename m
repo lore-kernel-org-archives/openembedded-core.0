@@ -1,35 +1,32 @@
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1US350-0002C8-NU
-	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 12:25:39 +0200
-Received: by mail-vc0-f180.google.com with SMTP id m16so226340vca.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 03:08:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=K7u6Y2c4Nb54iy+BCIjg94jFoEQgi5orwOuscNeoEFk=;
-	b=WFGlk6uvDpIMqtNdq5OBWS9p5/cmME/I1xhoTwKVrbML2TNJgQ1QC9A8TpC+PZCNsY
-	s1B7iewT9QD89scdJDkkZl2AMvCdl+CwxNUpxriEFR/LPt768Mokh6tWlLQkv67T8tyX
-	7zuJiOr4sPQfDCuboqjuWs7NESva3QSqLWEfaxyLwc5V29N3be7PGesmiUjRmDwGtdyN
-	snj125a3ddbszqQjQREVSoH177mu+BIEp8vnlKqtJP+m4qb/hXI2RWH9JA4GtUU61HCe
-	0X/5Q6of89wPTRInTDPHSy07UF4dw0RM5a0oozX+xzSXWfzaoQK0Su44xVqJG9lKv2+C
-	Vgrw==
-X-Received: by 10.52.28.139 with SMTP id b11mr875769vdh.4.1366106888332; Tue,
-	16 Apr 2013 03:08:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 16 Apr 2013 03:07:48 -0700 (PDT)
-In-Reply-To: <1366069157-3166-1-git-send-email-obi@opendreambox.org>
-References: <1366069157-3166-1-git-send-email-obi@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Apr 2013 11:07:48 +0100
-Message-ID: <CAJTo0LbJo8Te2msLtYQAQizQkYqX2sRizq2M03k=0Wh4-YTVQQ@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-X-Gm-Message-State: ALoCoQkCCOR/o9DEntCTn26Zgz0GjrQAu0/4FqRpfWsOq668p7j9Tdv6G6fxoCk81omEt5kMrCik
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1US35Z-0002Gn-Fq for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 12:26:18 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3GA8wX7027336; Tue, 16 Apr 2013 11:08:58 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XJ9JIWOzuCYk; Tue, 16 Apr 2013 11:08:58 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3GA8r37027318
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 16 Apr 2013 11:08:55 +0100
+Message-ID: <1366106906.8670.93.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 16 Apr 2013 11:08:26 +0100
+In-Reply-To: <EDFD893A-99B8-4C91-86DB-FFD37D78200E@dominion.thruhere.net>
+References: <1366103412-10924-1-git-send-email-koen@dominion.thruhere.net>
+	<1366106058.8670.89.camel@ted>
+	<EDFD893A-99B8-4C91-86DB-FFD37D78200E@dominion.thruhere.net>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mesa: don't fail if x11 isn't available
+Subject: Re: [PATCH] pango: add libpng to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,19 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 10:25:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Apr 2013 10:26:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 April 2013 00:39, Andreas Oberritter <obi@opendreambox.org> wrote:
-> Patches backported from mesa Git and from mesa-dev mailing list.
->
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+On Tue, 2013-04-16 at 11:59 +0200, Koen Kooi wrote:
+> Op 16 apr. 2013, om 11:54 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> 
+> > On Tue, 2013-04-16 at 11:10 +0200, Koen Kooi wrote:
+> >> Pango links indirectly to libpng through the cairo-png dependency, but
+> >> does encode the libpng version in its .la files. Changing libpng
+> >> versions will make a rebuild fail, so let's cheat a bit to let sstate
+> >> rebuild pango as well to get around this.
+> >> 
+> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >> ---
+> >> meta/recipes-graphics/pango/pango.inc | 2 +-
+> >> 1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > This doesn't follow. If pango -> cairo -> libpng and libpng changes,
+> > both cairo and pango will rebuild.
+> 
+> If it did get rebuilt it still had references to non-existent
+> libpng16  .la in its .la files.
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+Autotools/libtool being broken then, the DEPENDS change might appear to
+help but it doesn't, only way to deal with it is either the change below
+or to clean the recipe in question.
 
-Those patches were in the early wayland branches for Yocto, they must
-have disappeared at some point.
+> > What might be the problem is that autotools (or more likely libtool)
+> > isn't rebuilding correctly. This was solved with the separate build
+> > directory code. Have you enabled that?
+> 
+> Not that I know off. How do I do that?
 
-Ross
+http://git.yoctoproject.org/cgit.cgi/poky/commit/meta-yocto?id=9e366e153234114ab3c51e4bb8e3452593f64070
+
+It was was made opt in since people didn't want it as the default. I've
+made it the default for poky as I believe its a good thing and helps
+cases like this.
+
+The only downside is that to change to this you need a clean build
+directory as autotools throws a fit about this change when you re-run
+configure on an existing directory. Nothing we can do about that one,
+its autotools :(.
+
+Cheers,
+
+Richard
+
 
 
