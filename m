@@ -1,24 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1US82k-0007SG-36
-	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 17:43:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Apr 2013 08:25:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,486,1363158000"; d="scan'208";a="227838026"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.14.4])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Apr 2013 08:25:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Apr 2013 16:25:08 +0100
-Message-Id: <c321211412ffb39903d8fb3b4915afcfcbc8e033.1366125772.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1366125772.git.paul.eggleton@linux.intel.com>
-References: <cover.1366125772.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1366125772.git.paul.eggleton@linux.intel.com>
-References: <cover.1366125772.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 2/3] qt4-embedded: bump PR to allow removal of meta-oe bbappend
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1US8Tk-00026r-6E for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 18:11:36 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3GFsKi6011089; Tue, 16 Apr 2013 16:54:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id njTdVpjFbNNH; Tue, 16 Apr 2013 16:54:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3GFsGb5011081
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 16 Apr 2013 16:54:17 +0100
+Message-ID: <1366127627.8670.98.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 16 Apr 2013 16:53:47 +0100
+In-Reply-To: <1366112971-3644-1-git-send-email-koen@dominion.thruhere.net>
+References: <1366112971-3644-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] seperatebuilddir.inc: disable seperate build dir for consolekit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 15:43:55 -0000
+X-List-Received-Date: Tue, 16 Apr 2013 16:12:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The meta-oe bbappend only increments PRINC, if we bump INC_PR here we
-can remove that.
+On Tue, 2013-04-16 at 13:49 +0200, Koen Kooi wrote:
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/conf/distro/include/seperatebuilddir.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+> index a9ca240..f60dc5c 100644
+> --- a/meta/conf/distro/include/seperatebuilddir.inc
+> +++ b/meta/conf/distro/include/seperatebuilddir.inc
+> @@ -78,7 +78,9 @@ B_pn-compositeproto = "${SEPB}"
+>  B_pn-compositeproto-native = "${SEPB}"
+>  #B_pn-connman = "${SEPB}"
+>  #B_pn-connman-gnome = "${SEPB}"
+> -B_pn-consolekit = "${SEPB}"
+> +#B_pn-consolekit = "${SEPB}"
+> +#| /build/setup-scripts/build/tmp-angstrom_next-eglibc/work/cortexa8hf-vfp-neon-angstrom-linux-gnueabi/consolekit/0.4.5-r10/ConsoleKit-0.4.5/pam-ck-connector/pam-ck-connector.c:64:26: fatal error: ck-connector.h: No such file or directory
+> +#| compilation terminated.
+>  B_pn-console-tools = "${SEPB}"
+>  B_pn-coreutils = "${SEPB}"
+>  B_pn-coreutils-native = "${SEPB}"
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Neither my local builds or the autobuilder see this. Any idea why some
+builds would fail and others would work?
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index f231e98..7c8876b 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
- SECTION = "libs"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r50"
-+INC_PR = "r52"
- 
- QT4EDEPENDS = ""
- QT_BASE_LIB  ?= "libqt-embedded"
--- 
-1.7.10.4
+Cheers,
+
+Richard
 
 
 
