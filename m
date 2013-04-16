@@ -1,31 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1US1M1-0006yZ-W4 for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 10:35:08 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3G8HlHg020603; Tue, 16 Apr 2013 09:17:47 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JF4E8p-JXFce; Tue, 16 Apr 2013 09:17:47 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3G8HgZK020593
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 16 Apr 2013 09:17:43 +0100
-Message-ID: <1366100234.8670.86.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ml@communistcode.co.uk
-Date: Tue, 16 Apr 2013 09:17:14 +0100
-In-Reply-To: <516D0783.8040608@communistcode.co.uk>
-References: <4914614.5LoTVAGS7p@yiqingliang-pc>
-	<516D0783.8040608@communistcode.co.uk>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gcc compile error
+	(envelope-from <koen@dominion.thruhere.net>) id 1US27i-0003v2-Dh
+	for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 11:24:23 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so123365eae.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2013 02:06:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:content-type:content-transfer-encoding:subject
+	:message-id:date:to:mime-version:x-mailer:x-gm-message-state;
+	bh=kc2sB8mXPI5kqGZlOGAvUWc+RT6d/JXvtTNMUrRS75c=;
+	b=jJchp+LdKTCFASu1Nht6ULjVrWQQazqJn1REUjQPJUDKR5fDWWMK2YG2mJmuG8yhAu
+	Zxj7GaMURj4TROiHkHU2pfTx8I68keroqhOI5OvergMPgq536iytkhPFYazb1W+Vc4vO
+	ycBeoqD0pR/eXZ1NVCvgRgtvnoi8A8HJRYLmYcURbhbEhkcsv3mlqbZaJUt9YbfiMxTT
+	AryD5/2XcvJz14rOOzzNQCmxVCgASUoabJU4tSk+0li50NYQanD0RfLUh3VwoAYvxBs/
+	G9se+vicDq6SNN3noByuQa2LNYbdvY1221MqOe6La9CvkiMfp2RhSxfmWD7tYZk59886
+	tbXg==
+X-Received: by 10.15.76.132 with SMTP id n4mr4375052eey.16.1366103211791;
+	Tue, 16 Apr 2013 02:06:51 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id j44sm1597776eeu.10.2013.04.16.02.06.50
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 16 Apr 2013 02:06:50 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Message-Id: <5B2FD9C3-A643-474B-BC8A-DB24FCCBAA1A@dominion.thruhere.net>
+Date: Tue, 16 Apr 2013 11:06:52 +0200
+To: "openembedded-core@lists.openembedded.org layer"
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQnqiGAh17ca/hkeL61GTi3zVnmo1lh2MXLtd6h6BULi+EINI82G1kdlbpHpo5cregl29i/8
+Subject: Libpng 1.6.x is broken, switch back to 1.5.x before release?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,48 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 08:35:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Apr 2013 09:24:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2013-04-16 at 09:10 +0100, Jack Mitchell wrote:
-> On 16/04/13 05:38, Yi Qingliang wrote:
-> > hello, i'm using archlinux, the gcc is 4.8.0.
-> >
-> > when compiling gcc 4.7.2 in oe, I got the error:
-> >
-> > | /mnt/src/arm9plf-build/tmp/work-shared/gcc-4.7.2-
-> > r19/gcc-4.7.2/libgcc/libgcc2.c: In function '__absvdi2':
-> > | /mnt/src/arm9plf-build/tmp/work-shared/gcc-4.7.2-
-> > r19/gcc-4.7.2/libgcc/libgcc2.c:273:1: internal compiler error: Segmentation
-> > fault
-> >
-> >
-> >
-> 
-> Hi,
-> 
-> Many people have run into this problem so far (myself included) and I 
-> have been told it is the fault of the ArchLinux GCC. Now, I noticed the 
-> ArchLinux devs pushed a new build of GCC out yesterday, have you tried 
-> upgrading to that yet and giving it another go?
-> 
-> If not, my solution was to move to GCC 4.8 using the patches posted to 
-> oe-core/oe-dev.
+Hi,
 
-We're a bit stuck on this one since the host gcc is segfaulting. This is
-very clearly something the host gcc should not do and there is little we
-can do to fix it. The gcc 4.8 codebase doesn't trigger the fault, only
-the earlier ones like 4.7.
+I've been looking into the libpng problems people have been reporting =
+(e.g. #4060) and tried to upgrade 1.16.1 to fix those. Long story short, =
+1.16.1 doesn't fix them. I'm currently using weston as a testbed and was =
+able to narrow the problems with weston down to:
 
-There is an open bug:
+	cairo_surface_t *surface =3D =
+cairo_image_surface_create_from_png(icon);
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4248
+with ends up as:
 
-Cheers,
+	ERROR loading icon from file =
+'/usr/share/icons/gnome/24x24/apps/utilities-terminal.png', error: 'out =
+of memory'=20
 
-Richard
+Reverting the 1.6.0 update and rebuilding cairo against 1.5.x makes it =
+work, no errors in the log and I get window decorations instead of white =
+squares. I'll see if I can get libpng-1.7.0beta07.tar.gz to build today, =
+but I can't spend much time on that.
 
+All in all I'd recommend adding back the 1.5.x recipe and D_P -1'ing the =
+1.6.x recipe. Thanks to shlib renaming the resulting libpng packages are =
+parallel installable and PRSERV takes care of bumping affected =
+recipes/packages. Switching to 1.5.x "just works" if you have this =
+patch:
 
+diff --git a/meta/recipes-graphics/pango/pango.inc =
+b/meta/recipes-graphics/pango/pango.inc
+index f622903..c1beb9e 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -10,7 +10,7 @@ SECTION =3D "libs"
+ LICENSE =3D "LGPLv2.0+"
+=20
+ X11DEPENDS =3D "virtual/libx11 libxft"
+-DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo =
+elfutils harfbuzz"
++DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo =
+elfutils harfbuzz libpng"
+
+regards,
+
+Koen=
 
 
