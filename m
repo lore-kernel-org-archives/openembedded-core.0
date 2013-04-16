@@ -1,33 +1,30 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1USDX1-0007K8-3L for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 23:35:21 +0200
+	id 1USDhd-0008LZ-81 for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 23:46:26 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3GLI5nI021952; Tue, 16 Apr 2013 22:18:05 +0100
+	r3GLT3cc022327; Tue, 16 Apr 2013 22:29:03 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7YxXxiMhm6Q9; Tue, 16 Apr 2013 22:18:04 +0100 (BST)
+	with LMTP id xUSWht9c1cDf; Tue, 16 Apr 2013 22:29:03 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3GLHwoA021941
+	r3GLSv3M022314
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 16 Apr 2013 22:17:59 +0100
-Message-ID: <1366147047.8670.105.camel@ted>
+	verify=NOT); Tue, 16 Apr 2013 22:28:59 +0100
+Message-ID: <1366147707.8670.110.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 16 Apr 2013 22:17:27 +0100
-In-Reply-To: <CALbNGRQM15TSn5M52Bk0SuadUOEMN2f8qM0RHV3rBTL4jRbUQA@mail.gmail.com>
-References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
-	<CALbNGRQM15TSn5M52Bk0SuadUOEMN2f8qM0RHV3rBTL4jRbUQA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 16 Apr 2013 22:28:27 +0100
+In-Reply-To: <1366115411-15270-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1366115411-15270-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: Evolution 3.6.2-0ubuntu0.1 
 Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r3GLI5nI021952
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: experiences with images based on current layer heads
+Subject: Re: [PATCH] systemd: use AC_CHECK_TOOL instead of AC_PATH_TOOL when checking objcopy, strings, gperf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,56 +37,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 21:35:21 -0000
+X-List-Received-Date: Tue, 16 Apr 2013 21:46:32 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-04-16 at 14:17 +0200, Andreas M=C3=BCller wrote:
-> On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
-> > Hi,
-> >
-> > when migration of systemd to oe-core turned to unbuildable I decided
-> > to freeze my images and stopped further tests. Now that many issues
-> > were fixed and we are close to another release I built my standard
-> > xfce-based image based on latest layer HEADs. With this I face some
-> > issues which I would like to share:
-> >
-> > 1. X sessions crash with OOM. This is reproducible by opening
-> > google-maps with midori and changing to satellite view. In
-> > Xorg.0.log.old I see only
-> >
-> > | (EE)
-> > | (EE) Backtrace:
-> > | (EE)
-> > | (EE) Segmentation fault at address 0x9
-> > | (EE) BUG: triggered 'if (inSignalContext)'
-> > | (EE) BUG: log.c:502 in LogVMessageVerb()
-> > | (EE) Warning: attempting to log data in a signal unsafe manner whil=
-e
-> > in signal context.
-> > | Please update to check inSignalContext and/or use
-> > LogMessageVerbSigSafe() or ErrorFSigSafe().
-> > | The offending log format message is:
-> > |
-> > | Fatal server error:
-> > |
-> > | (EE)
-> > | (EE) Backtrace:
-> > | (EE)
->=20
-> Seems I found this one: it is caused by undefined signedness for char.
-> ARM uses unsigned by default but in the code we find
->=20
-> if (pClient->smart_priority < 0)
->=20
-> After final tests and sending upstream I'll send a patch here.
+On Tue, 2013-04-16 at 14:30 +0200, Martin Jansa wrote:
+> * with external toolchain I have different HOST_PREFIX and HOST_SYS
+>   AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
+>   then it tries objcopy without prefix which is found on host, but
+>   that objcopy does not work for arm libs
+> * with internal toolchain gperf is not prefixed with HOST_PREFIX, but
+>   fallback to "gperf" only finds the one in native sysroot first
+> * based on http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/037985.html
+>   Khem suggested to export strings and gperf from bitbake.conf instead
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/conf/bitbake.conf                             |  2 ++
+>  ...se-AC_CHECK_TOOL-for-objcopy-strings-and-.patch | 41 ++++++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_199.bb           |  1 +
+>  3 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index cd5d61e..a84ae38 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -455,6 +455,8 @@ export RANLIB = "${HOST_PREFIX}ranlib"
+>  export STRIP = "${HOST_PREFIX}strip"
+>  export OBJCOPY = "${HOST_PREFIX}objcopy"
+>  export OBJDUMP = "${HOST_PREFIX}objdump"
+> +export STRINGS = "${HOST_PREFIX}strings"
+> +export GPERF = "${HOST_PREFIX}gperf"
+>  export NM = "${HOST_PREFIX}nm"
+>  PYTHON = "${@sys.executable}"
 
-Nice work in tracking that down! :)
+At this point in the release cycle I'm not adding new global exports to
+ever piece of software in the system. I appreciate in theory nothing bad
+should happen however the reality is sometimes different :/. I'm taking
+a *lot* of risks in including as many changes as I have, I don't want to
+add this one too.
+
+I'm also not sure its a good idea in general to build up more exports in
+bitbake.conf if we haven't yet needed them.
+
+I'll take a version of this which does this in the systemd recipe.
 
 Cheers,
 
 Richard
+
+> diff --git a/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch b/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+> new file mode 100644
+> index 0000000..d847bbc
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+> @@ -0,0 +1,41 @@
+> +From d6f92bcbbae9a577adb9588c7b2783a5d0bf343d Mon Sep 17 00:00:00 2001
+> +From: Martin Jansa <Martin.Jansa@gmail.com>
+> +Date: Tue, 16 Apr 2013 14:20:41 +0200
+> +Subject: [PATCH] configure: use AC_CHECK_TOOL for objcopy, strings and gperf
+> +
+> +* using AC_PATH_TOOL does not allow to override it from shell environment
+> +  which is useful when cross-compiling
+> +* with external toolchain I have different HOST_PREFIX and HOST_SYS
+> +  AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
+> +  which is available only as ${TARGET_PREFIX}objcopy then it tries
+> +  objcopy without prefix which is found on host, but that objcopy
+> +  does not work for !host (e.g. arm when building on x86) libs
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +Upstream-Status: Submitted
+> +http://lists.freedesktop.org/archives/systemd-devel/2013-April/010468.html
+> +
+> +---
+> + configure.ac | 6 +++---
+> + 1 file changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 33b0ca9..519f1a9 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -86,9 +86,9 @@ GOBJECT_INTROSPECTION_CHECK([1.31.1])
+> +    AM_CONDITIONAL([HAVE_INTROSPECTION], [false])
+> +    enable_introspection=no])
+> + 
+> +-AC_PATH_TOOL(OBJCOPY, objcopy)
+> +-AC_PATH_TOOL(STRINGS, strings)
+> +-AC_PATH_TOOL(GPERF, gperf)
+> ++AC_CHECK_TOOL(OBJCOPY, objcopy)
+> ++AC_CHECK_TOOL(STRINGS, strings)
+> ++AC_CHECK_TOOL(GPERF, gperf)
+> + if test -z "$GPERF" ; then
+> +         AC_MSG_ERROR([*** gperf not found])
+> + fi
+> +-- 
+> +1.8.1.5
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+> index d22df12..e8ad8f5 100644
+> --- a/meta/recipes-core/systemd/systemd_199.bb
+> +++ b/meta/recipes-core/systemd/systemd_199.bb
+> @@ -27,6 +27,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+>             file://0002-readahead-chunk-on-spinning-media.patch \
+>             file://0003-readahead-cleanups.patch \
+>             file://0013-systemd-sysctl-Handle-missing-etc-sysctl.conf-proper.patch \
+> +           file://0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch \
+>             file://199-firmware.patch \
+>             file://init \
+>            "
+
 
 
 
