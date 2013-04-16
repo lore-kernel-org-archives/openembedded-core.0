@@ -1,42 +1,34 @@
-Received: from mail-da0-f54.google.com ([209.85.210.54])
+Received: from mail-ee0-f46.google.com ([74.125.83.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1USDtj-000134-RV
+	(envelope-from <martin.jansa@gmail.com>) id 1USEDf-0003fP-IB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 23:58:46 +0200
-Received: by mail-da0-f54.google.com with SMTP id p1so433247dad.41
+	Wed, 17 Apr 2013 00:19:23 +0200
+Received: by mail-ee0-f46.google.com with SMTP id d49so450197eek.19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 14:41:12 -0700 (PDT)
+	Tue, 16 Apr 2013 15:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=ojJt0egjP3qOfogUtg2g7kLCaXCOBiEVU1x58cedw00=;
-	b=ohCbRvDkwmOKD5Il3bTZ6Q6a4io8NvvdF+M02XCIp8SWXS37KjNsyBi4xNxQky9ZED
-	Ly7XyYjPKroL8MFoHGmsGDsuMF03djac5R63yC5IPQtHLGkHqHalHA5XsDqfOIAgTFxl
-	I+F+sGqPv5uUHT1idXI+zBE5pOBMatnZoboDRCN3oiBIfsxqADIWAdiIj8HFxSz8srTT
-	ktWMV4lS3yz6jlAe8LCTzuIHXsh5PGabGU+QCx3HsoMqVUgI4edewFdsQ9KSC8iomn5W
-	upywKjUIyBpT9PautipTKtDe2XkCP3rbZLdTmrrSVAFrywkOKfFC7EV4TySdp1VPqozu
-	OGyg==
-X-Received: by 10.66.81.2 with SMTP id v2mr5296976pax.204.1366148471929;
-	Tue, 16 Apr 2013 14:41:11 -0700 (PDT)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=wnu8nmeiXJgVZDlBH9oXtzovhj2lwuLG5+JjXABqeDo=;
+	b=Cv/QTXKEru5rLFLv0nIZMklwAHHI4/oWoSWIGQbnjo9RfFOykGILGEjOSFX+bBCps8
+	UK2B/K4WVGdujIKM7qiNNo+j4bukDSI6jcn4VsVMvvtqIGnALe96gsO16ZIWHWfTqISz
+	I+Jxpq5mllC3Df1HDOAwzgYIEr2D2/NEildwOzr16kBwH6OJc4LjjGtkSFtPbq6wYpyN
+	E3SLaU02iEQF++hPK282zjsIkK7dBBwr36HFFppKAq63bzNypvH43E5pVco+wuTcYvKS
+	nDxIFzrWpxP5/cbRJzgNTUkvLo3MmKrpUya+gH5NLeKyqe7nZeI0JhDnvL5TEpDNwByM
+	/cHA==
+X-Received: by 10.15.83.73 with SMTP id b49mr10825184eez.25.1366149708882;
+	Tue, 16 Apr 2013 15:01:48 -0700 (PDT)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id lo7sm4120953pab.19.2013.04.16.14.41.08
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 16 Apr 2013 14:41:10 -0700 (PDT)
-Date: Tue, 16 Apr 2013 23:41:08 +0200
+	by mx.google.com with ESMTPS id u44sm5130821eel.7.2013.04.16.15.01.47
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 16 Apr 2013 15:01:48 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130416214108.GD29302@jama.dyndns-home.com>
-References: <cover.1365797632.git.paul.eggleton@linux.intel.com>
-	<30edf2f0744b6ce209455d2c5c63015e06f09265.1365797632.git.paul.eggleton@linux.intel.com>
-	<20130412211005.GY2477@jama> <1365802242.16702.71.camel@ted>
-	<20130416170909.GR10628@jama.dyndns-home.com>
-	<1366146366.8670.102.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1366146366.8670.102.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] classes/sanity: fix handling of bblayers.conf updating
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Apr 2013 00:01:44 +0200
+Message-Id: <1366149704-12490-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+In-Reply-To: <1366147707.8670.110.camel@ted>
+References: <1366147707.8670.110.camel@ted>
+Subject: [PATCHv2] systemd: use AC_CHECK_TOOL instead of AC_PATH_TOOL when checking objcopy, strings, gperf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,154 +41,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 21:59:12 -0000
-X-Groupsio-MsgNum: 38037
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ILuaRSyQpoVaJ1HG"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 16 Apr 2013 22:19:23 -0000
 
---ILuaRSyQpoVaJ1HG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* with external toolchain I have different HOST_PREFIX and HOST_SYS
+  AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
+  then it tries objcopy without prefix which is found on host, but
+  that objcopy does not work for arm libs
+* with internal toolchain gperf is not prefixed with HOST_PREFIX, but
+  fallback to "gperf" only finds the one in native sysroot first
+* based on http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/037985.html
 
-On Tue, Apr 16, 2013 at 10:06:06PM +0100, Richard Purdie wrote:
-> On Tue, 2013-04-16 at 19:09 +0200, Martin Jansa wrote:
-> > OK, so it's different than hangs I'm seeing here, because I'm still see=
-ing them with latest oe-core
->=20
-> Yes, that was almost certainly a different issue.
->=20
-> > $ . ./oe-init-bitbake-build-env && bitbake my-image
-> > Altered environment for machine@distro development (this is from oe-ini=
-t-bitbake-build-env)
-> > # and nothing else is shown after that
->=20
-> So just to ensure I understand this, it never prints any messages at
-> all?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...se-AC_CHECK_TOOL-for-objcopy-strings-and-.patch | 41 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_199.bb           |  6 +++-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
 
-yes nothing at all from bitbake, only that echo from setup script
-(oe-init-bitbake-build-env)
+diff --git a/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch b/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+new file mode 100644
+index 0000000..d847bbc
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+@@ -0,0 +1,41 @@
++From d6f92bcbbae9a577adb9588c7b2783a5d0bf343d Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Tue, 16 Apr 2013 14:20:41 +0200
++Subject: [PATCH] configure: use AC_CHECK_TOOL for objcopy, strings and gperf
++
++* using AC_PATH_TOOL does not allow to override it from shell environment
++  which is useful when cross-compiling
++* with external toolchain I have different HOST_PREFIX and HOST_SYS
++  AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
++  which is available only as ${TARGET_PREFIX}objcopy then it tries
++  objcopy without prefix which is found on host, but that objcopy
++  does not work for !host (e.g. arm when building on x86) libs
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Upstream-Status: Submitted
++http://lists.freedesktop.org/archives/systemd-devel/2013-April/010468.html
++
++---
++ configure.ac | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 33b0ca9..519f1a9 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -86,9 +86,9 @@ GOBJECT_INTROSPECTION_CHECK([1.31.1])
++    AM_CONDITIONAL([HAVE_INTROSPECTION], [false])
++    enable_introspection=no])
++ 
++-AC_PATH_TOOL(OBJCOPY, objcopy)
++-AC_PATH_TOOL(STRINGS, strings)
++-AC_PATH_TOOL(GPERF, gperf)
+++AC_CHECK_TOOL(OBJCOPY, objcopy)
+++AC_CHECK_TOOL(STRINGS, strings)
+++AC_CHECK_TOOL(GPERF, gperf)
++ if test -z "$GPERF" ; then
++         AC_MSG_ERROR([*** gperf not found])
++ fi
++-- 
++1.8.1.5
++
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index d22df12..bbe19ea 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+ PROVIDES = "udev"
+ 
+ PE = "1"
+-PR = "r2"
++PR = "r3"
+ 
+ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -27,6 +27,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+            file://0002-readahead-chunk-on-spinning-media.patch \
+            file://0003-readahead-cleanups.patch \
+            file://0013-systemd-sysctl-Handle-missing-etc-sysctl.conf-proper.patch \
++           file://0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch \
+            file://199-firmware.patch \
+            file://init \
+           "
+@@ -77,6 +78,9 @@ EXTRA_OECONF_append_libc-uclibc = " --disable-myhostname "
+ do_configure_prepend() {
+ 	export CPP="${HOST_PREFIX}cpp ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
+ 
++	export STRINGS = "${HOST_PREFIX}strings"
++	export GPERF = "${HOST_PREFIX}gperf"
++
+ 	sed -i -e 's:=/root:=${ROOT_HOME}:g' units/*.service*
+ }
+ 
+-- 
+1.8.1.5
 
-> > ps auxf (shortened paths and ascii tree)
-> >=20
-> > bitbake  17625  0.0  0.0   4396   612 pts/18   S+   18:31   0:00  \_ /b=
-in/sh -c . ./oe-init-bitbake-build-env && bitbake  my-image
-> > bitbake  17626  0.0  0.0   4396   700 pts/18   S+   18:31   0:00     \_=
- /bin/sh /OE/build/oe-core/scripts/bitbake my-image
-> > bitbake  17656  0.2  1.0 219356 168120 pts/18  S+   18:31   0:02       =
- \_ python /OE/build/bitbake/bin/bitbake my-image
-> > bitbake  18504  0.0  1.0 289044 166556 pts/18  Sl+  18:31   0:00       =
-    \_ python /OE/build/bitbake/bin/bitbake my-image
-> >=20
-> > Not sure if there is better way to see what's going on in those python =
-processes, here is strace:
-> >=20
-> > # strace -p 17656
-> > Process 17656 attached
-> > wait4(18504,=20
-> >=20
-> > # strace -p 18504
-> > Process 18504 attached
-> > recvfrom(12,=20
-> >=20
-> > Hitting Ctrl+C with strace still running:
-> > # strace -p 17656
-> > Process 17656 attached
-> > wait4(18504, 0x7fffd2abdf80, 0, NULL)   =3D ? ERESTARTSYS (To be restar=
-ted if SA_RESTART is set)
-> > --- SIGINT {si_signo=3DSIGINT, si_code=3DSI_KERNEL, si_value=3D{int=3D1=
-2337, ptr=3D0x3031}} ---
-> > wait4(18504,
-> >=20
-> > Process 18504 attached
-> > recvfrom(12, 0xb773684, 8192, 0, 0, 0)  =3D ? ERESTARTSYS (To be restar=
-ted if SA_RESTART is set)
-> > --- SIGINT {si_signo=3DSIGINT, si_code=3DSI_KERNEL, si_value=3D{int=3D1=
-2337, ptr=3D0x3031}} ---
-> > rt_sigreturn()                          =3D -1 EINTR (Interrupted syste=
-m call)
-> > futex(0xb16e5a0, FUTEX_WAIT_PRIVATE, 0, NULL
-> >=20
-> > More Ctrl+C only repeats it in both processes but bitbake does not quit
-> >=20
-> > One more python process is created and disowned by parent and becames c=
-hild of init and dies later
-> > bitbake  18524  0.0  1.0 289044 165128 ?       S    18:31   0:00 python=
- /OE/build/bitbake/bin/bitbake my-image
-> > but bitbake is still hanging until I send kill 18504 from another termi=
-nal
-> >=20
-> > Process 18504:
-> > futex(0xb16e5a0, FUTEX_WAIT_PRIVATE, 0, NULL) =3D ? ERESTARTSYS (To be =
-restarted if SA_RESTART is set)
-> > --- SIGINT {si_signo=3DSIGINT, si_code=3DSI_KERNEL, si_value=3D{int=3D1=
-2337, ptr=3D0x3031}} ---
-> > rt_sigreturn()                          =3D -1 EINTR (Interrupted syste=
-m call)
-> > futex(0xb16e5a0, FUTEX_WAIT_PRIVATE, 0, NULL) =3D ? ERESTARTSYS (To be =
-restarted if SA_RESTART is set)
-> > --- SIGTERM {si_signo=3DSIGTERM, si_code=3DSI_USER, si_pid=3D23837, si_=
-uid=3D1026} ---
-> > +++ killed by SIGTERM +++
-> >=20
-> > Process 17656: (iirc you said that python-logging module is not safe wi=
-th multiple processes and it looks like logging something)
-> > # strace -p 17656
-> > Process 17656 attached
-> > wait4(18504, 0x7fffd2abdf80, 0, NULL)   =3D ? ERESTARTSYS (To be restar=
-ted if SA_RESTART is set)
-> > --- SIGINT {si_signo=3DSIGINT, si_code=3DSI_KERNEL, si_value=3D{int=3D1=
-2337, ptr=3D0x3031}} ---
-> > wait4(18504, 0x7fffd2abdf80, 0, NULL)   =3D ? ERESTARTSYS (To be restar=
-ted if SA_RESTART is set)
-> > --- SIGINT {si_signo=3DSIGINT, si_code=3DSI_KERNEL, si_value=3D{int=3D1=
-2337, ptr=3D0x3031}} ---
-> >=20
-> > read(4, "\200\2clogging\nLogRecord\nq\1)\201q\2}q\3(U"..., 554) =3D 554
-> > select(5, [4], NULL, NULL, {0, 0})      =3D 1 (in [4], left {0, 0})
-> > read(4, "\0\0\2\34", 4)                 =3D 4
->=20
-> These look like pickled python LogRecord objects being passed between
-> the processes. If this happens again, pass the -s 8912 option to strace
-> (increases the size of the string dumped) and lets see if we can get the
-> complete log record. We should be able to unpickle them and get some
-> idea what log messages it was passing around at least...
 
-OK will do
 
-> > I'll put this in bug report later, but if you see what other informatio=
-n could be useful,
-> > I'll add it next time I see bitbake hanging like this (it doesn't happe=
-n every time, probably more
-> > with machine under higher load).
->=20
-> Ideally we need to turn this into a 100% reproducer somehow. Failing
-> that, perhaps more of the LogRecord can give us some clue what is going
-> on. I'm struggling for other ideas...
-
-I would say it's not depending on metadata, because build works fine if
-I kill bitbake and start it again. I've also seen it in very different
-layer setups (including different DISTROs and IIRC also with distro-less
-oe-core only).
-
-Thinking about it it maybe happens more often when tmp-eglibc is empty,
-I'll try couple of builds with tmp-eglibc removed to see if I can
-reproduce it faster then every 10th build or so.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ILuaRSyQpoVaJ1HG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlFtxXQACgkQN1Ujt2V2gBwPUwCfQKgLD8FcPG6D08dInXoC6df6
-DU8AoJjlAm0zYFKnH8o5qYSenjNoI0wK
-=YlBH
------END PGP SIGNATURE-----
-
---ILuaRSyQpoVaJ1HG--
