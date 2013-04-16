@@ -1,42 +1,35 @@
-Received: from mail-ee0-f50.google.com ([74.125.83.50])
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1US2wG-0001OV-Hs
+	(envelope-from <ross.burton@intel.com>) id 1US350-0002C8-NU
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 12:16:53 +0200
-Received: by mail-ee0-f50.google.com with SMTP id e53so148958eek.37
+	Tue, 16 Apr 2013 12:25:39 +0200
+Received: by mail-vc0-f180.google.com with SMTP id m16so226340vca.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 02:59:06 -0700 (PDT)
+	Tue, 16 Apr 2013 03:08:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=mr4Nnwk6EdL2CGdxq1+1g3/K0eMdBHWMaRH0vCMs9NE=;
-	b=C+u6RU9JCDLZYJqRjxUlK+aLAZA+JhjmddWMVD/IckOqzc3quaiTT45VQx5lKbmT4Z
-	gEPhsLezx8jr0sILe20XG7hysia7p/pr72qXG/dhRAMHpMzEhGCuOnKkYyCTZGIX2W/1
-	uBKHwpL7mUuauOkeOkv8w9RvAdBzYhNG7OnqAQ9zD3yNdZfqCpkZtZK1zDqhNbMAp9gU
-	XHWPS4PNoJC/i8bui0G9OeV5sDXenWU0gjdJ2oVU2ZN0cQvpct6dP2xcH9jaCKIrT0tq
-	Xx8GEDtUIDk/wILKtJBChyrscp3aP6lYiH2MlIxBYdq6BdRL09+ExAtJJ4FJV/NmPf/7
-	xbLw==
-X-Received: by 10.15.48.4 with SMTP id g4mr4722033eew.28.1366106346474;
-	Tue, 16 Apr 2013 02:59:06 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::54ef:65c2:8845:b14b?
-	([2001:610:612:0:54ef:65c2:8845:b14b])
-	by mx.google.com with ESMTPS id 8sm1844297eeg.15.2013.04.16.02.59.04
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 16 Apr 2013 02:59:05 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1366106058.8670.89.camel@ted>
-Date: Tue, 16 Apr 2013 11:59:08 +0200
-Message-Id: <EDFD893A-99B8-4C91-86DB-FFD37D78200E@dominion.thruhere.net>
-References: <1366103412-10924-1-git-send-email-koen@dominion.thruhere.net>
-	<1366106058.8670.89.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQl8nrg7w2DDSyAGhbTD8ZC7SGWB/xS0ldAWJNtSMUpe49OaCd3Z+HiAgCwZ6xvC+m19RzKS
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=K7u6Y2c4Nb54iy+BCIjg94jFoEQgi5orwOuscNeoEFk=;
+	b=WFGlk6uvDpIMqtNdq5OBWS9p5/cmME/I1xhoTwKVrbML2TNJgQ1QC9A8TpC+PZCNsY
+	s1B7iewT9QD89scdJDkkZl2AMvCdl+CwxNUpxriEFR/LPt768Mokh6tWlLQkv67T8tyX
+	7zuJiOr4sPQfDCuboqjuWs7NESva3QSqLWEfaxyLwc5V29N3be7PGesmiUjRmDwGtdyN
+	snj125a3ddbszqQjQREVSoH177mu+BIEp8vnlKqtJP+m4qb/hXI2RWH9JA4GtUU61HCe
+	0X/5Q6of89wPTRInTDPHSy07UF4dw0RM5a0oozX+xzSXWfzaoQK0Su44xVqJG9lKv2+C
+	Vgrw==
+X-Received: by 10.52.28.139 with SMTP id b11mr875769vdh.4.1366106888332; Tue,
+	16 Apr 2013 03:08:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.100.68 with HTTP; Tue, 16 Apr 2013 03:07:48 -0700 (PDT)
+In-Reply-To: <1366069157-3166-1-git-send-email-obi@opendreambox.org>
+References: <1366069157-3166-1-git-send-email-obi@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Apr 2013 11:07:48 +0100
+Message-ID: <CAJTo0LbJo8Te2msLtYQAQizQkYqX2sRizq2M03k=0Wh4-YTVQQ@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+X-Gm-Message-State: ALoCoQkCCOR/o9DEntCTn26Zgz0GjrQAu0/4FqRpfWsOq668p7j9Tdv6G6fxoCk81omEt5kMrCik
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pango: add libpng to DEPENDS
+Subject: Re: [PATCH] mesa: don't fail if x11 isn't available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,66 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 10:16:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Apr 2013 10:25:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 16 April 2013 00:39, Andreas Oberritter <obi@opendreambox.org> wrote:
+> Patches backported from mesa Git and from mesa-dev mailing list.
+>
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 
-Op 16 apr. 2013, om 11:54 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-> On Tue, 2013-04-16 at 11:10 +0200, Koen Kooi wrote:
->> Pango links indirectly to libpng through the cairo-png dependency, =
-but
->> does encode the libpng version in its .la files. Changing libpng
->> versions will make a rebuild fail, so let's cheat a bit to let sstate
->> rebuild pango as well to get around this.
->>=20
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> meta/recipes-graphics/pango/pango.inc | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> This doesn't follow. If pango -> cairo -> libpng and libpng changes,
-> both cairo and pango will rebuild.
+Those patches were in the early wayland branches for Yocto, they must
+have disappeared at some point.
 
-If it did get rebuilt it still had references to non-existent libpng16  =
-.la in its .la files.
-
-> What might be the problem is that autotools (or more likely libtool)
-> isn't rebuilding correctly. This was solved with the separate build
-> directory code. Have you enabled that?
-
-Not that I know off. How do I do that?
-
-regards,
-
-Koen
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->> diff --git a/meta/recipes-graphics/pango/pango.inc =
-b/meta/recipes-graphics/pango/pango.inc
->> index f622903..c1beb9e 100644
->> --- a/meta/recipes-graphics/pango/pango.inc
->> +++ b/meta/recipes-graphics/pango/pango.inc
->> @@ -10,7 +10,7 @@ SECTION =3D "libs"
->> LICENSE =3D "LGPLv2.0+"
->>=20
->> X11DEPENDS =3D "virtual/libx11 libxft"
->> -DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv =
-cairo elfutils harfbuzz"
->> +DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv =
-cairo elfutils harfbuzz libpng"
->>=20
->> PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'x11', =
-'x11', '', d)}"
->> PACKAGECONFIG[x11] =3D "--with-x,--without-x,${X11DEPENDS}"
->=20
->=20
-
+Ross
 
 
