@@ -1,34 +1,32 @@
-Received: from mail-ve0-f174.google.com ([209.85.128.174])
+Received: from mail-ve0-f176.google.com ([209.85.128.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1US2YI-0006cZ-Ra
+	(envelope-from <schnitzeltony@googlemail.com>) id 1US2cT-00078p-Om
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 11:51:58 +0200
-Received: by mail-ve0-f174.google.com with SMTP id jz10so224842veb.33
+	Tue, 16 Apr 2013 11:56:10 +0200
+Received: by mail-ve0-f176.google.com with SMTP id cz11so224695veb.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 02:34:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=HROGKc9rIBTwoSxiyiLhQNNVc6yqOlPm3d35NsEPB+M=;
-	b=jqDjEMseP8JynqEHtiEIZ8fBUvDvFCNP3O7IYX41rDWw0eiyQjyOcdSbeur3un9nle
-	SBzGf+yGWiY9++5aXu23AfMyT+lZ8VBB6q5VN+bLeMNHrFCGQkSV5gQTS6wJGfDm1Dab
-	uNPs5HG3WFdGopsF9+Xda537/GpSlog1v1hp234EmzHwpjf+PnfSx81H1b9odOVhrdgh
-	10nFEevGyRELxfYiPt5tKo/Y7wswNl4aXl+jnryvZTvtKULEwnZyAQ/LNJG6g5NTMA7g
-	JlmcD8Sf9UaVPgL5LqgwVCgzopR03KCbaNMRd1r+jCIZO70SS9rpcvCt6/QOBzrKvLQF
-	JYkw==
-X-Received: by 10.52.23.115 with SMTP id l19mr786352vdf.55.1366104860475; Tue,
-	16 Apr 2013 02:34:20 -0700 (PDT)
+	Tue, 16 Apr 2013 02:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=yffGMFPDUSeEy8d/m6vaLPeECHPuo3T1ASU335G41ws=;
+	b=m4WwYx70NM7W8e55zIQAYvGf2sn2Oj6hB7yoAIROusFbcPhw7k16GUNi9ZyV0Rd9NP
+	Bqoygvp/g7RMuHz37ocVSFchEQVsLTl2pX62oGOrjHekQcBS5fX3nRMWCFEm3AZ9TLp7
+	ZwB2sM3BtliOkzOrL+yk4mNyHXkeT63ySgiBwepyRin7Z19EvH4XGBWOAld5Fv9Cr5l/
+	QIP2Z5O5sDHlTM4qWomdd2G4aH1y58KFehTUN5heOpynV6ZxAt+iyWgeoewtxTDnj5VM
+	mWTHBSga89x4Upo4zpVf2Llm1048eEIVFN9BchkEEyLSWZBbDJEZjrF6Vu5gFoWSYte/
+	JtEw==
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 16 Apr 2013 02:34:00 -0700 (PDT)
+X-Received: by 10.52.34.168 with SMTP id a8mr776392vdj.75.1366105119504; Tue,
+	16 Apr 2013 02:38:39 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Tue, 16 Apr 2013 02:38:39 -0700 (PDT)
 In-Reply-To: <5B2FD9C3-A643-474B-BC8A-DB24FCCBAA1A@dominion.thruhere.net>
 References: <5B2FD9C3-A643-474B-BC8A-DB24FCCBAA1A@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Apr 2013 10:34:00 +0100
-Message-ID: <CAJTo0LYnit+CFFvsP7e0HFkKJs81H-D=31n_urgoL6MbVmqzGg@mail.gmail.com>
+Date: Tue, 16 Apr 2013 11:38:39 +0200
+Message-ID: <CALbNGRSaN3_rkYW7zcd68XWuRqU0iMQ5C3oy9KdgKX_mwmE2-A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQltLpixt8ZRvvy2l0Di3z2MOPse1N9f6DXRuXoRbnigjl6+sEOKd1+YzQcTWIwtIB0jmJkq
 Cc: "openembedded-core@lists.openembedded.org layer"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Libpng 1.6.x is broken, switch back to 1.5.x before release?
@@ -44,13 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 09:52:05 -0000
+X-List-Received-Date: Tue, 16 Apr 2013 09:56:13 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 16 April 2013 10:06, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On Tue, Apr 16, 2013 at 11:06 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
+ote:
+> Hi,
+>
 > I've been looking into the libpng problems people have been reporting (e.=
 g. #4060) and tried to upgrade 1.16.1 to fix those. Long story short, 1.16.=
 1 doesn't fix them. I'm currently using weston as a testbed and was able to=
@@ -63,29 +62,37 @@ icon);
 >
 >         ERROR loading icon from file '/usr/share/icons/gnome/24x24/apps/u=
 tilities-terminal.png', error: 'out of memory'
+>
+> Reverting the 1.6.0 update and rebuilding cairo against 1.5.x makes it wo=
+rk, no errors in the log and I get window decorations instead of white squa=
+res. I'll see if I can get libpng-1.7.0beta07.tar.gz to build today, but I =
+can't spend much time on that.
+>
+> All in all I'd recommend adding back the 1.5.x recipe and D_P -1'ing the =
+1.6.x recipe. Thanks to shlib renaming the resulting libpng packages are pa=
+rallel installable and PRSERV takes care of bumping affected recipes/packag=
+es. Switching to 1.5.x "just works" if you have this patch:
+>
+> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphic=
+s/pango/pango.inc
+> index f622903..c1beb9e 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -10,7 +10,7 @@ SECTION =3D "libs"
+>  LICENSE =3D "LGPLv2.0+"
+>
+>  X11DEPENDS =3D "virtual/libx11 libxft"
+> -DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo el=
+futils harfbuzz"
+> +DEPENDS =3D "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo el=
+futils harfbuzz libpng"
+>
+> regards,
+>
+> Koen
+I would like to bisect this - test case are the network-manager-applet
+icons for WLAN. If libpng-1.7.0beta07 fixes let me know.
 
-I just spoke to Chris Wilson about this.  libpng 1.6 is throwing more
-warnings to the caller, often about invalid PNG extensions that are
-being ignored apparently, and cairo-png is being over-zealous (his
-words) in handling the warnings, by turning them into errors.
-
-static void
-png_simple_warning_callback (png_structp png,
-	                     png_const_charp error_msg)
-{
-    cairo_status_t *error =3D png_get_error_ptr (png);
-
-    /* default to the most likely error */
-    if (*error =3D=3D CAIRO_STATUS_SUCCESS)
-	*error =3D _cairo_error (CAIRO_STATUS_NO_MEMORY);
-
-    /* png does not expect to abort and will try to tidy up after a warning=
- */
-}
-
-The warnings are just warnings and libpng will continue to load the
-images.  Sending a patch once this git clone has finished.
-
-Ross
+Andreas
 
 
