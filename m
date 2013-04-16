@@ -1,37 +1,33 @@
-Received: from arroyo.ext.ti.com ([192.94.94.40])
+Received: from mail-vc0-f169.google.com ([209.85.220.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1US4oT-0005gn-5Q
+	(envelope-from <schnitzeltony@googlemail.com>) id 1US56Y-0007Jw-43
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 14:17:00 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r3GBxAdg028355
+	Tue, 16 Apr 2013 14:35:25 +0200
+Received: by mail-vc0-f169.google.com with SMTP id hx10so322712vcb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 06:59:10 -0500
-Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id r3GBxA3g029019
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 06:59:10 -0500
-Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
-	DLEE71.ent.ti.com ([fe80::4dce:5c82:1ad0:d462%28]) with mapi id
-	14.02.0342.003; Tue, 16 Apr 2013 06:59:10 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: "Maupin, Chase" <chase.maupin@ti.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCHv2] u-boot: Add UBOOT_LOCALVERSION to control version
-	string
-Thread-Index: AQHONrTyMEWf9/PHUkyrTD+wR8JQQZjYxijg
-Date: Tue, 16 Apr 2013 11:59:10 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED101594F0D62@DLEE11.ent.ti.com>
-References: <1365685393-611-1-git-send-email-Chase.Maupin@ti.com>
-	<1365685393-611-2-git-send-email-Chase.Maupin@ti.com>
-In-Reply-To: <1365685393-611-2-git-send-email-Chase.Maupin@ti.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [157.170.170.90]
+	Tue, 16 Apr 2013 05:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type:content-transfer-encoding;
+	bh=P8xRbiDVEb7M0hB92k60qC3ktA9jhYm7Iw9rWrMkq/g=;
+	b=XHrFRGXPkM2L7X/lJiS4Nh5agiV+PYJOZNABKbVk5fE6DPhm7n70vKouF+eEpGoFYo
+	MQLDWlUcfSjQ6pZJ+NGk6WO7EqjoTSuAhHTk+R1vdQoiGxCfgXO7yOUUwPS26b+kfR1U
+	trJDDHSzHanqGr1EtkE/gtKs/qIahOkVNus8SOtTczK0UMDtdywxw5PgPy7UOARq23ig
+	pwcNFNNYRyAGqQsAcjUVt9fgJFyhZtlHVYX2cOk2GVVe/3/BGpIcGNR0nY3xi8lZpf4I
+	ZYXVLJX+VKTsWk6WAs597VEPYQ/ZRhtKGXyy5sTqzRdCrzPq8rvwTjAZbmA4o9LHLjNx
+	a3lA==
 MIME-Version: 1.0
-Subject: Re: [PATCHv2] u-boot: Add UBOOT_LOCALVERSION to control version string
+X-Received: by 10.58.50.7 with SMTP id y7mr1332904ven.24.1366114671644; Tue,
+	16 Apr 2013 05:17:51 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Tue, 16 Apr 2013 05:17:51 -0700 (PDT)
+In-Reply-To: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+References: <CALbNGRSj7uahrGy1DoSe5zJasciTf2Q7j1xj5N8V-cs_WOW+4g@mail.gmail.com>
+Date: Tue, 16 Apr 2013 14:17:51 +0200
+Message-ID: <CALbNGRQM15TSn5M52Bk0SuadUOEMN2f8qM0RHV3rBTL4jRbUQA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: experiences with images based on current layer heads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,82 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 12:17:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
+X-List-Received-Date: Tue, 16 Apr 2013 12:35:26 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Maupin, Chase
-> Sent: Thursday, April 11, 2013 8:03 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Maupin, Chase
-> Subject: [PATCHv2] u-boot: Add UBOOT_LOCALVERSION to control
-> version string
->=20
-> * Add a variable called UBOOT_LOCALVERSION which when set will
->   place a version string in the .scmversion file of the u-boot
->   sources.  This string will be picked up by the u-boot Makefile
->   and will be appended to the u-boot version.  This is done to
->   make it easier to identify what revision of the u-boot sources
->   are being run.  For example you can use a setting like the
->   following to add the short commit id to the u-boot version
->   string:
->=20
-> UBOOT_LOCALVERSION =3D "-g${@d.getVar('SRCPV',
-> True).partition('+')[2][0:7]}"
->=20
+On Wed, Apr 3, 2013 at 4:02 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> Hi,
+>
+> when migration of systemd to oe-core turned to unbuildable I decided
+> to freeze my images and stopped further tests. Now that many issues
+> were fixed and we are close to another release I built my standard
+> xfce-based image based on latest layer HEADs. With this I face some
+> issues which I would like to share:
+>
+> 1. X sessions crash with OOM. This is reproducible by opening
+> google-maps with midori and changing to satellite view. In
+> Xorg.0.log.old I see only
+>
+> | (EE)
+> | (EE) Backtrace:
+> | (EE)
+> | (EE) Segmentation fault at address 0x9
+> | (EE) BUG: triggered 'if (inSignalContext)'
+> | (EE) BUG: log.c:502 in LogVMessageVerb()
+> | (EE) Warning: attempting to log data in a signal unsafe manner while
+> in signal context.
+> | Please update to check inSignalContext and/or use
+> LogMessageVerbSigSafe() or ErrorFSigSafe().
+> | The offending log format message is:
+> |
+> | Fatal server error:
+> |
+> | (EE)
+> | (EE) Backtrace:
+> | (EE)
 
-Ping on this patch
+Seems I found this one: it is caused by undefined signedness for char.
+ARM uses unsigned by default but in the code we find
 
-> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-> ---
-> * Updated in version 2
->     * Check if the .scmversion file already exists and don't
->       overwrite it if it does.
->     * Based on feedback from
->       Bruce Ashfield <bruce.ashfield@gmail.com]
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc |   12 ++++++++++++
->  1 files changed, 12 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-
-> bsp/u-boot/u-boot.inc
-> index ae53b90..6bbe457 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -16,6 +16,11 @@ python () {
->  		raise bb.parse.SkipPackage("because UBOOT_MACHINE is
-> not set")
->  }
->=20
-> +# Allow setting an additional version string that will be picked
-> up by the
-> +# u-boot build system and appended to the u-boot version.  If
-> the .scmversion
-> +# file already exists it will not be overwritten.
-> +UBOOT_LOCALVERSION ?=3D ""
-> +
->  # Some versions of u-boot use .bin and others use .img.  By
-> default use .bin
->  # but enable individual recipes to change this value.
->  UBOOT_SUFFIX ?=3D "bin"
-> @@ -40,6 +45,13 @@ do_compile () {
->  	unset LDFLAGS
->  	unset CFLAGS
->  	unset CPPFLAGS
-> +
-> +	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
-> +	then
-> +		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
-> +		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
-> +	fi
-> +
->  	oe_runmake ${UBOOT_MACHINE}
->  	oe_runmake ${UBOOT_MAKE_TARGET}
->  }
-> --
-> 1.7.0.4
+if (pClient->smart_priority < 0)
 
+After final tests and sending upstream I'll send a patch here.
+
+Andreas
 
 
