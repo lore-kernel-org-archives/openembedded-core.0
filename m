@@ -1,39 +1,30 @@
-Received: from mail-vb0-f42.google.com ([209.85.212.42])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1US2lB-0008O4-Ox
-	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 12:05:15 +0200
-Received: by mail-vb0-f42.google.com with SMTP id p12so213784vbe.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 02:47:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=QuSTkw4tZzaRKSS/LkjgHOVG3qEJ5ZQKAtxFERP1XBM=;
-	b=fNNu7eOM++aaoFdT0LlPOlaRB09WaI18uUB99u2Obixxl9GkIo8VF3aRXbqOcDM/tA
-	RRWwBFQU6cIe02MRaKKRmeZuV1vqKWsO2vWpQhfomIJsIenVeBxhsL28bLJvjHjmEn4f
-	OSbagXgnZ7PsPBzFFrseoEFO76aQ4BX0tv5JcFKcQx1iZgdWbwCmHQ35DI9NdwH4s0t+
-	r/GhkgW1J5nesq0EOxOv9/fYMliQCkZODsVUBWyXSYbABdJyPLLmekiE/uNc0AlBzXm2
-	UwvxE2LA88PlyaBevyINC3lBl59XkhUOD77ZXz1N8WXmItzbVpitfVWickICSaF45Fcy
-	MJzA==
-X-Received: by 10.58.188.48 with SMTP id fx16mr952724vec.22.1366105659396;
-	Tue, 16 Apr 2013 02:47:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 16 Apr 2013 02:47:19 -0700 (PDT)
-In-Reply-To: <CALbNGRSaN3_rkYW7zcd68XWuRqU0iMQ5C3oy9KdgKX_mwmE2-A@mail.gmail.com>
-References: <5B2FD9C3-A643-474B-BC8A-DB24FCCBAA1A@dominion.thruhere.net>
-	<CALbNGRSaN3_rkYW7zcd68XWuRqU0iMQ5C3oy9KdgKX_mwmE2-A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Apr 2013 10:47:19 +0100
-Message-ID: <CAJTo0Laof0_z-tyVRaQ7nVMzkwWdmtZZUVZYP46cu5gMQyZPcw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQntT88jZKPwuShhn8J1rbLR9H5VBsveTE8Shwm+u7Em04R6/3ArTl4mME9Z0FwOFCMnne5A
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Libpng 1.6.x is broken, switch back to 1.5.x before release?
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1US2ro-0000n0-Vl for openembedded-core@lists.openembedded.org;
+	Tue, 16 Apr 2013 12:12:08 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3G9sPx1026281; Tue, 16 Apr 2013 10:54:49 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1z9qTOTBabBW; Tue, 16 Apr 2013 10:54:48 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3G9sjph026289
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 16 Apr 2013 10:54:47 +0100
+Message-ID: <1366106058.8670.89.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 16 Apr 2013 10:54:18 +0100
+In-Reply-To: <1366103412-10924-1-git-send-email-koen@dominion.thruhere.net>
+References: <1366103412-10924-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pango: add libpng to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 10:05:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Apr 2013 10:12:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 April 2013 10:38, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
-wrote:
-> I would like to bisect this - test case are the network-manager-applet
-> icons for WLAN. If libpng-1.7.0beta07 fixes let me know.
+On Tue, 2013-04-16 at 11:10 +0200, Koen Kooi wrote:
+> Pango links indirectly to libpng through the cairo-png dependency, but
+> does encode the libpng version in its .la files. Changing libpng
+> versions will make a rebuild fail, so let's cheat a bit to let sstate
+> rebuild pango as well to get around this.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/recipes-graphics/pango/pango.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-There are two issues - one is that cairo-png is treating every warning
-as fatal.  The other is that libpng 1.6 has stronger function call
-ordering enforced, so cairo-png's loader causes a warning.  Which then
-gets turned into the "out of memory" error.
+This doesn't follow. If pango -> cairo -> libpng and libpng changes,
+both cairo and pango will rebuild.
 
-I'm working with Chris Wilson now to try and sort this in cairo git,
-so we can backport stuff.
+What might be the problem is that autotools (or more likely libtool)
+isn't rebuilding correctly. This was solved with the separate build
+directory code. Have you enabled that?
 
-Ross
+Cheers,
+
+Richard
+
+> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+> index f622903..c1beb9e 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -10,7 +10,7 @@ SECTION = "libs"
+>  LICENSE = "LGPLv2.0+"
+>  
+>  X11DEPENDS = "virtual/libx11 libxft"
+> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils harfbuzz"
+> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils harfbuzz libpng"
+>  
+>  PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+>  PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
+
+
 
 
