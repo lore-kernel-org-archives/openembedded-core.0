@@ -1,38 +1,38 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from mail-wi0-f182.google.com ([209.85.212.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1US7oz-0006Me-DO
+	(envelope-from <martin.jansa@gmail.com>) id 1US7s1-0006ZH-0S
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 17:29:27 +0200
-Received: by mail-vc0-f169.google.com with SMTP id hx10so475940vcb.14
+	Tue, 16 Apr 2013 17:32:33 +0200
+Received: by mail-wi0-f182.google.com with SMTP id m6so577391wiv.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 08:11:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=7ymgDllVzutABPjmzlLLAP+kfl0CQd2qwisjBluDd4o=;
-	b=Dn98Swcv0rzRibdz48yM1pL5u5ZkcEakt/oNeVFQ45EUUr+GhFSWcSBLb/sIliG/XJ
-	Yvyq4M4/9AuV2fEDHHhwDp1LdNGV4b1qDaj0irtxHqoBrcOR9oVxCuH9yzE2e5mleuy+
-	GwY8PtCy0k4hEUXgQkCK/raKnDLY0y5tC4TtjMg63WNrHjblASq0zr0CtFX5YVyJXVoQ
-	yH1DgYQV+m+D9ZbWznpYfHB1Mj/N7WEJ/0msP55p4YzUTWtLoO1MenPu0XfOlLgq7B9L
-	KpsPw+eyNP4ST7Ja00ZsPkgliZpO05uoXbqWrsJw7t3COoRus+96JIHqo47WE/waaGRX
-	lE0w==
-X-Received: by 10.52.108.10 with SMTP id hg10mr1555965vdb.34.1366125114603;
-	Tue, 16 Apr 2013 08:11:54 -0700 (PDT)
+	Tue, 16 Apr 2013 08:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=3zkaqW3XlpoEdiXeD5VkWotVJVfIJtQX/ZJ3Ts/G85E=;
+	b=xegL9+1E0UnW8wOhejFHatinFwtA7+uEaSO9u0ofg6OOaGyFVD48WB8JD1gR3li7xg
+	LoGJxoWMTtB/Qi5c+hPjgPkD0KpuKAp8cPqPaZYTjg4F5eAAEuESVDBesCXUb0Ysm4Yh
+	xPFiFIH3M0Tdr7QRSBfPKB66R2+KxaLRzNTl+5s0Fg2J6gSWLxo7KnVI7+dJcnKz0prR
+	RpFAWNYzEByCzHZtq2sToa1L2PziZQVHUYcoYHikHhRz+m6TyUdSB0orQEni8aFnzb6m
+	/wEruNORYJKlI8Ai0arFnoGizB0LSWPGYQjkik8d2BuEP59X6yxV1DYhaPpKmsClYBGb
+	wfRA==
+X-Received: by 10.194.58.202 with SMTP id t10mr4848859wjq.4.1366125302410;
+	Tue, 16 Apr 2013 08:15:02 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id s2sm3623052wib.4.2013.04.16.08.15.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 16 Apr 2013 08:15:01 -0700 (PDT)
+Date: Tue, 16 Apr 2013 17:15:08 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20130416151508.GQ10628@jama.dyndns-home.com>
+References: <cover.1366124347.git.paul.eggleton@linux.intel.com>
+	<0fe78c978006e4ddb8f25fd23176162e69a8309b.1366124347.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 16 Apr 2013 08:11:34 -0700 (PDT)
-In-Reply-To: <20130408190328.GC2470@jama>
-References: <1365093733-31674-1-git-send-email-Martin.Jansa@gmail.com>
-	<1365094008.6526.115.camel@ted>
-	<20130404165547.GF1271@jama.dyndns-home.com>
-	<1365115121.6526.121.camel@ted> <20130408190328.GC2470@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Apr 2013 16:11:34 +0100
-Message-ID: <CAJTo0LaJpGLXC5B2L=YjvH6_8c2=FSrMy5EhH7Z44FJonRkCTg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQmMZmIk21+9e24AHvjCF2Hv8OlyIM6ksNXxkwISH9Tra4mjF2X6LlS6Fzvl49r/0BmfcP3l
+In-Reply-To: <0fe78c978006e4ddb8f25fd23176162e69a8309b.1366124347.git.paul.eggleton@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] systemd: set INHIBIT_UPDATERCD_BBCLASS without sysvinit in features
+Subject: Re: [PATCH 2/3] qt4-embedded: bump PR to allow removal of meta-oe bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,31 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 15:29:47 -0000
-X-List-Received-Date: Tue, 16 Apr 2013 15:29:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Apr 2013 15:32:34 -0000
+X-Groupsio-MsgNum: 38023
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vIXBmblrD40XNCy4"
+Content-Disposition: inline
 
-Hi Martin,
+--vIXBmblrD40XNCy4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 8 April 2013 20:03, Martin Jansa <martin.jansa@gmail.com> wrote:
-> There is also error from prerm :/
->
-> //var/lib/opkg/info/dbus-1.prerm: line 3: /etc/init.d/dbus-1: No such file or directory
->
-> updatercd_prerm() {
-> if test "x$D" = "x"; then
->         ${INIT_D_DIR}/${INITSCRIPT_NAME} stop
-> fi
-> }
->
-> not sure if testing update-rc.d existence like in postinst/postrm
-> if type update-rc.d >/dev/null 2>/dev/null; then
-> is right way, checking ${INIT_D_DIR}/${INITSCRIPT_NAME}
-> existence will possibly hide some real issues...
+On Tue, Apr 16, 2013 at 04:01:23PM +0100, Paul Eggleton wrote:
+> The meta-oe bbappend only increments PR, if we bump PR here we can
+> remove that.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb b/meta/recipes-qt/=
+qt4/qt4-embedded_4.8.4.bb
+> index 286da95..c08927e 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
+> +++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
+> @@ -1,7 +1,7 @@
+>  require qt4-${PV}.inc
+>  require qt4-embedded.inc
+> =20
+> -PR =3D "${INC_PR}.3"
+> +PR =3D "${INC_PR}.4"
 
-This fragment doesn't exist with your explicit inhibit update-rc.d
-patch, so this is effectively resolved.
+You need to bump INC_PR to replace PRINC
 
-Ross
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--vIXBmblrD40XNCy4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFtavwACgkQN1Ujt2V2gBxsgQCdEaRnKCQkhrljp1LDTeBFqESL
+X30An17zpL0A+NIdf1F1FfE1nHD4KBBX
+=BHyJ
+-----END PGP SIGNATURE-----
+
+--vIXBmblrD40XNCy4--
