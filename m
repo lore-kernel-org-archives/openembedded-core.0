@@ -1,37 +1,20 @@
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1US78z-0002Ge-JR
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1US7O8-00042r-E6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 16:46:05 +0200
-Received: by mail-wi0-f172.google.com with SMTP id hq17so1934002wib.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 07:28:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:x-gm-message-state;
-	bh=iP43cpupQQGRbkj8H0qqV6JC7HK9Tz3n+qa7Nv7zG1g=;
-	b=RZ9O/dibnNhhkcHmYL4Eb5w0XHUlDnOR9J4m9hwesE9Xw39dGsRmHH0792W57gYkhu
-	yg78LV3f/SCmwr979GfS7qUCa3IFKeOH47pWSmd3QECbuIB9YoR1XwGAI8+qxmv+lnrg
-	vPBs3dPQJAQSPGIfE6JMJblwbsneCl25BrLl9ircw9qSYYrlUrIHtX8IV3WQKev6Af96
-	tyjPY5kbwt+tpI0cOOepTYbIU8L7Gzxqf9du1a2qJQ2ll/9EPwPQ9xtHzFGECOoS3sOO
-	jbrCfPderUexmHQZ/yZQ5SntwOu+EVW0/R0Ch11zmWq+SaV+tuvSbILXYTNcNctJj1rs
-	9qSw==
-X-Received: by 10.194.177.200 with SMTP id cs8mr4429784wjc.22.1366122511494;
-	Tue, 16 Apr 2013 07:28:31 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id du2sm19826934wib.0.2013.04.16.07.28.29
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 16 Apr 2013 07:28:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 16 Apr 2013 17:01:43 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 16 Apr 2013 07:44:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,486,1363158000"; d="scan'208";a="227819750"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.14.4])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Apr 2013 07:44:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Apr 2013 15:25:04 +0100
-Message-Id: <1366122304-32216-2-git-send-email-ross.burton@intel.com>
+Date: Tue, 16 Apr 2013 15:44:04 +0100
+Message-Id: <1366123444-30985-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1366122304-32216-1-git-send-email-ross.burton@intel.com>
-References: <1366122304-32216-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmG+wcTUZOhfalz9BL5w82SsQMzo0gs9AvrygQ9hmu9bJ13KMzSlbg509sQlHKjAA5mShIT
-Subject: [PATCH 2/2] wpa-supplicant: don't call DBus init script directly
+Subject: [PATCH] hicolor-icon-theme: bump PR to allow removal of duplicate from meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 14:46:08 -0000
+X-List-Received-Date: Tue, 16 Apr 2013 15:01:55 -0000
 
-After installing Avahi we need DBus to reload it's configuration.  In a
-pure-systemd image there isn't a DBus init script to reload, so cut out the
-middleman and just sent SIGHUP to all running dbus-daemon processes instead.
+The recipe in meta-gnome has PR = "r1" so make it the same here and
+avoid PR going backwards for existing users of meta-gnome when the
+recipe there is removed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc |    6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-index dd85057..e5f7881 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-@@ -84,9 +84,5 @@ pkg_postinst_wpa-supplicant () {
- 		exit 0
- 	fi
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index 759c9d8..7c911e0 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -10,7 +10,7 @@ inherit gnome allarch
  
--	DBUSPID=`pidof dbus-daemon`
--
--	if [ "x$DBUSPID" != "x" ]; then
--		/etc/init.d/dbus-1 reload || true
--	fi
-+	killall -q -HUP dbus-daemon || true
- }
+ DEPENDS = ""
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+         file://index.theme"
 -- 
 1.7.10.4
 
