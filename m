@@ -1,36 +1,35 @@
-Received: from mail-ee0-f50.google.com ([74.125.83.50])
+Received: from mail-wi0-f176.google.com ([209.85.212.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1US5n5-00035a-Ms
+	(envelope-from <ross.burton@intel.com>) id 1US78Q-0002DM-EK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 15:19:20 +0200
-Received: by mail-ee0-f50.google.com with SMTP id e53so231332eek.37
+	Tue, 16 Apr 2013 16:45:58 +0200
+Received: by mail-wi0-f176.google.com with SMTP id hm14so2682674wib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2013 06:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=taAkF7t5AUPinAdjM05jIJYp6IuTsqw478gAsyojfKQ=;
-	b=VkdYzjxUz8OxzYJxgXGzhythAkSngHvqHHt+qc1w/ZPO4/AceFPRRqI4I1ngAIHLYA
-	oeJPQx1m3tKSPinmsrmDMiHWVMpQ1I/pDMnWDAg003EJDQMh9iuayhVgRYB1A6f6e4OR
-	lTAOWmcavYj7bISZw+2fkiqCPzifm+UVPEaTu9NSOWUZb/1vZrRBemq3SiKRb4o44Mbl
-	bAHtwPOnLFMjWtQpEmcR4BHxLWewsN16cTvt+WaGePktTD67Kukg1zWufzzX3Km+xZX9
-	fIwS66rXidXOXuj0RVZRps6CzrkDFY4YICm/8A1AL93xDWFU2hV55XiF1wZ14CXax/U8
-	PFUQ==
-X-Received: by 10.15.32.142 with SMTP id a14mr6266157eev.22.1366117309502;
-	Tue, 16 Apr 2013 06:01:49 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-160-204.unitymediagroup.de.
-	[95.222.160.204])
-	by mx.google.com with ESMTPS id i53sm2775577eeu.5.2013.04.16.06.01.47
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 16 Apr 2013 06:01:48 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Tue, 16 Apr 2013 07:27:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=SmZndVyqj+30XZxi7vcSHr609RT/vFfdmHQK+eQJvXU=;
+	b=ifZn6rrhQ2O373lZDYbN48YM/p/pl5jEY/vPt2muv2YT2pNdCKm4WCFNaDf6SXxytd
+	16pvdt6OhkCTotcmlIHIvHhZHdQRAhbNCFH/RDwPfKpmx2AnTRIEC5zPGvQ85BvyP3fF
+	vut4nkXnjbu2AfVWZUs0K7qIaYq5NZJRXVS8G8Wz7/hnXePpbx7Pt0Icb44nMtgT84C7
+	mv8sl+nClhoO2ZKtszYciyYk+JMtN+p08MO7a/P7ul857r7uiLpBf3er3CrOtjn7EJCu
+	myAW/tbD67++ppR5BpELHq4q1vfonUrstKx9rEvl4zsPXwCS9LlBJfQcafKVHOMSWOSY
+	eWBw==
+X-Received: by 10.180.206.205 with SMTP id lq13mr4304715wic.21.1366122476026; 
+	Tue, 16 Apr 2013 07:27:56 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id du2sm19826934wib.0.2013.04.16.07.27.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 16 Apr 2013 07:27:54 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Apr 2013 14:59:27 +0200
-Message-Id: <1366117167-26359-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-MIME-Version: 1.0
-Subject: [PATCH] xserver-xorg: fix segfaults for ARM SoCs
+Date: Tue, 16 Apr 2013 15:25:03 +0100
+Message-Id: <1366122304-32216-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmqeeyrxtgbWHkHO92Vd5jIuCzQNvYnZhSXbNpLSBeMF8yWxmB0fV5pJHDR8tseF9Xcjl7a
+Subject: [PATCH 1/2] avahi: don't call DBus init script directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,83 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2013 13:19:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Apr 2013 14:46:06 -0000
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+After installing Avahi we need DBus to reload it's configuration.  In a
+pure-systemd image there isn't a DBus init script to reload, so cut out the
+middleman and just sent SIGHUP to all running dbus-daemon processes instead.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...-fix-segfaults-char-is-unsigned-for-ARM-a.patch |   39 ++++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.14.0.bb            |    3 +-
- 2 files changed, 41 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/0001-dixstruct.h-fix-segfaults-char-is-unsigned-for-ARM-a.patch
+ meta/recipes-connectivity/avahi/avahi.inc |    6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/0001-dixstruct.h-fix-segfaults-char-is-unsigned-for-ARM-a.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/0001-dixstruct.h-fix-segfaults-char-is-unsigned-for-ARM-a.patch
-new file mode 100644
-index 0000000..16f0489
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.14.0/0001-dixstruct.h-fix-segfaults-char-is-unsigned-for-ARM-a.patch
-@@ -0,0 +1,39 @@
-+From a095f5005be66c1b9747187e91e5332b0d8b106b Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Tue, 16 Apr 2013 13:47:22 +0200
-+Subject: [xserver 1.14/master] dixstruct.h: fix segfaults - char is unsigned
-+ for ARM and PowerPC architectures
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+see ARM related bug reports [1-3]
-+
-+Upstream-Status: Submitted [4]
-+
-+[1] https://github.com/archlinuxarm/PKGBUILDs/issues/446I
-+[2] http://www.raspberrypi.org/phpBB3/viewtopic.php?t=38568&p=321673
-+[3] http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/037805.html
-+[4] http://lists.x.org/archives/xorg-devel/2013-April/036010.html
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ include/dixstruct.h |    2 +-
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
-+
-+diff --git a/include/dixstruct.h b/include/dixstruct.h
-+index 6784819..aef822c 100644
-+--- a/include/dixstruct.h
-++++ b/include/dixstruct.h
-+@@ -96,7 +96,7 @@ typedef struct _Client {
-+     unsigned int clientGone:1;
-+     unsigned int closeDownMode:2;
-+     unsigned int clientState:2;
-+-    char smart_priority;
-++    signed char smart_priority;
-+     short noClientException;      /* this client died or needs to be killed */
-+     int priority;
-+     ReplySwapPtr pSwapReplyFunc;
-+-- 
-+1.7.6.5
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.bb
-index 83b8049..8c573bd 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.0.bb
-@@ -6,12 +6,13 @@ SRC_URI += "file://crosscompile.patch \
-             file://mips64-compiler.patch \
-             file://aarch64.patch \
-             file://fix_compilation_when_not_using_xinerama.patch \
-+            file://0001-dixstruct.h-fix-segfaults-char-is-unsigned-for-ARM-a.patch \
-            "
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index d8d9a9d..c302f87 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -136,11 +136,7 @@ do_install() {
  
- SRC_URI[md5sum] = "86110278b784e279381b7f6f2295c508"
- SRC_URI[sha256sum] = "1f5107573252c26439fdd165481765a2c0964e02a2e9fab36e02414d08f30630"
+ pkg_postinst_avahi-daemon () {
+ if [ -z "$D" ]; then
+-	DBUSPID=`pidof dbus-daemon`
+-
+-	if [ "x$DBUSPID" != "x" ]; then
+-		/etc/init.d/dbus-1 force-reload
+-	fi
++	killall -q -HUP dbus-daemon || true
+ fi
+ }
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
 -- 
-1.7.6.5
+1.7.10.4
 
 
 
