@@ -1,27 +1,25 @@
-Received: from mail-vc0-f181.google.com ([209.85.220.181])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1USNMh-00007M-7L
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 10:05:15 +0200
-Received: by mail-vc0-f181.google.com with SMTP id ia10so1104802vcb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 00:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=vCrBac7NgmI/LLlVcsOw8MrG6uBJF68OebZUv0+T/sU=;
-	b=fMOGnTeg3IUuG9k3Emn4VzMKsgEpq/nqmLLC3NtV6EswBFzcXMyWp1bnDUOw+gkTjj
-	TYg5mANhnGDtOtH1WK3JM7RyyQ3xi16MKMNKGiTkqI+LXe3M7FG+5448aPSAYVnWnbUZ
-	Hg1PiUeBw/1G3WoIAq9nV2/7oAsIpSyNCGAFx/hKa0+ElmlSjk61xncx9I+PfenWd4mt
-	4aR5rLAxro9cRfLW0wub8job2c/26y4dJMiY0HkckvvkeYn9c6S0exHsotZ5n1E2q1ME
-	SGjYEREjad0EFZg2J9Gj3MQByBa0mq3WV2Pv+/RAngiJXogVhVwtsAFvhCV0FO+R/aQ5
-	YO4w==
-MIME-Version: 1.0
-X-Received: by 10.220.140.18 with SMTP id g18mr4040568vcu.54.1366184863563;
-	Wed, 17 Apr 2013 00:47:43 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Wed, 17 Apr 2013 00:47:43 -0700 (PDT)
-In-Reply-To: <CALbNGRQ+BqGarZWxmtj50S4rJbDtNPGqB=eWvotBVdVAcviedQ@mail.gmail.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1USNlF-0002j3-Ko for openembedded-core@lists.openembedded.org;
+	Wed, 17 Apr 2013 10:30:42 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3H8DTmd006784; Wed, 17 Apr 2013 09:13:29 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id b9FS23MKQrMX; Wed, 17 Apr 2013 09:13:29 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3H8DMjt006772
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 17 Apr 2013 09:13:24 +0100
+Message-ID: <1366186370.25282.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 17 Apr 2013 09:12:50 +0100
+In-Reply-To: <CALbNGRTMUkavk8669XUPf+YMEBTibUPhpnHh35xYG4eENO-ktw@mail.gmail.com>
 References: <cover.1364456659.git.raj.khem@gmail.com>
 	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
 	<20130328122110.GA5105@jama>
@@ -35,10 +33,12 @@ References: <cover.1364456659.git.raj.khem@gmail.com>
 	<CALbNGRRCFyiD+6eY1xMe6o8dqtpuyf6YAEa7xKZ=f8wBv262uA@mail.gmail.com>
 	<CAJTo0Ladru_hAgyL32SX8bDet3euSFz9Jf=jiJxBJqiNv8eseQ@mail.gmail.com>
 	<CALbNGRQ+BqGarZWxmtj50S4rJbDtNPGqB=eWvotBVdVAcviedQ@mail.gmail.com>
-Date: Wed, 17 Apr 2013 09:47:43 +0200
-Message-ID: <CALbNGRTMUkavk8669XUPf+YMEBTibUPhpnHh35xYG4eENO-ktw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
+	<CALbNGRTMUkavk8669XUPf+YMEBTibUPhpnHh35xYG4eENO-ktw@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r3H8DTmd006784
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -52,95 +52,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 08:05:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Apr 2013 08:30:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 12, 2013 at 1:01 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Fri, Apr 12, 2013 at 12:53 PM, Burton, Ross <ross.burton@intel.com> wr=
-ote:
->> Hi Andreas,
->>
->> On 12 April 2013 11:46, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m> wrote:
->>> It is Fedora 14 and I don't have the time to update the machine.
->>
->> Genuinely shocked that they shipped GNU make 3.82 without the patches
->> to make it work.
->>
->>> Since there seems no support for little poor old-fashioned people like
->>> me: Is there a configuration option so I can force to build
->>> make-native on that machine (checked local.conf.sample /
->>> site.conf.sample / yocto reference manual but did not find a hint)?
->>
->> From a quick look, BASEDEPENDS_append =3D " make-native" might do the tr=
-ick.
->>
-> Thanks
->
-This came too early because - before I tested it. I get
+On Wed, 2013-04-17 at 09:47 +0200, Andreas M=C3=BCller wrote:
+> On Fri, Apr 12, 2013 at 1:01 PM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+> > On Fri, Apr 12, 2013 at 12:53 PM, Burton, Ross <ross.burton@intel.com=
+> wrote:
+> >> Hi Andreas,
+> >>
+> >> On 12 April 2013 11:46, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com> wrote:
+> >>> It is Fedora 14 and I don't have the time to update the machine.
+> >>
+> >> Genuinely shocked that they shipped GNU make 3.82 without the patche=
+s
+> >> to make it work.
+> >>
+> >>> Since there seems no support for little poor old-fashioned people l=
+ike
+> >>> me: Is there a configuration option so I can force to build
+> >>> make-native on that machine (checked local.conf.sample /
+> >>> site.conf.sample / yocto reference manual but did not find a hint)?
+> >>
+> >> From a quick look, BASEDEPENDS_append =3D " make-native" might do th=
+e trick.
+> >>
+> > Thanks
+> >
+> This came too early because - before I tested it. I get
+>=20
+> NOTE: multiple providers are available for make-native (make-native,
+> remake-native)
+> NOTE: consider defining a PREFERRED_PROVIDER entry to match make-native
+> NOTE: Preparing runqueue
+> ERROR: Unbuildable tasks were found.
+> These are usually caused by circular dependencies and any circular
+> dependency chains found will be printed below. Increase the debug
+> level to see a list of unbuildable tasks.
+>=20
+> Identifying dependency loops (this may take a short while)...
+>=20
+> ERROR: An uncaught exception occured in runqueue, please see the failur=
+e below:
+> ERROR: Running idle function
+> Traceback (most recent call last):
+>   File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
+> line 300, in find_chains(taskid=3D175, prev_chain=3D[14, 15, 19, 20, 16=
+,
+> 17, 174, 178, 179, 175]):
+>                      if scan:
+>     >                    find_chains(revdep, copy.deepcopy(prev_chain))
+>                      for dep in explored_deps[revdep]:
+>   File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
+> line 300, in find_chains(taskid=3D176, prev_chain=3D[14, 15, 19, 20, 16=
+,
+> 17, 174, 178, 179, 175, 176]):
+>                      if scan:
+>     >                    find_chains(revdep, copy.deepcopy(prev_chain))
+>                      for dep in explored_deps[revdep]:
+>   File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
+> line 300, in find_chains(taskid=3D1142, prev_chain=3D[14, 15, 19, 20, 1=
+6,
+> 17, 174, 178, 179, 175, 176, 1142]):
+>                      if scan:
+>     >                    find_chains(revdep, copy.deepcopy(prev_chain))
+>                      for dep in explored_deps[revdep]:
+>   File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
+> line 300, in find_chains(taskid=3D1143, prev_chain=3D[14, 15, 19, 20, 1=
+6,
+> 17, 174, 178, 179, 175, 176, 1142, 1143]):
+>                      if scan:
+>     >                    find_chains(revdep, copy.deepcopy(prev_chain))
+>                      for dep in explored_deps[revdep]:
+>   File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
+> line 301, in find_chains(taskid=3D1139, prev_chain=3D[14, 15, 19, 20, 1=
+6,
+> 17, 174, 178, 179, 175, 176, 1142, 1143, 1139]):
+>                          find_chains(revdep, copy.deepcopy(prev_chain))
+>     >                for dep in explored_deps[revdep]:
+>                          if dep not in total_deps:
+> KeyError: 1140
+>=20
+> NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be
+> rerun and all succeeded.
+>=20
+> Summary: There was 1 WARNING message shown.
+> Summary: There were 3 ERROR messages shown, returning a non-zero exit c=
+ode.
+>=20
+>=20
+> bitbake make-native works fine.
+>=20
+> What other options do I have to force build of make-native. Why I
+> insist: On both of my machines (Fedora 14 / 15) build of systemd
+> fails.
 
-NOTE: multiple providers are available for make-native (make-native,
-remake-native)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match make-native
-NOTE: Preparing runqueue
-ERROR: Unbuildable tasks were found.
-These are usually caused by circular dependencies and any circular
-dependency chains found will be printed below. Increase the debug
-level to see a list of unbuildable tasks.
+In local.conf do something like:
 
-Identifying dependency loops (this may take a short while)...
+DEPENDS_append_pn-systemd =3D " make-native"
 
-ERROR: An uncaught exception occured in runqueue, please see the failure be=
-low:
-ERROR: Running idle function
-Traceback (most recent call last):
-  File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
-line 300, in find_chains(taskid=3D175, prev_chain=3D[14, 15, 19, 20, 16,
-17, 174, 178, 179, 175]):
-                     if scan:
-    >                    find_chains(revdep, copy.deepcopy(prev_chain))
-                     for dep in explored_deps[revdep]:
-  File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
-line 300, in find_chains(taskid=3D176, prev_chain=3D[14, 15, 19, 20, 16,
-17, 174, 178, 179, 175, 176]):
-                     if scan:
-    >                    find_chains(revdep, copy.deepcopy(prev_chain))
-                     for dep in explored_deps[revdep]:
-  File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
-line 300, in find_chains(taskid=3D1142, prev_chain=3D[14, 15, 19, 20, 16,
-17, 174, 178, 179, 175, 176, 1142]):
-                     if scan:
-    >                    find_chains(revdep, copy.deepcopy(prev_chain))
-                     for dep in explored_deps[revdep]:
-  File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
-line 300, in find_chains(taskid=3D1143, prev_chain=3D[14, 15, 19, 20, 16,
-17, 174, 178, 179, 175, 176, 1142, 1143]):
-                     if scan:
-    >                    find_chains(revdep, copy.deepcopy(prev_chain))
-                     for dep in explored_deps[revdep]:
-  File "/home/andreas/oe-core/sources/bitbake/lib/bb/runqueue.py",
-line 301, in find_chains(taskid=3D1139, prev_chain=3D[14, 15, 19, 20, 16,
-17, 174, 178, 179, 175, 176, 1142, 1143, 1139]):
-                         find_chains(revdep, copy.deepcopy(prev_chain))
-    >                for dep in explored_deps[revdep]:
-                         if dep not in total_deps:
-KeyError: 1140
+By adding make-native to the base dependencies you've introduced
+circular dependencies and the circular dependency handling code in
+bitbake is breaking for unknown reasons. That code is fairly broken at
+this point unfortunately (someone should file a bug) but its beyond what
+we can fix in 1.4 at this point.
 
-NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be
-rerun and all succeeded.
+Cheers,
 
-Summary: There was 1 WARNING message shown.
-Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
+Richard
 
-
-bitbake make-native works fine.
-
-What other options do I have to force build of make-native. Why I
-insist: On both of my machines (Fedora 14 / 15) build of systemd
-fails.
-
-Andreas
 
 
