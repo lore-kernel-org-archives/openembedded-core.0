@@ -1,48 +1,37 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-da0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1USOah-0000fT-Ez
+	(envelope-from <martin.jansa@gmail.com>) id 1USObp-0000nQ-Fo
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 11:23:47 +0200
-Received: by mail-vc0-f175.google.com with SMTP id ib11so1123767vcb.6
+	Wed, 17 Apr 2013 11:24:58 +0200
+Received: by mail-da0-f43.google.com with SMTP id u36so696493dak.30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 02:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=LAKZcZ71YQCD5uSECAGD7AmzV4iVAF8nuian7OT2R80=;
-	b=WxgPgCsOELh9i3gXYqlijjAkxTdBh9mbPK6qxEKNk/WpwHWm8yL4VCl058Xxk9v4Js
-	AIVfOK3TlXgaZ7cYyQ4yHG0RGC/KLzsPS6FR9m0UuQ8H73O53kowrfyQ3CPSw3qbNJaE
-	YaO1kE78R/0DjaVXc1m7c8u/3KnR/OmGV9iZHqwDgEvhZ7x4EZI4zdjl/KE9ETFG1RN5
-	3YInNknQB/Iweo2eE8LS0Dpk/hOKH1LqUdQdiVEEWHLy+xA4lhiJsod/Yv7wYbngjvN8
-	zSpr/NsbZ1BLNgjDO0WBxYRDoWBcQr4PToLkTgLc8gwcuKLkSxNmlPM7VQtNCmPfWF82
-	3Hbw==
+	Wed, 17 Apr 2013 02:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=3uZd9V3fGEsIHodEw4Sy1RWLa8Ba9VanVp3hTda9OLo=;
+	b=aCz9NExrylm56seWnP++butVb98wFvZAjTUOC68nuj6cc+ld2TPq5O7II0Vo8LrM3T
+	6xKG7QBwgcR3liXF04r5jG4Yf8gkSD/pAOox0Gxa9FCfn9A3G9f3c7Zht9GRqFvjp36D
+	WrRhnL3DnbWsJ7IxlWQ5YhP51OQZ968Bc8D5EhM5REqJvCH7IgSSlJwI5yUrEPFfmyIh
+	tmQQKyz4OTeKPR69o2CaRFy8phv+WBXKYQQC9vFpO4No0tACXTZIUAeOa/QEDFZuZxpU
+	zCisOTAszQGXcWonoRUc804Ppo1rTPdeQ1d4un6Sh0w4Pi+DTloBqdWfrYuVfOg00ID6
+	Lmag==
+X-Received: by 10.66.27.228 with SMTP id w4mr7741645pag.98.1366189645322;
+	Wed, 17 Apr 2013 02:07:25 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id b3sm5618549pbw.4.2013.04.17.02.07.22
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 17 Apr 2013 02:07:24 -0700 (PDT)
+Date: Wed, 17 Apr 2013 11:07:23 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-ID: <20130417090723.GC26007@jama>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.220.65.1 with SMTP id g1mr4175066vci.63.1366189575790; Wed,
-	17 Apr 2013 02:06:15 -0700 (PDT)
-Received: by 10.52.185.168 with HTTP; Wed, 17 Apr 2013 02:06:15 -0700 (PDT)
-In-Reply-To: <1366186370.25282.20.camel@ted>
-References: <cover.1364456659.git.raj.khem@gmail.com>
-	<ddbbb594a0a4c3ff64bb5e4ce0be895a5e2f0193.1364456659.git.raj.khem@gmail.com>
-	<20130328122110.GA5105@jama>
-	<35803143-FAED-48CC-9FD1-1E216B3A575C@gmail.com>
-	<A54391FA-3CD5-4290-A92B-EE3477A2EEAE@dominion.thruhere.net>
-	<D8B28775-1426-427F-B7CB-E10164FAF197@gmail.com>
-	<CALbNGRSs_t4EbStjw4S6djPiL3xJDRQ0U0MvS820f1OkC7Q6cQ@mail.gmail.com>
-	<1364824441.24754.20.camel@localhost>
-	<CALbNGRSqEdebP4WsrH9xrW30k+MuxfaXousVfNfjdufS4yCfSw@mail.gmail.com>
-	<CAJTo0LZGADsne_bKyDDTX2Vt4QX=pfv+Vr27Xi93B8C_S3WJkg@mail.gmail.com>
-	<CALbNGRRCFyiD+6eY1xMe6o8dqtpuyf6YAEa7xKZ=f8wBv262uA@mail.gmail.com>
-	<CAJTo0Ladru_hAgyL32SX8bDet3euSFz9Jf=jiJxBJqiNv8eseQ@mail.gmail.com>
-	<CALbNGRQ+BqGarZWxmtj50S4rJbDtNPGqB=eWvotBVdVAcviedQ@mail.gmail.com>
-	<CALbNGRTMUkavk8669XUPf+YMEBTibUPhpnHh35xYG4eENO-ktw@mail.gmail.com>
-	<1366186370.25282.20.camel@ted>
-Date: Wed, 17 Apr 2013 11:06:15 +0200
-Message-ID: <CALbNGRR33CYQqytNj4eGBrk8CHJoGj-yWAYjV4MoqSL9QJBSbw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: Upgrade to 199
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,39 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 09:23:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Apr 2013 09:25:12 -0000
+X-Groupsio-MsgNum: 38062
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="2/5bycvrmDh4d1IB"
+Content-Disposition: inline
 
-On Wed, Apr 17, 2013 at 10:12 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> What other options do I have to force build of make-native. Why I
->> insist: On both of my machines (Fedora 14 / 15) build of systemd
->> fails.
->
-> In local.conf do something like:
->
-> DEPENDS_append_pn-systemd = " make-native"
+--2/5bycvrmDh4d1IB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-to ensure that all recipes get 'parallel-make-safe' (I know of
-problems with systemd and webkit-gtk - there might be others) I added
-to my local.conf
+On Wed, Apr 17, 2013 at 08:28:31AM +0200, Andreas M=FCller wrote:
+> Hi,
+>=20
+> sorry again me with another issue. I updated all layers from master
+> few hours ago and built from scratch. On first boot with systemd
+> postinst never finishes. I see only:
+>=20
+> [**  } A start job is running for Run pending postinsts
+>=20
+> and ** are moving around.
+>=20
+> Does anybody else face this one?
 
-DEPENDS_append_pn-gettext-native = " make-native"
-PREFERRED_PROVIDER_make-native = "make-native"
+Yes, even with distro-less oe-core-only core-image
+http://lists.linuxtogo.org/pipermail/openembedded-core/2013-March/037660.ht=
+ml
 
-It is dirty but I can live with it.
->
-> By adding make-native to the base dependencies you've introduced
-> circular dependencies and the circular dependency handling code in
-> bitbake is breaking for unknown reasons. That code is fairly broken at
-> this point unfortunately (someone should file a bug) but its beyond what
-> we can fix in 1.4 at this point.
-hard times - I know :)
->
-> Cheers,
->
-> Richard
->
-Andreas
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--2/5bycvrmDh4d1IB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlFuZksACgkQN1Ujt2V2gByOXwCfW7kOi6vy4XqGY5R/i67d9e+E
+2FIAmwctUNif/GNdfIIQgKVUCtNHOg8z
+=U3XP
+-----END PGP SIGNATURE-----
+
+--2/5bycvrmDh4d1IB--
