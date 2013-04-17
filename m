@@ -1,31 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1USUZF-0001pk-Nw for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 17:46:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3HFTaFp027056 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 16:29:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AA1l_sELTxPJ
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 16:29:35 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3HFTW2u027051
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 16:29:33 +0100
-Message-ID: <1366212538.25282.49.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Apr 2013 16:28:58 +0100
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: [PATCH] alsa-utils: Use pkg-config instead of hardcoded udev paths
+	(envelope-from <stefanx.stanacar@intel.com>) id 1USUe9-0002Vz-FO
+	for openembedded-core@lists.openembedded.org;
+	Wed, 17 Apr 2013 17:52:31 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 17 Apr 2013 08:32:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,494,1363158000"; d="scan'208";a="228367299"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Apr 2013 08:32:52 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Wed, 17 Apr 2013 16:32:35 +0100
+Received: from irsmsx104.ger.corp.intel.com ([169.254.5.19]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.144]) with mapi id
+	14.01.0355.002; Wed, 17 Apr 2013 16:32:35 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] postinst does not finish
+Thread-Index: AQHOOzUP0+/I8vfcqkqYW+5OPMlXGJjZ5i8AgAAdzoCAAHZqAA==
+Date: Wed, 17 Apr 2013 15:32:34 +0000
+Message-ID: <1366212758.5008.2.camel@firebird.rb.intel.com>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+	<CE6CCFD7-CDBA-4669-9EA4-02BBA59EDE5E@gmail.com>
+	<18219582.KT7bte5u1O@helios>
+In-Reply-To: <18219582.KT7bte5u1O@helios>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.149]
+MIME-Version: 1.0
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 15:46:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Apr 2013 15:52:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1E5FA8026FE0E7478C5BD1262AC523B9@intel.com>
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-index cf8acc4..d566d94 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-@@ -5,7 +5,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
--DEPENDS = "alsa-lib ncurses libsamplerate0"
-+DEPENDS = "alsa-lib ncurses libsamplerate0 udev"
- PR = "r0"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "f85f2a3aa6e78475bbe35b0cad3a8cabb99f45ebc5f37962f2137b8df8
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
- # please close bug and remove this comment when properly fixed
- #
--EXTRA_OECONF = "--disable-xmlto --with-udev-rules-dir=${nonarch_base_libdir}/udev/rules.d"
-+EXTRA_OECONF = "--disable-xmlto --with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d "
- EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
- 
- inherit autotools gettext
-@@ -58,7 +58,7 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
- FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
- FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
--FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${nonarch_base_libdir}/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
-+FILES_alsa-utils-alsactl     = "${sbindir}/alsactl */udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
- FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
- FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
-
-
+DQoNCk9uIFdlZCwgMjAxMy0wNC0xNyBhdCAwOToyOCArMDEwMCwgUGF1bCBFZ2dsZXRvbiB3cm90
+ZToNCj4gT24gVHVlc2RheSAxNiBBcHJpbCAyMDEzIDIzOjQyOjA4IEtoZW0gUmFqIHdyb3RlOg0K
+PiA+IE9uIEFwciAxNiwgMjAxMywgYXQgMTE6MjggUE0sIEFuZHJlYXMgTcO8bGxlciA8c2Nobml0
+emVsdG9ueUBnb29nbGVtYWlsLmNvbT4NCj4gPiB3cm90ZToNCj4gPiA+IHNvcnJ5IGFnYWluIG1l
+IHdpdGggYW5vdGhlciBpc3N1ZS4gSSB1cGRhdGVkIGFsbCBsYXllcnMgZnJvbSBtYXN0ZXINCj4g
+PiA+IGZldyBob3VycyBhZ28gYW5kIGJ1aWx0IGZyb20gc2NyYXRjaC4gT24gZmlyc3QgYm9vdCB3
+aXRoIHN5c3RlbWQNCj4gPiA+IHBvc3RpbnN0IG5ldmVyIGZpbmlzaGVzLiBJIHNlZSBvbmx5Og0K
+PiA+ID4gDQo+ID4gPiBbKiogIH0gQSBzdGFydCBqb2IgaXMgcnVubmluZyBmb3IgUnVuIHBlbmRp
+bmcgcG9zdGluc3RzDQo+ID4gPiANCj4gPiA+IGFuZCAqKiBhcmUgbW92aW5nIGFyb3VuZC4NCj4g
+PiA+IA0KPiA+ID4gRG9lcyBhbnlib2R5IGVsc2UgZmFjZSB0aGlzIG9uZT8NCj4gPg0KPiA+IHJh
+biBpbnRvIHNhbWUgaXNzdWUuIEkgZGlzYWJsZWQgcG9zdCBpbnN0YWxscyB0byBydW4gb24gYm9v
+dA0KPiANCj4gQ291bGQgeW91IGd1eXMgcGxlYXNlIHRyeSB0byBkZWJ1ZyB0aGlzIGFuZCBmaW5k
+IG91dCB3aGF0IGlzIGhhbmdpbmcgaGVyZSwgDQo+IGJlY2F1c2Ugd2l0aCBjb3JlLWltYWdlLW1p
+bmltYWwgYW5kIHN5c3RlbWQgSSBkb24ndCBzZWUgdGhpcyBwcm9ibGVtLCB0aGUgcnVuLQ0KPiBw
+b3N0aW5zdHMgc2NyaXB0IGZpbmlzaGVzIGFzIGV4cGVjdGVkLg0KPiANCg0KV29ya3MgZm9yIG1l
+IHRvbzogY29yZS1pbWFnZS1zYXRvIGFuZCBzeXN0ZW1kLCBxZW11eDg2LCBQQUNLQUdFX0NMQVNT
+RVMNCj0gInBhY2thZ2VfaXBrIi4gSSBkbyBzZWUgdGhhdCBtZXNzYWdlIGJ1dCBpdCBkb2Vzbid0
+IGhhbmcsIGl0IGZpbmlzaGVzDQpwcmV0dHkgcXVpY2suDQoNCg0KPiBDaGVlcnMsDQo+IFBhdWwN
+Cj4gDQoNCg==
 
 
