@@ -1,27 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pb0-f44.google.com ([209.85.160.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1USOTJ-00085J-90
+	(envelope-from <martin.jansa@gmail.com>) id 1USOXS-0000B9-C8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 11:16:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3H8waG8010435
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Apr 2013 11:20:38 +0200
+Received: by mail-pb0-f44.google.com with SMTP id wz12so782372pbc.31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 01:58:36 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 17 Apr 2013 01:58:36 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Apr 2013 17:00:25 +0800
-Message-ID: <c233dd107f44c6654ab7ab9f1194875399d855fb.1366187846.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1366187846.git.kai.kang@windriver.com>
-References: <cover.1366187846.git.kai.kang@windriver.com>
+	Wed, 17 Apr 2013 02:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=BkiTvwcxw6EmissseaC8DnVaUpRjzx/IPXbctxsORM4=;
+	b=pfGDxCp8kzTIWuBjDp2wtuVu4UPzXiH6yBglxSVd5S8TxJFj+Zl9eu8KQnOr6Hgb5D
+	crVR9Gk1PcdFp4aGTgYqVgs7X/ldU1q9O4LfKQnB72nWwv00xcmh+Pr1r1pkf8heX7Jb
+	h90kDUMh73XjsMTIzn03cz/CfZLgeKxwjcZWZOPnaexC6K1L+980T4hEXX07TW0dJqeI
+	vmgPis5KNzx37z3qALlGyv86gKVgaquXYiMjmc24WEejZJZPzqGMCDrKUyLZ2d6TBf18
+	ByDg3i81e1weuOPeLDfM2g3t9MOYAzCS3wurVyv4/T76atAfRqeAhtO2kdwruc6jQpJQ
+	ST9g==
+X-Received: by 10.67.1.97 with SMTP id bf1mr7845766pad.118.1366189336957;
+	Wed, 17 Apr 2013 02:02:16 -0700 (PDT)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id z18sm6333485paf.22.2013.04.17.02.02.14
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 17 Apr 2013 02:02:15 -0700 (PDT)
+Date: Wed, 17 Apr 2013 11:02:15 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130417090215.GB26007@jama>
+References: <1366115411-15270-1-git-send-email-Martin.Jansa@gmail.com>
+	<1366147707.8670.110.camel@ted>
+	<72299C10-2B6D-4295-80B1-C509C186B326@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Subject: [PATCH 1/1] libpam: backport patches from upstream
+In-Reply-To: <72299C10-2B6D-4295-80B1-C509C186B326@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: use AC_CHECK_TOOL instead of AC_PATH_TOOL when checking objcopy, strings, gperf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,150 +46,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 09:16:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Apr 2013 09:20:47 -0000
+X-Groupsio-MsgNum: 38059
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+g7M9IMkV8truYOl"
+Content-Disposition: inline
 
-From: Kai Kang <kai.kang@windriver.com>
+--+g7M9IMkV8truYOl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Backport patches from linux-pam git repo to fix test case
-tst-pam_pwhistory1 failure.
+On Tue, Apr 16, 2013 at 05:59:53PM -0700, Khem Raj wrote:
+>=20
+> On Apr 16, 2013, at 2:28 PM, Richard Purdie <richard.purdie@linuxfoundati=
+on.org> wrote:
+>=20
+> > On Tue, 2013-04-16 at 14:30 +0200, Martin Jansa wrote:
+> >> * with external toolchain I have different HOST_PREFIX and HOST_SYS
+> >>  AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
+> >>  then it tries objcopy without prefix which is found on host, but
+> >>  that objcopy does not work for arm libs
+> >> * with internal toolchain gperf is not prefixed with HOST_PREFIX, but
+> >>  fallback to "gperf" only finds the one in native sysroot first
+> >> * based on http://lists.linuxtogo.org/pipermail/openembedded-core/2013=
+-April/037985.html
+> >>  Khem suggested to export strings and gperf from bitbake.conf instead
+> >>=20
+> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >> ---
+> >> meta/conf/bitbake.conf                             |  2 ++
+> >> ...se-AC_CHECK_TOOL-for-objcopy-strings-and-.patch | 41 ++++++++++++++=
+++++++++
+> >> meta/recipes-core/systemd/systemd_199.bb           |  1 +
+> >> 3 files changed, 44 insertions(+)
+> >> create mode 100644 meta/recipes-core/systemd/systemd/0001-configure-us=
+e-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+> >>=20
+> >> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> >> index cd5d61e..a84ae38 100644
+> >> --- a/meta/conf/bitbake.conf
+> >> +++ b/meta/conf/bitbake.conf
+> >> @@ -455,6 +455,8 @@ export RANLIB =3D "${HOST_PREFIX}ranlib"
+> >> export STRIP =3D "${HOST_PREFIX}strip"
+> >> export OBJCOPY =3D "${HOST_PREFIX}objcopy"
+> >> export OBJDUMP =3D "${HOST_PREFIX}objdump"
+> >> +export STRINGS =3D "${HOST_PREFIX}strings"
+> >> +export GPERF =3D "${HOST_PREFIX}gperf"
+> >> export NM =3D "${HOST_PREFIX}nm"
+> >> PYTHON =3D "${@sys.executable}"
+> >=20
+> > At this point in the release cycle I'm not adding new global exports to
+> > ever piece of software in the system. I appreciate in theory nothing bad
+> > should happen however the reality is sometimes different :/. I'm taking
+> > a *lot* of risks in including as many changes as I have, I don't want to
+> > add this one too.
+> >=20
+> > I'm also not sure its a good idea in general to build up more exports in
+> > bitbake.conf if we haven't yet needed them.
+> >=20
+>=20
+> We can not be certain we did not need them autoconfed packages will defau=
+lt to one on host
+> so it might be that many recipes have been wrongly using non-cross versio=
+n of tools and succeeding
+> the build. Problem is there in though.=20
+>=20
+> I think on master this patch should be considered as such
+>=20
+> > I'll take a version of this which does this in the systemd recipe.
+>=20
+> For dylan this seems ok
 
-[YOCTO #4107]
+I have patch moving exports to bitbake.conf in my local tree, I'll send
+it for master after dylan is released.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../add-checks-for-crypt-returning-NULL.patch      |   63 ++++++++++++++++++++
- ...-enforce_for_root-semantics-change-in-pam.patch |   35 +++++++++++
- meta/recipes-extended/pam/libpam_1.1.6.bb          |    2 +
- 3 files changed, 100 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/pam/libpam/add-checks-for-crypt-returning-NULL.patch
- create mode 100644 meta/recipes-extended/pam/libpam/reflect-the-enforce_for_root-semantics-change-in-pam.patch
+> >> diff --git a/meta/recipes-core/systemd/systemd/0001-configure-use-AC_C=
+HECK_TOOL-for-objcopy-strings-and-.patch b/meta/recipes-core/systemd/system=
+d/0001-configure-use-AC_CHECK_TOOL-for-objcopy-strings-and-.patch
+> >> new file mode 100644
+> >> index 0000000..d847bbc
+> >> --- /dev/null
+> >> +++ b/meta/recipes-core/systemd/systemd/0001-configure-use-AC_CHECK_TO=
+OL-for-objcopy-strings-and-.patch
+> >> @@ -0,0 +1,41 @@
+> >> +From d6f92bcbbae9a577adb9588c7b2783a5d0bf343d Mon Sep 17 00:00:00 2001
+> >> +From: Martin Jansa <Martin.Jansa@gmail.com>
+> >> +Date: Tue, 16 Apr 2013 14:20:41 +0200
+> >> +Subject: [PATCH] configure: use AC_CHECK_TOOL for objcopy, strings an=
+d gperf
+> >> +
+> >> +* using AC_PATH_TOOL does not allow to override it from shell environ=
+ment
+> >> +  which is useful when cross-compiling
+> >> +* with external toolchain I have different HOST_PREFIX and HOST_SYS
+> >> +  AC_PATH_TOOL is using HOST_SYS as prefix and fails to find objcopy
+> >> +  which is available only as ${TARGET_PREFIX}objcopy then it tries
+> >> +  objcopy without prefix which is found on host, but that objcopy
+> >> +  does not work for !host (e.g. arm when building on x86) libs
+> >> +
+> >> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >> +Upstream-Status: Submitted
+> >> +http://lists.freedesktop.org/archives/systemd-devel/2013-April/010468=
+=2Ehtml
+> >> +
+> >> +---
+> >> + configure.ac | 6 +++---
+> >> + 1 file changed, 3 insertions(+), 3 deletions(-)
+> >> +
+> >> +diff --git a/configure.ac b/configure.ac
+> >> +index 33b0ca9..519f1a9 100644
+> >> +--- a/configure.ac
+> >> ++++ b/configure.ac
+> >> +@@ -86,9 +86,9 @@ GOBJECT_INTROSPECTION_CHECK([1.31.1])
+> >> +    AM_CONDITIONAL([HAVE_INTROSPECTION], [false])
+> >> +    enable_introspection=3Dno])
+> >> +=20
+> >> +-AC_PATH_TOOL(OBJCOPY, objcopy)
+> >> +-AC_PATH_TOOL(STRINGS, strings)
+> >> +-AC_PATH_TOOL(GPERF, gperf)
+> >> ++AC_CHECK_TOOL(OBJCOPY, objcopy)
+> >> ++AC_CHECK_TOOL(STRINGS, strings)
+> >> ++AC_CHECK_TOOL(GPERF, gperf)
+> >> + if test -z "$GPERF" ; then
+> >> +         AC_MSG_ERROR([*** gperf not found])
+> >> + fi
+> >> +--=20
+> >> +1.8.1.5
+> >> +
+> >> diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-c=
+ore/systemd/systemd_199.bb
+> >> index d22df12..e8ad8f5 100644
+> >> --- a/meta/recipes-core/systemd/systemd_199.bb
+> >> +++ b/meta/recipes-core/systemd/systemd_199.bb
+> >> @@ -27,6 +27,7 @@ SRC_URI =3D "http://www.freedesktop.org/software/sys=
+temd/systemd-${PV}.tar.xz \
+> >>            file://0002-readahead-chunk-on-spinning-media.patch \
+> >>            file://0003-readahead-cleanups.patch \
+> >>            file://0013-systemd-sysctl-Handle-missing-etc-sysctl.conf-p=
+roper.patch \
+> >> +           file://0001-configure-use-AC_CHECK_TOOL-for-objcopy-string=
+s-and-.patch \
+> >>            file://199-firmware.patch \
+> >>            file://init \
+> >>           "
+> >=20
+> >=20
+> >=20
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
 
-diff --git a/meta/recipes-extended/pam/libpam/add-checks-for-crypt-returning-NULL.patch b/meta/recipes-extended/pam/libpam/add-checks-for-crypt-returning-NULL.patch
-new file mode 100644
-index 0000000..d364cea
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/add-checks-for-crypt-returning-NULL.patch
-@@ -0,0 +1,63 @@
-+Backport from linux-pam git repo.
-+
-+[YOCTO #4107]
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+
-+From 8dc056c1c8bc7acb66c4decc49add2c3a24e6310 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tmraz@fedoraproject.org>
-+Date: Fri, 8 Feb 2013 15:04:26 +0100
-+Subject: [PATCH] Add checks for crypt() returning NULL.
-+
-+modules/pam_pwhistory/opasswd.c (compare_password): Add check for crypt() NULL return.
-+modules/pam_unix/bigcrypt.c (bigcrypt): Likewise.
-+---
-+ modules/pam_pwhistory/opasswd.c |    2 +-
-+ modules/pam_unix/bigcrypt.c     |    9 +++++++++
-+ 2 files changed, 10 insertions(+), 1 deletions(-)
-+
-+diff --git a/modules/pam_pwhistory/opasswd.c b/modules/pam_pwhistory/opasswd.c
-+index 274fdb9..836d713 100644
-+--- a/modules/pam_pwhistory/opasswd.c
-++++ b/modules/pam_pwhistory/opasswd.c
-+@@ -108,7 +108,7 @@ compare_password(const char *newpass, const char *oldpass)
-+   outval = crypt (newpass, oldpass);
-+ #endif
-+ 
-+-  return strcmp(outval, oldpass) == 0;
-++  return outval != NULL && strcmp(outval, oldpass) == 0;
-+ }
-+ 
-+ /* Check, if the new password is already in the opasswd file.  */
-+diff --git a/modules/pam_unix/bigcrypt.c b/modules/pam_unix/bigcrypt.c
-+index e10d1c5..e1d57a0 100644
-+--- a/modules/pam_unix/bigcrypt.c
-++++ b/modules/pam_unix/bigcrypt.c
-+@@ -109,6 +109,10 @@ char *bigcrypt(const char *key, const char *salt)
-+ #else
-+ 	tmp_ptr = crypt(plaintext_ptr, salt);	/* libc crypt() */
-+ #endif
-++	if (tmp_ptr == NULL) {
-++		free(dec_c2_cryptbuf);
-++		return NULL;
-++	}
-+ 	/* and place in the static area */
-+ 	strncpy(cipher_ptr, tmp_ptr, 13);
-+ 	cipher_ptr += ESEGMENT_SIZE + SALT_SIZE;
-+@@ -130,6 +134,11 @@ char *bigcrypt(const char *key, const char *salt)
-+ #else
-+ 			tmp_ptr = crypt(plaintext_ptr, salt_ptr);
-+ #endif
-++			if (tmp_ptr == NULL) {
-++				_pam_overwrite(dec_c2_cryptbuf);
-++				free(dec_c2_cryptbuf);
-++				return NULL;
-++			}
-+ 
-+ 			/* skip the salt for seg!=0 */
-+ 			strncpy(cipher_ptr, (tmp_ptr + SALT_SIZE), ESEGMENT_SIZE);
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-extended/pam/libpam/reflect-the-enforce_for_root-semantics-change-in-pam.patch b/meta/recipes-extended/pam/libpam/reflect-the-enforce_for_root-semantics-change-in-pam.patch
-new file mode 100644
-index 0000000..c13535e
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/reflect-the-enforce_for_root-semantics-change-in-pam.patch
-@@ -0,0 +1,35 @@
-+Backport from linux-pam git repo.
-+
-+[YOCTO #4107]
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+
-+From bd07ad3adc626f842a4391d256541883426fd389 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tmraz@fedoraproject.org>
-+Date: Tue, 13 Nov 2012 09:19:05 +0100
-+Subject: [PATCH] Reflect the enforce_for_root semantics change in
-+ pam_pwhistory xtest.
-+
-+xtests/tst-pam_pwhistory1.pamd: Use enforce_for_root as the test is
-+running with real uid == 0.
-+---
-+ xtests/tst-pam_pwhistory1.pamd | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/xtests/tst-pam_pwhistory1.pamd b/xtests/tst-pam_pwhistory1.pamd
-+index 68e1b94..d60db7c 100644
-+--- a/xtests/tst-pam_pwhistory1.pamd
-++++ b/xtests/tst-pam_pwhistory1.pamd
-+@@ -1,6 +1,6 @@
-+ #%PAM-1.0
-+ auth     required       pam_permit.so
-+ account  required       pam_permit.so
-+-password required	pam_pwhistory.so remember=10 retry=1
-++password required	pam_pwhistory.so remember=10 retry=1 enforce_for_root
-+ password required	pam_unix.so	use_authtok md5
-+ session  required       pam_permit.so
-+-- 
-+1.7.11.7
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index 9a49c50..c355634 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -15,6 +15,8 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
-            file://libpam-xtests.patch \
-            file://destdirfix.patch \
-            file://fixsepbuild.patch \
-+           file://reflect-the-enforce_for_root-semantics-change-in-pam.patch \
-+           file://add-checks-for-crypt-returning-NULL.patch \
-           "
- SRC_URI[md5sum] = "7b73e58b7ce79ffa321d408de06db2c4"
- SRC_URI[sha256sum] = "bab887d6280f47fc3963df3b95735a27a16f0f663636163ddf3acab5f1149fc2"
--- 
-1.7.5.4
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--+g7M9IMkV8truYOl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlFuZRcACgkQN1Ujt2V2gBwBtwCgka4km6fLSZMmPmIRiuKjRMQP
+T68An17IIksWwJb/WvjAj24wN706e/9c
+=9t8G
+-----END PGP SIGNATURE-----
+
+--+g7M9IMkV8truYOl--
