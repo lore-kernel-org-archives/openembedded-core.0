@@ -1,30 +1,30 @@
-Received: from vms173005pub.verizon.net ([206.46.173.5])
+Received: from mail-vc0-f169.google.com ([209.85.220.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1USKS4-0004Gk-GA
+	(envelope-from <schnitzeltony@googlemail.com>) id 1USM83-0007dt-1F
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 06:58:37 +0200
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173005.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MLD00HI1UCGGLO5@vms173005.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 16 Apr 2013 23:41:04 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 7BF8A201A7; Wed,
-	17 Apr 2013 00:41:02 -0400 (EDT)
-Date: Wed, 17 Apr 2013 00:41:02 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-id: <20130417044102.GA21029@denix.org>
-References: <1365685393-611-1-git-send-email-Chase.Maupin@ti.com>
-	<1365685393-611-2-git-send-email-Chase.Maupin@ti.com>
-	<7D46E86EC0A8354091174257B2FED101594F0D62@DLEE11.ent.ti.com>
-	<1366150895.25282.11.camel@ted>
-MIME-version: 1.0
-In-reply-to: <1366150895.25282.11.camel@ted>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] u-boot: Add UBOOT_LOCALVERSION to control version string
+	Wed, 17 Apr 2013 08:46:04 +0200
+Received: by mail-vc0-f169.google.com with SMTP id hx10so1072543vcb.28
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2013 23:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=Tjw4ojcdRCMekRlnEKQlQt2vWS1XkC6KBaavMbrL0Ak=;
+	b=O8LU4G41UrWp6gwtQMdgogN+onUK4DJQ0ltS+ICdKu8fBK/KUx8XspHnNc+wF/AsTi
+	jHGupbKZEs4qi1ESdtd3VnOvkhN9CeO3BaPozPqwOspaTThKgagNR02ijcURTQ5Llgem
+	fldGZeJL0SL6Nf7m+7f1SgdlkXo6z/h1rg+4j5s5JJkWvUiV0kjM1V2aabljP4dWaiYD
+	e/wF3EDNtylHkTSvXWRdgIkcTmjPm3mtujIDthWPF8aCDjtqNhmdkC2ORGl2wpbuV719
+	9gjS7mDUKHDJAgK+dYMKIAv8GssqKD78YJA3QtiiFEDDVnVKyCh/X6/NTOYmmHp3S3bm
+	x17Q==
+MIME-Version: 1.0
+X-Received: by 10.52.170.204 with SMTP id ao12mr2711420vdc.83.1366180111427;
+	Tue, 16 Apr 2013 23:28:31 -0700 (PDT)
+Received: by 10.52.185.168 with HTTP; Tue, 16 Apr 2013 23:28:31 -0700 (PDT)
+Date: Wed, 17 Apr 2013 08:28:31 +0200
+Message-ID: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 04:58:38 -0000
-X-List-Received-Date: Wed, 17 Apr 2013 04:58:38 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 17 Apr 2013 06:46:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 16, 2013 at 11:21:35PM +0100, Richard Purdie wrote:
-> On Tue, 2013-04-16 at 11:59 +0000, Maupin, Chase wrote:
-> > > -----Original Message-----
-> > > From: Maupin, Chase
-> > > Sent: Thursday, April 11, 2013 8:03 AM
-> > > To: openembedded-core@lists.openembedded.org
-> > > Cc: Maupin, Chase
-> > > Subject: [PATCHv2] u-boot: Add UBOOT_LOCALVERSION to control
-> > > version string
-> > > 
-> > > * Add a variable called UBOOT_LOCALVERSION which when set will
-> > >   place a version string in the .scmversion file of the u-boot
-> > >   sources.  This string will be picked up by the u-boot Makefile
-> > >   and will be appended to the u-boot version.  This is done to
-> > >   make it easier to identify what revision of the u-boot sources
-> > >   are being run.  For example you can use a setting like the
-> > >   following to add the short commit id to the u-boot version
-> > >   string:
-> > > 
-> > > UBOOT_LOCALVERSION = "-g${@d.getVar('SRCPV',
-> > > True).partition('+')[2][0:7]}"
-> > > 
-> > 
-> > Ping on this patch
-> 
-> These are really enhancements, not bug fixes and are too late for 1.4
-> since they came in after the feature freeze.
-> 
-> I'm nervous of them as there have been several iterations and I can't
-> easily tell what impact these will have on the different package
-> backends, or linux-yocto verses non linux-yocto for example.
-> 
-> Its simply too late and there are other bigger issues I'm worried about.
-> I therefore don't want to take this additional risk, sorry.
+Hi,
 
-Richard,
+sorry again me with another issue. I updated all layers from master
+few hours ago and built from scratch. On first boot with systemd
+postinst never finishes. I see only:
 
-Thanks for the explanation, it's understood.
-Do you want to take it after the release? Would you prefer a ping or a new 
-submission of this patch?
+[**  } A start job is running for Run pending postinsts
 
--- 
-Denys
+and ** are moving around.
+
+Does anybody else face this one?
+
+Andreas
 
 
