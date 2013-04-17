@@ -1,25 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1USUBg-0007QL-9E
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1USUIH-0008BL-GD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 17:22:24 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Apr 2013 08:02:59 -0700
+	Wed, 17 Apr 2013 17:29:13 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2013 08:11:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,492,1363158000"; d="scan'208";a="296328202"
-Received: from unknown (HELO [10.255.13.167]) ([10.255.13.167])
-	by orsmga001.jf.intel.com with ESMTP; 17 Apr 2013 08:04:17 -0700
-Message-ID: <516EB9F0.6050301@linux.intel.com>
-Date: Wed, 17 Apr 2013 08:04:16 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+X-IronPort-AV: E=Sophos;i="4.87,492,1363158000"; d="scan'208";a="319714116"
+Received: from unknown (HELO helios.localnet) ([10.255.14.28])
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2013 08:11:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 17 Apr 2013 16:11:19 +0100
+Message-ID: <1698802.8DrKko4pUN@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <A4E33256-746E-4C88-AA56-D56ACB80CB8D@gmail.com>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+	<18219582.KT7bte5u1O@helios>
+	<A4E33256-746E-4C88-AA56-D56ACB80CB8D@gmail.com>
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <1366206752-26309-1-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1366206752-26309-1-git-send-email-laurentiu.palcu@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] busybox: fix mount issue
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,52 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 15:22:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Apr 2013 15:29:15 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On 04/17/2013 06:52 AM, Laurentiu Palcu wrote:
-> When the mount command is not given the filesystem type to mount, then
-> it will try all the known filesystems. However, when a filesystem is not
-> supported by the kernel, the mount function call will return ENODEV.
->
-> The following patch, ecd90bc6aa63da2aef2513ac090d4b426b2b719c,
-> introduced a problem because it bailed out on ENODEV too. Instead it should
-> have only bailed out on ENOMEDIUM.
->
-> [YOCTO #4308]
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Acked-by & Tested-by: Saul Wold <sgw@linux.intel.com>
+On Wednesday 17 April 2013 07:57:13 Khem Raj wrote:
+> On Apr 17, 2013, at 1:28 AM, Paul Eggleton <paul.eggleton@linux.intel=
+.com>=20
+wrote:
+> > On Tuesday 16 April 2013 23:42:08 Khem Raj wrote:
+> >> On Apr 16, 2013, at 11:28 PM, Andreas M=FCller
+> >> <schnitzeltony@googlemail.com>
+> >>=20
+> >> wrote:
+> >>> sorry again me with another issue. I updated all layers from mast=
+er
+> >>> few hours ago and built from scratch. On first boot with systemd
+> >>> postinst never finishes. I see only:
+> >>>=20
+> >>> [**  } A start job is running for Run pending postinsts
+> >>>=20
+> >>> and ** are moving around.
+> >>>=20
+> >>> Does anybody else face this one?
+> >>=20
+> >> ran into same issue. I disabled post installs to run on boot
+> >=20
+> > Could you guys please try to debug this and find out what is hangin=
+g here,
+> > because with core-image-minimal and systemd I don't see this proble=
+m, the
+> > run- postinsts script finishes as expected.
+>=20
+> does minimal image have rpm post installs ?
 
+So at this point it would really help if someone could:
 
-> ---
-> Saul, Khem,
->
-> Would you guys give this a test? Mounting should work just fine now and my
-> tests didn't show any issues. I didn't test the 'fail on no media' case
-> though... If you can quickly test this, it would be nice.
->
-> Thanks,
-> Laurentiu
->
->
->   .../busybox/busybox-1.20.2/fail_on_no_media.patch  |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/busybox/busybox-1.20.2/fail_on_no_media.patch b/meta/recipes-core/busybox/busybox-1.20.2/fail_on_no_media.patch
-> index aa2cd25..6745f16 100644
-> --- a/meta/recipes-core/busybox/busybox-1.20.2/fail_on_no_media.patch
-> +++ b/meta/recipes-core/busybox/busybox-1.20.2/fail_on_no_media.patch
-> @@ -23,7 +23,7 @@ Index: busybox-1.20.2/util-linux/mount.c
->   +		 * Break if there is no media, no point retrying for all
->   +		 * fs types since there is no media available
->   +		 */
-> -+		if ((rc == -1) && (errno == ENOMEDIUM || errno == ENODEV)) {
-> ++		if (rc == -1 && errno == ENOMEDIUM) {
->   +			bb_perror_msg_and_die("mounting %s on %s failed", mp->mnt_fsname, mp->mnt_dir);
->   +		}
->    		if (!rc || (vfsflags & MS_RDONLY) || (errno != EACCES && errno != EROFS))
->
+a) Tell me exactly what I need to do to reproduce the issue
+
+or
+
+b) Debug the issue and tell me where the script is failing
+
+Thanks,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
