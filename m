@@ -1,30 +1,15 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1USQ4Z-0003KH-Ux for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 12:58:46 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3HAfQm5013874; Wed, 17 Apr 2013 11:41:27 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BtXpizMemS3R; Wed, 17 Apr 2013 11:41:26 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3HAfKoo013863
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 17 Apr 2013 11:41:22 +0100
-Message-ID: <1366195248.25282.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: b28495@freescale.com
-Date: Wed, 17 Apr 2013 11:40:48 +0100
-In-Reply-To: <1366188175-29768-1-git-send-email-b28495@freescale.com>
-References: <1366188175-29768-1-git-send-email-b28495@freescale.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: r63875@freescale.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] augeas: allow empty augeas-lenses package
+	(envelope-from <ml@communistcode.co.uk>) id 1USQ9r-0004Pf-CE
+	for openembedded-core@lists.openembedded.org;
+	Wed, 17 Apr 2013 13:04:17 +0200
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Apr 2013 11:46:36 +0100
+Message-Id: <1366195597-13363-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.2
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [meta-oe][PATCHv2 1/2] net-snmp: fix failure when starting on system without pci bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,69 +22,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 10:58:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Apr 2013 11:04:28 -0000
 
-On Wed, 2013-04-17 at 16:42 +0800, b28495@freescale.com wrote:
-> From: Ting Liu <b28495@freescale.com>
-> 
-> Fix the error when do_rootfs:
-> | Loading cache...
-> | Updating cache...               ######################################## [100%]
-> |
-> | Computing transaction...error: Can't install libaugeas0-1.0.0-r1@ppce500v2: no package provides augeas-lenses
-> |
-> | Saving cache...
-> |
-> | ERROR: Function failed: do_rootfs
-> 
-> augeas-lenses rpm is not generated due to no content:
-> $ ls tmp/deploy/rpm/ppce500v2/augeas-
-> augeas-1.0.0-r1.ppce500v2.rpm      augeas-dev-1.0.0-r1.ppce500v2.rpm
-> augeas-dbg-1.0.0-r1.ppce500v2.rpm  augeas-doc-1.0.0-r1.ppce500v2.rpm
-> $ ls tmp/work/ppce500v2-fsl_networking-linux-gnuspe/augeas/1.0.0-r1/packages-split/augeas-lenses/
-> $
-> 
-> Change-Id: I63b871fdbbd45f1c0b1b5605b342e62e1526c37b
-> Signed-off-by: Ting Liu <b28495@freescale.com>
-> ---
->  meta/recipes-extended/augeas/augeas.inc      |    3 +++
->  meta/recipes-extended/augeas/augeas_1.0.0.bb |    2 +-
->  2 files changed, 4 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-extended/augeas/augeas.inc
-> index c956621..49da973 100644
-> --- a/meta/recipes-extended/augeas/augeas.inc
-> +++ b/meta/recipes-extended/augeas/augeas.inc
-> @@ -29,3 +29,6 @@ LEAD_SONAME = "libaugeas.so"
->  do_install_append() {
->  	rm -fr ${D}${datadir}/vim
->  }
-> +
-> +ALLOW_EMPTY_${PN}-lenses = "1" 
-> +
-> diff --git a/meta/recipes-extended/augeas/augeas_1.0.0.bb b/meta/recipes-extended/augeas/augeas_1.0.0.bb
-> index 82bda19..d898eea 100644
-> --- a/meta/recipes-extended/augeas/augeas_1.0.0.bb
-> +++ b/meta/recipes-extended/augeas/augeas_1.0.0.bb
-> @@ -1,6 +1,6 @@
->  require augeas.inc
->  
-> -PR = "r1"
-> +PR = "r2"
->  
->  SRC_URI[md5sum] = "82131019432ecf8102e1491610ad2dd1"
->  SRC_URI[sha256sum] = "31bf757c5b8197765946b3805f3793c32b03cd92a7a77ec95d37e71a1f131912"
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-Thanks for the warning about this but this isn't the right way to fix
-it. The question is what happened to the files that should be there?
+The snmpd daemon cannot start on platforms without a pci bus:
 
-I've just sent out a patch which fixes this properly.
+snmpd[15460]: pcilib: Cannot open /proc/bus/pci
+snmpd[15460]: pcilib: Cannot find any working access method.
 
-Cheers,
+snmpd should not depend on a PCI bus and should simply move on.
 
-Richard
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ .../recipes-extended/net-snmp/files/ifmib.patch    | 66 ++++++++++++++++++++++
+ .../recipes-extended/net-snmp/net-snmp_5.7.1.bb    |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta-oe/recipes-extended/net-snmp/files/ifmib.patch
+
+diff --git a/meta-oe/recipes-extended/net-snmp/files/ifmib.patch b/meta-oe/recipes-extended/net-snmp/files/ifmib.patch
+new file mode 100644
+index 0000000..859c52c
+--- /dev/null
++++ b/meta-oe/recipes-extended/net-snmp/files/ifmib.patch
+@@ -0,0 +1,66 @@
++Signed-off-by: Jack Mitchell <jack@embed.me.uk>
++Upstream-Status: Pending
++Bug-Report: http://sourceforge.net/p/net-snmp/bugs/2449/
++
++diff --git a/agent/mibgroup/if-mib/data_access/interface_linux.c b/agent/mibgroup/if-mib/data_access/interface_linux.c
++index 3419811..d6eb91a 100644
++--- a/agent/mibgroup/if-mib/data_access/interface_linux.c
+++++ b/agent/mibgroup/if-mib/data_access/interface_linux.c
++@@ -18,7 +18,31 @@ netsnmp_feature_require(interface_ioctl_flags_set)
++ 
++ #ifdef HAVE_PCI_LOOKUP_NAME
++ #include <pci/pci.h>
+++#include <setjmp.h>
++ static struct pci_access *pci_access;
+++
+++/* Avoid letting libpci call exit(1) when no PCI bus is available. */
+++static int do_longjmp =0;
+++static jmp_buf err_buf;
+++static void
+++netsnmp_pci_error(char *msg, ...)
+++{
+++    va_list args;
+++    char *buf;
+++    int buflen;
+++
+++    va_start(args, msg);
+++    buflen = strlen("pcilib: ")+strlen(msg)+2;
+++    buf = malloc(buflen);
+++    snprintf(buf, buflen, "pcilib: %s\n", msg);
+++    snmp_vlog(LOG_ERR, buf, args);
+++    free(buf);
+++    va_end(args);
+++    if (do_longjmp)
+++	longjmp(err_buf, 1);
+++    else
+++	exit(1);
+++}
++ #endif
++ 
++ #ifdef HAVE_LINUX_ETHTOOL_H
++@@ -147,10 +171,22 @@ netsnmp_arch_interface_init(void)
++ 
++ #ifdef HAVE_PCI_LOOKUP_NAME
++     pci_access = pci_alloc();
++-    if (pci_access)
+++    if (!pci_access) {
+++	snmp_log(LOG_ERR, "pcilib: pci_alloc failed\n");
+++	return;
+++    }
+++
+++    pci_access->error = netsnmp_pci_error;
+++
+++    do_longjmp = 1;
+++    if (setjmp(err_buf)) {
+++        pci_cleanup(pci_access);
+++	snmp_log(LOG_ERR, "pcilib: pci_init failed\n");
+++        pci_access = NULL;
+++    }
+++    else if (pci_access)
++ 	pci_init(pci_access);
++-    else
++-	snmp_log(LOG_ERR, "Unable to create pci access method\n");
+++    do_longjmp = 0;
++ #endif
++ }
++ 
+diff --git a/meta-oe/recipes-extended/net-snmp/net-snmp_5.7.1.bb b/meta-oe/recipes-extended/net-snmp/net-snmp_5.7.1.bb
+index 14c1036..19aa163 100644
+--- a/meta-oe/recipes-extended/net-snmp/net-snmp_5.7.1.bb
++++ b/meta-oe/recipes-extended/net-snmp/net-snmp_5.7.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/net-snmp/net-snmp-${PV}.tar.gz \
+         file://systemd-support.patch \
+         file://snmpd.service \
+         file://snmptrapd.service \
++        file://ifmib.patch \
+ "
+ 
+ EXTRA_OECONF += "--disable-embedded-perl --with-perl-modules=no"
+-- 
+1.8.2
 
 
 
