@@ -1,42 +1,41 @@
-Received: from mail-ee0-f48.google.com ([74.125.83.48])
+Received: from mail-ea0-f178.google.com ([209.85.215.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1USSxo-0006Tv-16
+	(envelope-from <koen@dominion.thruhere.net>) id 1USSzY-0006gV-BF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 16:03:56 +0200
-Received: by mail-ee0-f48.google.com with SMTP id b15so742757eek.7
+	Wed, 17 Apr 2013 16:05:51 +0200
+Received: by mail-ea0-f178.google.com with SMTP id o10so762524eaj.37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 06:46:24 -0700 (PDT)
+	Wed, 17 Apr 2013 06:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=5z+O6kQ61vfgPUJRoI5R1dROD5Brnf9LikgKE2kw4Dg=;
-	b=YgGVRrZzCxSeYIu3AFuwATbGIQT4DSPSeN/NRrFqhlBDW7SZbccDVUIreD3n1UKW+w
-	RaYY/d2nrAIm1LVnAtZryMgwWUX2X0RlPC4mwOP2GcZenAV3Nss2oejdnZtsnMT2z+Z5
-	5VtfdP7Unq2x5xRe0eLHujqg69KZ0t//uwdHz3Ttv23YVx1pvfh7GkTCEHMQghLRG9pB
-	Rg68+LpTSfpHBA/qPycyVEuqhtNvsxvrls7s6pdAPepAkU/e+lzPmr6KQe5zro/3F57i
-	ToiVMfYUrUWnTpn8JYzR9QNevG/coKXCtNSN1RtDURHSwNzvnKIOw4sQD49im9uISORd
-	Gruw==
-X-Received: by 10.15.32.142 with SMTP id a14mr18580218eev.22.1366206383784;
-	Wed, 17 Apr 2013 06:46:23 -0700 (PDT)
+	bh=QnGVFof29ojYuEujAnEZy1WVAMxM1cL5ZADLTz4MO/A=;
+	b=J3IdJdzMfQDfc1mXzTbanBUZaCLeOOAWCf6YEsWzgGKb9tgoNMqP7jZppPp2EMG1Dj
+	XWuFu0FYRzR5s1Yeq2XL7LeJWLQiJ7CntzKbwPGens7cJ2vItjDtlJlKcWYoa3P8TA3T
+	NkhB0QKNI9aG+7bNb/Wtp5lSVoXxswT40e7p5m3wgUOxOOxsBSSx3frhyBuxKuUnFIm6
+	oUhnykur3spCwc6X7pxLMUpX+StAsrx223tBv2oy6Mt+bU2LIyrJ9Odv8Opfdf1GJ3X9
+	SKowRZUQyn2yOtLIXbmTyuotzqFZ+T53qXwXbZdInaNSvD/9zagUSIv5Un1sR+29ajoE
+	NftQ==
+X-Received: by 10.15.34.199 with SMTP id e47mr18445069eev.35.1366206492340;
+	Wed, 17 Apr 2013 06:48:12 -0700 (PDT)
 Received: from ?IPv6:2001:610:612::21c1:ed39:9a9e:8f89?
 	([2001:610:612:0:21c1:ed39:9a9e:8f89])
-	by mx.google.com with ESMTPS id bk42sm9191213eeb.3.2013.04.17.06.46.21
+	by mx.google.com with ESMTPS id i53sm9188432eeu.5.2013.04.17.06.48.10
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 17 Apr 2013 06:46:22 -0700 (PDT)
+	Wed, 17 Apr 2013 06:48:11 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1366205668-19096-2-git-send-email-ross.burton@intel.com>
-Date: Wed, 17 Apr 2013 15:46:23 +0200
-Message-Id: <D3C4D5BE-79FE-4F92-B9C8-3B6710142DD5@dominion.thruhere.net>
+In-Reply-To: <1366205668-19096-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 17 Apr 2013 15:48:12 +0200
+Message-Id: <3AD2AB56-AC3B-4DFD-B9CE-96DB76244A8B@dominion.thruhere.net>
 References: <1366205668-19096-1-git-send-email-ross.burton@intel.com>
-	<1366205668-19096-2-git-send-email-ross.burton@intel.com>
 To: Ross Burton <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQlJ9WeH0/l4KRaTwpjCbmYbNJUq5kgQMgule34ac59hpNr9cyjfM0dI26WN8uTWjcsbjzDg
+X-Gm-Message-State: ALoCoQns+ub+wzyySp/Jo+MXK6w/dkQ4HoVa5PiYmRwvor7dJ5pRUOHncrHW9pqfc6F6TqIjV+AE
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] cairo: drop transform patch, it's been rejected upstream
+Subject: Re: [PATCH 1/2] png: fix over-zealous warnings about transforms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,138 +48,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 14:04:01 -0000
-X-List-Received-Date: Wed, 17 Apr 2013 14:04:01 -0000
+X-List-Received-Date: Wed, 17 Apr 2013 14:06:26 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 Op 17 apr. 2013, om 15:34 heeft Ross Burton <ross.burton@intel.com> het =
 volgende geschreven:
 
-> This fix was rejected by upstream, the correct fix is actually to fix =
-libpng.
+> libpng 1.6.0/1.6.1 emits warnings about function ordering when there =
+isn't a
+> problem, which causes Cairo to fail loading images.  Take the patch =
+from
+> upstream to fix this.
 
-That fix is supposed to be in libpng HEAD and appear in 1.6.2:
-
-"The git head of libpng16 (and libpng17) has a fix that should allow =
-user
-transforms (but not png_set_user_transform_info) to be called after
-png_read_update_info." - John Bowler
+Any chance of 1.6.1 getting into the release to get the NEON filter =
+fixes?
 
 regards,
 
 Koen
 
-
 >=20
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
-> meta/recipes-graphics/cairo/cairo/png.patch |   77 =
-++-------------------------
-> 1 file changed, 3 insertions(+), 74 deletions(-)
+> .../libpng/libpng/transform.patch                  |   46 =
+++++++++++++++++++++
+> meta/recipes-multimedia/libpng/libpng_1.6.0.bb     |    2 +-
+> 2 files changed, 47 insertions(+), 1 deletion(-)
+> create mode 100644 =
+meta/recipes-multimedia/libpng/libpng/transform.patch
 >=20
-> diff --git a/meta/recipes-graphics/cairo/cairo/png.patch =
-b/meta/recipes-graphics/cairo/cairo/png.patch
-> index 15ce80a..bf00332 100644
-> --- a/meta/recipes-graphics/cairo/cairo/png.patch
-> +++ b/meta/recipes-graphics/cairo/cairo/png.patch
-> @@ -1,81 +1,10 @@
-> -libpng 1.6 is stricter in various ways, which trips up Cairo's PNG =
-loader.
-> +libpng 1.6 is stricter in various ways, which can trip up the PNG =
-loader as it
-> +considers all warnings fatal.
+> diff --git a/meta/recipes-multimedia/libpng/libpng/transform.patch =
+b/meta/recipes-multimedia/libpng/libpng/transform.patch
+> new file mode 100644
+> index 0000000..369a2c0
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/libpng/libpng/transform.patch
+> @@ -0,0 +1,46 @@
+> +Corrected the test on user transform changes on read. It was in the =
+png_set of
+> +the transform function, but that doesn't matter unless the transform =
+function
+> +changes the rowbuf size, and that is only valid if transform_info is =
+called.
+> +
+> +Upstream-Status: Backport (will be in 1.6.2)
+> +                 - b44cd59ad9747069b90c6ff0f76558157a61e26a
+> +                 - a8715cabd11354da9650dff7c0770686a217b550
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +
+> +
+> +diff --git a/pngrtran.c b/pngrtran.c
+> +index 626f3b0..4485e40 100644
+> +--- a/pngrtran.c
+> ++++ b/pngrtran.c
+> +@@ -1056,9 +1056,6 @@ png_set_read_user_transform_fn(png_structrp =
+png_ptr, png_user_transform_ptr
+> + {
+> +    png_debug(1, "in png_set_read_user_transform_fn");
+> +=20
+> +-   if (!png_rtran_ok(png_ptr, 0))
+> +-      return;
+> +-
+> + #ifdef PNG_READ_USER_TRANSFORM_SUPPORTED
+> +    png_ptr->transformations |=3D PNG_USER_TRANSFORM;
+> +    png_ptr->read_user_transform_fn =3D read_user_transform_fn;
+> +diff --git a/pngtrans.c b/pngtrans.c
+> +index b532172..f822324 100644
+> +--- a/pngtrans.c
+> ++++ b/pngtrans.c
+> +@@ -782,6 +782,17 @@ png_set_user_transform_info(png_structrp =
+png_ptr, png_voidp
+> +=20
+> +    if (png_ptr =3D=3D NULL)
+> +       return;
+> ++
+> ++#ifdef PNG_READ_USER_TRANSFORM_SUPPORTED
+> ++   if ((png_ptr->mode & PNG_IS_READ_STRUCT) !=3D 0 &&
+> ++      (png_ptr->flags & PNG_FLAG_ROW_INIT) !=3D 0)
+> ++   {
+> ++      png_app_error(png_ptr,
+> ++            "info change after png_start_read_image or =
+png_read_update_info");
+> ++      return;
+> ++   }
+> ++#endif
+> ++
+> +    png_ptr->user_transform_ptr =3D user_transform_ptr;
+> +    png_ptr->user_transform_depth =3D (png_byte)user_transform_depth;
+> +    png_ptr->user_transform_channels =3D =
+(png_byte)user_transform_channels;
+> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb =
+b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+> index 951e34a..2353e8d 100644
+> --- a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+> @@ -10,7 +10,7 @@ PR =3D "r0"
+> LIBV =3D "16"
 >=20
-> -Upstream-Status: Submitted (first)/Backport (second)
-> +Upstream-Status: Backport
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> SRC_URI =3D =
+"${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar=
+.xz \
+> -          "
+> +           file://transform.patch"
 >=20
->=20
-> -=46rom 1535e4eeda7e0792fe5e7e5ab377c5253ee89ce7 Mon Sep 17 00:00:00 =
-2001
-> -From: Ingmar Runge <ingmar@irsoft.de>
-> -Date: Tue, 16 Apr 2013 10:48:59 +0100
-> -Subject: [PATCH 1/2] png: fix transform ordering
-> -
-> -libpng 1.6 is stricter with the function ordering, emitting the =
-warning "invalid
-> -before the PNG header has been read" when calling =
-png_set_read_user_transform_fn
-> -whilst loading a PNG.
-> -
-> -So, re-order the functions to the order that libpng is happy with.
-> -
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ----
-> - src/cairo-png.c |   21 +++++++++++++++++++--
-> - 1 file changed, 19 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/src/cairo-png.c b/src/cairo-png.c
-> -index e74a4a8..3aec86a 100644
-> ---- a/src/cairo-png.c
-> -+++ b/src/cairo-png.c
-> -@@ -497,6 +497,20 @@ convert_bytes_to_data (png_structp png, =
-png_row_infop row_info, png_bytep data)
-> -     }
-> - }
-> -=20
-> -+/* branches into premultiply_data or convert_bytes_to_data depending =
-on color type */
-> -+static void read_user_transform_func (png_structp png, png_row_infop =
-row_info, png_bytep data)
-> -+{
-> -+    switch ((cairo_format_t) png_get_user_transform_ptr (png)) {
-> -+        case CAIRO_FORMAT_ARGB32:
-> -+            premultiply_data (png, row_info, data);
-> -+            break;
-> -+
-> -+        case CAIRO_FORMAT_RGB24:
-> -+            convert_bytes_to_data (png, row_info, data);
-> -+            break;
-> -+    }
-> -+}
-> -+
-> - static cairo_status_t
-> - stdio_read_func (void *closure, unsigned char *data, unsigned int =
-size)
-> - {
-> -@@ -623,6 +637,9 @@ read_png (struct png_read_closure_t *png_closure)
-> -=20
-> -     png_set_filler (png, 0xff, PNG_FILLER_AFTER);
-> -=20
-> -+    /* this must be stored before calling png_read_update_info */
-> -+    png_set_read_user_transform_fn (png, read_user_transform_func);
-> -+
-> -     /* recheck header after setting EXPAND options */
-> -     png_read_update_info (png, info);
-> -     png_get_IHDR (png, info,
-> -@@ -643,15 +660,15 @@ read_png (struct png_read_closure_t =
-*png_closure)
-> -=20
-> - 	case PNG_COLOR_TYPE_RGB_ALPHA:
-> - 	    format =3D CAIRO_FORMAT_ARGB32;
-> --	    png_set_read_user_transform_fn (png, premultiply_data);
-> - 	    break;
-> -=20
-> - 	case PNG_COLOR_TYPE_RGB:
-> - 	    format =3D CAIRO_FORMAT_RGB24;
-> --	    png_set_read_user_transform_fn (png, convert_bytes_to_data);
-> - 	    break;
-> -     }
-> -=20
-> -+    png_set_user_transform_info (png, (void*) format, 0, 0);
-> -+
-> -     stride =3D cairo_format_stride_for_width (format, png_width);
-> -     if (stride < 0) {
-> - 	surface =3D _cairo_surface_create_in_error (_cairo_error =
-(CAIRO_STATUS_INVALID_STRIDE));
-> ---=20
-> -1.7.10.4
-> -
-> =46rom 2dd2c826a5b367d32cf2d48ed69754795990c5db Mon Sep 17 00:00:00 =
-2001
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> Date: Tue, 16 Apr 2013 10:58:56 +0100
+> SRC_URI[md5sum] =3D "3ee623b9a4d33bda7310a5124080b14d"
+> SRC_URI[sha256sum] =3D =
+"5e13c31321083b03956b5ff298bacffab7a7ad35c34c122acef314593944b97b"
 > --=20
 > 1.7.10.4
 >=20
