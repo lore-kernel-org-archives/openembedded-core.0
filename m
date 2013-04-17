@@ -1,34 +1,37 @@
-Received: from mail-lb0-f177.google.com ([209.85.217.177])
+Received: from mail-ve0-f170.google.com ([209.85.128.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1UST3w-0007N2-1C
+	(envelope-from <ross.burton@intel.com>) id 1UST5b-0007ki-NK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Apr 2013 16:10:16 +0200
-Received: by mail-lb0-f177.google.com with SMTP id r10so1632028lbi.36
+	Wed, 17 Apr 2013 16:12:01 +0200
+Received: by mail-ve0-f170.google.com with SMTP id 14so1455437vea.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2013 06:52:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=V1tBfmSOf0BoPw51zcbYLAJDgr2Df6vIxNm+Fd/L5lo=;
-	b=aGRRzQw5LjUzHAjzIHmnEUbg/P12MPNAiREdWzi76fgdK9CCcv/wGqwutwJAbfbOTR
-	sV79TtG1rqgLUNOtcDniSoIJplvBtuD6JAS/OXgcIwbCqdQqBxZWTc3b4KrFHogOF2Lq
-	sakalf6Z7nQb9JMJMDCjqsrJrwR64Mbd488U/OTrE85Y4akzrcY3CPKAs/ohsw8VOJIl
-	Il9gr/5hZ0YHTlF1if1M8B7gE0smyax/AlHzUpVOzYO1vB6Shtcgeyu4KwordDbpptA4
-	yuQxF+KwoA8eC8puUVQJ39gjfD9k/LOQD4A5Ml0kvmN0WBZsALz5DLE/xOOXQux9nag3
-	NLaQ==
+	Wed, 17 Apr 2013 06:54:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=lvnkBEQcmt9nMFNmYuxiqos9iPgOPzb7TYpLzvN5YZ8=;
+	b=XVwyLk140BjchcbfOdeUT1EI4BNUBaHygLGPDixI1AqFr9JDODRYWmvfMp+DnIm5lw
+	GZoALNVKD3QykvhDQEBBoOX9zWSABRwvc2o27vgaL62bSGr696xkuOXISf37Nmi0CpXU
+	Ry0ysPKLoQM6h6GkG/CTv3CJV2xYv/4m8FowT7tEZNUwgJZB+RcrUEQpBGcOStv/JRd4
+	Ow0Qd3M+4dulEHmhyqKMtsVxVZt3WTsrfiqwAa7M/3Qav+vsVTd71JGsYLjaX3V+X7bq
+	SrtNx54UV7fFa9WpmmpBTa2vsCj8II8nj2nRJEZDZYM4JbRQQiHD6co6JZ7xT3ErV627
+	gbRg==
+X-Received: by 10.52.158.163 with SMTP id wv3mr4206146vdb.82.1366206867618;
+	Wed, 17 Apr 2013 06:54:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.112.61.6 with SMTP id l6mr3630901lbr.57.1366206764205; Wed,
-	17 Apr 2013 06:52:44 -0700 (PDT)
-Received: by 10.112.75.161 with HTTP; Wed, 17 Apr 2013 06:52:44 -0700 (PDT)
-In-Reply-To: <1366200612-22469-1-git-send-email-sergey_matyukevich@mentor.com>
-References: <1366200612-22469-1-git-send-email-sergey_matyukevich@mentor.com>
-Date: Wed, 17 Apr 2013 09:52:44 -0400
-Message-ID: <CADkTA4Mrw50x2SXjwpug9QA-VgwpQZrAH6OpbU-F+SB2-G0uPw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Sergey Matyukevich <sergey_matyukevich@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] map_kernel_arch: x86 sub-architectures
+Received: by 10.220.100.68 with HTTP; Wed, 17 Apr 2013 06:54:07 -0700 (PDT)
+In-Reply-To: <D3C4D5BE-79FE-4F92-B9C8-3B6710142DD5@dominion.thruhere.net>
+References: <1366205668-19096-1-git-send-email-ross.burton@intel.com>
+	<1366205668-19096-2-git-send-email-ross.burton@intel.com>
+	<D3C4D5BE-79FE-4F92-B9C8-3B6710142DD5@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 17 Apr 2013 14:54:07 +0100
+Message-ID: <CAJTo0LZa9+U6JDB+Fzm=RzxNWrcSKnRXFUh4kRTc5peZqibgvw@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQlTL3ygtp7wX9sxBGDkYWK0T+kjHtp/cG+Fyjora15wCvLw7RT4lqQElY20YQLJ+S69PT45
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] cairo: drop transform patch, it's been rejected upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,69 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2013 14:10:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 17 Apr 2013 14:12:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 17, 2013 at 8:10 AM, Sergey Matyukevich
-<sergey_matyukevich@mentor.com> wrote:
-> Suppose we build software for x86 targets on x86 build hosts. There are use-cases
-> when it is not enough to specify x86 as a kernel architecture. It is necessary
+On 17 April 2013 14:46, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Op 17 apr. 2013, om 15:34 heeft Ross Burton <ross.burton@intel.com> het volgende geschreven:
+>
+>> This fix was rejected by upstream, the correct fix is actually to fix libpng.
+>
+> That fix is supposed to be in libpng HEAD and appear in 1.6.2:
 
-What are the details of the use cases ? I've never run into this myself, and
-almost no parts of the kernel build infrastructure differentiates between
-x86 and x86_64 .. so I'm curious to know what is breaking.
+Yes, that's where the patch in 1/2 comes from.
 
-Bruce
-
-> to go one step further and to specify proper x86 sub-architecture (i386 or
-> x86_64) of the target system.
->
-> This patch modifies kernel-arch.bbclass in the following way:
->  - adds x86_64 to the list of valid architectures
->  - differentiates between i386 and x86_64 sub-architectures in map_kernel_arch
->
-> Signed-off-by: Sergey Matyukevich <sergey_matyukevich@mentor.com>
-> ---
->  meta/classes/kernel-arch.bbclass |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-> index b3b71ba..3e29f45 100644
-> --- a/meta/classes/kernel-arch.bbclass
-> +++ b/meta/classes/kernel-arch.bbclass
-> @@ -5,7 +5,7 @@
->  #
->
->  valid_archs = "alpha cris ia64 \
-> -               i386 x86 \
-> +               i386 x86 x86_64 \
->                 m68knommu m68k ppc powerpc powerpc64 ppc64  \
->                 sparc sparc64 \
->                 arm aarch64 \
-> @@ -20,7 +20,9 @@ def map_kernel_arch(a, d):
->
->      valid_archs = d.getVar('valid_archs', True).split()
->
-> -    if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
-> +    if   re.match('athlon$', a):                return 'x86'
-> +    elif re.match('i.86$', a):                  return 'i386'
-> +    elif re.match('x86.64$', a):                return 'x86_64'
->      elif re.match('armeb$', a):                 return 'arm'
->      elif re.match('aarch64$', a):               return 'arm64'
->      elif re.match('mips(el|64|64el)$', a):      return 'mips'
-> --
-> 1.7.2.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Ross
 
 
