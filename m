@@ -1,28 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1USqO0-00072v-9N
+	(envelope-from <mark.hatle@windriver.com>) id 1USqjB-0000Z0-Sn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 17:04:37 +0200
+	Thu, 18 Apr 2013 17:26:29 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3IEkwc8011777
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 07:46:58 -0700 (PDT)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3IF8ljU009181
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Apr 2013 08:08:47 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 18 Apr 2013 07:46:58 -0700
-Message-ID: <51700760.7000204@windriver.com>
-Date: Thu, 18 Apr 2013 09:46:56 -0500
+	14.2.342.3; Thu, 18 Apr 2013 08:08:47 -0700
+Message-ID: <51700C7C.3050100@windriver.com>
+Date: Thu, 18 Apr 2013 10:08:44 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: Re: [PATCH] package_rpm.bbclass: fix /etc/rpm/platform generation
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+References: <alpine.DEB.2.02.1304180833040.10184@oneiric>
+	<516FFE5F.7040901@windriver.com>
+	<alpine.DEB.2.02.1304181018220.21920@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1304181018220.21920@oneiric>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: tweaking insane.bbclass to handle MIPS SEAD-3?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,79 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 15:04:42 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 15:26:33 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/18/13 9:27 AM, Bogdan Marinescu wrote:
-> For some platforms (for example emenlow) the RPM installer prefers
-> an invalid package architecture (for example i586 over core2) because
-> /etc/rpm/platform is not properly generated (for example, i586 is
-> listed before core2 in /etc/rpm/platform).
+On 4/18/13 9:25 AM, Robert P. J. Day wrote:
+> On Thu, 18 Apr 2013, Mark Hatle wrote:
 >
-> [YOCTO #3864]
+>> On 4/18/13 7:38 AM, Robert P. J. Day wrote:
+>>>
+>>>     students from a class of mine last year are currently playing
+>>> with a MIPS SEAD-3:
+>>>
+>>> http://www.mips.com/products/development-kits/mips-sead-3/
+>>>
+>>> and asked for some assistance getting oe/yocto to build for that
+>>> kit. they started with the routerstation pro content, and just
+>>> wanted to reproduce the same rootfs to run on the SEAD-3 (they
+>>> would use the provided u-boot and kernel for now). the biggest
+>>> issue was changing the endianness of the build.
+>>>
+>>>     got an email this morning, they have a working rootfs, i asked
+>>> for details on everything they had to do, but for now, here's the
+>>> final issue they dealt with:
+>>>
+>>> "Attached rootfs created for RS Pro, but with mips32el (little
+>>> endian config) and soft floating point. I had to comment out the
+>>> endianess check Python code from the insane.bbclass file to get
+>>> the build to work."
+>>
+>> I'm interested in what changes are required.  Both mips and mipsel
+>> are defined in the insane class.  If you define 'mips', but end up
+>> building little endian, you WILL get errors.  But if the arch is
+>> defined as mipsel, then no errors should be generated.
+>>
+>> If the arch is 'mips32' and 'mips32el' then those are simply not
+>> defined at this point.  But before defining them, what is the
+>> difference between mips and mips32?
+>>
+>> (I have no experience with this particular board, so I don't know
+>> what the actual gcc configuration is for building functional
+>> software.)
 >
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> ---
->   meta/classes/package_rpm.bbclass |    1 -
->   1 file changed, 1 deletion(-)
+>    i'm still waiting to hear back ... do you know *theoretically* what
+> the recipe should have been? i gave them some initial advice but as
+> this was the first time i had anything to do with MIPS endianness, it
+> might have been horrifically bad advice.
 >
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 3a29976..1bee4b1 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -276,7 +276,6 @@ package_install_internal_rpm () {
->   		# Setup base system configuration
->   		echo "Note: configuring RPM platform settings"
->   		mkdir -p ${target_rootfs}/etc/rpm/
-> -		echo "$INSTALL_PLATFORM_RPM" > ${target_rootfs}/etc/rpm/platform
-
-I think this is wrong.  The /etc/rpm/platform file's first line is supposed to 
-be the equivalent of: [uname -m]-vendor-os.   While uname -m doesn't match our 
-tune namings, the concept is the same.  The first line simply defines the "tune" 
-of the platform, subsequent lines define alternative names that will run on this 
-system.
-
-The INSTALL_PLATFORM_RPM value should be the expected value for the platform as 
-a whole, as it's the default tune value.  (Default tune value is expected to be 
-the most accurate value.
-
-Looking at the defect:
-
-i586-poky-linux
-emenlow-.*-linux
-core2-.*-linux
-i686-.*-linux
-i586-.*-linux
-i486-.*-linux
-i386-.*-linux
-x86-.*-linux
-noarch-.*-linux.*
-any-.*-linux.*
-all-.*-linux.*
-
-The default tune value for that machine was set to i586 by "something".
-
-INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR}-${TARGET_OS}"
-
-${TARGET_ARCH} is similar to the output of uname -m.  The error is that this 
-particular BSP should have returned 'core2' as the TARGET_ARCH from what I can tell.
-
-Default for TARGET_ARCH is: TARGET_ARCH = "${TUNE_ARCH}"
-
-So the TUNE_ARCH is being set to i586.  So the end result is..  Is 'TUNE_ARCH' 
-set to i586 appropriate?  It probably is, because the majority of the system 
-seems to have a limited set of expected values for TARGET_ARCH.
-
-So, perhaps the right fix is instead of using 'TARGET_ARCH' in 
-INSTALL_PLATFORM_RPM, 'TUNE_PKGARCH_${DEFAULTTUNE}' may be more appropriate.
-
-I'd suggest trying that.  (But the first line is the system architecture, 
-following lines are alternative packages that are considered compatible.)
-
+>    i pointed out the oe-core file "tune-mips32.inc", and the following:
 >
->   		if [ ! -z "$INSTALL_PLATFORM_EXTRA_RPM" ]; then
->   			for pt in $INSTALL_PLATFORM_EXTRA_RPM ; do
+> DEFAULTTUNE ?= "mips32"
+>
+> require conf/machine/include/mips/arch-mips.inc
+>
+> TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
+> TUNECONFLICTS[mips32] = "n64 n32"
+> TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32",
+> "-march=mips32", "", d)}"
+>
+> AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
+>
+>    so, off the top of my head, i suggested adding to local.conf:
+>
+> DEFAULTTUNE := "mips32el"
+
+A quick look at master says that that should be fine.  It will result in:
+
+TUNE_FEATURES = "o32 fpu-hard mips32"
+BASE_LIB = "lib"
+TUNE_ARCH = "mipsel"
+TUNE_PKGARCH = "mips32el"
+PACKAGE_EXTRA_ARCHS = "mipsel mips32el"
+
+Changing the tune to "mips32el-nf", will result in a mips32 little endian, 
+soft-float system.  And there should be no sanity or other failures.
+
+(Note, the difference between 'mips' and 'mips32' is use of -march=mips32.)
+
+> since that's listed as one of the "AVAILTUNES", but i was just
+> guessing. from what i heard, that *partly* solved the problem but the
+> rest of the solution is what you read above.
+>
+>    i can easily ask them to try a different recipe, they're all set up
+> to build and test a rootfs. what *would* have been the right approach?
+
+If the tuning is set right, then everything else should "just work".  They can 
+do the DEFAULTTUNE setting in their local.conf, but it's better to do it in 
+their machine.conf file.  (Style vs required.)
+
+They can verify the settings using 'bitbake -e' and looking for the CC flags, 
+and other related items to make sure they are right for this system.
+
+> rday
 >
 
 
