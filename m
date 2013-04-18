@@ -1,35 +1,28 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1USqIq-0006BG-16
+	(envelope-from <mark.hatle@windriver.com>) id 1USqO0-00072v-9N
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 16:59:12 +0200
-Received: by mail-we0-f178.google.com with SMTP id z53so2345516wey.23
+	Thu, 18 Apr 2013 17:04:37 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3IEkwc8011777
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 07:41:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=eRiKNa3SDzwAcz5cplXyCQ40z9ui9TEk0KAwKgUh4e8=;
-	b=ml0SQXyTAHm5Z6ZKnd/WhGJHXQKenfJSpYf6NyARbhIo3OSARzxgOzmTPa5AuBhaUV
-	D7CwC53Vow6ODLvksUePENQnIQORYebBFbsJCxRIgv17M5UAxwGNgBjKiIFhIzpKZ9vw
-	zXV37Kjo9dvqGhn/+AKJcPXYXQqrtmsRlap6XsqIHa8vRc31Fji7mAARx0FrKo+MtkOa
-	0wjgkpY8IvFBvVfRQQEHo+WHz3zFn2uHLG/7HfSvPZpDMZTl/5axdFaSMejSvikG+0g+
-	Ut+PD7v/iACfNnzT6goN7Nrd3AoPmnmj6gxjWZrRD27Q+sGrIe/Vn/OEKih3SfXuGakW
-	QMHg==
-X-Received: by 10.194.109.136 with SMTP id hs8mr19409271wjb.8.1366296095948;
-	Thu, 18 Apr 2013 07:41:35 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id g4sm16530174wib.11.2013.04.18.07.41.34
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 18 Apr 2013 07:41:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Apr 2013 15:38:43 +0100
-Message-Id: <1366295923-29393-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmvsP+bNNEcx7Uu6a4vDt+gCvRPH40DgCT+xqfHVWkXDQNtHW5LmJh6Qw17dX0w/T+ZDeb/
-Subject: [PATCH] udev: drop dependency on udev in libudev
+	Thu, 18 Apr 2013 07:46:58 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 18 Apr 2013 07:46:58 -0700
+Message-ID: <51700760.7000204@windriver.com>
+Date: Thu, 18 Apr 2013 09:46:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
+In-Reply-To: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
+Subject: Re: [PATCH] package_rpm.bbclass: fix /etc/rpm/platform generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,34 +35,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 14:59:13 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 15:04:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-libudev previously depended on udev, but this causes problems with multilib
-if the user wants to install two variants of libudev as they'll pull in two
-variants of udev, which will conflict.
+On 4/18/13 9:27 AM, Bogdan Marinescu wrote:
+> For some platforms (for example emenlow) the RPM installer prefers
+> an invalid package architecture (for example i586 over core2) because
+> /etc/rpm/platform is not properly generated (for example, i586 is
+> listed before core2 in /etc/rpm/platform).
+>
+> [YOCTO #3864]
+>
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> ---
+>   meta/classes/package_rpm.bbclass |    1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 3a29976..1bee4b1 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -276,7 +276,6 @@ package_install_internal_rpm () {
+>   		# Setup base system configuration
+>   		echo "Note: configuring RPM platform settings"
+>   		mkdir -p ${target_rootfs}/etc/rpm/
+> -		echo "$INSTALL_PLATFORM_RPM" > ${target_rootfs}/etc/rpm/platform
 
-Instead, remove the dependency and rely that the image pulls in udev in some
-way, such as the commonly used packagegroup-core-boot.
+I think this is wrong.  The /etc/rpm/platform file's first line is supposed to 
+be the equivalent of: [uname -m]-vendor-os.   While uname -m doesn't match our 
+tune namings, the concept is the same.  The first line simply defines the "tune" 
+of the platform, subsequent lines define alternative names that will run on this 
+system.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/udev/udev.inc |    1 -
- 1 file changed, 1 deletion(-)
+The INSTALL_PLATFORM_RPM value should be the expected value for the platform as 
+a whole, as it's the default tune value.  (Default tune value is expected to be 
+the most accurate value.
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 7221a49..dd250f7 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -15,7 +15,6 @@ LDFLAGS += "-lrt"
- DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native util-linux"
- RPROVIDES_${PN} = "hotplug"
- RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
--RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
--- 
-1.7.10.4
+Looking at the defect:
+
+i586-poky-linux
+emenlow-.*-linux
+core2-.*-linux
+i686-.*-linux
+i586-.*-linux
+i486-.*-linux
+i386-.*-linux
+x86-.*-linux
+noarch-.*-linux.*
+any-.*-linux.*
+all-.*-linux.*
+
+The default tune value for that machine was set to i586 by "something".
+
+INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR}-${TARGET_OS}"
+
+${TARGET_ARCH} is similar to the output of uname -m.  The error is that this 
+particular BSP should have returned 'core2' as the TARGET_ARCH from what I can tell.
+
+Default for TARGET_ARCH is: TARGET_ARCH = "${TUNE_ARCH}"
+
+So the TUNE_ARCH is being set to i586.  So the end result is..  Is 'TUNE_ARCH' 
+set to i586 appropriate?  It probably is, because the majority of the system 
+seems to have a limited set of expected values for TARGET_ARCH.
+
+So, perhaps the right fix is instead of using 'TARGET_ARCH' in 
+INSTALL_PLATFORM_RPM, 'TUNE_PKGARCH_${DEFAULTTUNE}' may be more appropriate.
+
+I'd suggest trying that.  (But the first line is the system architecture, 
+following lines are alternative packages that are considered compatible.)
+
+>
+>   		if [ ! -z "$INSTALL_PLATFORM_EXTRA_RPM" ]; then
+>   			for pt in $INSTALL_PLATFORM_EXTRA_RPM ; do
+>
 
 
 
