@@ -1,21 +1,31 @@
-Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1UShrD-0000IH-Uy
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 07:58:10 +0200
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.3])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id A622E40586;
-	Thu, 18 Apr 2013 06:55:01 +0200 (CEST)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Apr 2013 07:40:11 +0200
-Message-Id: <1366263611-25106-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] python-setuptools: Improving the runtime dependencies
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1USjYf-00045w-Lc for openembedded-core@lists.openembedded.org;
+	Thu, 18 Apr 2013 09:47:06 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3I7U2tE020804 for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 08:30:02 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nrYEecnDG145
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 08:30:02 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3I7TwxQ020799
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 08:29:59 +0100
+Message-ID: <1366270160.10502.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Apr 2013 08:29:20 +0100
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: systemd/sysvinit in the 1.4 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,38 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 05:58:12 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 07:47:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When trying to import setuptools on a minimal image, it reports that some
-python module is missing. We add those missing python modules as runtime
-dependency.
+I just wanted to be clear with people what has gone on with sysvinit and
+systemd in the 1.4 release. 
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
----
- .../python/python-setuptools_0.6c11.bb             |    8 ++++++++
- 1 file changed, 8 insertions(+)
+Basically I took some patches recently on a trust that certain things
+had been checked and it was found that there were problems with the
+changes after they went in. At some point I have to trust the data I'm
+getting and in this case things broke down. 
 
-diff --git a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb b/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
-index 8608104..f09a312 100644
---- a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
-+++ b/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
-@@ -23,6 +23,14 @@ do_install_prepend() {
- }
- 
- RDEPENDS_${PN} = "\
-+  python-stringold \
-+  python-email \
-+  python-shell \
-+  python-distutils \
-+  python-compression \
-+"
-+
-+RDEPENDS_${PN}_class-native = "\
-   python-distutils \
-   python-compression \
- "
--- 
-1.7.9.5
+Since systemd is one of the priority features of this release, releasing
+with it broken was not the right thing to do so at the last minute we've
+basically reverted some of the recent changes to systemd and udev
+(the /sbin relocation) and then tried to fix various issues that arose
+from that (even with the reverts, there were still several issues). I
+appreciate this isn't an ideal thing to do either.
+
+We now have a build of the dylan branch which is likely to become rc2
+and get tested by QA and may well be the final release. We're past the
+point we can consider any changes unless something is seriously broken.
+We're trying to do some additional testing today to determine whether
+there is anything seriously wrong with the recent changes.
+
+I would point out that having the "systemd + sysvinit" hybrid mode which
+is not something we'd originally planned for gives us a ton of headaches
+since we have to test:
+
+systemd only
+systemd+sysvinit in systemd mode
+systemd+sysvinit in sysvinit mode
+sysinit only
+
+and for each we need to test for each architecture and we then need to
+look at for example multilibs in each case. Currently the autobuilder
+isn't able to help with this although obviously that is something we
+need to fix in the 1.5 cycle.
+
+Cheers,
+
+Richard
+
+
+
 
 
 
