@@ -1,37 +1,33 @@
-Received: from mail-vb0-f53.google.com ([209.85.212.53])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UStg4-0007wb-2a
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UStl5-0000Ci-Qr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 20:35:27 +0200
-Received: by mail-vb0-f53.google.com with SMTP id i3so2720598vbh.40
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 11:17:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=/dErq86sWlegL/3iyR9afrcBCnJCDDIqyXAhovYt6EA=;
-	b=MFv/FNXYmQib79m/GBGobirr2veidoutj3Sib9f9rkr69Fz85UQvToizO7NxGy5a8r
-	0q2ZcFqoymDNbj5HOM1+GJKdCR+aZwzMKss8ayG782rEgBjul5xLl3kvRewmDLyMZXFe
-	g6eNPAqESS5nNjXSYgjAHTt0gsfhFbKgaNFQyeXBUGPNg+cDuJkWAY1QXDL+1I+1iBml
-	O30Wv0lt6Ry9oXGlANv+HsjATlaCEPv50dOxtJG8kO32N4AxU8MNRyQ78K5+Py57crkf
-	LrbknT5FSKW5Rw75JwMsjb8npODPUBjm+1lF+ou4OUZPeZq+XrZU2Mh97v1wSf3W6+wA
-	EnDw==
-X-Received: by 10.52.108.10 with SMTP id hg10mr7652127vdb.34.1366309070055;
-	Thu, 18 Apr 2013 11:17:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Thu, 18 Apr 2013 11:17:29 -0700 (PDT)
-In-Reply-To: <CA+chaQdMzU5vxX2G_rAN89gfc0MMhRGbR5hUBE+7Pm8VsM+EEQ@mail.gmail.com>
-References: <1366306413-1336-1-git-send-email-ross.burton@intel.com>
-	<CA+chaQdMzU5vxX2G_rAN89gfc0MMhRGbR5hUBE+7Pm8VsM+EEQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Apr 2013 19:17:29 +0100
-Message-ID: <CAJTo0LbYxus=iaPfFHQJLmt8GEa_u=Pv0A9FTf-MniXvt5z--Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQnDBg8k7pjrCgmVDHVp3MGcgbeToUGDrZrT52JgkwT1N7lqIYJJZ9JZFTC+jca+WdPlptZR
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] avahi: fix systemd service packaging with multilib
+	Thu, 18 Apr 2013 20:40:39 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3IIN0K8015633
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 18 Apr 2013 20:23:00 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UStU4-0004kf-2h; Thu, 18 Apr 2013 20:23:00 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Apr 2013 20:22:46 +0200
+Message-Id: <1366309366-18233-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <1366308596-21123-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1366308596-21123-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH, v2] systemd: depend on libgcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,19 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 18:35:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Apr 2013 18:40:45 -0000
 
-On 18 April 2013 19:13, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Doesn't this break avahi-ui again?
->
-> http://git.openembedded.org/openembedded-core/commit/?id=02492d43cd7095acb3cf29843a50444c28b4d994
+Although libgcrypt support is optional, its development files are
+are always required to expand AM_PATH_LIBGCRYPT.  Build might fails else
+with
 
-Yes, it will, sorry.  Then again why does avahi-ui use avahi.inc,
-considering the bulk of the include doesn't actually apply.
+| libtoolize: copying file `m4/lt~obsolete.m4'
+| configure.ac:446: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
+| ...
+| configure.ac:446: error: possibly undefined macro: AM_PATH_LIBGCRYPT
+| autoreconf: .../autoconf failed with exit status: 1
+| + bbfatal 'autoreconf execution failed.'
+| + echo 'ERROR: autoreconf execution failed.'
 
-(new patch coming tomorrow, I'm about to get off this train)
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-core/systemd/systemd_199.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Ross
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index 4fabcc9..fe745a6 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -49,6 +49,9 @@ GTKDOC_DOCDIR = "${S}/docs/"
+ PACKAGECONFIG ??= "xz"
+ # Sign the journal for anti-tampering
+ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
++# regardless of PACKAGECONFIG, libgcrypt is always required to expand
++# the AM_PATH_LIBGCRYPT autoconf macro
++DEPENDS += "libgcrypt"
+ # Compress the journal
+ PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ 
+-- 
+1.8.1.4
+
 
 
