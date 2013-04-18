@@ -1,31 +1,35 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-we0-f181.google.com ([74.125.82.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1USoNr-0002az-DN
+	(envelope-from <ross.burton@intel.com>) id 1USpBb-0007dr-Nq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 14:56:17 +0200
-Received: from cpebcc8100de718-cmbcc8100de715.cpe.net.cable.rogers.com
-	([99.240.144.66]:45771 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1USo6t-0001eh-KR for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 08:38:43 -0400
-Date: Thu, 18 Apr 2013 08:38:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1304180833040.10184@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: tweaking insane.bbclass to handle MIPS SEAD-3?
+	Thu, 18 Apr 2013 15:47:40 +0200
+Received: by mail-we0-f181.google.com with SMTP id r6so2279860wey.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 06:30:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=BbS1eG6gSwNjfl1C7ps1zRNqAfWDbGs5DvGaOZHSDXE=;
+	b=eskmlwLT80fVtcIYdR4dSvl7RcKN4LyRujT5lfPe8w3sCYKQHUbGANx/vWyDZ/x9Gt
+	roGmb/UW4Y5i2/yGZKL1WoolWPZh+o/LCCxAuOPpN1N8fm1Cj7xpgQGo2cFAkqZ89i8V
+	Wb0qogBYlx1xoVRgee6HlzhJkXpY2f55OjNblrtyinqxSad2vKWDxU98g3NPEP3L+tPj
+	pdp4eylqICdY3nkArA915jwLbPgUtDgA283SS3h4S7i9YKMmoGSgh6ykTawvMVvpaP0u
+	3R84cknPuslPJsZOwUL99PEMFXGkZqcHYsaHMuGD8S6P8MHAV2w2f/qCBENwmlmim4xH
+	sEkA==
+X-Received: by 10.181.12.5 with SMTP id em5mr18231649wid.24.1366291806428;
+	Thu, 18 Apr 2013 06:30:06 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id bq19sm16160043wib.7.2013.04.18.06.30.04
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 18 Apr 2013 06:30:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Apr 2013 14:27:13 +0100
+Message-Id: <1366291633-16625-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnpf1+Wf89UkNlCnHcvowuSUzvIyI91Rg2HzOskWDhLJ4eG1L5+Arw6n9l4HA4jEXE/D95m
+Subject: [PATCH] udev: disable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 12:56:29 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 18 Apr 2013 13:47:40 -0000
 
+If we want systemd support we use systemd's udev, so disable systemd
+support in this udev to avoid packaging the unit files.
 
-  students from a class of mine last year are currently playing with a
-MIPS SEAD-3:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/udev/udev.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-http://www.mips.com/products/development-kits/mips-sead-3/
-
-and asked for some assistance getting oe/yocto to build for that kit.
-they started with the routerstation pro content, and just wanted to
-reproduce the same rootfs to run on the SEAD-3 (they would use the
-provided u-boot and kernel for now). the biggest issue was changing
-the endianness of the build.
-
-  got an email this morning, they have a working rootfs, i asked for
-details on everything they had to do, but for now, here's the final
-issue they dealt with:
-
-"Attached rootfs created for RS Pro, but with mips32el (little endian
-config) and soft floating point. I had to comment out the endianess
-check Python code from the insane.bbclass file to get the build to
-work."
-
-  so if someone wants to adjust insane.bbclass to recognize and handle
-a SEAD-3, go for it. i'll post full details when i get them in case
-there was anything else relevant.
-
-rday
-
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 587bc94..7221a49 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -43,6 +43,7 @@ EXTRA_OECONF = "--disable-introspection \
+                 --libexecdir=${nonarch_base_libdir} \
+                 --with-rootlibdir=${base_libdir} \
+                 --with-rootprefix= \
++                --without-systemdsystemunitdir \
+                "
+ 
+ PACKAGES =+ "udev-utils udev-cache"
 -- 
+1.7.10.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
