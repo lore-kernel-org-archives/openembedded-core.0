@@ -1,37 +1,20 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1USsHV-00061N-1b
+	(envelope-from <sgw@linux.intel.com>) id 1USsHT-0005wW-Ve
 	for openembedded-core@lists.openembedded.org;
 	Thu, 18 Apr 2013 19:06:00 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3IGmLEd027994
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 18:48:22 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1USs0S-0002dd-Ka
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 18:48:20 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2013 09:48:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,502,1363158000"; d="scan'208";a="228898020"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.2])
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Apr 2013 09:48:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 18 Apr 2013 18:48:20 +0200
-In-Reply-To: <alpine.DEB.2.02.1304181219550.8010@oneiric> (Robert P. J. Day's
-	message of "Thu, 18 Apr 2013 12:23:28 -0400 (EDT)")
-Message-ID: <lyfvynyecr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.1
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
+Date: Thu, 18 Apr 2013 09:48:13 -0700
+Message-Id: <1366303693-30653-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] init-ifupdown: move network interfaces file for the beagleboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +28,30 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 18 Apr 2013 17:06:11 -0000
-X-List-Received-Date: Thu, 18 Apr 2013 17:06:11 -0000
-Content-Type: text/plain
 
-"Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-writes:
+With the splite of netbase and init-ifupdown, the interfaces file needs to get
+moved for the beagleboard
 
-> Have default, commented values for parallelism reflect quad-core
-> hosts.
+[YOCTO #4334]
 
-fwiw, I use
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../init-ifupdown-1.0}/beagleboard/interfaces                          |    0
+ .../netbase_5.0.bbappend => init-ifupdown/init-ifupdown_1.0.bbappend}  |    0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta-yocto-bsp/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/beagleboard/interfaces (100%)
+ rename meta-yocto-bsp/recipes-core/{netbase/netbase_5.0.bbappend => init-ifupdown/init-ifupdown_1.0.bbappend} (100%)
 
-PARALLEL_MAKE = "\
-  -j ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 2} \
-  -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100} \
-"
+diff --git a/meta-yocto-bsp/recipes-core/netbase/netbase-5.0/beagleboard/interfaces b/meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown-1.0/beagleboard/interfaces
+similarity index 100%
+rename from meta-yocto-bsp/recipes-core/netbase/netbase-5.0/beagleboard/interfaces
+rename to meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown-1.0/beagleboard/interfaces
+diff --git a/meta-yocto-bsp/recipes-core/netbase/netbase_5.0.bbappend b/meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown_1.0.bbappend
+similarity index 100%
+rename from meta-yocto-bsp/recipes-core/netbase/netbase_5.0.bbappend
+rename to meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown_1.0.bbappend
+-- 
+1.7.10.4
 
-BB_NUMBER_THREADS ?= "\
-  ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100}"
-
-
-which adjusts parallelism automatically.
-
-
-
-Enrico
 
 
