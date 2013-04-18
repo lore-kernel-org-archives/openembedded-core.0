@@ -1,39 +1,31 @@
-Received: from mail-da0-f54.google.com ([209.85.210.54])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1UStMF-0005t3-Qi
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UStYh-0007GG-4H
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 20:15:00 +0200
-Received: by mail-da0-f54.google.com with SMTP id p1so1508994dad.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 10:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=JzrP4IkvvZre1y0AaHsEUk/2mq5XZNKDW/2gs4OdBmk=;
-	b=R8EYZukK/AbVn4pJqWnQPnkINcftxIfD6FC8h9f8/ocNwcHm/Wg8F/c11QnciyQ60z
-	QNswmUtUWNA7Wm6fLVktd/HnBc3ix5xuHJQctgqqFLPrGc7JaDENrJFf9ITwFjYNoq5K
-	+Kx7GHV5TBSH0FSJDF35z9B8MzsafV05uFkplzqhc82xR+LVk0yX7swdy9tbcXABPFwk
-	xC42zSFzIBvVKj9pHeJXiSf5+Gd11/FPip7040fR+YSQQaDUNhgTLkX/AvbSyI79GITf
-	8WohuSH2n1y7C9A7lPomoUP2t0DEb5fDNFRgIOLu8JNmr3x/bBJS9yrijIm/XduIHBxU
-	5BHw==
-X-Received: by 10.66.49.202 with SMTP id w10mr14211177pan.174.1366307841460;
-	Thu, 18 Apr 2013 10:57:21 -0700 (PDT)
-Received: from [192.168.1.100] ([94.205.106.101])
-	by mx.google.com with ESMTPS id
-	ba10sm10599885pbd.21.2013.04.18.10.57.19
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 18 Apr 2013 10:57:20 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <alpine.DEB.2.02.1304181250070.20260@oneiric>
-Date: Thu, 18 Apr 2013 21:57:16 +0400
-Message-Id: <41F644AD-691F-443B-A267-8562E5DDC3BC@gmail.com>
-References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
-	<lyfvynyecr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<alpine.DEB.2.02.1304181250070.20260@oneiric>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1503)
-Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
+	Thu, 18 Apr 2013 20:27:49 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3IIA90P014186
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 18 Apr 2013 20:10:10 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UStHd-0001fv-JE; Thu, 18 Apr 2013 20:10:09 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Apr 2013 20:09:56 +0200
+Message-Id: <1366308596-21123-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.8.1.4
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] systemd: depend on libgcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,59 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 18:15:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Apr 2013 18:28:00 -0000
 
+Although libgcrypt support is optional, its development files are
+are always required to expand AM_PATH_LIBGCRYPT.  Build might fails else
+with
 
-On Apr 18, 2013, at 8:51 PM, "Robert P. J. Day" <rpjday@crashcourse.ca> =
-wrote:
+| libtoolize: copying file `m4/lt~obsolete.m4'
+| configure.ac:446: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
+| ...
+| configure.ac:446: error: possibly undefined macro: AM_PATH_LIBGCRYPT
+| autoreconf: .../autoconf failed with exit status: 1
+| + bbfatal 'autoreconf execution failed.'
+| + echo 'ERROR: autoreconf execution failed.'
 
-> On Thu, 18 Apr 2013, Enrico Scholz wrote:
->=20
->> "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
->> writes:
->>=20
->>> Have default, commented values for parallelism reflect quad-core
->>> hosts.
->>=20
->> fwiw, I use
->>=20
->> PARALLEL_MAKE =3D "\
->>  -j ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 2} =
-\
->>  -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * =
-150/100} \
->> "
->>=20
->> BB_NUMBER_THREADS ?=3D "\
->>  ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * =
-150/100}"
->>=20
->>=20
->> which adjusts parallelism automatically.
->=20
->  i'd be perfectly fine with that, too, if someone wants to put that
-> in instead.
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-core/systemd/systemd_199.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I've noticed that on a quad-core machine (i7) the best setting is to =
-leave it at 6 for=20
-BB_NUMBER_THREADS and PARALLEL_MAKE.
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index 4fabcc9..2596bdf 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -11,7 +11,7 @@ PROVIDES = "udev"
+ PE = "1"
+ PR = "r3"
+ 
+-DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 libgcrypt"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+@@ -48,7 +48,7 @@ GTKDOC_DOCDIR = "${S}/docs/"
+ 
+ PACKAGECONFIG ??= "xz"
+ # Sign the journal for anti-tampering
+-PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
++PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,,"
+ # Compress the journal
+ PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ 
+-- 
+1.8.1.4
 
-8, 16, etc don't have any discernable impact, perhaps save 30 to 40 =
-seconds off
-a build. The 3.5Ghz standard CPU frequency can be over-clocked to as =
-high
-as 4.5GHz, but I tested it out at 4.2Ghz and 3.8Ghz, and the difference =
-was
-only 2 to 3 minutes between 3.8GHz and 4.2GHz over-clocked, so I =
-currently
-leave it at 3.8GHz over-clocked.
-
-I'm using two SSDs in a RAID 0 striped configuration, and build times is=20=
-
-around 22 minutes for a Zynq-7-ZC702 build for core-image-minimal.
-
-Elvis Dowson=
 
 
