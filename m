@@ -1,31 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1USrtP-0003AH-5L
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1USsHV-00061N-1b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 18:41:06 +0200
-Received: from cpebcc8100de718-cmbcc8100de715.cpe.net.cable.rogers.com
-	([99.240.144.66]:49963 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1USrcR-0003Rj-8t for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 12:23:31 -0400
-Date: Thu, 18 Apr 2013 12:23:28 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1304181219550.8010@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 18 Apr 2013 19:06:00 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3IGmLEd027994
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 18:48:22 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1USs0S-0002dd-Ka
+	for openembedded-core@lists.openembedded.org;
+	Thu, 18 Apr 2013 18:48:20 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 18 Apr 2013 18:48:20 +0200
+In-Reply-To: <alpine.DEB.2.02.1304181219550.8010@oneiric> (Robert P. J. Day's
+	message of "Thu, 18 Apr 2013 12:23:28 -0400 (EDT)")
+Message-ID: <lyfvynyecr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.1
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,52 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 16:41:11 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 18 Apr 2013 17:06:11 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 17:06:11 -0000
+Content-Type: text/plain
+
+"Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+writes:
+
+> Have default, commented values for parallelism reflect quad-core
+> hosts.
+
+fwiw, I use
+
+PARALLEL_MAKE = "\
+  -j ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 2} \
+  -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100} \
+"
+
+BB_NUMBER_THREADS ?= "\
+  ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100}"
 
 
-Have default, commented values for parallelism reflect quad-core
-hosts.
+which adjusts parallelism automatically.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
----
 
-  i'll admit it, i'm just lazy as i do all my work on a quad-core
-system and i'm constantly changing 4 to 8. and the proper values for a
-quad-core system *should* be 4, not 8, anyway, isn't that right?
-
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 85205c5..85164a0 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -17,14 +17,14 @@
- # These two options control how much parallelism BitBake should use. The first
- # option determines how many tasks bitbake should run in parallel:
- #
--#BB_NUMBER_THREADS = "4"
-+#BB_NUMBER_THREADS = "8"
- #
- # The second option controls how many processes make should run in parallel when
- # running compile tasks:
- #
--#PARALLEL_MAKE = "-j 4"
-+#PARALLEL_MAKE = "-j 8"
- #
--# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
-+# For a quad-core machine, BB_NUMBER_THREADS = "8", PARALLEL_MAKE = "-j 8" would
- # be appropriate for example.
-
- #
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Enrico
 
 
