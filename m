@@ -1,32 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-we0-f178.google.com ([74.125.82.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1USqBI-0005Fw-6H
+	(envelope-from <ross.burton@intel.com>) id 1USqIq-0006BG-16
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 16:51:31 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3IEYJNu009828; Thu, 18 Apr 2013 15:34:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MxiIH0DaD4ci; Thu, 18 Apr 2013 15:34:19 +0100 (BST)
-Received: from ted (bebox.config [93.97.175.187] (may be forged))
-	(authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3IEYESE009801
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 18 Apr 2013 15:34:15 +0100
-Received: from richard by ted with local (Exim 4.80)
-	(envelope-from <richard@dan.rpsys.net>)
-	id 1USpu2-0001Dh-EM; Thu, 18 Apr 2013 15:33:34 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 18 Apr 2013 16:59:12 +0200
+Received: by mail-we0-f178.google.com with SMTP id z53so2345516wey.23
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Apr 2013 07:41:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=eRiKNa3SDzwAcz5cplXyCQ40z9ui9TEk0KAwKgUh4e8=;
+	b=ml0SQXyTAHm5Z6ZKnd/WhGJHXQKenfJSpYf6NyARbhIo3OSARzxgOzmTPa5AuBhaUV
+	D7CwC53Vow6ODLvksUePENQnIQORYebBFbsJCxRIgv17M5UAxwGNgBjKiIFhIzpKZ9vw
+	zXV37Kjo9dvqGhn/+AKJcPXYXQqrtmsRlap6XsqIHa8vRc31Fji7mAARx0FrKo+MtkOa
+	0wjgkpY8IvFBvVfRQQEHo+WHz3zFn2uHLG/7HfSvPZpDMZTl/5axdFaSMejSvikG+0g+
+	Ut+PD7v/iACfNnzT6goN7Nrd3AoPmnmj6gxjWZrRD27Q+sGrIe/Vn/OEKih3SfXuGakW
+	QMHg==
+X-Received: by 10.194.109.136 with SMTP id hs8mr19409271wjb.8.1366296095948;
+	Thu, 18 Apr 2013 07:41:35 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id g4sm16530174wib.11.2013.04.18.07.41.34
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 18 Apr 2013 07:41:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Apr 2013 15:33:28 +0100
-Message-Id: <1366295611-4646-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 18 Apr 2013 15:38:43 +0100
+Message-Id: <1366295923-29393-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1366295611-4646-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1366295611-4646-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/6] package.bbclass: Add useradd variables to PACKAGEVARS
+X-Gm-Message-State: ALoCoQmvsP+bNNEcx7Uu6a4vDt+gCvRPH40DgCT+xqfHVWkXDQNtHW5LmJh6Qw17dX0w/T+ZDeb/
+Subject: [PATCH] udev: drop dependency on udev in libudev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 14:52:12 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 14:59:13 -0000
 
-THe USERADD_PARAMS and similar group variables are package specific variables
-which should get added to the vardeps of the packaging process. This
-change also ensures they get remapped correctly by the multilib code.
+libudev previously depended on udev, but this causes problems with multilib
+if the user wants to install two variants of libudev as they'll pull in two
+variants of udev, which will conflict.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Instead, remove the dependency and rely that the image pulls in udev in some
+way, such as the commonly used packagegroup-core-boot.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/package.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/udev.inc |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 5765e12..2bc31ee 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1780,7 +1780,7 @@ python package_depchains() {
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 7221a49..dd250f7 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -15,7 +15,6 @@ LDFLAGS += "-lrt"
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native util-linux"
+ RPROVIDES_${PN} = "hotplug"
+ RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
+-RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
  
- # Since bitbake can't determine which variables are accessed during package
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM"
- 
- def gen_packagevar(d):
-     ret = []
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
 -- 
 1.7.10.4
 
