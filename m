@@ -1,20 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1USsHT-0005wW-Ve
+	(envelope-from <rpjday@crashcourse.ca>) id 1USsK9-0007le-W8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Apr 2013 19:06:00 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2013 09:48:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,502,1363158000"; d="scan'208";a="228898020"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.2])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Apr 2013 09:48:14 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Apr 2013 09:48:13 -0700
-Message-Id: <1366303693-30653-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] init-ifupdown: move network interfaces file for the beagleboard
+	Thu, 18 Apr 2013 19:08:50 +0200
+Received: from cpebcc8100de718-cmbcc8100de715.cpe.net.cable.rogers.com
+	([99.240.144.66]:50213 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1USs3B-0005UD-1M; Thu, 18 Apr 2013 12:51:09 -0400
+Date: Thu, 18 Apr 2013 12:51:05 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+In-Reply-To: <lyfvynyecr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Message-ID: <alpine.DEB.2.02.1304181250070.20260@oneiric>
+References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
+	<lyfvynyecr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,31 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 17:06:11 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 17:09:04 -0000
+X-List-Received-Date: Thu, 18 Apr 2013 17:09:04 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-With the splite of netbase and init-ifupdown, the interfaces file needs to get
-moved for the beagleboard
+On Thu, 18 Apr 2013, Enrico Scholz wrote:
 
-[YOCTO #4334]
+> "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+> writes:
+>
+> > Have default, commented values for parallelism reflect quad-core
+> > hosts.
+>
+> fwiw, I use
+>
+> PARALLEL_MAKE = "\
+>   -j ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 2} \
+>   -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100} \
+> "
+>
+> BB_NUMBER_THREADS ?= "\
+>   ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100}"
+>
+>
+> which adjusts parallelism automatically.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../init-ifupdown-1.0}/beagleboard/interfaces                          |    0
- .../netbase_5.0.bbappend => init-ifupdown/init-ifupdown_1.0.bbappend}  |    0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename meta-yocto-bsp/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/beagleboard/interfaces (100%)
- rename meta-yocto-bsp/recipes-core/{netbase/netbase_5.0.bbappend => init-ifupdown/init-ifupdown_1.0.bbappend} (100%)
+  i'd be perfectly fine with that, too, if someone wants to put that
+in instead.
 
-diff --git a/meta-yocto-bsp/recipes-core/netbase/netbase-5.0/beagleboard/interfaces b/meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown-1.0/beagleboard/interfaces
-similarity index 100%
-rename from meta-yocto-bsp/recipes-core/netbase/netbase-5.0/beagleboard/interfaces
-rename to meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown-1.0/beagleboard/interfaces
-diff --git a/meta-yocto-bsp/recipes-core/netbase/netbase_5.0.bbappend b/meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown_1.0.bbappend
-similarity index 100%
-rename from meta-yocto-bsp/recipes-core/netbase/netbase_5.0.bbappend
-rename to meta-yocto-bsp/recipes-core/init-ifupdown/init-ifupdown_1.0.bbappend
+rday
+
 -- 
-1.7.10.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
