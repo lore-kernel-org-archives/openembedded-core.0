@@ -1,37 +1,42 @@
-Received: from mail-wi0-f175.google.com ([209.85.212.175])
+Received: from mail-vc0-f177.google.com ([209.85.220.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrapet@gmail.com>) id 1UT6Tz-0002Rn-6f
+	(envelope-from <ross.burton@intel.com>) id 1UT77D-0006v5-L7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 10:15:57 +0200
-Received: by mail-wi0-f175.google.com with SMTP id h11so383064wiv.8
+	Fri, 19 Apr 2013 10:56:20 +0200
+Received: by mail-vc0-f177.google.com with SMTP id hr11so3507355vcb.22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 00:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=JGXJ0mWj1uSx0LEmj0beSiEGJzsEUqGtWtgQ81CNkcQ=;
-	b=XW0iaD+fHNAditBq/MkwDiP2Jdmv4mWuNuQQ93o4RZERGBAPW5IoQOf0oasc7boKBe
-	6xZ9mKQGm8WPPCqXEeXNEamSWv7i0exDIUxK7SfVu2ef9XJ7QnOzp+9KWdRwKp+5drYg
-	ba/rYycPvDHDZpA1xbJerwOkBbl04j1pIH6ZL+WpJXSgDs+01rvCA3q4MMZdpDAdLtvH
-	ydkZEDdPBewc3OJmiUmAvDXTo2ssZsAsDyXsdSk3zz6X3DsqIMUxkxli3rh2kcnDrS8D
-	oqUN3vyWm2FZxJX8Ma0qsYhHmFeyIRU+sCh8Cb0psNi5mdMclfi0O2UWRa8KDijdp0Vi
-	EvGg==
-X-Received: by 10.194.93.68 with SMTP id cs4mr23903654wjb.17.1366358273887;
-	Fri, 19 Apr 2013 00:57:53 -0700 (PDT)
-Received: from [192.168.0.48] (mur75-1-81-57-45-18.fbx.proxad.net.
-	[81.57.45.18])
-	by mx.google.com with ESMTPSA id t7sm1684556wij.2.2013.04.19.00.57.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 19 Apr 2013 00:57:53 -0700 (PDT)
-Message-ID: <5170F89D.8000307@gmail.com>
-Date: Fri, 19 Apr 2013 09:56:13 +0200
-From: Matthieu Crapet <mcrapet@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.12) Gecko/20130116 Icedove/10.0.12
+	Fri, 19 Apr 2013 01:38:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=Y4fdkKe/U99fvNq433tfRZ+QUG6G0kfPLW1ipKPaNAo=;
+	b=AnoEO6HJoAWPAJ92Bv2ne9flsk+ePmS4LwA5yExXBDVz7nZBRQdMFVqQm/qLRUnPA2
+	ywJaEjUgPoPdcgtaRdWILgrGgbj/yFyL7yoOtkX79gH9JpT3Uw+579A3bR8WJaIQTYas
+	+lMET34lLyRWi93hd0YHdDfcUjygnl7SqMGbWoqGo+1R3+Yt6xtQn1aOeo5l54T30xTm
+	diSjatG5Qz3HbtJm89eaS2lm1aBDJiJoGmcebHBSVq05xwb7a7SjUr4vjev2MZpkNS4N
+	Op9v66F1ws7aJbJAXlDkO9h0bJBuwXEg+JknZVjymRVInTt1o8fjGjW1DtUmtQ77nI2r
+	qDvQ==
+X-Received: by 10.52.108.10 with SMTP id hg10mr9105184vdb.34.1366360724986;
+	Fri, 19 Apr 2013 01:38:44 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libomxil (0.9.3): drop unecessary dependencies
+Received: by 10.220.100.68 with HTTP; Fri, 19 Apr 2013 01:38:24 -0700 (PDT)
+In-Reply-To: <6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+	<18219582.KT7bte5u1O@helios>
+	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
+	<3344072.3yQMCnL6TJ@helios>
+	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
+	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
+	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 19 Apr 2013 09:38:24 +0100
+Message-ID: <CAJTo0LYeJwW-Lbf9bEZogCh1e97bwj7PTgFZV=3NbwN=PMWENg@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQlrr/YVk1kI2xd5ByZA5IGc+c5/WE3pycHVXvD6VwqhHbGYDlIxFA75Z9whF69+N0tnYlLC
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +49,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 08:16:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Apr 2013 08:56:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Since version 0.9.2, Bellagio's components (vorbis, mad, also, ...)  are shipped in separate packages.
+On 18 April 2013 19:45, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> [koen@rrMBP 1.0-r0]$ grep "configuration required on target" temp/log.do_rootfs
+> gdk-pixbuf-loader-png.postinst returned 1, marking as unpacked only, configuration required on target.
+...
 
-Signed-off-by: Matthieu Crapet<mcrapet@gmail.com>
----
-  meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 1 -
-  1 file changed, 1 deletion(-)
+This is "usual" for postinsts that are intercepted and handled in a
+single go - scroll further down the log and you should see the package
+manager running the intercept scripts (i.e. fontcaches once, gconftool
+once).  I expect you'll see there that the gconftool intercept is
+breaking for some reason.
 
-diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-index ded0e1c..8c3166f 100644
---- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-+++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-@@ -4,7 +4,6 @@ LICENSE = "LGPLv2.1+"
-  LICENSE_FLAGS = "commercial"
-  LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb  \
-                      file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
--DEPENDS = "libvorbis libogg alsa-lib libmad"
-
-  PR = "r0"
-
--- 1.8.2.1
-
+Ross
 
 
