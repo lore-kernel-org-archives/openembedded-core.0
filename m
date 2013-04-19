@@ -1,50 +1,20 @@
-Received: from mail-vc0-f179.google.com ([209.85.220.179])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UTBGD-0001rw-UH
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 15:22:00 +0200
-Received: by mail-vc0-f179.google.com with SMTP id hz11so3844382vcb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 06:04:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=IjhMoUzuTquyfTD+nd9nU37lpf4Fx5IX7Sq01BRis/E=;
-	b=a0+i5+R3IOYDlek58M2iX06wUA8R4jr4jHpRZC3JrH3I1qTnqJgljQTu4nWZo12Mdg
-	cKvv8SSvYOhihv2E7VVi7tGfgIGcl/j8+M/1sgHRfMn+iT0qutJTLeL1nGi3KXqZwlik
-	cn5aeGfZPV+MO15WKWwDy+EwIsyqf81y7U8oos9MJQ6x15MUyu86wSIgXhzE/qB4c62L
-	sCTFigoji6OLrEK7IlzlR+TshxVkK456wLlrVOlMLcELGDxmlkrWKh4ObAmHXJay8gUB
-	gMtcMAqkcRGTRjOuFgudykcrk+F3CT9vhxgx+lgxW09N7EHFItRR9/EY3m/+FIO5Kdav
-	2Z4w==
-X-Received: by 10.52.28.139 with SMTP id b11mr9735029vdh.4.1366376658985; Fri,
-	19 Apr 2013 06:04:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Fri, 19 Apr 2013 06:03:58 -0700 (PDT)
-In-Reply-To: <5437CC85-9AC1-4A18-BAE8-BDE01613215D@dominion.thruhere.net>
-References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
-	<18219582.KT7bte5u1O@helios>
-	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
-	<3344072.3yQMCnL6TJ@helios>
-	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
-	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
-	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
-	<CAJTo0LYeJwW-Lbf9bEZogCh1e97bwj7PTgFZV=3NbwN=PMWENg@mail.gmail.com>
-	<CAJTo0LYRPtG_N1WCE37UTvGvy5HYt7ia1ym12iR874Ykb8QwTg@mail.gmail.com>
-	<623CB95B-FD17-49A5-9547-71E0EFC316A7@dominion.thruhere.net>
-	<5171293A.5010300@intel.com>
-	<0E83C36A-8358-40B0-B022-A39DBFF44880@dominion.thruhere.net>
-	<51713804.9000002@intel.com>
-	<5437CC85-9AC1-4A18-BAE8-BDE01613215D@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Apr 2013 14:03:58 +0100
-Message-ID: <CAJTo0LbkfHKtEGnMDso0L5L0C62rO+ox__NHRu63HOt7Toh5wA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQlA1+7FbL5MQTNhbZ1PGDzhAlg9bznFqiXGmtxwZ/fwxVMIA5dPJl0ShYPfTteS9so3OV/P
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: postinst does not finish
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1UTBJ6-00029E-Gr for openembedded-core@lists.openembedded.org;
+	Fri, 19 Apr 2013 15:24:57 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 19 Apr 2013 06:07:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,508,1363158000"; d="scan'208";a="288597014"
+Received: from ema-vostro-460.rb.intel.com ([10.237.105.42])
+	by azsmga001.ch.intel.com with ESMTP; 19 Apr 2013 06:07:14 -0700
+From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Apr 2013 16:12:56 +0300
+Message-Id: <1366377176-27277-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] connman-gnome: Replace broken png files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,23 +27,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 13:22:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Apr 2013 13:25:07 -0000
 
-On 19 April 2013 13:49, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Running the postinstalls at first boot appear to hang because (and
->> that's just a feeling) gtk-icon-cache is run twice on target... which is
->> time consuming.
->
-> I know it's time consuming, but it finished on 60-90 minutes with 1.3, I =
-left it overnight and it still hadn't finished. I have the LEDS configured =
-to short mmc0 and cpu0 activity and there' s no IO, only cpu from time to t=
-ime. I don't think it takes more than 14 hours to run those postinsts.
+	connman-signal-*.png files were corrupted and this caused
+	warnings when starting connman-applet.
+	The patch overwrites the upstream png files.
 
-How about hacking the postinsts to use sh -x, so you can see what it's
-executing?
+	[YOCTO #4060]
 
-Ross
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
+ .../connman-gnome/images/connman-signal-01.png     |  Bin 0 -> 490 bytes
+ .../connman-gnome/images/connman-signal-02.png     |  Bin 0 -> 496 bytes
+ .../connman-gnome/images/connman-signal-03.png     |  Bin 0 -> 492 bytes
+ .../connman-gnome/images/connman-signal-04.png     |  Bin 0 -> 470 bytes
+ .../connman-gnome/images/connman-signal-05.png     |  Bin 0 -> 419 bytes
+ .../connman/connman-gnome_0.7.bb                   |    8 +++++++-
+ 6 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-01.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-02.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-03.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-04.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-05.png
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-01.png b/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-01.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..33247c1e2db4304e48ea0a6145be4de6e420882b
+GIT binary patch
+literal 490
+zcmV<G0Tup<P)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX00006VoOIv0RI60
+z0RN!9r;`8x010qNS#tmY3ljhU3ljkVnw%H_000McNliru)Cvt2G&}Dr@$>)y03CEi
+zSad^gZEa<4bO1wgWnpw>WFU8GbZ8({Xk{QrNlj4iWF>9@00B-(L_t(I%k5O5PD4Qu
+zoZXqdq)#-6CMbeI5`w`$RU9NZf<X`@|AHhTL4hLyM{3F^@J9~;@3_|%O7kEX*6rQx
+z?C#9o0{`~gW<BGlGk)D-s&8f2SC_Q`Xv}bSev!|611l1?clPGbd$hg_;6(~J383i(
+zjJw;L+TNu(J~@RV;BK%PxmE@a1vWOfGK`c!=gL&fw;loMBP=37cfeMx`0?SshBYua
+z4i1k%CQyPkZ=8}X$193Q38T?^L4}|~EQR3oS?%V4r)|smfdY{N*0hNNEGi`9dmK+D
+zPiqF$4GiP){<A2gNGKDPz@k8RG`0j-N*E4@g)gLt{QDUKrA!4S7zxKxV4<q2>^p^s
+zl(&k(AZMpSch6#eDc+!}fZ}1K=-j)yKaK9+n~G{M==dq6ZV*}K?Qs6t+AOD{GaU<T
+g(S7{`tN4%X6`T(*H@KiqK>z>%07*qoM6N<$g7W0Y-2eap
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-02.png b/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-02.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a94fb952ff6cbea25b06c261267fe9a82d77f981
+GIT binary patch
+literal 496
+zcmV<M0T2F(P)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX00006VoOIv0RI60
+z0RN!9r;`8x010qNS#tmY3ljhU3ljkVnw%H_000McNliru)Cvt2G$Z^+X`%oC03CEi
+zSad^gZEa<4bO1wgWnpw>WFU8GbZ8({Xk{QrNlj4iWF>9@00C4<L_t(I%k5M#N(4a=
+ztnRL!*x<lOOfD2LG2a&`n287mV(1GD{eYn$7>H(q=E52H03YB>)SEHT9cOP(@0L|e
+z?5t<EYpScd2l$WQ4(VAxn#ijflYN<;ot{(zAc<iA;4q)}2BrtBtgg4ud$hg=;E{Bw
+z8GzIa7+06)m3&yUy|V|pLscLXc6A1JI+m7)8HNlnwa!wsTXzTfS?2CARX{p2zP-7w
+zAPEA+#^x5x0*r*DcTLS|jXRoWBnE@ULJER~S#&~8C%tO{kLs554|I5NNUAS#Si#WD
+z=hOK3;%VVygK)Gvyr&Vt1Imj^U>aenNHT{MccX^_hzRa^`^^a>vlK=`%%HOv#~2aE
+z&pB5k+(Uj<1Olox7^-SE^Go1yOc=kuG-o$>BUd&z%~WS=9Aj(&hY*@YW+(~TlyQ@9
+mrlK(&Q)1fp>Ia_UKZ-X`7C)%O7ejFX0000<MNUMnLSTZlN5kg;
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-03.png b/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-03.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b5eb405a9009722025c1e93e233f8dec676ff9fd
+GIT binary patch
+literal 492
+zcmV<I0Tcd-P)<h;3K|Lk000e1NJLTq000&M000&U1^@s6#I$TX00006VoOIv0RI60
+z0RN!9r;`8x010qNS#tmY3ljhU3ljkVnw%H_000McNliru)Cvt2GzlmCpmYEL03CEi
+zSad^gZEa<4bO1wgWnpw>WFU8GbZ8({Xk{QrNlj4iWF>9@00B@*L_t(I%k5M<PQySD
+zee+Ar1rSY2glOn}4TK_5AWBY<G8dpkLZXPsDL|n>v~Yl2Byo0@g7~v`APEN1FxBkX
+z^YrGu*#-XNw}U$NPaEf~z|^kHZf~wL0uYICad}nNI|HlraCmgmu6G#y7{HsVfkgns
+zPQaMl-(|G2=Jf0wY6fNkHSF3M*wnCp&@W+Bdk~hLrD%_C2Gy#~%plAF?Z|jEo@GTo
+z9P}a5gQ$Yyho&Nh#@{gS@#VE9g+gm)sVP{v>0JwWT8x}jeOacW2B|R=vF$V-jc0qS
+z8-(GY|Kt&f%e-o60IMj38IiV-;$iw+=FtOUm{$x<A*!Vmq6!iLZ({83@UW=P0a)gX
+z+T%h{mV_ZQmu7wn96Tb_Mt66F`8@fDHN9!Vyjf#+Pk;j=@;n7r5!4CFnsuWuwxYcq
+iX{`I6{lHWFNAV8gNn5(2{=AI<0000<MNUMnLSTYw4$qnZ
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-04.png b/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-04.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..be54419fa74db126c4039c27566584e5b4d5c26e
+GIT binary patch
+literal 470
+zcmeAS@N?(olHy`uVBq!ia0vp^Vj#@H1|*Mc$*~4fY)RhkE)4%caKYZ?lYt_f1s;*b
+z3=G`DAk4@xYmNj^kiEpy*OmPW7q6HxgJ5ExI8aEo#5JPCIX^cyHLrxhxhOTUBsE2$
+zJhLQ2AtWPJ!QIn0;C+f}9s>iTm8Xkih{fr*A%=cO3<PA}-wOZSp)I&*;d%FU&Qtb0
+zIQ5%BRp@RlGY4yc;z8zjvIU-RVx@$R^98-rQ;=GA>ei=}va*~9^80y>Ki15=>UuhJ
+zxz_HT`?Po%Oxd1`Prv&sCFymVg`K7JI{%EnA_rz~<vYUTpe~ra^`6Mv??r~~rF<@I
+zYSPyo!|vGcbz!n*7Ji?5bU`UYfN<xW;sm7wZ&q65+p-tG{>XTEcXgfbVR<KgQL!Ua
+z&gVJAe2adkV5fOCV^M{AfB5UO7q9akDl)7WV7+4gQC_Lx3&)M7&IM`g+Igpsukd3s
+z35k{6!;~m38qIx}M=DrHX+pqpD~5e5C)d7z{e(yG;ENNioQpUjUoU*6*>>pqZ4*hC
+z$8y~sPBIHJW_hfM3*1|uGV$@n^v(0T60L%2w#WZD5d6pe2Meo5@q`BPx+q|9GkCiC
+KxvX<aXaWH74zpnZ
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-05.png b/meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-05.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c40ac9a10bcf50c437c8cae475441b5900cfb16
+GIT binary patch
+literal 419
+zcmeAS@N?(olHy`uVBq!ia0vp^Vj#@H1|*Mc$*~4fY)RhkE)4%caKYZ?lYt_f1s;*b
+z3=G`DAk4@xYmNj^kiEpy*OmPW7q6JHX7FXPYM_v8iEBiObAE1aYF-J0b5UwyNotBh
+zd1gt5LP$ocg1e`0!21-{JO&0vc25__5R22v2@<T$vTxiE|6iF_aQcz;|HK)u*sPc6
+zGbelTxPALpy-KR*S?MdOH&Zq;^=$m`Kln-M@iSKwdRqU_S6Ux@Hld_>&ZV#h!;bq~
+zI9mV9&%b_OnVs>*gD+1LdV25g_+V!A-~M78`_2=Jm4Xt@Ke_Y&mixr=9aE_L`)Brv
+znm=sTD!L5G8@k2r{K=nhAl-A2?JTR*6chO#$3M4rUZ41L2QS;s6MA)G5{G#<_08it
+zme8CQ|36>aTo|a})l7|=J8aE++VUp2ddN#O{|Mc@{_pml85}^<pMF_=0xX#(Xvf%-
+z$R_!Fd$Zvg1?ByG2FDJmYlZGP9;B0$A`vAz`wKh6`;%#{4eK4Y1H+EN)78&qol`;+
+E04bEH<^TWy
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+index eee7a11..6299e70 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+@@ -11,10 +11,16 @@ DEPENDS = "gtk+ dbus-glib intltool-native"
+ # 0.7 tag
+ SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
+ SRC_URI = "git://github.com/connectivity/connman-gnome.git;protocol=git \
+-	   file://0001-Removed-icon-from-connman-gnome-about-applet.patch"
++	   file://0001-Removed-icon-from-connman-gnome-about-applet.patch \
++	   file://images/* \
++          "
+ 
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools gtk-icon-cache
+ 
+ RDEPENDS_${PN} = "connman"
++
++do_install_append() {
++    install -m 0644 ${WORKDIR}/images/* ${D}/usr/share/icons/hicolor/22x22/apps/
++}
+-- 
+1.7.9.5
+
 
 
