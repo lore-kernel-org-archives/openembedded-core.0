@@ -1,52 +1,20 @@
-Received: from mail-ee0-f43.google.com ([74.125.83.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UT9um-0001Wy-4q
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 13:55:43 +0200
-Received: by mail-ee0-f43.google.com with SMTP id e50so1787922eek.16
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 04:38:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=locNmhXYLzIkSIUv8ZbMnr912isIKO+p7j9Bq3rOmcY=;
-	b=Ip6VpayncQFZz5zVinfQT3ycHPi4pI1QMmW8LEtg2R1hjPrrEzi62bzhicdVb/1be0
-	E8KJt3YT+DNI4rIZjMBSxWxBrNvS4yJK2gIgfT6G9JFjqhk1cF/1tQ/lPqJXXbQj4aiA
-	GEUTFp+OKPWUsDU53eC7kaaEhrio5Tq9Wtj34Ufw0fw2siBfsWl17KROYY0Al31E+ibb
-	HykAdRu7+DCq1BnAL/+ia8vWipYxZljvsB/vjm1U+pd0rUxtH7tBn9plPH054C+RIYol
-	MliUNLz2OjxHgyug4yAksb5zHeu53MlPcEGkyAeNb7hBM2cGy6Sf3drwoReyPhJVYeGC
-	jzYw==
-X-Received: by 10.14.218.66 with SMTP id j42mr40838209eep.46.1366371485666;
-	Fri, 19 Apr 2013 04:38:05 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::15aa:e355:a2c9:14f2?
-	([2001:610:612:0:15aa:e355:a2c9:14f2])
-	by mx.google.com with ESMTPS id w51sm22371730eev.13.2013.04.19.04.38.03
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 19 Apr 2013 04:38:04 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <5171293A.5010300@intel.com>
-Date: Fri, 19 Apr 2013 13:38:04 +0200
-Message-Id: <0E83C36A-8358-40B0-B022-A39DBFF44880@dominion.thruhere.net>
-References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
-	<18219582.KT7bte5u1O@helios>
-	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
-	<3344072.3yQMCnL6TJ@helios>
-	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
-	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
-	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
-	<CAJTo0LYeJwW-Lbf9bEZogCh1e97bwj7PTgFZV=3NbwN=PMWENg@mail.gmail.com>
-	<CAJTo0LYRPtG_N1WCE37UTvGvy5HYt7ia1ym12iR874Ykb8QwTg@mail.gmail.com>
-	<623CB95B-FD17-49A5-9547-71E0EFC316A7@dominion.thruhere.net>
-	<5171293A.5010300@intel.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkJ43iZvL+xUCaVDV+XfmTgdBK5AYQrHjVI0YTfiUrfhqgPDSdeDcRKowR7lt5Y2R8IFG77
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: postinst does not finish
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1UTAI8-0004CC-Cj for openembedded-core@lists.openembedded.org;
+	Fri, 19 Apr 2013 14:20:09 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2013 05:00:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,508,1363158000"; d="scan'208";a="297472084"
+Received: from ema-vostro-460.rb.intel.com ([10.237.105.42])
+	by orsmga001.jf.intel.com with ESMTP; 19 Apr 2013 05:02:11 -0700
+From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Apr 2013 15:07:51 +0300
+Message-Id: <1366373271-19152-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] libpng: Upgrade to 1.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,79 +27,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 11:55:47 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Apr 2013 12:20:29 -0000
 
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
+ ...0001-configure-lower-automake-requirement.patch |   29 ++++++++++++++++++++
+ meta/recipes-multimedia/libpng/libpng_1.6.0.bb     |   20 --------------
+ meta/recipes-multimedia/libpng/libpng_1.6.1.bb     |   24 ++++++++++++++++
+ 3 files changed, 53 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.1.bb
 
-Op 19 apr. 2013, om 13:23 heeft Laurentiu Palcu =
-<laurentiu.palcu@intel.com> het volgende geschreven:
-
->=20
->=20
-> On 04/19/2013 12:13 PM, Koen Kooi wrote:
->>=20
->> Op 19 apr. 2013, om 10:52 heeft "Burton, Ross" =
-<ross.burton@intel.com> het volgende geschreven:
->>=20
->>> On 19 April 2013 09:38, Burton, Ross <ross.burton@intel.com> wrote:
->>>> On 18 April 2013 19:45, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>>>> [koen@rrMBP 1.0-r0]$ grep "configuration required on target" =
-temp/log.do_rootfs
->>>>> gdk-pixbuf-loader-png.postinst returned 1, marking as unpacked =
-only, configuration required on target.
->>>> ..
->>>>=20
->>>> This is "usual" for postinsts that are intercepted and handled in a
->>>> single go - scroll further down the log and you should see the =
-package
->>>> manager running the intercept scripts (i.e. fontcaches once, =
-gconftool
->>>> once).  I expect you'll see there that the gconftool intercept is
->>>> breaking for some reason.
->>>=20
->>> Actually gconf isn't using triggers but it should happen on the =
-host.
->>>=20
->>> I wonder if we're hitting a problem where the postinsts are doing =
-some
->>> actions on the host and then triggers are "erroring" out and it's =
-all
->>> falling back to the target.  Can you share the complete rootfs log =
-for
->>> this gnome image?
->>=20
->> Here's the complete log: =
-http://dominion.thruhere.net/koen/angstrom/beaglebone/log.do_rootfs
-> Do you think you can post the rootfs/var/lib/opkg/status file? This
-> would show us exactly what packages were postponed for first boot.
-
-This is the build that finished just before Ross sent the gconf patch:
-
-	=
-http://dominion.thruhere.net/koen/angstrom/beaglebone/Angstrom-systemd-GNO=
-ME-image-eglibc-ipk-v2013.06-beaglebone.rootfs.tar.xz (75MiB)
-
-I haven't booted that yet, I'll do that when I get back from lunch.
-
-regards,
-
-Koen
-
-
->=20
-> Thanks,
-> Laurentiu
->>=20
->> Todays build is still building :(
->>=20
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>=20
+diff --git a/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch b/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+new file mode 100644
+index 0000000..34363dc
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+@@ -0,0 +1,29 @@
++From a4fd84bdc69e9929a1040f20ea291ee3115bf5b2 Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen@dominion.thruhere.net>
++Date: Mon, 15 Apr 2013 11:16:20 +0200
++Subject: [PATCH] configure: lower automake requirement
++
++We're not using parallel tests in OE-core yet
++
++Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
++
++Upstream-status: Inapropriate [OE specific build hack]
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 1745d31..7f015fe 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -27,7 +27,7 @@ AC_CONFIG_MACRO_DIR([scripts])
++ # dist-xz requires automake 1.11 or later
++ # 1.12.2 fixes a security issue in 1.11.2 and 1.12.1
++ # 1.13 is required for parallel tests
++-AM_INIT_AUTOMAKE([1.13 foreign dist-xz color-tests silent-rules])
+++AM_INIT_AUTOMAKE([1.12.2 foreign dist-xz color-tests silent-rules])
++ # The following line causes --disable-maintainer-mode to be the default to
++ # configure, this is necessary because libpng distributions cannot rely on the
++ # time stamps of the autotools generated files being correct
++--
++1.8.1.4
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb b/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+deleted file mode 100644
+index 951e34a..0000000
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.0.bb
++++ /dev/null
+@@ -1,20 +0,0 @@
+-SUMMARY = "PNG Library"
+-DESCRIPTION = "PNG Library"
+-HOMEPAGE = "http://www.libpng.org/"
+-SECTION = "libs"
+-LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=03b8ec701cb796c0ec84af22f884edef \
+-                    file://png.h;beginline=207;endline=321;md5=e829cebefd08488ba5142ea5faea6821"
+-DEPENDS = "zlib"
+-PR = "r0"
+-LIBV = "16"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+-          "
+-
+-SRC_URI[md5sum] = "3ee623b9a4d33bda7310a5124080b14d"
+-SRC_URI[sha256sum] = "5e13c31321083b03956b5ff298bacffab7a7ad35c34c122acef314593944b97b"
+-
+-inherit autotools binconfig pkgconfig
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.1.bb b/meta/recipes-multimedia/libpng/libpng_1.6.1.bb
+new file mode 100644
+index 0000000..a05e380
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.1.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "PNG Library"
++DESCRIPTION = "PNG Library"
++HOMEPAGE = "http://www.libpng.org/"
++SECTION = "libs"
++LICENSE = "Libpng"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=8273188b2e21c831f5a09fd9285db62f \
++                    file://png.h;beginline=207;endline=321;md5=de107fb61766e9d826943f3b6a354fc9 \
++                   "
++DEPENDS = "zlib"
++PR = "r0"
++LIBV = "16"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
++           file://0001-configure-lower-automake-requirement.patch \
++          "
++
++SRC_URI[md5sum] = "93fc0b0841ce2db0e6756673e22dafc3"
++SRC_URI[sha256sum] = "5ef57f8b9ef591c8504e2a8f78d31779f0c8f2b34b34d01d533360d2483c8946"
++
++inherit autotools binconfig pkgconfig
++
++EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off", d)}"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.9.5
 
 
 
