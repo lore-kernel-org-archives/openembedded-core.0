@@ -1,35 +1,52 @@
-Received: from mail-wi0-f180.google.com ([209.85.212.180])
+Received: from mail-ee0-f43.google.com ([74.125.83.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UT9is-0000Nq-SN
+	(envelope-from <koen@dominion.thruhere.net>) id 1UT9um-0001Wy-4q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 13:43:24 +0200
-Received: by mail-wi0-f180.google.com with SMTP id h11so645423wiv.13
+	Fri, 19 Apr 2013 13:55:43 +0200
+Received: by mail-ee0-f43.google.com with SMTP id e50so1787922eek.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 04:25:48 -0700 (PDT)
+	Fri, 19 Apr 2013 04:38:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=3XDq2Tx8K1tm8WnhAv8mNj+sI7mzJeov5eBU7GAHLTg=;
-	b=TNeS0HuzhChVirQnd5yzXdVRGCqGtwkUR3RzKca5l1GiGtrkba8Hm/T9gcE6E/Wre/
-	ra9l65wVQ2FKSiQ/QXKQKIndKxnCWpHd/pU1K+W6G0zTGUQ67jgEbHP/DUNDSBwAa6Co
-	wp+hDSWc0vjuoKlrAbbt+2AgplDLYFLVedxa4cGhp9N9viYHUZ1W6tSg96bhylQBL6qs
-	trPiJw/hHBeKs9lu4wiMyuQaa/WJAppxBJZerJ+UGwwxVOfiMh4MhCwtC6Gq/5TKGWQP
-	lW1CW2unQBcX2I2OqQAua/Lnte4bhHSqFXjY0eWsYNhGDMa+MWa7Wr0NEvgT8Q5bp5Uj
-	IBEA==
-X-Received: by 10.194.92.176 with SMTP id cn16mr6822865wjb.51.1366370748237;
-	Fri, 19 Apr 2013 04:25:48 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id s2sm2996349wib.4.2013.04.19.04.25.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 19 Apr 2013 04:25:47 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Apr 2013 12:22:57 +0100
-Message-Id: <1366370577-16280-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQkzx4frGZz5dCBE4fz5OX28FwKRJkmU78vu9Lwlcs58daFFXpyudF2QRDJ5lvpSOtN7CEQz
-Subject: [PATCH] gconf: silence some spurious errors
+	bh=locNmhXYLzIkSIUv8ZbMnr912isIKO+p7j9Bq3rOmcY=;
+	b=Ip6VpayncQFZz5zVinfQT3ycHPi4pI1QMmW8LEtg2R1hjPrrEzi62bzhicdVb/1be0
+	E8KJt3YT+DNI4rIZjMBSxWxBrNvS4yJK2gIgfT6G9JFjqhk1cF/1tQ/lPqJXXbQj4aiA
+	GEUTFp+OKPWUsDU53eC7kaaEhrio5Tq9Wtj34Ufw0fw2siBfsWl17KROYY0Al31E+ibb
+	HykAdRu7+DCq1BnAL/+ia8vWipYxZljvsB/vjm1U+pd0rUxtH7tBn9plPH054C+RIYol
+	MliUNLz2OjxHgyug4yAksb5zHeu53MlPcEGkyAeNb7hBM2cGy6Sf3drwoReyPhJVYeGC
+	jzYw==
+X-Received: by 10.14.218.66 with SMTP id j42mr40838209eep.46.1366371485666;
+	Fri, 19 Apr 2013 04:38:05 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::15aa:e355:a2c9:14f2?
+	([2001:610:612:0:15aa:e355:a2c9:14f2])
+	by mx.google.com with ESMTPS id w51sm22371730eev.13.2013.04.19.04.38.03
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 19 Apr 2013 04:38:04 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <5171293A.5010300@intel.com>
+Date: Fri, 19 Apr 2013 13:38:04 +0200
+Message-Id: <0E83C36A-8358-40B0-B022-A39DBFF44880@dominion.thruhere.net>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+	<18219582.KT7bte5u1O@helios>
+	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
+	<3344072.3yQMCnL6TJ@helios>
+	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
+	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
+	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
+	<CAJTo0LYeJwW-Lbf9bEZogCh1e97bwj7PTgFZV=3NbwN=PMWENg@mail.gmail.com>
+	<CAJTo0LYRPtG_N1WCE37UTvGvy5HYt7ia1ym12iR874Ykb8QwTg@mail.gmail.com>
+	<623CB95B-FD17-49A5-9547-71E0EFC316A7@dominion.thruhere.net>
+	<5171293A.5010300@intel.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQkJ43iZvL+xUCaVDV+XfmTgdBK5AYQrHjVI0YTfiUrfhqgPDSdeDcRKowR7lt5Y2R8IFG77
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,138 +59,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 11:43:35 -0000
+X-List-Received-Date: Fri, 19 Apr 2013 11:55:47 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The postinstalls were producing errors like this:
 
-  (gconftool-2.real:10095): GConf-WARNING **: Client failed to connect to the D-BUS daemon:
-  Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead
+Op 19 apr. 2013, om 13:23 heeft Laurentiu Palcu =
+<laurentiu.palcu@intel.com> het volgende geschreven:
 
-These are harmless but distracting, so take a patch from upstream to silence
-them.
+>=20
+>=20
+> On 04/19/2013 12:13 PM, Koen Kooi wrote:
+>>=20
+>> Op 19 apr. 2013, om 10:52 heeft "Burton, Ross" =
+<ross.burton@intel.com> het volgende geschreven:
+>>=20
+>>> On 19 April 2013 09:38, Burton, Ross <ross.burton@intel.com> wrote:
+>>>> On 18 April 2013 19:45, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>>>>> [koen@rrMBP 1.0-r0]$ grep "configuration required on target" =
+temp/log.do_rootfs
+>>>>> gdk-pixbuf-loader-png.postinst returned 1, marking as unpacked =
+only, configuration required on target.
+>>>> ..
+>>>>=20
+>>>> This is "usual" for postinsts that are intercepted and handled in a
+>>>> single go - scroll further down the log and you should see the =
+package
+>>>> manager running the intercept scripts (i.e. fontcaches once, =
+gconftool
+>>>> once).  I expect you'll see there that the gconftool intercept is
+>>>> breaking for some reason.
+>>>=20
+>>> Actually gconf isn't using triggers but it should happen on the =
+host.
+>>>=20
+>>> I wonder if we're hitting a problem where the postinsts are doing =
+some
+>>> actions on the host and then triggers are "erroring" out and it's =
+all
+>>> falling back to the target.  Can you share the complete rootfs log =
+for
+>>> this gnome image?
+>>=20
+>> Here's the complete log: =
+http://dominion.thruhere.net/koen/angstrom/beaglebone/log.do_rootfs
+> Do you think you can post the rootfs/var/lib/opkg/status file? This
+> would show us exactly what packages were postponed for first boot.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../gnome/gconf/unable-connect-dbus.patch          |   95 ++++++++++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.6.bb            |    1 +
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/gconf/unable-connect-dbus.patch
+This is the build that finished just before Ross sent the gconf patch:
 
-diff --git a/meta/recipes-gnome/gnome/gconf/unable-connect-dbus.patch b/meta/recipes-gnome/gnome/gconf/unable-connect-dbus.patch
-new file mode 100644
-index 0000000..f758a4b
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/unable-connect-dbus.patch
-@@ -0,0 +1,95 @@
-+Fixes errors such as this in the rootfs generation:
-+
-+(gconftool-2.real:10095): GConf-WARNING **: Client failed to connect to the D-BUS daemon:
-+Using X11 for dbus-daemon autolaunch was disabled at compile time, set your DBUS_SESSION_BUS_ADDRESS instead
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From b0895e1998ebc83ab030ec0f17c0685439f5b404 Mon Sep 17 00:00:00 2001
-+From: Ray Strode <rstrode@redhat.com>
-+Date: Mon, 15 Apr 2013 09:57:34 -0400
-+Subject: [PATCH] dbus: Don't spew to console when unable to connect to dbus
-+ daemon
-+
-+Instead pass the error up for the caller to decide what to do.
-+
-+This prevent untrappable warning messages from showing up at the
-+console if gconftool --makefile-install-rule is called.
-+---
-+ gconf/gconf-dbus.c |   24 ++++++++++++------------
-+ 1 file changed, 12 insertions(+), 12 deletions(-)
-+
-+diff --git a/gconf/gconf-dbus.c b/gconf/gconf-dbus.c
-+index 5610fcf..048e3ea 100644
-+--- a/gconf/gconf-dbus.c
-++++ b/gconf/gconf-dbus.c
-+@@ -105,7 +105,7 @@ static GHashTable     *engines_by_db = NULL;
-+ static GHashTable     *engines_by_address = NULL;
-+ static gboolean        dbus_disconnected = FALSE;
-+ 
-+-static gboolean     ensure_dbus_connection      (void);
-++static gboolean     ensure_dbus_connection      (GError **error);
-+ static gboolean     ensure_service              (gboolean          start_if_not_found,
-+ 						 GError          **err);
-+ static gboolean     ensure_database             (GConfEngine      *conf,
-+@@ -383,7 +383,7 @@ gconf_engine_detach (GConfEngine *conf)
-+ }
-+ 
-+ static gboolean
-+-ensure_dbus_connection (void)
-++ensure_dbus_connection (GError **err)
-+ {
-+   DBusError error;
-+ 
-+@@ -392,7 +392,9 @@ ensure_dbus_connection (void)
-+ 
-+   if (dbus_disconnected)
-+     {
-+-      g_warning ("The connection to DBus was broken. Can't reinitialize it.");
-++      g_set_error (err, GCONF_ERROR,
-++                   GCONF_ERROR_NO_SERVER,
-++                   "The connection to DBus was broken. Can't reinitialize it.");
-+       return FALSE;
-+     }
-+ 
-+@@ -402,7 +404,10 @@ ensure_dbus_connection (void)
-+   
-+   if (!global_conn) 
-+     {
-+-      g_warning ("Client failed to connect to the D-BUS daemon:\n%s", error.message);
-++      g_set_error (err, GCONF_ERROR,
-++                   GCONF_ERROR_NO_SERVER,
-++                   "Client failed to connect to the D-BUS daemon:\n%s",
-++                   error.message);
-+       
-+       dbus_error_free (&error);
-+       return FALSE;
-+@@ -431,13 +436,8 @@ ensure_service (gboolean  start_if_not_found,
-+ 
-+   if (global_conn == NULL)
-+     {
-+-      if (!ensure_dbus_connection ())
-+-	{
-+-	  g_set_error (err, GCONF_ERROR,
-+-		       GCONF_ERROR_NO_SERVER,
-+-		       _("No D-BUS daemon running\n"));
-+-	  return FALSE;
-+-	}
-++      if (!ensure_dbus_connection (err))
-++        return FALSE;
-+ 
-+       g_assert (global_conn != NULL);
-+     }
-+@@ -2512,7 +2512,7 @@ gconf_ping_daemon (void)
-+ {
-+   if (global_conn == NULL)
-+   {
-+-    if (!ensure_dbus_connection ())
-++    if (!ensure_dbus_connection (NULL))
-+     {
-+       return FALSE;
-+     }
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index a245fa2..a1843d5 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -12,6 +12,7 @@ inherit gnomebase gtk-doc
- 
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://remove_plus_from_invalid_characters_list.patch \
-+           file://unable-connect-dbus.patch \
- "
- 
- SRC_URI[archive.md5sum] = "2b16996d0e4b112856ee5c59130e822c"
--- 
-1.7.10.4
+	=
+http://dominion.thruhere.net/koen/angstrom/beaglebone/Angstrom-systemd-GNO=
+ME-image-eglibc-ipk-v2013.06-beaglebone.rootfs.tar.xz (75MiB)
+
+I haven't booted that yet, I'll do that when I get back from lunch.
+
+regards,
+
+Koen
+
+
+>=20
+> Thanks,
+> Laurentiu
+>>=20
+>> Todays build is still building :(
+>>=20
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>=20
 
 
 
