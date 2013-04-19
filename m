@@ -1,37 +1,36 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from mail-wi0-f176.google.com ([209.85.212.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UTFOv-0001fU-AR
+	(envelope-from <twoerner@gmail.com>) id 1UTHsJ-0008AB-Iv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 19:47:15 +0200
-Received: by mail-vc0-f169.google.com with SMTP id hx10so4063606vcb.14
+	Fri, 19 Apr 2013 22:25:44 +0200
+Received: by mail-wi0-f176.google.com with SMTP id hj19so1381827wib.15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 10:29:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=COPUmmXbCxRJ90QTBDhY9LyehqKG1vnREFUSGJolWjA=;
-	b=gcXs1vMRice3TBqNY5/g4j0o5Ep/nO3nh3ell5fFjoVEOb1m66nrNop6fjG1G3Ci3G
-	lPiKi7bJLdRBWAhJiVnN3iMG8CwBC2drbUei6Wj6yO1/AvuYphQSnYDC7Kj8tpRKP5Xs
-	VSR3wwW8qp71oTEC48WbvamPnLnQR+5tbC41xKZS6aYwPR4Gbm8HEwCdCkngZZj/RJDK
-	NYYNqjsOfwoWErWq4aNnXtXNZFFRqNdBxnQeGAX7VjTz/+DbM0QHxOB0mxGiELLWNAr0
-	4Yuwxy3yrtbt2twH6NE8xEnruXwr4y/7GregbxdeYiif+ViufF69Qcnf5KhyNrj7XuSW
-	4yvA==
-X-Received: by 10.220.155.8 with SMTP id q8mr6409461vcw.42.1366392572347; Fri,
-	19 Apr 2013 10:29:32 -0700 (PDT)
+	Fri, 19 Apr 2013 13:08:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:content-type;
+	bh=4x8Xw8XQ4zrsTQfDsnT8/4nnLz2E+aA2FGQOHPibdbc=;
+	b=rJJpcB1U+h45fKNnoAxf8oq9d1/gsZ3wQ3YvlxBvbEoZYVNHXVxw8BXhZjka9kYBwn
+	eU2xRkwY1mGnDvr+NuZJ7bURRRhycZ1dwQ1cK5AY61Sj2V68XL/ljh2VSrTS/szZU7XT
+	1Xtzly+uGpU7uYH8Z2xWeXkr6w8xFxkNLFnmty0vwpmkHn3p+ICZtNLCUgqCma2Nz7ak
+	mv6XqMYnO2NJHuJuqhM9ueFqYUw5YyR4VIqwvF+IKA1RXq71aDlZIW+TXlslIHjphqNA
+	x0hq0PQx0qv/BDta/oHWstRFuHDZM++d6ZPwSuO8/2tEFl0WJoSTWvDZbluwl+bi8VXD
+	daZA==
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Fri, 19 Apr 2013 10:29:12 -0700 (PDT)
-In-Reply-To: <CALbNGRS1LGXNVHxiR6OB5apqKn9UDHtapQqJriRS0Xt8mhoAaA@mail.gmail.com>
-References: <1366377176-27277-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-	<CALbNGRS1LGXNVHxiR6OB5apqKn9UDHtapQqJriRS0Xt8mhoAaA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Apr 2013 18:29:12 +0100
-Message-ID: <CAJTo0LbA4fFzNiGyNKr2cYP1WN7WLvvDD8LqQe1Ycer7tgP3Tg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQn+4IpdlldRYMiDZm30i7x2qMWdj8A8aZzssKCPgkq9pmNo4R5nB09wxglr+7ODQLfDgfnG
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman-gnome: Replace broken png files
+X-Received: by 10.194.109.227 with SMTP id hv3mr28473468wjb.32.1366402084516; 
+	Fri, 19 Apr 2013 13:08:04 -0700 (PDT)
+Received: by 10.194.167.73 with HTTP; Fri, 19 Apr 2013 13:08:04 -0700 (PDT)
+In-Reply-To: <2526326.CAbek543yF@yiqingliang-pc>
+References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
+	<alpine.DEB.2.02.1304181250070.20260@oneiric>
+	<41F644AD-691F-443B-A267-8562E5DDC3BC@gmail.com>
+	<2526326.CAbek543yF@yiqingliang-pc>
+Date: Fri, 19 Apr 2013 16:08:04 -0400
+Message-ID: <CAHUNapT8_t2g9=ixW1zRsMgvdHqLnpWOzn1Ak6Zz9d=RFPkmcA@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 17:47:19 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Apr 2013 20:25:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Andreas,
+All of these "solutions" assume the user wants to use all of their
+entire computing resources to do nothing other than their Yocto build.
+This isn't _always_ the case, is it? :-)
 
-On 19 April 2013 17:49, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
-wrote:
-> I thought there are efforts for libpng fix ongoing. If not: let me
-> know because meta-gnome's network-manager-applet needs same (seems
-> they use same icons).
+Personally, I know this build is going to take time. So I start it,
+then go off and do other things with my computer. In my case, I don't
+like it when the other things I'm trying to do on the computer are
+bogged down due to this all-consuming, background build task. I would
+much rather that whatever else I'm doing remain responsive to me.
+Whether the build finishes in 20 minutes or 25 is irrelevant because
+I'll only notice it's done 30 minutes from now :-) As such I never set
+my settings to "full power"... knowingly and purposefully.
 
-From the discussion I saw upstream (that I've lost, but it was easy to
-google) libpng's maintainers consider themselves right, as the files
-are definitely broken (the breakage occurs due to libpng asking for
-strict decompression).
-
-connman-gnome stole the icons from NM, so you'll certainly want to
-copy them back into nm-applet.
-
-Ross
+This being said, I think what is currently in the sample config file
+(which are roughly half of full power) are good defaults. If you're
+new to this kind of stuff, these settings will suit just fine. If
+you're a power user, you'll know how to set them to 8 or 16 or any
+other setting which suits your needs.
 
 
