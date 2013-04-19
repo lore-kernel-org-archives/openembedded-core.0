@@ -1,38 +1,48 @@
-Received: from mail-pd0-f174.google.com ([209.85.192.174])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1USzqB-0002V9-49
+	(envelope-from <koen@dominion.thruhere.net>) id 1UT6PH-0001sI-RV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 03:10:45 +0200
-Received: by mail-pd0-f174.google.com with SMTP id p12so1892523pdj.19
+	Fri, 19 Apr 2013 10:10:56 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so1661772eae.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2013 17:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=B9B0XIyZxtI1VyHFLuRrQJS5aXGPYoE9LrsBSDltD9E=;
-	b=CGyR5AydZdvL1kKQrIJBMQxBAPzw45ySxbtiqctMyVtz+xNmLcjg6UNniNK+05jfhv
-	4cIrEB2BX8TrF6i0hiI/KP1hI+ezoLwWcXSrd9bLpaNPh+nrL4PiokOzyQtPrIkRqD6T
-	8MdEuwo1gTnhpS4YwZmh/oVnacGI4U7LBJkQ77OfwzxKiI7AMyU9h9lSUVnFl419rscy
-	uoS2uBhGg1eShkOWKlRZqNi7IVWE1kvP9Wk6R9aOTVB9O2ELbYMlYpVGdleJwIFUNtDN
-	qi+xnDQWI1vUPE810+lQMc6O1bZ1OrGxLHTcw5D93Ny06H4I1g1+9BltcniihTQavTp3
-	y7Pg==
-X-Received: by 10.67.4.167 with SMTP id cf7mr2647007pad.62.1366332760622;
-	Thu, 18 Apr 2013 17:52:40 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([121.229.159.24])
-	by mx.google.com with ESMTPS id to7sm12635749pab.0.2013.04.18.17.52.37
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 18 Apr 2013 17:52:39 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Apr 2013 08:49:27 +0800
-Message-ID: <2526326.CAbek543yF@yiqingliang-pc>
-User-Agent: KMail/4.10.2 (Linux/3.8.7-1-ARCH; KDE/4.10.2; x86_64; ; )
-In-Reply-To: <41F644AD-691F-443B-A267-8562E5DDC3BC@gmail.com>
-References: <alpine.DEB.2.02.1304181219550.8010@oneiric>
-	<alpine.DEB.2.02.1304181250070.20260@oneiric>
-	<41F644AD-691F-443B-A267-8562E5DDC3BC@gmail.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH] local.conf.sample: Have comments ready to go for quad-core (4 -> 8).
+	Fri, 19 Apr 2013 00:53:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=sRpifZHR2WXR9Euzg0AcZrkqZBwqwI3u2u093Qp8xgw=;
+	b=Le0cEXAzaFJBX6S/UoTO7OkmyQFsDh5uto70nHG69Wpn80bUFX5t0UPz2yD5/+hkJB
+	wAaWmlhaSDRKQrn/5rkRLnFgv8mUjIteBkUkHD0eGj7uUPZ6jS3xQEamH/pw0kcf6ii4
+	99L9GfdNZylCxfonxXRXv1m5co+pOi63GIiZj0jyTXeKcYjp8pqkHjb7W5md/IguqUAy
+	g4pqTwddSqBZfjp7CWcV/Qs+xF1neInTihw67Y4DTSruFVKOKb+Sw4LxIAUQ1vEuGq89
+	sO/Rj/Ik/QXB6L68zlRXfE6vvnfO1rd6CBN8LVQRFivRpfGxi03OYvlVCZgcKhbj9H/f
+	TrrA==
+X-Received: by 10.15.99.201 with SMTP id bl49mr38913198eeb.43.1366358001493;
+	Fri, 19 Apr 2013 00:53:21 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::15cb:73fc:27f0:4e75?
+	([2001:610:612:0:15cb:73fc:27f0:4e75])
+	by mx.google.com with ESMTPS id i53sm21038388eeu.5.2013.04.19.00.53.19
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 19 Apr 2013 00:53:20 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
+Date: Fri, 19 Apr 2013 09:53:20 +0200
+Message-Id: <5DF91529-D80F-4028-ADB0-029A8C9820C2@dominion.thruhere.net>
+References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
+	<18219582.KT7bte5u1O@helios>
+	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
+	<3344072.3yQMCnL6TJ@helios>
+	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
+	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
+	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQmnCXLc2r2BDzCSN7l5RnRQfSjmRPz1fEx+SaIkkLJkcnJEsSMsrbn8jxCigI4KSnnPjTMp
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: postinst does not finish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +55,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 01:10:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 19 Apr 2013 08:11:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday, April 18, 2013 09:57:16 PM Elvis Dowson wrote:
-> On Apr 18, 2013, at 8:51 PM, "Robert P. J. Day" <rpjday@crashcourse.ca> 
-wrote:
-> > On Thu, 18 Apr 2013, Enrico Scholz wrote:
-> >> "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-> >> 
-> >> writes:
-> >>> Have default, commented values for parallelism reflect quad-core
-> >>> hosts.
-> >> 
-> >> fwiw, I use
-> >> 
-> >> PARALLEL_MAKE = "\
-> >> 
-> >>  -j ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 2} \
-> >>  -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) *
-> >>  150/100} \
-> >> 
-> >> "
-> >> 
-> >> BB_NUMBER_THREADS ?= "\
-> >> 
-> >>  ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100}"
-> >> 
-> >> which adjusts parallelism automatically.
-> >> 
-> >  i'd be perfectly fine with that, too, if someone wants to put that
-> > 
-> > in instead.
-> 
-> I've noticed that on a quad-core machine (i7) the best setting is to leave
-> it at 6 for BB_NUMBER_THREADS and PARALLEL_MAKE.
-maybe we need consider the hyper-threading.
 
-	CPU_PROC_NUM="`grep "^processor" /proc/cpuinfo | sort -u | wc -l`"
-	CPU_CORE_NUM="`grep "^core id" /proc/cpuinfo | sort -u | wc -l`"
+Op 18 apr. 2013, om 20:45 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
 
-> 8, 16, etc don't have any discernable impact, perhaps save 30 to 40 seconds
-> off a build. The 3.5Ghz standard CPU frequency can be over-clocked to as
-> high as 4.5GHz, but I tested it out at 4.2Ghz and 3.8Ghz, and the
-> difference was only 2 to 3 minutes between 3.8GHz and 4.2GHz over-clocked,
-> so I currently leave it at 3.8GHz over-clocked.
-> 
-> I'm using two SSDs in a RAID 0 striped configuration, and build times is
-> around 22 minutes for a Zynq-7-ZC702 build for core-image-minimal.
-> 
-> Elvis Dowson
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+>=20
+> Op 17 apr. 2013, om 20:55 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
+>=20
+>> On 17 April 2013 19:27, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>> I get a similar result here, but I have to rerun all postinsts with =
+gconftool to make the packages actually work. I'll update OE-core =
+tomorrow and try to get some more debug info. Systemctl says postinsts =
+ran for 3 and a half minutes, a big improvement over the 60+ minutes for =
+the same image built against 1.3.
+>>=20
+>> 3.5 minutes is still a long time, what packages does it run on the =
+target?
+>=20
+> I finally have a new build done and was able to inspect log.do_rootfs:
+>=20
+> [koen@rrMBP 1.0-r0]$ grep "configuration required on target" =
+temp/log.do_rootfs
+> gdk-pixbuf-loader-png.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-jpeg.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> liberation-fonts.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-xpm.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-gif.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> hicolor-icon-theme.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-bluetooth.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-disk-utility.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> nautilus.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-session.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdm.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-settings-daemon.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> libgweather1.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-panel.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-power-manager.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-control-center.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> epiphany.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-theme-crux.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-highcontrastlargeprint.postinst returned 1, marking as =
+unpacked only, configuration required on target.
+> librsvg-2-gtk.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-sans.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-icon-theme.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-highcontrastinverse.postinst returned 1, marking as =
+unpacked only, configuration required on target.
+> gnome-theme-mist.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-serif.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-mono.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-largeprint.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-themes.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> udev-hwdb.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-theme-highcontrastlargeprintinverse.postinst returned 1, marking =
+as unpacked only, configuration required on target.
+> gnome-theme-highcontrast.postinst returned 1, marking as unpacked =
+only, configuration required on target.
+> gdk-pixbuf-loader-png.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-jpeg.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> liberation-fonts.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-xpm.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdk-pixbuf-loader-gif.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> hicolor-icon-theme.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-bluetooth.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-disk-utility.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> nautilus.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-session.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gdm.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-settings-daemon.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> libgweather1.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-panel.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-power-manager.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-control-center.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> epiphany.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-theme-crux.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-highcontrastlargeprint.postinst returned 1, marking as =
+unpacked only, configuration required on target.
+> librsvg-2-gtk.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-sans.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-icon-theme.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-highcontrastinverse.postinst returned 1, marking as =
+unpacked only, configuration required on target.
+> gnome-theme-mist.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-serif.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> ttf-liberation-mono.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-theme-largeprint.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> gnome-themes.postinst returned 1, marking as unpacked only, =
+configuration required on target.
+> udev-hwdb.postinst returned 1, marking as unpacked only, configuration =
+required on target.
+> gnome-theme-highcontrastlargeprintinverse.postinst returned 1, marking =
+as unpacked only, configuration required on target.
+> gnome-theme-highcontrast.postinst returned 1, marking as unpacked =
+only, configuration required on target.
+>=20
+>=20
+> And on first boot it hangs on the postinsts:
+>=20
+> [   ***] A start job is running for Run pending postinsts
+>=20
+> More debugging scheduled for tomorrow...
+
+A smaller console only image built against this mornings OE-core does =
+complete the postinsts:
+
+root@beaglebone:~# systemctl status run-postinsts
+run-postinsts.service - Run pending postinsts
+   Loaded: loaded (/lib/systemd/system/run-postinsts.service; disabled)
+   Active: inactive (dead) since Sat 2000-01-01 13:16:08 UTC; 13 years 3 =
+months ago
+  Process: 120 ExecStart=3D/etc/rcS.d/S98run-postinsts (code=3Dexited, =
+status=3D0/SUCCESS)
+
+Jan 01 13:16:08 beaglebone S98run-postinsts[120]: Configuring udev-hwdb.
+Jan 01 13:16:08 beaglebone systemd[1]: Started Run pending postinsts.
+
+root@beaglebone:~# systemd-analyze blame | grep run-post
+          8.931s run-postinsts.service
+root@beaglebone:~#=20
+
+Running a build from scratch for the GNOME image right now with a local =
+patch to add TimeoutSec=3D600 to the run-postinst service to be able to =
+get a login prompt after 10 minutes.
+
+regards,
+
+Koen=
 
 
