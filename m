@@ -1,35 +1,35 @@
-Received: from mail-ea0-f170.google.com ([209.85.215.170])
+Received: from mail-ee0-f48.google.com ([74.125.83.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UTC8n-0007N8-1w
+	(envelope-from <koen@dominion.thruhere.net>) id 1UTCF1-00086w-6N
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2013 16:18:35 +0200
-Received: by mail-ea0-f170.google.com with SMTP id z7so169824eaf.1
+	Fri, 19 Apr 2013 16:24:53 +0200
+Received: by mail-ee0-f48.google.com with SMTP id b15so1846340eek.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2013 07:00:42 -0700 (PDT)
+	Fri, 19 Apr 2013 07:07:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=o8jdKRsLHVZIvr+xJWy0nEx9ESJyCeGyCjnuyHKq9Jg=;
-	b=X7C5DsuguGbCuY4Ek8tLHe1LAFShnAUVAudtvvUVhepwGKrkJ4KSSFHr14n9PJ2irr
-	F1+YL/QXx6JpxRfMfr4DGbm9IXSzYNjVPFBqfk80LF7elO1dVFgUkuVtrPcaKV9J8Dl3
-	Js4aJnisjPSyyn11Rlw95HtUs9Q/kJ5+TMsr+v7Y3PI9VzPP/Bi/MBeJKciRHNnuemnj
-	eG4/g6taoSHXa43jRknMssinCXRHstX/Gpnv+OpfTkH8YReOTbJzALkboJHTVM/DmOXZ
-	Oz+ELBp1WUnurhE86uTPdaPKYvvLVapLxfyNpi7y3t5Oef5jTdXv5iWoQ0NoPREBRRXF
-	0lUA==
-X-Received: by 10.15.43.73 with SMTP id w49mr42517807eev.12.1366380042444;
-	Fri, 19 Apr 2013 07:00:42 -0700 (PDT)
+	bh=Zqd9aHm51PgzZpX7pwPUKeOBpYT3dXT9+BMqR63dMT0=;
+	b=iEfYd2ZYWHEvGTtyyn/242G908t4yhfcGfWVDMVTgIbKsLzTso97E3EP+NEEutKWe1
+	tbbFdQwWSCgaCfG/EvKLsPG9+01aEsghRDeRZ5IyBtDHHvLCh+ueTfWahdBGyE+ybrGo
+	i0atCzJy1NZVxPYIlLAnlQE2xMMVteBVUS/ODQGd5eYHeK1YiV56Ha2bod3UMPYPzP09
+	Urpas+lXVYJCMQrTo6bOL1IJjtllpobVJ5MpJxShtERL9Ueg1v39pgvwMClCeQfROLbu
+	mQMsx2znZIbY9X0eYUiP+jN5aaxjuSYzzQvXZ2/SxlCirePhjnVlujE/RcoVNaQHqHs6
+	XYhw==
+X-Received: by 10.14.173.71 with SMTP id u47mr6841420eel.24.1366380428658;
+	Fri, 19 Apr 2013 07:07:08 -0700 (PDT)
 Received: from ?IPv6:2001:610:612::15cb:73fc:27f0:4e75?
 	([2001:610:612:0:15cb:73fc:27f0:4e75])
-	by mx.google.com with ESMTPS id bk42sm23284384eeb.3.2013.04.19.07.00.40
+	by mx.google.com with ESMTPS id d47sm23295623eem.9.2013.04.19.07.07.07
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 19 Apr 2013 07:00:41 -0700 (PDT)
+	Fri, 19 Apr 2013 07:07:07 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <447FAD55-F561-4BCB-B4FC-D0E5907143D6@dominion.thruhere.net>
-Date: Fri, 19 Apr 2013 16:00:40 +0200
-Message-Id: <8A0CB92A-B97D-4F53-A6BB-AB3C09ECE46C@dominion.thruhere.net>
+In-Reply-To: <8A0CB92A-B97D-4F53-A6BB-AB3C09ECE46C@dominion.thruhere.net>
+Date: Fri, 19 Apr 2013 16:07:07 +0200
+Message-Id: <5F6A6C49-EEAC-4C71-B680-A22FC1B9175A@dominion.thruhere.net>
 References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
 	<18219582.KT7bte5u1O@helios>
 	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
@@ -47,9 +47,10 @@ References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
 	<CAJTo0LbkfHKtEGnMDso0L5L0C62rO+ox__NHRu63HOt7Toh5wA@mail.gmail.com>
 	<6B56E483-2965-46F1-A120-2F5F9807C594@dominion.thruhere.net>
 	<447FAD55-F561-4BCB-B4FC-D0E5907143D6@dominion.thruhere.net>
+	<8A0CB92A-B97D-4F53-A6BB-AB3C09ECE46C@dominion.thruhere.net>
 To: "Burton, Ross" <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkRVrN10TOFUejr5JLopUak5T5WNhdzbweod47LdhPUtywTKKpGVrUJTH3mlYx0mfnI7b4z
+X-Gm-Message-State: ALoCoQnzxcu2vd16CoVC/vulnxF5rCID59ENw7rmPoNqJ63ZTR6dF7yyUXviqadYCaldt+fGGvMY
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: postinst does not finish
@@ -65,493 +66,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2013 14:18:39 -0000
+X-List-Received-Date: Fri, 19 Apr 2013 14:25:06 -0000
+X-List-Received-Date: Fri, 19 Apr 2013 14:25:06 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 19 apr. 2013, om 15:37 heeft Koen Kooi <koen@dominion.thruhere.net> =
+Op 19 apr. 2013, om 16:00 heeft Koen Kooi <koen@dominion.thruhere.net> =
 het volgende geschreven:
 
 >=20
-> Op 19 apr. 2013, om 15:13 heeft Koen Kooi <koen@dominion.thruhere.net> =
+> Op 19 apr. 2013, om 15:37 heeft Koen Kooi <koen@dominion.thruhere.net> =
 het volgende geschreven:
 >=20
 >>=20
->> Op 19 apr. 2013, om 15:03 heeft "Burton, Ross" =
-<ross.burton@intel.com> het volgende geschreven:
+>> Op 19 apr. 2013, om 15:13 heeft Koen Kooi =
+<koen@dominion.thruhere.net> het volgende geschreven:
 >>=20
->>> On 19 April 2013 13:49, Koen Kooi <koen@dominion.thruhere.net> =
+>>>=20
+>>> Op 19 apr. 2013, om 15:03 heeft "Burton, Ross" =
+<ross.burton@intel.com> het volgende geschreven:
+>>>=20
+>>>> On 19 April 2013 13:49, Koen Kooi <koen@dominion.thruhere.net> =
 wrote:
->>>>> Running the postinstalls at first boot appear to hang because (and
->>>>> that's just a feeling) gtk-icon-cache is run twice on target... =
+>>>>>> Running the postinstalls at first boot appear to hang because =
+(and
+>>>>>> that's just a feeling) gtk-icon-cache is run twice on target... =
 which is
->>>>> time consuming.
->>>>=20
->>>> I know it's time consuming, but it finished on 60-90 minutes with =
+>>>>>> time consuming.
+>>>>>=20
+>>>>> I know it's time consuming, but it finished on 60-90 minutes with =
 1.3, I left it overnight and it still hadn't finished. I have the LEDS =
 configured to short mmc0 and cpu0 activity and there' s no IO, only cpu =
 from time to time. I don't think it takes more than 14 hours to run =
 those postinsts.
->>>=20
->>> How about hacking the postinsts to use sh -x, so you can see what =
+>>>>=20
+>>>> How about hacking the postinsts to use sh -x, so you can see what =
 it's
->>> executing?
->>=20
->> Going to do that in a minute. Todays build just finished (*$(@*$(@ =
+>>>> executing?
+>>>=20
+>>> Going to do that in a minute. Todays build just finished (*$(@*$(@ =
 webkit-gtk build times) and I added timeoutsec=3D600 to the .service =
 file:
->>=20
->> root@beaglebone:~# systemctl status run-postinsts -a
->> run-postinsts.service - Run pending postinsts
->>  Loaded: loaded (/lib/systemd/system/run-postinsts.service; disabled)
->>  Active: failed (Result: timeout) since Sat 2000-01-01 18:30:33 UTC; =
+>>>=20
+>>> root@beaglebone:~# systemctl status run-postinsts -a
+>>> run-postinsts.service - Run pending postinsts
+>>> Loaded: loaded (/lib/systemd/system/run-postinsts.service; disabled)
+>>> Active: failed (Result: timeout) since Sat 2000-01-01 18:30:33 UTC; =
 13 years 3 months ago
->> Main PID: 122
->>  CGroup: name=3Dsystemd:/system/run-postinsts.service
->>=20
->> Jan 01 18:20:33 beaglebone S98run-postinsts[122]: adduser: group gdm =
+>>> Main PID: 122
+>>> CGroup: name=3Dsystemd:/system/run-postinsts.service
+>>>=20
+>>> Jan 01 18:20:33 beaglebone S98run-postinsts[122]: adduser: group gdm =
 does not exist
->> Jan 01 18:20:33 beaglebone S98run-postinsts[122]: chown: unknown =
+>>> Jan 01 18:20:33 beaglebone S98run-postinsts[122]: chown: unknown =
 user/group gdm:gdm
->> Jan 01 18:30:33 beaglebone systemd[1]: run-postinsts.service =
+>>> Jan 01 18:30:33 beaglebone systemd[1]: run-postinsts.service =
 operation timed out. Terminating.
->> Jan 01 18:30:33 beaglebone systemd[1]: Failed to start Run pending =
+>>> Jan 01 18:30:33 beaglebone systemd[1]: Failed to start Run pending =
 postinsts.
->> Jan 01 18:30:33 beaglebone systemd[1]: MESSAGE=3DUnit =
+>>> Jan 01 18:30:33 beaglebone systemd[1]: MESSAGE=3DUnit =
 run-postinsts.service entered failed state.
+>>> root@beaglebone:~#=20
+>>>=20
+>>> So it seems to just hang. Will report about the set -x thing =
+shortly.
+>>=20
+>> And here it is:
+>>=20
+>> Change postinst.service to Type=3Dsimple
+>>=20
+>>=20
+
+[ snip]
+
+>>=20
+>> root@beaglebone:~# ls /etc/rcS.d
+>> S03systemd-udevd
 >> root@beaglebone:~#=20
 >>=20
->> So it seems to just hang. Will report about the set -x thing shortly.
->=20
-> And here it is:
->=20
-> Change postinst.service to Type=3Dsimple
->=20
-> root@beaglebone:~# journalctl -a -f -b -n500 -u run-postinsts
-> -- Logs begin at Sat 2000-01-01 18:47:13 UTC. --
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ '[' x '!=3D' x =
-']'
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ grep '^gdm:' =
-/etc/group
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ addgroup gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ grep '^gdm:' =
-/etc/passwd
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ adduser =
---disabled-password --system --home /var/lib/gdm gdm --ingroup gdm -g =
-gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: adduser: =
-/var/lib/gdm: File exists
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/var/lib/gdm ']'
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ chown -R gdm:gdm =
-/var/lib/gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: chown: unknown =
-user/group gdm:gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ chmod 0750 =
-/var/lib/gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ mkdir -p =
-/etc/X11/
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ echo /usr/bin/gdm
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ OPTS=3D
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ '[' -n '' ']'
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ type systemctl
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ systemctl enable =
-gdm.service
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ '[' -z '' -a =
-enable =3D enable ']'
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ systemctl restart =
-gdm.service
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ test x '!=3D' x
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ OPT=3D-s
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ type update-rc.d
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: ++ update-rc.d -s =
-gdm start 99 5 2 . stop 20 0 1 6 .
-> Jan 01 18:47:21 beaglebone S98run-postinsts[125]: Adding system =
-startup for /etc/init.d/gdm.
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ '[' x '!=3D' x =
-']'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ =
-GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ =
-gdk-pixbuf-query-loaders --update-cache
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/Crux ']'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/Crux
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrast ']'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrast-SVG ']'
-> Jan 01 18:47:22 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
->=20
-> Connman does NTP at this point
->=20
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastInverse ']'
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastLargePrint ']'
-> Apr 19 13:21:11 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
-> Apr 19 13:21:14 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:14 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastLargePrintInverse ']'
-> Apr 19 13:21:14 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt =
-/usr/share/icons/HighContrastLargePrintInverse
-> Apr 19 13:21:16 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:16 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/LargePrint ']'
-> Apr 19 13:21:16 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/LargePrint
-> Apr 19 13:21:16 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:16 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/LowContrastLargePrint ']'
-> Apr 19 13:21:17 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/LowContrastLargePrint
-> Apr 19 13:21:17 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:17 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/Mist ']'
-> Apr 19 13:21:17 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/Mist
-> Apr 19 13:21:20 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:20 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/gnome ']'
-> Apr 19 13:21:20 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/gnome
-> Apr 19 13:21:55 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:21:56 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/hicolor ']'
-> Apr 19 13:21:56 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/hicolor
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ '[' x '!=3D' x =
-']'
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: +++ gconftool-2 =
---get-default-source
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ export =
-GCONF_CONFIG_SOURCE=3Dxml:merged:/etc/gconf/gconf.xml.defaults
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ =
-GCONF_CONFIG_SOURCE=3Dxml:merged:/etc/gconf/gconf.xml.defaults
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ =
-SCHEMA_LOCATION=3D/etc/gconf/schemas
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-gdm-simple-greeter.schemas
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/gdm-simple-greeter.schemas ']'
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:21:57 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/gdm-simple-greeter.schemas
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ '[' -n '' ']'
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---config-source=3Dxml:readwrite:/etc/gconf/gconf.xml.defaults --direct =
---load /etc/gconf/schemas/panel-default-setup.entries
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ '[' x '!=3D' x =
-']'
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ =
-GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ =
-gdk-pixbuf-query-loaders --update-cache
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/Crux ']'
-> Apr 19 13:22:02 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/Crux
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrast ']'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrast-SVG ']'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastInverse ']'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastLargePrint ']'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:03 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/HighContrastLargePrintInverse ']'
-> Apr 19 13:22:04 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt =
-/usr/share/icons/HighContrastLargePrintInverse
-> Apr 19 13:22:06 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:06 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/LargePrint ']'
-> Apr 19 13:22:06 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/LargePrint
-> Apr 19 13:22:07 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:07 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/LowContrastLargePrint ']'
-> Apr 19 13:22:07 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/LowContrastLargePrint
-> Apr 19 13:22:09 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:09 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/Mist ']'
-> Apr 19 13:22:09 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/Mist
-> Apr 19 13:22:10 beaglebone S98run-postinsts[125]: ++ for icondir in =
-'/usr/share/icons/*'
-> Apr 19 13:22:10 beaglebone S98run-postinsts[125]: ++ '[' -d =
-/usr/share/icons/gnome ']'
-> Apr 19 13:22:10 beaglebone S98run-postinsts[125]: ++ =
-gtk-update-icon-cache -fqt /usr/share/icons/gnome
-> +++ gconftool-2 --get-default-source
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ export =
-GCONF_CONFIG_SOURCE=3Dxml:merged:/etc/gconf/gconf.xml.defaults
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ =
-GCONF_CONFIG_SOURCE=3Dxml:merged:/etc/gconf/gconf.xml.defaults
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ =
-SCHEMA_LOCATION=3D/etc/gconf/schemas
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/window-list.schemas ']'
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:22:31 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/window-list.schemas
-> Apr 19 13:22:41 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:22:41 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/clock.schemas ']'
-> Apr 19 13:22:41 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:22:41 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/clock.schemas
-> Apr 19 13:22:47 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:22:47 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/panel-general.schemas ']'
-> Apr 19 13:22:47 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:22:47 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-general.schemas
-> Apr 19 13:22:55 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:22:55 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/panel-compatibility.schemas ']'
-> Apr 19 13:22:55 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:22:55 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-compatibility.schemas
-> Apr 19 13:22:56 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:22:56 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/panel-global.schemas ']'
-> Apr 19 13:22:56 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:22:56 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-global.schemas
-> Apr 19 13:23:04 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:23:04 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/panel-object.schemas ']'
-> Apr 19 13:23:04 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:23:04 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-object.schemas
-> Apr 19 13:23:08 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:23:08 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/workspace-switcher.schemas ']'
-> Apr 19 13:23:10 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:23:10 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/workspace-switcher.schemas
-> Apr 19 13:23:22 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:23:22 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/panel-toplevel.schemas ']'
-> Apr 19 13:23:22 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:23:22 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-toplevel.schemas
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/fish.schemas ']'
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/fish.schemas
-> Apr 19 13:23:51 beaglebone S98run-postinsts[125]: ++ test -n ''
-> Apr 19 13:23:51 beaglebone S98run-postinsts[125]: ++ udevadm hwdb =
---update
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring gdm.
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring =
-gnome-panel.
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring =
-udev-hwdb.
->=20
-> *wait 5 minutes*
->=20
-> CTRL-C journalctl, inspect it:
->=20
-> run-postinsts.service - Run pending postinsts
->   Loaded: loaded (/lib/systemd/system/run-postinsts.service; disabled)
->   Active: inactive (dead) since Fri 2013-04-19 13:24:00 UTC; 6min ago
-> Main PID: 125 (code=3Dexited, status=3D0/SUCCESS)
->   CGroup: name=3Dsystemd:/system/run-postinsts.service
->=20
-> Apr 19 13:23:22 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/panel-toplevel.schemas
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ for SCHEMA in =
-window-list.schemas clock.schemas panel-general.schemas =
-panel-compatibility.schemas panel-global.schemas panel-object.schemas =
-workspace-switcher.schemas panel-toplevel.schemas fish.schemas
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ '[' -e =
-/etc/gconf/schemas/fish.schemas ']'
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ HOME=3D/root
-> Apr 19 13:23:32 beaglebone S98run-postinsts[125]: ++ gconftool-2 =
---makefile-install-rule /etc/gconf/schemas/fish.schemas
-> Apr 19 13:23:51 beaglebone S98run-postinsts[125]: ++ test -n ''
-> Apr 19 13:23:51 beaglebone S98run-postinsts[125]: ++ udevadm hwdb =
---update
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring gdm.
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring =
-gnome-panel.
-> Apr 19 13:24:00 beaglebone S98run-postinsts[125]: Configuring =
-udev-hwdb.
->=20
-> root@beaglebone:~# ls /etc/rcS.d
-> S03systemd-udevd
-> root@beaglebone:~#=20
->=20
-> So it completed this time. This is the 5th reboot already. I have no =
+>> So it completed this time. This is the 5th reboot already. I have no =
 idea why it finished this time :(
-
-And it still doesn't work :(
-
-root@beaglebone:~# systemctl status gdm -a
-gdm.service - Gnome Display Manager
-   Loaded: loaded (/lib/systemd/system/gdm.service; enabled)
-   Active: active (running) since Sat 2000-01-01 19:22:11 UTC; 13 years =
+>=20
+> And it still doesn't work :(
+>=20
+> root@beaglebone:~# systemctl status gdm -a
+> gdm.service - Gnome Display Manager
+>   Loaded: loaded (/lib/systemd/system/gdm.service; enabled)
+>   Active: active (running) since Sat 2000-01-01 19:22:11 UTC; 13 years =
 3 months ago
- Main PID: 147 (gdm-binary)
-   CGroup: name=3Dsystemd:/system/gdm.service
-           =E2=94=94=E2=94=80147 /usr/sbin/gdm-binary -nodaemon
-
-Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Couldn't look =
-up uid
-Apr 19 13:56:22 beaglebone gdm-simple-slave[337]: WARNING: User gdm =
+> Main PID: 147 (gdm-binary)
+>   CGroup: name=3Dsystemd:/system/gdm.service
+>           =E2=94=94=E2=94=80147 /usr/sbin/gdm-binary -nodaemon
+>=20
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Couldn't =
+look up uid
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[337]: WARNING: User gdm =
 doesn't exist
-Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
 parse output:
-Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
 parse D-Bus launch output
-Apr 19 13:56:22 beaglebone gdm-simple-slave[338]: WARNING: User gdm =
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[338]: WARNING: User gdm =
 doesn't exist
-Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Could not run =
-helper: Failed to execute child process =
+> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Could not =
+run helper: Failed to execute child process =
 "/usr/lib/gdm/ck-get-x11-display-device" (No such file or directory)
-Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: =
+> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: =
 GdmDisplay: display lasted 1.401004 seconds
-Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmDisplay: display =
-lasted 1.401004 seconds
-Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: =
+> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmDisplay: =
+display lasted 1.401004 seconds
+> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: =
 GdmLocalDisplayFactory: maximum number of X display failures reached: =
 check X server log for errors
-Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: =
+> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: =
 GdmLocalDisplayFactory: maximum number of X display failures reached: =
 check X server log for errors
-
-Hmm, let's rerun gdm.postinst:
-
-root@beaglebone:~# sh /var/lib/opkg/info/gdm.postinst=20
-+ '[' x '!=3D' x ']'
-+ grep '^gdm:' /etc/group
-+ grep '^gdm:' /etc/passwd
-+ adduser --disabled-password --system --home /var/lib/gdm gdm --ingroup =
-gdm -g gdm
-adduser: /var/lib/gdm: File exists
-+ '[' -d /var/lib/gdm ']'
-+ chown -R gdm:gdm /var/lib/gdm
-+ chmod 0750 /var/lib/gdm
-+ mkdir -p /etc/X11/
-+ echo /usr/bin/gdm
-+ OPTS=3D
-+ '[' -n '' ']'
-+ type systemctl
-+ systemctl enable gdm.service
-+ '[' -z '' -a enable =3D enable ']'
-+ systemctl restart gdm.service
-+ test x '!=3D' x
-+ OPT=3D-s
-+ type update-rc.d
-+ update-rc.d -s gdm start 99 5 2 . stop 20 0 1 6 .
- System startup links for /etc/init.d/gdm already exist.
-+ '[' x '!=3D' x ']'
-+ GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
-+ gdk-pixbuf-query-loaders --update-cache
-[  102.324520] tilcdc 4830e000.fb: timeout waiting for framedone
-+ for icondir in '/usr/share/icons/*'
-+ '[' -d /usr/share/icons/Crux ']'
-+ gtk-update-icon-cache -fqt /usr/share/icons/Crux
-+ for icondir in '/usr/share/icons/*'
-+ '[' -d /usr/share/icons/HighContrast ']'
-+ gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
-+ for icondir in '/usr/share/icons/*'
-+ '[' -d /usr/share/icons/HighContrast-SVG ']'
-+ gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
-+ for icondir in '/usr/share/icons/*'
-+ '[' -d /usr/share/icons/HighContrastInverse ']'
-+ gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
-+ for icondir in '/usr/share/icons/*'
-+ '[' -d /usr/share/icons/HighContrastLargePrint ']'
-+ gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
-
-(etc)
-
-So it looks like the postinsts do run when used inside =
+>=20
+> Hmm, let's rerun gdm.postinst:
+>=20
+> root@beaglebone:~# sh /var/lib/opkg/info/gdm.postinst=20
+> + '[' x '!=3D' x ']'
+> + grep '^gdm:' /etc/group
+> + grep '^gdm:' /etc/passwd
+> + adduser --disabled-password --system --home /var/lib/gdm gdm =
+--ingroup gdm -g gdm
+> adduser: /var/lib/gdm: File exists
+> + '[' -d /var/lib/gdm ']'
+> + chown -R gdm:gdm /var/lib/gdm
+> + chmod 0750 /var/lib/gdm
+> + mkdir -p /etc/X11/
+> + echo /usr/bin/gdm
+> + OPTS=3D
+> + '[' -n '' ']'
+> + type systemctl
+> + systemctl enable gdm.service
+> + '[' -z '' -a enable =3D enable ']'
+> + systemctl restart gdm.service
+> + test x '!=3D' x
+> + OPT=3D-s
+> + type update-rc.d
+> + update-rc.d -s gdm start 99 5 2 . stop 20 0 1 6 .
+> System startup links for /etc/init.d/gdm already exist.
+> + '[' x '!=3D' x ']'
+> + GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
+> + gdk-pixbuf-query-loaders --update-cache
+> [  102.324520] tilcdc 4830e000.fb: timeout waiting for framedone
+> + for icondir in '/usr/share/icons/*'
+> + '[' -d /usr/share/icons/Crux ']'
+> + gtk-update-icon-cache -fqt /usr/share/icons/Crux
+> + for icondir in '/usr/share/icons/*'
+> + '[' -d /usr/share/icons/HighContrast ']'
+> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
+> + for icondir in '/usr/share/icons/*'
+> + '[' -d /usr/share/icons/HighContrast-SVG ']'
+> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
+> + for icondir in '/usr/share/icons/*'
+> + '[' -d /usr/share/icons/HighContrastInverse ']'
+> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
+> + for icondir in '/usr/share/icons/*'
+> + '[' -d /usr/share/icons/HighContrastLargePrint ']'
+> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
+>=20
+> (etc)
+>=20
+> So it looks like the postinsts do run when used inside =
 run-postinst.service, but don't save their output (sucky description, I =
 know).
+
+Does anyone know which caps systemd sets on initscripts? It could be =
+that the adduser caps are disallowed and we need to explicitly set them.=20=
+
 
 
 
