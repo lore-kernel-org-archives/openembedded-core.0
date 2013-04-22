@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UUBxv-0005e4-HE
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UUBxx-0005eK-2q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 10:19:12 +0200
+	Mon, 22 Apr 2013 10:19:14 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2013 00:59:41 -0700
+	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2013 00:59:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,525,1363158000"; d="scan'208";a="322150552"
+X-IronPort-AV: E=Sophos;i="4.87,525,1363158000"; d="scan'208";a="322150561"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2013 01:01:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2013 01:01:31 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2013 11:01:22 +0300
-Message-Id: <cba51f6bd4486e894e639f876a2ba466c1d000c0.1366615922.git.laurentiu.palcu@intel.com>
+Date: Mon, 22 Apr 2013 11:01:23 +0300
+Message-Id: <81931d03c2e5b9e33ea62c6bb5581f941904fd54.1366615922.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1366615922.git.laurentiu.palcu@intel.com>
 References: <cover.1366615922.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1366615922.git.laurentiu.palcu@intel.com>
 References: <cover.1366615922.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/4] fontcache.bbclass: do not exit with 1 after installing intercept hook
+Subject: [PATCH 2/4] gtk-icon-cache.bbclass: do not exit 1 after installing intercept hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +37,75 @@ This will allow to register, in a single postinstall, multiple hooks.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/fontcache.bbclass |   10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ meta/classes/gtk-icon-cache.bbclass |   47 +++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index 0bc309a..9136c5a 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -8,19 +8,13 @@ inherit qemu
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index b53c0bc..7f24d49 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -2,41 +2,34 @@ FILES_${PN} += "${datadir}/icons/hicolor"
  
- FONT_PACKAGES ??= "${PN}"
+ DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk-update-icon-cache-native"
  
 -#
 -# On host, the postinstall MUST return 1 because we do not know if the intercept
 -# hook will succeed. If it does succeed, than the packages will be marked as
 -# installed.
 -#
- fontcache_common() {
- if [ "x$D" != "x" ] ; then
- 	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} bindir=${bindir} \
- 		libdir=${libdir} base_libdir=${base_libdir}
--	exit 1
+ gtk_icon_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+-    $INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} libdir=${libdir} \
+-        base_libdir=${base_libdir}
+-    exit 1
++	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} libdir=${libdir} \
++		base_libdir=${base_libdir}
 +else
-+	fc-cache
++
++	# Update the pixbuf loaders in case they haven't been registered yet
++	GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
++
++	for icondir in /usr/share/icons/* ; do
++		if [ -d $icondir ] ; then
++			gtk-update-icon-cache -fqt  $icondir
++		fi
++	done
  fi
 -
--fc-cache
+-# Update the pixbuf loaders in case they haven't been registered yet
+-GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
+-
+-for icondir in /usr/share/icons/* ; do
+-    if [ -d $icondir ] ; then
+-        gtk-update-icon-cache -fqt  $icondir
+-    fi
+-done
  }
  
- python populate_packages_append() {
+ gtk_icon_cache_postrm() {
+ if [ "x$D" != "x" ]; then
+-    $INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} libdir=${libdir} \
+-        base_libdir=${base_libdir}
+-
+-    exit 1
++	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} libdir=${libdir} \
++		base_libdir=${base_libdir}
++else
++	for icondir in /usr/share/icons/* ; do
++		if [ -d $icondir ] ; then
++			gtk-update-icon-cache -qt  $icondir
++		fi
++	done
+ fi
+-
+-for icondir in /usr/share/icons/* ; do
+-    if [ -d $icondir ] ; then
+-        gtk-update-icon-cache -qt  $icondir
+-    fi
+-done
+ }
+ 
+ python populate_packages_append () {
 -- 
 1.7.9.5
 
