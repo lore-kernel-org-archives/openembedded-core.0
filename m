@@ -1,41 +1,27 @@
-Received: from mail-vb0-f45.google.com ([209.85.212.45])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UUIRy-0003V6-Mf
+	(envelope-from <ml@communistcode.co.uk>) id 1UUIYN-0003ye-H0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 17:14:38 +0200
-Received: by mail-vb0-f45.google.com with SMTP id w15so5915974vbf.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2013 07:56:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=B3qM13/NmR5CX6IPFiaZ9Va+ZYKwKDp8HGMY9Bi1Dwc=;
-	b=Pb8a6T5fgKdflGBnimx+1sbeomNkzf/e+4VYcc6WsQLXHfupPzZh9mW3AwjvQDFyv+
-	i/UXx5cuzKSw09ePfRM2OjuwI9n0/Hag+UZ3ZjZCXHJ/EGRPh6oy5CPnhoCnfyqsv1Kq
-	fWNHuGoc8pbcUwgB4nGcE/yK1gQCcl2wCojh4K2srAHZoaLLRJT1yJqyfRKi2pJuUQAW
-	x9LAew2+CGRb9LICYpHA/FPS576ycvLq2TunokpYsqb4zPCO7Etmxb2GyC5wLZjTmU93
-	vLtC2FA1ZsLSxbB3H+XOk2qWjxPqLsgDvAki5NxYJan2GJqFdYebAETeog7rX8lqMvmF
-	DuMQ==
-X-Received: by 10.220.147.79 with SMTP id k15mr5221137vcv.38.1366642619324;
-	Mon, 22 Apr 2013 07:56:59 -0700 (PDT)
+	Mon, 22 Apr 2013 17:21:19 +0200
+Message-ID: <51755147.609@communistcode.co.uk>
+Date: Mon, 22 Apr 2013 16:03:35 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Mon, 22 Apr 2013 07:56:39 -0700 (PDT)
-In-Reply-To: <51754CC4.9010604@communistcode.co.uk>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <51754581.3090005@communistcode.co.uk>
 	<CAJTo0LYMc0F=OG-xUQztpveQdYAPKnj0W_8Vb-wRZRL7F5+bSQ@mail.gmail.com>
 	<51754CC4.9010604@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Apr 2013 15:56:39 +0100
-Message-ID: <CAJTo0LYRzgyvKMVpqY_AzgRe1h3UUcvaJm8g7Y0SPqZnq=9zSA@mail.gmail.com>
-To: ml@communistcode.co.uk
-X-Gm-Message-State: ALoCoQmNINVTg8sxbodV9t8BKcFn+2A5FMOZDXU2njQTTrLqlLCQ9/hp94NQ5kbXD9Bavh1ds3T2
+	<CAJTo0LYRzgyvKMVpqY_AzgRe1h3UUcvaJm8g7Y0SPqZnq=9zSA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYRzgyvKMVpqY_AzgRe1h3UUcvaJm8g7Y0SPqZnq=9zSA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: systemd post-install failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -45,17 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 15:14:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Apr 2013 15:21:25 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22 April 2013 15:44, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> Ah, ok then, I don't have a /system-update. So square one, any ideas why
-> this would have suddenly flagged up? I was building and booting fine on
-> Wed/Thurs. That was the only useful bit of the debug log I could
-> determine...
+On 22/04/13 15:56, Burton, Ross wrote:
+> On 22 April 2013 15:44, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> Ah, ok then, I don't have a /system-update. So square one, any ideas why
+>> this would have suddenly flagged up? I was building and booting fine on
+>> Wed/Thurs. That was the only useful bit of the debug log I could
+>> determine...
+> That log isn't massively useful, can you explain exactly what isn't working?
+>
+> Ross
 
-That log isn't massively useful, can you explain exactly what isn't working?
+Tell me about it, I boot, systemd crashes, I get a capture of the serial 
+log up to where it crashed.
 
-Ross
+I've managed to get a tiny little bit more output that may shed a little 
+bit more information.
+
+_*scrap that*_
+
+My power supply was crapping out on me, so when the going got a bit 
+tough the cpu required some more amps and bam, dead system.
+
+Sorry for the noise. Should have checked that earlier.
+
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
