@@ -1,51 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UTwAj-0001P0-3l for openembedded-core@lists.openembedded.org;
-	Sun, 21 Apr 2013 17:27:22 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3LFAEF8016778; Sun, 21 Apr 2013 16:10:14 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UoLaYSLca3-D; Sun, 21 Apr 2013 16:10:14 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3LFA57U016768
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 21 Apr 2013 16:10:06 +0100
-Message-ID: <1366556948.10502.191.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sun, 21 Apr 2013 16:09:08 +0100
-In-Reply-To: <84E8DA59-4879-4A6C-BB8A-4B1F766F7E76@dominion.thruhere.net>
-References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
-	<18219582.KT7bte5u1O@helios>
-	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
-	<3344072.3yQMCnL6TJ@helios>
-	<B9C5C522-FF02-4724-B527-ACBE69FDE1B8@dominion.thruhere.net>
-	<CAJTo0LZ54q91K8GNEP0RB7St4L+mpm861-kpaXTGswsqLSUk1A@mail.gmail.com>
-	<6BD1F316-C3AE-41BD-B9ED-296278CEF5A7@dominion.thruhere.net>
-	<CAJTo0LYeJwW-Lbf9bEZogCh1e97bwj7PTgFZV=3NbwN=PMWENg@mail.gmail.com>
-	<CAJTo0LYRPtG_N1WCE37UTvGvy5HYt7ia1ym12iR874Ykb8QwTg@mail.gmail.com>
-	<623CB95B-FD17-49A5-9547-71E0EFC316A7@dominion.thruhere.net>
-	<5171293A.5010300@intel.com>
-	<0E83C36A-8358-40B0-B022-A39DBFF44880@dominion.thruhere.net>
-	<51713804.9000002@intel.com>
-	<5437CC85-9AC1-4A18-BAE8-BDE01613215D@dominion.thruhere.net>
-	<CAJTo0LbkfHKtEGnMDso0L5L0C62rO+ox__NHRu63HOt7Toh5wA@mail.gmail.com>
-	<6B56E483-2965-46F1-A120-2F5F9807C594@dominion.thruhere.net>
-	<447FAD55-F561-4BCB-B4FC-D0E5907143D6@dominion.thruhere.net>
-	<8A0CB92A-B97D-4F53-A6BB-AB3C09ECE46C@dominion.thruhere.net>
-	<84E8DA59-4879-4A6C-BB8A-4B1F766F7E76@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r3LFAEF8016778
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: postinst does not finish
+	(envelope-from <sgw@linux.intel.com>) id 1UU8Xt-00027k-06
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Apr 2013 06:40:15 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Apr 2013 21:22:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,523,1363158000"; d="scan'208";a="230120610"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.224])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Apr 2013 21:22:24 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 21 Apr 2013 21:22:23 -0700
+Message-Id: <cover.1366604239.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [CONSOLIDATED PULL 00/21] Post 1.4 Updates and Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,131 +27,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Apr 2013 15:27:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 Apr 2013 04:40:20 -0000
 
-On Sun, 2013-04-21 at 08:59 +0200, Koen Kooi wrote:
-> Op 19 apr. 2013, om 16:00 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
-> > Op 19 apr. 2013, om 15:37 heeft Koen Kooi <koen@dominion.thruhere.net=
-> het volgende geschreven:
-> > And it still doesn't work :(
-> >=20
-> > root@beaglebone:~# systemctl status gdm -a
-> > gdm.service - Gnome Display Manager
-> >   Loaded: loaded (/lib/systemd/system/gdm.service; enabled)
-> >   Active: active (running) since Sat 2000-01-01 19:22:11 UTC; 13 year=
-s 3 months ago
-> > Main PID: 147 (gdm-binary)
-> >   CGroup: name=3Dsystemd:/system/gdm.service
-> >           =E2=94=94=E2=94=80147 /usr/sbin/gdm-binary -nodaemon
-> >=20
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Couldn't l=
-ook up uid
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[337]: WARNING: User gdm d=
-oesn't exist
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
-parse output:
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
-parse D-Bus launch output
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[338]: WARNING: User gdm d=
-oesn't exist
-> > Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Could not =
-run helper: Failed to execute child process "/usr/lib/gdm/ck-get-x11-disp=
-lay-device" (No such file or directory)
-> > Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmDis=
-play: display lasted 1.401004 seconds
-> > Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmDisplay: disp=
-lay lasted 1.401004 seconds
-> > Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmLocalDisplayF=
-actory: maximum number of X display failures reached: check X server log =
-for errors
-> > Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmLoc=
-alDisplayFactory: maximum number of X display failures reached: check X s=
-erver log for errors
-> >=20
-> > Hmm, let's rerun gdm.postinst:
-> >=20
-> > root@beaglebone:~# sh /var/lib/opkg/info/gdm.postinst=20
-> > + '[' x '!=3D' x ']'
-> > + grep '^gdm:' /etc/group
-> > + grep '^gdm:' /etc/passwd
-> > + adduser --disabled-password --system --home /var/lib/gdm gdm --ingr=
-oup gdm -g gdm
-> > adduser: /var/lib/gdm: File exists
-> > + '[' -d /var/lib/gdm ']'
-> > + chown -R gdm:gdm /var/lib/gdm
-> > + chmod 0750 /var/lib/gdm
-> > + mkdir -p /etc/X11/
-> > + echo /usr/bin/gdm
-> > + OPTS=3D
-> > + '[' -n '' ']'
-> > + type systemctl
-> > + systemctl enable gdm.service
-> > + '[' -z '' -a enable =3D enable ']'
-> > + systemctl restart gdm.service
-> > + test x '!=3D' x
-> > + OPT=3D-s
-> > + type update-rc.d
-> > + update-rc.d -s gdm start 99 5 2 . stop 20 0 1 6 .
-> > System startup links for /etc/init.d/gdm already exist.
-> > + '[' x '!=3D' x ']'
-> > + GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
-> > + gdk-pixbuf-query-loaders --update-cache
-> > [  102.324520] tilcdc 4830e000.fb: timeout waiting for framedone
-> > + for icondir in '/usr/share/icons/*'
-> > + '[' -d /usr/share/icons/Crux ']'
-> > + gtk-update-icon-cache -fqt /usr/share/icons/Crux
-> > + for icondir in '/usr/share/icons/*'
-> > + '[' -d /usr/share/icons/HighContrast ']'
-> > + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
-> > + for icondir in '/usr/share/icons/*'
-> > + '[' -d /usr/share/icons/HighContrast-SVG ']'
-> > + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
-> > + for icondir in '/usr/share/icons/*'
-> > + '[' -d /usr/share/icons/HighContrastInverse ']'
-> > + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
-> > + for icondir in '/usr/share/icons/*'
-> > + '[' -d /usr/share/icons/HighContrastLargePrint ']'
-> > + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
-> >=20
-> > (etc)
-> >=20
-> > So it looks like the postinsts do run when used inside run-postinst.s=
-ervice, but don't save their output (sucky description, I know).
->=20
-> Another datapoint, same GNOME image built for x86 finishes run-postinst=
-s as expected, but also doesn't work, gconf stuff has to get run manually=
- again to work.
+Richard,
 
-FWIW I think there are multiple issues here and they're combining
-together to make a rather weird problem.
+Here is a batch of changes I have been queuing and ran on the AB over the
+weekend.
 
-One issue we now know about is that the intercept code and the way it
-uses "exit 1" can cause some later parts of some postinst scripts not to
-get executed. I believe Laurentiu has a fix for this problem and this is
-the one causing the gdm issue.
+This includes Khem's 4.8 GCC update, but does not enable it, there are still some 
+packages that need work like matchbox-panel.
 
-I think the hang people are reporting is something else though, perhaps
-related to the hwdb. I'm also aware of matchbox-session-sato conflicting
-with settings-deamon and some multilib issues such as the wrong
-qemuwrapper being used.
+Some of these might be canidates for 1.4.1.
 
-We're going to have to work through each issue in turn and re-evaluate
-after each fix.
+For RP's Attention:
+I also included Chase's u-boot change, I know there are some comments about it
+on the list, I wanted to give you a chance to see it again and think about including
+it or not.
 
-I wish we'd come across this earlier as to add fixes to the release at
-this point would mean slipping the release date by a week :(. I'm
-therefore leaning towards testing any fixes and queuing them quickly on
-the branch post-release, following up with a point release relatively
-soon to catch things that people find as the release gets more exposure.
-I know the point releases have happened slowly and I want to change
-that.
+Let the flood gates open, I will be staging things out slowly as we get to the end of
+the 1.4 testing, but wanted to collect some of these sitting around.  
 
-Cheers,
+Thanks
+	Sau!
 
-Richard
+
+The following changes since commit 94e3f18214e2e35076c52ed27252073f788ec01f:
+
+  build-appliance: Update to latest dylan revision for release (2013-04-18 22:02:26 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chase Maupin (1):
+  u-boot: Add UBOOT_LOCALVERSION to control version string
+
+Christopher Larson (2):
+  package.bbclass: add LICENSE_EXCLUSION to vardeps
+  package.bbclass: ensure license excluded files aren't packaged
+
+Elvis Dowson (1):
+  gcc-4.8: Refactor gcc-4.8.0 patch files.
+
+Emilia Ciobanu (1):
+  connman-gnome: Replace broken png files
+
+Khem Raj (2):
+  gcc-4.8: Add recipes
+  gcc-4.8: Fix GCC ICE on arm
+
+Koen Kooi (3):
+  libpng: update to 1.6.1
+  grub-efi-native: fix build on modern distributions without gets()
+  gnome-icon-theme: add missing icon-cache inherit
+
+Laurentiu Palcu (4):
+  fontcache.bbclass: do not exit with 1 after installing intercept hook
+  gtk-icon-cache.bbclass: do not exit 1 after installing intercept hook
+  pixbufcache.bbclass: do not exit 1 after installing intercept hook
+  image.bbclass: change the logic when intercepts fail
+
+Lukas Bulwahn (1):
+  python-setuptools: Improving the runtime dependencies
+
+Marcin Juszkiewicz (2):
+  powertop: add 2.3
+  elfutils: split libraries into separate packages
+
+Maxin B. John (1):
+  lttng: updated lttng-ust to 2.1.2
+
+Ross Burton (3):
+  cairo: drop transform patch, it's been rejected upstream
+  png: fix over-zealous warnings about transforms
+  gconf: silence some spurious errors
+
+ meta/classes/fontcache.bbclass                     |   10 +-
+ meta/classes/gtk-icon-cache.bbclass                |   47 +-
+ meta/classes/image.bbclass                         |   26 +-
+ meta/classes/package.bbclass                       |    9 +-
+ meta/classes/pixbufcache.bbclass                   |   29 +-
+ .../grub-2.00-ignore-gnulib-gets-stupidity.patch   |   28 +
+ meta/recipes-bsp/grub/grub-efi-native_2.00.bb      |    3 +-
+ meta/recipes-bsp/u-boot/u-boot.inc                 |   12 +
+ .../connman-gnome/images/connman-signal-01.png     |  Bin 0 -> 490 bytes
+ .../connman-gnome/images/connman-signal-02.png     |  Bin 0 -> 496 bytes
+ .../connman-gnome/images/connman-signal-03.png     |  Bin 0 -> 492 bytes
+ .../connman-gnome/images/connman-signal-04.png     |  Bin 0 -> 470 bytes
+ .../connman-gnome/images/connman-signal-05.png     |  Bin 0 -> 419 bytes
+ .../connman/connman-gnome_0.7.bb                   |    8 +-
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   15 +-
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |  133 +
+ .../0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch     |   42 +
+ .../gcc/gcc-4.8/0002-uclibc-conf.patch             |   53 +
+ .../0003-gcc-uclibc-locale-ctype_touplow_t.patch   |   87 +
+ .../gcc/gcc-4.8/0004-uclibc-locale.patch           | 2862 ++++++++++++++++++++
+ .../gcc/gcc-4.8/0005-uclibc-locale-no__x.patch     |  257 ++
+ .../gcc/gcc-4.8/0006-uclibc-locale-wchar_fix.patch |   68 +
+ .../gcc/gcc-4.8/0007-uclibc-locale-update.patch    |  542 ++++
+ .../gcc/gcc-4.8/0008-missing-execinfo_h.patch      |   28 +
+ .../gcc/gcc-4.8/0009-c99-snprintf.patch            |   28 +
+ .../gcc/gcc-4.8/0010-c99-complex-ugly-hack.patch   |   29 +
+ .../gcc/gcc-4.8/0011-index_macro.patch             |   44 +
+ .../gcc/gcc-4.8/0012-libmudflap-susv3-legacy.patch |   64 +
+ .../gcc/gcc-4.8/0013-libstdc-namespace.patch       |   54 +
+ .../gcc/gcc-4.8/0014-sh-pr24836.patch              |   45 +
+ ...GET_ENDIAN_OPTION-for-determining-MULTILI.patch |   29 +
+ .../0016-gcc-poison-system-directories.patch       |  224 ++
+ .../gcc/gcc-4.8/0017-gcc-poison-dir-extend.patch   |   39 +
+ .../0018-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |   73 +
+ .../gcc/gcc-4.8/0019-64-bit-multilib-hack.patch    |   82 +
+ .../gcc/gcc-4.8/0020-optional-libstdc.patch        |  102 +
+ ...0021-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch |   59 +
+ .../gcc/gcc-4.8/0022-COLLECT_GCC_OPTIONS.patch     |   38 +
+ ...efaults.h-in-B-instead-of-S-and-t-oe-in-B.patch |   88 +
+ .../gcc/gcc-4.8/0024-PR-target-32219.patch         |   67 +
+ .../gcc-4.8/0025-fortran-cross-compile-hack.patch  |   46 +
+ .../gcc/gcc-4.8/0026-libgcc-sjlj-check.patch       |   74 +
+ .../gcc/gcc-4.8/0027-cpp-honor-sysroot.patch       |   54 +
+ .../gcc-4.8/0028-MIPS64-Default-to-N64-ABI.patch   |   31 +
+ ...C_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  190 ++
+ ...0030-gcc-Fix-argument-list-too-long-error.patch |   40 +
+ .../gcc/gcc-4.8/0031-Disable-sdt.patch             |   45 +
+ .../gcc/gcc-4.8/0032-libtool.patch                 |   42 +
+ ...4-pass-fix-v4bx-to-linker-to-support-EABI.patch |   43 +
+ ...tilib-config-files-from-B-instead-of-usin.patch |  102 +
+ .../gcc/gcc-4.8/0035-wcast-qual-PR-55383.patch     |   55 +
+ .../gcc/gcc-4.8/gcc-4.8-PR56797.patch              |   66 +
+ .../recipes-devtools/gcc/gcc-cross-canadian_4.8.bb |   26 +
+ meta/recipes-devtools/gcc/gcc-cross-initial_4.8.bb |    2 +
+ meta/recipes-devtools/gcc/gcc-cross_4.8.bb         |   14 +
+ .../gcc/gcc-crosssdk-initial_4.8.bb                |    4 +
+ meta/recipes-devtools/gcc/gcc-crosssdk_4.8.bb      |    2 +
+ meta/recipes-devtools/gcc/gcc-runtime_4.8.bb       |    8 +
+ meta/recipes-devtools/gcc/gcc_4.8.bb               |    5 +
+ meta/recipes-devtools/gcc/libgcc_4.8.bb            |  145 +
+ .../python/python-setuptools_0.6c11.bb             |    8 +
+ .../gnome/gconf/unable-connect-dbus.patch          |   95 +
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb            |    1 +
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |   12 +-
+ meta/recipes-graphics/cairo/cairo/png.patch        |   77 +-
+ .../{lttng-ust_2.1.1.bb => lttng-ust_2.1.2.bb}     |    8 +-
+ .../stub_out_the_ncurses_calls_in_dump_mode.patch  |   33 -
+ meta/recipes-kernel/powertop/powertop_1.13.bb      |   41 -
+ meta/recipes-kernel/powertop/powertop_2.3.bb       |   30 +
+ ...0001-configure-lower-automake-requirement.patch |   30 +
+ .../libpng/libpng/transform.patch                  |   46 +
+ meta/recipes-multimedia/libpng/libpng_1.6.0.bb     |   20 -
+ meta/recipes-multimedia/libpng/libpng_1.6.1.bb     |   23 +
+ 73 files changed, 6494 insertions(+), 248 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-2.00-ignore-gnulib-gets-stupidity.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-01.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-02.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-03.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-04.png
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/images/connman-signal-05.png
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8.inc
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0002-uclibc-conf.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0003-gcc-uclibc-locale-ctype_touplow_t.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0004-uclibc-locale.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0005-uclibc-locale-no__x.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0006-uclibc-locale-wchar_fix.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0007-uclibc-locale-update.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0008-missing-execinfo_h.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0009-c99-snprintf.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0010-c99-complex-ugly-hack.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0011-index_macro.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0012-libmudflap-susv3-legacy.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0013-libstdc-namespace.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0014-sh-pr24836.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0015-arm-Use-TARGET_ENDIAN_OPTION-for-determining-MULTILI.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0016-gcc-poison-system-directories.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0017-gcc-poison-dir-extend.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0018-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0019-64-bit-multilib-hack.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0020-optional-libstdc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0021-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0022-COLLECT_GCC_OPTIONS.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0024-PR-target-32219.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0025-fortran-cross-compile-hack.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0026-libgcc-sjlj-check.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0027-cpp-honor-sysroot.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0028-MIPS64-Default-to-N64-ABI.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0029-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0030-gcc-Fix-argument-list-too-long-error.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0031-Disable-sdt.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0032-libtool.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0035-wcast-qual-PR-55383.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-PR56797.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-cross-canadian_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-cross-initial_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-cross_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-runtime_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc_4.8.bb
+ create mode 100644 meta/recipes-devtools/gcc/libgcc_4.8.bb
+ create mode 100644 meta/recipes-gnome/gnome/gconf/unable-connect-dbus.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.1.1.bb => lttng-ust_2.1.2.bb} (84%)
+ delete mode 100644 meta/recipes-kernel/powertop/powertop-1.13/stub_out_the_ncurses_calls_in_dump_mode.patch
+ delete mode 100644 meta/recipes-kernel/powertop/powertop_1.13.bb
+ create mode 100644 meta/recipes-kernel/powertop/powertop_2.3.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng/transform.patch
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.0.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.1.bb
+
+-- 
+1.8.0.2
 
 
 
