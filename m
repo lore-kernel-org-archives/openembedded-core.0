@@ -1,36 +1,33 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-we0-f181.google.com ([74.125.82.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UUMRb-0002Fj-BN
+	(envelope-from <kirgene@gmail.com>) id 1UUOOE-0004qk-AN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 21:30:38 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 39402D2320; Mon, 22 Apr 2013 21:12:18 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 083E9D20DD;
-	Mon, 22 Apr 2013 21:11:47 +0200 (CEST)
-Message-ID: <51758B94.8010405@linaro.org>
-Date: Mon, 22 Apr 2013 21:12:20 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: Richard Purdie <rpurdie@rpsys.net>
-References: <1366640172.23738.12.camel@ted>
-In-Reply-To: <1366640172.23738.12.camel@ted>
-X-Enigmail-Version: 1.4.6
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: BitBake changes in the Yocto Project 1.5 cycle
+	Mon, 22 Apr 2013 23:35:14 +0200
+Received: by mail-we0-f181.google.com with SMTP id m1so480200wea.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Apr 2013 14:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=/8C3ExysXTDK0szzaVFgX3djlIKyPVQPxw/0xPXNaMQ=;
+	b=Zd5BEejTp3JVkTjyvGdosxuSclE0kbBbZ2N8u0Adc75XQw4qtFxsXzxDzAVgyjD6Dw
+	UFf4gqp/EN1ahv6j4e4Bs7st+YzLVHpwgi16F2sdvfsbvU3kGr4bAJor1hTgqGjCQt4A
+	1sEpCyai0Y63mhwpq3lYGEhMy6qtA0k9be/Ge3qK+sz4bn3mbIRpZ7coKYMiTI8fpfMb
+	nkzf/IqVeM5EKNy+6SDROicpYc9mzwU7NJHKG9FPAAOXNb5LVJkO7l+ai8aa0OQX6Hft
+	v3q7rCGBzl9A075qPQjxGJqAdjjg+ethvF9bXmfLoZEz/+1oDpAAnY0xVXgPXmp3VvPj
+	AVEQ==
+X-Received: by 10.181.11.164 with SMTP id ej4mr14658118wid.29.1366665449658;
+	Mon, 22 Apr 2013 14:17:29 -0700 (PDT)
+Received: from ubuntu.datv.net ([213.174.0.226])
+	by mx.google.com with ESMTPS id bk42sm43111902eeb.3.2013.04.22.14.17.28
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Apr 2013 14:17:28 -0700 (PDT)
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Apr 2013 00:16:47 +0300
+Message-Id: <1366665407-32136-1-git-send-email-kirgene@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Yevhen Kyriukha <kirgene@gmail.com>
+Subject: [PATCH v3] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 19:30:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Apr 2013 21:35:39 -0000
 
-W dniu 22.04.2013 16:16, Richard Purdie pisze:
-> I've been giving some thought to where BitBake needs to go in the 
-> future in order to deliver for its users. It started life as a 
-> commandline utility and its grown a lot since it was first created.
-> I think there are some key decisions that need to be taken to ensure 
-> its future growth.
+---
+ meta/recipes-core/systemd/systemd_199.bb |   19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-There is one thing which kind of bothers me. "ERROR" message which is
-just a warning. Like:
+diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
+index 5240443..9a68960 100644
+--- a/meta/recipes-core/systemd/systemd_199.bb
++++ b/meta/recipes-core/systemd/systemd_199.bb
+@@ -11,12 +11,18 @@ PROVIDES = "udev"
+ PE = "1"
+ PR = "r2"
+ 
+-DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 python"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SECTION = "base/shell"
+ 
+-inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives
++inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives pythonnative python-dir
++
++# need to export these variables for python-config to work
++export BUILD_SYS
++export HOST_SYS
++export STAGING_INCDIR
++export STAGING_LIBDIR
+ 
+ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+            file://touchscreen.rules \
+@@ -63,9 +69,9 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
+                  --disable-coredump \
+                  --disable-introspection \
+                  --disable-tcpwrap \
++                 --with-python \
+                  --enable-split-usr \
+                  --disable-microhttpd \
+-                 --without-python \
+                  --with-sysvrcnd-path=${sysconfdir} \
+                  --with-firmware-path=/lib/firmware \
+                  ac_cv_path_KILL=${base_bindir}/kill \
+@@ -119,7 +125,7 @@ python populate_packages_prepend (){
+ }
+ PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+ 
+-PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
++PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-dev"
+ 
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+@@ -129,6 +135,11 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ FILES_${PN}-initramfs = "/init"
+ RDEPENDS_${PN}-initramfs = "${PN}"
+ 
++FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
++RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
++FILES_python-${PN}-dev = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.la"
++FILES_python-${PN}-dbg = "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
++
+ FILES_${PN}-gui = "${bindir}/systemadm"
+ 
+ FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup \
+-- 
+1.7.9.5
 
-ERROR: libelf is listed in PACKAGES multiple times, this leads to packaging errors.
-ERROR: libasm is listed in PACKAGES multiple times, this leads to packaging errors.
-ERROR: libdw is listed in PACKAGES multiple times, this leads to packaging errors.
-ERROR: libdw-dev is listed in PACKAGES multiple times, this leads to packaging errors.
-ERROR: libasm-dev is listed in PACKAGES multiple times, this leads to packaging errors.
-ERROR: libelf-dev is listed in PACKAGES multiple times, this leads to packaging errors.
-
-If it is error then let BitBake exit instead of doing task. If it is
-not error but just a warning then let it be renamed?
-
-My recent build failed with:
-
---------
-NOTE: recipe linaro-image-minimal-1.0-r0: task do_rm_work_all: Started
-NOTE: recipe linaro-image-minimal-1.0-r0: task do_rm_work_all: Succeeded
-NOTE: Tasks Summary: Attempted 2247 tasks of which 915 didn't need to be rerun and all succeeded.
-
-Summary: There were 3 WARNING messages shown.
-Summary: There were 6 ERROR messages shown, returning a non-zero exit code.
-Build step 'Execute shell' marked build as failure
---------
-
-"all succeeded" does not look like a reason to fail a build.
 
 
