@@ -1,28 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-we0-f174.google.com ([74.125.82.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1UUHoh-0003TT-M9
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UUI6B-0007B2-EH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 16:34:05 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3MEHHCe027691; Mon, 22 Apr 2013 15:17:17 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id S8Tez0WMCMhH; Mon, 22 Apr 2013 15:17:17 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3MEHEPD027686
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 22 Apr 2013 15:17:15 +0100
-Message-ID: <1366640172.23738.12.camel@ted>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Date: Mon, 22 Apr 2013 15:16:12 +0100
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: BitBake changes in the Yocto Project 1.5 cycle
+	Mon, 22 Apr 2013 16:52:07 +0200
+Received: by mail-we0-f174.google.com with SMTP id u12so6409894wey.19
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Apr 2013 07:34:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:content-type:x-gm-message-state;
+	bh=OgdKbyf3L15c/RshvY6Ea9NjSfSj9zOMwli0sEVgC54=;
+	b=YRkiuwk2lyQ2/AN95FRaw2q47vTo8BX2W2F+ooJ3unpdXCaJmqFwwsoRLFp6Q/i0OO
+	QI7jToJfq4gwfkuIuL9Xu8FWebuyGrNYu4ChbXtaeGDnWRF744aV3B/uHZ2dG4wGOj+1
+	6mYpeHrf9CXnD8R0l6mSAxLtkNRjZNt3VVzMwse59P5DFFpvIapJomTiNCB7KTmkE6AZ
+	wiCOv8gWmoT0EOUh/KQzOs5Kv/PyTvaLnhMG7qrCOt1AzwaofcZpXBI84l4kzYG69cGz
+	B+D1yNJk1x5JoWRrO9jqQoRBBPPjiIQhiBxUATzzPlU3XMDuCxIbsWH2mrAfDsWugMRV
+	sqVQ==
+X-Received: by 10.180.73.173 with SMTP id m13mr51766967wiv.27.1366641267683;
+	Mon, 22 Apr 2013 07:34:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.194.88.162 with HTTP; Mon, 22 Apr 2013 07:34:07 -0700 (PDT)
+In-Reply-To: <CAMZjud1=D-qSt0tcz57FDPBHj33kOzbZRmqJw7nmdDwGo8xg6A@mail.gmail.com>
+References: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<51700760.7000204@windriver.com>
+	<CAMZjud1=D-qSt0tcz57FDPBHj33kOzbZRmqJw7nmdDwGo8xg6A@mail.gmail.com>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Mon, 22 Apr 2013 17:34:07 +0300
+Message-ID: <CAMZjud3BiO_xEAVE6ZmHor=etkWPobLETwYWOFaru3fx1EMBVg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQkTPUILBtoKoGVH37+pKFPVq7VNh0My4zfCOwFO5JHisKQzn4AvtwXsl3XNiiWvvQ77TLm5
+Subject: Re: [PATCH] package_rpm.bbclass: fix /etc/rpm/platform generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,56 +44,308 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 14:34:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Apr 2013 14:52:08 -0000
+Content-Type: multipart/alternative; boundary=f46d043c07e04bc83e04daf3f788
 
-I've been giving some thought to where BitBake needs to go in the future
-in order to deliver for its users. It started life as a commandline
-utility and its grown a lot since it was first created. I think there
-are some key decisions that need to be taken to ensure its future
-growth.
+--f46d043c07e04bc83e04daf3f788
+Content-Type: text/plain; charset=ISO-8859-1
 
-The first proposal is that we should change the BitBake server so it
-becomes memory resident. This means that the first time you run "bitbake
-X", the server loads into memory, then subsequent BitBake commands would
-just connect to the server and do things. We'd add in some kind of
-timeout of say 15 minutes so that it would gracefully exit.
+Further investigation reveals the fact that the problem is connected to the
+value returned by "rpm.archscore", which changes with the value of the
+first line of /etc/rpm/platform. I'm testing under qemux86 and editing
+/etc/rpm/platform by hand. I've traced the code to backends/rpm/base.py
+which contains the function getArchScore (which basically calls
+rpm.archscore). With this /etc/rpm/platform:
 
-The reason for doing this is simple, it would allow commands to be much
-more responsive rather than having the cache/configuration loading each
-time which is where our current overhead is. Obviously it would detect
-changes to things like MACHINE setting, local.conf and re-parse as
-normal in those cases. The intent would be to speed up the interaction
-with the system so you don't have the annoying delays/lag.
+i586-poky-linux
+core2-.*-linux
+qemux86-.*-linux
+i586-.*-linux
+.......
 
-This would then lead into the second proposal which is to add better
-support for new commands. This would be along the lines of some of
-Chris' work with bb, the bitbake-env script and so on but with the added
-advantage of being able to connect to the server for info. It would
-allow us to add query commands for things like the available
-PACKAGECONFIG options/settings much more easily than the current
-infrastructure. There are some issues about whether these would belong
-as part of BitBake or OE and we'd need to figure that out.
+I get a score of 2 for arch core2 and 1 for i586. If I remove the first
+line (i586-poky-linux) and rerun smart without chaning anything else, I get
+a score of 1 for arch core2 and a score of 3 for i586. So that line
+definiteley matters, which should be a bug, if I understood Mark's e-mails
+correctly.
 
-The third proposal is to do away with the BitBake wrapper script in
-OE-Core for pseudo. Doing this within BitBake is going to be hard and
-require some rework but ultimately, I think it will be worth it from a
-performance perspective and also stops some of the user confusion about
-BitBake running twice (two sets of log files and so on).
-
-These changes should also be in keeping with the expanded UI work and
-options such as WebHob and allowing remote use of multiple UIs connected
-to servers.
-
-Feedback/comments/suggestions etc./ welcome as always.
-
-I've cc'd the OE-Core list but further discussion should be taken to
-bitbake-devel.
-
-Cheers,
-
-Richard
+Thanks,
+Bogdan
 
 
 
+On Mon, Apr 22, 2013 at 3:00 PM, Marinescu, Bogdan A <
+bogdan.a.marinescu@intel.com> wrote:
+
+> On Thu, Apr 18, 2013 at 5:46 PM, Mark Hatle <mark.hatle@windriver.com>wrote:
+>
+>> On 4/18/13 9:27 AM, Bogdan Marinescu wrote:
+>>
+>>> For some platforms (for example emenlow) the RPM installer prefers
+>>> an invalid package architecture (for example i586 over core2) because
+>>> /etc/rpm/platform is not properly generated (for example, i586 is
+>>> listed before core2 in /etc/rpm/platform).
+>>>
+>>> [YOCTO #3864]
+>>>
+>>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+>>> ---
+>>>   meta/classes/package_rpm.**bbclass |    1 -
+>>>   1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes/package_rpm.**bbclass
+>>> b/meta/classes/package_rpm.**bbclass
+>>> index 3a29976..1bee4b1 100644
+>>> --- a/meta/classes/package_rpm.**bbclass
+>>> +++ b/meta/classes/package_rpm.**bbclass
+>>> @@ -276,7 +276,6 @@ package_install_internal_rpm () {
+>>>                 # Setup base system configuration
+>>>                 echo "Note: configuring RPM platform settings"
+>>>                 mkdir -p ${target_rootfs}/etc/rpm/
+>>> -               echo "$INSTALL_PLATFORM_RPM" > ${target_rootfs}/etc/rpm/
+>>> **platform
+>>>
+>>
+>> I think this is wrong.  The /etc/rpm/platform file's first line is
+>> supposed to be the equivalent of: [uname -m]-vendor-os.   While uname -m
+>> doesn't match our tune namings, the concept is the same.  The first line
+>> simply defines the "tune" of the platform, subsequent lines define
+>> alternative names that will run on this system.
+>>
+>> The INSTALL_PLATFORM_RPM value should be the expected value for the
+>> platform as a whole, as it's the default tune value.  (Default tune value
+>> is expected to be the most accurate value.
+>>
+>> Looking at the defect:
+>>
+>> i586-poky-linux
+>> emenlow-.*-linux
+>> core2-.*-linux
+>> i686-.*-linux
+>> i586-.*-linux
+>> i486-.*-linux
+>> i386-.*-linux
+>> x86-.*-linux
+>> noarch-.*-linux.*
+>> any-.*-linux.*
+>> all-.*-linux.*
+>>
+>> The default tune value for that machine was set to i586 by "something".
+>>
+>> INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr -
+>> _)${TARGET_VENDOR}-${TARGET_**OS}"
+>>
+>> ${TARGET_ARCH} is similar to the output of uname -m.  The error is that
+>> this particular BSP should have returned 'core2' as the TARGET_ARCH from
+>> what I can tell.
+>>
+>> Default for TARGET_ARCH is: TARGET_ARCH = "${TUNE_ARCH}"
+>>
+>> So the TUNE_ARCH is being set to i586.  So the end result is..  Is
+>> 'TUNE_ARCH' set to i586 appropriate?  It probably is, because the majority
+>> of the system seems to have a limited set of expected values for
+>> TARGET_ARCH.
+>>
+>> So, perhaps the right fix is instead of using 'TARGET_ARCH' in
+>> INSTALL_PLATFORM_RPM, 'TUNE_PKGARCH_${DEFAULTTUNE}' may be more appropriate.
+>>
+>> I'd suggest trying that.  (But the first line is the system architecture,
+>> following lines are alternative packages that are considered compatible.)
+>>
+>>
+>>
+>>>                 if [ ! -z "$INSTALL_PLATFORM_EXTRA_RPM" ]; then
+>>>                         for pt in $INSTALL_PLATFORM_EXTRA_RPM ; do
+>>>
+>>>
+>>
+> On my qemux86 image, /etc/rpm/platform looks like this:
+>
+> qemux86-.*-linux
+> i586-.*-linux
+> i486-.*-linux
+>  i386-.*-linux
+> x86-.*-linux
+> noarch-.*-linux.*
+> any-.*-linux.*
+> all-.*-linux.*
+>
+> The first line is not fully expanded and smart seems to make the correct
+> choice of packages in this case.
+>
+> Thanks,
+> Bogdan
+>
+>
+>>
+>> ______________________________**_________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
+>> http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
+>>
+>
+>
+
+--f46d043c07e04bc83e04daf3f788
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Further investigation reveals the fact that the problem is=
+ connected to the value returned by &quot;rpm.archscore&quot;, which change=
+s with the value of the first line of /etc/rpm/platform. I&#39;m testing un=
+der qemux86 and editing /etc/rpm/platform by hand. I&#39;ve traced the code=
+ to backends/rpm/base.py which contains the function getArchScore (which ba=
+sically calls rpm.archscore). With this /etc/rpm/platform:<div>
+
+<br></div><div>i586-poky-linux</div><div>core2-.*-linux</div><div>qemux86-.=
+*-linux</div><div style>i586-.*-linux</div><div>.......</div><div><br></div=
+><div>I get a score of 2 for arch core2 and 1 for i586. If I remove the fir=
+st line (i586-poky-linux) and rerun smart without chaning anything else, I =
+get a score of 1 for arch core2 and a score of 3 for i586. So that line def=
+initeley matters, which should be a bug, if I understood Mark&#39;s e-mails=
+ correctly.</div>
+
+<div><br></div><div>Thanks,</div><div>Bogdan<br><div><br></div></div></div>=
+<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, Apr 2=
+2, 2013 at 3:00 PM, Marinescu, Bogdan A <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:bogdan.a.marinescu@intel.com" target=3D"_blank">bogdan.a.marinescu@int=
+el.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div class=3D"h5">On T=
+hu, Apr 18, 2013 at 5:46 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</=
+a>&gt;</span> wrote:<br>
+
+</div></div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div><div=
+ class=3D"h5">
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div>On 4/18/13 9:27 AM, Bogdan Marinescu wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex">
+For some platforms (for example emenlow) the RPM installer prefers<br>
+an invalid package architecture (for example i586 over core2) because<br>
+/etc/rpm/platform is not properly generated (for example, i586 is<br>
+listed before core2 in /etc/rpm/platform).<br>
+<br>
+[YOCTO #3864]<br>
+<br>
+Signed-off-by: Bogdan Marinescu &lt;<a href=3D"mailto:bogdan.a.marinescu@in=
+tel.com" target=3D"_blank">bogdan.a.marinescu@intel.com</a>&gt;<br>
+---<br>
+=A0 meta/classes/package_rpm.<u></u>bbclass | =A0 =A01 -<br>
+=A0 1 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/package_rpm.<u></u>bbclass b/meta/classes/package=
+_rpm.<u></u>bbclass<br>
+index 3a29976..1bee4b1 100644<br>
+--- a/meta/classes/package_rpm.<u></u>bbclass<br>
++++ b/meta/classes/package_rpm.<u></u>bbclass<br>
+@@ -276,7 +276,6 @@ package_install_internal_rpm () {<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 # Setup base system configuration<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;Note: configuring RPM platform s=
+ettings&quot;<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 mkdir -p ${target_rootfs}/etc/rpm/<br>
+- =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;$INSTALL_PLATFORM_RPM&quot; &gt; $=
+{target_rootfs}/etc/rpm/<u></u>platform<br>
+</blockquote>
+<br></div>
+I think this is wrong. =A0The /etc/rpm/platform file&#39;s first line is su=
+pposed to be the equivalent of: [uname -m]-vendor-os. =A0 While uname -m do=
+esn&#39;t match our tune namings, the concept is the same. =A0The first lin=
+e simply defines the &quot;tune&quot; of the platform, subsequent lines def=
+ine alternative names that will run on this system.<br>
+
+
+
+<br>
+The INSTALL_PLATFORM_RPM value should be the expected value for the platfor=
+m as a whole, as it&#39;s the default tune value. =A0(Default tune value is=
+ expected to be the most accurate value.<br>
+<br>
+Looking at the defect:<br>
+<br>
+i586-poky-linux<br>
+emenlow-.*-linux<br>
+core2-.*-linux<br>
+i686-.*-linux<br>
+i586-.*-linux<br>
+i486-.*-linux<br>
+i386-.*-linux<br>
+x86-.*-linux<br>
+noarch-.*-linux.*<br>
+any-.*-linux.*<br>
+all-.*-linux.*<br>
+<br>
+The default tune value for that machine was set to i586 by &quot;something&=
+quot;.<br>
+<br>
+INSTALL_PLATFORM_RPM=3D&quot;$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR=
+}-${TARGET_<u></u>OS}&quot;<br>
+<br>
+${TARGET_ARCH} is similar to the output of uname -m. =A0The error is that t=
+his particular BSP should have returned &#39;core2&#39; as the TARGET_ARCH =
+from what I can tell.<br>
+<br>
+Default for TARGET_ARCH is: TARGET_ARCH =3D &quot;${TUNE_ARCH}&quot;<br>
+<br>
+So the TUNE_ARCH is being set to i586. =A0So the end result is.. =A0Is &#39=
+;TUNE_ARCH&#39; set to i586 appropriate? =A0It probably is, because the maj=
+ority of the system seems to have a limited set of expected values for TARG=
+ET_ARCH.<br>
+
+
+
+<br>
+So, perhaps the right fix is instead of using &#39;TARGET_ARCH&#39; in INST=
+ALL_PLATFORM_RPM, &#39;TUNE_PKGARCH_${DEFAULTTUNE}&#39; may be more appropr=
+iate.<br>
+<br>
+I&#39;d suggest trying that. =A0(But the first line is the system architect=
+ure, following lines are alternative packages that are considered compatibl=
+e.)<div><br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex">
+<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if [ ! -z &quot;$INSTALL_PLATFORM_EXTRA_RPM=
+&quot; ]; then<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 for pt in $INSTALL_PLATFORM=
+_EXTRA_RPM ; do<br>
+<br>
+</blockquote>
+<br></div></blockquote><div><br></div></div></div><div>On my qemux86 image,=
+ /etc/rpm/platform looks like this:</div><div><br></div><div><div>qemux86-.=
+*-linux</div><div class=3D"im"><div>i586-.*-linux</div><div>i486-.*-linux</=
+div>
+
+<div>
+i386-.*-linux</div><div>x86-.*-linux</div><div>noarch-.*-linux.*</div><div>=
+any-.*-linux.*</div><div>all-.*-linux.*</div><div><br></div></div><div>The =
+first line is not fully expanded and smart seems to make the correct choice=
+ of packages in this case.</div>
+
+
+<div><br></div><div>Thanks,</div><div>Bogdan</div></div><div class=3D"im"><=
+div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex">
+
+
+<div>
+<br></div>
+______________________________<u></u>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/mailman/=
+listinfo/<u></u>openembedded-core</a><br>
+</blockquote></div></div><br></div></div>
+</blockquote></div><br></div>
+
+--f46d043c07e04bc83e04daf3f788--
