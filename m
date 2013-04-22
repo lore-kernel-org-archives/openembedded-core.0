@@ -1,37 +1,35 @@
-Received: from mail-we0-f174.google.com ([74.125.82.174])
+Received: from mail-wi0-f180.google.com ([209.85.212.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UUI6B-0007B2-EH
+	(envelope-from <ross.burton@intel.com>) id 1UUI81-0007JT-3r
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 16:52:07 +0200
-Received: by mail-we0-f174.google.com with SMTP id u12so6409894wey.19
+	Mon, 22 Apr 2013 16:54:02 +0200
+Received: by mail-wi0-f180.google.com with SMTP id h11so4505209wiv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2013 07:34:27 -0700 (PDT)
+	Mon, 22 Apr 2013 07:36:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:content-type:x-gm-message-state;
-	bh=OgdKbyf3L15c/RshvY6Ea9NjSfSj9zOMwli0sEVgC54=;
-	b=YRkiuwk2lyQ2/AN95FRaw2q47vTo8BX2W2F+ooJ3unpdXCaJmqFwwsoRLFp6Q/i0OO
-	QI7jToJfq4gwfkuIuL9Xu8FWebuyGrNYu4ChbXtaeGDnWRF744aV3B/uHZ2dG4wGOj+1
-	6mYpeHrf9CXnD8R0l6mSAxLtkNRjZNt3VVzMwse59P5DFFpvIapJomTiNCB7KTmkE6AZ
-	wiCOv8gWmoT0EOUh/KQzOs5Kv/PyTvaLnhMG7qrCOt1AzwaofcZpXBI84l4kzYG69cGz
-	B+D1yNJk1x5JoWRrO9jqQoRBBPPjiIQhiBxUATzzPlU3XMDuCxIbsWH2mrAfDsWugMRV
-	sqVQ==
-X-Received: by 10.180.73.173 with SMTP id m13mr51766967wiv.27.1366641267683;
-	Mon, 22 Apr 2013 07:34:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.194.88.162 with HTTP; Mon, 22 Apr 2013 07:34:07 -0700 (PDT)
-In-Reply-To: <CAMZjud1=D-qSt0tcz57FDPBHj33kOzbZRmqJw7nmdDwGo8xg6A@mail.gmail.com>
-References: <1366295248-7766-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<51700760.7000204@windriver.com>
-	<CAMZjud1=D-qSt0tcz57FDPBHj33kOzbZRmqJw7nmdDwGo8xg6A@mail.gmail.com>
-From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Mon, 22 Apr 2013 17:34:07 +0300
-Message-ID: <CAMZjud3BiO_xEAVE6ZmHor=etkWPobLETwYWOFaru3fx1EMBVg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkTPUILBtoKoGVH37+pKFPVq7VNh0My4zfCOwFO5JHisKQzn4AvtwXsl3XNiiWvvQ77TLm5
-Subject: Re: [PATCH] package_rpm.bbclass: fix /etc/rpm/platform generation
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=XJgelJ32qWUKKaI5Z+v4PBlsjIJ+3hHyRPsKvCTXxeE=;
+	b=dfDODzzmTQxO1DN3DiowEh9sH/xhfIKXJVF6QNZaTmimqhyqq7RQTn7kIJIdOU2ENp
+	YCy5RQfhzO2CyXoEBKAGqUSjkA+KXBKBY9Jum9yqq/d3cJUiNNw3ROZWIZ6zHchrlsr2
+	OeNvqDkCw79tvuCgRZSAGG1if9SbyZl49eB7Vw9GLhDbIUO/EF0AIVf9HpraTYwPd9M/
+	NkwrcCjC96wU88fumsodddt+fwBYT76PU8PymPVj5MuwEj1/29UI6YQXH5eUVeILYlTF
+	SrxNEGyydiuAOUnrjtMHROcqbuNEy8NPnTZXkGaPmSCnGIAzvDDqvlwVZvYw5N14h6fX
+	jIKw==
+X-Received: by 10.180.182.110 with SMTP id ed14mr50329294wic.6.1366641378962; 
+	Mon, 22 Apr 2013 07:36:18 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fz3sm22540081wib.0.2013.04.22.07.36.17
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Apr 2013 07:36:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Apr 2013 15:33:25 +0100
+Message-Id: <1366641205-3891-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQlsUq7GpjHvMfYzN4E/xrSaRfo9aVssIsnbyEX4bX1xrir0T5KILZpLb96Tgdq1o6NbuqLL
+Subject: [PATCH] glib-2.0: disable tests for native builds, and respect ptest for LSB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,308 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 14:52:08 -0000
-Content-Type: multipart/alternative; boundary=f46d043c07e04bc83e04daf3f788
+X-List-Received-Date: Mon, 22 Apr 2013 14:54:02 -0000
 
---f46d043c07e04bc83e04daf3f788
-Content-Type: text/plain; charset=ISO-8859-1
+Without disabling the tests in the native build, glib-2.0-native will need
+libdbus-native to be present.  As we don't run the tests, disable them so we
+don't have build failures due to missing dependencies.
 
-Further investigation reveals the fact that the problem is connected to the
-value returned by "rpm.archscore", which changes with the value of the
-first line of /etc/rpm/platform. I'm testing under qemux86 and editing
-/etc/rpm/platform by hand. I've traced the code to backends/rpm/base.py
-which contains the function getArchScore (which basically calls
-rpm.archscore). With this /etc/rpm/platform:
+Also, the LSB override was missing PTEST_CONF so the same problem could happen.
+After adding PTEST_CONF the LSB override is identical to the non-overridden
+EXTRA_OECONF, so remove it.
 
-i586-poky-linux
-core2-.*-linux
-qemux86-.*-linux
-i586-.*-linux
-.......
+Finally, to be explicit, put --enable-module-tests in PTEST_CONF.
 
-I get a score of 2 for arch core2 and 1 for i586. If I remove the first
-line (i586-poky-linux) and rerun smart without chaning anything else, I get
-a score of 1 for arch core2 and a score of 3 for i586. So that line
-definiteley matters, which should be a bug, if I understood Mark's e-mails
-correctly.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Thanks,
-Bogdan
-
-
-
-On Mon, Apr 22, 2013 at 3:00 PM, Marinescu, Bogdan A <
-bogdan.a.marinescu@intel.com> wrote:
-
-> On Thu, Apr 18, 2013 at 5:46 PM, Mark Hatle <mark.hatle@windriver.com>wrote:
->
->> On 4/18/13 9:27 AM, Bogdan Marinescu wrote:
->>
->>> For some platforms (for example emenlow) the RPM installer prefers
->>> an invalid package architecture (for example i586 over core2) because
->>> /etc/rpm/platform is not properly generated (for example, i586 is
->>> listed before core2 in /etc/rpm/platform).
->>>
->>> [YOCTO #3864]
->>>
->>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->>> ---
->>>   meta/classes/package_rpm.**bbclass |    1 -
->>>   1 file changed, 1 deletion(-)
->>>
->>> diff --git a/meta/classes/package_rpm.**bbclass
->>> b/meta/classes/package_rpm.**bbclass
->>> index 3a29976..1bee4b1 100644
->>> --- a/meta/classes/package_rpm.**bbclass
->>> +++ b/meta/classes/package_rpm.**bbclass
->>> @@ -276,7 +276,6 @@ package_install_internal_rpm () {
->>>                 # Setup base system configuration
->>>                 echo "Note: configuring RPM platform settings"
->>>                 mkdir -p ${target_rootfs}/etc/rpm/
->>> -               echo "$INSTALL_PLATFORM_RPM" > ${target_rootfs}/etc/rpm/
->>> **platform
->>>
->>
->> I think this is wrong.  The /etc/rpm/platform file's first line is
->> supposed to be the equivalent of: [uname -m]-vendor-os.   While uname -m
->> doesn't match our tune namings, the concept is the same.  The first line
->> simply defines the "tune" of the platform, subsequent lines define
->> alternative names that will run on this system.
->>
->> The INSTALL_PLATFORM_RPM value should be the expected value for the
->> platform as a whole, as it's the default tune value.  (Default tune value
->> is expected to be the most accurate value.
->>
->> Looking at the defect:
->>
->> i586-poky-linux
->> emenlow-.*-linux
->> core2-.*-linux
->> i686-.*-linux
->> i586-.*-linux
->> i486-.*-linux
->> i386-.*-linux
->> x86-.*-linux
->> noarch-.*-linux.*
->> any-.*-linux.*
->> all-.*-linux.*
->>
->> The default tune value for that machine was set to i586 by "something".
->>
->> INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr -
->> _)${TARGET_VENDOR}-${TARGET_**OS}"
->>
->> ${TARGET_ARCH} is similar to the output of uname -m.  The error is that
->> this particular BSP should have returned 'core2' as the TARGET_ARCH from
->> what I can tell.
->>
->> Default for TARGET_ARCH is: TARGET_ARCH = "${TUNE_ARCH}"
->>
->> So the TUNE_ARCH is being set to i586.  So the end result is..  Is
->> 'TUNE_ARCH' set to i586 appropriate?  It probably is, because the majority
->> of the system seems to have a limited set of expected values for
->> TARGET_ARCH.
->>
->> So, perhaps the right fix is instead of using 'TARGET_ARCH' in
->> INSTALL_PLATFORM_RPM, 'TUNE_PKGARCH_${DEFAULTTUNE}' may be more appropriate.
->>
->> I'd suggest trying that.  (But the first line is the system architecture,
->> following lines are alternative packages that are considered compatible.)
->>
->>
->>
->>>                 if [ ! -z "$INSTALL_PLATFORM_EXTRA_RPM" ]; then
->>>                         for pt in $INSTALL_PLATFORM_EXTRA_RPM ; do
->>>
->>>
->>
-> On my qemux86 image, /etc/rpm/platform looks like this:
->
-> qemux86-.*-linux
-> i586-.*-linux
-> i486-.*-linux
->  i386-.*-linux
-> x86-.*-linux
-> noarch-.*-linux.*
-> any-.*-linux.*
-> all-.*-linux.*
->
-> The first line is not fully expanded and smart seems to make the correct
-> choice of packages in this case.
->
-> Thanks,
-> Bogdan
->
->
->>
->> ______________________________**_________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
->> http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
->>
->
->
-
---f46d043c07e04bc83e04daf3f788
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Further investigation reveals the fact that the problem is=
- connected to the value returned by &quot;rpm.archscore&quot;, which change=
-s with the value of the first line of /etc/rpm/platform. I&#39;m testing un=
-der qemux86 and editing /etc/rpm/platform by hand. I&#39;ve traced the code=
- to backends/rpm/base.py which contains the function getArchScore (which ba=
-sically calls rpm.archscore). With this /etc/rpm/platform:<div>
-
-<br></div><div>i586-poky-linux</div><div>core2-.*-linux</div><div>qemux86-.=
-*-linux</div><div style>i586-.*-linux</div><div>.......</div><div><br></div=
-><div>I get a score of 2 for arch core2 and 1 for i586. If I remove the fir=
-st line (i586-poky-linux) and rerun smart without chaning anything else, I =
-get a score of 1 for arch core2 and a score of 3 for i586. So that line def=
-initeley matters, which should be a bug, if I understood Mark&#39;s e-mails=
- correctly.</div>
-
-<div><br></div><div>Thanks,</div><div>Bogdan<br><div><br></div></div></div>=
-<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, Apr 2=
-2, 2013 at 3:00 PM, Marinescu, Bogdan A <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:bogdan.a.marinescu@intel.com" target=3D"_blank">bogdan.a.marinescu@int=
-el.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div class=3D"h5">On T=
-hu, Apr 18, 2013 at 5:46 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</=
-a>&gt;</span> wrote:<br>
-
-</div></div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div><div=
- class=3D"h5">
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div>On 4/18/13 9:27 AM, Bogdan Marinescu wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex">
-For some platforms (for example emenlow) the RPM installer prefers<br>
-an invalid package architecture (for example i586 over core2) because<br>
-/etc/rpm/platform is not properly generated (for example, i586 is<br>
-listed before core2 in /etc/rpm/platform).<br>
-<br>
-[YOCTO #3864]<br>
-<br>
-Signed-off-by: Bogdan Marinescu &lt;<a href=3D"mailto:bogdan.a.marinescu@in=
-tel.com" target=3D"_blank">bogdan.a.marinescu@intel.com</a>&gt;<br>
----<br>
-=A0 meta/classes/package_rpm.<u></u>bbclass | =A0 =A01 -<br>
-=A0 1 file changed, 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/package_rpm.<u></u>bbclass b/meta/classes/package=
-_rpm.<u></u>bbclass<br>
-index 3a29976..1bee4b1 100644<br>
---- a/meta/classes/package_rpm.<u></u>bbclass<br>
-+++ b/meta/classes/package_rpm.<u></u>bbclass<br>
-@@ -276,7 +276,6 @@ package_install_internal_rpm () {<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 # Setup base system configuration<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;Note: configuring RPM platform s=
-ettings&quot;<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 mkdir -p ${target_rootfs}/etc/rpm/<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;$INSTALL_PLATFORM_RPM&quot; &gt; $=
-{target_rootfs}/etc/rpm/<u></u>platform<br>
-</blockquote>
-<br></div>
-I think this is wrong. =A0The /etc/rpm/platform file&#39;s first line is su=
-pposed to be the equivalent of: [uname -m]-vendor-os. =A0 While uname -m do=
-esn&#39;t match our tune namings, the concept is the same. =A0The first lin=
-e simply defines the &quot;tune&quot; of the platform, subsequent lines def=
-ine alternative names that will run on this system.<br>
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index cb391a2..42c34c3 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -27,10 +27,9 @@ S = "${WORKDIR}/glib-${PV}"
+ 
+ CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
+ 
+-PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '', '--disable-modular-tests', d)}"
++PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-modular-tests', '--disable-modular-tests', d)}"
+ EXTRA_OECONF = "--enable-included-printf=no ${CORECONF} ${PTEST_CONF}"
+-EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
+-EXTRA_OECONF_linuxstdbase = "--enable-included-printf=no ${CORECONF}"
++EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux --disable-modular-tests"
+ 
+ FILES_${PN} = "${libdir}/lib*${SOLIBS} ${datadir}/glib-2.0/schemas \
+                ${datadir}/glib-2.0/gettext/mkinstalldirs ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
+-- 
+1.7.10.4
 
 
 
-<br>
-The INSTALL_PLATFORM_RPM value should be the expected value for the platfor=
-m as a whole, as it&#39;s the default tune value. =A0(Default tune value is=
- expected to be the most accurate value.<br>
-<br>
-Looking at the defect:<br>
-<br>
-i586-poky-linux<br>
-emenlow-.*-linux<br>
-core2-.*-linux<br>
-i686-.*-linux<br>
-i586-.*-linux<br>
-i486-.*-linux<br>
-i386-.*-linux<br>
-x86-.*-linux<br>
-noarch-.*-linux.*<br>
-any-.*-linux.*<br>
-all-.*-linux.*<br>
-<br>
-The default tune value for that machine was set to i586 by &quot;something&=
-quot;.<br>
-<br>
-INSTALL_PLATFORM_RPM=3D&quot;$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR=
-}-${TARGET_<u></u>OS}&quot;<br>
-<br>
-${TARGET_ARCH} is similar to the output of uname -m. =A0The error is that t=
-his particular BSP should have returned &#39;core2&#39; as the TARGET_ARCH =
-from what I can tell.<br>
-<br>
-Default for TARGET_ARCH is: TARGET_ARCH =3D &quot;${TUNE_ARCH}&quot;<br>
-<br>
-So the TUNE_ARCH is being set to i586. =A0So the end result is.. =A0Is &#39=
-;TUNE_ARCH&#39; set to i586 appropriate? =A0It probably is, because the maj=
-ority of the system seems to have a limited set of expected values for TARG=
-ET_ARCH.<br>
-
-
-
-<br>
-So, perhaps the right fix is instead of using &#39;TARGET_ARCH&#39; in INST=
-ALL_PLATFORM_RPM, &#39;TUNE_PKGARCH_${DEFAULTTUNE}&#39; may be more appropr=
-iate.<br>
-<br>
-I&#39;d suggest trying that. =A0(But the first line is the system architect=
-ure, following lines are alternative packages that are considered compatibl=
-e.)<div><br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex">
-<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if [ ! -z &quot;$INSTALL_PLATFORM_EXTRA_RPM=
-&quot; ]; then<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 for pt in $INSTALL_PLATFORM=
-_EXTRA_RPM ; do<br>
-<br>
-</blockquote>
-<br></div></blockquote><div><br></div></div></div><div>On my qemux86 image,=
- /etc/rpm/platform looks like this:</div><div><br></div><div><div>qemux86-.=
-*-linux</div><div class=3D"im"><div>i586-.*-linux</div><div>i486-.*-linux</=
-div>
-
-<div>
-i386-.*-linux</div><div>x86-.*-linux</div><div>noarch-.*-linux.*</div><div>=
-any-.*-linux.*</div><div>all-.*-linux.*</div><div><br></div></div><div>The =
-first line is not fully expanded and smart seems to make the correct choice=
- of packages in this case.</div>
-
-
-<div><br></div><div>Thanks,</div><div>Bogdan</div></div><div class=3D"im"><=
-div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex">
-
-
-<div>
-<br></div>
-______________________________<u></u>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/mailman/=
-listinfo/<u></u>openembedded-core</a><br>
-</blockquote></div></div><br></div></div>
-</blockquote></div><br></div>
-
---f46d043c07e04bc83e04daf3f788--
