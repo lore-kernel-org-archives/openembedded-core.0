@@ -1,27 +1,39 @@
-Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
+Received: from mail-la0-f54.google.com ([209.85.215.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UUIYN-0003ye-H0
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UUIba-0004C6-0O
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Apr 2013 17:21:19 +0200
-Message-ID: <51755147.609@communistcode.co.uk>
-Date: Mon, 22 Apr 2013 16:03:35 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
+	Mon, 22 Apr 2013 17:24:36 +0200
+Received: by mail-la0-f54.google.com with SMTP id es20so1711017lab.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Apr 2013 08:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=+dDFjl1fE8UiICbHDptO/ho0a1+4LnL6CXP1TwIY6uU=;
+	b=R7u0tlKM7sdCoVI63G7vuwq71uLmzkHIk/CTqV+eGxlTIUYQmVSAha5/oYzi4E+2Qx
+	WISkP9MCKoO1MR/uX6ZY9+s+Q/GDDOZvChSHW3ziF8s80KZ5ey+8b48AN59CvfiCPLyw
+	4Ni5pK18+44X/Z7o3h5Bf1tmYo3B6YRT9hhKr5qEeWdqOddhLYF5BgZ+ulGTvowYtWSt
+	TntglZneSJfL7SnloLI5VrUEUOn6uxm2S1CwkDVW7LZ6Oje88x0huUtTCpU7IiN3AePp
+	Qx1BtMr9Rxs36J/v6cwtYB8Wj+Dhmk49863AU9/NkzJMESFi7Jxm1TDEO+umeeORP3YW
+	DX0g==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <51754581.3090005@communistcode.co.uk>
-	<CAJTo0LYMc0F=OG-xUQztpveQdYAPKnj0W_8Vb-wRZRL7F5+bSQ@mail.gmail.com>
-	<51754CC4.9010604@communistcode.co.uk>
-	<CAJTo0LYRzgyvKMVpqY_AzgRe1h3UUcvaJm8g7Y0SPqZnq=9zSA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYRzgyvKMVpqY_AzgRe1h3UUcvaJm8g7Y0SPqZnq=9zSA@mail.gmail.com>
+X-Received: by 10.112.128.231 with SMTP id nr7mr13341780lbb.26.1366643214766; 
+	Mon, 22 Apr 2013 08:06:54 -0700 (PDT)
+Received: by 10.112.75.161 with HTTP; Mon, 22 Apr 2013 08:06:54 -0700 (PDT)
+In-Reply-To: <CADV-EXFMz=FZq5Y25gf-eKi8JZTwXk78LNhZP+DHVFAeQN5y5Q@mail.gmail.com>
+References: <CADV-EXGNZgnsD6wXM2AFLANZ43G4hpP2BL0=Kys5JnbAh88Gzg@mail.gmail.com>
+	<CADkTA4PVBZEMERZaxqzPyb3WAS-XKxLE6_PCZZSto07-LO4R-g@mail.gmail.com>
+	<CADV-EXFMz=FZq5Y25gf-eKi8JZTwXk78LNhZP+DHVFAeQN5y5Q@mail.gmail.com>
+Date: Mon, 22 Apr 2013 11:06:54 -0400
+Message-ID: <CADkTA4ORJX1i2jsnULdTp3ju_j56hYZ+AVtQXh6=pZLwUJbi4w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Yevhen Kyriukha <kirgene@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: systemd post-install failure
+Subject: Re: Embed initramfs into kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -31,41 +43,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 15:21:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Apr 2013 15:24:43 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-On 22/04/13 15:56, Burton, Ross wrote:
-> On 22 April 2013 15:44, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> Ah, ok then, I don't have a /system-update. So square one, any ideas why
->> this would have suddenly flagged up? I was building and booting fine on
->> Wed/Thurs. That was the only useful bit of the debug log I could
->> determine...
-> That log isn't massively useful, can you explain exactly what isn't working?
+On Mon, Apr 22, 2013 at 10:11 AM, Yevhen Kyriukha <kirgene@gmail.com> wrote=
+:
+> Thanks!
 >
-> Ross
+> I was trying to build the kernel and I got the following error:
+> Aborted dependency loops search after 10 matches.
+>
+> I copied core-image-minimal-initramfs and changed IMAGE_INSTALL:
+> IMAGE_INSTALL =3D "initramfs-live-boot busybox udev base-passwd".
+> Also I added
+> INITRAMFS_IMAGE =3D "custom-initramfs"
+> to my kernel recipe.
+>
+> As far as I understand initramfs image depends on the kernel that depends=
+ on
+> initramfs image.
 
-Tell me about it, I boot, systemd crashes, I get a capture of the serial 
-log up to where it crashed.
+Correct. That's something that commonly happens in my experience. You can't=
+ have
+anything in your dependency chain that causes that circular depend .. which=
+ is
+what the boot tasks will pull in.
 
-I've managed to get a tiny little bit more output that may shed a little 
-bit more information.
+We are working to enhance / fix this in yocto 1.5, but for now, that
+is the restriction.
 
-_*scrap that*_
+Have you looked at: classes/image-live.bbclass ? Which is a current user of
+core-image-minimal-initramfs and gets around the circular dependency proble=
+m.
 
-My power supply was crapping out on me, so when the going got a bit 
-tough the cpu required some more amps and bam, dead system.
+Cheers,
 
-Sorry for the noise. Should have checked that earlier.
+Bruce
+
+>
+>
+> Best regards,
+> Yevhen
+>
+>
+> 2013/4/22 Bruce Ashfield <bruce.ashfield@gmail.com>
+>>
+>> On Mon, Apr 22, 2013 at 9:14 AM, Yevhen Kyriukha <kirgene@gmail.com>
+>> wrote:
+>> > Hi!
+>> >
+>> > I have a custom kernel recipe and initramfs image recipe.
+>> > How can I embed initramfs into kernel?
+>> > Is there any example available?
+>>
+>> The support is in oe-core, so checking the yocto docs is a good starting
+>> point:
+>>
+>> http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html
+>>
+>> And in particular:
+>>
+>> "core-image-minimal-initramfs: A core-image-minimal image that has the
+>> Minimal RAM-based Initial Root Filesystem (initramfs) as part of the
+>> kernel, which allows the system to find the first =93init=94 program mor=
+e
+>> efficiently."
+>>
+>> There is also meta-initramfs:
+>>
+>> https://github.com/openembedded/meta-oe/tree/master/meta-initramfs
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>> >
+>> > Best regards,
+>> > Yevhen
+>> >
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> >
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>
+>
 
 
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
 
 --
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
