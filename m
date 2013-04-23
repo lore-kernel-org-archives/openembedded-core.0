@@ -1,38 +1,36 @@
-Received: from mail-vc0-f177.google.com ([209.85.220.177])
+Received: from mail-vc0-f172.google.com ([209.85.220.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UUZ6m-0004HN-Uh
+	(envelope-from <paul.betafive@gmail.com>) id 1UUZ9t-0004jN-7q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 11:01:53 +0200
-Received: by mail-vc0-f177.google.com with SMTP id hr11so350200vcb.36
+	Tue, 23 Apr 2013 11:05:06 +0200
+Received: by mail-vc0-f172.google.com with SMTP id hx10so350694vcb.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 01:44:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=85L3HTmqWMvI97yTGeICDgAQhtsA8l81oc7wpWuOPO0=;
-	b=pLj9+XFNkAa2Xzm++nIEZJJQMkdEHttI1WfBjXtjQ9iA5+d9l7faQBtNFQ6ATL1HjV
-	HfrX7tpwgGp+0MVZEZ9sYxXFNKWxT0fqF/t0LBOPvUrHw2AcyTpiX/wwmXbwp4XdX4GH
-	GUjzbJFZYfyHsi/iepMw5av/7KsBRISTYlvB9rOwxNlAqJVFpzAQDFFGMi/FNM2fzJ1L
-	P6BaUjXmwOaAFkntnssKP4HQ0i/Ir6yoodMjojTleSCZ1r+a5Yvh/d5WErC/TXkVx76T
-	uO1lkOaLzAOdb+1Dn7/NQoO0/5zBzltrfmwVWDMkvgqCDHgCm9Ljsct3mHwWUmXJP2hX
-	uk1g==
-X-Received: by 10.52.174.41 with SMTP id bp9mr6100003vdc.4.1366706652329; Tue,
-	23 Apr 2013 01:44:12 -0700 (PDT)
+	Tue, 23 Apr 2013 01:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=alnSuBZ5yVyvrr86DbDf7S32D1rk81V5bAf/ZL3jdHY=;
+	b=GM6CE3CD7hd2ZNPcsQ+SBG1YXdR2OvA+keLNYbdSlFBYa3QGZV2yEoRGa3EVqatu0Q
+	JOwrt3cgtXbqZzSGXGrwmk248UMAy8zJm5JP+LctyGFcFwUEBAHdxGuOSG/aTUBOyK/5
+	rV6LJgRqT3rajKA7qbeavBhym0Kr5CyHI/u9FBDO1kG2ASMKqMo3EdWOJso2KxW30Rbq
+	uJEqXAwq75Orzq/yogjL2TUqc0wUcHhedqT/J8C42QHWSsrupO3ZyZubLl0yYvlcL1Pp
+	6XFu8WGbcBXPqi455YYJkXXqGDOCDJsR1Ut+GeenCy+jj6QFb0QfJU1OvQGwbKT0Tpqc
+	VZJw==
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 23 Apr 2013 01:43:52 -0700 (PDT)
-In-Reply-To: <c1ba3096-22f4-40be-8db8-c9ed3694da5b@email.android.com>
-References: <1366665407-32136-1-git-send-email-kirgene@gmail.com>
-	<c1ba3096-22f4-40be-8db8-c9ed3694da5b@email.android.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Apr 2013 09:43:52 +0100
-Message-ID: <CAJTo0LYGVLXDbjMo4vADWcYnfxRf5+zB_nrK+WvHmZvACobpyg@mail.gmail.com>
-To: Anders Darander <anders@chargestorm.se>
-X-Gm-Message-State: ALoCoQkym9EMw27IpOfzc/tTKud3D3Y8+19lUm1WQQXWkq+Oe65p+UoQ/ZsWQJ2n6UWYED4dpJjY
-Cc: Yevhen Kyriukha <kirgene@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] systemd: added python-systemd package generation.
+X-Received: by 10.220.245.4 with SMTP id ls4mr21497693vcb.17.1366706844756;
+	Tue, 23 Apr 2013 01:47:24 -0700 (PDT)
+Sender: paul.betafive@gmail.com
+Received: by 10.220.224.135 with HTTP; Tue, 23 Apr 2013 01:47:24 -0700 (PDT)
+In-Reply-To: <CAJTo0LYOs1f5oTDQJY23YQmgJ=E5mUAYNquRkOg=+6ehqsaFVg@mail.gmail.com>
+References: <CANyK_8daiW+Mn9LQLh72hgqPjW-HOYMMKR68fB=A2k-gT42gUw@mail.gmail.com>
+	<CAJTo0LYOs1f5oTDQJY23YQmgJ=E5mUAYNquRkOg=+6ehqsaFVg@mail.gmail.com>
+Date: Tue, 23 Apr 2013 09:47:24 +0100
+X-Google-Sender-Auth: BzS9OBGshqcgd4veed-nCV-MCRA
+Message-ID: <CANyK_8eqqb0SF9BkavGXvcMzTuX1WWf+2MzoKN+AL0Whf0R8Xg@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: AGPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 09:01:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Apr 2013 09:05:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 23 April 2013 07:36, Anders Darander <anders@chargestorm.se> wrote:
-> Would out be possible to change this patch to use PACKAGECONFIG instead? Otherwise we're going to always drag in Python, which will increase build times for systems that are not already building / using Python in the image.
+On 23 April 2013 09:38, Burton, Ross <ross.burton@intel.com> wrote:
+> On 23 April 2013 09:28, Paul Barker <paul@paulbarker.me.uk> wrote:
+> Yeah, that's a bug.  Presumably some tool broke when exporting the
+> licenses.  Patches welcome!
 >
-> I think that I've discussed this at some earlier point when a similar changed was proposed, though I don't remember there were some problems with that approach.
 
-The earlier patch did use PACKAGECONFIG, so I agree that this should
-be an PACKAGECONFIG option, defaulting to off.
+I noticed a couple of HTML-isms in OFL-1.1 (when diffing against the
+license of a package to be sure that it was the same license text)
+such as '&amp;' instead of just '&' and '&#8212;' instead of '--'. Do
+these want fixing as well?
 
-Ross
+--
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
