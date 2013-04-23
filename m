@@ -1,27 +1,27 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from mail-vc0-f176.google.com ([209.85.220.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UUXue-0002It-EM
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UUY9f-0004j6-Tg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 09:45:17 +0200
-Received: by mail-vc0-f169.google.com with SMTP id gd11so293740vcb.14
+	Tue, 23 Apr 2013 10:00:50 +0200
+Received: by mail-vc0-f176.google.com with SMTP id hf12so303946vcb.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 00:27:36 -0700 (PDT)
+	Tue, 23 Apr 2013 00:43:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
 	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=I5ohzTkzlNZ0ndGy9TMducL4fg5Inom56tG/4PUhTdc=;
-	b=vWtMqYS+M0t1LzxaO/z5APwcoqDKvpNsM14Eu1L128oF5FuBg+N5t3XY6iI/YNZUrQ
-	mJnm7//uotWZNE7TYOafaeR0WG6OM2IZ2XIwacCVpC/LaSYgzzN6VcLsN2ThdqqbpqsG
-	Bloe3Be413M2Hnj9aoy3Xgahr62xVZ+/xjv4OGwUC2XbYL/8uvNls6VX1y4FB7QccitV
-	x4Fls7yd2MewoZk3CrZ4RGaeim2gAtZ0es861dCOsBrHRHYMgL0V20p+SaW3tviYUfws
-	NAeJmCL6UnDo5nH81e3n9UMgdpgHd8F4vyy+fN9KfAiuuuJnkPvFynsrBE855tQUCS/j
-	+KRg==
+	bh=03BAnrhCuIiBYOWUHXkQbigGjEuVqraI1whumobMiIE=;
+	b=A6IkpKuuFIzvqYKh18mLiwGpY7tO5dy/1t3xOo/h2gtr4gMSr/1YMM7BbcPqIpj2kg
+	5cN232Kn0kYQXTDAjUizgbqsb8m0A7uAbhYOfKQeYuOXOBLD+QnohJ3M7jyI2HhIIjEo
+	U5Uo+qAa3+qp6qUqbTpmOZrTCUHTYKVTTQveS2nJ5OLzgXvTSkZseSpEdt8kuYBaaWNX
+	2yM0C7M33pgWtwZcXHVNfmcj+ZW2T/zpMEN1t4tb9YD+UI4gpdtEANjabIlGckGOFZ5X
+	uXB/Y5vUWz1evrV16tai+axOMFiRzJQsyC5VbACEs6n0TesPwyGOcqSzP7sIqyzmNzZJ
+	FX4A==
 MIME-Version: 1.0
-X-Received: by 10.220.65.1 with SMTP id g1mr21616532vci.63.1366702055960; Tue,
-	23 Apr 2013 00:27:35 -0700 (PDT)
-Received: by 10.52.183.36 with HTTP; Tue, 23 Apr 2013 00:27:35 -0700 (PDT)
-In-Reply-To: <978AB207-819F-4628-BE0E-DBCA8D826DE7@dominion.thruhere.net>
+X-Received: by 10.58.198.79 with SMTP id ja15mr21717242vec.15.1366702986274;
+	Tue, 23 Apr 2013 00:43:06 -0700 (PDT)
+Received: by 10.52.183.36 with HTTP; Tue, 23 Apr 2013 00:43:06 -0700 (PDT)
+In-Reply-To: <CALbNGRSVG+PJTNbtLg5waTK0J4LQncksT5bkK5L+DRSg3TkgpQ@mail.gmail.com>
 References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
 	<18219582.KT7bte5u1O@helios>
 	<CALbNGRQpB3dqZBzsftXeYz_P7GW8h_Lq6C6SD-Qj79qHzea0tw@mail.gmail.com>
@@ -43,8 +43,9 @@ References: <CALbNGRRDhXutLhQMs+prxLG3wbs3Y4pZbwR-D=VNR4Z=OUycMg@mail.gmail.com>
 	<84E8DA59-4879-4A6C-BB8A-4B1F766F7E76@dominion.thruhere.net>
 	<1366556948.10502.191.camel@ted>
 	<978AB207-819F-4628-BE0E-DBCA8D826DE7@dominion.thruhere.net>
-Date: Tue, 23 Apr 2013 09:27:35 +0200
-Message-ID: <CALbNGRSVG+PJTNbtLg5waTK0J4LQncksT5bkK5L+DRSg3TkgpQ@mail.gmail.com>
+	<CALbNGRSVG+PJTNbtLg5waTK0J4LQncksT5bkK5L+DRSg3TkgpQ@mail.gmail.com>
+Date: Tue, 23 Apr 2013 09:43:06 +0200
+Message-ID: <CALbNGRTSwZM05RArE3=K4QfekU=TWPCyEaoybySdVRzbJsWfdA@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
@@ -62,147 +63,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 07:45:17 -0000
+X-List-Received-Date: Tue, 23 Apr 2013 08:00:56 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 22, 2013 at 10:36 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->
-> Op 21 apr. 2013, om 17:09 heeft Richard Purdie <richard.purdie@linuxfound=
-ation.org> het volgende geschreven:
->
->> On Sun, 2013-04-21 at 08:59 +0200, Koen Kooi wrote:
->>> Op 19 apr. 2013, om 16:00 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
->>>> Op 19 apr. 2013, om 15:37 heeft Koen Kooi <koen@dominion.thruhere.net>=
+On Tue, Apr 23, 2013 at 9:27 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Mon, Apr 22, 2013 at 10:36 AM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>>
+>> Op 21 apr. 2013, om 17:09 heeft Richard Purdie <richard.purdie@linuxfoun=
+dation.org> het volgende geschreven:
+>>
+>>> On Sun, 2013-04-21 at 08:59 +0200, Koen Kooi wrote:
+>>>> Op 19 apr. 2013, om 16:00 heeft Koen Kooi <koen@dominion.thruhere.net>=
  het volgende geschreven:
->>>> And it still doesn't work :(
+>>>>> Op 19 apr. 2013, om 15:37 heeft Koen Kooi <koen@dominion.thruhere.net=
+> het volgende geschreven:
+>>>>> And it still doesn't work :(
+>>>>>
+>>>>> root@beaglebone:~# systemctl status gdm -a
+>>>>> gdm.service - Gnome Display Manager
+>>>>>  Loaded: loaded (/lib/systemd/system/gdm.service; enabled)
+>>>>>  Active: active (running) since Sat 2000-01-01 19:22:11 UTC; 13 years=
+ 3 months ago
+>>>>> Main PID: 147 (gdm-binary)
+>>>>>  CGroup: name=3Dsystemd:/system/gdm.service
+>>>>>          =E2=94=94=E2=94=80147 /usr/sbin/gdm-binary -nodaemon
+>>>>>
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Couldn't l=
+ook up uid
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[337]: WARNING: User gdm d=
+oesn't exist
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
+parse output:
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to =
+parse D-Bus launch output
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[338]: WARNING: User gdm d=
+oesn't exist
+>>>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Could not =
+run helper: Failed to execute child process "/usr/lib/gdm/ck-get-x11-displa=
+y-device" (No such file or directory)
+>>>>> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmDis=
+play: display lasted 1.401004 seconds
+>>>>> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmDisplay: disp=
+lay lasted 1.401004 seconds
+>>>>> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmLocalDisplayF=
+actory: maximum number of X display failures reached: check X server log fo=
+r errors
+>>>>> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmLoc=
+alDisplayFactory: maximum number of X display failures reached: check X ser=
+ver log for errors
+>>>>>
+>>>>> Hmm, let's rerun gdm.postinst:
+>>>>>
+>>>>> root@beaglebone:~# sh /var/lib/opkg/info/gdm.postinst
+>>>>> + '[' x '!=3D' x ']'
+>>>>> + grep '^gdm:' /etc/group
+>>>>> + grep '^gdm:' /etc/passwd
+>>>>> + adduser --disabled-password --system --home /var/lib/gdm gdm --ingr=
+oup gdm -g gdm
+>>>>> adduser: /var/lib/gdm: File exists
+>>>>> + '[' -d /var/lib/gdm ']'
+>>>>> + chown -R gdm:gdm /var/lib/gdm
+>>>>> + chmod 0750 /var/lib/gdm
+>>>>> + mkdir -p /etc/X11/
+>>>>> + echo /usr/bin/gdm
+>>>>> + OPTS=3D
+>>>>> + '[' -n '' ']'
+>>>>> + type systemctl
+>>>>> + systemctl enable gdm.service
+>>>>> + '[' -z '' -a enable =3D enable ']'
+>>>>> + systemctl restart gdm.service
+>>>>> + test x '!=3D' x
+>>>>> + OPT=3D-s
+>>>>> + type update-rc.d
+>>>>> + update-rc.d -s gdm start 99 5 2 . stop 20 0 1 6 .
+>>>>> System startup links for /etc/init.d/gdm already exist.
+>>>>> + '[' x '!=3D' x ']'
+>>>>> + GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
+>>>>> + gdk-pixbuf-query-loaders --update-cache
+>>>>> [  102.324520] tilcdc 4830e000.fb: timeout waiting for framedone
+>>>>> + for icondir in '/usr/share/icons/*'
+>>>>> + '[' -d /usr/share/icons/Crux ']'
+>>>>> + gtk-update-icon-cache -fqt /usr/share/icons/Crux
+>>>>> + for icondir in '/usr/share/icons/*'
+>>>>> + '[' -d /usr/share/icons/HighContrast ']'
+>>>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
+>>>>> + for icondir in '/usr/share/icons/*'
+>>>>> + '[' -d /usr/share/icons/HighContrast-SVG ']'
+>>>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
+>>>>> + for icondir in '/usr/share/icons/*'
+>>>>> + '[' -d /usr/share/icons/HighContrastInverse ']'
+>>>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
+>>>>> + for icondir in '/usr/share/icons/*'
+>>>>> + '[' -d /usr/share/icons/HighContrastLargePrint ']'
+>>>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
+>>>>>
+>>>>> (etc)
+>>>>>
+>>>>> So it looks like the postinsts do run when used inside run-postinst.s=
+ervice, but don't save their output (sucky description, I know).
 >>>>
->>>> root@beaglebone:~# systemctl status gdm -a
->>>> gdm.service - Gnome Display Manager
->>>>  Loaded: loaded (/lib/systemd/system/gdm.service; enabled)
->>>>  Active: active (running) since Sat 2000-01-01 19:22:11 UTC; 13 years =
-3 months ago
->>>> Main PID: 147 (gdm-binary)
->>>>  CGroup: name=3Dsystemd:/system/gdm.service
->>>>          =E2=94=94=E2=94=80147 /usr/sbin/gdm-binary -nodaemon
->>>>
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Couldn't lo=
-ok up uid
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[337]: WARNING: User gdm do=
-esn't exist
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to p=
-arse output:
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Unable to p=
-arse D-Bus launch output
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[338]: WARNING: User gdm do=
-esn't exist
->>>> Apr 19 13:56:22 beaglebone gdm-simple-slave[326]: WARNING: Could not r=
-un helper: Failed to execute child process "/usr/lib/gdm/ck-get-x11-display=
--device" (No such file or directory)
->>>> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmDisp=
-lay: display lasted 1.401004 seconds
->>>> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmDisplay: displ=
-ay lasted 1.401004 seconds
->>>> Apr 19 13:56:22 beaglebone gdm-binary[147]: WARNING: GdmLocalDisplayFa=
-ctory: maximum number of X display failures reached: check X server log for=
- errors
->>>> Apr 19 13:56:22 beaglebone gdm[147]: gdm-binary[147]: WARNING: GdmLoca=
-lDisplayFactory: maximum number of X display failures reached: check X serv=
-er log for errors
->>>>
->>>> Hmm, let's rerun gdm.postinst:
->>>>
->>>> root@beaglebone:~# sh /var/lib/opkg/info/gdm.postinst
->>>> + '[' x '!=3D' x ']'
->>>> + grep '^gdm:' /etc/group
->>>> + grep '^gdm:' /etc/passwd
->>>> + adduser --disabled-password --system --home /var/lib/gdm gdm --ingro=
-up gdm -g gdm
->>>> adduser: /var/lib/gdm: File exists
->>>> + '[' -d /var/lib/gdm ']'
->>>> + chown -R gdm:gdm /var/lib/gdm
->>>> + chmod 0750 /var/lib/gdm
->>>> + mkdir -p /etc/X11/
->>>> + echo /usr/bin/gdm
->>>> + OPTS=3D
->>>> + '[' -n '' ']'
->>>> + type systemctl
->>>> + systemctl enable gdm.service
->>>> + '[' -z '' -a enable =3D enable ']'
->>>> + systemctl restart gdm.service
->>>> + test x '!=3D' x
->>>> + OPT=3D-s
->>>> + type update-rc.d
->>>> + update-rc.d -s gdm start 99 5 2 . stop 20 0 1 6 .
->>>> System startup links for /etc/init.d/gdm already exist.
->>>> + '[' x '!=3D' x ']'
->>>> + GDK_PIXBUF_MODULEDIR=3D/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders
->>>> + gdk-pixbuf-query-loaders --update-cache
->>>> [  102.324520] tilcdc 4830e000.fb: timeout waiting for framedone
->>>> + for icondir in '/usr/share/icons/*'
->>>> + '[' -d /usr/share/icons/Crux ']'
->>>> + gtk-update-icon-cache -fqt /usr/share/icons/Crux
->>>> + for icondir in '/usr/share/icons/*'
->>>> + '[' -d /usr/share/icons/HighContrast ']'
->>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast
->>>> + for icondir in '/usr/share/icons/*'
->>>> + '[' -d /usr/share/icons/HighContrast-SVG ']'
->>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrast-SVG
->>>> + for icondir in '/usr/share/icons/*'
->>>> + '[' -d /usr/share/icons/HighContrastInverse ']'
->>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastInverse
->>>> + for icondir in '/usr/share/icons/*'
->>>> + '[' -d /usr/share/icons/HighContrastLargePrint ']'
->>>> + gtk-update-icon-cache -fqt /usr/share/icons/HighContrastLargePrint
->>>>
->>>> (etc)
->>>>
->>>> So it looks like the postinsts do run when used inside run-postinst.se=
-rvice, but don't save their output (sucky description, I know).
+>>>> Another datapoint, same GNOME image built for x86 finishes run-postins=
+ts as expected, but also doesn't work, gconf stuff has to get run manually =
+again to work.
 >>>
->>> Another datapoint, same GNOME image built for x86 finishes run-postinst=
-s as expected, but also doesn't work, gconf stuff has to get run manually a=
-gain to work.
+>>> FWIW I think there are multiple issues here and they're combining
+>>> together to make a rather weird problem.
+>>>
+>>> One issue we now know about is that the intercept code and the way it
+>>> uses "exit 1" can cause some later parts of some postinst scripts not t=
+o
+>>> get executed. I believe Laurentiu has a fix for this problem and this i=
+s
+>>> the one causing the gdm issue.
+>>>
+>>> I think the hang people are reporting is something else though, perhaps
+>>> related to the hwdb. I'm also aware of matchbox-session-sato conflictin=
+g
+>>> with settings-deamon and some multilib issues such as the wrong
+>>> qemuwrapper being used.
+>>>
+>>> We're going to have to work through each issue in turn and re-evaluate
+>>> after each fix.
+>>>
+>>> I wish we'd come across this earlier as to add fixes to the release at
+>>> this point would mean slipping the release date by a week :(. I'm
+>>> therefore leaning towards testing any fixes and queuing them quickly on
+>>> the branch post-release, following up with a point release relatively
+>>> soon to catch things that people find as the release gets more exposure=
+.
+>>> I know the point releases have happened slowly and I want to change
+>>> that.
 >>
->> FWIW I think there are multiple issues here and they're combining
->> together to make a rather weird problem.
+>> To be honest, I don't are about point releases, I only care about fixes =
+getting into the release branch in a timely fashion. I build from git branc=
+hes, not from tarballs after all.
 >>
->> One issue we now know about is that the intercept code and the way it
->> uses "exit 1" can cause some later parts of some postinst scripts not to
->> get executed. I believe Laurentiu has a fix for this problem and this is
->> the one causing the gdm issue.
+>> regards,
 >>
->> I think the hang people are reporting is something else though, perhaps
->> related to the hwdb. I'm also aware of matchbox-session-sato conflicting
->> with settings-deamon and some multilib issues such as the wrong
->> qemuwrapper being used.
->>
->> We're going to have to work through each issue in turn and re-evaluate
->> after each fix.
->>
->> I wish we'd come across this earlier as to add fixes to the release at
->> this point would mean slipping the release date by a week :(. I'm
->> therefore leaning towards testing any fixes and queuing them quickly on
->> the branch post-release, following up with a point release relatively
->> soon to catch things that people find as the release gets more exposure.
->> I know the point releases have happened slowly and I want to change
->> that.
+>> Koen
+> I think I got at least a hot hint on this: opkg-cl configure seems
+> started twice. I did
 >
-> To be honest, I don't are about point releases, I only care about fixes g=
-etting into the release branch in a timely fashion. I build from git branch=
-es, not from tarballs after all.
+> * create an image
+> * deleted /etc/rcS.d/S98run-postinsts from this image manually
+> * booted fine
 >
-> regards,
->
-> Koen
-I think I got at least a hot hint on this: opkg-cl configure seems
-started twice. I did
-
-* create an image
-* deleted /etc/rcS.d/S98run-postinsts from this image manually
-* booted fine
+> Andreas
+This was another 'get some coffee before writing heureka' - sorry
 
 Andreas
 
