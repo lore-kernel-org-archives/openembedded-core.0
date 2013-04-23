@@ -1,37 +1,38 @@
-Received: from mail-vc0-f176.google.com ([209.85.220.176])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UUZGf-0005dQ-A6
+Received: from 3.mo1.mail-out.ovh.net ([46.105.60.232]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul@paulbarker.me.uk>) id 1UUZIR-0005qV-6i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 11:12:05 +0200
-Received: by mail-vc0-f176.google.com with SMTP id hf12so354915vcb.35
+	Tue, 23 Apr 2013 11:14:00 +0200
+Received: from mail99.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 4632FFF90D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 01:54:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=J7hg1hvubkxWOLbCL1FRhKYiKTWcj2ASzeNfFdOabcc=;
-	b=CiEmvyVQzfbEH3NoDASU22TTTVgseFxUEwW1I3zXS5FH1PemcD3T7pLDieyyutPVh2
-	V0IVIonffmpgQiluHMUxpZsAjDq9iyxis1bKpjQ/72o7BrjcvsBVM5ZRLDlLkB1NItsP
-	RhPk8XRKMC7bUtN75rlpwgLNuYlhBr4stfzO5WShUNshTM15iCF7eSuYNCXoJDWQ3QUy
-	3qkJg8OHJg8CXaXdwnAluWviYVTG0R7U8UynQuJOp2RKbKJzDQ0g90Heg2ScnSZCwQzd
-	lKPT3NwNBSjBf66HUNQcfgf9/4yUk5xngtp57qr5ikDQSohygchpXhG7XFgFdTSKyXPG
-	isFw==
-X-Received: by 10.52.158.163 with SMTP id wv3mr18518309vdb.82.1366707264714;
-	Tue, 23 Apr 2013 01:54:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 23 Apr 2013 01:54:04 -0700 (PDT)
-In-Reply-To: <CANyK_8eqqb0SF9BkavGXvcMzTuX1WWf+2MzoKN+AL0Whf0R8Xg@mail.gmail.com>
-References: <CANyK_8daiW+Mn9LQLh72hgqPjW-HOYMMKR68fB=A2k-gT42gUw@mail.gmail.com>
-	<CAJTo0LYOs1f5oTDQJY23YQmgJ=E5mUAYNquRkOg=+6ehqsaFVg@mail.gmail.com>
-	<CANyK_8eqqb0SF9BkavGXvcMzTuX1WWf+2MzoKN+AL0Whf0R8Xg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Apr 2013 09:54:04 +0100
-Message-ID: <CAJTo0La_SRP0t23GzQKK6zmFauwOreWHKO4k+Q4KNG6eUr_PrA@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-X-Gm-Message-State: ALoCoQlHx7eV2BUv8fpAVuyLAK5PdWtg2Fk2S5mcBr0exu3FJji5addjGKOt0P+O3E8mytKPwGm0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: AGPL-3.0
+	Tue, 23 Apr 2013 10:56:16 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 23 Apr 2013 10:56:16 +0200
+Received: from 94-192-12-83.zone6.bethere.co.uk (HELO
+	b5-server.betafive.co.uk) (paul@betafive.co.uk@94.192.12.83)
+	by ns0.ovh.net with SMTP; 23 Apr 2013 10:56:14 +0200
+Received: from b5-vm-mint0.betafive.co.uk (b5-vm-mint0.betafive.co.uk
+	[192.168.0.100])
+	by b5-server.betafive.co.uk (Postfix) with ESMTP id 3DA1A16009F;
+	Tue, 23 Apr 2013 09:56:09 +0100 (BST)
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Date: Tue, 23 Apr 2013 09:56:07 +0100
+Message-Id: <1366707367-53247-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.7.10.4
+X-Ovh-Tracer-Id: 5525353793966672322
+X-Ovh-Remote: 94.192.12.83 (94-192-12-83.zone6.bethere.co.uk)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeifedrfeeiucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeifedrfeeiucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+Subject: [PATCH] common-licenses: remove HTMLisms from OFL-1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,17 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 09:12:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Apr 2013 09:14:06 -0000
 
-On 23 April 2013 09:47, Paul Barker <paul@paulbarker.me.uk> wrote:
-> I noticed a couple of HTML-isms in OFL-1.1 (when diffing against the
-> license of a package to be sure that it was the same license text)
-> such as '&amp;' instead of just '&' and '&#8212;' instead of '--'. Do
-> these want fixing as well?
+License text is clearer without HTML entities such as '&amp;' and '&#8212;'.
 
-Sounds reasonable to me.
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ meta/files/common-licenses/OFL-1.1 |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/files/common-licenses/OFL-1.1 b/meta/files/common-licenses/OFL-1.1
+index 34f0659..e644bce 100644
+--- a/meta/files/common-licenses/OFL-1.1
++++ b/meta/files/common-licenses/OFL-1.1
+@@ -31,14 +31,14 @@ copyright statement(s).
+ distributed by the Copyright Holder(s).
+ 
+ "Modified Version" refers to any derivative made by adding to, deleting,
+-or substituting &#8212; in part or in whole &#8212; any of the components of the
++or substituting -- in part or in whole -- any of the components of the
+ Original Version, by changing formats or by porting the Font Software to a
+ new environment.
+ 
+ "Author" refers to any designer, engineer, programmer, technical
+ writer or other person who contributed to the Font Software.
+ 
+-PERMISSION &amp; CONDITIONS
++PERMISSION & CONDITIONS
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of the Font Software, to use, study, copy, merge, embed, modify,
+ redistribute, and sell modified and unmodified copies of the Font
+-- 
+1.7.10.4
+
 
 
