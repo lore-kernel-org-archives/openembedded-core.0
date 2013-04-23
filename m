@@ -1,22 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UUQO0-00070C-PA
+	(envelope-from <Qi.Chen@windriver.com>) id 1UUVAN-0008D5-Ln
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 01:43:08 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2013 16:23:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,529,1363158000"; d="scan'208";a="299349133"
-Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
-	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2013 16:25:16 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2013 16:27:38 -0700
-Message-Id: <509f81736f95919be413293c2286c739da1de06f.1366673258.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] linux-firmware: Look for RTL license in the right directory
+	Tue, 23 Apr 2013 06:49:24 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3N4VbhE001491
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Apr 2013 21:31:37 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 22 Apr 2013 21:31:37 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Apr 2013 12:31:40 +0800
+Message-ID: <454e42299f8d61a1c681a48e27e828c2a8572aa1.1366687285.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1366687285.git.Qi.Chen@windriver.com>
+References: <cover.1366687285.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH 1/1] udev: create /var/volatile/tmp to avoid dead link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,43 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2013 23:43:18 -0000
+X-List-Received-Date: Tue, 23 Apr 2013 04:49:30 -0000
+Content-Type: text/plain
 
-The rtl-license package FILES was pointing to the wrong directory as it
-was removed from there in commit:
+From: Chen Qi <Qi.Chen@windriver.com>
 
-acd3735 linux-firmware: Remove duplicaed license from rtlwifi subdir
+If it's not first boot, /tmp has already been symlinked to /var/volatile/tmp.
+But the udev service starts before populate-volatile.sh starts. This leads to
+a dead link at /tmp. As a result, trying to create any file under /tmp will
+fail.
 
-This resulted in a do_rootfs failure for core-image-sato-sdk for fri2
-with ipk when the linux-firmware-dev package tried to install
-linux-firmware-rtl-license which wasn't created as it was empty.
+If a USB is plugged in before the populate-volatile.sh script starts, the
+/tmp/.automount-$name file will not be created correctly. As a result, when
+the USB is unplugged, the /media/$name directory is not removed.
 
-Tested on core-image-sato-sdk build for fri2 on dylan commit:
-789b2b7e0cca404ff8ba8ed5ba823d215e6ba5b4
+So we create /var/volatile/tmp directory in the udev script to avoid this dead
+link problem.
 
-Cc: Saul Wold <sgw@linux.intel.com>
-Cc: Beth Flanagan <elizabeth.flanagan@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+[YOCTO #3404]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../linux-firmware/linux-firmware_git.bb           |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/udev/udev/init |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index ef036cf..414f47a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -94,7 +94,7 @@ FILES_${PN}-sd8686 = " \
- "
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 1f871da..cd87f50 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -51,6 +51,7 @@ case "$1" in
+     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
+     mount -a -t tmpfs 2>/dev/null
+     mkdir -p /var/volatile/run
++    mkdir -p /var/volatile/tmp
  
- FILES_${PN}-rtl-license = " \
--  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
-+  /lib/firmware/LICENCE.rtlwifi_firmware.txt \
- "
- 
- LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi"
+     # cache handling
+     if [ "$DEVCACHE" != "" ]; then
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
