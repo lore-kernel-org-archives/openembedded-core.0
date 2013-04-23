@@ -1,34 +1,31 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UUdkl-0000YJ-8J
-	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 15:59:43 +0200
-Received: by mail-vc0-f169.google.com with SMTP id gd11so606127vcb.14
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 06:41:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=ttnKAebSF6pBX7ivZNzNWilzZAATrvc2xFyCN4jtqW8=;
-	b=JjeiHlpHod2xcjX3pyzEeNtYVo2bcP256YHYIOgsWZCS4u9pMolZPlQzCGJx+vzrUW
-	A4ptDjcED0kXx+V0K+nnBoGA2chWGAtyYmE3dyjsTh97+ZGZql4l0YVUXT+0hA0qLrl9
-	mUVU7mkHixpJQD2qA4ozX63cCGlicknxCOUaf88H1wuPpEqQ+aEa1bEoiTXonJNy1CaZ
-	XUhoZOikFLpqfWYDtWv99eoNBtskZ2kdCZl7Yc3A1ppjiv0CGoRC6AvZLOe5mliM/EOF
-	CgCFwskCfO7jUzIjBcPoXw8UKk0OC8EzAoS2vyNFPP8HUWrIxQdoUjjLZDL+XZIZvnoJ
-	tqlw==
-X-Received: by 10.58.90.66 with SMTP id bu2mr22412690veb.29.1366724496723;
-	Tue, 23 Apr 2013 06:41:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Tue, 23 Apr 2013 06:41:16 -0700 (PDT)
-In-Reply-To: <1366708403-45429-1-git-send-email-kirgene@gmail.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UUdvm-0001tD-G8 for openembedded-core@lists.openembedded.org;
+	Tue, 23 Apr 2013 16:10:53 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3NDs06Y010258; Tue, 23 Apr 2013 14:54:00 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SynKGkSNLJyO; Tue, 23 Apr 2013 14:54:00 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3NDrr3A010249
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 23 Apr 2013 14:53:54 +0100
+Message-ID: <1366725166.23738.63.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Apr 2013 14:52:46 +0100
+In-Reply-To: <CAJTo0LZsrvMLioXtKtZHmnRExnLVOqy9QmHOXUKJLEKNP4fXzw@mail.gmail.com>
 References: <1366708403-45429-1-git-send-email-kirgene@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Apr 2013 14:41:16 +0100
-Message-ID: <CAJTo0LZsrvMLioXtKtZHmnRExnLVOqy9QmHOXUKJLEKNP4fXzw@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-X-Gm-Message-State: ALoCoQnSe+Zpm1+I5bD009ZshdRzvuAl1tVxB7DwxLwcbYna8rHx+tesNnbDo5WaTpzQnRqroDSs
-Cc: openembedded-core@lists.openembedded.org
+	<CAJTo0LZsrvMLioXtKtZHmnRExnLVOqy9QmHOXUKJLEKNP4fXzw@mail.gmail.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: Yevhen Kyriukha <kirgene@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v4] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,15 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 13:59:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Apr 2013 14:10:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 23 April 2013 10:13, Yevhen Kyriukha <kirgene@gmail.com> wrote:
-> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives pythonnative python-dir
+On Tue, 2013-04-23 at 14:41 +0100, Burton, Ross wrote:
+> On 23 April 2013 10:13, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+> > +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives pythonnative python-dir
+> 
+> Does this really need pythonnative?  That's adding a python-native
+> dependency to build systemd.
 
-Does this really need pythonnative?  That's adding a python-native
-dependency to build systemd.
+To handle python modules correctly, I suspect the answer is yes. It
+would be better if we could make this inherit conditional somehow. I'm
+also sceptical about the separate -dev/=dbg packages for the python
+pieces, this isn't the standard practise.
 
-Ross
+Cheers,
+
+Richard
+
 
 
