@@ -1,42 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-vc0-f176.google.com ([209.85.220.176])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UUZEK-0005Is-PD
+	(envelope-from <ross.burton@intel.com>) id 1UUZGf-0005dQ-A6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 11:09:44 +0200
-Received: by mail-ee0-f47.google.com with SMTP id b57so133595eek.20
+	Tue, 23 Apr 2013 11:12:05 +0200
+Received: by mail-vc0-f176.google.com with SMTP id hf12so354915vcb.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 01:52:00 -0700 (PDT)
+	Tue, 23 Apr 2013 01:54:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=Yn7azlIqG1CmjO0U/6ZcFFiwLeGvJHOLOUqhavYK2MA=;
-	b=d5X2UzYDFmg3VtLm1sMGJVh1xEXp7dNgbFOkacrIVmU0ukpnK51gdmnwUotsrGpzk0
-	8oZOMgCXKiOTh4ibUnVzWwds6rnW8T+T6+dfK268fCJr9N9wCCniXWo+6wTBsD7clyI4
-	WZ0XtUWDbiCWfyVQ/uBF4n8u3vpgWZW60ptRwyzFyUwPP6XJkBg6IWyeIAF/vhiSvotn
-	VdqJa6CzZ3CAnApbhKT1XCklAS+q/CG12lJw4/HN4q+ibUZZnZ2SazDTVl+y4Jr9nwCa
-	GwTlspF9MMzFlx+AN2P2K/QWvaHOS//drLROrTqJDienSaGszQWZz0pwYMQ9cJBjaWGK
-	7MRg==
-X-Received: by 10.15.26.6 with SMTP id m6mr14720471eeu.4.1366707120634;
-	Tue, 23 Apr 2013 01:52:00 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id d47sm45430204eem.9.2013.04.23.01.51.59
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 23 Apr 2013 01:51:59 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0La66tzUs7kqPwN7S1RSaUktUYNWzZqQ+jV+yGp1eoz1rw@mail.gmail.com>
-Date: Tue, 23 Apr 2013 10:52:00 +0200
-Message-Id: <ABB99DAF-4779-4E33-8DFB-C62584592D24@dominion.thruhere.net>
-References: <DCC98A73-D384-41BC-BF41-E19F9763ABD3@dominion.thruhere.net>
-	<CAJTo0La66tzUs7kqPwN7S1RSaUktUYNWzZqQ+jV+yGp1eoz1rw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQl7FWVAcV2ynW5HcnLq3DlrEd01823xkQulmbWrmB47aqC2bQiDGeHzlPlYpQDjj8MYwVnT
-Cc: "openembedded-core@lists.openembedded.org layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] disable SysV compat in systemd when there's no 'sysvinit' in DISTRO_FEATURES
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=J7hg1hvubkxWOLbCL1FRhKYiKTWcj2ASzeNfFdOabcc=;
+	b=CiEmvyVQzfbEH3NoDASU22TTTVgseFxUEwW1I3zXS5FH1PemcD3T7pLDieyyutPVh2
+	V0IVIonffmpgQiluHMUxpZsAjDq9iyxis1bKpjQ/72o7BrjcvsBVM5ZRLDlLkB1NItsP
+	RhPk8XRKMC7bUtN75rlpwgLNuYlhBr4stfzO5WShUNshTM15iCF7eSuYNCXoJDWQ3QUy
+	3qkJg8OHJg8CXaXdwnAluWviYVTG0R7U8UynQuJOp2RKbKJzDQ0g90Heg2ScnSZCwQzd
+	lKPT3NwNBSjBf66HUNQcfgf9/4yUk5xngtp57qr5ikDQSohygchpXhG7XFgFdTSKyXPG
+	isFw==
+X-Received: by 10.52.158.163 with SMTP id wv3mr18518309vdb.82.1366707264714;
+	Tue, 23 Apr 2013 01:54:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.100.68 with HTTP; Tue, 23 Apr 2013 01:54:04 -0700 (PDT)
+In-Reply-To: <CANyK_8eqqb0SF9BkavGXvcMzTuX1WWf+2MzoKN+AL0Whf0R8Xg@mail.gmail.com>
+References: <CANyK_8daiW+Mn9LQLh72hgqPjW-HOYMMKR68fB=A2k-gT42gUw@mail.gmail.com>
+	<CAJTo0LYOs1f5oTDQJY23YQmgJ=E5mUAYNquRkOg=+6ehqsaFVg@mail.gmail.com>
+	<CANyK_8eqqb0SF9BkavGXvcMzTuX1WWf+2MzoKN+AL0Whf0R8Xg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Apr 2013 09:54:04 +0100
+Message-ID: <CAJTo0La_SRP0t23GzQKK6zmFauwOreWHKO4k+Q4KNG6eUr_PrA@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+X-Gm-Message-State: ALoCoQlHx7eV2BUv8fpAVuyLAK5PdWtg2Fk2S5mcBr0exu3FJji5addjGKOt0P+O3E8mytKPwGm0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: AGPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,40 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 09:09:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Apr 2013 09:12:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 23 April 2013 09:47, Paul Barker <paul@paulbarker.me.uk> wrote:
+> I noticed a couple of HTML-isms in OFL-1.1 (when diffing against the
+> license of a package to be sure that it was the same license text)
+> such as '&amp;' instead of just '&' and '&#8212;' instead of '--'. Do
+> these want fixing as well?
 
-Op 23 apr. 2013, om 10:41 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+Sounds reasonable to me.
 
-> Hi Koen,
->=20
-> On 23 April 2013 09:18, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> A real patch will follow later after I test this (full rebuild going =
-on due to the BACKFILL snafu mentioned earlier), but it boils down to:
->>=20
->> [koen@rrMBP systemd]$ diff -Nurd systemd_199.bb systemd_202.bb
->> --- systemd_199.bb      2013-04-22 16:53:18.450910639 +0200
->> +++ systemd_202.bb      2013-04-23 09:48:06.803283711 +0200
->> -                 --with-sysvrcnd-path=3D${sysconfdir} \
->> +                 ${@base_contains('DISTRO_FEATURES', 'sysvinit', =
-'--with-sysvrcnd-path=3D${sysconfdir}', '--with-sysvrcnd-path=3D', d)} \
->>=20
->> Is anyone fundamentally opposed to this going in early in the 1.5 =
-cycle provided my tests work out?
->=20
-> I have no problem with making this a PACKAGECONFIG straight away, but
-> total disabling of sysvinit compact code would mean mass breakage as
-> we've not yet managed 100% systemd coverage of the init scripts in
-> oe-core. =20
-
-This way of forcing change seems to be the preferred method in OE-core =
-based on previous experiences hence the suggestion of doing this early =
-in 1.5.
-
-But yeah, a PACKAGECONFIG option would work for me as well. I'll wait =
-for 203 to get released and post a recipe with that.=
+Ross
 
 
