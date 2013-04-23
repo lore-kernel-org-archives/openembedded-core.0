@@ -1,19 +1,30 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UUkrn-0002jf-NH
-	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 23:35:13 +0200
-Received: from localhost.localdomain (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 865BFA620D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 23:17:29 +0200 (CEST)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2013 23:17:27 +0200
-Message-Id: <1366751847-24222-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.11.7
-MIME-Version: 1.0
-Subject: [PATCH v2] subversion: upgrade to 1.7.9
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UUlIi-0005Ad-4Q for openembedded-core@lists.openembedded.org;
+	Wed, 24 Apr 2013 00:03:02 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3NLkJdt031104; Tue, 23 Apr 2013 22:46:19 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KtH5LyDRth32; Tue, 23 Apr 2013 22:46:19 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3NLkBkT031087
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 23 Apr 2013 22:46:13 +0100
+Message-ID: <1366753502.23738.69.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <pb@pbcl.net>
+Date: Tue, 23 Apr 2013 22:45:02 +0100
+In-Reply-To: <1366735483.5732.18.camel@phil-desktop.brightsign>
+References: <1366735483.5732.18.camel@phil-desktop.brightsign>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] eglibc: Add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,68 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 21:35:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Apr 2013 22:03:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
----
-v2 : use -M ...
+On Tue, 2013-04-23 at 17:44 +0100, Phil Blundell wrote:
+> Otherwise you get:
+> 
+> | msgfmt -o be.mo be.po
+> | msgfmt -o bg.mo bg.po
+> | msgfmt -o ca.mo ca.po
+> | /bin/bash: msgfmt: command not found
+> | make[2]: *** [be.mo] Error 127
+> | make[2]: *** Waiting for unfinished jobs....
+> | /bin/bash: msgfmt: command not found
+> | make[2]: *** [ca.mo] Error 127
+> | /bin/bash: msgfmt: command not found
+> | make[2]: *** [bg.mo] Error 127
+> 
+> if msgfmt isn't available in the host environment.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-core/eglibc/eglibc.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+> index 1e04197..38d8c44 100644
+> --- a/meta/recipes-core/eglibc/eglibc.inc
+> +++ b/meta/recipes-core/eglibc/eglibc.inc
+> @@ -33,7 +33,7 @@ siteconfig_do_siteconfig_gencache_prepend = " \
+>  "
+>  
+>  # nptl needs unwind support in gcc, which can't be built without glibc.
+> -DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
+> +DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial gettext-native"
+>  # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+>  #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+>  PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
 
- .../{subversion-1.7.8 =3D> subversion-1.7.9}/fix-install-depends.patch  =
-| 0
- .../subversion/{subversion-1.7.8 =3D> subversion-1.7.9}/libtool2.patch  =
-| 0
- .../subversion/{subversion_1.7.8.bb =3D> subversion_1.7.9.bb}           =
-| 4 ++--
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/subversion/{subversion-1.7.8 =3D> subversio=
-n-1.7.9}/fix-install-depends.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.7.8 =3D> subversio=
-n-1.7.9}/libtool2.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion_1.7.8.bb =3D> subver=
-sion_1.7.9.bb} (88%)
+This will have a significant adverse affect on build speed due to build
+dependency bottlenecks :(
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.8/fix-instal=
-l-depends.patch b/meta/recipes-devtools/subversion/subversion-1.7.9/fix-i=
-nstall-depends.patch
-similarity index 100%
-rename from meta/recipes-devtools/subversion/subversion-1.7.8/fix-install=
--depends.patch
-rename to meta/recipes-devtools/subversion/subversion-1.7.9/fix-install-d=
-epends.patch
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.8/libtool2.p=
-atch b/meta/recipes-devtools/subversion/subversion-1.7.9/libtool2.patch
-similarity index 100%
-rename from meta/recipes-devtools/subversion/subversion-1.7.8/libtool2.pa=
-tch
-rename to meta/recipes-devtools/subversion/subversion-1.7.9/libtool2.patc=
-h
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.8.bb b/meta/=
-recipes-devtools/subversion/subversion_1.7.9.bb
-similarity index 88%
-rename from meta/recipes-devtools/subversion/subversion_1.7.8.bb
-rename to meta/recipes-devtools/subversion/subversion_1.7.9.bb
-index 1b1ca93..641655e 100644
---- a/meta/recipes-devtools/subversion/subversion_1.7.8.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.9.bb
-@@ -13,8 +13,8 @@ SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.b=
-z2 \
-            file://libtool2.patch \
-            file://fix-install-depends.patch \
- "
--SRC_URI[md5sum] =3D "454b9f398415c3504435bf8c3f6ed127"
--SRC_URI[sha256sum] =3D "fc83d4d98ccea8b7bfa8f5c20fff545c8baa7d035db93097=
-7550c51c6ca23686"
-+SRC_URI[md5sum] =3D "8d532025771a67c06c23f299699f056f"
-+SRC_URI[sha256sum] =3D "f8454c585f99afed764232a5048d9b8bfd0a25a9ab8e339e=
-a69fe1204c453ef4"
-=20
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4a14fd2da3134e40a087eb4326a4e=
-cd4"
-=20
---=20
-1.7.11.7
+Are there any good options for avoiding this?
+
+Cheers,
+
+Richard
+
+
 
 
 
