@@ -1,27 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UUVAN-0008D5-Ln
+	(envelope-from <Qi.Chen@windriver.com>) id 1UUVAN-0008Cz-NT
 	for openembedded-core@lists.openembedded.org;
 	Tue, 23 Apr 2013 06:49:24 +0200
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3N4VbhE001491
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3N4Van7025351
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2013 21:31:37 -0700 (PDT)
+	Mon, 22 Apr 2013 21:31:36 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 22 Apr 2013 21:31:37 -0700
+	14.2.342.3; Mon, 22 Apr 2013 21:31:35 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Apr 2013 12:31:40 +0800
-Message-ID: <454e42299f8d61a1c681a48e27e828c2a8572aa1.1366687285.git.Qi.Chen@windriver.com>
+Date: Tue, 23 Apr 2013 12:31:39 +0800
+Message-ID: <cover.1366687285.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1366687285.git.Qi.Chen@windriver.com>
-References: <cover.1366687285.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] udev: create /var/volatile/tmp to avoid dead link
+Subject: [PATCH 0/1] udev: create /var/volatile/tmp to avoid dead link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +37,21 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-If it's not first boot, /tmp has already been symlinked to /var/volatile/tmp.
-But the udev service starts before populate-volatile.sh starts. This leads to
-a dead link at /tmp. As a result, trying to create any file under /tmp will
-fail.
+The following changes since commit 361d686408b9a0b2ab2f1caf2b74adfe1ad1020c:
 
-If a USB is plugged in before the populate-volatile.sh script starts, the
-/tmp/.automount-$name file will not be created correctly. As a result, when
-the USB is unplugged, the /media/$name directory is not removed.
+  elfutils: split libraries into separate packages (2013-04-22 14:45:04 +0100)
 
-So we create /var/volatile/tmp directory in the udev script to avoid this dead
-link problem.
+are available in the git repository at:
 
-[YOCTO #3404]
+  git://git.pokylinux.org/poky-contrib ChenQi/udev-early-mount
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/udev-early-mount
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+Chen Qi (1):
+  udev: create /var/volatile/tmp to avoid dead link
+
  meta/recipes-core/udev/udev/init |    1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index 1f871da..cd87f50 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -51,6 +51,7 @@ case "$1" in
-     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
-     mount -a -t tmpfs 2>/dev/null
-     mkdir -p /var/volatile/run
-+    mkdir -p /var/volatile/tmp
- 
-     # cache handling
-     if [ "$DEVCACHE" != "" ]; then
 -- 
 1.7.9.5
 
