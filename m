@@ -1,29 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1UUhGm-0000HU-5p
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 19:45:08 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3NHR0x7024911
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Apr 2013 10:27:00 -0700 (PDT)
-Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 23 Apr 2013 10:26:59 -0700
-Message-ID: <5176C461.1000307@windriver.com>
-Date: Tue, 23 Apr 2013 12:26:57 -0500
-From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UUhJi-0000dV-0B
+	for openembedded-core@lists.openembedded.org;
+	Tue, 23 Apr 2013 19:47:48 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Apr 2013 10:28:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,536,1363158000"; d="scan'208";a="299832372"
+Received: from unknown (HELO helios.localnet) ([10.255.14.13])
+	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2013 10:30:03 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 23 Apr 2013 18:30:02 +0100
+Message-ID: <14093735.aCcmgz3EQM@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <FE75BA17-4A83-48A8-A237-54422228FCD7@dominion.thruhere.net>
+References: <FE75BA17-4A83-48A8-A237-54422228FCD7@dominion.thruhere.net>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1366733299-14804-1-git-send-email-jason.wessel@windriver.com>
-	<1366736437.23738.66.camel@ted>
-In-Reply-To: <1366736437.23738.66.camel@ted>
-X-Enigmail-Version: 1.5.1
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpcre, ncurses: Fix problems expanding the IMAGE_INSTALL package groups
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: DISTRO_FEATURES_BACKFILL_CONSIDERED_append usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,62 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 17:45:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Apr 2013 17:47:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 04/23/2013 12:00 PM, Richard Purdie wrote:
-> On Tue, 2013-04-23 at 11:08 -0500, Jason Wessel wrote:
->> The ncurses and libpcre packages were generating the following errors
->> as a result of not specifing the PACKAGES_DYNAMIC correctly.  These
->> errors only appear when using the IMAGE_INSTALL list that has been
->> expanded by the hob or from the pkgdata.
->>
->> ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
->> ERROR: Nothing RPROVIDES 'libpcreposix'
->>
->> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>  meta/recipes-core/ncurses/ncurses.inc        |    2 ++
->>  meta/recipes-support/libpcre/libpcre_8.32.bb |    2 ++
->>  2 files changed, 4 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
->> index bcb9c94..78ff153 100644
->> --- a/meta/recipes-core/ncurses/ncurses.inc
->> +++ b/meta/recipes-core/ncurses/ncurses.inc
->> @@ -42,6 +42,8 @@ EXCONFIG_ARGS_virtclass-nativesdk = " \
->>  		--with-chtype='long' \
->>  		--with-mmask-t='long'"
->>  
->> +PACKAGES_DYNAMIC = "^${PN}-.*"
->> +
->>  # Fall back to the host termcap / terminfo for -nativesdk and -native
->>  # The reality is a work around for strange problems with things like
->>  # "bitbake -c menuconfig busybox" where it cannot find the terminfo
-> This makes sense since its doing dynamic package splitting.
->
->> diff --git a/meta/recipes-support/libpcre/libpcre_8.32.bb b/meta/recipes-support/libpcre/libpcre_8.32.bb
->> index 4d17741..71cc119 100644
->> --- a/meta/recipes-support/libpcre/libpcre_8.32.bb
->> +++ b/meta/recipes-support/libpcre/libpcre_8.32.bb
->> @@ -26,6 +26,8 @@ inherit autotools binconfig
->>  
->>  PARALLEL_MAKE = ""
->>  
->> +PACKAGES_DYNAMIC = "^${PN}.*"
->> +
->>  EXTRA_OECONF = "\
->>      --enable-newline-is-lf \
->>      --enable-rebuild-chartables \
-> However this does not. libpcreposix is clearly listed in PACKAGES. Was
-> this based on an older recipe and can someone check this is needed on
-> master?
+On Tuesday 23 April 2013 10:07:35 Koen Kooi wrote:
+> I've had the following in my DISTRO.conf for a while now:
+> 
+> 	DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " sysvinit"
+> 
+> And that seems to do the right thing:
+> 
+> 	[koen@rrMBP v2013.06]$ MACHINE=minnow bitbake systemd -e | grep
+> DISTRO_FEATURES | grep BACK # $DISTRO_FEATURES_BACKFILL
+> 	DISTRO_FEATURES_BACKFILL="pulseaudio sysvinit"
+> 	# $DISTRO_FEATURES_BACKFILL_CONSIDERED [2 operations]
+> 	DISTRO_FEATURES_BACKFILL_CONSIDERED="sysvinit"
+> 
+> Except that it doesn't:
+> 
+> [koen@rrMBP v2013.06]$ MACHINE=minnow bitbake systemd -e | grep
+> DISTRO_FEATURES | grep sysvinit #   "alsa argp bluetooth ext2 ipv4 ipv6
+> irda largefile nfs pam pci pcmcia ppp smbfs systemd usbgadget usbhost vfat
+> wifi xattr zeroconf tk x11 wayland 3g 	pulseaudio ${DISTRO_GLFEATURES}
+> ${DISTRO_FEATURES_LIBC} ${LDISGOLD} sysvinit" DISTRO_FEATURES="alsa argp
+> bluetooth ext2 ipv4 ipv6 irda largefile nfs pam pci pcmcia ppp smbfs
+> systemd usbgadget usbhost vfat wifi xattr zeroconf tk x11 wayland 3g
+> pulseaudio opengl ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd
+> libc-cxx-tests libc-catgets libc-charsets libc-crypt                       
+>                  libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt
+> libc-fmtmsg libc-fstab libc-ftraverse                                      
+>  libc-getlogin libc-idn libc-inet-anl libc-libm libc-libm-big libc-locales
+> libc-locale-code                                    libc-memusage libc-nis
+> libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams libc-sunrpc
+>                                   libc-utmp libc-utmpx libc-wordexp
+> libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc           
+>                            libc-posix-wchar-io  sysvinit"
+> 
+> Remembering the IMAGE_FSTYPES_append vs. += discussion, I tried:
+> 
+> 	DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+> 
+> The result:
+> 
+> 	[koen@rrMBP v2013.06]$ MACHINE=minnow bitbake systemd -e | grep
+> DISTRO_FEATURES | grep sysvinit ERROR: Please ensure that your setting of
+> VIRTUAL-RUNTIME_init_manager (sysvinit) matches the entries enabled in
+> DISTRO_FEATURES
+> 
+> Hmmm, let's set VIRTUAL-RUNTIME_init_manager and retry:
+> 
+> 	[koen@rrMBP v2013.06]$ MACHINE=minnow bitbake systemd -e | grep
+> DISTRO_FEATURES | grep sysvinit DISTRO_FEATURES_BACKFILL="pulseaudio
+> sysvinit"
+> 	DISTRO_FEATURES_BACKFILL_CONSIDERED="sysvinit"
+> 
+> \o/
+> 
+> So, is this a bug or intended behaviour for
+> DISTRO_FEATURES_BACKFILL_CONSIDERED_append?
 
+The trouble is there has to be some order in processing these variables, and 
+the backfilling has to happen early or you can't base later processing on the 
+value of DISTRO_FEATURES and have it work properly. (FYI, the backfilling was 
+moved slightly earlier in 22429cdf79ed952072707a929643c7386fa7e056, i.e. 
+fairly recently.) The _append operation by its nature happens late, which is 
+probably why you see the effect above.
 
-I'll double check on this and submit a new patch.   This was originally against the libpcre 8.21 from YP 1.2.
+You should just be setting DISTRO_FEATURES_BACKFILL_CONSIDERED with = rather 
+than appending. This variable is intended since its introduction to be set by 
+the distro config and shouldn't really be set elsewhere. If you must compose 
+values across multiple configuration files, use += for this variable.
 
-Jason.
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
