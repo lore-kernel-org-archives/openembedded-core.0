@@ -1,36 +1,20 @@
-Received: from mail-oa0-f53.google.com ([209.85.219.53])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UUc1h-00019f-72
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UUddY-0004CD-Gw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 14:08:54 +0200
-Received: by mail-oa0-f53.google.com with SMTP id m6so453500oag.40
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 04:51:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=zDQNUUclOsiH1kcUkbEHjrAw6QfP9dQhUCM/TqlWUUc=;
-	b=cJcUNJItAD/PgiPne1wsujCMpcl1e+vt5ANY3GrMg18f+8ghWSTAJmaZkuaxX956tE
-	JBftXrRLaaZvPhPT+idl88CruPqLs1jzf/NPuLByaFzY9Uga5MWT1B5B7z8DxPfvblOX
-	V+UQl3ajQkWu5kuPUFfUnQ0M1IPHafSR+fg126Bzn2ZMAFGSp+QjDtXK4dpU4JocKR+1
-	eUCokig4Ie4jCnHaUpiOFZ+RaQXx7po26TymX5pm5gdbK4kaMgqhs1mND/AQX/NC/62h
-	7oVXG7vEk/HcqV15gOy1WHEk/nIc/cJBlbpm2C/65jw3aLNdy6mzK3oWEh3QMWPHzaOg
-	ovQQ==
-MIME-Version: 1.0
-X-Received: by 10.60.133.13 with SMTP id oy13mr2365956oeb.28.1366717868369;
-	Tue, 23 Apr 2013 04:51:08 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Tue, 23 Apr 2013 04:51:08 -0700 (PDT)
-In-Reply-To: <509f81736f95919be413293c2286c739da1de06f.1366673258.git.dvhart@linux.intel.com>
-References: <509f81736f95919be413293c2286c739da1de06f.1366673258.git.dvhart@linux.intel.com>
-Date: Tue, 23 Apr 2013 08:51:08 -0300
-X-Google-Sender-Auth: R9RaLH5iQxyA1nmfW4vEG-kG2Xw
-Message-ID: <CAP9ODKoKMQZwLFPKUkNLu_7UmvHFeXd0siuMxbFntMdznLgi3g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-firmware: Look for RTL license in the right directory
+	Tue, 23 Apr 2013 15:52:04 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Apr 2013 06:34:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,533,1363158000"; d="scan'208";a="323566421"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2013 06:34:17 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Apr 2013 16:37:53 +0300
+Message-Id: <1366724273-6680-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] rpm: change arch scoring items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +27,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 12:09:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 23 Apr 2013 13:52:04 -0000
 
-On Mon, Apr 22, 2013 at 8:27 PM, Darren Hart <dvhart@linux.intel.com> wrote:
-> The rtl-license package FILES was pointing to the wrong directory as it
-> was removed from there in commit:
->
-> acd3735 linux-firmware: Remove duplicaed license from rtlwifi subdir
->
-> This resulted in a do_rootfs failure for core-image-sato-sdk for fri2
-> with ipk when the linux-firmware-dev package tried to install
-> linux-firmware-rtl-license which wasn't created as it was empty.
->
-> Tested on core-image-sato-sdk build for fri2 on dylan commit:
-> 789b2b7e0cca404ff8ba8ed5ba823d215e6ba5b4
->
-> Cc: Saul Wold <sgw@linux.intel.com>
-> Cc: Beth Flanagan <elizabeth.flanagan@intel.com>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Don't add the first line of /etc/rpm/platform to the list of patterns
+to match when computing an arch score, use it just for getting
+information about the platform (cpu/vendor/os).
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+[YOCTO #3864]
 
-I don't know how the install failure did not happen here but this is
-indeed a fix.
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../rpm/rpm/rpm-platform-file-fix.patch            |   28 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 ++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+new file mode 100644
+index 0000000..3e14d4d
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+@@ -0,0 +1,28 @@
++Don't add the first line of /etc/rpm/platform to the list of patterns
++to match when computing an arch score, use it just for getting
++information about the platform (cpu/vendor/os). Fixes #3864.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++diff --git a/lib/rpmrc.c b/lib/rpmrc.c
++index e676601..e433faa 100644
++--- a/lib/rpmrc.c
+++++ b/lib/rpmrc.c
++@@ -510,17 +510,6 @@ static rpmRC rpmPlatform(const char * platform)
++ #endif
++ 	}
++ 
++-#if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
++-	/* do not use vendor and GNU attribution */
++-	p = rpmExpand("%{_host_cpu}-%{_host_os}", NULL);
++-#else
++-	p = rpmExpand("%{_host_cpu}-%{_host_vendor}-%{_host_os}",
++-		(cvog && *cvog->gnu ? "-" : NULL),
++-		(cvog ? cvog->gnu : NULL), NULL);
++-#endif
++-	xx = mireAppend(RPMMIRE_STRCMP, 0, p, NULL, &mi_re, &mi_nre);
++-	p = _free(p);
++-	
++ 	init_platform++;
++     }
++     rc = (init_platform ? RPMRC_OK : RPMRC_FAIL);
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 7d2cba4..112d11d 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+ DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
+-PR = "r62"
++PR = "r63"
+ 
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+@@ -86,6 +86,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+ 	   file://rpm-platform2.patch \
+ 	   file://rpm-remove-sykcparse-decl.patch \
+ 	   file://debugedit-segv.patch \
++     file://rpm-platform-file-fix.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+-- 
+1.7.10.4
+
 
 
