@@ -1,38 +1,39 @@
-Received: from mail-ea0-f173.google.com ([209.85.215.173])
+Received: from anubis.se.axis.com ([195.60.68.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UUYXO-0007cS-Ct
+	(envelope-from <peter.kjellerstedt@axis.com>) id 1UUYce-0008Nc-OO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 10:25:22 +0200
-Received: by mail-ea0-f173.google.com with SMTP id m14so112583eaj.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 01:07:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:content-type:content-transfer-encoding:subject
-	:message-id:date:to:mime-version:x-mailer:x-gm-message-state;
-	bh=P3jyNy7z8fUVLutBbaeY0DhDir0Tf4suwSDAQHpRCvU=;
-	b=BDwc9zdqx4eXAe9ETA3ofAYBT3sF0k8WC0fI8WE/snPSESi2zH+0eSwRiNd0yKKXPF
-	lI6QjSSJSP65BCEdjhmoaZEtyf07DRMht+JC8h2DSil0j5J4tvqJNB8/QvvSFDtalQ7s
-	ARQ90v+2wMA6HGKQyVhoYolWa8wf8CKwM2NEfxcFxDlKEGfqU6nbUw0idPsGy04Ekaoi
-	FLwrSIomnHHVIudj5/pUhLUaWnALVya9LfY8epLo24J9wSGkRqd/wibEDPoYnwz9fnEF
-	/a8gtxxXtreUnaPBH5en/etH4HsMfOBBhYzws50s0iiYQWnoABp8fz+s/U26HvXmtcgX
-	6RhQ==
-X-Received: by 10.15.101.200 with SMTP id bp48mr48553251eeb.38.1366704457145; 
-	Tue, 23 Apr 2013 01:07:37 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::806f:be70:89e8:9aa6?
-	([2001:610:612:0:806f:be70:89e8:9aa6])
-	by mx.google.com with ESMTPS id b5sm45190500eew.16.2013.04.23.01.07.35
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 23 Apr 2013 01:07:36 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Message-Id: <FE75BA17-4A83-48A8-A237-54422228FCD7@dominion.thruhere.net>
-Date: Tue, 23 Apr 2013 10:07:35 +0200
-To: "openembedded-core@lists.openembedded.org layer"
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQlTgmf669trAivJmDgg2ujEIugvafmFSc7Ip86OQQd/2K94u41XAr3Px3qS0DZo4UpCGh5J
-Subject: DISTRO_FEATURES_BACKFILL_CONSIDERED_append usage
+	Tue, 23 Apr 2013 10:30:47 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by anubis.se.axis.com (Postfix) with ESMTP id C5F8119E00;
+	Tue, 23 Apr 2013 10:13:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
+Received: from anubis.se.axis.com ([127.0.0.1])
+	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zcRvDzTCQnul; Tue, 23 Apr 2013 10:13:03 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by anubis.se.axis.com (Postfix) with ESMTP id 1A43019DFC;
+	Tue, 23 Apr 2013 10:13:02 +0200 (CEST)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by thoth.se.axis.com (Postfix) with ESMTP id BDCB934184;
+	Tue, 23 Apr 2013 10:13:02 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Tue, 23 Apr 2013 10:13:02 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <rpurdie@rpsys.net>, bitbake-devel
+	<bitbake-devel@lists.openembedded.org>
+Date: Tue, 23 Apr 2013 10:13:01 +0200
+Thread-Topic: [OE-core] BitBake changes in the Yocto Project 1.5 cycle
+Thread-Index: Ac4/ZB1MRTxoKiGmSUugNMiaT6QPHQAk+/EA
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC79861BB305B@xmail3.se.axis.com>
+References: <1366640172.23738.12.camel@ted>
+In-Reply-To: <1366640172.23738.12.camel@ted>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: BitBake changes in the Yocto Project 1.5 cycle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,74 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 08:25:30 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 23 Apr 2013 08:30:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: den 22 april 2013 16:16
+> To: bitbake-devel
+> Cc: openembedded-core
+> Subject: [OE-core] BitBake changes in the Yocto Project 1.5 cycle
+>=20
+> I've been giving some thought to where BitBake needs to go in the
+> future in order to deliver for its users. It started life as a=20
+> commandline utility and its grown a lot since it was first created.=20
+> I think there are some key decisions that need to be taken to=20
+> ensure its future growth.
+>=20
+> The first proposal is that we should change the BitBake server so=20
+> it becomes memory resident. This means that the first time you run
+> "bitbake X", the server loads into memory, then subsequent BitBake=20
+> commands would just connect to the server and do things. We'd add=20
+> in some kind of timeout of say 15 minutes so that it would=20
+> gracefully exit.
+>=20
+> The reason for doing this is simple, it would allow commands to be=20
+> much more responsive rather than having the cache/configuration=20
+> loading each time which is where our current overhead is. Obviously=20
+> it would detect changes to things like MACHINE setting, local.conf=20
+> and re-parse as normal in those cases. The intent would be to speed=20
+> up the interaction with the system so you don't have the annoying=20
+> delays/lag.
 
-I've had the following in my DISTRO.conf for a while now:
+How will a bitbake command know which server to connect to in case=20
+of multiple concurrent builds of different products on the same=20
+computer? Or do you intend for one server to keep track of all builds?
 
-	DISTRO_FEATURES_BACKFILL_CONSIDERED_append =3D " sysvinit"
+[cut]
 
-And that seems to do the right thing:
+> These changes should also be in keeping with the expanded UI work=20
+> and options such as WebHob and allowing remote use of multiple UIs
+> connected to servers.
 
-	[koen@rrMBP v2013.06]$ MACHINE=3Dminnow bitbake systemd -e | =
-grep DISTRO_FEATURES | grep BACK
-	# $DISTRO_FEATURES_BACKFILL
-	DISTRO_FEATURES_BACKFILL=3D"pulseaudio sysvinit"
-	# $DISTRO_FEATURES_BACKFILL_CONSIDERED [2 operations]
-	DISTRO_FEATURES_BACKFILL_CONSIDERED=3D"sysvinit"
+How should a remote UI know which server to connect to (if there=20
+are multiple ones)?
 
-Except that it doesn't:
+> Feedback/comments/suggestions etc./ welcome as always.
+>=20
+> I've cc'd the OE-Core list but further discussion should be taken to
+> bitbake-devel.
+>=20
+> Cheers,
+>=20
+> Richard
 
-[koen@rrMBP v2013.06]$ MACHINE=3Dminnow bitbake systemd -e | grep =
-DISTRO_FEATURES | grep sysvinit
-#   "alsa argp bluetooth ext2 ipv4 ipv6 irda largefile nfs pam pci =
-pcmcia ppp smbfs systemd usbgadget usbhost vfat wifi xattr zeroconf tk =
-x11 wayland 3g 	pulseaudio ${DISTRO_GLFEATURES} ${DISTRO_FEATURES_LIBC} =
-${LDISGOLD} sysvinit"
-DISTRO_FEATURES=3D"alsa argp bluetooth ext2 ipv4 ipv6 irda largefile nfs =
-pam pci pcmcia ppp smbfs systemd usbgadget usbhost vfat wifi xattr =
-zeroconf tk x11 wayland 3g pulseaudio opengl ipv4 ipv6 libc-backtrace =
-libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets =
-libc-crypt                                         libc-crypt-ufc =
-libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab =
-libc-ftraverse                                        libc-getlogin =
-libc-idn libc-inet-anl libc-libm libc-libm-big libc-locales =
-libc-locale-code                                    libc-memusage =
-libc-nis libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams =
-libc-sunrpc                                   libc-utmp libc-utmpx =
-libc-wordexp libc-posix-clang-wchar libc-posix-regexp =
-libc-posix-regexp-glibc                                       =
-libc-posix-wchar-io  sysvinit"
+//Peter
 
-Remembering the IMAGE_FSTYPES_append vs. +=3D discussion, I tried:
-
-	DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
-
-The result:
-
-	[koen@rrMBP v2013.06]$ MACHINE=3Dminnow bitbake systemd -e | =
-grep DISTRO_FEATURES | grep sysvinit
-	ERROR: Please ensure that your setting of =
-VIRTUAL-RUNTIME_init_manager (sysvinit) matches the entries enabled in =
-DISTRO_FEATURES
-
-Hmmm, let's set VIRTUAL-RUNTIME_init_manager and retry:
-
-	[koen@rrMBP v2013.06]$ MACHINE=3Dminnow bitbake systemd -e | =
-grep DISTRO_FEATURES | grep sysvinit
-	DISTRO_FEATURES_BACKFILL=3D"pulseaudio sysvinit"=20
-	DISTRO_FEATURES_BACKFILL_CONSIDERED=3D"sysvinit"
-
-\o/
-
-So, is this a bug or intended behaviour for =
-DISTRO_FEATURES_BACKFILL_CONSIDERED_append?
-
-regards,
-
-Koen=
 
 
