@@ -1,24 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1UUg2e-0001cC-8S
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 18:26:05 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3NG8Mba012690
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 09:08:22 -0700 (PDT)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 23 Apr 2013 09:08:22 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Apr 2013 11:08:19 -0500
-Message-ID: <1366733299-14804-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] libpcre, ncurses: Fix problems expanding the IMAGE_INSTALL package groups
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUgbm-00054q-Hj for openembedded-core@lists.openembedded.org;
+	Tue, 23 Apr 2013 19:02:32 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UUgKi-0007rk-63
+	for openembedded-core@lists.openembedded.org;
+	Tue, 23 Apr 2013 18:44:44 +0200
+Message-ID: <1366735483.5732.18.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Apr 2013 17:44:43 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] eglibc: Add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,52 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 16:26:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Apr 2013 17:02:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The ncurses and libpcre packages were generating the following errors
-as a result of not specifing the PACKAGES_DYNAMIC correctly.  These
-errors only appear when using the IMAGE_INSTALL list that has been
-expanded by the hob or from the pkgdata.
+Otherwise you get:
 
-ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
-ERROR: Nothing RPROVIDES 'libpcreposix'
+| msgfmt -o be.mo be.po
+| msgfmt -o bg.mo bg.po
+| msgfmt -o ca.mo ca.po
+| /bin/bash: msgfmt: command not found
+| make[2]: *** [be.mo] Error 127
+| make[2]: *** Waiting for unfinished jobs....
+| /bin/bash: msgfmt: command not found
+| make[2]: *** [ca.mo] Error 127
+| /bin/bash: msgfmt: command not found
+| make[2]: *** [bg.mo] Error 127
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+if msgfmt isn't available in the host environment.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/recipes-core/ncurses/ncurses.inc        |    2 ++
- meta/recipes-support/libpcre/libpcre_8.32.bb |    2 ++
- 2 files changed, 4 insertions(+), 0 deletions(-)
+ meta/recipes-core/eglibc/eglibc.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index bcb9c94..78ff153 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -42,6 +42,8 @@ EXCONFIG_ARGS_virtclass-nativesdk = " \
- 		--with-chtype='long' \
- 		--with-mmask-t='long'"
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index 1e04197..38d8c44 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -33,7 +33,7 @@ siteconfig_do_siteconfig_gencache_prepend = " \
+ "
  
-+PACKAGES_DYNAMIC = "^${PN}-.*"
-+
- # Fall back to the host termcap / terminfo for -nativesdk and -native
- # The reality is a work around for strange problems with things like
- # "bitbake -c menuconfig busybox" where it cannot find the terminfo
-diff --git a/meta/recipes-support/libpcre/libpcre_8.32.bb b/meta/recipes-support/libpcre/libpcre_8.32.bb
-index 4d17741..71cc119 100644
---- a/meta/recipes-support/libpcre/libpcre_8.32.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.32.bb
-@@ -26,6 +26,8 @@ inherit autotools binconfig
- 
- PARALLEL_MAKE = ""
- 
-+PACKAGES_DYNAMIC = "^${PN}.*"
-+
- EXTRA_OECONF = "\
-     --enable-newline-is-lf \
-     --enable-rebuild-chartables \
+ # nptl needs unwind support in gcc, which can't be built without glibc.
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial gettext-native"
+ # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+ #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+ PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
 -- 
-1.7.1
+1.7.10.4
+
+
 
 
 
