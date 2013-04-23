@@ -1,33 +1,35 @@
-Received: from mail-ea0-f170.google.com ([209.85.215.170])
+Received: from mail-qa0-f43.google.com ([209.85.216.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kirgene@gmail.com>) id 1UUfiI-00080t-GP
+	(envelope-from <kirgene@gmail.com>) id 1UUfvu-0000z4-0R
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Apr 2013 18:05:06 +0200
-Received: by mail-ea0-f170.google.com with SMTP id z7so340117eaf.29
+	Tue, 23 Apr 2013 18:19:08 +0200
+Received: by mail-qa0-f43.google.com with SMTP id bs12so650609qab.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2013 08:47:22 -0700 (PDT)
+	Tue, 23 Apr 2013 09:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=3Smet+4PGAC9ceONdg2QD+iZic4y+8Iod/6DFEgV79U=;
-	b=I99oKpC574MrHn7Q/FyEVv3sIHXTzbdXIdJCb6PmvrqWEh4wwdV5y4yycRy/9dp0BY
-	s+7q/5QmMWdFkWjsjfNv/obHcBCrMsEl9gfxRAN3RSAhhAXhtVhyXhCMuxGe/X6zeckf
-	0eqWqx9BtybVdGBihNXVq+wNFmhXLDeJqL2uyQvz511/8Db/6fYhKGBCJwNAngoiXPb+
-	KvPGgP0m7RJFLbrr/xPHxC+HBxTHwvQIgOv/kyh/beD1blKTSSg/7wT1hOLpE8FYgsAG
-	cNh1INVLDsrw7SURs6NvTlqvuiRfeMWqtktb4JdNjVsLinUKyDy+hew9Md2kJsodZOIm
-	pMWw==
-X-Received: by 10.15.35.200 with SMTP id g48mr38320905eev.33.1366732041840;
-	Tue, 23 Apr 2013 08:47:21 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPS id k43sm20497997een.2.2013.04.23.08.47.20
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 23 Apr 2013 08:47:21 -0700 (PDT)
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=HoLj3j0kz6BMh/ph3Oa7BR4wEtX0y2HoLoKj3vfm14A=;
+	b=qdrb1nFXBvipJKpDS73CKMFuh5EIyaQX8rd8NLdRUoBKV4/0vUNfolTi1/3erj+WYP
+	Ei/6KV2QgssHoivAduwaP7dIGagDrgEMZ8iaw9/5tSViHhcCjTCNxQja1uQASPRJC6yr
+	1MTqKEFt7b2RxNcjAYzkzOWvi0wIskle0rtS2mkHqc/4cJ8CU8xJrGq4tsn04sajoFg9
+	n70w3X1a2nucOv8+EQSdN/MsEc6ICL2vM8sXh1k0Dlgeiyr3wIuUywvhfUcaLPJb4T+d
+	tmzHuv4lNIsWBl2MLQANqUtri8Jd6mgsfhqLiT99gZCfKU31mA/TqNp4d9nbbZTL28QH
+	4KGg==
+MIME-Version: 1.0
+X-Received: by 10.224.44.2 with SMTP id y2mr25773655qae.7.1366732885066; Tue,
+	23 Apr 2013 09:01:25 -0700 (PDT)
+Received: by 10.49.4.170 with HTTP; Tue, 23 Apr 2013 09:01:25 -0700 (PDT)
+In-Reply-To: <5176A976.3020706@linux.intel.com>
+References: <1366708403-45429-1-git-send-email-kirgene@gmail.com>
+	<5176A976.3020706@linux.intel.com>
+Date: Tue, 23 Apr 2013 19:01:25 +0300
+Message-ID: <CADV-EXFMWLBUmz2GZSwXKGBTd4HuxSU5Tu=m0kdNou-mxz5jHA@mail.gmail.com>
 From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2013 18:47:02 +0300
-Message-Id: <1366732022-56964-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v5] systemd: added python-systemd package generation.
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,93 +42,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2013 16:05:12 -0000
+X-List-Received-Date: Tue, 23 Apr 2013 16:19:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
----
- meta/recipes-core/systemd/systemd_199.bb |   22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+I'll send new patch without python in PACKAGECONFIG.
+Best regards,
+Yevhen
 
-diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
-index 5240443..993c0a5 100644
---- a/meta/recipes-core/systemd/systemd_199.bb
-+++ b/meta/recipes-core/systemd/systemd_199.bb
-@@ -16,7 +16,13 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
- 
--inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives
-+inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives pythonnative python-dir
-+
-+# need to export these variables for python-config to work
-+export BUILD_SYS
-+export HOST_SYS
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-@@ -46,11 +52,13 @@ LDFLAGS_libc-uclibc_append = " -lrt"
- 
- GTKDOC_DOCDIR = "${S}/docs/"
- 
--PACKAGECONFIG ??= "xz"
-+PACKAGECONFIG ??= "xz python"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
- # Compress the journal
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
-+# Use python-systemd
-+PACKAGECONFIG[python] = "--with-python,--without-python,python"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
-@@ -65,7 +73,6 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
-                  --disable-tcpwrap \
-                  --enable-split-usr \
-                  --disable-microhttpd \
--                 --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
-                  --with-firmware-path=/lib/firmware \
-                  ac_cv_path_KILL=${base_bindir}/kill \
-@@ -89,6 +96,8 @@ do_install() {
- 	# provided by a seperate recipe
- 	rm ${D}${systemd_unitdir}/system/serial-getty* -f
- 
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/systemd/*.la
-+
- 	# provide support for initramfs
- 	ln -s ${base_sbindir}/systemd/systemd ${D}/init
- 	ln -s ${base_sbindir}/systemd/systemd-udevd ${D}/${base_sbindir}/udev/udevd
-@@ -119,7 +128,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
- 
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
-+PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN}"
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-@@ -129,6 +138,9 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
- 
-+FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
-+RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
-+
- FILES_${PN}-gui = "${bindir}/systemadm"
- 
- FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup \
-@@ -189,7 +201,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 /lib/udev/rules.d/99-systemd.rules \
-                "
- 
--FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${base_sbindir}/systemd/.debug ${base_sbindir}/systemd/system-generators/.debug ${base_sbindir}/udev/.debug"
-+FILES_${PN}-dbg += "${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${base_sbindir}/systemd/.debug ${base_sbindir}/systemd/system-generators/.debug ${base_sbindir}/udev/.debug ${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
- RDEPENDS_${PN} += "dbus"
--- 
-1.7.9.5
 
+2013/4/23 Saul Wold <sgw@linux.intel.com>:
+> On 04/23/2013 02:13 AM, Yevhen Kyriukha wrote:
+>>
+>> ---
+>>   meta/recipes-core/systemd/systemd_199.bb |   20 ++++++++++++++++----
+>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_199.bb
+>> b/meta/recipes-core/systemd/systemd_199.bb
+>> index 5240443..bbae6f8 100644
+>> --- a/meta/recipes-core/systemd/systemd_199.bb
+>> +++ b/meta/recipes-core/systemd/systemd_199.bb
+>> @@ -16,7 +16,13 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam',
+>> 'libpam', '', d)}"
+>>
+>>   SECTION = "base/shell"
+>>
+>> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+>> update-alternatives
+>> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+>> update-alternatives pythonnative python-dir
+>> +
+>> +# need to export these variables for python-config to work
+>> +export BUILD_SYS
+>> +export HOST_SYS
+>> +export STAGING_INCDIR
+>> +export STAGING_LIBDIR
+>>
+>>   SRC_URI =
+>> "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+>>              file://touchscreen.rules \
+>> @@ -46,11 +52,13 @@ LDFLAGS_libc-uclibc_append = " -lrt"
+>>
+>>   GTKDOC_DOCDIR = "${S}/docs/"
+>>
+>> -PACKAGECONFIG ??= "xz"
+>> +PACKAGECONFIG ??= "xz python"
+>
+>
+> I believe that the default should be python is not enabled.
+>
+> Sau!
+>
+>
+>>   # Sign the journal for anti-tampering
+>>   PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+>>   # Compress the journal
+>>   PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+>> +# Use python-systemd
+>> +PACKAGECONFIG[python] = "--with-python,--without-python,python"
+>>
+>>   CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+>>
+>> @@ -65,7 +73,6 @@ EXTRA_OECONF = " --with-rootprefix=${base_prefix} \
+>>                    --disable-tcpwrap \
+>>                    --enable-split-usr \
+>>                    --disable-microhttpd \
+>> -                 --without-python \
+>>                    --with-sysvrcnd-path=${sysconfdir} \
+>>                    --with-firmware-path=/lib/firmware \
+>>                    ac_cv_path_KILL=${base_bindir}/kill \
+>> @@ -119,7 +126,7 @@ python populate_packages_prepend (){
+>>   }
+>>   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+>>
+>> -PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze
+>> ${PN}-kernel-install"
+>> +PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze
+>> ${PN}-kernel-install python-${PN} python-${PN}-dbg python-${PN}-dev"
+>>
+>>   USERADD_PACKAGES = "${PN}"
+>>   GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+>> @@ -129,6 +136,11 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+>>   FILES_${PN}-initramfs = "/init"
+>>   RDEPENDS_${PN}-initramfs = "${PN}"
+>>
+>> +FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py*
+>> ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
+>> +RDEPENDS_python-${PN} = "python-core python-datetime python-logging
+>> python-syslog"
+>> +FILES_python-${PN}-dev = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.la"
+>> +FILES_python-${PN}-dbg = "${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
+>> +
+>>   FILES_${PN}-gui = "${bindir}/systemadm"
+>>
+>>   FILES_${PN}-vconsole-setup = "${systemd_unitdir}/systemd-vconsole-setup
+>> \
+>>
+>
 
 
