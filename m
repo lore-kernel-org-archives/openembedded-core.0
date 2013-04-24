@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UV7f2-0007V9-9R
+	(envelope-from <sgw@linux.intel.com>) id 1UV7eX-0007V8-Ih
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 23:55:34 +0200
+	Wed, 24 Apr 2013 23:55:03 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:18 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916445"
+X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916388"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:17 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 14:37:04 -0700
-Message-Id: <70336cc2bc8c3b890a4cb7d5765d3c688dc00714.1366827512.git.sgw@linux.intel.com>
+Date: Wed, 24 Apr 2013 14:36:55 -0700
+Message-Id: <ffbc7d02da2b70fc66739c50b01777524ab75577.1366827512.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
-Subject: [PATCH 11/18] libgcrypt: Update to 1.5.1
+Subject: [PATCH 02/18] lsbinitscripts: Update to 9.46
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,66 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 21:55:50 -0000
-
-Remove automake patch as it is now supported by upstream
+X-List-Received-Date: Wed, 24 Apr 2013 21:55:07 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 21:55:07 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 21:55:07 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 21:55:07 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libgcrypt-1.5.0/obsolete_automake_macros.patch        | 15 ---------------
- meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb         |  9 ---------
- meta/recipes-support/libgcrypt/libgcrypt_1.5.1.bb         |  4 ++++
- 3 files changed, 4 insertions(+), 24 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.5.1.bb
+ .../lsb/{lsbinitscripts_9.45.bb => lsbinitscripts_9.46.bb}         | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.45.bb => lsbinitscripts_9.46.bb} (77%)
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch b/meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch
-deleted file mode 100644
-index 0dbfded..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Submitted [https://bugs.g10code.com/gnupg/issue1459]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd libgcrypt-1.5.0/configure.ac libgcrypt-1.5.0/configure.ac
----- libgcrypt-1.5.0/configure.ac	2011-06-29 11:53:22.000000000 +0300
--+++ libgcrypt-1.5.0/configure.ac	2013-01-03 07:12:26.854793677 +0200
--@@ -59,7 +59,7 @@
--
-- AC_CONFIG_SRCDIR([src/libgcrypt.vers])
-- AM_INIT_AUTOMAKE([])
---AM_CONFIG_HEADER(config.h)
--+AC_CONFIG_HEADERS(config.h)
-- AC_CONFIG_MACRO_DIR([m4])
-- AC_CONFIG_LIBOBJ_DIR([compat])
-- AC_CANONICAL_HOST
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb
-deleted file mode 100644
-index 058c2d5..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require libgcrypt.inc
--
--PR = "r2"
--
--SRC_URI += "file://obsolete_automake_macros.patch"
--
--SRC_URI[md5sum] = "78f8f8bec4580f75b25816f7896d0389"
--SRC_URI[sha256sum] = "cc98b1f64c9ae3b0185099cef4ac6c436a849095edf87f34157f0bb10e187990"
--
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.5.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.5.1.bb
-new file mode 100644
-index 0000000..fea0ab7
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.5.1.bb
-@@ -0,0 +1,4 @@
-+require libgcrypt.inc
-+
-+SRC_URI[md5sum] = "9963b67d84978727f5795e7ff92385de"
-+SRC_URI[sha256sum] = "d7f5cb694286b24d91836c728dfcac9e8eead80a02c5e2ac78d8b84983154455"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.45.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.46.bb
+similarity index 77%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.45.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.46.bb
+index 2cc5f16..50401bf 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.45.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.46.bb
+@@ -2,17 +2,16 @@ DESCRIPTION = "SysV init scripts which only is used in an LSB image"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ DEPENDS = "popt glib-2.0"
+-PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+ 
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.bz2/dd514ee65e4a4610be836bb34c62c0ed/initscripts-${PV}.tar.bz2 \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.46.tar.bz2/f0755d9f1e0a8ae470c22798695c3b39/initscripts-9.46.tar.bz2 \
+            file://functions.patch \
+           " 
+ 
+-SRC_URI[md5sum] = "dd514ee65e4a4610be836bb34c62c0ed"
+-SRC_URI[sha256sum] = "dd8bfa09f41f56c223f90629f31fc16decc3b9df4c72b1e3ee00cfa3f7d9c48c"
++SRC_URI[md5sum] = "f0755d9f1e0a8ae470c22798695c3b39"
++SRC_URI[sha256sum] = "f1b9003826d6c524c6b144e554ec38e788531270b8df252218708da11c9e4973"
+ 
+ inherit update-alternatives
+ 
 -- 
 1.8.0.2
 
