@@ -1,28 +1,15 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UV0qj-0002Do-GA
+	(envelope-from <ml@communistcode.co.uk>) id 1UV0vQ-0002at-Nn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 16:39:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3OELPtW007859
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2013 07:21:26 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 24 Apr 2013 07:21:25 -0700
-Message-ID: <5177EA62.6080601@windriver.com>
-Date: Wed, 24 Apr 2013 09:21:22 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1366793330-8893-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1366793330-8893-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: Re: [PATCH v2] rpm: change arch scoring items
+	Wed, 24 Apr 2013 16:44:00 +0200
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2013 15:26:14 +0100
+Message-Id: <1366813574-21199-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.2.1
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH] connman: update to 1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,82 +22,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 14:39:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Apr 2013 14:44:05 -0000
 
-On 4/24/13 3:48 AM, Bogdan Marinescu wrote:
-> Don't add the first line of /etc/rpm/platform to the list of patterns
-> to match when computing an arch score, use it just for getting
-> information about the platform (cpu/vendor/os).
->
-> [YOCTO #3864]
->
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-> ---
->   .../rpm/rpm/rpm-platform-file-fix.patch            |   28 ++++++++++++++++++++
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 ++-
->   2 files changed, 30 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
->
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
-> new file mode 100644
-> index 0000000..0f391d2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
-> @@ -0,0 +1,28 @@
-> +Don't add the first line of /etc/rpm/platform to the list of patterns
-> +to match when computing an arch score, use it just for getting
-> +information about the platform (cpu/vendor/os). Fixes #3864.
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +diff --git a/lib/rpmrc.c b/lib/rpmrc.c
-> +index e676601..9140bbe 100644
-> +--- a/lib/rpmrc.c
-> ++++ b/lib/rpmrc.c
-> +@@ -510,6 +510,7 @@ static rpmRC rpmPlatform(const char * platform)
-> + #endif
-> + 	}
-> +
-> ++#if !defined(RPM_VENDOR_POKY) /* Skip the explicit-platform */
-> + #if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
-> + 	/* do not use vendor and GNU attribution */
-> + 	p = rpmExpand("%{_host_cpu}-%{_host_os}", NULL);
-> +@@ -520,7 +521,8 @@ static rpmRC rpmPlatform(const char * platform)
-> + #endif
-> + 	xx = mireAppend(RPMMIRE_STRCMP, 0, p, NULL, &mi_re, &mi_nre);
-> + 	p = _free(p);
-> +-	
-> ++#endif
-> ++
-> + 	init_platform++;
-> +     }
-> +     rc = (init_platform ? RPMRC_OK : RPMRC_FAIL);
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> index 7d2cba4..112d11d 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
->   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
->
->   DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
-> -PR = "r62"
-> +PR = "r63"
->
->   # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
->   # in order to extract the distribution SRPM into a format we can extract...
-> @@ -86,6 +86,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->   	   file://rpm-platform2.patch \
->   	   file://rpm-remove-sykcparse-decl.patch \
->   	   file://debugedit-segv.patch \
-> +     file://rpm-platform-file-fix.patch \
->   	  "
->
->   # Uncomment the following line to enable platform score debugging
->
+- Removed upstream commited patch
+- Updated git tag srcrev
+
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ .../connman/connman/add-in.h-for-ipv6.patch          | 20 --------------------
+ .../connman/{connman_1.12.bb => connman_1.13.bb}     |  6 +++---
+ 2 files changed, 3 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch
+ rename meta/recipes-connectivity/connman/{connman_1.12.bb => connman_1.13.bb} (78%)
+
+diff --git a/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch b/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch
+deleted file mode 100644
+index 8ee0b6f..0000000
+--- a/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-
+-The 3.8 Kernel headers for if_bridge.h uses the in6_addr struct
+-which is defined by netinet/in.h which is not included prior.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: git/src/tethering.c
+-===================================================================
+---- git.orig/src/tethering.c
+-+++ git/src/tethering.c
+-@@ -35,6 +35,7 @@
+- #include <string.h>
+- #include <fcntl.h>
+- #include <linux/if_tun.h>
+-+#include <netinet/in.h>
+- #include <linux/if_bridge.h>
+- 
+- #include "connman.h"
+diff --git a/meta/recipes-connectivity/connman/connman_1.12.bb b/meta/recipes-connectivity/connman/connman_1.13.bb
+similarity index 78%
+rename from meta/recipes-connectivity/connman/connman_1.12.bb
+rename to meta/recipes-connectivity/connman/connman_1.13.bb
+index 5ba4032..4f23538 100644
+--- a/meta/recipes-connectivity/connman/connman_1.12.bb
++++ b/meta/recipes-connectivity/connman/connman_1.13.bb
+@@ -1,13 +1,13 @@
+ require connman.inc
+ 
+-# 1.12 tag
+-SRCREV = "8397cbbc0a79d39cf3b1880f4fd3f3405b6bc6ad"
++# 1.13 tag
++SRCREV = "96fcd8871531c9012135110769618d65a3523b4d"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+             file://inet-fix-ip-cleanup-functions.patch \
+-            file://add-in.h-for-ipv6.patch"
++            "
+ S = "${WORKDIR}/git"
+ PR = "${INC_PR}.0"
+ 
+-- 
+1.8.2.1
 
 
 
