@@ -1,36 +1,24 @@
-Received: from mail-pd0-f176.google.com ([209.85.192.176])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UUxAv-00023T-7V
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 12:43:55 +0200
-Received: by mail-pd0-f176.google.com with SMTP id r11so1036824pdi.21
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2013 03:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=P3o1opfDCkZLdYf9Ipti8+8NvbrA9WaRxe8YghqoOws=;
-	b=ZN8bOjmX+L3nIiMNDCdXaToWgxp8lcFt7fGfBZnfqfAnivcEtnrV4bD9zpdiG0pTKi
-	65UqwOHm5CQi8YAb5l5uzRGvlUBkGhwX2XMc8JW+aBpU1HWLwQvWMGWYUunu0ylBDks2
-	p5L8XIZFmH/ZlYxiYV8IYkgQW4bsXkoj2Pyc4tv6JEhRTkytUON04gYjx6wLQSaaGZy4
-	LcKEulK+QC2KGA+0JneqG/o0TNmDUE2ZaO072GCktSrY+a7eiG9GW/n8yyfaeBhc8C/T
-	cXtbE3WDov1anPnI3RcfnlXtd2PKK3CTrBrVJVdeFwxIusYmGXCdwMfLnwKchACIv9l8
-	LjCA==
-X-Received: by 10.68.226.230 with SMTP id rv6mr8417820pbc.55.1366799162694;
-	Wed, 24 Apr 2013 03:26:02 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	qi1sm3056973pac.21.2013.04.24.03.25.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 24 Apr 2013 03:26:01 -0700 (PDT)
-Date: Wed, 24 Apr 2013 12:26:11 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130424102611.GH3217@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Extra space in TUNE_CCARGS
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUxO1-0003Cr-Jm; Wed, 24 Apr 2013 12:57:20 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUx6v-0001yO-BS; Wed, 24 Apr 2013 12:39:37 +0200
+Message-ID: <1366799976.14512.21.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 24 Apr 2013 11:39:36 +0100
+In-Reply-To: <1366790466.23738.86.camel@ted>
+References: <CA+YB3rb6xwk2-rsSa=dQx19qp7jKAVBZiMmQB5DvrGOmLUFG2Q@mail.gmail.com>
+	<20130424064319.GD3217@jama> <1366790466.23738.86.camel@ted>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] OpenEmbedded TSC 8 April 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,52 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 10:43:55 -0000
-X-Groupsio-MsgNum: 38287
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4C6bbPZ6c/S1npyF"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 24 Apr 2013 10:57:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---4C6bbPZ6c/S1npyF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, 2013-04-24 at 09:01 +0100, Richard Purdie wrote:
+> The TSC talked about it and agreed a particular direction. Its clear
+> that some people don't like the direction so they just ignored it and do
+> their own thing anyway.
+> 
+> This is the wrong way to go about making decisions and I'm extremely
+> disappointed people are doing this.
 
-Hi,
+It's maybe worth pointing out that this change was discussed on the
+mailing list at the time.  During that thread, two members of the
+TSC spoke in favour of the change and neither they nor anybody else
+pointed out that it was contrary to the TSC's stated policy. 
 
-I'm building for 2 MACHINEs one is cortexa9, second is cortexa8
+So, although I agree it is a bit unfortunate that meta-oe has decided
+to go off and plough its own furrow, it doesn't seem that the TSC made
+much of an effort to dissuade them at the time and I can understand how
+Martin might have interpreted the responses he got as approval.
 
-few months ago we added TUNE_CCARGS[vardepvalue] in bitbake.conf
-http://git.openembedded.org/openembedded-core/commit/?id=03f1e34ea3ce80931e9c3cd2ab22824f28a7233b
+>At this point I assume I'm free to ignore the TSC since we now have
+>precedent for it?
 
-which fixed some cases (like mentioned tune-xscale and tune-arm926ejs)
-where both had unused TUNE_CCARGS when common DEFAULTTUNE was used.
+As far as I know you've always been free to do that.  It's up to the TSC
+to enforce its own decisions if it wishes to.
 
-with cortexa[89] it's different, because cortexa9 has one extra TUNE_CCARGS
-TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa9", "-mtune=cortex-a9", "", d)}"
-which adds extra *space* even when not used because of '+=' and as result:
+All that said, I have had a suspicion for a while that the TSC is
+perhaps becoming superfluous to requirements.  When the TSC was first
+set up, the environment within which OE operated was very different:
+this was a time before the Yocto Project and before oe-core, when
+everything was in a single tree, a vast number of people had
+indiscriminate commit access, and there was no identified maintainer who
+was empowered to make decisions about which patches went in and which
+didn't.
 
-$ bitbake-diffsigs tmp-eglibc/sstate-diff/1366797730/*/armv7*/adapterbase/*do_configure*
-basehash changed from f986789fb8fb3579ed6a3492cc8a8d10 to c851b5f838d945ee13072e9ad6725dca
-Variable TUNE_CCARGS value changed from ' -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon ' to ' -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon  '
-Hash for dependent task gcc-runtime_4.7.bb.do_populate_sysroot changed from bdeabf7a86958b9110b566344b7916de to 2be5618e6bc8c57ec9db5659bf217915
-Hash for dependent task eglibc_2.17.bb.do_populate_sysroot changed from b4f40fc62dde684acd0a574532a55360 to 97fcb426603d4a1c1099c0504d2ebf7d
-Hash for dependent task glib-2.0_2.34.3.bb.do_populate_sysroot changed from fd2f90b83098c34e88d649d70f6ea4f5 to ebd740bb94ea3eb0a914efda6fc82c4a
+Nowadays it seems (and I don't intend this as a criticism) that most of the
+technical direction is coming from the Yocto side and the OE project
+itself is mostly just going along for the ride.  Plus, every layer does
+now have its own maintainer so the original power vacuum that the TSC
+was created to fill no longer exists.  In this sort of scenario it seems
+as though OE is rather over-equipped with governance mechanisms (the
+TSC, the e.V. board and the e.V. membership itself) that aren't
+necessarily accomplishing very much.
 
-I'll try to convert all 'TUNE_CCARGS +=' to TUNE_CCARGS_append and see if it fixes
-this issue. But then we should consider merging this in 1.4.1 if possible.
+Also, now that we have a multiplicity of layers rather than a single
+monolithic tree, it isn't entirely obvious where the TSC's authority
+begins and ends.  I think everyone would agree that oe-core falls under
+the aegis of the TSC, but beyond that it isn't totally obvious which
+layers do and don't count as part of "OE" for that purpose.
 
-Cheers,
+And finally, it's been apparent during the last few TSC and board
+elections that it is a bit of a struggle to attract high-quality
+candidates to stand for membership of either body.  I don't think we've
+had an election which was actually contested for quite some time: this
+makes the elections themselves seem like just a waste of everybody's
+time.
 
---4C6bbPZ6c/S1npyF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+So, maybe it's time that we as a project had a bit of a re-think
+regarding what sort of governance structures we actually need and want
+in this day and age.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+p.
 
-iEYEARECAAYFAlF3s0MACgkQN1Ujt2V2gBxvawCeKuHbx95EW7HHpwMY11GcliUw
-abAAn261gt0/kuYLKW4xVDGiPKzSCa+6
-=TBcf
------END PGP SIGNATURE-----
 
---4C6bbPZ6c/S1npyF--
+
+
