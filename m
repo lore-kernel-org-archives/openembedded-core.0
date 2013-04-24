@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UV7fK-0007V8-FJ
+	(envelope-from <sgw@linux.intel.com>) id 1UV7fF-0007Ug-9f
 	for openembedded-core@lists.openembedded.org;
 	Wed, 24 Apr 2013 23:55:52 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:20 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916473"
+X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916431"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 14:37:08 -0700
-Message-Id: <9d006ef0b313473e7293659501b44ed32b5d239f.1366827512.git.sgw@linux.intel.com>
+Date: Wed, 24 Apr 2013 14:37:02 -0700
+Message-Id: <865a8a158290a5655a2fd84eea08fc70bcca79dd.1366827512.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
-Subject: [PATCH 15/18] mesa-demos: Update to 8.1.0
+Subject: [PATCH 09/18] libffi: Update to 3.0.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,206 +33,3001 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Apr 2013 21:56:15 -0000
 
-Removed patches that now appear in the upstream.
+New patch is required to fix the location of the libdir defined i
+the libffi.la file which caused a bad RPATH (/usr/lib/../lib) due
+to the gcc -print-multi-os-directory returning ../lib.
+
+Remove Aarch64 patches as it is now supported upsteam. Other patch
+code is also upstreamed
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- ...glgears-Make-EGL_KHR_image-usage-portable.patch | 95 ----------------------
- .../mesa-demos/dso_linking_change_build_fix.patch  | 24 ------
- .../mesa/mesa-demos/gles2-info.patch               | 21 -----
- .../{mesa-demos_8.0.1.bb => mesa-demos_8.1.0.bb}   | 11 +--
- 4 files changed, 3 insertions(+), 148 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-demos/0001-xeglgears-Make-EGL_KHR_image-usage-portable.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
- rename meta/recipes-graphics/mesa/{mesa-demos_8.0.1.bb => mesa-demos_8.1.0.bb} (69%)
+ .../libffi/0001-libffi-update-for-3.0.11.patch     |  171 --
+ .../libffi/aarch64-adding-build-support.patch      |   63 -
+ .../libffi/libffi/add-aarch64-support.patch        | 2672 --------------------
+ .../libffi/libffi/fix-libffi.la-location.patch     |   18 +
+ .../libffi/{libffi_3.0.11.bb => libffi_3.0.13.bb}  |   11 +-
+ 5 files changed, 21 insertions(+), 2914 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
+ delete mode 100644 meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
+ create mode 100644 meta/recipes-gnome/libffi/libffi/fix-libffi.la-location.patch
+ rename meta/recipes-gnome/libffi/{libffi_3.0.11.bb => libffi_3.0.13.bb} (76%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/0001-xeglgears-Make-EGL_KHR_image-usage-portable.patch b/meta/recipes-graphics/mesa/mesa-demos/0001-xeglgears-Make-EGL_KHR_image-usage-portable.patch
+diff --git a/meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch b/meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch
 deleted file mode 100644
-index 43d4fb1..0000000
---- a/meta/recipes-graphics/mesa/mesa-demos/0001-xeglgears-Make-EGL_KHR_image-usage-portable.patch
+index 2ff109b..0000000
+--- a/meta/recipes-gnome/libffi/libffi/0001-libffi-update-for-3.0.11.patch
 +++ /dev/null
-@@ -1,95 +0,0 @@
--From 43c2122af1caa750531f29bf734c03d1f50801d1 Mon Sep 17 00:00:00 2001
--Message-Id: <43c2122af1caa750531f29bf734c03d1f50801d1.1365283761.git.tom.zanussi@linux.intel.com>
--From: Frank Binns <frank.binns@imgtec.com>
--Date: Fri, 29 Jun 2012 14:06:27 +0100
--Subject: [PATCH] xeglgears: Make EGL_KHR_image usage portable
+@@ -1,171 +0,0 @@
+-From 936ab07cec90243a6a336c5aa6205f4edbeb00d5 Mon Sep 17 00:00:00 2001
+-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+-Date: Wed, 12 Sep 2012 17:42:29 +0300
+-Subject: [PATCH] libffi update for 3.0.11
 -
--EGL extension functions don't have to be exported which means
--xeglgears was failing to link against implementations that
--support EGL_KHR_image but were not exporting its related functions.
+-Upstream-Status : Pending
 -
--This has been fixed by using eglGetProcAddress to get a function
--pointer instead of using the functions prototype. This is portable.
--
--Signed-off-by: Frank Binns <frank.binns@imgtec.com>
--
--Integrated-by: Tom Zanussi <tom.zanussi@linux.intel.com>
--
--Upstream-Status: Backport
+-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 ----
-- src/egl/opengl/xeglgears.c | 37 +++++++++++++++++++++++++++++++------
-- 1 file changed, 31 insertions(+), 6 deletions(-)
+- m4/ax_append_flag.m4        |   69 +++++++++++++++++++++++++++++++++++++++++
+- m4/ax_check_compile_flag.m4 |   72 +++++++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 141 insertions(+)
+- create mode 100644 m4/ax_append_flag.m4
+- create mode 100644 m4/ax_check_compile_flag.m4
 -
--diff --git a/src/egl/opengl/xeglgears.c b/src/egl/opengl/xeglgears.c
--index 513c587..866b89a 100644
----- a/src/egl/opengl/xeglgears.c
--+++ b/src/egl/opengl/xeglgears.c
--@@ -51,6 +51,10 @@
-- static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES_func;
-- #endif
-- 
--+#ifdef EGL_KHR_image
--+static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR_func;
--+#endif
+-diff --git a/m4/ax_append_flag.m4 b/m4/ax_append_flag.m4
+-new file mode 100644
+-index 0000000..1d38b76
+---- /dev/null
+-+++ b/m4/ax_append_flag.m4
+-@@ -0,0 +1,69 @@
+-+# ===========================================================================
+-+#      http://www.gnu.org/software/autoconf-archive/ax_append_flag.html
+-+# ===========================================================================
+-+#
+-+# SYNOPSIS
+-+#
+-+#   AX_APPEND_FLAG(FLAG, [FLAGS-VARIABLE])
+-+#
+-+# DESCRIPTION
+-+#
+-+#   FLAG is appended to the FLAGS-VARIABLE shell variable, with a space
+-+#   added in between.
+-+#
+-+#   If FLAGS-VARIABLE is not specified, the current language's flags (e.g.
+-+#   CFLAGS) is used.  FLAGS-VARIABLE is not changed if it already contains
+-+#   FLAG.  If FLAGS-VARIABLE is unset in the shell, it is set to exactly
+-+#   FLAG.
+-+#
+-+#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION.
+-+#
+-+# LICENSE
+-+#
+-+#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+-+#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+-+#
+-+#   This program is free software: you can redistribute it and/or modify it
+-+#   under the terms of the GNU General Public License as published by the
+-+#   Free Software Foundation, either version 3 of the License, or (at your
+-+#   option) any later version.
+-+#
+-+#   This program is distributed in the hope that it will be useful, but
+-+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+-+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+-+#   Public License for more details.
+-+#
+-+#   You should have received a copy of the GNU General Public License along
+-+#   with this program. If not, see <http://www.gnu.org/licenses/>.
+-+#
+-+#   As a special exception, the respective Autoconf Macro's copyright owner
+-+#   gives unlimited permission to copy, distribute and modify the configure
+-+#   scripts that are the output of Autoconf when processing the Macro. You
+-+#   need not follow the terms of the GNU General Public License when using
+-+#   or distributing such scripts, even though portions of the text of the
+-+#   Macro appear in them. The GNU General Public License (GPL) does govern
+-+#   all other use of the material that constitutes the Autoconf Macro.
+-+#
+-+#   This special exception to the GPL applies to versions of the Autoconf
+-+#   Macro released by the Autoconf Archive. When you make and distribute a
+-+#   modified version of the Autoconf Macro, you may extend this special
+-+#   exception to the GPL to apply to your modified version as well.
 -+
-- 
-- #define BENCHMARK
-- 
--@@ -405,6 +409,17 @@ egl_manager_new(EGLNativeDisplayType xdpy, const EGLint *attrib_list,
--       eglGetProcAddress("glEGLImageTargetTexture2DOES");
-- #endif
-- 
--+#ifdef EGL_KHR_image
--+   eglCreateImageKHR_func = (PFNEGLCREATEIMAGEKHRPROC)
--+      eglGetProcAddress("eglCreateImageKHR");
--+   if (eglCreateImageKHR_func == NULL) {
--+      printf("failed to get eglCreateImageKHR\n");
--+      eglTerminate(eman->dpy);
--+      free(eman);
--+      return NULL;
--+   }
--+#endif
+-+#serial 2
 -+
--    return eman;
-- }
-- 
--@@ -850,10 +865,16 @@ main(int argc, char *argv[])
--    case GEARS_PIXMAP:
--    case GEARS_PIXMAP_TEXTURE:
--       ret = egl_manager_create_pixmap(eman, eman->xwin, EGL_TRUE, NULL);
+-+AC_DEFUN([AX_APPEND_FLAG],
+-+[AC_PREREQ(2.59)dnl for _AC_LANG_PREFIX
+-+AS_VAR_PUSHDEF([FLAGS], [m4_default($2,_AC_LANG_PREFIX[FLAGS])])dnl
+-+AS_VAR_SET_IF(FLAGS,
+-+  [case " AS_VAR_GET(FLAGS) " in
+-+    *" $1 "*)
+-+      AC_RUN_LOG([: FLAGS already contains $1])
+-+      ;;
+-+    *)
+-+      AC_RUN_LOG([: FLAGS="$FLAGS $1"])
+-+      AS_VAR_SET(FLAGS, ["AS_VAR_GET(FLAGS) $1"])
+-+      ;;
+-+   esac],
+-+  [AS_VAR_SET(FLAGS,["$1"])])
+-+AS_VAR_POPDEF([FLAGS])dnl
+-+])dnl AX_APPEND_FLAG
+-diff --git a/m4/ax_check_compile_flag.m4 b/m4/ax_check_compile_flag.m4
+-new file mode 100644
+-index 0000000..c3a8d69
+---- /dev/null
+-+++ b/m4/ax_check_compile_flag.m4
+-@@ -0,0 +1,72 @@
+-+# ===========================================================================
+-+#   http://www.gnu.org/software/autoconf-archive/ax_check_compile_flag.html
+-+# ===========================================================================
+-+#
+-+# SYNOPSIS
+-+#
+-+#   AX_CHECK_COMPILE_FLAG(FLAG, [ACTION-SUCCESS], [ACTION-FAILURE], [EXTRA-FLAGS])
+-+#
+-+# DESCRIPTION
+-+#
+-+#   Check whether the given FLAG works with the current language's compiler
+-+#   or gives an error.  (Warnings, however, are ignored)
+-+#
+-+#   ACTION-SUCCESS/ACTION-FAILURE are shell commands to execute on
+-+#   success/failure.
+-+#
+-+#   If EXTRA-FLAGS is defined, it is added to the current language's default
+-+#   flags (e.g. CFLAGS) when the check is done.  The check is thus made with
+-+#   the flags: "CFLAGS EXTRA-FLAGS FLAG".  This can for example be used to
+-+#   force the compiler to issue an error when a bad flag is given.
+-+#
+-+#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION. Please keep this
+-+#   macro in sync with AX_CHECK_{PREPROC,LINK}_FLAG.
+-+#
+-+# LICENSE
+-+#
+-+#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+-+#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+-+#
+-+#   This program is free software: you can redistribute it and/or modify it
+-+#   under the terms of the GNU General Public License as published by the
+-+#   Free Software Foundation, either version 3 of the License, or (at your
+-+#   option) any later version.
+-+#
+-+#   This program is distributed in the hope that it will be useful, but
+-+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+-+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+-+#   Public License for more details.
+-+#
+-+#   You should have received a copy of the GNU General Public License along
+-+#   with this program. If not, see <http://www.gnu.org/licenses/>.
+-+#
+-+#   As a special exception, the respective Autoconf Macro's copyright owner
+-+#   gives unlimited permission to copy, distribute and modify the configure
+-+#   scripts that are the output of Autoconf when processing the Macro. You
+-+#   need not follow the terms of the GNU General Public License when using
+-+#   or distributing such scripts, even though portions of the text of the
+-+#   Macro appear in them. The GNU General Public License (GPL) does govern
+-+#   all other use of the material that constitutes the Autoconf Macro.
+-+#
+-+#   This special exception to the GPL applies to versions of the Autoconf
+-+#   Macro released by the Autoconf Archive. When you make and distribute a
+-+#   modified version of the Autoconf Macro, you may extend this special
+-+#   exception to the GPL to apply to your modified version as well.
 -+
--+#ifdef EGL_KHR_image
--       if (surface_type == GEARS_PIXMAP_TEXTURE)
---	 eman->image = eglCreateImageKHR (eman->dpy, eman->ctx,
---					  EGL_NATIVE_PIXMAP_KHR,
---					  (EGLClientBuffer) eman->xpix, NULL);
--+	 eman->image = eglCreateImageKHR_func(eman->dpy, eman->ctx,
--+					      EGL_NATIVE_PIXMAP_KHR,
--+					      (EGLClientBuffer) eman->xpix, NULL);
--+#else
--+      fprintf(stderr, "EGL_KHR_image not found at compile time.\n");
--+#endif
+-+#serial 2
 -+
--       if (ret)
--          ret = eglMakeCurrent(eman->dpy, eman->pix, eman->pix, eman->ctx);
--       break;
--@@ -892,9 +913,13 @@ main(int argc, char *argv[])
-- 				   GL_RENDERBUFFER_EXT,
-- 				   color_rb);
-- 
---      eman->image = eglCreateImageKHR(eman->dpy, eman->ctx,
---				      EGL_GL_RENDERBUFFER_KHR,
---				      (EGLClientBuffer) color_rb, NULL);
--+#ifdef EGL_KHR_image
--+      eman->image = eglCreateImageKHR_func(eman->dpy, eman->ctx,
--+					   EGL_GL_RENDERBUFFER_KHR,
--+					   (EGLClientBuffer) color_rb, NULL);
--+#else
--+      fprintf(stderr, "EGL_KHR_image not found at compile time.\n");
--+#endif
-- 
--       glGenRenderbuffers(1, &depth_rb);
--       glBindRenderbuffer(GL_RENDERBUFFER_EXT, depth_rb);
+-+AC_DEFUN([AX_CHECK_COMPILE_FLAG],
+-+[AC_PREREQ(2.59)dnl for _AC_LANG_PREFIX
+-+AS_VAR_PUSHDEF([CACHEVAR],[ax_cv_check_[]_AC_LANG_ABBREV[]flags_$4_$1])dnl
+-+AC_CACHE_CHECK([whether _AC_LANG compiler accepts $1], CACHEVAR, [
+-+  ax_check_save_flags=$[]_AC_LANG_PREFIX[]FLAGS
+-+  _AC_LANG_PREFIX[]FLAGS="$[]_AC_LANG_PREFIX[]FLAGS $4 $1"
+-+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM()],
+-+    [AS_VAR_SET(CACHEVAR,[yes])],
+-+    [AS_VAR_SET(CACHEVAR,[no])])
+-+  _AC_LANG_PREFIX[]FLAGS=$ax_check_save_flags])
+-+AS_IF([test x"AS_VAR_GET(CACHEVAR)" = xyes],
+-+  [m4_default([$2], :)],
+-+  [m4_default([$3], :)])
+-+AS_VAR_POPDEF([CACHEVAR])dnl
+-+])dnl AX_CHECK_COMPILE_FLAGS
 --- 
--1.7.11.4
+-1.7.9.5
 -
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch b/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
+diff --git a/meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch b/meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
 deleted file mode 100644
-index 9b5e952..0000000
---- a/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
+index b0c0f06..0000000
+--- a/meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
 +++ /dev/null
-@@ -1,24 +0,0 @@
--after gcc linking has changed, all the libraries must be explicitely specified 
--This patch avoids these linking errors:
+@@ -1,63 +0,0 @@
+-Upstream-Status: merged
 -
--|   CCLD   xeglgears
--| /build_disk/poky_build/build0/tmp/sysroots/x86_64-linux/usr/libexec/armv5te-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.5.1/ld: xeglthreads.o: undefined reference to symbol 'pthread_join@@GLIBC_2.4'
--| /build_disk/poky_build/build0/tmp/sysroots/x86_64-linux/usr/libexec/armv5te-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.5.1/ld: note: 'pthread_join@@GLIBC_2.4' is defined in DSO /build_disk/poky_build/build0/tmp/sysroots/qemuarm/lib/libpthread.so.0 so try adding it to the linker command line
--| /build_disk/poky_build/build0/tmp/sysroots/qemuarm/lib/libpthread.so.0: could not read symbols: Invalid operation
--| collect2: ld returned 1 exit status
+-From 92f009a706c643d49e8d6e5ae6c9fb94ae5b2e9b Mon Sep 17 00:00:00 2001
+-From: Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>
+-Date: Sat, 29 Sep 2012 01:07:56 -0300
+-Subject: [PATCH] aarch64: adding build support
 -
+-Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>
+----
+- Makefile.am  |    6 +++++-
+- configure.ac |    5 +++++
+- 2 files changed, 10 insertions(+), 1 deletion(-)
 -
--Nitin A Kamble <nitin.a.kamble@intel.com>
--Date: 2011/02/03
--
--Upstream-Status: Pending
--
--Index: mesa-demos-8.0.1/src/egl/opengl/Makefile.am
--===================================================================
----- mesa-demos-8.0.1.orig/src/egl/opengl/Makefile.am	2010-07-07 10:57:15.000000000 -0700
--+++ mesa-demos-8.0.1/src/egl/opengl/Makefile.am	2011-02-03 14:30:13.928486381 -0800
--@@ -67,3 +67,4 @@
+-diff --git a/Makefile.am b/Makefile.am
+-index 16f32a6..e11050d 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -36,7 +36,8 @@ EXTRA_DIST = LICENSE ChangeLog.v1 ChangeLog.libgcj configure.host \
+- 	msvcc.sh generate-ios-source-and-headers.py \
+- 	generate-osx-source-and-headers.py \
+-         libffi.xcodeproj/project.pbxproj \
+--	src/arm/trampoline.S
+-+	src/arm/trampoline.S src/aarch64/ffi.c \
+-+	src/aarch64/ffitarget.h src/aarch64/sysv.S
 - 
-- eglgears_x11_LDADD = ../eglut/libeglut_x11.la
-- egltri_x11_LDADD = ../eglut/libeglut_x11.la
--+xeglthreads_LDADD = -lpthread
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch b/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+- info_TEXINFOS = doc/libffi.texi
+- 
+-@@ -157,6 +158,9 @@ if FFI_EXEC_TRAMPOLINE_TABLE
+- nodist_libffi_la_SOURCES += src/arm/trampoline.S
+- endif
+- endif
+-+if AARCH64
+-+nodist_libffi_la_SOURCES += src/aarch64/sysv.S src/aarch64/ffi.c
+-+endif
+- if AVR32
+- nodist_libffi_la_SOURCES += src/avr32/sysv.S src/avr32/ffi.c
+- endif
+-diff --git a/configure.ac b/configure.ac
+-index 9b946a2..9205391 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -63,6 +63,10 @@ case "$host" in
+- 	TARGET=ARM; TARGETDIR=arm
+- 	;;
+- 
+-+  aarch64*-*-*)
+-+	TARGET=AARCH64; TARGETDIR=aarch64
+-+	;;
+-+
+-   amd64-*-freebsd* | amd64-*-openbsd*)
+- 	TARGET=X86_64; TARGETDIR=x86
+-   	;;
+-@@ -234,6 +238,7 @@ AM_CONDITIONAL(POWERPC_AIX, test x$TARGET = xPOWERPC_AIX)
+- AM_CONDITIONAL(POWERPC_DARWIN, test x$TARGET = xPOWERPC_DARWIN)
+- AM_CONDITIONAL(POWERPC_FREEBSD, test x$TARGET = xPOWERPC_FREEBSD)
+- AM_CONDITIONAL(ARM, test x$TARGET = xARM)
+-+AM_CONDITIONAL(AARCH64, test x$TARGET = xAARCH64)
+- AM_CONDITIONAL(AVR32, test x$TARGET = xAVR32)
+- AM_CONDITIONAL(LIBFFI_CRIS, test x$TARGET = xLIBFFI_CRIS)
+- AM_CONDITIONAL(FRV, test x$TARGET = xFRV)
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch b/meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
 deleted file mode 100644
-index 849c974..0000000
---- a/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+index d08a5b4..0000000
+--- a/meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
 +++ /dev/null
-@@ -1,21 +0,0 @@
--Fix to enable gles2 to build.
+@@ -1,2672 +0,0 @@
+-Upstream-Status: merged
 -
--Ross Burton <ross.burton@intel.com>
+-From 6fb142b06652d3a4f295778b14adadbc9d93fbe7 Mon Sep 17 00:00:00 2001
+-From: Marcus Shawcroft <marcus. shawcroft@arm.dot.com>
+-Date: Fri, 28 Sep 2012 17:28:48 +0100
+-Subject: [PATCH] New port for ARM AArch64
 -
--Upstream-Status: Pending
+-ARM would like to contribute a libffi port for the ARM AArch64
+-architecture.  The port passes the test suite cleanly.  The proposed
+-ChangeLog and patches are included below.
 -
--Index: mesa-demos-8.0.1/src/egl/opengles2/es2_info.c
--===================================================================
----- mesa-demos-8.0.1.orig/src/egl/opengles2/es2_info.c	2010-07-07 18:57:15.000000000 +0100
--+++ mesa-demos-8.0.1/src/egl/opengles2/es2_info.c	2012-08-01 13:14:59.000104115 +0100
--@@ -18,8 +18,8 @@
-- #include <X11/Xlib.h>
-- #include <X11/Xutil.h>
-- #include <X11/keysym.h>
---#include <GLES/gl.h>
---#include <GLES/glext.h>
--+#include <GLES2/gl2.h>
--+#include <GLES2/gl2ext.h>
-- #include <EGL/egl.h>
+-/Marcus
+-
+-2012-09-18  James Greenhalgh  <james.greenhalgh at arm.com>
+-	    Marcus Shawcroft  <marcus.shawcroft at arm.com>
+-
+-	* README: Add details of aarch64 port.
+-	* src/aarch64/ffi.c: New.
+-	* src/aarch64/ffitarget.h: Likewise.
+-	* src/aarch64/sysv.S: Likewise.
+-
+-2012-09-18  James Greenhalgh  <james.greenhalgh at arm.com>
+-	    Marcus Shawcroft  <marcus.shawcroft at arm.com>
+-
+-	* testsuite/lib/libffi.exp: Add support for aarch64.
+-	* testsuite/libffi.call/cls_struct_va1.c: New.
+-	* testsuite/libffi.call/cls_uchar_va.c: Likewise.
+-	* testsuite/libffi.call/cls_uint_va.c: Likewise.
+-	* testsuite/libffi.call/cls_ulong_va.c: Liekwise.
+-	* testsuite/libffi.call/cls_ushort_va.c: Likewise.
+-	* testsuite/libffi.call/nested_struct11.c: Likewise.
+-	* testsuite/libffi.call/uninitialized.c: Likewise.
+-	* testsuite/libffi.call/va_1.c: Likewise.
+-	* testsuite/libffi.call/va_struct1.c: Likewise.
+-	* testsuite/libffi.call/va_struct2.c: Likewise.
+-	* testsuite/libffi.call/va_struct3.c: Likewise.
+----
+- README                                  |    2 +
+- src/aarch64/ffi.c                       | 1076 +++++++++++++++++++++++++++++++
+- src/aarch64/ffitarget.h                 |   59 ++
+- src/aarch64/sysv.S                      |  307 +++++++++
+- testsuite/lib/libffi.exp                |    4 +
+- testsuite/libffi.call/cls_struct_va1.c  |  114 ++++
+- testsuite/libffi.call/cls_uchar_va.c    |   44 ++
+- testsuite/libffi.call/cls_uint_va.c     |   45 ++
+- testsuite/libffi.call/cls_ulong_va.c    |   45 ++
+- testsuite/libffi.call/cls_ushort_va.c   |   44 ++
+- testsuite/libffi.call/nested_struct11.c |  121 ++++
+- testsuite/libffi.call/uninitialized.c   |   61 ++
+- testsuite/libffi.call/va_1.c            |  196 ++++++
+- testsuite/libffi.call/va_struct1.c      |  121 ++++
+- testsuite/libffi.call/va_struct2.c      |  123 ++++
+- testsuite/libffi.call/va_struct3.c      |  125 ++++
+- 16 files changed, 2487 insertions(+)
+- create mode 100644 src/aarch64/ffi.c
+- create mode 100644 src/aarch64/ffitarget.h
+- create mode 100644 src/aarch64/sysv.S
+- create mode 100644 testsuite/libffi.call/cls_struct_va1.c
+- create mode 100644 testsuite/libffi.call/cls_uchar_va.c
+- create mode 100644 testsuite/libffi.call/cls_uint_va.c
+- create mode 100644 testsuite/libffi.call/cls_ulong_va.c
+- create mode 100644 testsuite/libffi.call/cls_ushort_va.c
+- create mode 100644 testsuite/libffi.call/nested_struct11.c
+- create mode 100644 testsuite/libffi.call/uninitialized.c
+- create mode 100644 testsuite/libffi.call/va_1.c
+- create mode 100644 testsuite/libffi.call/va_struct1.c
+- create mode 100644 testsuite/libffi.call/va_struct2.c
+- create mode 100644 testsuite/libffi.call/va_struct3.c
+-
+-diff --git a/README b/README
+-index 0cf0720..8fc473f 100644
+---- a/README
+-+++ b/README
+-@@ -51,6 +51,7 @@ tested:
+- |--------------+------------------|
+- | Architecture | Operating System |
+- |--------------+------------------|
+-+| AArch64      | Linux            |
+- | Alpha        | Linux            |
+- | Alpha        | Tru64            |
+- | ARM          | Linux            |
+-@@ -319,6 +320,7 @@ Thorup.
+- Major processor architecture ports were contributed by the following
+- developers:
 - 
+-+aarch64		Marcus Shawcroft, James Greenhalgh
+- alpha		Richard Henderson
+- arm		Raffaele Sena
+- cris		Simon Posnjak, Hans-Peter Nilsson
+-diff --git a/src/aarch64/ffi.c b/src/aarch64/ffi.c
+-new file mode 100644
+-index 0000000..1405665
+---- /dev/null
+-+++ b/src/aarch64/ffi.c
+-@@ -0,0 +1,1076 @@
+-+/* Copyright (c) 2009, 2010, 2011, 2012 ARM Ltd.
+-+
+-+Permission is hereby granted, free of charge, to any person obtaining
+-+a copy of this software and associated documentation files (the
+-+``Software''), to deal in the Software without restriction, including
+-+without limitation the rights to use, copy, modify, merge, publish,
+-+distribute, sublicense, and/or sell copies of the Software, and to
+-+permit persons to whom the Software is furnished to do so, subject to
+-+the following conditions:
+-+
+-+The above copyright notice and this permission notice shall be
+-+included in all copies or substantial portions of the Software.
+-+
+-+THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
+-+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+-+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+-+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+-+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+-+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+-+
+-+#include <stdio.h>
+-+
+-+#include <ffi.h>
+-+#include <ffi_common.h>
+-+
+-+#include <stdlib.h>
+-+
+-+/* Stack alignment requirement in bytes */
+-+#define AARCH64_STACK_ALIGN 16
+-+
+-+#define N_X_ARG_REG 8
+-+#define N_V_ARG_REG 8
+-+
+-+#define AARCH64_FFI_WITH_V (1 << AARCH64_FFI_WITH_V_BIT)
+-+
+-+union _d
+-+{
+-+  UINT64 d;
+-+  UINT32 s[2];
+-+};
+-+
+-+struct call_context
+-+{
+-+  UINT64 x [AARCH64_N_XREG];
+-+  struct
+-+  {
+-+    union _d d[2];
+-+  } v [AARCH64_N_VREG];
+-+};
+-+
+-+static void *
+-+get_x_addr (struct call_context *context, unsigned n)
+-+{
+-+  return &context->x[n];
+-+}
+-+
+-+static void *
+-+get_s_addr (struct call_context *context, unsigned n)
+-+{
+-+#if defined __AARCH64EB__
+-+  return &context->v[n].d[1].s[1];
+-+#else
+-+  return &context->v[n].d[0].s[0];
+-+#endif
+-+}
+-+
+-+static void *
+-+get_d_addr (struct call_context *context, unsigned n)
+-+{
+-+#if defined __AARCH64EB__
+-+  return &context->v[n].d[1];
+-+#else
+-+  return &context->v[n].d[0];
+-+#endif
+-+}
+-+
+-+static void *
+-+get_v_addr (struct call_context *context, unsigned n)
+-+{
+-+  return &context->v[n];
+-+}
+-+
+-+/* Return the memory location at which a basic type would reside
+-+   were it to have been stored in register n.  */
+-+
+-+static void *
+-+get_basic_type_addr (unsigned short type, struct call_context *context,
+-+		     unsigned n)
+-+{
+-+  switch (type)
+-+    {
+-+    case FFI_TYPE_FLOAT:
+-+      return get_s_addr (context, n);
+-+    case FFI_TYPE_DOUBLE:
+-+      return get_d_addr (context, n);
+-+    case FFI_TYPE_LONGDOUBLE:
+-+      return get_v_addr (context, n);
+-+    case FFI_TYPE_UINT8:
+-+    case FFI_TYPE_SINT8:
+-+    case FFI_TYPE_UINT16:
+-+    case FFI_TYPE_SINT16:
+-+    case FFI_TYPE_UINT32:
+-+    case FFI_TYPE_SINT32:
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_UINT64:
+-+    case FFI_TYPE_SINT64:
+-+      return get_x_addr (context, n);
+-+    default:
+-+      FFI_ASSERT (0);
+-+      return NULL;
+-+    }
+-+}
+-+
+-+/* Return the alignment width for each of the basic types.  */
+-+
+-+static size_t
+-+get_basic_type_alignment (unsigned short type)
+-+{
+-+  switch (type)
+-+    {
+-+    case FFI_TYPE_FLOAT:
+-+    case FFI_TYPE_DOUBLE:
+-+      return sizeof (UINT64);
+-+    case FFI_TYPE_LONGDOUBLE:
+-+      return sizeof (long double);
+-+    case FFI_TYPE_UINT8:
+-+    case FFI_TYPE_SINT8:
+-+    case FFI_TYPE_UINT16:
+-+    case FFI_TYPE_SINT16:
+-+    case FFI_TYPE_UINT32:
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_SINT32:
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_UINT64:
+-+    case FFI_TYPE_SINT64:
+-+      return sizeof (UINT64);
+-+
+-+    default:
+-+      FFI_ASSERT (0);
+-+      return 0;
+-+    }
+-+}
+-+
+-+/* Return the size in bytes for each of the basic types.  */
+-+
+-+static size_t
+-+get_basic_type_size (unsigned short type)
+-+{
+-+  switch (type)
+-+    {
+-+    case FFI_TYPE_FLOAT:
+-+      return sizeof (UINT32);
+-+    case FFI_TYPE_DOUBLE:
+-+      return sizeof (UINT64);
+-+    case FFI_TYPE_LONGDOUBLE:
+-+      return sizeof (long double);
+-+    case FFI_TYPE_UINT8:
+-+      return sizeof (UINT8);
+-+    case FFI_TYPE_SINT8:
+-+      return sizeof (SINT8);
+-+    case FFI_TYPE_UINT16:
+-+      return sizeof (UINT16);
+-+    case FFI_TYPE_SINT16:
+-+      return sizeof (SINT16);
+-+    case FFI_TYPE_UINT32:
+-+      return sizeof (UINT32);
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_SINT32:
+-+      return sizeof (SINT32);
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_UINT64:
+-+      return sizeof (UINT64);
+-+    case FFI_TYPE_SINT64:
+-+      return sizeof (SINT64);
+-+
+-+    default:
+-+      FFI_ASSERT (0);
+-+      return 0;
+-+    }
+-+}
+-+
+-+extern void
+-+ffi_call_SYSV (unsigned (*)(struct call_context *context, unsigned char *,
+-+			    extended_cif *),
+-+               struct call_context *context,
+-+               extended_cif *,
+-+               unsigned,
+-+               void (*fn)(void));
+-+
+-+extern void
+-+ffi_closure_SYSV (ffi_closure *);
+-+
+-+/* Test for an FFI floating point representation.  */
+-+
+-+static unsigned
+-+is_floating_type (unsigned short type)
+-+{
+-+  return (type == FFI_TYPE_FLOAT || type == FFI_TYPE_DOUBLE
+-+	  || type == FFI_TYPE_LONGDOUBLE);
+-+}
+-+
+-+/* Test for a homogeneous structure.  */
+-+
+-+static unsigned short
+-+get_homogeneous_type (ffi_type *ty)
+-+{
+-+  if (ty->type == FFI_TYPE_STRUCT && ty->elements)
+-+    {
+-+      unsigned i;
+-+      unsigned short candidate_type
+-+	= get_homogeneous_type (ty->elements[0]);
+-+      for (i =1; ty->elements[i]; i++)
+-+	{
+-+	  unsigned short iteration_type = 0;
+-+	  /* If we have a nested struct, we must find its homogeneous type.
+-+	     If that fits with our candidate type, we are still
+-+	     homogeneous.  */
+-+	  if (ty->elements[i]->type == FFI_TYPE_STRUCT
+-+	      && ty->elements[i]->elements)
+-+	    {
+-+	      iteration_type = get_homogeneous_type (ty->elements[i]);
+-+	    }
+-+	  else
+-+	    {
+-+	      iteration_type = ty->elements[i]->type;
+-+	    }
+-+
+-+	  /* If we are not homogeneous, return FFI_TYPE_STRUCT.  */
+-+	  if (candidate_type != iteration_type)
+-+	    return FFI_TYPE_STRUCT;
+-+	}
+-+      return candidate_type;
+-+    }
+-+
+-+  /* Base case, we have no more levels of nesting, so we
+-+     are a basic type, and so, trivially homogeneous in that type.  */
+-+  return ty->type;
+-+}
+-+
+-+/* Determine the number of elements within a STRUCT.
+-+
+-+   Note, we must handle nested structs.
+-+
+-+   If ty is not a STRUCT this function will return 0.  */
+-+
+-+static unsigned
+-+element_count (ffi_type *ty)
+-+{
+-+  if (ty->type == FFI_TYPE_STRUCT && ty->elements)
+-+    {
+-+      unsigned n;
+-+      unsigned elems = 0;
+-+      for (n = 0; ty->elements[n]; n++)
+-+	{
+-+	  if (ty->elements[n]->type == FFI_TYPE_STRUCT
+-+	      && ty->elements[n]->elements)
+-+	    elems += element_count (ty->elements[n]);
+-+	  else
+-+	    elems++;
+-+	}
+-+      return elems;
+-+    }
+-+  return 0;
+-+}
+-+
+-+/* Test for a homogeneous floating point aggregate.
+-+
+-+   A homogeneous floating point aggregate is a homogeneous aggregate of
+-+   a half- single- or double- precision floating point type with one
+-+   to four elements.  Note that this includes nested structs of the
+-+   basic type.  */
+-+
+-+static int
+-+is_hfa (ffi_type *ty)
+-+{
+-+  if (ty->type == FFI_TYPE_STRUCT
+-+      && ty->elements[0]
+-+      && is_floating_type (get_homogeneous_type (ty)))
+-+    {
+-+      unsigned n = element_count (ty);
+-+      return n >= 1 && n <= 4;
+-+    }
+-+  return 0;
+-+}
+-+
+-+/* Test if an ffi_type is a candidate for passing in a register.
+-+
+-+   This test does not check that sufficient registers of the
+-+   appropriate class are actually available, merely that IFF
+-+   sufficient registers are available then the argument will be passed
+-+   in register(s).
+-+
+-+   Note that an ffi_type that is deemed to be a register candidate
+-+   will always be returned in registers.
+-+
+-+   Returns 1 if a register candidate else 0.  */
+-+
+-+static int
+-+is_register_candidate (ffi_type *ty)
+-+{
+-+  switch (ty->type)
+-+    {
+-+    case FFI_TYPE_VOID:
+-+    case FFI_TYPE_FLOAT:
+-+    case FFI_TYPE_DOUBLE:
+-+    case FFI_TYPE_LONGDOUBLE:
+-+    case FFI_TYPE_UINT8:
+-+    case FFI_TYPE_UINT16:
+-+    case FFI_TYPE_UINT32:
+-+    case FFI_TYPE_UINT64:
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_SINT8:
+-+    case FFI_TYPE_SINT16:
+-+    case FFI_TYPE_SINT32:
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_SINT64:
+-+      return 1;
+-+
+-+    case FFI_TYPE_STRUCT:
+-+      if (is_hfa (ty))
+-+        {
+-+          return 1;
+-+        }
+-+      else if (ty->size > 16)
+-+        {
+-+          /* Too large. Will be replaced with a pointer to memory. The
+-+             pointer MAY be passed in a register, but the value will
+-+             not. This test specifically fails since the argument will
+-+             never be passed by value in registers. */
+-+          return 0;
+-+        }
+-+      else
+-+        {
+-+          /* Might be passed in registers depending on the number of
+-+             registers required. */
+-+          return (ty->size + 7) / 8 < N_X_ARG_REG;
+-+        }
+-+      break;
+-+
+-+    default:
+-+      FFI_ASSERT (0);
+-+      break;
+-+    }
+-+
+-+  return 0;
+-+}
+-+
+-+/* Test if an ffi_type argument or result is a candidate for a vector
+-+   register.  */
+-+
+-+static int
+-+is_v_register_candidate (ffi_type *ty)
+-+{
+-+  return is_floating_type (ty->type)
+-+	   || (ty->type == FFI_TYPE_STRUCT && is_hfa (ty));
+-+}
+-+
+-+/* Representation of the procedure call argument marshalling
+-+   state.
+-+
+-+   The terse state variable names match the names used in the AARCH64
+-+   PCS. */
+-+
+-+struct arg_state
+-+{
+-+  unsigned ngrn;                /* Next general-purpose register number. */
+-+  unsigned nsrn;                /* Next vector register number. */
+-+  unsigned nsaa;                /* Next stack offset. */
+-+};
+-+
+-+/* Initialize a procedure call argument marshalling state.  */
+-+static void
+-+arg_init (struct arg_state *state, unsigned call_frame_size)
+-+{
+-+  state->ngrn = 0;
+-+  state->nsrn = 0;
+-+  state->nsaa = 0;
+-+}
+-+
+-+/* Return the number of available consecutive core argument
+-+   registers.  */
+-+
+-+static unsigned
+-+available_x (struct arg_state *state)
+-+{
+-+  return N_X_ARG_REG - state->ngrn;
+-+}
+-+
+-+/* Return the number of available consecutive vector argument
+-+   registers.  */
+-+
+-+static unsigned
+-+available_v (struct arg_state *state)
+-+{
+-+  return N_V_ARG_REG - state->nsrn;
+-+}
+-+
+-+static void *
+-+allocate_to_x (struct call_context *context, struct arg_state *state)
+-+{
+-+  FFI_ASSERT (state->ngrn < N_X_ARG_REG)
+-+  return get_x_addr (context, (state->ngrn)++);
+-+}
+-+
+-+static void *
+-+allocate_to_s (struct call_context *context, struct arg_state *state)
+-+{
+-+  FFI_ASSERT (state->nsrn < N_V_ARG_REG)
+-+  return get_s_addr (context, (state->nsrn)++);
+-+}
+-+
+-+static void *
+-+allocate_to_d (struct call_context *context, struct arg_state *state)
+-+{
+-+  FFI_ASSERT (state->nsrn < N_V_ARG_REG)
+-+  return get_d_addr (context, (state->nsrn)++);
+-+}
+-+
+-+static void *
+-+allocate_to_v (struct call_context *context, struct arg_state *state)
+-+{
+-+  FFI_ASSERT (state->nsrn < N_V_ARG_REG)
+-+  return get_v_addr (context, (state->nsrn)++);
+-+}
+-+
+-+/* Allocate an aligned slot on the stack and return a pointer to it.  */
+-+static void *
+-+allocate_to_stack (struct arg_state *state, void *stack, unsigned alignment,
+-+		   unsigned size)
+-+{
+-+  void *allocation;
+-+
+-+  /* Round up the NSAA to the larger of 8 or the natural
+-+     alignment of the argument's type.  */
+-+  state->nsaa = ALIGN (state->nsaa, alignment);
+-+  state->nsaa = ALIGN (state->nsaa, alignment);
+-+  state->nsaa = ALIGN (state->nsaa, 8);
+-+
+-+  allocation = stack + state->nsaa;
+-+
+-+  state->nsaa += size;
+-+  return allocation;
+-+}
+-+
+-+static void
+-+copy_basic_type (void *dest, void *source, unsigned short type)
+-+{
+-+  /* This is neccessary to ensure that basic types are copied
+-+     sign extended to 64-bits as libffi expects.  */
+-+  switch (type)
+-+    {
+-+    case FFI_TYPE_FLOAT:
+-+      *(float *) dest = *(float *) source;
+-+      break;
+-+    case FFI_TYPE_DOUBLE:
+-+      *(double *) dest = *(double *) source;
+-+      break;
+-+    case FFI_TYPE_LONGDOUBLE:
+-+      *(long double *) dest = *(long double *) source;
+-+      break;
+-+    case FFI_TYPE_UINT8:
+-+      *(ffi_arg *) dest = *(UINT8 *) source;
+-+      break;
+-+    case FFI_TYPE_SINT8:
+-+      *(ffi_sarg *) dest = *(SINT8 *) source;
+-+      break;
+-+    case FFI_TYPE_UINT16:
+-+      *(ffi_arg *) dest = *(UINT16 *) source;
+-+      break;
+-+    case FFI_TYPE_SINT16:
+-+      *(ffi_sarg *) dest = *(SINT16 *) source;
+-+      break;
+-+    case FFI_TYPE_UINT32:
+-+      *(ffi_arg *) dest = *(UINT32 *) source;
+-+      break;
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_SINT32:
+-+      *(ffi_sarg *) dest = *(SINT32 *) source;
+-+      break;
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_UINT64:
+-+      *(ffi_arg *) dest = *(UINT64 *) source;
+-+      break;
+-+    case FFI_TYPE_SINT64:
+-+      *(ffi_sarg *) dest = *(SINT64 *) source;
+-+      break;
+-+
+-+    default:
+-+      FFI_ASSERT (0);
+-+    }
+-+}
+-+
+-+static void
+-+copy_hfa_to_reg_or_stack (void *memory,
+-+			  ffi_type *ty,
+-+			  struct call_context *context,
+-+			  unsigned char *stack,
+-+			  struct arg_state *state)
+-+{
+-+  unsigned elems = element_count (ty);
+-+  if (available_v (state) < elems)
+-+    {
+-+      /* There are insufficient V registers. Further V register allocations
+-+	 are prevented, the NSAA is adjusted (by allocate_to_stack ())
+-+	 and the argument is copied to memory at the adjusted NSAA.  */
+-+      state->nsrn = N_V_ARG_REG;
+-+      memcpy (allocate_to_stack (state, stack, ty->alignment, ty->size),
+-+	      memory,
+-+	      ty->size);
+-+    }
+-+  else
+-+    {
+-+      int i;
+-+      unsigned short type = get_homogeneous_type (ty);
+-+      unsigned elems = element_count (ty);
+-+      for (i = 0; i < elems; i++)
+-+	{
+-+	  void *reg = allocate_to_v (context, state);
+-+	  copy_basic_type (reg, memory, type);
+-+	  memory += get_basic_type_size (type);
+-+	}
+-+    }
+-+}
+-+
+-+/* Either allocate an appropriate register for the argument type, or if
+-+   none are available, allocate a stack slot and return a pointer
+-+   to the allocated space.  */
+-+
+-+static void *
+-+allocate_to_register_or_stack (struct call_context *context,
+-+			       unsigned char *stack,
+-+			       struct arg_state *state,
+-+			       unsigned short type)
+-+{
+-+  size_t alignment = get_basic_type_alignment (type);
+-+  size_t size = alignment;
+-+  switch (type)
+-+    {
+-+    case FFI_TYPE_FLOAT:
+-+      /* This is the only case for which the allocated stack size
+-+	 should not match the alignment of the type.  */
+-+      size = sizeof (UINT32);
+-+      /* Fall through.  */
+-+    case FFI_TYPE_DOUBLE:
+-+      if (state->nsrn < N_V_ARG_REG)
+-+	return allocate_to_d (context, state);
+-+      state->nsrn = N_V_ARG_REG;
+-+      break;
+-+    case FFI_TYPE_LONGDOUBLE:
+-+      if (state->nsrn < N_V_ARG_REG)
+-+	return allocate_to_v (context, state);
+-+      state->nsrn = N_V_ARG_REG;
+-+      break;
+-+    case FFI_TYPE_UINT8:
+-+    case FFI_TYPE_SINT8:
+-+    case FFI_TYPE_UINT16:
+-+    case FFI_TYPE_SINT16:
+-+    case FFI_TYPE_UINT32:
+-+    case FFI_TYPE_SINT32:
+-+    case FFI_TYPE_INT:
+-+    case FFI_TYPE_POINTER:
+-+    case FFI_TYPE_UINT64:
+-+    case FFI_TYPE_SINT64:
+-+      if (state->ngrn < N_X_ARG_REG)
+-+	return allocate_to_x (context, state);
+-+      state->ngrn = N_X_ARG_REG;
+-+      break;
+-+    default:
+-+      FFI_ASSERT (0);
+-+    }
+-+
+-+    return allocate_to_stack (state, stack, alignment, size);
+-+}
+-+
+-+/* Copy a value to an appropriate register, or if none are
+-+   available, to the stack.  */
+-+
+-+static void
+-+copy_to_register_or_stack (struct call_context *context,
+-+			   unsigned char *stack,
+-+			   struct arg_state *state,
+-+			   void *value,
+-+			   unsigned short type)
+-+{
+-+  copy_basic_type (
+-+	  allocate_to_register_or_stack (context, stack, state, type),
+-+	  value,
+-+	  type);
+-+}
+-+
+-+/* Marshall the arguments from FFI representation to procedure call
+-+   context and stack.  */
+-+
+-+static unsigned
+-+aarch64_prep_args (struct call_context *context, unsigned char *stack,
+-+		   extended_cif *ecif)
+-+{
+-+  int i;
+-+  struct arg_state state;
+-+
+-+  arg_init (&state, ALIGN(ecif->cif->bytes, 16));
+-+
+-+  for (i = 0; i < ecif->cif->nargs; i++)
+-+    {
+-+      ffi_type *ty = ecif->cif->arg_types[i];
+-+      switch (ty->type)
+-+	{
+-+	case FFI_TYPE_VOID:
+-+	  FFI_ASSERT (0);
+-+	  break;
+-+
+-+	/* If the argument is a basic type the argument is allocated to an
+-+	   appropriate register, or if none are available, to the stack.  */
+-+	case FFI_TYPE_FLOAT:
+-+	case FFI_TYPE_DOUBLE:
+-+	case FFI_TYPE_LONGDOUBLE:
+-+	case FFI_TYPE_UINT8:
+-+	case FFI_TYPE_SINT8:
+-+	case FFI_TYPE_UINT16:
+-+	case FFI_TYPE_SINT16:
+-+	case FFI_TYPE_UINT32:
+-+	case FFI_TYPE_INT:
+-+	case FFI_TYPE_SINT32:
+-+	case FFI_TYPE_POINTER:
+-+	case FFI_TYPE_UINT64:
+-+	case FFI_TYPE_SINT64:
+-+	  copy_to_register_or_stack (context, stack, &state,
+-+				     ecif->avalue[i], ty->type);
+-+	  break;
+-+
+-+	case FFI_TYPE_STRUCT:
+-+	  if (is_hfa (ty))
+-+	    {
+-+	      copy_hfa_to_reg_or_stack (ecif->avalue[i], ty, context,
+-+					stack, &state);
+-+	    }
+-+	  else if (ty->size > 16)
+-+	    {
+-+	      /* If the argument is a composite type that is larger than 16
+-+		 bytes, then the argument has been copied to memory, and
+-+		 the argument is replaced by a pointer to the copy.  */
+-+
+-+	      copy_to_register_or_stack (context, stack, &state,
+-+					 &(ecif->avalue[i]), FFI_TYPE_POINTER);
+-+	    }
+-+	  else if (available_x (&state) >= (ty->size + 7) / 8)
+-+	    {
+-+	      /* If the argument is a composite type and the size in
+-+		 double-words is not more than the number of available
+-+		 X registers, then the argument is copied into consecutive
+-+		 X registers.  */
+-+	      int j;
+-+	      for (j = 0; j < (ty->size + 7) / 8; j++)
+-+		{
+-+		  memcpy (allocate_to_x (context, &state),
+-+			  &(((UINT64 *) ecif->avalue[i])[j]),
+-+			  sizeof (UINT64));
+-+		}
+-+	    }
+-+	  else
+-+	    {
+-+	      /* Otherwise, there are insufficient X registers. Further X
+-+		 register allocations are prevented, the NSAA is adjusted
+-+		 (by allocate_to_stack ()) and the argument is copied to
+-+		 memory at the adjusted NSAA.  */
+-+	      state.ngrn = N_X_ARG_REG;
+-+
+-+	      memcpy (allocate_to_stack (&state, stack, ty->alignment,
+-+					 ty->size), ecif->avalue + i, ty->size);
+-+	    }
+-+	  break;
+-+
+-+	default:
+-+	  FFI_ASSERT (0);
+-+	  break;
+-+	}
+-+    }
+-+
+-+  return ecif->cif->aarch64_flags;
+-+}
+-+
+-+ffi_status
+-+ffi_prep_cif_machdep (ffi_cif *cif)
+-+{
+-+  /* Round the stack up to a multiple of the stack alignment requirement. */
+-+  cif->bytes =
+-+    (cif->bytes + (AARCH64_STACK_ALIGN - 1)) & ~ (AARCH64_STACK_ALIGN - 1);
+-+
+-+  /* Initialize our flags. We are interested if this CIF will touch a
+-+     vector register, if so we will enable context save and load to
+-+     those registers, otherwise not. This is intended to be friendly
+-+     to lazy float context switching in the kernel.  */
+-+  cif->aarch64_flags = 0;
+-+
+-+  if (is_v_register_candidate (cif->rtype))
+-+    {
+-+      cif->aarch64_flags |= AARCH64_FFI_WITH_V;
+-+    }
+-+  else
+-+    {
+-+      int i;
+-+      for (i = 0; i < cif->nargs; i++)
+-+        if (is_v_register_candidate (cif->arg_types[i]))
+-+          {
+-+            cif->aarch64_flags |= AARCH64_FFI_WITH_V;
+-+            break;
+-+          }
+-+    }
+-+
+-+  return FFI_OK;
+-+}
+-+
+-+/* Call a function with the provided arguments and capture the return
+-+   value.  */
+-+void
+-+ffi_call (ffi_cif *cif, void (*fn)(void), void *rvalue, void **avalue)
+-+{
+-+  extended_cif ecif;
+-+
+-+  ecif.cif = cif;
+-+  ecif.avalue = avalue;
+-+  ecif.rvalue = rvalue;
+-+
+-+  switch (cif->abi)
+-+    {
+-+    case FFI_SYSV:
+-+      {
+-+        struct call_context context;
+-+	unsigned stack_bytes;
+-+
+-+	/* Figure out the total amount of stack space we need, the
+-+	   above call frame space needs to be 16 bytes aligned to
+-+	   ensure correct alignment of the first object inserted in
+-+	   that space hence the ALIGN applied to cif->bytes.*/
+-+	stack_bytes = ALIGN(cif->bytes, 16);
+-+
+-+	memset (&context, 0, sizeof (context));
+-+        if (is_register_candidate (cif->rtype))
+-+          {
+-+            ffi_call_SYSV (aarch64_prep_args, &context, &ecif, stack_bytes, fn);
+-+            switch (cif->rtype->type)
+-+              {
+-+              case FFI_TYPE_VOID:
+-+              case FFI_TYPE_FLOAT:
+-+              case FFI_TYPE_DOUBLE:
+-+              case FFI_TYPE_LONGDOUBLE:
+-+              case FFI_TYPE_UINT8:
+-+              case FFI_TYPE_SINT8:
+-+              case FFI_TYPE_UINT16:
+-+              case FFI_TYPE_SINT16:
+-+              case FFI_TYPE_UINT32:
+-+              case FFI_TYPE_SINT32:
+-+              case FFI_TYPE_POINTER:
+-+              case FFI_TYPE_UINT64:
+-+              case FFI_TYPE_INT:
+-+              case FFI_TYPE_SINT64:
+-+		{
+-+		  void *addr = get_basic_type_addr (cif->rtype->type,
+-+						    &context, 0);
+-+		  copy_basic_type (rvalue, addr, cif->rtype->type);
+-+		  break;
+-+		}
+-+
+-+              case FFI_TYPE_STRUCT:
+-+                if (is_hfa (cif->rtype))
+-+		  {
+-+		    int j;
+-+		    unsigned short type = get_homogeneous_type (cif->rtype);
+-+		    unsigned elems = element_count (cif->rtype);
+-+		    for (j = 0; j < elems; j++)
+-+		      {
+-+			void *reg = get_basic_type_addr (type, &context, j);
+-+			copy_basic_type (rvalue, reg, type);
+-+			rvalue += get_basic_type_size (type);
+-+		      }
+-+		  }
+-+                else if ((cif->rtype->size + 7) / 8 < N_X_ARG_REG)
+-+                  {
+-+                    unsigned size = ALIGN (cif->rtype->size, sizeof (UINT64));
+-+                    memcpy (rvalue, get_x_addr (&context, 0), size);
+-+                  }
+-+                else
+-+                  {
+-+                    FFI_ASSERT (0);
+-+                  }
+-+                break;
+-+
+-+              default:
+-+                FFI_ASSERT (0);
+-+                break;
+-+              }
+-+          }
+-+        else
+-+          {
+-+            memcpy (get_x_addr (&context, 8), &rvalue, sizeof (UINT64));
+-+            ffi_call_SYSV (aarch64_prep_args, &context, &ecif,
+-+			   stack_bytes, fn);
+-+          }
+-+        break;
+-+      }
+-+
+-+    default:
+-+      FFI_ASSERT (0);
+-+      break;
+-+    }
+-+}
+-+
+-+static unsigned char trampoline [] =
+-+{ 0x70, 0x00, 0x00, 0x58,	/* ldr	x16, 1f	*/
+-+  0x91, 0x00, 0x00, 0x10,	/* adr	x17, 2f	*/
+-+  0x00, 0x02, 0x1f, 0xd6	/* br	x16	*/
+-+};
+-+
+-+/* Build a trampoline.  */
+-+
+-+#define FFI_INIT_TRAMPOLINE(TRAMP,FUN,CTX,FLAGS)			\
+-+  ({unsigned char *__tramp = (unsigned char*)(TRAMP);			\
+-+    UINT64  __fun = (UINT64)(FUN);					\
+-+    UINT64  __ctx = (UINT64)(CTX);					\
+-+    UINT64  __flags = (UINT64)(FLAGS);					\
+-+    memcpy (__tramp, trampoline, sizeof (trampoline));			\
+-+    memcpy (__tramp + 12, &__fun, sizeof (__fun));			\
+-+    memcpy (__tramp + 20, &__ctx, sizeof (__ctx));			\
+-+    memcpy (__tramp + 28, &__flags, sizeof (__flags));			\
+-+    __clear_cache(__tramp, __tramp + FFI_TRAMPOLINE_SIZE);		\
+-+  })
+-+
+-+ffi_status
+-+ffi_prep_closure_loc (ffi_closure* closure,
+-+                      ffi_cif* cif,
+-+                      void (*fun)(ffi_cif*,void*,void**,void*),
+-+                      void *user_data,
+-+                      void *codeloc)
+-+{
+-+  if (cif->abi != FFI_SYSV)
+-+    return FFI_BAD_ABI;
+-+
+-+  FFI_INIT_TRAMPOLINE (&closure->tramp[0], &ffi_closure_SYSV, codeloc,
+-+		       cif->aarch64_flags);
+-+
+-+  closure->cif  = cif;
+-+  closure->user_data = user_data;
+-+  closure->fun  = fun;
+-+
+-+  return FFI_OK;
+-+}
+-+
+-+/* Primary handler to setup and invoke a function within a closure.
+-+
+-+   A closure when invoked enters via the assembler wrapper
+-+   ffi_closure_SYSV(). The wrapper allocates a call context on the
+-+   stack, saves the interesting registers (from the perspective of
+-+   the calling convention) into the context then passes control to
+-+   ffi_closure_SYSV_inner() passing the saved context and a pointer to
+-+   the stack at the point ffi_closure_SYSV() was invoked.
+-+
+-+   On the return path the assembler wrapper will reload call context
+-+   regsiters.
+-+
+-+   ffi_closure_SYSV_inner() marshalls the call context into ffi value
+-+   desriptors, invokes the wrapped function, then marshalls the return
+-+   value back into the call context.  */
+-+
+-+void
+-+ffi_closure_SYSV_inner (ffi_closure *closure, struct call_context *context,
+-+			void *stack)
+-+{
+-+  ffi_cif *cif = closure->cif;
+-+  void **avalue = (void**) alloca (cif->nargs * sizeof (void*));
+-+  void *rvalue = NULL;
+-+  int i;
+-+  struct arg_state state;
+-+
+-+  arg_init (&state, ALIGN(cif->bytes, 16));
+-+
+-+  for (i = 0; i < cif->nargs; i++)
+-+    {
+-+      ffi_type *ty = cif->arg_types[i];
+-+
+-+      switch (ty->type)
+-+	{
+-+	case FFI_TYPE_VOID:
+-+	  FFI_ASSERT (0);
+-+	  break;
+-+
+-+	case FFI_TYPE_UINT8:
+-+	case FFI_TYPE_SINT8:
+-+	case FFI_TYPE_UINT16:
+-+	case FFI_TYPE_SINT16:
+-+	case FFI_TYPE_UINT32:
+-+	case FFI_TYPE_SINT32:
+-+	case FFI_TYPE_INT:
+-+	case FFI_TYPE_POINTER:
+-+	case FFI_TYPE_UINT64:
+-+	case FFI_TYPE_SINT64:
+-+	case  FFI_TYPE_FLOAT:
+-+	case  FFI_TYPE_DOUBLE:
+-+	case  FFI_TYPE_LONGDOUBLE:
+-+	  avalue[i] = allocate_to_register_or_stack (context, stack,
+-+						     &state, ty->type);
+-+	  break;
+-+
+-+	case FFI_TYPE_STRUCT:
+-+	  if (is_hfa (ty))
+-+	    {
+-+	      unsigned n = element_count (ty);
+-+	      if (available_v (&state) < n)
+-+		{
+-+		  state.nsrn = N_V_ARG_REG;
+-+		  avalue[i] = allocate_to_stack (&state, stack, ty->alignment,
+-+						 ty->size);
+-+		}
+-+	      else
+-+		{
+-+		  switch (get_homogeneous_type (ty))
+-+		    {
+-+		    case FFI_TYPE_FLOAT:
+-+		      {
+-+			/* Eeek! We need a pointer to the structure,
+-+			   however the homogeneous float elements are
+-+			   being passed in individual S registers,
+-+			   therefore the structure is not represented as
+-+			   a contiguous sequence of bytes in our saved
+-+			   register context. We need to fake up a copy
+-+			   of the structure layed out in memory
+-+			   correctly. The fake can be tossed once the
+-+			   closure function has returned hence alloca()
+-+			   is sufficient. */
+-+			int j;
+-+			UINT32 *p = avalue[i] = alloca (ty->size);
+-+			for (j = 0; j < element_count (ty); j++)
+-+			  memcpy (&p[j],
+-+				  allocate_to_s (context, &state),
+-+				  sizeof (*p));
+-+			break;
+-+		      }
+-+
+-+		    case FFI_TYPE_DOUBLE:
+-+		      {
+-+			/* Eeek! We need a pointer to the structure,
+-+			   however the homogeneous float elements are
+-+			   being passed in individual S registers,
+-+			   therefore the structure is not represented as
+-+			   a contiguous sequence of bytes in our saved
+-+			   register context. We need to fake up a copy
+-+			   of the structure layed out in memory
+-+			   correctly. The fake can be tossed once the
+-+			   closure function has returned hence alloca()
+-+			   is sufficient. */
+-+			int j;
+-+			UINT64 *p = avalue[i] = alloca (ty->size);
+-+			for (j = 0; j < element_count (ty); j++)
+-+			  memcpy (&p[j],
+-+				  allocate_to_d (context, &state),
+-+				  sizeof (*p));
+-+			break;
+-+		      }
+-+
+-+		    case FFI_TYPE_LONGDOUBLE:
+-+			  memcpy (&avalue[i],
+-+				  allocate_to_v (context, &state),
+-+				  sizeof (*avalue));
+-+		      break;
+-+
+-+		    default:
+-+		      FFI_ASSERT (0);
+-+		      break;
+-+		    }
+-+		}
+-+	    }
+-+	  else if (ty->size > 16)
+-+	    {
+-+	      /* Replace Composite type of size greater than 16 with a
+-+		 pointer.  */
+-+	      memcpy (&avalue[i],
+-+		      allocate_to_register_or_stack (context, stack,
+-+						     &state, FFI_TYPE_POINTER),
+-+		      sizeof (avalue[i]));
+-+	    }
+-+	  else if (available_x (&state) >= (ty->size + 7) / 8)
+-+	    {
+-+	      avalue[i] = get_x_addr (context, state.ngrn);
+-+	      state.ngrn += (ty->size + 7) / 8;
+-+	    }
+-+	  else
+-+	    {
+-+	      state.ngrn = N_X_ARG_REG;
+-+
+-+	      avalue[i] = allocate_to_stack (&state, stack, ty->alignment,
+-+					     ty->size);
+-+	    }
+-+	  break;
+-+
+-+	default:
+-+	  FFI_ASSERT (0);
+-+	  break;
+-+	}
+-+    }
+-+
+-+  /* Figure out where the return value will be passed, either in
+-+     registers or in a memory block allocated by the caller and passed
+-+     in x8.  */
+-+
+-+  if (is_register_candidate (cif->rtype))
+-+    {
+-+      /* Register candidates are *always* returned in registers. */
+-+
+-+      /* Allocate a scratchpad for the return value, we will let the
+-+         callee scrible the result into the scratch pad then move the
+-+         contents into the appropriate return value location for the
+-+         call convention.  */
+-+      rvalue = alloca (cif->rtype->size);
+-+      (closure->fun) (cif, rvalue, avalue, closure->user_data);
+-+
+-+      /* Copy the return value into the call context so that it is returned
+-+         as expected to our caller.  */
+-+      switch (cif->rtype->type)
+-+        {
+-+        case FFI_TYPE_VOID:
+-+          break;
+-+
+-+        case FFI_TYPE_UINT8:
+-+        case FFI_TYPE_UINT16:
+-+        case FFI_TYPE_UINT32:
+-+        case FFI_TYPE_POINTER:
+-+        case FFI_TYPE_UINT64:
+-+        case FFI_TYPE_SINT8:
+-+        case FFI_TYPE_SINT16:
+-+        case FFI_TYPE_INT:
+-+        case FFI_TYPE_SINT32:
+-+        case FFI_TYPE_SINT64:
+-+        case FFI_TYPE_FLOAT:
+-+        case FFI_TYPE_DOUBLE:
+-+        case FFI_TYPE_LONGDOUBLE:
+-+	  {
+-+	    void *addr = get_basic_type_addr (cif->rtype->type, context, 0);
+-+	    copy_basic_type (addr, rvalue, cif->rtype->type);
+-+            break;
+-+	  }
+-+        case FFI_TYPE_STRUCT:
+-+          if (is_hfa (cif->rtype))
+-+	    {
+-+	      int i;
+-+	      unsigned short type = get_homogeneous_type (cif->rtype);
+-+	      unsigned elems = element_count (cif->rtype);
+-+	      for (i = 0; i < elems; i++)
+-+		{
+-+		  void *reg = get_basic_type_addr (type, context, i);
+-+		  copy_basic_type (reg, rvalue, type);
+-+		  rvalue += get_basic_type_size (type);
+-+		}
+-+	    }
+-+          else if ((cif->rtype->size + 7) / 8 < N_X_ARG_REG)
+-+            {
+-+              unsigned size = ALIGN (cif->rtype->size, sizeof (UINT64)) ;
+-+              memcpy (get_x_addr (context, 0), rvalue, size);
+-+            }
+-+          else
+-+            {
+-+              FFI_ASSERT (0);
+-+            }
+-+          break;
+-+        default:
+-+          FFI_ASSERT (0);
+-+          break;
+-+        }
+-+    }
+-+  else
+-+    {
+-+      memcpy (&rvalue, get_x_addr (context, 8), sizeof (UINT64));
+-+      (closure->fun) (cif, rvalue, avalue, closure->user_data);
+-+    }
+-+}
+-+
+-diff --git a/src/aarch64/ffitarget.h b/src/aarch64/ffitarget.h
+-new file mode 100644
+-index 0000000..6f1a348
+---- /dev/null
+-+++ b/src/aarch64/ffitarget.h
+-@@ -0,0 +1,59 @@
+-+/* Copyright (c) 2009, 2010, 2011, 2012 ARM Ltd.
+-+
+-+Permission is hereby granted, free of charge, to any person obtaining
+-+a copy of this software and associated documentation files (the
+-+``Software''), to deal in the Software without restriction, including
+-+without limitation the rights to use, copy, modify, merge, publish,
+-+distribute, sublicense, and/or sell copies of the Software, and to
+-+permit persons to whom the Software is furnished to do so, subject to
+-+the following conditions:
+-+
+-+The above copyright notice and this permission notice shall be
+-+included in all copies or substantial portions of the Software.
+-+
+-+THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
+-+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+-+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+-+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+-+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+-+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+-+
+-+#ifndef LIBFFI_TARGET_H
+-+#define LIBFFI_TARGET_H
+-+
+-+#ifndef LIBFFI_H
+-+#error "Please do not include ffitarget.h directly into your source.  Use ffi.h instead."
+-+#endif
+-+
+-+#ifndef LIBFFI_ASM
+-+typedef unsigned long ffi_arg;
+-+typedef signed long ffi_sarg;
+-+
+-+typedef enum ffi_abi
+-+  {
+-+    FFI_FIRST_ABI = 0,
+-+    FFI_SYSV,
+-+    FFI_LAST_ABI,
+-+    FFI_DEFAULT_ABI = FFI_SYSV
+-+  } ffi_abi;
+-+#endif
+-+
+-+/* ---- Definitions for closures ----------------------------------------- */
+-+
+-+#define FFI_CLOSURES 1
+-+#define FFI_TRAMPOLINE_SIZE 36
+-+#define FFI_NATIVE_RAW_API 0
+-+
+-+/* ---- Internal ---- */
+-+
+-+
+-+#define FFI_EXTRA_CIF_FIELDS unsigned aarch64_flags
+-+
+-+#define AARCH64_FFI_WITH_V_BIT 0
+-+
+-+#define AARCH64_N_XREG 32
+-+#define AARCH64_N_VREG 32
+-+#define AARCH64_CALL_CONTEXT_SIZE (AARCH64_N_XREG * 8 + AARCH64_N_VREG * 16)
+-+
+-+#endif
+-diff --git a/src/aarch64/sysv.S b/src/aarch64/sysv.S
+-new file mode 100644
+-index 0000000..b8cd421
+---- /dev/null
+-+++ b/src/aarch64/sysv.S
+-@@ -0,0 +1,307 @@
+-+/* Copyright (c) 2009, 2010, 2011, 2012 ARM Ltd.
+-+
+-+Permission is hereby granted, free of charge, to any person obtaining
+-+a copy of this software and associated documentation files (the
+-+``Software''), to deal in the Software without restriction, including
+-+without limitation the rights to use, copy, modify, merge, publish,
+-+distribute, sublicense, and/or sell copies of the Software, and to
+-+permit persons to whom the Software is furnished to do so, subject to
+-+the following conditions:
+-+
+-+The above copyright notice and this permission notice shall be
+-+included in all copies or substantial portions of the Software.
+-+
+-+THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
+-+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+-+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+-+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+-+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+-+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+-+
+-+#define LIBFFI_ASM
+-+#include <fficonfig.h>
+-+#include <ffi.h>
+-+
+-+#define cfi_adjust_cfa_offset(off)	.cfi_adjust_cfa_offset off
+-+#define cfi_rel_offset(reg, off)	.cfi_rel_offset reg, off
+-+#define cfi_restore(reg)		.cfi_restore reg
+-+#define cfi_def_cfa_register(reg)	.cfi_def_cfa_register reg
+-+
+-+        .text
+-+        .globl ffi_call_SYSV
+-+        .type ffi_call_SYSV, #function
+-+
+-+/* ffi_call_SYSV()
+-+
+-+   Create a stack frame, setup an argument context, call the callee
+-+   and extract the result.
+-+
+-+   The maximum required argument stack size is provided,
+-+   ffi_call_SYSV() allocates that stack space then calls the
+-+   prepare_fn to populate register context and stack.  The
+-+   argument passing registers are loaded from the register
+-+   context and the callee called, on return the register passing
+-+   register are saved back to the context.  Our caller will
+-+   extract the return value from the final state of the saved
+-+   register context.
+-+
+-+   Prototype:
+-+
+-+   extern unsigned
+-+   ffi_call_SYSV (void (*)(struct call_context *context, unsigned char *,
+-+			   extended_cif *),
+-+                  struct call_context *context,
+-+                  extended_cif *,
+-+                  unsigned required_stack_size,
+-+                  void (*fn)(void));
+-+
+-+   Therefore on entry we have:
+-+
+-+   x0 prepare_fn
+-+   x1 &context
+-+   x2 &ecif
+-+   x3 bytes
+-+   x4 fn
+-+
+-+   This function uses the following stack frame layout:
+-+
+-+   ==
+-+                saved x30(lr)
+-+   x29(fp)->    saved x29(fp)
+-+                saved x24
+-+                saved x23
+-+                saved x22
+-+   sp'    ->    saved x21
+-+                ...
+-+   sp     ->    (constructed callee stack arguments)
+-+   ==
+-+
+-+   Voila! */
+-+
+-+#define ffi_call_SYSV_FS (8 * 4)
+-+
+-+        .cfi_startproc
+-+ffi_call_SYSV:
+-+        stp     x29, x30, [sp, #-16]!
+-+	cfi_adjust_cfa_offset (16)
+-+        cfi_rel_offset (x29, 0)
+-+        cfi_rel_offset (x30, 8)
+-+
+-+        mov     x29, sp
+-+	cfi_def_cfa_register (x29)
+-+        sub     sp, sp, #ffi_call_SYSV_FS
+-+
+-+        stp     x21, x22, [sp, 0]
+-+        cfi_rel_offset (x21, 0 - ffi_call_SYSV_FS)
+-+        cfi_rel_offset (x22, 8 - ffi_call_SYSV_FS)
+-+
+-+        stp     x23, x24, [sp, 16]
+-+        cfi_rel_offset (x23, 16 - ffi_call_SYSV_FS)
+-+        cfi_rel_offset (x24, 24 - ffi_call_SYSV_FS)
+-+
+-+        mov     x21, x1
+-+        mov     x22, x2
+-+        mov     x24, x4
+-+
+-+        /* Allocate the stack space for the actual arguments, many
+-+           arguments will be passed in registers, but we assume
+-+           worst case and allocate sufficient stack for ALL of
+-+           the arguments.  */
+-+        sub     sp, sp, x3
+-+
+-+        /* unsigned (*prepare_fn) (struct call_context *context,
+-+				   unsigned char *stack, extended_cif *ecif);
+-+	 */
+-+        mov     x23, x0
+-+        mov     x0, x1
+-+        mov     x1, sp
+-+        /* x2 already in place */
+-+        blr     x23
+-+
+-+        /* Preserve the flags returned.  */
+-+        mov     x23, x0
+-+
+-+        /* Figure out if we should touch the vector registers.  */
+-+        tbz     x23, #AARCH64_FFI_WITH_V_BIT, 1f
+-+
+-+        /* Load the vector argument passing registers.  */
+-+        ldp     q0, q1, [x21, #8*32 +  0]
+-+        ldp     q2, q3, [x21, #8*32 + 32]
+-+        ldp     q4, q5, [x21, #8*32 + 64]
+-+        ldp     q6, q7, [x21, #8*32 + 96]
+-+1:
+-+        /* Load the core argument passing registers.  */
+-+        ldp     x0, x1, [x21,  #0]
+-+        ldp     x2, x3, [x21, #16]
+-+        ldp     x4, x5, [x21, #32]
+-+        ldp     x6, x7, [x21, #48]
+-+
+-+        /* Don't forget x8 which may be holding the address of a return buffer.
+-+	 */
+-+        ldr     x8,     [x21, #8*8]
+-+
+-+        blr     x24
+-+
+-+        /* Save the core argument passing registers.  */
+-+        stp     x0, x1, [x21,  #0]
+-+        stp     x2, x3, [x21, #16]
+-+        stp     x4, x5, [x21, #32]
+-+        stp     x6, x7, [x21, #48]
+-+
+-+        /* Note nothing useful ever comes back in x8!  */
+-+
+-+        /* Figure out if we should touch the vector registers.  */
+-+        tbz     x23, #AARCH64_FFI_WITH_V_BIT, 1f
+-+
+-+        /* Save the vector argument passing registers.  */
+-+        stp     q0, q1, [x21, #8*32 + 0]
+-+        stp     q2, q3, [x21, #8*32 + 32]
+-+        stp     q4, q5, [x21, #8*32 + 64]
+-+        stp     q6, q7, [x21, #8*32 + 96]
+-+1:
+-+        /* All done, unwind our stack frame.  */
+-+        ldp     x21, x22, [x29,  # - ffi_call_SYSV_FS]
+-+        cfi_restore (x21)
+-+        cfi_restore (x22)
+-+
+-+        ldp     x23, x24, [x29,  # - ffi_call_SYSV_FS + 16]
+-+        cfi_restore (x23)
+-+        cfi_restore (x24)
+-+
+-+        mov     sp, x29
+-+	cfi_def_cfa_register (sp)
+-+
+-+        ldp     x29, x30, [sp], #16
+-+	cfi_adjust_cfa_offset (-16)
+-+        cfi_restore (x29)
+-+        cfi_restore (x30)
+-+
+-+        ret
+-+
+-+        .cfi_endproc
+-+        .size ffi_call_SYSV, .-ffi_call_SYSV
+-+
+-+#define ffi_closure_SYSV_FS (8 * 2 + AARCH64_CALL_CONTEXT_SIZE)
+-+
+-+/* ffi_closure_SYSV
+-+
+-+   Closure invocation glue. This is the low level code invoked directly by
+-+   the closure trampoline to setup and call a closure.
+-+
+-+   On entry x17 points to a struct trampoline_data, x16 has been clobbered
+-+   all other registers are preserved.
+-+
+-+   We allocate a call context and save the argument passing registers,
+-+   then invoked the generic C ffi_closure_SYSV_inner() function to do all
+-+   the real work, on return we load the result passing registers back from
+-+   the call context.
+-+
+-+   On entry
+-+
+-+   extern void
+-+   ffi_closure_SYSV (struct trampoline_data *);
+-+
+-+   struct trampoline_data
+-+   {
+-+        UINT64 *ffi_closure;
+-+        UINT64 flags;
+-+   };
+-+
+-+   This function uses the following stack frame layout:
+-+
+-+   ==
+-+                saved x30(lr)
+-+   x29(fp)->    saved x29(fp)
+-+                saved x22
+-+                saved x21
+-+                ...
+-+   sp     ->    call_context
+-+   ==
+-+
+-+   Voila!  */
+-+
+-+        .text
+-+        .globl ffi_closure_SYSV
+-+        .cfi_startproc
+-+ffi_closure_SYSV:
+-+        stp     x29, x30, [sp, #-16]!
+-+	cfi_adjust_cfa_offset (16)
+-+        cfi_rel_offset (x29, 0)
+-+        cfi_rel_offset (x30, 8)
+-+
+-+        mov     x29, sp
+-+
+-+        sub     sp, sp, #ffi_closure_SYSV_FS
+-+	cfi_adjust_cfa_offset (ffi_closure_SYSV_FS)
+-+
+-+        stp     x21, x22, [x29, #-16]
+-+        cfi_rel_offset (x21, 0)
+-+        cfi_rel_offset (x22, 8)
+-+
+-+        /* Load x21 with &call_context.  */
+-+        mov     x21, sp
+-+        /* Preserve our struct trampoline_data *  */
+-+        mov     x22, x17
+-+
+-+        /* Save the rest of the argument passing registers.  */
+-+        stp     x0, x1, [x21, #0]
+-+        stp     x2, x3, [x21, #16]
+-+        stp     x4, x5, [x21, #32]
+-+        stp     x6, x7, [x21, #48]
+-+        /* Don't forget we may have been given a result scratch pad address.
+-+	 */
+-+        str     x8,     [x21, #64]
+-+
+-+        /* Figure out if we should touch the vector registers.  */
+-+        ldr     x0, [x22, #8]
+-+        tbz     x0, #AARCH64_FFI_WITH_V_BIT, 1f
+-+
+-+        /* Save the argument passing vector registers.  */
+-+        stp     q0, q1, [x21, #8*32 + 0]
+-+        stp     q2, q3, [x21, #8*32 + 32]
+-+        stp     q4, q5, [x21, #8*32 + 64]
+-+        stp     q6, q7, [x21, #8*32 + 96]
+-+1:
+-+        /* Load &ffi_closure..  */
+-+        ldr     x0, [x22, #0]
+-+        mov     x1, x21
+-+        /* Compute the location of the stack at the point that the
+-+           trampoline was called.  */
+-+        add     x2, x29, #16
+-+
+-+        bl      ffi_closure_SYSV_inner
+-+
+-+        /* Figure out if we should touch the vector registers.  */
+-+        ldr     x0, [x22, #8]
+-+        tbz     x0, #AARCH64_FFI_WITH_V_BIT, 1f
+-+
+-+        /* Load the result passing vector registers.  */
+-+        ldp     q0, q1, [x21, #8*32 + 0]
+-+        ldp     q2, q3, [x21, #8*32 + 32]
+-+        ldp     q4, q5, [x21, #8*32 + 64]
+-+        ldp     q6, q7, [x21, #8*32 + 96]
+-+1:
+-+        /* Load the result passing core registers.  */
+-+        ldp     x0, x1, [x21,  #0]
+-+        ldp     x2, x3, [x21, #16]
+-+        ldp     x4, x5, [x21, #32]
+-+        ldp     x6, x7, [x21, #48]
+-+        /* Note nothing usefull is returned in x8.  */
+-+
+-+        /* We are done, unwind our frame.  */
+-+        ldp     x21, x22, [x29,  #-16]
+-+        cfi_restore (x21)
+-+        cfi_restore (x22)
+-+
+-+        mov     sp, x29
+-+	cfi_adjust_cfa_offset (-ffi_closure_SYSV_FS)
+-+
+-+        ldp     x29, x30, [sp], #16
+-+	cfi_adjust_cfa_offset (-16)
+-+        cfi_restore (x29)
+-+        cfi_restore (x30)
+-+
+-+        ret
+-+        .cfi_endproc
+-+        .size ffi_closure_SYSV, .-ffi_closure_SYSV
+-diff --git a/testsuite/lib/libffi.exp b/testsuite/lib/libffi.exp
+-index 4a65ed1..8ee3f15 100644
+---- a/testsuite/lib/libffi.exp
+-+++ b/testsuite/lib/libffi.exp
+-@@ -203,6 +203,10 @@ proc libffi_target_compile { source dest type options } {
 - 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-similarity index 69%
-rename from meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-index 94db7f7..055f73d 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-@@ -11,18 +11,13 @@ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=20;md5=9142
- 
- DEPENDS = "virtual/libx11 virtual/libgl glew"
- 
--PR = "r4"
+-     lappend options "libs= -lffi"
+- 
+-+    if { [string match "aarch64*-*-linux*" $target_triplet] } {
+-+	lappend options "libs= -lpthread"
+-+    }
+-+
+-     verbose "options: $options"
+-     return [target_compile $source $dest $type $options]
+- }
+-diff --git a/testsuite/libffi.call/cls_struct_va1.c b/testsuite/libffi.call/cls_struct_va1.c
+-new file mode 100644
+-index 0000000..91772bd
+---- /dev/null
+-+++ b/testsuite/libffi.call/cls_struct_va1.c
+-@@ -0,0 +1,114 @@
+-+/* Area:		ffi_call, closure_call
+-+   Purpose:		Test doubles passed in variable argument lists.
+-+   Limitations:	none.
+-+   PR:			none.
+-+   Originator:	Blake Chaffin 6/6/2007	 */
+-+
+-+/* { dg-do run } */
+-+/* { dg-output "" { xfail avr32*-*-* } } */
+-+#include "ffitest.h"
+-+
+-+struct small_tag
+-+{
+-+  unsigned char a;
+-+  unsigned char b;
+-+};
+-+
+-+struct large_tag
+-+{
+-+  unsigned a;
+-+  unsigned b;
+-+  unsigned c;
+-+  unsigned d;
+-+  unsigned e;
+-+};
+-+
+-+static void
+-+test_fn (ffi_cif* cif __UNUSED__, void* resp,
+-+	 void** args, void* userdata __UNUSED__)
+-+{
+-+  int n = *(int*)args[0];
+-+  struct small_tag s1 = * (struct small_tag *) args[1];
+-+  struct large_tag l1 = * (struct large_tag *) args[2];
+-+  struct small_tag s2 = * (struct small_tag *) args[3];
+-+
+-+  printf ("%d %d %d %d %d %d %d %d %d %d\n", n, s1.a, s1.b,
+-+	  l1.a, l1.b, l1.c, l1.d, l1.e,
+-+	  s2.a, s2.b);
+-+  * (int*) resp = 42;
+-+}
+-+
+-+int
+-+main (void)
+-+{
+-+  ffi_cif cif;
+-+  void *code;
+-+  ffi_closure *pcl = ffi_closure_alloc (sizeof (ffi_closure), &code);
+-+  ffi_type* arg_types[5];
+-+
+-+  ffi_arg res = 0;
+-+
+-+  ffi_type s_type;
+-+  ffi_type *s_type_elements[3];
+-+
+-+  ffi_type l_type;
+-+  ffi_type *l_type_elements[6];
+-+
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l1;
+-+
+-+  int si;
+-+
+-+  s_type.size = 0;
+-+  s_type.alignment = 0;
+-+  s_type.type = FFI_TYPE_STRUCT;
+-+  s_type.elements = s_type_elements;
+-+
+-+  s_type_elements[0] = &ffi_type_uchar;
+-+  s_type_elements[1] = &ffi_type_uchar;
+-+  s_type_elements[2] = NULL;
+-+
+-+  l_type.size = 0;
+-+  l_type.alignment = 0;
+-+  l_type.type = FFI_TYPE_STRUCT;
+-+  l_type.elements = l_type_elements;
+-+
+-+  l_type_elements[0] = &ffi_type_uint;
+-+  l_type_elements[1] = &ffi_type_uint;
+-+  l_type_elements[2] = &ffi_type_uint;
+-+  l_type_elements[3] = &ffi_type_uint;
+-+  l_type_elements[4] = &ffi_type_uint;
+-+  l_type_elements[5] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint;
+-+  arg_types[1] = &s_type;
+-+  arg_types[2] = &l_type;
+-+  arg_types[3] = &s_type;
+-+  arg_types[4] = NULL;
+-+
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 4, &ffi_type_sint,
+-+			 arg_types) == FFI_OK);
+-+
+-+  si = 4;
+-+  s1.a = 5;
+-+  s1.b = 6;
+-+
+-+  s2.a = 20;
+-+  s2.b = 21;
+-+
+-+  l1.a = 10;
+-+  l1.b = 11;
+-+  l1.c = 12;
+-+  l1.d = 13;
+-+  l1.e = 14;
+-+
+-+  CHECK(ffi_prep_closure_loc(pcl, &cif, test_fn, NULL, code) == FFI_OK);
+-+
+-+  res = ((int (*)(int, ...))(code))(si, s1, l1, s2);
+-+  // { dg-output "4 5 6 10 11 12 13 14 20 21" }
+-+  printf("res: %d\n", (int) res);
+-+  // { dg-output "\nres: 42" }
+-+
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/cls_uchar_va.c b/testsuite/libffi.call/cls_uchar_va.c
+-new file mode 100644
+-index 0000000..19cd4f3
+---- /dev/null
+-+++ b/testsuite/libffi.call/cls_uchar_va.c
+-@@ -0,0 +1,44 @@
+-+/* Area:	closure_call
+-+   Purpose:	Test anonymous unsigned char argument.
+-+   Limitations:	none.
+-+   PR:		none.
+-+   Originator:	ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+#include "ffitest.h"
+-+
+-+typedef unsigned char T;
+-+
+-+static void cls_ret_T_fn(ffi_cif* cif __UNUSED__, void* resp, void** args,
+-+			 void* userdata __UNUSED__)
+-+ {
+-+   *(T *)resp = *(T *)args[0];
+-+
+-+   printf("%d: %d %d\n", *(T *)resp, *(T *)args[0], *(T *)args[1]);
+-+ }
+-+
+-+typedef T (*cls_ret_T)(T, ...);
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+  void *code;
+-+  ffi_closure *pcl = ffi_closure_alloc(sizeof(ffi_closure), &code);
+-+  ffi_type * cl_arg_types[3];
+-+  T res;
+-+
+-+  cl_arg_types[0] = &ffi_type_uchar;
+-+  cl_arg_types[1] = &ffi_type_uchar;
+-+  cl_arg_types[2] = NULL;
+-+
+-+  /* Initialize the cif */
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 2,
+-+			 &ffi_type_uchar, cl_arg_types) == FFI_OK);
+-+
+-+  CHECK(ffi_prep_closure_loc(pcl, &cif, cls_ret_T_fn, NULL, code)  == FFI_OK);
+-+  res = ((((cls_ret_T)code)(67, 4)));
+-+  /* { dg-output "67: 67 4" } */
+-+  printf("res: %d\n", res);
+-+  /* { dg-output "\nres: 67" } */
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/cls_uint_va.c b/testsuite/libffi.call/cls_uint_va.c
+-new file mode 100644
+-index 0000000..150fddd
+---- /dev/null
+-+++ b/testsuite/libffi.call/cls_uint_va.c
+-@@ -0,0 +1,45 @@
+-+/* Area:	closure_call
+-+   Purpose:	Test anonymous unsigned int argument.
+-+   Limitations:	none.
+-+   PR:		none.
+-+   Originator:	ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+
+-+#include "ffitest.h"
+-+
+-+typedef unsigned int T;
+-+
+-+static void cls_ret_T_fn(ffi_cif* cif __UNUSED__, void* resp, void** args,
+-+			 void* userdata __UNUSED__)
+-+ {
+-+   *(T *)resp = *(T *)args[0];
+-+
+-+   printf("%d: %d %d\n", *(T *)resp, *(T *)args[0], *(T *)args[1]);
+-+ }
+-+
+-+typedef T (*cls_ret_T)(T, ...);
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+  void *code;
+-+  ffi_closure *pcl = ffi_closure_alloc(sizeof(ffi_closure), &code);
+-+  ffi_type * cl_arg_types[3];
+-+  T res;
+-+
+-+  cl_arg_types[0] = &ffi_type_uint;
+-+  cl_arg_types[1] = &ffi_type_uint;
+-+  cl_arg_types[2] = NULL;
+-+
+-+  /* Initialize the cif */
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 2,
+-+			 &ffi_type_uint, cl_arg_types) == FFI_OK);
+-+
+-+  CHECK(ffi_prep_closure_loc(pcl, &cif, cls_ret_T_fn, NULL, code)  == FFI_OK);
+-+  res = ((((cls_ret_T)code)(67, 4)));
+-+  /* { dg-output "67: 67 4" } */
+-+  printf("res: %d\n", res);
+-+  /* { dg-output "\nres: 67" } */
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/cls_ulong_va.c b/testsuite/libffi.call/cls_ulong_va.c
+-new file mode 100644
+-index 0000000..0315082
+---- /dev/null
+-+++ b/testsuite/libffi.call/cls_ulong_va.c
+-@@ -0,0 +1,45 @@
+-+/* Area:	closure_call
+-+   Purpose:	Test anonymous unsigned long argument.
+-+   Limitations:	none.
+-+   PR:		none.
+-+   Originator:	ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+
+-+#include "ffitest.h"
+-+
+-+typedef unsigned long T;
+-+
+-+static void cls_ret_T_fn(ffi_cif* cif __UNUSED__, void* resp, void** args,
+-+			 void* userdata __UNUSED__)
+-+ {
+-+   *(T *)resp = *(T *)args[0];
+-+
+-+   printf("%ld: %ld %ld\n", *(T *)resp, *(T *)args[0], *(T *)args[1]);
+-+ }
+-+
+-+typedef T (*cls_ret_T)(T, ...);
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+  void *code;
+-+  ffi_closure *pcl = ffi_closure_alloc(sizeof(ffi_closure), &code);
+-+  ffi_type * cl_arg_types[3];
+-+  T res;
+-+
+-+  cl_arg_types[0] = &ffi_type_ulong;
+-+  cl_arg_types[1] = &ffi_type_ulong;
+-+  cl_arg_types[2] = NULL;
+-+
+-+  /* Initialize the cif */
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 2,
+-+			 &ffi_type_ulong, cl_arg_types) == FFI_OK);
+-+
+-+  CHECK(ffi_prep_closure_loc(pcl, &cif, cls_ret_T_fn, NULL, code)  == FFI_OK);
+-+  res = ((((cls_ret_T)code)(67, 4)));
+-+  /* { dg-output "67: 67 4" } */
+-+  printf("res: %ld\n", res);
+-+  /* { dg-output "\nres: 67" } */
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/cls_ushort_va.c b/testsuite/libffi.call/cls_ushort_va.c
+-new file mode 100644
+-index 0000000..b2b5a3b
+---- /dev/null
+-+++ b/testsuite/libffi.call/cls_ushort_va.c
+-@@ -0,0 +1,44 @@
+-+/* Area:	closure_call
+-+   Purpose:	Test anonymous unsigned short argument.
+-+   Limitations:	none.
+-+   PR:		none.
+-+   Originator:	ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+#include "ffitest.h"
+-+
+-+typedef unsigned short T;
+-+
+-+static void cls_ret_T_fn(ffi_cif* cif __UNUSED__, void* resp, void** args,
+-+			 void* userdata __UNUSED__)
+-+ {
+-+   *(T *)resp = *(T *)args[0];
+-+
+-+   printf("%d: %d %d\n", *(T *)resp, *(T *)args[0], *(T *)args[1]);
+-+ }
+-+
+-+typedef T (*cls_ret_T)(T, ...);
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+  void *code;
+-+  ffi_closure *pcl = ffi_closure_alloc(sizeof(ffi_closure), &code);
+-+  ffi_type * cl_arg_types[3];
+-+  T res;
+-+
+-+  cl_arg_types[0] = &ffi_type_ushort;
+-+  cl_arg_types[1] = &ffi_type_ushort;
+-+  cl_arg_types[2] = NULL;
+-+
+-+  /* Initialize the cif */
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 2,
+-+			 &ffi_type_ushort, cl_arg_types) == FFI_OK);
+-+
+-+  CHECK(ffi_prep_closure_loc(pcl, &cif, cls_ret_T_fn, NULL, code)  == FFI_OK);
+-+  res = ((((cls_ret_T)code)(67, 4)));
+-+  /* { dg-output "67: 67 4" } */
+-+  printf("res: %d\n", res);
+-+  /* { dg-output "\nres: 67" } */
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/nested_struct11.c b/testsuite/libffi.call/nested_struct11.c
+-new file mode 100644
+-index 0000000..fce6948
+---- /dev/null
+-+++ b/testsuite/libffi.call/nested_struct11.c
+-@@ -0,0 +1,121 @@
+-+/* Area:	ffi_call, closure_call
+-+   Purpose:	Check parameter passing with nested structs
+-+		of a single type.  This tests the special cases
+-+		for homogenous floating-point aggregates in the
+-+		AArch64 PCS.
+-+   Limitations:	none.
+-+   PR:		none.
+-+   Originator:  ARM Ltd.  */
+-+
+-+/* { dg-do run } */
+-+#include "ffitest.h"
+-+
+-+typedef struct A {
+-+  float a_x;
+-+  float a_y;
+-+} A;
+-+
+-+typedef struct B {
+-+  float b_x;
+-+  float b_y;
+-+} B;
+-+
+-+typedef struct C {
+-+  A a;
+-+  B b;
+-+} C;
+-+
+-+static C C_fn (int x, int y, int z, C source, int i, int j, int k)
+-+{
+-+  C result;
+-+  result.a.a_x = source.a.a_x;
+-+  result.a.a_y = source.a.a_y;
+-+  result.b.b_x = source.b.b_x;
+-+  result.b.b_y = source.b.b_y;
+-+
+-+  printf ("%d, %d, %d, %d, %d, %d\n", x, y, z, i, j, k);
+-+
+-+  printf ("%.1f, %.1f, %.1f, %.1f, "
+-+	  "%.1f, %.1f, %.1f, %.1f\n",
+-+	  source.a.a_x, source.a.a_y,
+-+	  source.b.b_x, source.b.b_y,
+-+	  result.a.a_x, result.a.a_y,
+-+	  result.b.b_x, result.b.b_y);
+-+
+-+  return result;
+-+}
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+
+-+  ffi_type* struct_fields_source_a[3];
+-+  ffi_type* struct_fields_source_b[3];
+-+  ffi_type* struct_fields_source_c[3];
+-+  ffi_type* arg_types[8];
+-+
+-+  ffi_type struct_type_a, struct_type_b, struct_type_c;
+-+
+-+  struct A source_fld_a = {1.0, 2.0};
+-+  struct B source_fld_b = {4.0, 8.0};
+-+  int k = 1;
+-+
+-+  struct C result;
+-+  struct C source = {source_fld_a, source_fld_b};
+-+
+-+  struct_type_a.size = 0;
+-+  struct_type_a.alignment = 0;
+-+  struct_type_a.type = FFI_TYPE_STRUCT;
+-+  struct_type_a.elements = struct_fields_source_a;
+-+
+-+  struct_type_b.size = 0;
+-+  struct_type_b.alignment = 0;
+-+  struct_type_b.type = FFI_TYPE_STRUCT;
+-+  struct_type_b.elements = struct_fields_source_b;
+-+
+-+  struct_type_c.size = 0;
+-+  struct_type_c.alignment = 0;
+-+  struct_type_c.type = FFI_TYPE_STRUCT;
+-+  struct_type_c.elements = struct_fields_source_c;
+-+
+-+  struct_fields_source_a[0] = &ffi_type_float;
+-+  struct_fields_source_a[1] = &ffi_type_float;
+-+  struct_fields_source_a[2] = NULL;
+-+
+-+  struct_fields_source_b[0] = &ffi_type_float;
+-+  struct_fields_source_b[1] = &ffi_type_float;
+-+  struct_fields_source_b[2] = NULL;
+-+
+-+  struct_fields_source_c[0] = &struct_type_a;
+-+  struct_fields_source_c[1] = &struct_type_b;
+-+  struct_fields_source_c[2] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint32;
+-+  arg_types[1] = &ffi_type_sint32;
+-+  arg_types[2] = &ffi_type_sint32;
+-+  arg_types[3] = &struct_type_c;
+-+  arg_types[4] = &ffi_type_sint32;
+-+  arg_types[5] = &ffi_type_sint32;
+-+  arg_types[6] = &ffi_type_sint32;
+-+  arg_types[7] = NULL;
+-+
+-+  void *args[7];
+-+  args[0] = &k;
+-+  args[1] = &k;
+-+  args[2] = &k;
+-+  args[3] = &source;
+-+  args[4] = &k;
+-+  args[5] = &k;
+-+  args[6] = &k;
+-+  CHECK (ffi_prep_cif (&cif, FFI_DEFAULT_ABI, 7, &struct_type_c,
+-+		       arg_types) == FFI_OK);
+-+
+-+  ffi_call (&cif, FFI_FN (C_fn), &result, args);
+-+  /* { dg-output "1, 1, 1, 1, 1, 1\n" } */
+-+  /* { dg-output "1.0, 2.0, 4.0, 8.0, 1.0, 2.0, 4.0, 8.0" } */
+-+  CHECK (result.a.a_x == source.a.a_x);
+-+  CHECK (result.a.a_y == source.a.a_y);
+-+  CHECK (result.b.b_x == source.b.b_x);
+-+  CHECK (result.b.b_y == source.b.b_y);
+-+  exit (0);
+-+}
+-diff --git a/testsuite/libffi.call/uninitialized.c b/testsuite/libffi.call/uninitialized.c
+-new file mode 100644
+-index 0000000..f00d830
+---- /dev/null
+-+++ b/testsuite/libffi.call/uninitialized.c
+-@@ -0,0 +1,61 @@
+-+/* { dg-do run } */
+-+#include "ffitest.h"
+-+
+-+typedef struct
+-+{
+-+  unsigned char uc;
+-+  double d;
+-+  unsigned int ui;
+-+} test_structure_1;
+-+
+-+static test_structure_1 struct1(test_structure_1 ts)
+-+{
+-+  ts.uc++;
+-+  ts.d--;
+-+  ts.ui++;
+-+
+-+  return ts;
+-+}
+-+
+-+int main (void)
+-+{
+-+  ffi_cif cif;
+-+  ffi_type *args[MAX_ARGS];
+-+  void *values[MAX_ARGS];
+-+  ffi_type ts1_type;
+-+  ffi_type *ts1_type_elements[4];
+-+
+-+  memset(&cif, 1, sizeof(cif));
+-+  ts1_type.size = 0;
+-+  ts1_type.alignment = 0;
+-+  ts1_type.type = FFI_TYPE_STRUCT;
+-+  ts1_type.elements = ts1_type_elements;
+-+  ts1_type_elements[0] = &ffi_type_uchar;
+-+  ts1_type_elements[1] = &ffi_type_double;
+-+  ts1_type_elements[2] = &ffi_type_uint;
+-+  ts1_type_elements[3] = NULL;
+-+
+-+  test_structure_1 ts1_arg;
+-+  /* This is a hack to get a properly aligned result buffer */
+-+  test_structure_1 *ts1_result =
+-+    (test_structure_1 *) malloc (sizeof(test_structure_1));
+-+
+-+  args[0] = &ts1_type;
+-+  values[0] = &ts1_arg;
+-+
+-+  /* Initialize the cif */
+-+  CHECK(ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 1,
+-+		     &ts1_type, args) == FFI_OK);
+-+
+-+  ts1_arg.uc = '\x01';
+-+  ts1_arg.d = 3.14159;
+-+  ts1_arg.ui = 555;
+-+
+-+  ffi_call(&cif, FFI_FN(struct1), ts1_result, values);
+-+
+-+  CHECK(ts1_result->ui == 556);
+-+  CHECK(ts1_result->d == 3.14159 - 1);
+-+
+-+  free (ts1_result);
+-+  exit(0);
+-+}
+-diff --git a/testsuite/libffi.call/va_1.c b/testsuite/libffi.call/va_1.c
+-new file mode 100644
+-index 0000000..5c7cce9
+---- /dev/null
+-+++ b/testsuite/libffi.call/va_1.c
+-@@ -0,0 +1,196 @@
+-+/* Area:		ffi_call
+-+   Purpose:		Test passing struct in variable argument lists.
+-+   Limitations:	none.
+-+   PR:			none.
+-+   Originator:	        ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+/* { dg-output "" { xfail avr32*-*-* x86_64-*-*-* } } */
+-+
+-+#include "ffitest.h"
+-+#include <stdarg.h>
+-+
+-+struct small_tag
+-+{
+-+  unsigned char a;
+-+  unsigned char b;
+-+};
+-+
+-+struct large_tag
+-+{
+-+  unsigned a;
+-+  unsigned b;
+-+  unsigned c;
+-+  unsigned d;
+-+  unsigned e;
+-+};
+-+
+-+static int
+-+test_fn (int n, ...)
+-+{
+-+  va_list ap;
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l;
+-+  unsigned char uc;
+-+  signed char sc;
+-+  unsigned short us;
+-+  signed short ss;
+-+  unsigned int ui;
+-+  signed int si;
+-+  unsigned long ul;
+-+  signed long sl;
+-+  float f;
+-+  double d;
+-+
+-+  va_start (ap, n);
+-+  s1 = va_arg (ap, struct small_tag);
+-+  l = va_arg (ap, struct large_tag);
+-+  s2 = va_arg (ap, struct small_tag);
+-+
+-+  uc = va_arg (ap, unsigned);
+-+  sc = va_arg (ap, signed);
+-+
+-+  us = va_arg (ap, unsigned);
+-+  ss = va_arg (ap, signed);
+-+
+-+  ui = va_arg (ap, unsigned int);
+-+  si = va_arg (ap, signed int);
+-+
+-+  ul = va_arg (ap, unsigned long);
+-+  sl = va_arg (ap, signed long);
+-+
+-+  f = va_arg (ap, double);	/* C standard promotes float->double
+-+				   when anonymous */
+-+  d = va_arg (ap, double);
+-+
+-+  printf ("%u %u %u %u %u %u %u %u %u uc=%u sc=%d %u %d %u %d %lu %ld %f %f\n",
+-+	  s1.a, s1.b, l.a, l.b, l.c, l.d, l.e,
+-+	  s2.a, s2.b,
+-+	  uc, sc,
+-+	  us, ss,
+-+	  ui, si,
+-+	  ul, sl,
+-+	  f, d);
+-+  va_end (ap);
+-+  return n + 1;
+-+}
+-+
+-+int
+-+main (void)
+-+{
+-+  ffi_cif cif;
+-+  void* args[15];
+-+  ffi_type* arg_types[15];
+-+
+-+  ffi_type s_type;
+-+  ffi_type *s_type_elements[3];
+-+
+-+  ffi_type l_type;
+-+  ffi_type *l_type_elements[6];
+-+
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l1;
+-+
+-+  int n;
+-+  int res;
+-+
+-+  unsigned char uc;
+-+  signed char sc;
+-+  unsigned short us;
+-+  signed short ss;
+-+  unsigned int ui;
+-+  signed int si;
+-+  unsigned long ul;
+-+  signed long sl;
+-+  double d1;
+-+  double f1;
+-+
+-+  s_type.size = 0;
+-+  s_type.alignment = 0;
+-+  s_type.type = FFI_TYPE_STRUCT;
+-+  s_type.elements = s_type_elements;
+-+
+-+  s_type_elements[0] = &ffi_type_uchar;
+-+  s_type_elements[1] = &ffi_type_uchar;
+-+  s_type_elements[2] = NULL;
+-+
+-+  l_type.size = 0;
+-+  l_type.alignment = 0;
+-+  l_type.type = FFI_TYPE_STRUCT;
+-+  l_type.elements = l_type_elements;
+-+
+-+  l_type_elements[0] = &ffi_type_uint;
+-+  l_type_elements[1] = &ffi_type_uint;
+-+  l_type_elements[2] = &ffi_type_uint;
+-+  l_type_elements[3] = &ffi_type_uint;
+-+  l_type_elements[4] = &ffi_type_uint;
+-+  l_type_elements[5] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint;
+-+  arg_types[1] = &s_type;
+-+  arg_types[2] = &l_type;
+-+  arg_types[3] = &s_type;
+-+  arg_types[4] = &ffi_type_uint;
+-+  arg_types[5] = &ffi_type_sint;
+-+  arg_types[6] = &ffi_type_uint;
+-+  arg_types[7] = &ffi_type_sint;
+-+  arg_types[8] = &ffi_type_uint;
+-+  arg_types[9] = &ffi_type_sint;
+-+  arg_types[10] = &ffi_type_ulong;
+-+  arg_types[11] = &ffi_type_slong;
+-+  arg_types[12] = &ffi_type_double;
+-+  arg_types[13] = &ffi_type_double;
+-+  arg_types[14] = NULL;
+-+
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 14, &ffi_type_sint, arg_types) == FFI_OK);
+-+
+-+  s1.a = 5;
+-+  s1.b = 6;
+-+
+-+  l1.a = 10;
+-+  l1.b = 11;
+-+  l1.c = 12;
+-+  l1.d = 13;
+-+  l1.e = 14;
+-+
+-+  s2.a = 7;
+-+  s2.b = 8;
+-+
+-+  n = 41;
+-+
+-+  uc = 9;
+-+  sc = 10;
+-+  us = 11;
+-+  ss = 12;
+-+  ui = 13;
+-+  si = 14;
+-+  ul = 15;
+-+  sl = 16;
+-+  f1 = 2.12;
+-+  d1 = 3.13;
+-+
+-+  args[0] = &n;
+-+  args[1] = &s1;
+-+  args[2] = &l1;
+-+  args[3] = &s2;
+-+  args[4] = &uc;
+-+  args[5] = &sc;
+-+  args[6] = &us;
+-+  args[7] = &ss;
+-+  args[8] = &ui;
+-+  args[9] = &si;
+-+  args[10] = &ul;
+-+  args[11] = &sl;
+-+  args[12] = &f1;
+-+  args[13] = &d1;
+-+  args[14] = NULL;
+-+
+-+  ffi_call(&cif, FFI_FN(test_fn), &res, args);
+-+  /* { dg-output "5 6 10 11 12 13 14 7 8 uc=9 sc=10 11 12 13 14 15 16 2.120000 3.130000" } */
+-+  printf("res: %d\n", (int) res);
+-+  /* { dg-output "\nres: 42" } */
+-+
+-+  return 0;
+-+}
+-diff --git a/testsuite/libffi.call/va_struct1.c b/testsuite/libffi.call/va_struct1.c
+-new file mode 100644
+-index 0000000..11d1f10
+---- /dev/null
+-+++ b/testsuite/libffi.call/va_struct1.c
+-@@ -0,0 +1,121 @@
+-+/* Area:		ffi_call
+-+   Purpose:		Test passing struct in variable argument lists.
+-+   Limitations:	none.
+-+   PR:			none.
+-+   Originator: ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+/* { dg-output "" { xfail avr32*-*-* } } */
+-+
+-+#include "ffitest.h"
+-+#include <stdarg.h>
+-+
+-+struct small_tag
+-+{
+-+  unsigned char a;
+-+  unsigned char b;
+-+};
+-+
+-+struct large_tag
+-+{
+-+  unsigned a;
+-+  unsigned b;
+-+  unsigned c;
+-+  unsigned d;
+-+  unsigned e;
+-+};
+-+
+-+static int
+-+test_fn (int n, ...)
+-+{
+-+  va_list ap;
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l;
+-+
+-+  va_start (ap, n);
+-+  s1 = va_arg (ap, struct small_tag);
+-+  l = va_arg (ap, struct large_tag);
+-+  s2 = va_arg (ap, struct small_tag);
+-+  printf ("%u %u %u %u %u %u %u %u %u\n", s1.a, s1.b, l.a, l.b, l.c, l.d, l.e,
+-+	  s2.a, s2.b);
+-+  va_end (ap);
+-+  return n + 1;
+-+}
+-+
+-+int
+-+main (void)
+-+{
+-+  ffi_cif cif;
+-+  void* args[5];
+-+  ffi_type* arg_types[5];
+-+
+-+  ffi_type s_type;
+-+  ffi_type *s_type_elements[3];
+-+
+-+  ffi_type l_type;
+-+  ffi_type *l_type_elements[6];
+-+
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l1;
+-+
+-+  int n;
+-+  int res;
+-+
+-+  s_type.size = 0;
+-+  s_type.alignment = 0;
+-+  s_type.type = FFI_TYPE_STRUCT;
+-+  s_type.elements = s_type_elements;
+-+
+-+  s_type_elements[0] = &ffi_type_uchar;
+-+  s_type_elements[1] = &ffi_type_uchar;
+-+  s_type_elements[2] = NULL;
+-+
+-+  l_type.size = 0;
+-+  l_type.alignment = 0;
+-+  l_type.type = FFI_TYPE_STRUCT;
+-+  l_type.elements = l_type_elements;
+-+
+-+  l_type_elements[0] = &ffi_type_uint;
+-+  l_type_elements[1] = &ffi_type_uint;
+-+  l_type_elements[2] = &ffi_type_uint;
+-+  l_type_elements[3] = &ffi_type_uint;
+-+  l_type_elements[4] = &ffi_type_uint;
+-+  l_type_elements[5] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint;
+-+  arg_types[1] = &s_type;
+-+  arg_types[2] = &l_type;
+-+  arg_types[3] = &s_type;
+-+  arg_types[4] = NULL;
+-+
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 4, &ffi_type_sint, arg_types) == FFI_OK);
+-+
+-+  s1.a = 5;
+-+  s1.b = 6;
+-+
+-+  l1.a = 10;
+-+  l1.b = 11;
+-+  l1.c = 12;
+-+  l1.d = 13;
+-+  l1.e = 14;
+-+
+-+  s2.a = 7;
+-+  s2.b = 8;
+-+
+-+  n = 41;
+-+
+-+  args[0] = &n;
+-+  args[1] = &s1;
+-+  args[2] = &l1;
+-+  args[3] = &s2;
+-+  args[4] = NULL;
+-+
+-+  ffi_call(&cif, FFI_FN(test_fn), &res, args);
+-+  /* { dg-output "5 6 10 11 12 13 14 7 8" } */
+-+  printf("res: %d\n", (int) res);
+-+  /* { dg-output "\nres: 42" } */
+-+
+-+  return 0;
+-+}
+-diff --git a/testsuite/libffi.call/va_struct2.c b/testsuite/libffi.call/va_struct2.c
+-new file mode 100644
+-index 0000000..56f5b9c
+---- /dev/null
+-+++ b/testsuite/libffi.call/va_struct2.c
+-@@ -0,0 +1,123 @@
+-+/* Area:		ffi_call
+-+   Purpose:		Test passing struct in variable argument lists.
+-+   Limitations:	none.
+-+   PR:			none.
+-+   Originator: ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+/* { dg-output "" { xfail avr32*-*-* } } */
+-+
+-+#include "ffitest.h"
+-+#include <stdarg.h>
+-+
+-+struct small_tag
+-+{
+-+  unsigned char a;
+-+  unsigned char b;
+-+};
+-+
+-+struct large_tag
+-+{
+-+  unsigned a;
+-+  unsigned b;
+-+  unsigned c;
+-+  unsigned d;
+-+  unsigned e;
+-+};
+-+
+-+static struct small_tag
+-+test_fn (int n, ...)
+-+{
+-+  va_list ap;
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l;
+-+
+-+  va_start (ap, n);
+-+  s1 = va_arg (ap, struct small_tag);
+-+  l = va_arg (ap, struct large_tag);
+-+  s2 = va_arg (ap, struct small_tag);
+-+  printf ("%u %u %u %u %u %u %u %u %u\n", s1.a, s1.b, l.a, l.b, l.c, l.d, l.e,
+-+	  s2.a, s2.b);
+-+  va_end (ap);
+-+  s1.a += s2.a;
+-+  s1.b += s2.b;
+-+  return s1;
+-+}
+-+
+-+int
+-+main (void)
+-+{
+-+  ffi_cif cif;
+-+  void* args[5];
+-+  ffi_type* arg_types[5];
+-+
+-+  ffi_type s_type;
+-+  ffi_type *s_type_elements[3];
+-+
+-+  ffi_type l_type;
+-+  ffi_type *l_type_elements[6];
+-+
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l1;
+-+
+-+  int n;
+-+  struct small_tag res;
+-+
+-+  s_type.size = 0;
+-+  s_type.alignment = 0;
+-+  s_type.type = FFI_TYPE_STRUCT;
+-+  s_type.elements = s_type_elements;
+-+
+-+  s_type_elements[0] = &ffi_type_uchar;
+-+  s_type_elements[1] = &ffi_type_uchar;
+-+  s_type_elements[2] = NULL;
+-+
+-+  l_type.size = 0;
+-+  l_type.alignment = 0;
+-+  l_type.type = FFI_TYPE_STRUCT;
+-+  l_type.elements = l_type_elements;
+-+
+-+  l_type_elements[0] = &ffi_type_uint;
+-+  l_type_elements[1] = &ffi_type_uint;
+-+  l_type_elements[2] = &ffi_type_uint;
+-+  l_type_elements[3] = &ffi_type_uint;
+-+  l_type_elements[4] = &ffi_type_uint;
+-+  l_type_elements[5] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint;
+-+  arg_types[1] = &s_type;
+-+  arg_types[2] = &l_type;
+-+  arg_types[3] = &s_type;
+-+  arg_types[4] = NULL;
+-+
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 4, &s_type, arg_types) == FFI_OK);
+-+
+-+  s1.a = 5;
+-+  s1.b = 6;
+-+
+-+  l1.a = 10;
+-+  l1.b = 11;
+-+  l1.c = 12;
+-+  l1.d = 13;
+-+  l1.e = 14;
+-+
+-+  s2.a = 7;
+-+  s2.b = 8;
+-+
+-+  n = 41;
+-+
+-+  args[0] = &n;
+-+  args[1] = &s1;
+-+  args[2] = &l1;
+-+  args[3] = &s2;
+-+  args[4] = NULL;
+-+
+-+  ffi_call(&cif, FFI_FN(test_fn), &res, args);
+-+  /* { dg-output "5 6 10 11 12 13 14 7 8" } */
+-+  printf("res: %d %d\n", res.a, res.b);
+-+  /* { dg-output "\nres: 12 14" } */
+-+
+-+  return 0;
+-+}
+-diff --git a/testsuite/libffi.call/va_struct3.c b/testsuite/libffi.call/va_struct3.c
+-new file mode 100644
+-index 0000000..9a27e7f
+---- /dev/null
+-+++ b/testsuite/libffi.call/va_struct3.c
+-@@ -0,0 +1,125 @@
+-+/* Area:		ffi_call
+-+   Purpose:		Test passing struct in variable argument lists.
+-+   Limitations:	none.
+-+   PR:			none.
+-+   Originator:	ARM Ltd. */
+-+
+-+/* { dg-do run } */
+-+/* { dg-output "" { xfail avr32*-*-* } } */
+-+
+-+#include "ffitest.h"
+-+#include <stdarg.h>
+-+
+-+struct small_tag
+-+{
+-+  unsigned char a;
+-+  unsigned char b;
+-+};
+-+
+-+struct large_tag
+-+{
+-+  unsigned a;
+-+  unsigned b;
+-+  unsigned c;
+-+  unsigned d;
+-+  unsigned e;
+-+};
+-+
+-+static struct large_tag
+-+test_fn (int n, ...)
+-+{
+-+  va_list ap;
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l;
+-+
+-+  va_start (ap, n);
+-+  s1 = va_arg (ap, struct small_tag);
+-+  l = va_arg (ap, struct large_tag);
+-+  s2 = va_arg (ap, struct small_tag);
+-+  printf ("%u %u %u %u %u %u %u %u %u\n", s1.a, s1.b, l.a, l.b, l.c, l.d, l.e,
+-+	  s2.a, s2.b);
+-+  va_end (ap);
+-+  l.a += s1.a;
+-+  l.b += s1.b;
+-+  l.c += s2.a;
+-+  l.d += s2.b;
+-+  return l;
+-+}
+-+
+-+int
+-+main (void)
+-+{
+-+  ffi_cif cif;
+-+  void* args[5];
+-+  ffi_type* arg_types[5];
+-+
+-+  ffi_type s_type;
+-+  ffi_type *s_type_elements[3];
+-+
+-+  ffi_type l_type;
+-+  ffi_type *l_type_elements[6];
+-+
+-+  struct small_tag s1;
+-+  struct small_tag s2;
+-+  struct large_tag l1;
+-+
+-+  int n;
+-+  struct large_tag res;
+-+
+-+  s_type.size = 0;
+-+  s_type.alignment = 0;
+-+  s_type.type = FFI_TYPE_STRUCT;
+-+  s_type.elements = s_type_elements;
+-+
+-+  s_type_elements[0] = &ffi_type_uchar;
+-+  s_type_elements[1] = &ffi_type_uchar;
+-+  s_type_elements[2] = NULL;
+-+
+-+  l_type.size = 0;
+-+  l_type.alignment = 0;
+-+  l_type.type = FFI_TYPE_STRUCT;
+-+  l_type.elements = l_type_elements;
+-+
+-+  l_type_elements[0] = &ffi_type_uint;
+-+  l_type_elements[1] = &ffi_type_uint;
+-+  l_type_elements[2] = &ffi_type_uint;
+-+  l_type_elements[3] = &ffi_type_uint;
+-+  l_type_elements[4] = &ffi_type_uint;
+-+  l_type_elements[5] = NULL;
+-+
+-+  arg_types[0] = &ffi_type_sint;
+-+  arg_types[1] = &s_type;
+-+  arg_types[2] = &l_type;
+-+  arg_types[3] = &s_type;
+-+  arg_types[4] = NULL;
+-+
+-+  CHECK(ffi_prep_cif_var(&cif, FFI_DEFAULT_ABI, 1, 4, &l_type, arg_types) == FFI_OK);
+-+
+-+  s1.a = 5;
+-+  s1.b = 6;
+-+
+-+  l1.a = 10;
+-+  l1.b = 11;
+-+  l1.c = 12;
+-+  l1.d = 13;
+-+  l1.e = 14;
+-+
+-+  s2.a = 7;
+-+  s2.b = 8;
+-+
+-+  n = 41;
+-+
+-+  args[0] = &n;
+-+  args[1] = &s1;
+-+  args[2] = &l1;
+-+  args[3] = &s2;
+-+  args[4] = NULL;
+-+
+-+  ffi_call(&cif, FFI_FN(test_fn), &res, args);
+-+  /* { dg-output "5 6 10 11 12 13 14 7 8" } */
+-+  printf("res: %d %d %d %d %d\n", res.a, res.b, res.c, res.d, res.e);
+-+  /* { dg-output "\nres: 15 17 19 21 14" } */
+-+
+-+  return 0;
+-+}
+--- 
+-1.7.10.4
 -
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
--	file://dso_linking_change_build_fix.patch \
--	file://gles2-info.patch \
-         file://glut.patch \
-         file://egl-mesa-screen-surface-build-fix.patch \
--        file://egl-mesa-screen-surface-query.patch \
--        file://0001-xeglgears-Make-EGL_KHR_image-usage-portable.patch"
-+        file://egl-mesa-screen-surface-query.patch"
+diff --git a/meta/recipes-gnome/libffi/libffi/fix-libffi.la-location.patch b/meta/recipes-gnome/libffi/libffi/fix-libffi.la-location.patch
+new file mode 100644
+index 0000000..0a49ab5
+--- /dev/null
++++ b/meta/recipes-gnome/libffi/libffi/fix-libffi.la-location.patch
+@@ -0,0 +1,18 @@
++
++Upstream-Status: Inaproppriate
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: libffi-3.0.13/Makefile.am
++===================================================================
++--- libffi-3.0.13.orig/Makefile.am
+++++ libffi-3.0.13/Makefile.am
++@@ -98,7 +98,7 @@ FLAGS_TO_PASS = $(AM_MAKEFLAGS)
++ 
++ MAKEOVERRIDES=
++ 
++-toolexeclib_LTLIBRARIES = libffi.la
+++lib_LTLIBRARIES = libffi.la
++ noinst_LTLIBRARIES = libffi_convenience.la
++ 
++ libffi_la_SOURCES = src/prep_cif.c src/types.c \
+diff --git a/meta/recipes-gnome/libffi/libffi_3.0.11.bb b/meta/recipes-gnome/libffi/libffi_3.0.13.bb
+similarity index 76%
+rename from meta/recipes-gnome/libffi/libffi_3.0.11.bb
+rename to meta/recipes-gnome/libffi/libffi_3.0.13.bb
+index f2a8cc8..db0841e 100644
+--- a/meta/recipes-gnome/libffi/libffi_3.0.11.bb
++++ b/meta/recipes-gnome/libffi/libffi_3.0.13.bb
+@@ -9,16 +9,11 @@ A layer must exist above `libffi' that handles type conversions for values passe
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e54c573c49435ccbbd3f6dc9e49a065e"
  
--SRC_URI[md5sum] = "320c2a4b6edc6faba35d9cb1e2a30bf4"
--SRC_URI[sha256sum] = "4bc7f2b20d17e3eebfec288f2367a435cd2db71fc5ac9ece2c14827e290d77d1"
-+SRC_URI[md5sum] = "9df33ba69a26bbfbc7c8148602e59542"
-+SRC_URI[sha256sum] = "9703fa0646b32a1e68d2abf5628f936f77bf97c69ffcaac90de380820a87a828"
+-PR = "r1"
+-
+ SRC_URI = "ftp://sourceware.org/pub/libffi/${BPN}-${PV}.tar.gz \
+-           file://0001-libffi-update-for-3.0.11.patch \
+-           file://add-aarch64-support.patch \
+-           file://aarch64-adding-build-support.patch \
+-"
++           file://fix-libffi.la-location.patch"
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "f69b9693227d976835b4857b1ba7d0e3"
+-SRC_URI[sha256sum] = "70bfb01356360089aa97d3e71e3edf05d195599fd822e922e50d46a0055a6283"
++SRC_URI[md5sum] = "45f3b6dbc9ee7c7dfbbbc5feba571529"
++SRC_URI[sha256sum] = "1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c"
+ 
+ EXTRA_OECONF += "--disable-builddir"
  
 -- 
 1.8.0.2
