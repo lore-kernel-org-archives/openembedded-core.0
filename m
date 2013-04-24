@@ -1,31 +1,20 @@
-Received: from mail-vb0-f49.google.com ([209.85.212.49])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UUyiO-0002df-9D
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUylN-0002t8-IE for openembedded-core@lists.openembedded.org;
+	Wed, 24 Apr 2013 14:25:33 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UUyUF-00027u-MG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 14:22:38 +0200
-Received: by mail-vb0-f49.google.com with SMTP id 11so1573484vbf.36
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2013 05:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=lc10fStG5RgkNNlqRsjPuvbvgTyDIEIzLD9YobeLNQY=;
-	b=ENTpgeZapBgXScs6LyQG2kJ0dJPdsGHwjMIhaxRMSUG1xs5VGmEB5Spft1SIhB+c3a
-	kSUpni0m25kq4kpnjJ2mPjMXuJMP7GFJ16R4xF9uu1ueD2WTU9Xe4t3HJvppar6RQ9O7
-	VNFiq9MRobhi4GweiVvh6cNLv13Jgafe0aChMxDmrC20yv7m9EHW9wyD361JED0MjCqc
-	zW0rjIMlGScRDZ0zjFbO0wLdvmmhRooITKNTZS038o8TSyUGo6Krf1/LwDZHioI9r+41
-	uegrrKUEDS4qec2txpDYToFrzYbayAa2K5xHOmrpPjLpcXDYiJregQ6WwHk0SMeoZnIp
-	zvmA==
-MIME-Version: 1.0
-X-Received: by 10.52.68.51 with SMTP id s19mr21230564vdt.92.1366805080035;
-	Wed, 24 Apr 2013 05:04:40 -0700 (PDT)
-Received: by 10.52.183.36 with HTTP; Wed, 24 Apr 2013 05:04:39 -0700 (PDT)
-Date: Wed, 24 Apr 2013 14:04:39 +0200
-Message-ID: <CALbNGRQ4vS=kvgqNZyS5G9HRBE1ixrta_uF+PvzOPZvfjbhNkQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: postinst questions (was postinst does not finish)
+	Wed, 24 Apr 2013 14:07:47 +0200
+Message-ID: <1366805267.14512.29.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2013 13:07:47 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] sstate: Set umask to 002 before packaging runs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,24 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 12:22:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Apr 2013 12:25:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi
+Otherwise we might end up creating directories under sstate-cache with whatever
+random umask has been selected for the task that we're trying to package.  This
+would be a bad thing since it might result in losing group write access for
+newly created dirs, and/or losing group read access for the sstate files 
+themselves.
 
-as written before: an 'exit 1' within recipe's postinst causes
-trouble. E.g meta-oe's lxdm does not run systemd.bbclass' code which
-leaves lxdm in unprepared condition causing start too early and ending
-in unfinished postinstall.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/sstate.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-A simple workaround for this (we should think of something else later)
-would be to prepend postinst code within systemd.bbclass (and maybe
-others too) instead of appending. Hereby we ensure that the code is
-executed independent of recipe's code. First question: Any objections?
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 03f083e..380eb66 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -507,7 +507,11 @@ python sstate_task_postfunc () {
+     sstate_install(shared_state, d)
+     for intercept in shared_state['interceptfuncs']:
+         bb.build.exec_func(intercept, d)
++    omask = os.umask(002)
++    if omask != 002:
++       bb.note("Using umask 002 (not %0o) for sstate packaging" % omask)
+     sstate_package(shared_state, d)
++    os.umask(omask)
+ }
+   
+ 
+-- 
+1.7.10.4
 
-In case of no objections: Second question: Is shebang in
-post/pre/install/remove scripts (I saw many scripts without shebang)?
 
-Andreas
+
 
 
