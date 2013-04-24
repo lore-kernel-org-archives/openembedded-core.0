@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47v-0004XV-WA
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47t-0004Xt-Qg
 	for openembedded-core@lists.openembedded.org;
 	Wed, 24 Apr 2013 20:09:10 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Apr 2013 10:50:41 -0700
+	by azsmga101.ch.intel.com with ESMTP; 24 Apr 2013 10:50:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632601"
+X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632578"
 Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.249])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:34 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:32 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 18:48:57 +0100
-Message-Id: <429e692e7b02f80202a35df61c768a4459eb9d55.1366825663.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Apr 2013 18:48:55 +0100
+Message-Id: <8f777bebbe0b45b34ce5066a1822aaf629c33262.1366825663.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 20/21] core-image-directfb: add SUMMARY
+Subject: [PATCH 18/21] hwlatdetect: add SUMMARY and DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,18 +35,20 @@ X-List-Received-Date: Wed, 24 Apr 2013 18:09:14 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-graphics/images/core-image-directfb.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/images/core-image-directfb.bb b/meta/recipes-graphics/images/core-image-directfb.bb
-index 4f47185..3a74e94 100644
---- a/meta/recipes-graphics/images/core-image-directfb.bb
-+++ b/meta/recipes-graphics/images/core-image-directfb.bb
-@@ -1,3 +1,4 @@
-+SUMMARY = "An image that uses DirectFB instead of X11."
- LICENSE = "MIT"
- PR="r0"
- 
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+index c3806c1..634b609 100644
+--- a/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
++++ b/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+@@ -1,4 +1,5 @@
+-pickDESCRIPTION = "Python hardware latency detector"
++SUMMARY = "Hardware latency detector"
++DESCRIPTION = "Python utility for controlling the kernel hardware latency detection module (hwlat_detector.ko)."
+ HOMEPAGE = "http://git.kernel.org/?p=linux/kernel/git/clrkwllms/rt-tests.git"
+ SECTION = "tests"
+ LICENSE = "GPLv2"
 -- 
 1.7.10.4
 
