@@ -1,36 +1,24 @@
-Received: from mail-pb0-f51.google.com ([209.85.160.51])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UUuGo-0000Lj-S5
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 09:37:39 +0200
-Received: by mail-pb0-f51.google.com with SMTP id rr4so374351pbb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2013 00:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=V+SFXPA3MXg8nBS+BTcuaQkUTgteSk34X1e7nuCn7Lc=;
-	b=nuutUgqYww8hXkSc2rlhotyCf/9pzu6R7ssB4tuYGvpniplRojUrtbs0bSzCPuViX+
-	QZXr6o0gqIp/LRvvkhVIa+iC7rtDLNxYqyLNi70mkmrObNvkp5njCSDTY52KIrjS5k3k
-	j9plgClG+1pmnJi1pDI/3baSKA+9tU2OgfZ9wMJFyCn/Yv+xkcRDgZ0Dariq/VGFonyV
-	3+wtKM8MeyiPm/SVKN1nVF8tjduDelRs/epKweK+pADLVqExXbrupFODwe9cA6ZioILF
-	hnYo2EIMQovV3QgyVf9z1c1NG9MvU8ZYIO0SVEx21wgUqak23n4MQovMcftlXydElWq6
-	APbA==
-X-Received: by 10.67.3.35 with SMTP id bt3mr17572174pad.157.1366787996487;
-	Wed, 24 Apr 2013 00:19:56 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	mt13sm1936432pbc.15.2013.04.24.00.19.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 24 Apr 2013 00:19:55 -0700 (PDT)
-Date: Wed, 24 Apr 2013 09:20:04 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130424072004.GE3217@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: debugedit: canonicalization unexpectedly shrank by one character
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUurn-0004BW-CE for openembedded-core@lists.openembedded.org;
+	Wed, 24 Apr 2013 10:15:52 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UUuah-0001fW-Fk; Wed, 24 Apr 2013 09:58:11 +0200
+Message-ID: <1366790283.9140.30.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 24 Apr 2013 08:58:03 +0100
+In-Reply-To: <1366753502.23738.69.camel@ted>
+References: <1366735483.5732.18.camel@phil-desktop.brightsign>
+	<1366753502.23738.69.camel@ted>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] eglibc: Add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,93 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 07:37:40 -0000
-X-Groupsio-MsgNum: 38278
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zjcmjzIkjQU2rmur"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 24 Apr 2013 08:15:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---zjcmjzIkjQU2rmur
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2013-04-23 at 22:45 +0100, Richard Purdie wrote:
+> On Tue, 2013-04-23 at 17:44 +0100, Phil Blundell wrote:
+> >  # nptl needs unwind support in gcc, which can't be built without glibc.
+> > -DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
+> > +DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial gettext-native"
+> >  # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+> >  #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+> >  PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+> 
+> This will have a significant adverse affect on build speed due to build
+> dependency bottlenecks :(
+> 
+> Are there any good options for avoiding this?
 
-Hi,
+Well, obviously folks who do have it in the host environment can set
+ASSUME_PROVIDED.  I assume most people do have that installed, otherwise
+this would be failing all the time.
 
-with debugedit errors now catched and shown after:
-commit 262a69ffd33e9d001a7a15fc73671a015e3b5dd1
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Mon Mar 25 16:52:07 2013 +0000
+Other than that, I think your options are:
 
-    package.bbclass: Handle subprocess errors correctly
+1. figure out a way to defer catalog building to later, e.g. put it in
+eglibc-locale instead.  This would probably involve some hacking of the
+eglibc makefiles but I don't think it would be especially hard.
 
-    If an error occurs in subprocess.call() we currently don't catch it. In=
- particular
-    we have issues where debugedit is segfaulting unnoticed. This fixes up
-    various code paths to catch the errors.
+2. find a way to disable catalog generation entirely for folks who don't
+want it.  That might involve inventing DISTRO_FEATURES="l10n" or
+something and patching (albeit trivial) to both configure.in and the
+makefiles.  I imagine that change would be upstreamable in eglibc.
 
-I get couple of recipes failing with errors like:
+3. reimplement msgcat as a python script or something else that doesn't
+need compiling, or pull out msgcat.c into its own recipe that just
+builds this single file (avoiding the autotools overhead that
+gettext-native has).
 
-NOTE: Running task 4179 of 4962 (ID: 2136, /OE/webos/owpb/openwebos-ports/m=
-eta-smartphone/meta-android/recipes-multimedia/android-audiosystem/android-=
-audiosystem_bzr.bb, do_package)
-NOTE: recipe android-audiosystem-1.8+bzr43-r0: task do_package: Started
-ERROR: debugedit failed with exit code 1 (cmd was '/OE/webos/owpb/openwebos=
--ports/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit' -b '/OE/=
-webos/owpb/openwebos-ports/tmp-eglibc/work/armv7a-vfp-neon-webos-linux-gnue=
-abi' -d '/usr/src/debug' -i -l '/OE/webos/owpb/openwebos-ports/tmp-eglibc/w=
-ork/armv7a-vfp-neon-webos-linux-gnueabi/android-audiosystem/1.8+bzr43-r0/de=
-bugsources.list' '/OE/webos/owpb/openwebos-ports/tmp-eglibc/work/armv7a-vfp=
--neon-webos-linux-gnueabi/android-audiosystem/1.8+bzr43-r0/package/usr/lib/=
-libwaudio.so.1.0')
-ERROR: Function failed: split_and_strip_files
-ERROR: Logfile of failure stored in: /OE/webos/owpb/openwebos-ports/tmp-egl=
-ibc/work/armv7a-vfp-neon-webos-linux-gnueabi/android-audiosystem/1.8+bzr43-=
-r0/temp/log.do_package.3450
-NOTE: recipe android-audiosystem-1.8+bzr43-r0: task do_package: Failed
-ERROR: Task 2136 (/OE/webos/owpb/openwebos-ports/meta-smartphone/meta-andro=
-id/recipes-multimedia/android-audiosystem/android-audiosystem_bzr.bb, do_pa=
-ckage) failed with exit code '1'
+I can't think of any other obvious choices offhand but I'm sure there
+are more.
 
-Unfortunately this error does not show stdout/stderr from debugedit, but ru=
-nning it manually:
-'/OE/webos/owpb/openwebos-ports/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rp=
-m/bin/debugedit' -b '/OE/webos/owpb/openwebos-ports/tmp-eglibc/work/armv7a-=
-vfp-neon-webos-linux-gnueabi' -d '/usr/src/debug' -i -l '/OE/webos/owpb/ope=
-nwebos-ports/tmp-eglibc/work/armv7a-vfp-neon-webos-linux-gnueabi/android-au=
-diosystem/1.8+bzr43-r0/debugsources.list' '/OE/webos/owpb/openwebos-ports/t=
-mp-eglibc/work/armv7a-vfp-neon-webos-linux-gnueabi/android-audiosystem/1.8+=
-bzr43-r0/package/usr/lib/libwaudio.so.1.0'
-/OE/webos/owpb/openwebos-ports/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm=
-/bin/debugedit: canonicalization unexpectedly shrank by one character
+The thing that does seem a bit puzzling is that this problem didn't use
+to happen with older versions of oe-core (in particular, I never saw it
+with my previous snapshot which used eglibc 2.16).  I'm not quite sure
+what changed to make it suddenly become an issue.
 
-This leads to=20
-https://bugzilla.redhat.com/show_bug.cgi?id=3D304121
-https://bugs.launchpad.net/rpm/+bug/638633
-https://qa.mandriva.com/show_bug.cgi?id=3D62391
+p.
 
-but no clear solution (it would be nice to show which path triggered that m=
-essage=20
-as suggested in redhat bugzilla)
 
-I can INHIBIT_PACKAGE_DEBUG_SPLIT in failing recipes or adding slash=20
-to -d '/usr/src/debug/' works in this case too..
 
-Other ideas?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---zjcmjzIkjQU2rmur
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlF3h6QACgkQN1Ujt2V2gBzeowCdEGa2QQvJ0t/iOnl+jHHDV6dD
-DH0An0Lo0aXANF2X8cjt3CNJdbBfUiQF
-=UFMb
------END PGP SIGNATURE-----
-
---zjcmjzIkjQU2rmur--
