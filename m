@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UV7f2-0007Ug-HD
+	(envelope-from <sgw@linux.intel.com>) id 1UV7fC-0007V9-HB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 23:55:34 +0200
+	Wed, 24 Apr 2013 23:55:45 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:18 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916451"
+X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916466"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:18 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 14:37:05 -0700
-Message-Id: <962fd2ecc5ee491d4762ce12ab7e1e8c47208ef4.1366827512.git.sgw@linux.intel.com>
+Date: Wed, 24 Apr 2013 14:37:07 -0700
+Message-Id: <875d5dbcc31bbf49fbbb331ef1b8f989d2385150.1366827512.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
-Subject: [PATCH 12/18] pkgconfig: Move patches in prep for 0.28 update
+Subject: [PATCH 14/18] glew: fix generation of glew.pc needed by mesa-demos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,50 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 21:55:50 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 21:55:56 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/pkgconfig/pkgconfig.inc     | 8 +-------
- meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb | 7 +++++++
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ .../glew/files/fix-glew.pc-install.patch           | 44 ++++++++++++++++++++++
+ meta/recipes-graphics/glew/glew_1.9.0.bb           |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-graphics/glew/files/fix-glew.pc-install.patch
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-index 87d7165..52b9ad1 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-@@ -12,13 +12,7 @@ DEPENDS = "glib-2.0 popt"
- DEPENDS_class-native = ""
- DEPENDS_class-nativesdk = ""
- 
--SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz \
--           file://autofoo.patch \
--           file://glibconfig-sysdefs.h \
--           file://pkg-config-native.in \
--           file://disable-legacy.patch \
--           file://obsolete_automake_macros.patch \
--          "
-+SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz"
- 
- S = "${WORKDIR}/pkg-config-${PV}/"
- 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
-index a269973..a55d017 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
-@@ -2,5 +2,12 @@ require pkgconfig.inc
- 
- PR = "r7"
- 
-+SRC_URI += "file://autofoo.patch \
-+            file://glibconfig-sysdefs.h \
-+            file://pkg-config-native.in \
-+            file://disable-legacy.patch \
-+            file://obsolete_automake_macros.patch \
-+           "
+diff --git a/meta/recipes-graphics/glew/files/fix-glew.pc-install.patch b/meta/recipes-graphics/glew/files/fix-glew.pc-install.patch
+new file mode 100644
+index 0000000..5b6a94e
+--- /dev/null
++++ b/meta/recipes-graphics/glew/files/fix-glew.pc-install.patch
+@@ -0,0 +1,44 @@
 +
- SRC_URI[md5sum] = "a3270bab3f4b69b7dc6dbdacbcae9745"
- SRC_URI[sha256sum] = "3ba691ee2431f32ccb8efa131e59bf23e37f122dc66791309023ca6dcefcd10e"
++We maintain the autotools configure.ac and Makefile.am, to correctly
++provide the glew.pc, the following patch is needed.
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: glew-1.9.0/Makefile.am
++===================================================================
++--- glew-1.9.0.orig/Makefile.am
+++++ glew-1.9.0/Makefile.am
++@@ -3,3 +3,5 @@ ACLOCAL_AMFLAGS = -I m4 --install
++ 
++ SUBDIRS = include src
++ 
+++pkgconfigdir = $(libdir)/pkgconfig
+++pkgconfig_DATA = glew.pc
++Index: glew-1.9.0/configure.ac
++===================================================================
++--- glew-1.9.0.orig/configure.ac
+++++ glew-1.9.0/configure.ac
++@@ -66,5 +66,6 @@ AC_SUBST([LIBGLEW_SO_VERSION], [1:5:7])
++ 
++ AC_CONFIG_FILES([Makefile
++                  include/Makefile
++-                 src/Makefile])
+++                 src/Makefile
+++                 glew.pc])
++ AC_OUTPUT
++Index: glew-1.9.0/glew.pc.in
++===================================================================
++--- glew-1.9.0.orig/glew.pc.in
+++++ glew-1.9.0/glew.pc.in
++@@ -5,6 +5,6 @@ includedir=@includedir@
++ 
++ Name: glew
++ Description: The OpenGL Extension Wrangler library
++-Version: @version@
++-Cflags: -I${includedir} @cflags@
++-Libs: -L${libdir} -l@libname@
+++Version: @VERSION@
+++Cflags: -I${includedir} @CFLAGS@
+++Libs: -L${libdir} -lGLEW
+diff --git a/meta/recipes-graphics/glew/glew_1.9.0.bb b/meta/recipes-graphics/glew/glew_1.9.0.bb
+index 599d64b..f1ba4e4 100644
+--- a/meta/recipes-graphics/glew/glew_1.9.0.bb
++++ b/meta/recipes-graphics/glew/glew_1.9.0.bb
+@@ -12,6 +12,7 @@ PR = "r1"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://autotools.patch \
+            file://glew_fix_for_automake-1.12.patch \
++           file://fix-glew.pc-install.patch \
+           "
+ 
+ SRC_URI[md5sum] = "69ce911decef6249d24742497e6ad06a"
 -- 
 1.8.0.2
 
