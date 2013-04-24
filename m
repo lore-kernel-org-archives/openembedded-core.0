@@ -1,24 +1,17 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UV7fR-0007V9-BM
+Received: from smtp12.smtpout.orange.fr ([80.12.242.134]
+	helo=smtp.smtpout.orange.fr) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1UV8Fa-0002pG-65
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 23:56:01 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916475"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 25 Apr 2013 00:33:22 +0200
+Received: from localhost.localdomain ([10.163.22.217]) by mwinf5d35 with ME
+	id Ty831l00D4h1lPN03y83tC; Thu, 25 Apr 2013 00:08:04 +0200
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 14:37:09 -0700
-Message-Id: <283c4c012bf58f336e309f34fedb49d0b13c3e63.1366827512.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
-References: <cover.1366827512.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
-References: <cover.1366827512.git.sgw@linux.intel.com>
-Subject: [PATCH 16/18] glib-2.0: Update to 2.36
+Date: Thu, 25 Apr 2013 00:08:01 +0200
+Message-Id: <1366841282-9445-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.11.7
+MIME-Version: 1.0
+Subject: [PATCH 1/2] apt: update to 0.9.7.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,100 +24,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 21:56:57 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 22:33:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Remove automake patch that is now correctly supported upstream
-Codegen files have moved to glib-2.0, so correct packaging and
-removal.
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Eric Bénard <eric@eukrea.com>
 ---
- .../glib-2.0/glib-2.0/obsolete_automake_macros.patch        | 13 -------------
- .../glib-2.0/{glib-2.0_2.34.3.bb => glib-2.0_2.36.0.bb}     | 12 ++++++------
- meta/recipes-core/glib-2.0/glib.inc                         |  2 +-
- 3 files changed, 7 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.34.3.bb => glib-2.0_2.36.0.bb} (85%)
+ .../disable-configure-in-makefile.patch                            | 0
+ .../fix-gcc-4.6-null-not-defined.patch                             | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/makerace.patch                | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/no-ko-translation.patch       | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/no-nls-dpkg.patch             | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/noconfigure.patch             | 0
+ meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/nodoc.patch | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/truncate-filename.patch       | 0
+ .../apt/{apt-0.9.7.7 => apt-0.9.7.8}/use-host.patch                | 0
+ .../apt/{apt-native_0.9.7.7.bb => apt-native_0.9.7.8.bb}           | 6 ++----
+ meta/recipes-devtools/apt/{apt_0.9.7.7.bb => apt_0.9.7.8.bb}       | 7 ++-----
+ 11 files changed, 4 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/disable-configure-in-makefile.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/fix-gcc-4.6-null-not-defined.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/makerace.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/no-ko-translation.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/no-nls-dpkg.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/noconfigure.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/nodoc.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/truncate-filename.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.7 => apt-0.9.7.8}/use-host.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-native_0.9.7.7.bb => apt-native_0.9.7.8.bb} (52%)
+ rename meta/recipes-devtools/apt/{apt_0.9.7.7.bb => apt_0.9.7.8.bb} (72%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch b/meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch
-deleted file mode 100644
-index 2fc4e75..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,13 +0,0 @@
--Upstream-Status: Accepted [https://bugzilla.gnome.org/show_bug.cgi?id=691011]
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/disable-configure-in-makefile.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/disable-configure-in-makefile.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/disable-configure-in-makefile.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/fix-gcc-4.6-null-not-defined.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/fix-gcc-4.6-null-not-defined.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/fix-gcc-4.6-null-not-defined.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/makerace.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/makerace.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/makerace.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/makerace.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/no-ko-translation.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/no-ko-translation.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/no-ko-translation.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/no-nls-dpkg.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/no-nls-dpkg.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/no-nls-dpkg.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/noconfigure.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/noconfigure.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/noconfigure.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/nodoc.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/nodoc.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/nodoc.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/nodoc.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/truncate-filename.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/truncate-filename.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/truncate-filename.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/truncate-filename.patch
+diff --git a/meta/recipes-devtools/apt/apt-0.9.7.7/use-host.patch b/meta/recipes-devtools/apt/apt-0.9.7.8/use-host.patch
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-0.9.7.7/use-host.patch
+rename to meta/recipes-devtools/apt/apt-0.9.7.8/use-host.patch
+diff --git a/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb b/meta/recipes-devtools/apt/apt-native_0.9.7.8.bb
+similarity index 52%
+rename from meta/recipes-devtools/apt/apt-native_0.9.7.7.bb
+rename to meta/recipes-devtools/apt/apt-native_0.9.7.8.bb
+index d71ab2f..000a18d 100644
+--- a/meta/recipes-devtools/apt/apt-native_0.9.7.7.bb
++++ b/meta/recipes-devtools/apt/apt-native_0.9.7.8.bb
+@@ -1,11 +1,9 @@
+ require apt-native.inc
+ 
+-PR = "r1"
 -
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd glib-2.34.3/configure.ac glib-2.34.3/configure.ac
----- glib-2.34.3/configure.ac	2012-11-26 19:10:04.000000000 +0200
--+++ glib-2.34.3/configure.ac	2013-01-02 15:49:27.832183712 +0200
--@@ -291,7 +291,6 @@
-- AM_CONDITIONAL(HAVE_CXX, [test "$CXX" != ""])
-- AC_LANG_RESTORE
+ SRC_URI += "file://noconfigure.patch \
+ 	    file://no-curl.patch"
+ 
+-SRC_URI[md5sum] = "039fc57668d1a0c2f62dc22e71900a16"
+-SRC_URI[sha256sum] = "6eca4285f1ac2e8cb837b9546553b0546881ed15853aa5bbeb860bab6bfa1700"
++SRC_URI[md5sum] = "d44f459d59d8fa7fc5f455f1f982f08c"
++SRC_URI[sha256sum] = "9570905992f4a83b0c182f11f9e0a8c20a1209a52996d1a01ddbfa359ae2c819"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+diff --git a/meta/recipes-devtools/apt/apt_0.9.7.7.bb b/meta/recipes-devtools/apt/apt_0.9.7.8.bb
+similarity index 72%
+rename from meta/recipes-devtools/apt/apt_0.9.7.7.bb
+rename to meta/recipes-devtools/apt/apt_0.9.7.8.bb
+index a9dcc74..9653ee9 100644
+--- a/meta/recipes-devtools/apt/apt_0.9.7.7.bb
++++ b/meta/recipes-devtools/apt/apt_0.9.7.8.bb
+@@ -3,11 +3,8 @@ RDEPENDS_${PN} = "dpkg"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ require apt.inc
+ 
+-PR = "r0"
 -
---AM_PROG_CC_STDC
-- AM_PROG_CC_C_O
-- AC_PROG_INSTALL
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-similarity index 85%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-index 7795524..a042972 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-@@ -1,6 +1,5 @@
- require glib.inc
+-
+-SRC_URI[md5sum] = "039fc57668d1a0c2f62dc22e71900a16"
+-SRC_URI[sha256sum] = "6eca4285f1ac2e8cb837b9546553b0546881ed15853aa5bbeb860bab6bfa1700"
++SRC_URI[md5sum] = "d44f459d59d8fa7fc5f455f1f982f08c"
++SRC_URI[sha256sum] = "9570905992f4a83b0c182f11f9e0a8c20a1209a52996d1a01ddbfa359ae2c819"
  
--PR = "r2"
- PE = "1"
- 
- DEPENDS += "libffi python-argparse-native zlib"
-@@ -12,15 +11,16 @@ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]
- SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://configure-libtool.patch \
-            file://glib-2.0_fix_for_x32.patch \
--           file://obsolete_automake_macros.patch \
-            file://fix-conflicting-rand.patch \
-            file://Makefile-ptest.patch \
-            file://run-ptest \
-           "
--SRC_URI[md5sum] = "a4ca31e258273c3761e3de2edd607661"
--SRC_URI[sha256sum] = "855fcbf87cb93065b488358e351774d8a39177281023bae58c286f41612658a7"
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
-+
-+SRC_URI[md5sum] = "2047dff287473450593edecb18f79c17"
-+SRC_URI[sha256sum] = "455a8abe8692c5174bcc7ffa15b96a7521a2f2f9fb47594405927c35cb9bb227"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- RDEPENDS_${PN}-ptest += "\
-@@ -50,8 +50,8 @@ do_configure_prepend() {
- 
- do_install_append() {
-   # remove some unpackaged files
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
-+  rm -f ${D}${datadir}/glib-2.0/codegen/*.pyc
-+  rm -f ${D}${datadir}/glib-2.0/codegen/*.pyo
-   # and empty dirs
-   rm -rf ${D}${libdir}/gio
- 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 42c34c3..35edc4e 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -38,7 +38,7 @@ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
-                     ${libdir}/gio/modules/*.la"
- FILES_${PN}-dbg += "${datadir}/glib-2.0/gdb ${datadir}/gdb \
-                     ${libdir}/gio/modules/.debug"
--FILES_${PN}-codegen = "${libdir}/gdbus-2.0/codegen/*.py"
-+FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py"
- FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d \
-                                ${datadir}/bash-completion"
+ require apt-package.inc
  
 -- 
-1.8.0.2
+1.7.11.7
 
 
 
