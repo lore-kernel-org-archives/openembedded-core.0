@@ -1,35 +1,28 @@
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UV0XU-0004c0-Fv
+	(envelope-from <mark.hatle@windriver.com>) id 1UV0qj-0002Do-GA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 16:19:34 +0200
-Received: by mail-vc0-f180.google.com with SMTP id m17so1766208vca.39
+	Wed, 24 Apr 2013 16:39:15 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3OELPtW007859
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2013 07:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=D6pvbxLwUGv4XmPgAAsLQIvben6rj3/vETSd4uFq1xw=;
-	b=K6At0ttDaY8TVDiS0REOluGC1QL8izX7bQ/XPB6AlMGE7xwNU+pSyyyA29CN0qayvt
-	F2Ar8zFAQMgDrhU9Q72Chas+91QV1Zzd3k7f62MbbR20Ppvpt6K4aBsZlWuxc0D8iN8+
-	ZeSaECgIgNLr7CU1DYgHt2Yz27DACjSxqIg3xMuExMKhqcbmQz8nIMx/MUmBrY8GryiJ
-	0csolH4YdONmuaQ/dJ9F2d9pOMprm+vwAHIEZAFJ69NX2H5ZZ9RJHc6xV4MSrg3ioeCO
-	tU5mz6ucxn5cCkYKtVO1a014IWuHokAzVBvF7yKhEsSmyINTroXQem+P4zjqbAuI8o5r
-	ppbA==
+	Wed, 24 Apr 2013 07:21:26 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 24 Apr 2013 07:21:25 -0700
+Message-ID: <5177EA62.6080601@windriver.com>
+Date: Wed, 24 Apr 2013 09:21:22 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.52.33.236 with SMTP id u12mr21149967vdi.101.1366812076349;
-	Wed, 24 Apr 2013 07:01:16 -0700 (PDT)
-Received: by 10.52.183.36 with HTTP; Wed, 24 Apr 2013 07:01:16 -0700 (PDT)
-In-Reply-To: <1593024.LqG1OqkOga@helios>
-References: <CALbNGRQ4vS=kvgqNZyS5G9HRBE1ixrta_uF+PvzOPZvfjbhNkQ@mail.gmail.com>
-	<1593024.LqG1OqkOga@helios>
-Date: Wed, 24 Apr 2013 16:01:16 +0200
-Message-ID: <CALbNGRQYcQFFaqi+cgRR8mvrtOhaB_prdgwAV0p9gSdwGnORKA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: postinst questions (was postinst does not finish)
+To: <openembedded-core@lists.openembedded.org>
+References: <1366793330-8893-1-git-send-email-bogdan.a.marinescu@intel.com>
+In-Reply-To: <1366793330-8893-1-git-send-email-bogdan.a.marinescu@intel.com>
+Subject: Re: [PATCH v2] rpm: change arch scoring items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,50 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 14:19:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Apr 2013 14:39:27 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 24, 2013 at 3:21 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 24 April 2013 14:04:39 Andreas M=C3=BCller wrote:
->> as written before: an 'exit 1' within recipe's postinst causes
->> trouble. E.g meta-oe's lxdm does not run systemd.bbclass' code which
->> leaves lxdm in unprepared condition causing start too early and ending
->> in unfinished postinstall.
+On 4/24/13 3:48 AM, Bogdan Marinescu wrote:
+> Don't add the first line of /etc/rpm/platform to the list of patterns
+> to match when computing an arch score, use it just for getting
+> information about the platform (cpu/vendor/os).
 >
-> I think the way forward with this is to avoid doing this at all - let's t=
-ry to
-> get as many of these postinstalls working on the host. Looking at the
-> postinstall in the lxdm recipe in meta-oe, I can't see anything that coul=
-dn't
-> work on the host - $D would just be needed in front of ${libdir} and
-> ${localstatedir}.
+> [YOCTO #3864]
 >
->> A simple workaround for this (we should think of something else later)
->> would be to prepend postinst code within systemd.bbclass (and maybe
->> others too) instead of appending. Hereby we ensure that the code is
->> executed independent of recipe's code. First question: Any objections?
->
-> As long as there's no reliance within systemd.bbclass upon anything that =
-a
-> recipe's custom postinstall might be doing - this could be problematic fo=
-r
-> example if the custom postinstall were configuring a service which would =
-be
-> automatically started as a result of the systemd postinstall (not sure if=
- this
-> is how this ends up operating without trying it, but you get the idea.)
->
-> Cheers,
-> Paul
->
-The more I look into all this I think we need a rework on the
-pre/post/inst/rm stuff:
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-* exit allover - nobody can tell which code gets useless
-* shebang is only found for recipes inheriting classes taking care..
+> ---
+>   .../rpm/rpm/rpm-platform-file-fix.patch            |   28 ++++++++++++++++++++
+>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 ++-
+>   2 files changed, 30 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+>
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+> new file mode 100644
+> index 0000000..0f391d2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-platform-file-fix.patch
+> @@ -0,0 +1,28 @@
+> +Don't add the first line of /etc/rpm/platform to the list of patterns
+> +to match when computing an arch score, use it just for getting
+> +information about the platform (cpu/vendor/os). Fixes #3864.
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+> +index e676601..9140bbe 100644
+> +--- a/lib/rpmrc.c
+> ++++ b/lib/rpmrc.c
+> +@@ -510,6 +510,7 @@ static rpmRC rpmPlatform(const char * platform)
+> + #endif
+> + 	}
+> +
+> ++#if !defined(RPM_VENDOR_POKY) /* Skip the explicit-platform */
+> + #if defined(RPM_VENDOR_OPENPKG) /* explicit-platform */
+> + 	/* do not use vendor and GNU attribution */
+> + 	p = rpmExpand("%{_host_cpu}-%{_host_os}", NULL);
+> +@@ -520,7 +521,8 @@ static rpmRC rpmPlatform(const char * platform)
+> + #endif
+> + 	xx = mireAppend(RPMMIRE_STRCMP, 0, p, NULL, &mi_re, &mi_nre);
+> + 	p = _free(p);
+> +-	
+> ++#endif
+> ++
+> + 	init_platform++;
+> +     }
+> +     rc = (init_platform ? RPMRC_OK : RPMRC_FAIL);
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> index 7d2cba4..112d11d 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
+>   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>
+>   DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
+> -PR = "r62"
+> +PR = "r63"
+>
+>   # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+>   # in order to extract the distribution SRPM into a format we can extract...
+> @@ -86,6 +86,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+>   	   file://rpm-platform2.patch \
+>   	   file://rpm-remove-sykcparse-decl.patch \
+>   	   file://debugedit-segv.patch \
+> +     file://rpm-platform-file-fix.patch \
+>   	  "
+>
+>   # Uncomment the following line to enable platform score debugging
+>
 
-Andreas
 
 
