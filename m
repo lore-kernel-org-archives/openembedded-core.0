@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47Z-0004Uq-ET
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47b-0004Uk-JH
 	for openembedded-core@lists.openembedded.org;
 	Wed, 24 Apr 2013 20:08:47 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 24 Apr 2013 10:50:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632444"
+X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632453"
 Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.249])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:18 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:19 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 18:48:43 +0100
-Message-Id: <f63ff84aceed95aab8fc4e694c73afe830df9a62.1366825663.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Apr 2013 18:48:44 +0100
+Message-Id: <8e3a2b915b909bde8e53a3baf0dc528821d8b3fb.1366825663.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 06/21] readline: add SUMMARY
+Subject: [PATCH 07/21] external-sourcery-toolchain: add SUMMARY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,32 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 18:08:51 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 18:08:52 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/readline/readline.inc    |    1 +
- meta/recipes-core/readline/readline_5.2.bb |    1 +
- 2 files changed, 2 insertions(+)
+ meta/recipes-core/meta/external-sourcery-toolchain.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
-index b61104c..6c43e2d 100644
---- a/meta/recipes-core/readline/readline.inc
-+++ b/meta/recipes-core/readline/readline.inc
-@@ -1,3 +1,4 @@
-+SUMMARY = "Library for editing typed command lines"
- DESCRIPTION = "The GNU Readline library provides a set of functions for use by applications that allow users to edit \
- command lines as they are typed in. Both Emacs and vi editing modes are available. The Readline library includes  \
- additional functions to maintain a list of previously-entered command lines, to recall and perhaps reedit those   \
-diff --git a/meta/recipes-core/readline/readline_5.2.bb b/meta/recipes-core/readline/readline_5.2.bb
-index 1aa44f8..05ab26f 100644
---- a/meta/recipes-core/readline/readline_5.2.bb
-+++ b/meta/recipes-core/readline/readline_5.2.bb
-@@ -1,3 +1,4 @@
-+SUMMARY = "Library for editing typed command lines"
- DESCRIPTION = "The GNU Readline library provides a set of functions for use by applications that allow users to edit \
- command lines as they are typed in. Both Emacs and vi editing modes are available. The Readline library includes  \
- additional functions to maintain a list of previously-entered command lines, to recall and perhaps reedit those   \
+diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+index 74c82ec..24c7ce8 100644
+--- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
++++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+@@ -3,6 +3,7 @@ require recipes-core/eglibc/eglibc-package.inc
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ # License applies to this recipe code, not the toolchain itself
++SUMMARY = "External Sourcery G++ toolchain"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 -- 
 1.7.10.4
 
