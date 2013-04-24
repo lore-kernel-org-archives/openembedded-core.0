@@ -1,31 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UV2pp-0004fs-VX for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 18:46:23 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3OGTh3o007982; Wed, 24 Apr 2013 17:29:44 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9QPfg_z6nYbM; Wed, 24 Apr 2013 17:29:43 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3OGTbnB007973
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 24 Apr 2013 17:29:39 +0100
-Message-ID: <1366820905.23738.153.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Lewis, Nick" <nick.lewis@usa.g4s.com>
-Date: Wed, 24 Apr 2013 17:28:25 +0100
-In-Reply-To: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540CC@GBTWK10E001.Technology.local>
-References: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540CC@GBTWK10E001.Technology.local>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UV30m-0005iP-90 for openembedded-core@lists.openembedded.org;
+	Wed, 24 Apr 2013 18:57:44 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UV2jg-0002gL-Cv
+	for openembedded-core@lists.openembedded.org;
+	Wed, 24 Apr 2013 18:40:00 +0200
+Message-ID: <1366821599.14512.59.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2013 17:39:59 +0100
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Cc: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Problems with PACKAGE_CLASSES = "package_tar"
+Subject: [PATCH] eglibc: Avoid "installed but not shipped" warning for ld.so.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,21 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2013 16:46:25 -0000
+X-List-Received-Date: Wed, 24 Apr 2013 16:57:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-04-24 at 16:58 +0100, Lewis, Nick wrote:
-> I am seeing problems when using PACKAGE_CLASSES = "package_tar"
->  
-> There are many warnings about python indents and there are errors
-> regarding missing populate_sdk_tar.bbclass and rootfs_tar.bbclass
+If USE_LDCONFIG is not set then we won't ship ld.so.conf.  However,
+eglibc still installs it which leads to a QA warning.  Prevent that by
+removing the file (and the subsequently-empty directory /etc) in this
+situation.
 
-With 1.3 (danny)? These should be fixed in 1.4 (dyland) and master...
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Cheers,
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 88a00a4..f144273 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -84,6 +84,16 @@ do_install_append () {
+ 	if [ -e "${D}${infodir}/dir" ]; then
+ 		rm -f ${D}${infodir}/dir
+ 	fi
++
++	if [ "${USE_LDCONFIG}" != "1" ]; then
++		# We won't ship this file (see FILES above) so let's not install it
++		rm -f ${D}${sysconfdir}/ld.so.conf
++		# This directory will be empty now so remove it too.
++		# But check whether it exists first, since it won't for eglibc-initial.
++		if [ -d ${D}${sysconfdir} ]; then
++			rmdir ${D}${sysconfdir}
++		fi
++	fi
+ }
+ 
+ do_install_locale () {
+-- 
+1.7.10.4
 
-Richard
 
 
 
