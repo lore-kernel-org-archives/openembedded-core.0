@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47d-0004XV-Fz
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UV47f-0004Xt-Gt
 	for openembedded-core@lists.openembedded.org;
 	Wed, 24 Apr 2013 20:08:52 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Apr 2013 10:50:36 -0700
+	by azsmga101.ch.intel.com with ESMTP; 24 Apr 2013 10:50:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632488"
+X-IronPort-AV: E=Sophos;i="4.87,545,1363158000"; d="scan'208";a="231632495"
 Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.13.249])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:22 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Apr 2013 10:50:23 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 18:48:47 +0100
-Message-Id: <4368fa2075bbd861e890fd4505ec2046930ffc04.1366825663.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Apr 2013 18:48:48 +0100
+Message-Id: <f79d474c436e9b13e8d9dba6385b8de5cb1f4a86.1366825663.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1366825663.git.paul.eggleton@linux.intel.com>
 References: <cover.1366825663.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 10/21] which: use the same meta fields for both versions
+Subject: [PATCH 11/21] libxml-simple-perl: add SUMMARY, DESCRIPTION and HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,55 +33,26 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Apr 2013 18:09:00 -0000
 
-Use the same SUMMARY, DESCRIPTION, SECTION and HOMEPAGE for the recipes
-for both "which" versions.
-
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-extended/which/which_2.18.bb |    6 +++---
- meta/recipes-extended/which/which_2.20.bb |   11 ++++++++---
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-extended/which/which_2.18.bb b/meta/recipes-extended/which/which_2.18.bb
-index 27a567c..4f78010 100644
---- a/meta/recipes-extended/which/which_2.18.bb
-+++ b/meta/recipes-extended/which/which_2.18.bb
-@@ -1,10 +1,10 @@
--SUMMARY = "Displays the full path of executables that bash would execute"
-+SUMMARY = "Displays the full path of shell commands"
- DESCRIPTION = "Which is a utility that prints out the full path of the \
- executables that bash(1) would execute when the passed \
- program names would have been entered on the shell prompt. \
- It does this by using the exact same algorithm as bash."
--HOMEPAGE = "http://www.xs4all.nl/~carlo17/which/"
--BUGTRACKER = "n/a"
-+SECTION = "libs"
-+HOMEPAGE = "http://carlo17.home.xs4all.nl/which/"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-diff --git a/meta/recipes-extended/which/which_2.20.bb b/meta/recipes-extended/which/which_2.20.bb
-index 312688f..f4e87de 100644
---- a/meta/recipes-extended/which/which_2.20.bb
-+++ b/meta/recipes-extended/which/which_2.20.bb
-@@ -1,9 +1,14 @@
--DESCRIPTION = "which - shows the full path of (shell) commands."
--SECTION     = "libs"
-+SUMMARY = "Displays the full path of shell commands"
-+DESCRIPTION = "Which is a utility that prints out the full path of the \
-+executables that bash(1) would execute when the passed \
-+program names would have been entered on the shell prompt. \
-+It does this by using the exact same algorithm as bash."
-+SECTION = "libs"
-+HOMEPAGE = "http://carlo17.home.xs4all.nl/which/"
-+
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://which.c;beginline=1;endline=17;md5=a9963693af2272e7a8df6f231164e7a2"
--HOMEPAGE = "http://ftp.gnu.org/gnu/which/"
- DEPENDS     = "cwautomacros-native"
- 
- inherit autotools update-alternatives
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
+index 6434ff7..31294ea 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.20.bb
+@@ -1,3 +1,10 @@
++SUMMARY = "Perl module for reading and writing XML"
++DESCRIPTION = "The XML::Simple Perl module provides a simple API layer \
++on top of an underlying XML parsing module to maintain XML files \
++(especially configuration files). It is a blunt rewrite of XML::Simple \
++(by Grant McLean) to use the XML::LibXML parser for XML structures, \
++where the original uses plain Perl or SAX parsers."
++HOMEPAGE = "http://search.cpan.org/~markov/XML-LibXML-Simple-0.93/lib/XML/LibXML/Simple.pod"
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7dbb3e2241fac8457967053fc1a1ddb"
 -- 
 1.7.10.4
 
