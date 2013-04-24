@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UV7f5-0007V8-5w
+	(envelope-from <sgw@linux.intel.com>) id 1UV7f2-0007Ug-HD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Apr 2013 23:55:39 +0200
+	Wed, 24 Apr 2013 23:55:34 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2013 14:37:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916462"
+X-IronPort-AV: E=Sophos;i="4.87,546,1363158000"; d="scan'208";a="300916451"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.85])
 	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2013 14:37:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2013 14:37:06 -0700
-Message-Id: <a36521958969f61c9c7316af6d1960d131c6c81d.1366827512.git.sgw@linux.intel.com>
+Date: Wed, 24 Apr 2013 14:37:05 -0700
+Message-Id: <962fd2ecc5ee491d4762ce12ab7e1e8c47208ef4.1366827512.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1366827512.git.sgw@linux.intel.com>
 References: <cover.1366827512.git.sgw@linux.intel.com>
-Subject: [PATCH 13/18] libxkbcommon: Update to 0.3.0
+Subject: [PATCH 12/18] pkgconfig: Move patches in prep for 0.28 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,46 @@ X-List-Received-Date: Wed, 24 Apr 2013 21:55:50 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../xorg-lib/{libxkbcommon_0.2.0.bb => libxkbcommon_0.3.0.bb} | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.2.0.bb => libxkbcommon_0.3.0.bb} (67%)
+ meta/recipes-devtools/pkgconfig/pkgconfig.inc     | 8 +-------
+ meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb | 7 +++++++
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.0.bb
-similarity index 67%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.0.bb
-index e8d16df..6e6dbfa 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.0.bb
-@@ -2,18 +2,15 @@ SUMMARY = "Generic XKB keymap library"
- DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
- processes a reduced subset of keymaps as defined by the XKB specification."
- HOMEPAGE = "http://www.xkbcommon.org"
--
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
- LICENSE = "MIT & MIT-style"
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+index 87d7165..52b9ad1 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+@@ -12,13 +12,7 @@ DEPENDS = "glib-2.0 popt"
+ DEPENDS_class-native = ""
+ DEPENDS_class-nativesdk = ""
  
- DEPENDS = "util-macros flex-native bison-native"
+-SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz \
+-           file://autofoo.patch \
+-           file://glibconfig-sysdefs.h \
+-           file://pkg-config-native.in \
+-           file://disable-legacy.patch \
+-           file://obsolete_automake_macros.patch \
+-          "
++SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz"
  
--SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.bz2"
--SRC_URI[md5sum] = "2be3d4a255d02c7d46fc6a9486f21f6a"
--SRC_URI[sha256sum] = "74eb0a121ca3998015fd687591426bb15c524645a72cf602831b2e729172fb42"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
-+SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ S = "${WORKDIR}/pkg-config-${PV}/"
  
--PR = "r1"
-+SRC_URI[md5sum] = "22a046100738f99b4cc0297aa210f4e4"
-+SRC_URI[sha256sum] = "866c0df88f806dff8fc859b6f082cf9f8b6c3b549f0a367541e12b1ca28a5d65"
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
+index a269973..a55d017 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
+@@ -2,5 +2,12 @@ require pkgconfig.inc
  
- inherit autotools pkgconfig
+ PR = "r7"
  
++SRC_URI += "file://autofoo.patch \
++            file://glibconfig-sysdefs.h \
++            file://pkg-config-native.in \
++            file://disable-legacy.patch \
++            file://obsolete_automake_macros.patch \
++           "
++
+ SRC_URI[md5sum] = "a3270bab3f4b69b7dc6dbdacbcae9745"
+ SRC_URI[sha256sum] = "3ba691ee2431f32ccb8efa131e59bf23e37f122dc66791309023ca6dcefcd10e"
 -- 
 1.8.0.2
 
