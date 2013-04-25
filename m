@@ -1,35 +1,20 @@
-Received: from mail-ve0-f180.google.com ([209.85.128.180])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UVJeh-000688-P4
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UVJf1-00069Q-SJ for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 12:44:52 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UVJNu-0003wB-Vz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 12:44:03 +0200
-Received: by mail-ve0-f180.google.com with SMTP id pb11so1200030veb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 03:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=UewS0B4kx0d2xKM/1jGmf5pEhylMqYiAydH2fDEcMq0=;
-	b=FpamhSR22lryP6mg6l4T5OBLRLGMsAWuLNi0YjEtwcYDW9zKXjOa0E7bVoctqfMDSZ
-	vxidM8E4Xc1kCQmc3D3GMIi9dmd5R4EejaPepSMZ6KuczlHSfCl82nqKYXHyfTdbS7T0
-	RyzfJ1mdtXDTSAJYtYQWX98GxZidAp7I/hJ9JMX1E4rJ8/gANhd8n4YxQnbk9WPx5pbr
-	lh3wlCLbnbJbYumnO9UFyatWfpPk8BqFMT2Mssa3W0FUYij7dPuhTL8xCRG5FyNnmdpC
-	Qyv+JbS3q1IiPs1cYjEHxTOo5E9Yh8JVomITq7XfMjq77Izj9h4/eAx+LLtq008wNUcV
-	rAgQ==
-X-Received: by 10.58.15.193 with SMTP id z1mr26965427vec.40.1366885576144;
-	Thu, 25 Apr 2013 03:26:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Thu, 25 Apr 2013 03:25:56 -0700 (PDT)
-In-Reply-To: <1366885254-26519-1-git-send-email-koen@dominion.thruhere.net>
-References: <1366885254-26519-1-git-send-email-koen@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Apr 2013 11:25:56 +0100
-Message-ID: <CAJTo0LZLc-ZJz=b5GW9OFB7dg-9v+6_wh00tLWV9xhN2PSmHxg@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnMRiJDXm0d+MDgbok5vuIsYEKVdofNk1J1w1sbdS7UpsZeqEI1v8+tp0yNC5eXHto1r5Sb
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] gst-plugins-gl: make it work for both openGL and openGL ESv2
+	Thu, 25 Apr 2013 12:26:39 +0200
+Message-ID: <1366885598.14512.71.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Apr 2013 11:26:38 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] gdb: Disable hard-coding of library rpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,16 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 10:44:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Apr 2013 10:45:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 25 April 2013 11:20, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Those are mutually exclusive, but PACKAGECONFIG doesn't seem to handle that yet, so use this slightly ugly construct.
+GDB's configury has a tendency to hard-code the path where it found
+libexpat using "-Wl,--rpath".  This is undesirable and leads to QA warnings.
 
-Ugly construct but what else can we do apart from ask upstream.
+Fortunately, the helpful GDB maintainers have provided a "--disable-rpath"
+switch to turn this behaviour off.  Let's use it and profit.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-devtools/gdb/gdb-common.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-Ross
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 9eb6b60..0e542d8 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -42,6 +42,7 @@ EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x --disable-werror \
+                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+                 ${GDBPROPREFIX} ${EXPAT} \
+                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
++		--disable-rpath \
+                "
+ 
+ GDBPROPREFIX = "--program-prefix=''"
+-- 
+1.7.10.4
+
+
+
 
 
