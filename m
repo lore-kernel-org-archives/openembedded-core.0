@@ -1,35 +1,35 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from [8.20.30.154] (helo=mx1.devonhealth.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1UVRHh-0007io-L9 for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 20:52:54 +0200
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1UVR0Z-0004pU-9S for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 20:35:03 +0200
-Received: from 188-25-127-222.rdsnet.ro ([188-25-127-222.rdsnet.ro])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 20:35:03 +0200
-Received: from sstncr by 188-25-127-222.rdsnet.ro with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 20:35:03 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Stefan Stanacar <sstncr@gmail.com>
-Date: Thu, 25 Apr 2013 18:32:00 +0000 (UTC)
-Message-ID: <loom.20130425T194616-214@post.gmane.org>
-References: <1366851904-1306-1-git-send-email-stefanx.stanacar@intel.com>
-	<5179327A.9010803@windriver.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 188.25.127.222 (Mozilla/5.0 (X11;
-	Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko)
-	Chrome/25.0.1364.172 Safari/537.22)
-Subject: Re: [PATCH] connman: replace hardcoded path in init script
+	(envelope-from <igeiser@devonit.com>) id 1UVTJ5-0001He-Rx
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 23:02:20 +0200
+Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
+	(10.0.20.154) with Microsoft SMTP Server id 8.3.213.0;
+	Thu, 25 Apr 2013 16:43:22 -0400
+Received: from [10.0.2.240] by emfserver.devonintlgroup.com over TLS secured
+	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
+	(Email Firewall v6.5)); Thu, 25 Apr 2013 16:43:19 -0400
+X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
+Received: from SOUTHSIDE.devonintlgroup.com ([10.0.2.2]) by
+	kingston.devonintlgroup.com ([10.0.2.240]) with mapi; Thu, 25 Apr 2013
+	16:43:00 -0400
+From: Ian Geiser <igeiser@devonit.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Apr 2013 16:43:23 -0400
+Thread-Topic: [OE-core] debugedit: canonicalization unexpectedly shrank
+	by one character
+Thread-Index: Ac5AvDubr4hnLwldS8mA7BiDXosq3wBNV/AA
+Message-ID: <B57A220D1EE1644685BA9AD5C790D20526BE5531DF@SOUTHSIDE.devonintlgroup.com>
+References: <20130424072004.GE3217@jama>
+In-Reply-To: <20130424072004.GE3217@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+X-WSS-ID: 7D674AED4CW1188446-01-01
+Subject: Re: debugedit: canonicalization unexpectedly shrank by one character
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,61 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 18:52:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Apr 2013 21:02:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Mark Hatle <mark.hatle@...> writes:
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Martin Jansa
+> Sent: Wednesday, April 24, 2013 3:20 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] debugedit: canonicalization unexpectedly shrank by
+> one character
+>=20
+> Hi,
+>=20
+> with debugedit errors now catched and shown after:
+> commit 262a69ffd33e9d001a7a15fc73671a015e3b5dd1
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Mon Mar 25 16:52:07 2013 +0000
+>=20
+>     package.bbclass: Handle subprocess errors correctly
+>=20
+>     If an error occurs in subprocess.call() we currently don't catch
+> it. In particular
+>     we have issues where debugedit is segfaulting unnoticed. This fixes
+> up
+>     various code paths to catch the errors.
+>=20
+> I get couple of recipes failing with errors like:
+[...]
+> This leads to
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D304121
+> https://bugs.launchpad.net/rpm/+bug/638633
+> https://qa.mandriva.com/show_bug.cgi?id=3D62391
+>=20
+> but no clear solution (it would be nice to show which path triggered
+> that message as suggested in redhat bugzilla)
+>=20
+> I can INHIBIT_PACKAGE_DEBUG_SPLIT in failing recipes or adding slash to
+> -d '/usr/src/debug/' works in this case too..
+I tried set PACKAGE_DEBUG_SPLIT_STYLE =3D "debug-without-src" in the packag=
+e and that seemed to work around the problem.  In my package that was offen=
+ding was because there was an -rpath that had a trailing /.  It seems debug=
+edit is very sensitive to rogue path separators. Are there ways to make thi=
+s more robust?
 
-> 
-> On 4/24/13 8:05 PM, Stefan Stanacar wrote:
-> > Because the connman init script sources a config file from /usr/lib
-> > we end up with no network in multilib enabled sato images, so replace
-> > with the real libdir.
-> >
-> > Signed-off-by: Stefan Stanacar <stefanx.stanacar@...>
-> > ---
-> >   meta/recipes-connectivity/connman/connman.inc     | 3 ++-
-> >   meta/recipes-connectivity/connman/connman/connman | 4 ++--
-> >   2 files changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-connectivity/connman/connman.inc 
-b/meta/recipes-connectivity/connman/connman.inc
-> > index 589ece8..93c9da0 100644
-> > --- a/meta/recipes-connectivity/connman/connman.inc
-> > +++ b/meta/recipes-connectivity/connman/connman.inc
-> >  <at>  <at>  -47,7 +47,7  <at>  <at>  INITSCRIPT_NAME = "connman"
-> >   INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
-> >
-> >   SYSTEMD_SERVICE_${PN} = "connman.service"
-> > -SYSTEMD_WIRED_SETUP = "ExecStartPre=-/usr/lib/connman/wired-setup"
-> > +SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
-> 
-> I don't think this is right.  The initscript and setup command should be 
-in the 
-> 'libexec' location, which is /usr/lib/connman.  This way the initscript 
-from any 
-> duplicate multilibs installed won't cause a conflict.  And the binaries 
-end up 
-> in a known location.  (The libraries on the other hand should definitely 
-be in 
-> the libdir.)
-> 
-
-
-Okay, that makes sense. The only problem is that wired-setup is installed by 
-connman-conf so libexec won't work.  (connman rrecomends connman-conf which 
-installs wired.config and wired-setup for qemu machines only). And I'm not 
-sure how to get around that.
-
-Poky commit  e93b6376a0cff5321dd7fc13a88c8b06ae8b83c7 moved wired-setup from 
-/etc/connman to /usr/lib/connman. 
-I do think that /etc/connman/wired-setup was the better location (or perhaps 
-connman-conf), given that's only a script sourced in /etc/init.d/connman if 
-it exists. But I don't know the reasons why it was moved to 
-/usr/lib/connman.
-
-Any thoughts?
 
 
 
