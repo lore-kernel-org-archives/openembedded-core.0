@@ -1,24 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UVLVz-0002d3-3H
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UVLZ8-000395-D8 for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 14:46:24 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UVLI1-00045a-86
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 14:43:21 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 25 Apr 2013 05:24:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,550,1363158000"; d="scan'208";a="292207942"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 25 Apr 2013 05:24:13 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Apr 2013 15:24:00 +0300
-Message-Id: <f0a9ef998eba08dce22e9a931e34f89c6c2c34e7.1366892003.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1366892003.git.laurentiu.palcu@intel.com>
-References: <cover.1366892003.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1366892003.git.laurentiu.palcu@intel.com>
-References: <cover.1366892003.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 4/4] scripts/postinst-intercepts: create separete hooks for multilib
+	Thu, 25 Apr 2013 14:28:41 +0200
+Message-ID: <1366892920.14512.80.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Apr 2013 13:28:40 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH v2] gdb: Disable hard-coding of library rpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 12:43:31 -0000
+X-List-Received-Date: Thu, 25 Apr 2013 12:46:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When using multilib, the hooks for lib32/lib64 must be different because
-the libdir/base_libdir point to different locations. Nothing has to be
-done in the postinstalls for this. When a hook is installed, it will be
-detected automatically if this is a ML package (from the libXX- package
-prefix) and a separate hook will be created.
+GDB's configury has a tendency to hard-code the path where it found
+libexpat using "-Wl,--rpath".  This is undesirable and leads to QA warnings.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Fortunately, the helpful GDB maintainers have provided a "--disable-rpath"
+switch to turn this behaviour off.  Let's use it and profit.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- scripts/postinst-intercepts/postinst_intercept |   18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+v2: fewer tabs, more spaces
 
-diff --git a/scripts/postinst-intercepts/postinst_intercept b/scripts/postinst-intercepts/postinst_intercept
-index ed32f27..5969eba 100755
---- a/scripts/postinst-intercepts/postinst_intercept
-+++ b/scripts/postinst-intercepts/postinst_intercept
-@@ -17,9 +17,27 @@
+ meta/recipes-devtools/gdb/gdb-common.inc |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 9eb6b60..f574d5c 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -42,6 +42,7 @@ EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x --disable-werror \
+                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+                 ${GDBPROPREFIX} ${EXPAT} \
+                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
++                --disable-rpath \
+                "
  
- intercept_script=$INTERCEPT_DIR/$1 && shift
- package_name=$1 && shift
-+mlprefix=$(echo $package_name|sed -rn 's/^(lib32|lib64|libx32)-.*/\1/p')
- 
-+# if the hook we want to install does not exist, then there's nothing we can do
- [ -f "$intercept_script" ] || exit 1
- 
-+# if the postinstall wanting to install the hook belongs to a multilib package,
-+# then we'd better have a separate hook for this because the default ${libdir} and
-+# ${base_libdir} will point to the wrong locations
-+if [ -n "$mlprefix" ]; then
-+	ml_intercept_script=$intercept_script-$mlprefix
-+	# if the multilib hook does not exist, create it from the default one
-+	if [ ! -f "$ml_intercept_script" ]; then
-+		cp $intercept_script $ml_intercept_script
-+
-+		# clear the ##PKGS: line and the already set variables
-+		[ -x "$ml_intercept_script" ] && sed -i -e "2,$(($#+1)) {/.*/d}" -e "/^##PKGS: .*/d" $ml_intercept_script
-+	fi
-+
-+	intercept_script=$ml_intercept_script
-+fi
-+
- chmod +x "$intercept_script"
- 
- pkgs_line="$(cat $intercept_script|grep "##PKGS:")"
+ GDBPROPREFIX = "--program-prefix=''"
 -- 
-1.7.9.5
+1.7.10.4
+
+
 
 
 
