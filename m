@@ -1,38 +1,25 @@
-Received: from mail-pa0-f49.google.com ([209.85.220.49])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UVK1n-0002s1-LM
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UVKNo-0004ia-4j for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 13:30:40 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UVK6h-00043P-34
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 13:07:52 +0200
-Received: by mail-pa0-f49.google.com with SMTP id kp14so1802131pab.36
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 03:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=jswPBWvlwNwnYojqiNAaKd3VdTLPp6/Ys26sVyxDH6o=;
-	b=mmIPASwTtZ7J4BLcx6D8R1e4v49sOodbdXwp6xzAWI1XtNUTuFg7GLcqYXWBZ/3vLF
-	9T33vMO/o3eyGC6+MtmMjyhLaMcqf9b3t6offj95GlJ4IKhCzJun5xFnRaeeKllE4wxf
-	1A91ltwx3QL0OIIPVZACciz8jZkNrIRwucBDSNherxOhSKUgriqr1mvgoUSUHGxv/+k1
-	/cohIO5UHuA0Wgl/sCdAxQkmOyuF5FDDCVXkcWrhrFErOtQNLQIIzDg6Xlf80jO/Cgvw
-	ZI93w4/n0YIkZ3yxaQNt+zZRLpDUurhTe5CvRWebIFkqpUwTdJmBlIj+KjPo7uGgSkm3
-	bQdw==
-X-Received: by 10.67.8.98 with SMTP id dj2mr24676965pad.76.1366887007774;
-	Thu, 25 Apr 2013 03:50:07 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	aj2sm6932116pbc.1.2013.04.25.03.50.04 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 25 Apr 2013 03:50:06 -0700 (PDT)
-Date: Thu, 25 Apr 2013 12:50:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20130425105016.GD5538@jama.dyndns-home.com>
-References: <1366885598.14512.71.camel@phil-desktop.brightsign>
-MIME-Version: 1.0
-In-Reply-To: <1366885598.14512.71.camel@phil-desktop.brightsign>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: Disable hard-coding of library rpaths
+	Thu, 25 Apr 2013 13:12:55 +0200
+Message-ID: <1366888374.14512.78.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Apr 2013 12:12:54 +0100
+In-Reply-To: <1349177925.15753.140.camel@ted>
+References: <1349169606.32611.73.camel@phil-desktop>
+	<1349176346.15753.139.camel@ted>
+	<1349176541.32611.80.camel@phil-desktop>
+	<1349177925.15753.140.camel@ted>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] rootfs_ipk, image: Add debug capture support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,73 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 11:07:54 -0000
-X-Groupsio-MsgNum: 38380
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Apr 2013 11:30:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---veXX9dWIonWZEC6h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2012-10-02 at 12:38 +0100, Richard Purdie wrote:
+> On Tue, 2012-10-02 at 12:15 +0100, Phil Blundell wrote:
+> > On Tue, 2012-10-02 at 12:12 +0100, Richard Purdie wrote:
+> > > Hasn't Paul added a general mechanism for doing this so we could add
+> > > this feature a level higher so that it could be used by all packaging
+> > > formats?
+> > 
+> > Ah, possibly.  I'll have a look.  Can you give me a pointer to the
+> > mechanism you were thinking of?
+> 
+> Something like IMAGE_FEATURES += "dbg-pkgs" should trigger the addition
+> of dbg packages.
 
-On Thu, Apr 25, 2013 at 11:26:38AM +0100, Phil Blundell wrote:
-> GDB's configury has a tendency to hard-code the path where it found
-> libexpat using "-Wl,--rpath".  This is undesirable and leads to QA warnin=
-gs.
->=20
-> Fortunately, the helpful GDB maintainers have provided a "--disable-rpath"
-> switch to turn this behaviour off.  Let's use it and profit.
->=20
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->  meta/recipes-devtools/gdb/gdb-common.inc |    1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devt=
-ools/gdb/gdb-common.inc
-> index 9eb6b60..0e542d8 100644
-> --- a/meta/recipes-devtools/gdb/gdb-common.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
-> @@ -42,6 +42,7 @@ EXTRA_OECONF =3D "--disable-gdbtk --disable-tui --disab=
-le-x --disable-werror \
->                  --with-curses --disable-multilib --with-system-readline =
---disable-sim \
->                  ${GDBPROPREFIX} ${EXPAT} \
->                  ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enab=
-le-64-bit-bfd', '', d)} \
-> +		--disable-rpath \
+I've somewhat belatedly gotten around to using this and encountered a
+couple of issuettes:
 
-Please don't mix tabs and spaces for indentation.
+1. There was a spurious-looking RRECOMMENDS_${PN}-dbg in bitbake.conf
+which was causing ${PN} to be dragged into the image whenever ${PN}-dbg
+was installed.  This is undesirable because it means that, for example,
+any image which includes sysvinit-pidof will end up installing sysvinit
+and this might cause quite drastic changes to the behaviour of the
+resulting image.
 
->                 "
-> =20
->  GDBPROPREFIX =3D "--program-prefix=3D''"
-> --=20
-> 1.7.10.4
->=20
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+2. Having fixed the above I'm now left with a couple of file conflicts
+in the -dbg packages.  For example, sysvinit and util-linux both
+ship /sbin/sulogin and so sysvinit-dbg and util-linux-dbg both want to
+install /sbin/.debug/sulogin.  This is unfortunate if you have an image
+which uses, say, sysvinit-pidof and util-linux-blkid.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I'm not quite sure what the right way to fix (2) is.  I suppose in an
+ideal world the -dbg packages would be separated in the same way the
+parent binary packages are, but that doesn't look entirely
+straightforward to arrange.
 
---veXX9dWIonWZEC6h
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+p.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlF5CmgACgkQN1Ujt2V2gBwD0wCeK86rR+K1mPbv3ql49AMOBsMO
-8SMAn12Yie+raGoFMaEsDi/rwwJshY+b
-=Q9Fj
------END PGP SIGNATURE-----
 
---veXX9dWIonWZEC6h--
+
