@@ -1,35 +1,27 @@
-Received: from exprod5og108.obsmtp.com ([64.18.0.186])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.donnelly@ge.com>) id 1UVOWC-00020N-By
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UVPt4-0000GU-So
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 17:55:36 +0200
-Received: from cinmlip10.e2k.ad.ge.com ([12.71.149.1]) (using TLSv1) by
-	exprod5ob108.postini.com ([64.18.4.12]) with SMTP
-	ID DSNKUXlNzA6UtwNnVTfEdPjdmZQ01sGjnET7@postini.com;
-	Thu, 25 Apr 2013 08:37:51 PDT
-Received: from unknown (HELO alpmlip01.e2k.ad.ge.com) ([3.159.17.48])
-	by cinmlip10.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
-	25 Apr 2013 11:37:47 -0400
-Received: from selma.edi.geip.ge.com ([3.26.68.70])
-	by alpmlip01.e2k.ad.ge.com with ESMTP; 25 Apr 2013 11:37:47 -0400
-Received: from [3.26.68.199] (fyvie.edi.geip.ge.com [3.26.68.199])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by selma.edi.geip.ge.com (Postfix) with ESMTPS id 07E8BE1866;
-	Thu, 25 Apr 2013 16:37:46 +0100 (BST)
-Message-ID: <51794DCB.5020603@ge.com>
-Date: Thu, 25 Apr 2013 16:37:47 +0100
-From: Martin Donnelly <martin.donnelly@ge.com>
-Organization: GE Intelligent Platforms
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	Thu, 25 Apr 2013 19:23:22 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 25 Apr 2013 10:05:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,551,1363158000"; d="scan'208";a="232450273"
+Received: from unknown (HELO helios.localnet) ([10.255.12.123])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Apr 2013 10:05:22 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Apr 2013 18:05:21 +0100
+Message-ID: <2617360.KvDFvdIEGN@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <CAP9ODKra5FDPMw9AnGhxVijp43_0SnVZVxhfPGwnBpeEaaWUaw@mail.gmail.com>
+References: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540CC@GBTWK10E001.Technology.local>
+	<AAE0766F5AF36B46BAB7E0EFB927320630E4A540D1@GBTWK10E001.Technology.local>
+	<CAP9ODKra5FDPMw9AnGhxVijp43_0SnVZVxhfPGwnBpeEaaWUaw@mail.gmail.com>
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <1366896519-27520-1-git-send-email-martin.donnelly@ge.com>
-	<51793CE0.7060809@windriver.com>
-In-Reply-To: <51793CE0.7060809@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cracklib: generate the default dictionary on the target
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: Problems with PACKAGE_CLASSES = "package_tar"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 15:55:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Apr 2013 17:23:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 25/04/2013 15:25, Mark Hatle wrote:
-> On 4/25/13 8:28 AM, Martin Donnelly wrote:
->> Currently cracklib-native is used to generate the dictionary
->> database from the wordlist during install. Unfortunately the
->> database files are endian-specific and this results in
->> errors when the host and target endianness differ.
->>
->> This patch creates the default dictionary files on the target
->> during post-install. In order to do this the default wordlist has
->> also been compressed, this enables an unmodified cracklib-format
->> to correctly parse the input file with both busybox and GNU gzip.
->> (These behave differently if the input is uncompressed, GNU
->> gzip behaves like cat while busybox returns an error).
->>
->> Finally the cracklib-native package has been removed since
->> it is no longer used.
+On Thursday 25 April 2013 09:00:55 Otavio Salvador wrote:
+> On Thu, Apr 25, 2013 at 7:21 AM, Lewis, Nick <nick.lewis@usa.g4s.com> wrote:
+> > I have tried cherry picking from Dylan but it also seems to be missing
+> > populate_sdk_tar.bbclass and rootfs_tar.bbclass Does Dylan support
+> > PACKAGE_CLASSES = "package_tar" without these classes?
 >
-> I thought we had fixed cracklib to have a fixed endian.  If not, this is
-> a bug.  We want to avoid running things like the cracklib generation on
-> the target if possible, as it impacts the first boot time and read-only
-> roots.
->
+> As it seems you're early in the release cycle of the product, dylan
+> would be a better base for your work 
 
-I had a look for any patches which fixed this but couldn't see any, 
-there were some related to using dictionaries between 32 and 64-bit 
-machines of the same endianness but I maybe missed another one? I wasn't 
-100% happy sending it for the issues you mention but thought it better 
-to post it than not.
+Definitely agreed, however
 
-> (I'm fine with this as a workaround, but it's not the fix I'd like.)
-> I'd be happy if we simply fixed the cracklib-native to pass in an endian
-> and have the right output generated.  (Note, we also have to consider
-> structure alignment/packing as well.)
->
+> as danny maintenance should end when 1.5 is released.
 
-Agreed, this would be best and it's something I'll look at when I've got 
-the time.
+This is not correct. We've continued maintenance of denzil (the previous 
+stable release) up to this point, and the community is free to continue that 
+maintenance almost indefinitely; the same should be applicable to danny.
 
-> If there isn't already a bug in the Yocto Project bugzilla, can you add
-> one?
->
+Cheers,
+Paul
 
-Done, https://bugzilla.yoctoproject.org/show_bug.cgi?id=4419
+-- 
 
--Martin
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
