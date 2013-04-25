@@ -1,29 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UVHdC-0004xe-3G
+	(envelope-from <ml@communistcode.co.uk>) id 1UVHwE-0007wy-43
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 10:34:29 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3P8GWKL024764
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 01:16:32 -0700 (PDT)
-Received: from pek-hjia-d1.wrs.com (128.224.162.213) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 25 Apr 2013 01:16:32 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Apr 2013 16:16:23 +0800
-Message-ID: <6471223fe7c0d17e2a3209b58f1b1ebdba165a9f.1366802026.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1366802026.git.hongxu.jia@windriver.com>
-References: <cover.1366802026.git.hongxu.jia@windriver.com>
+	Thu, 25 Apr 2013 10:54:00 +0200
+Message-ID: <5178EAFC.5040704@communistcode.co.uk>
+Date: Thu, 25 Apr 2013 09:36:12 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: fix do_compile failed in parallel builds with system's make 3.28
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1366813574-21199-1-git-send-email-ml@communistcode.co.uk>
+	<B21730BB6DA1D24B83348D9301EA417E068280D6@039-SN2MPN1-022.039d.mgd.msft.net>
+In-Reply-To: <B21730BB6DA1D24B83348D9301EA417E068280D6@039-SN2MPN1-022.039d.mgd.msft.net>
+Subject: Re: [PATCH] connman: update to 1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -33,66 +28,216 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 08:34:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Apr 2013 08:54:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The error log:
-...
-./x86_64-poky-linux-libtool --mode=execute x86_64-poky-linux-objcopy -O binary -j introspect.Target systemd org.freedesktop.systemd1.Target.xml.tmp && \
-        x86_64-poky-linux-strings org.freedesktop.systemd1.Target.xml.tmp | gawk -f /buildarea2/hongxujia/build-20130417-systemd-exlusive-multilib/tmp/work/x86_64-poky-linux/systemd/1_199-r5/systemd-199/introspect.awk | \
-        x86_64-poky-linux-cpp  --sysroot=/buildarea2/hongxujia/build-20130417-systemd-exlusive-multilib/tmp/sysroots/qemux86-64    -m64 -P -O2 -pipe -g -feliminate-unused-debug-types -I/buildarea2/hongxujia/build-20130417-systemd-exlusive-multilib/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/buildarea2/hongxujia/build-20130417-systemd-exlusive-multilib/tmp/sysroots/qemux86-64/usr/lib/dbus-1.0/include   -imacros dbus/dbus-protocol.h -o org.freedesktop.systemd1.Target.xml - && rm org.freedesktop.systemd1.Target.xml.tmp
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Manager.xml] Error 1
-make[2]: *** Waiting for unfinished jobs....
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Job.xml] Error 1
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Unit.xml] Error 1
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Socket.xml] Error 1
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Target.xml] Error 1
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Service.xml] Error 1
-x86_64-poky-linux-objcopy: 'systemd': No such file
-make[2]: *** [org.freedesktop.systemd1.Timer.xml] Error 1
-...
+On 25/04/13 03:13, Guo Chunrong-B40290 wrote:
+> Hello,
+>   I build connman with toolchain(64bit).
+>
+> The following error:
+> | powerpc64-poky-linux-gcc   -mhard-float  -m64 -mcpu=3De5500 --sysroot=
+=3D/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020d=
+s-64b -DHAVE_CONFIG_H -I.  -I./include -I./src -I./gdbus  -I/local/home/b=
+19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/includ=
+e/dbus-1.0 -I/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysro=
+ots/p5020ds-64b/usr/lib64/dbus-1.0/include   -I/local/home/b19537/gcr/ope=
+nsource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I=
+/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-6=
+4b/usr/lib64/glib-2.0/include   -pthread -I/local/home/b19537/gcr/opensou=
+rce/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I/loc=
+al/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/u=
+sr/lib64/glib-2.0/include  -DCONNMAN_PLUGIN_BUILTIN -DSTATEDIR=3D\""/var/=
+run/connman"\" -DPLUGINDIR=3D\""/usr/lib64/connman/plugins"\" -DSCRIPTDIR=
+=3D\""/usr/lib64/connman/scripts"\" -DSTORAGEDIR=3D\""/var/lib/connman\""=
+ -DVPN_STORAGEDIR=3D\""/var/lib/connman-vpn\"" -DCONFIGDIR=3D\""/etc/conn=
+man\"" -O2 -pipe -g -feliminate-unused-debug-types -g -c -o tools/supplic=
+ant.o tools/supplicant.c
+> | plugins/tist.c: In function 'set_custom_baud_rate':
+> | plugins/tist.c:283:18: error: 'TCGETS2' undeclared (first use in this=
+ function)
+> | plugins/tist.c:283:18: note: each undeclared identifier is reported o=
+nly once for each function it appears in
+> | plugins/tist.c:291:18: error: 'TCSETS2' undeclared (first use in this=
+ function)
+> | powerpc64-poky-linux-gcc   -mhard-float  -m64 -mcpu=3De5500 --sysroot=
+=3D/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020d=
+s-64b -DHAVE_CONFIG_H -I.  -I./include -I./src -I./gdbus  -I/local/home/b=
+19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/includ=
+e/dbus-1.0 -I/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysro=
+ots/p5020ds-64b/usr/lib64/dbus-1.0/include   -I/local/home/b19537/gcr/ope=
+nsource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I=
+/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-6=
+4b/usr/lib64/glib-2.0/include   -pthread -I/local/home/b19537/gcr/opensou=
+rce/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I/loc=
+al/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/u=
+sr/lib64/glib-2.0/include  -DCONNMAN_PLUGIN_BUILTIN -DSTATEDIR=3D\""/var/=
+run/connman"\" -DPLUGINDIR=3D\""/usr/lib64/connman/plugins"\" -DSCRIPTDIR=
+=3D\""/usr/lib64/connman/scripts"\" -DSTORAGEDIR=3D\""/var/lib/connman\""=
+ -DVPN_STORAGEDIR=3D\""/var/lib/connman-vpn\"" -DCONFIGDIR=3D\""/etc/conn=
+man\"" -O2 -pipe -g -feliminate-unused-debug-types -g -c -o gdhcp/common.=
+o gdhcp/common.c
+> | powerpc64-poky-linux-gcc   -mhard-float  -m64 -mcpu=3De5500 --sysroot=
+=3D/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020d=
+s-64b -DHAVE_CONFIG_H -I.  -I./include -I./src -I./gdbus  -I/local/home/b=
+19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/includ=
+e/dbus-1.0 -I/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysro=
+ots/p5020ds-64b/usr/lib64/dbus-1.0/include   -I/local/home/b19537/gcr/ope=
+nsource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I=
+/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-6=
+4b/usr/lib64/glib-2.0/include   -pthread -I/local/home/b19537/gcr/opensou=
+rce/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I/loc=
+al/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/u=
+sr/lib64/glib-2.0/include  -DCONNMAN_PLUGIN_BUILTIN -DSTATEDIR=3D\""/var/=
+run/connman"\" -DPLUGINDIR=3D\""/usr/lib64/connman/plugins"\" -DSCRIPTDIR=
+=3D\""/usr/lib64/connman/scripts"\" -DSTORAGEDIR=3D\""/var/lib/connman\""=
+ -DVPN_STORAGEDIR=3D\""/var/lib/connman-vpn\"" -DCONFIGDIR=3D\""/etc/conn=
+man\"" -O2 -pipe -g -feliminate-unused-debug-types -g -c -o gdhcp/client.=
+o gdhcp/client.c
+> | powerpc64-poky-linux-gcc   -mhard-float  -m64 -mcpu=3De5500 --sysroot=
+=3D/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020d=
+s-64b -DHAVE_CONFIG_H -I.  -I./include -I./src -I./gdbus  -I/local/home/b=
+19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/includ=
+e/dbus-1.0 -I/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysro=
+ots/p5020ds-64b/usr/lib64/dbus-1.0/include   -I/local/home/b19537/gcr/ope=
+nsource/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I=
+/local/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-6=
+4b/usr/lib64/glib-2.0/include   -pthread -I/local/home/b19537/gcr/opensou=
+rce/poky/buildmaster/tmp/sysroots/p5020ds-64b/usr/include/glib-2.0 -I/loc=
+al/home/b19537/gcr/opensource/poky/buildmaster/tmp/sysroots/p5020ds-64b/u=
+sr/lib64/glib-2.0/include  -DCONNMAN_PLUGIN_BUILTIN -DSTATEDIR=3D\""/var/=
+run/connman"\" -DPLUGINDIR=3D\""/usr/lib64/connman/plugins"\" -DSCRIPTDIR=
+=3D\""/usr/lib64/connman/scripts"\" -DSTORAGEDIR=3D\""/var/lib/connman\""=
+ -DVPN_STORAGEDIR=3D\""/var/lib/connman-vpn\"" -DCONFIGDIR=3D\""/etc/conn=
+man\"" -O2 -pipe -g -feliminate-unused-debug-types -g -c -o gdhcp/server.=
+o gdhcp/server.c
+> | make[1]: *** [plugins/plugins_tist_la-tist.lo] Error 1
+> | make[1]: *** Waiting for unfinished jobs....
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> | ERROR: Function failed: do_compile (see /local/home/b19537/gcr/openso=
+urce/poky/buildmaster/tmp/work/ppc64e5500-poky-linux/connman/1.12-r19.0/t=
+emp/log.do_compile.24096 for further information)
+> $<50>ERROR: Task 6 (/local/home/b19537/gcr/opensource/poky/meta/recipes=
+-connectivity/connman/connman_1.12.bb, do_compile) failed with exit code =
+'1'
+> $<50>NOTE: Tasks Summary: Attempted 1684 tasks of which 1107 didn't nee=
+d to be rerun and 1 failed.
+> No currently running tasks (1684 of 1691)
+>
+> Can this be avoided?
+>
+> Thanks,
+> chunrong
+>
+>
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembe=
+dded-core-bounces@lists.openembedded.org] On Behalf Of Jack Mitchell
+> Sent: Wednesday, April 24, 2013 10:26 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Jack Mitchell
+> Subject: [OE-core] [PATCH] connman: update to 1.13
+>
+> From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+>
+> - Removed upstream commited patch
+> - Updated git tag srcrev
+>
+> Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+> ---
+>   .../connman/connman/add-in.h-for-ipv6.patch          | 20 -----------=
+---------
+>   .../connman/{connman_1.12.bb =3D> connman_1.13.bb}     |  6 +++---
+>   2 files changed, 3 insertions(+), 23 deletions(-)  delete mode 100644=
+ meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch
+>   rename meta/recipes-connectivity/connman/{connman_1.12.bb =3D> connma=
+n_1.13.bb} (78%)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv=
+6.patch b/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.pat=
+ch
+> deleted file mode 100644
+> index 8ee0b6f..0000000
+> --- a/meta/recipes-connectivity/connman/connman/add-in.h-for-ipv6.patch=
 
-1, The error is about parallel make race, see:
-http://savannah.gnu.org/bugs/?30653
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -
+> -The 3.8 Kernel headers for if_bridge.h uses the in6_addr struct -which=
+ is defined by netinet/in.h which is not included prior.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> -
+> -Index: git/src/tethering.c
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- git.orig/src/tethering.c
+> -+++ git/src/tethering.c
+> -@@ -35,6 +35,7 @@
+> - #include <string.h>
+> - #include <fcntl.h>
+> - #include <linux/if_tun.h>
+> -+#include <netinet/in.h>
+> - #include <linux/if_bridge.h>
+> -
+> - #include "connman.h"
+> diff --git a/meta/recipes-connectivity/connman/connman_1.12.bb b/meta/r=
+ecipes-connectivity/connman/connman_1.13.bb
+> similarity index 78%
+> rename from meta/recipes-connectivity/connman/connman_1.12.bb
+> rename to meta/recipes-connectivity/connman/connman_1.13.bb
+> index 5ba4032..4f23538 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.12.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.13.bb
+> @@ -1,13 +1,13 @@
+>   require connman.inc
+>  =20
+> -# 1.12 tag
+> -SRCREV =3D "8397cbbc0a79d39cf3b1880f4fd3f3405b6bc6ad"
+> +# 1.13 tag
+> +SRCREV =3D "96fcd8871531c9012135110769618d65a3523b4d"
+>   SRC_URI  =3D "git://git.kernel.org/pub/scm/network/connman/connman.gi=
+t \
+>               file://0001-plugin.h-Change-visibility-to-default-for-deb=
+ug-symb.patch \
+>               file://add_xuser_dbus_permission.patch \
+>               file://connman \
+>               file://inet-fix-ip-cleanup-functions.patch \
+> -            file://add-in.h-for-ipv6.patch"
+> +            "
+>   S =3D "${WORKDIR}/git"
+>   PR =3D "${INC_PR}.0"
+>  =20
+> --
+> 1.8.2.1
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
-2, The system's make 3.28 didn't add patch to fix this defect,
-but Yocto's make 3.28 has fixed. See oe-core:
-meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
+Looks like one for upstream, I'll chase it up.
 
-3, Add `make-native' to systemd's `DEPENDS' to use Yocto's make rather
-than system's to compile systemd.
+Cheers,
+Jack.
 
-[YOCTO #4410]
+--=20
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/systemd/systemd_199.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
 
-diff --git a/meta/recipes-core/systemd/systemd_199.bb b/meta/recipes-core/systemd/systemd_199.bb
-index 159dfd8..71839c2 100644
---- a/meta/recipes-core/systemd/systemd_199.bb
-+++ b/meta/recipes-core/systemd/systemd_199.bb
-@@ -9,9 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- PROVIDES = "udev"
- 
- PE = "1"
--PR = "r3"
-+PR = "r4"
- 
--DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup tcp-wrappers glib-2.0 make-native"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SECTION = "base/shell"
--- 
-1.7.10.4
+--
+
 
 
 
