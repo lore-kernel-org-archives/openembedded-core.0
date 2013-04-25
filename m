@@ -1,31 +1,43 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ee0-f51.google.com ([74.125.83.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UVJUP-0004xv-28 for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 12:33:24 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3PAGkcl009345 for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 11:16:46 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hfxwZs4spvHR
+	(envelope-from <koen@dominion.thruhere.net>) id 1UVJXd-0005Pq-0q
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 12:36:42 +0200
+Received: by mail-ee0-f51.google.com with SMTP id c1so240234eek.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 11:16:46 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3PAGhsf009341
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 11:16:44 +0100
-Message-ID: <1366884926.29677.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Apr 2013 11:15:26 +0100
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: [PATCH] qemuimage-testlib-pythonhelper: Make the process detection more strict
+	Thu, 25 Apr 2013 03:18:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=oQ8DmyAhcyonfl/lzQavBNxyWFUDpqXdxvYg56fkfB0=;
+	b=jyLPeLrRk/FtsknSQUkIGcdivM5KY+/95NBd1uJyXJGX2qQchkiS8ZeksOakfkQVvC
+	mcC1GUcGSYxfb7gxTS5JCV4uLFLPcwZnQAwYBS4gMWa3oqoRRi7ePBfVUGQdYo4MHck6
+	iBOjmT3Wmz1rlxAO6efdzuPoUyZDaeBo5PAOQ4sF5KO61ZDDfidCR3yGANI/qKZNdJ2H
+	KAw9nJ1C/SFSQZgvNRQb6bRIbi0tKHFenErenxc1olT1NhrKE6FEgwYXkiOa1+1/uMpI
+	KGqifYig2F+plyuGRRaK3YoH5tkCH6NMXZLImclbfP+rV2gMuHVbMtSQosXC5x6FyFt4
+	HNSw==
+X-Received: by 10.15.52.70 with SMTP id o46mr29487053eew.14.1366885137871;
+	Thu, 25 Apr 2013 03:18:57 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::20f5:6e66:7523:2d78?
+	([2001:610:612:0:20f5:6e66:7523:2d78])
+	by mx.google.com with ESMTPSA id f9sm9499667eeu.11.2013.04.25.03.18.56
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 25 Apr 2013 03:18:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LbGvgEg_V8ZqskPCsOqn9koSDW94FAOQ_RdPpiPKEOMfA@mail.gmail.com>
+Date: Thu, 25 Apr 2013 12:18:56 +0200
+Message-Id: <0B91B38F-8849-4AC4-9211-0E3E5F44D48C@dominion.thruhere.net>
+References: <1366882349-22368-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LbGvgEg_V8ZqskPCsOqn9koSDW94FAOQ_RdPpiPKEOMfA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQkYlW2fajoOmFcoCr/xi3/mJf+Trtpjk1aITGFDhZmUg7Exxi+BsSk1rWj90jqhi4YEO4eZ
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gst-plugins-gl: make it work for both openGL and openGL ESv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +50,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 10:33:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Old versions of ldd (2.11) as run on some of the autobuilders end up running
-commands like "LD_xxxx qemu-system-xxx" which this process detection code
-would pick up and result in the wrong PID for qemu.
-
-This changes the code to check for "192.168" in the command so we know
-we're getting the correct one. This is less than ideal however we're
-running out of options and resolves false negatives we see on the
-autobuilder.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/scripts/qemuimage-testlib-pythonhelper b/scripts/qemuimage-testlib-pythonhelper
-index 4e6432b..6435dd8 100755
---- a/scripts/qemuimage-testlib-pythonhelper
-+++ b/scripts/qemuimage-testlib-pythonhelper
-@@ -54,9 +54,10 @@ if options.findqemu:
-     #print "Children matching %s:" % str(parents)
-     for p in parents:
-         # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
-+        # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
-         basecmd = commands[p].split()[0]
-         basecmd = os.path.basename(basecmd)
--        if "qemu-system" in basecmd:
-+        if "qemu-system" in basecmd and "192.168" in commands[p]:
-             print p
-             sys.exit(0)
-     sys.exit(1)
+X-List-Received-Date: Thu, 25 Apr 2013 10:36:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 25 apr. 2013, om 12:12 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
+
+> On 25 April 2013 10:32, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> -DEPENDS +=3D "gst-plugins-base virtual/libgles2 virtual/egl jpeg"
+>> +DEPENDS +=3D "gst-plugins-base"
+>=20
+> This "jpeg" dependency disappeared, was this intentional?
+
+
+AArgh! no!=
 
 
