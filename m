@@ -1,38 +1,20 @@
-Received: from mail-ea0-f181.google.com ([209.85.215.181])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UVJZb-0005a9-Al
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UVJbR-0005q5-3i for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 12:40:39 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UVJKK-0003w4-7e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 12:38:44 +0200
-Received: by mail-ea0-f181.google.com with SMTP id a11so1181890eae.40
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 03:21:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=if6ffdYN96WsjfoXLk+Bi38/mPMB25YHc25dHmkLZp0=;
-	b=Xy/pJxSwUcJs7oUDBRHPAXjsiFelTh39B+fShkpa1HKT2gOpzeWJ8o6X6KWSyD23Ah
-	gEIadZodC0aHRo0EWIOWGdt4lFEHF0+87b+JLr/gKjuo4NvI6xhg8l2vVT0QTGd1oAo2
-	aoUt3K3xslAdYOo1YXcd/IyM4wtO9r9vPQuFMT1ZUdFEYa0333//Deh/ZOLFZzv4t1UX
-	GB2ZYdbkbBqiKlahAlzKM0bzA1D4Dc2lsZvZiNYrYq3juD7P4Gvhqa+52WPE2ioiKEFf
-	dZ4rG9sNFsIVCAfmhsb8iQLYMkrx0WOYjIXgcrxO0GcoMUdKTZvz3t58gHPBYqrfIeQ0
-	y2Eg==
-X-Received: by 10.15.93.202 with SMTP id w50mr50073118eez.45.1366885260213;
-	Thu, 25 Apr 2013 03:21:00 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPSA id ch6sm9487022eeb.17.2013.04.25.03.20.58
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 25 Apr 2013 03:20:59 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Thu, 25 Apr 2013 12:22:56 +0200
+Message-ID: <1366885375.14512.69.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Apr 2013 12:20:54 +0200
-Message-Id: <1366885254-26519-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.1.4
-X-Gm-Message-State: ALoCoQmRQ060cub2sWTw6VFibQFCmNXrn/HNJtdGa7dN1tQS2El0JZ9YizKtyHuP0x851ZHwkvJy
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH v2] gst-plugins-gl: make it work for both openGL and openGL ESv2
+Date: Thu, 25 Apr 2013 11:22:55 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] bitbake.conf: Don't add ${PN} to RRECOMMENDS_${PN}-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,43 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 10:38:47 -0000
+X-List-Received-Date: Thu, 25 Apr 2013 10:41:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Those are mutually exclusive, but PACKAGECONFIG doesn't seem to handle that yet, so use this slightly ugly construct.
+This recommendation is of no obvious value and causes unexpected behaviour
+when using IMAGE_FEATURES += "dbg-pkgs".
 
-Tested on FRI2/angstrom and Minnowboard/angstrom. 'glimagesink' and 'glupload' work, but anything else (filters, gldownload) will throw an FBO error. This is most likely a problem with the EMGD drivers.
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ meta/conf/bitbake.conf |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-index a6c74fb..7925448 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-@@ -8,15 +8,13 @@ SRC_URI[sha256sum] = "48340b6a4b8abce16344a7bc33e74a94fdcce4f57ef6342cdf2f941c42
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index c0efdee..bc2b071 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -310,7 +310,6 @@ FILES_${PN}-dbg = "${@d.getVar(['DOTDEBUG-dbg', 'DEBUGFILEDIRECTORY-dbg'][d.getV
  
- SRC_URI += " file://0001-conditional-gl-framebuffer-undefined-use.patch"
+ SECTION_${PN}-dbg = "devel"
+ ALLOW_EMPTY_${PN}-dbg = "1"
+-RRECOMMENDS_${PN}-dbg = "${PN} (= ${EXTENDPKGV})"
  
--DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg"
-+DEPENDS += "gst-plugins-base jpeg libpng"
+ FILES_${PN}-locale = "${datadir}/locale"
  
- inherit gettext gconf
- 
--# This package doesn't have a configure switch for EGL or GL, so forcibly tell
--# configure that it can't find gl.h so it always uses EGL.  If/when we have some
--# way for machines to specify their preferred GL flavour this can be
--# automatically adapted.
--EXTRA_OECONF += "ac_cv_header_GL_gl_h=no"
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'opengl', 'opengl', 'openglesv2', d)}"
-+PACKAGECONFIG[opengl] = ",ac_cv_header_GL_gl_h=no,virtual/libgl glew"
-+PACKAGECONFIG[openglesv2] = "ac_cv_header_GL_gl_h=no,,virtual/libgles2 virtual/egl"
- 
- ALLOW_EMPTY_${PN} = "1"
- ALLOW_EMPTY_${PN}-apps = "1"
 -- 
-1.8.1.4
+1.7.10.4
+
+
 
 
 
