@@ -1,36 +1,35 @@
-Received: from mail-ve0-f179.google.com ([209.85.128.179])
+Received: from mail-vb0-f54.google.com ([209.85.212.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UVJ9p-0002sS-S4
+	(envelope-from <ross.burton@intel.com>) id 1UVJS2-0004kd-FI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 12:12:07 +0200
-Received: by mail-ve0-f179.google.com with SMTP id oz10so1201351veb.10
+	Thu, 25 Apr 2013 12:30:56 +0200
+Received: by mail-vb0-f54.google.com with SMTP id w16so2524512vbf.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 02:54:21 -0700 (PDT)
+	Thu, 25 Apr 2013 03:13:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Igg2Eezds7QwpdRe0E3iE1LeLfwpMuc6vAkxq/Xo6ag=;
-	b=XOpJ3sT4FKtBCgF+90c8hOEWSP7l006teTbdFWICzKcn7jEX4QwvbE/UODVQyrR+bG
-	D0Y/WPxu0WkHc2GynvYYpOIPaKhRHQUSA6s0n9dPqgj5IqKB+MSNlMMJ0WLyMEB1XZfN
-	o7kjXtmPElc7WC84wTrHpBG2tLHCCwKM6SP2bi0yrTF106HgZ40xgj98L2FaNtjfu20x
-	kzVyi20+KaxSGZrnWPGbTFnQ2kYMSeNHg8JruCH99WdpoDJJP/Ao31QIF0ejLXVsmhGs
-	prlVLBiP3kafBhfnI60Av1CrwLe+WpdoJ223jmCufpzsVQNS83Y6lPPYDI7pjR3rKflv
-	8dTg==
-X-Received: by 10.220.155.8 with SMTP id q8mr20853194vcw.42.1366883661149;
-	Thu, 25 Apr 2013 02:54:21 -0700 (PDT)
+	bh=+80y0+Ah8Uo9rRU7+hHK6soXxuUjYoPJ+WgGAkfnyw0=;
+	b=Ia1JVky+FO8RPoS6AwuI6Gv4rgfsTwOHBqcDWIKQ6JAz2FhlUHZUitew07HKSzNcik
+	cEGsLuwEQihSPGEUAaZVOQCEdTh2XxSY1jtZUVMYV3ML3oruw91Vxvq5ocvKKa6+6bKo
+	pyrAh0ApsZ57aU2Bt3w5EQlfxxJQH1tLM6wc6Qbtgw8lkRGzKW1J5jw7V8buLgkamjef
+	BI3vLJEX+Te907YQAK7f/Aelx64XcM+r/d0P0QbbCF3iGALW7P20YkwJP6fxRREYdA1x
+	M11lyla4dfiUQJ+k8qoWaFq5iwqzjjCFe07xfLjzOoEKOIIUkn7I3RzRP3SDeQrfCfeW
+	Za3w==
+X-Received: by 10.52.18.206 with SMTP id y14mr11679506vdd.29.1366884790972;
+	Thu, 25 Apr 2013 03:13:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Thu, 25 Apr 2013 02:54:00 -0700 (PDT)
-In-Reply-To: <6471223fe7c0d17e2a3209b58f1b1ebdba165a9f.1366802026.git.hongxu.jia@windriver.com>
-References: <cover.1366802026.git.hongxu.jia@windriver.com>
-	<6471223fe7c0d17e2a3209b58f1b1ebdba165a9f.1366802026.git.hongxu.jia@windriver.com>
+Received: by 10.220.100.68 with HTTP; Thu, 25 Apr 2013 03:12:50 -0700 (PDT)
+In-Reply-To: <1366882349-22368-1-git-send-email-koen@dominion.thruhere.net>
+References: <1366882349-22368-1-git-send-email-koen@dominion.thruhere.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Apr 2013 10:54:00 +0100
-Message-ID: <CAJTo0LY1H9XzeVps7MXtLLythCfzpnGzc51D_zS44Yum-KKYUg@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQmqYi2B5oy+TI2F37iwiJvDkMmbZpwwgVAyl5nzHM/Sp8bmG6h9AhF3ZeN4UKqjmPzQJMXq
+Date: Thu, 25 Apr 2013 11:12:50 +0100
+Message-ID: <CAJTo0LbGvgEg_V8ZqskPCsOqn9koSDW94FAOQ_RdPpiPKEOMfA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQkcya4eRd59d8GTwZE9e4lLHt7F22AQ8iQLv0nsq1ayIIF6OKNIrANShcYgiWHtzuvAE0ID
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: fix do_compile failed in parallel builds with system's make 3.28
+Subject: Re: [PATCH] gst-plugins-gl: make it work for both openGL and openGL ESv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,29 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 10:12:08 -0000
+X-List-Received-Date: Thu, 25 Apr 2013 10:31:01 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 25 April 2013 09:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> 3, Add `make-native' to systemd's `DEPENDS' to use Yocto's make rather
-> than system's to compile systemd.
+On 25 April 2013 10:32, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> -DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg"
+> +DEPENDS += "gst-plugins-base"
 
-NACK.
-
-Installing make-native during a build will lead to races over the make
-binary, causing strange and non-obvious build failures.
-
-A unpatched 3.82 in certain distros (F16 is the only culprit that I'm
-aware of) is a known issue and we'll be adding to the release notes
-that if you have a broken make, run "bitbake make-native" *first*.
-
-Opensuse 12.1 has the patches required to fix this
-(https://build.opensuse.org/package/show?package=make&project=openSUSE%3A12.1%3AUpdate,
-make-parallel-build.patch, added 5 weeks ago) so please update your
-distro and this will fix itself.
-
-I'm also told that 12.1 will be EOL in 21 days from now, so you should
-consider upgrading to 12.3.
+This "jpeg" dependency disappeared, was this intentional?
 
 Ross
 
