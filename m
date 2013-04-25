@@ -1,28 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1UVLJn-0001TE-6o
-	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 14:30:48 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 25 Apr 2013 05:11:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,550,1363158000"; d="scan'208";a="292185966"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 25 Apr 2013 05:11:01 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
-	by linux.intel.com (Postfix) with ESMTP id 2A1B42C8001
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 05:10:51 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Apr 2013 15:11:01 +0300
-Message-Id: <206e29520aa00f7d050b360d8e89daf7df2d95ed.1366891465.git.stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1366891465.git.stefanx.stanacar@intel.com>
-References: <cover.1366891465.git.stefanx.stanacar@intel.com>
-In-Reply-To: <cover.1366891465.git.stefanx.stanacar@intel.com>
-References: <cover.1366891465.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 3/3] scripts/contrib/build-perf-test.sh: change the global results format
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UVLQw-0002FB-V7 for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 14:38:01 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3PCLK3I018310; Thu, 25 Apr 2013 13:21:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id BnFxOC76VcfP; Thu, 25 Apr 2013 13:21:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3PCLEd9018296
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 25 Apr 2013 13:21:15 +0100
+Message-ID: <1366892397.29677.56.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Lewis, Nick" <nick.lewis@usa.g4s.com>
+Date: Thu, 25 Apr 2013 13:19:57 +0100
+In-Reply-To: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540D1@GBTWK10E001.Technology.local>
+References: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540CC@GBTWK10E001.Technology.local>
+	<1366820905.23738.153.camel@ted>
+	<AAE0766F5AF36B46BAB7E0EFB927320630E4A540D1@GBTWK10E001.Technology.local>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Problems with PACKAGE_CLASSES = "package_tar"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 12:31:07 -0000
+X-List-Received-Date: Thu, 25 Apr 2013 12:38:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When all builds have finished write the hostname, commit and times
-on a single line in the global results file (useful for merging later
-on files from multiple systems).
-Also the final cleaning should be last after writing the results.
+On Thu, 2013-04-25 at 11:21 +0100, Lewis, Nick wrote:
+> >> I am seeing problems when using PACKAGE_CLASSES = "package_tar"
+> >>
+> >> There are many warnings about python indents and there are errors
+> >> regarding missing populate_sdk_tar.bbclass and rootfs_tar.bbclass
+> >
+> >With 1.3 (danny)? These should be fixed in 1.4 (dyland) and master...
+> 
+> Richard
+> I have tried cherry picking from Dylan but it also seems to be missing populate_sdk_tar.bbclass and rootfs_tar.bbclass
+> Does Dylan support PACKAGE_CLASSES = "package_tar" without these classes?
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- scripts/contrib/build-perf-test.sh | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+The package_tar class generates tarballs. tarballs do not have
+dependency information so its not possible to implement the
+populate_sdk_tar or rootfs_tar classes on top of it.
 
-diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
-index ee30409..0af2cfe 100755
---- a/scripts/contrib/build-perf-test.sh
-+++ b/scripts/contrib/build-perf-test.sh
-@@ -239,6 +239,15 @@ do_sync () {
-     sleep 3
- }
- 
-+write_results() {
-+    echo -n "`uname -n`,$rev," >> $globalres
-+    for i in "${TIMES[@]}"; do
-+        echo -n "$i," >> $globalres
-+    done
-+    echo >> $globalres
-+    sed -i '$ s/,$//' $globalres
-+}
-+
- ####
- 
- #
-@@ -338,15 +347,10 @@ test1_p3
- test2
- test3
- 
-+# if we got til here write to global results
-+write_results
-+
- log "All done, cleaning up..."
- 
- do_rmtmp
- do_rmsstate
--
--# if we got til here write to global results
--echo "$rev" >> $globalres
--for i in "${TIMES[@]}"; do
--    echo -n "$i," >> $globalres
--done
--echo >> $globalres
--sed -i '$ s/,$//' $globalres
--- 
-1.8.1.4
+I'm seriously considering removing the package_tar code since it isn't
+really useful and its clear nobody uses it since it remained broken for
+a long time.
+
+What you probably want to do is use a low overhead package manager like
+opkg, then after image generation remove the package data.
+core-image-minimal is an example of an image which does this.
+
+Cheers,
+
+Richard
+
 
 
 
