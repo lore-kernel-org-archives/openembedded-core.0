@@ -1,29 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UVTfM-0002xC-Tb
+	(envelope-from <dvhart@linux.intel.com>) id 1UVTyg-0004J9-CQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 23:25:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3PL7ZMY015390
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 14:07:36 -0700 (PDT)
-Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 25 Apr 2013 14:07:35 -0700
-Message-ID: <51799B15.2050600@windriver.com>
-Date: Thu, 25 Apr 2013 16:07:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20130424072004.GE3217@jama>
-	<B57A220D1EE1644685BA9AD5C790D20526BE5531DF@SOUTHSIDE.devonintlgroup.com>
-In-Reply-To: <B57A220D1EE1644685BA9AD5C790D20526BE5531DF@SOUTHSIDE.devonintlgroup.com>
-Subject: Re: debugedit: canonicalization unexpectedly shrank by one character
+	Thu, 25 Apr 2013 23:45:20 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 25 Apr 2013 14:27:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,553,1363158000"; d="scan'208";a="325622407"
+Received: from envy2.jf.intel.com (HELO localhost) ([10.7.199.70])
+	by orsmga002.jf.intel.com with ESMTP; 25 Apr 2013 14:27:33 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Apr 2013 14:27:29 -0700
+Message-Id: <8f406a3b7d0effba9c2cf67191453b6662d6e0b3.1366925249.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] mkefidisk: Unmount after partitioning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,64 +28,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 21:26:00 -0000
-X-List-Received-Date: Thu, 25 Apr 2013 21:26:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Apr 2013 21:45:23 -0000
 
-On 4/25/13 3:43 PM, Ian Geiser wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Martin Jansa
->> Sent: Wednesday, April 24, 2013 3:20 AM
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] debugedit: canonicalization unexpectedly shrank by
->> one character
->>
->> Hi,
->>
->> with debugedit errors now catched and shown after:
->> commit 262a69ffd33e9d001a7a15fc73671a015e3b5dd1
->> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Date:   Mon Mar 25 16:52:07 2013 +0000
->>
->>      package.bbclass: Handle subprocess errors correctly
->>
->>      If an error occurs in subprocess.call() we currently don't catch
->> it. In particular
->>      we have issues where debugedit is segfaulting unnoticed. This fixes
->> up
->>      various code paths to catch the errors.
->>
->> I get couple of recipes failing with errors like:
-> [...]
->> This leads to
->> https://bugzilla.redhat.com/show_bug.cgi?id=304121
->> https://bugs.launchpad.net/rpm/+bug/638633
->> https://qa.mandriva.com/show_bug.cgi?id=62391
->>
->> but no clear solution (it would be nice to show which path triggered
->> that message as suggested in redhat bugzilla)
->>
->> I can INHIBIT_PACKAGE_DEBUG_SPLIT in failing recipes or adding slash to
->> -d '/usr/src/debug/' works in this case too..
-> I tried set PACKAGE_DEBUG_SPLIT_STYLE = "debug-without-src" in the package and that seemed to work around the problem.  In my package that was offending was because there was an -rpath that had a trailing /.  It seems debugedit is very sensitive to rogue path separators. Are there ways to make this more robust?
+Some automounters are rather overzealous and like to mount things
+immediately after partitioning. This can happen if the disk is being
+reused and the partitions align exactly with the existing partitions
+which have already been formatted. Move the unmount code into a function
+and call it before and after partitioning.
 
-Source for debugedit is part of RPM.  I don't see any reason why we wouldn't 
-accept patches for something like this.  (However, it does seem like the rpath 
-may be wrong as well.  Fixing the rpath should probably be done as well.)
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/contrib/mkefidisk.sh | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
---Mark
-
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 741c3ab..0c15104 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -71,6 +71,20 @@ function device_details() {
+ 	echo ""
+ }
+ 
++function unmount_device() {
++	grep -q $DEVICE /proc/mounts
++	if [ $? -eq 0 ]; then
++		echo -n "$DEVICE listed in /proc/mounts, attempting to unmount..."
++		umount $DEVICE* 2>/dev/null
++		grep -q $DEVICE /proc/mounts
++		if [ $? -eq 0 ]; then
++			echo "FAILED"
++			exit 1
++		fi
++		echo "OK"
++	fi
++}
++
+ 
+ #
+ # Parse and validate arguments
+@@ -100,17 +114,7 @@ fi
+ #
+ # Check if any $DEVICE partitions are mounted
+ #
+-grep -q $DEVICE /proc/mounts
+-if [ $? -eq 0 ]; then
+-	echo -n "$DEVICE listed in /proc/mounts, attempting to unmount..."
+-	umount $DEVICE* 2>/dev/null
+-	grep -q $DEVICE /proc/mounts
+-	if [ $? -eq 0 ]; then
+-		echo "FAILED"
+-		exit 1
+-	fi
+-	echo "OK"
+-fi
++unmount_device
+ 
+ 
+ #
+@@ -183,6 +187,12 @@ parted $DEVICE print
+ 
+ 
+ #
++# Check if any $DEVICE partitions are mounted after partitioning
++#
++unmount_device
++
++
++#
+ # Format $DEVICE partitions
+ #
+ echo ""
+-- 
+1.8.1.2
 
 
 
