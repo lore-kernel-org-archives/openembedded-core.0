@@ -1,39 +1,35 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from plane.gmane.org ([80.91.229.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UVR4j-0006eO-Mx
-	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Apr 2013 20:40:21 +0200
-Received: by mail-vc0-f175.google.com with SMTP id lf10so3083961vcb.20
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1UVRHh-0007io-L9 for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 20:52:54 +0200
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1UVR0Z-0004pU-9S for openembedded-core@lists.openembedded.org;
+	Thu, 25 Apr 2013 20:35:03 +0200
+Received: from 188-25-127-222.rdsnet.ro ([188-25-127-222.rdsnet.ro])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Apr 2013 20:35:03 +0200
+Received: from sstncr by 188-25-127-222.rdsnet.ro with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2013 11:21:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=DUlAaPV30WyTkEC9cAJRWOLPIGDhED/x/va0UKTxDTQ=;
-	b=RpPWj7c4j+iFgELBqmqpw9K4y0mROSP0ccp0Ll+xk//dk1guB7mFPaHtUMBf2j/Yi/
-	+oPeVjPSoOxAprqiHPN3CLbT27oxnsIZ+1WmxZ5XLe/YfZVqYinfMX/EEgPzVDzQSdo+
-	K+eQuQPybGQa3lcBgPlkjwYcYm4ba5O39/TW1GIvdu43YvdRAbSd22RvrQM4X97ZMqyE
-	AvZs6auD3rNOM3hSBU9btPYTvUj1BH8fDLzIwLXUtAU0wD1GjYGyKyBsmtU+BGUH6/3E
-	2K5MhymCgRbRkgTutgGUT8uOPJBIEWSDnQAFOixmZYqYa3m1Yw52iDJnGtwW09Ds+lRX
-	xYhg==
-X-Received: by 10.58.188.48 with SMTP id fx16mr27588128vec.22.1366914096725;
-	Thu, 25 Apr 2013 11:21:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Thu, 25 Apr 2013 11:21:16 -0700 (PDT)
-In-Reply-To: <2617360.KvDFvdIEGN@helios>
-References: <AAE0766F5AF36B46BAB7E0EFB927320630E4A540CC@GBTWK10E001.Technology.local>
-	<AAE0766F5AF36B46BAB7E0EFB927320630E4A540D1@GBTWK10E001.Technology.local>
-	<CAP9ODKra5FDPMw9AnGhxVijp43_0SnVZVxhfPGwnBpeEaaWUaw@mail.gmail.com>
-	<2617360.KvDFvdIEGN@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Apr 2013 19:21:16 +0100
-Message-ID: <CAJTo0La_iM04he4jMCRtcj7+3zOLDH1dncH=M2aNdbRB0mTyog@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQlLdcD6qqqYToZ3d10rb9G6m6+WNwcpQuzl2RmsI6uBIBVn6aNIib5kksrPpumzwxI5zKH/
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Problems with PACKAGE_CLASSES = "package_tar"
+	Thu, 25 Apr 2013 20:35:03 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Stefan Stanacar <sstncr@gmail.com>
+Date: Thu, 25 Apr 2013 18:32:00 +0000 (UTC)
+Message-ID: <loom.20130425T194616-214@post.gmane.org>
+References: <1366851904-1306-1-git-send-email-stefanx.stanacar@intel.com>
+	<5179327A.9010803@windriver.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: sea.gmane.org
+User-Agent: Loom/3.14 (http://gmane.org/)
+X-Loom-IP: 188.25.127.222 (Mozilla/5.0 (X11;
+	Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko)
+	Chrome/25.0.1364.172 Safari/537.22)
+Subject: Re: [PATCH] connman: replace hardcoded path in init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,21 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2013 18:40:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Apr 2013 18:52:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On 25 April 2013 18:05, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> as danny maintenance should end when 1.5 is released.
->
-> This is not correct. We've continued maintenance of denzil (the previous
-> stable release) up to this point, and the community is free to continue that
-> maintenance almost indefinitely; the same should be applicable to danny.
+Mark Hatle <mark.hatle@...> writes:
 
-In fact there's a pre-release of 1.3.2 running on the autobuilder
-right now.  I think several of the bigger users are sticking with
-Danny for some products, so I don't expect the stream of requests for
-danny to stop once Dylan is out.
+> 
+> On 4/24/13 8:05 PM, Stefan Stanacar wrote:
+> > Because the connman init script sources a config file from /usr/lib
+> > we end up with no network in multilib enabled sato images, so replace
+> > with the real libdir.
+> >
+> > Signed-off-by: Stefan Stanacar <stefanx.stanacar@...>
+> > ---
+> >   meta/recipes-connectivity/connman/connman.inc     | 3 ++-
+> >   meta/recipes-connectivity/connman/connman/connman | 4 ++--
+> >   2 files changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-connectivity/connman/connman.inc 
+b/meta/recipes-connectivity/connman/connman.inc
+> > index 589ece8..93c9da0 100644
+> > --- a/meta/recipes-connectivity/connman/connman.inc
+> > +++ b/meta/recipes-connectivity/connman/connman.inc
+> >  <at>  <at>  -47,7 +47,7  <at>  <at>  INITSCRIPT_NAME = "connman"
+> >   INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+> >
+> >   SYSTEMD_SERVICE_${PN} = "connman.service"
+> > -SYSTEMD_WIRED_SETUP = "ExecStartPre=-/usr/lib/connman/wired-setup"
+> > +SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+> 
+> I don't think this is right.  The initscript and setup command should be 
+in the 
+> 'libexec' location, which is /usr/lib/connman.  This way the initscript 
+from any 
+> duplicate multilibs installed won't cause a conflict.  And the binaries 
+end up 
+> in a known location.  (The libraries on the other hand should definitely 
+be in 
+> the libdir.)
+> 
 
-Ross
+
+Okay, that makes sense. The only problem is that wired-setup is installed by 
+connman-conf so libexec won't work.  (connman rrecomends connman-conf which 
+installs wired.config and wired-setup for qemu machines only). And I'm not 
+sure how to get around that.
+
+Poky commit  e93b6376a0cff5321dd7fc13a88c8b06ae8b83c7 moved wired-setup from 
+/etc/connman to /usr/lib/connman. 
+I do think that /etc/connman/wired-setup was the better location (or perhaps 
+connman-conf), given that's only a script sourced in /etc/init.d/connman if 
+it exists. But I don't know the reasons why it was moved to 
+/usr/lib/connman.
+
+Any thoughts?
+
 
 
