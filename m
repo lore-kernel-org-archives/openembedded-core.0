@@ -1,29 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-da0-f42.google.com ([209.85.210.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UVXYS-0005tG-3G
-	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 03:34:28 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3Q1GgDR012493
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Apr 2013 18:16:42 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 25 Apr 2013 18:16:41 -0700
-Message-ID: <5179D571.1020608@windriver.com>
-Date: Fri, 26 Apr 2013 09:16:33 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1366802026.git.hongxu.jia@windriver.com>
-	<6471223fe7c0d17e2a3209b58f1b1ebdba165a9f.1366802026.git.hongxu.jia@windriver.com>
-	<CAJTo0LY1H9XzeVps7MXtLLythCfzpnGzc51D_zS44Yum-KKYUg@mail.gmail.com>
-In-Reply-To: <CAJTo0LY1H9XzeVps7MXtLLythCfzpnGzc51D_zS44Yum-KKYUg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: fix do_compile failed in parallel builds with system's make 3.28
+	(envelope-from <raj.khem@gmail.com>)
+	id 1UVZrI-0003zt-EA; Fri, 26 Apr 2013 06:02:07 +0200
+Received: by mail-da0-f42.google.com with SMTP id n15so496484dad.29
+	for <multiple recipients>; Thu, 25 Apr 2013 20:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:content-type:content-transfer-encoding:subject
+	:message-id:date:to:mime-version:x-mailer;
+	bh=BnX3cnvx9nmOD7C4vBnw0rk3PrMzt6RUfzlrt2vV2fQ=;
+	b=OU4AlwgA5Yf0cN2auctHoAD1E3HiD2jajfh1JmO38Z/g62ENpZFbfVOXwYsxKucRhF
+	L1sTkZrIKzKzmSkhO7jX7gS/k63X0XWDIst0FdE/D05JXQqgBZ7akOQbnbSEoT95MsEo
+	4Y0MJ+mdXNwn2Dm2ytaFX/UA9BhXPqTVRu/MiII46wplMbxpU7ZakWK64vVOuCk2xsy4
+	ZbMG8944yXXsBjHL2vSw6axJ5xyc8/KPEPSlL1Wot64HJVco2R5MnfXqx2eQWKnoYnaz
+	qvjk2UKg14w6aVa4ApahFIJAJRMMDtkEaN7sBq5gVvoilelhYVImTpcMRBj4pBFhgCkX
+	7pHw==
+X-Received: by 10.68.130.194 with SMTP id og2mr57404482pbb.101.1366947858964; 
+	Thu, 25 Apr 2013 20:44:18 -0700 (PDT)
+Received: from sa-nc-common-173.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id vb8sm9819413pbc.11.2013.04.25.20.44.17
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 25 Apr 2013 20:44:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Message-Id: <3018EE95-32DD-40D0-8282-BB4DF78D93C6@gmail.com>
+Date: Thu, 25 Apr 2013 20:44:16 -0700
+To: "openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+X-Mailer: Apple Mail (2.1503)
+Subject: RFT: binutils 2.23.2 available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 01:34:34 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2013 04:02:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 04/25/2013 05:54 PM, Burton, Ross wrote:
-> On 25 April 2013 09:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> 3, Add `make-native' to systemd's `DEPENDS' to use Yocto's make rather
->> than system's to compile systemd.
-> NACK.
->
-> Installing make-native during a build will lead to races over the make
-> binary, causing strange and non-obvious build failures.
->
-> A unpatched 3.82 in certain distros (F16 is the only culprit that I'm
-> aware of) is a known issue and we'll be adding to the release notes
-> that if you have a broken make, run "bitbake make-native" *first*.
->
-> Opensuse 12.1 has the patches required to fix this
-> (https://build.opensuse.org/package/show?package=make&project=openSUSE%3A12.1%3AUpdate,
-> make-parallel-build.patch, added 5 weeks ago) so please update your
-> distro and this will fix itself.
->
-> I'm also told that 12.1 will be EOL in 21 days from now, so you should
-> consider upgrading to 12.3.
->
-> Ross
-Got it
+Hi
 
-Hongxu
+I have pushed a binutils upgrade to contrib branch. I have booted =
+systemd-image in all supported QEMUs using angstrom-next distro
+
+Pease help testing it out
+
+The branch is here
+
+=
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/binuti=
+ls-2.23.2
+
+If you run into issues let me know
+
+-Khem=
 
 
