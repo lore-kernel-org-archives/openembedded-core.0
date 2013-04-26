@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UVdux-0005Bn-4c
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UVduw-0005BM-JV
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Apr 2013 10:22:17 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Apr 2013 01:04:10 -0700
+	by azsmga102.ch.intel.com with ESMTP; 26 Apr 2013 01:04:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,556,1363158000"; d="scan'208";a="293336385"
+X-IronPort-AV: E=Sophos;i="4.87,556,1363158000"; d="scan'208";a="293336369"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2013 01:04:09 -0700
+	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2013 01:04:07 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2013 11:04:01 +0300
-Message-Id: <9598feae862629ccc35b18018b2f3762ef51c0e5.1366962026.git.laurentiu.palcu@intel.com>
+Date: Fri, 26 Apr 2013 11:04:00 +0300
+Message-Id: <26aacc9f7a93b0f91f3f503e65bc79e5ba1de7c3.1366962026.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
 References: <cover.1366962026.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
 References: <cover.1366962026.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 4/5] scripts/postinst-intercepts: create separete hooks for multilib
+Subject: [PATCH v2 3/5] Revert "qemu.bbclass: Use the correct qemu binary in multilib cases"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,63 +33,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Apr 2013 08:22:35 -0000
 
-When using multilib, the hooks for lib32/lib64 must be different because
-the libdir/base_libdir point to different locations. Postinstalls
-calling postint_intercept script must pass the mlprefix in the 3rd
-argument.
+This reverts commit 9f5a6f89d9f4a6c7bed3b163e6eaa764d762f523.
+
+The reason for reverting this is:
+ * qemuwrapper has now a fallback method;
+ * when using multilib, calling qemu_target_binary from recipes would
+   always point to the qemu binary corresponding to the machine
+   architecture. Hence, postinstalls needing to use qemu would call the
+   wrong qemu user emulation binary;
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- scripts/postinst-intercepts/postinst_intercept |   23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ meta/classes/qemu.bbclass |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/postinst-intercepts/postinst_intercept b/scripts/postinst-intercepts/postinst_intercept
-index ed32f27..27c2568 100755
---- a/scripts/postinst-intercepts/postinst_intercept
-+++ b/scripts/postinst-intercepts/postinst_intercept
-@@ -5,21 +5,40 @@
- # is valid. Also, if one wants to pass any variables to the intercept script from
- # the postinstall itself, they will be added immediately after the shebang line.
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 930c6b0..3d437b0 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -4,9 +4,7 @@
  #
--# Usage: postinst_intercept <intercept_script_name> <package_name> <var1=...> ... <varN=...>
-+# Usage: postinst_intercept <intercept_script_name> <package_name> <mlprefix=...> <var1=...> ... <varN=...>
- #  * intercept_script_name - the name of the intercept script we want to change;
- #  * package_name - add the package_name to list of packages the intercept script
- #                   is used for;
-+#  * mlprefix=... - this one is needed in order to have separate hooks for multilib.
- #  * var1=... - var1 will have the value we provide in the intercept script. This
- #               is useful when we want to pass on variables like ${libdir} to
- #               the intercept script;
- #
--[ $# -lt 2 ] && exit 1
-+[ $# -lt 3 ] && exit 1
  
- intercept_script=$INTERCEPT_DIR/$1 && shift
- package_name=$1 && shift
-+mlprefix=$(echo $1 |sed -ne "s/^mlprefix=\(.*\)-/\1/p") && shift
- 
-+# if the hook we want to install does not exist, then there's nothing we can do
- [ -f "$intercept_script" ] || exit 1
- 
-+# if the postinstall wanting to install the hook belongs to a multilib package,
-+# then we'd better have a separate hook for this because the default ${libdir} and
-+# ${base_libdir} will point to the wrong locations
-+if [ -n "$mlprefix" ]; then
-+	ml_intercept_script=$intercept_script-$mlprefix
-+	# if the multilib hook does not exist, create it from the default one
-+	if [ ! -f "$ml_intercept_script" ]; then
-+		cp $intercept_script $ml_intercept_script
-+
-+		# clear the ##PKGS: line and the already set variables
-+		[ -x "$ml_intercept_script" ] && sed -i -e "2,$(($#+1)) {/.*/d}" -e "/^##PKGS: .*/d" $ml_intercept_script
-+	fi
-+
-+	intercept_script=$ml_intercept_script
-+fi
-+
- chmod +x "$intercept_script"
- 
- pkgs_line="$(cat $intercept_script|grep "##PKGS:")"
+ def qemu_target_binary(data):
+-    target_arch = data.getVar("TARGET_ARCH_MULTILIB_ORIGINAL", True)
+-    if not target_arch:
+-        target_arch = data.getVar("TARGET_ARCH", True)
++    target_arch = data.getVar("TARGET_ARCH", True)
+     if target_arch in ("i486", "i586", "i686"):
+         target_arch = "i386"
+     elif target_arch == "powerpc":
 -- 
 1.7.9.5
 
