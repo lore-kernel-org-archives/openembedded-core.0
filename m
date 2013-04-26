@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UVdug-0005BM-Nf
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UVduk-0005Bn-Bu
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Apr 2013 10:21:55 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Apr 2013 01:04:05 -0700
+	by azsmga102.ch.intel.com with ESMTP; 26 Apr 2013 01:04:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,556,1363158000"; d="scan'208";a="293336310"
+X-IronPort-AV: E=Sophos;i="4.87,556,1363158000"; d="scan'208";a="293336331"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2013 01:04:04 -0700
+	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2013 01:04:05 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2013 11:03:57 +0300
-Message-Id: <cover.1366962026.git.laurentiu.palcu@intel.com>
+Date: Fri, 26 Apr 2013 11:03:58 +0300
+Message-Id: <dccffc726b66602d91dbd264542fda8b863b06d6.1366962026.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2 0/5] Multilib related postinstall fixes
+In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
+References: <cover.1366962026.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
+References: <cover.1366962026.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v2 1/5] qemuwrapper: use fallback in case the ELF binary is wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,43 +32,63 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Apr 2013 08:22:14 -0000
-X-List-Received-Date: Fri, 26 Apr 2013 08:22:14 -0000
-X-List-Received-Date: Fri, 26 Apr 2013 08:22:14 -0000
 
-Changes in v2:
- * addressed Mark's comment
+This wrapper script is called mainly from intercept hooks and allarch
+packages postinstalls. When multilib is used, the qemuwrapper script
+points to the binary that matches the MACHINE architecture.
 
-There is still work to do on the multilib postinstalls running on host front.
-This is a first patchset trying to address some of the issues.
+For example: if MACHINE=qemux86_64 and we activate multilib, then the
+postinstalls for lib32 packages would call qemu-x86_64 with 32 bit
+binaries and they would certainly fail.
 
-Thanks,
-Laurentiu
+This patch adds just a fallback method if the exit code of the previous
+qemu call corresponds to "Invalid ELF image for this architecture"
+error. This will allow us to have all postinstalls run on host.
 
-The following changes since commit addcfcda84ed6b43b00f569a6060e3b78196ef52:
-
-  glib-2.0: disable tests for native builds, and respect ptest for LSB (2013-04-23 13:00:43 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/ml_postinstall_fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/ml_postinstall_fixes
-
-Laurentiu Palcu (5):
-  qemuwrapper: use fallback in case the ELF binary is wrong
-  pango: fix postinstall when using multilib
-  Revert "qemu.bbclass: Use the correct qemu binary in multilib cases"
-  scripts/postinst-intercepts: create separete hooks for multilib
-  Pass the mlprefix to postinst_intercept script
-
- meta/classes/fontcache.bbclass                     |    2 +-
- meta/classes/gtk-icon-cache.bbclass                |    4 +--
- meta/classes/pixbufcache.bbclass                   |    2 +-
- meta/classes/qemu.bbclass                          |    4 +--
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
  .../recipes-devtools/qemu/qemuwrapper-cross_1.0.bb |   28 +++++++++++++++++++-
- meta/recipes-graphics/pango/pango.inc              |    2 +-
- scripts/postinst-intercepts/postinst_intercept     |   23 ++++++++++++++--
- 7 files changed, 54 insertions(+), 11 deletions(-)
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+index 41617a6..18f1892 100644
+--- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+@@ -9,7 +9,33 @@ do_install () {
+ 	install -d ${D}${bindir_crossscripts}/
+ 
+ 	echo "#!/bin/sh" > ${D}${bindir_crossscripts}/qemuwrapper
+-	echo exec env ${@qemu_target_binary(d)} \"\$@\" >> ${D}${bindir_crossscripts}/qemuwrapper
++	qemu_binary=${@qemu_target_binary(d)}
++	echo "$qemu_binary \"\$@\"" >> ${D}${bindir_crossscripts}/qemuwrapper
++	fallback_qemu_bin=
++	case $qemu_binary in
++		"qemu-i386")
++			fallback_qemu_bin=qemu-x86_64
++			;;
++		"qemu-x86_64")
++			fallback_qemu_bin=qemu-i386
++			;;
++		*)
++			;;
++	esac
++
++	if [ -n "$fallback_qemu_bin" ]; then
++
++		cat >> ${D}${bindir_crossscripts}/qemuwrapper << EOF
++rc=\$?
++if [ \$rc = 255 ]; then
++	$fallback_qemu_bin "\$@"
++	rc=\$?
++fi
++exit \$rc
++EOF
++
++	fi
++
+ 	chmod +x ${D}${bindir_crossscripts}/qemuwrapper
+ }
+ 
 -- 
 1.7.9.5
 
