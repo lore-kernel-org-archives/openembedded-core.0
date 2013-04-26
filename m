@@ -1,24 +1,21 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UVka0-0002dk-0A
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UVlLG-0006vP-Qg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 17:28:58 +0200
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 1E2964B0207;
-	Fri, 26 Apr 2013 17:11:04 +0200 (CEST)
-Date: Fri, 26 Apr 2013 17:11:03 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20130426171103.2412f8c5@e6520eb>
-In-Reply-To: <517A933C.4020507@windriver.com>
-References: <20130426092655.1d0ffdb2@e6520eb> <517A867E.3030708@windriver.com>
-	<20130426164157.42a0226b@e6520eb> <517A933C.4020507@windriver.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: dylan: meta-toolchain and u-boot : "cannot find -lgcc"
+	Fri, 26 Apr 2013 18:17:52 +0200
+Received: from i7-990x.r-finger.com
+	(host86-137-87-250.range86-137.btcentralplus.com [86.137.87.250])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 0C849952A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2013 16:50:39 +0100 (BST)
+From: tf+lists.yocto@r-finger.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Apr 2013 16:50:39 +0100
+Message-Id: <1366991439-14728-1-git-send-email-tf+lists.yocto@r-finger.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ia32-base.inc: remove inapropriate grub dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,44 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 15:29:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Apr 2013 16:18:13 -0000
 
-Hi Mark,
+From: Tomas Frydrych <tomas@sleepfive.com>
 
-Le Fri, 26 Apr 2013 09:46:20 -0500,
-Mark Hatle <mark.hatle@windriver.com> a =C3=A9crit :
-> I see, it's using ld instead of gcc for linking.  AFAIK though, you reall=
-y=20
-> shouldn't be using -lgcc in either uboot or linux for any platform.  That=
- seems=20
-> suspicious to me.
->=20
-u-boot is using libgcc in its makefile (Linux doesn't).
+There is no good reason for ia32 machines to have hard dependency on grub,
+as there are other bootloaders available for ia32 platforms.
+---
+ meta/conf/machine/include/ia32-base.inc |    1 -
+ 1 file changed, 1 deletion(-)
 
-I've found the problem root cause in the u-boot's Makefile :
-PLATFORM_LIBGCC :=3D -L $(shell dirname `$(CC) $(CFLAGS) -print-libgcc-file=
--name`) -lgcc
-(but CC and CFLAGS are set in the Makefiles thus the ones of the
-environment are not used
+diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
+index 921c740..cb542a5 100644
+--- a/meta/conf/machine/include/ia32-base.inc
++++ b/meta/conf/machine/include/ia32-base.inc
+@@ -9,7 +9,6 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
+                      acpi serial usbgadget alsa"
+ 
+ MACHINE_EXTRA_RRECOMMENDS += "kernel-modules eee-acpi-scripts"
+-MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "grub"
+ 
+ IMAGE_FSTYPES += "ext3 cpio.gz live"
+ 
+-- 
+1.7.10.4
 
-$ arm-oe-linux-gnueabi-gcc  -print-libgcc-file-name
-libgcc.a
-but :
-$ arm-oe-linux-gnueabi-gcc --sysroot=3D/path_to/oecore-x86_64/sysroots/armv=
-5te-oe-linux-gnueabi -print-libgcc-file-name=20
-returns :
-/path_to/oecore-x86_64/sysroots/armv5te-oe-linux-gnueabi/usr/lib/arm-oe-lin=
-ux-gnueabi/4.7.2/libgcc.a
-
-so if I manage to pass
---sysroot=3D/path_to/oecore-x86_64/sysroots/armv5te-oe-linux-gnueabi
-when PLATFORM_LIBGCC is computed, I get a working build.
-
-so that's not a problem in the SDK : thanks for driving me
-to the right track to investigate on this issue ;-)
-
-Eric
 
 
