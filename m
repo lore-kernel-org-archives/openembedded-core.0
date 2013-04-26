@@ -1,21 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UVibz-0007dC-1A for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 15:22:59 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UViKq-00065l-3d
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1UVjLL-0003jL-Hm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 15:05:08 +0200
-Message-ID: <1366981507.14512.104.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Apr 2013 14:05:07 +0100
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Subject: [PATCH v2] alsa-utils: Move alsaconf to its own recipe
+	Fri, 26 Apr 2013 16:09:52 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3QDpwKN025741
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2013 06:51:58 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 26 Apr 2013 06:51:57 -0700
+Message-ID: <517A867E.3030708@windriver.com>
+Date: Fri, 26 Apr 2013 08:51:58 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <20130426092655.1d0ffdb2@e6520eb>
+In-Reply-To: <20130426092655.1d0ffdb2@e6520eb>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	r3QDpwKN025741
+Subject: Re: dylan: meta-toolchain and u-boot : "cannot find -lgcc"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,101 +37,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 13:22:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2013 14:09:55 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-18575b082a4042376fd1575465e69562dea04ddc added bash as a dependency of
-alsa-utils-alsaconf so that the script interpreter will be available at
-run time.  However, this has the undesirable side effect of making bash
-be a build dependency for alsa-utils and, for those folks who don't need
-alsaconf but do want some other part of alsa-utils, this cure is worse
-than the original disease.
+On 4/26/13 2:26 AM, Eric B=E9nard wrote:
+> Hi,
+>
+> here is a problem I met while trying to build u-boot with a toolchain
+> generated using dylan.
+>
+> steps to reproduce :
+> - bitbake meta-toolchain for an armv5t target
+>
+> - install the sdk to a custom path ($HOME/oecore-x86_64/ for example
+>    instead of /usr/local/oecore-x86_64/
+>
+> - get u-boot :
+> git clone git://git.denx.de/u-boot.git
+> source ~/oecore-x86_64/environment-setup-armv5te-oe-linux-gnueabi
+> make LDFLAGS=3D"" ARCH=3Darm CROSS_COMPILE=3Darm-oe-linux-gnueabi-
+>    da850evm_config
+> make LDFLAGS=3D"" ARCH=3Darm CROSS_COMPILE=3Darm-oe-linux-gnueabi-
+>
+> you will get :
+> arm-oe-linux-gnueabi-gcc -E -g  -Os   -fno-common -ffixed-r8 -msoft-flo=
+at  -D__KERNEL__ -ffunction-sections -fdata-sections -DCONFIG_SYS_TEXT_BA=
+SE=3D0xc1080000 -DCONFIG_SPL_TEXT_BASE=3D0x80000000 -DCONFIG_SPL_PAD_TO=3D=
+0 -DCONFIG_SPL_BUILD -I/data/testdylan/tmp/u-boot/include -fno-builtin -f=
+freestanding -nostdinc -isystem /data/testdylan/oecore-x86_64/sysroots/x8=
+6_64-oesdk-linux/usr/bin/armv5te-oe-linux-gnueabi/../../lib/armv5te-oe-li=
+nux-gnueabi/gcc/arm-oe-linux-gnueabi/4.7.2/include -pipe  -DCONFIG_ARM -D=
+__ARM__ -marm -mno-thumb-interwork -mabi=3Daapcs-linux -march=3Darmv5te -=
+include /data/testdylan/tmp/u-boot/include/u-boot/u-boot.lds.h -include /=
+data/testdylan/tmp/u-boot/include/config.h -DCPUDIR=3Darch/arm/cpu/arm926=
+ejs  -I/data/testdylan/tmp/u-boot/spl/. -ansi -D__ASSEMBLY__ -P - < /data=
+/testdylan/tmp/u-boot/board/davinci/da8xxevm/u-boot-spl-da850evm.lds > /d=
+ata/testdylan/tmp/u-boot/spl/u-boot-spl.lds
+> cd /data/testdylan/tmp/u-boot/spl/ && arm-oe-linux-gnueabi-ld.bfd  -T /=
+data/testdylan/tmp/u-boot/spl/u-boot-spl.lds --gc-sections -Bstatic -Ttex=
+t 0x80000000 arch/arm/cpu/arm926ejs/start.o --start-group arch/arm/cpu/ar=
+m926ejs/davinci/libdavinci.o arch/arm/cpu/arm926ejs/libarm926ejs.o arch/a=
+rm/lib/libarm.o board/davinci/da8xxevm/libda8xxevm.o common/libcommon.o c=
+ommon/spl/libspl.o drivers/mtd/spi/libspi_flash.o drivers/serial/libseria=
+l.o drivers/spi/libspi.o lib/libgeneric.o --end-group /data/testdylan/tmp=
+/u-boot/spl/arch/arm/lib/eabi_compat.o -L . -lgcc -Map u-boot-spl.map -o =
+u-boot-spl
+> arm-oe-linux-gnueabi-ld.bfd: cannot find -lgcc
+>
+> this can be fixed by installing the sdk to it's standard path
+> (/usr/local/oecore-x86_64/ in the present case).
+>
+> Is that an expected behaviour (as the sdk is primarly designed to build
+> applications) or can that be fixed during the sdk relocation ?
 
-Fix this by moving alsaconf to a separate recipe so that the bash
-dependency only applies when alsaconf is specifically requested.
+When you use the SDK, you need to be sure to source the SDK environment s=
+etup.=20
+Once you do that, pass to the compiler/linker the included CFLAGS and LDF=
+LAGS as=20
+specified in that environment file.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
-v2: reinstate autotools do_configure() since we do need this to generate the script
- .../alsa/alsa-utils-alsaconf_1.0.26.bb                |   17 +++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb     |   12 ++++++++----
- 2 files changed, 25 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb
+They should end up passing at some point a --sysroot=3D... and that will =
+tell gcc=20
+where the libraries and headers are for linking.  Without the --sysroot=3D=
+ option,=20
+the compiler has no choice but to look for it's original compilation dire=
+ctory.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb
-new file mode 100644
-index 0000000..a3fa1d0
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb
-@@ -0,0 +1,17 @@
-+require alsa-utils_${PV}.bb
-+
-+THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
-+FILESPATH =. "${@base_set_filespath(["${THISDIR}/alsa-utils"], d)}:"
-+
-+PACKAGES = "${PN}"
-+RDEPENDS_${PN} += "bash"
-+
-+DESCRIPTION_${PN}     = "a bash script that creates ALSA configuration files"
-+FILES_${PN} = "${sbindir}/alsaconf"
-+
-+S = "${WORKDIR}/alsa-utils-${PV}"
-+
-+do_install() {
-+	install -d ${D}${sbindir}
-+	install -m 0755 ${S}/alsaconf/alsaconf ${D}${sbindir}/
-+}
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-index d566d94..e0bf755 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-@@ -39,7 +39,6 @@ ALSA_UTILS_PKGS = "\
-              alsa-utils-speakertest \
-              alsa-utils-aseqnet \
-              alsa-utils-aseqdump \
--             alsa-utils-alsaconf \
-              alsa-utils-alsactl \
-              alsa-utils-alsaloop \
-              alsa-utils-alsaucm \
-@@ -47,7 +46,6 @@ ALSA_UTILS_PKGS = "\
- 
- PACKAGES += "${ALSA_UTILS_PKGS}"
- RDEPENDS_${PN} += "${ALSA_UTILS_PKGS}"
--RDEPENDS_alsa-utils-alsaconf += "bash"
- 
- FILES_${PN} = ""
- FILES_alsa-utils-aplay       = "${bindir}/aplay ${bindir}/arecord"
-@@ -60,7 +58,6 @@ FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
- FILES_alsa-utils-alsactl     = "${sbindir}/alsactl */udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
--FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
- FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
- FILES_alsa-utils-alsaucm     = "${bindir}/alsaucm"
- 
-@@ -73,9 +70,16 @@ DESCRIPTION_alsa-utils-midi         = "miscalleanous MIDI utilities for ALSA"
- DESCRIPTION_alsa-utils-aconnect     = "ALSA sequencer connection manager"
- DESCRIPTION_alsa-utils-aseqnet      = "network client/server on ALSA sequencer"
- DESCRIPTION_alsa-utils-alsactl      = "saves/restores ALSA-settings in /etc/asound.state"
--DESCRIPTION_alsa-utils-alsaconf     = "a bash script that creates ALSA configuration files"
- DESCRIPTION_alsa-utils-alsaucm      = "ALSA Use Case Manager"
- 
- RRECOMMENDS_alsa-utils-alsactl = "alsa-states"
- 
- ALLOW_EMPTY_alsa-utils = "1"
-+
-+do_install() {
-+	autotools_do_install
-+
-+	# We don't ship this here because it requires a dependency on bash.
-+	# See alsa-utils-alsaconf_${PV}.bb
-+	rm ${D}${sbindir}/alsaconf
-+}
--- 
-1.7.10.4
+--Mark
 
-
+> Thanks,
+> Eric
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
