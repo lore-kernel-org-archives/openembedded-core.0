@@ -1,22 +1,24 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1UVdKl-0000F4-SL
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 09:44:44 +0200
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 767EF4B0182
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2013 09:26:57 +0200 (CEST)
-Date: Fri, 26 Apr 2013 09:26:55 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: "openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Message-ID: <20130426092655.1d0ffdb2@e6520eb>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: dylan: meta-toolchain and u-boot : "cannot find -lgcc"
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UVdul-0005Bq-I7
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Apr 2013 10:22:00 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Apr 2013 01:04:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,556,1363158000"; d="scan'208";a="293336352"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2013 01:04:06 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Apr 2013 11:03:59 +0300
+Message-Id: <42ef66d4ddff147513bcc9bdf49814be94551650.1366962026.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
+References: <cover.1366962026.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1366962026.git.laurentiu.palcu@intel.com>
+References: <cover.1366962026.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v2 2/5] pango: fix postinstall when using multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 07:44:47 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2013 08:22:14 -0000
 
-Hi,
+The pango-query-modules binary gets a multilib prefix and the
+postinstall has to call the appropriate binary.
 
-here is a problem I met while trying to build u-boot with a toolchain
-generated using dylan.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-graphics/pango/pango.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-steps to reproduce :
-- bitbake meta-toolchain for an armv5t target
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index f622903..52dd064 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -49,7 +49,7 @@ if ! [ -e $D${sysconfdir}/pango ] ; then
+ fi
+ 
+ if [ "x$D" != "x" ]; then
+-	${@qemu_run_binary(d, '$D','/usr/bin/pango-querymodules')} \
++	${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
+ 		$D${libdir}/pango/${LIBV}/modules/*.so \
+ 		> $D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
+ 
+-- 
+1.7.9.5
 
-- install the sdk to a custom path ($HOME/oecore-x86_64/ for example
-  instead of /usr/local/oecore-x86_64/
-
-- get u-boot :
-git clone git://git.denx.de/u-boot.git
-source ~/oecore-x86_64/environment-setup-armv5te-oe-linux-gnueabi
-make LDFLAGS="" ARCH=arm CROSS_COMPILE=arm-oe-linux-gnueabi-
-  da850evm_config
-make LDFLAGS="" ARCH=arm CROSS_COMPILE=arm-oe-linux-gnueabi-
-
-you will get :
-arm-oe-linux-gnueabi-gcc -E -g  -Os   -fno-common -ffixed-r8 -msoft-float  -D__KERNEL__ -ffunction-sections -fdata-sections -DCONFIG_SYS_TEXT_BASE=0xc1080000 -DCONFIG_SPL_TEXT_BASE=0x80000000 -DCONFIG_SPL_PAD_TO=0 -DCONFIG_SPL_BUILD -I/data/testdylan/tmp/u-boot/include -fno-builtin -ffreestanding -nostdinc -isystem /data/testdylan/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/armv5te-oe-linux-gnueabi/../../lib/armv5te-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.7.2/include -pipe  -DCONFIG_ARM -D__ARM__ -marm -mno-thumb-interwork -mabi=aapcs-linux -march=armv5te -include /data/testdylan/tmp/u-boot/include/u-boot/u-boot.lds.h -include /data/testdylan/tmp/u-boot/include/config.h -DCPUDIR=arch/arm/cpu/arm926ejs  -I/data/testdylan/tmp/u-boot/spl/. -ansi -D__ASSEMBLY__ -P - < /data/testdylan/tmp/u-boot/board/davinci/da8xxevm/u-boot-spl-da850evm.lds > /data/testdylan/tmp/u-boot/spl/u-boot-spl.lds
-cd /data/testdylan/tmp/u-boot/spl/ && arm-oe-linux-gnueabi-ld.bfd  -T /data/testdylan/tmp/u-boot/spl/u-boot-spl.lds --gc-sections -Bstatic -Ttext 0x80000000 arch/arm/cpu/arm926ejs/start.o --start-group arch/arm/cpu/arm926ejs/davinci/libdavinci.o arch/arm/cpu/arm926ejs/libarm926ejs.o arch/arm/lib/libarm.o board/davinci/da8xxevm/libda8xxevm.o common/libcommon.o common/spl/libspl.o drivers/mtd/spi/libspi_flash.o drivers/serial/libserial.o drivers/spi/libspi.o lib/libgeneric.o --end-group /data/testdylan/tmp/u-boot/spl/arch/arm/lib/eabi_compat.o -L . -lgcc -Map u-boot-spl.map -o u-boot-spl
-arm-oe-linux-gnueabi-ld.bfd: cannot find -lgcc
-
-this can be fixed by installing the sdk to it's standard path
-(/usr/local/oecore-x86_64/ in the present case).
-
-Is that an expected behaviour (as the sdk is primarly designed to build
-applications) or can that be fixed during the sdk relocation ?
-
-Thanks,
-Eric
 
 
