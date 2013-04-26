@@ -1,15 +1,20 @@
-Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UVh1P-0006Al-6p
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UVh8Y-00073c-NS for openembedded-core@lists.openembedded.org;
+	Fri, 26 Apr 2013 13:48:24 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UVgrP-00063h-B4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 13:41:03 +0200
-From: Jack Mitchell <ml@communistcode.co.uk>
+	Fri, 26 Apr 2013 13:30:39 +0200
+Message-ID: <1366975838.14512.99.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2013 12:22:40 +0100
-Message-Id: <1366975360-10990-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.2.1
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCHv4] connman: add PACKAGECONFIG options
+Date: Fri, 26 Apr 2013 12:30:38 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] image.bbclass: Don't mark do_rootfs and do_build as nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -22,112 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 11:41:18 -0000
-X-List-Received-Date: Fri, 26 Apr 2013 11:41:18 -0000
+X-List-Received-Date: Fri, 26 Apr 2013 11:48:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+There doesn't appear to be any compelling reason for these tasks to be nostamp
+and having them re-run on every build can be irritating (for example, when the
+image is an initramfs which your kernel image depends on).
 
-- change TIST from being explicitly built, to a PACKAGECONFIG
-- move wifi, 3g and bluetooth to PACKAGECONFIG
-- change RDEPENDS and RPROVIDES to check PACKAGECONFIG rather 
-  than DISTRO_FEATURES
-
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
+ meta/classes/image.bbclass |    2 --
+ 1 file changed, 2 deletions(-)
 
-v4
-- exlicityly disable tist
-
-v3
-- change RDEPENDS and RPROVIDES to check PACKAGECONFIG rather 
-  than DISTRO_FEATURES
-
-v2
-- move wifi, 3g and bluetooth to PACKAGECONFIG
-
-v1
-- change TIST from being explicitly built, to a PACKAGECONFIG
-
- meta/recipes-connectivity/connman/connman.inc | 38 +++++++++++++--------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 589ece8..afc361c 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -13,17 +13,9 @@ LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ffb372a..667d03d 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
  
--# we need to define the depends here, the dynamic stuff is too late
--DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
--            ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
--            ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--            ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
--            "
-+DEPENDS  = "dbus glib-2.0 ppp iptables gnutls"
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
  
--INC_PR = "r19"
--
--TIST = "--enable-tist"
--TIST_powerpc = ""
-+INC_PR = "r20"
+-do_rootfs[nostamp] = "1"
+ do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
+ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+ do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+-do_build[nostamp] = "1"
  
- EXTRA_OECONF += "\
-     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
-@@ -32,9 +24,6 @@ EXTRA_OECONF += "\
-     --enable-threads \
-     --enable-loopback \
-     --enable-ethernet \
--    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
--    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
--    ${@base_contains('DISTRO_FEATURES', '3g', '--enable-ofono', '--disable-ofono', d)} \
-     --enable-tools \
-     --enable-test \
-     --disable-polkit \
-@@ -43,6 +32,17 @@ EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
- 
-+PACKAGECONFIG ??= "\
-+                   ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
-+"
-+
-+PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
-+PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
-+PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
-+PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
-+
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
-@@ -92,16 +92,16 @@ do_install_append() {
- RPROVIDES_${PN} = "\
- 	connman-plugin-loopback \
- 	connman-plugin-ethernet \
--	${@base_contains('DISTRO_FEATURES', 'bluetooth','connman-plugin-bluetooth', '', d)} \
--	${@base_contains('DISTRO_FEATURES', 'wifi','connman-plugin-wifi', '', d)} \
--	${@base_contains('DISTRO_FEATURES', '3g','connman-plugin-ofono', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'bluetooth','connman-plugin-bluetooth', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'wifi','connman-plugin-wifi', '', d)} \
-+	${@base_contains('PACKAGECONFIG', '3g','connman-plugin-ofono', '', d)} \
- 	"
- 
- RDEPENDS_${PN} = "\
- 	dbus \
--	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
--	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--	${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
-+	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
- 	"
- 
- PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
+ # Must call real_do_rootfs() from inside here, rather than as a separate
+ # task, so that we have a single fakeroot context for the whole process.
 -- 
-1.8.2.1
+1.7.10.4
+
+
 
 
 
