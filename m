@@ -1,25 +1,42 @@
-Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
+Received: from mail-vb0-f43.google.com ([209.85.212.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UVg8I-00082J-Mg
+	(envelope-from <ross.burton@intel.com>) id 1UVgJU-0000u7-J8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 12:44:02 +0200
-Message-ID: <517A5647.5000800@communistcode.co.uk>
-Date: Fri, 26 Apr 2013 11:26:15 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
+	Fri, 26 Apr 2013 12:55:37 +0200
+Received: by mail-vb0-f43.google.com with SMTP id q13so2518163vbe.30
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2013 03:37:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=I2CvOl8wMRgucaNAtSCb7EJCHTwOIm7LzX575mCTM4w=;
+	b=HjGC5cAbGu4TJ8kUoUG6Bbj/AXnOnx7LZ4MrORyfz7UVU+eTLDT0ksOMXy3W1g3a7m
+	u+TJXZFI1xyA0dXUdsEayhDGURjOXhBmyK6egzZ0meTtVTepdYLlkV9NYjnzguhjJ33J
+	8pwZL44RjignZWtMoYZlGq8M8V2joOZmzd9LvyKZukeGhwHe8HV7aAcFd9OPbCFMLt9V
+	1jR8sL71Cqbz24h2BNHlr/jxuFdkKguy/uMOggllpyJ+mPj3QSapTm3cbP6v9Fia4UW1
+	VXppJVYGHf6aEsMve7WR8ORQc8rMeEvJ47rm3TfUPHYy+iU2lY1LGcDD0yELI8aRDtPi
+	zJcA==
+X-Received: by 10.220.155.8 with SMTP id q8mr22821037vcw.42.1366972671218;
+	Fri, 26 Apr 2013 03:37:51 -0700 (PDT)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
+Received: by 10.220.100.68 with HTTP; Fri, 26 Apr 2013 03:37:31 -0700 (PDT)
+In-Reply-To: <517A5647.5000800@communistcode.co.uk>
 References: <1366970771-9959-1-git-send-email-ml@communistcode.co.uk>
 	<20130426101627.GM5538@jama.dyndns-home.com>
-In-Reply-To: <20130426101627.GM5538@jama.dyndns-home.com>
+	<517A5647.5000800@communistcode.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Apr 2013 11:37:31 +0100
+Message-ID: <CAJTo0LbOHWWEvM_s4mxV4ORACTSvaGCtQvVdfYR6XDYZC0gu+w@mail.gmail.com>
+To: ml@communistcode.co.uk
+X-Gm-Message-State: ALoCoQnbflYaW9+1GYZf2IGQ9MhYP4Uaf5HWRb7/WGzMc6rQH3IDe0fLsoMP8y0zdLwEqsFoyJjo
 Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>,
+	Martin Jansa <martin.jansa@gmail.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: make tist functionallity a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -29,89 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 10:44:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2013 10:55:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 26/04/13 11:16, Martin Jansa wrote:
-> On Fri, Apr 26, 2013 at 11:06:11AM +0100, Jack Mitchell wrote:
->> From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
->>
->> Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
->> ---
->>
->> Runtime tested on beaglebone armv7a, with and without tist PACKAGECONFIG
->>
->>   meta/recipes-connectivity/connman/connman.inc | 13 +++++++------
->>   1 file changed, 7 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
->> index 589ece8..eb9d145 100644
->> --- a/meta/recipes-connectivity/connman/connman.inc
->> +++ b/meta/recipes-connectivity/connman/connman.inc
->> @@ -20,10 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
->>               ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
->>               "
->>   
->> -INC_PR = "r19"
->> -
->> -TIST = "--enable-tist"
->> -TIST_powerpc = ""
->> +INC_PR = "r20"
->>   
->>   EXTRA_OECONF += "\
->>       ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
->> @@ -32,8 +29,8 @@ EXTRA_OECONF += "\
->>       --enable-threads \
->>       --enable-loopback \
->>       --enable-ethernet \
->> -    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
->> -    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
->> +    ${@base_contains('DISTRO_FEATURES', 'wifi', '--enable-wifi', '--disable-wifi', d)} \
->> +    ${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluetooth', '--disable-bluetooth', d)} \
->>       ${@base_contains('DISTRO_FEATURES', '3g', '--enable-ofono', '--disable-ofono', d)} \
->>       --enable-tools \
->>       --enable-test \
->> @@ -43,6 +40,10 @@ EXTRA_OECONF += "\
->>       ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
->>   "
->>   
->> +PACKAGECONFIG ??= ""
->> +
->> +PACKAGECONFIG[tist] = "--enable-tist,,"
-> would you mind to convert wifi, bluetooth and 3g also to PACKAGECONFIGs?
+On 26 April 2013 11:26, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> Something like:
 >
->> +
->>   INITSCRIPT_NAME = "connman"
->>   INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
->>   
->> -- 
->> 1.8.2.1
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> PACKAGECONFIG ??= " \
+> ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)}\
+>                   "
+>
+> PACKAGECONFIG[wifi] = "--enable-wifi,--disable-wifi,"
+>
+> Or were you thinking of another method?
 
-Something like:
+That's right.  Would be nice if we had a more concise method, but
+that's idiomatic at least.
 
-PACKAGECONFIG ??= " \
-${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)}\
-                   "
-
-PACKAGECONFIG[wifi] = "--enable-wifi,--disable-wifi,"
-
-
-Or were you thinking of another method?
-
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Ross
 
 
