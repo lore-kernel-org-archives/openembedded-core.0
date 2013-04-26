@@ -1,22 +1,39 @@
-Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
+Received: from mail-ve0-f179.google.com ([209.85.128.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UVfJX-0000rN-Qn
+	(envelope-from <ross.burton@intel.com>) id 1UVfMc-0001Cu-1p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 11:51:40 +0200
-Message-ID: <517A49FE.5020702@communistcode.co.uk>
-Date: Fri, 26 Apr 2013 10:33:50 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130403 Thunderbird/17.0.5
+	Fri, 26 Apr 2013 11:54:47 +0200
+Received: by mail-ve0-f179.google.com with SMTP id oz10so1699698veb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2013 02:37:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=nd85jawvMWqpUbPFDRkYK63Ex8DU1IEtHvGpRQrkssU=;
+	b=Sh4umY+UV0WrWDxX8Byvfa7FoOn+ZoJUPBPfSsbrXHXfyZcFqSPWKlxRnA3P7seUxl
+	+zxg4vzirNdm/i5NdXtQsKhssuND3uRZALrHSvj8zBGx9X7alojkNddg/1yXW5DTuqLd
+	uBejC8dKFA1yk5aQcn5tgyw+sTLUyhdwzxgW4+ywH/VeoBDygLxf/7JFeuqDguo5wAE4
+	06tuQ/Rs+kwNXFaY2OiopRpX53WeVvTnTvkP7BNOkCl5tslP6OvR7Vn9igiv3oOxH2As
+	cj+K/YNzXpHRDZW8u7gOb2t1sXzZBejaqsXWbf9bZajbFk7Lca6raPNDXG+KDMgjN4XF
+	E60A==
+X-Received: by 10.52.165.99 with SMTP id yx3mr10839629vdb.34.1366969021091;
+	Fri, 26 Apr 2013 02:37:01 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.220.100.68 with HTTP; Fri, 26 Apr 2013 02:36:41 -0700 (PDT)
+In-Reply-To: <517A49FE.5020702@communistcode.co.uk>
 References: <1366963623-13626-1-git-send-email-B40290@freescale.com>
-In-Reply-To: <1366963623-13626-1-git-send-email-B40290@freescale.com>
+	<517A49FE.5020702@communistcode.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Apr 2013 10:36:41 +0100
+Message-ID: <CAJTo0LZEd0ZDONxj5-_h6e13VYtDbQPTC+ipcj-=wzDavNUCHw@mail.gmail.com>
+To: ml@communistcode.co.uk
+X-Gm-Message-State: ALoCoQmsWb/eEsN3upvtyMfTPuIs4c7xbsBuL91S4U3AFgbMlHHRGPn/hEmvg68+f7dv7a6wN8KD
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: tist of connman do not support powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -26,58 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 09:51:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2013 09:54:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 26/04/13 09:07, Chunrong Guo wrote:
->      connman build for powerpc 64bit boards were producing errors like this:
->      | make[1]: *** [plugins/plugins_tist_la-tist.lo] Error 1
->      | make[1]: *** Waiting for unfinished jobs....
->      | make: *** [all] Error 2
->      | ERROR: oe_runmake failed
->
-> Signed-off-by: Chunrong Guo <B40290@freescale.com>
-> ---
->   meta/recipes-connectivity/connman/connman.inc |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 589ece8..5389f3a 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -20,10 +20,11 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
->               ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
->               "
->   
-> -INC_PR = "r19"
-> +INC_PR = "r20"
->   
->   TIST = "--enable-tist"
->   TIST_powerpc = ""
-> +TIST_powerpc64 = ""
->   
->   EXTRA_OECONF += "\
->       ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
+On 26 April 2013 10:33, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> I think if anyone needs it, shout up; otherwise we should go with the
+> default and disable it.
 
-Is there a reason that we need to specifically enable TIST at all? This 
-is quoted from one of the developers on the ConnMan list:
+Agreed - we can PACKAGECONFIG it and the machines that need it can enable it.
 
-> it is special hardware where we need this plugin for. As I said, I was considering to remove the plugin actually. So it is safe to > disable this plugin.
-
-> By default this plugin is actually disabled. And we do not even build test it for the releases.
-
-I think if anyone needs it, shout up; otherwise we should go with the default and disable it.
-
-Cheers,
-Jack.
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Ross
 
 
