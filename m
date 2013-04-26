@@ -1,15 +1,36 @@
-Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
+Received: from mail-ve0-f181.google.com ([209.85.128.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1UVgop-0004mY-N8
+	(envelope-from <ross.burton@intel.com>) id 1UVgtz-0005Sc-9h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 13:28:00 +0200
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2013 12:10:11 +0100
-Message-Id: <1366974611-9934-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.2.1
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCHv3] connman: add PACKAGECONFIG options
+	Fri, 26 Apr 2013 13:33:20 +0200
+Received: by mail-ve0-f181.google.com with SMTP id d10so1753397vea.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2013 04:15:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=8we1QoPom9yVn+orL/NpNZBG8/79x5PXrseJEIMwW/Q=;
+	b=na3KODzcD0UKnQxIOTwEvPKa8wTcm0zZm8xWbpDivSmYRDjrZvbUzRjEQPJAyDlbXB
+	TPwnE1p/dqFF16VpEvY/CTNobcmy4hfpFnxFQLkp9SLuuxY0I+zr8iuXLo4F97j7mjNl
+	RfUZwN/rAyBhB7t5qmgCK3dxoeIrX8GNZVyJhhrNrj3zPFQ0cX6FDXS66Uwo8ZGFBf8l
+	kD/6cuuC+RWGypxLwq1cZnHWpL0iO0ZvfcnOa3A3tUQXx/Y86FoCio5/x6lDWSvqOlFF
+	mp8ySBt+kbz/exgbdU/EHwb77oruB4Gale9HFX54YwdO/d6IRHGiEkvdkzgZ1xSZ7nfV
+	3gWA==
+X-Received: by 10.58.15.193 with SMTP id z1mr28964239vec.40.1366974934236;
+	Fri, 26 Apr 2013 04:15:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.100.68 with HTTP; Fri, 26 Apr 2013 04:15:14 -0700 (PDT)
+In-Reply-To: <1366973665-8779-1-git-send-email-ml@communistcode.co.uk>
+References: <1366973665-8779-1-git-send-email-ml@communistcode.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Apr 2013 12:15:14 +0100
+Message-ID: <CAJTo0LajtYn68VZSezRjj9GDS3CBvznnz+bG1s2V5O=rK18SRA@mail.gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+X-Gm-Message-State: ALoCoQlabBvH4CAshrPcwRjCXJofr5Bdq3M3qJI6VsotddJMbMZD6LI5SWahwdcI+5f/2DbqizJL
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] connman: add PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -22,109 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 11:28:02 -0000
+X-List-Received-Date: Fri, 26 Apr 2013 11:33:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+On 26 April 2013 11:54, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> +PACKAGECONFIG[tist] = "--enable-tist,,"
 
-- change TIST from being explicitly built, to a PACKAGECONFIG
-- move wifi, 3g and bluetooth to PACKAGECONFIG
-- change RDEPENDS and RPROVIDES to check PACKAGECONFIG rather 
-  than DISTRO_FEATURES
+Please also --disable-tist so it's explicit as to what's happening.
 
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
----
-
-v3
-- change RDEPENDS and RPROVIDES to check PACKAGECONFIG rather 
-  than DISTRO_FEATURES
-
-v2
-- change TIST from being explicitly built, to a PACKAGECONFIG
-- move wifi, 3g and bluetooth to PACKAGECONFIG
-
-v1
-- change TIST from being explicitly built, to a PACKAGECONFIG
-
- meta/recipes-connectivity/connman/connman.inc | 38 +++++++++++++--------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 589ece8..6dd6820 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -13,17 +13,9 @@ LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
- 
--# we need to define the depends here, the dynamic stuff is too late
--DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
--            ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
--            ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--            ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
--            "
-+DEPENDS  = "dbus glib-2.0 ppp iptables gnutls"
- 
--INC_PR = "r19"
--
--TIST = "--enable-tist"
--TIST_powerpc = ""
-+INC_PR = "r20"
- 
- EXTRA_OECONF += "\
-     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
-@@ -32,9 +24,6 @@ EXTRA_OECONF += "\
-     --enable-threads \
-     --enable-loopback \
-     --enable-ethernet \
--    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
--    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
--    ${@base_contains('DISTRO_FEATURES', '3g', '--enable-ofono', '--disable-ofono', d)} \
-     --enable-tools \
-     --enable-test \
-     --disable-polkit \
-@@ -43,6 +32,17 @@ EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
- 
-+PACKAGECONFIG ??= "\
-+                   ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
-+"
-+
-+PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
-+PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
-+PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
-+PACKAGECONFIG[tist] = "--enable-tist,,"
-+
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
-@@ -92,16 +92,16 @@ do_install_append() {
- RPROVIDES_${PN} = "\
- 	connman-plugin-loopback \
- 	connman-plugin-ethernet \
--	${@base_contains('DISTRO_FEATURES', 'bluetooth','connman-plugin-bluetooth', '', d)} \
--	${@base_contains('DISTRO_FEATURES', 'wifi','connman-plugin-wifi', '', d)} \
--	${@base_contains('DISTRO_FEATURES', '3g','connman-plugin-ofono', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'bluetooth','connman-plugin-bluetooth', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'wifi','connman-plugin-wifi', '', d)} \
-+	${@base_contains('PACKAGECONFIG', '3g','connman-plugin-ofono', '', d)} \
- 	"
- 
- RDEPENDS_${PN} = "\
- 	dbus \
--	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
--	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--	${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
-+	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
- 	"
- 
- PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
--- 
-1.8.2.1
-
+Ross
 
 
