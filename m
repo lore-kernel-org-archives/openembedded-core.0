@@ -1,42 +1,42 @@
-Received: from mail-ea0-f180.google.com ([209.85.215.180])
+Received: from mail-ea0-f169.google.com ([209.85.215.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UVg1k-00079K-Rf
+	(envelope-from <koen@dominion.thruhere.net>) id 1UVg3E-0007RC-6y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 12:37:20 +0200
-Received: by mail-ea0-f180.google.com with SMTP id q16so1566529ead.39
+	Fri, 26 Apr 2013 12:38:48 +0200
+Received: by mail-ea0-f169.google.com with SMTP id d10so1185784eaj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2013 03:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=ikxsKn0Zh946QOW61/Nu0QPd+GmMdjoeLeuXGACFH7M=;
-	b=FfjPcWdwVIIQun5iQTzjXXvPViUL80p/HHn7XDTatOw60W7TbYk3BaeH+q2HOfPD9l
-	jbEFwDicaqixT2DxExBUzVtPFsj1SwvvvKgL/nICqFwHw9fEATE93SnkbvyvJ9X+ESrI
-	Wu30AghxVwN+uHA/fiQf8Fn68aQPKQXjwVqiUlMRmMF2YUFmQ5r5Qb1QjWDHri0SbllP
-	zbk4QIQeprNGAJYyP2HOXeiihpwwEUjCK7Aio6rM67bPrKVYrQKQt1v3TLzGIVgMDsaF
-	qRmlcVB9WlIpmWoNAD8h+7/ugY2pyqxfG1s4MjV4bsTBSe29swias0Owj5sEDUZAImst
-	9Y/Q==
-X-Received: by 10.14.5.72 with SMTP id 48mr85719103eek.19.1366971571029;
-	Fri, 26 Apr 2013 03:19:31 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	Fri, 26 Apr 2013 03:21:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=BnO+D6PRqii+T968lCfrmhUer+blyE1TwaLysoBEep0=;
+	b=Wu+YuE4hhpPX0S8Ysi+FG0YBvckTnnZpvc5IcwkQp+1nt9NpUO8d9zXUFOSbV6sE/4
+	Gxru3ZMta3bvzdEcan53QWjO+rDl9vlM3bLtJM+/WQv0qcFEFy54gmVr3JGG3hiD2lVI
+	jt/t8MYrP+XEnhEU+MJO3msSMJzbVvfC2O5xykHK8Wi8GdE8Ukl8Rpff+WkSZxWpROrb
+	m9b0jR8e40EQvdW0wUWXg5VVeTX6tXFZSjV96v0uBQgWIudHl9y/NmEZsiul1cSuoLIY
+	Pb1FMxcqshdvCoMpeaDhPwK9iKCq5oTNFi9tygRdiypat+2ylFTWIb69PXlQMHjlyLGt
+	N56w==
+X-Received: by 10.14.5.72 with SMTP id 48mr85732155eek.19.1366971663550;
+	Fri, 26 Apr 2013 03:21:03 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::28b6:bc4f:a329:c51d?
+	([2001:610:612:0:28b6:bc4f:a329:c51d])
 	by mx.google.com with ESMTPSA id
-	j44sm15147725eeu.10.2013.04.26.03.19.29 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 26 Apr 2013 03:19:30 -0700 (PDT)
-Date: Fri, 26 Apr 2013 12:19:50 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130426101950.GN5538@jama.dyndns-home.com>
+	ch6sm15125272eeb.17.2013.04.26.03.21.01 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 26 Apr 2013 03:21:02 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <517A49FE.5020702@communistcode.co.uk>
+Date: Fri, 26 Apr 2013 12:21:03 +0200
+Message-Id: <DF1B948E-98FE-41D8-9C5A-7F2AACD70B98@dominion.thruhere.net>
 References: <1366963623-13626-1-git-send-email-B40290@freescale.com>
 	<517A49FE.5020702@communistcode.co.uk>
-	<CAJTo0LZEd0ZDONxj5-_h6e13VYtDbQPTC+ipcj-=wzDavNUCHw@mail.gmail.com>
-	<93E5E91C-DB0D-4057-82AE-4F3B97B7367F@dominion.thruhere.net>
-	<CAJTo0LbVtc9g_Ch-n_crSX+5c_n2xcjJKcgwsazXi=rAhxKZmA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbVtc9g_Ch-n_crSX+5c_n2xcjJKcgwsazXi=rAhxKZmA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
+To: ml@communistcode.co.uk
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQnwJx+uOSRrjez2ry+000gb9iTKGdXdYuR1U90/2A59ERSU2dBEDZ5Tt1DYsvlF6KbH+HnS
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: tist of connman do not support powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -50,47 +50,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 10:37:28 -0000
-X-Groupsio-MsgNum: 38438
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="McpcKDxJRrEJVmOH"
-Content-Disposition: inline
-
---McpcKDxJRrEJVmOH
+X-List-Received-Date: Fri, 26 Apr 2013 10:38:48 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 26, 2013 at 11:06:07AM +0100, Burton, Ross wrote:
-> On 26 April 2013 10:46, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > Making connman machine specific which means PRSERV will go insane.
+
+Op 26 apr. 2013, om 11:33 heeft Jack Mitchell <ml@communistcode.co.uk> =
+het volgende geschreven:
+
+> On 26/04/13 09:07, Chunrong Guo wrote:
+>>     connman build for powerpc 64bit boards were producing errors like =
+this:
+>>     | make[1]: *** [plugins/plugins_tist_la-tist.lo] Error 1
+>>     | make[1]: *** Waiting for unfinished jobs....
+>>     | make: *** [all] Error 2
+>>     | ERROR: oe_runmake failed
+>>=20
+>> Signed-off-by: Chunrong Guo <B40290@freescale.com>
+>> ---
+>>  meta/recipes-connectivity/connman/connman.inc |    3 ++-
+>>  1 files changed, 2 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc =
+b/meta/recipes-connectivity/connman/connman.inc
+>> index 589ece8..5389f3a 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -20,10 +20,11 @@ DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
+>>              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', =
+d)} \
+>>              "
+>>  -INC_PR =3D "r19"
+>> +INC_PR =3D "r20"
+>>    TIST =3D "--enable-tist"
+>>  TIST_powerpc =3D ""
+>> +TIST_powerpc64 =3D ""
+>>    EXTRA_OECONF +=3D "\
+>>      ac_cv_path_WPASUPPLICANT=3D${sbindir}/wpa_supplicant \
 >=20
-> Why would this cause prserv to go insane?  The only things build-time
-> depending on connman should be images so I don't see how it will cause
-> crazy rebuilds, so I must be missing something.
+> Is there a reason that we need to specifically enable TIST at all? =
+This is quoted from one of the developers on the ConnMan list:
+>=20
+>> it is special hardware where we need this plugin for. As I said, I =
+was considering to remove the plugin actually. So it is safe to > =
+disable this plugin.
+>=20
+>> By default this plugin is actually disabled. And we do not even build =
+test it for the releases.
+>=20
+> I think if anyone needs it, shout up; otherwise we should go with the =
+default and disable it.
 
-I think it was meant as making it machine specific without changing it
-to MACHINE_ARCH.
+What's it actually doing? Kernel loads wifi firmware, you can use =
+hciattach manually or uim automatically to enable bluetooth on wl1xxx =
+chips, which are the only users of the TI shared transmission stuff. As =
+far as I'm concerned it can be globally disabled :)=
 
-And I would rather build unused (on my MACHINEs) tist, then build it for
-each MACHINE.
 
-Using PACKAGECONFIG and enabling it by DISTRO_FEATURES or based on arch
-is fine.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---McpcKDxJRrEJVmOH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlF6VMYACgkQN1Ujt2V2gBw7MACfbl5Cj9LHVLTTmPQCr7xcEvLf
-S5EAoJHzxheXI/rSKsQhNDOvN2BcR3cR
-=eZn5
------END PGP SIGNATURE-----
-
---McpcKDxJRrEJVmOH--
