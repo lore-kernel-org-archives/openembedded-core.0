@@ -1,34 +1,42 @@
-Received: from mail-ve0-f179.google.com ([209.85.128.179])
+Received: from mail-ea0-f177.google.com ([209.85.215.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UVfMc-0001Cu-1p
+	(envelope-from <koen@dominion.thruhere.net>) id 1UVfVs-0002gY-KH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Apr 2013 11:54:47 +0200
-Received: by mail-ve0-f179.google.com with SMTP id oz10so1699698veb.24
+	Fri, 26 Apr 2013 12:04:22 +0200
+Received: by mail-ea0-f177.google.com with SMTP id q10so670901eaj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2013 02:37:01 -0700 (PDT)
+	Fri, 26 Apr 2013 02:46:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=nd85jawvMWqpUbPFDRkYK63Ex8DU1IEtHvGpRQrkssU=;
-	b=Sh4umY+UV0WrWDxX8Byvfa7FoOn+ZoJUPBPfSsbrXHXfyZcFqSPWKlxRnA3P7seUxl
-	+zxg4vzirNdm/i5NdXtQsKhssuND3uRZALrHSvj8zBGx9X7alojkNddg/1yXW5DTuqLd
-	uBejC8dKFA1yk5aQcn5tgyw+sTLUyhdwzxgW4+ywH/VeoBDygLxf/7JFeuqDguo5wAE4
-	06tuQ/Rs+kwNXFaY2OiopRpX53WeVvTnTvkP7BNOkCl5tslP6OvR7Vn9igiv3oOxH2As
-	cj+K/YNzXpHRDZW8u7gOb2t1sXzZBejaqsXWbf9bZajbFk7Lca6raPNDXG+KDMgjN4XF
-	E60A==
-X-Received: by 10.52.165.99 with SMTP id yx3mr10839629vdb.34.1366969021091;
-	Fri, 26 Apr 2013 02:37:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.100.68 with HTTP; Fri, 26 Apr 2013 02:36:41 -0700 (PDT)
-In-Reply-To: <517A49FE.5020702@communistcode.co.uk>
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=O2db+QgAE1JU9ilPwO+ej8j7a4DJWhfMNktCsfr50lQ=;
+	b=F1jHqJO1fcQCSVlkDSsx+4zgMekEcKXq6K97fzjBOjlKBszAz+3CESYmhmrO4dH9+y
+	xRty+Cq/k3Tq0CSNV3CwgvepkdvckgZGvJTbF4/+LdWY/O6FubYD82D1xGtshZ6xz0Ao
+	IvJJ02MtFzPdTIr+ZpbUMH0ICHJk7YPhvgEfItQz9Tki3GafaDKQv4lIuWp13/6n4HwT
+	U4iIvSwTKH/ZeLSbpdVF2Kg5jLadXny7WK7XskY5zKy+FOmN3dQXAD4ynzuacGKRSkql
+	4pBnYModr6G2UeVJJhmYPwIrMgD9hUezH6NDie5GY0FO1iFmnGxxlzSvpbPvHC3eIr6P
+	Za7A==
+X-Received: by 10.15.22.76 with SMTP id e52mr86387091eeu.7.1366969595952;
+	Fri, 26 Apr 2013 02:46:35 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::28b6:bc4f:a329:c51d?
+	([2001:610:612:0:28b6:bc4f:a329:c51d])
+	by mx.google.com with ESMTPSA id
+	n48sm14988947eeg.12.2013.04.26.02.46.34 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 26 Apr 2013 02:46:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LZEd0ZDONxj5-_h6e13VYtDbQPTC+ipcj-=wzDavNUCHw@mail.gmail.com>
+Date: Fri, 26 Apr 2013 11:46:35 +0200
+Message-Id: <93E5E91C-DB0D-4057-82AE-4F3B97B7367F@dominion.thruhere.net>
 References: <1366963623-13626-1-git-send-email-B40290@freescale.com>
 	<517A49FE.5020702@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Apr 2013 10:36:41 +0100
-Message-ID: <CAJTo0LZEd0ZDONxj5-_h6e13VYtDbQPTC+ipcj-=wzDavNUCHw@mail.gmail.com>
-To: ml@communistcode.co.uk
-X-Gm-Message-State: ALoCoQmsWb/eEsN3upvtyMfTPuIs4c7xbsBuL91S4U3AFgbMlHHRGPn/hEmvg68+f7dv7a6wN8KD
+	<CAJTo0LZEd0ZDONxj5-_h6e13VYtDbQPTC+ipcj-=wzDavNUCHw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQkM7rmOyXtIVc58MiPUmOyvyP1qp3iCkWdXoThQ29TpUehF0oYiNWDjOSGxHkSOpmUlO4A/
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: tist of connman do not support powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,15 +51,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2013 09:54:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Apr 2013 10:04:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 26 April 2013 10:33, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> I think if anyone needs it, shout up; otherwise we should go with the
-> default and disable it.
 
-Agreed - we can PACKAGECONFIG it and the machines that need it can enable it.
+Op 26 apr. 2013, om 11:36 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-Ross
+> On 26 April 2013 10:33, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> I think if anyone needs it, shout up; otherwise we should go with the
+>> default and disable it.
+>=20
+> Agreed - we can PACKAGECONFIG it and the machines that need it can =
+enable it.
+
+Making connman machine specific which means PRSERV will go insane.=
 
 
