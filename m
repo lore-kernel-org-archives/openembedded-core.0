@@ -1,28 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f48.google.com ([209.85.160.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1UW2xO-0004lO-Fj
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 13:06:22 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r3RAmSrZ016512
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2013 03:48:28 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Sat, 27 Apr 2013 03:48:28 -0700
-Message-ID: <517BACF3.2080407@windriver.com>
-Date: Sat, 27 Apr 2013 18:48:19 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1UW32X-0005K9-KI; Sat, 27 Apr 2013 13:11:43 +0200
+Received: by mail-pb0-f48.google.com with SMTP id wy7so373665pbc.7
+	for <multiple recipients>; Sat, 27 Apr 2013 03:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=qzGsu0K6Wfuj8ojXQ7PCKBOcqgAOldceZSUE6YZyUu4=;
+	b=C7aG1t05ufH4q12XibOQDenOJDGmLly+m1HAeJulQ2TPGbjqevsh1q3gK3cqkUOkNZ
+	Ml+nPMol2/esVY/24q01CFsQHYd+MGarG0uiPurEKodzSQ2fkaIohaFBb/V2WUbGFdaZ
+	MAF6sMQbdJlPNpdrQBWbwDswBRNS4Z46B3w9rmYitObaDUd9Ov3leLeibtUiO+qf/9WH
+	+e3H18CE19ckmU8qyQ54f3wAJFAq+hWFJHcb8fg1z1QudRyBlDJ+yX/6x9FVXZAeBMvR
+	uGi/2bz234mx7rwqu65UMWu3WxvARgBWxgVMjr/eOy/pgQ17BMPmW4fmqMjU7J0lys+Q
+	R4MA==
+X-Received: by 10.68.228.134 with SMTP id si6mr63572917pbc.24.1367060030555;
+	Sat, 27 Apr 2013 03:53:50 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	ya4sm15491218pbb.24.2013.04.27.03.53.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 27 Apr 2013 03:53:49 -0700 (PDT)
+Date: Sat, 27 Apr 2013 12:54:00 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20130427105400.GB3199@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1367052630.git.hongxu.jia@windriver.com>
-	<78588d2c46a0eb1d3a15f8c9c77bb13fb754b570.1367052630.git.hongxu.jia@windriver.com>
-In-Reply-To: <78588d2c46a0eb1d3a15f8c9c77bb13fb754b570.1367052630.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 1/2] cracklib : fix default dictionary should be generated for target endianness
+In-Reply-To: <20130415141253.GC10628@jama.dyndns-home.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,374 +44,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 11:06:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 27 Apr 2013 11:11:47 -0000
+X-Groupsio-MsgNum: 38486
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uQr8t48UFsdbeI+V"
+Content-Disposition: inline
 
-On 04/27/2013 06:40 PM, Hongxu Jia wrote:
-> The previous dict files are NOT byte-order independent, in fact they are
-> probably ARCHITECTURE SPECIFIC.
-> Create the dict files in big endian, and convert to host endian while
-> load them. This could fix the endian issue on multiple platform.
->
-> [Bug #4419]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...c-support-dictionary-byte-order-dependent.patch |  322 ++++++++++++++++++++
->   meta/recipes-extended/cracklib/cracklib_2.8.22.bb  |    3 +-
->   2 files changed, 324 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
->
-> diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-> new file mode 100644
-> index 0000000..780512f
-> --- /dev/null
-> +++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-> @@ -0,0 +1,322 @@
-> +From dae29a98c066bc67bb5ba12219d5fd68a8675514 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Fri, 26 Apr 2013 20:44:10 +0800
-> +Subject: [PATCH] packlib.c: support dictionary byte-order dependent
-> +
-> +The previous dict files are NOT byte-order independent, in fact they are
-> +probably ARCHITECTURE SPECIFIC.
-> +Create the dict files in big endian, and convert to host endian while
-> +load them. This could fix the endian issue on multiple platform.
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +Upstream-Status: Pending
-> +---
-> + lib/packlib.c |  208 +++++++++++++++++++++++++++++++++++++++++++++++++++++++--
-> + 1 file changed, 204 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/lib/packlib.c b/lib/packlib.c
-> +index 8f32d14..323ee83 100644
-> +--- a/lib/packlib.c
-> ++++ b/lib/packlib.c
-> +@@ -16,6 +16,9 @@
-> + #ifdef HAVE_STDINT_H
-> + #include <stdint.h>
-> + #endif
-> ++
-> ++#define _BSD_SOURCE             /* See feature_test_macros(7) */
-> ++#include <endian.h>
-> + #include "packer.h"
-> +
-> + static const char vers_id[] = "packlib.c : v2.3p2 Alec Muffett 18 May 1993";
-> +@@ -45,6 +48,182 @@ typedef struct
-> +     char data_get[NUMWORDS][MAXWORDLEN];
-> + } PWDICT64;
-> +
-> ++enum{
-> ++    en_is32,
-> ++    en_is64
-> ++};
-> ++
-> ++static int
-> ++IheaderHostToLillteEndian(char *pHeader, int nBitType)
-/IheaderHostToLillteEndian/IheaderHostToBigEndian/
+--uQr8t48UFsdbeI+V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry about type error, I will resend the patch.
+Updated status, but only change IIRC is fixed php, tbb,
+android-audiosystem and partially fixed llvm2.9 (I'm testing patch to
+fix build on qemuarm again)
 
+qemuarm Summary: 19 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30426_185942.log/
+qemux86 Summary: 20 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30427_002532.log/
+qemux86-64 Summary: 22 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30427_044751.log/
 
-> ++{
-> ++    if (nBitType == en_is64)
-> ++    {
-> ++        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
-> ++
-> ++        pHeader64->pih_magic = htobe64(pHeader64->pih_magic);
-> ++        pHeader64->pih_numwords = htobe64(pHeader64->pih_numwords);
-> ++        pHeader64->pih_blocklen = htobe16(pHeader64->pih_blocklen);
-> ++        pHeader64->pih_pad = htobe16(pHeader64->pih_pad);
-> ++
-> ++#if DEBUG
-> ++        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
-> ++          pHeader64->pih_magic, pHeader64->pih_numwords,
-> ++          pHeader64->pih_blocklen, pHeader64->pih_pad);
-> ++#endif
-> ++    }
-> ++    else if (nBitType == en_is32)
-> ++    {
-> ++        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
-> ++
-> ++        pHeader32->pih_magic = htobe32(pHeader32->pih_magic);
-> ++        pHeader32->pih_numwords = htobe32(pHeader32->pih_numwords);
-> ++        pHeader32->pih_blocklen = htobe16(pHeader32->pih_blocklen);
-> ++        pHeader32->pih_pad = htobe16(pHeader32->pih_pad);
-> ++
-> ++#if DEBUG
-> ++        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
-> ++          pHeader32->pih_magic, pHeader32->pih_numwords,
-> ++          pHeader32->pih_blocklen, pHeader32->pih_pad);
-> ++#endif
-> ++    }
-> ++    else
-> ++    {
-> ++        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
-> ++        return (-1);
-> ++    }
-> ++
-> ++    return 0;
-> ++}
-> ++
-> ++static int
-> ++IheaderBigEndianToHost(char *pHeader, int nBitType)
-> ++{
-> ++    if (nBitType == en_is64)
-> ++    {
-> ++        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
-> ++
-> ++        pHeader64->pih_magic = be64toh(pHeader64->pih_magic);
-> ++        pHeader64->pih_numwords = be64toh(pHeader64->pih_numwords);
-> ++        pHeader64->pih_blocklen = be16toh(pHeader64->pih_blocklen);
-> ++        pHeader64->pih_pad = be16toh(pHeader64->pih_pad);
-> ++
-> ++#if DEBUG
-> ++        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
-> ++          pHeader64->pih_magic, pHeader64->pih_numwords,
-> ++          pHeader64->pih_blocklen, pHeader64->pih_pad);
-> ++#endif
-> ++    }
-> ++    else if (nBitType == en_is32)
-> ++    {
-> ++        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
-> ++
-> ++        pHeader32->pih_magic = be32toh(pHeader32->pih_magic);
-> ++        pHeader32->pih_numwords = be32toh(pHeader32->pih_numwords);
-> ++        pHeader32->pih_blocklen = be16toh(pHeader32->pih_blocklen);
-> ++        pHeader32->pih_pad = be16toh(pHeader32->pih_pad);
-> ++
-> ++#if DEBUG
-> ++        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
-> ++            pHeader32->pih_magic, pHeader32->pih_numwords,
-> ++            pHeader32->pih_blocklen, pHeader32->pih_pad);
-> ++#endif
-> ++    }
-> ++    else
-> ++    {
-> ++        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
-> ++        return (-1);
-> ++    }
-> ++
-> ++    return 0;
-> ++}
-> ++
-> ++static int
-> ++HwmsHostToBigEndian(char *pHwms, int nLen,int nBitType)
-> ++{
-> ++    int i = 0;
-> ++
-> ++    if (nBitType == en_is64)
-> ++    {
-> ++        uint64_t *pHwms64 = (uint64_t*)pHwms;
-> ++
-> ++        for (i = 0; i < nLen / sizeof(uint64_t); i++)
-> ++        {
-> ++            *pHwms64++ = htobe64(*pHwms64);
-> ++        }
-> ++
-> ++    }
-> ++    else if (nBitType == en_is32)
-> ++    {
-> ++        uint32_t *pHwms32 = (uint32_t*)pHwms;
-> ++
-> ++        for (i = 0; i < nLen / sizeof(uint32_t); i++)
-> ++        {
-> ++            *pHwms32++ = htobe32(*pHwms32);
-> ++        }
-> ++
-> ++    }
-> ++    else
-> ++    {
-> ++        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
-> ++        return (-1);
-> ++    }
-> ++
-> ++#if DEBUG
-> ++    for (i = 0; i < nLen; i+=8)
-> ++    {
-> ++        printf("hwms%s: %02X %02X %02X %02X %02X %02X %02X %02X\n",
-> ++            nBitType==en_is64?"64":"32", pHwms[i+0]&0xFF, pHwms[i+1]&0xFF,
-> ++            pHwms[i+2]&0xFF, pHwms[i+3]&0xFF, pHwms[i+4]&0xFF,
-> ++            pHwms[i+5]&0xFF, pHwms[i+6]&0xFF, pHwms[i+7]&0xFF);
-> ++    }
-> ++#endif
-> ++
-> ++    return 0;
-> ++}
-> ++
-> ++static int
-> ++HwmsBigEndianToHost(char *pHwms, int nLen, int nBitType)
-> ++{
-> ++    int i = 0;
-> ++
-> ++    if (nBitType == en_is64)
-> ++    {
-> ++        uint64_t *pHwms64 = (uint64_t*)pHwms;
-> ++
-> ++        for (i = 0; i < nLen / sizeof(uint64_t); i++)
-> ++        {
-> ++            *pHwms64++ = be64toh(*pHwms64);
-> ++        }
-> ++
-> ++    }
-> ++    else if (nBitType == en_is32)
-> ++    {
-> ++        uint32_t *pHwms32 = (uint32_t*)pHwms;
-> ++
-> ++        for (i = 0; i < nLen / sizeof(uint32_t); i++)
-> ++        {
-> ++            *pHwms32++ = be32toh(*pHwms32);
-> ++        }
-> ++
-> ++    }
-> ++    else
-> ++    {
-> ++        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
-> ++        return (-1);
-> ++    }
-> ++
-> ++#if DEBUG
-> ++    for (i = 0; i < nLen; i+=8)
-> ++    {
-> ++        printf("hwms%s: %02X %02X %02X %02X %02X %02X %02X %02X\n",
-> ++            nBitType==en_is64?"64":"32", pHwms[i+0]&0xFF, pHwms[i+1]&0xFF,
-> ++            pHwms[i+2]&0xFF, pHwms[i+3]&0xFF, pHwms[i+4]&0xFF,
-> ++            pHwms[i+5]&0xFF, pHwms[i+6]&0xFF, pHwms[i+7]&0xFF);
-> ++    }
-> ++#endif
-> ++
-> ++    return 0;
-> ++}
-> +
-> + static int
-> + _PWIsBroken64(FILE *ifp)
-> +@@ -57,6 +236,7 @@ _PWIsBroken64(FILE *ifp)
-> +        return 0;
-> +     }
-> +
-> ++    IheaderBigEndianToHost((char *) &pdesc64.header, en_is64);
-> +     return (pdesc64.header.pih_magic == PIH_MAGIC);
-> + }
-> +
-> +@@ -149,7 +329,11 @@ PWOpen(prefix, mode)
-> + 	pdesc.header.pih_blocklen = NUMWORDS;
-> + 	pdesc.header.pih_numwords = 0;
-> +
-> +-	fwrite((char *) &pdesc.header, sizeof(pdesc.header), 1, ifp);
-> ++	struct pi_header tmpheader32;
-> ++
-> ++	memcpy(&tmpheader32,  &pdesc.header, sizeof(pdesc.header));
-> ++	IheaderHostToLillteEndian((char *) &tmpheader32, en_is32);
-/IheaderHostToLillteEndian/IheaderHostToBigEndian/
-> ++	fwrite((char *) &tmpheader32, sizeof(tmpheader32), 1, ifp);
-> +     } else
-> +     {
-> + 	pdesc.flags &= ~PFOR_WRITE;
-> +@@ -173,6 +357,7 @@ PWOpen(prefix, mode)
-> + 	    return ((PWDICT *) 0);
-> + 	}
-> +
-> ++        IheaderBigEndianToHost((char *) &pdesc.header, en_is32);
-> +         if ((pdesc.header.pih_magic == 0) || (pdesc.header.pih_numwords == 0))
-> +         {
-> +             /* uh-oh. either a broken "64-bit" file or a garbage file. */
-> +@@ -195,6 +380,7 @@ PWOpen(prefix, mode)
-> + 		}
-> +                 return ((PWDICT *) 0);
-> +             }
-> ++            IheaderBigEndianToHost((char *) &pdesc64.header, en_is64);
-> +             if (pdesc64.header.pih_magic != PIH_MAGIC)
-> +             {
-> +                 /* nope, not "64-bit" after all */
-> +@@ -290,6 +476,7 @@ PWOpen(prefix, mode)
-> +                 {
-> +                     pdesc.flags &= ~PFOR_USEHWMS;
-> +                 }
-> ++                HwmsBigEndianToHost((char*)pdesc64.hwms, sizeof(pdesc64.hwms), en_is64);
-> +                 for (i = 0; i < sizeof(pdesc.hwms) / sizeof(pdesc.hwms[0]); i++)
-> +                 {
-> +                     pdesc.hwms[i] = pdesc64.hwms[i];
-> +@@ -299,6 +486,7 @@ PWOpen(prefix, mode)
-> + 	    {
-> + 		pdesc.flags &= ~PFOR_USEHWMS;
-> + 	    }
-> ++	    HwmsBigEndianToHost((char*)pdesc.hwms, sizeof(pdesc.hwms), en_is32);
-> + #if DEBUG
-> +             for (i=1; i<=0xff; i++)
-> +             {
-> +@@ -332,7 +520,11 @@ PWClose(pwp)
-> + 	    return (-1);
-> + 	}
-> +
-> +-	if (!fwrite((char *) &pwp->header, sizeof(pwp->header), 1, pwp->ifp))
-> ++	struct pi_header tmpheader32;
-> ++
-> ++	memcpy(&tmpheader32,  &pwp->header, sizeof(pwp->header));
-> ++	IheaderHostToLillteEndian((char *) &tmpheader32, en_is32);
-/IheaderHostToLillteEndian/IheaderHostToBigEndian/
-> ++	if (!fwrite((char *) &tmpheader32, sizeof(tmpheader32), 1, pwp->ifp))
-> + 	{
-> + 	    fprintf(stderr, "index magic fwrite failed\n");
-> + 	    return (-1);
-> +@@ -351,7 +543,12 @@ PWClose(pwp)
-> + 	    	printf("hwm[%02x] = %d\n", i, pwp->hwms[i]);
-> + #endif
-> + 	    }
-> +-	    fwrite(pwp->hwms, 1, sizeof(pwp->hwms), pwp->wfp);
-> ++
-> ++	    PWDICT tmp_pwp;
-> ++
-> ++	    memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
-> ++	    HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
-> ++	    fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
-> + 	}
-> +     }
-> +
-> +@@ -405,7 +602,8 @@ PutPW(pwp, string)
-> +
-> + 	datum = (uint32_t) ftell(pwp->dfp);
-> +
-> +-	fwrite((char *) &datum, sizeof(datum), 1, pwp->ifp);
-> ++	uint32_t tmpdatum = htobe32(datum);
-> ++	fwrite((char *) &tmpdatum, sizeof(tmpdatum), 1, pwp->ifp);
-> +
-> + 	fputs(pwp->data_put[0], pwp->dfp);
-> + 	putc(0, pwp->dfp);
-> +@@ -473,6 +671,7 @@ GetPW(pwp, number)
-> +            perror("(index fread failed)");
-> +            return ((char *) 0);
-> +        }
-> ++       datum64 =  be64toh(datum64);
-> +        datum = datum64;
-> +     } else {
-> +        if (fseek(pwp->ifp, sizeof(struct pi_header) + (thisblock * sizeof(uint32_t)), 0))
-> +@@ -486,6 +685,7 @@ GetPW(pwp, number)
-> +            perror("(index fread failed)");
-> +            return ((char *) 0);
-> +        }
-> ++       datum = be32toh(datum);
-> +     }
-> +
-> + 	int r = 1;
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
-> index 7e398f4..349c74f 100644
-> --- a/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
-> +++ b/meta/recipes-extended/cracklib/cracklib_2.8.22.bb
-> @@ -10,7 +10,8 @@ PR ="r0"
->   
->   EXTRA_OECONF = "--without-python"
->   
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz"
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
-> +           file://0001-packlib.c-support-dictionary-byte-order-dependent.patch"
->   
->   SRC_URI[md5sum] = "463177b5c29c7a598c991e12a4898e06"
->   SRC_URI[sha256sum] = "feaff49bfb513ec10b2618c00d2f7f60776ba93fcc5fa22dd3479dd9cad9f770"
+common from notify mismatch (6):
+  I'll send patch excluding libnotify3 and nautilus3 from world to hide them
+  meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnomecanvas_2.26.0=
+=2Ebb, do_compile
+  meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnome_2.32.1.bb, d=
+o_compile
+  meta-openembedded/meta-gnome/recipes-gnome/gnome-settings-daemon/gnome-se=
+ttings-daemon_2.32.1.bb, do_compile
+  meta-openembedded/meta-gnome/recipes-gnome/epiphany/epiphany_2.30.6.bb, d=
+o_compile
+  meta-openembedded/meta-gnome/recipes-gnome/zenity/zenity_2.32.1.bb, do_co=
+mpile
+  meta-openembedded/meta-gnome/recipes-gnome/gnome-power-manager/gnome-powe=
+r-manager_2.32.0.bb, do_compile
+
+common (8):
+  I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to nonw=
+orking
+  and exclude compat-wireless-all, samsung-rfs-mgr from world + check auror=
+a-daemon (probably debugedit issue)
+
+  meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb, do=
+_compile
+  meta-openembedded/meta-oe/recipes-kernel/compat-wireless/compat-wireless-=
+all_3.6.8.bb, do_compile
+  meta-openembedded/meta-gnome/recipes-gnome/gcalctool/gcalctool_5.32.0.bb,=
+ do_compile
+  meta-openembedded/meta-oe/recipes-multimedia/v4l2apps/media-ctl_git.bb, d=
+o_configure
+  meta-openembedded/meta-oe/recipes-multimedia/vlc/vlc_1.1.11.bb, do_package
+  meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, d=
+o_compile
+  meta-smartphone/meta-aurora/recipes-aurora/aurora/aurora-daemon_git.bb, d=
+o_package
+  meta-smartphone/meta-samsung/recipes-bsp/samsung-rfs-mgr/samsung-rfs-mgr_=
+git.bb, do_configure
+
+qemuarm (5):
+  meta-openembedded/meta-oe/recipes-support/libunwind/libunwind_1.1.bb, do_=
+compile
+  openembedded-core/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb, do_comp=
+ile
+  meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb=
+, do_compile
+  meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb, do_configure
+  openembedded-core/meta/recipes-devtools/qemu/qemu_1.4.0.bb, do_compile
+
+qemux86* common (4):
+  meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+  openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21=
+=2E3.bb, do_compile
+  meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_compile
+  meta-openembedded/meta-initramfs/recipes-kernel/kexec/kexec-tools-klibc_2=
+=2E0.2.bb, do_configure
+
+qemux86 (2):
+  meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2=
+=2E11.14.bb, do_compile
+  meta-browser/recipes-browser/chromium/chromium_24.0.1312.52.bb, do_compile
+
+qemux86-64 (4):
+  meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+  meta-openembedded/meta-oe/recipes-devtools/python/python-numpy_1.7.0.bb, =
+do_compile
+  meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobil=
+edevice_1.1.4.bb, do_configure
+  meta-browser/recipes-browser/chromium/chromium_24.0.1312.52.bb, do_compile
+
+On Mon, Apr 15, 2013 at 04:12:53PM +0200, Martin Jansa wrote:
+> Hi,
+>=20
+> just reminder of pending build issues with distro-less qemuarm world buil=
+s,
+> unfortunately a lot of these recipes are still there since I started to s=
+end
+> "world build status", so I will comment only on new or suspicious entries.
+>=20
+> Complete log as always available at
+> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.2=
+0130415_033339.log/
+>=20
+> qemux86 and qemux86-64 still running (one build takes +- 24hours)
+>=20
+> # old entries:
+> meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnome_2.32.1.bb, d=
+o_compile
+> meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnomecanvas_2.26.0=
+=2Ebb, do_compile
+> meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb, do=
+_compile
+> meta-openembedded/meta-initramfs/recipes-kernel/kexec/kexec-tools-klibc_2=
+=2E0.2.bb, do_configure
+> openembedded-core/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb, do_comp=
+ile
+> meta-openembedded/meta-oe/recipes-kernel/compat-wireless/compat-wireless-=
+all_3.6.8.bb, do_compile
+> meta-openembedded/meta-gnome/recipes-gnome/epiphany/epiphany_2.30.6.bb, d=
+o_compile
+> meta-openembedded/meta-initramfs/recipes-bsp/kexecboot/kexecboot-klibc_gi=
+t.bb, do_configure
+> meta-openembedded/meta-gnome/recipes-gnome/gcalctool/gcalctool_5.32.0.bb,=
+ do_compile
+> meta-openembedded/meta-oe/recipes-multimedia/vlc/vlc_1.1.11.bb, do_compile
+> meta-openembedded/meta-oe/recipes-multimedia/v4l2apps/media-ctl_git.bb, d=
+o_configure
+> openembedded-core/meta/recipes-devtools/qemu/qemu_1.4.0.bb, do_compile
+> meta-openembedded/meta-gnome/recipes-gnome/zenity/zenity_2.32.1.bb, do_co=
+mpile
+> meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, d=
+o_compile
+> meta-openembedded/meta-initramfs/recipes-devtools/mtd/ubi-utils-klibc_1.5=
+=2E0.bb, do_compile
+> meta-openembedded/meta-gnome/recipes-gnome/gnome-power-manager/gnome-powe=
+r-manager_2.32.0.bb, do_compile
+>=20
+> *gnome*: biggest part of this is caused by libnotify3/libnotify conflicts=
+ and list of failing gnome
+> recipes always is different, depending which libnotify version was built/=
+reused from sstate first :/
+>=20
+> *klibc*: also happen quite often missing limits.h
+>=20
+> meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb, do_compile
+>   | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-o=
+e-linux-gnueabi/llvm2.9/2.9-r2.0/llvm-2.9/lib/ExecutionEngine/JIT/Intercept=
+=2Ecpp: In constructor '{anonymous}::StatSymbols::StatSymbols()':
+>   | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-o=
+e-linux-gnueabi/llvm2.9/2.9-r2.0/llvm-2.9/lib/ExecutionEngine/JIT/Intercept=
+=2Ecpp:69:67: error: 'lseek64' was not declared in this scope
+>   from my pending patch, need to hunt this down before merging it or try =
+if 2.8 suffers the same
+>=20
+> meta-openembedded/meta-oe/recipes-kernel/compat-wireless/compat-wireless-=
+all_3.6.8.bb
+>   this is picky about used defconfig, not sure how to "blacklist" it when=
+ something is missing in defconfig
+>=20
+> meta-openembedded/meta-oe/recipes-devtools/php/php_5.3.19.bb
+>   Applying patch phar-makefile.patch
+>   patching file ext/phar/Makefile.frag
+>   Hunk #1 FAILED at 6.
+>   1 out of 1 hunk FAILED -- rejects in file ext/phar/Makefile.frag
+>   probably reexecuting do_patch in same directory for some reason..
+>=20
+> meta-openembedded/meta-oe/recipes-support/tbb/tbb_4.1.bb
+>   reported on pending review
+>=20
+> meta-openembedded/meta-oe/recipes-support/libunwind/libunwind_1.1.bb
+>   reported on review, but then I've accidentally merged it (I had it blac=
+klisted as known broken,=20
+>   but then v2 came and I supposed it's fixed because it wasn't in list of=
+ failing :/)
+> meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_confi=
+gure
+>   node-waf: not found
+>   probably caused by my pending patch to upgrade nodejs to 0.10.4
+>=20
+> meta-openembedded/meta-oe/recipes-sato/claws-mail/claws-mail_3.9.0.bb, do=
+_configure
+>   fix on ML http://patchwork.openembedded.org/patch/48153/
+>=20
+> meta-smartphone/meta-android/recipes-multimedia/android-audiosystem/andro=
+id-audiosystem_bzr.bb, do_package
+>   ERROR: debugedit failed with exit code 1 (cmd was '/home/jenkins/oe/shr=
+-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/de=
+bugedit' -b '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/ar=
+mv5te-oe-linux-gnueabi' -d '/usr/src/debug' -i -l '/home/jenkins/oe/shr-cor=
+e-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/android-audios=
+ystem/1.8+bzr43-r0/debugsources.list' '/home/jenkins/oe/shr-core-branches/s=
+hr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/android-audiosystem/1.8+bz=
+r43-r0/package/usr/lib/alsa-lib/libasound_module_pcm_android.so')
+>=20
+> meta-smartphone/meta-aurora/recipes-aurora/aurora/aurora-daemon_git.bb, d=
+o_package
+>   ERROR: debugedit failed with exit code 1 (cmd was '/home/jenkins/oe/shr=
+-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/de=
+bugedit' -b '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/ar=
+mv5te-oe-linux-gnueabi' -d '/usr/src/debug' -i -l '/home/jenkins/oe/shr-cor=
+e-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/aurora-daemon/=
+0.1+gitrAUTOINC+b65354ad6c0e201eea8559743a679ba71ddef0c4-r0.17/debugsources=
+=2Elist' '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5=
+te-oe-linux-gnueabi/aurora-daemon/0.1+gitrAUTOINC+b65354ad6c0e201eea8559743=
+a679ba71ddef0c4-r0.17/package/usr/lib/qt4/imports/Aurora/Components/libauro=
+ra-components.so')
+>=20
+> meta-smartphone/meta-samsung/recipes-bsp/samsung-rfs-mgr/samsung-rfs-mgr_=
+git.bb, do_configure
+>   depends on samsung-ipc-1.0 >=3D 0.2', but we have that with negative D_P
+>=20
+> meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb
+>   pending review for Koen's patches, still need some improvements
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--uQr8t48UFsdbeI+V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlF7rkgACgkQN1Ujt2V2gBwx2QCfZAkvTgK6qm9+JJBc9YpGjvLl
+pgEAoJNfJ2nywSfCzqsJAX8PZ+UNozit
+=32A4
+-----END PGP SIGNATURE-----
+
+--uQr8t48UFsdbeI+V--
