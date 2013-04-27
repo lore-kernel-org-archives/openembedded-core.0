@@ -1,39 +1,42 @@
-Received: from mail-pd0-f178.google.com ([209.85.192.178])
+Received: from mail-ee0-f45.google.com ([74.125.83.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UW3h4-0000xb-Rz; Sat, 27 Apr 2013 13:53:40 +0200
-Received: by mail-pd0-f178.google.com with SMTP id w11so865362pde.23
-	for <multiple recipients>; Sat, 27 Apr 2013 04:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=tqISHc+HKIvwc8PtC3WAJrARBNbkO9zzIT1MFdzgtA4=;
-	b=HFfJDwDDnvMraEN5mjsGWnmmfaYFk3dBvtqbD0IYVLLgEVGXj84WWCbbYzHyxIFoVm
-	oGvSDemuu9mhnkeLAWDKbmHVihFbFh1nh8qq9vMejzVw/FtSFZyzIEhLMK9nFBjzKOS6
-	XnxOJW4cI8vi0vukIlIYMA5acMSoZGixU7Q7YfeUWMiLkRhLrtxNgIVK7ehCFH5SYwFG
-	UMlMyKBEJEzYMhG32yPU1KV5P62DDck/EjlwldeyCbkrge25F2a/kl3ozB6MRXv+xyvo
-	/w27zVu7iDlMBPL8mmNA4dv8/RYqBwTGtfoFkAnnmJ5gNEZlVO45b77xL3JbULjXqTg1
-	eneQ==
-X-Received: by 10.66.145.166 with SMTP id sv6mr39294598pab.1.1367062543722;
-	Sat, 27 Apr 2013 04:35:43 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	hp1sm16937668pac.3.2013.04.27.04.35.40 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 27 Apr 2013 04:35:42 -0700 (PDT)
-Date: Sat, 27 Apr 2013 13:35:54 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20130427113554.GC3199@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <1505854.4Uj52mcVBD@helios>
-MIME-Version: 1.0
-In-Reply-To: <1505854.4Uj52mcVBD@helios>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+	(envelope-from <koen@dominion.thruhere.net>) id 1UW4Mk-0004xx-Pq
+	for openembedded-core@lists.openembedded.org;
+	Sat, 27 Apr 2013 14:36:43 +0200
+Received: by mail-ee0-f45.google.com with SMTP id l10so2091666eei.32
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 27 Apr 2013 05:18:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=K2DVZ1VwpDlrkENJHq8Z9s0Jt9LtOGA0DoVn9Hus6eE=;
+	b=FHWtLL8JUS5O5oTcynytCkDVfjkOzQ1bdfXRCYA5b7W1muop7ZwgntiMT9AzP+DWEb
+	QKnBFjbtFeDPDIU8vczBTOM98wy0Oo2TfAE4UmP/rE1/UMtzM92HWHlOcHDgE14gzn0Q
+	V07mDm0A2E/y/cX93ckan1g8zMp2Q81wOjZIjlXUXr4CM/acnFwydL8k29OqPL8gLQ8H
+	u7S7FLnjz3KHQrb+MY76e7kuHJduLj+AmfqXIdZmZcp1s5HNlF2nynLxqPAiIRDIuG+l
+	XhNSy3BLgbcGLe1sQQhk2JiQ4QUWC0YRRsMrKOGzpCqTye2Uiu4kFyDGmNzFBgi7G3kg
+	R2Cg==
+X-Received: by 10.15.26.6 with SMTP id m6mr64696670eeu.4.1367065128687;
+	Sat, 27 Apr 2013 05:18:48 -0700 (PDT)
+Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id n7sm21571317eeo.0.2013.04.27.05.18.46
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 27 Apr 2013 05:18:47 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <517BB1B6.1000307@linaro.org>
+Date: Sat, 27 Apr 2013 14:18:45 +0200
+Message-Id: <D91948D7-E76F-45D9-B3F8-B2297AA8EF12@dominion.thruhere.net>
+References: <5E6BBD57-21F8-4282-97F0-567ACFB008CD@dominion.thruhere.net>
+	<517BB1B6.1000307@linaro.org>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQlbNGSmZDrMdhin/k0RpXcXRx2XWrPwPiTkulRsa4EFAXyoODG+auUY6kqaHTrnz63fuzZI
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Annoyances with dylan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,55 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 11:54:00 -0000
-X-Groupsio-MsgNum: 38492
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
-Content-Disposition: inline
-
---mvpLiMfbWzRoNl4x
+X-List-Received-Date: Sat, 27 Apr 2013 12:36:46 -0000
+X-List-Received-Date: Sat, 27 Apr 2013 12:36:46 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 27, 2013 at 12:23:19PM +0100, Paul Eggleton wrote:
-> On Saturday 27 April 2013 12:54:00 Martin Jansa wrote:
-> > common (8):
-> >   I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to
-> > nonworking=20
+
+Op 27 apr. 2013, om 13:08 heeft Marcin Juszkiewicz =
+<marcin.juszkiewicz@linaro.org> het volgende geschreven:
+
+> W dniu 26.04.2013 16:47, Koen Kooi pisze:
 >=20
-> If we have this number of recipes failing, I think we need to do more tha=
-n=20
-> just move them to nonworking. Could we perhaps try to have an organised e=
-ffort=20
-> to fix up these broken recipes? I'll be happy to help out.
+>> I have 2 big annoyances with dylan:
+>=20
+>> To trigger 2) I updated meta-linaro
+>=20
+> Do you want 'dylan' branch of meta-linaro?
 
-I was hoping that people who care about them will step up and fix them
-to build at least in default configuration - that's why I started to
-send "state of bitbake world" emails.=20
+That would make life easier, yes :)
 
-Stuff being broken for long time should at least be marked as known to
-be nonworking (that's why the git mv), so that new comers won't be
-wondering why it is failing for them.
 
-You can see that I've fixed a lot of recipes built by world since
-starting this jenkins and a lot more QA issues from world - all of=20
-them I never used, stuff which I was normally building for  SHR feeds
-was fixed a lot sooner...
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---mvpLiMfbWzRoNl4x
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlF7uBoACgkQN1Ujt2V2gBzHZgCeIkOK0+pI2raj7xCkbxxn9OkB
-1XwAoIzTmBiydcQW71JXqbhnKru42KNZ
-=y4B7
------END PGP SIGNATURE-----
-
---mvpLiMfbWzRoNl4x--
