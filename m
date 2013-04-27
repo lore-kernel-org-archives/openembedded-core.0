@@ -1,29 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UVug0-0000el-H7
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UW0rY-0007d9-IP
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 04:15:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3R1vxbe024578
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Apr 2013 18:57:59 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 26 Apr 2013 18:57:59 -0700
-Message-ID: <517B30A4.5050405@windriver.com>
-Date: Sat, 27 Apr 2013 09:57:56 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Sat, 27 Apr 2013 10:52:45 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2013 01:34:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,562,1363158000"; d="scan'208";a="233469397"
+Received: from unknown (HELO helios.localnet) ([10.255.12.79])
+	by AZSMGA002.ch.intel.com with ESMTP; 27 Apr 2013 01:34:20 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Sat, 27 Apr 2013 09:34:19 +0100
+Message-ID: <6907890.oTRpLvAECS@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <1366975838.14512.99.camel@phil-desktop.brightsign>
+References: <1366975838.14512.99.camel@phil-desktop.brightsign>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1366963971.git.liezhi.yang@windriver.com>
-	<4aa663aaedff33870a96a676b9394ff79fe49eac.1366963971.git.liezhi.yang@windriver.com>
-	<CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] glib-2.0-native: do_compile failed on opensuse 12.2 64bit
+Subject: Re: [PATCH] image.bbclass: Don't mark do_rootfs and do_build as nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 02:15:58 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 27 Apr 2013 08:52:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Friday 26 April 2013 12:30:38 Phil Blundell wrote:
+> There doesn't appear to be any compelling reason for these tasks to be
+> nostamp and having them re-run on every build can be irritating (for
+> example, when the image is an initramfs which your kernel image depends
+> on).
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/classes/image.bbclass |    2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index ffb372a..667d03d 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s:
+> "locale-base-%s" % s, d.getVar('IM
+> 
+>  PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
+> 
+> -do_rootfs[nostamp] = "1"
+>  do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
+>  do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+>  do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+> -do_build[nostamp] = "1"
+> 
+>  # Must call real_do_rootfs() from inside here, rather than as a separate
+>  # task, so that we have a single fakeroot context for the whole process.
 
+I have to say I'm not in favour of this. AFAIK these tasks have always been 
+nostamp, and I'm not sure making do_build is going to help for the case you 
+cite because the dependency on INITRD_IMAGE is on do_rootfs.
 
-On 04/26/2013 08:08 PM, Burton, Ross wrote:
-> Hi,
->
-> On 26 April 2013 12:41, Robert Yang <liezhi.yang@windriver.com> wrote:
->> The error message:
->>    File "/path/to/glib-2.34.3/gio/gdbus-2.0/codegen/parser.py", line 25, in <module>
->>      import xml.parsers.expat
->>
->> ImportError: No module named xml.parsers.expat
->> make[2]: *** [gdbus-daemon-generated.h] Error 1
->>
->> This is because opensuse 12.2 doesn't install the expat.py (one of
->> python's lib) by default, but our native python provides it, use the
->> native python would fix the problem.
->
-> I don't like this.
->
-> xml.parsers.expat is a standard Python library that's been integrated since 2.0:
->
-> http://docs.python.org/2/library/pyexpat.html#module-xml.parsers.expat
->
-> If we can't assume that a distribution has shipped a working Python
-> we've got bigger problems.
->
-> We could sanity check this in some way, maybe in the recipe's
-> configure step so we can give a nicer message, but I don't think we
-> should depend on pythonnative when we're talking about a standard
-> feature of Python.
->
+If you're concerned about your initramfs image rebuilding when building the 
+main image, what happens if you specify do_rootfs[nostamp] = "0" ?
 
-Hi Ross,
+Cheers,
+Paul
 
-Thanks for the review, please see more comments:
-The glib-2.0-native had already depend on python-native before this patch,
-the depends chain is:
+-- 
 
-glib-2.0-native -> python-argparse-native -> python-native
-
-I inherit the glib-2.0-native is for using the ${PYTHON} variable, it doesn't
-change its depends, since we had built python-native already, and it works,
-it seems more reasonable to use it rather than show error message and let the
-user install other pkgs on the host, I think that this is what our native
-recipe for.
-
-// Robert
-
-
-> Ross
->
->
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
