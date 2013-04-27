@@ -1,39 +1,36 @@
-Received: from mail-pa0-f53.google.com ([209.85.220.53])
+Received: from mail-we0-f179.google.com ([74.125.82.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1UW93E-0006O5-IN; Sat, 27 Apr 2013 19:36:52 +0200
-Received: by mail-pa0-f53.google.com with SMTP id kx1so92131pab.26
-	for <multiple recipients>; Sat, 27 Apr 2013 10:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=bvAvk+CnC3sLuLotQO6ShBXAliPe9bWpeYxjaBDQhBw=;
-	b=bbnnJnjeOwXOhGUl2AJCYP4lYBHUKpoP7/shNvp1cY08oQucI+GRZfmyLHQnJT1Ud+
-	mE3/j09FdJWaOhnU7OX46FzERQ8yxeYiu3otB77iMe5X1tvp8TTrenx93W9D7q3xMvRY
-	5Y2zSQa+E1MMGGrB8d6azv+qkp7+WjVeW04nxvXZDG2cgreTXKAmyASp0qavlOEeoPml
-	yLrheXT4ZgkgWZRuf2ak7Q5szd6g6HIFZUhaNANJXgCdW8Mp8Kg5D473no5TASerQ/hr
-	cwUWiAGEYB8kZmV7ls4rBf3sTkAgx9iTSrgCL2akPJaMpiWlw9Q1bmN5yllzAiz4tG6P
-	7IyA==
-X-Received: by 10.66.191.135 with SMTP id gy7mr41869803pac.45.1367083137234;
-	Sat, 27 Apr 2013 10:18:57 -0700 (PDT)
-Received: from sa-nc-common-173.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id b7sm16589043pba.39.2013.04.27.10.18.55
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 27 Apr 2013 10:18:55 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1505854.4Uj52mcVBD@helios>
-Date: Sat, 27 Apr 2013 10:18:53 -0700
-Message-Id: <924E0E65-7A58-4F98-84F0-0A04BC9F2C23@gmail.com>
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1UWA3e-0003f9-QD; Sat, 27 Apr 2013 20:41:15 +0200
+Received: by mail-we0-f179.google.com with SMTP id u7so694073wey.38
+	for <multiple recipients>; Sat, 27 Apr 2013 11:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=epEqIx/QMgVdXlM9B7GlqtvHAWetrIUyKUwgB1odYR0=;
+	b=0SQpm0Leu9xA/G4GnBE7Ps3CuZ2Eo2kennjs0yc7OKOVIYHhP+WT4GgPQg0PQNhaLs
+	qYilyMWVzjArQueuUuzeKhu3MPRZKZXpAJa2zBAfwvwNv6HsVPXqr2lHEILlDKaaM8oG
+	oFiWSc0hq81eW5CJcyBee6JbLWmZfany7npA9eZFK9bIzUuVKLHHR5cgiexjJ3rJUj4o
+	3o7dsetTG06taZKTbvgEpqyvLh+jogT3xBZnxD980NjoGGVkZQbyu0iYFJ1sFKh0/z46
+	E3icIgH3m9Y5BZT7xuy2SMzazwyE3zv1ecZaDxh72sXT2+tmiCGxieFLOxF/NMzevowv
+	Fa0w==
+MIME-Version: 1.0
+X-Received: by 10.194.122.7 with SMTP id lo7mr66430424wjb.48.1367087006999;
+	Sat, 27 Apr 2013 11:23:26 -0700 (PDT)
+Received: by 10.216.211.131 with HTTP; Sat, 27 Apr 2013 11:23:26 -0700 (PDT)
+In-Reply-To: <924E0E65-7A58-4F98-84F0-0A04BC9F2C23@gmail.com>
 References: <20121213174202.GE3356@jama.jama.net>
 	<20130415141253.GC10628@jama.dyndns-home.com>
 	<20130427105400.GB3199@jama> <1505854.4Uj52mcVBD@helios>
-To: openembedded-devel@lists.openembedded.org
-X-Mailer: Apple Mail (2.1503)
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
+	<924E0E65-7A58-4F98-84F0-0A04BC9F2C23@gmail.com>
+Date: Sat, 27 Apr 2013 20:23:26 +0200
+Message-ID: <CALbNGRTtwRSzpGtQuuKhSzST3dxALZObNPtVEXan-+-O5YV8dw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	Martin Jansa <martin.jansa@gmail.com>
 Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,41 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 17:37:11 -0000
-X-List-Received-Date: Sat, 27 Apr 2013 17:37:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 27 Apr 2013 18:41:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Sat, Apr 27, 2013 at 7:18 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Apr 27, 2013, at 4:23 AM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>
+>> On Saturday 27 April 2013 12:54:00 Martin Jansa wrote:
+>>> common (8):
+>>>  I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to
+>>> nonworking
+>>
+>> If we have this number of recipes failing, I think we need to do more than
+>> just move them to nonworking. Could we perhaps try to have an organised effort
+>> to fix up these broken recipes? I'll be happy to help out.
+>>
+>
+> something like recipe build fix weekend blitz
+>
+Will look into gnome recipes.
 
-On Apr 27, 2013, at 4:23 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
-
-> On Saturday 27 April 2013 12:54:00 Martin Jansa wrote:
->> common (8):
->>  I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to
->> nonworking=20
->=20
-> If we have this number of recipes failing, I think we need to do more =
-than=20
-> just move them to nonworking. Could we perhaps try to have an =
-organised effort=20
-> to fix up these broken recipes? I'll be happy to help out.
->=20
-
-something like recipe build fix weekend blitz
-
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
->=20
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
-
+Andreas
 
 
