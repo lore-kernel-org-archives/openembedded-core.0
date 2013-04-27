@@ -1,25 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UW0rY-0007d9-IP
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UW10X-0000Rh-6K
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 10:52:45 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2013 01:34:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,562,1363158000"; d="scan'208";a="233469397"
-Received: from unknown (HELO helios.localnet) ([10.255.12.79])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Apr 2013 01:34:20 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Sat, 27 Apr 2013 09:34:19 +0100
-Message-ID: <6907890.oTRpLvAECS@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <1366975838.14512.99.camel@phil-desktop.brightsign>
-References: <1366975838.14512.99.camel@phil-desktop.brightsign>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: Don't mark do_rootfs and do_build as nostamp
+	Sat, 27 Apr 2013 11:01:28 +0200
+Received: from i7-990x.r-finger.com
+	(host86-137-87-250.range86-137.btcentralplus.com [86.137.87.250])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 9B4859528;
+	Sat, 27 Apr 2013 09:43:40 +0100 (BST)
+From: tf+lists.yocto@r-finger.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 27 Apr 2013 09:43:38 +0100
+Message-Id: <1367052218-8320-1-git-send-email-tf+lists.yocto@r-finger.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Tomas Frydrych <tomas@sleepfive.com>
+Subject: [PATCH] sudo: disable SSP for auxiliary build tools mksiglist and mksigname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,52 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 08:52:51 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 27 Apr 2013 09:01:29 -0000
 
-On Friday 26 April 2013 12:30:38 Phil Blundell wrote:
-> There doesn't appear to be any compelling reason for these tasks to be
-> nostamp and having them re-run on every build can be irritating (for
-> example, when the image is an initramfs which your kernel image depends
-> on).
-> 
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->  meta/classes/image.bbclass |    2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index ffb372a..667d03d 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s:
-> "locale-base-%s" % s, d.getVar('IM
-> 
->  PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
-> 
-> -do_rootfs[nostamp] = "1"
->  do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
->  do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
->  do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
-> -do_build[nostamp] = "1"
-> 
->  # Must call real_do_rootfs() from inside here, rather than as a separate
->  # task, so that we have a single fakeroot context for the whole process.
+From: Tomas Frydrych <tomas@sleepfive.com>
 
-I have to say I'm not in favour of this. AFAIK these tasks have always been 
-nostamp, and I'm not sure making do_build is going to help for the case you 
-cite because the dependency on INITRD_IMAGE is on do_rootfs.
+The do_compile_prepend() fragment ensures that the non-installable build
+tools mksiglist and mksigname are built using the BUILD_CC, but if the the
+BUILD_CC does not support SSP and the cross compiler does, the build fails
+due to the SSP flags set in the Makefile. Ensuring that SSP is not enabled
+when building these tools prevents this from happening.
 
-If you're concerned about your initramfs image rebuilding when building the 
-main image, what happens if you specify do_rootfs[nostamp] = "0" ?
+Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+---
+ meta/recipes-extended/sudo/sudo.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index e778485..35da367 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -23,7 +23,7 @@ do_configure_prepend () {
+ 
+ # mksigname/mksiglist are used on build host to generate source files
+ do_compile_prepend () {
+-	oe_runmake CC=$BUILD_CC CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C compat mksigname mksiglist
++	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC=$BUILD_CC CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C compat mksigname mksiglist
+ }
+ 
+ # Explicitly create ${localstatedir}/lib before do_install to ensure
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
