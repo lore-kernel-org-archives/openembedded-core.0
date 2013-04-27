@@ -1,33 +1,37 @@
-Received: from mail-da0-f43.google.com ([209.85.210.43])
+Received: from mail-oa0-f44.google.com ([209.85.219.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UW77v-0004Aw-7S
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 17:33:28 +0200
-Received: by mail-da0-f43.google.com with SMTP id u36so2361008dak.16
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2013 08:15:40 -0700 (PDT)
+	(envelope-from <paul.betafive@gmail.com>)
+	id 1UW89h-0001Hg-Hu; Sat, 27 Apr 2013 18:39:32 +0200
+Received: by mail-oa0-f44.google.com with SMTP id h1so4914893oag.17
+	for <multiple recipients>; Sat, 27 Apr 2013 09:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=YE86N9S9sniyNn8v4p1+5SCCuf5TJzTTRyWCUcoKgWs=;
-	b=WtbTaug5ZvvPK//6oAIHMhLRYa1mS4igBa2e6umdwyu5B6Zu3Wj/rxtL+LMIvRdiU5
-	EJ2uGuKxMUkqi+Zf6D8DTtHNaqNLe3qsowmX0jxkn+5Yv/84rY/BIWvKbzTcuyk6ax+u
-	MODeXUEoKQf1Cx+1tnjT5ysPpmryeINadhx777E0CmHU/o5hXotBxD1UlEWPd/kaJpk1
-	1krrOFM1OXPGRu8jlVgh5C5ivPbgUxfY9v00lysUFnkN3KodtiQE/58Cp3uQxYXhNHM2
-	MP0Ab848VTiMqLVKznWZT1kga6Fz99fWH+pswKqwm9UF8iJmQL5lOy6x7K5681va0uPP
-	5Zew==
-X-Received: by 10.67.8.98 with SMTP id dj2mr35923311pad.76.1367075740175;
-	Sat, 27 Apr 2013 08:15:40 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	aa8sm17577419pad.14.2013.04.27.08.15.37 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 27 Apr 2013 08:15:39 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Apr 2013 17:15:49 +0200
-Message-Id: <1367075749-6702-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH] buildhistory: change default BUILDHISTORY_DIR to TOPDIR
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=Q+hGlENPheo1hV+qLbAcTIojlMU2GD0xceNZ9ih2Mas=;
+	b=krOnCaYcFjxjunC4qdC/uwWe7uoUEkM88rzBPFVEnAH7eqe0os7A20lTB0UyrtjgGz
+	j+IMp8t5buOTvMdfSZm7k7Q5m+nIQDz+xuKAtsC4UrIgnoqII0NuSaZO3/i4qWd4ugxD
+	lW7NuqaL2qmQjNX7tONQTinvemhC0YUgbiA6QrVeupqdzAFous1La18wMjCpPYZjTphD
+	sNcFgxJtTY9tKY8Ay4Uus9e+YLnLC4A1xpyLtu9H96xp3NfiTDa1WiwhguNuPPD6/QIz
+	yocYGXtNwjBCmR1ofdZcOVgICTe1c7A0C280Oa7AoRWIKoVX0cHUcwltRwQZJl2EAlnD
+	ltdw==
+MIME-Version: 1.0
+X-Received: by 10.182.166.10 with SMTP id zc10mr20283151obb.80.1367079694245; 
+	Sat, 27 Apr 2013 09:21:34 -0700 (PDT)
+Sender: paul.betafive@gmail.com
+Received: by 10.76.2.72 with HTTP; Sat, 27 Apr 2013 09:21:34 -0700 (PDT)
+In-Reply-To: <20130427113554.GC3199@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <1505854.4Uj52mcVBD@helios>
+	<20130427113554.GC3199@jama>
+Date: Sat, 27 Apr 2013 17:21:34 +0100
+X-Google-Sender-Auth: 3XZZMth7nrKR6SSitHWINTaiJ5k
+Message-ID: <CANyK_8dLQgOUeLRcD8neNGR_4Md+NjAJTt9_qkReFPLhb+hWuw@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-devel@lists.openembedded.org
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 15:33:40 -0000
+X-List-Received-Date: Sat, 27 Apr 2013 16:39:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* like PERSISTENT_DIR I find BUILDHISTORY_DIR more persistent
-  then tmp-eglibc directory
-* WARN: people with existing checkouts in TMPDIR/buildhistory
-  need to move it to new location first (in order to save history)
+On 27 April 2013 12:35, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Sat, Apr 27, 2013 at 12:23:19PM +0100, Paul Eggleton wrote:
+>> On Saturday 27 April 2013 12:54:00 Martin Jansa wrote:
+>> > common (8):
+>> >   I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to
+>> > nonworking
+>>
+>> If we have this number of recipes failing, I think we need to do more than
+>> just move them to nonworking. Could we perhaps try to have an organised effort
+>> to fix up these broken recipes? I'll be happy to help out.
+>
+> I was hoping that people who care about them will step up and fix them
+> to build at least in default configuration - that's why I started to
+> send "state of bitbake world" emails.
+>
+> Stuff being broken for long time should at least be marked as known to
+> be nonworking (that's why the git mv), so that new comers won't be
+> wondering why it is failing for them.
+>
+> You can see that I've fixed a lot of recipes built by world since
+> starting this jenkins and a lot more QA issues from world - all of
+> them I never used, stuff which I was normally building for  SHR feeds
+> was fixed a lot sooner...
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
+>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/buildhistory.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 1ac1a8b..8efd41c 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -8,7 +8,7 @@
- #
- 
- BUILDHISTORY_FEATURES ?= "image package sdk"
--BUILDHISTORY_DIR ?= "${TMPDIR}/buildhistory"
-+BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
- BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
- BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
- BUILDHISTORY_DIR_SDK = "${BUILDHISTORY_DIR}/sdk/${SDK_NAME}"
+
 -- 
-1.8.2.1
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
