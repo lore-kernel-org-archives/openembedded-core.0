@@ -1,35 +1,27 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UW3HG-0006l5-1x
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 13:26:54 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 54862D231C; Sat, 27 Apr 2013 13:08:31 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 69054D2284;
-	Sat, 27 Apr 2013 13:08:05 +0200 (CEST)
-Message-ID: <517BB1B6.1000307@linaro.org>
-Date: Sat, 27 Apr 2013 13:08:38 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1UW3V5-000898-UP; Sat, 27 Apr 2013 13:41:13 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 27 Apr 2013 04:23:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,562,1363158000"; d="scan'208";a="325056953"
+Received: from unknown (HELO helios.localnet) ([10.255.12.79])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2013 04:23:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Sat, 27 Apr 2013 12:23:19 +0100
+Message-ID: <1505854.4Uj52mcVBD@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.5.0-27-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <20130427105400.GB3199@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, 
-	kooi Koen <koen@dominion.thruhere.net>
-References: <5E6BBD57-21F8-4282-97F0-567ACFB008CD@dominion.thruhere.net>
-In-Reply-To: <5E6BBD57-21F8-4282-97F0-567ACFB008CD@dominion.thruhere.net>
-X-Enigmail-Version: 1.4.6
-Subject: Re: Annoyances with dylan
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,16 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 11:27:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 27 Apr 2013 11:41:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-W dniu 26.04.2013 16:47, Koen Kooi pisze:
+On Saturday 27 April 2013 12:54:00 Martin Jansa wrote:
+> common (8):
+>   I'll send patches moving qcanobserver, gcalctool, media-ctl, xbmc to
+> nonworking 
 
-> I have 2 big annoyances with dylan:
+If we have this number of recipes failing, I think we need to do more than 
+just move them to nonworking. Could we perhaps try to have an organised effort 
+to fix up these broken recipes? I'll be happy to help out.
 
-> To trigger 2) I updated meta-linaro
+Cheers,
+Paul
 
-Do you want 'dylan' branch of meta-linaro?
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
