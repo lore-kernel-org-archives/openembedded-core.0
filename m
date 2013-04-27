@@ -1,23 +1,31 @@
-Received: from r-finger.com ([178.79.160.5])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UW18s-000177-1d
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Apr 2013 11:11:22 +0200
-Received: from i7-990x.r-finger.com
-	(host86-137-87-250.range86-137.btcentralplus.com [86.137.87.250])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 182A69528;
-	Sat, 27 Apr 2013 09:52:18 +0100 (BST)
-From: tf+lists.yocto@r-finger.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Apr 2013 09:52:17 +0100
-Message-Id: <1367052737-8519-1-git-send-email-tf+lists.yocto@r-finger.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1366991439-14728-1-git-send-email-tf+lists.yocto@r-finger.com>
-References: <1366991439-14728-1-git-send-email-tf+lists.yocto@r-finger.com>
-Cc: Tomas Frydrych <tomas@sleepfive.com>
-Subject: [PATCH] ia32-base.inc: remove inapropriate grub dependency
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UW1PK-0002XZ-13 for openembedded-core@lists.openembedded.org;
+	Sat, 27 Apr 2013 11:27:05 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3R9ASjm005879; Sat, 27 Apr 2013 10:10:28 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qhhOZgQnsn5b; Sat, 27 Apr 2013 10:10:27 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3R9ALDg005869
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 27 Apr 2013 10:10:23 +0100
+Message-ID: <1367053734.29677.91.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Sat, 27 Apr 2013 10:08:54 +0100
+In-Reply-To: <6907890.oTRpLvAECS@helios>
+References: <1366975838.14512.99.camel@phil-desktop.brightsign>
+	<6907890.oTRpLvAECS@helios>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image.bbclass: Don't mark do_rootfs and do_build as nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,32 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 09:11:29 -0000
+X-List-Received-Date: Sat, 27 Apr 2013 09:27:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Tomas Frydrych <tomas@sleepfive.com>
+On Sat, 2013-04-27 at 09:34 +0100, Paul Eggleton wrote:
+> On Friday 26 April 2013 12:30:38 Phil Blundell wrote:
+> > There doesn't appear to be any compelling reason for these tasks to be
+> > nostamp and having them re-run on every build can be irritating (for
+> > example, when the image is an initramfs which your kernel image depends
+> > on).
+> > 
+> > Signed-off-by: Phil Blundell <philb@gnu.org>
+> > ---
+> >  meta/classes/image.bbclass |    2 --
+> >  1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index ffb372a..667d03d 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s:
+> > "locale-base-%s" % s, d.getVar('IM
+> > 
+> >  PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
+> > 
+> > -do_rootfs[nostamp] = "1"
+> >  do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
+> >  do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+> >  do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+> > -do_build[nostamp] = "1"
+> > 
+> >  # Must call real_do_rootfs() from inside here, rather than as a separate
+> >  # task, so that we have a single fakeroot context for the whole process.
+> 
+> I have to say I'm not in favour of this. AFAIK these tasks have always been 
+> nostamp, and I'm not sure making do_build is going to help for the case you 
+> cite because the dependency on INITRD_IMAGE is on do_rootfs.
+> 
+> If you're concerned about your initramfs image rebuilding when building the 
+> main image, what happens if you specify do_rootfs[nostamp] = "0" ?
 
-There is no good reason for ia32 machines to have hard dependency on grub,
-as there are other bootloaders available for ia32 platforms.
+I think this deserves some further thought. It is a pretty major change
+however it is something I've wondered about for a while independently of
+Phil, I've just never proposed a patch.
 
-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
----
- meta/conf/machine/include/ia32-base.inc |    1 -
- 1 file changed, 1 deletion(-)
+It might help to think about this in an alternative way. Before we has
+the sstate checksums, it was near impossible to know when the inputs to
+an image had changed and when they had not. Now with the sstate
+checksums, we can know when any given input has changed and if it has
+changed, the sstate checksum changes and the task re-runs.
 
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-index 921c740..cb542a5 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -9,7 +9,6 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
-                      acpi serial usbgadget alsa"
- 
- MACHINE_EXTRA_RRECOMMENDS += "kernel-modules eee-acpi-scripts"
--MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "grub"
- 
- IMAGE_FSTYPES += "ext3 cpio.gz live"
- 
--- 
-1.7.10.4
+You can therefore make the case that these "nostamp" tasks are a legacy
+of the former world and that now, there is no compelling reason to have
+them as nostamp. If you particularly want to force them to run, we do
+have the -f option and its tainting works here just as well as it does
+anywhere else.
+
+If the rootfs nostamp is removed, there is no reason to have build as a
+nostamp either, they were there as a pair.
+
+Further thoughts?
+
+Cheers,
+
+Richard
 
 
 
