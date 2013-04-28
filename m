@@ -1,36 +1,28 @@
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
+Received: from mx3.leapfrog.com ([63.114.26.253])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UWEoN-0005IA-Fi
+	(envelope-from <dlazzari@leapfrog.com>) id 1UWGTb-0006hV-Ox
 	for openembedded-core@lists.openembedded.org;
-	Sun, 28 Apr 2013 01:45:48 +0200
-Received: by mail-oa0-f47.google.com with SMTP id n9so4982671oag.6
+	Sun, 28 Apr 2013 03:32:27 +0200
+Received: from NAEMCASHT02.na.leapfrog.com (unknown [10.12.2.36])
+	by mx3.leapfrog.com (Postfix) with ESMTP id 5530E602B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2013 16:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=5ZQXHrFjjtvGTZSpEcMkgPNqlUFD9IrS9CxN1FEXOLo=;
-	b=z0L01YB2hYa7ln4DzovCof/eYpZL+JM1jNbrXS42MlfVL2p+UUFughZfYyJiV61k+y
-	8owx+2MmKqaJBtMOBa6A8+vN7aPz+OqTKhYzCzELLChpYDqUMuluXlIaS76N+ffFw8Db
-	pSmWrrexARguGXngSsxeX/GNEVnf8CC1o7nK3DX1tPU7Pdog9CTE17zcpfxu7KscsVsT
-	3p8fvWAd6GgPar0DiZNJaBwCK5JF31DzKDweVYSRO3inDAhSYMxYm+YEKRzMpm0HcFc5
-	VVt0KWRlo9LFg1hEGwz7i/dAikXLw33gtMSsRCOo4heFCvrM7X4e8DDa89JCtF3aVY1E
-	XA+w==
-MIME-Version: 1.0
-X-Received: by 10.182.40.202 with SMTP id z10mr20562984obk.74.1367105279892;
-	Sat, 27 Apr 2013 16:27:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Sat, 27 Apr 2013 16:27:59 -0700 (PDT)
-In-Reply-To: <1367075749-6702-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1367075749-6702-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Sat, 27 Apr 2013 20:27:59 -0300
-X-Google-Sender-Auth: 1RGQgs6KlYQiss57jtWhWDK5pSE
-Message-ID: <CAP9ODKpcvnH8m75kACbaWGXPs=3d_nq5ncfMiuU91piuqrXg8g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Sat, 27 Apr 2013 18:14:25 -0700 (PDT)
+Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
+	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0379.000;
+	Sat, 27 Apr 2013 18:14:25 -0700
+From: Daniel Lazzari <dlazzari@leapfrog.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] buildhistory: change default BUILDHISTORY_DIR to TOPDIR
+Thread-Topic: Custom tasks not running when dependency changes version
+Thread-Index: Ac5DrIpzedIa/uaVTKO+PfHdmZXrjQ==
+Date: Sun, 28 Apr 2013 01:14:23 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0FE6C9AF83@NAEMMAIL01.na.leapfrog.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.100.2.5]
+MIME-Version: 1.0
+Subject: Custom tasks not running when dependency changes version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2013 23:45:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 28 Apr 2013 01:32:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 27, 2013 at 12:15 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * like PERSISTENT_DIR I find BUILDHISTORY_DIR more persistent
->   then tmp-eglibc directory
-> * WARN: people with existing checkouts in TMPDIR/buildhistory
->   need to move it to new location first (in order to save history)
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+I've got a weird issue that I just can't seem to figure out and need some h=
+elp on. In our custom layer we have a bbclass that has 2 custom tasks, like=
+ so:
 
-I've been doing it locally all the time; thanks by sending this :-)
+addtask complete_metadata after do_package before do_package_write
+addtask create_other_package after do_package_write before do_build
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Now this is inherited by a recipe B which depends on recipe A. If I build a=
+ rootfs image, then change the version (PV) on recipe A, then build the roo=
+tfs image again, recipe A rebuilds, then recipe B rebuilds, but it rebuilds=
+ without running my custom tasks. There's probably some task flag that I ne=
+ed to set to make this work, but I can't figure out what it is. Any help is=
+ appreciated, as always.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+BTW, I'm all the way back on the denzil branch in case that matters.
+
+Thanks,
+
+Daniel Lazzari Jr.
+Firmware Engineer
+dlazzari@leapfrog.com
+
 
 
