@@ -1,28 +1,26 @@
-Received: from mx3.leapfrog.com ([63.114.26.253])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1UWGTb-0006hV-Ox
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1UWN1t-000127-Pr
 	for openembedded-core@lists.openembedded.org;
-	Sun, 28 Apr 2013 03:32:27 +0200
-Received: from NAEMCASHT02.na.leapfrog.com (unknown [10.12.2.36])
-	by mx3.leapfrog.com (Postfix) with ESMTP id 5530E602B
+	Sun, 28 Apr 2013 10:32:23 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r3S8ETdD020624
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2013 18:14:25 -0700 (PDT)
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0379.000;
-	Sat, 27 Apr 2013 18:14:25 -0700
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Custom tasks not running when dependency changes version
-Thread-Index: Ac5DrIpzedIa/uaVTKO+PfHdmZXrjQ==
-Date: Sun, 28 Apr 2013 01:14:23 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0FE6C9AF83@NAEMMAIL01.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
+	Sun, 28 Apr 2013 01:14:29 -0700 (PDT)
+Received: from pek-hjia-d1.wrs.com (128.224.162.213) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 28 Apr 2013 01:14:28 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 28 Apr 2013 16:14:15 +0800
+Message-ID: <56dc88629fbf58c9bfb0427320ac916f79e96364.1367133417.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1367133417.git.hongxu.jia@windriver.com>
+References: <cover.1367133417.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: Custom tasks not running when dependency changes version
+Subject: [PATCH 1/1] udev-extraconf:fix rootless X write to usb storage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Apr 2013 01:32:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 28 Apr 2013 08:32:23 -0000
+Content-Type: text/plain
 
-I've got a weird issue that I just can't seem to figure out and need some h=
-elp on. In our custom layer we have a bbclass that has 2 custom tasks, like=
- so:
+Rootless X is owned by xuser, the problem is xuser could not have
+permissions to write to the usb storage when the file system is
+vfat(fat16/fat32):
 
-addtask complete_metadata after do_package before do_package_write
-addtask create_other_package after do_package_write before do_build
+1)On my distribution(Ubuntu 12.10), usb storage is auto mounted by gnome
+rather than udev, udev detects the plugin event and notify gnome to mount
+the device, the UID and GID of usb storage is inherited from the gnome's.
 
-Now this is inherited by a recipe B which depends on recipe A. If I build a=
- rootfs image, then change the version (PV) on recipe A, then build the roo=
-tfs image again, recipe A rebuilds, then recipe B rebuilds, but it rebuilds=
- without running my custom tasks. There's probably some task flag that I ne=
-ed to set to make this work, but I can't figure out what it is. Any help is=
- appreciated, as always.
+  Login with username `jiahongxu', it has permissions to write usb storage:
+  ...ubuntu log.......
+  $ mount
+  /dev/sdb1 on /media/jiahongxu/fat type vfat (uid=1000,gid=1000,dmask=0077)
+  $ ls /media/jiahongxu/ -al
+  drwx------  2 jiahongxu jiahongxu 16384 Jan  1  1970 fat
+  ....................
 
-BTW, I'm all the way back on the denzil branch in case that matters.
+  Login with username `tester', it has permissions to write usb storage:
+  ...ubuntu log.......
+  $ mount
+  /dev/sdb1 on /media/tester/fat type vfat (uid=1001,gid=1002,dmask=0077)
+  $ ls /media/root/ -al
+  drwx------  2 tester    tester    16384 Jan  1  1970 fat
+  ....................
 
-Thanks,
+2)Plug in the previous usb storage to yocto atom which rootless X is enable,
+xuser doesn't have permissions to write usb storage, the UID and GID of usb
+storage is inherited from udev's (root):
+  ...yocto atom log...
+  $mount
+  /dev/sdb2 on /media/sdb2 type vfat
+  $ls /media/ -al
+  drwxr-xr-x    2 root     root         16384 Jan  1  1970 sdb2
+  ....................
 
-Daniel Lazzari Jr.
-Firmware Engineer
-dlazzari@leapfrog.com
+3)In this situation to reference ubuntu, if rootless X is enable, grant
+xuser's UID and GID to usb storage while auto mounting by udev.
+
+[YOCTO #4004]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh |   16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 97af608..1135472 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -27,6 +27,22 @@ automount() {
+ 		MOUNT="$MOUNT -o silent"
+ 	fi
+ 	
++	# Setting for rootless X
++	if [ -f /etc/X11/Xusername ]; then
++		xusername="`cat /etc/X11/Xusername`"
++		case $ID_FS_TYPE in
++		# Such as fat12,fat16,fat32,vfat,msdos
++		vfat)
++			# Set the owner and group of the storage to xuser, only grant xuser
++			# with w/r/x permissions.
++			MOUNT="$MOUNT -o uid=`id "$xusername" -u`,gid=`id "$xusername" -g`,umask=077"
++			;;
++		*)
++			# TODO
++			;;
++		esac
++	fi
++
+ 	if ! $MOUNT -t auto $DEVNAME "/media/$name"
+ 	then
+ 		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
+-- 
+1.7.10.4
 
 
 
