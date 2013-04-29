@@ -1,35 +1,36 @@
-Received: from mail-ve0-f179.google.com ([209.85.128.179])
+Received: from mail-we0-f173.google.com ([74.125.82.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UWm4B-0002Kq-Cu
+	(envelope-from <ross.burton@intel.com>) id 1UWn1t-0007VR-Pj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 13:16:21 +0200
-Received: by mail-ve0-f179.google.com with SMTP id oz10so2876399veb.24
+	Mon, 29 Apr 2013 14:18:02 +0200
+Received: by mail-we0-f173.google.com with SMTP id o7so5248495wea.32
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2013 03:58:30 -0700 (PDT)
+	Mon, 29 Apr 2013 05:00:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=OTsgxdkyextUYtAoD6YErNmATG3Msbj12xLYE9C9EUM=;
-	b=bAiT376Luf5T3KlL9epE1Q/Ri57Zl1b+Q8ZUUVVkj6OqxdAUA+MIbVfqQc9+yTm9ow
-	sXrLtaoNTJZZYD1rHojPWp/MYqnauW/5dp+oIsFiyqpMneRFjfmncTcAIwp269XqmKqw
-	OxAY7mGvtkjk7JtTmzBixMSjBCVIYwZN18fP4CavagofOJzdmBBPAeWOq/ux8eJohfPW
-	Mmfo10tgeUIRWwFXzi1oleBGroSxhC0vQ2FlGcJtsEa+LuEH82Ynmw4AsgVqbLXf7h04
-	MFc9PzRN7XQ2pwrXAJCGdWQ3LHvLgnDHb53ktakPHc/p2/KEzsBkpmdyBC0o9ET5j8eE
-	wmDw==
-X-Received: by 10.52.18.206 with SMTP id y14mr16932874vdd.29.1367233110062;
-	Mon, 29 Apr 2013 03:58:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Mon, 29 Apr 2013 03:58:09 -0700 (PDT)
-In-Reply-To: <517E501F.1030809@gmail.com>
-References: <517E501F.1030809@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Apr 2013 11:58:09 +0100
-Message-ID: <CAJTo0LZd+2h65+MHwTPMo_cyM=Xhjc719TB-3hbX+GiyL0ggOw@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQlATvHSUerdu750HyKCOP11S9LyRYtX5zzck7VnaQjQ+MhHgKE6t6RF71x2BCGQQkRJWFWX
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] guile: Update to 2.0.9
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=iu2SAYhBw0WuGedWc3aQTQZ/7v3EBE2BCjpSOiZ5J10=;
+	b=j6B0dLmAMEuvWI6l+m/KRbhANpezVd9ukFTeWt/Hi7X87oGB1i4aNfwpz00DKu15ub
+	M7g+6Z6rsotdxuDBXPgDFavF1+wrE0IiWXR1/3C5VkNPpkuScM0UPK0SPoNC/iCl5XPd
+	9vIwImAWTGGkruqsdUF+I/3utqBPVNjY2FwCiW1N7rxCAhdq9pwJ0Fug8yFUCKD0juEL
+	rzvWa8PqVEKK1ERyZpnemhfXlwulMq2oXbarVMsPlH+nxDGJl0am1FiYzmPyq4XpLL0h
+	Q+YzlyNSxamqfWGhkO6r2UTkKDIhH5TD5oNGHk6FU2PNxJxpvEgyW7KZCmsREPzJgRv7
+	vCMw==
+X-Received: by 10.194.173.167 with SMTP id bl7mr96239588wjc.50.1367236812806; 
+	Mon, 29 Apr 2013 05:00:12 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id dj7sm19751410wib.6.2013.04.29.05.00.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 29 Apr 2013 05:00:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2013 12:57:14 +0100
+Message-Id: <1367236635-27036-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQkCKSdbu/R7VSAl08RldFmxB9xmE5CmG4On3Q5YUQHbnD1ST7cmJfHV9oCpDlMpac4KiUcM
+Subject: [PATCH 1/2] neard: re-order recipe so the statement order is logical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,24 +43,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 11:16:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Apr 2013 12:18:10 -0000
 
-On 29 April 2013 11:49, Jonathan Liu <net147@gmail.com> wrote:
-> fix_parallel_build_issue.patch is now part of upstream.
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  .../guile/files/fix_parallel_build_issue.patch     |  20 ----
->  meta/recipes-devtools/guile/guile_2.0.7.bb         | 103
-> ---------------------
->  2 files changed, 123 deletions(-)
->  delete mode 100644
-> meta/recipes-devtools/guile/files/fix_parallel_build_issue.patch
->  delete mode 100644 meta/recipes-devtools/guile/guile_2.0.7.bb
 
-I don't see anything adding 2.0.9...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/neard/neard_0.9.bb |   54 ++++++++++++--------------
+ 1 file changed, 25 insertions(+), 29 deletions(-)
 
-Ross
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index d598666..2c4acb3 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -1,15 +1,26 @@
+-SUMMARY  = "Linux NFC daemon"
++SUMMARY = "Linux NFC daemon"
+ DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
+ HOMEPAGE = "http://01.org/linux-nfc"
++LICENSE = "GPLv2"
+ 
+-LICENSE  = "GPLv2"
++DEPENDS = "dbus glib-2.0 libnl"
+ 
+-DEPENDS  = "dbus glib-2.0 libnl"
++SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
++           file://neard.in \
++          "
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
++ file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
++ "
++
++S = "${WORKDIR}/git"
++SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
++PV = "0.10+git${SRCPV}"
++PR = "r0"
+ 
+ inherit autotools pkgconfig update-rc.d
+ 
+-INITSCRIPT_NAME = "neard"
+-INITSCRIPT_PARAMS = "defaults 64"
++EXTRA_OECONF += "--enable-tools"
+ 
+ do_install() {
+ 	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
+@@ -31,35 +42,20 @@ do_install_append() {
+ 	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+ }
+ 
+-RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+-
+-# Bluez & Wifi are not mandatory except for handover	"
+-RRECOMMENDS_${PN} = "\
+-	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+-	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+-	"
+-
+-#Additional
+ PACKAGES =+ "${PN}-tests"
+ 
+ FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
+ FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+ 
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+-
+-# This is valid for 0.10+
+-LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+- file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+- "
+-S	= "${WORKDIR}/git"
+-SRCREV	= "eb486bf35e24d7d1db61350f5ab393a0c880523d"
+-PV	= "0.10+git${SRCPV}"
+-PR	= "r0"
++RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+ 
+-SRC_URI  = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+-	file://neard.in \
+-	"
++# Bluez & Wifi are not mandatory except for handover
++RRECOMMENDS_${PN} = "\
++                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++                    "
+ 
+-EXTRA_OECONF += "--enable-tools \
+-	"
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
++INITSCRIPT_NAME = "neard"
++INITSCRIPT_PARAMS = "defaults 64"
+-- 
+1.7.10.4
+
 
 
