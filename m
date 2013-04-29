@@ -1,29 +1,30 @@
-Received: from mail-vc0-f171.google.com ([209.85.220.171])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>)
-	id 1UWvVF-0005nh-Qy; Mon, 29 Apr 2013 23:21:04 +0200
-Received: by mail-vc0-f171.google.com with SMTP id ha12so3216874vcb.16
-	for <multiple recipients>; Mon, 29 Apr 2013 14:03:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=Gq3jzDHtI7DJjLE9tD3HOtJENiLQ6Ic5CrFwKTUK+pg=;
-	b=WRXLh6R4UfSvLhd0snEDb82iMUKPMpUBO8aP3yb0lh4wLwEjuKDiJ91kBAylpsxPpz
-	CfUMSOvrHNJy6yn7dkwFqTrhTHZ8e6U6flzZWCOlKREgKZ5TKmclyxRT0Yh//YiBj2LZ
-	/mikasKT95GTMsGWn36ouaZoFcw6D9B6vjPxOgp/XsrYjCSxyY6XNCWlvqZDvPrjgWy4
-	VgNgGGRP7FLq+oXc4z0kdzW4EvRbAhpy7WurUj3EUHqUFqXKc+VSFsVXEUG3HNQSXKNo
-	e6BMPTbxc/GjNl7EY/hy/WvmB2y5qcUfT3FXgwxPI929AaBy3FDhraESosb7UwzqTftm
-	TgRQ==
+	(envelope-from <sgw@linux.intel.com>) id 1UWwwc-00041K-QU
+	for openembedded-core@lists.linuxtogo.org;
+	Tue, 30 Apr 2013 00:53:25 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 29 Apr 2013 15:33:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,576,1363158000"; d="scan'208";a="295124142"
+Received: from unknown (HELO [10.255.12.150]) ([10.255.12.150])
+	by azsmga001.ch.intel.com with ESMTP; 29 Apr 2013 15:33:07 -0700
+Message-ID: <517EF523.2060405@linux.intel.com>
+Date: Mon, 29 Apr 2013 15:33:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.52.88.2 with SMTP id bc2mr13537888vdb.27.1367269383684; Mon,
-	29 Apr 2013 14:03:03 -0700 (PDT)
-Received: by 10.52.183.36 with HTTP; Mon, 29 Apr 2013 14:03:03 -0700 (PDT)
-Date: Mon, 29 Apr 2013 23:03:03 +0200
-Message-ID: <CALbNGRRndfF8dvQhtnSgzcE-72KGOP4tb5BQx_Z-205Dr2prGw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-devel@lists.openembedded.org, 
-	openembedded-core@lists.openembedded.org
-Subject: udev-extraconf conflicts
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+References: <1367249183-2579-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<CAJTo0Laf-d0hz5kkRZZAr7W4yGs+aYaTu51XU2k2q-s0p57q5A@mail.gmail.com>
+	<lyip35jpw8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LYGf=QtQ_dEbaUiFWOGjpAjfNXqCPY_XYrt+G-rUhcsOg@mail.gmail.com>
+	<lyehdtjmkw.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lyehdtjmkw.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.linuxtogo.org>
+Subject: Re: [PATCH 1/7] bitbake.conf: fix definition of ${libexecdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,15 +37,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 21:22:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Apr 2013 22:53:36 -0000
+X-List-Received-Date: Mon, 29 Apr 2013 22:53:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 04/29/2013 10:03 AM, Enrico Scholz wrote:
+> "Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> writes:
+>
+>>> Things *are* expected to move around.  E.g. /usr/lib/openssh/sftp-server
+>>> becomes /usr/lib/sftp-server now.
+>>
+>> Right, so don't use Debian as a rationale for this approach.
+>
+> Debian defines libexecdir to be /usr/lib (+multiarch).  It might set
+> sometimes per-package '--libexecdir=${libexecdir}/<package>' configure
+> options, but libexecdir is always /usr/lib there.
+>
 
-is it really necessary to add udev-extraconf to systemd RRECOMMENDs?
-For me automount.rules turn gvfs/gio (auto)mount to unusable state.
-I bet there are others (see autonet.rules) failing for hidden 'helpers'
+As I read though this, a couple things I noted from some of the 
+available information, the GNU Directory section you quoted earlier 
+actually suggests a package-name directory should be included.
 
-Andreas
+   The definition of ‘libexecdir’ is the same for all packages, so you
+   should install your data in a subdirectory thereof. Most packages
+   install their data under $(libexecdir)/package-name/, possibly within
+   additional subdirectories thereof, such as $(libexecdir)/package-
+   name/machine/version.
+
+And as you pointed out below, the FHS also touches on having a 
+sub-directory for applications to use for non-user object and internal 
+binaries (like plugins).
+
+
+>
+>> $ ls /usr/lib/openssh/
+>> sftp-server  ssh-keysign  ssh-pkcs11-helper
+>>
+>> For reference, on Fedora this binary is /usr/libexec/openssh/sftp-server,
+>> with the split between dropping binaries directly into /usr/libexec or
+>> using a subdirectory apparently arbitrary.
+>
+> Placing openssh helpers in own subdirectory can make sense when
+> there are alternative implementations.  Nevertheless, programs
+> expect ${libexecdir}/sftp-server there.
+>
+There seems to be a specific case here with openssh and dropbear having 
+alternatives for similar binaries provided by multiple packages, then we 
+should handle that special case.
+
+> Every recipe using libexecdir must be investigated whether it is placing
+> only private files into it (--> candidate for ${pkglibexecdir}), or
+> whether files are part of its public api (--> must be directly below
+> ${libexecdir}).
+>
+>
+>> Every package that I looked at on Debian is using
+>> /usr/lib/[packagenameish]/[binary].  /usr/lib/upower/upowerd.
+>> /usr/lib/telepathy/telepathy-gabble.  I say packagenameish as it's
+>> often changed to be a more general name - i.e. all of the Telepathy
+>> backends use /usr/lib/telepathy.
+>>
+>> There are no *executables*, only libraries, in /usr/lib on Debian or
+>
+> I do not have Debian for reference; but Ubuntu-12.04 (only a minimal,
+> GUI-less installation) has
+>
+> /usr/lib/command-not-found
+> /usr/lib/pt_chown
+>
+> and
+>
+> /usr/lib/sftp-server -> openssh/sftp-server
+>
+This could be done via the update-alternatives mechanism in the oe-core 
+space.
+
+>
+>
+>> Fedora.
+>
+> Fedora has /usr/libexec with lot of executables directly below it.
+>
+>
+>> I'm really not liking dropping the executables into a directory that
+>> on non-multilib is the same as libdir.
+>
+> When we want to follow FHS strictly, nothing prevents us from placing
+> files into /usr/lib.
+>
+>    /usr/lib includes object files, libraries, and internal binaries
+>    that are not intended to be executed directly by users or shell
+>    scripts.
+>
+>    Applications may use a single subdirectory under /usr/lib. If an
+>    application uses a subdirectory, all architecture-dependent data
+>    exclusively used by the application must be placed within that
+>    subdirectory.
+>
+>
+> When we really do not want executables under ${libdir}, we can set
+>
+>    libexecdir = ${prefix}/lib/libexec
+>
+> (which might be a good setting for world-builds to detect some kind of
+> libexecdir related problems).
+>
+I prefer what Ross suggested, fixing libexecdir to be 
+${exec_prefix}/lib/${BPN}
+
+>
+>> If we want to be like the half of the world that does the same as
+>> Fedora then we can revert back to /usr/libexec.  Or we can be like
+>> the half of the world that does the same as Debian and use something
+>> similar to ${prefix}/lib/$(DEB_SOURCE_PACKAGE) (as used in CDBS and
+>> Debhelper):
+>
+> Debian does *not* include the package name since mid 2011
+>
+>          http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=541458
+>
+I just looked at a Debian build and /usr/lib is abound with package 
+directories. So given the direction we already have going with the half 
+that does ${prefix}/lib/${package name} makes the most sense.  We are 
+not exactly Fedora nor Debian, OE-Core is an embedded system, we are 
+doing our best to match with the FHS as LSB is one of the design features.
+
+Since I did the last libexecdir change, I will start to investigate 
+changing libexecdir to be ${exec_prefix}/lib/${BPN}.  The concern I have 
+with this will be plugins and other executable binaries created in a 
+multilib environment.
+
+Sau!
+
+>
+> Enrico
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
