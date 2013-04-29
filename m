@@ -1,21 +1,24 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UWovm-0001pb-44 for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 16:20:25 +0200
+	id 1UWoxC-0001vN-Oo for openembedded-core@lists.openembedded.org;
+	Mon, 29 Apr 2013 16:21:27 +0200
 Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
 	([86.30.57.232] helo=[172.30.1.45])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UWoeZ-0001Gd-6Z
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 16:02:03 +0200
-Message-ID: <1367244122.14512.124.camel@phil-desktop.brightsign>
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UWofz-0001Gh-93; Mon, 29 Apr 2013 16:03:31 +0200
+Message-ID: <1367244210.14512.126.camel@phil-desktop.brightsign>
 From: Phil Blundell <pb@pbcl.net>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Apr 2013 15:02:02 +0100
+To: Richard Purdie <rpurdie@rpsys.net>
+Date: Mon, 29 Apr 2013 15:03:30 +0100
+In-Reply-To: <1367243669.5379.21.camel@ted>
+References: <1366894048.14512.87.camel@phil-desktop.brightsign>
+	<1367243669.5379.21.camel@ted>
 X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Subject: [PATCH] kernel.bbclass: Don't include source files for "other" architectures in the sysroot
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-utils: Move alsaconf to its own recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,40 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 14:21:13 -0000
+X-List-Received-Date: Mon, 29 Apr 2013 14:21:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Since the sysroot is per-machine, we can be fairly confident that any
-out-of-tree modules which look at our sources will be building for the
-same architecture that we are.  This being the case there's no need to
-ship the sources for any other architectures, which saves disk space and
-time (about 30 seconds in do_package, in a somewhat unscientific test
-with ARCH=mips).
+On Mon, 2013-04-29 at 14:54 +0100, Richard Purdie wrote:
+> I merged this however I'm not convinced its the right way to handle
+> this. I'm wondering about a PACKAGECONFIG which when turned off, deletes
+> alsaconf. I suspect that might be a nicer way to handle this kind of
+> issue going forward...
 
-Of course, an even better fix would be to not install these files in the
-first place, but deleting them is easier.
+I guess the downside with PACKAGECONFIG is that you need to set it
+manually: you can't just build an image which depends on
+alsa-utils-alsaconf and have everything happen automatically.  
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/kernel.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+But from my own point of view, the main thing I care about is not
+building bash and PACKAGECONFIG would indeed solve that problem.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 00e27ef..ffb0b11 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -167,6 +167,7 @@ kernel_do_install() {
- 	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
- 	make -C $kerneldir _mrproper_scripts
- 	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
-+	rm -rf $(find $kerneldir/arch -maxdepth 1 -not -path $kerneldir/arch/$ARCH -not -path $kerneldir/arch/Kconfig -not -path $kerneldir/arch/. -not -path $kerneldir/arch)
- 	find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
- 
- 	# As of Linux kernel version 3.0.1, the clean target removes
--- 
-1.7.10.4
-
+p.
 
 
 
