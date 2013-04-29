@@ -1,39 +1,36 @@
-Received: from mail-wi0-f180.google.com ([209.85.212.180])
+Received: from mail-wg0-f48.google.com ([74.125.82.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UWoco-00082i-VQ
+	(envelope-from <ross.burton@intel.com>) id 1UWonO-0001BM-01
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 16:00:21 +0200
-Received: by mail-wi0-f180.google.com with SMTP id h11so2782373wiv.13
+	Mon, 29 Apr 2013 16:11:11 +0200
+Received: by mail-wg0-f48.google.com with SMTP id f11so3605266wgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2013 06:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=c4HiTZoK/bN3Vcs0kU7BpFOcqwd3JQHhtCP6UF90/RU=;
-	b=O0ZV+3+o2WjCj8W7zvKe5kENWQ3T1G4Ml1TeizgIEEX5XxriE5+ijzkAEi3803VOI/
-	HMTqIeEJV/4yFw6iN0kUK+0HbKCDk294AiYw1bbefxXomyT+FQYdkQZ7IOzTRuiT2mW0
-	Bh0v5Z8hVQZVwSSsAKjxLeqmb9AIT9Y8aMzk6uqgUIQMPf6vAgudmue143ftCibN6kvh
-	AhM8TZgquLCV2P3MbMNPicmkf5l6YOvnDl97LLsnuPgk3oA6S2wo/jO8L6Hx29FOTHrC
-	cZ9jEIpN16G1FZaY0Ns9YgI6Hyw/8to23fikeladC/NmgZjPpWfwZu4XDZ8ccpbRyk1J
-	4yMQ==
-X-Received: by 10.194.5.4 with SMTP id o4mr90312298wjo.40.1367242945010;
-	Mon, 29 Apr 2013 06:42:25 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	a9sm20852952wiv.0.2013.04.29.06.42.23 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 29 Apr 2013 06:42:24 -0700 (PDT)
-Date: Mon, 29 Apr 2013 15:42:47 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130429134247.GJ3199@jama>
-References: <1367236635-27036-1-git-send-email-ross.burton@intel.com>
-	<1367236635-27036-2-git-send-email-ross.burton@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1367236635-27036-2-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] neard: add systemd unit file
+	Mon, 29 Apr 2013 06:53:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=Ez6FlOajB32EJS+0AHKRiN1sA9jXo9VlVjwZdx3Cys4=;
+	b=AcbD5oDzH1zSsa7HforF7mVjYhSBHhQd0UFOSx53r9ANmQwCNtqj2s1iu5Kzw2S4HJ
+	h9dTSl1RClX8WGBvWwOsiUyVS9seFzYbnm06TJXwCbsUMgR3oVurKUJSaBeBJ4aJGGH0
+	Jv1DcWLFHTdxZ9AcCrhNpK1NMJ5IyFjOhd+SoXJL2VR+n8XX0GZbBAUiFBt3as3lm9lg
+	KWR+j1ophYpBw7MbuEaWgxmS60ed58NmA/RsT5a9yWdE4sVFjmg51TNqa5SbMR2NEsRv
+	CORFr4dm+2BldGzBZ/75ENdktTG9vhFxa0MHCD9c8QRlZSqg38eFsZuOrYKTihfNONKE
+	QFww==
+X-Received: by 10.194.58.163 with SMTP id s3mr73656555wjq.6.1367243247455;
+	Mon, 29 Apr 2013 06:47:27 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id ge7sm22406247wib.6.2013.04.29.06.47.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 29 Apr 2013 06:47:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2013 14:44:29 +0100
+Message-Id: <1367243069-22821-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmGqlowhH7r831KC9YS0WTQ6HpOeNv5u7GIBnIuATsxpCzGqt8ASASHcUSuy/rE3aJG9ftC
+Subject: [PATCH][V2] neard: add systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,140 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 14:00:32 -0000
-X-Groupsio-MsgNum: 38520
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/qIPZgKzMPM+y5U5"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 29 Apr 2013 14:12:10 -0000
 
---/qIPZgKzMPM+y5U5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a systemd unit file, and respect the sysvinit feature when installing the
+init script.
 
-On Mon, Apr 29, 2013 at 12:57:15PM +0100, Ross Burton wrote:
-> Add a systemd unit file, and respect the sysvinit feature when installing=
- the
-> init script.
->=20
-> (thanks to Jukka Rissanen for the unit file)
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  .../neard/neard/neard.service.in                   |   13 +++++++++
->  meta/recipes-connectivity/neard/neard_0.9.bb       |   28 +++++++++++++-=
-------
->  2 files changed, 31 insertions(+), 10 deletions(-)
->  create mode 100644 meta/recipes-connectivity/neard/neard/neard.service.in
->=20
-> diff --git a/meta/recipes-connectivity/neard/neard/neard.service.in b/met=
-a/recipes-connectivity/neard/neard/neard.service.in
-> new file mode 100644
-> index 0000000..90e5302
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/neard/neard/neard.service.in
-> @@ -0,0 +1,13 @@
-> +[Unit]
-> +Description=3DNFC service
-> +After=3Dsyslog.target
-> +
-> +[Service]
-> +Type=3Ddbus
-> +BusName=3Dorg.neard
-> +Restart=3Don-failure
-> +ExecStart=3D@installpath@/neard -n
-> +StandardOutput=3Dnull
-> +
-> +[Install]
-> +WantedBy=3Dmulti-user.target
-> diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-=
-connectivity/neard/neard_0.9.bb
-> index 2c4acb3..1442d00 100644
-> --- a/meta/recipes-connectivity/neard/neard_0.9.bb
-> +++ b/meta/recipes-connectivity/neard/neard_0.9.bb
-> @@ -7,6 +7,7 @@ DEPENDS =3D "dbus glib-2.0 libnl"
-> =20
->  SRC_URI =3D "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=
-=3Dgit \
->             file://neard.in \
-> +	file://neard.service.in \
+(thanks to Jukka Rissanen for the unit file)
 
-Please use consistent indentation - no tabs in multiline variables.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../neard/neard/neard.service.in                   |   13 +++++++++
+ meta/recipes-connectivity/neard/neard_0.9.bb       |   28 +++++++++++++-------
+ 2 files changed, 31 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-connectivity/neard/neard/neard.service.in
 
->            "
-> =20
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4c=
-a7e \
-> @@ -18,7 +19,7 @@ SRCREV =3D "eb486bf35e24d7d1db61350f5ab393a0c880523d"
->  PV =3D "0.10+git${SRCPV}"
->  PR =3D "r0"
-> =20
-> -inherit autotools pkgconfig update-rc.d
-> +inherit autotools pkgconfig systemd update-rc.d
-> =20
->  EXTRA_OECONF +=3D "--enable-tools"
-> =20
-> @@ -28,15 +29,20 @@ do_install() {
-> =20
->  # This would copy neard start-stop shell and test scripts
->  do_install_append() {
-> -	# start/stop
-> -	install -d ${D}${sysconfdir}/init.d/
-> -
-> -	sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-> -		> ${D}${sysconfdir}/init.d/neard
-> -
-> -	chmod 0755 ${D}${sysconfdir}/init.d/neard
-> -
-> -	#test files
-> +	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}=
-; then
-> +		install -d ${D}${sysconfdir}/init.d/
-> +		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-> +		  > ${D}${sysconfdir}/init.d/neard
-> +		chmod 0755 ${D}${sysconfdir}/init.d/neard
-> +	fi
-> +
-> +	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)};=
- then
-> +		install -d ${D}${systemd_unitdir}/system
-> +		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
-> +		  > ${D}${systemd_unitdir}/system/neard.service
-> +	fi
-> +
-> +	# Install the tests for neard-tests
->  	install -d ${D}${libdir}/neard
->  	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
->  	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
-> @@ -59,3 +65,5 @@ RDEPENDS_${PN}-tests =3D "python python-dbus python-pyg=
-object"
-> =20
->  INITSCRIPT_NAME =3D "neard"
->  INITSCRIPT_PARAMS =3D "defaults 64"
-> +
-> +SYSTEMD_SERVICE_${PN} =3D "neard.service"
-> --=20
-> 1.7.10.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-connectivity/neard/neard/neard.service.in b/meta/recipes-connectivity/neard/neard/neard.service.in
+new file mode 100644
+index 0000000..90e5302
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard/neard.service.in
+@@ -0,0 +1,13 @@
++[Unit]
++Description=NFC service
++After=syslog.target
++
++[Service]
++Type=dbus
++BusName=org.neard
++Restart=on-failure
++ExecStart=@installpath@/neard -n
++StandardOutput=null
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
+index 2c4acb3..dc43f7e 100644
+--- a/meta/recipes-connectivity/neard/neard_0.9.bb
++++ b/meta/recipes-connectivity/neard/neard_0.9.bb
+@@ -7,6 +7,7 @@ DEPENDS = "dbus glib-2.0 libnl"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+            file://neard.in \
++           file://neard.service.in \
+           "
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+@@ -18,7 +19,7 @@ SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
+ PV = "0.10+git${SRCPV}"
+ PR = "r0"
+ 
+-inherit autotools pkgconfig update-rc.d
++inherit autotools pkgconfig systemd update-rc.d
+ 
+ EXTRA_OECONF += "--enable-tools"
+ 
+@@ -28,15 +29,20 @@ do_install() {
+ 
+ # This would copy neard start-stop shell and test scripts
+ do_install_append() {
+-	# start/stop
+-	install -d ${D}${sysconfdir}/init.d/
+-
+-	sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
+-		> ${D}${sysconfdir}/init.d/neard
+-
+-	chmod 0755 ${D}${sysconfdir}/init.d/neard
+-
+-	#test files
++	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++		install -d ${D}${sysconfdir}/init.d/
++		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
++		  > ${D}${sysconfdir}/init.d/neard
++		chmod 0755 ${D}${sysconfdir}/init.d/neard
++	fi
++
++	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++		install -d ${D}${systemd_unitdir}/system
++		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
++		  > ${D}${systemd_unitdir}/system/neard.service
++	fi
++
++	# Install the tests for neard-tests
+ 	install -d ${D}${libdir}/neard
+ 	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
+ 	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+@@ -59,3 +65,5 @@ RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+ 
+ INITSCRIPT_NAME = "neard"
+ INITSCRIPT_PARAMS = "defaults 64"
++
++SYSTEMD_SERVICE_${PN} = "neard.service"
+-- 
+1.7.10.4
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---/qIPZgKzMPM+y5U5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlF+eNcACgkQN1Ujt2V2gBxgfgCcD5Dhlp9o3+YVC9Dk0Sd0otve
-6u0AnRGBdMYC4zOmzt24cYxnNvXUG5O+
-=deYA
------END PGP SIGNATURE-----
-
---/qIPZgKzMPM+y5U5--
