@@ -1,20 +1,20 @@
 Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UWqFj-00022U-Ug
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UWqFm-00022e-GT
 	for openembedded-core@lists.openembedded.org;
 	Mon, 29 Apr 2013 17:44:36 +0200
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3TFQS9M025345
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r3TFQS6V025346
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
 	Mon, 29 Apr 2013 17:26:29 +0200
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
 	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UWpyG-0000hW-CS; Mon, 29 Apr 2013 17:26:28 +0200
+	id 1UWpyG-0000hb-HO; Mon, 29 Apr 2013 17:26:28 +0200
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Apr 2013 17:26:21 +0200
-Message-Id: <1367249183-2579-5-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 29 Apr 2013 17:26:22 +0200
+Message-Id: <1367249183-2579-6-git-send-email-enrico.scholz@sigma-chemnitz.de>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <1367249183-2579-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
 References: <1367249183-2579-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
@@ -27,7 +27,7 @@ X-Spam-Level: ------
 X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.73
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH 5/7] uclibc: fix libexecdir packaging
+Subject: [PATCH 6/7] gstreamer: fix libexecdir packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,19 +48,21 @@ libexec binaries manually
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- meta/recipes-core/uclibc/uclibc-package.inc | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-package.inc b/meta/recipes-core/uclibc/uclibc-package.inc
-index c1815f9..d4426bb 100644
---- a/meta/recipes-core/uclibc/uclibc-package.inc
-+++ b/meta/recipes-core/uclibc/uclibc-package.inc
-@@ -34,4 +34,4 @@ FILES_${PN}-dev += "\
-         ${includedir}/*.h ${includedir}/*/*.h \
-        "
- FILES_${PN} = "${sysconfdir} ${uclibc_baselibs} /sbin/ldconfig \
--               ${libexecdir} ${datadir}/zoneinfo ${libdir}/locale"
-+               ${libexecdir}/pt_chown ${datadir}/zoneinfo ${libdir}/locale"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+index 90b1982..49d1065 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.36.bb
+@@ -37,6 +37,6 @@ oe_runconf_prepend() {
+ RRECOMMENDS_${PN}_qemux86    += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+ RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+ 
+-FILES_${PN} += " ${libdir}/gstreamer-0.10/*.so"
++FILES_${PN} += " ${libdir}/gstreamer-0.10/*.so ${libexecdir}/gstreamer-0.10/gst-plugin-scanner"
+ FILES_${PN}-dev += " ${libdir}/gstreamer-0.10/*.la ${libdir}/gstreamer-0.10/*.a"
+ FILES_${PN}-dbg += " ${libdir}/gstreamer-0.10/.debug/ ${libexecdir}/gstreamer-0.10/.debug/"
 -- 
 1.8.1.4
 
