@@ -1,28 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f171.google.com ([209.85.220.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UWvQP-0005MC-9X for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 23:16:27 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3TKxRbA021394; Mon, 29 Apr 2013 21:59:27 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yn26hCRlfvzs; Mon, 29 Apr 2013 21:59:26 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r3TKxK8Q021381
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 29 Apr 2013 21:59:22 +0100
-Message-ID: <1367269058.5379.74.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, yocto
-	<yocto@yoctoproject.org>
-Date: Mon, 29 Apr 2013 21:57:38 +0100
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: Status Update
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1UWvVF-0005nh-Qy; Mon, 29 Apr 2013 23:21:04 +0200
+Received: by mail-vc0-f171.google.com with SMTP id ha12so3216874vcb.16
+	for <multiple recipients>; Mon, 29 Apr 2013 14:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=Gq3jzDHtI7DJjLE9tD3HOtJENiLQ6Ic5CrFwKTUK+pg=;
+	b=WRXLh6R4UfSvLhd0snEDb82iMUKPMpUBO8aP3yb0lh4wLwEjuKDiJ91kBAylpsxPpz
+	CfUMSOvrHNJy6yn7dkwFqTrhTHZ8e6U6flzZWCOlKREgKZ5TKmclyxRT0Yh//YiBj2LZ
+	/mikasKT95GTMsGWn36ouaZoFcw6D9B6vjPxOgp/XsrYjCSxyY6XNCWlvqZDvPrjgWy4
+	VgNgGGRP7FLq+oXc4z0kdzW4EvRbAhpy7WurUj3EUHqUFqXKc+VSFsVXEUG3HNQSXKNo
+	e6BMPTbxc/GjNl7EY/hy/WvmB2y5qcUfT3FXgwxPI929AaBy3FDhraESosb7UwzqTftm
+	TgRQ==
+MIME-Version: 1.0
+X-Received: by 10.52.88.2 with SMTP id bc2mr13537888vdb.27.1367269383684; Mon,
+	29 Apr 2013 14:03:03 -0700 (PDT)
+Received: by 10.52.183.36 with HTTP; Mon, 29 Apr 2013 14:03:03 -0700 (PDT)
+Date: Mon, 29 Apr 2013 23:03:03 +0200
+Message-ID: <CALbNGRRndfF8dvQhtnSgzcE-72KGOP4tb5BQx_Z-205Dr2prGw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-devel@lists.openembedded.org, 
+	openembedded-core@lists.openembedded.org
+Subject: udev-extraconf conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,89 +36,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 21:17:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Apr 2013 21:22:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I've promised to start sending out some kind of status updates. I have a
-few things that are worth communicating and we have a kind of fresh
-start with 1.5 so here goes. This one turned out lengthier than I'd
-like, I'm not planning on writing an essay in future!
+Hi,
 
-I'm also hoping this email will save me repeating myself in meetings.
+is it really necessary to add udev-extraconf to systemd RRECOMMENDs?
+For me automount.rules turn gvfs/gio (auto)mount to unusable state.
+I bet there are others (see autonet.rules) failing for hidden 'helpers'
 
-Pending Patches
-===============
-
-Having been concentrating on 1.4 release issues, I have then been
-concentrating on overhauling the bugs in the bugzilla for the 1.5
-planning rather than reviewing/merging patches. I just merged a load of
-different patches into master thanks to some work from Saul pulling them
-together and testing them and am working on going through any stragglers
-as time permits.
-
-1.4 Released
-============
-
-1.4 ("dylan") is now released. There seems to be a trend for people to
-start testing late in the cycle and this means we can't get various
-fixes into the release if issues are found. With this in mind I'm
-proposing we follow up with a point release (1.4.1) in roughly six
-weeks.
-
-Point Releases
-==============
-
-I'd actually like to see us have faster turnaround on point releases.
-Right now, the biggest bottleneck is the QA process since QAing a point
-release *and* weekly 1.5 dev work is problematic. The QA automation work
-planned for 1.5 should help with this a lot. In the meantime we're going
-to do what we can for faster point release turnarounds including
-planning a 1.3.2 soon as well.
-
-1.5 Planning
-============
-
-There have been a lot of ideas put into the bugzilla. I along with
-various other people have looked through them and tried to prioritise
-things with a view to figuring out what we can do in 1.5. The themes are
-now on https://wiki.yoctoproject.org/wiki/Yocto_1.5_Features which
-summarise the key development targets we could pick out from the
-individual ideas.
-
-Plans are starting to get locked in but its not too late to add
-enhancement requests to the bugzilla. If there is anything anyone feels
-very strongly should be scheduled differently, please let me/us know.
-There are a number of things going into the future state as we simply
-don't have the resources to do everything, much as I'd like to.
-
-Spending a little time "away"
-=============================
-
-The Yocto Project is very full on for me and I've been in the thick of
-things since we started planning 0.9 back in 2010. For various reasons I
-have a significant chunk of vacation time built up and to be honest, six
-releases and three years later, I could use a break from things. There
-never is, or will be "a good time" to do that.
-
-I'm therefore planning to semi-disappear half way through the 1.5 cycle,
-probably for around six weeks. The exact plan is still to be determined
-but in that time I will ask a small team of people (Paul/Ross/Saul?) to
-put pull requests together and I will handle those but I will step back
-from a lot of the other day to day things.
-
-Just to confuse things, in some of that time I will likely be playing
-with some embedded devices and home automation so I may post the odd
-patch but it will be as a user and I will not be doing my usual patch
-review/architect role other than on the consolidated tree.
-
-I'm warning people about this now so there are no excuses when people
-need me for something and I'm not around. If you need input from me, get
-it early in the 1.5 cycle.
-
-Cheers,
-
-Richard
-
+Andreas
 
 
