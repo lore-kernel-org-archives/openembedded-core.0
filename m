@@ -1,22 +1,36 @@
-Received: from dub0-omc3-s9.dub0.hotmail.com ([157.55.2.18])
+Received: from mail-ve0-f171.google.com ([209.85.128.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric_edwin@hotmail.com>) id 1UWk9R-0007ml-J6
+	(envelope-from <ross.burton@intel.com>) id 1UWlMb-0006T4-QG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Apr 2013 11:13:44 +0200
-Received: from DUB112-W69 ([157.55.2.8]) by dub0-omc3-s9.dub0.hotmail.com with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 29 Apr 2013 01:54:46 -0700
-X-EIP: [dc30IFtxM+464KovxmwFHSgNzGxUnSYH]
-X-Originating-Email: [eric_edwin@hotmail.com]
-Message-ID: <DUB112-W69B3F36AA18FADCBA02FB2FCB20@phx.gbl>
-From: Eric Edwin <eric_edwin@hotmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Apr 2013 08:54:46 +0000
-Importance: Normal
+	Mon, 29 Apr 2013 12:31:17 +0200
+Received: by mail-ve0-f171.google.com with SMTP id oy12so1431751veb.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2013 03:13:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=uuilvrDTfnD4tT7d1Wu5dlGUtMzjXlCeHyuk5TVbFDU=;
+	b=p2U0UNCs8nH3bAyRcyKUrlANLQPtNLvwY6AtxtjtpdrId4HGEh6pvbntVKq9Y052Qu
+	s7ZIgcHFfycW22Y7HnVXKIGiIZNQeJP/NTtBlNLR91dZmhhd3cz9mfJd8xSDjcSWoJ4m
+	/LoUNCfQ9+y7jm4QmQWZ4+Vf8MCVsykU8esUq7p+uzJzPcuMAfH0C5dgWU8NF0iVMh8z
+	0PhBCFpXQLTseAdyrPrvEZ6sIm/sZOFfvD/v/AIJcLTdMk49IsQlk2s1U/SYtBIv/TL8
+	thysNZYTHDjroe0uDm/iydR4sRm+j3I4spmwqifgfdumeSX734DmpML+lMNFNetEZF1H
+	JvXw==
+X-Received: by 10.52.117.212 with SMTP id kg20mr7452710vdb.55.1367230408503;
+	Mon, 29 Apr 2013 03:13:28 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginalArrivalTime: 29 Apr 2013 08:54:46.0074 (UTC)
-	FILETIME=[32B4D9A0:01CE44B7]
-Subject: libdrm_2.4.42.bb Error, MACHINE = "spitz"
+Received: by 10.221.8.3 with HTTP; Mon, 29 Apr 2013 03:13:08 -0700 (PDT)
+In-Reply-To: <56dc88629fbf58c9bfb0427320ac916f79e96364.1367133417.git.hongxu.jia@windriver.com>
+References: <cover.1367133417.git.hongxu.jia@windriver.com>
+	<56dc88629fbf58c9bfb0427320ac916f79e96364.1367133417.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Apr 2013 11:13:08 +0100
+Message-ID: <CAJTo0LbYjdxRw-xWSc-Rzb-mnWB9okVSXsQtoukfLa8P7DUEtg@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+X-Gm-Message-State: ALoCoQk4oSasW2d3Y3Gqkjv2X5beGZlP4RdQp5TN0GiyoUrnET2peE2+aU6f7Bmb4wdlqlHfjjo8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] udev-extraconf:fix rootless X write to usb storage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,86 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2013 09:13:51 -0000
-Content-Type: multipart/alternative;
-	boundary="_fb0f8374-a982-4d64-9738-def13be263bc_"
+X-List-Received-Date: Mon, 29 Apr 2013 10:31:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_fb0f8374-a982-4d64-9738-def13be263bc_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 28 April 2013 09:14, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> Rootless X is owned by xuser, the problem is xuser could not have
+> permissions to write to the usb storage when the file system is
+> vfat(fat16/fat32):
 
-Hi=2C
-I'd appreciate any help=3B I have a recipe I've been using for ~1 year (but=
- haven't built for ~2 months) which when I have tried to build over the pas=
-t week has consistently failed with exit code '1'
-Details are=3B
+Did I miss something, but why not use a disk group that the xuser has
+access to?  I don't really like tying the automounter to the exact
+configuration of the X server, especially when this will break again
+if the user is using a non-root Wayland session.
 
-bblayers.conf   http://pastebin.com/1ktExTLi=20
-error log           http://pastebin.com/gWFH9ZC5=20
-console log       http://pastebin.com/5tQetFXB
+Ubuntu can set the user to the current user because as you say, the
+user environment is doing the mounting.  At the moment, we don't have
+that.
 
-$ bitbake core-image-x11=20
-Build Configuration:BB_VERSION        =3D "1.19.0"BUILD_SYS         =3D "x8=
-6_64-linux"NATIVELSBSTRING   =3D "Ubuntu-12.04"TARGET_SYS        =3D "arm-o=
-e-linux-gnueabi"MACHINE           =3D "spitz"DISTRO_VERSION    =3D "oe-core=
-.0"TUNE_FEATURES     =3D "armv5 thumb dsp"TARGET_FPU        =3D "soft"meta =
-             =3D "master:5c8277610ae84740e0724b27f10dba3895d40c05"meta-hand=
-held     =3D "master:e74f4a49fa49a9f95dbec7b3f8baaa27ef1347dc"meta-initramf=
-s    =3D "master:452d98eb26b798e25be8c49f1a1f798f43da5284"
-Summary: 1 task failed:  /home/eric/oe-core/meta/recipes-graphics/drm/libdr=
-m_2.4.42.bb=2C do_compileSummary: There was 1 ERROR message shown=2C return=
-ing a non-zero exit code.
+Ross
 
-Best regards=2C=20
-Eric=20
 
- 		 	   		  =
-
---_fb0f8374-a982-4d64-9738-def13be263bc_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<style><!--
-.hmmessage P
-{
-margin:0px=3B
-padding:0px
-}
-body.hmmessage
-{
-font-size: 12pt=3B
-font-family:Calibri
-}
---></style></head>
-<body class=3D'hmmessage'><div dir=3D'ltr'>Hi=2C<br>I'd appreciate any help=
-=3B I have a recipe I've been using for ~1 year (but haven't built for ~2 m=
-onths) which when I have tried to build over the past week has consistently=
- failed with exit code '1'<br>Details are=3B<br><br>bblayers.conf&nbsp=3B&n=
-bsp=3B http://pastebin.com/1ktExTLi <br>error log&nbsp=3B&nbsp=3B&nbsp=3B&n=
-bsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B http://pastebin.com/=
-gWFH9ZC5 <br>console log&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B ht=
-tp://pastebin.com/5tQetFXB<br><br><blockquote>$ bitbake core-image-x11&nbsp=
-=3B<div class=3D"de1"><br>Build Configuration:</div><div class=3D"de2">BB_V=
-ERSION &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=3B=3D "1.19.0"</div><div class=3D"d=
-e1">BUILD_SYS &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=3B =3D "x86_64-linux"</div><=
-div class=3D"de2">NATIVELSBSTRING &nbsp=3B =3D "Ubuntu-12.04"</div><div cla=
-ss=3D"de1">TARGET_SYS &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=3B=3D "arm-oe-linux-=
-gnueabi"</div><div class=3D"de2">MACHINE &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=
-=3B &nbsp=3B =3D "spitz"</div><div class=3D"de1">DISTRO_VERSION &nbsp=3B &n=
-bsp=3B=3D "oe-core.0"</div><div class=3D"de2">TUNE_FEATURES &nbsp=3B &nbsp=
-=3B =3D "armv5 thumb dsp"</div><div class=3D"de1">TARGET_FPU &nbsp=3B &nbsp=
-=3B &nbsp=3B &nbsp=3B=3D "soft"</div><div class=3D"de2">meta &nbsp=3B &nbsp=
-=3B &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=3B &nbsp=3B=3D "master:5c8277610ae8474=
-0e0724b27f10dba3895d40c05"</div><div class=3D"de1">meta-handheld &nbsp=3B &=
-nbsp=3B =3D "master:e74f4a49fa49a9f95dbec7b3f8baaa27ef1347dc"</div><div cla=
-ss=3D"de2">meta-initramfs &nbsp=3B &nbsp=3B=3D "master:452d98eb26b798e25be8=
-c49f1a1f798f43da5284"</div><br><div class=3D"de2">Summary: 1 task failed:</=
-div><div class=3D"de1">&nbsp=3B /home/eric/oe-core/meta/recipes-graphics/dr=
-m/libdrm_2.4.42.bb=2C do_compile</div><div class=3D"de2">Summary: There was=
- 1 ERROR message shown=2C returning a non-zero exit code.</div></blockquote=
-><br><br>Best regards=2C <br>Eric <br><br> 		 	   		  </div></body>
-</html>=
-
---_fb0f8374-a982-4d64-9738-def13be263bc_--
