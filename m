@@ -1,34 +1,36 @@
-Received: from mail-vc0-f177.google.com ([209.85.220.177])
+Received: from mail-vc0-f179.google.com ([209.85.220.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UX75Q-0006u7-9D
+	(envelope-from <ross.burton@intel.com>) id 1UX76y-00071z-0u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Apr 2013 11:43:04 +0200
-Received: by mail-vc0-f177.google.com with SMTP id gf12so228800vcb.36
+	Tue, 30 Apr 2013 11:44:39 +0200
+Received: by mail-vc0-f179.google.com with SMTP id hz10so226287vcb.38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2013 02:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=SW1jUDyVxH8uQHT0r8GU1nYsn2jInsCj23i9jw1Fm7M=;
-	b=ai7Acn4kjuf6yvMEMhhEdsaEiSvLGgoks0+adQmdXkB/PVb+1P5bIPFsAlhql7CGp5
-	ZJ8n0MaMD2AcXcz3PVm5pixiU/A8j30WihtRqCHuEzllhTyCwQ8UZXj8B32NlZQm03WU
-	kiHGoKOrE2CjQXU65s+DTUEmZ2ORDYkdNhWtxu9M6Yebt0syLf4JKzejDa2PYANQLfdl
-	bT1cvT+Hkh58Kq/pVfVE645cByvL375N1HiFjSsp28FOJt8WLSdRSAbvm6OHd6PUz0m/
-	MPYi+IJYRmzxxHt/Yq8Qnm90dr9c1X4neg70XxT1bPW7hMDA33xwHgo0pZw8J5LWo9/z
-	x+yw==
+	Tue, 30 Apr 2013 02:26:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=ypVf4DdySVSnFr4hyuJRvbN9m2VAWZ5nEDiP2tF8Yfg=;
+	b=dge8oF1Lu+N81UcAdCoDO1SItMIfj6CUymcgODdt9wqLR5nIZj7Th9gAoTLGBlSC9U
+	OX1LafYjKr5k3uPB50th/TKOtmPCWmTa2w++ATbbLEyFi8RyNakxZeuaDVrzwujy5ouL
+	U3RgqKV0+M1j7ehK4uaHFmgKKj4NL57EZgPE1bnT+Km2v/R10O9DRVRa61otXBSBkoPA
+	JaVfrcjMm8KxxTsXHbYMt/N6iI+hSKxjJXqU7v+mybJKVim3oyAJBXbQS4NCVPppw+v1
+	MZM7NU7Ml5CYPLi75+nkIN6GHIqX8YPbZ1I+LdWDuDMlmtEar8Y3aE7hLG5GrEA/TAmb
+	ZzBw==
+X-Received: by 10.220.155.8 with SMTP id q8mr28655093vcw.42.1367314005337;
+	Tue, 30 Apr 2013 02:26:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.52.170.204 with SMTP id ao12mr28962786vdc.83.1367313909462; 
-	Tue, 30 Apr 2013 02:25:09 -0700 (PDT)
-Received: by 10.52.183.36 with HTTP; Tue, 30 Apr 2013 02:25:09 -0700 (PDT)
-In-Reply-To: <F1511140-B61E-4A53-83DB-8B4E494CEA75@dominion.thruhere.net>
+Received: by 10.221.8.3 with HTTP; Tue, 30 Apr 2013 02:26:25 -0700 (PDT)
+In-Reply-To: <0898467A-BB4A-4301-BEA9-696BBE5CE889@dominion.thruhere.net>
 References: <1367307108-18479-1-git-send-email-schnitzeltony@googlemail.com>
 	<CAJTo0Lb-RNvd85JO6O0iTZSiuJ3HMe6=rpGdgqa4QF4Xv0SE_g@mail.gmail.com>
-	<F1511140-B61E-4A53-83DB-8B4E494CEA75@dominion.thruhere.net>
-Date: Tue, 30 Apr 2013 11:25:09 +0200
-Message-ID: <CALbNGRSpz5zGFJXfWGWxxp+XK+uJicTumMURb7vt8hn=zcL6qg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+	<CAJTo0La_jjN2COZzdcst99Cutm5uNER4Yqu8ayc3YXuHYAfJDw@mail.gmail.com>
+	<0898467A-BB4A-4301-BEA9-696BBE5CE889@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Apr 2013 10:26:25 +0100
+Message-ID: <CAJTo0LY62=ddypnShkyWbXaDrEx2b1ss9mLopnbpb++mSnDafg@mail.gmail.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQnKkQ//dBXfkYgJB+u+JR2IT0suqZ+JHXF8ydfwGd/fd3v80ra8FJbJ0GPCID8G5/PJZoKw
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] systemd: do not recommend udev-extraconf for udev
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,35 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2013 09:43:11 -0000
+X-List-Received-Date: Tue, 30 Apr 2013 09:45:37 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 30, 2013 at 11:14 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
+On 30 April 2013 10:21, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> Oh, and the images in oe-core need to be fixed to bring in
+>> udev-extraconf as required.  The initramfs does already, but then we
+>> need to have the debate on what other images should.  core-image-sato
+>> certainly should depend on it, but what about core-image-minimal and
+>> so on?
 >
-> Op 30 apr. 2013, om 11:09 heeft "Burton, Ross" <ross.burton@intel.com> he=
-t volgende geschreven:
->
->> On 30 April 2013 08:31, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m> wrote:
->>> * adding this extra functionality is an image- or distro-decision
->>> * at least automount-rule/script breaks other automount solutions causi=
-ng
->>>  misleading kernel messages as 'VFS: could not find a valid V7 on sda'
->>>
->>> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
->>
->> If you're going to do this, please also do udev at the same time.
->
-> http://patches.openembedded.org/patch/48183/
-Suggestion / to be discussed:
+> If you want people to use those images as a base for their own image: don't drag in udev-extraconf
 
-* same for udev 182
-* add udev-extraconf to core-image-sato
-* add to core-image-minimal
-* ?
+Sato should as that's basically been part of the defined experience.
+minimal was basically a strawman - obviously it shouldn't.  It's the
+others which are more debatable.  A series that removes udev-extraconf
+from udev and systemd, then adds it to core-image-sato in some way
+sounds good to me.
 
-Andreas
+Ross
 
 
