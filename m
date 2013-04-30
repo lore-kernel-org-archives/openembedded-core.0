@@ -1,37 +1,28 @@
-Received: from mail-vc0-f179.google.com ([209.85.220.179])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UX7A4-0007JH-Nu
-	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Apr 2013 11:47:54 +0200
-Received: by mail-vc0-f179.google.com with SMTP id hz10so236930vcb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2013 02:29:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=XIY4oxSQwwj0dsE3kdyb7+R/q0/anUtA7MmNu1UweBE=;
-	b=I0NO6J/XGuqTzdz6a1pSp+oM83+Nzs2sjMoLA47xfdFOXc1SHFif18CqDiCwY3YxH9
-	Fk8GG++sRIRK7VHYdEs+EZFo8Bk4dmmeFhe1G/v/JIEbxCekhURmuJmnHdvw9wN30j4A
-	N9uZXTHCwORwDU9b2HS+5rGEMZNAoc9RQ0iLY8ex7VexdedCO3Oay8PyuEobAq2Vv1ng
-	4/IzS4b18XiFRVs+3mJ4PqVql4au15NfvgFwcOP9Ur63d+SEgIMDRsCoGjJF3oMJ5D3V
-	UjiijTl8PF8Qzk/4Yp7yCP2Zf27/2vHer1uPaIdSLhd5A1EzDueOCROBK5MxF6CZWQ4l
-	7MPA==
-X-Received: by 10.220.78.131 with SMTP id l3mr2651494vck.54.1367314190007;
-	Tue, 30 Apr 2013 02:29:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Tue, 30 Apr 2013 02:29:29 -0700 (PDT)
-In-Reply-To: <ABE1F3FA-9C6C-4B22-88CB-860E6311BD13@dominion.thruhere.net>
-References: <CALbNGRRndfF8dvQhtnSgzcE-72KGOP4tb5BQx_Z-205Dr2prGw@mail.gmail.com>
-	<ABE1F3FA-9C6C-4B22-88CB-860E6311BD13@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Apr 2013 10:29:29 +0100
-Message-ID: <CAJTo0LYL=ZkYEiGvot9xzDcsvFpAOZhecakt3ekYejqis1rqQA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnZv/KS+2Tad7ky9lDtxM7dyYAwu8nBRkMK2eXMf/Ue/Qwe4wOilN821h2eOafCA86lKbUB
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: udev-extraconf conflicts
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UX7EH-0007ce-5N for openembedded-core@lists.openembedded.org;
+	Tue, 30 Apr 2013 11:52:14 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UX6wy-0005a6-IB; Tue, 30 Apr 2013 11:34:16 +0200
+Message-ID: <1367314455.14512.147.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 30 Apr 2013 10:34:15 +0100
+In-Reply-To: <ly61z5c4j8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1367249183-2579-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<CAJTo0Laf-d0hz5kkRZZAr7W4yGs+aYaTu51XU2k2q-s0p57q5A@mail.gmail.com>
+	<lyip35jpw8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LYGf=QtQ_dEbaUiFWOGjpAjfNXqCPY_XYrt+G-rUhcsOg@mail.gmail.com>
+	<lyehdtjmkw.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<517EF523.2060405@linux.intel.com>
+	<ly61z5c4j8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: [PATCH 1/7] bitbake.conf: fix definition of ${libexecdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2013 09:47:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Apr 2013 09:52:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 30 April 2013 10:11, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Indeed, it's fun to see the flurry of patches trying to fix things up for 'xuser'. I'm fond of the saying "If you find yourself in a hole, stop digging".
+On Tue, 2013-04-30 at 01:15 +0200, Enrico Scholz wrote:
+> 1. ${prefix}/libexec
+> 
+>    --> clean separation, commonly used, but not FHS compliant (unless
+>    somebody interprets "/usr/lib<qual> : Alternate format libraries
+>    (optional)" with '<qual>=exec')
 
-Agreed, anything that involves *more* knowledge of xuser beyond the X
-startup script is Very Bad Indeed.
+Actually, FHS 3.0 draft 1 does appear to admit the possibility of
+libexec again:
 
-Ross
+http://www.linuxbase.org/betaspecs/fhs/fhs.html#usrlibexec
+
+So maybe this option isn't (or won't be) so noncompliant as it might
+first have appeared.
+
+p.
+
+
 
 
