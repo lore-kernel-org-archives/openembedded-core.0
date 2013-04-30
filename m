@@ -1,39 +1,31 @@
-Received: from mail-ee0-f41.google.com ([74.125.83.41])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UXA0j-0002Ao-M2
-	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Apr 2013 14:50:24 +0200
-Received: by mail-ee0-f41.google.com with SMTP id c50so232855eek.28
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UXAAF-0002ti-PX for openembedded-core@lists.openembedded.org;
+	Tue, 30 Apr 2013 15:00:36 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3UChjjU014231 for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2013 13:43:46 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VaxfmEgw3gvC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2013 05:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding;
-	bh=s8du8gGYrf5KS52jQ+34mYe6riLJa4TfWStlbW0UIiU=;
-	b=AN2BXVrTd00uzje13Ex2x1SWCm8mNjMPC+8erRDyg1Y3NDhGqPVMKQCWUInlhyin1+
-	hJ6lVmgEOUN+Yl17YxbzeAdmvQqNFeYGmxy+DbYvINaPIThfTCtzk3apqOXT3rCzDDWR
-	rBGfA+md6CVHePGja0Odt/IN+lJb5LAnRTWt+YJMflRCToNoN7itNquFrV1hCXRkP3IC
-	Xe0x4ZsSmnnwGaBv7mtLcKVhb4U6eOo0SBqk7vdYIXk6wIogGd1MkMDQ3MAWIQvESm2+
-	4r9lL3ZXvVDYyn5dBLOkxZDU2jbo1oAtqzOJskd/YQF1a0U5rMOf2yv8FWWn2OgjCWtL
-	h0fw==
-X-Received: by 10.14.202.201 with SMTP id d49mr16084398eeo.1.1367325151350;
-	Tue, 30 Apr 2013 05:32:31 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-160-204.unitymediagroup.de.
-	[95.222.160.204])
-	by mx.google.com with ESMTPSA id cd3sm38486124eeb.6.2013.04.30.05.32.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 30 Apr 2013 05:32:30 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Apr 2013 14:30:04 +0200
-Message-Id: <1367325004-7740-3-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <1367325004-7740-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1367325004-7740-1-git-send-email-schnitzeltony@googlemail.com>
-MIME-Version: 1.0
-Subject: [PATCH/v2 3/3] core-image-sato: add udev-extraconf
+	Tue, 30 Apr 2013 13:43:45 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r3UChfoU014214
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2013 13:43:43 +0100
+Message-ID: <1367325716.5379.90.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Apr 2013 13:41:56 +0100
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: [PATCH] dpkg: Ensure target packages don't reference perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,32 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2013 12:50:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Apr 2013 13:00:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-as discussed in [1-2]
+Currently a load of scripts in ${bindir} start with:
 
-[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/039025.html
-[2] http://lists.linuxtogo.org/pipermail/openembedded-core/2013-April/039027.html
+which is undesireable, this patch fixes that.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-sato/images/core-image-sato.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 92a5adc..d773fbd 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -47,6 +47,7 @@ do_install_append () {
+ 		rm ${D}${bindir}/update-alternatives
+ 	else
+ 		mv ${D}${bindir}/update-alternatives ${D}${sbindir}
++		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
+ 	fi
+ }
+ 
 
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index e3246d2..76abb17 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -8,4 +8,4 @@ LICENSE = "MIT"
- 
- inherit core-image
- 
--IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
-+IMAGE_INSTALL += "packagegroup-core-x11-sato-games udev-extraconf"
--- 
-1.7.6.5
 
 
 
