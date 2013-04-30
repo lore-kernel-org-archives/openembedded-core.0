@@ -1,35 +1,20 @@
-Received: from mail-ve0-f171.google.com ([209.85.128.171])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.betafive@gmail.com>) id 1UXATo-0004S4-5U
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UXCM6-0003n7-4f
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Apr 2013 15:20:28 +0200
-Received: by mail-ve0-f171.google.com with SMTP id oy12so347450veb.30
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2013 06:02:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=jQNbVmvB2zu8gZoEtcj1wa5hWQWQ13JKvX5vrJlUcuI=;
-	b=elIZjaxRBREPCKEXw8dJ7IxxZe+YQTpM9cl9WiSIdesHB9RSdlcdefb/fhD6xvTtF1
-	P9u/bcF6mAwOBzdBoBJ3AapxHuJbTZkrSateaea4NVUoYkVNwJu/+hIgWyrFIhpHUNL5
-	Dp6tlARj4HmXsI15ztFY6uPgkPIwIdbITyHuaOZs3eh3jdvfKCj14fbr4o+XPg0wBdpW
-	raoeHNCqcG/I19X1yOG1kfpBznCXocOt6w64DvE9PBNBVowAZsJpfFmLGP29GBU+Ezp2
-	pB9J8FDzUVgWqTv+a/NKtOnIjH3iXB/6njaar4YCIhFIWAEDaBnnuL5IYrmUMfG3TitU
-	wndQ==
-MIME-Version: 1.0
-X-Received: by 10.52.67.11 with SMTP id j11mr412999vdt.87.1367326952402; Tue,
-	30 Apr 2013 06:02:32 -0700 (PDT)
-Sender: paul.betafive@gmail.com
-Received: by 10.220.48.5 with HTTP; Tue, 30 Apr 2013 06:02:32 -0700 (PDT)
-In-Reply-To: <1367325716.5379.90.camel@ted>
-References: <1367325716.5379.90.camel@ted>
-Date: Tue, 30 Apr 2013 14:02:32 +0100
-X-Google-Sender-Auth: jsBlAkJN5DnJ9qBS27xRzIzACW8
-Message-ID: <CANyK_8f0a-PRB22bCQekZLPp7aKH75yO4noUpZ7damPsPcnzaA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dpkg: Ensure target packages don't reference perlnative
+	Tue, 30 Apr 2013 17:21:33 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 30 Apr 2013 08:02:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,582,1363158000"; d="scan'208";a="234837372"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Apr 2013 08:02:11 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2013 18:02:10 +0300
+Message-Id: <1367334130-8919-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] adt-installer: do not dereference symlinks when relocating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,23 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2013 13:20:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 30 Apr 2013 15:21:42 -0000
 
-On 30 April 2013 13:41, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Currently a load of scripts in ${bindir} start with:
->
-> which is undesireable, this patch fixes that.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This was already fixed for meta-toolchain.
 
-Missing a line in the commit message?
+[YOCTO #4157]
 
---
-Paul Barker
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index b80a7ed..4322964 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -217,7 +217,7 @@ find $OECORE_NATIVE_SYSROOT -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\
+ 
+ # change all symlinks pointing to /opt/${DISTRO}/${SDK_VERSION}
+ for l in $(find $NATIVE_INSTALL_DIR -type l); do
+-    $SUDO ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:") $l
++    $SUDO ln -sfn $(readlink $l|sed -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:") $l
+ done
+ 
+ echo_info "\nSuccessfully installed selected native ADT!"
+-- 
+1.7.9.5
+
 
 
