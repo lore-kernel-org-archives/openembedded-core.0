@@ -1,41 +1,38 @@
-Received: from mail-wg0-f54.google.com ([74.125.82.54])
+Received: from mail-wi0-f174.google.com ([209.85.212.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UXRWD-0002Ra-09
+	(envelope-from <ross.burton@intel.com>) id 1UXUSM-0002c2-Aw
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 May 2013 09:32:01 +0200
-Received: by mail-wg0-f54.google.com with SMTP id y10so1120981wgg.33
+	Wed, 01 May 2013 12:40:23 +0200
+Received: by mail-wi0-f174.google.com with SMTP id m6so4783803wiv.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2013 00:14:09 -0700 (PDT)
+	Wed, 01 May 2013 03:22:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=aPxE42n3RoeE0NGL0p6tDWh7fDwRRjASxnQzslkAXh4=;
-	b=WWmzyEgFAFB1INEwfWInlXFh+Ip0xW7RBZopv7yZFb1ahqHlCHyrOOwwnGpbYVjcVP
-	aYjbwA3aH9OF2sqxAXQi4Nom8+KCjriWkmZhEV2nUNuWWBF5CkEUgSX1kMHVL468VMKY
-	Y3fclSVyBlUXZjXle791jZf+AfOC3KKdqn1DUgYRJus2FDt5zJIhxSRw66mwYBYrx02k
-	jrUFQuArktT0woLBkYM+m2kCVUUFp3mkV6uTKhwL82wgcC5VTkz1oDjrpUsSkwUfcXgR
-	pFcQqwEc+cckusD83XQlXN4Ka5w2BpWgShA+VBye39OOC112vqUMp46nTUmVr9JeZfMZ
-	dWDw==
-X-Received: by 10.180.36.165 with SMTP id r5mr2799832wij.18.1367392449426;
-	Wed, 01 May 2013 00:14:09 -0700 (PDT)
-Received: from [172.20.0.3] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id c5sm6928189wiz.11.2013.05.01.00.14.07
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 01 May 2013 00:14:08 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1367340369.git.paul.eggleton@linux.intel.com>
-Date: Wed, 1 May 2013 09:14:07 +0200
-Message-Id: <901A6989-8E12-4FE6-864D-C5584284512F@dominion.thruhere.net>
-References: <cover.1367340369.git.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQkNdAP0dLRUNm9bGAKnP31Db27LrIJmqqPdOIrVctEvgIYix4wWq/5SJuxW+FzugFCi5NJC
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] SERIAL_CONSOLES improvements
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:x-gm-message-state;
+	bh=W8ihPeRUaU6SYw00bJfj+3FSNmghzeriylAQbEqYlLI=;
+	b=GwoA+bZWZEQYp3Pb3LbyUlW4mGgc1aidiyyzyBEoj7+OEoqyrZpEPWcXVgYjULqLm4
+	Rd0vihE8MkAA1MG9h1wmPjazh8TFdPxHejuHtGp5HFHs8PIzeBvnmtvAKJ03uWRzjVZC
+	8gcwf1iP3N22UrxrEbdq7PgtwYaPcPgzOB7YeIGasv5roLWA69tknyjHu+nR0ODJlbDZ
+	y1m5LwEdUICrp8+Snz1t7neRO6mQ3GolS+Gm2WtXLt4llHh2oBlFkIpp1pSX56ShmpVo
+	e1xfX2THL7MQVZn4jsfGERoM3CtvD5c7NmrJholQcie3+Qd5ZpE9DbY8J4lYBFgKKNWZ
+	/49w==
+X-Received: by 10.180.205.135 with SMTP id lg7mr2042271wic.11.1367403742657;
+	Wed, 01 May 2013 03:22:22 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fz3sm3018245wib.0.2013.05.01.03.22.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 01 May 2013 03:22:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 May 2013 11:19:20 +0100
+Message-Id: <06a1154d758be0744da68717b31077cc02ec657e.1367403369.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1367403369.git.ross.burton@intel.com>
+References: <cover.1367403369.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkgAi5lyrBLGjMaWQ3CZ5CEtgZ4hx1MRAWzIQeum9xSxvgL+XJVP64TpCFloi4mTSmk693s
+Subject: [PATCH 1/3] libsoup: upgrade to 2.42.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,33 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2013 07:32:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 May 2013 10:40:25 -0000
+X-List-Received-Date: Wed, 01 May 2013 10:40:25 -0000
 
+Upgrade to the latest stable release, and fix the dependencies.
 
-Op 30 apr. 2013, om 18:52 heeft Paul Eggleton =
-<paul.eggleton@linux.intel.com> het volgende geschreven:
+gnome-keyring use has been removed from libsoup, and sqlite3 is now a hard
+dependency.  The optional libsoup-gnome library is now a small stub, so enable
+it by default but allow it to be disabled via PACKAGECONFIG.
 
-> Having two variables to enable essentially the same behaviour isn't
-> really desirable, so fix up the handling of SERIAL_CONSOLES, set it
-> from SERIAL_CONSOLE by default if not set and change everwhere we read
-> SERIAL_CONSOLE to read from SERIAL_CONSOLES instead. This should allow
-> us to deprecate SERIAL_CONSOLE whilst retaining compatibility with
-> machine configurations that still use it.=20
->=20
-> Note: I'm a bit concerned about the default setting of SERIAL_CONSOLE =
-in
-> systemd-serialgetty; I'm not sure why this is needed given that this =
-is
-> almost always going to be machine-specific. I've left it alone for the
-> time being however.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb}     |   14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} (59%)
 
-It is always machine specific, but at the time of writing SERIAL_CONSOLE =
-wasn't being set by all machines leading to parse failures.
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
+similarity index 59%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
+index 53807af..ef8d439 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.40.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
+@@ -5,20 +5,20 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ 
+-PR = "r1"
+-
+ SECTION = "x11/gnome/libs"
+ 
+-DEPENDS = "glib-2.0 gnutls libxml2 libproxy"
++DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gnome', '', d)}"
+-PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome,libgnome-keyring sqlite3"
++# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
++# by default but let it be easily disabled.
++PACKAGECONFIG ??= "gnome"
++PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
+ 
+ SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "211ec6b733d4de33056b56838c88436e"
+-SRC_URI[sha256sum] = "32e81220f53abb1f5bbe7d8b0717119df70667fc48e2342d82209ed1593e71dc"
++SRC_URI[md5sum] = "aaccd590a8002b69716f885fa8589887"
++SRC_URI[sha256sum] = "20bd5365bb3e7de70fade91ac82c9dea31636318df90b8c26bc4cde2523a8c91"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
+-- 
+1.7.10.4
 
-regards,
-
-Koen=
 
 
