@@ -1,41 +1,35 @@
-Received: from mail-ee0-f46.google.com ([74.125.83.46])
+Received: from mail-vc0-f182.google.com ([209.85.220.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UXVe1-0002i6-Eq
+	(envelope-from <ross.burton@intel.com>) id 1UXVkD-0003hU-Up
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 May 2013 13:56:30 +0200
-Received: by mail-ee0-f46.google.com with SMTP id c13so647581eek.33
+	Wed, 01 May 2013 14:02:50 +0200
+Received: by mail-vc0-f182.google.com with SMTP id ht10so1210015vcb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2013 04:38:29 -0700 (PDT)
+	Wed, 01 May 2013 04:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=uW1naMDG81ivyairWFjYK2FekHO4jeAEThyrHiXZ31w=;
-	b=NpLO8TeZMtPhPfvdN+ScM0n0F96Hm0x8HU/NHtvKV4/liWGZJ6uCJj6GeZ2nKTZEzP
-	r9MpFlPV4b5sWD98n+UCIEVDPDN6yuLGYmwyjXNRTUsPKUq2Ou3BMja6QJEIo0VZFtj0
-	lx6vqAt5k9hpvf3sFR2rGzzA8SFHKuv8OVwd5H3H1GaYBZeLPB4dqOPMy8B85GcZBnj3
-	Zby0qjNOFBgmyPYCR2LIR1x+TrDZ7fgw6sm/sAhzc9WcMnbpFHCw+J4BYC82xT1Wq9iC
-	nnOLX2xz5c8X1lXNm11MXcg8PHB53UQLPid9oMW4B9kgupi76hcYlKdvn/ORg3WKCl8S
-	lUPg==
-X-Received: by 10.15.43.73 with SMTP id w49mr7218008eev.12.1367408309391;
-	Wed, 01 May 2013 04:38:29 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::6401:2390:53c2:ab85?
-	([2001:610:612:0:6401:2390:53c2:ab85])
-	by mx.google.com with ESMTPSA id bj12sm3233152eeb.8.2013.05.01.04.38.27
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 01 May 2013 04:38:28 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <06a1154d758be0744da68717b31077cc02ec657e.1367403369.git.ross.burton@intel.com>
-Date: Wed, 1 May 2013 13:38:28 +0200
-Message-Id: <2F6BFA0E-EB8F-4335-9BF8-852D7F056696@dominion.thruhere.net>
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=dQ6Pnn1VkLFqr5w9d1YV3cV/8EevbwsqdfpxP6LVQJQ=;
+	b=pwlBbwuTktaVQmi77MsULw9ZHCuaF0Jx+KFhZkmYuQBy6TGI56M8lWFwd4WQOgt+SR
+	ZwraqyjF9vO3C0K9M2y4AYWXPLzFsLJDe/iEn5JDukapGIGGqT7dxjV6NMdFHX9RKlR3
+	RStr+uwZlX2yRV33ZVOdk4+wLn4odJAwVg+qrFIpVf9VXaNmYBIEvsPO8y26lihfqxYx
+	fforSyNzmGR2DYQObEaLoIZX0qUJyhWjA1rFEfUBk0vgGT/EIKQvdWY6HoMcdGGlCVeJ
+	bryznYfzcUzdz32HNvvxDvw8oJdex4phQgtlY6/FagAJ0fKLnK88lnio6ax+vHOmUryN
+	MR/w==
+X-Received: by 10.52.174.41 with SMTP id bp9mr657825vdc.4.1367408693657; Wed,
+	01 May 2013 04:44:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.221.8.3 with HTTP; Wed, 1 May 2013 04:44:33 -0700 (PDT)
+In-Reply-To: <2F6BFA0E-EB8F-4335-9BF8-852D7F056696@dominion.thruhere.net>
 References: <cover.1367403369.git.ross.burton@intel.com>
 	<06a1154d758be0744da68717b31077cc02ec657e.1367403369.git.ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQlH9dHjwARUuyGwTJSczW3MNvevrm/EJZKBWcoFnksZKRgnLrhWqb+NgP/Ha1fXazGxwN7J
+	<2F6BFA0E-EB8F-4335-9BF8-852D7F056696@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 May 2013 12:44:33 +0100
+Message-ID: <CAJTo0LY3tfCLsYLYP0RKR80qcAAn3yaXqpjfA-4JNyhLDuaVBg@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQm3hSnMB8l8U2yqRs+/AnjHSLKpLYxJO5iRpdSmnMPN0lJj/E96v0pVpvyXzolxLq8LHUUi
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/3] libsoup: upgrade to 2.42.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,22 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2013 11:56:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 May 2013 12:02:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 1 May 2013 12:38, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Sweet, that drops a load of dependencies for gstreamer http sources!
 
-Op 1 mei 2013, om 12:19 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
+Yes, the buildhistory-diff was a delight :)
 
-> Upgrade to the latest stable release, and fix the dependencies.
->=20
-> gnome-keyring use has been removed from libsoup, and sqlite3 is now a =
-hard
-> dependency.  The optional libsoup-gnome library is now a small stub, =
-so enable
-> it by default but allow it to be disabled via PACKAGECONFIG.
-
-Sweet, that drops a load of dependencies for gstreamer http sources!=
+Ross
 
 
