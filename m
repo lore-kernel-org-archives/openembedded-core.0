@@ -1,36 +1,40 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-we0-f172.google.com ([74.125.82.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UXUSH-0002bh-Sv
+	(envelope-from <ross.burton@intel.com>) id 1UXUSP-0002cJ-7F
 	for openembedded-core@lists.openembedded.org;
 	Wed, 01 May 2013 12:40:23 +0200
-Received: by mail-we0-f175.google.com with SMTP id i48so1137127wef.20
+Received: by mail-we0-f172.google.com with SMTP id r6so1117522wey.31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2013 03:22:18 -0700 (PDT)
+	Wed, 01 May 2013 03:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=9hoIZMw+CMExpQfFadJdvkAIOMCg0Ax9TWHbVTEY6CY=;
-	b=bT/9Yd4LM/81zLtY4gVPc0LW+WUtYkXttPurVmHOCcLooFvjFVOPVf91/bvfQpvMTI
-	FLjCkmgJEUYYe7InFLwpXZRxDOvToIj8U1wB/FJ+GrBNz71hfNVXPAmfGf+bOmf4C1/Z
-	3Md7Weza+eqWRXdwqMxIFx2H2HLhmXWNgcuw96WsrRsfMeDa2Z4YzwxBAFNbWZ17uegH
-	CBw/O6dwr6ag1QNFKncNfTVdNAyQYJajXyf+XJ49e/HzLKB/5OpJbhdAvtSqT/ssqJQw
-	Cnj69m0KfI/6w4b2TO00HfedREiSlp6dSpw0qa5+lqH9+vsoSsbzrTBE3PrxU2iwhBdS
-	9TMQ==
-X-Received: by 10.180.149.200 with SMTP id uc8mr29453473wib.3.1367403738138;
-	Wed, 01 May 2013 03:22:18 -0700 (PDT)
+	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:x-gm-message-state;
+	bh=rnDrLLfEpfYH6pZOxgu8OuyoK+gqXsgFYwFsEjDm3eM=;
+	b=ST74GvYh5g6t00soXQ6MR0/ZDOU30quizkEMytYhKCQFN4FyILuARWEfrt9QGIcCQZ
+	6foJcalQ9ND1Mu6IXiU7FkSTWGsaK7GJ26bu+zGDtGU7H9tTTFRgzAKSPsthxYm4XJbI
+	SW0YhNivXN/oAE0WuIGG7iQhex56pk5PcdVoCMqHVRUBhHWcS/v7L8Dn9qcAkEM/3axu
+	PeF/ByB8PcDoHvrCnfRw1hTa9FOiPYREnDk/cur026scYIHjgfreZRJ4hiYYA9N1EoVE
+	mNFFxnWEj3M0ZX2gd/S8a9VxE2cW7snensvEpUeJud3t4ZexV3QIAU6UdafNGZTk/vwt
+	K2ag==
+X-Received: by 10.194.178.162 with SMTP id cz2mr2185932wjc.27.1367403745440;
+	Wed, 01 May 2013 03:22:25 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	eu18sm21520980wid.1.2013.05.01.03.22.16 for <multiple recipients>
+	by mx.google.com with ESMTPSA id fz3sm3018245wib.0.2013.05.01.03.22.24
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 01 May 2013 03:22:17 -0700 (PDT)
+	Wed, 01 May 2013 03:22:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 May 2013 11:19:17 +0100
-Message-Id: <cover.1367403369.git.ross.burton@intel.com>
+Date: Wed,  1 May 2013 11:19:22 +0100
+Message-Id: <14c10a2894fd7e722a8443b03b12462ab8bdfdad.1367403369.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmnRI6PjFcvrZgqtZXubtd1RUYP/rPyfTjSF+NfXiuAOSw0WtBzREtDhBOABa/eFxVFL8Xi
-Subject: [PATCH 0/3] update libsoup, remove gnome-keyring
+In-Reply-To: <06a1154d758be0744da68717b31077cc02ec657e.1367403369.git.ross.burton@intel.com>
+References: <06a1154d758be0744da68717b31077cc02ec657e.1367403369.git.ross.burton@intel.com>
+In-Reply-To: <cover.1367403369.git.ross.burton@intel.com>
+References: <cover.1367403369.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQlbVyZW114FO8+ECEao/eJFXhgdiuIDLKqTqE/sqpHyKrIY+1qJnfrANAI24JEmORBLG8en
+Subject: [PATCH 3/3] libgnome-keyring: remove, nothing in oe-core uses this anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,59 +49,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 01 May 2013 10:40:25 -0000
 
-Hi,
-
-This series upgrades libsoup to the latest stable release.  This release also
-remoes the libgnome-keyring use, so delete libgnome-keyring and gnome-keyring
-from oe-core (these have already been integrated into meta-gnome).
-
-Ross
-
-The following changes since commit c42cc8fb38aee46f4778b9c68412a47ae5919923:
-
-  neard: add systemd unit file (2013-04-29 15:31:41 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/soup
-
-for you to fetch changes up to 14c10a2894fd7e722a8443b03b12462ab8bdfdad:
-
-  libgnome-keyring: remove, nothing in oe-core uses this anymore (2013-05-01 11:14:39 +0100)
-
-----------------------------------------------------------------
-Ross Burton (3):
-      libsoup: upgrade to 2.42.1
-      gnome-keyring: remove, nothing uses it in oe-core
-      libgnome-keyring: remove, nothing in oe-core uses this anymore
-
- meta/conf/distro/include/seperatebuilddir.inc      |    2 -
- .../gnome/gnome-keyring/org.gnome.keyring.service  |    3 --
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   44 --------------------
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |   19 ---------
- ...libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} |   14 +++----
- 5 files changed, 7 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring/org.gnome.keyring.service
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/seperatebuilddir.inc       |    1 -
+ meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |   19 -------------------
+ 2 files changed, 20 deletions(-)
  delete mode 100644 meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} (59%)
 
-Ross Burton (3):
-  libsoup: upgrade to 2.42.1
-  gnome-keyring: remove, nothing uses it in oe-core
-  libgnome-keyring: remove, nothing in oe-core uses this anymore
-
- meta/conf/distro/include/seperatebuilddir.inc      |    2 -
- .../gnome/gnome-keyring/org.gnome.keyring.service  |    3 --
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   44 --------------------
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |   19 ---------
- ...libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} |   14 +++----
- 5 files changed, 7 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring/org.gnome.keyring.service
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
- delete mode 100644 meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} (59%)
-
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index f70ae68..d113f92 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -291,7 +291,6 @@ B_pn-libgcc = "${SEPB}"
+ #B_pn-libgcrypt-native = "${SEPB}"
+ B_pn-libglade = "${SEPB}"
+ B_pn-libglu = "${SEPB}"
+-B_pn-libgnome-keyring = "${SEPB}"
+ B_pn-libgpg-error = "${SEPB}"
+ B_pn-libgpg-error-native = "${SEPB}"
+ B_pn-libice = "${SEPB}"
+diff --git a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+deleted file mode 100644
+index 8ed44f3..0000000
+--- a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-DESCRIPTION = "Compatibility library for accessing secrets"
+-HOMEPAGE = "http://www.gnome.org/"
+-BUGTRACKER = "https://bugzilla.gnome.org/"
+-
+-LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0914b9d3ebaba41ef2e3e0ae16f296cf \
+-                    file://library/gnome-keyring.h;endline=25;md5=68ea64f81c160d670c37da5f137be4fb \
+-                    file://library/gnome-keyring.c;endline=26;md5=8d7a4fb674aaa012ea5a98e7c368b4a5 \
+-                    file://egg/egg-dh.h;endline=22;md5=1626c16af2a8da1f88324cf3ced33f08"
+-
+-SECTION = "x11/gnome/libs"
+-PR = "r3"
+-
+-inherit gnome gtk-doc
+-
+-DEPENDS = "dbus libgcrypt glib-2.0 intltool-native"
+-
+-SRC_URI[archive.md5sum] = "c42b2ca66204835d901d3dbfc1fa5ae6"
+-SRC_URI[archive.sha256sum] = "56388c0d81ddfdb57d30e4963c83ecc1c18498aab99395420e0fff69929a0f0c"
 -- 
 1.7.10.4
 
