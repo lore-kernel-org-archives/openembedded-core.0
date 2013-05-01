@@ -1,28 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UXeMB-0000Z6-3q
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 May 2013 23:14:49 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 May 2013 13:56:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,591,1363158000"; d="scan'208";a="306403471"
-Received: from envy2.jf.intel.com (HELO envy2.home) ([10.7.199.54])
-	by orsmga001.jf.intel.com with ESMTP; 01 May 2013 13:56:37 -0700
-Message-ID: <51818184.4000301@linux.intel.com>
-Date: Wed, 01 May 2013 13:56:36 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-References: <1366991439-14728-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1367052737-8519-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<51817A25.6050009@linux.intel.com> <5181806C.4070708@r-finger.com>
-In-Reply-To: <5181806C.4070708@r-finger.com>
-X-Enigmail-Version: 1.5.1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ia32-base.inc: remove inapropriate grub dependency
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UXeVB-00016x-BC for openembedded-core@lists.openembedded.org;
+	Wed, 01 May 2013 23:23:58 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UXeDu-0007wZ-Fr; Wed, 01 May 2013 23:05:58 +0200
+Message-ID: <1367442335.25055.23.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Wed, 01 May 2013 22:05:35 +0100
+In-Reply-To: <51816817.7080101@linux.intel.com>
+References: <1367244122.14512.124.camel@phil-desktop.brightsign>
+	<51816817.7080101@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Don't include source files for "other" architectures in the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2013 21:14:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 01 May 2013 21:24:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2013-05-01 at 12:08 -0700, Darren Hart wrote:
+> You've stated that this successfully removes code on mips, have you also
+> tested that basic module building still works? For example, does
+> hello-mod still build?
 
+I didn't try hello-mod, but the two (proprietary) out-of-tree modules
+that we routinely build into our own images do still compile and work.
 
-On 05/01/2013 01:51 PM, Tomas Frydrych wrote:
-> On 01/05/13 21:25, Darren Hart wrote:
->>
->>
->> On 04/27/2013 01:52 AM, tf+lists.yocto@r-finger.com wrote:
->>> From: Tomas Frydrych <tomas@sleepfive.com>
->>>
->>> There is no good reason for ia32 machines to have hard dependency on grub,
->>> as there are other bootloaders available for ia32 platforms.
->>>
->>> Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
->>> ---
->>>  meta/conf/machine/include/ia32-base.inc |    1 -
->>>  1 file changed, 1 deletion(-)
->>>
->>> diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
->>> index 921c740..cb542a5 100644
->>> --- a/meta/conf/machine/include/ia32-base.inc
->>> +++ b/meta/conf/machine/include/ia32-base.inc
->>> @@ -9,7 +9,6 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
->>>                       acpi serial usbgadget alsa"
->>>  
->>>  MACHINE_EXTRA_RRECOMMENDS += "kernel-modules eee-acpi-scripts"
->>> -MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "grub"
->>
->> Agreed - but do the images still build as currently written after you
->> remove it here?
+> Have you confirmed this on any other architectures? I'd like to see a
+> test at least on the core emulated BSPs (or maybe at least 2 of them)
+> before we pull this in as we have spent quite a bit of effort getting
+> modules building to date, I'd hate to break that due to a lack of testing.
+
+I've tested on arm and mips.  I guess I can set up a build tree for a
+qemu target on some other architecture if you like.
+
+> >  	make -C $kerneldir _mrproper_scripts
+> >  	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
+> > +	rm -rf $(find $kerneldir/arch -maxdepth 1 -not -path $kerneldir/arch/$ARCH -not -path $kerneldir/arch/Kconfig -not -path $kerneldir/arch/. -not -path $kerneldir/arch)
 > 
-> I have not tested the efi path, though I think the grub-efi.bbclass
-> takes care of the grub dependency. In the non-efi case the grub
-> dependency is taken care of by initramfs-live-install.bb.
+> Any particular reason for not using "-exec rm" like the other code
+> removal commands here?
 
-grub-efi is properly managed via the bootimg.bbclass and
-MACHINE_FEATURES ~= efi.
+No, just force of habit.  Using xargs is more performant in general, but
+"find -exec ..." is safer and I guess that's probably what we should do
+here too.
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+p.
 
-Thanks Tomas!
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
 
 
