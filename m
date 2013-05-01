@@ -1,21 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UXe9j-0008K8-L0
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UXeH6-0000EQ-Ma
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 May 2013 23:01:54 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 May 2013 13:43:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,591,1363158000"; d="scan'208";a="306398753"
-Received: from envy2.jf.intel.com (HELO localhost) ([10.7.199.54])
-	by orsmga001.jf.intel.com with ESMTP; 01 May 2013 13:43:46 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 May 2013 13:43:33 -0700
-Message-Id: <9abc1921f7db226aa6cf627e9ba1dffdd2dbe713.1367441013.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH] grub-efi-native: Cleanup whitespace
+	Wed, 01 May 2013 23:09:19 +0200
+Received: from [192.168.0.2] (host86-131-182-26.range86-131.btcentralplus.com
+	[86.131.182.26]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 402349528;
+	Wed,  1 May 2013 21:51:26 +0100 (BST)
+Message-ID: <5181804D.1010800@r-finger.com>
+Date: Wed, 01 May 2013 21:51:25 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1367439862-4658-1-git-send-email-tf+lists.yocto@r-finger.com>
+	<51817B44.30702@linux.intel.com>
+In-Reply-To: <51817B44.30702@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types: fix default location of kernel when generating elf images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,46 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2013 21:01:55 -0000
+X-List-Received-Date: Wed, 01 May 2013 21:09:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-A few of the recent commits have used inconsistent whitespace with
-respect to tabs and spaces for indentation and alignment. Correct it.
+On 01/05/13 21:29, Darren Hart wrote:
+> 
+> 
+> On 05/01/2013 01:24 PM, tf+lists.yocto@r-finger.com wrote:
+>> From: Tomas Frydrych <tomas@sleepfive.com>
+>>
+>> The kernel is now located in DEPLOY_DIR_IMAGE rather than sysroot.
+>>
+>> Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+>> ---
+>>  meta/classes/image_types.bbclass |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>> index 98d31f5..0e1ad3a 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -185,7 +185,7 @@ IMAGE_CMD_cpio () {
+>>  	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+>>  }
+>>  
+>> -ELF_KERNEL ?= "${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}"
+>> +ELF_KERNEL ?= "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin"
+> 
+> 
+> Looks correct, how did this fail before? What was the symptom?
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/recipes-bsp/grub/grub-efi-native_2.00.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+e.g.,
 
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-index 2a5dad7..11dcfdf 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-@@ -24,11 +24,11 @@ PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
- 
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://grub-2.00-fpmath-sse-387-fix.patch \
--	   file://grub-2.00-fix-enable_execute_stack-check.patch \
-+           file://grub-2.00-fix-enable_execute_stack-check.patch \
-            file://grub-2.00-disable-help2man.patch \
-            file://check-if-liblzma-is-disabled.patch \
--	   file://grub-no-unused-result.patch \
--	   file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-+           file://grub-no-unused-result.patch \
-+           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-           "
- SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
- SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
-@@ -66,7 +66,7 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
- 
- do_mkimage() {
- 	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
--		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-+	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
- 	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop
- }
- addtask mkimage after do_compile before do_install
+| Cannot open `...../tmp/sysroots/nuc/kernel/bzImage': (null)
+
+Two bugs really, the location has changed, and it was using a kernel
+that is not machine-specific. I'll make a patch with better commit
+message tomorrow.
+
+Tomas
+
 -- 
-1.8.1.2
-
+http://sleepfive.com
 
 
