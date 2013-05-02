@@ -1,20 +1,22 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UXthy-0007Ik-EJ for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 15:38:10 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UXtQf-0000V2-LQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 15:20:09 +0200
-Message-ID: <1367500809.14512.252.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 02 May 2013 14:20:09 +0100
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Subject: [PATCH] package.bbclass: Remove redundant chmod/chown operations
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1UXtpa-0001IC-KV; Thu, 02 May 2013 15:46:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 02 May 2013 06:28:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="330296521"
+Received: from unknown (HELO helios.localnet) ([10.255.12.165])
+	by orsmga002.jf.intel.com with ESMTP; 02 May 2013 06:27:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
+Date: Thu, 02 May 2013 14:27:58 +0100
+Message-ID: <2924564.6VWmlqGvL5@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
+MIME-Version: 1.0
+Subject: Please submit your unindexed layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,44 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 13:38:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 May 2013 13:46:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-These were introduced in 6021e309e69d823e1467648aee12a32182945569.  The
-code currently reads:
+Hi all,
 
-                os.link(file, fpath)
-                fstat = cpath.stat(file)
-                os.chmod(fpath, fstat.st_mode)
-                os.chown(fpath, fstat.st_uid, fstat.st_gid)
+Even a cursory search of github reveals that there are a growing number of 
+layers being worked on in the community that aren't currently listed in the OE 
+layer index. I don't think it would be right for us to just add all of these 
+in bulk as we don't necessarily have all the needed information to do so, and 
+it's not clear if some of them are forks, or if they will continue to be 
+published in the same place, etc. So, what we really need is for the 
+maintainers of these layers to submit them to the layer index themselves, or 
+have someone else do it on their behalf.
 
-which can have no useful effect since, if "fpath" is a hard link to
-"file", it will (by definition) have the same mode, uid and gid.
+If you're maintaining a publicly accessible layer that already does something 
+useful and is not currently in the OE layer index, please submit it so that 
+other folks in the community can find it easily. The submission form doesn't 
+need a login and is pretty straightforward to fill in:
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/package.bbclass |    3 ---
- 1 file changed, 3 deletions(-)
+  http://layers.openembedded.org/layerindex/submit/
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4136a9f..99eda77 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1000,9 +1000,6 @@ python populate_packages () {
-             fpath = os.path.join(root,file)
-             if not cpath.islink(file):
-                 os.link(file, fpath)
--                fstat = cpath.stat(file)
--                os.chmod(fpath, fstat.st_mode)
--                os.chown(fpath, fstat.st_uid, fstat.st_gid)
-                 continue
-             ret = bb.utils.copyfile(file, fpath)
-             if ret is False or ret == 0:
+If you have any problems or concerns please let me know.
+
+Thanks!
+
+Paul
+
 -- 
-1.7.10.4
 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
