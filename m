@@ -1,37 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-vc0-f178.google.com ([209.85.220.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UXw5y-0002YR-PO
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 18:11:13 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r42Fr0iC006175
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 2 May 2013 08:53:00 -0700 (PDT)
-Received: from msp-dhcp2.wrs.com (172.25.34.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 2 May 2013 08:53:01 -0700
-Message-ID: <51828BDE.6050001@windriver.com>
-Date: Thu, 2 May 2013 10:53:02 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	(envelope-from <paul.betafive@gmail.com>)
+	id 1UXwAW-0003hw-5t; Thu, 02 May 2013 18:15:41 +0200
+Received: by mail-vc0-f178.google.com with SMTP id kw10so618187vcb.23
+	for <multiple recipients>; Thu, 02 May 2013 08:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=6Hk6gtTxhOq8ftSsFAEeAOD8VUVjfWe3/84R0d0H9pI=;
+	b=a0kIdP1FV72XTW1VAdsgfc8AXr+bzAMsJsR49PafLm0GCaBsX9JHjX6k40+vaE0fDQ
+	sa/RAaFNSqZiMElqn65XkvMULWi+GXBB/cfl2GzALL/cIONUMRPNgJs+SDM2Ts/ADyIB
+	UBWWJgoAYSMpLQjO6hquDZxCNWcS1G8elJgVrJ03HkP2AH/CkAHhhZ3CBFYjRFAxGFv4
+	x9zvCUQcRZh47D94p7lmOb3YLHXe32GrXKqDtwMZqnOhnj/srNKvP2DD1B7NcJZnnGFO
+	sJKBQ6XuKjUZ3r0keF/ml5fOJ+ZzwQcBsd76sQzJazSxcufq03+b0WDhfOE/Al3/GiFh
+	Dh/w==
+X-Received: by 10.52.27.52 with SMTP id q20mr2092598vdg.16.1367510265841; Thu,
+	02 May 2013 08:57:45 -0700 (PDT)
 MIME-Version: 1.0
-To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
-References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
-	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
-	<51827D4B.4070907@windriver.com>
-	<CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
-	<518281A4.6040900@windriver.com>
-	<CALbNGRS4FLKC+_k9iuEeoMCx0o=DsXM-uu1X7uahtcrp24R=oA@mail.gmail.com>
-	<CALbNGRRm15aBQXAuqcJDEsvQ2UNC-VKj8_brbGPHj-bqxTaSKw@mail.gmail.com>
-In-Reply-To: <CALbNGRRm15aBQXAuqcJDEsvQ2UNC-VKj8_brbGPHj-bqxTaSKw@mail.gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r42Fr0iC006175
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: useradd.bbclass question
+Sender: paul.betafive@gmail.com
+Received: by 10.220.48.5 with HTTP; Thu, 2 May 2013 08:57:25 -0700 (PDT)
+In-Reply-To: <20130502151833.GC3206@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 2 May 2013 16:57:25 +0100
+X-Google-Sender-Auth: byaJf4DR2_O9OLT5O4-S47M9WM0
+Message-ID: <CANyK_8d-AUKrqeFexg1HMT7KypQAZjmfgEF2ChXTwsggok9Ucw@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,121 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 16:11:18 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 May 2013 16:15:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 5/2/13 10:31 AM, Andreas M=C3=BCller wrote:
-> On Thu, May 2, 2013 at 5:18 PM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
->> On Thu, May 2, 2013 at 5:09 PM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->>> On 5/2/13 9:55 AM, Andreas M=C3=BCller wrote:
->>>>
->>>> On Thu, May 2, 2013 at 4:50 PM, Mark Hatle <mark.hatle@windriver.com=
->
->>>> wrote:
->>>>>
->>>>> On 5/2/13 9:34 AM, Paul Eggleton wrote:
->>>>>>
->>>>>>
->>>>>> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> on one of my build machines useradd.bbclass seem to use the UID/=
-GID of
->>>>>>>> build host. On other machines useradd works correct.
->>>>>>>>
->>>>>>>> I have the follwing in gdm:
->>>>>>>>
->>>>>>>> <snip>
->>>>>>>> do_install_append() {
->>>>>>>>
->>>>>>>>         ...
->>>>>>>>         chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
->>>>>>>>         chmod 0750 ${D}${localstatedir}/lib/gdm
->>>>>>>>
->>>>>>>> }
->>>>>>>>
->>>>>>>> ...
->>>>>>>>
->>>>>>>> USERADD_PACKAGES =3D "${PN}"
->>>>>>>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
->>>>>>>> ${localstatedir}/lib/gdm --user-group gdm"
->>>>>>>> <snip/>
->>>>>
->>>>>
->>>>>
->>>>> I don't know how ipk and deb handle this.  But with the RPM system =
-it
->>>>> captures the uname/gname (not uid/gid) and uses that when installin=
-g the
->>>>> file(s).  This way the USERADD is processed before the install and =
-the
->>>>> right
->>>>> value is used during the install.
->>>>>
->>>>> We may have a problem here where we need to also process the userad=
-d
->>>>> -before- the do_install runs so that it's available for pseudo to u=
-se for
->>>>> deb/ipk.  (But if deb/ipk capture uid/gid vs uname/gname..  unless =
-we set
->>>>> a
->>>>> static value we could still have a problem.)
->>>>
->>>> 1. gdm's log.do_install starts with so I assume the useradd stuff is
->>>> performed before do_install.
->>>>
->>>> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
->>>> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
->>>> 'common']
->>>> | DEBUG: Executing shell function useradd_sysroot
->>>> | Running useradd commands...
->>>> | DEBUG: Shell function useradd_sysroot finished
->>>> | DEBUG: Executing shell function do_install
->>>
->>>
->>> Ahh yes, there it is.. I forgot as well.
->>>
->>> ok, so the obvious problems are resolved.  The only place I can sugge=
-st you
->>> start looking would be in the sysroot's etc/passwd and etc/group file=
-s.  If
->>> they are not correct -- then this indicates a failure in the easy cas=
-e and
->>> could lead to incorrect values.
->> These are OK and as mentioned above (cleansstate/rebuild) definitely
->> prepared before do_install.
->>>
->>> The other thing you can do is add debugging to your script and see wh=
-at uid
->>> and such it's looking for.. Dumping out the environment variables tha=
-t start
->>> with 'PSEUDO_' may help.  I believe the value is PSEUDO_PASSWD for th=
-e path.
->>> If it's not set it falls back to the chroot (which you won't be in) a=
-nd then
->>> back to the system file --- so if PSEUDO_PASSWD isn't set this could =
-be a
->>> clue as to the fault.
-> [andreas@oe-core]$ bitbake -e gdm | grep ^PSEUDO_PASSWD
-> PSEUDO_PASSWD=3D"/home/andreas/tmp/oe-core-eglibc/sysroots/overo"
+On 2 May 2013 16:18, Martin Jansa <martin.jansa@gmail.com> wrote:
+>   meta-openembedded/meta-oe/recipes-multimedia/vlc/vlc_1.1.11.bb, do_package
 
-Check that path contains 'etc/passwd' and 'etc/group'.  If not, that woul=
-d be=20
-the issue.. if it does contain them -- then something else is happening.
+I did have a potential fix for this, I'll take another look and see
+what I can do about sending a patch. The recipe also has dependencies
+outside meta-oe (fluidsynth in meta-multimedia IIRC) but that's a
+separate issue.
 
---Mark
+--
+Paul Barker
 
->>>
->> I will check that - still strange to me is that I have different
->> behaviour for two hosts - both with gdm user/group.
->>
->> Andreas
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
