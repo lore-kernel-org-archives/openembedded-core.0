@@ -1,32 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UXvNN-0003LV-7X for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:25:01 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r42F8enx018175; Thu, 2 May 2013 16:08:40 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DPoIegMJciAX; Thu,  2 May 2013 16:08:40 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r42F8bbc018166
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 2 May 2013 16:08:39 +0100
-Message-ID: <1367507201.5379.132.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 02 May 2013 16:06:41 +0100
-In-Reply-To: <51827D4B.4070907@windriver.com>
+	(envelope-from <mark.hatle@windriver.com>) id 1UXvPo-0003lh-NX
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 May 2013 17:27:26 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r42F9Rqu027730
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 2 May 2013 08:09:27 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 2 May 2013 08:09:27 -0700
+Message-ID: <518281A4.6040900@windriver.com>
+Date: Thu, 2 May 2013 10:09:24 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
 References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
 	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
 	<51827D4B.4070907@windriver.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	r42F8enx018175
+	<CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
+In-Reply-To: <CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r42F9Rqu027730
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: useradd.bbclass question
@@ -42,112 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:25:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 02 May 2013 15:27:32 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-05-02 at 09:50 -0500, Mark Hatle wrote:
-> On 5/2/13 9:34 AM, Paul Eggleton wrote:
-> > On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
-> >> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
-> >>> on one of my build machines useradd.bbclass seem to use the UID/GID=
+On 5/2/13 9:55 AM, Andreas M=C3=BCller wrote:
+> On Thu, May 2, 2013 at 4:50 PM, Mark Hatle <mark.hatle@windriver.com> w=
+rote:
+>> On 5/2/13 9:34 AM, Paul Eggleton wrote:
+>>>
+>>> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
+>>>>
+>>>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+>>>>>
+>>>>> on one of my build machines useradd.bbclass seem to use the UID/GID=
  of
-> >>> build host. On other machines useradd works correct.
-> >>>
-> >>> I have the follwing in gdm:
-> >>>
-> >>> <snip>
-> >>> do_install_append() {
-> >>>
-> >>>       ...
-> >>>       chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
-> >>>       chmod 0750 ${D}${localstatedir}/lib/gdm
-> >>>
-> >>> }
-> >>>
-> >>> ...
-> >>>
-> >>> USERADD_PACKAGES =3D "${PN}"
-> >>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
-> >>> ${localstatedir}/lib/gdm --user-group gdm"
-> >>> <snip/>
->=20
-> I don't know how ipk and deb handle this.  But with the RPM system it c=
-aptures=20
-> the uname/gname (not uid/gid) and uses that when installing the file(s)=
-.  This=20
-> way the USERADD is processed before the install and the right value is =
-used=20
-> during the install.
->=20
-> We may have a problem here where we need to also process the useradd -b=
-efore-=20
-> the do_install runs so that it's available for pseudo to use for deb/ip=
-k.
+>>>>> build host. On other machines useradd works correct.
+>>>>>
+>>>>> I have the follwing in gdm:
+>>>>>
+>>>>> <snip>
+>>>>> do_install_append() {
+>>>>>
+>>>>>        ...
+>>>>>        chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+>>>>>        chmod 0750 ${D}${localstatedir}/lib/gdm
+>>>>>
+>>>>> }
+>>>>>
+>>>>> ...
+>>>>>
+>>>>> USERADD_PACKAGES =3D "${PN}"
+>>>>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+>>>>> ${localstatedir}/lib/gdm --user-group gdm"
+>>>>> <snip/>
+>>
+>>
+>> I don't know how ipk and deb handle this.  But with the RPM system it
+>> captures the uname/gname (not uid/gid) and uses that when installing t=
+he
+>> file(s).  This way the USERADD is processed before the install and the=
+ right
+>> value is used during the install.
+>>
+>> We may have a problem here where we need to also process the useradd
+>> -before- the do_install runs so that it's available for pseudo to use =
+for
+>> deb/ipk.  (But if deb/ipk capture uid/gid vs uname/gname..  unless we =
+set a
+>> static value we could still have a problem.)
+> 1. gdm's log.do_install starts with so I assume the useradd stuff is
+> performed before do_install.
+>
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+> 'common']
+> | DEBUG: Executing shell function useradd_sysroot
+> | Running useradd commands...
+> | DEBUG: Shell function useradd_sysroot finished
+> | DEBUG: Executing shell function do_install
 
-No problem, see below.
+Ahh yes, there it is.. I forgot as well.
 
->   (But=20
-> if deb/ipk capture uid/gid vs uname/gname..  unless we set a static val=
-ue we=20
-> could still have a problem.)
->=20
-> Does anyone know how ipk/deb handle this?
+ok, so the obvious problems are resolved.  The only place I can suggest y=
+ou=20
+start looking would be in the sysroot's etc/passwd and etc/group files.  =
+If they=20
+are not correct -- then this indicates a failure in the easy case and cou=
+ld lead=20
+to incorrect values.
 
-The same way rpm does. We have a preinst that sets things up before the
-files get extracted. The extraction then preserves the users.
+The other thing you can do is add debugging to your script and see what u=
+id and=20
+such it's looking for.. Dumping out the environment variables that start =
+with=20
+'PSEUDO_' may help.  I believe the value is PSEUDO_PASSWD for the path.  =
+If it's=20
+not set it falls back to the chroot (which you won't be in) and then back=
+ to the=20
+system file --- so if PSEUDO_PASSWD isn't set this could be a clue as to =
+the fault.
 
-> >>>
-> >>> In sysroot /etc/group I see
-> >>> gdm:x:990:
-> >>>
-> >>> In sysroot /etc/group I see
-> >>> gdm:!:993:990::/var/lib/gdm:
-> >>>
-> >>> The folder in packet/image has IDs 42:42 which is taken from build =
-host.
-> >>
-> >> This says that something ran an operation outside of the pseudo envi=
-ronment.
-> >>   So it fell back to looking up the uid from the host system.  (The
-> >> alternative is the item was installed -before- the /etc/passwd,/etc/=
-group
-> >> was written to the disk.
-> >
-> > Right, do_install will be well before this stuff happens and it is no=
-t a
-> > fakeroot task anyway. This needs to be moved to a postinstall script =
-(which
-> > should be able to run during image creation).
->=20
-> do_install is a 'fakeroot' task.  But ya, the useradd action doesn't ne=
-cessarily=20
-> happen before it.
+--Mark
 
-Yes it does. useradd.bbclass says:
-
-do_install[prefuncs] +=3D "${SYSROOTFUNC}"
-
-and that call sets up the user in advance. pseudo is set to use the
-passwd/group files we add the entries to.
-
-So this does all work and is used by dbus.
-
-> We should -not- be using a postinstall action to change user/groups on=20
-> files/directories.  This breaks the integrity checking that RPM has.  Y=
-ou can=20
-> (on the target) issue an rpm -V <package> and it will go and verify the=
-=20
-> installed files (including permissions, user, group) match what the RPM=
- database=20
-> says.  Making the change in a postinstall will cause a validation failu=
-re.
-
-Right.
-
-Cheers,
-
-Richard
+> 2. I did a cleansstate + rebuild for gdm to ensure that user/groups
+> are in sysroot - but the same I get host's IDs
+>
+> Andreas
+>
 
 
 
