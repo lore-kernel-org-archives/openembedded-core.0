@@ -1,24 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ve0-f177.google.com ([209.85.128.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UXus7-00089I-99
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UXv0I-0000rM-Br
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 16:52:36 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:34:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="327710796"
-Received: from unknown (HELO helios.localnet) ([10.255.12.165])
-	by fmsmga001.fm.intel.com with ESMTP; 02 May 2013 07:34:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 02 May 2013 15:34:34 +0100
-Message-ID: <1556536.BsQG791ajX@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <51826BBB.2090307@windriver.com>
-References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
-	<51826BBB.2090307@windriver.com>
+	Thu, 02 May 2013 17:01:04 +0200
+Received: by mail-ve0-f177.google.com with SMTP id jw11so556055veb.22
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 May 2013 07:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=OtC/abGuTEpoxEkplP1T29lhkC3FaqC8dd3Rgl15hqU=;
+	b=ydoI3Vv4+u+RTZGAgI+c1GDJ62wNE1PI76z2XteoYD0HDh6VmWMXw6m66ih4XEoFKP
+	hwMuCGOA53pV8d2YrWurKtgn8L+cIdyJ3SLU92+DD3itkgEJ29ucrh14/5PQvQAx3sHn
+	7zIZDnv1MVyJZ/KzgDZ8mf/Ltj6k80UE4DzWO1Hm3NxpgLcThh+ax7KGeVqYA3H6ee9O
+	ygHEs/w8G6qMG68lSavqwSj80eIgEacZouzjPcz4GO6SZoeG9Kx1UR41JJG8av/exzza
+	1KPahYmbVS68ojXwiZ5SkYSnELOl0ZZDbqvXYisNEt0XIjx+L9i6SiUGDF+IV8M9deWv
+	kSdQ==
 MIME-Version: 1.0
+X-Received: by 10.220.78.131 with SMTP id l3mr2251406vck.54.1367505788391;
+	Thu, 02 May 2013 07:43:08 -0700 (PDT)
+Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 07:43:08 -0700 (PDT)
+In-Reply-To: <1556536.BsQG791ajX@helios>
+References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
+	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
+Date: Thu, 2 May 2013 16:43:08 +0200
+Message-ID: <CALbNGRQipDCysg-o12sqE-sHgkYE5u=WftF=cBVnRxsSEwNTjA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,62 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 14:52:36 -0000
+X-List-Received-Date: Thu, 02 May 2013 15:01:32 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
-> On 5/2/13 2:49 AM, Andreas M=FCller wrote:
-> > on one of my build machines useradd.bbclass seem to use the UID/GID=
- of
-> > build host. On other machines useradd works correct.
-> >=20
-> > I have the follwing in gdm:
-> >=20
-> > <snip>
-> > do_install_append() {
-> >=20
-> >      ...
-> >      chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
-> >      chmod 0750 ${D}${localstatedir}/lib/gdm
-> >=20
-> > }
-> >=20
-> > ...
-> >=20
-> > USERADD_PACKAGES =3D "${PN}"
-> > USERADD_PARAM_${PN} =3D "--system --no-create-home --home
-> > ${localstatedir}/lib/gdm --user-group gdm"
-> > <snip/>
-> >=20
-> > In sysroot /etc/group I see
-> > gdm:x:990:
-> >=20
-> > In sysroot /etc/group I see
-> > gdm:!:993:990::/var/lib/gdm:
-> >=20
-> > The folder in packet/image has IDs 42:42 which is taken from build =
-host.
->=20
-> This says that something ran an operation outside of the pseudo envir=
-onment.
->  So it fell back to looking up the uid from the host system.  (The
-> alternative is the item was installed -before- the /etc/passwd,/etc/g=
-roup
-> was written to the disk.
+On Thu, May 2, 2013 at 4:34 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
+>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+>> > on one of my build machines useradd.bbclass seem to use the UID/GID of
+>> > build host. On other machines useradd works correct.
+>> >
+>> > I have the follwing in gdm:
+>> >
+>> > <snip>
+>> > do_install_append() {
+>> >
+>> >      ...
+>> >      chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+>> >      chmod 0750 ${D}${localstatedir}/lib/gdm
+>> >
+>> > }
+>> >
+>> > ...
+>> >
+>> > USERADD_PACKAGES =3D "${PN}"
+>> > USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+>> > ${localstatedir}/lib/gdm --user-group gdm"
+>> > <snip/>
+>> >
+>> > In sysroot /etc/group I see
+>> > gdm:x:990:
+>> >
+>> > In sysroot /etc/group I see
+>> > gdm:!:993:990::/var/lib/gdm:
+>> >
+>> > The folder in packet/image has IDs 42:42 which is taken from build hos=
+t.
+>>
+>> This says that something ran an operation outside of the pseudo environm=
+ent.
+>>  So it fell back to looking up the uid from the host system.  (The
+>> alternative is the item was installed -before- the /etc/passwd,/etc/grou=
+p
+>> was written to the disk.
+>
+> Right, do_install will be well before this stuff happens and it is not a
+> fakeroot task anyway. This needs to be moved to a postinstall script (whi=
+ch
+> should be able to run during image creation).
+>
+> Cheers,
+> Paul
+>
+Did this change - it is mentioned this way in
 
-Right, do_install will be well before this stuff happens and it is not =
-a=20
-fakeroot task anyway. This needs to be moved to a postinstall script (w=
-hich=20
-should be able to run during image creation).
+meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
 
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Andreas
 
 
