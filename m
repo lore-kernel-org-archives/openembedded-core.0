@@ -1,22 +1,52 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-pb0-f49.google.com ([209.85.160.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UXvDP-0002DC-Ow
+	(envelope-from <net147@gmail.com>) id 1UXvMl-0003JF-1v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:14:36 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:56:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="296567909"
-Received: from sorvi.fi.intel.com ([10.237.72.154])
-	by azsmga001.ch.intel.com with ESMTP; 02 May 2013 07:56:37 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2013 17:56:33 +0300
-Message-Id: <1367506593-11381-4-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH v2 3/3] neard: Split recipe to two parts
+	Thu, 02 May 2013 17:24:19 +0200
+Received: by mail-pb0-f49.google.com with SMTP id rp8so389283pbb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 May 2013 08:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=7bRuaKDDjWqKpkw6++27kxqkvWT1HgAsdAK4rx0Bioc=;
+	b=ZGwIxFFpJ0stt/UAXYP4vkz2AQDXqj3p6npr0eN8eEPnKKaVHdfnYnalGqxeYjEpZ2
+	Ga7x1RFfDdtFT3dH0ej4+R/r3iCgkep+KZO2mtC+CxclV1uoE22VwJfbbnW19JaXcYF5
+	mICSawjwtHOUVBePGM0ma6NyJwF6yXd9ZtwOfvwzrkHp22xOROQrlLwRfU+H7ScNp3Kw
+	NieGM8vgQZ4sIJD6X/F74SlZWtG+JTVevNR6orCiP000YFHEUgADPpd/VitAJqyvpUCD
+	vFbuNcvXMxc/9m6CT1V05+ro00b3VeCRZI8KRRNj5dLubc10MFR0iiQBiHH1NGQLA2bZ
+	cWRA==
+X-Received: by 10.68.114.100 with SMTP id jf4mr9262206pbb.144.1367507180461;
+	Thu, 02 May 2013 08:06:20 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id z8sm7663819pbt.23.2013.05.02.08.06.17
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 02 May 2013 08:06:19 -0700 (PDT)
+Message-ID: <51827FD1.603@gmail.com>
+Date: Fri, 03 May 2013 01:01:37 +1000
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: ml@communistcode.co.uk
+References: <CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
+	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
+	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
+	<511D0669.6020903@communistcode.co.uk>
+	<20130221222728.GA1833@sakrah.homelinux.org>
+	<512738BF.9000404@communistcode.co.uk>
+	<51277D87.3090703@communistcode.co.uk>
+	<512785CE.5020508@communistcode.co.uk>
+	<516BF98C.2080603@communistcode.co.uk>
+	<20130415131058.GB10628@jama.dyndns-home.com>
+	<516C0484.7050402@communistcode.co.uk>
+In-Reply-To: <516C0484.7050402@communistcode.co.uk>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: systemd: /run directory not created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,159 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:14:44 -0000
+X-List-Received-Date: Thu, 02 May 2013 15:24:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This way it is easier to override settings if needed.
+On 15/04/2013 11:45 PM, Jack Mitchell wrote:
+> On 15/04/13 14:10, Martin Jansa wrote:
+>> On Mon, Apr 15, 2013 at 01:58:52PM +0100, Jack Mitchell wrote:
+>>> Ok, I have just come back to trying out the new systemd implementation,
+>>> and this bug still exists.
+>>>
+>>> Exactly the same error as before:
+>>>
+>>> [    2.390730] systemd[1]: Failed to mount /run: No such file or 
+>>> directory
+>>>
+>>> Can we shed any light on why this directory is failing to be created 
+>>> and
+>>> what can be done to fix it. Having looked in my final target filesystem
+>>> there are no links to the volatiles in /var/voltatile/* to /*, should
+>>> there be? The base-files packages looks like it should do it but
+>>> obviously something is going wrong.
+>>>
+>>>     for d in ${volatiles}; do
+>>>       ln -sf volatile/$d ${D}${localstatedir}/$d
+>>>     done
+>> We're using base-files bbappend to create it and also replacing few
+>> symlinks to volatile with real directories (not mandatory for systemd
+>> iirc, but useful in some cases).
+>>
+>> https://github.com/shr-distribution/meta-smartphone/commit/24161eed3c185867b2fd91aab6532f370d327cdd 
+>>
+>>
+>
+> Ok, manually adding /run to 775dirs in a base-files append fixed this 
+> for me. I still don't understand why this should be needed as an 
+> addition though...
+>
+I get this error booting hdddirect/vmdk image (no initrd) but not when 
+booting hddimg (uses initrd).
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- meta/recipes-connectivity/neard/neard.inc     | 59 ++++++++++++++++++++++++++
- meta/recipes-connectivity/neard/neard_0.10.bb | 60 +--------------------------
- 2 files changed, 60 insertions(+), 59 deletions(-)
- create mode 100644 meta/recipes-connectivity/neard/neard.inc
-
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-new file mode 100644
-index 0000000..7cccbdc
---- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -0,0 +1,59 @@
-+SUMMARY = "Linux NFC daemon"
-+DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
-+HOMEPAGE = "http://01.org/linux-nfc"
-+LICENSE = "GPLv2"
-+
-+DEPENDS = "dbus glib-2.0 libnl"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-+ file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-+ "
-+
-+inherit autotools pkgconfig systemd update-rc.d
-+
-+EXTRA_OECONF += "--enable-tools"
-+
-+do_install() {
-+	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
-+}
-+
-+# This would copy neard start-stop shell and test scripts
-+do_install_append() {
-+	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/init.d/
-+		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-+		  > ${D}${sysconfdir}/init.d/neard
-+		chmod 0755 ${D}${sysconfdir}/init.d/neard
-+	fi
-+
-+	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${systemd_unitdir}/system
-+		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
-+		  > ${D}${systemd_unitdir}/system/neard.service
-+	fi
-+
-+	# Install the tests for neard-tests
-+	install -d ${D}${libdir}/neard
-+	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
-+	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
-+}
-+
-+PACKAGES =+ "${PN}-tests"
-+
-+FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
-+
-+RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
-+
-+# Bluez & Wifi are not mandatory except for handover
-+RRECOMMENDS_${PN} = "\
-+                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
-+                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
-+                    "
-+
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+
-+INITSCRIPT_NAME = "neard"
-+INITSCRIPT_PARAMS = "defaults 64"
-+
-+SYSTEMD_SERVICE_${PN} = "neard.service"
-diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
-index b9198af..09f97be 100644
---- a/meta/recipes-connectivity/neard/neard_0.10.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.10.bb
-@@ -1,69 +1,11 @@
--SUMMARY = "Linux NFC daemon"
--DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
--HOMEPAGE = "http://01.org/linux-nfc"
--LICENSE = "GPLv2"
--
--DEPENDS = "dbus glib-2.0 libnl"
-+require neard.inc
- 
- SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
-            file://neard.in \
-            file://neard.service.in \
-           "
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-- file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-- "
--
- S = "${WORKDIR}/git"
- SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
- PV = "0.10+git${SRCREV}"
- PR = "r0"
--
--inherit autotools pkgconfig systemd update-rc.d
--
--EXTRA_OECONF += "--enable-tools"
--
--do_install() {
--	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
--}
--
--# This would copy neard start-stop shell and test scripts
--do_install_append() {
--	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
--		install -d ${D}${sysconfdir}/init.d/
--		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
--		  > ${D}${sysconfdir}/init.d/neard
--		chmod 0755 ${D}${sysconfdir}/init.d/neard
--	fi
--
--	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--		install -d ${D}${systemd_unitdir}/system
--		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
--		  > ${D}${systemd_unitdir}/system/neard.service
--	fi
--
--	# Install the tests for neard-tests
--	install -d ${D}${libdir}/neard
--	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
--	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
--}
--
--PACKAGES =+ "${PN}-tests"
--
--FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
--FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
--
--RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
--
--# Bluez & Wifi are not mandatory except for handover
--RRECOMMENDS_${PN} = "\
--                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
--                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--                    "
--
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
--
--INITSCRIPT_NAME = "neard"
--INITSCRIPT_PARAMS = "defaults 64"
--
--SYSTEMD_SERVICE_${PN} = "neard.service"
--- 
-1.7.11.7
-
+Regards,
+Jonathan
 
 
