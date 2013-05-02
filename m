@@ -1,31 +1,36 @@
-Received: from mail-vc0-f176.google.com ([209.85.220.176])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UXoXh-00065F-5W
+	(envelope-from <ross.burton@intel.com>) id 1UXq21-0000yN-S4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 10:07:07 +0200
-Received: by mail-vc0-f176.google.com with SMTP id ib11so236614vcb.35
+	Thu, 02 May 2013 11:42:36 +0200
+Received: by mail-vb0-f47.google.com with SMTP id x14so284429vbb.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 00:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:date:message-id:subject:from:to
-	:content-type; bh=LZgYEpS4E+WVYuDSZ0Kg4BB0Z99OGfhy8v6kb1Gh/7o=;
-	b=pyBN/Ft6UybFODlwhB5rwer7tlnB5bIaD626pRkFdbMmG8mE3QJLhjwNgx4NkqgzV8
-	IKkWdAIC5seNDzldRyxg/89wusRq3awn1+9q8+ZjgKQxWXrUEcvCsCof+PtkstBFsGVm
-	+JFyhMoiRTvRNxhPLxXoXJPuTzOl9MO8vzpC6ZQY4kz0ixh614NRw2kZyNsk3w3G1XWZ
-	zXV24U5s6QGKPCgYBJOylGzbSl24CL7c1x8O+fuB7YXJH4VpJr96pUsfT6KtfgIbEW4Z
-	4iJVCvUD8G4kyu7k6al7otoeTH0fIeGpz/JqHARUl9L0UKZlLFEQv33uublXXYPeC8i0
-	2f8g==
+	Thu, 02 May 2013 02:24:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=MCCLi+9948N8e+bcPYUkDEiERRmS6SakNhdDE4cBdHw=;
+	b=dS+79BzKMzdhiyLD/W25iZlBLJ0kJQWgEgc3NphGyXJ+IDeSr0zmMtAOFlZhTMRsHp
+	pYPTEEMB417K+zJAkeNdV5EvtJzaipC1jRXhFn719IAqaQ2NzZc3mX9dkhtYM7faBLxU
+	6lxoSF9EtVKlaAcXZ4Fvw87qlczFubDumZWxch7wiEfzIkTGooVSEzqJuwa1nbGrvqnA
+	0KaHOn/ZstFtZv7MrW6hX6BVyuqo/qop5uBVXIQ8H4eiJguerBF00ihdn9iKWxLi+pcQ
+	/NmvccHNzY1vNKJztOLV+8sleZQKCAU6iNUTqVpC3btX//XvmilEhbS/GfJudMJXLWTR
+	t5ag==
+X-Received: by 10.52.18.206 with SMTP id y14mr1636836vdd.29.1367486670474;
+	Thu, 02 May 2013 02:24:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.52.68.49 with SMTP id s17mr1526357vdt.92.1367480951586; Thu,
-	02 May 2013 00:49:11 -0700 (PDT)
-Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 00:49:11 -0700 (PDT)
-Date: Thu, 2 May 2013 09:49:11 +0200
-Message-ID: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
+Received: by 10.221.8.3 with HTTP; Thu, 2 May 2013 02:24:10 -0700 (PDT)
+In-Reply-To: <CALRxmdD5r1MGDuDjBKHYcB9eLQ1FL9BZM5_QQxLNpQOcyOHvVA@mail.gmail.com>
+References: <CALRxmdD5r1MGDuDjBKHYcB9eLQ1FL9BZM5_QQxLNpQOcyOHvVA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 May 2013 10:24:10 +0100
+Message-ID: <CAJTo0LYk3yyh3dXk5hmvbvpiv9fWNmgoZpYzUb_U9Kc6CsMELA@mail.gmail.com>
+To: Stuart Yoder <b08248@gmail.com>
+X-Gm-Message-State: ALoCoQndT90ASOvFlpiccX+p1xRXN5EPFkKdfK3e3OW5K3kQtgk3kL2dfMChaOEs1g8L/8cix3na
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: useradd.bbclass question
+Subject: Re: yajl: Installed (but unpackaged) file(s) found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,41 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 08:07:13 -0000
+X-List-Received-Date: Thu, 02 May 2013 09:42:44 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On 1 May 2013 20:11, Stuart Yoder <b08248@gmail.com> wrote:
+>    FILES_yajl="/usr/bin/* /usr/sbin/* /usr/lib64/yajl/* ...
+>
+> Ho do I get the yajl recipe to either a) build the files in lib64 or
+> b) package them from lib.
 
-on one of my build machines useradd.bbclass seem to use the UID/GID of
-build host. On other machines useradd works correct.
+Don't hard-code paths, instead use the symbols available in bitbake.conf:
 
-I have the follwing in gdm:
+FILES_yajl = "${bindir}/* ${sbindir}/* ${libdir}/yajl/*"
 
-<snip>
-do_install_append() {
-    ...
-    chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
-    chmod 0750 ${D}${localstatedir}/lib/gdm
-}
-
-...
-
-USERADD_PACKAGES = "${PN}"
-USERADD_PARAM_${PN} = "--system --no-create-home --home
-${localstatedir}/lib/gdm --user-group gdm"
-<snip/>
-
-In sysroot /etc/group I see
-gdm:x:990:
-
-In sysroot /etc/group I see
-gdm:!:993:990::/var/lib/gdm:
-
-The folder in packet/image has IDs 42:42 which is taken from build host.
-
-Any ideas what causes this - or is there something wrong with chown at
-do_install?
-
-Andreas
+Ros
 
 
