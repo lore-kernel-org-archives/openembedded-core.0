@@ -1,41 +1,35 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1UXxUI-0003Xh-Bp; Thu, 02 May 2013 19:40:31 +0200
-Received: by mail-pb0-f47.google.com with SMTP id uo1so457993pbc.20
-	for <multiple recipients>; Thu, 02 May 2013 10:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=f/8k8ErvlkfWoEe5JaiHh+LlCwS3SXAQTPo1YCLkteo=;
-	b=FXmQd6HWFiDYQse9npnH6kxraW2RBic27hQtTGwwPFDXm6RDWEt2/HW5Rl3hrSTaAd
-	hCoZwD0na1yplSB5/KefziaRs7706TmAr2/hFlTxBb0C0Iw6MFvNqRyufJvYX0pSYIOG
-	maIn2S51qa9w6crKTGESfog9EFEEkn7UTreVfoZ5yy6Al+oU6aiKX1umlQj9BqW6zi5u
-	IGtmp4aE0oRsVbDG/pHEJAtL/V6I5ZuC9QA27ogLIEDjJ6pRmNyB8mvvFtJoPP1XNrrd
-	T3LqHbYHwfeJ4v/lPVF6q7Njh9HORN5NHe+LwnLFx3bDlZ68x0D8jAGhdGfoAYp3I/no
-	pZ2A==
-X-Received: by 10.66.159.195 with SMTP id xe3mr10902531pab.49.1367515335656;
-	Thu, 02 May 2013 10:22:15 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	ts3sm8079070pbc.12.2013.05.02.10.22.12 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 02 May 2013 10:22:14 -0700 (PDT)
-Date: Thu, 2 May 2013 19:22:31 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <20130502172231.GF3206@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<CANyK_8d-AUKrqeFexg1HMT7KypQAZjmfgEF2ChXTwsggok9Ucw@mail.gmail.com>
-	<CAHUNapSbKx1baQ++toBir_uw6uWhFun7yA9GwRpNYoTm=7L4BA@mail.gmail.com>
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1UXxWA-0003me-DM
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 May 2013 19:42:07 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r42HO4Dr014205
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 2 May 2013 19:24:06 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1UXxEi-000602-F3; Thu, 02 May 2013 19:24:04 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
+References: <CAJTo0LZdtT=qg2k3eBJ_DQHQzMvqS0vwFSmkgCxxG7KOiPWfzQ@mail.gmail.com>
+Date: Thu, 02 May 2013 19:24:04 +0200
+In-Reply-To: <CAJTo0LZdtT=qg2k3eBJ_DQHQzMvqS0vwFSmkgCxxG7KOiPWfzQ@mail.gmail.com>
+	(Ross Burton's message of "Thu, 2 May 2013 17:10:15 +0100")
+Message-ID: <lyy5bxl2h7.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapSbKx1baQ++toBir_uw6uWhFun7yA9GwRpNYoTm=7L4BA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.79
+X-Spam-Score: -6.6
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: libexecdir and multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,48 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 17:41:16 -0000
-X-Groupsio-MsgNum: 38670
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HCdXmnRlPgeNBad2"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 May 2013 17:42:13 -0000
+Content-Type: text/plain
 
---HCdXmnRlPgeNBad2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-On Thu, May 02, 2013 at 12:30:59PM -0400, Trevor Woerner wrote:
-> On Thu, May 2, 2013 at 11:57 AM, Paul Barker <paul@paulbarker.me.uk> wrot=
-e:
-> > The recipe also has dependencies
-> > outside meta-oe (fluidsynth in meta-multimedia IIRC) but that's a
-> > separate issue.
->=20
-> I've noticed that too. Shouldn't dependencies be contained within the
-> same layer? Is it normal from these dependencies to be spread out over
-> various layers?
+> rpm allows "executables" (but not libraries) to conflict and will
+> prefer the 64-bit version,
 
-Yes, fluidsynth needs to be explicitly disabled in vlc and removed from
-DEPENDS or vlc moved to meta-multimedia
+Sure? At least rpm-4 (Fedora, RHEL) does not allow files to conflict.
+Fedora solves the multilib problem by splitting the distribution into
+main packages (unilib only; contain binaries and data) and libraries
+(multilib).  The distribution assemble tool ("mash") copies e.g. i386
+-lib and -devel packages both in i386 and x86_64 repositories.
 
-See:
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2013-April/045090.h=
-tml
+libexecdir files in Fedora should be part of unilib (main architecture)
+packages only.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---HCdXmnRlPgeNBad2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> libexecdir = ${exec_prefix}/libexec"
+> ===
+>
+> Conflicting binaries with multilib, would likely need improvements in
+> the opkg bbclass.  Consistent name so cross-architecture file paths
+> are consistent, although the binary architecture isn't.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+How is ${bindir} multilib packaging solved in OE?  Can this mechanism
+applied to ${exec_prefix}/libexec too?
 
-iEYEARECAAYFAlGCoNcACgkQN1Ujt2V2gBzh9ACePgob+pq4Jqgy+PwTdM7AOCXE
-gTwAn0QOG3ZO6xj/pbZYy39dq7AMKNbW
-=XNBf
------END PGP SIGNATURE-----
 
---HCdXmnRlPgeNBad2--
+> What's clear from the research I've done is that there isn't a clear
+> answer - upstreams have different expectations of how libexecdir/bindir
+> are used, and different distributions do different things to solve the
+> multilib problems - even when the distribution maintainers are also
+> upstream developers.  Some examples:
+>
+> dbus has a helper dbus-daemon-launch-helper, which is installed into
+> libexecdir.  Fedora moves it into $libdir, where as Debian moves this
+> same binary to /usr/lib/dbus-1 avoiding the $arch... Some disagreement
+> there apparently.
+
+Yes; Fedora introduced this in 2007[1] without telling the rationale in
+the commit :( afais, this is not give problems because path is read from
+<serviceconfig> tag in /etc/dbus-1/system.conf and program is probably
+called only from dbus library itself.
+
+
+> My personal opinion at this point in time is that we should change
+> libexecdir to be $libdir.
+
+atm, multilib is a theoretical issue for me only and I do not have a
+strong bias for ${libdir} vs. ${exec_prefix}/lib.
+
+Nevertheless, when we change libexecdir to match ${libdir} in one
+architecture, we will see packaging regressions.  To fix/detect them,
+we will have to:
+
+1. remove ${libexecdir}/* wildcards from FILES lists (permanent change)
+
+2. do world builds with "strange", temporary libexecdir
+   (e.g. /usr/lib/strange-libexec) and look for unpackaged files.
+
+
+
+Enrico
+
+Footnotes: 
+[1]  http://pkgs.fedoraproject.org/cgit/dbus.git/commit/?id=73fe28f678b4a1f015bffbec0fa50b3690dd39a4
+
+
