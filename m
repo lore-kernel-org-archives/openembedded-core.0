@@ -1,35 +1,40 @@
-Received: from mail-vc0-f171.google.com ([209.85.220.171])
+Received: from mail-vb0-f46.google.com ([209.85.212.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UXvi3-00064O-Hr
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UXvkm-0006Tl-6b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:46:19 +0200
-Received: by mail-vc0-f171.google.com with SMTP id m16so588996vca.2
+	Thu, 02 May 2013 17:49:06 +0200
+Received: by mail-vb0-f46.google.com with SMTP id 10so561618vbe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 08:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=FlDnpVfJi52RiRlqK3ow+m8/dDVdBz9vlZaZ8jmWkEY=;
-	b=YxNeGtn2CrHpD9VcyDWYnNLaM7MGy9MFVVeRu0nbJoNJ49qTcr+AIxE+MY8vFRCrea
-	kpwlRtTd8Uf4tyHuIFVUrd+PmcNIGhUHzmUXZEyk6z/wbnc1PcSsLpeivMOzfHbQW7LI
-	U2twMCMl7/yfL7fE1sLKhRAQC02YhTJexGLSoeAcesxto82NUMeGbhCiOZ2tqQUwiC69
-	z6DhzCUhQfxju1fnxXNvflOT6C65XQFb2Ux6hUiOOHa86DRlzwZhz6g1yJfCx/dmctzK
-	92W0wgAWTFERsgt19LAabiVSEwz8FGfQCN2qIB+aMmQYWz/FwVVKKSq6qxmOISbzOb1X
-	oOOw==
-X-Received: by 10.220.52.201 with SMTP id j9mr2341197vcg.33.1367508501378;
-	Thu, 02 May 2013 08:28:21 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([187.23.151.247])
-	by mx.google.com with ESMTPSA id u20sm3829507vdt.10.2013.05.02.08.28.19
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 02 May 2013 08:28:20 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu,  2 May 2013 12:28:04 -0300
-Message-Id: <1367508484-19933-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.1
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa-demos: Use PACKAGECONFIG to enable/disable features
+	Thu, 02 May 2013 08:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=asjfX5onMNqbJkqi9oJv8GyVk3E4k8i1+gFlqZ0yOeU=;
+	b=DxfoB10NDSJNbqZ4QJp3oVMJW/yFYziOHJNGxPw915DErOxjOh0X0Z0qWshQcCRzsy
+	QQt3kf8+u6rJpCdUB69BOiX/1x6qnpbJ1i2fTTdKWmOnC1Qs9oNlx8s1QM9T5KicCUaD
+	VzX5RwuQf298nwnYGVIjhk/NnC7Z5CVxo7SGMSo8OABnwgrtcdMCKe9bi1V9XR73cH+t
+	Epm64vNn+9k2V00/C1GNq72WHIF8d6OERdFH3nCaBtqm4NFTdOgvCOSFPCVznlECBzfq
+	S7XZ3R7vfFhL2OY9J1sVddNYNVcM7Op4E8DtvCJvbvzUH6QJgBuYhISEm5hHLaGCWiXd
+	cioA==
+MIME-Version: 1.0
+X-Received: by 10.52.69.109 with SMTP id d13mr1978813vdu.75.1367508670178;
+	Thu, 02 May 2013 08:31:10 -0700 (PDT)
+Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 08:31:10 -0700 (PDT)
+In-Reply-To: <CALbNGRS4FLKC+_k9iuEeoMCx0o=DsXM-uu1X7uahtcrp24R=oA@mail.gmail.com>
+References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
+	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
+	<51827D4B.4070907@windriver.com>
+	<CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
+	<518281A4.6040900@windriver.com>
+	<CALbNGRS4FLKC+_k9iuEeoMCx0o=DsXM-uu1X7uahtcrp24R=oA@mail.gmail.com>
+Date: Thu, 2 May 2013 17:31:10 +0200
+Message-ID: <CALbNGRRm15aBQXAuqcJDEsvQ2UNC-VKj8_brbGPHj-bqxTaSKw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,58 +47,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:46:24 -0000
+X-List-Received-Date: Thu, 02 May 2013 15:49:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This allow selection of following features:
-
- drm, egl, freetype2, gbm, gles1, gles2, glut, osmesa, vg, wayland, x11
-
-The x11 features is enabled depending on distro features but the
-wayland has not been enabled as it does not work with Wayland
-1.0. Rest were enabled for a sane default.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-index 055f73d..3ac81ef 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT & PD"
- LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=20;md5=914225785450eff644a86c871d3ae00e \
-                     file://src/xdemos/glxdemo.c;beginline=1;endline=8;md5=b01d5ab1aee94d35b7efaa2ef48e1a06"
- 
--DEPENDS = "virtual/libx11 virtual/libgl glew"
-+DEPENDS = "virtual/libgl glew"
- 
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
-         file://glut.patch \
-@@ -21,4 +21,20 @@ SRC_URI[sha256sum] = "9703fa0646b32a1e68d2abf5628f936f77bf97c69ffcaac90de380820a
- 
- inherit autotools pkgconfig
- 
--EXTRA_OECONF = "--without-glut"
-+PACKAGECONFIG ?= "drm osmesa freetype2 gbm egl gles1 gles2 \
-+                  ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+
-+# The Wayland code doesn't work with Wayland 1.0, so disable it for now
-+#${@base_contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}"
-+
-+PACKAGECONFIG[drm] = "--enable-libdrm,--disable-libdrm,libdrm"
-+PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
-+PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
-+PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm,virtual/libgl"
-+PACKAGECONFIG[gles1] = "--enable-gles1,--disable-gles1,virtual/libgles1"
-+PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
-+PACKAGECONFIG[glut] = "--with-glut,--without-glut,"
-+PACKAGECONFIG[osmesa] = "--enable-libosmesa,--disable-libosmesa,"
-+PACKAGECONFIG[vg] = "--enable-vg,--disable-vg,virtual/libvg"
-+PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayland"
-+PACKAGECONFIG[x11] = "--enable-libx11,--disable-libx11,virtual/libx11"
--- 
-1.8.1
-
+On Thu, May 2, 2013 at 5:18 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Thu, May 2, 2013 at 5:09 PM, Mark Hatle <mark.hatle@windriver.com> wro=
+te:
+>> On 5/2/13 9:55 AM, Andreas M=C3=BCller wrote:
+>>>
+>>> On Thu, May 2, 2013 at 4:50 PM, Mark Hatle <mark.hatle@windriver.com>
+>>> wrote:
+>>>>
+>>>> On 5/2/13 9:34 AM, Paul Eggleton wrote:
+>>>>>
+>>>>>
+>>>>> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> on one of my build machines useradd.bbclass seem to use the UID/GID=
+ of
+>>>>>>> build host. On other machines useradd works correct.
+>>>>>>>
+>>>>>>> I have the follwing in gdm:
+>>>>>>>
+>>>>>>> <snip>
+>>>>>>> do_install_append() {
+>>>>>>>
+>>>>>>>        ...
+>>>>>>>        chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+>>>>>>>        chmod 0750 ${D}${localstatedir}/lib/gdm
+>>>>>>>
+>>>>>>> }
+>>>>>>>
+>>>>>>> ...
+>>>>>>>
+>>>>>>> USERADD_PACKAGES =3D "${PN}"
+>>>>>>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+>>>>>>> ${localstatedir}/lib/gdm --user-group gdm"
+>>>>>>> <snip/>
+>>>>
+>>>>
+>>>>
+>>>> I don't know how ipk and deb handle this.  But with the RPM system it
+>>>> captures the uname/gname (not uid/gid) and uses that when installing t=
+he
+>>>> file(s).  This way the USERADD is processed before the install and the
+>>>> right
+>>>> value is used during the install.
+>>>>
+>>>> We may have a problem here where we need to also process the useradd
+>>>> -before- the do_install runs so that it's available for pseudo to use =
+for
+>>>> deb/ipk.  (But if deb/ipk capture uid/gid vs uname/gname..  unless we =
+set
+>>>> a
+>>>> static value we could still have a problem.)
+>>>
+>>> 1. gdm's log.do_install starts with so I assume the useradd stuff is
+>>> performed before do_install.
+>>>
+>>> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+>>> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+>>> 'common']
+>>> | DEBUG: Executing shell function useradd_sysroot
+>>> | Running useradd commands...
+>>> | DEBUG: Shell function useradd_sysroot finished
+>>> | DEBUG: Executing shell function do_install
+>>
+>>
+>> Ahh yes, there it is.. I forgot as well.
+>>
+>> ok, so the obvious problems are resolved.  The only place I can suggest =
+you
+>> start looking would be in the sysroot's etc/passwd and etc/group files. =
+ If
+>> they are not correct -- then this indicates a failure in the easy case a=
+nd
+>> could lead to incorrect values.
+> These are OK and as mentioned above (cleansstate/rebuild) definitely
+> prepared before do_install.
+>>
+>> The other thing you can do is add debugging to your script and see what =
+uid
+>> and such it's looking for.. Dumping out the environment variables that s=
+tart
+>> with 'PSEUDO_' may help.  I believe the value is PSEUDO_PASSWD for the p=
+ath.
+>> If it's not set it falls back to the chroot (which you won't be in) and =
+then
+>> back to the system file --- so if PSEUDO_PASSWD isn't set this could be =
+a
+>> clue as to the fault.
+[andreas@oe-core]$ bitbake -e gdm | grep ^PSEUDO_PASSWD
+PSEUDO_PASSWD=3D"/home/andreas/tmp/oe-core-eglibc/sysroots/overo"
+>>
+> I will check that - still strange to me is that I have different
+> behaviour for two hosts - both with gdm user/group.
+>
+> Andreas
 
 
