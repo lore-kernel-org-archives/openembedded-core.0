@@ -1,24 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-vc0-f170.google.com ([209.85.220.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UXvAp-00021c-E0
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UXvCM-0002AL-1w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:11:56 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:54:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="327721064"
-Received: from unknown (HELO helios.localnet) ([10.255.12.165])
-	by fmsmga001.fm.intel.com with ESMTP; 02 May 2013 07:53:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 02 May 2013 15:53:34 +0100
-Message-ID: <2062050.YyQC8Ghe9x@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <1367506179.5379.130.camel@ted>
-References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
-	<1556536.BsQG791ajX@helios> <1367506179.5379.130.camel@ted>
+	Thu, 02 May 2013 17:13:44 +0200
+Received: by mail-vc0-f170.google.com with SMTP id gf12so559481vcb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 May 2013 07:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=/UhLHVlYaHH9nwA6nv7L2s1u5e14cHuNX5rwzmSWXqQ=;
+	b=wMl43lD+NOVgPugusZnU33/UPTdJ9e6CeXzgnZsD57RVBqLM7A/D8BgscEfe04MPN3
+	k9BLAuTZbYCU38EZGs83qEwVaRSMUCn13RB8lZqqF0jmtYCqiGgbr7C33rSGDEdOVXWa
+	tC5+Uyh8i6hYzGpfYgO3iYMMhuWtTogBmuIv5w8kWcfMBbryiKyn2yaVMcTQ40G/wlbF
+	IeDH+eZEmonbrOOVYFGca+Z/vs5OMmOX5jKWtDyOzFQOZQueIcgaX39Rm7/us3VHzR5n
+	m9Vg0OSnXqCyw6TylDYZteSpV+PWsqhWCKuWdZwy0lOnyTyRPBQL/KzP9xMn+nr0/tf9
+	v7fg==
 MIME-Version: 1.0
+X-Received: by 10.220.78.131 with SMTP id l3mr2270758vck.54.1367506536055;
+	Thu, 02 May 2013 07:55:36 -0700 (PDT)
+Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 07:55:35 -0700 (PDT)
+In-Reply-To: <51827D4B.4070907@windriver.com>
+References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
+	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
+	<51827D4B.4070907@windriver.com>
+Date: Thu, 2 May 2013 16:55:35 +0200
+Message-ID: <CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -32,31 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:12:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 02 May 2013 15:13:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 02 May 2013 15:49:39 Richard Purdie wrote:
-> On Thu, 2013-05-02 at 15:34 +0100, Paul Eggleton wrote:
-> > Right, do_install will be well before this stuff happens and it is not a
-> > fakeroot task anyway. This needs to be moved to a postinstall script
-> > (which
-> > should be able to run during image creation).
-> 
-> Er, yes, do_install is a fakeroot task and you should be able to make
-> something like this work from do_install. We went to a lot of effort to
-> ensure the preinst scripts work correctly (see dbus as an example recipe
-> that uses this).
+On Thu, May 2, 2013 at 4:50 PM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> On 5/2/13 9:34 AM, Paul Eggleton wrote:
+>>
+>> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
+>>>
+>>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+>>>>
+>>>> on one of my build machines useradd.bbclass seem to use the UID/GID of
+>>>> build host. On other machines useradd works correct.
+>>>>
+>>>> I have the follwing in gdm:
+>>>>
+>>>> <snip>
+>>>> do_install_append() {
+>>>>
+>>>>       ...
+>>>>       chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+>>>>       chmod 0750 ${D}${localstatedir}/lib/gdm
+>>>>
+>>>> }
+>>>>
+>>>> ...
+>>>>
+>>>> USERADD_PACKAGES =3D "${PN}"
+>>>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+>>>> ${localstatedir}/lib/gdm --user-group gdm"
+>>>> <snip/>
+>
+>
+> I don't know how ipk and deb handle this.  But with the RPM system it
+> captures the uname/gname (not uid/gid) and uses that when installing the
+> file(s).  This way the USERADD is processed before the install and the ri=
+ght
+> value is used during the install.
+>
+> We may have a problem here where we need to also process the useradd
+> -before- the do_install runs so that it's available for pseudo to use for
+> deb/ipk.  (But if deb/ipk capture uid/gid vs uname/gname..  unless we set=
+ a
+> static value we could still have a problem.)
+1. gdm's log.do_install starts with so I assume the useradd stuff is
+performed before do_install.
 
-Oops. I'll have to admit that I assumed this without checking. Andreas, please 
-ignore my advice.
+| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+'common']
+| DEBUG: Executing shell function useradd_sysroot
+| Running useradd commands...
+| DEBUG: Shell function useradd_sysroot finished
+| DEBUG: Executing shell function do_install
 
-Cheers,
-Paul
+2. I did a cleansstate + rebuild for gdm to ensure that user/groups
+are in sysroot - but the same I get host's IDs
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Andreas
 
 
