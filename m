@@ -1,53 +1,39 @@
-Received: from mail-pd0-f171.google.com ([209.85.192.171])
+Received: from mail-ve0-f180.google.com ([209.85.128.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UXvW2-0004S3-MF
+	(envelope-from <schnitzeltony@googlemail.com>) id 1UXvYB-0004rK-7U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:33:51 +0200
-Received: by mail-pd0-f171.google.com with SMTP id r11so410302pdi.30
+	Thu, 02 May 2013 17:36:06 +0200
+Received: by mail-ve0-f180.google.com with SMTP id pa12so600227veb.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 08:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=4XhWdoszTJJWqgTaKcMlGYoYoFaruwzqSIo0Kuyw8us=;
-	b=JvckJXTse5zjWL1wNBLq1mT0B3SzRjgp7PQN5TxvLQjOzurNjzGM/C4dMPVCTWjzMh
-	PeOYN3hBDGijGhPHoT9DmOOOrx3NYcU970m+9std2GeQiSm6QvoS89L6wQ0aVMP3pvvG
-	SJ/L/ALXm8iKbImifSWB3QgrYdIw2r3r9n7zKs9LoyRL+wQ42tBSoDN1f3xfg05XKtyi
-	VKAFAw6XvnscfKEzUr/woOIwHZH7oBNngD06uD8iLqcQuwRSzBJijfwRCLHJvSQcCBSK
-	1l/3RdpdvQ5CErBD1YVgI18cA5hE8YFSAj9v50VMQp+XYJV+kRlMTfF1QmmvKY/I8bdW
-	sJcA==
-X-Received: by 10.69.1.39 with SMTP id bd7mr9268846pbd.188.1367507756340;
-	Thu, 02 May 2013 08:15:56 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id cq1sm7705934pbc.13.2013.05.02.08.15.54
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 02 May 2013 08:15:55 -0700 (PDT)
-Message-ID: <51828212.6000600@gmail.com>
-Date: Fri, 03 May 2013 01:11:14 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	Thu, 02 May 2013 08:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=Imp7yDdMD6fzi2WUMa+p3p5S4B5kXDBFjlEScalMyOk=;
+	b=hybIF1UhB9682Wh8NH125/TE2B2QiFxXL1k9xbn33uIbh+roDoD1VhJHHttEZ7euhJ
+	ElF7HvkZ21wRJsf4GnYHfmuTQVYHOGRfhQID7j4hk/j2nYGglChzF5mtGR71IjZ0WW+j
+	picRC86y6Jx0VTm2k9fgBwUFgMH4ZFdabWS4voliFFzwDIN5q7u6ijysGX87w1e9N8w5
+	8W9Ulxg9MIhfZkU2ziHEVhn3dEcaXsA0RY+mFsY8u3+ya8VUXAEHy+EqOL2vXWzImF8u
+	yOyOT/sjfpE2G6ai03FvbezpKj/S7G5bI6BCAas9cT74O53gxZMqo/khrwW+C24G2JiH
+	1ZxQ==
 MIME-Version: 1.0
-To: ml@communistcode.co.uk
-References: <510124FE.6040901@intel.com>
-	<lyd2wug4c0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<51012A68.806@intel.com>
-	<ly8v7ig2td.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<51013136.7040807@intel.com>
-	<CAJTo0LZ2ox=zgiAHS=DnbF9cv+vofjZpbqy8i0KEa6t1gezJPw@mail.gmail.com>
-	<5102423C.4010408@intel.com> <511CF540.6090302@communistcode.co.uk>
-	<CAJTo0LYa4cR+7-v91dhKieEttJOq0eMUEW3Yoz_aP9KaU06AfQ@mail.gmail.com>
-	<511D0669.6020903@communistcode.co.uk>
-	<20130221222728.GA1833@sakrah.homelinux.org>
-	<512738BF.9000404@communistcode.co.uk>
-	<51277D87.3090703@communistcode.co.uk>
-	<512785CE.5020508@communistcode.co.uk>
-In-Reply-To: <512785CE.5020508@communistcode.co.uk>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: systemd: /run directory not created
+X-Received: by 10.52.69.109 with SMTP id d13mr1961416vdu.75.1367507889195;
+	Thu, 02 May 2013 08:18:09 -0700 (PDT)
+Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 08:18:09 -0700 (PDT)
+In-Reply-To: <518281A4.6040900@windriver.com>
+References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
+	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
+	<51827D4B.4070907@windriver.com>
+	<CALbNGRRJfRF1qM2gm=SoSs=cjxqrFi7+7xp9SN9X=AMRPesPfw@mail.gmail.com>
+	<518281A4.6040900@windriver.com>
+Date: Thu, 2 May 2013 17:18:09 +0200
+Message-ID: <CALbNGRS4FLKC+_k9iuEeoMCx0o=DsXM-uu1X7uahtcrp24R=oA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,158 +46,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:33:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 May 2013 15:36:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 23/02/2013 1:50 AM, Jack Mitchell wrote:
-> On 22/02/13 14:15, Jack Mitchell wrote:
->> On 22/02/13 09:22, Jack Mitchell wrote:
->>> On 21/02/13 22:27, Khem Raj wrote:
->>>> On (14/02/13 15:44), Jack Mitchell wrote:
->>>>> On 14/02/13 15:31, Burton, Ross wrote:
->>>>>> On 14 February 2013 14:31, Jack Mitchell <ml@communistcode.co.uk> 
->>>>>> wrote:
->>>>>>> Did this ever go anywhere? I have just tried again today with 
->>>>>>> exactly the
->>>>>>> same result, all I did was change the DISTRO_FEATURES_INITMAN to 
->>>>>>> systemd.
->>>>>> Odd, as I just built and booted a systemd image (core-image-sato, in
->>>>>> poky master), and it worked fine.
->>>>>>
->>>>>> Ross
->>>>> I have a custom distro definition that cuts a lot of features out.
->>>>> Can you find out which package is supposed to create run and I can
->>>>> check if it is pulled in properly on my setup?
+On Thu, May 2, 2013 at 5:09 PM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> On 5/2/13 9:55 AM, Andreas M=C3=BCller wrote:
+>>
+>> On Thu, May 2, 2013 at 4:50 PM, Mark Hatle <mark.hatle@windriver.com>
+>> wrote:
+>>>
+>>> On 5/2/13 9:34 AM, Paul Eggleton wrote:
+>>>>
+>>>>
+>>>> On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
 >>>>>
->>>>> I think something must be assumed somewhere and I don't have the
->>>>> features enabled to trigger it.
->>>> its created by base-files package. If you need hint how it works
->>>> with systemd take a look at bbappend that angstrom has for base-files
->>>> in meta-angstrom
->>> Ah, I see. Thanks Khem.
->>>
->>> So, the next question is; how come Angstrom requires these files to 
->>> be appended to base-files in order to get systemd going, when 
->>> oe-core doesn't?
->>>
->>> I notice there is:
->>>
->>> ${localstatedir}/volatile/run \
->>>
->>> In the base-files oe-core package, while in Angstrom we have:
->>>
->>> ${localstatedir}/run \
->>> /run \
->>>
->>> I understand oe-core having it as a volatile; but I don't understand 
->>> why it doesn't create the /run directory. I see some kind of logic 
->>> regarding it here:
->>>
->>> volatiles = "run log lock tmp"
->>>
->>> for d in ${volatiles}; do
->>> ln -sf volatile/$d ${D}${localstatedir}/$d
->>> done
->>>
->>> However, if it doesn't create the directory on my target filesystem 
->>> then something must be wrong...
+>>>>>
+>>>>> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+>>>>>>
+>>>>>>
+>>>>>> on one of my build machines useradd.bbclass seem to use the UID/GID =
+of
+>>>>>> build host. On other machines useradd works correct.
+>>>>>>
+>>>>>> I have the follwing in gdm:
+>>>>>>
+>>>>>> <snip>
+>>>>>> do_install_append() {
+>>>>>>
+>>>>>>        ...
+>>>>>>        chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+>>>>>>        chmod 0750 ${D}${localstatedir}/lib/gdm
+>>>>>>
+>>>>>> }
+>>>>>>
+>>>>>> ...
+>>>>>>
+>>>>>> USERADD_PACKAGES =3D "${PN}"
+>>>>>> USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+>>>>>> ${localstatedir}/lib/gdm --user-group gdm"
+>>>>>> <snip/>
 >>>
 >>>
+>>>
+>>> I don't know how ipk and deb handle this.  But with the RPM system it
+>>> captures the uname/gname (not uid/gid) and uses that when installing th=
+e
+>>> file(s).  This way the USERADD is processed before the install and the
+>>> right
+>>> value is used during the install.
+>>>
+>>> We may have a problem here where we need to also process the useradd
+>>> -before- the do_install runs so that it's available for pseudo to use f=
+or
+>>> deb/ipk.  (But if deb/ipk capture uid/gid vs uname/gname..  unless we s=
+et
+>>> a
+>>> static value we could still have a problem.)
 >>
->> Ok, some oddities and questions.
+>> 1. gdm's log.do_install starts with so I assume the useradd stuff is
+>> performed before do_install.
 >>
->> I have slightly altered the base-files volatiles create loop from:
->>
->>
->> for d in ${volatiles}; do
->> ln -sf volatile/$d ${D}${localstatedir}/$d
->> done
->>
->> to
->>
->>   for d in ${volatiles}; do
->>     ln -sfv /volatile/$d ${D}/$d
->>   done
->>
->> Which gives the output:
->> DEBUG: Executing shell function do_install
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/run' 
->> -> '/volatile/run'
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/log' 
->> -> '/volatile/log'
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/lock' 
->> -> '/volatile/lock'
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/tmp/tmp' 
->> -> '/volatile/tmp'
->> DEBUG: Shell function do_install finished
->>
->> The oddity is the volatiles variable looks like this:
->>
->> volatiles = "run log lock tmp"
->>
->> So why do we get:
->>
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/tmp/tmp' 
->> -> '/volatile/tmp'
->>
->> with /tmp/tmp?
->>
->> I have also removed the ${localstatedir} otherwise I was getting this:
->>
->> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/var/run' 
->> -> '/volatile/run'
->>
->> With the extra var/ in. Which would make sense for why I wasn't 
->> getting directories made in the root folder. I suppose the issue is, 
->> why was everyone else?
->>
->> Can anyone shed any light on this?
->>
+>> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+>> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+>> 'common']
+>> | DEBUG: Executing shell function useradd_sysroot
+>> | Running useradd commands...
+>> | DEBUG: Shell function useradd_sysroot finished
+>> | DEBUG: Executing shell function do_install
 >
-> Right,
 >
-> I think it should be this (minus the debug):
+> Ahh yes, there it is.. I forgot as well.
 >
->   for d in run log tmp lock; do
->     echo ${D}
->     echo $d
->     ln -sfv ${localstatedir}/volatile/$d ${D}/$d
->   done
+> ok, so the obvious problems are resolved.  The only place I can suggest y=
+ou
+> start looking would be in the sysroot's etc/passwd and etc/group files.  =
+If
+> they are not correct -- then this indicates a failure in the easy case an=
+d
+> could lead to incorrect values.
+These are OK and as mentioned above (cleansstate/rebuild) definitely
+prepared before do_install.
 >
-> Which gives:
+> The other thing you can do is add debugging to your script and see what u=
+id
+> and such it's looking for.. Dumping out the environment variables that st=
+art
+> with 'PSEUDO_' may help.  I believe the value is PSEUDO_PASSWD for the pa=
+th.
+> If it's not set it falls back to the chroot (which you won't be in) and t=
+hen
+> back to the system file --- so if PSEUDO_PASSWD isn't set this could be a
+> clue as to the fault.
 >
-> DEBUG: Executing shell function do_install
-> /mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image 
->
-> run
-> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/run' 
-> -> '/var/volatile/run'
-> /mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image 
->
-> log
-> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/log' 
-> -> '/var/volatile/log'
-> /mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image 
->
-> tmp
-> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/tmp/tmp' 
-> -> '/var/volatile/tmp'
-> /mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image 
->
-> lock
-> '/mnt/SSD/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/base-files/3.0.14-r73/image/lock' 
-> -> '/var/volatile/lock'
-> DEBUG: Shell function do_install finished
-> ~
->
-> The only issue I am having is still the double tmp/tmp thing; anyone 
-> know why it is doing it? It seems like a weird substitution or 
-> something.....
-${D}/tmp is a directory that already exists, so the symbolic link is 
-created at ${D}/tmp/tmp instead. Probably need to remove /tmp from dirs1777.
+I will check that - still strange to me is that I have different
+behaviour for two hosts - both with gdm user/group.
 
-Regards,
-Jonathan
+Andreas
 
 
