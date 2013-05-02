@@ -1,33 +1,31 @@
-Received: from mail-ve0-f177.google.com ([209.85.128.177])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1UXv0I-0000rM-Br
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 17:01:04 +0200
-Received: by mail-ve0-f177.google.com with SMTP id jw11so556055veb.22
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 07:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding;
-	bh=OtC/abGuTEpoxEkplP1T29lhkC3FaqC8dd3Rgl15hqU=;
-	b=ydoI3Vv4+u+RTZGAgI+c1GDJ62wNE1PI76z2XteoYD0HDh6VmWMXw6m66ih4XEoFKP
-	hwMuCGOA53pV8d2YrWurKtgn8L+cIdyJ3SLU92+DD3itkgEJ29ucrh14/5PQvQAx3sHn
-	7zIZDnv1MVyJZ/KzgDZ8mf/Ltj6k80UE4DzWO1Hm3NxpgLcThh+ax7KGeVqYA3H6ee9O
-	ygHEs/w8G6qMG68lSavqwSj80eIgEacZouzjPcz4GO6SZoeG9Kx1UR41JJG8av/exzza
-	1KPahYmbVS68ojXwiZ5SkYSnELOl0ZZDbqvXYisNEt0XIjx+L9i6SiUGDF+IV8M9deWv
-	kSdQ==
-MIME-Version: 1.0
-X-Received: by 10.220.78.131 with SMTP id l3mr2251406vck.54.1367505788391;
-	Thu, 02 May 2013 07:43:08 -0700 (PDT)
-Received: by 10.52.139.33 with HTTP; Thu, 2 May 2013 07:43:08 -0700 (PDT)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UXv6x-0001R1-KN for openembedded-core@lists.openembedded.org;
+	Thu, 02 May 2013 17:07:57 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r42EpgkB016666; Thu, 2 May 2013 15:51:42 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bBVeoJhjKjaO; Thu,  2 May 2013 15:51:41 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r42EpZ9M016658
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 2 May 2013 15:51:37 +0100
+Message-ID: <1367506179.5379.130.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 02 May 2013 15:49:39 +0100
 In-Reply-To: <1556536.BsQG791ajX@helios>
 References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
 	<51826BBB.2090307@windriver.com> <1556536.BsQG791ajX@helios>
-Date: Thu, 2 May 2013 16:43:08 +0200
-Message-ID: <CALbNGRQipDCysg-o12sqE-sHgkYE5u=WftF=cBVnRxsSEwNTjA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r42EpgkB016666
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,63 +40,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 15:01:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 May 2013 15:07:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 2, 2013 at 4:34 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
+On Thu, 2013-05-02 at 15:34 +0100, Paul Eggleton wrote:
 > On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
->> On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
->> > on one of my build machines useradd.bbclass seem to use the UID/GID of
->> > build host. On other machines useradd works correct.
->> >
->> > I have the follwing in gdm:
->> >
->> > <snip>
->> > do_install_append() {
->> >
->> >      ...
->> >      chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
->> >      chmod 0750 ${D}${localstatedir}/lib/gdm
->> >
->> > }
->> >
->> > ...
->> >
->> > USERADD_PACKAGES =3D "${PN}"
->> > USERADD_PARAM_${PN} =3D "--system --no-create-home --home
->> > ${localstatedir}/lib/gdm --user-group gdm"
->> > <snip/>
->> >
->> > In sysroot /etc/group I see
->> > gdm:x:990:
->> >
->> > In sysroot /etc/group I see
->> > gdm:!:993:990::/var/lib/gdm:
->> >
->> > The folder in packet/image has IDs 42:42 which is taken from build hos=
-t.
->>
->> This says that something ran an operation outside of the pseudo environm=
-ent.
->>  So it fell back to looking up the uid from the host system.  (The
->> alternative is the item was installed -before- the /etc/passwd,/etc/grou=
-p
->> was written to the disk.
->
-> Right, do_install will be well before this stuff happens and it is not a
-> fakeroot task anyway. This needs to be moved to a postinstall script (whi=
-ch
+> > On 5/2/13 2:49 AM, Andreas M=C3=BCller wrote:
+> > > on one of my build machines useradd.bbclass seem to use the UID/GID=
+ of
+> > > build host. On other machines useradd works correct.
+> > >=20
+> > > I have the follwing in gdm:
+> > >=20
+> > > <snip>
+> > > do_install_append() {
+> > >=20
+> > >      ...
+> > >      chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+> > >      chmod 0750 ${D}${localstatedir}/lib/gdm
+> > >=20
+> > > }
+> > >=20
+> > > ...
+> > >=20
+> > > USERADD_PACKAGES =3D "${PN}"
+> > > USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+> > > ${localstatedir}/lib/gdm --user-group gdm"
+> > > <snip/>
+> > >=20
+> > > In sysroot /etc/group I see
+> > > gdm:x:990:
+> > >=20
+> > > In sysroot /etc/group I see
+> > > gdm:!:993:990::/var/lib/gdm:
+> > >=20
+> > > The folder in packet/image has IDs 42:42 which is taken from build =
+host.
+> >=20
+> > This says that something ran an operation outside of the pseudo envir=
+onment.
+> >  So it fell back to looking up the uid from the host system.  (The
+> > alternative is the item was installed -before- the /etc/passwd,/etc/g=
+roup
+> > was written to the disk.
+>=20
+> Right, do_install will be well before this stuff happens and it is not =
+a=20
+> fakeroot task anyway. This needs to be moved to a postinstall script (w=
+hich=20
 > should be able to run during image creation).
->
-> Cheers,
-> Paul
->
-Did this change - it is mentioned this way in
 
-meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+Er, yes, do_install is a fakeroot task and you should be able to make
+something like this work from do_install. We went to a lot of effort to
+ensure the preinst scripts work correctly (see dbus as an example recipe
+that uses this).
 
-Andreas
+Cheers,
+
+Richard
+
+
+
+
 
 
