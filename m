@@ -1,22 +1,22 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UXvDK-0002DK-LY
+	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UXvDP-0002DC-Ow
 	for openembedded-core@lists.openembedded.org;
 	Thu, 02 May 2013 17:14:36 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:56:36 -0700
+	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:56:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="296567896"
+X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="296567909"
 Received: from sorvi.fi.intel.com ([10.237.72.154])
-	by azsmga001.ch.intel.com with ESMTP; 02 May 2013 07:56:34 -0700
+	by azsmga001.ch.intel.com with ESMTP; 02 May 2013 07:56:37 -0700
 From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2013 17:56:31 +0300
-Message-Id: <1367506593-11381-2-git-send-email-jukka.rissanen@linux.intel.com>
+Date: Thu,  2 May 2013 17:56:33 +0300
+Message-Id: <1367506593-11381-4-git-send-email-jukka.rissanen@linux.intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
 References: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH v2 1/3] neard: Rename the recipe as we are already in 0.10
+Subject: [PATCH v2 3/3] neard: Split recipe to two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,21 +31,21 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 02 May 2013 15:14:44 -0000
 
+This way it is easier to override settings if needed.
 
 Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
 ---
- meta/recipes-connectivity/neard/neard_0.10.bb | 69 +++++++++++++++++++++++++++
- meta/recipes-connectivity/neard/neard_0.9.bb  | 69 ---------------------------
- 2 files changed, 69 insertions(+), 69 deletions(-)
- create mode 100644 meta/recipes-connectivity/neard/neard_0.10.bb
- delete mode 100644 meta/recipes-connectivity/neard/neard_0.9.bb
+ meta/recipes-connectivity/neard/neard.inc     | 59 ++++++++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.10.bb | 60 +--------------------------
+ 2 files changed, 60 insertions(+), 59 deletions(-)
+ create mode 100644 meta/recipes-connectivity/neard/neard.inc
 
-diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
 new file mode 100644
-index 0000000..dc43f7e
+index 0000000..7cccbdc
 --- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard_0.10.bb
-@@ -0,0 +1,69 @@
++++ b/meta/recipes-connectivity/neard/neard.inc
+@@ -0,0 +1,59 @@
 +SUMMARY = "Linux NFC daemon"
 +DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
 +HOMEPAGE = "http://01.org/linux-nfc"
@@ -53,19 +53,9 @@ index 0000000..dc43f7e
 +
 +DEPENDS = "dbus glib-2.0 libnl"
 +
-+SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
-+           file://neard.in \
-+           file://neard.service.in \
-+          "
-+
 +LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
 + file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
 + "
-+
-+S = "${WORKDIR}/git"
-+SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
-+PV = "0.10+git${SRCPV}"
-+PR = "r0"
 +
 +inherit autotools pkgconfig systemd update-rc.d
 +
@@ -115,32 +105,32 @@ index 0000000..dc43f7e
 +INITSCRIPT_PARAMS = "defaults 64"
 +
 +SYSTEMD_SERVICE_${PN} = "neard.service"
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-deleted file mode 100644
-index dc43f7e..0000000
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ /dev/null
-@@ -1,69 +0,0 @@
+diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
+index b9198af..09f97be 100644
+--- a/meta/recipes-connectivity/neard/neard_0.10.bb
++++ b/meta/recipes-connectivity/neard/neard_0.10.bb
+@@ -1,69 +1,11 @@
 -SUMMARY = "Linux NFC daemon"
 -DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
 -HOMEPAGE = "http://01.org/linux-nfc"
 -LICENSE = "GPLv2"
 -
 -DEPENDS = "dbus glib-2.0 libnl"
--
--SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
--           file://neard.in \
--           file://neard.service.in \
--          "
--
++require neard.inc
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+            file://neard.in \
+            file://neard.service.in \
+           "
+ 
 -LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
 - file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
 - "
 -
--S = "${WORKDIR}/git"
--SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
--PV = "0.10+git${SRCPV}"
--PR = "r0"
+ S = "${WORKDIR}/git"
+ SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
+ PV = "0.10+git${SRCREV}"
+ PR = "r0"
 -
 -inherit autotools pkgconfig systemd update-rc.d
 -
