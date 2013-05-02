@@ -1,41 +1,28 @@
-Received: from mail-pa0-f49.google.com ([209.85.220.49])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UXwv9-0008Ry-Tx
+	(envelope-from <mark.hatle@windriver.com>) id 1UXwxM-0000JT-RR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 19:04:02 +0200
-Received: by mail-pa0-f49.google.com with SMTP id hk2so458043pac.36
+	Thu, 02 May 2013 19:06:13 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r42GmDNG007174
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 09:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=5rQfoklOIzS5GBqCOoqHmynP+DitpPnjzjMxSivuEjk=;
-	b=G1JnfR++fQHrFUd0qqVHDH44zI7eMSN5E/9dgAfFGMmYho8lE9odQ7eXdyqqqB6nwP
-	RF7ZZHB78IcqB25u7dUVEkCd+bLUsvHkzxOCye0mx7V9GUeu5qLv2vC+cgTFgUql/mz1
-	WyXNCdqodqLuYD0EQMjL0lVqKA5gL2+zDzR9kSkxs4wbs5FFESf+IqUTEo0uttrqJpjB
-	kuAupuRh4RInIshPD+GSmzeZE6QF5PFOkLd/ujMBTfBwHGFWtFK4+/VG3gU4rOImj9Hp
-	DcAQrn4Zm4RhsJ1Yq1+/sU/fpNTl++LNyOdnDPPb9zD6gWqnBJMkQGq1Bd0mhMdEjjE7
-	u+Ow==
-X-Received: by 10.66.235.3 with SMTP id ui3mr10711666pac.200.1367513157553;
-	Thu, 02 May 2013 09:45:57 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	10sm7924398pbr.45.2013.05.02.09.45.54 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 02 May 2013 09:45:56 -0700 (PDT)
-Date: Thu, 2 May 2013 18:46:13 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130502164613.GE3206@jama>
-References: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1367506593-11381-3-git-send-email-jukka.rissanen@linux.intel.com>
-	<20130502153930.GD3206@jama>
-	<CAJTo0LZrk_JYXV8EQbJ9T__L6qBGHQfO5mNvZmUJtYTEas9x7g@mail.gmail.com>
+	Thu, 2 May 2013 09:48:14 -0700 (PDT)
+Received: from msp-dhcp2.wrs.com (172.25.34.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 2 May 2013 09:48:13 -0700
+Message-ID: <518298CD.4080109@windriver.com>
+Date: Thu, 2 May 2013 11:48:13 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZrk_JYXV8EQbJ9T__L6qBGHQfO5mNvZmUJtYTEas9x7g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/3] neard: Use SRCREV instead of SRCPV
+To: <openembedded-core@lists.openembedded.org>
+References: <CAJTo0LZdtT=qg2k3eBJ_DQHQzMvqS0vwFSmkgCxxG7KOiPWfzQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZdtT=qg2k3eBJ_DQHQzMvqS0vwFSmkgCxxG7KOiPWfzQ@mail.gmail.com>
+Subject: Re: libexecdir and multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,41 +35,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 17:04:05 -0000
-X-Groupsio-MsgNum: 38666
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jKBxcB1XkHIR0Eqt"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 May 2013 17:06:19 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---jKBxcB1XkHIR0Eqt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/2/13 11:10 AM, Burton, Ross wrote:
+> Hi all,
+>
+> There were several issues being discussed here under the topic of
+> libexecdir, some simple and some less so.  I'll ramble for a bit to
+> try and get a proper conclusion debated.
+>
+> The situation where you have a 32-bit dropbear but a 64-bit openssh is
+> rather pathological and I'd like to know if this was a real-world
+> problem and the rationale behind it, or whether it was an example of a
+> hypothetical issue.  Note that the example of Debian using "/usr/lib"
+> as libexecdir is true only in the case where ML isn't being used, then
+> libexecdir is $prefix/lib/$arch, which will have the same hypothetical
+> problem.  Debian's SSH works because dropboard and openssh aren't
+> multilib-enabled - if you look at e.g. libgstreamer in Debian you'll
+> see the libexecdir there is arch-qualified.
+>
+> Looking at the latest FHS drafts and the revised automake
+> documentation, I agree that our default --libexecdir shouldn't contain
+> ${BPN}.  There may be packages that drop unrealistic numbers of
+> binaries into libexecdir and for those we can join most other
+> distributions and change libexecdir on a per-package basis.  However
+> the exact choice of libexecdir depends on what ML behaviour we expect
+> and have from the package managers, which predictably isn't uniform.
+>
+> If it wasn't for multilib, this wouldn't be a issue - we could just
+> change the libexecdir definition to whatever we wanted.  However,
+> multilib does exist and causes all sorts of annoyances, mainly around
+> conflicting binaries.  As far as I'm aware rpm and opkg have different
+> behaviour when binaries conflict in packages: rpm allows "executables"
+> (but not libraries) to conflict and will prefer the 64-bit version,
 
-On Thu, May 02, 2013 at 05:11:28PM +0100, Burton, Ross wrote:
-> On 2 May 2013 16:39, Martin Jansa <martin.jansa@gmail.com> wrote:
-> >> -PV =3D "0.10+git${SRCPV}"
-> >> +PV =3D "0.10+git${SRCREV}"
->=20
-> As the git revision is the 0.10 tag, wouldn't it be clearer to not set
-> PV as the git revision is a detail of the fetcher - this *is* 0.10.
+Minor clarification.  RPM permits ELF executables to "conflict" and resolves 
+them using a local policy.  The default local policy happens to be 64-bit right 
+now.  (We've got an open defect to permit this policy to change.)
 
-That's fine too as long as nobody bumps SRCREV without updating PV or
-uses AUTOREV from some .inc or local.conf.
+> whereas opkg allows files in $bindir (etc) to conflict.  So, rpm can
+> handle an arbitrary libexecdir but opkg can't at present.
+>
+> So there are three options that I can see:
+>
+> libexecdir = "$libdir"
+> ===
+>
+> No conflicting binaries in libexecdir when multilib is used, so
+> companion binaries used by libraries don't get used by different
+> architectures.  Other packages accessing the libexecdir could have
+> different architecture, but this is likely a rare situation.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Do we have any cases where a library will care about the byte size of the 
+libexecdir executable?  I'm not aware of any....
 
---jKBxcB1XkHIR0Eqt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> libexecdir = "${exec_prefix}/lib"
+> ===
+>
+> Conflicting binaries with multilib, would likely need improvements in
+> the opkg bbclass.  Consistent name so cross-architecture file paths
+> are consistent, although the binary architecture isn't.  There is the
+> possibility of a /usr/lib solely containing libexecdir binaries if the
+> ML configuration means that the libdirs used are lib32 and lib64,
+> which would look odd.
+>
+> libexecdir = ${exec_prefix}/libexec"
+> ===
+>
+> Conflicting binaries with multilib, would likely need improvements in
+> the opkg bbclass.  Consistent name so cross-architecture file paths
+> are consistent, although the binary architecture isn't.
+>
+> What's clear from the research I've done is that there isn't a clear
+> answer - upstreams have different expectations of how
+> libexecdir/bindir are used, and different distributions do different
+> things to solve the multilib problems - even when the distribution
+> maintainers are also upstream developers.  Some examples:
+>
+> dbus has a helper dbus-daemon-launch-helper, which is installed into
+> libexecdir.  Fedora moves it into $libdir, where as Debian moves this
+> same binary to /usr/lib/dbus-1 avoiding the $arch... Some disagreement
+> there apparently.
+>
+> gdk-pixbuf has a tool to introspect/register the installed loader
+> modules.  As this loads the libraries, it needs to match the
+> architecture of the libgdk-pixbuf being used.  Upstream has this tool
+> installing to $bindir yet multilib distributions can't have this tool
+> being replaced with different architectures, so Fedora adds a
+> word-size suffix to the binary, and Debian moves it to their
+> libexecdir (which in ML-compatible packages in $libdir/$arch), and
+> both adapt their postinst scripts to match.
+>
+> Both of these examples are in mainstream packages where the package
+> maintainers in the distro are also upstream developers, and yet these
+> kludges exist (note that our gdk-pixbuf is currently broken in this
+> respect).
+>
+> My personal opinion at this point in time is that we should change
+> libexecdir to be $libdir.  My rationale for this is these internal
+> binaries then "stick" with their architecture, and that the number of
+> binaries that need to be invoked and match their library's
+> architecture is likely higher than the number of cross-package and
+> cross-architecture hard-coded execution paths (such as 32-bit dropbear
+> running 64-bit openssh helpers).
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+I'm looking for examples of a libexecdir that -is- architecture specific.  I.e. 
+a library (or something external) calls it and expects a specific byte size 
+version.  If this is the case (gstreamer, dbus, etc?) then $libdir does make 
+sense with the update-alternative link being in ${exec_prefix}/lib/... so that 
+shell scripts and other things can find it..
 
-iEYEARECAAYFAlGCmFUACgkQN1Ujt2V2gBwc0ACgubCu3RrownrvdKnqGzfgicAB
-JdQAmQG30wDLtsG/Gjy59YdscO42DYBY
-=i0F7
------END PGP SIGNATURE-----
+--Mark
 
---jKBxcB1XkHIR0Eqt--
+> Hopefully nobody got too bored reading this, any comments?
+>
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
