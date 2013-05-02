@@ -1,33 +1,21 @@
-Received: from mail-vb0-f46.google.com ([209.85.212.46])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UXtJk-0002WB-UQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 15:13:10 +0200
-Received: by mail-vb0-f46.google.com with SMTP id 10so410829vbe.33
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 05:55:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=kBr/SXc+/qkFeswp8j26n1yARQ9CfaTJZwS7uRQsJBM=;
-	b=hXLVtc8fD+9/MaoE9/C4iNWRAR9KJZ6NFNxGNekNPS+6J3MEBUldDVsk7A29qSe8ih
-	kuTqkzbsQahNYWAlZ9oozxMtWcidjvf50ssFuw+EsuSZV5a5YF/gYD9ldxv60/ivwy94
-	bFAnnZLY4wCfKHRu9sAnO+WNf2k7zZy+mZnSf3SisQWAMZvyH11ED9+3+6zuj3N/xF4m
-	H29Hdp6aCNR1JfRLZPkFgSfrclbUXUZaicj97SlEMQ15C3l3/l2oFntyADPF1vTM0c6S
-	uMnLtCToWO/he1nuNQ5V6ha5MVEcchx8Yzvob1l0Oslz437uyZFeY+rdmmwrOpfRLH2b
-	F1Mg==
-X-Received: by 10.220.176.71 with SMTP id bd7mr2078741vcb.12.1367499306625;
-	Thu, 02 May 2013 05:55:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Thu, 2 May 2013 05:54:45 -0700 (PDT)
-In-Reply-To: <1367497165.14512.247.camel@phil-desktop.brightsign>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UXtbx-00060J-VI for openembedded-core@lists.openembedded.org;
+	Thu, 02 May 2013 15:32:05 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UXtKg-0000Ui-JS; Thu, 02 May 2013 15:13:58 +0200
+Message-ID: <1367500437.14512.249.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 02 May 2013 14:13:57 +0100
+In-Reply-To: <CAJTo0LZf1D75XU5CUWqyvNbY5A1kbXufiJDBKmc-Bmf9RxAjCQ@mail.gmail.com>
 References: <1367497165.14512.247.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 May 2013 13:54:45 +0100
-Message-ID: <CAJTo0LZf1D75XU5CUWqyvNbY5A1kbXufiJDBKmc-Bmf9RxAjCQ@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQmLyc+t0n8KhVyoRBXcZJYwTDWMz8aa6QmMAkfXZN+x4n2F7O4LgpiEbxdh2Ksuh9F1F292
+	<CAJTo0LZf1D75XU5CUWqyvNbY5A1kbXufiJDBKmc-Bmf9RxAjCQ@mail.gmail.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] gcc-runtime: Avoid error when trying to remove nonexistent directories
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,17 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 13:13:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 May 2013 13:32:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2 May 2013 13:19, Phil Blundell <pb@pbcl.net> wrote:
-> If we didn't build libgomp then we won't have installed anything into
-> ${infodir} or ${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude.  Check
-> whether those directories exist before trying to remove them, else we
-> will lose.
+On Thu, 2013-05-02 at 13:54 +0100, Burton, Ross wrote:
+> On 2 May 2013 13:19, Phil Blundell <pb@pbcl.net> wrote:
+> > If we didn't build libgomp then we won't have installed anything into
+> > ${infodir} or ${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude.  Check
+> > whether those directories exist before trying to remove them, else we
+> > will lose.
+> 
+> Isn't it neater to use rm -rf?
 
-Isn't it neater to use rm -rf?
+The original code goes to some trouble to use "rmdir
+--ignore-fail-on-non-empty", which I assume means that there are some
+circumstances where those directories do contain other files that we
+want to keep.  Using "rm -rf" would obviously blow the whole thing away.
 
-Ross
+p.
+
+
 
 
