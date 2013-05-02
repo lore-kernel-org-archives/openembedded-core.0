@@ -1,20 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UXueW-0006tD-RJ
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UXus7-00089I-99
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 16:38:37 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 May 2013 07:18:43 -0700
+	Thu, 02 May 2013 16:52:36 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 02 May 2013 07:34:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="330319413"
-Received: from sorvi.fi.intel.com ([10.237.72.154])
-	by orsmga002.jf.intel.com with ESMTP; 02 May 2013 07:20:37 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2013 17:20:36 +0300
-Message-Id: <1367504436-9048-1-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] neard: Split recipe to two parts
+X-IronPort-AV: E=Sophos;i="4.87,597,1363158000"; d="scan'208";a="327710796"
+Received: from unknown (HELO helios.localnet) ([10.255.12.165])
+	by fmsmga001.fm.intel.com with ESMTP; 02 May 2013 07:34:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 02 May 2013 15:34:34 +0100
+Message-ID: <1556536.BsQG791ajX@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <51826BBB.2090307@windriver.com>
+References: <CALbNGRTYCh8aB_JNpL7T-80PzybUN9KMJmZ=_GP6AfkrJmAccw@mail.gmail.com>
+	<51826BBB.2090307@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: useradd.bbclass question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,179 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 14:38:57 -0000
+X-List-Received-Date: Thu, 02 May 2013 14:52:36 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-This way it is easier to override settings if needed.
+On Thursday 02 May 2013 08:35:55 Mark Hatle wrote:
+> On 5/2/13 2:49 AM, Andreas M=FCller wrote:
+> > on one of my build machines useradd.bbclass seem to use the UID/GID=
+ of
+> > build host. On other machines useradd works correct.
+> >=20
+> > I have the follwing in gdm:
+> >=20
+> > <snip>
+> > do_install_append() {
+> >=20
+> >      ...
+> >      chown -R gdm:gdm ${D}${localstatedir}/lib/gdm
+> >      chmod 0750 ${D}${localstatedir}/lib/gdm
+> >=20
+> > }
+> >=20
+> > ...
+> >=20
+> > USERADD_PACKAGES =3D "${PN}"
+> > USERADD_PARAM_${PN} =3D "--system --no-create-home --home
+> > ${localstatedir}/lib/gdm --user-group gdm"
+> > <snip/>
+> >=20
+> > In sysroot /etc/group I see
+> > gdm:x:990:
+> >=20
+> > In sysroot /etc/group I see
+> > gdm:!:993:990::/var/lib/gdm:
+> >=20
+> > The folder in packet/image has IDs 42:42 which is taken from build =
+host.
+>=20
+> This says that something ran an operation outside of the pseudo envir=
+onment.
+>  So it fell back to looking up the uid from the host system.  (The
+> alternative is the item was installed -before- the /etc/passwd,/etc/g=
+roup
+> was written to the disk.
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- meta/recipes-connectivity/neard/neard.inc     | 59 +++++++++++++++++++++++
- meta/recipes-connectivity/neard/neard_0.10.bb | 11 +++++
- meta/recipes-connectivity/neard/neard_0.9.bb  | 69 ---------------------------
- 3 files changed, 70 insertions(+), 69 deletions(-)
- create mode 100644 meta/recipes-connectivity/neard/neard.inc
- create mode 100644 meta/recipes-connectivity/neard/neard_0.10.bb
- delete mode 100644 meta/recipes-connectivity/neard/neard_0.9.bb
+Right, do_install will be well before this stuff happens and it is not =
+a=20
+fakeroot task anyway. This needs to be moved to a postinstall script (w=
+hich=20
+should be able to run during image creation).
 
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-new file mode 100644
-index 0000000..7cccbdc
---- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -0,0 +1,59 @@
-+SUMMARY = "Linux NFC daemon"
-+DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
-+HOMEPAGE = "http://01.org/linux-nfc"
-+LICENSE = "GPLv2"
-+
-+DEPENDS = "dbus glib-2.0 libnl"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-+ file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-+ "
-+
-+inherit autotools pkgconfig systemd update-rc.d
-+
-+EXTRA_OECONF += "--enable-tools"
-+
-+do_install() {
-+	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
-+}
-+
-+# This would copy neard start-stop shell and test scripts
-+do_install_append() {
-+	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/init.d/
-+		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
-+		  > ${D}${sysconfdir}/init.d/neard
-+		chmod 0755 ${D}${sysconfdir}/init.d/neard
-+	fi
-+
-+	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${systemd_unitdir}/system
-+		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
-+		  > ${D}${systemd_unitdir}/system/neard.service
-+	fi
-+
-+	# Install the tests for neard-tests
-+	install -d ${D}${libdir}/neard
-+	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
-+	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
-+}
-+
-+PACKAGES =+ "${PN}-tests"
-+
-+FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
-+
-+RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
-+
-+# Bluez & Wifi are not mandatory except for handover
-+RRECOMMENDS_${PN} = "\
-+                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
-+                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
-+                    "
-+
-+RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
-+
-+INITSCRIPT_NAME = "neard"
-+INITSCRIPT_PARAMS = "defaults 64"
-+
-+SYSTEMD_SERVICE_${PN} = "neard.service"
-diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
-new file mode 100644
-index 0000000..09f97be
---- /dev/null
-+++ b/meta/recipes-connectivity/neard/neard_0.10.bb
-@@ -0,0 +1,11 @@
-+require neard.inc
-+
-+SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
-+           file://neard.in \
-+           file://neard.service.in \
-+          "
-+
-+S = "${WORKDIR}/git"
-+SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
-+PV = "0.10+git${SRCREV}"
-+PR = "r0"
-diff --git a/meta/recipes-connectivity/neard/neard_0.9.bb b/meta/recipes-connectivity/neard/neard_0.9.bb
-deleted file mode 100644
-index dc43f7e..0000000
---- a/meta/recipes-connectivity/neard/neard_0.9.bb
-+++ /dev/null
-@@ -1,69 +0,0 @@
--SUMMARY = "Linux NFC daemon"
--DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
--HOMEPAGE = "http://01.org/linux-nfc"
--LICENSE = "GPLv2"
--
--DEPENDS = "dbus glib-2.0 libnl"
--
--SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
--           file://neard.in \
--           file://neard.service.in \
--          "
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-- file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-- "
--
--S = "${WORKDIR}/git"
--SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
--PV = "0.10+git${SRCPV}"
--PR = "r0"
--
--inherit autotools pkgconfig systemd update-rc.d
--
--EXTRA_OECONF += "--enable-tools"
--
--do_install() {
--	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
--}
--
--# This would copy neard start-stop shell and test scripts
--do_install_append() {
--	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
--		install -d ${D}${sysconfdir}/init.d/
--		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
--		  > ${D}${sysconfdir}/init.d/neard
--		chmod 0755 ${D}${sysconfdir}/init.d/neard
--	fi
--
--	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--		install -d ${D}${systemd_unitdir}/system
--		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
--		  > ${D}${systemd_unitdir}/system/neard.service
--	fi
--
--	# Install the tests for neard-tests
--	install -d ${D}${libdir}/neard
--	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
--	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
--}
--
--PACKAGES =+ "${PN}-tests"
--
--FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
--FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
--
--RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
--
--# Bluez & Wifi are not mandatory except for handover
--RRECOMMENDS_${PN} = "\
--                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
--                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--                    "
--
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
--
--INITSCRIPT_NAME = "neard"
--INITSCRIPT_PARAMS = "defaults 64"
--
--SYSTEMD_SERVICE_${PN} = "neard.service"
--- 
-1.7.11.7
+Cheers,
+Paul
 
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
