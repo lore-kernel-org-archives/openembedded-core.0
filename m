@@ -1,37 +1,35 @@
-Received: from mail-ve0-f171.google.com ([209.85.128.171])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UXwO8-0004w3-B9
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 18:29:48 +0200
-Received: by mail-ve0-f171.google.com with SMTP id oy12so662102veb.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2013 09:11:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=JpzV5BVph324Dq1g7/0Nm9qlHKG0LVSQ4eFtgi6ALao=;
-	b=HHxFSJIH0DiZ0E4yOp3dST4jRWAg5rqJCFFBX6XwPRd9Mm5UVj4EZeFlWFV7BIJkCk
-	Lpo3aMMI55gLTGQ4yvE1RGdriiJcBvrlJ89e3AkJ/MhUBjxxQG++EpdXBTbAQtPXSgn/
-	KF6fHKOeu6bQFlNrt9sVuRlJ63aWs4wVh93OnPZ+NfxZvIbPVfPfUsgyBan36Kl1iZ1D
-	nWiIuYOOf5olm8R7T9GxOM25+B095boQ8fNdtKU515gCU8T2xMI0qmbLBPe16mGREZHX
-	v8q9F/toa0m5M3TRoUhETlI1VDo25j0mDBdjtVmoNBpe8GdpLFYBuAF3idaPgjZNxuby
-	0fFA==
-X-Received: by 10.58.214.231 with SMTP id od7mr2385933vec.44.1367511108897;
-	Thu, 02 May 2013 09:11:48 -0700 (PDT)
+	(envelope-from <twoerner@gmail.com>)
+	id 1UXwgj-0006hd-LH; Thu, 02 May 2013 18:48:58 +0200
+Received: by mail-wi0-f173.google.com with SMTP id ey16so784036wid.12
+	for <multiple recipients>; Thu, 02 May 2013 09:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=9OSPUbUEA8uC7iySAzr2X6pXfdheMXM8s+M4k4jYuJk=;
+	b=sZmsHxyf2mRgvEcpz83qYE4gKSnsAW4JGb2+GhGdQttYztadrYABoMiYhZqDdMxBzm
+	MX3kQn1Q0xgKSaJ8oIdxlRrLm5Oc38wHJy/Y1U1oYtfBKZTGF4I8rDk7DzIqnAnlx/ob
+	bWNel5kSnTTPiiUnyEDuqX87ekKvu1g5B/psCnwL1bLtZgGy7F/f+UxkGypbp0Kk9Vmr
+	UnQANKtKIwAeGgcPt8XWWCn3stBsFB03LZkBMd+9CwOWfJQwrpevfDiG3vv9B5K9+KhD
+	FEmwivMHJCmNaBE3H1CXWTRFwXZGfEbonLa9CDZTPfZXpSFneSl74DtM54zM5znvMvTX
+	/AEg==
 MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Thu, 2 May 2013 09:11:28 -0700 (PDT)
-In-Reply-To: <20130502153930.GD3206@jama>
-References: <1367506593-11381-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1367506593-11381-3-git-send-email-jukka.rissanen@linux.intel.com>
-	<20130502153930.GD3206@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 May 2013 17:11:28 +0100
-Message-ID: <CAJTo0LZrk_JYXV8EQbJ9T__L6qBGHQfO5mNvZmUJtYTEas9x7g@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQkeTGUTp6CzDNHTjnq9/ppiUBLlq4kOIroE0Qf8NjPbF3AQHu/Ceynhf8tC1NF+Lki035m/
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/3] neard: Use SRCREV instead of SRCPV
+X-Received: by 10.180.92.193 with SMTP id co1mr8756065wib.20.1367512259336;
+	Thu, 02 May 2013 09:30:59 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Thu, 2 May 2013 09:30:59 -0700 (PDT)
+In-Reply-To: <CANyK_8d-AUKrqeFexg1HMT7KypQAZjmfgEF2ChXTwsggok9Ucw@mail.gmail.com>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<CANyK_8d-AUKrqeFexg1HMT7KypQAZjmfgEF2ChXTwsggok9Ucw@mail.gmail.com>
+Date: Thu, 2 May 2013 12:30:59 -0400
+Message-ID: <CAHUNapSbKx1baQ++toBir_uw6uWhFun7yA9GwRpNYoTm=7L4BA@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,16 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 16:29:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 May 2013 16:49:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2 May 2013 16:39, Martin Jansa <martin.jansa@gmail.com> wrote:
->> -PV = "0.10+git${SRCPV}"
->> +PV = "0.10+git${SRCREV}"
+On Thu, May 2, 2013 at 11:57 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> The recipe also has dependencies
+> outside meta-oe (fluidsynth in meta-multimedia IIRC) but that's a
+> separate issue.
 
-As the git revision is the 0.10 tag, wouldn't it be clearer to not set
-PV as the git revision is a detail of the fetcher - this *is* 0.10.
-
-Ross
+I've noticed that too. Shouldn't dependencies be contained within the
+same layer? Is it normal from these dependencies to be spread out over
+various layers?
 
 
