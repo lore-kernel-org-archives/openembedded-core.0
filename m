@@ -1,28 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UXu35-0002v2-1i
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UXuFi-0004Vu-Qg for openembedded-core@lists.openembedded.org;
+	Thu, 02 May 2013 16:12:54 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UXtyR-0000Wg-Fp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 May 2013 15:59:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r42Dfu0M003370
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 May 2013 06:41:56 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 2 May 2013 06:41:56 -0700
-Message-ID: <51826D24.2020403@windriver.com>
-Date: Thu, 2 May 2013 08:41:56 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1367500809.14512.252.camel@phil-desktop.brightsign>
-In-Reply-To: <1367500809.14512.252.camel@phil-desktop.brightsign>
-Subject: Re: [PATCH] package.bbclass: Remove redundant chmod/chown operations
+	Thu, 02 May 2013 15:55:03 +0200
+Message-ID: <1367502902.14512.256.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 02 May 2013 14:55:02 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] fs-perms.txt: Don't tinker with file modes in /usr/src/debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2013 13:59:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 02 May 2013 14:12:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 5/2/13 8:20 AM, Phil Blundell wrote:
-> These were introduced in 6021e309e69d823e1467648aee12a32182945569.  The
-> code currently reads:
->
->                  os.link(file, fpath)
->                  fstat = cpath.stat(file)
->                  os.chmod(fpath, fstat.st_mode)
->                  os.chown(fpath, fstat.st_uid, fstat.st_gid)
->
-> which can have no useful effect since, if "fpath" is a hard link to
-> "file", it will (by definition) have the same mode, uid and gid.
+Since 6775feb9fe935ab01fd9cae2b2d3fce5824a9a72 our local "copy" of the
+debug sources has in fact been hardlinked to ${S} and potentially other
+places too.  This means that any modifications we make to these files
+might have wider consequences than intended.
 
-I thought there were filesystems where a link operation can result in different 
-file permissions, owners and groups.  It's rare, but umask and effective uid/gid 
-could play a part in this.  (Mind you all of the operations should be happening 
-when pseudo is running and should mask that behavior.)
+Avoid this potential pitfall by telling fixup_perms() to leave the file
+modes in this directory alone.  No great harm will result from shipping
+debug sources with a mode other than 0644: if the mode was permissive
+enough for us to compile the sources in the first place then it must
+also be permissive enough for subsequent debugging.
 
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->   meta/classes/package.bbclass |    3 ---
->   1 file changed, 3 deletions(-)
->
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 4136a9f..99eda77 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1000,9 +1000,6 @@ python populate_packages () {
->               fpath = os.path.join(root,file)
->               if not cpath.islink(file):
->                   os.link(file, fpath)
-> -                fstat = cpath.stat(file)
-> -                os.chmod(fpath, fstat.st_mode)
-> -                os.chown(fpath, fstat.st_uid, fstat.st_gid)
->                   continue
->               ret = bb.utils.copyfile(file, fpath)
->               if ret is False or ret == 0:
->
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/files/fs-perms.txt |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+index ef44e26..becb85c 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms.txt
+@@ -41,7 +41,7 @@ ${includedir}		0755	root	root	true	0644	root	root
+ ${oldincludedir}	0755	root	root	true	0644	root	root
+ 
+ # Cleanup debug src
+-/usr/src/debug		0755	root	root	true	0644	root	root
++/usr/src/debug		0755	root	root	true	-	root	root
+ 
+ # Items from base-files
+ # Links
+-- 
+1.7.10.4
+
+
 
 
 
