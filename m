@@ -1,20 +1,20 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UYFX6-00017N-3Y for openembedded-core@lists.openembedded.org;
-	Fri, 03 May 2013 14:56:16 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UYFFn-00022t-Av
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UYGGU-0004ES-MA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 May 2013 14:38:23 +0200
-Message-ID: <1367584702.14512.276.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Fri, 03 May 2013 15:43:16 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 May 2013 06:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,604,1363158000"; d="scan'208";a="307497521"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.12.224])
+	by orsmga001.jf.intel.com with ESMTP; 03 May 2013 06:25:13 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 03 May 2013 13:38:22 +0100
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Subject: [PATCH v2] image.bbclass: Don't mark do_rootfs and do_build as nostamp
+Date: Fri,  3 May 2013 14:21:59 +0100
+Message-Id: <1367587319-29339-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] classes/image: allow complementary package globs to be extended
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,64 +27,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2013 12:56:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 May 2013 13:43:23 -0000
 
-When image.bbclass was first conceived (as rootfs_ipk.bbclass), oemake
-was unable to figure out when the inputs to do_rootfs had changed in
-such a way that it would need to be rerun.  Absent any reliable
-information of this kind, it was necessary to adopt the conservative
-assumption that images always needed rebuilding and, to this end,
-do_rootfs and do_build in image recipes were marked as nostamp.  (The
-nostamp annotation for do_build was added in oe-classic commit
-80d622e0c1dbc284858e01d3eb670303a6d8cdf9 from January 2005; the exact
-point at which do_rootfs was made nostamp is obscure, but it predates
-oe-classic revision 63fad339e01d4b16105146c32a61f24460397126.)
+Make it easy for the wildcard specifications for complementary package
+features to be extended outside of image.bbclass. For example, to add a
+new "foo-pkgs" item that could be added to IMAGE_FEATURES that would
+cause *-foo packages to be installed for all packages currently in the
+image, you can now use this line at the global level:
 
-This situation persisted for the following eight years but, during that
-period, oemake evolved into today's sstate-enabled bitbake, oe itself
-gained the OEBasicHash algorithm which can reliably detect changes to
-the input data for do_rootfs or any other task, and OEBasicHash was made
-the default for oe-core in 4199efed48005a62267fa3374c33b13627d85f44
-(June 2012).  
+COMPLEMENTARY_GLOB[foo-pkgs] = "*-foo"
 
-Given these various changes in the wider landscape, there is no longer
-any obvious benefit to having these two tasks marked as nostamp, and
-indeed having them so marked causes needless rebuilds which can be
-annoying.  Anybody who does genuinely wish to rerun these tasks when
-nothing in the input has changed can run "bitbake -f", just like with
-any other task.  So, let's remove the nostamp annotations and just let
-bitbake figure out when to rerun them.
+Implements [YOCTO #4228].
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
-v2: no code changes, expanded checkin comment at Saul Wold's request
-
- meta/classes/image.bbclass |    2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/image.bbclass | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
 diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ffb372a..667d03d 100644
+index ffb372a..5bc0ca2 100644
 --- a/meta/classes/image.bbclass
 +++ b/meta/classes/image.bbclass
-@@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
+@@ -33,7 +33,7 @@ NORMAL_FEATURE_INSTALL_OPTIONAL = "${@' '.join(oe.packagegroup.optional_packages
  
- PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
+ def normal_groups(d):
+     """Return all the IMAGE_FEATURES, with the exception of our special package groups"""
+-    extras = set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs', 'ptest-pkgs'])
++    extras = set(d.getVarFlags('COMPLEMENTARY_GLOB').keys())
+     features = set(oe.data.typed_value('IMAGE_FEATURES', d))
+     return features.difference(extras)
  
--do_rootfs[nostamp] = "1"
- do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
- do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
- do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
--do_build[nostamp] = "1"
+@@ -43,20 +43,19 @@ PACKAGE_GROUP_splash = "${SPLASH}"
  
- # Must call real_do_rootfs() from inside here, rather than as a separate
- # task, so that we have a single fakeroot context for the whole process.
+ # Wildcards specifying complementary packages to install for every package that has been explicitly
+ # installed into the rootfs
++COMPLEMENTARY_GLOB[dev-pkgs] = '*-dev'
++COMPLEMENTARY_GLOB[staticdev-pkgs] = '*-staticdev'
++COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
++COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
++COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest'
++
+ def complementary_globs(featurevar, d):
++    all_globs = d.getVarFlags('COMPLEMENTARY_GLOB')
+     globs = []
+     features = set((d.getVar(featurevar, True) or '').split())
+-    for feature in features:
+-        if feature == 'dev-pkgs':
+-            globs.append('*-dev')
+-        elif feature == 'staticdev-pkgs':
+-            globs.append('*-staticdev')
+-        elif feature == 'doc-pkgs':
+-            globs.append('*-doc')
+-        elif feature == 'dbg-pkgs':
+-            globs.append('*-dbg')
+-        elif feature == 'ptest-pkgs':
+-            globs.append('*-ptest')
++    for name, glob in all_globs.items():
++        if name in features:
++            globs.append(glob)
+     return ' '.join(globs)
+ 
+ IMAGE_INSTALL_COMPLEMENTARY = '${@complementary_globs("IMAGE_FEATURES", d)}'
 -- 
-1.7.10.4
-
-
-
+1.8.1.2
 
 
 
