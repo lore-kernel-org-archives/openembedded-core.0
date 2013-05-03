@@ -1,31 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UYILp-000489-K2 for openembedded-core@lists.openembedded.org;
-	Fri, 03 May 2013 17:56:53 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r43FemQ5006882; Fri, 3 May 2013 16:40:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rQe-oulrxYqg; Fri,  3 May 2013 16:40:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r43FegKO006874
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 3 May 2013 16:40:43 +0100
-Message-ID: <1367595520.27116.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 03 May 2013 16:38:40 +0100
-In-Reply-To: <CANyK_8f0a-PRB22bCQekZLPp7aKH75yO4noUpZ7damPsPcnzaA@mail.gmail.com>
-References: <1367325716.5379.90.camel@ted>
-	<CANyK_8f0a-PRB22bCQekZLPp7aKH75yO4noUpZ7damPsPcnzaA@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dpkg: Ensure target packages don't reference perlnative
+	(envelope-from <kevin.strasser@linux.intel.com>) id 1UYO3J-0000Hl-Jd
+	for openembedded-core@lists.openembedded.org;
+	Sat, 04 May 2013 00:02:09 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 May 2013 14:43:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,607,1363158000"; d="scan'208";a="307731181"
+Received: from wrk.jf.intel.com (HELO localhost) ([10.7.202.72])
+	by orsmga001.jf.intel.com with ESMTP; 03 May 2013 14:43:49 -0700
+Date: Fri, 3 May 2013 14:40:34 -0700
+From: Kevin Strasser <kevin.strasser@linux.intel.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20130503214032.GA26747@wrk>
+References: <1367571664-2079-1-git-send-email-laurentiu.palcu@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1367571664-2079-1-git-send-email-laurentiu.palcu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] archive-*-source.bbclass: have do_dumpdata_create_diff_gz task run before do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,26 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2013 15:56:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 May 2013 22:02:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2013-04-30 at 14:02 +0100, Paul Barker wrote:
-> On 30 April 2013 13:41, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Currently a load of scripts in ${bindir} start with:
-> >
-> > which is undesireable, this patch fixes that.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Laurentiu,
+
+On Fri, May 03, 2013 at 12:01:04PM +0300, Laurentiu Palcu wrote:
+> do_rootfs[cleandirs] contains ${S} and, if do_rootfs task starts before
+> the do_dumpdata_create_diff_gz is finished, an error will occur in the
+> process because the directory will be removed while still needed by the
+> create_diff_gz() function.
 > 
-> Missing a line in the commit message?
+> This patch will force the do_dumpdata_create_diff_gz task to run before
+> do_rootfs when the final image is created.
+> 
+> [YOCTO #4310]
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/classes/archive-configured-source.bbclass |    2 +-
+>  meta/classes/archive-original-source.bbclass   |    2 +-
+>  meta/classes/archive-patched-source.bbclass    |    2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+> index d346f69..a481b14 100644
+> --- a/meta/classes/archive-configured-source.bbclass
+> +++ b/meta/classes/archive-configured-source.bbclass
+> @@ -14,7 +14,7 @@ addtask do_archive_configured_sources after do_configure
+>  addtask do_archive_scripts_logs
+>  
+>  # Get dump date and create diff file 
+> -addtask do_dumpdata_create_diff_gz
+> +addtask do_dumpdata_create_diff_gz before do_rootfs
+This will always add the task to the build, and break our ability to
+filter out packages. I would suggest handling this dependency in the
+anonymous python function after filtering has been applied.
+>  
+>  python () {
+>      pn = d.getVar('PN', True)
+> diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+> index 7258293..2796ff9 100644
+> --- a/meta/classes/archive-original-source.bbclass
+> +++ b/meta/classes/archive-original-source.bbclass
+> @@ -14,7 +14,7 @@ addtask do_archive_original_sources_patches after do_unpack
+>  addtask do_archive_scripts_logs
+>  
+>  # Get dump date and create diff file 
+> -addtask do_dumpdata_create_diff_gz
+> +addtask do_dumpdata_create_diff_gz before do_rootfs
+ditto
+>  
+>  python () {
+>      pn = d.getVar('PN', True)
+> diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+> index 9e5ec74..995a259 100644
+> --- a/meta/classes/archive-patched-source.bbclass
+> +++ b/meta/classes/archive-patched-source.bbclass
+> @@ -14,7 +14,7 @@ addtask do_archive_patched_sources after do_patch
+>  addtask do_archive_scripts_logs
+>  
+>  # Get dump date and create diff file 
+> -addtask do_dumpdata_create_diff_gz
+> +addtask do_dumpdata_create_diff_gz before do_rootfs
+ditto
 
-It was swallowed by git. I fixed it when I merged the commit.
-
-Cheers,
-
-Richard
-
+Thanks,
+Kevin
+>  
+>  python () {
+>      pn = d.getVar('PN', True)
+> -- 
+> 1.7.9.5
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
