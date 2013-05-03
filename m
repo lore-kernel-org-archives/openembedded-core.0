@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kevin.strasser@linux.intel.com>) id 1UYO3J-0000Hl-Jd
+	(envelope-from <sgw@linux.intel.com>) id 1UYOUv-0002w4-OX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 May 2013 00:02:09 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 May 2013 14:43:49 -0700
+	Sat, 04 May 2013 00:30:39 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 May 2013 15:10:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,607,1363158000"; d="scan'208";a="307731181"
-Received: from wrk.jf.intel.com (HELO localhost) ([10.7.202.72])
-	by orsmga001.jf.intel.com with ESMTP; 03 May 2013 14:43:49 -0700
-Date: Fri, 3 May 2013 14:40:34 -0700
-From: Kevin Strasser <kevin.strasser@linux.intel.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20130503214032.GA26747@wrk>
-References: <1367571664-2079-1-git-send-email-laurentiu.palcu@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1367571664-2079-1-git-send-email-laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] archive-*-source.bbclass: have do_dumpdata_create_diff_gz task run before do_rootfs
+X-IronPort-AV: E=Sophos;i="4.87,607,1363158000"; d="scan'208";a="331254432"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.170])
+	by orsmga002.jf.intel.com with ESMTP; 03 May 2013 15:12:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 May 2013 15:12:40 -0700
+Message-Id: <1367619160-17703-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] binutils: backport whitespace fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,84 +27,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2013 22:02:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 May 2013 22:30:53 -0000
 
-Hi Laurentiu,
+This is a backport of a whitespace skipping issue: PR14987 and PR14887
 
-On Fri, May 03, 2013 at 12:01:04PM +0300, Laurentiu Palcu wrote:
-> do_rootfs[cleandirs] contains ${S} and, if do_rootfs task starts before
-> the do_dumpdata_create_diff_gz is finished, an error will occur in the
-> process because the directory will be removed while still needed by the
-> create_diff_gz() function.
-> 
-> This patch will force the do_dumpdata_create_diff_gz task to run before
-> do_rootfs when the final image is created.
-> 
-> [YOCTO #4310]
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/archive-configured-source.bbclass |    2 +-
->  meta/classes/archive-original-source.bbclass   |    2 +-
->  meta/classes/archive-patched-source.bbclass    |    2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
-> index d346f69..a481b14 100644
-> --- a/meta/classes/archive-configured-source.bbclass
-> +++ b/meta/classes/archive-configured-source.bbclass
-> @@ -14,7 +14,7 @@ addtask do_archive_configured_sources after do_configure
->  addtask do_archive_scripts_logs
->  
->  # Get dump date and create diff file 
-> -addtask do_dumpdata_create_diff_gz
-> +addtask do_dumpdata_create_diff_gz before do_rootfs
-This will always add the task to the build, and break our ability to
-filter out packages. I would suggest handling this dependency in the
-anonymous python function after filtering has been applied.
->  
->  python () {
->      pn = d.getVar('PN', True)
-> diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
-> index 7258293..2796ff9 100644
-> --- a/meta/classes/archive-original-source.bbclass
-> +++ b/meta/classes/archive-original-source.bbclass
-> @@ -14,7 +14,7 @@ addtask do_archive_original_sources_patches after do_unpack
->  addtask do_archive_scripts_logs
->  
->  # Get dump date and create diff file 
-> -addtask do_dumpdata_create_diff_gz
-> +addtask do_dumpdata_create_diff_gz before do_rootfs
-ditto
->  
->  python () {
->      pn = d.getVar('PN', True)
-> diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
-> index 9e5ec74..995a259 100644
-> --- a/meta/classes/archive-patched-source.bbclass
-> +++ b/meta/classes/archive-patched-source.bbclass
-> @@ -14,7 +14,7 @@ addtask do_archive_patched_sources after do_patch
->  addtask do_archive_scripts_logs
->  
->  # Get dump date and create diff file 
-> -addtask do_dumpdata_create_diff_gz
-> +addtask do_dumpdata_create_diff_gz before do_rootfs
-ditto
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.23.2.inc |    1 +
+ .../binutils-fix-skip-whitespace-pr14887.patch     |   50 ++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch
 
-Thanks,
-Kevin
->  
->  python () {
->      pn = d.getVar('PN', True)
-> -- 
-> 1.7.9.5
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.2.inc b/meta/recipes-devtools/binutils/binutils-2.23.2.inc
+index 0b01279..ddbe522 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.23.2.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.23.2.inc
+@@ -37,6 +37,7 @@ BACKPORT = "\
+      file://backport/binutils-fix-ineffectual-zero-of-cache.patch \
+      file://backport/binutils-replace-strncat-with-strcat.patch  \
+      file://backport/0001-config-tc-ppc.c-md_assemble-Do-not-generate-APUinfo-.patch  \
++     file://backport/binutils-fix-skip-whitespace-pr14887.patch \
+ "
+ SRC_URI[md5sum] = "4f8fa651e35ef262edc01d60fb45702e"
+ SRC_URI[sha256sum] = "fe914e56fed7a9ec2eb45274b1f2e14b0d8b4f41906a5194eac6883cfe5c1097"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch b/meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch
+new file mode 100644
+index 0000000..e504b3b
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch
+@@ -0,0 +1,50 @@
++
++
++PR gas/14887
++ * config/tc-arm.c (skip_past_char): Skip whitespace before the anticipated character.
++ * config/tc-arm.c (parse_address_main): Delete skip of whitespace here as it is no longer needed.
++
++Upstream-Status: Backport [PR14887]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++===================================================================
++RCS file: /cvs/src/src/gas/ChangeLog,v
++retrieving revision 1.4898
++retrieving revision 1.4899
++Index: binutils-2.23.2/gas/config/tc-arm.c
++===================================================================
++--- binutils-2.23.2.orig/gas/config/tc-arm.c
+++++ binutils-2.23.2/gas/config/tc-arm.c
++@@ -885,6 +885,9 @@ const char FLT_CHARS[] = "rRsSfFdDxXeEpP
++ static inline int
++ skip_past_char (char ** str, char c)
++ {
+++  /* PR gas/14987: Allow for whitespace before the expected character.  */
+++  skip_whitespace (*str);
+++
++   if (**str == c)
++     {
++       (*str)++;
++@@ -5168,6 +5171,9 @@ parse_address_main (char **str, int i, i
++       return PARSE_OPERAND_SUCCESS;
++     }
++ 
+++  /* PR gas/14987: Allow for whitespace before the expected character.  */
+++  skip_whitespace (p);
+++
++   if ((reg = arm_reg_parse (&p, REG_TYPE_RN)) == FAIL)
++     {
++       inst.error = _(reg_expected_msgs[REG_TYPE_RN]);
++Index: binutils-2.23.2/gas/testsuite/gas/arm/neon-ldst-es.s
++===================================================================
++--- binutils-2.23.2.orig/gas/testsuite/gas/arm/neon-ldst-es.s
+++++ binutils-2.23.2/gas/testsuite/gas/arm/neon-ldst-es.s
++@@ -57,3 +57,7 @@
++ 	vld2.32 {q1},[r7]
++ 	vld4.32 {q1-q2},[r7]
++ 	vld4.32 {q14-q15},[r7]
+++
+++	@ PR 14987 and 14887: Allow for whitespace in the instruction.
+++	vld1.32 { d1 [ ] } , [ r2 ] , r3
+++
+-- 
+1.7.10.4
+
 
 
