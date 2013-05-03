@@ -1,23 +1,20 @@
-Received: from r-finger.com ([178.79.160.5])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UYFDZ-0007jv-BM
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UYFX6-00017N-3Y for openembedded-core@lists.openembedded.org;
+	Fri, 03 May 2013 14:56:16 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UYFFn-00022t-Av
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 May 2013 14:36:06 +0200
-Received: from i7-990x.r-finger.com
-	(host86-137-88-6.range86-137.btcentralplus.com [86.137.88.6])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 868299528
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2013 13:18:12 +0100 (BST)
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+	Fri, 03 May 2013 14:38:23 +0200
+Message-ID: <1367584702.14512.276.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2013 13:18:11 +0100
-Message-Id: <1367583491-18652-1-git-send-email-tf+lists.yocto@r-finger.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1367439862-4658-1-git-send-email-tf+lists.yocto@r-finger.com>
-References: <1367439862-4658-1-git-send-email-tf+lists.yocto@r-finger.com>
-Subject: [Patch v3] image_types: fix default location of kernel when generating elf images
+Date: Fri, 03 May 2013 13:38:22 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH v2] image.bbclass: Don't mark do_rootfs and do_build as nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,34 +27,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2013 12:36:22 -0000
+X-List-Received-Date: Fri, 03 May 2013 12:56:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Tomas Frydrych <tomas@sleepfive.com>
+When image.bbclass was first conceived (as rootfs_ipk.bbclass), oemake
+was unable to figure out when the inputs to do_rootfs had changed in
+such a way that it would need to be rerun.  Absent any reliable
+information of this kind, it was necessary to adopt the conservative
+assumption that images always needed rebuilding and, to this end,
+do_rootfs and do_build in image recipes were marked as nostamp.  (The
+nostamp annotation for do_build was added in oe-classic commit
+80d622e0c1dbc284858e01d3eb670303a6d8cdf9 from January 2005; the exact
+point at which do_rootfs was made nostamp is obscure, but it predates
+oe-classic revision 63fad339e01d4b16105146c32a61f24460397126.)
 
-Generation of elf images fails because kernel images are no longer staged under
-${STAGING_DIR_HOST}/kernel, but rather ${STAGING_DIR_HOST}/usr/src/kernel. This
-patch fixes the path to point to the correct location.
+This situation persisted for the following eight years but, during that
+period, oemake evolved into today's sstate-enabled bitbake, oe itself
+gained the OEBasicHash algorithm which can reliably detect changes to
+the input data for do_rootfs or any other task, and OEBasicHash was made
+the default for oe-core in 4199efed48005a62267fa3374c33b13627d85f44
+(June 2012).  
 
-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+Given these various changes in the wider landscape, there is no longer
+any obvious benefit to having these two tasks marked as nostamp, and
+indeed having them so marked causes needless rebuilds which can be
+annoying.  Anybody who does genuinely wish to rerun these tasks when
+nothing in the input has changed can run "bitbake -f", just like with
+any other task.  So, let's remove the nostamp annotations and just let
+bitbake figure out when to rerun them.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/classes/image_types.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: no code changes, expanded checkin comment at Saul Wold's request
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 98d31f5..94837ae 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -185,7 +185,7 @@ IMAGE_CMD_cpio () {
- 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
- }
+ meta/classes/image.bbclass |    2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ffb372a..667d03d 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -168,11 +168,9 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
  
--ELF_KERNEL ?= "${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}"
-+ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
- ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
  
- IMAGE_CMD_elf () {
+-do_rootfs[nostamp] = "1"
+ do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
+ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+ do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+-do_build[nostamp] = "1"
+ 
+ # Must call real_do_rootfs() from inside here, rather than as a separate
+ # task, so that we have a single fakeroot context for the whole process.
 -- 
 1.7.10.4
+
+
+
 
 
 
