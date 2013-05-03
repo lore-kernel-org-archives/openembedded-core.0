@@ -1,35 +1,38 @@
-Received: from mail-vb0-f43.google.com ([209.85.212.43])
+Received: from mail-vc0-f178.google.com ([209.85.220.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UYCJj-00008Q-KH
+	(envelope-from <ross.burton@intel.com>) id 1UYCLG-0000Tl-N8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 May 2013 11:30:15 +0200
-Received: by mail-vb0-f43.google.com with SMTP id p14so1201893vbm.30
+	Fri, 03 May 2013 11:31:55 +0200
+Received: by mail-vc0-f178.google.com with SMTP id kw10so1258490vcb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2013 02:12:20 -0700 (PDT)
+	Fri, 03 May 2013 02:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=0Bjt8ewoF6SsR2svE4NzZiSzd6OjidZ4wP//1I1qOQk=;
-	b=F+4OuY7c5TcARfQ/gKz1VJBkoBD0VyrZyFqwkEJxBFVFp5HHk6xuh47aXmDQccmC+o
-	3I47XSaMC0gCnNGRgKAFZL/sJaOfyCwNh5gEAZjImnk38hxJg5UjaZXPsVPp2BjdMwdZ
-	hVJHSHTokJQ6fGa2UNam4C/dbzidVPmf7SiMx0Ti050sQkv3MN7xCivt3O4385ifYzOq
-	Fird1roneJeTjrc9K76bUNt6saFDH+/zmCF5If9biEwyanosfA2xVOkilGUQ+q2OcO1t
-	j5rVR//Anu+061LL447cOgxHXI0C65vuUQpCzjXMOrIAnwgtw9mXtIsXUyVtfmxoZrkk
-	YZRA==
-X-Received: by 10.220.176.71 with SMTP id bd7mr3341507vcb.12.1367572340409;
-	Fri, 03 May 2013 02:12:20 -0700 (PDT)
+	bh=DvfQOjzI2DIJyMwrRf63/xxONbz8Hw8L6sU5uke8jA4=;
+	b=j0PHRQhae2W60rEeH5A/lB/5PF1YMIsPYbeOQ7fhOlykcMmnJwNg8BiMPLTxreI0J7
+	rc7bvyOiS/eeh/DZriFjaDaOfd9MGJ7C5z726RtPqCETh+yTwv6eW7qiNlIY83wuG34T
+	1Dows1V7Idgmod/JNNlZHAiAE2ZsGVTWKkvDo/1ZlBcOPWaJH4m4TOn5FfdZvCvMarzX
+	TpWAbzrL4mvOLwb6XG2sZJ4J0OnOCp9+f+ti4pR8rBUnr526AxoV5E+ybcefcR7c64eg
+	JB+wgXJGoESfD/H2mOFUChDr+QJjMVCUO2f8QWn3fFfI2bMK2Wel9qAV9/uYVsPCrEVh
+	F6/A==
+X-Received: by 10.220.67.67 with SMTP id q3mr3370404vci.38.1367572435556; Fri,
+	03 May 2013 02:13:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Fri, 3 May 2013 02:12:00 -0700 (PDT)
-In-Reply-To: <1367527405-9831-1-git-send-email-net147@gmail.com>
-References: <1367527405-9831-1-git-send-email-net147@gmail.com>
+Received: by 10.221.8.3 with HTTP; Fri, 3 May 2013 02:13:35 -0700 (PDT)
+In-Reply-To: <5182AD8C.4080006@linux.intel.com>
+References: <1367325004-7740-1-git-send-email-schnitzeltony@googlemail.com>
+	<1367325004-7740-3-git-send-email-schnitzeltony@googlemail.com>
+	<51816D8B.2020102@linux.intel.com> <1367513549.5379.133.camel@ted>
+	<5182AD8C.4080006@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 May 2013 10:12:00 +0100
-Message-ID: <CAJTo0LbTb-e=9498hrOMuYXev4SL7YnV9X5tyDq_q6yiOU_C6A@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQlLhkjJsv+GcjL1yQ57oe+ftCY6Gvi2K+iVfCwkjKo1xn8/2Lm6Sj4M9pFxlwsyH84BddEF
+Date: Fri, 3 May 2013 10:13:35 +0100
+Message-ID: <CAJTo0LY-THPe1242wtLDJvFqSwNqgQJEvg5-P_RNxwum4CmC_w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkjupmdkJNBvxY3FZG1oK+OwQHGLeE5N6EEbnv7fGqGTkSGCWG0wSxTJRa94mhECr+/yAcC
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] guile: Update to 2.0.9
+Subject: Re: [PATCH/v2 3/3] core-image-sato: add udev-extraconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,15 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2013 09:30:26 -0000
+X-List-Received-Date: Fri, 03 May 2013 09:31:58 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 2 May 2013 21:43, Jonathan Liu <net147@gmail.com> wrote:
-> fix_parallel_build_issue.patch is now part of upstream.
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
+On 2 May 2013 19:16, Saul Wold <sgw@linux.intel.com> wrote:
+> After looking at this again, I think it might be more complex, do we want
+> the extraconf files unconditionally in for both sysvinit and systemd?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Where we want udev-extraconf, we don't care if the init manager is
+sysvinit or systemd as they both use udev (just different versions).
 
 Ross
 
