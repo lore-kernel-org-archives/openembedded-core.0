@@ -1,34 +1,34 @@
-Received: from mail-pa0-f52.google.com ([209.85.220.52])
+Received: from mail-pb0-f43.google.com ([209.85.160.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UYRDq-0005kY-5v
+	(envelope-from <net147@gmail.com>) id 1UYROa-00072p-U7
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 May 2013 03:25:10 +0200
-Received: by mail-pa0-f52.google.com with SMTP id bg2so1181557pad.11
+	Sat, 04 May 2013 03:36:17 +0200
+Received: by mail-pb0-f43.google.com with SMTP id md12so1157691pbc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2013 18:07:13 -0700 (PDT)
+	Fri, 03 May 2013 18:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=k1XprobQco2H64KhvN/F6ca7lvQZ08Ff4WohJIe7X3g=;
-	b=YraG4x34r678UiUumRrvsdY9MfoWVKXaue7mOxz8aNlZEO3aV5NYsW5Ecct1KIML+Z
-	oVkp+IX22vk5guL22IY4ONoQTNatQ9LQsPpZwSLVnxze5LtfCZsTJEmc2GOttpWkAS8R
-	iKTKbol5VcKPG53ICTAQLsciz1c2mwhn6UGJtmVZ9vfO36eErdPi+eF9sHS4tePbRJGF
-	GfAXf3CAt2HWnG4joXFuqo+om3CcPqU6k4cxxMrIwdhFDJATIqhdGWdnvuc+Qq/PohJ+
-	B+hR9uoKa05clKqWgVoRpklH6wyFCstPT+e9bcuc9V/BtAdA1AHPksygvi589q/xC7iQ
-	VLVg==
-X-Received: by 10.69.0.66 with SMTP id aw2mr13006567pbd.85.1367629633706;
-	Fri, 03 May 2013 18:07:13 -0700 (PDT)
+	bh=MrXLAu4+4q4hOEh7/AnFpfhjzlDLRWX9z1QGglk3JlU=;
+	b=GOKeoH4vDdnyxKBgL09ahai1v5ckccwOJZlCVQSA4EwBg07PMGx2NZJs2DOF08Tk5S
+	xYorH4v+5bijP1HXYwBpCwgnV2RdOA/mlBNcF5glDtn4HJeHCaguMR8gwV+eIJ3Wwij+
+	ldflHxFqxrAspcD7a7KagdPHWG6HhJ+xr5aMGUkoxMG4XPC/DwaMrO35CAtKS84rpiRy
+	UqTF7+VnJgVD+ynGrxie+0WzblZ1cKr/TPMTTBukamaLEIdjyW30JXihAaifuryDNg4L
+	sWu5fzFaGTMl00D1MPjeChfY9QPfMv/yE0jVYt4LhlD5RM3CLylrVnjGeNiqR/ysiwzg
+	hahw==
+X-Received: by 10.69.14.100 with SMTP id ff4mr16652437pbd.83.1367630300467;
+	Fri, 03 May 2013 18:18:20 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id xe3sm3045734pbc.30.2013.05.03.18.07.10
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id
+	nt2sm13647719pbc.17.2013.05.03.18.18.17 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 03 May 2013 18:07:12 -0700 (PDT)
+	Fri, 03 May 2013 18:18:19 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2013 11:18:52 +1000
-Message-Id: <1367630332-20298-1-git-send-email-net147@gmail.com>
+Date: Sat,  4 May 2013 11:30:12 +1000
+Message-Id: <1367631013-21144-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH v4] syslinux: Update to 4.06
+Subject: [PATCH v5] syslinux: Update to 4.06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2013 01:25:15 -0000
+X-List-Received-Date: Sat, 04 May 2013 01:36:18 -0000
 
 Patches are now part of upstream or no longer needed.
 Added new util-linux dependency for isohybrid.
@@ -50,7 +50,7 @@ Paths updated to reflect directory structure changes.
 INCDIR isn't used by the build process during compilation which results
 in the compiler not finding uuid/uuid.h from util-linux when compiling
 isohybrid unless it exists on the host system. This was fixed by adding
--I${includedir} to CC when calling make.
+-isystem ${includedir} to CC when calling make.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
@@ -1248,7 +1248,7 @@ index 7c3ecda..0000000
 -BBCLASSEXTEND = "native"
 diff --git a/meta/recipes-devtools/syslinux/syslinux_4.06.bb b/meta/recipes-devtools/syslinux/syslinux_4.06.bb
 new file mode 100644
-index 0000000..03bf2ed
+index 0000000..a4aaf59
 --- /dev/null
 +++ b/meta/recipes-devtools/syslinux/syslinux_4.06.bb
 @@ -0,0 +1,62 @@
@@ -1288,7 +1288,7 @@ index 0000000..03bf2ed
 +do_compile() {
 +	# Rebuild only the installer; keep precompiled bootloaders
 +	# as per author's request (doc/distrib.txt)
-+	oe_runmake CC="${CC} -I${includedir}" installer
++	oe_runmake CC="${CC} -isystem ${includedir}" installer
 +}
 +
 +do_install() {
