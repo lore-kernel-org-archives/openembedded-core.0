@@ -1,37 +1,27 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UYht7-0006KZ-84
+	(envelope-from <dvhart@linux.intel.com>) id 1UYiNA-0001lY-Hi
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 May 2013 21:12:58 +0200
-Received: by mail-vc0-f175.google.com with SMTP id lf10so2244228vcb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2013 11:54:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=B8zkdQxUZeLFHcu0TGSsd8p+vMdm3G7K2Wo6//jsYV8=;
-	b=M6aP5g1RuOjpVUt7psQQUIuzTPVXed/XreKghGzHTCxjz9rd/1OulBnFkbAU2ZjjJT
-	u4PG1Tf0YzR83DozKIzQQNq9bBEuOdfWeJGi9ZkeCTWf2A6SZY9OXqlqm/RZ4jlF2ac8
-	F8zkFrLNUdP8ye1lQJQCB4riXuqwPTZG6uiHqrdSRvJ/wMe1D9jn0LfFz2EP9UC0FBEV
-	mB2fpbO93mvf0Sm95LRVkTejvbXP0eaypsmf9PVzKHjMYFmV2ULmIFxjFkdAknnUvqni
-	grYqvP2FgLlltmMD4Ou1btnPYtGeroS+Sp10LgKQb7IC9ljS7DwpsdP/ibzQoenZRp4x
-	m2tw==
-X-Received: by 10.52.117.212 with SMTP id kg20mr4413035vdb.55.1367693696203;
-	Sat, 04 May 2013 11:54:56 -0700 (PDT)
+	Sat, 04 May 2013 21:43:59 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 04 May 2013 12:25:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,612,1363158000"; d="scan'208";a="236867139"
+Received: from unknown (HELO envy2.home) ([10.255.12.120])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 May 2013 12:25:57 -0700
+Message-ID: <518560C5.2050703@linux.intel.com>
+Date: Sat, 04 May 2013 12:25:57 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Sat, 4 May 2013 11:54:36 -0700 (PDT)
-In-Reply-To: <3611267.eqIsdCBgi9@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <1367622401-28624-1-git-send-email-sgw@linux.intel.com>
 	<5184753F.9010904@linux.intel.com> <3611267.eqIsdCBgi9@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 4 May 2013 19:54:36 +0100
-Message-ID: <CAJTo0Lb2p30KFcSX+aP94DhfBTzFApeUTc3DsewCTkoAsZSD4g@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnBP5JJRWqulONaeUivWtKR/rw/+evzw3beaWUxdGu+mXhvy6is6SrHySNkRg6GfCvJUj6v
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Scott Rifenbark <scott.m.rifenbark@intel.com>,
-	openembedded-core@lists.openembedded.org
+In-Reply-To: <3611267.eqIsdCBgi9@helios>
+X-Enigmail-Version: 1.5.1
+Cc: openembedded-core@lists.openembedded.org,
+	Scott Rifenbark <scott.m.rifenbark@intel.com>
 Subject: Re: [PATCH] dmidecode: fix fetch path to use BP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,22 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2013 19:13:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 04 May 2013 19:43:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 4 May 2013 09:11, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> The easiest thing is to imagine what would happen were the recipe to be
-> BBCLASSEXTENDed to native - would xyz-native make sense where you've used the
-> reference, or does it always need to be xyz regardless of how it is being
-> built? If the former, PN (or P with the version); if the latter, BPN (or BP
+
+
+On 05/04/2013 01:11 AM, Paul Eggleton wrote:
+> On Friday 03 May 2013 19:41:03 Darren Hart wrote:
+>> On 05/03/2013 04:06 PM, Saul Wold wrote:
+>>> This is so the multilib prefix is not used
+>>
+>> Thanks for catching that Saul. How do we know when to use P and when to
+>> use BP? 
+> 
+> The easiest thing is to imagine what would happen were the recipe to be 
+> BBCLASSEXTENDed to native - would xyz-native make sense where you've used the 
+> reference, or does it always need to be xyz regardless of how it is being 
+> built? If the former, PN (or P with the version); if the latter, BPN (or BP 
 > with the version).
+> 
+>> Where should this be documented? Maybe in the dev manual for
+>> writing new recipes?
+> 
+> It was pointed out recently on IRC that we may need to expand and adjust the 
+> section in the dev manual so it provides more of a step-by-step guide to 
+> creating a recipe, and I plan to work with Scott to do that for this cycle, so 
+> we should be able to include this as part of that.
+> 
+> Cheers,
+> Paul
 
-I've been hitting errors related to this when doing ML builds which is
-a good one for breakage as PN gets prefixed, and fixing where they
-were causing errors.  I was thinking it would make sense for some
-common-sense sanity checks to be done - ie SRC_URI shouldn't contain
-PN, FILES_foo shouldn't contain BPN (the foo bit, that is), and so on.
 
-Ross
+Thank you Paul!
+
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
