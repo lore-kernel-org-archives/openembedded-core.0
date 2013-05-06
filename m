@@ -1,36 +1,36 @@
-Received: from mail-vc0-f172.google.com ([209.85.220.172])
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.betafive@gmail.com>)
-	id 1UZRAm-0007uq-Dl; Mon, 06 May 2013 21:34:09 +0200
-Received: by mail-vc0-f172.google.com with SMTP id m17so926442vca.17
-	for <multiple recipients>; Mon, 06 May 2013 12:16:08 -0700 (PDT)
+	(envelope-from <twoerner@gmail.com>)
+	id 1UZRfH-0003S1-Qd; Mon, 06 May 2013 22:05:42 +0200
+Received: by mail-wi0-f178.google.com with SMTP id hm14so2929700wib.11
+	for <multiple recipients>; Mon, 06 May 2013 12:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=+f0d62hCx7U9e6/2RrqLhGzr4OKNCq82Wse+ZKY1bQI=;
-	b=jE8BwuWjQBbaOJQ7VCHH5V6jcD0XjMiBr6i32+cXiJu9NQcbvSp/7VnEN8ihhiP4h+
-	eplgUlKBBaUmf+vu4+mB1aIOwtEYJPb7jl2pVq+z5nwtKs0IQfIA9owAK2nOa9ojvpdM
-	mlfvhyiKufloocwDoijfyazxG2c3DvZpDImhLPi7mJ6Oi8u4c6FfA9us+gZIlYoknpgP
-	1Rur12fWz+X30lZ8ENq3sfq9f9GO0NwTNUUeSU7EcbZlg9MOlxoWxhvhXTZp6gW9f2/l
-	6EkfS0jQsOye2c4TRKW8aAaHGSxdlqbKAkWlto+aEMRndqEwQKAXpi94qgZmKHLKlRBM
-	ONrQ==
-X-Received: by 10.58.243.102 with SMTP id wx6mr2684548vec.26.1367867768162;
-	Mon, 06 May 2013 12:16:08 -0700 (PDT)
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=PybI7qL2155zoam4MUZkm4xubkvfLh+29xKsYeEhIhc=;
+	b=rFwW8ve96xfyouwlwz2FedR2li50Hz5zuwgdR/B2xGoRdtIJ50cB/S9afXsVorbMi+
+	c++TMEQpH2dmPGVPq2jj+K2OFSTsCH/Dag6LAfX3STRTKjEK1WOZ+dYmK9o8NyNU2SnZ
+	chYgCoM9qDaBy0Ppu6Ns3L+e+2PMVyaK+tF8j6zWZn5evMrFdPe/dx4+Bu+JV92PAEHq
+	5Do3LXFFGlrAovR2ajPBUZgHBJxvB3mZSysZD4lr8xnYYuVsXSsnzPOVImIxLtEsEHew
+	4SCc+d+aOAMjvzrDybOmig+ndmZcZAaeTMcGHX+KUNmOTsfCDIXhLcm29EkysJrcLNXz
+	7ZsA==
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.48.5 with HTTP; Mon, 6 May 2013 12:15:48 -0700 (PDT)
-In-Reply-To: <5187A0D3.2080607@herbrechtsmeier.net>
+X-Received: by 10.180.185.135 with SMTP id fc7mr10532308wic.29.1367869659206; 
+	Mon, 06 May 2013 12:47:39 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Mon, 6 May 2013 12:47:39 -0700 (PDT)
+In-Reply-To: <CANyK_8fT_rvPPo4LJz2BcSD-ra8435m4GefggL0jgeFC1kLxRQ@mail.gmail.com>
 References: <20121213174202.GE3356@jama.jama.net>
 	<20130415141253.GC10628@jama.dyndns-home.com>
 	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
 	<5183C9CF.3060304@herbrechtsmeier.net>
 	<5187A0D3.2080607@herbrechtsmeier.net>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 6 May 2013 20:15:48 +0100
-X-Google-Sender-Auth: lb_wAt4qAxjwvB6ylSPWTEyb1Sw
-Message-ID: <CANyK_8fT_rvPPo4LJz2BcSD-ra8435m4GefggL0jgeFC1kLxRQ@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
+	<CANyK_8fT_rvPPo4LJz2BcSD-ra8435m4GefggL0jgeFC1kLxRQ@mail.gmail.com>
+Date: Mon, 6 May 2013 15:47:39 -0400
+Message-ID: <CAHUNapTu45Wpm1zx+vpHUgyduk8rnzdJSninsoOOw6v34ViipQ@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,58 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2013 19:34:12 -0000
+X-List-Received-Date: Mon, 06 May 2013 20:05:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-I've done a 'bitbake world' and masked off anything that failed.
-Failing logs and other things along with the local.conf and
-bblayers.conf used are available at
-http://www.paulbarker.me.uk/yocto/poky-raspberrypi_20130503/
+On Mon, May 6, 2013 at 3:15 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> lzip: fetch failure
 
-In summary:
+This is an easy one to fix: version 1.13 is no longer available,
+update the recipe (filename/hashes) to use version 1.14 instead. I
+have a patch waiting to submit, but until I can register for the
+openembedded-devel mailing list I don't have anywhere to send it.
 
-maliit-framework: do_compile (looks like glib deprecation warning
-which -Werror turns into an error)
-maliit-plugins: depends on maliit-framework
-gypsy: do_conpile (as maliit-framework)
-navit: depends on gypsy
-gtkhtml2: do_compile
-qcanobserver: do_compile
-mesa-demos: do_compile (vcos_platform_types.h: No such file or directory)
-packagegroup-core-tools-testapps: depends on mesa-demos
-llvm2.9: do_compile (vcos_platform_types.h: No such file or directory)
-weston: do_compile (vcos_platform_types.h: No such file or directory)
-gperftools: do_compile (Error: selected processor does not support ARM
-mode `dmb')
-gst-plugins-gl: do_configure (error: GL or EGL is required)
-omgps: do_compile (as maliit-framework)
-packagekit: do_compile (undefined reference to `g_thread_supported')
-omxplayer: do_compile (vchost_config.h: No such file or directory)
-luajit: do_compile (sys/types.h: No such file or directory)
-mplayer2: do_compile (mad.h: No such file or directory)
-openmotif: fetch failure
-lzip: fetch failure
-mg: do_configure (Looking for term.h... Not found!)
-tk: do_package (QA Issue: tk:
-/work/armv6-vfp-poky-linux-gnueabi/tk/8.5.8-r0/packages-split/tk/usr/bin/wish8.5
-contains probably-redundant RPATH /usr/lib)
-claws-plugin-gtkhtml2-viewer: depends on gtkhtml2
+> Let me know if this is useful.
 
-I'm building Poky for Raspberry Pi with pretty much the default
-options. There's a couple of installed but not packaged warnings in
-qa.log which can be found at the above link. I've also included commit
-IDs for each layer used and where I've diverged from the master branch
-I've included patches. Most other info should be available within the
-directory I've linked to.
-
-Let me know if this is useful.
-
-Thanks,
-
---
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Yes! Thank you. I find it particularly interesting to see what others
+do in their local.conf files.
 
 
