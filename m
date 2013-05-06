@@ -1,25 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-da0-f42.google.com ([209.85.210.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UZTiN-0001ob-VB
+	(envelope-from <net147@gmail.com>) id 1UZU55-0004Iv-MV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 00:17:01 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 06 May 2013 14:58:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,624,1363158000"; d="scan'208";a="298508200"
-Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
-	by azsmga001.ch.intel.com with ESMTP; 06 May 2013 14:58:48 -0700
-Message-ID: <51882798.9080208@linux.intel.com>
-Date: Mon, 06 May 2013 14:58:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 07 May 2013 00:40:29 +0200
+Received: by mail-da0-f42.google.com with SMTP id r6so2021266dad.15
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 May 2013 15:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=/bpikKwfdEqw0nbLaODOOsJ1UKUvNjeOYd9Hc08WNeE=;
+	b=tGNTSRV8agGYa8g4KX6SlE8lruaXTFlvxsuvPmwi9ylTyyOcVeQaMyPnBhxvc7QhAO
+	nObYjV63yfzSbaHnjDqGpfYmOFK5aj01M7pBGjl1PmIMDzGiY23dl1jyEoWz2/wOIYM/
+	R3WR6J1TlnHVpVKhaUpA6upMmPKruSDvIUxNX/S6myAf7pXcbbI27uvOkXvNJYksz752
+	o0pltQDxJJd5nBVL2ifqMDqXD7sBGEx1zJBchg+i8VSdGmY0g/T/oe6dS0B+mFUI3At5
+	wFKGG5BZnN6V6P9DjXxb1s1qHIPLaLfKeXp62Y8IClXTCAWieihr+BhwDJwDEQKHhkhf
+	hjTg==
+X-Received: by 10.68.115.167 with SMTP id jp7mr27572277pbb.145.1367878947053; 
+	Mon, 06 May 2013 15:22:27 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	ea15sm27380069pad.16.2013.05.06.15.22.24 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 06 May 2013 15:22:26 -0700 (PDT)
+Message-ID: <51882C07.8010105@gmail.com>
+Date: Tue, 07 May 2013 08:17:43 +1000
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Randy MacLeod <rwmacleod@gmail.com>
-References: <CAK6=ix4EGtoEd0JqEBC6tNt+nXVEw5=F_Mf3vUFCzKeCEq8kzg@mail.gmail.com>
-In-Reply-To: <CAK6=ix4EGtoEd0JqEBC6tNt+nXVEw5=F_Mf3vUFCzKeCEq8kzg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+References: <1367843494-16123-1-git-send-email-net147@gmail.com>
+	<51881B1C.1090301@linux.intel.com>
+In-Reply-To: <51881B1C.1090301@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/18] pkgconfig: Move patches in prep for 0.28 update
+Subject: Re: [PATCH v6] syslinux: Update to 4.06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,104 +48,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2013 22:17:08 -0000
+X-List-Received-Date: Mon, 06 May 2013 22:40:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/06/2013 01:59 PM, Randy MacLeod wrote:
-> On 13-04-24 05:37 PM, Saul Wold wrote:> Signed-off-by: Saul Wold
-> <sgw@linux.intel.com <mailto:sgw@linux.intel.com>>
->  > ---
->  >   meta/recipes-devtools/pkgconfig/pkgconfig.inc     | 8 +-------
->  >   meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
-> <http://pkgconfig_0.25.bb> | 7 +++++++
->  >   2 files changed, 8 insertions(+), 7 deletions(-)
+On 7/05/2013 7:05 AM, Saul Wold wrote:
 >
-> Saul,
 >
-> Any news on pkgconfig-0.28 ? I'm trying to compile c-i-m
-> using clang for the -native tools and glib-1.2.10 shipped with
-> pkgconfig-0.25 is causing the build error below.
-> pkgconfig-0.28 and later includes version of glib-2.32.4
+> On 05/06/2013 05:31 AM, Jonathan Liu wrote:
+>> Patches are now part of upstream or no longer needed.
+>> Added new util-linux dependency for isohybrid.
+>> Paths updated to reflect directory structure changes.
+>>
+>> INCDIR isn't used by the build process during compilation which results
+>> in the compiler not finding uuid/uuid.h from util-linux when compiling
+>> isohybrid unless it exists on the host system. This was fixed by adding
+>> -isystem ${STAGING_INCDIR} to CC when calling make.
+>>
 >
-Got caught up in 1.4 finalization and planning for 1.5, I was going to 
-look at it again this week.
+> I am not sure what's changing in all these version since you have not 
+> added a changelog.  This version still has trouble with building 
+> isohybrid.
+>
+> I am not sure what you are doing to test this, but I would like to see 
+> a more information about how you are building and testing this before 
+> I take another version and find it will fail.
+>
+> I appreciate the work it takes to update a recipe, but we need to get 
+> it correct and tested
+v1 - Patch malformed by email client
+v2 - Added util-linux-native dependency.
+Resent patch directly using git send-email
+isohybrid.c:39:23: fatal error: uuid/uuid.h: No such file or directory
+v3 - Changed util-linux-native dependency to util-linux so ot will work 
+when building for target as well.
+Recipe finds uuid/uuid.h but from my syslinux installed on my host so it 
+appeared everything compiled fine but it didn't.
+v4 - Added -I${includedir} to CC when calling make.
+This didn't work because includedir is /usr/include when it should point 
+to the /usr/include in the sysroot.
+v5 - Changed -I${includedir} to -isystem ${includedir}.
+Still didn't work because includedir is /usr/include when it should 
+point to the /usr/include in the sysroot.
+I was changed to -isystem after reading GCC manual. I figured it was 
+better for it to search its local source files first because checking 
+system include directories like /usr/include.
+v6 - Changed -isystem ${includedir} to -isystem ${STAGING_INCDIR}.
 
-> If you are about to push this uprev, I'll wait a while and try
-> again. Do you want help?
->
-I would appreciate help with the update if you can provide a tested 
-pkgconfig update, I was thinking about providing the update for testing 
-before enabling it similar to what we do with gcc, that's why I split 
-the recipe.
+Testing:
+I am using a custom image based on atom-pc core-image-minimal, with 
+.hddimage output.
+Tested changes using "bitbake -c cleansstate syslinux syslinux-native; 
+bitbake syslinux syslinux-native".
+For testing v6, did a clean rebuild of everything, renamed 
+/usr/include/uuid.h to /usr/include/uuid.h.bak on my host system and 
+tests it:
+1. Fails without the patch - ok
+2. Succeeds with the patch - ok
 
-I have an untested version (it builds) in my poky-contrib/sgw/wip branch 
-with you want to finish/test it more.
-
-Thanks for your help.
-
-Sau!
-
->
-> BTW, I just set
->    /usr/bin/gcc -> clang manually and used update-alternatives
-> to set:
->    /usr/bin/c++ -> /etc/alternative/c++ ~=>
->                    Ubuntu clang version 3.2-1~exp9ubuntu1
->                    (tags/RELEASE_32/final) (based on LLVM 3.2)
->
-> my host is Ubuntu-13.04. I guess I should figure out
->
-> Is there a better way to make oe-core use clang for native tools?
-> I did glance at:
-> http://www.openembedded.org/wiki/Adding_a_secondary_toolchain
->
-> // Randy
->
->
->
->   testglib.o:testglib.c:(.text+0x0): first defined here
-> | ./.libs/libglib.a(gutils.o): In function `g_bit_nth_msf':
-> | gutils.c:(.text+0x30): multiple definition of `g_bit_nth_msf'
-> | testglib.o:testglib.c:(.text+0x30): first defined here
-> | ./.libs/libglib.a(gutils.o): In function `g_bit_storage':
-> | gutils.c:(.text+0x60): multiple definition of `g_bit_storage'
-> | testglib.o:testglib.c:(.text+0x60): first defined here
-> | clang: error: linker command failed with exit code 1 (use -v to see
-> invocation)
-> | make[4]: *** [testglib] Error 1
-> | make[4]: Leaving directory
-> `/home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.25-r7/pkg-config-0.25/glib-1.2.10'
-> | make[3]: *** [all-recursive] Error 1
-> | make[3]: Leaving directory
-> `/home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.25-r7/pkg-config-0.25/glib-1.2.10'
-> | make[2]: *** [all] Error 2
-> | make[2]: Leaving directory
-> `/home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.25-r7/pkg-config-0.25/glib-1.2.10'
-> | make[1]: *** [all-recursive] Error 1
-> | make[1]: Leaving directory
-> `/home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.25-r7/pkg-config-0.25'
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
-> | ERROR: Function failed: do_compile (see
-> /home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.25-r7/temp/log.do_compile.32446
-> for further information)
-> ERROR: Task 27
-> (virtual:native:/home/rmacleod/src/distro/yocto/oe-core.git/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
-> <http://pkgconfig_0.25.bb>, do_compile) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 47 tasks of which 46 didn't need to be
-> rerun and 1 failed.
-> No currently running tasks (47 of 63)
->
->
-> --
-> ../Randy/..
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Regards,
+Jonathan
 
 
