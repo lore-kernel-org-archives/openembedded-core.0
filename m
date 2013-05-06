@@ -1,37 +1,29 @@
-Received: from mail-oa0-f46.google.com ([209.85.219.46])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UZOps-0007zx-LK
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UZOsi-0008MT-Q0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 May 2013 19:04:24 +0200
-Received: by mail-oa0-f46.google.com with SMTP id j6so3703254oag.19
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 May 2013 09:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ZWW+T/1hZD0So+MV9Hp1pCayaEQPWik6zoAMCz3/qqQ=;
-	b=VoP+L0N+KaOvF8fTVhHH/uB9gsoMLeOqqQN7WFCNTEzD4mZO7fnrHjDmuytqyhncDt
-	fJPUh2vYMx9vXSSDQXZK3WaL6QAaExYrNj+oFRajs4Oh+cGLLkAqt3wdKVpFrWKn1/E0
-	uThQjYTHgsAkUo3j/HSnBlUjAIGq6pPxTHh4Eh6IQrRyE6sTLUvWMz/TZTl3l3BkeZVT
-	GOMzI14SvOsFdTcpupR1BFjJKl3uZ903BQBocdfE3ozw3Mahm7RZwsJ9gKawAnDpNjf7
-	KTj6F6WK9oLxkNdMpa515GWvfqbLTU5em35uvbmvR48eYu5kDlsS0QoGeLurGsEBOLa1
-	EL1g==
+	Mon, 06 May 2013 19:07:23 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r46Gm9Zp013441
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 May 2013 09:49:19 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 6 May 2013 09:47:54 -0700
+Message-ID: <5187DEB5.6000204@windriver.com>
+Date: Mon, 6 May 2013 12:47:49 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.182.108.165 with SMTP id hl5mr1903102obb.33.1367858784317;
-	Mon, 06 May 2013 09:46:24 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Mon, 6 May 2013 09:46:24 -0700 (PDT)
-In-Reply-To: <e7290195897547a542f5ca0f080a1a074a728351.1367857109.git.bruce.ashfield@windriver.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 References: <cover.1367857109.git.bruce.ashfield@windriver.com>
 	<e7290195897547a542f5ca0f080a1a074a728351.1367857109.git.bruce.ashfield@windriver.com>
-Date: Mon, 6 May 2013 13:46:24 -0300
-X-Google-Sender-Auth: XfLh9F9ReK0wqzrAde1HQJenVmg
-Message-ID: <CAP9ODKremrsR9d8HDK+XdYpd0mC0G12cAmcNnU1v=cpF7bS1Mw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAP9ODKremrsR9d8HDK+XdYpd0mC0G12cAmcNnU1v=cpF7bS1Mw@mail.gmail.com>
+In-Reply-To: <CAP9ODKremrsR9d8HDK+XdYpd0mC0G12cAmcNnU1v=cpF7bS1Mw@mail.gmail.com>
+Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>, Patches,
+	layer <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/4] linux-yocto/3.8: udpate to v3.8.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,20 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2013 17:04:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 06 May 2013 17:07:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 6, 2013 at 1:24 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Update the linux-yocto-3.8 SRCREVs to the korg 3.8.11 -stable release.
+On 13-05-06 12:46 PM, Otavio Salvador wrote:
+> On Mon, May 6, 2013 at 1:24 PM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+>> Update the linux-yocto-3.8 SRCREVs to the korg 3.8.11 -stable release.
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 >
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Typo in subject :-)
 
-Typo in subject :-)
+Won't be my last! I'll fix and re-push the branch.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Bruce
+
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>
+
 
 
