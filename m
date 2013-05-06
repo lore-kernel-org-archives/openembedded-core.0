@@ -1,21 +1,51 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UZEIR-000566-Ro
+	(envelope-from <B19537@freescale.com>) id 1UZHMJ-0007fW-8p
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 May 2013 07:49:14 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 May 2013 22:30:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,619,1363158000"; d="scan'208";a="237317381"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.247])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 May 2013 22:30:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 May 2013 22:30:55 -0700
-Message-Id: <cover.1367818095.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
+	Mon, 06 May 2013 11:05:25 +0200
+Received: from mail143-ch1-R.bigfish.com (10.43.68.229) by
+	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 6 May 2013 08:47:23 +0000
+Received: from mail143-ch1 (localhost [127.0.0.1])	by
+	mail143-ch1-R.bigfish.com (Postfix) with ESMTP id A824A1E01E6	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  6 May 2013 08:47:23 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VS1(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzzz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fhbe9i1155h)
+Received: from mail143-ch1 (localhost.localdomain [127.0.0.1]) by mail143-ch1
+	(MessageSwitch) id 1367830042238198_11627;
+	Mon,  6 May 2013 08:47:22 +0000 (UTC)
+Received: from CH1EHSMHS010.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.251])	by mail143-ch1.bigfish.com (Postfix) with ESMTP id
+	37F5E3E006C	for <openembedded-core@lists.openembedded.org>;
+	Mon,  6 May 2013 08:47:22 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS010.bigfish.com
+	(10.43.70.10) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 6 May 2013 08:47:22 +0000
+Received: from 039-SN2MPN1-023.039d.mgd.msft.net ([169.254.3.123]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0328.011; Mon, 6 May 2013 08:47:21 +0000
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: /usr/lib/perl5 conflict in sysroot folder
+Thread-Index: Ac5KNlGfAF1r8KMLRFSN1YVbdsx+yw==
+Date: Mon, 6 May 2013 08:47:21 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A014FF00B@039-SN2MPN1-023.039d.mgd.msft.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.134]
 MIME-Version: 1.0
-Subject: [CONSOLIDATED PULL 00/20] Udev, binutils and others
+X-OriginatorOrg: freescale.com
+Cc: Guo Chunrong-B40290 <B40290@freescale.com>,
+	Liu Ting-B28495 <B28495@freescale.com>, Luo,
+	Zhenhua-B19537 <B19537@freescale.com>,
+	Yu Zongchun-B40527 <B40527@freescale.com>
+Subject: /usr/lib/perl5 conflict in sysroot folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,178 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2013 05:49:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 06 May 2013 09:05:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Richard,
+Recently I met a /usr/lib/perl5 conflict error, following is the details, i=
+s there any idea to solve such kind of issue?
 
-I have reviewed and tested this change set.  The autobuilder is currently wrapping up
-building with this set and it is looking green.  This resolves the binutils and GCC
-4.8 update, but does not yet enable 4.8.  I will do that in a seperate commit in order
-to give people time to verify.
+When perl is built, the output includes /usr/lib/perl folder and /usr/lib/p=
+erl5 symbol link, libhugetlbfs also produces /usr/lib/perl5 folder, there m=
+ight be conflict when doing populate_sysroot, DEPENDS =3D "perl" can be add=
+ed into libhugetlbfs recipe to bypass the issue, but the perl5 symbol link =
+is not available anymore, this should be an incorrect method. Meanwhile, ev=
+en if above way is used, same error will appear if perl is rebuilt due to p=
+erl5 folder of libhugetlbfs exists and perl5 symbol link can't be created.=
+=20
 
-As suggested the udev-extraconf is enabled for the 2 packagegroups (lsb and x11-sato)
-where it makes the most sense.
+Error log:=20
+ERROR: Error executing a python function in /home/yocto/workspace/sdk-devel=
+/poky/meta/recipes-devtools/perl/perl_5.14.3.bb:
+CalledProcessError: Command 'tar -cf - -C /home/yocto/workspace/sdk-devel/b=
+uild_t4240qds_release/tmp/work/ppce6500-fsl_networking-linux/perl/5.14.3-r1=
+/sysroot-destdir -ps . | tar -xf - -C /home/yocto/workspace/sdk-devel/build=
+_t4240qds_release/tmp/sysroots/t4240qds' returned non-zero exit status 2 wi=
+th output tar: ./usr/lib/perl5: Cannot create symlink to `perl': File exist=
+s
+tar: Exiting with failure status due to previous errors
 
-Thanks
-	Sau!
 
-The following changes since commit 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
+Best Regards,
 
-  grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andreas Müller (2):
-  systemd: do not recommend udev-extraconf for udev
-  udev: do not recommend udev-extraconf
-
-Andrei Dinu (1):
-  SLiRP support in runqemu
-
-Carlos Rafael Giani (1):
-  gstreamer: Fixed dependency problem with -meta packages
-
-Hongxu Jia (2):
-  cracklib: fix default dictionary should be generated for target
-    endianness
-  craklib:fix testnum and teststr failed
-
-Jonathan Liu (2):
-  guile: Update to 2.0.9
-  boot-directdisk: Scope HDDDIR and HDDIMG variables to avoid conflicts
-
-Khem Raj (3):
-  binutils: Upgrade 2.23.1 -> 2.23.2
-  tcmode-default.inc: Pin binutils to 2.23.2
-  gcc-configure-target: Add --enable-dependency-tracking to EXTRA_OECONF
-Mike Crowe (1):
-  gdb-cross: gdb-cross requires readline-native
-
-Ross Burton (3):
-  libsoup: upgrade to 2.42.1
-  gnome-keyring: remove, nothing uses it in oe-core
-  libgnome-keyring: remove, nothing in oe-core uses this anymore
-
-Saul Wold (5):
-  packagegroup-core-lsb: Add udev-extraconf for LSB compatibility
-  packagegroup-core-x11-sato: Add udev-extraconf to maintain
-    compatibility
-  qemu: Ensure kernel nfsd module is enabled
-  binutils: backport whitespace fix
-  dmidecode: fix fetch path to use BP
-
- meta/classes/boot-directdisk.bbclass               |  25 +-
- meta/conf/distro/include/seperatebuilddir.inc      |   2 -
- meta/conf/distro/include/tcmode-default.inc        |   2 +-
- meta/conf/machine/include/qemu.inc                 |   3 +
- meta/recipes-core/systemd/systemd_199.bb           |   4 +-
- meta/recipes-core/udev/udev.inc                    |   2 +-
- .../binutils-2.23.1/backport/0001-bfd.patch        |  58 ----
- ...3-Assemble-all-sources-files-in-each-test.patch | 187 ------------
- .../binutils-2.23.1/backport/0005-bfd.patch        | 103 -------
- .../backport/0010-bfd-ChangeLog.patch              |  95 ------
- ...012-Fix-TLS-LD-to-LE-optimization-for-x32.patch |  57 ----
- .../backport/0013-gas-ChangeLog.patch              |  43 ---
- .../0014-Fix-opcode-for-64-bit-jecxz.patch         | 112 -------
- ...-data.exp-Add-XFAIL-for-arm-targets-refer.patch |  40 ---
- .../binutils-2.23.1/backport/0018-bfd.patch        |  78 -----
- .../binutils-2.23.1/backport/0024-bfd.patch        |  49 ----
- .../backport/0026-ld-testsuite.patch               |  65 -----
- .../{binutils-2.23.1.inc => binutils-2.23.2.inc}   |  16 +-
- ...pc.c-md_assemble-Do-not-generate-APUinfo-.patch |   0
- ...ls.texi-elfedit-Fix-use-of-itemx-in-table.patch |   0
- ...-Replace-with-when-it-is-part-of-the-text.patch |   0
- .../binutils-fix-ineffectual-zero-of-cache.patch   |   0
- .../binutils-fix-skip-whitespace-pr14887.patch     |  50 ++++
- .../binutils-replace-strncat-with-strcat.patch     |   0
- .../binutils-armv5e.patch                          |   0
- .../binutils-fix-over-array-bounds-issue.patch     |   0
- .../binutils-poison.patch                          |   0
- .../binutils-uclibc-100-uclibc-conf.patch          |   0
- ...binutils-uclibc-300-001_ld_makefile_patch.patch |   0
- ...binutils-uclibc-300-006_better_file_error.patch |   0
- ...ils-uclibc-300-012_check_ldrunpath_length.patch |   0
- .../binutils-uclibc-gas-needs-libm.patch           |   0
- .../binutils-x86_64_i386_biarch.patch              |   0
- .../libiberty_path_fix.patch                       |   0
- .../libtool-2.4-update.patch                       |   0
- .../libtool-rpath-fix.patch                        |   0
- .../mips64-default-ld-emulation.patch              |   0
- .../relocatable_sdk.patch                          |   0
- ...2.23.1.bb => binutils-cross-canadian_2.23.2.bb} |   0
- ...ls-cross_2.23.1.bb => binutils-cross_2.23.2.bb} |   0
- ...sssdk_2.23.1.bb => binutils-crosssdk_2.23.2.bb} |   0
- .../{binutils_2.23.1.bb => binutils_2.23.2.bb}     |   0
- meta/recipes-devtools/dmidecode/dmidecode_2.12.bb  |   2 +-
- meta/recipes-devtools/gcc/gcc-configure-target.inc |   2 +-
- meta/recipes-devtools/gdb/gdb-cross.inc            |   2 +-
- .../guile/files/fix_parallel_build_issue.patch     |  20 --
- .../guile/{guile_2.0.7.bb => guile_2.0.9.bb}       |   7 +-
- ...c-support-dictionary-byte-order-dependent.patch | 322 +++++++++++++++++++++
- ...02-craklib-fix-testnum-and-teststr-failed.patch |  53 ++++
- meta/recipes-extended/cracklib/cracklib_2.8.22.bb  |   4 +-
- .../packagegroups/packagegroup-core-lsb.bb         |   1 +
- .../gnome/gnome-keyring/org.gnome.keyring.service  |   3 -
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |  44 ---
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |  19 --
- .../gstreamer/gst-plugins-package.inc              |   5 +-
- .../packagegroups/packagegroup-core-x11-sato.bb    |   1 +
- ...libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} |  14 +-
- scripts/runqemu                                    |   3 +
- scripts/runqemu-internal                           | 220 ++++++++------
- 59 files changed, 599 insertions(+), 1114 deletions(-)
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0001-bfd.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0003-Assemble-all-sources-files-in-each-test.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0005-bfd.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0010-bfd-ChangeLog.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0012-Fix-TLS-LD-to-LE-optimization-for-x32.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0013-gas-ChangeLog.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0014-Fix-opcode-for-64-bit-jecxz.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0017-ld-elf-comm-data.exp-Add-XFAIL-for-arm-targets-refer.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0018-bfd.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0024-bfd.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0026-ld-testsuite.patch
- rename meta/recipes-devtools/binutils/{binutils-2.23.1.inc => binutils-2.23.2.inc} (71%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-config-tc-ppc.c-md_assemble-Do-not-generate-APUinfo-.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-doc-binutils.texi-elfedit-Fix-use-of-itemx-in-table.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-ld.texinfo-Replace-with-when-it-is-part-of-the-text.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/binutils-fix-ineffectual-zero-of-cache.patch (100%)
- create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/binutils-replace-strncat-with-strcat.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-armv5e.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-fix-over-array-bounds-issue.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-poison.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-100-uclibc-conf.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-001_ld_makefile_patch.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-006_better_file_error.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-012_check_ldrunpath_length.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-gas-needs-libm.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-x86_64_i386_biarch.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libiberty_path_fix.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libtool-2.4-update.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libtool-rpath-fix.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/mips64-default-ld-emulation.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/relocatable_sdk.patch (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.23.1.bb => binutils-cross-canadian_2.23.2.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross_2.23.1.bb => binutils-cross_2.23.2.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.23.1.bb => binutils-crosssdk_2.23.2.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils_2.23.1.bb => binutils_2.23.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/guile/files/fix_parallel_build_issue.patch
- rename meta/recipes-devtools/guile/{guile_2.0.7.bb => guile_2.0.9.bb} (94%)
- create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
- create mode 100644 meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring/org.gnome.keyring.service
- delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
- delete mode 100644 meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} (59%)
-
--- 
-1.8.0.2
+Zhenhua
 
 
 
