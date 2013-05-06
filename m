@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UZOV6-0004c5-EP
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UZOV4-0004bR-Rf
 	for openembedded-core@lists.openembedded.org;
 	Mon, 06 May 2013 18:43:00 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r46GOrRv009914
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r46GOprv009911
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 6 May 2013 09:24:53 -0700 (PDT)
+	Mon, 6 May 2013 09:24:51 -0700 (PDT)
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.136) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 6 May 2013 09:24:53 -0700
+	14.2.342.3; Mon, 6 May 2013 09:24:51 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 6 May 2013 09:24:40 -0700
-Message-ID: <e7290195897547a542f5ca0f080a1a074a728351.1367857109.git.bruce.ashfield@windriver.com>
+Date: Mon, 6 May 2013 09:24:38 -0700
+Message-ID: <12f1f361a72cf543a8d6dbfcd3cabd53e8d0b608.1367857109.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1367857109.git.bruce.ashfield@windriver.com>
 References: <cover.1367857109.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] linux-yocto/3.8: udpate to v3.8.11
+Subject: [PATCH 2/4] kern-tools: anchor and delimit regexs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,88 +36,48 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 06 May 2013 16:43:23 -0000
 Content-Type: text/plain
 
-Update the linux-yocto-3.8 SRCREVs to the korg 3.8.11 -stable release.
+Updating the kern-tools SRCREV with the following fix:
+
+    Updateme is responsible for updating an existing meta-series with new patches,
+    configs and tree manipulations. To do this, it first checks for an existing
+    board description and generates one if required. It then searches for features
+    and fragments to be applied for the tree.
+
+    There were two problems:
+
+     - A top level board description is detected via the presence of "define"
+       directives that indicate the board name, the arch and kernel type. The
+       test for define would match on patches or fragments with 'define' in their
+       name, and would incorrectly use that file as the top level board description.
+
+       This is fixed by ensuring that only defines at the start of a line, or preceded
+       by whitepace match.
+
+     - When searching for features that were indicated as 'addon' or 'optional', the
+       search would find, and apply, any feature with the passed name as substring
+       versus an exact match.
+
+       This is fixed by ensuring that the matched feature name is /<feature name>
+       versus <feature name>
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb   |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.8.bb      |   16 ++++++++--------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-index 980229c..d0e5808 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index be58847..6620c4b 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
  
--LINUX_VERSION ?= "3.8.4"
-+LINUX_VERSION ?= "3.8.11"
- LINUX_KERNEL_TYPE = "preempt-rt"
+ DEPENDS = "git-native guilt-native"
  
- KMETA = "meta"
+-SRCREV = "71ffb08c20022610363e68f9243350b7da020825"
++SRCREV = "9713c9ef7f6e178a0a2a5f2a9c74e3c123ae48dd"
+ PR = "r12"
+ PV = "0.1+git${SRCPV}"
  
--SRCREV_machine ?= "fd5af245e21d80e8700d41c1ecf3fc4b2c3d2e40"
--SRCREV_machine_qemuppc ?= "fa8b702a32cc19e77805d91224d0409f09808c88"
--SRCREV_meta ?= "27b63fdbd25ad1a37bacc05f49a205c150d21779"
-+SRCREV_machine ?= "eeadef5c3a0a40aa4e01b20362e40009927f3ad6"
-+SRCREV_machine_qemuppc ?= "c7d4373996ddeb82ab7b8b5ea391227c8d10c6e9"
-+SRCREV_meta ?= "8482dcdf68f9f7501118f4c01fdcb8f851882997"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-index 6ef143e..ee8e669 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-@@ -8,12 +8,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
--LINUX_VERSION ?= "3.8.4"
-+LINUX_VERSION ?= "3.8.11"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "d9a45e3325030f7bd6f37947a7a0b12da7f602c3"
--SRCREV_meta ?= "27b63fdbd25ad1a37bacc05f49a205c150d21779"
-+SRCREV_machine ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
-+SRCREV_meta ?= "8482dcdf68f9f7501118f4c01fdcb8f851882997"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-index 4bf6bf4..2fcaddd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-@@ -3,17 +3,17 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_DEFAULT = "standard/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- 
--SRCREV_machine_qemuarm ?= "1473dd2b4505109d45bd7099f63826a66b71103d"
--SRCREV_machine_qemumips  ?= "1695c38d04855cc225bcc1968289770f0fa0ea64"
--SRCREV_machine_qemuppc ?= "8b39c0424704a40c740b1ac61449fdf190a8460a"
--SRCREV_machine_qemux86 ?= "d9a45e3325030f7bd6f37947a7a0b12da7f602c3"
--SRCREV_machine_qemux86-64 ?= "d9a45e3325030f7bd6f37947a7a0b12da7f602c3"
--SRCREV_machine ?= "d9a45e3325030f7bd6f37947a7a0b12da7f602c3"
--SRCREV_meta ?= "27b63fdbd25ad1a37bacc05f49a205c150d21779"
-+SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
-+SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
-+SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
-+SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
-+SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
-+SRCREV_machine ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
-+SRCREV_meta ?= "8482dcdf68f9f7501118f4c01fdcb8f851882997"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.8.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.8.4"
-+LINUX_VERSION ?= "3.8.11"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.10.4
 
