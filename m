@@ -1,18 +1,21 @@
-Received: from ptmx.org ([178.63.28.110])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dv@pseudoterminal.org>) id 1UZ6Ad-0006MP-PV
+	(envelope-from <sgw@linux.intel.com>) id 1UZEIR-000566-Ro
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 May 2013 23:08:37 +0200
-Received: from localhost.localdomain (chello080108009040.14.11.vie.surfer.at
-	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 3DEC82041E
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 May 2013 22:50:39 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
+	Mon, 06 May 2013 07:49:14 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 05 May 2013 22:30:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,619,1363158000"; d="scan'208";a="237317381"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.247])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 May 2013 22:30:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 May 2013 22:50:30 +0200
-Message-Id: <1367787030-5056-1-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 1.8.2.2
-Subject: [PATCH] gstreamer: Fixed dependency problem with -meta packages
+Date: Sun,  5 May 2013 22:30:55 -0700
+Message-Id: <cover.1367818095.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL 00/20] Udev, binutils and others
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,37 +28,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 May 2013 21:08:49 -0000
+X-List-Received-Date: Mon, 06 May 2013 05:49:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Installing the gstreamer -meta packages was not possible, because the
--apps and -glib packages were missing. Allowing for empty -apps/glib
-packages fixes this.
+Richard,
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-multimedia/gstreamer/gst-plugins-package.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I have reviewed and tested this change set.  The autobuilder is currently wrapping up
+building with this set and it is looking green.  This resolves the binutils and GCC
+4.8 update, but does not yet enable 4.8.  I will do that in a seperate commit in order
+to give people time to verify.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-index 7ae3ef6..9cab392 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-@@ -25,9 +25,12 @@ python populate_packages_prepend () {
- }
- 
- # metapkg has runtime dependency on PN
--# each plugin depends on PN, plugin-dev on PN-dev and plugin-staticdev on PN-staticdev
-+# each plugin depends on PN, plugin-dev on PN-dev and plugin-staticdev on PN-staticdev,
-+# and plugin-meta on plugin-glib and plugin-apps
- # so we need them even when empty (like in gst-plugins-good case)
- ALLOW_EMPTY_${PN} = "1"
-+ALLOW_EMPTY_${PN}-apps = "1"
-+ALLOW_EMPTY_${PN}-glib = "1"
- ALLOW_EMPTY_${PN}-dev = "1"
- ALLOW_EMPTY_${PN}-staticdev = "1"
- 
+As suggested the udev-extraconf is enabled for the 2 packagegroups (lsb and x11-sato)
+where it makes the most sense.
+
+Thanks
+	Sau!
+
+The following changes since commit 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
+
+  grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andreas Müller (2):
+  systemd: do not recommend udev-extraconf for udev
+  udev: do not recommend udev-extraconf
+
+Andrei Dinu (1):
+  SLiRP support in runqemu
+
+Carlos Rafael Giani (1):
+  gstreamer: Fixed dependency problem with -meta packages
+
+Hongxu Jia (2):
+  cracklib: fix default dictionary should be generated for target
+    endianness
+  craklib:fix testnum and teststr failed
+
+Jonathan Liu (2):
+  guile: Update to 2.0.9
+  boot-directdisk: Scope HDDDIR and HDDIMG variables to avoid conflicts
+
+Khem Raj (3):
+  binutils: Upgrade 2.23.1 -> 2.23.2
+  tcmode-default.inc: Pin binutils to 2.23.2
+  gcc-configure-target: Add --enable-dependency-tracking to EXTRA_OECONF
+Mike Crowe (1):
+  gdb-cross: gdb-cross requires readline-native
+
+Ross Burton (3):
+  libsoup: upgrade to 2.42.1
+  gnome-keyring: remove, nothing uses it in oe-core
+  libgnome-keyring: remove, nothing in oe-core uses this anymore
+
+Saul Wold (5):
+  packagegroup-core-lsb: Add udev-extraconf for LSB compatibility
+  packagegroup-core-x11-sato: Add udev-extraconf to maintain
+    compatibility
+  qemu: Ensure kernel nfsd module is enabled
+  binutils: backport whitespace fix
+  dmidecode: fix fetch path to use BP
+
+ meta/classes/boot-directdisk.bbclass               |  25 +-
+ meta/conf/distro/include/seperatebuilddir.inc      |   2 -
+ meta/conf/distro/include/tcmode-default.inc        |   2 +-
+ meta/conf/machine/include/qemu.inc                 |   3 +
+ meta/recipes-core/systemd/systemd_199.bb           |   4 +-
+ meta/recipes-core/udev/udev.inc                    |   2 +-
+ .../binutils-2.23.1/backport/0001-bfd.patch        |  58 ----
+ ...3-Assemble-all-sources-files-in-each-test.patch | 187 ------------
+ .../binutils-2.23.1/backport/0005-bfd.patch        | 103 -------
+ .../backport/0010-bfd-ChangeLog.patch              |  95 ------
+ ...012-Fix-TLS-LD-to-LE-optimization-for-x32.patch |  57 ----
+ .../backport/0013-gas-ChangeLog.patch              |  43 ---
+ .../0014-Fix-opcode-for-64-bit-jecxz.patch         | 112 -------
+ ...-data.exp-Add-XFAIL-for-arm-targets-refer.patch |  40 ---
+ .../binutils-2.23.1/backport/0018-bfd.patch        |  78 -----
+ .../binutils-2.23.1/backport/0024-bfd.patch        |  49 ----
+ .../backport/0026-ld-testsuite.patch               |  65 -----
+ .../{binutils-2.23.1.inc => binutils-2.23.2.inc}   |  16 +-
+ ...pc.c-md_assemble-Do-not-generate-APUinfo-.patch |   0
+ ...ls.texi-elfedit-Fix-use-of-itemx-in-table.patch |   0
+ ...-Replace-with-when-it-is-part-of-the-text.patch |   0
+ .../binutils-fix-ineffectual-zero-of-cache.patch   |   0
+ .../binutils-fix-skip-whitespace-pr14887.patch     |  50 ++++
+ .../binutils-replace-strncat-with-strcat.patch     |   0
+ .../binutils-armv5e.patch                          |   0
+ .../binutils-fix-over-array-bounds-issue.patch     |   0
+ .../binutils-poison.patch                          |   0
+ .../binutils-uclibc-100-uclibc-conf.patch          |   0
+ ...binutils-uclibc-300-001_ld_makefile_patch.patch |   0
+ ...binutils-uclibc-300-006_better_file_error.patch |   0
+ ...ils-uclibc-300-012_check_ldrunpath_length.patch |   0
+ .../binutils-uclibc-gas-needs-libm.patch           |   0
+ .../binutils-x86_64_i386_biarch.patch              |   0
+ .../libiberty_path_fix.patch                       |   0
+ .../libtool-2.4-update.patch                       |   0
+ .../libtool-rpath-fix.patch                        |   0
+ .../mips64-default-ld-emulation.patch              |   0
+ .../relocatable_sdk.patch                          |   0
+ ...2.23.1.bb => binutils-cross-canadian_2.23.2.bb} |   0
+ ...ls-cross_2.23.1.bb => binutils-cross_2.23.2.bb} |   0
+ ...sssdk_2.23.1.bb => binutils-crosssdk_2.23.2.bb} |   0
+ .../{binutils_2.23.1.bb => binutils_2.23.2.bb}     |   0
+ meta/recipes-devtools/dmidecode/dmidecode_2.12.bb  |   2 +-
+ meta/recipes-devtools/gcc/gcc-configure-target.inc |   2 +-
+ meta/recipes-devtools/gdb/gdb-cross.inc            |   2 +-
+ .../guile/files/fix_parallel_build_issue.patch     |  20 --
+ .../guile/{guile_2.0.7.bb => guile_2.0.9.bb}       |   7 +-
+ ...c-support-dictionary-byte-order-dependent.patch | 322 +++++++++++++++++++++
+ ...02-craklib-fix-testnum-and-teststr-failed.patch |  53 ++++
+ meta/recipes-extended/cracklib/cracklib_2.8.22.bb  |   4 +-
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 +
+ .../gnome/gnome-keyring/org.gnome.keyring.service  |   3 -
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |  44 ---
+ .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |  19 --
+ .../gstreamer/gst-plugins-package.inc              |   5 +-
+ .../packagegroups/packagegroup-core-x11-sato.bb    |   1 +
+ ...libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} |  14 +-
+ scripts/runqemu                                    |   3 +
+ scripts/runqemu-internal                           | 220 ++++++++------
+ 59 files changed, 599 insertions(+), 1114 deletions(-)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0001-bfd.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0003-Assemble-all-sources-files-in-each-test.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0005-bfd.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0010-bfd-ChangeLog.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0012-Fix-TLS-LD-to-LE-optimization-for-x32.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0013-gas-ChangeLog.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0014-Fix-opcode-for-64-bit-jecxz.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0017-ld-elf-comm-data.exp-Add-XFAIL-for-arm-targets-refer.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0018-bfd.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0024-bfd.patch
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0026-ld-testsuite.patch
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1.inc => binutils-2.23.2.inc} (71%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-config-tc-ppc.c-md_assemble-Do-not-generate-APUinfo-.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-doc-binutils.texi-elfedit-Fix-use-of-itemx-in-table.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/0001-ld.texinfo-Replace-with-when-it-is-part-of-the-text.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/binutils-fix-ineffectual-zero-of-cache.patch (100%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.2/backport/binutils-fix-skip-whitespace-pr14887.patch
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/backport/binutils-replace-strncat-with-strcat.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-armv5e.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-fix-over-array-bounds-issue.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-poison.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-100-uclibc-conf.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-001_ld_makefile_patch.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-006_better_file_error.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-300-012_check_ldrunpath_length.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-uclibc-gas-needs-libm.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/binutils-x86_64_i386_biarch.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libiberty_path_fix.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libtool-2.4-update.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/libtool-rpath-fix.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/mips64-default-ld-emulation.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.23.1 => binutils-2.23.2}/relocatable_sdk.patch (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.23.1.bb => binutils-cross-canadian_2.23.2.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross_2.23.1.bb => binutils-cross_2.23.2.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.23.1.bb => binutils-crosssdk_2.23.2.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils_2.23.1.bb => binutils_2.23.2.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/guile/files/fix_parallel_build_issue.patch
+ rename meta/recipes-devtools/guile/{guile_2.0.7.bb => guile_2.0.9.bb} (94%)
+ create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+ create mode 100644 meta/recipes-extended/cracklib/cracklib/0002-craklib-fix-testnum-and-teststr-failed.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring/org.gnome.keyring.service
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+ delete mode 100644 meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.40.2.bb => libsoup-2.4_2.42.1.bb} (59%)
+
 -- 
-1.8.2.2
+1.8.0.2
 
 
 
