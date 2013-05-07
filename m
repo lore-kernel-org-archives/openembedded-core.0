@@ -1,26 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from ptmx.org ([178.63.28.110])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZfOL-0007cO-Kx
+	(envelope-from <dv@pseudoterminal.org>) id 1UZfQm-000806-QL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 12:45:06 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r47AR4NG020861
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 May 2013 03:27:04 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 7 May 2013 03:27:03 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 May 2013 18:26:59 +0800
-Message-ID: <7d839cdf354d6851be9c20c391344ce21413cf45.1367921762.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1367921762.git.liezhi.yang@windriver.com>
-References: <cover.1367921762.git.liezhi.yang@windriver.com>
+	Tue, 07 May 2013 12:47:37 +0200
+Received: from [10.1.14.186] (83-64-248-68.inzersdorf.xdsl-line.inode.at
+	[83.64.248.68]) by ptmx.org (Postfix) with ESMTPSA id 3D82A21013;
+	Tue,  7 May 2013 12:29:38 +0200 (CEST)
+Message-ID: <5188D791.1070505@pseudoterminal.org>
+Date: Tue, 07 May 2013 12:29:37 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image_types.bbclass: remove the obsolete images
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1367787030-5056-1-git-send-email-dv@pseudoterminal.org>
+	<CAJTo0LZrtVHq4PpF4uEL+_GeQBzDOMTEu-rt39j7agamGOe+MQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZrtVHq4PpF4uEL+_GeQBzDOMTEu-rt39j7agamGOe+MQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gstreamer: Fixed dependency problem with -meta packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +30,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 10:45:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 May 2013 10:47:42 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove the obsolete image before the new one generated to save disk
-space when RM_OBSOLETE_IMAGE is set to 1, this is an easy way to keep
-the DEPLOY_DIR_IMAGE clean.
+On 05/07/2013 11:55 AM, Burton, Ross wrote:
+> On 5 May 2013 21:50, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+>> Installing the gstreamer -meta packages was not possible, because the
+>> -apps and -glib packages were missing. Allowing for empty -apps/glib
+>> packages fixes this.
+>  From what I can tell there's only one -apps package
+> (gst-plugins-base-apps) and one -glib package (gst-plugins-bad-glib),
+> so why not add those extra dependencies in -base and -bad explicitly
+> instead of creating empty packages for no reason?
+>
+> Ross
 
-[YOCTO #4391]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image_types.bbclass     | 6 +++++-
- meta/conf/local.conf.sample.extended | 3 +++
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 94837ae..27f232e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -51,7 +51,11 @@ def get_imagecmds(d):
-         types.remove("live")
- 
-     if d.getVar('IMAGE_LINK_NAME', True):
--        cmds += "\trm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
-+        if d.getVar('RM_OBSOLETE_IMAGE', True) == "1":
-+            # Remove the obsolete image
-+            cmds += "\trm -f `find ${DEPLOY_DIR_IMAGE} -maxdepth 1 -type l -name ${IMAGE_LINK_NAME}'.*' -exec readlink -f {} \;`"
-+        # Remove the symlink
-+        cmds += "\n\trm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.*"
- 
-     for type in types:
-         ccmd = []
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 1d1a8ec..efe0804 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -207,3 +207,6 @@
- #ARCHIVER_MODE[filter] ?= "no"
- #ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
- #INHERIT += "${ARCHIVER_CLASS}"
-+
-+# Remove the obsolete image before the new one generated to save disk space
-+#RM_OBSOLETE_IMAGE = "1"
--- 
-1.8.1.2
-
+True, however I wonder if somebody relies on these packages being there.
+Is it acceptable to break compatibility here?
 
 
