@@ -1,25 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UZo5k-0003WQ-Fy
+	(envelope-from <mark.hatle@windriver.com>) id 1UZoTE-0006Hd-E0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 22:02:32 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 May 2013 12:44:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,629,1363158000"; d="scan'208";a="333366687"
-Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2013 12:44:23 -0700
-Message-ID: <51895996.1030101@linux.intel.com>
-Date: Tue, 07 May 2013 12:44:22 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 07 May 2013 22:26:49 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r47K8eB9004756
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 May 2013 13:08:40 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 7 May 2013 13:08:40 -0700
+Message-ID: <51895F47.4030401@windriver.com>
+Date: Tue, 7 May 2013 15:08:39 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-References: <1367922876-26933-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1367922876-26933-1-git-send-email-bogdan.a.marinescu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mpfr: upgraded to 3.1.2
+To: <openembedded-core@lists.openembedded.org>
+References: <51892728.3090609@farnsworthtech.com>
+	<51892D8A.5030806@windriver.com>
+	<51893B46.3090205@farnsworthtech.com>
+	<51893CB4.9070304@windriver.com>
+	<CAHUNapRP6SbJVhQey907pHg+X+tosP-86D_5gBs=Vkt4MPBN+w@mail.gmail.com>
+	<51894960.6070406@windriver.com>
+	<5189571D.3030909@farnsworthtech.com>
+In-Reply-To: <5189571D.3030909@farnsworthtech.com>
+Subject: Re: SDK meta-toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,59 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 20:02:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 07 May 2013 20:26:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/07/2013 03:34 AM, Bogdan Marinescu wrote:
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> ---
->   .../mpfr/{mpfr-3.1.1 => mpfr-3.1.2}/long-long-thumb.patch      |    0
->   meta/recipes-support/mpfr/{mpfr_3.1.1.bb => mpfr_3.1.2.bb}     |    8 ++++----
->   2 files changed, 4 insertions(+), 4 deletions(-)
->   rename meta/recipes-support/mpfr/{mpfr-3.1.1 => mpfr-3.1.2}/long-long-thumb.patch (100%)
->   rename meta/recipes-support/mpfr/{mpfr_3.1.1.bb => mpfr_3.1.2.bb} (59%)
+On 5/7/13 2:33 PM, Kyle Farnsworth wrote:
+> On 05/07/2013 01:35 PM, Mark Hatle wrote:
+>>>> - nativesdk -- runs on the 'sdkhost' (variant called 'crosssdk')
+>>>
+>>> Is this related to the SDKMACHINE setting?
+>>>
+>>
+>> Yes that's the variable I was thinking of.  You can build an SDK for
+>> 'i586' on your x86_64 host for instance.
+>>
 >
-> diff --git a/meta/recipes-support/mpfr/mpfr-3.1.1/long-long-thumb.patch b/meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch
-> similarity index 100%
-> rename from meta/recipes-support/mpfr/mpfr-3.1.1/long-long-thumb.patch
-> rename to meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch
-> diff --git a/meta/recipes-support/mpfr/mpfr_3.1.1.bb b/meta/recipes-support/mpfr/mpfr_3.1.2.bb
-> similarity index 59%
-> rename from meta/recipes-support/mpfr/mpfr_3.1.1.bb
-> rename to meta/recipes-support/mpfr/mpfr_3.1.2.bb
-> index 7f34e71..2c2aaf3 100644
-> --- a/meta/recipes-support/mpfr/mpfr_3.1.1.bb
-> +++ b/meta/recipes-support/mpfr/mpfr_3.1.2.bb
-> @@ -3,14 +3,14 @@ LICENSE="GPLv3&LGPLv3"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->   		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
->   DEPENDS = "gmp"
-> -PR = "r0"
+> So in my case, since I did not specify SDKMACHINE, it is creating a
+> toolchain that compiles source into x86_64 executables so it can build
+> the host tools (i.e automake) on the targeted SDK machine.  And it has
+> nothing to do with the targeted device cross-compile toolchain?
+
+You will get a 'cross' compiler from host -> SDK, and another SDK -> target. 
+The SDK -> target is the one that gets installed as part of the SDK.
+
+--Mark
+
 >
-> -SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2 \
-> +SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
->              file://long-long-thumb.patch \
->              "
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> -SRC_URI[md5sum] = "e90e0075bb1b5f626c6e31aaa9c64e3b"
-> -SRC_URI[sha256sum] = "7b66c3f13dc8385f08264c805853f3e1a8eedab8071d582f3e661971c9acd5fd"
-> +SRC_URI[md5sum] = "ee2c3ac63bf0c2359bf08fc3ee094c19"
-> +SRC_URI[sha256sum] = "79c73f60af010a30a5c27a955a1d2d01ba095b72537dab0ecaad57f5a7bb1b6b"
-> +
 
-My local test comes up with a different set of check-sums then these.
-
-Can you please verify.
-
-Thanks
-	Sau!
-
-
-
->   S = "${WORKDIR}/mpfr-${PV}"
->
->   BBCLASSEXTEND = "native nativesdk"
->
 
 
