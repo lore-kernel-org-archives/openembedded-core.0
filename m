@@ -1,20 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UZfdX-0001mW-T6
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 13:00:49 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 07 May 2013 03:41:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="237975925"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 May 2013 03:41:39 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 13:45:16 +0300
-Message-Id: <1367923516-17068-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v2] mpfr: upgraded to 3.1.2
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UZfjz-0002iG-Hw for openembedded-core@lists.openembedded.org;
+	Tue, 07 May 2013 13:07:27 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r47Ao0BV031707; Tue, 7 May 2013 11:51:34 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id azEC8fhCnSGo; Tue,  7 May 2013 11:51:34 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r47ApR5P031775
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 7 May 2013 11:51:29 +0100
+Message-ID: <1367923743.27116.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Olivia Yin <hong-hua.yin@freescale.com>
+Date: Tue, 07 May 2013 11:49:03 +0100
+In-Reply-To: <1367896309-5638-1-git-send-email-hong-hua.yin@freescale.com>
+References: <1367896309-5638-1-git-send-email-hong-hua.yin@freescale.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] [oe][meta-oe][PATCH]yajl: pass the cmake variable LIB_SUFFIX to handle installation on 64-bit systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,48 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 11:00:55 -0000
+X-List-Received-Date: Tue, 07 May 2013 11:07:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../mpfr/{mpfr-3.1.1 => mpfr-3.1.2}/long-long-thumb.patch      |    0
- meta/recipes-support/mpfr/{mpfr_3.1.1.bb => mpfr_3.1.2.bb}     |    8 ++++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/mpfr/{mpfr-3.1.1 => mpfr-3.1.2}/long-long-thumb.patch (100%)
- rename meta/recipes-support/mpfr/{mpfr_3.1.1.bb => mpfr_3.1.2.bb} (59%)
+On Tue, 2013-05-07 at 11:11 +0800, Olivia Yin wrote:
+> WARNING: QA Issue: yajl: Files/directories were installed but not shipped
+>   /usr/lib
+>   /usr/lib/libyajl.so.2
+>   /usr/lib/libyajl.so
+>   /usr/lib/libyajl_s.a
+>   /usr/lib/libyajl.so.2.0.4
+>   /usr/lib/.debug
+>   /usr/lib/.debug/libyajl.so.2.0.4
+> 
+> NOTE: for 64-bit systems where lib64 is used you can pass the cmake
+>       variable LIB_SUFFIX to cause installation into the system's 'lib64'
+>       directory.
+> 
+> Signed-off-by: Olivia Yin <hong-hua.yin@freescale.com>
+> ---
+>  meta-oe/recipes-devtools/yajl/yajl_2.0.4.bb |    3 +++
+>  1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/mpfr/mpfr-3.1.1/long-long-thumb.patch b/meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch
-similarity index 100%
-rename from meta/recipes-support/mpfr/mpfr-3.1.1/long-long-thumb.patch
-rename to meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch
-diff --git a/meta/recipes-support/mpfr/mpfr_3.1.1.bb b/meta/recipes-support/mpfr/mpfr_3.1.2.bb
-similarity index 59%
-rename from meta/recipes-support/mpfr/mpfr_3.1.1.bb
-rename to meta/recipes-support/mpfr/mpfr_3.1.2.bb
-index 7f34e71..0ff1df8 100644
---- a/meta/recipes-support/mpfr/mpfr_3.1.1.bb
-+++ b/meta/recipes-support/mpfr/mpfr_3.1.2.bb
-@@ -3,14 +3,14 @@ LICENSE="GPLv3&LGPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6"
- DEPENDS = "gmp"
--PR = "r0"
- 
--SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2 \
-+SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
-            file://long-long-thumb.patch \
-            "
- 
--SRC_URI[md5sum] = "e90e0075bb1b5f626c6e31aaa9c64e3b"
--SRC_URI[sha256sum] = "7b66c3f13dc8385f08264c805853f3e1a8eedab8071d582f3e661971c9acd5fd"
-+SRC_URI[md5sum] = "e3d203d188b8fe60bb6578dd3152e05c"
-+SRC_URI[sha256sum] = "399d0f47ef6608cc01d29ed1b99c7faff36d9994c45f36f41ba250147100453b"
-+
- S = "${WORKDIR}/mpfr-${PV}"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.10.4
+This needs to go to the openembedded-devel list since its for meta-oe.
+
+Cheers,
+
+Richard
 
 
 
