@@ -1,40 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-we0-f181.google.com ([74.125.82.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1UZkP0-0002bs-EH
+	(envelope-from <ross.burton@intel.com>) id 1UZkTr-00031o-He
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 18:06:08 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 May 2013 08:48:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,629,1363158000"; d="scan'208";a="298932589"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by azsmga001.ch.intel.com with ESMTP; 07 May 2013 08:47:59 -0700
-Received: from irsmsx105.ger.corp.intel.com (163.33.3.28) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Tue, 7 May 2013 16:47:52 +0100
-Received: from irsmsx104.ger.corp.intel.com ([169.254.5.19]) by
-	IRSMSX105.ger.corp.intel.com ([169.254.7.14]) with mapi id
-	14.01.0438.000; Tue, 7 May 2013 16:47:51 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Thread-Topic: [OE-core] [PATCH] xkeyboard-config: Remove xkbcomp from
-	RDEPENDS_${PN}
-Thread-Index: AQHOSzo7ic8vL8B0/ECS8TVUctSf0w==
-Date: Tue, 7 May 2013 15:47:51 +0000
-Message-ID: <1367941688.6101.1.camel@firebird.rb.intel.com>
-References: <1367240260.14512.120.camel@phil-desktop.brightsign>
-	<518919FE.9000004@mlbassoc.com>
-	<CAJTo0Lb1TW9gOW79fbDdqyn61-tvxW+Fh1aQxf+mLuGRUhv0RA@mail.gmail.com>
-	<5189211B.6050905@mlbassoc.com>
-In-Reply-To: <5189211B.6050905@mlbassoc.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.149]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xkeyboard-config: Remove xkbcomp from RDEPENDS_${PN}
+	Tue, 07 May 2013 18:11:19 +0200
+Received: by mail-we0-f181.google.com with SMTP id q55so686881wes.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2013 08:52:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=ZS47OzCw+OKnJvt75lmAOSFbSBidO8wS6vfXkMarxfc=;
+	b=mH5Xp9GbDUIwrDcFqjJrCjv9v5YQeKNIRBtF8JoJBIvBdrnX4Fbc09q3XHbNsvd/Xs
+	ZywuoPK7sE6kGFweNubQ9n3/fmkk8QeuEJ0ugGSsdu/pbk2/9mDmn8c/+X23Yyd3AuyA
+	D7fWpLNbdx4KDxpqzD93iFVoc1wbrgeH5PvLpMucXEupkSOXl8y4lSPqrIx1LsHZYy12
+	xrace3W0mCar3/A7RqkDrGcwh46Y6OokaYv/QbKaUm4c48O0Jo4l3MjnVLglIOZAZaVv
+	WW9mvUG+dTib6jkQh9xwBftJ8gmTB0MooaJ+GFH5PWHfVc46anTNGXOS3doolpF3jVN7
+	kZng==
+X-Received: by 10.194.143.50 with SMTP id sb18mr4451815wjb.44.1367941970864;
+	Tue, 07 May 2013 08:52:50 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id cw8sm3600076wib.7.2013.05.07.08.52.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 07 May 2013 08:52:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2013 16:49:47 +0100
+Message-Id: <1367941787-8508-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnOm4ekywRb+J3l7rBm4RNgnLu7TJ9SRa8APPiFkhAjHkJKjb45J5gzGHekCA2XlRvzuKXz
+Subject: [PATCH] qemux86: disable paravirt guest, causes test failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 16:06:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <809609B40AD3254D8CA55BF3FF104267@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 07 May 2013 16:11:21 -0000
 
-DQoNCk9uIFR1ZSwgMjAxMy0wNS0wNyBhdCAwOTo0MyAtMDYwMCwgR2FyeSBUaG9tYXMgd3JvdGU6
-DQo+IE9uIDIwMTMtMDUtMDcgMDk6MjMsIEJ1cnRvbiwgUm9zcyB3cm90ZToNCj4gPiBPbiA3IE1h
-eSAyMDEzIDE2OjEzLCBHYXJ5IFRob21hcyA8Z2FyeUBtbGJhc3NvYy5jb20+IHdyb3RlOg0KPiA+
-PiBJdCBsb29rcyBsaWtlIHRoZSBwYWNrYWdlKHMpIHlvdSdyZSByZWZlcnJpbmcgdG8gYXJlIHRo
-ZSBYIHNlcnZlci4NCj4gPj4gVG9vIGJhZCB5b3UgZGlkbid0IHByb3ZpZGUgdGhvc2UgcGF0Y2hl
-cyBhcyB3ZWxsIGFzIGltYWdlcyB3aGljaA0KPiA+PiB1c2UgWCBhcmUgY3VycmVudGx5IGJyb2tl
-biAoYXQgbGVhc3QgbWluZSBhcmUpDQo+ID4NCj4gPiBZZWFoLCBJIG5vdGljZWQgdGhhdCB3aGVu
-IGJyb3dzaW5nIG1haWwgb3ZlciBicmVha2Zhc3QgYnV0IGRyb3BwZWQgdGhlDQo+ID4gYmFsbCBp
-biBhY3R1YWxseSBzYXlpbmcgb24gdGhlIGxpc3QuICBBZGQgYSBkZXBlbmRlbmN5IHRvIGl0IGlu
-DQo+ID4geHNlcnZlci14b3JnLg0KPiANCj4gSSdsbCBwdXQgc29tZXRoaW5nIHRvZ2V0aGVyIHNo
-b3J0bHkuDQo+IA0KDQpJIGRpZG4ndCBub3RpY2VkIHlvdXIgcmVwbHkgdW50aWwgbm93LCBJIGp1
-c3Qgc2VudCBhIHBhdGNoLi4uIDopDQo=
+The shutdown sanity test that we previously saw on qemux86-64 in 2.6.37 have
+started to re-appear reproducably on qemux86 in 3.4 in the Danny series.  Until
+this can be root-caused and fixed in the kernel, disable paravirtualisation
+across all kernels and all qemu machines.
+
+[ YOCTO #4196 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb    |    1 -
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    1 -
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb    |    2 +-
+ 4 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index fdea085..fcf37cc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -44,5 +44,4 @@ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ KERNEL_FEATURES_append = " features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+-KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
+index 980229c..38e35db 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
+@@ -25,6 +25,6 @@ COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index b81b9ac..18d665a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -26,5 +26,4 @@ COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
+ KERNEL_FEATURES_append = " features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+-KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+index 4bf6bf4..75e2dbb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+@@ -25,6 +25,6 @@ COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+-- 
+1.7.10.4
+
 
 
