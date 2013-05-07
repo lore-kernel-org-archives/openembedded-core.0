@@ -1,23 +1,21 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UZhxd-0001LD-54 for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 15:29:46 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UZhgE-0003f4-FG; Tue, 07 May 2013 15:11:42 +0200
-Message-ID: <1367932301.14512.308.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 07 May 2013 14:11:41 +0100
-In-Reply-To: <1367931368-21504-10-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1367931368-21504-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1367931368-21504-10-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 10/15] metadata_scm: Replace depracated operator
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.zanussi@intel.com>) id 1UZiFl-0003A5-JF
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 May 2013 15:48:44 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 May 2013 06:30:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,628,1363158000"; d="scan'208";a="333863348"
+Received: from unknown (HELO localhost) ([10.255.12.242])
+	by fmsmga002.fm.intel.com with ESMTP; 07 May 2013 06:30:02 -0700
+From: tom.zanussi@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2013 08:30:00 -0500
+Message-Id: <cover.1367933207.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.4
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/1] squelch kernel.bblass QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,17 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 13:29:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 May 2013 13:48:49 -0000
 
-On Tue, 2013-05-07 at 13:56 +0100, Richard Purdie wrote:
-> The <> operator is depracted, use != instead which is equavalent.
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-typos: "deprecated" (both long and short messages) and "equivalent"
+This fixes QA warnings I'm seeing when building a 'traditional'
+kernel recipe.
 
-p.
+Please pull into both master and dylan.
 
+The following changes since commit 9895d2c074156fee338d91aed7cfb0800477c622:
+
+  maintainers.inc: update sbc pkg maintainer (2013-05-07 13:58:26 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/traditional-qawarn-fix
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/traditional-qawarn-fix
+
+Tom Zanussi (1):
+  kernel.bbclass: make FILES package-specific
+
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.11.4
 
 
 
