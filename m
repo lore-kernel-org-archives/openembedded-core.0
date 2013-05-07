@@ -1,20 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f173.google.com ([74.125.82.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UZe6N-0006wG-7U
+	(envelope-from <paul.betafive@gmail.com>) id 1UZe7U-00070h-27
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 11:23:09 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 May 2013 02:02:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="333057266"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2013 02:04:24 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+	Tue, 07 May 2013 11:23:40 +0200
+Received: by mail-we0-f173.google.com with SMTP id q54so220761wes.18
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2013 02:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=V+9+IXdTDU/c9EnhmJw9sYmFEYq7BOpbXSiDZS/zVp4=;
+	b=JFHsuGXYRUfPq1d/hKdiwC4ee+S0I4b3IBtGsLzY2QA0zGVnUHZVsO9M/v85vEAyZA
+	x+MGvYgn4B+n8Lf7SgXjNJOKm+FPES6SI1GLybmVIAG8mmEtRgYcgHIScFeV7hydkIo0
+	AD2y1d86GjGoGLvM2qif+NaW92jTutznTmHDtFUgZfRxbeTkfR7hIaF3cOQAG+tLSYcC
+	VwBuwr/CfxTA3Dbb3+KFsqgoNCe1W958SrnHLRy7cF+gD64wbrPkPvomewV3fT5GtaRc
+	r88BT/VvE5WsNQ3yKXXWPNlJ3WLMzoWgmxmnHziIlnpE/Ur1N+mquB7ub+XE12ldkfEL
+	dGxw==
+X-Received: by 10.180.73.173 with SMTP id m13mr1668805wiv.27.1367917535446;
+	Tue, 07 May 2013 02:05:35 -0700 (PDT)
+Received: from vesta.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
+	[94.192.12.83])
+	by mx.google.com with ESMTPSA id dj7sm1407296wib.6.2013.05.07.02.05.33
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 07 May 2013 02:05:34 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 12:08:02 +0300
-Message-Id: <1367917682-23214-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] python-scons: upgraded to 2.3.0
+Date: Tue,  7 May 2013 10:05:22 +0100
+Message-Id: <1367917522-29378-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.8.2.2
+Subject: [PATCH] qt4: remove trailing slash from prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,78 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 09:23:16 -0000
-X-List-Received-Date: Tue, 07 May 2013 09:23:16 -0000
+X-List-Received-Date: Tue, 07 May 2013 09:23:58 -0000
 
-"2013" was added in the 'Copyright' line in LICENSE.txt.
+The trailing slashs on "Prefix=${prefix}/" and "-prefix ${prefix}/" are passed
+through to the generated pkgconfig files and may be joined to paths like
+"/include" yielding a final path with a double forward-slash (eg.
+"/usr//include"). This may end up in the debugging symbols in other applications
+or libraries which depend on qt4 which in turn causes the debugedit program to
+fail with the message "canonicalization unexpectedly shrank by one character"
+when it tries to replace the double forward-slash with a single forward-slash.
+Thus the function split_and_strip_files fails and ultimately do_package fails.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+As this slash is removed from the prefix it is added into the regular expression
+used to fix up pkgconfig files later in the recipe.
+
+This error was seen in vlc in meta-openembedded and should be solved by this
+change in openembedded-core.
+
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- ...ons-native_2.2.0.bb => python-scons-native_2.3.0.bb} |    2 +-
- meta/recipes-devtools/python/python-scons_2.2.0.bb      |   15 ---------------
- meta/recipes-devtools/python/python-scons_2.3.0.bb      |   14 ++++++++++++++
- 3 files changed, 15 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_2.2.0.bb => python-scons-native_2.3.0.bb} (100%)
- delete mode 100644 meta/recipes-devtools/python/python-scons_2.2.0.bb
- create mode 100644 meta/recipes-devtools/python/python-scons_2.3.0.bb
+ meta/recipes-qt/qt4/qt4.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_2.2.0.bb b/meta/recipes-devtools/python/python-scons-native_2.3.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_2.2.0.bb
-rename to meta/recipes-devtools/python/python-scons-native_2.3.0.bb
-index 701e0f7..87450b6 100644
---- a/meta/recipes-devtools/python/python-scons-native_2.2.0.bb
-+++ b/meta/recipes-devtools/python/python-scons-native_2.3.0.bb
-@@ -1,5 +1,5 @@
- require python-scons_${PV}.bb
- inherit native pythonnative
- DEPENDS = "python-native"
--RDEPENDS_${PN} = ""
- PR = "r0"
-+RDEPENDS_${PN} = ""
-diff --git a/meta/recipes-devtools/python/python-scons_2.2.0.bb b/meta/recipes-devtools/python/python-scons_2.2.0.bb
-deleted file mode 100644
-index b796ae8..0000000
---- a/meta/recipes-devtools/python/python-scons_2.2.0.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--DESCRIPTION = "A Software Construction Tool"
--SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61e6307bb15ee490a9ec01fd27022d7e"
--SRCNAME = "scons"
--
--PR = "r0"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "f737f474a02d08156c821bd2d4d4b632"
--SRC_URI[sha256sum] = "f7fcd11a7af7ec13d587a2f7cf14a92e3223eea64bf078454a9856ec0ab465b9"
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit distutils
-diff --git a/meta/recipes-devtools/python/python-scons_2.3.0.bb b/meta/recipes-devtools/python/python-scons_2.3.0.bb
-new file mode 100644
-index 0000000..1110f6e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-scons_2.3.0.bb
-@@ -0,0 +1,14 @@
-+DESCRIPTION = "A Software Construction Tool"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=98e9a1e6029e715255c52032a1eba637"
-+SRCNAME = "scons"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "083ce5624d6adcbdaf2526623f456ca9"
-+SRC_URI[sha256sum] = "9442069999cf4b2caa94a5886ab4c2c71de1718ed5e9176c18e2b6dbca463b4b"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit distutils
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 37fc1dd..84c0ae9 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -213,7 +213,7 @@ do_configure() {
+ 	cp -f ${WORKDIR}/linux.conf mkspecs/common/
+ 
+ 	echo "[Paths]"                                 > $QT_CONF_PATH
+-	echo "Prefix=${prefix}/"                      >> $QT_CONF_PATH
++	echo "Prefix=${prefix}"                       >> $QT_CONF_PATH
+ 	echo "Documentation=${docdir}/${QT_DIR_NAME}" >> $QT_CONF_PATH
+ 	echo "Headers=${includedir}/${QT_DIR_NAME}"   >> $QT_CONF_PATH
+ 	echo "Libraries=${libdir}"                    >> $QT_CONF_PATH
+@@ -229,7 +229,7 @@ do_configure() {
+ 	${EXTRA_QMAKE_MUNGE}|| true
+ 
+ 	echo yes | QT_LICENSE_FILE="${QT_LICENSE_FILE}" ./configure -v \
+-			-prefix ${prefix}/ \
++			-prefix ${prefix} \
+ 			-bindir ${bindir} \
+ 			-libdir ${libdir} \
+ 			-datadir ${datadir}/${QT_DIR_NAME} \
+@@ -358,7 +358,7 @@ do_install() {
+ 
+ 	# QT abuses $includedir to point to its headers, which breaks pkgconfig sysroot, so manually fix it up here:
+ 	for pc in ${D}${libdir}/pkgconfig/*.pc ; do
+-		sed -i -e "s:prefix}include/${QT_DIR_NAME}/$(basename $pc .pc):prefix}/include:" \
++		sed -i -e "s:prefix}/include/${QT_DIR_NAME}/$(basename $pc .pc):prefix}/include:" \
+ 				-e 's:IP{:I${:g' $pc
+ 	done
+ 
 -- 
-1.7.10.4
+1.8.2.2
 
 
 
