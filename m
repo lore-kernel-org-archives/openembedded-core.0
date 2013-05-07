@@ -1,25 +1,25 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZemn-0003Wo-A9
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZemo-0003XE-OE
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 May 2013 12:06:20 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r479mGX6004143
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r479mIxe004146
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 May 2013 02:48:16 -0700 (PDT)
+	Tue, 7 May 2013 02:48:18 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 7 May 2013 02:48:15 -0700
+	14.2.342.3; Tue, 7 May 2013 02:48:17 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <dvhart@linux.intel.com>
-Date: Tue, 7 May 2013 05:48:07 -0400
-Message-ID: <94be0555ccb2640be96633e8753c1bc6b70477b8.1367919920.git.liezhi.yang@windriver.com>
+Date: Tue, 7 May 2013 05:48:08 -0400
+Message-ID: <38c4fbc026089ad28ec7c1719e720bbc49112f41.1367919920.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1367919920.git.liezhi.yang@windriver.com>
 References: <cover.1367919920.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] e2fsprogs: add populate-extfs.sh
+Subject: [PATCH 4/4] image_types.bbclass: replace genext2fs with populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,151 +35,118 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 07 May 2013 10:06:50 -0000
 Content-Type: text/plain
 
-This script is originally from Darren Hart, it will be used for creating
-the ext* filesystem from a given directory, which will replace the
-genext2fs in image_types.bbclass at the moment, we may use the mke2fs to
-replace this script again when it has the initial directory support.
+* The benefits:
+  - Really support ext4
+  - Support the sparse file (we lost the sparse file in the image in the
+    past, the sparse file became into the common file)
+  - Have a uniform code for ext2/3/4 generation
 
-Changes of the script:
-* Rename it from mkdebugfs.sh to populate-extfs.sh
-* Add a simple usage
-* Add checking for the number of the parameters
-* Add the "regular empty file" and "fifo" file type
-* Set mode, uid and gid for the file
-* Save the command lines to a file and batch run them
-* Change the error message
-* Improve the performance
-* Add the support for hardlink
+* Comments from Darren Hart:
+Basically, genext2fs doesn't support creating ext4 filesystems. It
+creates, as I understand it, an ext2 filesystem, then adds a journal,
+and sets some bits. It can't support the newer features like extents. So
+what we end up with is a bit of a hack for a filesystem.
+
+The ext tools (e2fsprogs) unfortunately don't provide an integrated
+solution for generating prepopulated filesystem images as many other
+mkfs* tools do. One thing missing was symlink support in libext2fs. I
+added that support and demonstrated a script which uses the e2fsprogs
+debugfs tool that can populate the newly formatted filesystem from a
+directory and without root privileges.
+
+This patches integrate this stage of development into OE-Core. We can
+go about this in two ways. One is to just prototype this in a branch and
+use it to validate the functionality and not make any changes to oe-core
+image generation until mke2fs has initial directory support. The other
+is to merge this and get broader testing of the concept and later move
+to the full mke2fs implementation once it becomes available. I
+understand the resistance to the latter, but long term I think it will
+result in a more robust solution as we will have caught more of the
+corner cases and have been able to do a better job integrating into
+mke2fs the first time.
 
 [YOCTO #3848]
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh   |   93 ++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    2 +
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
+ meta/classes/image_types.bbclass |   46 +++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 28 deletions(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
-new file mode 100644
-index 0000000..5f2c307
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
-@@ -0,0 +1,93 @@
-+#!/bin/sh
-+
-+do_usage () {
-+	cat << _EOF
-+Usage: populate-extfs.sh <source> <device>
-+Create an ext2/ext3/ext4 filesystem from a directory or file
-+
-+  source: The source directory or file
-+  device: The target device
-+
-+_EOF
-+	exit 1
-+}
-+
-+[ $# -ne 2 ] && do_usage
-+
-+SRCDIR=${1%%/}
-+DEVICE=$2
-+DEBUGFS="debugfs"
-+
-+{
-+	CWD="/"
-+	find $SRCDIR | while read FILE; do
-+                TGT="${FILE##*/}"
-+                DIR="${FILE#$SRCDIR}"
-+                DIR="${DIR%$TGT}"
-+
-+		# Skip the root dir
-+		[ ! -z "$DIR" ] || continue
-+		[ ! -z "$TGT" ] || continue
-+
-+		if [ "$DIR" != "$CWD" ]; then
-+			echo "cd $DIR"
-+			CWD="$DIR"
-+		fi
-+
-+		# Only stat once since stat is a time consuming command
-+		STAT=$(stat -c "TYPE=\"%F\";DEVNO=\"0x%t 0x%T\";MODE=\"%f\";U=\"%u\";G=\"%g\"" $FILE)
-+		eval $STAT
-+
-+		case $TYPE in
-+		"directory")
-+			echo "mkdir $TGT"
-+			;;
-+		"regular file" | "regular empty file")
-+			echo "write $FILE $TGT"
-+			;;
-+		"symbolic link")
-+			LINK_TGT=$(readlink $FILE)
-+			echo "symlink $TGT $LINK_TGT"
-+			;;
-+		"block special file" | "character special file")
-+			echo "mknod $TGT b $DEVNO"
-+			;;
-+		"fifo")
-+			echo "mknod $TGT p"
-+			;;
-+		*)
-+			echo "Unknown/unhandled file type '$TYPE' file: $FILE" 1>&2
-+			;;
-+		esac
-+
-+		# Set the file mode
-+		echo "sif $TGT mode 0x$MODE"
-+
-+		# Set uid and gid
-+		echo "sif $TGT uid $U"
-+		echo "sif $TGT gid $G"
-+	done
-+
-+	# Handle the hard links.
-+	# Save the hard links to a file, use the inode number as the filename, for example:
-+	# If a and b's inode number is 6775928, save a and b to /tmp/tmp.VrCwHh5gdt/6775928.
-+	INODE_DIR=`mktemp -d` || exit 1
-+	for i in `find $SRCDIR -type f -links +1 -printf 'INODE=%i###FN=%p\n'`; do
-+		eval `echo $i | sed 's$###$ $'`
-+		echo ${FN#$SRCDIR} >>$INODE_DIR/$INODE
-+	done
-+	# Use the debugfs' ln and "sif links_count" to handle them.
-+	for i in `ls $INODE_DIR`; do
-+		# The link source
-+		SRC=`head -1 $INODE_DIR/$i`
-+		# Remove the files and link them again except the first one
-+		for TGT in `sed -n -e '1!p' $INODE_DIR/$i`; do
-+			echo "rm $TGT"
-+			echo "ln $SRC $TGT"
-+		done
-+		LN_CNT=`cat $INODE_DIR/$i | wc -l`
-+		# Set the links count
-+		echo "sif $SRC links_count $LN_CNT"
-+	done
-+	rm -fr $INODE_DIR
-+} | $DEBUGFS -w -f - $DEVICE
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
-index b547036..f2590f5 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://remove.ldconfig.call.patch \
-             file://debugfs-too-short.patch \
-             file://sparse_copy.patch \
-+            file://populate-extfs.sh \
- "
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 94837ae..0476753 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -137,34 +137,24 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
  
- SRC_URI[md5sum] = "a1ec22ef003688dae9f76c74881b22b9"
-@@ -43,6 +44,7 @@ do_install_append () {
- 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
- 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
- 	fi
-+	install -m 0755 ${WORKDIR}/populate-extfs.sh ${D}${bindir}
+ IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+ 
+-IMAGE_CMD_ext2 () {
+-	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
+-	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
+-	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+-}
++oe_mkext234fs () {
++	fstype=$1
++	extra_imagecmd=""
+ 
+-IMAGE_CMD_ext3 () {
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+-	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+-}
++	if [ $# -gt 1 ]; then
++		shift
++		extra_imagecmd=$@
++	fi
+ 
+-oe_mkext4fs () {
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
+-	tune2fs -O extents,uninit_bg,dir_index,has_journal $1
+-	e2fsck -yfDC0 $1 || chk=$?
+-	case $chk in
+-	0|1|2)
+-	    ;;
+-	*)
+-	    return $chk
+-	    ;;
+-	esac
++	# Create a sparse image block
++	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype seek=$ROOTFS_SIZE count=0 bs=1k
++	yes | mkfs.$fstype $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
++	populate-extfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
  }
  
- RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
+-IMAGE_CMD_ext4 () {
+-	oe_mkext4fs ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
+-}
++IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
++IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
++IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
+ 
+ IMAGE_CMD_btrfs () {
+ 	mkfs.btrfs -b `expr ${ROOTFS_SIZE} \* 1024` ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
+@@ -214,7 +204,7 @@ JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-
+ JFFS2_ERASEBLOCK ?= "0x40000"
+ EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
+ 
+-# Change these if you want default genext2fs behavior (i.e. create minimal inode number)
++# Change these if you want default mkfs behavior (i.e. create minimal inode number)
+ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext3 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext4 ?= "-i 8192"
+@@ -225,9 +215,9 @@ IMAGE_DEPENDS = ""
+ IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+ IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
+ IMAGE_DEPENDS_cramfs = "cramfs-native"
+-IMAGE_DEPENDS_ext2 = "genext2fs-native"
+-IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
+-IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
++IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
++IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
++IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
+ IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+ IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+ IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
 -- 
 1.7.10.4
 
