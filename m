@@ -1,40 +1,20 @@
-Received: from mail-vc0-f178.google.com ([209.85.220.178])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.betafive@gmail.com>)
-	id 1UZdhm-0003r5-6O; Tue, 07 May 2013 10:57:07 +0200
-Received: by mail-vc0-f178.google.com with SMTP id kw10so244003vcb.37
-	for <multiple recipients>; Tue, 07 May 2013 01:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=Ptf+sA+ML2A2asrTx+NRNnCAB1NAA+g4PM/esOZCZzw=;
-	b=D2fkuMYhjAG8wH4ili4usFmc6lMFg5ydMLyZuwWPCGO2/JaJ7K21YipTZ33F5cC31/
-	tMkYF0345U5zdTZwXycViqATI20OSRyrkZ2LPJHnAH5o0yGPXZhanUxksHqLkXVjvotS
-	lKmPh/bMYlMNO6Ut6R76PgvTxbYaDw30JgBaDkP1VK3az2I7iGOFmyFOpfqUssmxaac2
-	/gyWm5y6Vl+1Oc2PDHIyruR/bqhDUmUygBEFk5p1h7RCn+t5y7bnMFjlZ/fpyN4qOFC2
-	fllqy/BCQb+xB+PA+TiHrNpm9RkXwGmDUVWOYl/OaF3RJuR2Z7uXkh7IroZBmQvB9Yec
-	Dz2Q==
-X-Received: by 10.52.32.37 with SMTP id f5mr473233vdi.28.1367915940960; Tue,
-	07 May 2013 01:39:00 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.48.5 with HTTP; Tue, 7 May 2013 01:38:40 -0700 (PDT)
-In-Reply-To: <CAHUNapTu45Wpm1zx+vpHUgyduk8rnzdJSninsoOOw6v34ViipQ@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<5183C9CF.3060304@herbrechtsmeier.net>
-	<5187A0D3.2080607@herbrechtsmeier.net>
-	<CANyK_8fT_rvPPo4LJz2BcSD-ra8435m4GefggL0jgeFC1kLxRQ@mail.gmail.com>
-	<CAHUNapTu45Wpm1zx+vpHUgyduk8rnzdJSninsoOOw6v34ViipQ@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 7 May 2013 09:38:40 +0100
-X-Google-Sender-Auth: HLLN5Id9kKT2olqyixvJD84T7DE
-Message-ID: <CANyK_8cqMs0MBjrLBUO3eGYrWcN4xFzkbfSK7x0QF5nb1DBSxA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UZdjf-00044W-6h
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 May 2013 10:59:09 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 07 May 2013 01:40:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="237931502"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 May 2013 01:40:56 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2013 11:44:34 +0300
+Message-Id: <1367916274-17480-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] bison: upgraded to 2.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 08:57:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 07 May 2013 08:59:18 -0000
 
-On 6 May 2013 20:47, Trevor Woerner <twoerner@gmail.com> wrote:
->
-> but until I can register for the
-> openembedded-devel mailing list I don't have anywhere to send it.
->
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ meta/recipes-devtools/bison/{bison_2.7.bb => bison_2.7.1.bb} |    8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/bison/{bison_2.7.bb => bison_2.7.1.bb} (85%)
 
-Have you tried emailing
-openembedded-devel-owner@lists.openembedded.org about the problems
-you've had registering?
+diff --git a/meta/recipes-devtools/bison/bison_2.7.bb b/meta/recipes-devtools/bison/bison_2.7.1.bb
+similarity index 85%
+rename from meta/recipes-devtools/bison/bison_2.7.bb
+rename to meta/recipes-devtools/bison/bison_2.7.1.bb
+index 373651e..10bd8e3 100644
+--- a/meta/recipes-devtools/bison/bison_2.7.bb
++++ b/meta/recipes-devtools/bison/bison_2.7.1.bb
+@@ -9,9 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SECTION = "devel"
+ DEPENDS = "bison-native flex-native"
+ 
+-PR = "r1"
+-
+-BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
++BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+ 	        file://m4.patch \
+                 file://dont-depend-on-help2man.patch \
+ 	       "
+@@ -23,8 +21,8 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://fix_cross_manpage_building.patch \
+           "
+ 
+-SRC_URI[md5sum] = "ded660799e76fb1667d594de1f7a0da9"
+-SRC_URI[sha256sum] = "19bbe7374fd602f7a6654c131c21a15aebdc06cc89493e8ff250cb7f9ed0a831"
++SRC_URI[md5sum] = "7be02eb973eccf388f1ae750fc09eed0"
++SRC_URI[sha256sum] = "b409adcbf245baadb68d2f66accf6fdca5e282cafec1b865f4b5e963ba8ea7fb"
+ 
+ LDFLAGS_prepend_libc-uclibc = " -lrt "
+ DEPENDS_class-native = "gettext-minimal-native"
+-- 
+1.7.10.4
 
---
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
 
