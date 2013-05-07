@@ -1,32 +1,32 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1UZhj3-0007kh-TE
+	(envelope-from <richard@rpsys.net>) id 1UZhj4-0007ki-8S
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 May 2013 15:14:41 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r47CwgdE005214; Tue, 7 May 2013 13:58:51 +0100
+	r47CwgQ8005212; Tue, 7 May 2013 13:58:52 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KlPD-iFKm-U3; Tue,  7 May 2013 13:58:51 +0100 (BST)
+	with LMTP id gQrwlhE8v31V; Tue,  7 May 2013 13:58:52 +0100 (BST)
 Received: from ted (bebox.config [93.97.175.187] (may be forged))
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r47Cwe4x005196
+	r47CweSo005197
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
 	Tue, 7 May 2013 13:58:41 +0100
 Received: from richard by ted with local (Exim 4.80)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1UZhRI-0005ch-GV; Tue, 07 May 2013 13:56:16 +0100
+	id 1UZhRI-0005cm-MF; Tue, 07 May 2013 13:56:16 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 13:56:06 +0100
-Message-Id: <1367931368-21504-14-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue,  7 May 2013 13:56:07 +0100
+Message-Id: <1367931368-21504-15-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1367931368-21504-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1367931368-21504-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 14/15] bitbake.conf: Use casting to ensure valid comparision
+Subject: [PATCH 15/15] base.bbclass: Drop unused/obsolete import
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,36 +41,24 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 May 2013 13:15:41 -0000
 
-python3 is stricter about type comparisions so add an explicit cast to int()
-to ensure this code is portable.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d5e923b..8d4ccce 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -188,7 +188,7 @@ PV = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '1.0'}"
- PR = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or 'r0'}"
- PRINC ?= "0"
- PF = "${PN}-${EXTENDPE}${PV}-${PR}"
--EXTENDPE = "${@['','${PE\x7d_'][d.getVar('PE',1) > 0]}"
-+EXTENDPE = "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
- P = "${PN}-${PV}"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 196acdb..b1642a2 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -394,7 +394,7 @@ def set_packagetriplet(d):
+     settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
  
- EXTENDPRAUTO = "${@['.${PRAUTO\x7d',''][d.getVar('PRAUTO',1) is None]}"
-@@ -196,7 +196,7 @@ PRAUTOINX = "${PF}"
+ python () {
+-    import exceptions, string, re
++    import string, re
  
- PKGV ?= "${PV}"
- PKGR ?= "${PR}${EXTENDPRAUTO}"
--PKGE ?= "${@['','${PE\x7d'][d.getVar('PE',1) > 0]}"
-+PKGE ?= "${@['','${PE\x7d'][int(d.getVar('PE',1) or 0) > 0]}"
- EXTENDPKGEVER = "${@['','${PKGE\x7d:'][d.getVar('PKGE',1).strip() != '']}"
- EXTENDPKGV ?= "${EXTENDPKGEVER}${PKGV}-${PKGR}"
- 
+     # Handle PACKAGECONFIG
+     #
 -- 
 1.7.10.4
 
