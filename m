@@ -1,37 +1,27 @@
-Received: from mail-vc0-f181.google.com ([209.85.220.181])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UZfqJ-0003eq-Ne
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UZfyy-0004Mk-Km
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 13:14:00 +0200
-Received: by mail-vc0-f181.google.com with SMTP id hr11so329811vcb.26
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2013 03:55:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=6/5bnQllQuGRDrYLs4Sg1WagJO8Nx+LJL7u+LVJm480=;
-	b=i2wpaQrr3IlESCGOM3/h30a5Qovbcw7BKJ7kzxtnLRCTcUxcWmmWEu8vhG3cffwn8O
-	MCTxon+ua4zMSXH4rGiWpgBmg7pMltn26o9LytIdPzW1AsndzCpQiUwAjSnuo2p+9Cei
-	EtJBTzPU2zvNgGjwTlQOtbQrSQ2ddurSI2O/RFSoYsY5cGPF3fjFGQ8jlyAOEGJXmfxM
-	zRIVmnmc9FVnI0/31pptfG6sxn9MGfzBS6fugbiPDJkXnTE8CAiK5kWPK3zO/+LR5Rgs
-	BOM5pMHphWg4y7z0s9v/3QQuXp+dK5EyN6D0DGCcDYm52R3dDPdaT7VlsiUd7x9eeC0N
-	+i6w==
-X-Received: by 10.52.18.206 with SMTP id y14mr687486vdd.29.1367924158458; Tue,
-	07 May 2013 03:55:58 -0700 (PDT)
+	Tue, 07 May 2013 13:22:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 May 2013 04:04:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="333112908"
+Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
+	([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 07 May 2013 04:04:54 -0700
+Message-ID: <5188DFD5.3020901@intel.com>
+Date: Tue, 07 May 2013 14:04:53 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Tue, 7 May 2013 03:55:38 -0700 (PDT)
-In-Reply-To: <5188D791.1070505@pseudoterminal.org>
-References: <1367787030-5056-1-git-send-email-dv@pseudoterminal.org>
-	<CAJTo0LZrtVHq4PpF4uEL+_GeQBzDOMTEu-rt39j7agamGOe+MQ@mail.gmail.com>
-	<5188D791.1070505@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 May 2013 11:55:38 +0100
-Message-ID: <CAJTo0LbNWO3OSQZHN7e0pa7Dq3iY02k8GVSR3LqmEkdU3Dd1hQ@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-X-Gm-Message-State: ALoCoQk1CF0Kjsnx3Qr0ck/GC9//mYcutP05VuycFN/zgFbtfID8DRVg7ZFD3wy4jExfUEN8s1ia
+To: Kevin Strasser <kevin.strasser@linux.intel.com>
+References: <1367571664-2079-1-git-send-email-laurentiu.palcu@intel.com>
+	<20130503214032.GA26747@wrk> <5188C9FB.1000507@intel.com>
+In-Reply-To: <5188C9FB.1000507@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gstreamer: Fixed dependency problem with -meta packages
+Subject: Re: [PATCH] archive-*-source.bbclass: have do_dumpdata_create_diff_gz task run before do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,16 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 11:14:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 May 2013 11:22:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 7 May 2013 11:29, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
-> True, however I wonder if somebody relies on these packages being there.
-> Is it acceptable to break compatibility here?
 
-They haven't been there for a while and 1.4 is shipping without them
-so I'd endorse cleaning them up instead of having empty packages.
 
-Ross
+On 05/07/2013 12:31 PM, Laurentiu Palcu wrote:
+> Hi Kevin,
+> 
+> On 05/04/2013 12:40 AM, Kevin Strasser wrote:
+>> Hi Laurentiu,
+>>
+>> On Fri, May 03, 2013 at 12:01:04PM +0300, Laurentiu Palcu wrote:
+>>>> do_rootfs[cleandirs] contains ${S} and, if do_rootfs task starts before
+>>>> the do_dumpdata_create_diff_gz is finished, an error will occur in the
+>>>> process because the directory will be removed while still needed by the
+>>>> create_diff_gz() function.
+>>>>
+>>>> This patch will force the do_dumpdata_create_diff_gz task to run before
+>>>> do_rootfs when the final image is created.
+>>>>
+>>>> [YOCTO #4310]
+>>>>
+>>>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>>>> ---
+>>>>  meta/classes/archive-configured-source.bbclass |    2 +-
+>>>>  meta/classes/archive-original-source.bbclass   |    2 +-
+>>>>  meta/classes/archive-patched-source.bbclass    |    2 +-
+>>>>  3 files changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+>>>> index d346f69..a481b14 100644
+>>>> --- a/meta/classes/archive-configured-source.bbclass
+>>>> +++ b/meta/classes/archive-configured-source.bbclass
+>>>> @@ -14,7 +14,7 @@ addtask do_archive_configured_sources after do_configure
+>>>>  addtask do_archive_scripts_logs
+>>>>  
+>>>>  # Get dump date and create diff file 
+>>>> -addtask do_dumpdata_create_diff_gz
+>>>> +addtask do_dumpdata_create_diff_gz before do_rootfs
+>> This will always add the task to the build, and break our ability to
+>> filter out packages. I would suggest handling this dependency in the
+>> anonymous python function after filtering has been applied.
+Indeed, after adding MIT to COPYLEFT_LICENSE_EXCLUDE, the task is still
+added as a dependency to the image's do_rootfs... I'll try a fix this in
+the anonymous python function.
+
+Thanks,
+Laurentiu
+
+> AFAIK, the 'before do_rootfs' doesn't add the task to the build. It
+> actually forces the task to be run before do_rootfs. I have just tested
+> this with ARCHIVER_MODE[filter] set to both "no" and "yes" and playing
+> with COPYLEFT_LICENSE_INCLUDE and COPYLEFT_LICENSE_EXCLUDE. It seeems to
+> produce the desired effect.
+> 
+> However, and this might be an issue but I'm not sure if this is the
+> desired behavior(I have to dig in a little), changing
+> ARCHIVER_MODE[filter] in local.conf does not trigger a recipe reparsing
+> and you might not see the effect you're expecting. Try removing the
+> tmp/cache first.
+> 
+> Thanks,
+> Laurentiu
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
