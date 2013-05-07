@@ -1,21 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1UZiFl-0003A5-JF
+	(envelope-from <tom.zanussi@intel.com>) id 1UZiFS-00038y-LN
 	for openembedded-core@lists.openembedded.org;
 	Tue, 07 May 2013 15:48:44 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 May 2013 06:30:24 -0700
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 07 May 2013 06:30:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,628,1363158000"; d="scan'208";a="333863348"
+X-IronPort-AV: E=Sophos;i="4.87,628,1363158000"; d="scan'208";a="238039415"
 Received: from unknown (HELO localhost) ([10.255.12.242])
-	by fmsmga002.fm.intel.com with ESMTP; 07 May 2013 06:30:02 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 07 May 2013 06:30:04 -0700
 From: tom.zanussi@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 08:30:00 -0500
-Message-Id: <cover.1367933207.git.tom.zanussi@linux.intel.com>
+Date: Tue,  7 May 2013 08:30:03 -0500
+Message-Id: <a5db1ce0751cfa6ac2c24db5e881b17965f8422e.1367933207.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.7.11.4
+In-Reply-To: <cover.1367933207.git.tom.zanussi@linux.intel.com>
+References: <cover.1367933207.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/1] squelch kernel.bblass QA warning
+Subject: [PATCH 1/1] kernel.bbclass: make FILES package-specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,26 +34,29 @@ X-List-Received-Date: Tue, 07 May 2013 13:48:49 -0000
 
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-This fixes QA warnings I'm seeing when building a 'traditional'
-kernel recipe.
+Fix QA warnings seen when using 'traditional' kernel recipes e.g.:
 
-Please pull into both master and dylan.
+WARNING: QA Issue: .../recipes-kernel/linux/linux_3.0.18.bb: Variable
+FILES is set as not being package specific, please fix this.
 
-The following changes since commit 9895d2c074156fee338d91aed7cfb0800477c622:
-
-  maintainers.inc: update sbc pkg maintainer (2013-05-07 13:58:26 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/traditional-qawarn-fix
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/traditional-qawarn-fix
-
-Tom Zanussi (1):
-  kernel.bbclass: make FILES package-specific
-
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
  meta/classes/kernel.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 00e27ef..3320747 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -252,7 +252,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERISON}
+ PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
+-FILES = ""
++FILES_${PN} = ""
+ FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+ FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
 -- 
 1.7.11.4
 
