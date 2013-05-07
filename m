@@ -1,25 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZemo-0003XE-OE
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UZenn-0003bY-8K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 12:06:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r479mIxe004146
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 May 2013 02:48:18 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 7 May 2013 02:48:17 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <dvhart@linux.intel.com>
-Date: Tue, 7 May 2013 05:48:08 -0400
-Message-ID: <38c4fbc026089ad28ec7c1719e720bbc49112f41.1367919920.git.liezhi.yang@windriver.com>
+	Tue, 07 May 2013 12:07:23 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 07 May 2013 02:49:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="333772463"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by fmsmga002.fm.intel.com with ESMTP; 07 May 2013 02:48:59 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2013 12:52:37 +0300
+Message-Id: <1367920357-27630-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1367919920.git.liezhi.yang@windriver.com>
-References: <cover.1367919920.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] image_types.bbclass: replace genext2fs with populate-extfs.sh
+Subject: [PATCH v2] python-scons: upgraded to 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,121 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 10:06:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 May 2013 10:07:35 -0000
 
-* The benefits:
-  - Really support ext4
-  - Support the sparse file (we lost the sparse file in the image in the
-    past, the sparse file became into the common file)
-  - Have a uniform code for ext2/3/4 generation
+"2013" was added in the 'Copyright' line in LICENSE.txt.
 
-* Comments from Darren Hart:
-Basically, genext2fs doesn't support creating ext4 filesystems. It
-creates, as I understand it, an ext2 filesystem, then adds a journal,
-and sets some bits. It can't support the newer features like extents. So
-what we end up with is a bit of a hack for a filesystem.
-
-The ext tools (e2fsprogs) unfortunately don't provide an integrated
-solution for generating prepopulated filesystem images as many other
-mkfs* tools do. One thing missing was symlink support in libext2fs. I
-added that support and demonstrated a script which uses the e2fsprogs
-debugfs tool that can populate the newly formatted filesystem from a
-directory and without root privileges.
-
-This patches integrate this stage of development into OE-Core. We can
-go about this in two ways. One is to just prototype this in a branch and
-use it to validate the functionality and not make any changes to oe-core
-image generation until mke2fs has initial directory support. The other
-is to merge this and get broader testing of the concept and later move
-to the full mke2fs implementation once it becomes available. I
-understand the resistance to the latter, but long term I think it will
-result in a more robust solution as we will have caught more of the
-corner cases and have been able to do a better job integrating into
-mke2fs the first time.
-
-[YOCTO #3848]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/classes/image_types.bbclass |   46 +++++++++++++++-----------------------
- 1 file changed, 18 insertions(+), 28 deletions(-)
+ ...ons-native_2.2.0.bb => python-scons-native_2.3.0.bb} |    1 -
+ meta/recipes-devtools/python/python-scons_2.2.0.bb      |   15 ---------------
+ meta/recipes-devtools/python/python-scons_2.3.0.bb      |   14 ++++++++++++++
+ 3 files changed, 14 insertions(+), 16 deletions(-)
+ rename meta/recipes-devtools/python/{python-scons-native_2.2.0.bb => python-scons-native_2.3.0.bb} (91%)
+ delete mode 100644 meta/recipes-devtools/python/python-scons_2.2.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-scons_2.3.0.bb
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 94837ae..0476753 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -137,34 +137,24 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
- 
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
- 
--IMAGE_CMD_ext2 () {
--	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
--	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
--	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--}
-+oe_mkext234fs () {
-+	fstype=$1
-+	extra_imagecmd=""
- 
--IMAGE_CMD_ext3 () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--}
-+	if [ $# -gt 1 ]; then
-+		shift
-+		extra_imagecmd=$@
-+	fi
- 
--oe_mkext4fs () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
--	tune2fs -O extents,uninit_bg,dir_index,has_journal $1
--	e2fsck -yfDC0 $1 || chk=$?
--	case $chk in
--	0|1|2)
--	    ;;
--	*)
--	    return $chk
--	    ;;
--	esac
-+	# Create a sparse image block
-+	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype seek=$ROOTFS_SIZE count=0 bs=1k
-+	yes | mkfs.$fstype $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
-+	populate-extfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
- }
- 
--IMAGE_CMD_ext4 () {
--	oe_mkext4fs ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
--}
-+IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
- 
- IMAGE_CMD_btrfs () {
- 	mkfs.btrfs -b `expr ${ROOTFS_SIZE} \* 1024` ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
-@@ -214,7 +204,7 @@ JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-
- JFFS2_ERASEBLOCK ?= "0x40000"
- EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
- 
--# Change these if you want default genext2fs behavior (i.e. create minimal inode number)
-+# Change these if you want default mkfs behavior (i.e. create minimal inode number)
- EXTRA_IMAGECMD_ext2 ?= "-i 8192"
- EXTRA_IMAGECMD_ext3 ?= "-i 8192"
- EXTRA_IMAGECMD_ext4 ?= "-i 8192"
-@@ -225,9 +215,9 @@ IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_cramfs = "cramfs-native"
--IMAGE_DEPENDS_ext2 = "genext2fs-native"
--IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
--IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
-+IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
+diff --git a/meta/recipes-devtools/python/python-scons-native_2.2.0.bb b/meta/recipes-devtools/python/python-scons-native_2.3.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python-scons-native_2.2.0.bb
+rename to meta/recipes-devtools/python/python-scons-native_2.3.0.bb
+index 701e0f7..1e4ec27 100644
+--- a/meta/recipes-devtools/python/python-scons-native_2.2.0.bb
++++ b/meta/recipes-devtools/python/python-scons-native_2.3.0.bb
+@@ -2,4 +2,3 @@ require python-scons_${PV}.bb
+ inherit native pythonnative
+ DEPENDS = "python-native"
+ RDEPENDS_${PN} = ""
+-PR = "r0"
+diff --git a/meta/recipes-devtools/python/python-scons_2.2.0.bb b/meta/recipes-devtools/python/python-scons_2.2.0.bb
+deleted file mode 100644
+index b796ae8..0000000
+--- a/meta/recipes-devtools/python/python-scons_2.2.0.bb
++++ /dev/null
+@@ -1,15 +0,0 @@
+-DESCRIPTION = "A Software Construction Tool"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61e6307bb15ee490a9ec01fd27022d7e"
+-SRCNAME = "scons"
+-
+-PR = "r0"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "f737f474a02d08156c821bd2d4d4b632"
+-SRC_URI[sha256sum] = "f7fcd11a7af7ec13d587a2f7cf14a92e3223eea64bf078454a9856ec0ab465b9"
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit distutils
+diff --git a/meta/recipes-devtools/python/python-scons_2.3.0.bb b/meta/recipes-devtools/python/python-scons_2.3.0.bb
+new file mode 100644
+index 0000000..1110f6e
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-scons_2.3.0.bb
+@@ -0,0 +1,14 @@
++DESCRIPTION = "A Software Construction Tool"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=98e9a1e6029e715255c52032a1eba637"
++SRCNAME = "scons"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "083ce5624d6adcbdaf2526623f456ca9"
++SRC_URI[sha256sum] = "9442069999cf4b2caa94a5886ab4c2c71de1718ed5e9176c18e2b6dbca463b4b"
++
++S = "${WORKDIR}/${SRCNAME}-${PV}"
++
++inherit distutils
 -- 
 1.7.10.4
 
