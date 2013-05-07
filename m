@@ -1,39 +1,38 @@
-Received: from mail-ea0-f178.google.com ([209.85.215.178])
+Received: from mail-vb0-f54.google.com ([209.85.212.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UZlbW-0003hN-F5
+	(envelope-from <ross.burton@intel.com>) id 1UZlf7-0004D3-2Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 19:23:09 +0200
-Received: by mail-ea0-f178.google.com with SMTP id m14so452145eaj.37
+	Tue, 07 May 2013 19:26:53 +0200
+Received: by mail-vb0-f54.google.com with SMTP id f12so708043vbg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2013 10:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=0P9BopXh4P62K4wsVlpvOU2HCitY9HsgkV+c1WlPPp8=;
-	b=qQ7OzTusLvC/NMUutQpLw17OkJBicp5C3mhipqtb7P1IxzgpTP2MN+Uh15DzxMMq5R
-	oQOgnPES0uzZ146i12JXnFG8hHQl3OukNbuKhUyh7dMTN+otIVo65JYg7lZolTJzvKdB
-	rbzYa2xaQHFeE9QGspmdw1ajASwsjTqeQPYMUsYF1/8JxY+C4shmCl3uaNWKMwG4eUEo
-	Q2DfwjTel+yJGIfY2/GFTrtx0Di1JrXRU6y85A9ZWOAavpUCWpVeAzIlS+i5nE8E5NYL
-	IFgPc2QcfOXAxh2h0/4IpqUIsZrFzKCV9gzj3Hc705365c0bVtuGzDT2tbYIpwvfGrBn
-	w2TQ==
-X-Received: by 10.14.3.137 with SMTP id 9mr7416389eeh.0.1367946278489;
-	Tue, 07 May 2013 10:04:38 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	w43sm34108277eeg.14.2013.05.07.10.04.37 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 07 May 2013 10:04:37 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 19:04:29 +0200
-Message-Id: <c996e358de314f78db08b6e92a7cbd152584681c.1367946177.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <cover.1367946177.git.Martin.Jansa@gmail.com>
-References: <cover.1367946177.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1367946177.git.Martin.Jansa@gmail.com>
-References: <cover.1367946177.git.Martin.Jansa@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 1/2] tune-thumb.inc: Remove, replaced by arm/feature-arm-thumb.inc
+	Tue, 07 May 2013 10:08:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=cMkdKzzGTlbohRk8GbsLRlS+pB8AL4/6+zo+1fQw5rQ=;
+	b=YvEYCyRoyz/BGJPBsXI9IPyVhN5QCzR9m70juPGiRLJzdXildYnVcpq3DJxjgMU/fL
+	B07i/s2bjYoH1wNaYk8puif55Xb/76HCpEgfkOtv1sxZKIuDfDGuYv0e2RjDa+gbls3F
+	CLUm1Z4xYR6dJHp1yN/SyvfWuDUeL+qhXbZ6tf/2kheVxAeaWWSp8gNo2ntkmT8tzXkJ
+	BjcFyr38Z2f/cLZT3QH7X2yD3lk2EWhEoyv8o8U1+pWgsdrd8LFkwy4SmkKc1l4O6DO5
+	tjwatPuIOixD3Pai8QYodWn3VmSJY/XnqpkqtadQX4PzBRpWwiZi79m6q6JdEfuh7PR4
+	Bgww==
+X-Received: by 10.52.37.196 with SMTP id a4mr1615798vdk.82.1367946526150; Tue,
+	07 May 2013 10:08:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.221.8.3 with HTTP; Tue, 7 May 2013 10:08:26 -0700 (PDT)
+In-Reply-To: <51892A18.4020508@linux.intel.com>
+References: <1367941787-8508-1-git-send-email-ross.burton@intel.com>
+	<CADkTA4Oq_2OuhPVjBuowpkyoLMrwnPZyKmGxAwTLABQo7wzfiw@mail.gmail.com>
+	<51892A18.4020508@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 May 2013 18:08:26 +0100
+Message-ID: <CAJTo0LaJfgf5AkEdpdfTnLcKieusez2xdmVP-+CN_rDY-wrXGA@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+X-Gm-Message-State: ALoCoQkTNKdxBWULdTN3AGdFtp0IE+vfTg/MkN2ZXWQaUoOPUk2XBCTCv4q6u8U0zC19LepaCQBo
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemux86: disable paravirt guest, causes test failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 17:23:27 -0000
+X-List-Received-Date: Tue, 07 May 2013 17:26:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On 7 May 2013 17:21, Darren Hart <dvhart@linux.intel.com> wrote:
+> Have we seen the failure on 3.8? Or only on 3.4?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/machine/include/tune-thumb.inc | 32 --------------------------------
- 1 file changed, 32 deletions(-)
- delete mode 100644 meta/conf/machine/include/tune-thumb.inc
+I've only seen it on 3.4 but it's only occasionally hitting so that
+doesn't really say a huge amount.  I can re-send it for 3.4 and we can
+continue to watch the AB  -- if it doesn't re-appear on 3.8 then we
+can try re-enabling it for qemux86-64 too.
 
-diff --git a/meta/conf/machine/include/tune-thumb.inc b/meta/conf/machine/include/tune-thumb.inc
-deleted file mode 100644
-index a2392c2..0000000
---- a/meta/conf/machine/include/tune-thumb.inc
-+++ /dev/null
-@@ -1,32 +0,0 @@
--#tune file for thumb instructions
--
--ARM_INSTRUCTION_SET ?= "arm"
--# "arm" "thumb"
--#    The instruction set the compiler should use when generating application
--#    code.  The kernel is always compiled with arm code at present.  arm code
--#    is the original 32 bit ARM instruction set, thumb code is the 16 bit
--#    encoded RISC sub-set.  Thumb code is smaller (maybe 70% of the ARM size)
--#    but requires more instructions (140% for 70% smaller code) so may be
--#    slower.
--
--THUMB_INTERWORK ?= "yes"
--# "yes" "no"
--#    Whether to compile with code to allow interworking between the two
--#    instruction sets.  This allows thumb code to be executed on a primarily
--#    arm system and vice versa.  It is strongly recommended that DISTROs not
--#    turn this off - the actual cost is very small.
--
--OVERRIDE_THUMB = "${@['', ':thumb'][d.getVar('ARM_INSTRUCTION_SET', True) == 'thumb']}"
--OVERRIDE_INTERWORK = "${@['', ':thumb-interwork'][d.getVar('THUMB_INTERWORK', True) == 'yes']}"
--OVERRIDES .= "${OVERRIDE_THUMB}${OVERRIDE_INTERWORK}"
--
--#    Compiler and linker options for application code and kernel code.  These
--#    options ensure that the compiler has the correct settings for the selected
--#    instruction set and interworking.
--ARM_INTERWORK_M_OPT = "${@['-mno-thumb-interwork', '-mthumb-interwork'][d.getVar('THUMB_INTERWORK', True) == 'yes']}"
--ARM_THUMB_M_OPT = "${@['-marm', '-mthumb'][d.getVar('ARM_INSTRUCTION_SET', True) == 'thumb']}"
--
--#
--TUNE_CCARGS +=  "${ARM_INTERWORK_M_OPT} ${ARM_THUMB_M_OPT}"
--TARGET_CC_KERNEL_ARCH  += "-mno-thumb-interwork -marm"
--
--- 
-1.8.2.1
-
+Ross
 
 
