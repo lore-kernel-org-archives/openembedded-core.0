@@ -1,26 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1UZmuN-0004FA-9y
+	(envelope-from <mark.hatle@windriver.com>) id 1UZn0m-0004m3-2s
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 20:47:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 May 2013 11:26:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,629,1363158000"; d="scan'208";a="333339031"
-Received: from envy2.jf.intel.com (HELO envy2.home) ([10.7.199.54])
-	by orsmga002.jf.intel.com with ESMTP; 07 May 2013 11:28:02 -0700
-Message-ID: <518947B2.2000908@linux.intel.com>
-Date: Tue, 07 May 2013 11:28:02 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+	Tue, 07 May 2013 20:53:29 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r47IZDac021829
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 May 2013 11:35:13 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 7 May 2013 11:35:12 -0700
+Message-ID: <51894960.6070406@windriver.com>
+Date: Tue, 7 May 2013 13:35:12 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1367946490-9159-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1367946490-9159-1-git-send-email-ross.burton@intel.com>
-X-Enigmail-Version: 1.5.1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemux86: disable paravirt guest in linux 3.4, causes test failures
+To: Trevor Woerner <twoerner@gmail.com>
+References: <51892728.3090609@farnsworthtech.com>
+	<51892D8A.5030806@windriver.com>
+	<51893B46.3090205@farnsworthtech.com>
+	<51893CB4.9070304@windriver.com>
+	<CAHUNapRP6SbJVhQey907pHg+X+tosP-86D_5gBs=Vkt4MPBN+w@mail.gmail.com>
+In-Reply-To: <CAHUNapRP6SbJVhQey907pHg+X+tosP-86D_5gBs=Vkt4MPBN+w@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: SDK meta-toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +40,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 18:47:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 07 May 2013 18:53:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 5/7/13 1:21 PM, Trevor Woerner wrote:
+> On Tue, May 7, 2013 at 1:41 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> - nativesdk -- runs on the 'sdkhost' (variant called 'crosssdk')
+>
+> Is this related to the SDKMACHINE setting?
+>
 
+Yes that's the variable I was thinking of.  You can build an SDK for 'i586' on 
+your x86_64 host for instance.
 
-On 05/07/2013 10:08 AM, Ross Burton wrote:
-> The shutdown sanity test that we previously saw on qemux86-64 in 2.6.37 have
-> started to re-appear reproducably on qemux86 in 3.4 in the Danny series.  Until
-> this can be root-caused and fixed in the kernel, disable paravirtualisation
-> across all kernels and all qemu machines.
-> 
-> [ YOCTO #4196 ]
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
->  meta/recipes-kernel/linux/linux-yocto_3.4.bb |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> index b81b9ac..18d665a 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> @@ -26,5 +26,4 @@ COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
->  KERNEL_FEATURES_append = " features/netfilter/netfilter.scc"
->  KERNEL_FEATURES_append_qemux86=" cfg/sound.scc"
->  KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
-> -KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+--Mark
 
 
