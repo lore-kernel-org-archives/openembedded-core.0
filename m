@@ -1,27 +1,20 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UZbpQ-0005Bi-4D
+	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UZcsu-000704-BG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 08:56:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 06 May 2013 23:38:46 -0700
+	Tue, 07 May 2013 10:04:32 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 07 May 2013 00:46:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="237884709"
-Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 May 2013 23:38:45 -0700
-Message-ID: <5188A175.5020001@linux.intel.com>
-Date: Mon, 06 May 2013 23:38:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Randy MacLeod <rwmacleod@gmail.com>
-References: <CAK6=ix4EGtoEd0JqEBC6tNt+nXVEw5=F_Mf3vUFCzKeCEq8kzg@mail.gmail.com>
-	<51882798.9080208@linux.intel.com>
-	<CAK6=ix4tT9WpDy0HXBQdKBtVE9anCJJjTntP+QYY=vSMOiQbng@mail.gmail.com>
-In-Reply-To: <CAK6=ix4tT9WpDy0HXBQdKBtVE9anCJJjTntP+QYY=vSMOiQbng@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/18] pkgconfig: Move patches in prep for 0.28 update
+X-IronPort-AV: E=Sophos;i="4.87,627,1363158000"; d="scan'208";a="298715871"
+Received: from sorvi.fi.intel.com ([10.237.72.154])
+	by azsmga001.ch.intel.com with ESMTP; 07 May 2013 00:46:25 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2013 10:46:23 +0300
+Message-Id: <1367912783-32676-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v3] neard: Split recipe to two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,128 +27,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 06:56:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 May 2013 08:04:42 -0000
 
+This way it is easier to override settings if needed.
 
-Top Post:
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+Hi,
 
-My bad, I pushed the wrong local branch to sgw/wip, it's updated now.
+this 3rd try just contains the split without the SRCREV->SRCPV mess
+in earlier version. Sorry about the noise.
 
-Sorry.
+Cheers,
+Jukka
 
-	Sau!
+ meta/recipes-connectivity/neard/neard.inc     | 59 ++++++++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.10.bb | 60 +--------------------------
+ 2 files changed, 60 insertions(+), 59 deletions(-)
+ create mode 100644 meta/recipes-connectivity/neard/neard.inc
 
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
+new file mode 100644
+index 0000000..7cccbdc
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard.inc
+@@ -0,0 +1,59 @@
++SUMMARY = "Linux NFC daemon"
++DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
++HOMEPAGE = "http://01.org/linux-nfc"
++LICENSE = "GPLv2"
++
++DEPENDS = "dbus glib-2.0 libnl"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
++ file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
++ "
++
++inherit autotools pkgconfig systemd update-rc.d
++
++EXTRA_OECONF += "--enable-tools"
++
++do_install() {
++	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
++}
++
++# This would copy neard start-stop shell and test scripts
++do_install_append() {
++	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++		install -d ${D}${sysconfdir}/init.d/
++		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
++		  > ${D}${sysconfdir}/init.d/neard
++		chmod 0755 ${D}${sysconfdir}/init.d/neard
++	fi
++
++	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++		install -d ${D}${systemd_unitdir}/system
++		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
++		  > ${D}${systemd_unitdir}/system/neard.service
++	fi
++
++	# Install the tests for neard-tests
++	install -d ${D}${libdir}/neard
++	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
++	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
++}
++
++PACKAGES =+ "${PN}-tests"
++
++FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
++FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
++
++RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
++
++# Bluez & Wifi are not mandatory except for handover
++RRECOMMENDS_${PN} = "\
++                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++                    "
++
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
++
++INITSCRIPT_NAME = "neard"
++INITSCRIPT_PARAMS = "defaults 64"
++
++SYSTEMD_SERVICE_${PN} = "neard.service"
+diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
+index dc43f7e..0e590b1 100644
+--- a/meta/recipes-connectivity/neard/neard_0.10.bb
++++ b/meta/recipes-connectivity/neard/neard_0.10.bb
+@@ -1,69 +1,11 @@
+-SUMMARY = "Linux NFC daemon"
+-DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
+-HOMEPAGE = "http://01.org/linux-nfc"
+-LICENSE = "GPLv2"
+-
+-DEPENDS = "dbus glib-2.0 libnl"
++require neard.inc
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=git \
+            file://neard.in \
+            file://neard.service.in \
+           "
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+- file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+- "
+-
+ S = "${WORKDIR}/git"
+ SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
+ PV = "0.10+git${SRCPV}"
+ PR = "r0"
+-
+-inherit autotools pkgconfig systemd update-rc.d
+-
+-EXTRA_OECONF += "--enable-tools"
+-
+-do_install() {
+-	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
+-}
+-
+-# This would copy neard start-stop shell and test scripts
+-do_install_append() {
+-	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-		install -d ${D}${sysconfdir}/init.d/
+-		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.in \
+-		  > ${D}${sysconfdir}/init.d/neard
+-		chmod 0755 ${D}${sysconfdir}/init.d/neard
+-	fi
+-
+-	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-		install -d ${D}${systemd_unitdir}/system
+-		sed "s:@installpath@:${libexecdir}:" ${WORKDIR}/neard.service.in \
+-		  > ${D}${systemd_unitdir}/system/neard.service
+-	fi
+-
+-	# Install the tests for neard-tests
+-	install -d ${D}${libdir}/neard
+-	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
+-	install -m 0755 ${S}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+-}
+-
+-PACKAGES =+ "${PN}-tests"
+-
+-FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
+-FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+-
+-RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+-
+-# Bluez & Wifi are not mandatory except for handover
+-RRECOMMENDS_${PN} = "\
+-                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+-                     ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+-                    "
+-
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+-
+-INITSCRIPT_NAME = "neard"
+-INITSCRIPT_PARAMS = "defaults 64"
+-
+-SYSTEMD_SERVICE_${PN} = "neard.service"
+-- 
+1.7.11.7
 
-On 05/06/2013 08:53 PM, Randy MacLeod wrote:
->
->
->
-> On Mon, May 6, 2013 at 5:58 PM, Saul Wold <sgw@linux.intel.com
-> <mailto:sgw@linux.intel.com>> wrote:
->
->     On 05/06/2013 01:59 PM, Randy MacLeod wrote:
->
->         On 13-04-24 05:37 PM, Saul Wold wrote:> Signed-off-by: Saul Wold
->         <sgw@linux.intel.com <mailto:sgw@linux.intel.com>
->         <mailto:sgw@linux.intel.com <mailto:sgw@linux.intel.com>>>
->
->           > ---
->           >   meta/recipes-devtools/__pkgconfig/pkgconfig.inc     | 8
->         +-------
->           >   meta/recipes-devtools/__pkgconfig/pkgconfig_0.25.bb
->         <http://pkgconfig_0.25.bb>
->         <http://pkgconfig_0.25.bb> | 7 +++++++
->
->           >   2 files changed, 8 insertions(+), 7 deletions(-)
->
->         Saul,
->
->         Any news on pkgconfig-0.28 ? I'm trying to compile c-i-m
->         using clang for the -native tools and glib-1.2.10 shipped with
->         pkgconfig-0.25 is causing the build error below.
->         pkgconfig-0.28 and later includes version of glib-2.32.4
->
->     Got caught up in 1.4 finalization and planning for 1.5, I was going
->     to look at it again this week.
->
->
->         If you are about to push this uprev, I'll wait a while and try
->         again. Do you want help?
->
->     I would appreciate help with the update if you can provide a tested
->     pkgconfig update, I was thinking about providing the update for
->     testing before enabling it similar to what we do with gcc, that's
->     why I split the recipe.
->
->     I have an untested version (it builds) in my poky-contrib/sgw/wip
->     branch with you want to finish/test it more.
->
->
-> I only see 0.25:
->
-> $ cd .../poky/poky-contrib.git
-> $ git pull
-> Already up-to-date.
-> $ git status
-> # On branch sgw/wip
-> nothing to commit, working directory clean
-> $ find meta -name "pkgcon*bb"
-> meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb <http://pkgconfig_0.25.bb>
-> meta/recipes-devtools/pkgconfig/pkgconfig_git.bb <http://pkgconfig_git.bb>
->
-> Did I miss something?
->
-> I think you want me to provide a commit for 0.28 as an additional recipe
-> with the
-> preferred provider being 0.25 until 0.28 is tested and stable. Is that
-> right?
->
->     Thanks for your help.
->
->
-> Let's not get ahead of ourselves. :)
-> I'm also in the middle of planning so we'll see how much time I have to
-> work on this. :) I've made some progress on groking the existing patches
-> and determining which ones should be kept, adjusted and tossed. More
-> tomorrow night - I hope.
->
->
-> Current status:
-> - removed all the pkgconfig-0.28/*patches - I'm not sure I can really
-> get away with that.
-> - configure is failing as shown below.
->
->
-> // Randy
->
-> $ bitbake -c configure pkgconfig-native
-> ....
-> | system_include_path='/usr/include'
-> | system_library_path='/usr/lib:/lib'
-> | target_alias='x86_64-linux'
-> | use_indirect_deps='no'
-> |
-> | configure: exit 1
-> | ERROR: oe_runconf failed
-> | ERROR: Function failed: do_configure (see
-> /home/rmacleod/src/distro/yocto/b-clang/build/tmp-eglibc/work/x86_64-linux/pkgconfig-native/0.28-r0/temp/log.do_configure.15370
-> for further information)
-> ERROR: Task 26
-> (virtual:native:/home/rmacleod/src/distro/yocto/oe-core.git/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
-> <http://pkgconfig_0.28.bb>, do_configure) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 46 tasks of which 42 didn't need to be
-> rerun and 1 failed.
-> No currently running tasks (46 of 63)
->
-> Summary: 1 task failed:
->
-> virtual:native:/home/rmacleod/src/distro/yocto/oe-core.git/meta/recipes-devtools/pkgconfig/pkgconfig_0.28.bb
-> <http://pkgconfig_0.28.bb>, do_configure
->
->
-> --
-> ../Randy/..
 
 
