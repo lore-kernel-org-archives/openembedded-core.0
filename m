@@ -1,23 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1UZkMZ-0002OV-M9
+	(envelope-from <stefanx.stanacar@intel.com>) id 1UZkP0-0002bs-EH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 18:03:37 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 07 May 2013 08:43:36 -0700
+	Tue, 07 May 2013 18:06:08 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 May 2013 08:48:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,629,1363158000"; d="scan'208";a="330321525"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 07 May 2013 08:45:32 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
-	by linux.intel.com (Postfix) with ESMTP id D50976A408D;
-	Tue,  7 May 2013 08:45:22 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2013 18:45:37 +0300
-Message-Id: <1367941537-11885-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] xserver-xorg: Add xkbcomp to RRECOMMENDS
+X-IronPort-AV: E=Sophos;i="4.87,629,1363158000"; d="scan'208";a="298932589"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by azsmga001.ch.intel.com with ESMTP; 07 May 2013 08:47:59 -0700
+Received: from irsmsx105.ger.corp.intel.com (163.33.3.28) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Tue, 7 May 2013 16:47:52 +0100
+Received: from irsmsx104.ger.corp.intel.com ([169.254.5.19]) by
+	IRSMSX105.ger.corp.intel.com ([169.254.7.14]) with mapi id
+	14.01.0438.000; Tue, 7 May 2013 16:47:51 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Thread-Topic: [OE-core] [PATCH] xkeyboard-config: Remove xkbcomp from
+	RDEPENDS_${PN}
+Thread-Index: AQHOSzo7ic8vL8B0/ECS8TVUctSf0w==
+Date: Tue, 7 May 2013 15:47:51 +0000
+Message-ID: <1367941688.6101.1.camel@firebird.rb.intel.com>
+References: <1367240260.14512.120.camel@phil-desktop.brightsign>
+	<518919FE.9000004@mlbassoc.com>
+	<CAJTo0Lb1TW9gOW79fbDdqyn61-tvxW+Fh1aQxf+mLuGRUhv0RA@mail.gmail.com>
+	<5189211B.6050905@mlbassoc.com>
+In-Reply-To: <5189211B.6050905@mlbassoc.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.149]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xkeyboard-config: Remove xkbcomp from RDEPENDS_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,32 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 16:03:40 -0000
+X-List-Received-Date: Tue, 07 May 2013 16:06:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <809609B40AD3254D8CA55BF3FF104267@intel.com>
+Content-Transfer-Encoding: base64
 
-OE-Core commit bdcc5e8f1286d288baf410458efc39a59b68d751 removed xkbcomp
-from RDEPENDS for xkeyboard-config but X server still needs it otherwise
-it fails to start.
-
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 795410b..0eca559 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -64,7 +64,7 @@ PACKAGES =+ "${PN}-security-policy \
-              ${PN}-module-libxf1bpp \
-              ${PN}-module-libxf4bpp"
- 
--RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
-+RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
- RDEPENDS_${PN}-xvfb += "xkeyboard-config"
- RDEPENDS_${PN}-module-exa = "${PN} (= ${EXTENDPKGV})"
- 
--- 
-1.8.1.4
-
+DQoNCk9uIFR1ZSwgMjAxMy0wNS0wNyBhdCAwOTo0MyAtMDYwMCwgR2FyeSBUaG9tYXMgd3JvdGU6
+DQo+IE9uIDIwMTMtMDUtMDcgMDk6MjMsIEJ1cnRvbiwgUm9zcyB3cm90ZToNCj4gPiBPbiA3IE1h
+eSAyMDEzIDE2OjEzLCBHYXJ5IFRob21hcyA8Z2FyeUBtbGJhc3NvYy5jb20+IHdyb3RlOg0KPiA+
+PiBJdCBsb29rcyBsaWtlIHRoZSBwYWNrYWdlKHMpIHlvdSdyZSByZWZlcnJpbmcgdG8gYXJlIHRo
+ZSBYIHNlcnZlci4NCj4gPj4gVG9vIGJhZCB5b3UgZGlkbid0IHByb3ZpZGUgdGhvc2UgcGF0Y2hl
+cyBhcyB3ZWxsIGFzIGltYWdlcyB3aGljaA0KPiA+PiB1c2UgWCBhcmUgY3VycmVudGx5IGJyb2tl
+biAoYXQgbGVhc3QgbWluZSBhcmUpDQo+ID4NCj4gPiBZZWFoLCBJIG5vdGljZWQgdGhhdCB3aGVu
+IGJyb3dzaW5nIG1haWwgb3ZlciBicmVha2Zhc3QgYnV0IGRyb3BwZWQgdGhlDQo+ID4gYmFsbCBp
+biBhY3R1YWxseSBzYXlpbmcgb24gdGhlIGxpc3QuICBBZGQgYSBkZXBlbmRlbmN5IHRvIGl0IGlu
+DQo+ID4geHNlcnZlci14b3JnLg0KPiANCj4gSSdsbCBwdXQgc29tZXRoaW5nIHRvZ2V0aGVyIHNo
+b3J0bHkuDQo+IA0KDQpJIGRpZG4ndCBub3RpY2VkIHlvdXIgcmVwbHkgdW50aWwgbm93LCBJIGp1
+c3Qgc2VudCBhIHBhdGNoLi4uIDopDQo=
 
 
