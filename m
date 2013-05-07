@@ -1,30 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f181.google.com ([209.85.220.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UZfjz-0002iG-Hw for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 13:07:27 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r47Ao0BV031707; Tue, 7 May 2013 11:51:34 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id azEC8fhCnSGo; Tue,  7 May 2013 11:51:34 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r47ApR5P031775
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 7 May 2013 11:51:29 +0100
-Message-ID: <1367923743.27116.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Olivia Yin <hong-hua.yin@freescale.com>
-Date: Tue, 07 May 2013 11:49:03 +0100
-In-Reply-To: <1367896309-5638-1-git-send-email-hong-hua.yin@freescale.com>
-References: <1367896309-5638-1-git-send-email-hong-hua.yin@freescale.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
+	(envelope-from <ross.burton@intel.com>) id 1UZfqJ-0003eq-Ne
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 May 2013 13:14:00 +0200
+Received: by mail-vc0-f181.google.com with SMTP id hr11so329811vcb.26
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2013 03:55:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=6/5bnQllQuGRDrYLs4Sg1WagJO8Nx+LJL7u+LVJm480=;
+	b=i2wpaQrr3IlESCGOM3/h30a5Qovbcw7BKJ7kzxtnLRCTcUxcWmmWEu8vhG3cffwn8O
+	MCTxon+ua4zMSXH4rGiWpgBmg7pMltn26o9LytIdPzW1AsndzCpQiUwAjSnuo2p+9Cei
+	EtJBTzPU2zvNgGjwTlQOtbQrSQ2ddurSI2O/RFSoYsY5cGPF3fjFGQ8jlyAOEGJXmfxM
+	zRIVmnmc9FVnI0/31pptfG6sxn9MGfzBS6fugbiPDJkXnTE8CAiK5kWPK3zO/+LR5Rgs
+	BOM5pMHphWg4y7z0s9v/3QQuXp+dK5EyN6D0DGCcDYm52R3dDPdaT7VlsiUd7x9eeC0N
+	+i6w==
+X-Received: by 10.52.18.206 with SMTP id y14mr687486vdd.29.1367924158458; Tue,
+	07 May 2013 03:55:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.221.8.3 with HTTP; Tue, 7 May 2013 03:55:38 -0700 (PDT)
+In-Reply-To: <5188D791.1070505@pseudoterminal.org>
+References: <1367787030-5056-1-git-send-email-dv@pseudoterminal.org>
+	<CAJTo0LZrtVHq4PpF4uEL+_GeQBzDOMTEu-rt39j7agamGOe+MQ@mail.gmail.com>
+	<5188D791.1070505@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 May 2013 11:55:38 +0100
+Message-ID: <CAJTo0LbNWO3OSQZHN7e0pa7Dq3iY02k8GVSR3LqmEkdU3Dd1hQ@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+X-Gm-Message-State: ALoCoQk1CF0Kjsnx3Qr0ck/GC9//mYcutP05VuycFN/zgFbtfID8DRVg7ZFD3wy4jExfUEN8s1ia
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] [oe][meta-oe][PATCH]yajl: pass the cmake variable LIB_SUFFIX to handle installation on 64-bit systems
+Subject: Re: [PATCH] gstreamer: Fixed dependency problem with -meta packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 11:07:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 May 2013 11:14:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-05-07 at 11:11 +0800, Olivia Yin wrote:
-> WARNING: QA Issue: yajl: Files/directories were installed but not shipped
->   /usr/lib
->   /usr/lib/libyajl.so.2
->   /usr/lib/libyajl.so
->   /usr/lib/libyajl_s.a
->   /usr/lib/libyajl.so.2.0.4
->   /usr/lib/.debug
->   /usr/lib/.debug/libyajl.so.2.0.4
-> 
-> NOTE: for 64-bit systems where lib64 is used you can pass the cmake
->       variable LIB_SUFFIX to cause installation into the system's 'lib64'
->       directory.
-> 
-> Signed-off-by: Olivia Yin <hong-hua.yin@freescale.com>
-> ---
->  meta-oe/recipes-devtools/yajl/yajl_2.0.4.bb |    3 +++
->  1 files changed, 3 insertions(+), 0 deletions(-)
+On 7 May 2013 11:29, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> True, however I wonder if somebody relies on these packages being there.
+> Is it acceptable to break compatibility here?
 
-This needs to go to the openembedded-devel list since its for meta-oe.
+They haven't been there for a while and 1.4 is shipping without them
+so I'd endorse cleaning them up instead of having empty packages.
 
-Cheers,
-
-Richard
-
+Ross
 
 
