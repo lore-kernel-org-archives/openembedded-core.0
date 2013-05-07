@@ -1,27 +1,35 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mail-vb0-f53.google.com ([209.85.212.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1UZjr2-0007Au-TD
+	(envelope-from <ross.burton@intel.com>) id 1UZk16-0008BD-9j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 May 2013 17:31:10 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 4C93BF811DA; Tue,  7 May 2013 09:13:00 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 9BCDDF81188;
-	Tue,  7 May 2013 09:12:58 -0600 (MDT)
-Message-ID: <518919FE.9000004@mlbassoc.com>
-Date: Tue, 07 May 2013 09:13:02 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Tue, 07 May 2013 17:41:27 +0200
+Received: by mail-vb0-f53.google.com with SMTP id i3so589840vbh.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2013 08:23:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=rCOrmHi6dYvNM5OBNn0kBIUDTG9JbE2QGlAlz1Ofk8g=;
+	b=SjqBsAEYM1EVx4ALUjtG0mzIf+oxB5HUow2y9fAozYyeTQpc4g6yQq171Xk1kxW1Bt
+	zE0SrNClMskvUinqu0oEzFjMIPY3KIFTuCaMPSP4ebGolnPyMdPUVDYlLg2nUqHNmP14
+	EqmPLVAvqaZcMcN6oN5WqAwKyWz/+RfBGXUhksG1maaWzu5Rt6oq8P9q0JGH6zj594p5
+	mi/ssYNrJVUuRyRLWX44XhprDuly2T4NiWURotJIWAENvLWGDkiHRFU1i0katC8RaV7V
+	5VEzcal/Kc9y3kUxV06vTSbQUus34GbOcoCqM6ecaQa69GXCrAsp9cTt2GpmEAnQdQCg
+	5djA==
+X-Received: by 10.220.78.131 with SMTP id l3mr1555227vck.54.1367940202837;
+	Tue, 07 May 2013 08:23:22 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.221.8.3 with HTTP; Tue, 7 May 2013 08:23:02 -0700 (PDT)
+In-Reply-To: <518919FE.9000004@mlbassoc.com>
 References: <1367240260.14512.120.camel@phil-desktop.brightsign>
-In-Reply-To: <1367240260.14512.120.camel@phil-desktop.brightsign>
+	<518919FE.9000004@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 May 2013 16:23:02 +0100
+Message-ID: <CAJTo0Lb1TW9gOW79fbDdqyn61-tvxW+Fh1aQxf+mLuGRUhv0RA@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+X-Gm-Message-State: ALoCoQl1V9GE45KpCztxSB9/YN8wU+2OdUmPi784C/01mN8NPOwPl/+j62Dn+tmojnf1vhpffQ8o
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] xkeyboard-config: Remove xkbcomp from RDEPENDS_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,42 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2013 15:31:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 May 2013 15:41:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2013-04-29 06:57, Phil Blundell wrote:
-> Nothing in this package uses xkbcomp so depending on it here is not appropriate.
-> Whatever package(s) is/are invoking that binary should be the ones to depend
-> on it.
->
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->   meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb |    1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> index ccb9f74..cf4da28 100644
-> --- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> +++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-> @@ -23,7 +23,6 @@ PR = "r0"
->
->   EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
->
-> -RDEPENDS_${PN} += "xkbcomp"
->   FILES_${PN} += "${datadir}/X11/xkb"
->
->   inherit autotools pkgconfig
->
+On 7 May 2013 16:13, Gary Thomas <gary@mlbassoc.com> wrote:
+> It looks like the package(s) you're referring to are the X server.
+> Too bad you didn't provide those patches as well as images which
+> use X are currently broken (at least mine are)
 
-It looks like the package(s) you're referring to are the X server.
-Too bad you didn't provide those patches as well as images which
-use X are currently broken (at least mine are)
+Yeah, I noticed that when browsing mail over breakfast but dropped the
+ball in actually saying on the list.  Add a dependency to it in
+xserver-xorg.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
 
