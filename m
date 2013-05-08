@@ -1,26 +1,27 @@
-Received: from r-finger.com ([178.79.160.5])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1Ua7bi-0005RS-6a
+	(envelope-from <sgw@linux.intel.com>) id 1Ua7kf-0006nZ-H5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 18:52:53 +0200
-Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
-	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id D933D952B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2013 17:34:45 +0100 (BST)
-Message-ID: <518A7EA5.2000308@r-finger.com>
-Date: Wed, 08 May 2013 17:34:45 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+	Wed, 08 May 2013 19:02:02 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 May 2013 09:43:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,635,1363158000"; d="scan'208";a="334483657"
+Received: from unknown (HELO [10.255.13.9]) ([10.255.13.9])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2013 09:43:17 -0700
+Message-ID: <518A80A4.5050901@linux.intel.com>
+Date: Wed, 08 May 2013 09:43:16 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <518A6B25.5000108@r-finger.com>
-	<1368026595.14512.342.camel@phil-desktop.brightsign>
-In-Reply-To: <1368026595.14512.342.camel@phil-desktop.brightsign>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+To: Ionut Radu <ionutx.radu@intel.com>
+References: <1368024119-4149-1-git-send-email-ionutx.radu@intel.com>
+	<1368024119-4149-4-git-send-email-ionutx.radu@intel.com>
+	<CAJTo0LbwTmE1Un=GFVWQok=38Ljzeg0PSJ5ZhqZRQ0b_efD3Vg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbwTmE1Un=GFVWQok=38Ljzeg0PSJ5ZhqZRQ0b_efD3Vg@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/9] js: updated from 1.7.0+1.8.0rc1 to 185-1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 16:52:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 May 2013 17:02:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/05/13 16:23, Phil Blundell wrote:
-> One particular issue for us is that the clutter recipes as they stand in
-> oe-core are very X11-centric.  We don't have X and, instead, use the
-> eglnative backend.  It'd be handy for us if some putative refactoring of
-> the recipes made them more friendly to non-X11 deployments.
+On 05/08/2013 07:55 AM, Burton, Ross wrote:
+> On 8 May 2013 15:41, Ionut Radu <ionutx.radu@intel.com> wrote:
+>> Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+>
+> Is there anything in oe-core that still needs this?  I suspect we only
+> had it for Web, but as we dropped the non-webkit Web a while back I
+> don't think we're actually building this at all (apart from in world
+> builds) so should we discuss moving it to meta-oe?
+>
+Agreed, we should move this recipe to meta-oe and remove it from oe-core 
+at this time.
 
-I have a similar problem in Guacamayo, where I have more than one target
-machine, and generally prefer to use the elg-native backend unless it
-cannot be avoided because the elg driver is too broken. So the recipes
-in Guacamayo were set up so as to make it easy to reconfigure the
-packages based on machine and distro features using a mininal bbappend,
-e.g.,
-https://github.com/Guacamayo/meta-guacamayo/blob/master/meta-guacamayo/recipes-graphics/clutter/clutter-1.12_git.bbappend.
-The original recipes are too much marked by the specifics of the
-Guacamayo set up and their gradual evolution, but I am in the process of
-cleaning this up, so it can be used by others.
+Sau!
 
-Tomas
-
-
--- 
-http://sleepfive.com
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
