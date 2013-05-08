@@ -1,20 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Ua4Mp-0001UI-Gm
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Ua4is-0003Ur-2B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 15:25:11 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 08 May 2013 06:07:08 -0700
+	Wed, 08 May 2013 15:47:59 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 08 May 2013 06:29:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,634,1363158000"; d="scan'208";a="330818126"
+X-IronPort-AV: E=Sophos;i="4.87,635,1363158000"; d="scan'208";a="238522421"
 Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by fmsmga001.fm.intel.com with ESMTP; 08 May 2013 06:07:06 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 08 May 2013 06:29:40 -0700
 From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 16:10:45 +0300
-Message-Id: <1368018645-31886-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Wed,  8 May 2013 16:33:17 +0300
+Message-Id: <1368019997-2015-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] oprofileui(-server): upgraded to GIT revision f168b8bf
+Subject: [PATCH] btrfs-tools: upgraded to 0.20-rc1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,82 +27,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 13:25:12 -0000
+X-List-Received-Date: Wed, 08 May 2013 13:47:59 -0000
 
-'obsolete_automake_macros.patch' is not needed anymore, because it
-was integrated in the specified commit.
+'fix_use_of_gcc.patch' was integrated in the main repository.
 
 Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- .../obsolete_automake_macros.patch                 |   20 --------------------
- .../oprofile/oprofileui-server_git.bb              |    7 ++-----
- meta/recipes-kernel/oprofile/oprofileui_git.bb     |    3 +--
- 3 files changed, 3 insertions(+), 27 deletions(-)
- delete mode 100644 meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch
+ .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   |   31 --------------------
+ .../btrfs-tools/btrfs-tools_git.bb                 |    9 ++----
+ 2 files changed, 3 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch b/meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
 deleted file mode 100644
-index 2f86f48..0000000
---- a/meta/recipes-kernel/oprofile/oprofileui-server/obsolete_automake_macros.patch
+index 7f6594a..0000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
 +++ /dev/null
-@@ -1,20 +0,0 @@
+@@ -1,31 +0,0 @@
+-Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
 -Upstream-Status: Pending
 -
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff --git a/configure.ac b/configure.ac
--index 2a7010b..62a177e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -3,11 +3,10 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(oprofileui, 0.2.0)
+-Avoid these kinds of errors while doing cross build:
 -
-- AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
---AM_CONFIG_HEADER(config.h)
--+AC_CONFIG_HEADERS(config.h)
+-| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
+-| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
+-| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
+-| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
 -
-- AC_ISC_POSIX
-- AC_PROG_CC
---AM_PROG_CC_STDC
-- AC_HEADER_STDC
-- AC_PROG_RANLIB
-- AC_PROG_INTLTOOL
-diff --git a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-index 6b848af..a872acc 100644
---- a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-@@ -1,15 +1,12 @@
- require oprofileui.inc
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile
+-+++ git/Makefile
+-@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
+- 		$(objects) $(LDFLAGS) $(LIBS)
+- 
+- calc-size: $(objects) calc-size.o
+--	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
+-+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
+- 
+- find-root: $(objects) find-root.o
+--	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
+-+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
+- 
+- restore: $(objects) restore.o
+--	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
+-+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
+- 
+- btrfsctl: $(objects) btrfsctl.o
+- 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+index ef575ae..51c1b08 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+@@ -12,17 +12,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+ DEPENDS = "util-linux attr"
  
--SRCREV = "82ecf8c6b53b84f80682a8312f9defa83a95f2a3"
-+SRCREV = "f168b8bfdc63660033de1739c6ddad1abd97c379"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
+-SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
++SRCREV = "89fe5b5f666c247aa3173745fb87c710f3a71a4a"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
  
  S = "${WORKDIR}/git"
  
- SRC_URI = "git://git.yoctoproject.org/oprofileui;protocol=git \
--           file://init \
--           file://obsolete_automake_macros.patch \
--"
-+           file://init"
+-PV = "0.19+git${SRCPV}"
++PV = "0.20-rc1+git${SRCPV}"
  
- EXTRA_OECONF += "--disable-client --enable-server"
+-PR = "r6"
+-
+-SRC_URI += " file://fix_use_of_gcc.patch \
+-	 file://weak-defaults.patch \
++SRC_URI += " file://weak-defaults.patch \
+ 	 file://fix_race_condition_with_multithreaded_make.patch "
  
-diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-index cafbf1a..03a7932 100644
---- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-@@ -2,9 +2,8 @@ require oprofileui.inc
- 
- DEPENDS += "gtk+ libglade libxml2 avahi-ui gconf"
- 
--SRCREV = "82ecf8c6b53b84f80682a8312f9defa83a95f2a3"
-+SRCREV = "f168b8bfdc63660033de1739c6ddad1abd97c379"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
- 
- S = "${WORKDIR}/git"
- 
+ SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
 -- 
 1.7.10.4
 
