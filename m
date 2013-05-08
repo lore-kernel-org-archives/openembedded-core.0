@@ -1,39 +1,34 @@
-Received: from mail-pb0-f44.google.com ([209.85.160.44])
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UaA6I-0005BU-0V
+	(envelope-from <raj.khem@gmail.com>) id 1UaAX7-000862-VE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 21:32:32 +0200
-Received: by mail-pb0-f44.google.com with SMTP id wz17so1434795pbc.31
+	Wed, 08 May 2013 22:00:23 +0200
+Received: by mail-pb0-f52.google.com with SMTP id xa7so1453067pbc.39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 12:14:26 -0700 (PDT)
+	Wed, 08 May 2013 12:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Qh+BApV3+VFI5A6EYV7bGI3sivE6GzzlbIH8vdMmNpw=;
-	b=LoCEPdSIlWsSuZk72nDDrV2PdpHuDRdtKYAOm3HM0VMD8TkAKVZNA1jBfY8w0zUufM
-	PJmau5IDN4cqMr+mytkIA4gTQ4Q78iod7JLhoHiTL1jkLYXBODdxGjk2Yc4PB55l3Ydt
-	4UghnCQEeoyVeDFNPV+M0lNpZ1s8dAXSJzSYn0MO9pbCnQm7PiTU0YnuXnX4T9p6El2J
-	1+sAwLomwFFbXhmFoyHvw4AQf6oL9RgtYCc8WtHk5zLGbAZfSOiqyVCnCBcmWaHJixFJ
-	Cb9vYNLfb6wCZHXbkYWs50wvZaW7UoaD84AN2CBodDmk3ovPw31I7qXdA7aff7zUMu9i
-	7fRw==
-X-Received: by 10.68.87.229 with SMTP id bb5mr8947378pbb.171.1368040466652;
-	Wed, 08 May 2013 12:14:26 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=lF9xAxLZrwwJR7f4uFjePfL+ws6h9fCmOXSE/0rifho=;
+	b=k/wRCqwwdecbR5Dg70LQonKcodgPvFqc8In2oCQHiXVnk3rbbexryDA6y9uGkvZXJK
+	7xbJbdH7Mme2BNOymwS8R+Exss+h0jzJ3yBKxlLtO5FX+3bq4NUCkUL4FYfp7jGIbz9c
+	H2Zco1ZPydWu9TgMCGMk80z8eCzT/HT+1CRYbFzFMnckKCYqg1lxC9h0LyCiBmozVRDA
+	e9AWFxlN/ru53kSkacAcbfi9I9Xk84Hr8Dhj2UVfy84NfsUJlVFjwgech2hRVD2ZoTxh
+	JHgZmeMrvJNBgfkF+Ecm0H0Y5wnKg71VG6rHNFUPadutcyr5AHdQxCEjqJTeMdhqILsm
+	5ptA==
+X-Received: by 10.68.255.130 with SMTP id aq2mr8914447pbd.164.1368042130521;
+	Wed, 08 May 2013 12:42:10 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id
-	ya4sm33672084pbb.24.2013.05.08.12.14.23 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 08 May 2013 12:14:25 -0700 (PDT)
-Date: Wed, 8 May 2013 21:14:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Message-ID: <20130508191416.GC3188@jama>
-References: <1367917522-29378-1-git-send-email-paul@paulbarker.me.uk>
-	<CANyK_8e2uowYYky7Oq=yDsZcxWNVMmeTjaVxWEhubVspuQrLDw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANyK_8e2uowYYky7Oq=yDsZcxWNVMmeTjaVxWEhubVspuQrLDw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: remove trailing slash from prefix
+	wi6sm33746207pbc.22.2013.05.08.12.42.09 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 08 May 2013 12:42:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 May 2013 12:40:43 -0700
+Message-Id: <1368042043-26561-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] runqemu: Replace use of ifconfig with ip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,64 +41,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 19:32:37 -0000
-X-Groupsio-MsgNum: 38914
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="f+W+jCU1fRNres8c"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 May 2013 20:00:39 -0000
 
---f+W+jCU1fRNres8c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ifconfig and its ilk (net-tools package) is deprecated in favour of iproute2 package
+and is now removed by many distro's e.g. Archlinux. So we replace ifconfig with ip utility
 
-On Wed, May 08, 2013 at 07:07:57PM +0100, Paul Barker wrote:
-> On 7 May 2013 10:05, Paul Barker <paul@paulbarker.me.uk> wrote:
-> > The trailing slashs on "Prefix=3D${prefix}/" and "-prefix ${prefix}/" a=
-re passed
-> > through to the generated pkgconfig files and may be joined to paths like
-> > "/include" yielding a final path with a double forward-slash (eg.
-> > "/usr//include"). This may end up in the debugging symbols in other app=
-lications
-> > or libraries which depend on qt4 which in turn causes the debugedit pro=
-gram to
-> > fail with the message "canonicalization unexpectedly shrank by one char=
-acter"
-> > when it tries to replace the double forward-slash with a single forward=
--slash.
-> > Thus the function split_and_strip_files fails and ultimately do_package=
- fails.
-> >
-> > As this slash is removed from the prefix it is added into the regular e=
-xpression
-> > used to fix up pkgconfig files later in the recipe.
-> >
-> > This error was seen in vlc in meta-openembedded and should be solved by=
- this
-> > change in openembedded-core.
-> >
-> > Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
->=20
-> Martin, could you check whether applying this patch to oe-core fixes
-> the vlc do_package failure you were seeing?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ scripts/runqemu-gen-tapdevs | 6 +++---
+ scripts/runqemu-ifup        | 6 +++---
+ scripts/runqemu-internal    | 6 +++---
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-Yes I plan to include it in next build, but I would like to fix
-webkit-efl build with newer binutils first, because that adds 3.9M lines=20
-=66rom log.do_compile and resulting logs from world have 600M :/
+diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
+index f5be30a..d3b27be 100755
+--- a/scripts/runqemu-gen-tapdevs
++++ b/scripts/runqemu-gen-tapdevs
+@@ -59,10 +59,10 @@ if [ ! -x "$RUNQEMU_IFUP" ]; then
+ 	exit 1
+ fi
+ 
+-IFCONFIG=`which ifconfig 2> /dev/null`
++IFCONFIG=`which ip 2> /dev/null`
+ if [ -z "$IFCONFIG" ]; then
+ 	# Is it ever anywhere else?
+-	IFCONFIG=/sbin/ifconfig
++	IFCONFIG=/sbin/ip
+ fi
+ if [ ! -x "$IFCONFIG" ]; then
+        echo "$IFCONFIG cannot be executed"
+@@ -70,7 +70,7 @@ if [ ! -x "$IFCONFIG" ]; then
+ fi
+ 
+ # Ensure we start with a clean slate
+-for tap in `$IFCONFIG | grep ^tap | awk '{ print \$1 }' | sed s/://`; do
++for tap in `$IFCONFIG link | grep tap | awk '{ print \$2 }' | sed s/://`; do
+ 	echo "Note: Destroying pre-existing tap interface $tap..."
+ 	$TUNCTL -d $tap
+ done
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index 0926faf..8948153 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -70,10 +70,10 @@ if [ $STATUS -ne 0 ]; then
+ 	fi
+ fi
+ 
+-IFCONFIG=`which ifconfig 2> /dev/null`
++IFCONFIG=`which ip 2> /dev/null`
+ if [ "x$IFCONFIG" = "x" ]; then
+ 	# better than nothing...
+-	IFCONFIG=/sbin/ifconfig
++	IFCONFIG=/sbin/ip
+ fi
+ if [ ! -x "$IFCONFIG" ]; then
+ 	echo "$IFCONFIG cannot be executed"
+@@ -100,7 +100,7 @@ if [ ! -x "$IPTABLES" ]; then
+ fi
+ 
+ n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+-$IFCONFIG $TAP 192.168.7.$n netmask 255.255.255.255
++$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
+ 
+ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
+ $ROUTE add -host 192.168.7.$dest $TAP
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index f11706d..d295013 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -139,16 +139,16 @@ if [ ! -d "$LOCKDIR" ]; then
+     chmod 777 $LOCKDIR
+ fi
+ 
+-IFCONFIG=`which ifconfig 2> /dev/null`
++IFCONFIG=`which ip 2> /dev/null`
+ if [ -z "$IFCONFIG" ]; then
+-    IFCONFIG=/sbin/ifconfig
++    IFCONFIG=/sbin/ip
+ fi
+ if [ ! -x "$IFCONFIG" ]; then
+        echo "$IFCONFIG cannot be executed"
+        exit 1
+ fi
+ 
+-POSSIBLE=`$IFCONFIG -a | grep '^tap' | awk '{print $1}' | sed s/://`
++POSSIBLE=`$IFCONFIG link | grep 'tap' | awk '{print $2}' | sed s/://`
+ TAP=""
+ LOCKFILE=""
+ for tap in $POSSIBLE; do
+-- 
+1.8.2.2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---f+W+jCU1fRNres8c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlGKpAgACgkQN1Ujt2V2gBzanQCfTcTdGHONhTeraaUKzqxLQs08
-UaAAnjd7DZdkwAD6wzmz25Yt910ShHzl
-=UAc8
------END PGP SIGNATURE-----
-
---f+W+jCU1fRNres8c--
