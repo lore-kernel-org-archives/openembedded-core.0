@@ -1,23 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1UZzmm-0002VP-P2
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZznA-0002XI-Va
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 10:31:53 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 08 May 2013 01:13:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="330705226"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 08 May 2013 01:13:24 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
-	by linux.intel.com (Postfix) with ESMTP id BDC996A4087;
-	Wed,  8 May 2013 01:13:14 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 11:12:55 +0300
-Message-Id: <1368000775-10588-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [RFC] qemuimage-testlib: test all supported FSTYPES
+	Wed, 08 May 2013 10:32:11 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r488E2ZW004755
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 May 2013 01:14:02 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 8 May 2013 01:14:02 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 May 2013 04:13:58 -0400
+Message-ID: <c3a393bdeb5b764dbd32226e89b6d3ef1a60e095.1367994910.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1367994910.git.liezhi.yang@windriver.com>
+References: <cover.1367994910.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] bootimg.bbclass: add comment for NOHDD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,168 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 08:32:11 -0000
+X-List-Received-Date: Wed, 08 May 2013 08:32:23 -0000
+Content-Type: text/plain
 
-Right now qemuimage-testlib hardcodes ext3 as fs type.
-We should respect IMAGE_FSTYPES and boot all images
-that runqemu supports.
+Add comment for NOHDD which is used for skipping building the HDDIMG if
+set to 1
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/imagetest-qemu.bbclass | 25 ++++++++++++++-----------
- scripts/qemuimage-testlib           | 21 ++++++++++-----------
- 2 files changed, 24 insertions(+), 22 deletions(-)
+ meta/classes/bootimg.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
-index 63ba087..8f26133 100644
---- a/meta/classes/imagetest-qemu.bbclass
-+++ b/meta/classes/imagetest-qemu.bbclass
-@@ -37,6 +37,7 @@ def qemuimagetest_main(d):
-     resultstr = re.compile(r'\s*(?P<case>\w+)\s*(?P<pass>\d+)\s*(?P<fail>\d+)\s*(?P<noresult>\d+)')
-     machine = d.getVar('MACHINE', True)
-     pname = d.getVar('PN', True)
-+    fstypes = d.getVar("IMAGE_FSTYPES", True).split()
-     
-     """function to save test cases running status"""
-     def teststatus(test, status, index, length):
-@@ -50,7 +51,7 @@ def qemuimagetest_main(d):
-         f.close()
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index b7ddf42..117929e 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -20,6 +20,7 @@
+ # External variables (also used by syslinux.bbclass)
+ # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+ # ${NOISO}  - skip building the ISO image if set to 1
++# ${NOHDD}  - skip building the HDD image if set to 1
+ # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
  
-     """funtion to run each case under scenario"""
--    def runtest(scen, case, fulltestpath):
-+    def runtest(scen, case, fulltestpath, fstype):
-         resultpath = d.getVar('TEST_RESULT', True)
-         tmppath = d.getVar('TEST_TMP', True)
- 
-@@ -75,6 +76,7 @@ def qemuimagetest_main(d):
-         os.environ["TEST_SERIALIZE"] = d.getVar("TEST_SERIALIZE", True)
-         os.environ["SDK_NAME"] = d.getVar("SDK_NAME", True)
-         os.environ["RUNQEMU_LOGFILE"] = d.expand("${T}/log.runqemutest.%s" % os.getpid())
-+        os.environ["ROOTFS_EXT"] = fstype
- 
-         # Add in all variables from the user's original environment which
-         # haven't subsequntly been set/changed
-@@ -192,21 +194,22 @@ def qemuimagetest_main(d):
-         os.remove(sresultfile)
-     subprocess.call("touch %s" % resultfile, shell=True)
-     os.symlink(resultfile, sresultfile)
--    f = open(sresultfile, "a")
--    f.write("\tTest Result for %s %s\n" % (machine, pname))
--    f.write("\t%-15s%-15s%-15s%-15s\n" % ("Testcase", "PASS", "FAIL", "NORESULT"))
--    f.close()
-     
-     """generate pre-defined testcase list"""
-     testlist = d.getVar('TEST_SCEN', True)
-     fulllist = generate_list(testlist)
- 
-     """Begin testing"""
--    for index,test in enumerate(fulllist):
--        (scen, case, fullpath) = test
--        teststatus(case, "running", index, (len(fulllist) - 1))
--        runtest(scen, case, fullpath)
--        teststatus(case, "finished", index, (len(fulllist) - 1))
-+    for type in fstypes:
-+        if type not in [ "tar.bz2", "live", "cpio.gz" ]:
-+            with open(sresultfile, "a") as f:
-+                f.write("\tTest Result for %s %s %s\n" % (machine, pname, type))
-+                f.write("\t%-15s%-15s%-15s%-15s\n" % ("Testcase", "PASS", "FAIL", "NORESULT"))
-+            for index,test in enumerate(fulllist):
-+                (scen, case, fullpath) = test
-+                teststatus(case, "running", index, (len(fulllist) - 1))
-+                runtest(scen, case, fullpath, type)
-+                teststatus(case, "finished", index, (len(fulllist) - 1))
-     
-     """Print Test Result"""
-     ret = 0
-@@ -229,5 +232,5 @@ def qemuimagetest_main(d):
-     clean_tmp()
- 
-     if ret != 0:
--        raise bb.build.FuncFailed("Some testcases fail, pls. check test result and test log!!!")
-+        raise bb.build.FuncFailed("Some tests failed. Please check the results file: %s and the log files found in: %s." % (resultsfile, d.getVar('TEST_LOG', True)))
- 
-diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
-index 051fee8..4159312 100755
---- a/scripts/qemuimage-testlib
-+++ b/scripts/qemuimage-testlib
-@@ -14,8 +14,6 @@
- # Version 2.
- #
- 
--TYPE="ext3"
--
- # The folder to hold all scripts running on targets
- TOOLS="$COREBASE/scripts/qemuimage-tests/tools"
- 
-@@ -306,19 +304,19 @@ Test_Find_Image()
- 	extension=""
- 	rootfs=""
- 
--	while getopts "l:k:a:t:" Option
-+	while getopts "l:k:a:t:e:" Option
- 	do
- 		case $Option in
- 			l) where="$OPTARG"
- 			   ;;
- 			k) kernel="$OPTARG"
--			   extension="bin"
- 			   ;;
- 			a) arch="$OPTARG"
- 			   ;;
- 			t) target="$OPTARG"
--			   extension="ext3"
- 			   ;;
-+                        e) extension="$OPTARG"
-+                           ;;
- 			*) echo "invalid option: -$Option" && return 1
- 			   ;;
- 		 esac
-@@ -396,11 +394,11 @@ Test_Create_Qemu()
- 	fi
- 	
- 	if [ "$QEMUARCH" = "qemux86" -o "$QEMUARCH" = "qemux86-64" ]; then
--		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH})
-+		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH} -e "bin")
- 	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" ]; then
- 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k zImage -a ${QEMUARCH})
- 	elif [ "$QEMUARCH" = "qemumips" -o "$QEMUARCH" = "qemuppc" ]; then
--		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH})
-+		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH} -e "bin")
- 	fi
- 
- 	# If there is no kernel image found, return failed directly
-@@ -409,7 +407,8 @@ Test_Create_Qemu()
- 		return 1
- 	fi
- 	
--	ROOTFS_IMAGE=$(Test_Find_Image -l ${DEPLOY_DIR}/images -t ${QEMUTARGET} -a ${QEMUARCH})
-+        Test_Info "rootfs image extension selected: $ROOTFS_EXT"
-+        ROOTFS_IMAGE=$(Test_Find_Image -l ${DEPLOY_DIR}/images -t ${QEMUTARGET} -a ${QEMUARCH} -e "$ROOTFS_EXT")
- 
- 	# If there is no rootfs image found, return failed directly
- 	if [ $? -eq 1 ]; then
-@@ -417,7 +416,7 @@ Test_Create_Qemu()
- 		return 1
- 	fi
- 
--	TEST_ROOTFS_IMAGE="${TEST_TMP}/${QEMUTARGET}-${QEMUARCH}-test.ext3"
-+	TEST_ROOTFS_IMAGE="${TEST_TMP}/${QEMUTARGET}-${QEMUARCH}-test.${ROOTFS_EXT}"
- 	
- 	CP=`which cp`
- 
-@@ -438,8 +437,8 @@ Test_Create_Qemu()
- 		export MACHINE=$QEMUARCH
- 
- 		# Create Qemu in localhost VNC Port 1
--		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
--		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
-+		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} ${ROOTFS_EXT} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
-+		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} ${ROOTFS_EXT}  2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
- 	
- 		# Get the pid of the xterm processor, which will be used in Test_Kill_Qemu
- 		XTERMPID=$!
+ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
 -- 
-1.8.1.4
+1.7.10.4
 
 
 
