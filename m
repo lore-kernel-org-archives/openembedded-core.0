@@ -1,39 +1,20 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Ua20A-00028P-LP
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Ua2At-0003im-Gb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 12:53:43 +0200
-Received: by mail-vb0-f47.google.com with SMTP id x14so1408100vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 03:35:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=qEvvvX/K18ZgAco6gFSg0mMD9z2+WqsnFQaXwer8kAU=;
-	b=oX04f0OeTaSEJxXB1Ln3QIC3e2MEIVHWnlxver3PNVCiaEshLSEsq8ix5hbQ28Tx7j
-	Hgawx502aRW2CJGSuXCjKkpZVJnjRrYgIyOOgE8OZeFI+GUviTqs8oEJjW9pmRkHwJEm
-	3z4b6PYCCsbxbbKivEnGNqyDDy0+nME4iVa5umwjdXwIbWSbpDl2A1AIfdmHgvDMFYpI
-	xYf8Dx4cUj4EqRR6SLdqmQLtt3JN6EOefYUmzXuwFQ3gTBRuq4MvvxIhXSIdW+AyH1HW
-	CCMTZmEvvElfAmc4XUlxoxqOqDzsdu0PfXViS1go4prNISU8FAmFdPyiyjFV7ketBUkk
-	SNNQ==
-X-Received: by 10.52.117.212 with SMTP id kg20mr3473071vdb.55.1368009336104;
-	Wed, 08 May 2013 03:35:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Wed, 8 May 2013 03:35:16 -0700 (PDT)
-In-Reply-To: <CAHUNapTCr_YV+pfCJod6LcGfhGh4HEX+GmcQSFQ9frFS+HiecQ@mail.gmail.com>
-References: <1367930701.27116.31.camel@ted>
-	<CAHUNapT--78aOf=eCava7w9VsHAD8fL3odbreW-6EATt6mujbA@mail.gmail.com>
-	<CAJTo0LaUSyekgycP37-jZnHmgy1wOM-PfJ0yZQtMrSP_bUp8hg@mail.gmail.com>
-	<CAHUNapTCr_YV+pfCJod6LcGfhGh4HEX+GmcQSFQ9frFS+HiecQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 8 May 2013 11:35:16 +0100
-Message-ID: <CAJTo0LaHKGS+FRWJX9yE29sdSSVR6R4JsykHOx9N6RpaBuEn+g@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Gm-Message-State: ALoCoQnfWjTvYQjKgyYhuhuMRIDsG6xt/bg7afCBOKgErIAlV+HMHxSIoXrC6EkoHv+a64XWvICx
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Status Update
+	Wed, 08 May 2013 13:04:45 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 May 2013 03:46:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="334341448"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2013 03:46:39 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 May 2013 13:50:17 +0300
+Message-Id: <1368010217-6988-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] byacc: upgraded to 20130304
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,20 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 10:53:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 May 2013 11:04:46 -0000
 
-On 7 May 2013 18:57, Trevor Woerner <twoerner@gmail.com> wrote:
-> I've looked through the list of patches and don't seem to find
-> anything that will do what my patch needs to do in order to build
-> qemu-1.2.0 on openSuSE 12.3. Would you consider adding the attached
-> patch for Danny? (normally I'd send it in-line but I'm behind a
-> firewall at the moment that won't allow "git send-email" to succeed,
-> otherwise I could submit it this evening)
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../byacc/{byacc_20121003.bb => byacc_20130304.bb}              |    7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/byacc/{byacc_20121003.bb => byacc_20130304.bb} (73%)
 
-Merged to my danny-next branch, after confirming that this isn't
-needed in Dylan/master as qemu 1.4 has the -lrt linkages declared.
+diff --git a/meta/recipes-extended/byacc/byacc_20121003.bb b/meta/recipes-extended/byacc/byacc_20130304.bb
+similarity index 73%
+rename from meta/recipes-extended/byacc/byacc_20121003.bb
+rename to meta/recipes-extended/byacc/byacc_20130304.bb
+index c3c8744..da79833 100644
+--- a/meta/recipes-extended/byacc/byacc_20121003.bb
++++ b/meta/recipes-extended/byacc/byacc_20130304.bb
+@@ -1,5 +1,3 @@
+-PR = "r0"
+-
+ # Sigh. This is one of those places where everyone licenses it differently. Someone
+ # even apply UCB to it (Free/Net/OpenBSD). The maintainer states that:
+ # "I've found no reliable source which states that byacc must bear a UCB copyright."
+@@ -9,6 +7,5 @@ LICENSE="PD"
+ LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
+ require byacc.inc
+ 
+-SRC_URI[md5sum] = "26ba97e33a3bfaa311e2e5e1e078de55"
+-SRC_URI[sha256sum] = "5afa4863550a7fc528e976cc33cc383bc0a9637ab95a6a594d2d5f6bf08dd1c5"
+-
++SRC_URI[md5sum] = "e5eef96a33f55b724f2a957f0fa3b019"
++SRC_URI[sha256sum] = "dd8397174e088baf57cf4d344023a34b0758b7bbb8a1dfcdafdc234b8eb57924"
+-- 
+1.7.10.4
 
-Ross
 
 
