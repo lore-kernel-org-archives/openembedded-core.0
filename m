@@ -1,20 +1,21 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Ua2At-0003im-Gb
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Ua34K-0001ks-5o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 13:04:45 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 May 2013 03:46:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="334341448"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by fmsmga002.fm.intel.com with ESMTP; 08 May 2013 03:46:39 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+	Wed, 08 May 2013 14:02:02 +0200
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id ADC3ED20DD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2013 13:43:26 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 13:50:17 +0300
-Message-Id: <1368010217-6988-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] byacc: upgraded to 20130304
+Date: Wed,  8 May 2013 13:43:55 +0200
+Message-Id: <1368013438-15107-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 1/4] gdb: AArch64 lacks lttng support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,38 +28,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 11:04:46 -0000
+X-List-Received-Date: Wed, 08 May 2013 12:02:18 -0000
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 ---
- .../byacc/{byacc_20121003.bb => byacc_20130304.bb}              |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/byacc/{byacc_20121003.bb => byacc_20130304.bb} (73%)
+ meta/recipes-devtools/gdb/gdb-common.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/byacc/byacc_20121003.bb b/meta/recipes-extended/byacc/byacc_20130304.bb
-similarity index 73%
-rename from meta/recipes-extended/byacc/byacc_20121003.bb
-rename to meta/recipes-extended/byacc/byacc_20130304.bb
-index c3c8744..da79833 100644
---- a/meta/recipes-extended/byacc/byacc_20121003.bb
-+++ b/meta/recipes-extended/byacc/byacc_20130304.bb
-@@ -1,5 +1,3 @@
--PR = "r0"
--
- # Sigh. This is one of those places where everyone licenses it differently. Someone
- # even apply UCB to it (Free/Net/OpenBSD). The maintainer states that:
- # "I've found no reliable source which states that byacc must bear a UCB copyright."
-@@ -9,6 +7,5 @@ LICENSE="PD"
- LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
- require byacc.inc
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index f574d5c..6f42dff 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -5,6 +5,7 @@ SECTION = "devel"
+ DEPENDS = "expat ncurses readline ${LTTNGUST}"
  
--SRC_URI[md5sum] = "26ba97e33a3bfaa311e2e5e1e078de55"
--SRC_URI[sha256sum] = "5afa4863550a7fc528e976cc33cc383bc0a9637ab95a6a594d2d5f6bf08dd1c5"
--
-+SRC_URI[md5sum] = "e5eef96a33f55b724f2a957f0fa3b019"
-+SRC_URI[sha256sum] = "dd8397174e088baf57cf4d344023a34b0758b7bbb8a1dfcdafdc234b8eb57924"
+ LTTNGUST = "lttng-ust"
++LTTNGUST_aarch64 = ""
+ LTTNGUST_libc-uclibc = ""
+ LTTNGUST_mips = ""
+ LTTNGUST_mipsel = ""
 -- 
-1.7.10.4
+1.8.1.2
 
 
 
