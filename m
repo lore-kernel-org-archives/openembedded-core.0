@@ -1,26 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Ua0cH-0000Ov-UQ
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Ua0pl-00020c-Lq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 11:24:55 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4896o97005719
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 May 2013 02:06:50 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 8 May 2013 02:06:50 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 May 2013 05:06:46 -0400
-Message-ID: <ee7a94478d58f0f43640cf9ae97018545a4ce6b6.1368002042.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1368002042.git.liezhi.yang@windriver.com>
-References: <cover.1368002042.git.liezhi.yang@windriver.com>
+	Wed, 08 May 2013 11:39:09 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 08 May 2013 02:20:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="299303934"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 08 May 2013 02:20:11 -0700
+Date: Wed, 8 May 2013 12:20:10 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Message-ID: <20130508092010.GA9071@lpalcu-linux>
+References: <1368000682-24889-1-git-send-email-bogdan.a.marinescu@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bbclass: bb.fatal() clean up
+In-Reply-To: <1368000682-24889-1-git-send-email-bogdan.a.marinescu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] diffstat: upgraded to 1.57
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,82 +31,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 09:25:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 May 2013 09:39:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The bb.fatal() is defined as:
+On Wed, May 08, 2013 at 11:11:22AM +0300, Bogdan Marinescu wrote:
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> ---
+>  .../diffstat/diffstat/aclocal.patch                |   34 ++++++++++++++++++++
+>  .../{diffstat_1.55.bb => diffstat_1.57.bb}         |    8 ++---
+>  2 files changed, 38 insertions(+), 4 deletions(-)
+>  create mode 100644 meta/recipes-devtools/diffstat/diffstat/aclocal.patch
+>  rename meta/recipes-devtools/diffstat/{diffstat_1.55.bb => diffstat_1.57.bb} (76%)
+> 
+> diff --git a/meta/recipes-devtools/diffstat/diffstat/aclocal.patch b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
+> new file mode 100644
+> index 0000000..e1addf6
+> --- /dev/null
+> +++ b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
+> @@ -0,0 +1,34 @@
+> +Use the correct macro name (AC_AUTOCONF_VERSION) in the CF_ACVERSION_CHECK macro.
+> +The original macro name (AC_ACVERSION) leads to this error:
+> +
+> +| autoreconf: running: aclocal --system-acdir=/poky/buildnew/tmp/work/i586-poky-linux/diffstat/1.57-r0/build/aclocal-copy/ --automake-acdir=/poky/buildnew/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 --force
+> +| aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
+> +| configure.in:9: error: m4_defn: undefined macro: AC_ACVERSION
+> +| acinclude.m4:989: CF_PROG_CC is expanded from...
+> +| configure.in:9: the top level
+> +| autom4te: m4 failed with exit status: 1
+> +
+Upstream-Status: ?
+Signed-off-by: ?
 
-def fatal(*args):
-    logger.critical(''.join(args))
-    sys.exit(1)
-
-So anything after bb.fatal() in the same code block doesn't have any
-effect, e.g.:
-
-    bb.fatal("%s_%s: %s" % (var, pkg, e))
-    raise e
-
-The "raise e" should be removed.
-
-I searched all the files which use bb.fatal(), only the following 3
-classes have this issues:
-
-  insane.bbclass
-  package.bbclass
-  package_rpm.bbclass
-
-[YOCTO #4461]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/insane.bbclass      |    1 -
- meta/classes/package.bbclass     |    1 -
- meta/classes/package_rpm.bbclass |    2 --
- 3 files changed, 4 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 336beaa..6b696b1 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -715,7 +715,6 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
-             rvar = bb.utils.explode_dep_versions2(localdata.getVar(var, True) or "")
-         except ValueError as e:
-             bb.fatal("%s_%s: %s" % (var, pkg, e))
--            raise e
-         for dep in rvar:
-             for v in rvar[dep]:
-                 if v and not v.startswith(('< ', '= ', '> ', '<= ', '>=')):
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 1a8da40..a31e6bd 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -375,7 +375,6 @@ python package_get_auto_pr() {
-             auto_pr=prserv_get_pr_auto(d)
-         except Exception as e:
-             bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
--            return
-         if auto_pr is None:
-             if d.getVar('PRSERV_LOCKDOWN', True):
-                 bb.fatal("Can NOT get PRAUTO from lockdown exported file")
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 3a29976..edd90da 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -674,12 +674,10 @@ python write_specfile () {
-     pkgdest = d.getVar('PKGDEST', True)
-     if not pkgdest:
-         bb.fatal("No PKGDEST")
--        return
- 
-     outspecfile = d.getVar('OUTSPECFILE', True)
-     if not outspecfile:
-         bb.fatal("No OUTSPECFILE")
--        return
- 
-     # Construct the SPEC file...
-     srcname    = strip_multilib(d.getVar('PN', True), d)
--- 
-1.7.10.4
-
+> +diff --git a/aclocal.m4 b/aclocal.m4
+> +index 144a074..fce6eba 100644
+> +--- a/aclocal.m4
+> ++++ b/aclocal.m4
+> +@@ -13,15 +13,15 @@ dnl ------------------
+> + dnl Conditionally generate script according to whether we're using a given autoconf.
+> + dnl
+> + dnl $1 = version to compare against
+> +-dnl $2 = code to use if AC_ACVERSION is at least as high as $1.
+> +-dnl $3 = code to use if AC_ACVERSION is older than $1.
+> ++dnl $2 = code to use if AC_AUTOCONF_VERSION is at least as high as $1.
+> ++dnl $3 = code to use if AC_AUTOCONF_VERSION is older than $1.
+> + define([CF_ACVERSION_CHECK],
+> + [
+> + ifdef([m4_version_compare],
+> +-[m4_if(m4_version_compare(m4_defn([AC_ACVERSION]), [$1]), -1, [$3], [$2])],
+> ++[m4_if(m4_version_compare(m4_defn([AC_AUTOCONF_VERSION]), [$1]), -1, [$3], [$2])],
+> + [CF_ACVERSION_COMPARE(
+> + AC_PREREQ_CANON(AC_PREREQ_SPLIT([$1])),
+> +-AC_PREREQ_CANON(AC_PREREQ_SPLIT(AC_ACVERSION)), AC_ACVERSION, [$2], [$3])])])dnl
+> ++AC_PREREQ_CANON(AC_PREREQ_SPLIT(AC_AUTOCONF_VERSION)), AC_AUTOCONF_VERSION, [$2], [$3])])])dnl
+> + dnl ---------------------------------------------------------------------------
+> + dnl CF_ACVERSION_COMPARE version: 3 updated: 2012/10/03 18:39:53
+> + dnl --------------------
+> diff --git a/meta/recipes-devtools/diffstat/diffstat_1.55.bb b/meta/recipes-devtools/diffstat/diffstat_1.57.bb
+> similarity index 76%
+> rename from meta/recipes-devtools/diffstat/diffstat_1.55.bb
+> rename to meta/recipes-devtools/diffstat/diffstat_1.57.bb
+> index 9b347e8..c25005f 100644
+> --- a/meta/recipes-devtools/diffstat/diffstat_1.55.bb
+> +++ b/meta/recipes-devtools/diffstat/diffstat_1.57.bb
+> @@ -6,13 +6,13 @@ HOMEPAGE = "http://invisible-island.net/diffstat/"
+>  SECTION = "devel"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://install-sh;endline=42;md5=b3549726c1022bee09c174c72a0ca4a5"
+> -PR = "r0"
+>  
+>  SRC_URI = "ftp://invisible-island.net/diffstat/diffstat-${PV}.tgz \
+> -           file://dirfix.patch"
+> +           file://dirfix.patch \
+> +           file://aclocal.patch"
+>  
+> -SRC_URI[md5sum] = "630d5278f1cd874dc3cc68cff3fddecf"
+> -SRC_URI[sha256sum] = "59a46c75a99f2c373a81880051adc43a17b71c55478691e702c61c13c6d61b55"
+> +SRC_URI[md5sum] = "a70ae35e479ab91da7eb6023a4e9240a"
+> +SRC_URI[sha256sum] = "cb9845839d695f178d6b5458b08d3e04773e400f35c0c062c4c0102220fba1e6"
+>  
+>  S = "${WORKDIR}/diffstat-${PV}"
+>  
+> -- 
+> 1.7.10.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
