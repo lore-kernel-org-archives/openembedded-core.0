@@ -1,24 +1,40 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pb0-f53.google.com ([209.85.160.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Ua0pl-00020c-Lq
+	(envelope-from <net147@gmail.com>) id 1Ua18e-0004CD-1H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 11:39:09 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 08 May 2013 02:20:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="299303934"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 08 May 2013 02:20:11 -0700
-Date: Wed, 8 May 2013 12:20:10 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-Message-ID: <20130508092010.GA9071@lpalcu-linux>
-References: <1368000682-24889-1-git-send-email-bogdan.a.marinescu@intel.com>
+	Wed, 08 May 2013 11:58:21 +0200
+Received: by mail-pb0-f53.google.com with SMTP id un1so1084540pbc.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 May 2013 02:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=1i3zvg8P1kTFyq1R5IP4KYJ3bhBmWghjrTf1SpC42GY=;
+	b=zdaCq79nXmuc5PO0J38PUpR8nlV39pnNDX3VjKL7I9lmRDh41opEJngDccmzCIfs80
+	zy5Ek4WmCFt2aDZp75jJF3AukizU6EYhoPL+bb9eRM6ettvn6z92ZFxHgE4moFYDCzC3
+	UztF6/7slnTN1DBXh+Q+ug0lkrXpWHdpyvshzSjZ/cipZhSl72W287PGXxzyKiJ/sYGV
+	IG8tubm0Fz5nYFhfCeywvpekyd4/f3xvVPqKcckHHZoJNwpqR/SBRkbKOxDNAlfQHqiU
+	IIp+1+38/yx8HLZ+bz8SRWQQyXGzPg4VLpPifsrNf4gu9pjNWoVS2O/WpqGN2mrjI7x/
+	+xJg==
+X-Received: by 10.68.13.35 with SMTP id e3mr6621656pbc.30.1368006017248;
+	Wed, 08 May 2013 02:40:17 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	fa5sm31911991pbb.35.2013.05.08.02.40.10 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 08 May 2013 02:40:16 -0700 (PDT)
+Message-ID: <518A1C61.9040602@gmail.com>
+Date: Wed, 08 May 2013 19:35:29 +1000
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
 MIME-Version: 1.0
-In-Reply-To: <1368000682-24889-1-git-send-email-bogdan.a.marinescu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1367995796.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1367995796.git.sgw@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] diffstat: upgraded to 1.57
+Subject: Re: [CONSOLIDATED PULL 00/23] Updated Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,94 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 09:39:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 May 2013 09:58:25 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 08, 2013 at 11:11:22AM +0300, Bogdan Marinescu wrote:
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> ---
->  .../diffstat/diffstat/aclocal.patch                |   34 ++++++++++++++++++++
->  .../{diffstat_1.55.bb => diffstat_1.57.bb}         |    8 ++---
->  2 files changed, 38 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-devtools/diffstat/diffstat/aclocal.patch
->  rename meta/recipes-devtools/diffstat/{diffstat_1.55.bb => diffstat_1.57.bb} (76%)
-> 
-> diff --git a/meta/recipes-devtools/diffstat/diffstat/aclocal.patch b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
-> new file mode 100644
-> index 0000000..e1addf6
-> --- /dev/null
-> +++ b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
-> @@ -0,0 +1,34 @@
-> +Use the correct macro name (AC_AUTOCONF_VERSION) in the CF_ACVERSION_CHECK macro.
-> +The original macro name (AC_ACVERSION) leads to this error:
-> +
-> +| autoreconf: running: aclocal --system-acdir=/poky/buildnew/tmp/work/i586-poky-linux/diffstat/1.57-r0/build/aclocal-copy/ --automake-acdir=/poky/buildnew/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 --force
-> +| aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
-> +| configure.in:9: error: m4_defn: undefined macro: AC_ACVERSION
-> +| acinclude.m4:989: CF_PROG_CC is expanded from...
-> +| configure.in:9: the top level
-> +| autom4te: m4 failed with exit status: 1
-> +
-Upstream-Status: ?
-Signed-off-by: ?
+On 8/05/2013 4:52 PM, Saul Wold wrote:
+> Richard,
+>
+> This is an updated version of the C-Pull, it address the udev, binutils
+> and final gcc-4.8 patches.
+>
+> I will propose a 4.8 patch to update to that version later this week.
+>
+> I have another batch of change, but I screwed up the push to MUT before
+> building it. Expect that set tommorrow evening after the weekly build.
+>
+> Sau!
+Was there a reason why the "boot-directdisk: Scope HDDDIR and HDDIMG 
+variables to avoid conflicts" change was dropped?
 
-> +diff --git a/aclocal.m4 b/aclocal.m4
-> +index 144a074..fce6eba 100644
-> +--- a/aclocal.m4
-> ++++ b/aclocal.m4
-> +@@ -13,15 +13,15 @@ dnl ------------------
-> + dnl Conditionally generate script according to whether we're using a given autoconf.
-> + dnl
-> + dnl $1 = version to compare against
-> +-dnl $2 = code to use if AC_ACVERSION is at least as high as $1.
-> +-dnl $3 = code to use if AC_ACVERSION is older than $1.
-> ++dnl $2 = code to use if AC_AUTOCONF_VERSION is at least as high as $1.
-> ++dnl $3 = code to use if AC_AUTOCONF_VERSION is older than $1.
-> + define([CF_ACVERSION_CHECK],
-> + [
-> + ifdef([m4_version_compare],
-> +-[m4_if(m4_version_compare(m4_defn([AC_ACVERSION]), [$1]), -1, [$3], [$2])],
-> ++[m4_if(m4_version_compare(m4_defn([AC_AUTOCONF_VERSION]), [$1]), -1, [$3], [$2])],
-> + [CF_ACVERSION_COMPARE(
-> + AC_PREREQ_CANON(AC_PREREQ_SPLIT([$1])),
-> +-AC_PREREQ_CANON(AC_PREREQ_SPLIT(AC_ACVERSION)), AC_ACVERSION, [$2], [$3])])])dnl
-> ++AC_PREREQ_CANON(AC_PREREQ_SPLIT(AC_AUTOCONF_VERSION)), AC_AUTOCONF_VERSION, [$2], [$3])])])dnl
-> + dnl ---------------------------------------------------------------------------
-> + dnl CF_ACVERSION_COMPARE version: 3 updated: 2012/10/03 18:39:53
-> + dnl --------------------
-> diff --git a/meta/recipes-devtools/diffstat/diffstat_1.55.bb b/meta/recipes-devtools/diffstat/diffstat_1.57.bb
-> similarity index 76%
-> rename from meta/recipes-devtools/diffstat/diffstat_1.55.bb
-> rename to meta/recipes-devtools/diffstat/diffstat_1.57.bb
-> index 9b347e8..c25005f 100644
-> --- a/meta/recipes-devtools/diffstat/diffstat_1.55.bb
-> +++ b/meta/recipes-devtools/diffstat/diffstat_1.57.bb
-> @@ -6,13 +6,13 @@ HOMEPAGE = "http://invisible-island.net/diffstat/"
->  SECTION = "devel"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://install-sh;endline=42;md5=b3549726c1022bee09c174c72a0ca4a5"
-> -PR = "r0"
->  
->  SRC_URI = "ftp://invisible-island.net/diffstat/diffstat-${PV}.tgz \
-> -           file://dirfix.patch"
-> +           file://dirfix.patch \
-> +           file://aclocal.patch"
->  
-> -SRC_URI[md5sum] = "630d5278f1cd874dc3cc68cff3fddecf"
-> -SRC_URI[sha256sum] = "59a46c75a99f2c373a81880051adc43a17b71c55478691e702c61c13c6d61b55"
-> +SRC_URI[md5sum] = "a70ae35e479ab91da7eb6023a4e9240a"
-> +SRC_URI[sha256sum] = "cb9845839d695f178d6b5458b08d3e04773e400f35c0c062c4c0102220fba1e6"
->  
->  S = "${WORKDIR}/diffstat-${PV}"
->  
-> -- 
-> 1.7.10.4
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Regards,
+Jonathan
 
 
