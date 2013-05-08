@@ -1,37 +1,44 @@
-Received: from mail-oa0-f46.google.com ([209.85.219.46])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <erik.boto@pelagicore.com>) id 1UZyGW-0008Ec-8E
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UZyNz-0001BN-UN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 08:54:27 +0200
-Received: by mail-oa0-f46.google.com with SMTP id h2so1652714oag.33
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2013 23:36:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=y48dacfcS5raMGgmyVWfY3l/ZhnEnL+OV38StOWn4S4=;
-	b=F4Zu/nJTFQBPGMhMZoTfoNrpYtnWMt5QG4NTACYSI6lGlVa3qSOVq6CQUZnLJeK+wl
-	p3UmLYumFJwhgYGncS//cP/yvBBXOMuL5Of/WqXQ8zlKuSEUzpWl/ncehanPjRk6rre0
-	zc+qGHOHgjDEtpruBcSrzgxBXvmyBNBbLXsBBcXgfRN02HuNVFned+l6g8vNv9ZXuLOM
-	E/qlg3C6xr1xsYPouzySkkzR1kE8xXLhJhK2MuqGq1L/cYPGyZFjrveQgESrYeKsnT0T
-	NECFv+eeeyfj5JSo4O++ax4uiwlCHsxVUBtiupyIChxVTcRMMgWTVM1Qh8cLX+wSWw1l
-	hmng==
+	Wed, 08 May 2013 09:02:00 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 28E9CD20DD; Wed,  8 May 2013 08:43:27 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B3321D20DD;
+	Wed,  8 May 2013 08:42:45 +0200 (CEST)
+Message-ID: <5189F404.8090300@linaro.org>
+Date: Wed, 08 May 2013 08:43:16 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.182.92.133 with SMTP id cm5mr1617827obb.73.1367994973806;
-	Tue, 07 May 2013 23:36:13 -0700 (PDT)
-Received: by 10.76.141.6 with HTTP; Tue, 7 May 2013 23:36:13 -0700 (PDT)
-In-Reply-To: <5189EC92.1020909@windriver.com>
-References: <CA+AhUGxD7Taf2RhuoAp7FF=wfWWJnPSi7_o6fSZZiNMq-u0vgA@mail.gmail.com>
-	<5189EC92.1020909@windriver.com>
-Date: Wed, 8 May 2013 08:36:13 +0200
-Message-ID: <CA+AhUGyN_LX66XE61rtdxS81eCsAy7Ku-F1UwRWuBFrc4=GXAQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Gm-Message-State: ALoCoQk8zsQN3p29DlpC7yg6oRWrIvC65cJ7z6LNGV1wWiSllBWdtsYTwYU8qidXwHb3+wz+s8Cx
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] bbclass for automatic generation of binary recipes
+To: Khem Raj <raj.khem@gmail.com>
+References: <515ED999.9040100@communistcode.co.uk>
+	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
+	<515EFD76.2090009@communistcode.co.uk>
+	<0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
+	<51628545.6050106@communistcode.co.uk>
+	<5162888A.90502@communistcode.co.uk>
+	<6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
+In-Reply-To: <6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
+X-Enigmail-Version: 1.4.6
+Cc: "openembedded-core@lists.openembedded.org layer"
+	<openembedded-core@lists.openembedded.org>,
+	Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>
+Subject: Re: gcc-cross-initial Failure (is a meta-aarch64 screw up)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,74 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 06:54:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 08 May 2013 07:02:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+W dniu 08.05.2013 04:23, Khem Raj pisze:
 
-On Wed, May 8, 2013 at 8:11 AM, Robert Yang <liezhi.yang@windriver.com> wro=
-te:
->
-> Is it similar to meta/classes/package.bbclass ?
->
-> // Robert
-
-I would say it's in addition to package.bbclass.
-
-The idea is that the developers of the closed source software uses OE
-to build their software from source, and in this build process the
-files needed for a binary distribution in OE is automatically
-generated. These generated files can be distributed to others that
-wish to use that closed source software in OE. So it would use some of
-the output from package.bbclass, like the package split, but then
-generate some extra files.
-
-Cheers,
-Erik
+> This seems totally wrong to me to since it overrides recipes in
+> subtle ways and does not document it anywhere
+> 
+> firstly, README is not there and as it seems its a BSP layer but it
+> has much more than a BSP metadata in it. even then if it needed a new
+> toolchain then it should have used different names for includes like
+> meta-linaro-toolchain does.
+> 
+> if it needed to enhance existing recipes from OE-Core or reuse them
+> then it should have included them as it is and tweaked with bbappend 
+> or created new recipes itself for aarch64 compiler tools.
+> 
+> I will leave this to meta-linaro devs to sort out and let it play
+> better with rest of layers meanwhile I will propose to disable
+> meta-aarch64 in angstrom.
 
 
->
->
-> On 05/08/2013 01:53 PM, Erik Bot=F6 wrote:
->>
->> Hi,
->>
->> Background:
->> If you use OE to build software which includes e.g. a closed source
->> library, but still want to others to be able to build software based
->> on that library in a OE environment you would have to create recipes
->> that contains a binary version of your library + headers manually.
->> This would have to be done manually for each package, and as the
->> development of the library continues the binary recipes will have to
->> be manually updated to keep in sync.
->>
->> Idea:
->> Create a new bbclass that handles this automatically as much as
->> possible. The basic idea is to:
->> - Create a tarball of ${WORKDIR}/image/ alternatively
->>    ${WORKDIR}/packages-split/
->> - By parsing the "source recipe", create a "binary recipe" that uses
->> that tarball
->>
->> The binary recipe should work as a drop in replacement of the source
->> recipe. This means that the other recipes depending on the closed
->> source software shouldn't need to be adapted to work with one or the
->> other.
->>
->> I'd like feedback on whether you think the idea is feasible, and if
->> you think it could be useful for others. And anything else you think
->> of.
->>
->> Cheers,
->> Erik Bot=F6
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
+I will sort it out today.
 
 
