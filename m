@@ -1,30 +1,33 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZzUw-0000Fp-Ri
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UZzay-00011y-8V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 10:13:16 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r487tBk2024089
+	Wed, 08 May 2013 10:19:35 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4881Ps4024852
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 8 May 2013 00:55:12 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 8 May 2013 00:55:11 -0700
-Message-ID: <518A04DB.10809@windriver.com>
-Date: Wed, 8 May 2013 15:55:07 +0800
+	Wed, 8 May 2013 01:01:25 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 8 May 2013 01:01:25 -0700
+Message-ID: <518A0651.4050407@windriver.com>
+Date: Wed, 8 May 2013 16:01:21 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1367919920.git.liezhi.yang@windriver.com>
-	<518984CD.4060601@linux.intel.com> <5189AF15.20103@windriver.com>
-	<518A0114.1010701@linux.intel.com> <518A0343.6020409@windriver.com>
-	<518A03F8.8030008@linux.intel.com>
-In-Reply-To: <518A03F8.8030008@linux.intel.com>
+To: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
+References: <CA+AhUGxD7Taf2RhuoAp7FF=wfWWJnPSi7_o6fSZZiNMq-u0vgA@mail.gmail.com>
+	<5189EC92.1020909@windriver.com>
+	<CA+AhUGyN_LX66XE61rtdxS81eCsAy7Ku-F1UwRWuBFrc4=GXAQ@mail.gmail.com>
+	<5189FAE5.3070600@windriver.com>
+	<CA+AhUGzcNBNu9-+KdW5D8eL6Bg-hbfKSODoKx73nOnRBNU7XPw@mail.gmail.com>
+In-Reply-To: <CA+AhUGzcNBNu9-+KdW5D8eL6Bg-hbfKSODoKx73nOnRBNU7XPw@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r4881Ps4024852
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] replace genext2fs with populate-extfs.sh
+Subject: Re: [RFC] bbclass for automatic generation of binary recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,129 +40,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 08:13:36 -0000
+X-List-Received-Date: Wed, 08 May 2013 08:19:36 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
 
 
-On 05/08/2013 03:51 PM, Darren Hart wrote:
-> On 05/08/2013 12:48 AM, Robert Yang wrote:
+On 05/08/2013 03:35 PM, Erik Bot=F6 wrote:
+> On Wed, May 8, 2013 at 9:12 AM, Robert Yang <liezhi.yang@windriver.com>=
+ wrote:
 >>
 >>
->> On 05/08/2013 03:39 PM, Darren Hart wrote:
->>> Always discuss them upstream first. If they are accepted upstream, THEN,
->>> we can roll them into oe-core if we don't want to bring in everything
->>> that landed before them too. But always discuss changes to a project to
->>> the project before doing so in oe-core.
+>> On 05/08/2013 02:36 PM, Erik Bot=F6 wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Wed, May 8, 2013 at 8:11 AM, Robert Yang <liezhi.yang@windriver.co=
+m>
+>>> wrote:
+>>>>
+>>>>
+>>>> Is it similar to meta/classes/package.bbclass ?
+>>>>
+>>>> // Robert
+>>>
+>>>
+>>> I would say it's in addition to package.bbclass.
 >>>
 >>
->> Thanks, got it, I will send the following 2 to ext mailing list if you are
->> fine with them.
+>> Hi Erik,
 >>
->> [PATCH 1/4] e2fsprogs: the max length of debugfs argument is too short
->> [PATCH 2/4] e2fsprogs: let debugfs do sparse copy
+>> Sorry, I meant this one meta/classes/bin_package.bbclass :-)
+>>
+>> // Robert
 >
->
-> If you would like my review, I'll have a look at them tomorrow morning
-> and get you some feedback. Too tired to think straight any longer :-)
+> Oh, hadn't seen that one. That could definitely be useful, the only
+> thing left to do is to try to automate the generation of the recipe
+> that uses the binary package.
 >
 
-Yes, your review is very important, tomorrow is fine to me, thank you very
-much, night.
+How about the scripts/create-recipe ? It works fine with the tarball, but
+not very well with .rpm/.deb/ipk.
 
 // Robert
 
-> --
-> Darren
->
+> Thanks,
+> Erik
 >
 >>
->> // Robert
 >>
->>> Thanks,
+>>> The idea is that the developers of the closed source software uses OE
+>>> to build their software from source, and in this build process the
+>>> files needed for a binary distribution in OE is automatically
+>>> generated. These generated files can be distributed to others that
+>>> wish to use that closed source software in OE. So it would use some o=
+f
+>>> the output from package.bbclass, like the package split, but then
+>>> generate some extra files.
 >>>
->>> Darren
+>>> Cheers,
+>>> Erik
 >>>
->>> On 05/07/2013 06:49 PM, Robert Yang wrote:
->>>>
->>>> Hi Darren,
->>>>
->>>> No, I haven't sent them to the ext mailing list, can we merge them in
->>>> oe-core and then back port to the ext community ? Or I should send them
->>>> to the ext mailing list first ?
->>>>
->>>> // Robert
->>>>
->>>> On 05/08/2013 06:48 AM, Darren Hart wrote:
->>>>> Have these been reviewed on the ext mailing list already?
->>>>>
->>>>> --
->>>>> Darren
->>>>>
->>>>> On 05/07/2013 02:48 AM, Robert Yang wrote:
->>>>>> * The benefits:
->>>>>>      - Really support ext4
->>>>>>      - Support the sparse file (the sparse file became into the common file before)
->>>>>>      - Have a uniform code for ext2/3/4 generation
->>>>>>      - Remove the depends on genext2fs-native
->>>>>>
->>>>>> * Impact
->>>>>>      - Build time:
->>>>>>        a) If we build fresh core-image-sato, there is nearly no impact.
->>>>>>        b) If we do the image generation, which means:
->>>>>>           $ bitbake core-image-sato
->>>>>>           $ bitbake core-image-sato -ccleansstate
->>>>>>           $ bitbake core-image-sato
->>>>>>       About 50 extra seconds are needed, here is my test result:
->>>>>>       Before the patches: 4m25s
->>>>>>       After the patches: 5m17s
->>>>>>       This is because the genext2fs is much faster than the
->>>>>>       populate-extfs.sh, we will replace this script by the mke2fs when it
->>>>>>       supports create the filesystem from a initial directory.
->>>>>>
->>>>>>      - Disk space (take core-image-sato as an example)
->>>>>>        a) The image file size is the same as before (529M)
->>>>>>        b) The disk usage is a little different: (du -sh)
->>>>>>                  before       now
->>>>>>           ext2:  364M         388M
->>>>>>           ext3:  381M         404M
->>>>>>           ext4:  380M         387M
->>>>>>
->>>>>>       We may need to adjust the IMAGE_OVERHEAD_FACTOR from 1.3 to 1.4.
->>>>>>
->>>>>>       I have done some simple runtime testing on core-image-sato and
->>>>>>       core-image-minimal, they worked well.
->>>>>>
->>>>>> // Robert
->>>>>>
->>>>>> The following changes since commit 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
->>>>>>
->>>>>>      grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
->>>>>>
->>>>>> are available in the git repository at:
->>>>>>
->>>>>>      git://git.pokylinux.org/poky-contrib robert/ext4
->>>>>>      http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/ext4
->>>>>>
->>>>>> Robert Yang (4):
->>>>>>      e2fsprogs: the max length of debugfs argument is too short
->>>>>>      e2fsprogs: let debugfs do sparse copy
->>>>>>      e2fsprogs: add populate-extfs.sh
->>>>>>      image_types.bbclass: replace genext2fs with populate-extfs.sh
->>>>>>
->>>>>>     meta/classes/image_types.bbclass                   |   46 ++++----
->>>>>>     .../e2fsprogs-1.42.7/debugfs-too-short.patch       |   28 +++++
->>>>>>     .../e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh   |   93 ++++++++++++++++
->>>>>>     .../e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch   |  114 ++++++++++++++++++++
->>>>>>     .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    4 +
->>>>>>     5 files changed, 257 insertions(+), 28 deletions(-)
->>>>>>     create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
->>>>>>     create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
->>>>>>     create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
->>>>>>
->>>>>
 >>>
+>>>>
+>>>>
+>>>> On 05/08/2013 01:53 PM, Erik Bot=F6 wrote:
+>>>>>
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> Background:
+>>>>> If you use OE to build software which includes e.g. a closed source
+>>>>> library, but still want to others to be able to build software base=
+d
+>>>>> on that library in a OE environment you would have to create recipe=
+s
+>>>>> that contains a binary version of your library + headers manually.
+>>>>> This would have to be done manually for each package, and as the
+>>>>> development of the library continues the binary recipes will have t=
+o
+>>>>> be manually updated to keep in sync.
+>>>>>
+>>>>> Idea:
+>>>>> Create a new bbclass that handles this automatically as much as
+>>>>> possible. The basic idea is to:
+>>>>> - Create a tarball of ${WORKDIR}/image/ alternatively
+>>>>>      ${WORKDIR}/packages-split/
+>>>>> - By parsing the "source recipe", create a "binary recipe" that use=
+s
+>>>>> that tarball
+>>>>>
+>>>>> The binary recipe should work as a drop in replacement of the sourc=
+e
+>>>>> recipe. This means that the other recipes depending on the closed
+>>>>> source software shouldn't need to be adapted to work with one or th=
+e
+>>>>> other.
+>>>>>
+>>>>> I'd like feedback on whether you think the idea is feasible, and if
+>>>>> you think it could be useful for others. And anything else you thin=
+k
+>>>>> of.
+>>>>>
+>>>>> Cheers,
+>>>>> Erik Bot=F6
+>>>>>
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-co=
+re
+>>>>>
+>>>>>
+>>>>
+>>>
+>>>
+>>
+>
 >
 
 
