@@ -1,39 +1,27 @@
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <erik.boto@pelagicore.com>) id 1UZzBj-0006Gw-8k
+	(envelope-from <dvhart@linux.intel.com>) id 1UZzFH-0006eV-Bj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 09:53:24 +0200
-Received: by mail-ob0-f180.google.com with SMTP id uk5so1403786obc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 00:35:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=ckwu4/gy5ggCw5TiKwsDboP8KbQyxI8Xz+2fRSfNN+o=;
-	b=HB4QD61ZEo/q92TSIazRjdNXszOk0yj7C51IRe6uyLmGQBVe8lXnDEST42rAdSIKs4
-	7Dirc58MG+8aC5Ia2OeB0DozvO7Rz5UCcQ+aazntzYKanjKIYthaZRxYrLV+e4RNYXPo
-	r0znk4n2kH6XtIoUvOK+Q7NMRgiaaDtmrsSWtimuhROKkquwUcdJExXnT2M0uAtW5Pf5
-	UpTs02jRu8fgREwlYvb9JTTOYVcifPqHqt1MrgTAlycbu0GvhWvwFuGwpUEgrTZh2D6N
-	lxEhERuSdqSFm5c6Z/Kf/44LaPnr1kxYpQ0WoQSCtCzj6h9DRFgoOH93ZPEaL3/dtP6D
-	n7Sg==
+	Wed, 08 May 2013 09:57:07 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 May 2013 00:39:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="334282342"
+Received: from unknown (HELO envy2.home) ([10.255.12.158])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2013 00:39:00 -0700
+Message-ID: <518A0114.1010701@linux.intel.com>
+Date: Wed, 08 May 2013 00:39:00 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Received: by 10.182.129.230 with SMTP id nz6mr1659946obb.49.1367998520504;
-	Wed, 08 May 2013 00:35:20 -0700 (PDT)
-Received: by 10.76.141.6 with HTTP; Wed, 8 May 2013 00:35:20 -0700 (PDT)
-In-Reply-To: <5189FAE5.3070600@windriver.com>
-References: <CA+AhUGxD7Taf2RhuoAp7FF=wfWWJnPSi7_o6fSZZiNMq-u0vgA@mail.gmail.com>
-	<5189EC92.1020909@windriver.com>
-	<CA+AhUGyN_LX66XE61rtdxS81eCsAy7Ku-F1UwRWuBFrc4=GXAQ@mail.gmail.com>
-	<5189FAE5.3070600@windriver.com>
-Date: Wed, 8 May 2013 09:35:20 +0200
-Message-ID: <CA+AhUGzcNBNu9-+KdW5D8eL6Bg-hbfKSODoKx73nOnRBNU7XPw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
 To: Robert Yang <liezhi.yang@windriver.com>
-X-Gm-Message-State: ALoCoQkM58f7jeAkSj8enpgy3ktRYDN2eQQ9pA2dkmI/Er9pG+o/vgyvdDMbbR23dDgynPB+i80U
+References: <cover.1367919920.git.liezhi.yang@windriver.com>
+	<518984CD.4060601@linux.intel.com> <5189AF15.20103@windriver.com>
+In-Reply-To: <5189AF15.20103@windriver.com>
+X-Enigmail-Version: 1.5.1
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] bbclass for automatic generation of binary recipes
+Subject: Re: [PATCH 0/4] replace genext2fs with populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,102 +34,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 07:53:26 -0000
+X-List-Received-Date: Wed, 08 May 2013 07:57:52 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 8, 2013 at 9:12 AM, Robert Yang <liezhi.yang@windriver.com> wro=
-te:
->
->
-> On 05/08/2013 02:36 PM, Erik Bot=F6 wrote:
->>
->> Hi,
->>
->> On Wed, May 8, 2013 at 8:11 AM, Robert Yang <liezhi.yang@windriver.com>
->> wrote:
->>>
->>>
->>> Is it similar to meta/classes/package.bbclass ?
->>>
->>> // Robert
->>
->>
->> I would say it's in addition to package.bbclass.
->>
->
-> Hi Erik,
->
-> Sorry, I meant this one meta/classes/bin_package.bbclass :-)
->
-> // Robert
-
-Oh, hadn't seen that one. That could definitely be useful, the only
-thing left to do is to try to automate the generation of the recipe
-that uses the binary package.
+Always discuss them upstream first. If they are accepted upstream, THEN,
+we can roll them into oe-core if we don't want to bring in everything
+that landed before them too. But always discuss changes to a project to
+the project before doing so in oe-core.
 
 Thanks,
-Erik
 
->
->
->> The idea is that the developers of the closed source software uses OE
->> to build their software from source, and in this build process the
->> files needed for a binary distribution in OE is automatically
->> generated. These generated files can be distributed to others that
->> wish to use that closed source software in OE. So it would use some of
->> the output from package.bbclass, like the package split, but then
->> generate some extra files.
+Darren
+
+On 05/07/2013 06:49 PM, Robert Yang wrote:
+> 
+> Hi Darren,
+> 
+> No, I haven't sent them to the ext mailing list, can we merge them in
+> oe-core and then back port to the ext community ? Or I should send them
+> to the ext mailing list first ?
+> 
+> // Robert
+> 
+> On 05/08/2013 06:48 AM, Darren Hart wrote:
+>> Have these been reviewed on the ext mailing list already?
 >>
->> Cheers,
->> Erik
+>> --
+>> Darren
 >>
->>
+>> On 05/07/2013 02:48 AM, Robert Yang wrote:
+>>> * The benefits:
+>>>    - Really support ext4
+>>>    - Support the sparse file (the sparse file became into the common file before)
+>>>    - Have a uniform code for ext2/3/4 generation
+>>>    - Remove the depends on genext2fs-native
 >>>
+>>> * Impact
+>>>    - Build time:
+>>>      a) If we build fresh core-image-sato, there is nearly no impact.
+>>>      b) If we do the image generation, which means:
+>>>         $ bitbake core-image-sato
+>>>         $ bitbake core-image-sato -ccleansstate
+>>>         $ bitbake core-image-sato
+>>>     About 50 extra seconds are needed, here is my test result:
+>>>     Before the patches: 4m25s
+>>>     After the patches: 5m17s
+>>>     This is because the genext2fs is much faster than the
+>>>     populate-extfs.sh, we will replace this script by the mke2fs when it
+>>>     supports create the filesystem from a initial directory.
 >>>
->>> On 05/08/2013 01:53 PM, Erik Bot=F6 wrote:
->>>>
->>>>
->>>> Hi,
->>>>
->>>> Background:
->>>> If you use OE to build software which includes e.g. a closed source
->>>> library, but still want to others to be able to build software based
->>>> on that library in a OE environment you would have to create recipes
->>>> that contains a binary version of your library + headers manually.
->>>> This would have to be done manually for each package, and as the
->>>> development of the library continues the binary recipes will have to
->>>> be manually updated to keep in sync.
->>>>
->>>> Idea:
->>>> Create a new bbclass that handles this automatically as much as
->>>> possible. The basic idea is to:
->>>> - Create a tarball of ${WORKDIR}/image/ alternatively
->>>>     ${WORKDIR}/packages-split/
->>>> - By parsing the "source recipe", create a "binary recipe" that uses
->>>> that tarball
->>>>
->>>> The binary recipe should work as a drop in replacement of the source
->>>> recipe. This means that the other recipes depending on the closed
->>>> source software shouldn't need to be adapted to work with one or the
->>>> other.
->>>>
->>>> I'd like feedback on whether you think the idea is feasible, and if
->>>> you think it could be useful for others. And anything else you think
->>>> of.
->>>>
->>>> Cheers,
->>>> Erik Bot=F6
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>>
+>>>    - Disk space (take core-image-sato as an example)
+>>>      a) The image file size is the same as before (529M)
+>>>      b) The disk usage is a little different: (du -sh)
+>>>                before       now
+>>>         ext2:  364M         388M
+>>>         ext3:  381M         404M
+>>>         ext4:  380M         387M
+>>>
+>>>     We may need to adjust the IMAGE_OVERHEAD_FACTOR from 1.3 to 1.4.
+>>>
+>>>     I have done some simple runtime testing on core-image-sato and
+>>>     core-image-minimal, they worked well.
+>>>
+>>> // Robert
+>>>
+>>> The following changes since commit 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
+>>>
+>>>    grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib robert/ext4
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/ext4
+>>>
+>>> Robert Yang (4):
+>>>    e2fsprogs: the max length of debugfs argument is too short
+>>>    e2fsprogs: let debugfs do sparse copy
+>>>    e2fsprogs: add populate-extfs.sh
+>>>    image_types.bbclass: replace genext2fs with populate-extfs.sh
+>>>
+>>>   meta/classes/image_types.bbclass                   |   46 ++++----
+>>>   .../e2fsprogs-1.42.7/debugfs-too-short.patch       |   28 +++++
+>>>   .../e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh   |   93 ++++++++++++++++
+>>>   .../e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch   |  114 ++++++++++++++++++++
+>>>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    4 +
+>>>   5 files changed, 257 insertions(+), 28 deletions(-)
+>>>   create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
+>>>   create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
+>>>   create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
 >>>
 >>
->>
->
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
