@@ -1,20 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Ua4is-0003Ur-2B
+	(envelope-from <sgw@linux.intel.com>) id 1Ua5du-0000VD-Fb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 15:47:59 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 May 2013 06:29:46 -0700
+	Wed, 08 May 2013 16:46:56 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 May 2013 07:28:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,635,1363158000"; d="scan'208";a="238522421"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 May 2013 06:29:40 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 16:33:17 +0300
-Message-Id: <1368019997-2015-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] btrfs-tools: upgraded to 0.20-rc1
+X-IronPort-AV: E=Sophos;i="4.87,635,1363158000"; d="scan'208";a="310171894"
+Received: from unknown (HELO [10.255.13.9]) ([10.255.13.9])
+	by orsmga001.jf.intel.com with ESMTP; 08 May 2013 07:28:50 -0700
+Message-ID: <518A6122.5060309@linux.intel.com>
+Date: Wed, 08 May 2013 07:28:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>, 
+	Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+References: <1368013438-15107-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<1368013438-15107-2-git-send-email-marcin.juszkiewicz@linaro.org>
+In-Reply-To: <1368013438-15107-2-git-send-email-marcin.juszkiewicz@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] gdb: add 7.6 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,81 +34,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 13:47:59 -0000
+X-List-Received-Date: Wed, 08 May 2013 14:46:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-'fix_use_of_gcc.patch' was integrated in the main repository.
+On 05/08/2013 04:43 AM, Marcin Juszkiewicz wrote:
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> ---
+>   meta/recipes-devtools/gdb/gdb-7.6.inc              | 11 ++++++++++
+>   .../gdb/gdb-7.6/gdbserver-cflags-last.diff         | 25 ++++++++++++++++++++++
+>   .../recipes-devtools/gdb/gdb-cross-canadian_7.6.bb |  5 +++++
+>   meta/recipes-devtools/gdb/gdb-cross_7.6.bb         |  4 ++++
+>   meta/recipes-devtools/gdb/gdb_7.6.bb               |  3 +++
+>   5 files changed, 48 insertions(+)
+>   create mode 100644 meta/recipes-devtools/gdb/gdb-7.6.inc
+>   create mode 100644 meta/recipes-devtools/gdb/gdb-7.6/gdbserver-cflags-last.diff
+>   create mode 100644 meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.bb
+>   create mode 100644 meta/recipes-devtools/gdb/gdb-cross_7.6.bb
+>   create mode 100644 meta/recipes-devtools/gdb/gdb_7.6.bb
+>
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   |   31 --------------------
- .../btrfs-tools/btrfs-tools_git.bb                 |    9 ++----
- 2 files changed, 3 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+Why are you keeping the previous version, OE-Core mostly takes Updates 
+to recipes unless there is strong reason to keep the old version around.
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-deleted file mode 100644
-index 7f6594a..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
--Upstream-Status: Pending
--
--Avoid these kinds of errors while doing cross build:
--
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
--| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
--| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
--| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
-- 		$(objects) $(LDFLAGS) $(LIBS)
-- 
-- calc-size: $(objects) calc-size.o
---	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- find-root: $(objects) find-root.o
---	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- restore: $(objects) restore.o
---	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
--+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
-- 
-- btrfsctl: $(objects) btrfsctl.o
-- 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index ef575ae..51c1b08 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,17 +12,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
- DEPENDS = "util-linux attr"
- 
--SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
-+SRCREV = "89fe5b5f666c247aa3173745fb87c710f3a71a4a"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--PV = "0.19+git${SRCPV}"
-+PV = "0.20-rc1+git${SRCPV}"
- 
--PR = "r6"
--
--SRC_URI += " file://fix_use_of_gcc.patch \
--	 file://weak-defaults.patch \
-+SRC_URI += " file://weak-defaults.patch \
- 	 file://fix_race_condition_with_multithreaded_make.patch "
- 
- SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
--- 
-1.7.10.4
+I also note that Bogdan provided such an update, but might have other issues
 
+
+Sau!
+
+> diff --git a/meta/recipes-devtools/gdb/gdb-7.6.inc b/meta/recipes-devtools/gdb/gdb-7.6.inc
+> new file mode 100644
+> index 0000000..20c4ea1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb-7.6.inc
+> @@ -0,0 +1,11 @@
+> +LICENSE="GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+> +		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+> +		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+> +		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+> +
+> +PR = "${INC_PR}.0"
+> +S = "${WORKDIR}/${BPN}-${PV}"
+> +
+> +SRC_URI[md5sum] = "a9836707337e5f7bf76a009a8904f470"
+> +SRC_URI[sha256sum] = "8070389a5dcc104eb0be483d582729f98ed4d761ad19cedd3f17b5d2502faa36"
+> diff --git a/meta/recipes-devtools/gdb/gdb-7.6/gdbserver-cflags-last.diff b/meta/recipes-devtools/gdb/gdb-7.6/gdbserver-cflags-last.diff
+> new file mode 100644
+> index 0000000..4dfc419
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb-7.6/gdbserver-cflags-last.diff
+> @@ -0,0 +1,25 @@
+> +Upstream-Status: Pending
+> +
+> +---
+> + gdb/gdbserver/Makefile.in |    4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +--- gdb/gdbserver/Makefile.in.orig
+> ++++ gdb/gdbserver/Makefile.in
+> +@@ -118,14 +118,14 @@ WARN_CFLAGS_NO_FORMAT = `echo " $(WARN_C
+> + # CFLAGS is specifically reserved for setting from the command line
+> + # when running make.  I.E.  "make CFLAGS=-Wmissing-prototypes".
+> + CFLAGS = @CFLAGS@
+> +
+> + # INTERNAL_CFLAGS is the aggregate of all other *CFLAGS macros.
+> +-INTERNAL_CFLAGS_BASE =  ${CFLAGS} ${GLOBAL_CFLAGS} \
+> ++INTERNAL_CFLAGS_BASE =  ${GLOBAL_CFLAGS} \
+> + 	${PROFILE_CFLAGS} ${INCLUDE_CFLAGS}
+> + INTERNAL_WARN_CFLAGS =  ${INTERNAL_CFLAGS_BASE} $(WARN_CFLAGS)
+> +-INTERNAL_CFLAGS =  ${INTERNAL_WARN_CFLAGS} $(WERROR_CFLAGS) -DGDBSERVER
+> ++INTERNAL_CFLAGS =  ${INTERNAL_WARN_CFLAGS} $(WERROR_CFLAGS) ${CFLAGS} -DGDBSERVER
+> +
+> + # LDFLAGS is specifically reserved for setting from the command line
+> + # when running make.
+> + LDFLAGS = @LDFLAGS@
+> + INTERNAL_LDFLAGS = $(LDFLAGS) @RDYNAMIC@
+> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.bb
+> new file mode 100644
+> index 0000000..a2194a1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.bb
+> @@ -0,0 +1,5 @@
+> +require gdb-common.inc
+> +require gdb-cross-canadian.inc
+> +require gdb-7.6.inc
+> +
+> +GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+> diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.6.bb b/meta/recipes-devtools/gdb/gdb-cross_7.6.bb
+> new file mode 100644
+> index 0000000..62f6937
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb-cross_7.6.bb
+> @@ -0,0 +1,4 @@
+> +require gdb-cross.inc
+> +require gdb-7.6.inc
+> +
+> +SRC_URI += "file://sim-install-6.6.patch"
+> diff --git a/meta/recipes-devtools/gdb/gdb_7.6.bb b/meta/recipes-devtools/gdb/gdb_7.6.bb
+> new file mode 100644
+> index 0000000..0c9818d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb_7.6.bb
+> @@ -0,0 +1,3 @@
+> +require gdb.inc
+> +require gdb-7.6.inc
+> +
+>
 
 
