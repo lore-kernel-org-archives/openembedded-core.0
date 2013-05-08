@@ -1,34 +1,24 @@
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UaAX7-000862-VE
+	(envelope-from <joe.slater@windriver.com>) id 1UaAzz-0006Ol-KH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 22:00:23 +0200
-Received: by mail-pb0-f52.google.com with SMTP id xa7so1453067pbc.39
+	Wed, 08 May 2013 22:30:35 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r48KBwjZ020380
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 12:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=lF9xAxLZrwwJR7f4uFjePfL+ws6h9fCmOXSE/0rifho=;
-	b=k/wRCqwwdecbR5Dg70LQonKcodgPvFqc8In2oCQHiXVnk3rbbexryDA6y9uGkvZXJK
-	7xbJbdH7Mme2BNOymwS8R+Exss+h0jzJ3yBKxlLtO5FX+3bq4NUCkUL4FYfp7jGIbz9c
-	H2Zco1ZPydWu9TgMCGMk80z8eCzT/HT+1CRYbFzFMnckKCYqg1lxC9h0LyCiBmozVRDA
-	e9AWFxlN/ru53kSkacAcbfi9I9Xk84Hr8Dhj2UVfy84NfsUJlVFjwgech2hRVD2ZoTxh
-	JHgZmeMrvJNBgfkF+Ecm0H0Y5wnKg71VG6rHNFUPadutcyr5AHdQxCEjqJTeMdhqILsm
-	5ptA==
-X-Received: by 10.68.255.130 with SMTP id aq2mr8914447pbd.164.1368042130521;
-	Wed, 08 May 2013 12:42:10 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id
-	wi6sm33746207pbc.22.2013.05.08.12.42.09 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 08 May 2013 12:42:09 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 12:40:43 -0700
-Message-Id: <1368042043-26561-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] runqemu: Replace use of ifconfig with ip
+	Wed, 8 May 2013 13:11:58 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 8 May 2013 13:11:58 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 May 2013 13:11:57 -0700
+Message-ID: <1368043917-25050-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] sysvinit-inittab: start runlevel 5 after terminals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,96 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 20:00:39 -0000
+X-List-Received-Date: Wed, 08 May 2013 20:30:43 -0000
+Content-Type: text/plain
 
-ifconfig and its ilk (net-tools package) is deprecated in favour of iproute2 package
-and is now removed by many distro's e.g. Archlinux. So we replace ifconfig with ip utility
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+If xserver is started before getty is attached to
+virtual terminals, the server might lose the ability
+to accept keyboard input, so we go to runlevel 5 at the
+very end of inittab.
 ---
- scripts/runqemu-gen-tapdevs | 6 +++---
- scripts/runqemu-ifup        | 6 +++---
- scripts/runqemu-internal    | 6 +++---
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ .../recipes-core/sysvinit/sysvinit-inittab/inittab |    4 +++-
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index f5be30a..d3b27be 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -59,10 +59,10 @@ if [ ! -x "$RUNQEMU_IFUP" ]; then
- 	exit 1
- fi
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+index 6abbdf4..519ae17 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+@@ -24,7 +24,9 @@ l1:1:wait:/etc/init.d/rc 1
+ l2:2:wait:/etc/init.d/rc 2
+ l3:3:wait:/etc/init.d/rc 3
+ l4:4:wait:/etc/init.d/rc 4
+-l5:5:wait:/etc/init.d/rc 5
++#
++# go into runlevel 5 ONLY after starting getty's
++#
+ l6:6:wait:/etc/init.d/rc 6
+ # Normally not reached, but fallthrough in case of emergency.
+ z6:6:respawn:/sbin/sulogin
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 23c284d..d4cb6b9 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
  
--IFCONFIG=`which ifconfig 2> /dev/null`
-+IFCONFIG=`which ip 2> /dev/null`
- if [ -z "$IFCONFIG" ]; then
- 	# Is it ever anywhere else?
--	IFCONFIG=/sbin/ifconfig
-+	IFCONFIG=/sbin/ip
- fi
- if [ ! -x "$IFCONFIG" ]; then
-        echo "$IFCONFIG cannot be executed"
-@@ -70,7 +70,7 @@ if [ ! -x "$IFCONFIG" ]; then
- fi
+-PR = "r9"
++PR = "r10"
  
- # Ensure we start with a clean slate
--for tap in `$IFCONFIG | grep ^tap | awk '{ print \$1 }' | sed s/://`; do
-+for tap in `$IFCONFIG link | grep tap | awk '{ print \$2 }' | sed s/://`; do
- 	echo "Note: Destroying pre-existing tap interface $tap..."
- 	$TUNCTL -d $tap
- done
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 0926faf..8948153 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -70,10 +70,10 @@ if [ $STATUS -ne 0 ]; then
- 	fi
- fi
+ SRC_URI = "file://inittab"
  
--IFCONFIG=`which ifconfig 2> /dev/null`
-+IFCONFIG=`which ip 2> /dev/null`
- if [ "x$IFCONFIG" = "x" ]; then
- 	# better than nothing...
--	IFCONFIG=/sbin/ifconfig
-+	IFCONFIG=/sbin/ip
- fi
- if [ ! -x "$IFCONFIG" ]; then
- 	echo "$IFCONFIG cannot be executed"
-@@ -100,7 +100,7 @@ if [ ! -x "$IPTABLES" ]; then
- fi
+@@ -45,6 +45,10 @@ EOF
+         done
+         echo "" >> ${D}${sysconfdir}/inittab
+     fi
++
++    # Going to runlevel 5 should be the last thing in inittab.
++    #
++    echo "l5:5:wait:/etc/init.d/rc 5" >> ${D}${sysconfdir}/inittab
+ }
  
- n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
--$IFCONFIG $TAP 192.168.7.$n netmask 255.255.255.255
-+$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
- 
- dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
- $ROUTE add -host 192.168.7.$dest $TAP
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f11706d..d295013 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -139,16 +139,16 @@ if [ ! -d "$LOCKDIR" ]; then
-     chmod 777 $LOCKDIR
- fi
- 
--IFCONFIG=`which ifconfig 2> /dev/null`
-+IFCONFIG=`which ip 2> /dev/null`
- if [ -z "$IFCONFIG" ]; then
--    IFCONFIG=/sbin/ifconfig
-+    IFCONFIG=/sbin/ip
- fi
- if [ ! -x "$IFCONFIG" ]; then
-        echo "$IFCONFIG cannot be executed"
-        exit 1
- fi
- 
--POSSIBLE=`$IFCONFIG -a | grep '^tap' | awk '{print $1}' | sed s/://`
-+POSSIBLE=`$IFCONFIG link | grep 'tap' | awk '{print $2}' | sed s/://`
- TAP=""
- LOCKFILE=""
- for tap in $POSSIBLE; do
+ pkg_postinst_${PN} () {
 -- 
-1.8.2.2
+1.7.3.4
 
 
 
