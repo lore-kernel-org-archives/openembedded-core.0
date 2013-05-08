@@ -1,24 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1UZzj7-00023c-8Z
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UZzmo-0002VU-Rp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 10:28:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4889oud025883
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 May 2013 01:09:50 -0700 (PDT)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 8 May 2013 01:09:50 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 May 2013 04:09:47 -0400
-Message-ID: <cover.1368000473.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1] libtool-nativesdk: rename to nativesdk-libtool
+	Wed, 08 May 2013 10:31:53 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 May 2013 01:13:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,632,1363158000"; d="scan'208";a="334292787"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2013 01:13:38 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 May 2013 11:17:16 +0300
+Message-Id: <1368001036-27338-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <y>
+References: <y>
+Subject: [PATCH] kexec-tools: upgraded to 2.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 08:28:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 May 2013 08:32:11 -0000
+X-List-Received-Date: Wed, 08 May 2013 08:32:11 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../kexec/{kexec-tools_2.0.3.bb => kexec-tools_2.0.4.bb}         |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.3.bb => kexec-tools_2.0.4.bb} (55%)
 
-Rename nativesdk item to prefix vs suffix. Some minor changes for
-getting it works after renamed:
-    
-    * append patches dir 'libtool/' to FILESEXTRAPATHS
-    * update ${S}, append '${datadir}/libtool/*' to FILES_${PN}
-
-The following changes since commit 9895d2c074156fee338d91aed7cfb0800477c622:
-
-  maintainers.inc: update sbc pkg maintainer (2013-05-07 13:58:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib wenzong/nativesdk-libtool
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/nativesdk-libtool
-
-Wenzong Fan (1):
-  libtool-nativesdk: rename to nativesdk-libtool
-
- ...tivesdk_2.4.2.bb => nativesdk-libtool_2.4.2.bb} |    6 ++++++
- 1 file changed, 6 insertions(+)
- rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.2.bb => nativesdk-libtool_2.4.2.bb} (86%)
-
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.3.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.4.bb
+similarity index 55%
+rename from meta/recipes-kernel/kexec/kexec-tools_2.0.3.bb
+rename to meta/recipes-kernel/kexec/kexec-tools_2.0.4.bb
+index 3cc8265..de44cf0 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.3.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.4.bb
+@@ -2,10 +2,8 @@ require kexec-tools.inc
+ export LDFLAGS = "-L${STAGING_LIBDIR}"
+ EXTRA_OECONF = " --with-zlib=yes"
+ 
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "1b362abd2e8669171a5ba50a9cc26183"
+-SRC_URI[sha256sum] = "36a50fad961e24c9cdaa7c01b74d3cdd2b1bebf9bf0f0f3740dd1f21bd1b8ba6"
++SRC_URI[md5sum] = "b9f2a3ba0ba9c78625ee7a50532500d8"
++SRC_URI[sha256sum] = "6ba1872c58434b8e92506ff515c7ef64555671af54097bae51b833bda3f5126c"
+ 
+ PACKAGES =+ "kexec kdump"
+ 
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
