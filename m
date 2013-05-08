@@ -1,22 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ionutx.radu@intel.com>) id 1Ua5sm-0001dU-Gc
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 17:02:22 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 May 2013 07:40:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,635,1363158000"; d="scan'208";a="330858795"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by fmsmga001.fm.intel.com with ESMTP; 08 May 2013 07:40:34 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2013 17:41:59 +0300
-Message-Id: <1368024119-4149-10-git-send-email-ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1368024119-4149-1-git-send-email-ionutx.radu@intel.com>
-References: <1368024119-4149-1-git-send-email-ionutx.radu@intel.com>
-Subject: [PATCH 9/9] gpgme: Updated from 1.4.0 to 1.4.1
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Ua5tC-0002GI-Bj for openembedded-core@lists.openembedded.org;
+	Wed, 08 May 2013 17:02:45 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r48EksGq000768; Wed, 8 May 2013 15:46:54 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vcPmEgFgD-DU; Wed,  8 May 2013 15:46:54 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r48EkooB000760
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 8 May 2013 15:46:51 +0100
+Message-ID: <1368024261.27116.45.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 08 May 2013 15:44:21 +0100
+In-Reply-To: <cover.1367995796.git.sgw@linux.intel.com>
+References: <cover.1367995796.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	r48EksGq000768
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/23] Updated Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,46 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 15:02:26 -0000
+X-List-Received-Date: Wed, 08 May 2013 15:02:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- .../{gpgme-1.4.0 => gpgme-1.4.1}/disable_gpgconf_check.patch     |    0
- meta/recipes-support/gpgme/{gpgme_1.4.0.bb => gpgme_1.4.1.bb}    |    6 ++----
- 2 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme-1.4.0 => gpgme-1.4.1}/disable_gpgconf_check.patch (100%)
- rename meta/recipes-support/gpgme/{gpgme_1.4.0.bb => gpgme_1.4.1.bb} (89%)
+On Tue, 2013-05-07 at 23:52 -0700, Saul Wold wrote:
+> Andreas M=C3=BCller (2):
+>   systemd: do not recommend udev-extraconf for udev
+>   udev: do not recommend udev-extraconf
+>=20
+> Andrei Dinu (1):
+>   SLiRP support in runqemu
 
-diff --git a/meta/recipes-support/gpgme/gpgme-1.4.0/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.4.1/disable_gpgconf_check.patch
-similarity index 100%
-rename from meta/recipes-support/gpgme/gpgme-1.4.0/disable_gpgconf_check.patch
-rename to meta/recipes-support/gpgme/gpgme-1.4.1/disable_gpgconf_check.patch
-diff --git a/meta/recipes-support/gpgme/gpgme_1.4.0.bb b/meta/recipes-support/gpgme/gpgme_1.4.1.bb
-similarity index 89%
-rename from meta/recipes-support/gpgme/gpgme_1.4.0.bb
-rename to meta/recipes-support/gpgme/gpgme_1.4.1.bb
-index a8c1157..13bc508 100644
---- a/meta/recipes-support/gpgme/gpgme_1.4.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.4.1.bb
-@@ -12,14 +12,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
-            file://disable_gpgconf_check.patch"
- 
--SRC_URI[md5sum] = "a0f93aba6d8a831ba14905085027f2f9"
--SRC_URI[sha256sum] = "728c959abb0795ed4357b308cdbba92210d22998b075664d1e038d3cc7145619"
-+SRC_URI[md5sum] = "07f1c0eb6596a94efa3ffb75e74bfbba"
-+SRC_URI[sha256sum] = "7ab63e5086ebe4cfe7f78face1bb059a7a60da586b1e5c6a77bedcd6d04019b8"
- DEPENDS = "libgpg-error libassuan ${PTH}"
- PTH_libc-uclibc = "npth"
- PTH = "pth"
- 
--PR = "r0"
--
- EXTRA_OECONF = "--with-pth=${STAGING_DIR_HOST} --without-pth-test \
-                 --with-gpg=${bindir}/gpg --without-gpgsm"
- 
--- 
-1.7.10.4
+This reverts the various other changes made to the script to fix locking
+races.
+
+> Bruce Ashfield (4):
+>   linux-yocto/3.4: iwlwifi, ext4, brtfs warning and -rt fixes
+>   kern-tools: anchor and delimit regexs
+>   linux-yocto/3.4: update to v3.4.43, ltsi-65311d8 and v3.4.42-rt56
+>   linux-yocto/3.8: udpate to v3.8.11
+>=20
+> Carlos Rafael Giani (1):
+>   gstreamer: Fixed dependency problem with -meta packages
+
+Shouldn't we remove the -glib package and friends as they don't seem
+very general?
+
+Cheers,
+
+Richard
 
 
 
