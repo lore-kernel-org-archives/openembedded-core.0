@@ -1,43 +1,32 @@
-Received: from mail-pb0-f53.google.com ([209.85.160.53])
+Received: from eumx.net ([91.82.101.43] helo=owm.eumx.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1Ua18e-0004CD-1H
+	(envelope-from <ml@communistcode.co.uk>) id 1Ua1NV-0006CS-EF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 May 2013 11:58:21 +0200
-Received: by mail-pb0-f53.google.com with SMTP id un1so1084540pbc.26
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 02:40:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=1i3zvg8P1kTFyq1R5IP4KYJ3bhBmWghjrTf1SpC42GY=;
-	b=zdaCq79nXmuc5PO0J38PUpR8nlV39pnNDX3VjKL7I9lmRDh41opEJngDccmzCIfs80
-	zy5Ek4WmCFt2aDZp75jJF3AukizU6EYhoPL+bb9eRM6ettvn6z92ZFxHgE4moFYDCzC3
-	UztF6/7slnTN1DBXh+Q+ug0lkrXpWHdpyvshzSjZ/cipZhSl72W287PGXxzyKiJ/sYGV
-	IG8tubm0Fz5nYFhfCeywvpekyd4/f3xvVPqKcckHHZoJNwpqR/SBRkbKOxDNAlfQHqiU
-	IIp+1+38/yx8HLZ+bz8SRWQQyXGzPg4VLpPifsrNf4gu9pjNWoVS2O/WpqGN2mrjI7x/
-	+xJg==
-X-Received: by 10.68.13.35 with SMTP id e3mr6621656pbc.30.1368006017248;
-	Wed, 08 May 2013 02:40:17 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	fa5sm31911991pbb.35.2013.05.08.02.40.10 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 08 May 2013 02:40:16 -0700 (PDT)
-Message-ID: <518A1C61.9040602@gmail.com>
-Date: Wed, 08 May 2013 19:35:29 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	Wed, 08 May 2013 12:13:42 +0200
+Message-ID: <518A2119.3010601@communistcode.co.uk>
+Date: Wed, 08 May 2013 10:55:37 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130428 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1367995796.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1367995796.git.sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/23] Updated Pull
+To: Khem Raj <raj.khem@gmail.com>
+References: <515ED999.9040100@communistcode.co.uk>
+	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
+	<515EFD76.2090009@communistcode.co.uk>
+	<0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
+	<51628545.6050106@communistcode.co.uk>
+	<5162888A.90502@communistcode.co.uk>
+	<6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
+In-Reply-To: <6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
+Cc: Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>,
+	"openembedded-core@lists.openembedded.org layer"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: gcc-cross-initial Failure (is a meta-aarch64 screw up)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -47,26 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2013 09:58:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Wed, 08 May 2013 10:13:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/05/2013 4:52 PM, Saul Wold wrote:
-> Richard,
+On 08/05/13 03:23, Khem Raj wrote:
+> Hi Jack
 >
-> This is an updated version of the C-Pull, it address the udev, binutils
-> and final gcc-4.8 patches.
+> since I was playing with archlinux today, I could reproduce this gcc ICE problem with angstrom. Actual issue has been already fixed with
 >
-> I will propose a 4.8 patch to update to that version later this week.
+> http://git.openembedded.org/openembedded-core/commit/?id=b1dc91969f9bb0c2a3a4336f5e9a2f57aabb9f78
 >
-> I have another batch of change, but I screwed up the push to MUT before
-> building it. Expect that set tommorrow evening after the weekly build.
+> but it was still failing on angstrom/cortex-a8-hf and it took some time to realize that angstrom is including meta-aarch64 layer and
+> it has totally totally screwed up the toolchain build since this layer forked the .inc files from oe-core gcc at some point and never did kept them
+> in sync with OE-Core it meant that even when I wanted to use gcc 4.7 from OE-Core it was picking .incs from meta-aarch64 and the patch
+> which was applied to OE-Core recently has been ignored and hence the gcc ICE
 >
-> Sau!
-Was there a reason why the "boot-directdisk: Scope HDDDIR and HDDIMG 
-variables to avoid conflicts" change was dropped?
+> <snip>
 
-Regards,
-Jonathan
+Thanks for the follow up Khem, I jumped to your GCC 4.8 patches so I 
+haven't been following the progression of this but it's good to know 
+it's been fixed.
+
+Cheers,
+Jack.
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
