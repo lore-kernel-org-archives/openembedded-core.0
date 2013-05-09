@@ -1,30 +1,33 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UaUDs-0007co-HV for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 19:01:48 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r49Gk1Zu023553; Thu, 9 May 2013 17:46:01 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WbS-fpV9NwWi; Thu,  9 May 2013 17:46:01 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r49GjuWb023543
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 9 May 2013 17:45:58 +0100
-Message-ID: <1368117801.27116.106.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 09 May 2013 17:43:21 +0100
-In-Reply-To: <20130509161916.GF3188@jama>
-References: <1368115558.27116.102.camel@ted> <20130509161916.GF3188@jama>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] class/lib: Fix up various file access methods
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UaUS6-0000ov-EX
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 09 May 2013 19:16:24 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 8952DD22DE; Thu,  9 May 2013 18:57:48 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 12EC2D20DD;
+	Thu,  9 May 2013 18:57:17 +0200 (CEST)
+Message-ID: <518BD58B.1030307@linaro.org>
+Date: Thu, 09 May 2013 18:57:47 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Lists Linaro-dev <linaro-dev@lists.linaro.org>, 
+	Openembedded-core@lists.openembedded.org
+X-Enigmail-Version: 1.4.6
+Subject: Changes in Linaro layers for OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,40 +40,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 17:02:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 09 May 2013 17:16:38 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-05-09 at 18:19 +0200, Martin Jansa wrote:
-> On Thu, May 09, 2013 at 05:05:58PM +0100, Richard Purdie wrote:
-> > There are various bits of cruft that have built up around our file accesses. This patch
-> > cleans some of them up, specifically:
-> > 
-> >  * Remove pointless "from __builtin__ import file"
-> >  * Use open(), not file()
-> >  * Wrap file usage in a with container to ensure files are closed
-> >  * Add missing .close() calls in some cases
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
-> > index 63ba087..c30d1cb 100644
-> > --- a/meta/classes/imagetest-qemu.bbclass
-> > +++ b/meta/classes/imagetest-qemu.bbclass
-> > @@ -146,6 +146,7 @@ def qemuimagetest_main(d):
-> >                         if not os.path.isfile(fulltestcase):
-> >                              raise bb.build.FuncFailed("Testcase %s not found" % fulltestcase)
-> >                         list.append((item, casefile, fulltestcase))
-> > +                    f.close()
-> 
-> indentation looks wrong and the same a line above "raise.."
+NOTE: I skipped "openembedded-devel" ML cause most of users of Linaro
+layers also read OE Core ML.
 
-Its an existing issue with the file, this patch is correct but I've sent
-out a separate patch fixing it.
+As I will leave Linaro at the end of May I would like to write some kind
+of summary of current state of Linaro layers for OpenEmbedded.
 
-Cheers,
+At Linaro we have 3 layers:
 
-Richard
+1. meta-aarch64
+2. meta-linaro
+3. meta-linaro-toolchain
 
+First one is BSP kind. I know that it had some issues which affected
+each build which had it in BBLAYERS but I fixed those issues. I would
+like to thank Khem Raj for pointing me at those.
+
+We have git version of binutils there due to some changes which were not
+present in 2.23 line. But use of this version is not required as builds
+are fine with OE Core one.
+
+We have "tune-armv8.inc" in this layer as well. There was attempt to
+merge that into OE Core but "/lib or /lib64" discussion started and at
+that time I decided to skip it. There are similar discussions at GCC and
+Glibc mailing lists. Once they sort that out OE tune file will be
+adapted by someone (I hope).
+
+Rest of recipes can be split into 2-3 types. Few (like sysprof, emacs)
+just disable recipes for AArch64. Other have extra patches to add
+missing functionality or defines. And we have Linaro kernel for AArch64
+there.
+
+Second layer contains ARMv7a(b) machine definitions used for our machine
+independent builds and some recipes.
+
+There are no patches for OE recipes here. The only exception is busybox
+where we enable "dpkg(-deb)" command which we need for our tools used to
+merge rootfs with hardware support.
+
+We have "recipes-extra" where we keep new recipes which may not be in a
+nicest state so are not yet merged into OpenEmbedded (or have no use
+there like "meta-toolchain-hhvm" one).
+
+"recipes-linaro" is for our stuff. Images, automatic root shell on
+serial port etc.
+
+And last but not least is toolchain layer. Everything here is related to
+gcc-linaro and Linaro binary cross toolchains (armv7a and aarch64 ones).
+GCC 4.6 and 4.7 is there but 4.6 one will be removed when 4.8 will be
+added into OE Core.
+
+Who will maintain those layers after my leave? This was not decided yet.
+There are few guys at Linaro who know how to use OpenEmbedded but most
+of them is outside of Builds and Baselines team.
+
+If you have any questions then better ask now.
 
 
