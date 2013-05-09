@@ -1,20 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UaTxL-00057K-H0
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 18:44:42 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 09 May 2013 09:26:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,641,1363158000"; d="scan'208";a="331475656"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.12.169])
-	by fmsmga001.fm.intel.com with ESMTP; 09 May 2013 09:26:19 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 17:26:17 +0100
-Message-Id: <1368116777-23778-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/insane: add check for PN in OVERRIDES
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UaU3k-0005sR-Tt for openembedded-core@lists.openembedded.org;
+	Thu, 09 May 2013 18:51:14 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r49GZZgL022822 for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 May 2013 17:35:36 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MHyBC9FZlI5b
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 May 2013 17:35:35 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r49GZVg4022810
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 May 2013 17:35:32 +0100
+Message-ID: <1368117176.27116.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 09 May 2013 17:32:56 +0100
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: [PATCH] useradd: Use modern join syntax
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,38 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 16:44:53 -0000
+X-List-Received-Date: Thu, 09 May 2013 16:51:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If a recipe is named such that its PN value matches something already in
-OVERRIDES (such as when PN happens to be the same as MACHINE or DISTRO),
-it can have unexpected consequences. Assignments such as
-FILES_${PN} = "xyz" effectively turn into FILES = "xyz".
+string.join() is deprecated syntax and doesn't work under python3
+so use the modern sytax instead.
 
-Implements [YOCTO #4288].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/insane.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 809aa45..c19af84 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -904,6 +904,11 @@ python () {
-     if d.getVar('do_stage', True) is not None:
-         bb.fatal("Legacy staging found for %s as it has a do_stage function. This will need conversion to a do_install or often simply removal to work with OE-core" % d.getVar("FILE", True))
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 52c0ba4..fd61019 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -181,7 +181,7 @@ def get_all_cmd_params(d, cmd_type):
+         if param:
+             params.append(param)
  
-+    overrides = d.getVar('OVERRIDES', True).split(':')
-+    pn = d.getVar('PN', True)
-+    if pn in overrides:
-+        bb.warn('Recipe %s has PN of "%s" which is in OVERRIDES, this can result in unexpected behaviour.' % (d.getVar("FILE", True), pn))
-+
-     issues = []
-     if (d.getVar('PACKAGES', True) or "").split():
-         for var in 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RCONFLICTS', 'RPROVIDES', 'RREPLACES', 'FILES', 'pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm', 'ALLOW_EMPTY':
--- 
-1.8.1.2
+-    return string.join(params, "; ")
++    return "; ".join(params)
+ 
+ # Adds the preinst script into generated packages
+ fakeroot python populate_packages_prepend () {
+
 
 
 
