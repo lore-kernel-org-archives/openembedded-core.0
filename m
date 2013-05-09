@@ -1,38 +1,37 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-lb0-f182.google.com ([209.85.217.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UaYdY-0006Fy-Fi
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 23:44:31 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 8F1DDD22DE; Thu,  9 May 2013 23:25:54 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id A2C8BD20DD;
-	Thu,  9 May 2013 23:25:11 +0200 (CEST)
-Message-ID: <518C1454.4030701@linaro.org>
-Date: Thu, 09 May 2013 23:25:40 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	(envelope-from <kergoth@gmail.com>) id 1UaZw7-0007gR-76
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 May 2013 01:07:43 +0200
+Received: by mail-lb0-f182.google.com with SMTP id r11so3556973lbv.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 May 2013 15:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=I1L6Ujyz0Ixx5ZiKwWOUOw+QLpTXsNt+TPn6WCXhVEw=;
+	b=PCEPcoPKD/ytLZ+iHTjQ7wDU24wolLVprlzepedvZHMGRqt7ZGc1hZnbQnK0FlguL2
+	d1T3VEqijyR4QllWgGPYez7Ong9/UinjXy3KCMDPAZy0lM2SyvUFyCccaBKkn+ko/qKT
+	RI0Eg8uRyOwPz34/qb28blUULUEWEKgC3XS9MxB/oeSDpEYxZbYlvHpR9shNkHWJW78g
+	5FlN2rNywvFubrkeimdqeg9rI6Piaf51DKx9WczLoFCTS6ged3H1C22/a4hWF4on19j9
+	MMwaZyUfIGg9iNdgutlOX+hOuQap4J2GJ2/Jm1liwckn/EnL0Ko95a141+CKWC66VOEu
+	P1ow==
+X-Received: by 10.152.21.193 with SMTP id x1mr6438530lae.26.1368139778848;
+	Thu, 09 May 2013 15:49:38 -0700 (PDT)
 MIME-Version: 1.0
-To: Trevor Woerner <twoerner@gmail.com>
-References: <518BD58B.1030307@linaro.org>
-	<CAHUNapTEOfwR9OATGGKOtrpHWwisVh0xXm5P2jKUgEitznpxNw@mail.gmail.com>
-In-Reply-To: <CAHUNapTEOfwR9OATGGKOtrpHWwisVh0xXm5P2jKUgEitznpxNw@mail.gmail.com>
-X-Enigmail-Version: 1.4.6
-Cc: Lists Linaro-dev <linaro-dev@lists.linaro.org>,
-	Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Changes in Linaro layers for OpenEmbedded
+Sender: kergoth@gmail.com
+Received: by 10.112.141.74 with HTTP; Thu, 9 May 2013 15:49:18 -0700 (PDT)
+In-Reply-To: <edbe33f45ad5f07beb7ffdc38bb95f424bb2ab3a.1368116511.git.paul.eggleton@linux.intel.com>
+References: <cover.1368116511.git.paul.eggleton@linux.intel.com>
+	<edbe33f45ad5f07beb7ffdc38bb95f424bb2ab3a.1368116511.git.paul.eggleton@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 9 May 2013 15:49:18 -0700
+X-Google-Sender-Auth: YVL7E1pCFkKq4vZXyDK1bccgFqg
+Message-ID: <CABcZAN=Hs5B5Eq8iJs=+caTFBV+xLwQbjdo+2tp68MKTS5qqvw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] classes/image: show an error on invalid IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,52 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 21:44:33 -0000
+X-List-Received-Date: Thu, 09 May 2013 23:07:43 -0000
+Content-Type: multipart/alternative; boundary=089e0158b690857df704dc50dd20
+
+--089e0158b690857df704dc50dd20
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-W dniu 09.05.2013 20:42, Trevor Woerner pisze:
-> On Thu, May 9, 2013 at 12:57 PM, Marcin Juszkiewicz 
-> <marcin.juszkiewicz@linaro.org> wrote:
->> Who will maintain those layers after my leave? This was not decided
->> yet. There are few guys at Linaro who know how to use OpenEmbedded
->> but most of them is outside of Builds and Baselines team.
+On Thu, May 9, 2013 at 9:24 AM, Paul Eggleton <paul.eggleton@linux.intel.com
+> wrote:
 
+> If the user specifies an invalid feature in IMAGE_FEATURES, show an
+> error during parsing. Valid IMAGE_FEATURES are drawn from
+> PACKAGE_GROUP_ definitions, COMPLEMENTARY_GLOBS and a new 'validitems'
+> varflag on IMAGE_FEATURES (so that additional non-package group features
+> can be added elsewhere.)
+>
+> Implements [YOCTO #3308].
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+>
 
-> To me this implies that these layers and this effort of yours isn't 
-> part of any "official" Linaro build process/procedure. Would this 
-> assumption be correct?
+Hmm, maybe we should add this sort of valid item in a list checking to
+typecheck.bbclass, or enhance the list type in oe.types to do it there, so
+we'd have a general mechanism for this.
+-- 
+Christopher Larson
 
-No.
+--089e0158b690857df704dc50dd20
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-First Linaro layer for OpenEmbedded was created by Ken Werner from
-Toolchain Working Group as they considered OE as a test tool. Then
-AArch64 bootstrap was needed so I stepped in and took maintenance of it
-(Ken was not at Linaro at that time), added meta-aarch64, cleaned up etc.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, May 9, 2013 at 9:24 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
+inux.intel.com</a>&gt;</span> wrote:<br>
 
-Those layers are used as part of official Linaro build process. All
-AArch64 rootfs images are built using OpenEmbedded. Note that this
-excludes kernels which (for some reasons) were cross built as Ubuntu
-packages.
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":s3p">If the user specifies an in=
+valid feature in IMAGE_FEATURES, show an<br>
+error during parsing. Valid IMAGE_FEATURES are drawn from<br>
+PACKAGE_GROUP_ definitions, COMPLEMENTARY_GLOBS and a new &#39;validitems&#=
+39;<br>
+varflag on IMAGE_FEATURES (so that additional non-package group features<br=
+>
+can be added elsewhere.)<br>
+<br>
+Implements [YOCTO #3308].<br>
+<br>
+Signed-off-by: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.inte=
+l.com">paul.eggleton@linux.intel.com</a>&gt;</div></blockquote></div><br>Hm=
+m, maybe we should add this sort of valid item in a list checking to typech=
+eck.bbclass, or enhance the list type in oe.types to do it there, so we&#39=
+;d have a general mechanism for this.<br>
 
-At Linaro we have many teams and some of them are using OpenEmbedded or
-will do it soon. One of reasons is lack of ARM big-endian distributions
-on a market.
+-- <br>Christopher Larson</div></div>
 
-Look at numbers from "git shortlog":
-
-Marcin Juszkiewicz (341):
-Ken Werner (28):
-Riku Voipio (17):
-Khem Raj (7):
-Ricardo Salveti de Araujo (5):
-Fathi Boudra (2):
-
-Ken is not at Linaro, Khem never was and those commits are fixes from
-him, Ricardo is back at Canonical. Riku has OE knowledge but also lot of
-other duties.
-
-And so far only OpenSUSE has packages for AArch64 mass built while all
-Linaro tools were made for Ubuntu repositories...
-
-
+--089e0158b690857df704dc50dd20--
