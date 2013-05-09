@@ -1,24 +1,20 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UaTEN-00087b-7d for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 17:58:24 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UaSwu-0008CE-Sl; Thu, 09 May 2013 17:40:04 +0200
-Message-ID: <1368114004.14512.417.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 09 May 2013 16:40:04 +0100
-In-Reply-To: <518BC02E.8010909@windriver.com>
-References: <1368104132-30116-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<A023E370-E7BD-47E2-B779-335B4ADE7819@gmail.com>
-	<518BC02E.8010909@windriver.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: include libgcc when libpthread is enabled
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UaTVe-0001pZ-W8
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 May 2013 18:15:59 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 May 2013 08:55:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,641,1363158000"; d="scan'208";a="334364315"
+Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.12.169])
+	by orsmga002.jf.intel.com with ESMTP; 09 May 2013 08:57:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 May 2013 16:57:46 +0100
+Message-Id: <cover.1368115039.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/2] buildhistory improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,20 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 15:58:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 May 2013 16:16:03 -0000
+X-List-Received-Date: Thu, 09 May 2013 16:16:03 -0000
 
-On Thu, 2013-05-09 at 10:26 -0500, Mark Hatle wrote:
-> This would be my suggestion.  I'd also want to make sure there is a 
-> libpthread-dev (which for some reason I think there already is) because the 
-> links in there are required for on-target thread debugging...
+The following changes since commit 2253e9f12734c6e6aa489942b5e4628eca1fa29d:
 
-Really?  If those links are needed for thread debugging then it sounds
-like they should be in libthread-db, not in any -dev package.
+  classes/lib: Fix getcmdstatus breakage (2013-05-09 16:05:02 +0100)
 
-p.
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-7
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-7
+
+Paul Eggleton (2):
+  buildhistory-diff: improve bad command-line argument handling
+  classes/buildhistory: track contents of selected files in images
+
+ meta/classes/buildhistory.bbclass    | 10 ++++++++++
+ meta/lib/oe/buildhistory_analysis.py | 23 +++++++++++++++++------
+ scripts/buildhistory-diff            | 22 +++++++++++++++++-----
+ 3 files changed, 44 insertions(+), 11 deletions(-)
+
+-- 
+1.8.1.2
 
 
 
