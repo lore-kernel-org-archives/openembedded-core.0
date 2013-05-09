@@ -1,37 +1,26 @@
-Received: from mail-ob0-f179.google.com ([209.85.214.179])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UaUi3-0002Vo-T3
+	(envelope-from <sgw@linux.intel.com>) id 1UaVLV-0007dE-Go
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 19:32:57 +0200
-Received: by mail-ob0-f179.google.com with SMTP id xn12so3150145obc.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2013 10:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=3029MwMRe2yCq33was+Bi0NVNQKU3fpmaS+FJIhW2HY=;
-	b=kOqpCjtbL6+XJD6huxfk16LQue4YMPVbNHWFzzmmgOK+/9HCdYh97d1WcjJDBKvneQ
-	/yXWxqQyAr3a/W+Dgmsrb3oEmAvUzAvAyyC6sEgqL6iGx/rJbEzlx2Hl4zAe5PO3ojTN
-	qK0PybmFmhDUGzr/ukW6SexD5Lc4aftadPBAXS1LBaiVHyrVrvDBc1Z3sAXuUtHj7U3C
-	x2TT1dlj+mlL8OGe4NkdnfCLNebMwn0YDt1ckN0ropzgx3oNzgC+mpq4KGXXNYCN45yP
-	oJ7VQukAxrKBg7PlgQKmSu0+DPXcbxIc+ucFaiV/Hwno6/MxLGMUv0sAe3YFL25CQ2AD
-	5T+A==
+	Thu, 09 May 2013 20:13:42 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 May 2013 10:55:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,642,1363158000"; d="scan'208";a="300048128"
+Received: from unknown (HELO [10.255.13.9]) ([10.255.13.9])
+	by azsmga001.ch.intel.com with ESMTP; 09 May 2013 10:55:27 -0700
+Message-ID: <518BE30F.5050104@linux.intel.com>
+Date: Thu, 09 May 2013 10:55:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.60.35.197 with SMTP id k5mr4772197oej.138.1368119686987;
-	Thu, 09 May 2013 10:14:46 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Thu, 9 May 2013 10:14:46 -0700 (PDT)
-In-Reply-To: <04c56775ed2d60a9affcf46cf10fdaee455786bd.1368115039.git.paul.eggleton@linux.intel.com>
-References: <cover.1368115039.git.paul.eggleton@linux.intel.com>
-	<04c56775ed2d60a9affcf46cf10fdaee455786bd.1368115039.git.paul.eggleton@linux.intel.com>
-Date: Thu, 9 May 2013 14:14:46 -0300
-X-Google-Sender-Auth: 1BMi40bs23vFBA0WMEd-2BZvpkM
-Message-ID: <CAP9ODKrqakwSop296a6_5E0bRdhSgfOuyOrGjSnj=z6xJE=Kag@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] classes/buildhistory: track contents of selected files in images
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130509130319.GE3188@jama>
+	<1368109872-4273-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1368109872-4273-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] flex: fix reported executable name caused by OE wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 17:32:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 09 May 2013 18:13:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 9, 2013 at 12:57 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Add a BUILDHISTORY_IMAGE_FILES variable specifying a space-separated
-> list of files within an image to copy into buildhistory, so that changes
-> to them can be tracked. Typically this would be used for configuration
-> files, and by default this includes /etc/passwd and /etc/group, but the
-> user is free to extend this list by setting the variable in local.conf.
+On 05/09/2013 07:31 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-devtools/flex/flex.inc                 | 15 ++++++++++++++-
+>   .../flex/flex/drop.suffix.from.wrapper.patch        | 21 +++++++++++++++++++++
+>   2 files changed, 35 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
 >
-> Implements [YOCTO #4154].
+> diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+> index 517db16..344b716 100644
+> --- a/meta/recipes-devtools/flex/flex.inc
+> +++ b/meta/recipes-devtools/flex/flex.inc
+> @@ -6,10 +6,23 @@ HOMEPAGE = "http://sourceforge.net/projects/flex/"
+>   SECTION = "devel"
+>   LICENSE = "BSD"
 >
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 "
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
+> +           file://drop.suffix.from.wrapper.patch \
+> +"
+>
+>   inherit autotools gettext
+>
+> +# drop building doc, there is openembedded-core/scripts/help2man
+> +# but that just returns exit 1 and flex.1 is immediately removed:
+> +# openembedded-core/scripts/help2man --name='the fast lexical analyser generator' \
+> +# --section=`echo $i | sed -e 's/.*\.\([^.]*\)$/\1/'` \
+> +#  ../flex > $i || rm -f $i ; \
+> +# and do_install fails, it wasn't failing before, because flex.1 included in
+> +# release tarbal was valid until we patched main.c in drop.suffix.from.wrapper.patch
+> +do_configure_prepend() {
+> +	sed -i "/^\s*doc /d" Makefile.am
+I think this needs a ${S} in front of the Makefile.am otherwise it's not 
+found since we are doing the configure in ${B}
 
-This is awesome :-) Thanks by looking at it.
+Thanks
+	Sau!
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+> +}
+> +
+>   M4 = "${bindir}/m4"
+>   M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+>
+> diff --git a/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch b/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
+> new file mode 100644
+> index 0000000..9bbd088
+> --- /dev/null
+> +++ b/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
+> @@ -0,0 +1,21 @@
+> +Upstream probably doesn't expect wrappers like we create for flex.
+> +
+> +This also fixes disabled C_plus_plus functions in flex++ if we ever create wrapper for flex++.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +
+> +--- flex-2.5.35/main.c.orig	2013-05-09 15:19:34.619281743 +0200
+> ++++ flex-2.5.35/main.c	2013-05-09 15:19:10.216280868 +0200
+> +@@ -984,6 +984,10 @@
+> + 	/* Enable C++ if program name ends with '+'. */
+> + 	program_name = basename2 (argv[0], 0);
+> +
+> ++	/* Drop trailing .real suffix if it's there */
+> ++	if (strstr(program_name, ".real") != NULL && strstr(program_name, ".real") - program_name == strlen(program_name) - 5)
+> ++	    program_name[strlen (program_name) - 5] = '\0';
+> ++
+> + 	if (program_name[0] != '\0' &&
+> + 	    program_name[strlen (program_name) - 1] == '+')
+> + 		C_plus_plus = true;
+>
 
 
