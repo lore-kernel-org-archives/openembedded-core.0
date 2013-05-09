@@ -1,24 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UaTVj-0001pZ-MY
+	(envelope-from <mark.hatle@windriver.com>) id 1UaTbv-0002ok-7I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 18:16:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2013 08:55:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,641,1363158000"; d="scan'208";a="334364326"
-Received: from unknown (HELO helios.amr.corp.intel.com) ([10.255.12.169])
-	by orsmga002.jf.intel.com with ESMTP; 09 May 2013 08:57:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 16:57:47 +0100
-Message-Id: <5599dbb21f23a890c667a171ee46b51873bbbb2d.1368115039.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1368115039.git.paul.eggleton@linux.intel.com>
-References: <cover.1368115039.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1368115039.git.paul.eggleton@linux.intel.com>
-References: <cover.1368115039.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] buildhistory-diff: improve bad command-line argument handling
+	Thu, 09 May 2013 18:22:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r49G4MuL020468
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 May 2013 09:04:22 -0700 (PDT)
+Received: from msp-dhcp6.wrs.com (172.25.34.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 9 May 2013 09:04:22 -0700
+Message-ID: <518BC905.3090508@windriver.com>
+Date: Thu, 9 May 2013 11:04:21 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Phil Blundell <pb@pbcl.net>
+References: <1368104132-30116-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<A023E370-E7BD-47E2-B779-335B4ADE7819@gmail.com>
+	<518BC02E.8010909@windriver.com>
+	<1368114004.14512.417.camel@phil-desktop.brightsign>
+In-Reply-To: <1368114004.14512.417.camel@phil-desktop.brightsign>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: include libgcc when libpthread is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,82 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 16:16:12 -0000
+X-List-Received-Date: Thu, 09 May 2013 16:22:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Check for existence of specified buildhistory directory and show a
-  proper error message if it doesn't
-* Show an error message instead of a traceback with a mangled revision
-  if one of the specified git revisions is invalid
-* Show usage information if --help is specified
-* Write error messages to stderr
+On 5/9/13 10:40 AM, Phil Blundell wrote:
+> On Thu, 2013-05-09 at 10:26 -0500, Mark Hatle wrote:
+>> This would be my suggestion.  I'd also want to make sure there is a
+>> libpthread-dev (which for some reason I think there already is) because the
+>> links in there are required for on-target thread debugging...
+>
+> Really?  If those links are needed for thread debugging then it sounds
+> like they should be in libthread-db, not in any -dev package.
 
-Fixes [YOCTO #4313].
+I'm pretty sure I'm misremembering the issue.  It's the libthread-db that needs 
+the link for debugging.  Last time I was playing with this was pre-Denzil and it 
+didn't quite work right.  (gdb on the target debugging threads would say "hey I 
+need the ....so to debug".)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/buildhistory-diff | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+If nobody has seen that recently, then ignore that.. it's been resolved.
 
-diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
-index 8493da4..30c2c08 100755
---- a/scripts/buildhistory-diff
-+++ b/scripts/buildhistory-diff
-@@ -2,7 +2,7 @@
- 
- # Report significant differences in the buildhistory repository since a specific revision
- #
--# Copyright (C) 2012 Intel Corporation
-+# Copyright (C) 2013 Intel Corporation
- # Author: Paul Eggleton <paul.eggleton@linux.intel.com>
- 
- import sys
-@@ -18,10 +18,10 @@ except ImportError:
- 
- def main():
-     if LooseVersion(git.__version__) < '0.3.1':
--        print("Version of GitPython is too old, please install GitPython (python-git) 0.3.1 or later in order to use this script")
-+        sys.stderr.write("Version of GitPython is too old, please install GitPython (python-git) 0.3.1 or later in order to use this script\n")
-         sys.exit(1)
- 
--    if (len(sys.argv) < 3):
-+    if len(sys.argv) < 3 or '--help' in sys.argv:
-         print("Report significant differences in the buildhistory repository")
-         print("Syntax: %s <buildhistory-path> <since-revision> [to-revision]" % os.path.basename(sys.argv[0]))
-         print("If to-revision is not specified, it defaults to HEAD")
-@@ -41,17 +41,29 @@ def main():
-                 bitbakepath = os.path.abspath(os.path.join(pth, '..'))
-                 break
-         if not bitbakepath:
--            print("Unable to find bitbake by searching parent directory of this script or PATH")
-+            sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
-             sys.exit(1)
- 
-     sys.path[0:0] = [newpath, bitbakepath + '/lib']
-     import oe.buildhistory_analysis
- 
-+    buildhistory_dir = sys.argv[1]
-+    if not os.path.exists(buildhistory_dir):
-+        sys.stderr.write('Specified buildhistory directory "%s" does not exist\n' % buildhistory_dir)
-+        sys.exit(1)
-+
-     if len(sys.argv) > 3:
-         torev = sys.argv[3]
-     else:
-         torev = 'HEAD'
--    changes = oe.buildhistory_analysis.process_changes(sys.argv[1], sys.argv[2], torev)
-+
-+    import gitdb
-+    try:
-+        changes = oe.buildhistory_analysis.process_changes(buildhistory_dir, sys.argv[2], torev)
-+    except gitdb.exc.BadObject as e:
-+        sys.stderr.write('Specified git revision "%s" is not valid\n' % e.args[0])
-+        sys.exit(1)
-+
-     for chg in changes:
-         print('%s' % chg)
- 
--- 
-1.8.1.2
+--Mark
+
+> p.
+>
+>
 
 
 
