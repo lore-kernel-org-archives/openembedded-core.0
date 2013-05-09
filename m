@@ -1,36 +1,30 @@
-Received: from mail-da0-f51.google.com ([209.85.210.51])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UaHYM-0001b2-DR
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UaHu5-0004I4-Uv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 05:30:03 +0200
-Received: by mail-da0-f51.google.com with SMTP id h15so1340551dan.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2013 20:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=GcYBzxHgb6HZH66uv7xRNwMtR7i5EuKseK3VQnqDu6E=;
-	b=MCRDyJwec1AGH+0NbCJI9egatkeIp9+rY8PePN4YYBPjoea9K2imd98KvLtWPd2gQN
-	1WInaxdSwqwApNYHtHSLibvqhPStsviBNSWu3WE0vOIUEJkvroK0JIui0CsY0LCJsKDA
-	321SABnorF8lBV5u6xYfLlfJneJ90L+hT89TYKScGeZeMFoabIfCUoD2INodKDV/ixHb
-	5eesBoXWtIwpHTTKDK23DNUR1XlfwWCGwlvUnFzkQKWTm6sl2mLAogiB067gtbZOcq4V
-	7vHcOAxNTMwywHfhT/2zdk0j/j23+gxuH7Z7E1/anLgR32S77vHYbk15AlBePF+GS4h5
-	KuLA==
-X-Received: by 10.66.122.163 with SMTP id lt3mr1434013pab.219.1368069114614;
-	Wed, 08 May 2013 20:11:54 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id li15sm1664929pab.2.2013.05.08.20.11.51
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 08 May 2013 20:11:53 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 13:24:04 +1000
-Message-Id: <1368069844-13706-3-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <1368069844-13706-1-git-send-email-net147@gmail.com>
-References: <1368069844-13706-1-git-send-email-net147@gmail.com>
-Subject: [PATCH 3/3] image-vmdk: Fix error recreating symbolic link
+	Thu, 09 May 2013 05:52:29 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r493YG4Z011261
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 8 May 2013 20:34:16 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 8 May 2013 20:34:15 -0700
+Message-ID: <518B1932.8070207@windriver.com>
+Date: Thu, 9 May 2013 11:34:10 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Chris Larson <clarson@kergoth.com>
+References: <cover.1368002042.git.liezhi.yang@windriver.com>
+	<ee7a94478d58f0f43640cf9ae97018545a4ce6b6.1368002042.git.liezhi.yang@windriver.com>
+	<518A3EF8.20807@topic.nl> <518B06A2.6000708@windriver.com>
+	<CABcZANmKO+dpRti22tAuHP4bMbwyYDY6B52kDkUZqhdASGx1Rg@mail.gmail.com>
+In-Reply-To: <CABcZANmKO+dpRti22tAuHP4bMbwyYDY6B52kDkUZqhdASGx1Rg@mail.gmail.com>
+Cc: Patches, the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bbclass: bb.fatal() clean up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +37,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 03:30:30 -0000
+X-List-Received-Date: Thu, 09 May 2013 03:52:31 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If the vmdk image symbolic link already exists from a previous build,
-overwrite it instead of returning an error.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/image-vmdk.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
-index 6f7df3f..c225bed 100644
---- a/meta/classes/image-vmdk.bbclass
-+++ b/meta/classes/image-vmdk.bbclass
-@@ -18,8 +18,8 @@ inherit boot-directdisk
- 
- create_vmdk_image () {
- 	qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
-+	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
- 	ln -s ${IMAGE_NAME}.vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
--
- }
- 
- python do_vmdkimg() {
--- 
-1.8.2.1
+On 05/09/2013 10:23 AM, Chris Larson wrote:
+> On Wed, May 8, 2013 at 7:14 PM, Robert Yang <liezhi.yang@windriver.com>wrote:
+>
+>> On 05/08/2013 08:03 PM, Mike Looijmans wrote:
+>>
+>>> On 05/08/2013 11:06 AM, Robert Yang wrote:
+>>>
+>>>> The bb.fatal() is defined as:
+>>>>
+>>>> def fatal(*args):
+>>>>       logger.critical(''.join(args))
+>>>>       sys.exit(1)
+>>>>
+>>>> So anything after bb.fatal() in the same code block doesn't have any
+>>>> effect, e.g.:
+>>>>
+>>>>       bb.fatal("%s_%s: %s" % (var, pkg, e))
+>>>>       raise e
+>>>>
+>>>> The "raise e" should be removed.
+>>>>
+>>>
+>>> Just some random thoughts that occurred to me when I read this:
+>>>
+>>>
+>> Hi Mike, thanks for your comments, but the "raise sys.exit(1)" doesn't
+>> raise
+>> anything, e.g.:
+>>
+>> import sys
+>>
+>> def fatal():
+>>          sys.exit(1)
+>>
+>> try:
+>>          raise fatal()
+>> except Exception as e:
+>>          raise e
+>>
+>> I think that the "raise fatal()" equals to "fatal()" here.
+>
+>
+> He didn't say raise sys.exit(1), he said sys.exit(1) is equivalent to raise
+> SystemExit(1), which it is.
+>
+
+Hi Chris, thanks, if I understand correctly, what you mean is that change the
+definition of bb.fatal() to let it can raise the exception "e" (not only change
+the "sys.exit(1)" to "raise SystemExit(1)"), something like:
+
+def fatal(e, *args):
+     logger.critical(''.join(args))
+     try:
+	if e:
+	    raise e # if there is e
+     finally:
+         # but this one will flush the previous "raise e"
+         raise SystemExit(1)
+
+it seems that this doesn't work (or do we have other ways to make it work that I
+don't know?) or make much differences.
+
+and not all the bb.fatal() has an exception, e.g.:
+
+bb.fatal("No OUTSPECFILE")
+
+we need change all the current bb.fatal()'s usage, is it worth ?
+
+// Robert
+
+
+
+
+
 
 
 
