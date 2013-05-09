@@ -1,22 +1,45 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UaSB3-0000ke-VQ for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 16:50:39 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UaRtb-00089H-2G; Thu, 09 May 2013 16:32:35 +0200
-Message-ID: <1368109954.14512.406.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 09 May 2013 15:32:34 +0100
-In-Reply-To: <1368105550.27116.97.camel@ted>
+Received: from server505g.appriver.com ([98.129.35.12]
+	helo=server505.appriver.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@brightsign.biz>) id 1UaSj1-0004dy-HD
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 May 2013 17:25:52 +0200
+X-Note-AR-ScanTimeLocal: 5/9/2013 10:02:35 AM
+X-Policy: GLOBAL - brightsign.biz
+X-Policy: GLOBAL - brightsign.biz
+X-Primary: philb@brightsign.biz
+X-Note: This Email was scanned by AppRiver SecureTide
+X-ALLOW: @brightsign.biz ALLOWED
+X-Virus-Scan: V-
+X-Note: Spam Tests Failed: 
+X-Country-Path: PRIVATE->UNITED STATES->UNITED STATES
+X-Note-Sending-IP: 98.129.35.1
+X-Note-Reverse-DNS: smtp.exg5.exghost.com
+X-Note-Return-Path: philb@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G319 G320 G321 G322 G326 G327 G338 G434 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: ALLOWEDSENDER
+X-Note: Headers Injected
+Received: from [98.129.35.1] (HELO smtp.exg5.exghost.com)
+	by server505.appriver.com (CommuniGate Pro SMTP 6.0.2)
+	with ESMTPS id 379750189; Thu, 09 May 2013 10:02:35 -0500
+Received: from [172.30.1.45] (86.30.57.232) by smtp.exg5.exghost.com
+	(98.129.23.33) with Microsoft SMTP Server (TLS) id 8.3.297.1;
+	Thu, 9 May 2013 10:02:32 -0500
+Message-ID: <1368111750.14512.415.camel@phil-desktop.brightsign>
+From: Phil Blundell <philb@brightsign.biz>
+To: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Thu, 9 May 2013 16:02:30 +0100
+In-Reply-To: <1368108482.14512.397.camel@phil-desktop.brightsign>
 References: <1368104132-30116-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<1368105550.27116.97.camel@ted>
+	<1368105605.16243.65.camel@pb-ThinkPad-R50e>
+	<CAMZjud2TzEqknP_0wH=CdAjvrz1MRXgfKRo+ytC1h+mOEXCYJg@mail.gmail.com>
+	<1368108482.14512.397.camel@phil-desktop.brightsign>
+Organization: BrightSign Digital Ltd
 X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] eglibc: include libgcc when libpthread is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -30,41 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 14:50:42 -0000
+X-List-Received-Date: Thu, 09 May 2013 15:25:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-05-09 at 14:19 +0100, Richard Purdie wrote:
-> On Thu, 2013-05-09 at 15:55 +0300, Bogdan Marinescu wrote:
-> > diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-> > index 1e04197..24fb05b 100644
-> > --- a/meta/recipes-core/eglibc/eglibc.inc
-> > +++ b/meta/recipes-core/eglibc/eglibc.inc
-> > @@ -35,7 +35,7 @@ siteconfig_do_siteconfig_gencache_prepend = " \
-> >  # nptl needs unwind support in gcc, which can't be built without glibc.
-> >  DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
-> >  # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
-> > -#RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
-> > +RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
-> >  PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
-> >  PROVIDES += "virtual/libintl virtual/libiconv"
-> >  inherit autotools
-> 
-> Why/when was that line commented out originally? Also, afaik glibc
-> doesn't support anything other than nptl these days so we can probably
-> drop the GLIBC_ADDONS check. Khem/Phil?
+On Thu, 2013-05-09 at 15:08 +0100, Phil Blundell wrote:
+> There was some previous discussion of how to detect the precise
+> situation that caused libgcc_s to be required, though my recollection
+> of all the details is a bit hazy.  I'll see if I can find it in the
+> archives.  
 
-It was commented out by Khem in this patch:
+It turns out that the previous discussion was actually on irc, not on
+the mailing list.  See:
 
-http://git.openembedded.org/openembedded/commit/?id=e96e82cd
+http://ibot.rikers.org/%23oe/20080725.html.gz
 
-for reasons that are slightly obscure but, if I had to guess, I'd say
-that it had something to do with avoiding circular dependencies during
-the toolchain bootstrap process.  As far as I can tell nothing else was
-added to replace it and the dependency just got lost from that point
-onwards.  I'm not sure whether the circularity issue still applies but
-it would be worth checking that the toolchain really does still
-bootstrap with the dependency reinstated.
+from about 21:56 onwards, and:
+
+http://ibot.rikers.org/%23oe/20080729.html.gz
+
+from about 21:10 onwards.
 
 p.
 
