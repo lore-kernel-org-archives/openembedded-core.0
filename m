@@ -1,35 +1,39 @@
-Received: from mail-ea0-f179.google.com ([209.85.215.179])
+Received: from mail-pd0-f174.google.com ([209.85.192.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UaS9k-0000a5-Ne
+	(envelope-from <raj.khem@gmail.com>) id 1UaSAa-0000ds-MF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 16:49:22 +0200
-Received: by mail-ea0-f179.google.com with SMTP id h14so1588869eaj.10
+	Thu, 09 May 2013 16:50:09 +0200
+Received: by mail-pd0-f174.google.com with SMTP id u10so2050342pdi.33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2013 07:31:13 -0700 (PDT)
+	Thu, 09 May 2013 07:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=2WeV36aaisPUZwYviSS3+aPwAq+v5zXpw88dl1+F6lE=;
-	b=L5wjuxD5u0vx1vfxAFHMJ+pp6kbCqy3PAPO/ADQ5Ga0ewfjFb/5EwNPbfMNzEVPpxW
-	D9JNJGhWaX6Ut9FKvMipoMgHmhW37mah4Oob2gh4OGHMLE6+Wsl5swkaQfN9Cy1384Rl
-	VRjs/A4vZIseQ44LmyS4PaaA9hzByajK6S8npZoObqCadtOua5sFz3rERThcfz5a39yR
-	MVQh+wCbmtQ8vIhZzP49SZzOn+LR7eoI+jhjfHkhD+sRjiuRte5blo/spd6F3D1T769F
-	laBPLmOw4qzX2aA5tgQZQYcssYiuhozybcldTXO9xU5Qwe3jN9dyadmSPOYexe0OV1MJ
-	Or9g==
-X-Received: by 10.15.95.74 with SMTP id bc50mr29606977eeb.36.1368109873060;
-	Thu, 09 May 2013 07:31:13 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	bn53sm4551398eeb.7.2013.05.09.07.31.12 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 09 May 2013 07:31:12 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 16:31:12 +0200
-Message-Id: <1368109872-4273-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <20130509130319.GE3188@jama>
-References: <20130509130319.GE3188@jama>
-Subject: [PATCH] flex: fix reported executable name caused by OE wrapper
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=ZH5M+hB/gFxLrlWLKCTYVm+bym3IU1JZlVPCi6hBmMM=;
+	b=gvxGlQikyvP261oX2Du2ZB1SFthNcoUQ3OVwrzJbMTS7WAnHIUfzezHlQzHMjDM655
+	tTXgE8UsOFEPjiK2MUEJuTeramKZquGSynrGGjMic7PCu1OSOXkKYHYbWm4WNSAAGzuh
+	5XCvrCJ3BCRWoT6pDfPaEaf2qzzLE/HyL6joWJ9TXvb1LtSqZo7a3Mwh33QIMdi/C/Fr
+	K8Hc5+0yqbmrzx/dVP4cFbufUEO7PtGPhrLa1rGHEwSm+x9+vlXi9WTEWDIMvqCbY4Y3
+	2YAIH+onxjYAxCoEYGKh9Ed+l5wn1qlokjK0wm+MrlTCDYH6vCCmnU/0hKV6ZukRxQ34
+	iGxw==
+X-Received: by 10.68.220.106 with SMTP id pv10mr12976695pbc.52.1368109923989; 
+	Thu, 09 May 2013 07:32:03 -0700 (PDT)
+Received: from stafford-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id hp1sm3955408pac.3.2013.05.09.07.32.02
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 May 2013 07:32:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1368104132-30116-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Thu, 9 May 2013 07:32:03 -0700
+Message-Id: <A023E370-E7BD-47E2-B779-335B4ADE7819@gmail.com>
+References: <1368104132-30116-1-git-send-email-bogdan.a.marinescu@intel.com>
+To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: include libgcc when libpthread is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,73 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 14:49:23 -0000
+X-List-Received-Date: Thu, 09 May 2013 14:50:34 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/flex/flex.inc                 | 15 ++++++++++++++-
- .../flex/flex/drop.suffix.from.wrapper.patch        | 21 +++++++++++++++++++++
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
 
-diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-index 517db16..344b716 100644
---- a/meta/recipes-devtools/flex/flex.inc
-+++ b/meta/recipes-devtools/flex/flex.inc
-@@ -6,10 +6,23 @@ HOMEPAGE = "http://sourceforge.net/projects/flex/"
- SECTION = "devel"
- LICENSE = "BSD"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 "
-+SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
-+           file://drop.suffix.from.wrapper.patch \
-+"
- 
- inherit autotools gettext
- 
-+# drop building doc, there is openembedded-core/scripts/help2man
-+# but that just returns exit 1 and flex.1 is immediately removed:
-+# openembedded-core/scripts/help2man --name='the fast lexical analyser generator' \
-+# --section=`echo $i | sed -e 's/.*\.\([^.]*\)$/\1/'` \
-+#  ../flex > $i || rm -f $i ; \
-+# and do_install fails, it wasn't failing before, because flex.1 included in
-+# release tarbal was valid until we patched main.c in drop.suffix.from.wrapper.patch
-+do_configure_prepend() {
-+	sed -i "/^\s*doc /d" Makefile.am
-+}
-+
- M4 = "${bindir}/m4"
- M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
- 
-diff --git a/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch b/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
-new file mode 100644
-index 0000000..9bbd088
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/drop.suffix.from.wrapper.patch
-@@ -0,0 +1,21 @@
-+Upstream probably doesn't expect wrappers like we create for flex.
-+
-+This also fixes disabled C_plus_plus functions in flex++ if we ever create wrapper for flex++.
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+--- flex-2.5.35/main.c.orig	2013-05-09 15:19:34.619281743 +0200
-++++ flex-2.5.35/main.c	2013-05-09 15:19:10.216280868 +0200
-+@@ -984,6 +984,10 @@
-+ 	/* Enable C++ if program name ends with '+'. */
-+ 	program_name = basename2 (argv[0], 0);
-+ 
-++	/* Drop trailing .real suffix if it's there */
-++	if (strstr(program_name, ".real") != NULL && strstr(program_name, ".real") - program_name == strlen(program_name) - 5)
-++	    program_name[strlen (program_name) - 5] = '\0';
-++
-+ 	if (program_name[0] != '\0' &&
-+ 	    program_name[strlen (program_name) - 1] == '+')
-+ 		C_plus_plus = true;
--- 
-1.8.2.1
+On May 9, 2013, at 5:55 AM, Bogdan Marinescu =
+<bogdan.a.marinescu@intel.com> wrote:
+
+> libpthread needs libgcc to function properly. Without libgcc I get
+> the following error:
+>=20
+> root@qemux86:~# tclsh
+> % exit 0
+> libgcc_s.so.1 must be installed for pthread_cancel to work
+> Aborted
+> root@qemux86:~#
+>=20
+> This patch fixes the above issue and similar ones by adding a
+> runtime dependency of libgcc to eglibc when threads are enabled.
+>=20
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> ---
+> meta/recipes-core/eglibc/eglibc.inc |    2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/eglibc/eglibc.inc =
+b/meta/recipes-core/eglibc/eglibc.inc
+> index 1e04197..24fb05b 100644
+> --- a/meta/recipes-core/eglibc/eglibc.inc
+> +++ b/meta/recipes-core/eglibc/eglibc.inc
+> @@ -35,7 +35,7 @@ siteconfig_do_siteconfig_gencache_prepend =3D " \
+> # nptl needs unwind support in gcc, which can't be built without =
+glibc.
+> DEPENDS =3D "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers =
+virtual/${TARGET_PREFIX}libc-initial"
+> # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect =
+this
+> -#RDEPENDS_${PN} +=3D "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+> +RDEPENDS_${PN} +=3D "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+
+ah too early. I think you should spin out libpthread into separate =
+package and then RDEPEND_libpthread =3D "=85"
+and don't use nptl we do not have any other option now a days.
+
+
+> PROVIDES =3D "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+> PROVIDES +=3D "virtual/libintl virtual/libiconv"
+> inherit autotools
+> --=20
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
