@@ -1,20 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UaSu4-0005pf-TP
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 17:37:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 May 2013 08:19:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,641,1363158000"; d="scan'208";a="310775130"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.9])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2013 08:18:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 08:18:35 -0700
-Message-Id: <1368112715-6757-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH][danny] powertop: inherit gettext
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UaT16-0006Vd-4c for openembedded-core@lists.openembedded.org;
+	Thu, 09 May 2013 17:44:27 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r49FSkJc019325 for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 May 2013 16:28:47 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7EfqOH2Y4umF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 May 2013 16:28:46 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r49FSgBv019319
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 May 2013 16:28:43 +0100
+Message-ID: <1368113167.27116.98.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 09 May 2013 16:26:07 +0100
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: [PATCH] eglibc/machine-sdk: Drop SDK_GLIBC_ADDONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 15:37:16 -0000
+X-List-Received-Date: Thu, 09 May 2013 15:44:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-powertop uses gettext during config time and at build time to generate
-the messages, so really should inherit gettext
+We no longer change GLIBC_ADDONS per target so we no longer need to special
+case the SDK settings for it either.
 
-[YOCTO #4470]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/powertop/powertop_2.3.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/conf/machine-sdk/i586.conf b/meta/conf/machine-sdk/i586.conf
+index 190f2bd..baacce7 100644
+--- a/meta/conf/machine-sdk/i586.conf
++++ b/meta/conf/machine-sdk/i586.conf
+@@ -1,4 +1,3 @@
+ SDK_ARCH = "i586"
+ SDK_CC_ARCH = "-march=i586"
+ 
+-SDK_GLIBC_ADDONS = "nptl"
+diff --git a/meta/conf/machine-sdk/i686.conf b/meta/conf/machine-sdk/i686.conf
+index 3e8e4f4..ffdb461 100644
+--- a/meta/conf/machine-sdk/i686.conf
++++ b/meta/conf/machine-sdk/i686.conf
+@@ -1,4 +1,2 @@
+ SDK_ARCH = "i686"
+ SDK_CC_ARCH = "-march=i686"
+-
+-SDK_GLIBC_ADDONS = "nptl"
+diff --git a/meta/conf/machine-sdk/x86_64.conf b/meta/conf/machine-sdk/x86_64.conf
+index 9495842..812d67c 100644
+--- a/meta/conf/machine-sdk/x86_64.conf
++++ b/meta/conf/machine-sdk/x86_64.conf
+@@ -1,3 +1 @@
+ SDK_ARCH = "x86_64"
+-
+-SDK_GLIBC_ADDONS = "nptl"
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index 1e04197..40dd6b5 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -78,5 +78,3 @@ do_configure_append() {
+ }
+ 
+ GLIBC_ADDONS ?= "ports,nptl,libidn"
+-SDK_GLIBC_ADDONS ?= "ports,nptl,libidn"
+-GLIBC_ADDONS_class-nativesdk = "${SDK_GLIBC_ADDONS}"
 
-diff --git a/meta/recipes-kernel/powertop/powertop_2.3.bb b/meta/recipes-kernel/powertop/powertop_2.3.bb
-index 8d290d3..8ee349c 100644
---- a/meta/recipes-kernel/powertop/powertop_2.3.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.3.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Power usage tool"
- DESCRIPTION = "Linux tool to diagnose issues with power consumption and power management."
- HOMEPAGE = "http://01.org/powertop/"
- BUGTRACKER = "http://bugzilla.lesswatts.org/"
--DEPENDS = "ncurses virtual/gettext libnl pciutils"
-+DEPENDS = "ncurses libnl pciutils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- 
-@@ -11,7 +11,7 @@ SRC_URI = "http://01.org/powertop/sites/default/files/downloads/powertop-${PV}.t
- SRC_URI[md5sum] = "dc03608f20e56cdc99d121a6191556f6"
- SRC_URI[sha256sum] = "b8c1add69afee28c77dca56fdcedb4a46820f3a71c86aae7891b0c5c595cd744"
- 
--inherit autotools
-+inherit autotools gettext
- 
- # we need to explicitly link with libintl in uClibc systems
- LDFLAGS += "${EXTRA_LDFLAGS}"
--- 
-1.7.10.4
 
 
 
