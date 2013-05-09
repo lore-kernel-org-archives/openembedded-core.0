@@ -1,37 +1,24 @@
 Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UaMcP-0000pU-PV
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UaMoC-0002iV-Be
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 10:55:11 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 34485D22DE; Thu,  9 May 2013 10:35:56 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
+	Thu, 09 May 2013 11:07:15 +0200
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 97813D20DD
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 6ADFBD22DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2013 10:35:34 +0200 (CEST)
-Message-ID: <518B5FF4.7080805@linaro.org>
-Date: Thu, 09 May 2013 10:36:04 +0200
+	Thu,  9 May 2013 10:48:07 +0200 (CEST)
 From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1368014380-23653-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<518A6154.6090007@linux.intel.com>
-	<CAMZjud3VRbezUb96Zy4czjAF60xe8MkzRFt6Eyn4_ifGSCwcAw@mail.gmail.com>
-In-Reply-To: <CAMZjud3VRbezUb96Zy4czjAF60xe8MkzRFt6Eyn4_ifGSCwcAw@mail.gmail.com>
-X-Enigmail-Version: 1.4.6
-Subject: Re: [PATCH] gdb: upgraded to 7.6
+Date: Thu,  9 May 2013 10:48:36 +0200
+Message-Id: <1368089317-27254-2-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <1368089317-27254-1-git-send-email-marcin.juszkiewicz@linaro.org>
+References: <518A6122.5060309@linux.intel.com>
+	<1368089317-27254-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Subject: [PATCH v2 2/3] gdb: checksums are in versioned include
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 08:55:20 -0000
-X-List-Received-Date: Thu, 09 May 2013 08:55:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 May 2013 09:07:39 -0000
 
-W dniu 09.05.2013 09:48, Marinescu, Bogdan A pisze:
-> I will recheck. However, does it make sense for us to work in parallel
-> on upgrading the same package?
+This allows out-of-tree versions to reuse this file for any version.
 
-I will update my patches later today.
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ meta/recipes-devtools/gdb/gdb-common.inc | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 6f42dff..deb3841 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -23,9 +23,6 @@ inherit autotools
+ 
+ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
+           "
+-SRC_URI[md5sum] = "b1519bf899890d21d4774845a6e602fe"
+-SRC_URI[sha256sum] = "f99f26e2c1127f12ba14ece0947a9a9948be45e96b69ef363131e469a698636e"
+-
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ export CXX_FOR_BUILD = "${BUILD_CXX}"
+ export CPP_FOR_BUILD = "${BUILD_CPP}"
+-- 
+1.8.1.2
+
 
 
