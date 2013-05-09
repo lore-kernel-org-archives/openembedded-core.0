@@ -1,20 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1UaP7C-0005Qg-Im
+	(envelope-from <ionutx.radu@intel.com>) id 1UaP7k-0005Tm-Qe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 13:34:44 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 May 2013 04:16:22 -0700
+	Thu, 09 May 2013 13:35:03 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 09 May 2013 04:15:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,639,1363158000"; d="scan'208";a="299879686"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by azsmga001.ch.intel.com with ESMTP; 09 May 2013 04:16:20 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,639,1363158000"; d="scan'208";a="239080280"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by AZSMGA002.ch.intel.com with ESMTP; 09 May 2013 04:15:50 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 14:19:58 +0300
-Message-Id: <1368098398-19105-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Thu,  9 May 2013 14:17:40 +0300
+Message-Id: <1368098260-11666-1-git-send-email-ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v2] gmp: updated to 5.1.1
+Subject: [PATCH 1/6] pciutils: updated from 3.1.10 to 3.2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,214 +27,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 11:34:45 -0000
+X-List-Received-Date: Thu, 09 May 2013 11:35:04 -0000
 
-A number of patches are now part of the upstream.
-Tested by compiling and running core-image-minimal/qemux86.
-
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
 ---
- .../gmp/gmp-5.1.0/187b7b1646ee.patch               |   44 --------------------
- .../gmp/gmp-5.1.0/obsolete_automake_macros.patch   |   13 ------
- .../gmp/{gmp-5.1.0 => gmp-5.1.1}/configure.patch   |    6 +--
- meta/recipes-support/gmp/gmp.inc                   |    2 +-
- meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch |   41 ------------------
- meta/recipes-support/gmp/gmp_5.1.0.bb              |   15 -------
- meta/recipes-support/gmp/gmp_5.1.1.bb              |   10 +++++
- 7 files changed, 14 insertions(+), 117 deletions(-)
- delete mode 100644 meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch
- delete mode 100644 meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
- rename meta/recipes-support/gmp/{gmp-5.1.0 => gmp-5.1.1}/configure.patch (97%)
- delete mode 100644 meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
- delete mode 100644 meta/recipes-support/gmp/gmp_5.1.0.bb
- create mode 100644 meta/recipes-support/gmp/gmp_5.1.1.bb
+ .../configure.patch                                |    0
+ .../guess-fix.patch                                |    0
+ .../lib-build-fix.patch                            |    0
+ .../makefile.patch                                 |   20 ++++++++++++++++----
+ .../pcimodules-pciutils.diff                       |    0
+ .../{pciutils_3.1.10.bb => pciutils_3.2.0.bb}      |    4 ++--
+ 6 files changed, 18 insertions(+), 6 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.10 => pciutils-3.2.0}/configure.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.10 => pciutils-3.2.0}/guess-fix.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.10 => pciutils-3.2.0}/lib-build-fix.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.10 => pciutils-3.2.0}/makefile.patch (25%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.10 => pciutils-3.2.0}/pcimodules-pciutils.diff (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.1.10.bb => pciutils_3.2.0.bb} (92%)
 
-diff --git a/meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch b/meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch
-deleted file mode 100644
-index 486f8c5..0000000
---- a/meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--Upstream-status: Backport
--
--# HG changeset patch
--# User Torbjorn Granlund <tege@gmplib.org>
--# Date 1357413121 -3600
--# Node ID 187b7b1646ee0ace782768bb36117b62c8408bb6
--# Parent  87a24013e9ee2cabf74e32282c18584a2c669009
--(aarch64): Make add_ssaaaa and sub_ddmmss actually work.
--
--diff -r 87a24013e9ee -r 187b7b1646ee longlong.h
----- a/longlong.h	Fri Jan 04 16:32:01 2013 +0100
--+++ b/longlong.h	Sat Jan 05 20:12:01 2013 +0100
--@@ -530,23 +530,16 @@
-- #endif /* __arm__ */
-- 
-- #if defined (__aarch64__) && W_TYPE_SIZE == 64
--+/* FIXME: Extend the immediate range for the low word by using both
--+   ADDS and SUBS, since they set carry in the same way.  */
-- #define add_ssaaaa(sh, sl, ah, al, bh, bl) \
---  __asm__ ("adds\t%1, %4, %5\n\tadc\t%0, %2, %3"			\
--+  __asm__ ("adds\t%1, %x4, %5\n\tadc\t%0, %x2, %x3"			\
-- 	   : "=r" (sh), "=&r" (sl)					\
---	   : "r" (ah), "rZ" (bh), "%r" (al), "rI" (bl) __CLOBBER_CC)
--+	   : "rZ" (ah), "rZ" (bh), "%r" (al), "rI" (bl) __CLOBBER_CC)
-- #define sub_ddmmss(sh, sl, ah, al, bh, bl) \
---  do {									\
---    if (__builtin_constant_p (bl))					\
---      {									\
---	__asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
---		 : "=r" (sh), "=&r" (sl)				\
---		 : "r" (ah), "r" (bh), "r" (al), "rI" (bl) __CLOBBER_CC); \
---      }									\
---    else /* only bh might be a constant */				\
---      __asm__ ("subs\t%1, %4, %5\n\tsbc\t%0, %2, %3"			\
---	       : "=r" (sh), "=&r" (sl)					\
---	       : "r" (ah), "rZ" (bh), "r" (al), "rI" (bl) __CLOBBER_CC);\
---    } while (0)
--+  __asm__ ("subs\t%1, %x4, %5\n\tsbc\t%0, %x2, %x3"			\
--+	   : "=r,r" (sh), "=&r,&r" (sl)					\
--+	   : "rZ,rZ" (ah), "rZ,rZ" (bh), "r,Z" (al), "rI,r" (bl) __CLOBBER_CC)
-- #define umul_ppmm(ph, pl, m0, m1) \
--   do {									\
--     UDItype __m0 = (m0), __m1 = (m1);					\
--
-diff --git a/meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch b/meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
-deleted file mode 100644
-index adff6ca..0000000
---- a/meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,13 +0,0 @@
--Upstream-Status: Accepted
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd gmp-5.1.0/configure.in gmp-5.1.0/configure.in
----- gmp-5.1.0/configure.in	2012-12-18 21:05:09.000000000 +0200
--+++ gmp-5.1.0/configure.in	2013-01-02 06:00:41.552958778 +0200
--@@ -67,7 +67,7 @@
-- dnl  so update there too if changing anything.
-- dnl
-- AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
---AM_CONFIG_HEADER(config.h:config.in)
--+AC_CONFIG_HEADERS(config.h:config.in)
-- AM_MAINTAINER_MODE
-diff --git a/meta/recipes-support/gmp/gmp-5.1.0/configure.patch b/meta/recipes-support/gmp/gmp-5.1.1/configure.patch
-similarity index 97%
-rename from meta/recipes-support/gmp/gmp-5.1.0/configure.patch
-rename to meta/recipes-support/gmp/gmp-5.1.1/configure.patch
-index fb5435c..591ea79 100644
---- a/meta/recipes-support/gmp/gmp-5.1.0/configure.patch
-+++ b/meta/recipes-support/gmp/gmp-5.1.1/configure.patch
-@@ -115,9 +115,9 @@ diff -Nurd gmp-5.1.0/acinclude.m4 gmp-5.1.0/acinclude.m4
-  ])
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.10/configure.patch b/meta/recipes-bsp/pciutils/pciutils-3.2.0/configure.patch
+similarity index 100%
+rename from meta/recipes-bsp/pciutils/pciutils-3.1.10/configure.patch
+rename to meta/recipes-bsp/pciutils/pciutils-3.2.0/configure.patch
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.10/guess-fix.patch b/meta/recipes-bsp/pciutils/pciutils-3.2.0/guess-fix.patch
+similarity index 100%
+rename from meta/recipes-bsp/pciutils/pciutils-3.1.10/guess-fix.patch
+rename to meta/recipes-bsp/pciutils/pciutils-3.2.0/guess-fix.patch
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.10/lib-build-fix.patch b/meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch
+similarity index 100%
+rename from meta/recipes-bsp/pciutils/pciutils-3.1.10/lib-build-fix.patch
+rename to meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.10/makefile.patch b/meta/recipes-bsp/pciutils/pciutils-3.2.0/makefile.patch
+similarity index 25%
+rename from meta/recipes-bsp/pciutils/pciutils-3.1.10/makefile.patch
+rename to meta/recipes-bsp/pciutils/pciutils-3.2.0/makefile.patch
+index 811aac8..c3fbc6f 100644
+--- a/meta/recipes-bsp/pciutils/pciutils-3.1.10/makefile.patch
++++ b/meta/recipes-bsp/pciutils/pciutils-3.2.0/makefile.patch
+@@ -1,9 +1,12 @@
+ Upstream-Status: Inappropriate [configuration]
  
- 
--diff -Nurd gmp-5.1.0/configure.in gmp-5.1.0/configure.in
----- gmp-5.1.0/configure.in	2012-12-18 21:05:09.000000000 +0200
--+++ gmp-5.1.0/configure.in	2013-01-02 05:19:26.977013073 +0200
-+diff -Nurd gmp-5.1.0/configure.ac gmp-5.1.0/configure.ac
-+--- gmp-5.1.0/configure.ac	2012-12-18 21:05:09.000000000 +0200
-++++ gmp-5.1.0/configure.ac	2013-01-02 05:19:26.977013073 +0200
- @@ -29,13 +29,6 @@
-  AC_PREREQ(2.59)
-  AC_INIT(GNU MP, GMP_VERSION, [gmp-bugs@gmplib.org, see http://gmplib.org/manual/Reporting-Bugs.html], gmp)
-diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
-index 709d8c4..bec06ec 100644
---- a/meta/recipes-support/gmp/gmp.inc
-+++ b/meta/recipes-support/gmp/gmp.inc
-@@ -3,7 +3,7 @@ DESCRIPTION = "GNU multiprecision arithmetic library"
- HOMEPAGE = "http://gmplib.org/"
- LICENSE = "GPLv3 LGPLv3"
- 
--REVISION = "a"
-+REVISION = ""
- 
- SRC_URI = "ftp://ftp.gmplib.org/pub/gmp-${PV}/gmp-${PV}${REVISION}.tar.bz2 \
- 	   file://configure.patch \
-diff --git a/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch b/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
-deleted file mode 100644
-index 76d3a00..0000000
---- a/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-Status: Pending
--
--Add X32 support in gmp configure.
--
--Patch Originator: H J Lu @ Intel
--Patch modified for Yocto by Nitin Kamble
--Signed Off By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/11/21
--
----- gmp-4.3.2/configure.in.x32	2011-08-12 15:03:06.143548291 -0700
--+++ gmp-4.3.2/configure.in	2011-08-12 15:06:20.580595316 -0700
--@@ -1499,6 +1499,21 @@ case $host in
-- 	    path_64="x86_64/atom x86_64"
-- 	    ;;
-- 	esac
--+
--+	# X32 support.
--+	case x"$path_64" in
--+	  xx86_64*)
--+	    abilist="x32 64 32"
--+	    path_x32="$path_64"
--+	    limb_x32=longlong
--+	    cclist_x32="gcc"
--+	    gcc_x32_cflags="-O2 -mx32"
--+	    any_x32_testlist="sizeof-long-4"
--+	    CALLING_CONVENTIONS_OBJS_x32='amd64call.lo amd64check$U.lo'
--+	    SPEED_CYCLECOUNTER_OBJ_x32=x86_64.lo
--+	    cyclecounter_size_x32=2
--+	    ;;
--+	esac
-- 	;;
--     esac
--     ;;
--@@ -3039,7 +3058,7 @@ if test "$gmp_asm_syntax_testing" != no;
-- 	      GMP_INCLUDE_MPN(x86/darwin.m4) ;;
-- 	  esac
--           ;;
---        64)
--+        64|x32)
--           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
-- 	  case $host in
-- 	    *-*-darwin*)
-diff --git a/meta/recipes-support/gmp/gmp_5.1.0.bb b/meta/recipes-support/gmp/gmp_5.1.0.bb
-deleted file mode 100644
-index 3c3d985..0000000
---- a/meta/recipes-support/gmp/gmp_5.1.0.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require gmp.inc
--LICENSE="LGPLv3&GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
--
--SRC_URI_append = " file://use-includedir.patch \
--                   file://gmp_fix_for_x32.patch \
--                   file://187b7b1646ee.patch \
--                   file://obsolete_automake_macros.patch \
--                   "
--
--PR = "r2"                   
--
--SRC_URI[md5sum] = "cf6d7cb5915f29ce0fc41d042205c080"
--SRC_URI[sha256sum] = "ed5239a62aeaba6cfc8d50ec36fb59215618f98c248d4bb05ca9bccd990794dc"
-diff --git a/meta/recipes-support/gmp/gmp_5.1.1.bb b/meta/recipes-support/gmp/gmp_5.1.1.bb
-new file mode 100644
-index 0000000..d6dcb97
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp_5.1.1.bb
-@@ -0,0 +1,10 @@
-+require gmp.inc
-+LICENSE="LGPLv3&GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-diff -ruN pciutils-3.1.7-orig/Makefile pciutils-3.1.7/Makefile
+---- pciutils-3.1.7-orig/Makefile	2011-07-11 14:41:59.000000000 +0800
+-+++ pciutils-3.1.7/Makefile	2011-07-11 14:42:31.000000000 +0800
+-@@ -31,7 +31,7 @@
++Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
 +
-+SRC_URI_append = " file://use-includedir.patch \
-+                   "
-+
-+SRC_URI[md5sum] = "2fa018a7cd193c78494525f236d02dd6"
-+SRC_URI[sha256sum] = "a0d4779f48b36519dfaceb5f987a7c76fcac223258bebea3bb2244310970afad"
++Index: pciutils-3.2.0/Makefile
++===================================================================
++--- pciutils-3.2.0.orig/Makefile
+++++ pciutils-3.2.0/Makefile
++@@ -35,7 +35,7 @@ SHAREDIR=$(PREFIX)/share
+  IDSDIR=$(SHAREDIR)
+  MANDIR:=$(shell if [ -d $(PREFIX)/share/man ] ; then echo $(PREFIX)/share/man ; else echo $(PREFIX)/man ; fi)
+  INCDIR=$(PREFIX)/include
+@@ -12,3 +15,12 @@ diff -ruN pciutils-3.1.7-orig/Makefile pciutils-3.1.7/Makefile
+  PKGCFDIR=$(LIBDIR)/pkgconfig
+  
+  # Commands
++@@ -94,7 +94,7 @@ example: example.o lib/$(PCILIB_DEV)
++ example.o: example.c $(PCIINC)
++ 
++ %: %.o
++-	$(CC) $(LDFLAGS) $(TARGET_ARCH) $^ $(LIB_LDLIBS) -o $@
+++	$(CC) $(LDFLAGS) $(TARGET_ARCH) $^ $(LIB_LDLIBS) $(LDLIBS) -o $@
++ 
++ %.8 %.7: %.man
++ 	M=`echo $(DATE) | sed 's/-01-/-January-/;s/-02-/-February-/;s/-03-/-March-/;s/-04-/-April-/;s/-05-/-May-/;s/-06-/-June-/;s/-07-/-July-/;s/-08-/-August-/;s/-09-/-September-/;s/-10-/-October-/;s/-11-/-November-/;s/-12-/-December-/;s/\(.*\)-\(.*\)-\(.*\)/\3 \2 \1/'` ; sed <$< >$@ "s/@TODAY@/$$M/;s/@VERSION@/pciutils-$(VERSION)/;s#@IDSDIR@#$(IDSDIR)#"
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.10/pcimodules-pciutils.diff b/meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
+similarity index 100%
+rename from meta/recipes-bsp/pciutils/pciutils-3.1.10/pcimodules-pciutils.diff
+rename to meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.10.bb b/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.1.10.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
+index e405101..6022695 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.1.10.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
+@@ -18,8 +18,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+            file://guess-fix.patch \
+            file://makefile.patch"
+ 
+-SRC_URI[md5sum] = "3a5d8b2784c8571dc5557efda4a8c157"
+-SRC_URI[sha256sum] = "f402c2051d9b027799a36f17c5e1750dcb4f07070ec46e79108901d03a83aa75"
++SRC_URI[md5sum] = "d73a1b35e5d5efa70e8476d5917de11f"
++SRC_URI[sha256sum] = "b816943bb06c3338d98e2c705e3b76c9e513830f1f15c76d60e549f965d22a35"
+ 
+ PARALLEL_MAKE = ""
+ 
 -- 
 1.7.10.4
 
