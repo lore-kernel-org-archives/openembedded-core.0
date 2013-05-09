@@ -1,34 +1,43 @@
-Received: from mail-pd0-f178.google.com ([209.85.192.178])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UaPqi-0002E6-2P
+	(envelope-from <net147@gmail.com>) id 1UaPrl-0002Mn-5x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 May 2013 14:21:28 +0200
-Received: by mail-pd0-f178.google.com with SMTP id w11so1972812pde.37
+	Thu, 09 May 2013 14:22:33 +0200
+Received: by mail-pa0-f41.google.com with SMTP id rl6so2080953pac.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2013 05:03:23 -0700 (PDT)
+	Thu, 09 May 2013 05:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=kgTJEwDU49h/kXuHYFFbcByNhP/2SLW+3KEgkAa+IQo=;
-	b=D8uvXYFxobnyd+x3R8x0rlBVPMB5xL8eMdCBeRSrakZyoVyKEbUntTD4J/jZ4WgOfO
-	2UCYEAB+S9IIVFb74XKY0lHVidUGl4XscFUJ4+Uth7E8qaPYlyk1sgrBBiHuS6akDMvL
-	DGyrE3u9kmDF5ROtyJQB6Gk+zZt2zHSBcouPHWlJ1eaWvI+ciIioYFmQhPsoMpbAiOAq
-	dwVdEgIWmgEeMP4m1b/+x0Mk0xt0+cLSOwCpGXSUJDuOCOFVOX28R2/uO1OZiQqLvFVQ
-	YpenbGk1MsupOyJ4iKhlBTzl8gi8ga+/f8g3lqtw1jn1bmrPXqtZT1fmmA+MKWRzESwE
-	OcfQ==
-X-Received: by 10.66.217.162 with SMTP id oz2mr12587397pac.157.1368101003687; 
-	Thu, 09 May 2013 05:03:23 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id au5sm2820395pbc.40.2013.05.09.05.03.21
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=kyI2/HjazrSHIWQW9zOQsTGcgZ9VeM5MkcFRMn2PK3k=;
+	b=QfWIKm0tNTp3wETuAnLXPDVU/3h0XVtHaNMDZAgOzULC+2Ch5h9aXMBpubar6wlFGg
+	HbaFz3toI+aLQJPNrP7M4ycwri9R78oUaKnz8zwXO29HN5f2+LP3Fo4mZN52di5tmUpg
+	lXYFbaW/NxISvSNqSuptJMjdkURx5LnvkiWYIsxQxRbi24ObJ7QVIQGkMIMtO4Xjy0PR
+	Z78Q7okl8zkU5ukwWkndbGyKr6EgK3KIFSxKUt1mKCy/SPGLc2reEltFWAMdZvrJUBEX
+	RpDSik7pLw075WqDH7R2ATUAF0DXMcswhQ6Nr3dZ1VIe197B22uRzQ2IQ1ex8Lz9PRoK
+	ivBw==
+X-Received: by 10.68.251.166 with SMTP id zl6mr12598533pbc.4.1368101068852;
+	Thu, 09 May 2013 05:04:28 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id zo4sm2853554pbc.21.2013.05.09.05.04.26
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 09 May 2013 05:03:22 -0700 (PDT)
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 May 2013 05:04:27 -0700 (PDT)
+Message-ID: <518B8FB0.3000309@gmail.com>
+Date: Thu, 09 May 2013 21:59:44 +1000
 From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2013 22:15:48 +1000
-Message-Id: <1368101748-4701-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH 3/3 v2] image-vmdk: Fix error recreating symbolic link
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <1368069844-13706-1-git-send-email-net147@gmail.com>
+	<1368069844-13706-3-git-send-email-net147@gmail.com>
+	<518B5F4F.8090707@windriver.com>
+In-Reply-To: <518B5F4F.8090707@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] image-vmdk: Fix error recreating symbolic link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +50,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2013 12:21:29 -0000
+X-List-Received-Date: Thu, 09 May 2013 12:22:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If the vmdk image symbolic link already exists from a previous build,
-overwrite it instead of returning an error.
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/image-vmdk.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
-index 6f7df3f..70234e2 100644
---- a/meta/classes/image-vmdk.bbclass
-+++ b/meta/classes/image-vmdk.bbclass
-@@ -18,8 +18,7 @@ inherit boot-directdisk
- 
- create_vmdk_image () {
- 	qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
--	ln -s ${IMAGE_NAME}.vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
--
-+	ln -sf ${IMAGE_NAME}.vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
- }
- 
- python do_vmdkimg() {
--- 
-1.8.2.1
-
+On 9/05/2013 6:33 PM, Robert Yang wrote:
+>
+>
+> On 05/09/2013 11:24 AM, Jonathan Liu wrote:
+>> If the vmdk image symbolic link already exists from a previous build,
+>> overwrite it instead of returning an error.
+>>
+>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> ---
+>>   meta/classes/image-vmdk.bbclass | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image-vmdk.bbclass 
+>> b/meta/classes/image-vmdk.bbclass
+>> index 6f7df3f..c225bed 100644
+>> --- a/meta/classes/image-vmdk.bbclass
+>> +++ b/meta/classes/image-vmdk.bbclass
+>> @@ -18,8 +18,8 @@ inherit boot-directdisk
+>>
+>>   create_vmdk_image () {
+>>       qemu-img convert -O vmdk 
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect 
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
+>> +    rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
+>>       ln -s ${IMAGE_NAME}.vmdk 
+>> ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vmdk
+>
+> How about "ln -sf", the '-f' will remove existing destination files.
+>
+> // Robert
+Done.
+>
+>> -
+>>   }
+>>
+>>   python do_vmdkimg() {
+>>
+Regards,
+Jonathan
 
 
