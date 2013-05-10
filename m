@@ -1,33 +1,35 @@
-Received: from mail-ea0-f182.google.com ([209.85.215.182])
+Received: from mail-ee0-f48.google.com ([74.125.83.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UalEP-00086g-Tb
+	(envelope-from <martin.jansa@gmail.com>) id 1UalER-00087O-Hg
 	for openembedded-core@lists.openembedded.org;
 	Fri, 10 May 2013 13:11:24 +0200
-Received: by mail-ea0-f182.google.com with SMTP id z16so2180798ead.13
+Received: by mail-ee0-f48.google.com with SMTP id c4so1613140eek.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2013 03:53:17 -0700 (PDT)
+	Fri, 10 May 2013 03:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=mG0VuEijqa07wohvbwYevcHhJSXMyvEwjIbUYaC95tc=;
-	b=N5yy20JKTQtoXr/wjzSdLTQm6dFD9rTxlT7ZOng5tnNH6s08UiWThX74qaDpgx0Idl
-	meYyOifwdeIUlSwWDKFFljxaZ7TGjs9y9IKlIGFwAImpIN/BwHZlxGDcihWesT77f9WV
-	di7X57qV14rsxh6mrsgCSqvAIQOO3FY0isXIxcubeA0CBpEbGS/6YVxRD4t2UQ8bjs9i
-	f2XX+JBOxxYKmQ3QgRXDbeFeduT9nSLjzrZoFEolyh4/QrwQPx6bgBA8DFWTJc7tHzgB
-	aKDCWHgWDVfMiCRUf/dxVs9tlGujTYwJMJarYfo/0UqqgzBwA5DjmNLy6m+gKj68AznF
-	SfrA==
-X-Received: by 10.14.108.1 with SMTP id p1mr40262790eeg.31.1368183196598;
-	Fri, 10 May 2013 03:53:16 -0700 (PDT)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=/PmDIrz8p3bu7X89bqXzC7e4tMdidA2DNYzZbKC19rg=;
+	b=jIpOouCK65MoiINoU3Lv3K+/1g4aPbmvGZMonJfS+ZoO1ETSaC7w/c7w/lAROu4nub
+	UakmVZ7wbTdU1tT34BiIdQchPp1K40HPnEVyEc5HMl9ywTTPJoy76YUlvDCt5oKeuwpq
+	JRLw+pfIHeC2kzbzsSJ73sMHGlIfGcJZUQDHTG/nuN3lFGlmHYiV+XiEGKMmPCApjYdh
+	F5pj7CwjLPkVFbbNDzjCVMV5y7PndQ5xqCwZSLfaXj7mxZOVwfKcrswZsAePiipJWXrq
+	drEd3RvoB8Ku/873MqhxI5gcYTUQX+5vnf4lrg3HNt94R9HGPqg7ryj2463hHvmTD0Xs
+	qhHw==
+X-Received: by 10.14.194.70 with SMTP id l46mr39937068een.28.1368183198337;
+	Fri, 10 May 2013 03:53:18 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id n7sm2870748eeo.0.2013.05.10.03.53.15
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id
+	t9sm2788163eeo.11.2013.05.10.03.53.17 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 10 May 2013 03:53:16 -0700 (PDT)
+	Fri, 10 May 2013 03:53:17 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2013 12:53:10 +0200
-Message-Id: <1368183192-26634-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 10 May 2013 12:53:11 +0200
+Message-Id: <1368183192-26634-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH 1/3] tcp-wrappers: Rename conflicting variable STRINGS in Makefile
+In-Reply-To: <1368183192-26634-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1368183192-26634-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/3] tcp-wrappers: fix indentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,68 +43,68 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 May 2013 11:11:27 -0000
-X-List-Received-Date: Fri, 10 May 2013 11:11:27 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../tcp-wrappers-7.6/rename_strings_variable.patch | 35 ++++++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_variable.patch
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               | 40 +++++++++++-----------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_variable.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_variable.patch
-new file mode 100644
-index 0000000..7650600
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/rename_strings_variable.patch
-@@ -0,0 +1,35 @@
-+STRINGS name conflicts with variable for strings tools (e.g. i586-oe-linux-strings)
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+--- tcp_wrappers_7.6/Makefile.orig	2013-04-18 23:41:58.277981740 +0200
-++++ tcp_wrappers_7.6/Makefile	2013-04-18 23:42:42.513978966 +0200
-+@@ -309,7 +309,7 @@
-+ pyramid:
-+ 	@make REAL_DAEMON_DIR=$(REAL_DAEMON_DIR) STYLE=$(STYLE) \
-+ 	LIBS= RANLIB=ranlib ARFLAGS=rv AUX_OBJ="environ.o vfprintf.o" \
-+-	STRINGS="-Dstrchr=index -Dstrrchr=rindex -Dmemcmp=bcmp -Dno_memcpy" \
-++	STRINGS_FLAGS="-Dstrchr=index -Dstrrchr=rindex -Dmemcmp=bcmp -Dno_memcpy" \
-+ 	NETGROUP="-DNETGROUP -DUSE_GETDOMAIN" TLI= all
-+ 
-+ # Untested.
-+@@ -419,7 +419,7 @@
-+ # Uncomment the following if your C library does not provide the
-+ # strchr/strrchr/memcmp routines, but comes with index/rindex/bcmp.
-+ #
-+-#STRINGS= -Dstrchr=index -Dstrrchr=rindex -Dmemcmp=bcmp -Dno_memcpy
-++#STRINGS_FLAGS= -Dstrchr=index -Dstrrchr=rindex -Dmemcmp=bcmp -Dno_memcpy
-+ 
-+ #################################################################
-+ # System dependencies: selection of non-default object libraries.
-+@@ -690,7 +690,7 @@
-+ 	$(BUGS) $(SYSTYPE) $(AUTH) $(UMASK) \
-+ 	-DREAL_DAEMON_DIR=\"$(REAL_DAEMON_DIR)\" $(STYLE) $(KILL_OPT) \
-+ 	-DSEVERITY=$(SEVERITY) -DRFC931_TIMEOUT=$(RFC931_TIMEOUT) \
-+-	$(UCHAR) $(TABLES) $(STRINGS) $(TLI) $(EXTRA_CFLAGS) $(DOT) \
-++	$(UCHAR) $(TABLES) $(STRINGS_FLAGS) $(TLI) $(EXTRA_CFLAGS) $(DOT) \
-+ 	$(VSYSLOG) $(HOSTNAME)
-+ 
-+ LIB_OBJ= hosts_access.o options.o shell_cmd.o rfc931.o eval.o \
 diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index ba94008..3586a35 100644
+index 3586a35..c7954e7 100644
 --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
 +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -39,6 +39,7 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://socklen_t.patch \
-            file://tcpdchk_libwrapped.patch \
-            file://ldflags.patch \
-+           file://rename_strings_variable.patch \
-            \
-            file://try-from.8 \
-            file://safe_finger.8"
+@@ -1,6 +1,6 @@
+ SUMMARY = "Security tool that is a wrapper for TCP daemons"
+ DESCRIPTION = "Tools for monitoring and filtering incoming requests for tcp \
+-	      services."
++               services."
+ SECTION = "console/network"
+ 
+ LICENSE = "BSD"
+@@ -51,25 +51,25 @@ S = "${WORKDIR}/tcp_wrappers_${PV}"
+ 
+ PARALLEL_MAKE = ""
+ EXTRA_OEMAKE = "'CC=${CC}' \
+-		'AR=${AR}' \
+-		'RANLIB=${RANLIB}' \
+-		'REAL_DAEMON_DIR=${sbindir}' \
+-		'STYLE=-DPROCESS_OPTIONS' \
+-		'FACILITY=LOG_DAEMON' \
+-		'SEVERITY=LOG_INFO' \
+-		'BUGS=' \
+-		'VSYSLOG=' \
+-		'RFC931_TIMEOUT=10' \
+-		'ACCESS=-DHOSTS_ACCESS' \
+-		'KILL_OPT=-DKILL_IP_OPTIONS' \
+-		'UMASK=-DDAEMON_UMASK=022' \
+-		'NETGROUP=${EXTRA_OEMAKE_NETGROUP}' \
+-		'LIBS=-lnsl' \
+-		'ARFLAGS=rv' \
+-		'AUX_OBJ=weak_symbols.o' \
+-		'TLI=' \
+-		'COPTS=' \
+-		'EXTRA_CFLAGS=${CFLAGS} -DSYS_ERRLIST_DEFINED -DHAVE_STRERROR -DHAVE_WEAKSYMS -D_REENTRANT -DINET6=1 -Dss_family=__ss_family -Dss_len=__ss_len'"
++                'AR=${AR}' \
++                'RANLIB=${RANLIB}' \
++                'REAL_DAEMON_DIR=${sbindir}' \
++                'STYLE=-DPROCESS_OPTIONS' \
++                'FACILITY=LOG_DAEMON' \
++                'SEVERITY=LOG_INFO' \
++                'BUGS=' \
++                'VSYSLOG=' \
++                'RFC931_TIMEOUT=10' \
++                'ACCESS=-DHOSTS_ACCESS' \
++                'KILL_OPT=-DKILL_IP_OPTIONS' \
++                'UMASK=-DDAEMON_UMASK=022' \
++                'NETGROUP=${EXTRA_OEMAKE_NETGROUP}' \
++                'LIBS=-lnsl' \
++                'ARFLAGS=rv' \
++                'AUX_OBJ=weak_symbols.o' \
++                'TLI=' \
++                'COPTS=' \
++                'EXTRA_CFLAGS=${CFLAGS} -DSYS_ERRLIST_DEFINED -DHAVE_STRERROR -DHAVE_WEAKSYMS -D_REENTRANT -DINET6=1 -Dss_family=__ss_family -Dss_len=__ss_len'"
+ 
+ EXTRA_OEMAKE_NETGROUP = "-DNETGROUP -DUSE_GETDOMAIN"
+ EXTRA_OEMAKE_NETGROUP_libc-uclibc = "-DUSE_GETDOMAIN"
 -- 
 1.8.2.1
 
