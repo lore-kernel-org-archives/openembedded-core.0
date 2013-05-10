@@ -1,23 +1,24 @@
-Received: from mail.kernelconcepts.de ([212.60.202.196])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>)
-	id 1UaiGB-0005HE-4r; Fri, 10 May 2013 10:01:03 +0200
-Received: from [192.168.2.134]
-	by mail.kernelconcepts.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <florian.boor@kernelconcepts.de>)
-	id 1Uahwq-0005De-Ml; Fri, 10 May 2013 09:41:00 +0200
-Message-ID: <518CA5AA.1040904@kernelconcepts.de>
-Date: Fri, 10 May 2013 09:45:46 +0200
-From: Florian Boor <florian.boor@kernelconcepts.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.12) Gecko/20130116 Icedove/10.0.12
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UaiH4-0005O2-1a
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 May 2013 10:02:03 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4A7hm2w022127
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 May 2013 00:43:48 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 10 May 2013 00:43:47 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 May 2013 15:43:44 +0800
+Message-ID: <cover.1368164070.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: openembedded-members@lists.openembedded.org, 
-	openembedded-core@lists.openembedded.org, 
-	openembedded-devel <openembedded-devel@openembedded.org>
-References: <515C3B68.7070306@kernelconcepts.de>
-In-Reply-To: <515C3B68.7070306@kernelconcepts.de>
-Subject: LinuxTag 2013 - last call
+Subject: [PATCH 0/1] image-vmdk.bbclass: disable the NOISO = "1"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,33 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 08:01:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2013 08:02:22 -0000
+Content-Type: text/plain
 
-Hi all,
+The following changes since commit e5d077d57f7d150d5a0bb67fdc1c87a94091cafe:
 
-On 03.04.2013 16:23, Florian Boor wrote:
-> This does not necessarily mean that I intend to to there alone! Everyone is
-> invited to come and help with the booth. Of course any additional support is
-> appreciated as well.
->
-> Who has some interesting project/hardware/software/usecase related to
-> OpenEmbbedded we can show there?
+  bitbake: lib: print is a function in moderm python, covert remaining users (2013-05-09 22:28:24 +0100)
 
-really no one else?
+are available in the git repository at:
 
-I still can order exhibitor passes till the end of today (CEST I assume).
+  git://git.pokylinux.org/poky-contrib robert/noiso
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/noiso
 
-Greetings
+Robert Yang (1):
+  image-vmdk.bbclass: disable the NOISO = "1"
 
-Florian
+ meta/classes/image-vmdk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-The dream of yesterday                  Florian Boor
-is the hope of today                    Tel: +49 271-771091-15
-and the reality of tomorrow.            Fax: +49 271-771091-19
-[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
-                                         http://www.kernelconcepts.de/en
+1.8.1.2
+
 
 
