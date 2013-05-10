@@ -1,22 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-la0-f53.google.com ([209.85.215.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jukka.rissanen@linux.intel.com>) id 1Uamop-0004yv-9K
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 14:53:09 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 May 2013 05:33:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,647,1363158000"; d="scan'208";a="331933790"
-Received: from sorvi.fi.intel.com ([10.237.72.154])
-	by fmsmga001.fm.intel.com with ESMTP; 10 May 2013 05:33:24 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2013 15:33:18 +0300
-Message-Id: <1368189198-1294-6-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH 5/5] connman: Add PPTP support
+	(envelope-from <tom.gall@linaro.org>) id 1Uamr9-0005Pv-Bn
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 10 May 2013 14:55:27 +0200
+Received: by mail-la0-f53.google.com with SMTP id eo20so3891753lab.40
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 10 May 2013 05:37:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=jKKiz2MSh03yofFdWsPuM1hx75+KdxLDwfG9itC1WXs=;
+	b=lJJKneodOpE8b7QT4SooVw/6qkyFW7IiLdAorV0BwyITo6VW8UT/Sgv47IBuJc+Gko
+	+qDPNF0HPt7Q/hmdXYCAiSmd2yQLgO6A1UGEB2Q0exzHr54aPjNuYvzgj5gRmCjOK9Xt
+	lCLe6EVSn5qpb4yX2KSbLvaeaCDkuD0KSvqOZWrIfP/kFd7kiEFRAuy64SdhmkvcoWz1
+	qj9ZVTpKgkHXyu93Ti3WS1jaxrYsRi3/TBqLZGFAOZDCuVL1toxhmR4Tb2HTJJ6bZ5TL
+	eJzWbzK860huEMauiBUaZs2oa3fLX1W5yHBiA0IUCqi6hmiEmoWBZaYCADufL7DE9WB3
+	DkBA==
+MIME-Version: 1.0
+X-Received: by 10.152.22.4 with SMTP id z4mr7490677lae.37.1368189441769; Fri,
+	10 May 2013 05:37:21 -0700 (PDT)
+Received: by 10.112.76.167 with HTTP; Fri, 10 May 2013 05:37:21 -0700 (PDT)
+In-Reply-To: <CAGNsrLBckfhAKwGVsyCm3KArBU=-CMiMd55s-iL+XatU0x9gQg@mail.gmail.com>
+References: <518BD58B.1030307@linaro.org>
+	<CAGNsrLBckfhAKwGVsyCm3KArBU=-CMiMd55s-iL+XatU0x9gQg@mail.gmail.com>
+Date: Fri, 10 May 2013 07:37:21 -0500
+Message-ID: <CAOfXc9F+yGH_H4tuWPCZnAc-Tx-kqU0AwOSW8g5+1O0=PQrbrQ@mail.gmail.com>
+From: Tom Gall <tom.gall@linaro.org>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+X-Gm-Message-State: ALoCoQnNQC4V3N8ZTBRqGqPwCjz+UdoYbmLgTCJmvYabsJr/4BJj4RRM2W5pdVRKACWaSVVR6DRk
+Cc: Lists Linaro-dev <linaro-dev@lists.linaro.org>,
+	Openembedded-core@lists.openembedded.org
+Subject: Re: Changes in Linaro layers for OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,41 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 12:53:22 -0000
+X-List-Received-Date: Fri, 10 May 2013 12:55:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- meta/recipes-connectivity/connman/connman.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+I'll also add that we (the Graphics Working Group) are using it as
+we're bringing up the graphics stack on ARMv8.
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 43b363b..d9ab234 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -39,6 +39,7 @@ PACKAGECONFIG ??= "\
-                    ${@base_contains('DISTRO_FEATURES', 'vpn','openvpn', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'vpn','vpnc', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'vpn','l2tp', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'vpn','pptp', '', d)} \
- "
- 
- PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
-@@ -48,6 +49,7 @@ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
- PACKAGECONFIG[openvpn] = "--enable-openvpn,--disable-openvpn, openvpn"
- PACKAGECONFIG[vpnc] = "--enable-vpnc,--disable-vpnc, vpnc"
- PACKAGECONFIG[l2tp] = "--enable-l2tp,--disable-l2tp, xl2tpd"
-+PACKAGECONFIG[pptp] = "--enable-pptp,--disable-pptp, pptp-linux"
- 
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
-@@ -174,3 +176,5 @@ FILES_${PN}-plugin-vpn-openvpn += "${libdir}/connman/scripts/openvpn-script"
- FILES_${PN}-plugin-vpn-vpnc += "${libdir}/connman/scripts/openconnect-script"
- FILES_${PN}-plugin-vpn-l2tp += "${libdir}/connman/scripts/libppp-plugin.so*"
- INSANE_SKIP_${PN}-plugin-vpn-l2tp += "dev-so"
-+FILES_${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so*"
-+INSANE_SKIP_${PN}-plugin-vpn-pptp += "dev-so"
--- 
-1.7.11.7
+Patches soon.
 
+On Fri, May 10, 2013 at 12:23 AM, Fathi Boudra <fathi.boudra@linaro.org> wr=
+ote:
+> Hi,
+>
+> On 9 May 2013 19:57, Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> w=
+rote:
+>> Who will maintain those layers after my leave? This was not decided yet.
+>> There are few guys at Linaro who know how to use OpenEmbedded but most
+>> of them is outside of Builds and Baselines team.
+>>
+>> If you have any questions then better ask now.
+>
+> Let me clarify a bit this part since it's Marcin's personal opinion.
+>
+> OpenEmbedded baseline is part of the official Linaro releases.
+> It's maintained, we produce daily builds and test them.
+> As of today, it's mainly used for ARMv8 bring up and is expanded to
+> ARMv7 for covering Toolchain CI.
+> Later on, it's planned to be even more extended for LNG use cases.
+>
+> The team in charge of these builds is Builds and Baselines Team.
+> There's capable people inside the team to take over OE maintenance and
+> that's the plan.
+>
+> In short, I don't expect any disruption for OpenEmbedded baseline builds.
+>
+> Cheers,
+> --
+> Fathi Boudra
+> Builds and Baselines Manager | Release Manager
+> Linaro.org | Open source software for ARM SoCs
+>
+> _______________________________________________
+> linaro-dev mailing list
+> linaro-dev@lists.linaro.org
+> http://lists.linaro.org/mailman/listinfo/linaro-dev
+
+
+
+--=20
+Regards,
+Tom
+
+"Where's the kaboom!? There was supposed to be an earth-shattering
+kaboom!" Marvin Martian
+Tech Lead, Graphics Working Group | Linaro.org =E2=94=82 Open source softwa=
+re
+for ARM SoCs
+w) tom.gall att linaro.org
+h) tom_gall att mac.com
 
 
