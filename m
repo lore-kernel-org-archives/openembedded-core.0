@@ -1,28 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1Uaq8T-0007zH-T8
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1Uaqdd-0003E0-3p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 18:25:37 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 May 2013 09:06:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,648,1363158000"; d="scan'208";a="335587250"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 10 May 2013 09:06:18 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
-	by linux.intel.com (Postfix) with ESMTP id 4247A6A408D
+	Fri, 10 May 2013 18:57:48 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 64CED952B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2013 09:06:08 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2013 19:06:25 +0300
-Message-Id: <7cbb9c520107dd3640c51819bf84e2ae06e45fd1.1368201796.git.stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1368201796.git.stefanx.stanacar@intel.com>
-References: <cover.1368201796.git.stefanx.stanacar@intel.com>
-In-Reply-To: <cover.1368201796.git.stefanx.stanacar@intel.com>
-References: <cover.1368201796.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 2/3] runqemu-internal: support for ext2 and ext4 not only ext3
+	Fri, 10 May 2013 17:39:41 +0100 (BST)
+Message-ID: <518D22CC.1040002@r-finger.com>
+Date: Fri, 10 May 2013 17:39:40 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
+	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
+	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
+In-Reply-To: <1368185566.11129.28.camel@ted>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,86 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 16:25:43 -0000
-X-List-Received-Date: Fri, 10 May 2013 16:25:43 -0000
+X-List-Received-Date: Fri, 10 May 2013 16:57:51 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Don't check only for ext3 fstype, we can boot ext2 and ext4 just
-as well.
+On 10/05/13 12:32, Richard Purdie wrote:
+> On Fri, 2013-05-10 at 11:56 +0100, Tomas Frydrych wrote:
+>> On 10/05/13 10:05, Richard Purdie wrote:
+> The closely track upstream is the key part and I think the core can do
+> this, apart from the ~six week stabilisation window.
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- scripts/runqemu-internal | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+If you mean you are prepared to do frequent point releases to keep up
+with clutter, that could work. But if you mean that those interested can
+closely track oe-core master, then that is not that useful, there are
+too many other changes happening at the same time. A small single
+purpose layer means updates (and breakages) can be very contained.
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f11706d..3bd0a09 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -299,7 +299,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     export QEMU_AUDIO_DRV="none"
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-     fi
-@@ -323,7 +323,7 @@ fi
- if [ "$MACHINE" = "qemux86" ]; then
-     QEMU=qemu-system-i386
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
--    if [ "$FSTYPE" = "ext2" -o "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-     fi
-@@ -347,7 +347,7 @@ fi
- if [ "$MACHINE" = "qemux86-64" ]; then
-     QEMU=qemu-system-x86_64
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-     fi
-@@ -373,7 +373,7 @@ fi
- 
- if [ "$MACHINE" = "spitz" ]; then
-     QEMU=qemu-system-arm
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         echo $ROOTFS
-         ROOTFS=`readlink -f $ROOTFS`
-         echo $ROOTFS
-@@ -393,7 +393,7 @@ if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemum
-     esac
-     MACHINE_SUBTYPE=malta
-     QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         KERNCMDLINE="root=/dev/hda rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-@@ -415,7 +415,7 @@ if [ "$MACHINE" = "qemuppc" ]; then
-     CPU_SUBTYPE=G4
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-     QEMU_NETWORK_CMD="-net nic,model=pcnet $QEMU_TAP_CMD"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/hda rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-     fi
-@@ -434,7 +434,7 @@ if [ "$MACHINE" = "qemush4" ]; then
-     QEMU=qemu-system-sh4
-     MACHINE_SUBTYPE=r2d
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         KERNCMDLINE="root=/dev/hda rw console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
+
+> My argument for this is that I really do want to stress out the graphics
+> stack we have, clutter provides a good way to test some of those
+> components, particularly some of the more unusual parts. Currently its
+> mostly build test however we do have plans to make that runtime too. I
+> do think that clutters unusual usage of the stack makes it particular
+> useful in this role. I'd appreciate help from anyone who can help make
+> this all work.
+
+I am all for this, but does using clutter for automated tests require
+for the clutter packages to be in oe-core? The only thing you can stress
+test in oe-core using clutter is mesa, which is only applicable to the
+i915/i965 chip sets. I think it would be useful if any such tests could
+be applied to other graphics stacks provided by BSPs; I think all of the
+BSPs would benefit from this.
+
+I'd really like for people to be able to just pick up uptodate and
+working clutter packages for the major platforms the actively maintained
+BSPs support. Every so often someone asks about clutter for XYZ (usually
+the Beagleboard or RPi) on the clutter list: this should be readily
+available somewhere.
+
+have a good weekend everyone,
+
+Tomas
+
 -- 
-1.8.1.4
-
+http://sleepfive.com
 
 
