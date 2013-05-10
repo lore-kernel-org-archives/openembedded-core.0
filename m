@@ -1,32 +1,23 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UajYF-0000lc-2e for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 11:23:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4A97q66020994; Fri, 10 May 2013 10:08:08 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m9N-AZHnocUu; Fri, 10 May 2013 10:08:08 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4A984p8021002
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 10 May 2013 10:08:05 +0100
-Message-ID: <1368176725.11129.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Fri, 10 May 2013 10:05:25 +0100
-In-Reply-To: <518A7B37.8050308@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
-	<518A7B37.8050308@r-finger.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+	(envelope-from <stefanx.stanacar@intel.com>) id 1Uajnx-0003EB-4f
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 May 2013 11:40:00 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 May 2013 02:21:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,646,1363158000"; d="scan'208";a="300376327"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 10 May 2013 02:21:50 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
+	by linux.intel.com (Postfix) with ESMTP id 87AC66A4087;
+	Fri, 10 May 2013 02:21:40 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2013 12:22:01 +0300
+Message-Id: <1368177721-28945-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] qemuimage-testlib: test all supported FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,87 +30,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 09:23:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2013 09:40:54 -0000
 
-On Wed, 2013-05-08 at 17:20 +0100, Tomas Frydrych wrote:
-> On 08/05/13 16:23, Richard Purdie wrote:
-> > On Wed, 2013-05-08 at 16:11 +0100, Tomas Frydrych wrote:
-> >> I think it would makes sense to move clutter related packages from
-> >> oe-core into a dedicated layer:
-> >>
-> >> * AFAIK nothing in oe-core requires cogl/clutter/mx,
-> >>
-> >> * The packages in oe-core are effectively unmaintained, several upstream
-> >> releases behind, and pretty much unusable,
-> >>
-> >> * The somewhat random nature of clutter and cogl releases makes it hard
-> >> to sensibly manage these packages within the oe-core release cycle, but
-> >> a dedicated layer could follow the upstream developments.
-> >>
-> >>
-> >> I have started work on new clutter and related packages for use by
-> >> meta-guacamayo at https://github.com/Guacamayo/meta-clutter, but I'd be
-> >> more than happy for the layer to live somewhere else and become the
-> >> canonical location for clutter-related bits and pieces.
-> > 
-> > I have no idea why you've always felt the need to maintain the clutter
-> > pieces in your own layer rather than interacting with the ones in
-> > OE-Core instead which I'd love to see better maintained. I'm not aware
-> > of any barrier that has prevented that.
-> 
-> It's mostly a matter of timing. Clutter does not provide LTS releases,
-> it pretty much deprecates the previous stable branch as soon as new
-> stable branch is started, so tracking the upstream reasonably quickly
-> matters. The timing for the danny oe-core release and the arrival of
-> clutter 1.12 was such that it simply could not have made it into
-> oe-core. Needing 1.12 I had no option than to package it elsewhere.
->
-> Yes, I could have submitted clutter 1.12 recipes to oe-core in some form
-> and shape in the last 6 months, and we would have had a less outdated
-> package in oe-core; but nevertheless outdated, since again the clutter
-> 1.14 release came too late to make it into dylan. I can see this
-> happening again and again.
+Right now qemuimage-testlib hardcodes ext3 as fs type.
+We should respect IMAGE_FSTYPES and boot all images
+that runqemu supports.
 
-The trouble is you can make this argument for every single piece of
-software in OE-Core. There was nothing stopping you pushing the 1.12
-work back into what became dylan as soon as it opened up for changes.
-There was also nothing you maintaining an a branch of danny with the
-1.12 updates backported into it.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/classes/imagetest-qemu.bbclass | 25 ++++++++++++++-----------
+ scripts/qemuimage-testlib           | 21 ++++++++++-----------
+ 2 files changed, 24 insertions(+), 22 deletions(-)
 
-> If there is a good reason to maintain clutter, cogl and mx in oe-core,
-> then I'll make patches for 1.14, but I am not convinced there is a good
-> reason, and that everyone would be better served by a dedicated layer.
-
-A dedicated layer will still have timing issues, it will just move onto
-your personal schedule rather than the OE-Core one and whilst this will
-obviously suit you, it likely won't suit all other users.
-
-I suspect the bigger problem here is that clutter is hard to write
-recipes for since it needs to suit a number of different targets and
-configurations. Going to the effort of doing a generic implementation in
-OE-Core is hard, whereas creating your own layer means you can customise
-to your usecase and not worry about the other cases. I suspect your
-reply to this will be that anyone wanting to add other cases can send
-you patches. The implication is that the layer will become much more
-specialised/focused than the core recipes currently are.
-
-My preference would still be to fix up the recipes in the core, than
-have some specific branches for danny/dylan with the 1.12/1.14
-components in if/as needed. We can create the core recipes so they're
-properly configurable to the different usecases.
-
-From what I gather you're going ahead with meta-clutter anyway
-though :/.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
+index 94bed3b..ee1c699 100644
+--- a/meta/classes/imagetest-qemu.bbclass
++++ b/meta/classes/imagetest-qemu.bbclass
+@@ -37,6 +37,7 @@ def qemuimagetest_main(d):
+     resultstr = re.compile(r'\s*(?P<case>\w+)\s*(?P<pass>\d+)\s*(?P<fail>\d+)\s*(?P<noresult>\d+)')
+     machine = d.getVar('MACHINE', True)
+     pname = d.getVar('PN', True)
++    fstypes = d.getVar("IMAGE_FSTYPES", True).split()
+     
+     """function to save test cases running status"""
+     def teststatus(test, status, index, length):
+@@ -50,7 +51,7 @@ def qemuimagetest_main(d):
+         f.close()
+ 
+     """funtion to run each case under scenario"""
+-    def runtest(scen, case, fulltestpath):
++    def runtest(scen, case, fulltestpath, fstype):
+         resultpath = d.getVar('TEST_RESULT', True)
+         tmppath = d.getVar('TEST_TMP', True)
+ 
+@@ -75,6 +76,7 @@ def qemuimagetest_main(d):
+         os.environ["TEST_SERIALIZE"] = d.getVar("TEST_SERIALIZE", True)
+         os.environ["SDK_NAME"] = d.getVar("SDK_NAME", True)
+         os.environ["RUNQEMU_LOGFILE"] = d.expand("${T}/log.runqemutest.%s" % os.getpid())
++        os.environ["ROOTFS_EXT"] = fstype
+ 
+         # Add in all variables from the user's original environment which
+         # haven't subsequntly been set/changed
+@@ -193,21 +195,22 @@ def qemuimagetest_main(d):
+         os.remove(sresultfile)
+     subprocess.call("touch %s" % resultfile, shell=True)
+     os.symlink(resultfile, sresultfile)
+-    f = open(sresultfile, "a")
+-    f.write("\tTest Result for %s %s\n" % (machine, pname))
+-    f.write("\t%-15s%-15s%-15s%-15s\n" % ("Testcase", "PASS", "FAIL", "NORESULT"))
+-    f.close()
+     
+     """generate pre-defined testcase list"""
+     testlist = d.getVar('TEST_SCEN', True)
+     fulllist = generate_list(testlist)
+ 
+     """Begin testing"""
+-    for index,test in enumerate(fulllist):
+-        (scen, case, fullpath) = test
+-        teststatus(case, "running", index, (len(fulllist) - 1))
+-        runtest(scen, case, fullpath)
+-        teststatus(case, "finished", index, (len(fulllist) - 1))
++    for type in fstypes:
++        if type not in [ "tar.bz2", "live", "cpio.gz" ]:
++            with open(sresultfile, "a") as f:
++                f.write("\tTest Result for %s %s %s\n" % (machine, pname, type))
++                f.write("\t%-15s%-15s%-15s%-15s\n" % ("Testcase", "PASS", "FAIL", "NORESULT"))
++            for index,test in enumerate(fulllist):
++                (scen, case, fullpath) = test
++                teststatus(case, "running", index, (len(fulllist) - 1))
++                runtest(scen, case, fullpath, type)
++                teststatus(case, "finished", index, (len(fulllist) - 1))
+     
+     """Print Test Result"""
+     ret = 0
+@@ -230,5 +233,5 @@ def qemuimagetest_main(d):
+     clean_tmp()
+ 
+     if ret != 0:
+-        raise bb.build.FuncFailed("Some testcases fail, pls. check test result and test log!!!")
++        raise bb.build.FuncFailed("Some tests failed. Please check the results file: %s and the log files found in: %s." % (resultsfile, d.getVar('TEST_LOG', True)))
+ 
+diff --git a/scripts/qemuimage-testlib b/scripts/qemuimage-testlib
+index 051fee8..4159312 100755
+--- a/scripts/qemuimage-testlib
++++ b/scripts/qemuimage-testlib
+@@ -14,8 +14,6 @@
+ # Version 2.
+ #
+ 
+-TYPE="ext3"
+-
+ # The folder to hold all scripts running on targets
+ TOOLS="$COREBASE/scripts/qemuimage-tests/tools"
+ 
+@@ -306,19 +304,19 @@ Test_Find_Image()
+ 	extension=""
+ 	rootfs=""
+ 
+-	while getopts "l:k:a:t:" Option
++	while getopts "l:k:a:t:e:" Option
+ 	do
+ 		case $Option in
+ 			l) where="$OPTARG"
+ 			   ;;
+ 			k) kernel="$OPTARG"
+-			   extension="bin"
+ 			   ;;
+ 			a) arch="$OPTARG"
+ 			   ;;
+ 			t) target="$OPTARG"
+-			   extension="ext3"
+ 			   ;;
++                        e) extension="$OPTARG"
++                           ;;
+ 			*) echo "invalid option: -$Option" && return 1
+ 			   ;;
+ 		 esac
+@@ -396,11 +394,11 @@ Test_Create_Qemu()
+ 	fi
+ 	
+ 	if [ "$QEMUARCH" = "qemux86" -o "$QEMUARCH" = "qemux86-64" ]; then
+-		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH})
++		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k bzImage -a ${QEMUARCH} -e "bin")
+ 	elif [ "$QEMUARCH" = "qemuarm" -o "$QEMUARCH" = "spitz" -o "$QEMUARCH" = "borzoi" -o "$QEMUARCH" = "akita" -o "$QEMUARCH" = "nokia800" ]; then
+ 		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k zImage -a ${QEMUARCH})
+ 	elif [ "$QEMUARCH" = "qemumips" -o "$QEMUARCH" = "qemuppc" ]; then
+-		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH})
++		KERNEL=$(Test_Find_Image -l ${DEPLOY_DIR}/images -k vmlinux -a ${QEMUARCH} -e "bin")
+ 	fi
+ 
+ 	# If there is no kernel image found, return failed directly
+@@ -409,7 +407,8 @@ Test_Create_Qemu()
+ 		return 1
+ 	fi
+ 	
+-	ROOTFS_IMAGE=$(Test_Find_Image -l ${DEPLOY_DIR}/images -t ${QEMUTARGET} -a ${QEMUARCH})
++        Test_Info "rootfs image extension selected: $ROOTFS_EXT"
++        ROOTFS_IMAGE=$(Test_Find_Image -l ${DEPLOY_DIR}/images -t ${QEMUTARGET} -a ${QEMUARCH} -e "$ROOTFS_EXT")
+ 
+ 	# If there is no rootfs image found, return failed directly
+ 	if [ $? -eq 1 ]; then
+@@ -417,7 +416,7 @@ Test_Create_Qemu()
+ 		return 1
+ 	fi
+ 
+-	TEST_ROOTFS_IMAGE="${TEST_TMP}/${QEMUTARGET}-${QEMUARCH}-test.ext3"
++	TEST_ROOTFS_IMAGE="${TEST_TMP}/${QEMUTARGET}-${QEMUARCH}-test.${ROOTFS_EXT}"
+ 	
+ 	CP=`which cp`
+ 
+@@ -438,8 +437,8 @@ Test_Create_Qemu()
+ 		export MACHINE=$QEMUARCH
+ 
+ 		# Create Qemu in localhost VNC Port 1
+-		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
+-		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
++		echo "Running xterm -display ${DISPLAY} -e 'OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} ${ROOTFS_EXT} 2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60' &"
++		xterm -display ${DISPLAY} -e "OE_TMPDIR=${OE_TMPDIR} ${RUNQEMU} ${KERNEL} ${TEST_ROOTFS_IMAGE} ${ROOTFS_EXT}  2>&1 | tee ${RUNQEMU_LOGFILE} || /bin/sleep 60" &
+ 	
+ 		# Get the pid of the xterm processor, which will be used in Test_Kill_Qemu
+ 		XTERMPID=$!
+-- 
+1.8.1.4
 
 
 
