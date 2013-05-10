@@ -1,38 +1,43 @@
-Received: from mail-la0-f53.google.com ([209.85.215.53])
+Received: from mail-ea0-f182.google.com ([209.85.215.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.gall@linaro.org>) id 1Uamr9-0005Pv-Bn
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 14:55:27 +0200
-Received: by mail-la0-f53.google.com with SMTP id eo20so3891753lab.40
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2013 05:37:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=jKKiz2MSh03yofFdWsPuM1hx75+KdxLDwfG9itC1WXs=;
-	b=lJJKneodOpE8b7QT4SooVw/6qkyFW7IiLdAorV0BwyITo6VW8UT/Sgv47IBuJc+Gko
-	+qDPNF0HPt7Q/hmdXYCAiSmd2yQLgO6A1UGEB2Q0exzHr54aPjNuYvzgj5gRmCjOK9Xt
-	lCLe6EVSn5qpb4yX2KSbLvaeaCDkuD0KSvqOZWrIfP/kFd7kiEFRAuy64SdhmkvcoWz1
-	qj9ZVTpKgkHXyu93Ti3WS1jaxrYsRi3/TBqLZGFAOZDCuVL1toxhmR4Tb2HTJJ6bZ5TL
-	eJzWbzK860huEMauiBUaZs2oa3fLX1W5yHBiA0IUCqi6hmiEmoWBZaYCADufL7DE9WB3
-	DkBA==
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1Uan6J-0007kQ-Sh; Fri, 10 May 2013 15:11:08 +0200
+Received: by mail-ea0-f182.google.com with SMTP id z16so2246630ead.13
+	for <multiple recipients>; Fri, 10 May 2013 05:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=epkHF9E5uo6xiN5yCWm7aUychizFJMDXTxBtGgqnvXk=;
+	b=yjUtEba1JSmh5UF0M+Cj7km/mtfQx8Teh2qhgTRRsyBRlo3LhnIX4ujDPk1JZGz4td
+	qXbqTrGcuNqq0wtjq0PLogLZ0tsDLZw7n+JNiJH8DggGQeBTvW+QZCRkzOdruqJ6dUEh
+	YdS79rxpRPYlfRjBu19zXZEacymvKCjK8Mmp/LP3uete96KnUiWzFRZLshDMFQxkYlnF
+	4sAishbXqBwVeHRGusLXhKl7BqDISrNCtMGvbtL31GNH9M4w9AqumTDbBqelycxUU98j
+	aIFzgg+SdWYvPVFjb+hO+gm+me0fb8ulQaHYdymmZGxmrxLhm9BLvHeRDKJeNMbE+XvB
+	b/Zw==
+X-Received: by 10.15.82.201 with SMTP id a49mr41181337eez.44.1368190382835;
+	Fri, 10 May 2013 05:53:02 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id n7sm3469678eeo.0.2013.05.10.05.53.01
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 10 May 2013 05:53:01 -0700 (PDT)
+Date: Fri, 10 May 2013 14:53:03 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130510125303.GF12329@jama.dyndns-home.com>
+References: <6B577862-4C24-49DB-80F2-3A1408AF8337@gmail.com>
+	<20130329145514.GH11120@jama> <20130330090319.GM11120@jama>
+	<20130401095202.GP11120@jama>
+	<4669BF70-0FA8-441D-9A60-325FA8DFA54B@gmail.com>
+	<501EC0A2-9F13-4ADF-9D94-056671BFC6DD@gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.152.22.4 with SMTP id z4mr7490677lae.37.1368189441769; Fri,
-	10 May 2013 05:37:21 -0700 (PDT)
-Received: by 10.112.76.167 with HTTP; Fri, 10 May 2013 05:37:21 -0700 (PDT)
-In-Reply-To: <CAGNsrLBckfhAKwGVsyCm3KArBU=-CMiMd55s-iL+XatU0x9gQg@mail.gmail.com>
-References: <518BD58B.1030307@linaro.org>
-	<CAGNsrLBckfhAKwGVsyCm3KArBU=-CMiMd55s-iL+XatU0x9gQg@mail.gmail.com>
-Date: Fri, 10 May 2013 07:37:21 -0500
-Message-ID: <CAOfXc9F+yGH_H4tuWPCZnAc-Tx-kqU0AwOSW8g5+1O0=PQrbrQ@mail.gmail.com>
-From: Tom Gall <tom.gall@linaro.org>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-X-Gm-Message-State: ALoCoQnNQC4V3N8ZTBRqGqPwCjz+UdoYbmLgTCJmvYabsJr/4BJj4RRM2W5pdVRKACWaSVVR6DRk
-Cc: Lists Linaro-dev <linaro-dev@lists.linaro.org>,
-	Openembedded-core@lists.openembedded.org
-Subject: Re: Changes in Linaro layers for OpenEmbedded
+In-Reply-To: <501EC0A2-9F13-4ADF-9D94-056671BFC6DD@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 4.8 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +50,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 12:55:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 10 May 2013 13:11:08 -0000
+X-List-Received-Date: Fri, 10 May 2013 13:11:08 -0000
+X-Groupsio-MsgNum: 39025
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
+Content-Disposition: inline
+
+--SxgehGEc6vB0cZwN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-I'll also add that we (the Graphics Working Group) are using it as
-we're bringing up the graphics stack on ARMv8.
+On Fri, Apr 19, 2013 at 05:32:43PM -0700, Khem Raj wrote:
+>=20
+> On Apr 2, 2013, at 7:22 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> > Thanks Martin, elfutils test case is now reduced and reported others I =
+will take a look.
+>=20
+>=20
+> I have pushed a fix for elfutils issue to the pull branch. please retest =
+and report.
 
-Patches soon.
+yes elfutils issue was fixed
 
-On Fri, May 10, 2013 at 12:23 AM, Fathi Boudra <fathi.boudra@linaro.org> wr=
-ote:
-> Hi,
->
-> On 9 May 2013 19:57, Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> w=
-rote:
->> Who will maintain those layers after my leave? This was not decided yet.
->> There are few guys at Linaro who know how to use OpenEmbedded but most
->> of them is outside of Builds and Baselines team.
->>
->> If you have any questions then better ask now.
->
-> Let me clarify a bit this part since it's Marcin's personal opinion.
->
-> OpenEmbedded baseline is part of the official Linaro releases.
-> It's maintained, we produce daily builds and test them.
-> As of today, it's mainly used for ARMv8 bring up and is expanded to
-> ARMv7 for covering Toolchain CI.
-> Later on, it's planned to be even more extended for LNG use cases.
->
-> The team in charge of these builds is Builds and Baselines Team.
-> There's capable people inside the team to take over OE maintenance and
-> that's the plan.
->
-> In short, I don't expect any disruption for OpenEmbedded baseline builds.
->
-> Cheers,
-> --
-> Fathi Boudra
-> Builds and Baselines Manager | Release Manager
-> Linaro.org | Open source software for ARM SoCs
->
-> _______________________________________________
-> linaro-dev mailing list
-> linaro-dev@lists.linaro.org
-> http://lists.linaro.org/mailman/listinfo/linaro-dev
+xserver-xorg issue was actually caused by extra patch for rotating input
+calibration when xrandr rotates screen (new warning and -Werror made it
+fatal) - also fixed
 
+target gcc-4.8 was fixed by your dependency change, but it still fails
+on armv4t:
+|
+/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:71=
+98:(.text.unlikely+0x9c):
+relocation truncated to fit: R_ARM_THM_CALL against symbol `error(char
+const*, ...)' defined in .glue_7 section in linker stubs
+|
+/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:72=
+00:(.text.unlikely+0xaa):
+additional relocation overflows omitted from the output
+| collect2: error: ld returned 1 exit status
 
+webkit-efl is failing (and causing huge logs with 3.9M lines in
+log.do_compile) I've patch to upgrade it which works on x86-64, but
+fails on other archs.. so it will take a bit more time.
+
+I hope to get better smaller logs from world builds today.
 
 --=20
-Regards,
-Tom
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-"Where's the kaboom!? There was supposed to be an earth-shattering
-kaboom!" Marvin Martian
-Tech Lead, Graphics Working Group | Linaro.org =E2=94=82 Open source softwa=
-re
-for ARM SoCs
-w) tom.gall att linaro.org
-h) tom_gall att mac.com
+--SxgehGEc6vB0cZwN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlGM7a8ACgkQN1Ujt2V2gBzEEACdHsn9QYyZluDTqYonyint85on
+XgUAnRL/CsCzMYR7cJVp7/hJkWMXu4We
+=eW34
+-----END PGP SIGNATURE-----
+
+--SxgehGEc6vB0cZwN--
