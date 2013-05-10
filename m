@@ -1,33 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ualqp-000509-Az for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 13:51:04 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4ABZTWV029202; Fri, 10 May 2013 12:35:29 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TArmsyS_64r3; Fri, 10 May 2013 12:35:29 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4ABZQWV029193
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 10 May 2013 12:35:27 +0100
-Message-ID: <1368185566.11129.28.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Fri, 10 May 2013 12:32:46 +0100
-In-Reply-To: <518CD26F.3090901@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
-	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
-	<518CD26F.3090901@r-finger.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1Uam2m-0006yJ-NB
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 May 2013 14:03:30 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 May 2013 04:45:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,647,1363158000"; d="scan'208";a="300425257"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.57])
+	by azsmga001.ch.intel.com with ESMTP; 10 May 2013 04:45:16 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2013 14:46:11 +0300
+Message-Id: <1368186371-4830-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] cdrtools-native : upgrade to 3.00
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,116 +27,436 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 11:51:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2013 12:03:35 -0000
 
-On Fri, 2013-05-10 at 11:56 +0100, Tomas Frydrych wrote:
-> Hi Richard,
-> 
-> On 10/05/13 10:05, Richard Purdie wrote:
-> >> Yes, I could have submitted clutter 1.12 recipes to oe-core in some form
-> >> and shape in the last 6 months, and we would have had a less outdated
-> >> package in oe-core; but nevertheless outdated, since again the clutter
-> >> 1.14 release came too late to make it into dylan. I can see this
-> >> happening again and again.
-> > 
-> > The trouble is you can make this argument for every single piece of
-> > software in OE-Core.
-> 
-> The clutter related packages are the only ones where I have run into
-> this problem.
+upgraded from 2.01 -> 3.00
 
-That is down to the particular development focus you have right now
-though. To pick another example, if you're doing arm64 work, the
-toolchain is horribly dated in the core. I dare say you could have this
-issue for any of the software components (glib, gtk+) and so on.
+License file md5 changed because more information
+from the owner was added to it.
 
->  In the last 12 months clutter went through 7 stable
-> releases or so, of these there were 3 minor version changes, which
-> signal API changes, another minor version change, as well as a major
-> version change to 2.0, is on the horizon. If you are developing an
-> application using clutter; you need to keep up. If you are using
-> Yocto/OE to develop an application using clutter (and people do), then
-> everyone is left to maintain their own rolling recipes.
+Updated the patches because they didn't apply.
 
-I'd hope that with a decent set of core .inc files in OE-Core, this
-wouldn't be a big issue as you could add those newer versions trivially,
-then drop them as they make it into the core.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../cdrtools-native/glibc-conflict-rename.patch    |  228 ++++++++------------
+ .../cdrtools/cdrtools-native/no_usr_src.patch      |   46 ++--
+ ...ools-native_2.01.bb => cdrtools-native_3.00.bb} |   10 +-
+ 3 files changed, 117 insertions(+), 167 deletions(-)
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_2.01.bb => cdrtools-native_3.00.bb} (75%)
 
-> > A dedicated layer will still have timing issues, it will just move onto
-> > your personal schedule rather than the OE-Core one and whilst this will
-> > obviously suit you, it likely won't suit all other users.
-> 
-> For a small dedicated layer the schedule can closely track the upstream.
-> It might not suit all clutter users, but I think it could be made to
-> work for most of them; the current situation suits no one at all.
-
-The closely track upstream is the key part and I think the core can do
-this, apart from the ~six week stabilisation window.
-
-
-> > I suspect the bigger problem here is that clutter is hard to write
-> > recipes for since it needs to suit a number of different targets and
-> > configurations. Going to the effort of doing a generic implementation in
-> > OE-Core is hard, whereas creating your own layer means you can customise
-> > to your usecase and not worry about the other cases. I suspect your
-> > reply to this will be that anyone wanting to add other cases can send
-> > you patches. The implication is that the layer will become much more
-> > specialised/focused than the core recipes currently are.
-> 
-> My reply is that it clutter is not that complex, there are only a finite
-> number of possible configurations that make sense and it should be
-> entirely possible to write a good base recipe that can be easily tweaked
-> using a bbappend based on machine and distro needs. But that's not the
-> real issue.
-
-I agree it should be entirely possible.
-
-> > My preference would still be to fix up the recipes in the core, than
-> > have some specific branches for danny/dylan with the 1.12/1.14
-> > components in if/as needed. We can create the core recipes so they're
-> > properly configurable to the different usecases.
-> 
-> Fixing up the recipes in oe-core only addresses one aspect of the
-> problem. The fast turnover of the clutter packages will remain, as will
-> the fact that nothing in oe-core uses clutter, so the oe-core packages
-> are untested. Then there is the fact that oe-core does not have any
-> machines that clutter could be really used with. Then there are also
-> other projects that are closely tied to clutter version, such as (the
-> recently removed) mutter, and, dare I say, GnomeShell, which should be
-> maintained together.
-
-Well, I originally tried to insist we had some mechanism for testing
-clutter in OE-Core however the pieces have either become obsoleted or
-removed for other reasons. I do really want to see ptest packages for
-clutter which the autobuilder would call into and run. I appreciate GL
-support under qemu through software rendering is currently problematic
-but I want to see that fixed in the 1.5 cycle.
-
-> I am still to hear any reason why clutter should be in oe-core ... the
-> same logic that said mutter should be removed from oe-core applies to
-> clutter, I think.
-
-My argument for this is that I really do want to stress out the graphics
-stack we have, clutter provides a good way to test some of those
-components, particularly some of the more unusual parts. Currently its
-mostly build test however we do have plans to make that runtime too. I
-do think that clutters unusual usage of the stack makes it particular
-useful in this role. I'd appreciate help from anyone who can help make
-this all work.
-
-I would therefore like to see a decent set of clutter recipes in the
-core.
-
-I keep hearing people arguing for removing many different pieces of the
-core. I continue to believe we do need a small set of diverse
-technologies in the core, complete with tests (which I want to extend)
-to ensure that the core does do something useful.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
+index 2fd5696..63aac90 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
+@@ -1,16 +1,32 @@
+-This patch fixes collisions between locally defined functions
+-and glibc's fexecve() and getline() functions.
++From 9cb7111c327028d42595518e78699a878ee2edf7 Mon Sep 17 00:00:00 2001
++From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
++Date: Thu, 9 May 2013 18:06:33 +0300
++Subject: [PATCH] This patch fixes collisions between locally defined
++ functions and glibc's fexecve() and getline() functions.
+ 
+ Upstream-Status: Inappropriate [Other]
+-Upstream no longer maintains a GPL version of this utility.
++Upstream no longer maintains a GPL version of this utility
+ 
++Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++---
++ include/schily/schily.h    |    4 ++--
++ libscg/scsitransp.c        |    2 +-
++ libschily/fexec.c          |    6 +++---
++ libschily/stdio/fgetline.c |    2 +-
++ readcd/io.c                |    4 ++--
++ readcd/readcd.c            |    4 ++--
++ scgcheck/scgcheck.c        |    2 +-
++ scgcheck/sense.c           |    2 +-
++ 8 files changed, 13 insertions(+), 13 deletions(-)
+ 
+-Index: cdrtools-2.01/include/schily.h
+-===================================================================
+---- cdrtools-2.01.orig/include/schily.h	2009-06-18 11:30:45.000000000 +0100
+-+++ cdrtools-2.01/include/schily.h	2009-06-18 11:31:22.000000000 +0100
+-@@ -108,7 +108,7 @@
++diff --git a/include/schily/schily.h b//include/schily/schily.h
++old mode 100644
++new mode 100755
++index 11830c7..2cd1fef
++--- a/include/schily/schily.h
+++++ b/include/schily/schily.h
++@@ -174,7 +174,7 @@ extern	int	fexecle __PR((const char *, FILE *, FILE *, FILE *,
+  		/* 6th arg not const, fexecv forces av[ac] = NULL */
+  extern	int	fexecv __PR((const char *, FILE *, FILE *, FILE *, int,
+  							char **));
+@@ -18,9 +34,9 @@ Index: cdrtools-2.01/include/schily.h
+ +extern	int	fexecve_schily __PR((const char *, FILE *, FILE *, FILE *,
+  					char * const *, char * const *));
+  extern	int	fspawnv __PR((FILE *, FILE *, FILE *, int, char * const *));
+- extern	int	fspawnl __PR((FILE *, FILE *, FILE *,
+-@@ -187,7 +187,7 @@
+- extern	char	*findbytes __PR((const void *, int, char));
++ extern	int	fspawnl __PR((FILE *, FILE *, FILE *, const char *, ...));
++@@ -311,7 +311,7 @@ extern	char	*findbytes __PR((const void *, ssize_t, char));
++ extern	char	*findinpath __PR((char *__name, int __mode, BOOL __plain_file));
+  extern	int	findline __PR((const char *, char, const char *,
+  							int, char **, int));
+ -extern	int	getline __PR((char *, int));
+@@ -28,11 +44,13 @@ Index: cdrtools-2.01/include/schily.h
+  extern	int	getstr __PR((char *, int));
+  extern	int	breakline __PR((char *, char, char **, int));
+  extern	int	getallargs __PR((int *, char * const**, const char *, ...));
+-Index: cdrtools-2.01/libscg/scsitransp.c
+-===================================================================
+---- cdrtools-2.01.orig/libscg/scsitransp.c	2009-06-18 11:33:57.000000000 +0100
+-+++ cdrtools-2.01/libscg/scsitransp.c	2009-06-18 11:34:24.000000000 +0100
+-@@ -323,7 +323,7 @@
++diff --git a/libscg/scsitransp.c b//libscg/scsitransp.c
++old mode 100644
++new mode 100755
++index 2c483fe..4ca62e5
++--- a/libscg/scsitransp.c
+++++ b/libscg/scsitransp.c
++@@ -338,7 +338,7 @@ scg_yes(msg)
+  
+  	js_printf("%s", msg);
+  	flush();
+@@ -41,11 +59,13 @@ Index: cdrtools-2.01/libscg/scsitransp.c
+  		exit(EX_BAD);
+  	if (streql(okbuf, "y") || streql(okbuf, "yes") ||
+  	    streql(okbuf, "Y") || streql(okbuf, "YES"))
+-Index: cdrtools-2.01/libschily/fexec.c
+-===================================================================
+---- cdrtools-2.01.orig/libschily/fexec.c	2009-06-18 11:29:29.000000000 +0100
+-+++ cdrtools-2.01/libschily/fexec.c	2009-06-18 11:30:36.000000000 +0100
+-@@ -159,7 +159,7 @@
++diff --git a/libschily/fexec.c b//libschily/fexec.c
++old mode 100644
++new mode 100755
++index 5a5c988..ed8fe5d
++--- a/libschily/fexec.c
+++++ b/libschily/fexec.c
++@@ -198,7 +198,7 @@ const	char	**pav;
+  	} while (p != NULL);
+  	va_end(args);
+  
+@@ -54,7 +74,7 @@ Index: cdrtools-2.01/libschily/fexec.c
+  	if (av != xav)
+  		free(av);
+  	return (ret);
+-@@ -173,11 +173,11 @@
++@@ -212,11 +212,11 @@ fexecv(name, in, out, err, ac, av)
+  	char *av[];
+  {
+  	av[ac] = NULL;			/*  force list to be null terminated */
+@@ -68,11 +88,13 @@ Index: cdrtools-2.01/libschily/fexec.c
+  	const char *name;
+  	FILE *in, *out, *err;
+  	char * const av[], * const env[];
+-Index: cdrtools-2.01/libschily/stdio/fgetline.c
+-===================================================================
+---- cdrtools-2.01.orig/libschily/stdio/fgetline.c	2009-06-18 11:28:14.000000000 +0100
+-+++ cdrtools-2.01/libschily/stdio/fgetline.c	2009-06-18 11:28:55.000000000 +0100
+-@@ -64,7 +64,7 @@
++diff --git a/libschily/stdio/fgetline.c b//libschily/stdio/fgetline.c
++old mode 100644
++new mode 100755
++index 090cf7c..1c71962
++--- a/libschily/stdio/fgetline.c
+++++ b/libschily/stdio/fgetline.c
++@@ -61,7 +61,7 @@ fgetline(f, buf, len)
+  }
+  
+  EXPORT int
+@@ -81,11 +103,13 @@ Index: cdrtools-2.01/libschily/stdio/fgetline.c
+  	char	*buf;
+  	int	len;
+  {
+-Index: cdrtools-2.01/readcd/io.c
+-===================================================================
+---- cdrtools-2.01.orig/readcd/io.c	2009-06-18 11:33:57.000000000 +0100
+-+++ cdrtools-2.01/readcd/io.c	2009-06-18 11:34:38.000000000 +0100
+-@@ -138,7 +138,7 @@
++diff --git a/readcd/io.c b//readcd/io.c
++old mode 100644
++new mode 100755
++index 247dc49..91e1f42
++--- a/readcd/io.c
+++++ b/readcd/io.c
++@@ -136,7 +136,7 @@ getvalue(s, lp, mini, maxi, prt, cvt, dp)
+  		(*prt)(s, *lp, mini, maxi, dp);
+  		flush();
+  		line[0] = '\0';
+@@ -94,20 +118,22 @@ Index: cdrtools-2.01/readcd/io.c
+  			exit(EX_BAD);
+  
+  		linep = skipwhite(line);
+-@@ -205,7 +205,7 @@
++@@ -204,7 +204,7 @@ again:
+  	printf("%r", form, args);
+  	va_end(args);
+  	flush();
+--	if (getline(okbuf, sizeof(okbuf)) == EOF)
+-+	if (getline_schily(okbuf, sizeof(okbuf)) == EOF)
++-	if (getline(okbuf, sizeof (okbuf)) == EOF)
+++	if (getline_schily(okbuf, sizeof (okbuf)) == EOF)
+  		exit(EX_BAD);
+  	if (okbuf[0] == '?') {
+  		printf("Enter 'y', 'Y', 'yes' or 'YES' if you agree with the previous asked question.\n");
+-Index: cdrtools-2.01/readcd/readcd.c
+-===================================================================
+---- cdrtools-2.01.orig/readcd/readcd.c	2009-06-18 11:33:58.000000000 +0100
+-+++ cdrtools-2.01/readcd/readcd.c	2009-06-18 11:35:03.000000000 +0100
+-@@ -1651,7 +1651,7 @@
++diff --git a/readcd/readcd.c b//readcd/readcd.c
++old mode 100644
++new mode 100755
++index 3b87906..2e60bd1
++--- a/readcd/readcd.c
+++++ b/readcd/readcd.c
++@@ -2110,7 +2110,7 @@ read_generic(scgp, parmp, rfunc, rp, dfunc)
+  		error("Copy from SCSI (%d,%d,%d) disk to file\n",
+  					scg_scsibus(scgp), scg_target(scgp), scg_lun(scgp));
+  		error("Enter filename [%s]: ", defname); flush();
+@@ -116,7 +142,7 @@ Index: cdrtools-2.01/readcd/readcd.c
+  	}
+  
+  	if (askrange) {
+-@@ -1820,7 +1820,7 @@
++@@ -2297,7 +2297,7 @@ write_disk(scgp, parmp)
+  		error("Copy from file to SCSI (%d,%d,%d) disk\n",
+  					scg_scsibus(scgp), scg_target(scgp), scg_lun(scgp));
+  		error("Enter filename [%s]: ", defname); flush();
+@@ -125,42 +151,13 @@ Index: cdrtools-2.01/readcd/readcd.c
+  		error("Notice: reading from file always starts at file offset 0.\n");
+  
+  		getlong("Enter starting sector for copy:", &addr, 0L, end-1);
+-Index: cdrtools-2.01/scgcheck/dmaresid.c
+-===================================================================
+---- cdrtools-2.01.orig/scgcheck/dmaresid.c	2009-06-18 11:33:59.000000000 +0100
+-+++ cdrtools-2.01/scgcheck/dmaresid.c	2009-06-18 11:35:43.000000000 +0100
+-@@ -64,7 +64,7 @@
+- 	printf("Ready to start test for working DMA residual count? Enter <CR> to continue: ");
+- 	fprintf(logfile, "**********> Testing for working DMA residual count.\n");
+- 	flushit();
+--	(void) getline(abuf, sizeof (abuf));
+-+	(void) getline_schily(abuf, sizeof (abuf));
+- 
+- 	printf("**********> Testing for working DMA residual count == 0.\n");
+- 	fprintf(logfile, "**********> Testing for working DMA residual count == 0.\n");
+-@@ -95,7 +95,7 @@
+- 	printf("Ready to start test for working DMA residual count == DMA count? Enter <CR> to continue: ");
+- 	fprintf(logfile, "**********> Testing for working DMA residual count == DMA count.\n");
+- 	flushit();
+--	(void) getline(abuf, sizeof (abuf));
+-+	(void) getline_schily(abuf, sizeof (abuf));
+- 	passed = TRUE;
+- 	dmacnt = cnt;
+- 	ret = xtinquiry(scgp, 0, dmacnt);
+-@@ -130,7 +130,7 @@
+- 	printf("Ready to start test for working DMA residual count == 1? Enter <CR> to continue: ");
+- 	fprintf(logfile, "**********> Testing for working DMA residual count == 1.\n");
+- 	flushit();
+--	(void) getline(abuf, sizeof (abuf));
+-+	(void) getline_schily(abuf, sizeof (abuf));
+- 	passed = TRUE;
+- 	dmacnt = cnt+1;
+- 	ret = xtinquiry(scgp, cnt, dmacnt);
+-Index: cdrtools-2.01/scgcheck/scgcheck.c
+-===================================================================
+---- cdrtools-2.01.orig/scgcheck/scgcheck.c	2009-06-18 11:33:59.000000000 +0100
+-+++ cdrtools-2.01/scgcheck/scgcheck.c	2009-06-18 11:35:31.000000000 +0100
+-@@ -189,7 +189,7 @@
++diff --git a/scgcheck/scgcheck.c b//scgcheck/scgcheck.c
++old mode 100644
++new mode 100755
++index 3c45df1..e07ffc1
++--- a/scgcheck/scgcheck.c
+++++ b/scgcheck/scgcheck.c
++@@ -191,7 +191,7 @@ Copyright (C) 1998-2008 J
+  			break;
+  		error("Enter SCSI device name for bus scanning [%s]: ", device);
+  		flushit();
+@@ -169,68 +166,21 @@ Index: cdrtools-2.01/scgcheck/scgcheck.c
+  		if (device[0] == '\0')
+  			strcpy(device, "0,6,0");
+  
+-@@ -227,7 +227,7 @@
+- 	do {
+- 		error("Enter SCSI device name [%s]: ", device);
+- 		flushit();
+--		(void) getline(device, sizeof (device));
+-+		(void) getline_schily(device, sizeof (device));
+- 		if (device[0] == '\0')
+- 			strcpy(device, "0,6,0");
+- 
+-@@ -256,7 +256,7 @@
++diff --git a/scgcheck/sense.c b//scgcheck/sense.c
++old mode 100644
++new mode 100755
++index 028bb2b..d8a028c
++--- a/scgcheck/sense.c
+++++ b/scgcheck/sense.c
++@@ -116,7 +116,7 @@ scmd->cdb.cmd_cdb[9] = 0xFF;
+  
+- 	printf("Ready to start test for second SCSI open? Enter <CR> to continue: ");
+- 	flushit();
+--	(void) getline(abuf, sizeof (abuf));
+-+	(void) getline_schily(abuf, sizeof (abuf));
+- #define	CHECK_SECOND_OPEN
+- #ifdef	CHECK_SECOND_OPEN
+- 	if (!streql(abuf, "n")) {
+-@@ -344,7 +344,7 @@
+- 
+- 	printf("Ready to start test for succeeded command? Enter <CR> to continue: ");
+- 	flushit();
+--	(void) getline(abuf, sizeof (abuf));
+-+	(void) getline_schily(abuf, sizeof (abuf));
+- 	scgp->verbose++;
+- 	ret = inquiry(scgp, buf, sizeof (struct scsi_inquiry));
+- 	scg_vsetup(scgp);
+-Index: cdrtools-2.01/scgcheck/sense.c
+-===================================================================
+---- cdrtools-2.01.orig/scgcheck/sense.c	2009-06-18 11:33:58.000000000 +0100
+-+++ cdrtools-2.01/scgcheck/sense.c	2009-06-18 11:35:54.000000000 +0100
+-@@ -66,7 +66,7 @@
+- 	printf("Ready to start test for failing command? Enter <CR> to continue: ");
+- 	fprintf(logfile, "**********> Testing for failed SCSI command.\n");
+- 	flushit();
+--	(void)getline(abuf, sizeof(abuf));
+-+	(void)getline_schily(abuf, sizeof(abuf));
+- /*	scgp->verbose++;*/
+- 	fillbytes(buf, sizeof(struct scsi_inquiry), '\0');
+- 	fillbytes((caddr_t)scgp->scmd, sizeof(*scgp->scmd), '\0');
+-@@ -82,13 +82,13 @@
+- 		printf("the test utility. Otherwise remove any medium from the drive.\n");
+- 		printf("Ready to start test for failing command? Enter <CR> to continue: ");
+- 		flushit();
+--		(void)getline(abuf, sizeof(abuf));
+-+		(void)getline_schily(abuf, sizeof(abuf));
+- 		ret = test_unit_ready(scgp);
+- 		if (ret >= 0 || !scg_cmd_err(scgp)) {
+- 			printf("Test Unit Ready did not fail.\n");
+  			printf("Ready to eject tray? Enter <CR> to continue: ");
+  			flushit();
+--			(void)getline(abuf, sizeof(abuf));
+-+			(void)getline_schily(abuf, sizeof(abuf));
+- 			scsi_unload(scgp, (cdr_t *)0);
+- 			ret = test_unit_ready(scgp);
+- 		}
+-@@ -127,7 +127,7 @@
+- 	printf("Ready to start test for sense data count? Enter <CR> to continue: ");
+- 	fprintf(logfile, "**********> Testing for SCSI sense data count.\n");
+- 	flushit();
+--	(void)getline(abuf, sizeof(abuf));
+-+	(void)getline_schily(abuf, sizeof(abuf));
+- 	printf("Testing if at least CCS_SENSE_LEN (%d) is supported...\n", CCS_SENSE_LEN);
+- 	fprintf(logfile, "**********> Testing if at least CCS_SENSE_LEN (%d) is supported...\n", CCS_SENSE_LEN);
+- 	ret = sensecount(scgp, CCS_SENSE_LEN);
++-			(void) getline(abuf, sizeof (abuf));
+++			(void) getline_schily(abuf, sizeof (abuf));
++ 			if (abuf[0] != 'n') {
++ 				scsi_unload(scgp, (cdr_t *)0);
++ 				needload = TRUE;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+index 61df41f..7341aec 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+@@ -1,33 +1,33 @@
+-Remove hard-coded references to /usr/src/linux/include to avoid
+-host contamination.
++From 8d835cc7185e7cd878712d8208e6aa29b227ceff Mon Sep 17 00:00:00 2001
++From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
++Date: Thu, 9 May 2013 16:03:59 +0300
++Subject: [PATCH] Remove hard-coded references to /usr/src/linux/include to
++ avoid host contamination.
+ 
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Innappropriate [configuration]
+ 
++Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++---
++ cdrtools-3.00/DEFAULTS/Defaults.gnu |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++ mode change 100644 => 100755 cdrtools-3.00/DEFAULTS/Defaults.gnu
+ 
+-Index: cdrtools-2.01/DEFAULTS/Defaults.gnu
+-===================================================================
+---- cdrtools-2.01.orig/DEFAULTS/Defaults.gnu	2008-09-22 12:42:12.000000000 +0100
+-+++ cdrtools-2.01/DEFAULTS/Defaults.gnu	2008-09-22 12:42:27.000000000 +0100
+-@@ -18,7 +18,7 @@
++diff --git a/DEFAULTS/Defaults.gnu b/cdrtools-3.00/DEFAULTS/Defaults.gnu
++old mode 100644
++new mode 100755
++index e3e102b..8a18209
++--- a/DEFAULTS/Defaults.gnu
+++++ b/DEFAULTS/Defaults.gnu
++@@ -28,7 +28,7 @@ DEFLINKMODE=	static
+  ###########################################################################
+  CWARNOPTS=
+  
+ -DEFINCDIRS=	$(SRCROOT)/include /usr/src/linux/include
+ +DEFINCDIRS=	$(SRCROOT)/include
+  LDPATH=		-L/opt/schily/lib
+- RUNPATH=	-R $(INS_BASE)/lib -R /opt/schily/lib -R $(OLIBSDIR)
+- 
+-Index: cdrtools-2.01/DEFAULTS/Defaults.linux
+-===================================================================
+---- cdrtools-2.01.orig/DEFAULTS/Defaults.linux	2008-09-22 12:42:08.000000000 +0100
+-+++ cdrtools-2.01/DEFAULTS/Defaults.linux	2008-09-22 12:42:37.000000000 +0100
+-@@ -18,7 +18,7 @@
+- ###########################################################################
+- CWARNOPTS=
+- 
+--DEFINCDIRS=	$(SRCROOT)/include /usr/src/linux/include
+-+DEFINCDIRS=	$(SRCROOT)/include
+- LDPATH=		-L/opt/schily/lib
+- RUNPATH=	-R $(INS_BASE)/lib -R /opt/schily/lib -R $(OLIBSDIR)
+- 
++ #RUNPATH=	-R$(INS_BASE)/lib -R/opt/schily/lib -R$(OLIBSDIR)
++ RUNPATH=	-R$(INS_BASE)/lib -R/opt/schily/lib
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+similarity index 75%
+rename from meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
+rename to meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+index fc47977..a1631b2 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+@@ -1,4 +1,4 @@
+-# cdrtools-native OE build file
++#cdrtools-native OE build file
+ # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+ # Released under the MIT license (see packages/COPYING)
+ SUMMARY = "A set of tools for CD recording, including cdrecord"
+@@ -6,15 +6,15 @@ DESCRIPTION = "A set of tools for CD recording, including cdrecord"
+ HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=8d16123ffd39e649a5e4a6bc1de60e6d"
++PR = "r0"
+ 
+ SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
+            file://no_usr_src.patch \
+            file://glibc-conflict-rename.patch"
+ 
+-SRC_URI[md5sum] = "d44a81460e97ae02931c31188fe8d3fd"
+-SRC_URI[sha256sum] = "728b6175069a77c4d7d92ae60108cbda81fbbf7bc7aa02e25153ccf2092f6c22"
++SRC_URI[md5sum] = "f9fbab08fbd458b0d2312976d8c5f558"
++SRC_URI[sha256sum] = "7f9cb64820055573b880f77b2f16662a512518336ba95ab49228a1617973423d"
+ 
+ inherit native
+ 
+-- 
+1.7.9.5
 
 
 
