@@ -1,41 +1,27 @@
-Received: from mail-oa0-f50.google.com ([209.85.219.50])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Uauw8-0003wC-4u
+	(envelope-from <dvhart@linux.intel.com>) id 1UavOt-0007at-GA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 23:33:12 +0200
-Received: by mail-oa0-f50.google.com with SMTP id l20so2511159oag.37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2013 14:15:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=NL1i6G1WvcSUkPCr89SbGUEYfDOtJe+NkKUQKo8skyg=;
-	b=0DXfOu6E5SE5JjE0tfH134biryy2jMLMFi08EBJVxyeHYJeZGofYSQ224y2TIbMtCw
-	Q6IFeZsBEyd/LNMOaFegJtWm/nC26S2TRzU5P9sC854CQHXzNUjYxBR61Psg03tsYS8I
-	U795z7JzMz2Dc+aPfkI5Qvxn59QML1zqV2AYqACGZeBQAMrkaJJNQ3als/V/npLtwV+r
-	9O6XSw/EfRPgn4mpb++9v4zLhnW7iQmQjDuSJUwkYP0N2qNljDMZh0QbeOd11bXYakBJ
-	wXbF7c5dBT/sQrmikpfnWQbfJfoy7O9aHb1fus6bQ+IujqhVHcU8IxUMqoRJQn8uHDdI
-	J4MA==
+	Sat, 11 May 2013 00:02:51 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 10 May 2013 14:42:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,651,1363158000"; d="scan'208";a="332195585"
+Received: from unknown (HELO envy2.home) ([10.255.12.170])
+	by fmsmga001.fm.intel.com with ESMTP; 10 May 2013 14:44:44 -0700
+Message-ID: <518D6A4B.40409@linux.intel.com>
+Date: Fri, 10 May 2013 14:44:43 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Received: by 10.60.133.112 with SMTP id pb16mr7788760oeb.93.1368220501456;
-	Fri, 10 May 2013 14:15:01 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Fri, 10 May 2013 14:15:01 -0700 (PDT)
-In-Reply-To: <518D5A7D.20606@windriver.com>
-References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
-	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
-	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
-	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
-	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
-	<518D5A7D.20606@windriver.com>
-Date: Fri, 10 May 2013 18:15:01 -0300
-X-Google-Sender-Auth: 2WrCWhtgR_fgvap5-3fxMwpDvuA
-Message-ID: <CAP9ODKpaeJ3im1LRhuS1qVnzWF3DaTZ1kOGi-ZbHoDyxR5QzoA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1367919920.git.liezhi.yang@windriver.com>
+	<19419be97c26c48879d4b148e01922e39088327d.1367919920.git.liezhi.yang@windriver.com>
+In-Reply-To: <19419be97c26c48879d4b148e01922e39088327d.1367919920.git.liezhi.yang@windriver.com>
+X-Enigmail-Version: 1.5.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] e2fsprogs: the max length of debugfs argument is too short
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 21:33:17 -0000
+X-List-Received-Date: Fri, 10 May 2013 22:02:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 10, 2013 at 5:37 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 5/10/13 3:22 PM, Otavio Salvador wrote:
->> Well if layers make life harder it invalidates one of points of Yocto
->> which I always liked and depends on heavily - modular design.
->
-> One of the key pieces of the oe-core, it must be able to work without any
-> additional layers.  It also much be able to be tested without any additional
-> layers.
->
-> I personally don't have a preference for the clutter and related items on
-> where they live... but I do want to make sure that oe-core can standalone as
-> a starting point for people to develop devices.  Part of being standalone
-> means that it is capable of being tested.
-
-This wouldn't be a regression as it was not used widely for testing.
-Clutter would be much more useful for users if it could profit of a
-more active users base and avoid 'in-house' solutions and forks so I
-only see good points in split it out from OE-Core.
+This one looks reasonable to me. Be sure to add your patch header to the
+patch itself, add your Signed-off-by, and submit upstream for feedback
+before merging with oe-core.
 
 --
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Darren
+
+On 05/07/2013 02:48 AM, Robert Yang wrote:
+> The max length of debugfs argument is 256 which is too short, the
+> arguments are two paths, the PATH_MAX is 4096 according to
+> /usr/include/linux/limits.h, use 2048 (4096 / 2) is a reasonable value.
+> 
+> [YOCTO #3848]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../e2fsprogs-1.42.7/debugfs-too-short.patch       |   28 ++++++++++++++++++++
+>  .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    1 +
+>  2 files changed, 29 insertions(+)
+>  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
+> 
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
+> new file mode 100644
+> index 0000000..db6814d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
+> @@ -0,0 +1,28 @@
+> +debugfs.c: the max length of debugfs argument is too short
+> +
+> +The max length of debugfs argument is 256 which is too short, the
+> +arguments are two paths, the PATH_MAX is 4096 according to
+> +/usr/include/linux/limits.h, use 2048 (4096 / 2) is a reasonable value.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +---
+> + debugfs/debugfs.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+> +--- a/debugfs/debugfs.c
+> ++++ b/debugfs/debugfs.c
+> +@@ -2282,7 +2282,7 @@ void do_dump_mmp(int argc EXT2FS_ATTR((unused)), char *argv[])
+> + static int source_file(const char *cmd_file, int ss_idx)
+> + {
+> + 	FILE		*f;
+> +-	char		buf[256];
+> ++	char		buf[2048];
+> + 	char		*cp;
+> + 	int		exit_status = 0;
+> + 	int		retval;
+> +-- 
+> +1.7.11.2
+> +
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+> index 3a4f5a8..898ee88 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+> @@ -4,6 +4,7 @@ PR = "r0"
+>  
+>  SRC_URI += "file://acinclude.m4 \
+>              file://remove.ldconfig.call.patch \
+> +            file://debugfs-too-short.patch \
+>  "
+>  
+>  SRC_URI[md5sum] = "a1ec22ef003688dae9f76c74881b22b9"
+> 
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
