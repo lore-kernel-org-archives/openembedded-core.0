@@ -1,31 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ea0-f171.google.com ([209.85.215.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1UauLd-0007QB-M0
+	(envelope-from <martin.jansa@gmail.com>) id 1Uauol-0002yw-JG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 May 2013 22:55:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4AKbJev006487
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 10 May 2013 23:25:32 +0200
+Received: by mail-ea0-f171.google.com with SMTP id b15so635476eae.30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2013 13:37:20 -0700 (PDT)
-Received: from msp-dhcp6.wrs.com (172.25.34.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 10 May 2013 13:37:18 -0700
-Message-ID: <518D5A7D.20606@windriver.com>
-Date: Fri, 10 May 2013 15:37:17 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Fri, 10 May 2013 14:07:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=Rl0U1a08N+CJr0mRHCX/7DZsD0a3y1vKX4UyJehvuSQ=;
+	b=FYGdpeJeLQrfpllokVRI7kGGVlzI9dKciAsPEAJbiIP1zOukXnbSCOylHnqPvY+GYv
+	13f5NZylnZNgFaICZmcMmCJ1A+aqe/1QUbi2vxOQjpGIYlUUe90WMky7o6YkHSGcR1pt
+	ExDfxb9Q0kJ4dtxoPIPUh0KuzZKvw16/j0roHVqbmgjqpWZ7d0zl4p9+df4wsRv+CGoL
+	mAiaey/0YrbYqDIKa494JfVuS7kJ4G0I79mel7ps888Qsz47eYe+dTwyNqf0Fx3lRU0K
+	A1hUnfmCSTdDMm6kc7WUb9N9tFGDuJWPbZHqXyU51hxxRYhkKCAYGM7y+SpqyeZWgiBJ
+	Mm3g==
+X-Received: by 10.14.3.137 with SMTP id 9mr45996464eeh.0.1368220045985;
+	Fri, 10 May 2013 14:07:25 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id n7sm5959173eeo.0.2013.05.10.14.07.24
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 10 May 2013 14:07:25 -0700 (PDT)
+Date: Fri, 10 May 2013 23:07:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20130510210727.GH12329@jama.dyndns-home.com>
 References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
 	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
 	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
 	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
 	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,117 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2013 20:55:35 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2013 21:25:34 -0000
+X-Groupsio-MsgNum: 39047
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="U3BNvdZEnlJXqmh+"
+Content-Disposition: inline
 
-On 5/10/13 3:22 PM, Otavio Salvador wrote:
-> On Fri, May 10, 2013 at 2:19 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2013-05-10 at 17:39 +0100, Tomas Frydrych wrote:
->>> On 10/05/13 12:32, Richard Purdie wrote:
->>>> On Fri, 2013-05-10 at 11:56 +0100, Tomas Frydrych wrote:
->>>>> On 10/05/13 10:05, Richard Purdie wrote:
->>>> The closely track upstream is the key part and I think the core can do
->>>> this, apart from the ~six week stabilisation window.
->>>
->>> If you mean you are prepared to do frequent point releases to keep up
->>> with clutter, that could work. But if you mean that those interested can
->>> closely track oe-core master, then that is not that useful, there are
->>> too many other changes happening at the same time. A small single
->>> purpose layer means updates (and breakages) can be very contained.
->>
->> Point releases of what? I don't mind clutter in master changing quite a
->> lot up to our stabilisation point. Once we've released, I don't mind
->> someone else picking up a danny-clutter branch or something like that
->> which is backporting specific changes.
->
-> So we're going to have <branch>-<pet package> branches? I think this
-> does not scale and I am at Tomas side. The layer seems the right thing
->   to do so it does not need to be done by branch and avoid confusing
-> users.
->
->>>> My argument for this is that I really do want to stress out the graphics
->>>> stack we have, clutter provides a good way to test some of those
->>>> components, particularly some of the more unusual parts. Currently its
->>>> mostly build test however we do have plans to make that runtime too. I
->>>> do think that clutters unusual usage of the stack makes it particular
->>>> useful in this role. I'd appreciate help from anyone who can help make
->>>> this all work.
->>>
->>> I am all for this, but does using clutter for automated tests require
->>> for the clutter packages to be in oe-core? The only thing you can stress
->>> test in oe-core using clutter is mesa, which is only applicable to the
->>> i915/i965 chip sets. I think it would be useful if any such tests could
->>> be applied to other graphics stacks provided by BSPs; I think all of the
->>> BSPs would benefit from this.
->>
->> We'd be able to test mesa and the software fallbacks under qemu which
->> would be a start. If we can get those working with a decent framework
->> for the tests, I'm hoping wider BSP testing would follow. I don't have
->> unlimited resources available but I can try and get the software
->> infrastructure to the point where doing the testing could be picked up
->> by someone else relatively easily.
->
-> You could do just the same but adding meta-clutter to the AB setup for
-> testing. One thing does not conflict with the another.
->
->> It is a big help in trying to achieve this if we don't have many
->> different layers involved as that would complicate the problem, even
->> coordinating layer releases between different maintainers is tricky
->> right now and trying to develop something like this over layer
->> boundaries sounds like adding to the complexity to the point I'd rather
->> just scrap the idea :(.
->
+--U3BNvdZEnlJXqmh+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 10, 2013 at 05:22:47PM -0300, Otavio Salvador wrote:
 > Well if layers make life harder it invalidates one of points of Yocto
 > which I always liked and depends on heavily - modular design.
 
-One of the key pieces of the oe-core, it must be able to work without any 
-additional layers.  It also much be able to be tested without any additional layers.
++1
 
-I personally don't have a preference for the clutter and related items on where 
-they live... but I do want to make sure that oe-core can standalone as a 
-starting point for people to develop devices.  Part of being standalone means 
-that it is capable of being tested.
-
---Mark
+people are using many layers, so oe-core being regularly tested together wi=
+th
+some other layers is just another test for propagated modular design.
 
 > I am sure we all want a solid release so I am also sure Tomas wouldn't
 > put experimental version of clutter near of release. We are eating our
 > own dog food so we are all interested in make it work, not the
 > opposed. In this case I think it can be well coordinated.
->
-> One possible thing is you could require AB used layers to be at
-> git.yoctoproject.org so in case of broken recipes (bbappend or so) you
-> could  rename it.
->
->>> I'd really like for people to be able to just pick up uptodate and
->>> working clutter packages for the major platforms the actively maintained
->>> BSPs support.
->>
->> Agreed.
->>
->>>   Every so often someone asks about clutter for XYZ (usually
->>> the Beagleboard or RPi) on the clutter list: this should be readily
->>> available somewhere.
->>
->> I'd hope the recipes in the core would be in a good state in this
->> regard.
->
-> Good weekend for everyone :-)
->
-> Regards,
->
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
+he can even put experimental version there if it's in recipe with
+negative DEFAULT_PREFERRENCE, unfortunately he cannot do the same if
+experimantal recipes are in meta-clutter with higher priority and stable
+recipes in oe-core (unless he makes sure that everybody who is using
+meta-clutter will understand why he needs to set PREFERRED_VERSION to
+prevent experimental being used).
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--U3BNvdZEnlJXqmh+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlGNYY8ACgkQN1Ujt2V2gBxF5wCgm8iaF3WKeCpVnDeSP1Tov/bT
+kvYAnjImwRGBGA9MoTOh0BFiQ+7rqAQj
+=ZTgn
+-----END PGP SIGNATURE-----
+
+--U3BNvdZEnlJXqmh+--
