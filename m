@@ -1,20 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UapA0-0006xz-Ef
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Uap9z-0006xl-Od
 	for openembedded-core@lists.openembedded.org;
 	Fri, 10 May 2013 17:23:07 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 May 2013 08:04:54 -0700
+	by azsmga101.ch.intel.com with ESMTP; 10 May 2013 08:04:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,648,1363158000"; d="scan'208";a="331998986"
+X-IronPort-AV: E=Sophos;i="4.87,648,1363158000"; d="scan'208";a="331999112"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 10 May 2013 08:04:26 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 10 May 2013 08:04:34 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2013 18:04:12 +0300
-Message-Id: <cover.1368198012.git.laurentiu.palcu@intel.com>
+Date: Fri, 10 May 2013 18:04:19 +0300
+Message-Id: <8c9c3c5382faf39242fe69adc402e3aac4811296.1368198012.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/8] Package upgrades
+In-Reply-To: <cover.1368198012.git.laurentiu.palcu@intel.com>
+References: <cover.1368198012.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1368198012.git.laurentiu.palcu@intel.com>
+References: <cover.1368198012.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 7/8] xproto: upgrade to 7.0.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,61 +33,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 May 2013 15:23:26 -0000
 X-List-Received-Date: Fri, 10 May 2013 15:23:26 -0000
-X-List-Received-Date: Fri, 10 May 2013 15:23:26 -0000
 
-Hi all,
-
-This patchset contains some X related package upgrades. Basic functional tests
-were done with a qemux86 core-image-sato image and on a lenovo ideapad
-s10-3t netbook.
-
-Also, all packages were build tested for all architectures (with the exception
-of xf86-video-intel and xf86-video-vmware).
-
-Thanks,
-Laurentiu
-
-The following changes since commit 88a7b041fbf2583472aa9408a33dd8881223a0c1:
-
-  bitbake: pysh: Say what kind of token isn't implemented (2013-05-10 13:35:10 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
-
-Laurentiu Palcu (8):
-  xf86-video-vmware: upgrade to 13.0.1
-  xf86-video-intel: upgrade to 2.21.6
-  xf86-input-keyboard: upgrade to 1.7.0
-  xf86-input-mouse: upgrade to 1.9.0
-  xf86-input-synaptics: upgrade to 1.7.0
-  xf86-input-evdev: upgrade to 2.8.0
-  xproto: upgrade to 7.0.24
-  libdrm: upgrade to 2.4.44
-
- meta/recipes-graphics/drm/libdrm.inc               |    1 +
- .../recipes-graphics/drm/libdrm/installtests.patch |   26 --------
- .../drm/{libdrm_2.4.42.bb => libdrm_2.4.44.bb}     |    6 +-
- ...ut-evdev_2.7.3.bb => xf86-input-evdev_2.8.0.bb} |    6 +-
- ...board_1.6.2.bb => xf86-input-keyboard_1.7.0.bb} |    6 +-
- ...ut-mouse_1.8.1.bb => xf86-input-mouse_1.9.0.bb} |    6 +-
- ...tics_1.6.3.bb => xf86-input-synaptics_1.7.0.bb} |    8 +--
- ...-intel_2.21.3.bb => xf86-video-intel_2.21.6.bb} |    6 +-
- .../xf86-video-vmware/Kill-mibstore.patch          |   63 --------------------
- ...mware_13.0.0.bb => xf86-video-vmware_13.0.1.bb} |    8 +--
- .../{xproto_7.0.23.bb => xproto_7.0.24.bb}         |    5 +-
- 11 files changed, 18 insertions(+), 123 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.42.bb => libdrm_2.4.44.bb} (43%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.7.3.bb => xf86-input-evdev_2.8.0.bb} (81%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-keyboard_1.6.2.bb => xf86-input-keyboard_1.7.0.bb} (70%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.8.1.bb => xf86-input-mouse_1.9.0.bb} (73%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.6.3.bb => xf86-input-synaptics_1.7.0.bb} (70%)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.21.3.bb => xf86-video-intel_2.21.6.bb} (84%)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/Kill-mibstore.patch
- rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_13.0.0.bb => xf86-video-vmware_13.0.1.bb} (65%)
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../{xproto_7.0.23.bb => xproto_7.0.24.bb}         |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
  rename meta/recipes-graphics/xorg-proto/{xproto_7.0.23.bb => xproto_7.0.24.bb} (72%)
 
+diff --git a/meta/recipes-graphics/xorg-proto/xproto_7.0.23.bb b/meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb
+similarity index 72%
+rename from meta/recipes-graphics/xorg-proto/xproto_7.0.23.bb
+rename to meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb
+index 486e562..2c6cbc0 100644
+--- a/meta/recipes-graphics/xorg-proto/xproto_7.0.23.bb
++++ b/meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb
+@@ -8,7 +8,6 @@ System."
+ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b9e051107d5628966739a0b2e9b32676"
+ 
+-PR = "r0"
+ PE = "1"
+ 
+ SRC_URI += "file://xproto_fix_for_x32.patch"
+@@ -16,6 +15,6 @@ SRC_URI += "file://xproto_fix_for_x32.patch"
+ EXTRA_OECONF_append = " --enable-specs=no"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "d4d241a4849167e4e694fe73371c328c"
+-SRC_URI[sha256sum] = "ade04a0949ebe4e3ef34bb2183b1ae8e08f6f9c7571729c9db38212742ac939e"
++SRC_URI[md5sum] = "9c0203c3bee4bac432ec504dc45712ed"
++SRC_URI[sha256sum] = "3698a1c7e3b734bc1139a7eb694ed8c66188658d6b4dea3d567066fe4e88b2fc"
+ 
 -- 
 1.7.9.5
 
