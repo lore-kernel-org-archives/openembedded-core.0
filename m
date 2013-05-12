@@ -1,27 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UbaT8-00035V-5B
-	for openembedded-core@lists.openembedded.org;
-	Sun, 12 May 2013 19:54:22 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2013 10:35:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,657,1363158000"; d="scan'208";a="312275308"
-Received: from unknown (HELO [10.255.12.109]) ([10.255.12.109])
-	by orsmga001.jf.intel.com with ESMTP; 12 May 2013 10:35:47 -0700
-Message-ID: <518FD2F2.5070105@linux.intel.com>
-Date: Sun, 12 May 2013 10:35:46 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
-	<9E4F6205-6171-4D60-A669-609A49F763C1@gmail.com>
-In-Reply-To: <9E4F6205-6171-4D60-A669-609A49F763C1@gmail.com>
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] tcmode-default: Set 4.8 as default
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Ubbhl-0004Zk-0R for openembedded-core@lists.openembedded.org;
+	Sun, 12 May 2013 21:13:20 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UbbQB-0003KB-KR; Sun, 12 May 2013 20:54:59 +0200
+Message-ID: <1368384890.16243.79.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Sun, 12 May 2013 19:54:50 +0100
+In-Reply-To: <518FB7F9.2020102@linux.intel.com>
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518D7326.1030901@linux.intel.com> <518E4EAB.8050502@balister.org>
+	<CAP9ODKoB_KzEPvRwDkZxLgq4d5A5DiPZ+gfko5XgF3qp9fP_xQ@mail.gmail.com>
+	<518FB7F9.2020102@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 May 2013 17:54:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sun, 12 May 2013 19:13:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/12/2013 09:29 AM, Khem Raj wrote:
-> Hi Saul
->
-> There is one serious problem that I ran into was that qemuarm 3.8 kernel segfaulted
-> is it working for you ?
->
-Nope your right there does appear to be a problem with ARM, I thought we 
-where have sanity test issues again, I just completed a build and 
-verified that I get a Kernel paninc with 3.8 Kernel and 4.8 GCC.
+On Sun, 2013-05-12 at 08:40 -0700, Saul Wold wrote:
+> On 05/12/2013 06:27 AM, Otavio Salvador wrote:
+> > On Sat, May 11, 2013 at 10:59 AM, Philip Balister <philip@balister.org> wrote:
+> >> On 05/10/2013 06:22 PM, Saul Wold wrote:
+> >>> On 05/10/2013 05:33 AM, Jukka Rissanen wrote:
+> >>>> The VPN support is activated if DISTRO_FEATURES contains
+> >>>> vpn string.
+> >>>>
+> >>>
+> >>> This also create a dependency on the meta-openembedded layer, I am not
+> >>> sure we want to do that.
+> >>
+> >> If the default setting does not add the dependency it should be OK? What
+> >> packages in meta-oe are needed? Does this suggest they should move to
+> >> oe-core?
+> >
+> > I think so, it'd be good to have it in oe-core and allow use of vpn :)
+> >
+> I would like to see what the full dependency set looks like for these, 
+> clearly there is the vpnc, openvpn, l2tp and pptp recipes, but what else 
+> and what licenses are they under.
 
-Not ready yet!
+I don't think we necessarily want openvpn, l2tpd and suchlike in
+oe-core.  None of those things seem very "core" to me (in an embedded
+context) and testing them seems like it would be a bit of a challenge.
 
-Khem, are you looking into it?  I have CC'ed Bruce for the kernel also.
+Equally, we certainly don't want to have dependencies in oe-core
+pointing to packages in meta-oe or any other layer, since this would
+make it impossible to test oe-core in isolation.  So I would be inclined
+to say that the right way to deal with this is for those connman bits to
+go in a .bbappend which lives in the same layer as the recipes in
+question.
 
-Sau!
+p.
 
 
-> -Khem
->
-> On May 12, 2013, at 4:05 AM, Saul Wold <sgw@linux.intel.com> wrote:
->
->> This changes the default GCC to 4.8, it has been tested with OE-Core
->> and a number of layers have been testing with it for the last few weeks.
->>
->> There are some minor issues outside of OE-Core. These will be addressed
->> with time.
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> Cc: Khem Raj <raj.khem@gmail.com>
->>
->> ---
->> meta/conf/distro/include/tcmode-default.inc | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
->> index 88d109b..f3942b5 100644
->> --- a/meta/conf/distro/include/tcmode-default.inc
->> +++ b/meta/conf/distro/include/tcmode-default.inc
->> @@ -17,7 +17,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
->> PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial = "nativesdk-${TCLIBC}-initial"
->> PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
->>
->> -GCCVERSION ?= "4.7%"
->> +GCCVERSION ?= "4.8%"
->> SDKGCCVERSION ?= "${GCCVERSION}"
->> BINUVERSION ?= "2.23.2"
->> EGLIBCVERSION ?= "2.17"
->> --
->> 1.8.0.2
->>
->
 
 
