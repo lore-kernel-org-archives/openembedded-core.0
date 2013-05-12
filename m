@@ -1,36 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UbR3W-0002km-BX for openembedded-core@lists.openembedded.org;
-	Sun, 12 May 2013 09:50:59 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4C7ZDQw007384; Sun, 12 May 2013 08:35:13 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FQ7PxdJ8QzWx; Sun, 12 May 2013 08:35:13 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4C7Z78I007380
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 12 May 2013 08:35:10 +0100
-Message-ID: <1368343938.21569.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 12 May 2013 08:32:18 +0100
-In-Reply-To: <CAJTo0LYgAzXW4PEt_KucpDG7Uk5rpXJEDzWPGTgA7X3jZkU-yQ@mail.gmail.com>
-References: <1368180910-17476-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<20130510102041.GA12329@jama.dyndns-home.com>
-	<1368181932.11129.11.camel@ted>
-	<1368182760.24706.3.camel@phil-desktop.brightsign>
-	<1368183027.24706.6.camel@phil-desktop.brightsign>
-	<CAJTo0LYgAzXW4PEt_KucpDG7Uk5rpXJEDzWPGTgA7X3jZkU-yQ@mail.gmail.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: Phil Blundell <philb@brightsign.biz>, Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] flex: updated to 2.5.37
+	(envelope-from <sgw@linux.intel.com>) id 1UbUO3-0005W9-QI
+	for openembedded-core@lists.openembedded.org;
+	Sun, 12 May 2013 13:24:21 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 May 2013 04:04:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,657,1363158000"; d="scan'208";a="335731219"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.12.35])
+	by orsmga002.jf.intel.com with ESMTP; 12 May 2013 04:05:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 May 2013 04:05:39 -0700
+Message-Id: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [RFC] tcmode-default: Set 4.8 as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,26 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 May 2013 07:51:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 12 May 2013 11:24:24 -0000
 
-On Fri, 2013-05-10 at 12:00 +0100, Burton, Ross wrote:
-> On 10 May 2013 11:50, Phil Blundell <philb@brightsign.biz> wrote:
-> > Or you could replace the shell wrapper that create_wrapper() currently
-> > generates with either a compiled binary or a Python script.  That would
-> > allow you to execl("/path/foo.real", "foo", ...), which I don't think
-> > you can do in shell but which would avoid this whole class of problem.
-> 
-> Bash can do that, but it's not POSIX. :/
+This changes the default GCC to 4.8, it has been tested with OE-Core
+and a number of layers have been testing with it for the last few weeks.
 
-I'm quite happy to have the wrapper as bash shell script. We only need
-dash compatibility in things that get run under /bin/sh (i.e. bitbake
-shell tasks).
+There are some minor issues outside of OE-Core. These will be addressed
+with time.
 
-Cheers,
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Cc: Khem Raj <raj.khem@gmail.com>
 
-Richard
+---
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 88d109b..f3942b5 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -17,7 +17,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
+ PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial = "nativesdk-${TCLIBC}-initial"
+ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ 
+-GCCVERSION ?= "4.7%"
++GCCVERSION ?= "4.8%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.23.2"
+ EGLIBCVERSION ?= "2.17"
+-- 
+1.8.0.2
 
 
 
