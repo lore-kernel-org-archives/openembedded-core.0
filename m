@@ -1,27 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pb0-f43.google.com ([209.85.160.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Ubcea-0002or-Dq
+	(envelope-from <raj.khem@gmail.com>) id 1UbeQo-0006qO-6U
 	for openembedded-core@lists.openembedded.org;
-	Sun, 12 May 2013 22:14:02 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 12 May 2013 12:55:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,657,1363158000"; d="scan'208";a="301361136"
-Received: from unknown (HELO helios.localnet) ([10.255.12.83])
-	by azsmga001.ch.intel.com with ESMTP; 12 May 2013 12:55:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 May 2013 20:55:43 +0100
-Message-ID: <3529451.hQA8zCVn47@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <1368384890.16243.79.camel@pb-ThinkPad-R50e>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<518FB7F9.2020102@linux.intel.com>
-	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
+	Mon, 13 May 2013 00:07:50 +0200
+Received: by mail-pb0-f43.google.com with SMTP id md12so3972711pbc.30
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 May 2013 14:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=L6tU6WRS9i+UYkb0j881pTPSIj+J8g6u6Pud8/Jvd1w=;
+	b=YsElBNuh1od6DRFX3ptmPlmqLFgW1XIuAivwTr5btTsXJ0KXZqZSC1XZ/l0uGeNEod
+	8g8XbP5A9mg8JuyAmhBL+hcnzT4vXvzCALOCBio583iuvLUDHj2I01oa7FP2essaqV3/
+	OAtvlwnFHZ7JVTtXWoVjK0KyfTqYHoQdzF236aS8OnhhG5/nxf8h3JD+MLSxAxzMdMha
+	Jx/poyVMJf/xOMTBTm1Zz/9mU+uHbTqc69AC/5rghFDvT6bLfNxEHaWBXQRQjZYtU6S4
+	eqomq3GuFwiisgRnw20Zi6IXnH1FT9hwnYGdGZuvxPg8RhPbJMtghkQFxZEzy05p0etl
+	19yg==
+X-Received: by 10.66.233.9 with SMTP id ts9mr27308535pac.15.1368395380601;
+	Sun, 12 May 2013 14:49:40 -0700 (PDT)
+Received: from stafford-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	uv1sm11322316pbc.16.2013.05.12.14.49.39 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 12 May 2013 14:49:39 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <518FD2F2.5070105@linux.intel.com>
+Date: Sun, 12 May 2013 14:49:38 -0700
+Message-Id: <020E3790-121B-49E9-87E3-55ACA9095B10@gmail.com>
+References: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
+	<9E4F6205-6171-4D60-A669-609A49F763C1@gmail.com>
+	<518FD2F2.5070105@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] tcmode-default: Set 4.8 as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 May 2013 20:14:02 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 12 May 2013 22:08:27 -0000
+X-List-Received-Date: Sun, 12 May 2013 22:08:27 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Sunday 12 May 2013 19:54:50 Phil Blundell wrote:
-> On Sun, 2013-05-12 at 08:40 -0700, Saul Wold wrote:
-> > On 05/12/2013 06:27 AM, Otavio Salvador wrote:
-> > > I think so, it'd be good to have it in oe-core and allow use of vpn :)
-> > 
-> > I would like to see what the full dependency set looks like for these,
-> > clearly there is the vpnc, openvpn, l2tp and pptp recipes, but what else
-> > and what licenses are they under.
-> 
-> I don't think we necessarily want openvpn, l2tpd and suchlike in
-> oe-core.  None of those things seem very "core" to me (in an embedded
-> context) and testing them seems like it would be a bit of a challenge.
 
-I agree, these don't belong in OE-Core. We already have them in meta-
-networking.
+On May 12, 2013, at 10:35 AM, Saul Wold <sgw@linux.intel.com> wrote:
 
-> Equally, we certainly don't want to have dependencies in oe-core
-> pointing to packages in meta-oe or any other layer, since this would
-> make it impossible to test oe-core in isolation.  So I would be inclined
-> to say that the right way to deal with this is for those connman bits to
-> go in a .bbappend which lives in the same layer as the recipes in
-> question.
+> On 05/12/2013 09:29 AM, Khem Raj wrote:
+>> Hi Saul
+>>=20
+>> There is one serious problem that I ran into was that qemuarm 3.8 =
+kernel segfaulted
+>> is it working for you ?
+>>=20
+> Nope your right there does appear to be a problem with ARM, I thought =
+we where have sanity test issues again, I just completed a build and =
+verified that I get a Kernel paninc with 3.8 Kernel and 4.8 GCC.
+>=20
+> Not ready yet!
+>=20
+> Khem, are you looking into it?  I have CC'ed Bruce for the kernel =
+also.
 
-That doesn't work well for software layers - it is not a good thing for 
-various recipes to get rebuilt just because you add meta-oe to your 
-configuration for example.
+haven't looked into the problem in detail. Its one of those either a =
+problem in gcc or gcc uncovering a latent bug in kernel.
 
-The protocol we've established is to add PACKAGECONFIG options to enable the 
-dependencies but have them disabled by default; these can be enabled as 
-desired in distro or local configuration when the layer satisfying the 
-dependency is also enabled.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
