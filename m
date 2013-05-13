@@ -1,36 +1,42 @@
-Received: from mail-wi0-f182.google.com ([209.85.212.182])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UbuzX-0004iR-9f
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ubv5M-00056t-Uo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 17:48:50 +0200
-Received: by mail-wi0-f182.google.com with SMTP id c10so1101896wiw.15
+	Mon, 13 May 2013 17:54:49 +0200
+Received: by mail-ob0-f175.google.com with SMTP id wd6so2167044obb.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 08:30:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=FULzt5QwrXC6xDJISM0XYCifGd2wcgMdUJc4YplwreI=;
-	b=RTHLabld6g+OL980FqKcFhjM6lRNBc5Wx9+F9wE8Isrc4LRHo3JBqHddbybI7q072f
-	y7bk7wqys4RoV+eiBP8TNdQQVyqUvyUwh6H4wFBXpP1Ya2H4joqMHEsR98B1NX2IL8bx
-	zteaCij5Rj0dLBAlZaLP2aqCXa9ncqxrBP+sfkSLdn1Qd30KTzAF6VIvjy3MFQFzJPFN
-	LEMG4+04LRDs5CdDRaofKJV9hlOfFfMivSsSyncaGf4B2+OsdZvr78MrXmth+HmrPyCh
-	3mO2NrXU7mgNbGjgqOo7xAXTTEzk0OKs6pq7xAQ+SC3xGMePuWmw6J5xUxXIffaepQH5
-	tfWA==
-X-Received: by 10.180.39.137 with SMTP id p9mr9503778wik.27.1368459037356;
-	Mon, 13 May 2013 08:30:37 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id g8sm17746881wiy.4.2013.05.13.08.30.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 08:30:36 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2013 16:27:30 +0100
-Message-Id: <1368458850-5309-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQm+BzCrilUx581IfwwJplJgNCk7uNFsYRLhQGi+1k8Dpm831WIMrsRBlRJdIkEGPORbaGR1
-Subject: [PATCH] glib-2.0: drop dependency on python-argparse
+	Mon, 13 May 2013 08:36:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=07uGCX/2VUHKOiChx/q/EuWKEcJHMyPmPhbUw+5VNZ4=;
+	b=SQ3h2bZOjyhGx8ECV8HYHi4idAD50rMwV8GvFCbBs2reu9r3LJ9BbSb511yKaeGyaV
+	G5yonkzq749bfYfMd79M80eQGZ2BG7u9Wqzw8xtn36wngzikhJIW6zYEmXwUK/t0GaA7
+	PK0OWAz1v+TKMDLatuZdjiu00uTuucXNlX5V54LdGqPZp5a9ZA4OyPTPBPqXjPo4tg4e
+	h2k1LgE8ulkC58i5XR9NFZN24rDnEUTuJ1YuXL5oe7UkJ1Jbh0kSCc0gUWebMNiF7aft
+	YNUL03FAgxDQ2dMnYJviPbVkTUlmju0uAhth9VTHRfC3lJJ8GIOk5KmyghGyGFzdWdcU
+	qHoQ==
+MIME-Version: 1.0
+X-Received: by 10.182.56.169 with SMTP id b9mr10733388obq.42.1368459398362;
+	Mon, 13 May 2013 08:36:38 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Mon, 13 May 2013 08:36:38 -0700 (PDT)
+In-Reply-To: <CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
+References: <cover.1366963971.git.liezhi.yang@windriver.com>
+	<4aa663aaedff33870a96a676b9394ff79fe49eac.1366963971.git.liezhi.yang@windriver.com>
+	<CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
+	<517B30A4.5050405@windriver.com>
+	<CAJTo0LYzafv3Eb3QtbVT+jbRkfPN2_vUxh0bsS0WZ9bJc8-NaQ@mail.gmail.com>
+	<CAP9ODKrOs_bqf0g5Aw3WhJ3ZVoNM2aqMCoQzWZ+8e9LX7cwscg@mail.gmail.com>
+	<CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
+Date: Mon, 13 May 2013 12:36:38 -0300
+X-Google-Sender-Auth: YMpsZXkUwzy_7cx6sUpQ6I64Qi0
+Message-ID: <CAP9ODKqrVvytteu9G2kb5=9Xh1EjhMA2Sh9BokJUMb5_So-Row@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] glib-2.0-native: do_compile failed on opensuse 12.2 64bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +49,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 15:49:00 -0000
+X-List-Received-Date: Mon, 13 May 2013 15:55:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Since 2.20 the use of argparse was removed, so we don't need these dependencies
-anymore.
+On Mon, May 13, 2013 at 12:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 13 May 2013 16:23, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> We may need to have a mechanism to specific build dependencies for
+>> native depending on host version/distribution.
+>
+> The situation is that Suse splits the expat parser into a separate
+> package for some reason, so the "fix" is to actually install the whole
+> Python core library by installing python-xml if it isn't already
+> pulled in.  We could add a sanity test that the python available is a
+> full python and not missing the expat parser (suse without python-xml)
+> or isn't python-minimal (ubuntu).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Yes; this might be a solution.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-index a042972..0afb73b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.0.bb
-@@ -2,9 +2,9 @@ require glib.inc
- 
- PE = "1"
- 
--DEPENDS += "libffi python-argparse-native zlib"
--DEPENDS_class-native += "libffi-native python-argparse-native"
--DEPENDS_class-nativesdk += "nativesdk-libffi python-argparse-native nativesdk-zlib ${BPN}-native"
-+DEPENDS += "libffi zlib"
-+DEPENDS_class-native += "libffi-native"
-+DEPENDS_class-nativesdk += "nativesdk-libffi nativesdk-zlib ${BPN}-native"
- 
- SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
- 
--- 
-1.7.10.4
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
