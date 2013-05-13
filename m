@@ -1,28 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UbuPN-00014j-7d for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 17:11:27 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Ubu7p-0004OK-Av; Mon, 13 May 2013 16:53:17 +0200
-Message-ID: <1368456796.6920.23.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Mon, 13 May 2013 15:53:16 +0100
-In-Reply-To: <5190CF63.2030303@r-finger.com>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<518FB7F9.2020102@linux.intel.com>
-	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
-	<3529451.hQA8zCVn47@helios>
-	<1368442968.6920.4.camel@phil-desktop.brightsign>
-	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
-	<5190CF63.2030303@r-finger.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
+Received: from mail-ve0-f170.google.com ([209.85.128.170])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1Ubunj-0003Rv-7X
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 May 2013 17:36:53 +0200
+Received: by mail-ve0-f170.google.com with SMTP id 14so1874348vea.29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2013 08:18:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=mvjsqu47Lhtofg3NCfWq5JIR5asrcTnJ34Mfub3+u84=;
+	b=oWPyhRtysKs0yadxqVdjhujHR1HdQne6ekV8WkOZT8Db9yC2qkpYhsm5OYN/XqKiI6
+	QnnXhIMBwtC7pPz4U8XCHryOb3hx9M9gelQNNEqFm/w2EhN2dkm9O0CUEf5aCDwE++Wa
+	+/vdMJmgGCxFMJzdKtFSpHdLrj+n+S3M9+6bccYvTCM23IcQd0dagPWg9xMPBoazpRN8
+	Tdjncbfs8UaRJnUnWE9H5hIamkCa5+DvqQcbFvW1lPjm2hsBuCb+4Iqu9IF3El0Wdxti
+	pUxla5lVvRdbDEYcaKTGYcdqQBb8gtgLo4peKxo++FNGgyp+8MIt4ZKuwZKzCeP11R0O
+	3sdQ==
+X-Received: by 10.220.112.198 with SMTP id x6mr10816771vcp.38.1368458304927;
+	Mon, 13 May 2013 08:18:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.221.8.3 with HTTP; Mon, 13 May 2013 08:18:04 -0700 (PDT)
+In-Reply-To: <517B30A4.5050405@windriver.com>
+References: <cover.1366963971.git.liezhi.yang@windriver.com>
+	<4aa663aaedff33870a96a676b9394ff79fe49eac.1366963971.git.liezhi.yang@windriver.com>
+	<CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
+	<517B30A4.5050405@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 May 2013 16:18:04 +0100
+Message-ID: <CAJTo0LYzafv3Eb3QtbVT+jbRkfPN2_vUxh0bsS0WZ9bJc8-NaQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Gm-Message-State: ALoCoQnd23bk4HPGhK4cfwGXj6qHQlcjMiczS59+YAK9w9mfXuCx9ZxP2KJZHVIb33Yi9HMKIoOp
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
+Subject: Re: [PATCH 1/1] glib-2.0-native: do_compile failed on opensuse 12.2 64bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 15:11:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2013 15:36:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-05-13 at 12:32 +0100, Tomas Frydrych wrote:
-> On 13/05/13 12:06, Burton, Ross wrote:
-> > The problem with bbappends is that they break every time the package
-> > in oe-core changes version.
-> 
-> I see this as a good thing; if I maintain a bbappend, I want to know
-> when the base package changes its a version, and I get an immediate
-> error due to bbappend to a non-existent file.
+On 27 April 2013 02:57, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Thanks for the review, please see more comments:
+> The glib-2.0-native had already depend on python-native before this patch,
+> the depends chain is:
+>
+> glib-2.0-native -> python-argparse-native -> python-native
 
-Personally, for the .bbappends that I maintain, I would much rather not
-have to go around renaming a bunch of files every time I merge a new
-version of oe-core and all the recipes get upgraded. 
+That argparse usage was dropped from upstream in 2.30, so we can drop
+the dependency.
 
-But, if you enjoy the errors, you could easily enough get them back even
-if the filenames didn't change:
+I still think that we shouldn't have to build a whole python because a
+distribution decided to not install fundamental parts of Python out of
+the box (python-xml).
 
-python() {
-    tolerable_pvs = [ '1.0', '1.1', '1.2' ]
-    pv = d.getVar('PV', True)
-    if not pv in tolerable_pvs:
-        bb.fatal("encountered intolerable version %s of underlying recipe, please adjust me accordingly" % pv)
-}
-
-or something.  One could wrap that in some extra sugar and put it in
-base.bbclass if having the boilerplate in each .bbappend is unappealing.
-
-p.
-
-
+Ross
 
 
