@@ -1,29 +1,30 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Ubq88-0000f6-13
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UbqcT-0004cB-IL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 12:37:46 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4DAJ8xW019397
+	Mon, 13 May 2013 13:08:44 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4DAoVNe019700
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 May 2013 03:19:08 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 13 May 2013 03:19:08 -0700
-Message-ID: <5190BE16.7060401@windriver.com>
-Date: Mon, 13 May 2013 18:19:02 +0800
+	Mon, 13 May 2013 03:50:31 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 13 May 2013 03:50:29 -0700
+Message-ID: <5190C570.40700@windriver.com>
+Date: Mon, 13 May 2013 18:50:24 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
+To: Jonathan Liu <net147@gmail.com>
 References: <cover.1367919920.git.liezhi.yang@windriver.com>
-	<fcf98efeebf56cb36758a5c71c45bbd6100b7498.1367919920.git.liezhi.yang@windriver.com>
-	<518D6DD6.5080908@linux.intel.com>
-In-Reply-To: <518D6DD6.5080908@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] e2fsprogs: let debugfs do sparse copy
+	<CANwerB3vdQu+WCYv-WzBMMFyv77LymqLkjp3wVMFHCO=KF53Dg@mail.gmail.com>
+	<5190B127.40400@windriver.com> <5190B770.9050109@gmail.com>
+In-Reply-To: <5190B770.9050109@gmail.com>
+Cc: dvhart@linux.intel.com, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] replace genext2fs with populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,266 +37,317 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 10:37:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 13 May 2013 11:08:46 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi Darren,
 
-Thank you very much for your detailed review, I will fix them and send
-to you and Saul again (but not to oe-core mailing list atm), then send
-to ext4 mailing list, please see my comments inline.
-
-On 05/11/2013 05:59 AM, Darren Hart wrote:
->
->
-> On 05/07/2013 02:48 AM, Robert Yang wrote:
->> Let debugfs do sparse copy when src is a sparse file, just like
->> "cp --sparse=auto"
+On 05/13/2013 05:50 PM, Jonathan Liu wrote:
+> On 13/05/2013 7:23 PM, Robert Yang wrote:
 >>
->> [YOCTO #3848]
+>> Hi Jonathan Liu,
 >>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch   |  114 ++++++++++++++++++++
->>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    1 +
->>   2 files changed, 115 insertions(+)
->>   create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
->>
->> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
->> new file mode 100644
->> index 0000000..f20fcaf
->> --- /dev/null
->> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
->> @@ -0,0 +1,114 @@
->> +debugfs.c: do sparse copy when src is a sparse file
->> +
->> +Let debugfs do sparse copy when src is a sparse file, just like
->> +"cp --sparse=auto"
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> +---
->> + debugfs/debugfs.c | 54 ++++++++++++++++++++++++++++++++++++++++++++----------
->> + 1 file changed, 44 insertions(+), 10 deletions(-)
->> +
->> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
->> +index 5cdc86a..015bfad 100644
->> +--- a/debugfs/debugfs.c
->> ++++ b/debugfs/debugfs.c
->> +@@ -37,6 +37,16 @@ extern char *optarg;
->> + #include "../version.h"
->> + #include "jfs_user.h"
->> +
->> ++/* 32KiB is the minimium blksize to best minimize system call overhead. */
->
-> Why is that? Can you defend that to Ted and the ext4 developers?
+>> What's your configuration, please, I tried a core-image-minimal building
+>> just now, didn't notice this error. Did the error come after these patches
+>> applied ?
+> Yes, the errors occured after applying your patches.
 >
 
-I saw it from coreutils-8.13/src/ioblksize.h:
-
-/* As of Mar 2009, 32KiB is determined to be the minimium
-    blksize to best minimize system call overhead.
-    This can be tested with this script with the results
-    shown for a 1.7GHz pentium-m with 2GB of 400MHz DDR2 RAM:
-
-    for i in $(seq 0 10); do
-      size=$((8*1024**3)) #ensure this is big enough
-      bs=$((1024*2**$i))
-      printf "%7s=" $bs
-      dd bs=$bs if=/dev/zero of=/dev/null count=$(($size/$bs)) 2>&1 |
-      sed -n 's/.* \([0-9.]* [GM]B\/s\)/\1/p'
-    done
-
-       1024=734 MB/s
-       2048=1.3 GB/s
-       4096=2.4 GB/s
-       8192=3.5 GB/s
-      16384=3.9 GB/s
-      32768=5.2 GB/s
-      65536=5.3 GB/s
-     131072=5.5 GB/s
-     262144=5.7 GB/s
-     524288=5.7 GB/s
-    1048576=5.8 GB/s
-
-    Note that this is to minimize system call overhead.
-    Other values may be appropriate to minimize file system
-    or disk overhead.  For example on my current GNU/Linux system
-    the readahead setting is 128KiB which was read using:
-
-    file="."
-    device=$(df -P --local "$file" | tail -n1 | cut -d' ' -f1)
-    echo $(( $(blockdev --getra $device) * 512 ))
-
-    However there isn't a portable way to get the above.
-    In the future we could use the above method if available
-    and default to io_blksize() if not.
-  */
-
-
->> ++#ifndef IO_BUFSIZE
->> ++#define IO_BUFSIZE 32*1024
->> ++#endif
->> ++
->> ++/* Block size for `st_blocks'. */
->> ++#ifndef S_BLKSIZE
->> ++#define S_BLKSIZE 512
->> ++#endif
->> ++
->> + ss_request_table *extra_cmds;
->> + const char *debug_prog_name;
->> + int sci_idx;
->> +@@ -1559,13 +1569,13 @@ void do_find_free_inode(int argc, char *argv[])
->> + }
->> +
->> + #ifndef READ_ONLY
->> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
->> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsiz, int make_holes)
->
-> Don't trim off single vowels in variable names. bufsize is fine.
->
->> + {
->> + 	ext2_file_t	e2_file;
->> + 	errcode_t	retval;
->> + 	int		got;
->> + 	unsigned int	written;
->> +-	char		buf[8192];
->> ++	char		buf[bufsiz];
->> + 	char		*ptr;
->> +
->> + 	retval = ext2fs_file_open(current_fs, newfile,
->> +@@ -1582,14 +1592,30 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
->> + 			goto fail;
->> + 		}
->> + 		ptr = buf;
->> ++		char *cp = ptr;
->> + 		while (got > 0) {
->> +-			retval = ext2fs_file_write(e2_file, ptr,
->> +-						   got, &written);
->> +-			if (retval)
->> +-				goto fail;
->> +-
->> +-			got -= written;
->> +-			ptr += written;
->> ++			int count = got;
->
-> Why declare this inside the while loop?
->
-
-I think that you mean we should:
-
-int count;
-while got > 0) {
-	...
-	count = got;
-}
-
-I will update it.
-
->> ++			if (make_holes) {
->> ++				/* Check whether all is zero */
->> ++				while (count-- && *cp++ == 0) {
->> ++					continue;
->> ++				}
->
->
-> Could you improve this a bit by using larger chunks? u32 maybe? You
-> could ensure the bufsize rounds up to that, or just enforce it.
->
-
-I think that you mean use a larger "count" ? Usually, the bufsize is 4096
-(the I/O block size) when doing sparse copy, so I used "int", but use "u32"
-seems reasonable since it is unsigned here. For the bufsize, the suggested
-value is 32K, please see my comments in previous.
+Thanks, I will try a build with these configuration tonight, and see the
+result tomorrow.
 
 // Robert
 
+> distro conf:
+> DISTRO_FEATURES_append = " largefile opengl systemd"
+> DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+> VIRTUAL-RUNTIME_graphical_init_manager = ""
+> VIRTUAL-RUNTIME_init_manager = "systemd"
+> PACKAGE_CLASSES = "package_ipk"
 >
->> ++				if (count < 0) {
->> ++					/* The whole block is zero, make a hole */
->> ++					retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, 0);
->> ++					if (retval)
->> ++						goto fail;
->> ++					got = 0;
->> ++				}
->> ++			}
->> ++			/* Normal copy */
->> ++			if (got > 0) {
->> ++				retval = ext2fs_file_write(e2_file, ptr, got, &written);
->> ++				if (retval)
->> ++					goto fail;
->> ++				got -= written;
->> ++				ptr += written;
->> ++			}
->> + 		}
->> + 	}
->> + 	retval = ext2fs_file_close(e2_file);
->> +@@ -1608,6 +1634,8 @@ void do_write(int argc, char *argv[])
->> + 	ext2_ino_t	newfile;
->> + 	errcode_t	retval;
->> + 	struct ext2_inode inode;
->> ++	int make_holes = 0;
->> ++	int bufsiz = IO_BUFSIZE;
+> image bb:
+> SYSLINUX_ROOT ?= "root=/dev/sda2"
+> SYSLINUX_PROMPT = "0"
+> SYSLINUX_TIMEOUT = "1"
+> SYSLINUX_LABELS = "boot"
+> LABELS_append = " ${SYSLINUX_LABELS} "
+> do_bootdirectdisk[depends] += "${PN}:do_rootfs"
+> APPEND += "rootfstype=ext4 rw"
+> ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
+> inherit boot-directdisk
+> IMAGE_FEATURES += "hwcodecs package-management ssh-server-openssh x11"
+> IMAGE_FSTYPES = "ext4"
+> IMAGE_LINGUAS = ""
 >
-> bufsize
->
->
->> +
->> + 	if (common_args_process(argc, argv, 3, 3, "write",
->> + 				"<native file> <new file>", CHECK_FS_RW))
->> +@@ -1672,7 +1700,13 @@ void do_write(int argc, char *argv[])
->> + 		return;
->> + 	}
->> + 	if (LINUX_S_ISREG(inode.i_mode)) {
->> +-		retval = copy_file(fd, newfile);
->> ++		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
->> ++			make_holes = 1;
->> ++			/* Use the I/O blocksize (st_blksize) as the buffer
->> ++			 * size when copy sparse file */
->
-> "when copying sparse files"
->
-> Also, multiline comments should probably look like this:
->
->   			/*
-> 			 * Use I/O blocksize as buffer size when
-> 			 * copying sparse files.
-> 			 */
->
-> Although, honestly, this doesn't add any information. It is obvious that
-> is what the code does. It isn't obvious WHY that is necessary, a comment
-> to that effect might be worthwhile, but as is, this one can just be removed.
->
-> Thanks,
->
-> Darren
->
->
->> ++			bufsiz = statbuf.st_blksize;
->> ++		}
->> ++		retval = copy_file(fd, newfile, bufsiz, make_holes);
->> + 		if (retval)
->> + 			com_err("copy_file", retval, 0);
->> + 	}
->> +--
->> +1.7.11.2
->> +
->> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
->> index 898ee88..b547036 100644
->> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
->> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
->> @@ -5,6 +5,7 @@ PR = "r0"
->>   SRC_URI += "file://acinclude.m4 \
->>               file://remove.ldconfig.call.patch \
->>               file://debugfs-too-short.patch \
->> +            file://sparse_copy.patch \
->>   "
 >>
->>   SRC_URI[md5sum] = "a1ec22ef003688dae9f76c74881b22b9"
+>> My configuration:
+>> MACHINE = "qemux86"
+>> IMAGE_FSTYPES += "ext4"
 >>
+>> // Robert
+>>
+>> On 05/13/2013 12:59 PM, Jonathan Liu wrote:
+>>> Hi Robert,
+>>>
+>>> I get the following errors doing filesystem check on the ext4 image:
+>>>
+>>> # fsck.ext4 -fn tmp/deploy/images/custom-image-custom.ext4.ext4
+>>> e2fsck 1.42.7 (21-Jan-2013)
+>>> Pass 1: Checking inodes, blocks, and sizes
+>>> Pass 2: Checking directory structure
+>>> Entry 'mtd7' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd4' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'fb0' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd5' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty6' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'random' in /dev (2739) has an incorrect filetype (was 4, should be
+>>> 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd1' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'urandom' in /dev (2739) has an incorrect filetype (was 4, should be
+>>> 3).
+>>> Fix? no
+>>>
+>>> Entry 'zero' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'null' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'kmsg' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'kmem' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd6' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty7' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty4' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'apm_bios' in /dev (2739) has an incorrect filetype (was 4, should be
+>>> 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty5' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd0' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty0' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'ttySA0' in /dev (2739) has an incorrect filetype (was 4, should be
+>>> 3).
+>>> Fix? no
+>>>
+>>> Entry 'mem' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd2' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty8' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'console' in /dev (2739) has an incorrect filetype (was 4, should be
+>>> 3).
+>>> Fix? no
+>>>
+>>> Entry 'ttyS0' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty2' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'mtd3' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty1' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Entry 'tty3' in /dev (2739) has an incorrect filetype (was 4, should be 3).
+>>> Fix? no
+>>>
+>>> Pass 3: Checking directory connectivity
+>>> Pass 4: Checking reference counts
+>>> Inode 774 ref count is 9, should be 10.  Fix? no
+>>>
+>>> Pass 5: Checking group summary information
+>>>
+>>> tmp/deploy/images/custom-image-custom.ext4.ext4: ********** WARNING:
+>>> Filesystem still has errors **********
+>>>
+>>> tmp/deploy/images/custom-image-custom.ext4.ext4: 3899/21336 files (0.5%
+>>> non-contiguous), 131042/169656 blocks
+>>>
+>>>
+>>> After booting the image I get the following:
+>>> # dmesg | grep EXT4-fs
+>>> EXT4-fs (sda2): mounted filesystem with ordered data mode. Opts: (null)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+>>> depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+>>> depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+>>> depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-machine: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-machine: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-journal: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs (sda2): re-mounted. Opts: (null)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-journal: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-journal: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-journal: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: comm
+>>> systemd-journal: bad header/extent: invalid magic - magic 0, entries 0, max
+>>> 0(0), depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #810: comm
+>>> login: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+>>> depth 0(0)
+>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #810: comm
+>>> sshd: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+>>> depth 0(0)
+>>>
+>>>
+>>> # systemctl --failed | cat
+>>> UNIT                     LOAD   ACTIVE SUB    DESCRIPTION
+>>> machineid.service        loaded failed failed Machine ID first boot
+>>> configure
+>>> systemd-journald.service loaded failed failed Journal Service
+>>> systemd-journald.socket  loaded failed failed Journal Socket
+>>>
+>>> LOAD   = Reflects whether the unit definition was properly loaded.
+>>> ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+>>> SUB    = The low-level unit activation state, values depend on unit type.
+>>>
+>>> 3 loaded units listed. Pass --all to see loaded but inactive units, too.
+>>> To show all installed unit files use 'systemctl list-unit-files'.
+>>>
+>>>
+>>> I am booting kernel with rootfstype=ext4. IMAGE_FSTYPES = "ext4".
+>>>
+>>> Regards,
+>>> Jonathan
+>>>
+>>>
+>>> On 7 May 2013 19:48, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>
+>>>> * The benefits:
+>>>>    - Really support ext4
+>>>>    - Support the sparse file (the sparse file became into the common file
+>>>> before)
+>>>>    - Have a uniform code for ext2/3/4 generation
+>>>>    - Remove the depends on genext2fs-native
+>>>>
+>>>> * Impact
+>>>>    - Build time:
+>>>>      a) If we build fresh core-image-sato, there is nearly no impact.
+>>>>      b) If we do the image generation, which means:
+>>>>         $ bitbake core-image-sato
+>>>>         $ bitbake core-image-sato -ccleansstate
+>>>>         $ bitbake core-image-sato
+>>>>     About 50 extra seconds are needed, here is my test result:
+>>>>     Before the patches: 4m25s
+>>>>     After the patches: 5m17s
+>>>>     This is because the genext2fs is much faster than the
+>>>>     populate-extfs.sh, we will replace this script by the mke2fs when it
+>>>>     supports create the filesystem from a initial directory.
+>>>>
+>>>>    - Disk space (take core-image-sato as an example)
+>>>>      a) The image file size is the same as before (529M)
+>>>>      b) The disk usage is a little different: (du -sh)
+>>>>                before       now
+>>>>         ext2:  364M         388M
+>>>>         ext3:  381M         404M
+>>>>         ext4:  380M         387M
+>>>>
+>>>>     We may need to adjust the IMAGE_OVERHEAD_FACTOR from 1.3 to 1.4.
+>>>>
+>>>>     I have done some simple runtime testing on core-image-sato and
+>>>>     core-image-minimal, they worked well.
+>>>>
+>>>> // Robert
+>>>>
+>>>> The following changes since commit
+>>>> 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
+>>>>
+>>>>    grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>    git://git.pokylinux.org/poky-contrib robert/ext4
+>>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/ext4
+>>>>
+>>>> Robert Yang (4):
+>>>>    e2fsprogs: the max length of debugfs argument is too short
+>>>>    e2fsprogs: let debugfs do sparse copy
+>>>>    e2fsprogs: add populate-extfs.sh
+>>>>    image_types.bbclass: replace genext2fs with populate-extfs.sh
+>>>>
+>>>>   meta/classes/image_types.bbclass                   |   46 ++++----
+>>>>   .../e2fsprogs-1.42.7/debugfs-too-short.patch       |   28 +++++
+>>>>   .../e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh   |   93 ++++++++++++++++
+>>>>   .../e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch   |  114
+>>>> ++++++++++++++++++++
+>>>>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb |    4 +
+>>>>   5 files changed, 257 insertions(+), 28 deletions(-)
+>>>>   create mode 100644
+>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch
+>>>>   create mode 100644
+>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
+>>>>   create mode 100644
+>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
+>>>>
+>>>> --
+>>>> 1.7.10.4
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>
+>>>
+> Regards,
+> Jonathan
+>
 >
 
 
