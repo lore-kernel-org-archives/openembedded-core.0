@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Ubz6t-0006Ij-HR
+	(envelope-from <rpjday@crashcourse.ca>) id 1UbzC9-0006qk-GZ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 22:12:44 +0200
+	Mon, 13 May 2013 22:18:11 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:57379 helo=crashcourse.ca)
+	([174.115.5.73]:57551 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UbypK-0002HQ-9C; Mon, 13 May 2013 15:54:30 -0400
-Date: Mon, 13 May 2013 15:54:29 -0400 (EDT)
+	id 1Ubyua-0002Vr-5U; Mon, 13 May 2013 15:59:56 -0400
+Date: Mon, 13 May 2013 15:59:53 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: Trevor Woerner <twoerner@gmail.com>
 In-Reply-To: <CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305131552510.10563@oneiric>
+Message-ID: <alpine.DEB.2.02.1305131558330.23405@oneiric>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
 	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
@@ -48,10 +48,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 20:12:56 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-2100089944-1368474869=:10563"
+X-List-Received-Date: Mon, 13 May 2013 20:18:21 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-397570184-1368475195=:23405"
 
---8323329-2100089944-1368474869=:10563
+--8323329-397570184-1368475195=:23405
 Content-Type: TEXT/PLAIN; charset=ISO-8859-1
 Content-Transfer-Encoding: 8BIT
 
@@ -75,21 +75,23 @@ On Mon, 13 May 2013, Trevor Woerner wrote:
 >      BBLAYERS_NON_REMOVABLE ?= " \
 >           /home/trevor/devel/yocto/git/openembedded-core/meta \
 >           /home/trevor/devel/yocto/git/meta-poky/meta-yocto \
+>           "
+>
+>
+> > * MACHINE = "qemumips64"
+> > * bitbake a core-image-minimal
+> >
+> >   is there anything critical i'm forgetting? what's the safest simple
+> > image to try to build?  fetching is now underway ...
+>
+> That's exactly what I tried.
 
-  i have just:
+  so, once the build finishes, should i be expecting to run anything
+other than (if memory serves):
 
-BBLAYERS ?= " \
-  /home/rpjday/oe/dist/layers/oe-core/meta \
-  /home/rpjday/oe/dist/layers/openembedded-core-contrib/meta \
-  "
+$ runqemu qemumips64
 
-BBLAYERS_NON_REMOVABLE ?= " \
-  /home/rpjday/oe/dist/layers/oe-core/meta \
-  "
-
-
-and i'm just starting the build of core-image-minimal, all the
-fetching worked fine.  i'll know shortly ...
+???  any known issues or surprises?
 
 rday
 
@@ -103,4 +105,4 @@ Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
 
---8323329-2100089944-1368474869=:10563--
+--8323329-397570184-1368475195=:23405--
