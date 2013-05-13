@@ -1,34 +1,25 @@
-Received: from mail-da0-f52.google.com ([209.85.210.52])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1Ubjzh-0008B6-LZ
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1UbkJO-0002I9-Fr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 06:04:14 +0200
-Received: by mail-da0-f52.google.com with SMTP id o9so2073305dan.39
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 May 2013 20:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=cPLMAhJutbDgIe9pxb1GHBmBipgzh7T3SgeUIRlF070=;
-	b=mK471i68kODjlzeQNBvsEia+sqs69UM3o9+JjZpTx7j8Cvrk7ukNm6BPwaYKpIRWE5
-	EXBN7zNrh98iKyIdHRfKG4ZBWx5ImsS8yGDrsv9Qy9xx9cUt8LB+UygI4xCRxpvNAgvE
-	/0EcwVoZMqqIQDoLz6TPIDyZAc6M4FaizQuLrNhsbj3g4NAZopkw4TjRavTuMWyGtHS2
-	yZZDJ7OAnltsyGPEKjD8BEg8TcmuY/cKa5vOLC5HddFK222ahCsgfI5zLmo0kR5aod+d
-	xDL/2a6yexAy040yMgtk+aHem6E4PO/d9Np4uywHh4/25E6mADK6Jy1jeuWzigPjG1LX
-	Baig==
-X-Received: by 10.68.225.100 with SMTP id rj4mr27316753pbc.109.1368416763808; 
-	Sun, 12 May 2013 20:46:03 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	xl10sm13051093pac.15.2013.05.12.20.46.01 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 12 May 2013 20:46:02 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2013 13:58:41 +1000
-Message-Id: <1368417521-9219-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH] base-files: add /run to dirs755 for systemd
+	Mon, 13 May 2013 06:24:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4D46JZ7006622
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 12 May 2013 21:06:19 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.136) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 12 May 2013 21:06:19 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sun, 12 May 2013 21:06:13 -0700
+Message-ID: <cover.1368417050.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, otavio@ossystems.com.br,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH master, dylan, danny 0/1] kern-tools: make dash compliant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 04:04:14 -0000
+X-List-Received-Date: Mon, 13 May 2013 04:25:05 -0000
+Content-Type: text/plain
 
-The /run directory needs to exist when using systemd otherwise startup
-fails with the following error:
-systemd[1]: Failed to mount /run: No such file or directory
+Hi all,
 
-This affects directdisk and vmdk images but images using an initrd do
-not appear to be affected.
+Here's an update of merge_config.sh for master, dylan and danny. The
+changes to master and danny are identical, but we need two commits
+versus one for dylan. As for danny, I ported only the changes that I
+needed for dash compliance, and created a kern-tools branch to track
+that change. So the patch for danny has a SRCREV update and a switch
+to the danny kern-tools branch.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
+The patches break down like this:
+ 
+  master: zedd/kerntools-master
+    [PATCH 1/1] kern-tools: refresh and make dash compliant 
+
+  dylan: zedd/kerntools-dylan
+    [PATCH dylan 1/2] kern-tools: anchor and delimit regexs
+    [PATCH dylan 2/2] kern-tools: refresh and make dash complian
+ 
+  danny: zedd/kerntools-danny
+    [PATCH danny] kern-tools: refresh and make dash compliant
+
+The problem was this:
+
+  The separately packaged merge_config.sh in the kern-tools package was
+  missing upstream fixes, and in particular a change that ensures it is
+  dash compatible.
+
+  By grabbing that upstream commit and rebasing the existing patches on
+  top of the new baseline, we are up to date and working on systems
+  where /bin/sh is dash.
+
+I've tested the kernel config on all branches, as well as busy box on
+master and dylan. The before and after .configs are the same and we
+are dash compliant. But it's worth doing some sanity tests, just in
+case I messed up the juggling of the three branches!
+
+cc: "Burton, Ross" <ross.burton@intel.com>
+cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+cc: Otavio Salvador <otavio@ossystems.com.br>
+
+[YOCTO #4473]
+
+Cheers,
+
+Bruce
+
+The following changes since commit f7afeeb75993b159bb8959e0309bc5eb3978a8fb:
+
+  bitbake: bitbake-layers/tinfoil: Catch up with status -> recpiecache rename (2013-05-12 18:00:46 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kerntools-master
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kerntools-master
+
+Bruce Ashfield (1):
+  kern-tools: refresh and make dash compliant
+
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index a56450d..7713564 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -34,7 +34,7 @@ docdir_append = "/${P}"
- dirs1777 = "/tmp ${localstatedir}/volatile/lock ${localstatedir}/volatile/tmp"
- dirs2775 = "/home ${prefix}/src ${localstatedir}/local"
- dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
--           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /sbin \
-+           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin \
-            ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
-            ${libdir} ${sbindir} ${datadir} \
-            ${datadir}/common-licenses ${datadir}/dict ${infodir} \
 -- 
-1.8.2.3
+1.7.10.4
 
 
 
