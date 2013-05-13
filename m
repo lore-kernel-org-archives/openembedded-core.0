@@ -1,26 +1,34 @@
-Received: from mail-wi0-f174.google.com ([209.85.212.174])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1Uc1rY-0007Pb-RC
+	(envelope-from <raj.khem@gmail.com>) id 1Uc26k-00009k-RJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 01:09:06 +0200
-Received: by mail-wi0-f174.google.com with SMTP id c10so1458714wiw.1
+	Tue, 14 May 2013 01:24:43 +0200
+Received: by mail-pb0-f47.google.com with SMTP id rr4so1570729pbb.34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 15:50:50 -0700 (PDT)
+	Mon, 13 May 2013 16:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=PnnX5V5y5n/BY22jouvNIEZ8W6s5RH3JHvC7A+FLmZo=;
-	b=nBcQ+wHYdKYQeKFa1zSbSfdI98ES6F82ioYGck/JRGLBnAdBBUofZ2PEERu2aSEoSW
-	wkopB007HFC4tE9fUFfIQpsSkbK+nlT00YVHBgeY/nH0OE/3khRfQdRNTdvYIyDg7jRD
-	6hDr8CXLmW3RsuBKr6aV6rNgOA2+u79f1lBw7cNVT+LOiVT+RmWSP8dkfITAB+WYrI48
-	UuLKNrgYz2re1t8/MPeF9Xv1WANqdn7sIFctIjDZeEMbcNV8ova5oc/VziypKzk827l8
-	5NtlsACcBwj7dg0X0AjE5ika25RIvaHbFZSgDaaH+e+y8hG/XdiARvuD9XS9i1Wtcsra
-	3sSg==
-MIME-Version: 1.0
-X-Received: by 10.180.21.242 with SMTP id y18mr642609wie.7.1368485450367; Mon,
-	13 May 2013 15:50:50 -0700 (PDT)
-Received: by 10.194.5.132 with HTTP; Mon, 13 May 2013 15:50:50 -0700 (PDT)
-In-Reply-To: <A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=a6iMdWFyhbxbwDuFZgxff3CP00LouN1hUWaxsYdSSDs=;
+	b=edTulsahnEvgwFhzds77ndsf81vLOR9el8lqgZnrGF78ORIOuoEwRjOVLrrf7PY8N7
+	GZYCWzTfJa0dyNMKS29343FOmBllE8NsarvQEwKayTTnafNDPT/DoJE1TuhrcM9USDPq
+	UBaaZi7XoC7EAImrKGwi8CjeVjXtGcg0X7sNAziJ5rxPQis/F7FAGWdG+XhbR7JD4cKq
+	5EofBHIv929yjYWp9bzbfDuj5O8Yphpjh77c1jk+vFLSNMdc+h/6uukJBPsGwTGOHm8t
+	6iCnk/c2EbIqI4TI2GOqcz0AcYm639ODEb/BxioyrMU5ak371HxR4fvs62Jd21zW9DKl
+	qa4w==
+X-Received: by 10.68.202.7 with SMTP id ke7mr30785940pbc.82.1368486391696;
+	Mon, 13 May 2013 16:06:31 -0700 (PDT)
+Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id 10sm15531057pbr.45.2013.05.13.16.06.30
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 13 May 2013 16:06:30 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAHUNapRxc1m3fF10sFm2kXHSw=isw1cNbdK5e-2w7v99zsFZ5g@mail.gmail.com>
+Date: Mon, 13 May 2013 16:06:31 -0700
+Message-Id: <BEFE9967-7663-4545-8FD8-D5691D339E38@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
 	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
@@ -35,10 +43,9 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
 	<alpine.DEB.2.02.1305131805100.28372@oneiric>
 	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-Date: Mon, 13 May 2013 18:50:50 -0400
-Message-ID: <CAHUNapRxc1m3fF10sFm2kXHSw=isw1cNbdK5e-2w7v99zsFZ5g@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAHUNapRxc1m3fF10sFm2kXHSw=isw1cNbdK5e-2w7v99zsFZ5g@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+X-Mailer: Apple Mail (2.1503)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
@@ -54,20 +61,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 23:09:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 13 May 2013 23:24:49 -0000
+X-List-Received-Date: Mon, 13 May 2013 23:24:49 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2013 at 6:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> sysroots/x86_64-linux/usr/bin/mips64-angstrom-linux/mips64-angstrom-linux-gcc -v
 
-angstrom??!
+On May 13, 2013, at 3:50 PM, Trevor Woerner <twoerner@gmail.com> wrote:
 
-angstrom -> poky?
+> On Mon, May 13, 2013 at 6:19 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> =
+sysroots/x86_64-linux/usr/bin/mips64-angstrom-linux/mips64-angstrom-linux-=
+gcc -v
+>=20
+> angstrom??!
+>=20
+> angstrom -> poky?
 
-sysroots/x86_64-linux/usr/bin/mips64-poky-linux/mips64-poky-linux-gcc --version
-mips64-poky-linux-gcc (GCC) 4.7.2
-Copyright (C) 2012 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+doesn't matter whatever your distro is.
+
+
+>=20
+> sysroots/x86_64-linux/usr/bin/mips64-poky-linux/mips64-poky-linux-gcc =
+--version
+> mips64-poky-linux-gcc (GCC) 4.7.2
+> Copyright (C) 2012 Free Software Foundation, Inc.
+> This is free software; see the source for copying conditions.  There =
+is NO
+> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR =
+PURPOSE.
+
+hmm ok so its 4.7=
 
 
