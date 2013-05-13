@@ -1,35 +1,25 @@
-Received: from mail-ve0-f181.google.com ([209.85.128.181])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UbqfE-0004zp-F6
-	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 13:11:46 +0200
-Received: by mail-ve0-f181.google.com with SMTP id d10so5521621vea.40
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 03:53:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=RKH4tG3ZO063VB5q67hC+y9i6VJ73jMfV4mhRxbD1qs=;
-	b=Frd7+Hkakg0diLYC7/WvCIwEQ2G+AGx5ij45NMSo6gCTLpcptnQ3bmBey1eyZA4JQ2
-	Y4eshC5uOyTk6sRBWp5bo7y1/0yoFHyzCjGf2zlBGaP04X1bcbUpLHy7yHWajtN27jP7
-	zfBX5+KGTGhaO30qEeKopnynPCtV62CVZlf9CBExzAFZjvBb2Z3LABRv0qFVWwTYboFL
-	IE1azvegb2+NbWjmPRxu7Z8AoHK42Mz3flytBjs/UnZBZlwzKPTcyFBxrvCY1i+8QLTV
-	7Z/3a9wcCCr2YENDAD8X+lRcqzciqCT/r+uC98Fj34CqHjtDxbaYuen4S+NF0NbZzVeG
-	NIFA==
-X-Received: by 10.52.37.196 with SMTP id a4mr15412698vdk.82.1368442402601;
-	Mon, 13 May 2013 03:53:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Mon, 13 May 2013 03:53:02 -0700 (PDT)
-In-Reply-To: <1368417521-9219-1-git-send-email-net147@gmail.com>
-References: <1368417521-9219-1-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 May 2013 11:53:02 +0100
-Message-ID: <CAJTo0Las4vi+firZWYxq22uSrGUmeZTG8eQSX+cADXLFiV3D+w@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQm+npN/XIYUxqkO+3hVgWe1truo8HYdK/dvFpqLUpF1Iqnrq9g9DdR459/sbctQpNaR+NrW
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UbqoL-00083Q-9P for openembedded-core@lists.openembedded.org;
+	Mon, 13 May 2013 13:21:09 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UbqWn-0003u5-C3; Mon, 13 May 2013 13:02:49 +0200
+Message-ID: <1368442968.6920.4.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 13 May 2013 12:02:48 +0100
+In-Reply-To: <3529451.hQA8zCVn47@helios>
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518FB7F9.2020102@linux.intel.com>
+	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
+	<3529451.hQA8zCVn47@helios>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] base-files: add /run to dirs755 for systemd
+Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 11:12:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 May 2013 11:21:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 13 May 2013 04:58, Jonathan Liu <net147@gmail.com> wrote:
-> The /run directory needs to exist when using systemd otherwise startup
-> fails with the following error:
-> systemd[1]: Failed to mount /run: No such file or directory
+On Sun, 2013-05-12 at 20:55 +0100, Paul Eggleton wrote:
+> That doesn't work well for software layers - it is not a good thing for 
+> various recipes to get rebuilt just because you add meta-oe to your 
+> configuration for example.
+> 
+> The protocol we've established is to add PACKAGECONFIG options to enable the 
+> dependencies but have them disabled by default; these can be enabled as 
+> desired in distro or local configuration when the layer satisfying the 
+> dependency is also enabled.
 
-This is a genuine bug, but I'm not convinced it is the whole fix.
-What about non-systemd images?  /run is meant to be a tmpfs, which is
-why udev installs a volatile link from /run to /var/run.  If we create
-a directory in sysvinit cases, we'll also need to mount a tmpfs on it.
+That doesn't seem totally ideal either, since it means that oe-core ends
+up containing a bunch of "joke" PACKAGECONFIG options that will break
+your build if you enable them (unless you add some other layer at the
+same time).  Personally I would have thought that unnecessary rebuilds
+of the handful of packages that this would affect were probably the
+lesser of the two evils, though obviously it's not my choice to make.
 
-The FHS 3 draft specification actually ratifies /run[1] so we could
-take this advantage to start cleaning up our volatile layout in /var.
-Start by always creating /run in base-files, and always mounting it as
-tmpfs in fstab for the non-systemd case.  Then we can symlink /var/run
-to /run, /var/lock to /run/lock, and so on.
+p.
 
-Ross
 
-[1] http://www.linuxbase.org/betaspecs/fhs/fhs.html#runRuntimeVariableData
 
 
