@@ -1,45 +1,39 @@
-Received: from mail-pb0-f54.google.com ([209.85.160.54])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UbrIb-0002Xy-JF
+	(envelope-from <bruce.ashfield@gmail.com>) id 1UbsCg-0008Sc-HD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 13:52:20 +0200
-Received: by mail-pb0-f54.google.com with SMTP id ro8so1872672pbb.13
+	Mon, 13 May 2013 14:50:15 +0200
+Received: by mail-la0-f47.google.com with SMTP id fq12so735571lab.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 04:34:03 -0700 (PDT)
+	Mon, 13 May 2013 05:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=kNoP20TgppfQVdQsRSSsBkYIhloSt7m4LEfxYEnm94k=;
-	b=QvkWaIyVEATziFClqwm2qunRorgWEiSiYWeWTAMEV6g2ZJSvQ2lej9cCD9jJ8Z+48z
-	WciT5qd3ifwYEVd1SGj4WJduNV04F3PagcTjuLal6/D7ElU43Kkz/1qplSmYkUqQuwBX
-	yf6+2MeX3VAzfdoR3GNMWTE1DDcZ1oa4ZVTVxSHkmsM/0reVzLzMp/UDpWUb0rJVNnsd
-	OK9OdqzCYbeNqVQy4pfmO820VAIekhorDfnUtbzOZnAjSKKExOOO7I1UQsIGr7QEHFR8
-	WbS2rJTTjioByrPrwwJJ5W/xBr5Tktq7DVjqYfv3cCOqhUNlfniORKMa5o0mBQSz+cFT
-	4LVw==
-X-Received: by 10.66.251.101 with SMTP id zj5mr29158074pac.122.1368444843266; 
-	Mon, 13 May 2013 04:34:03 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id to7sm14695877pab.0.2013.05.13.04.34.01
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 04:34:02 -0700 (PDT)
-Message-ID: <5190CE8C.703@gmail.com>
-Date: Mon, 13 May 2013 21:29:16 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=dhfW85mnBQ90nzUL01iYgIs+Cu443moqzxcD2Odb0yM=;
+	b=vpWDkie5/tO08rc5AVNX6d0WTrTYfFaa0R9zQAVH2cZzhSdPrnhgVZ83JmjQHh/FW7
+	eIA6BTRHOuGG4/Yv3T7fkU1RNGwDkRwFJ//e3X+EhfT5xYPPStXr+82QQQ/35sdOWqOo
+	8PoUDv03yqYTB7B9iHUBLe8Z53m4iE5jc9sJKOH1erKFowtyfWDZQgMeZJXKcaWCLIWY
+	lhoadRfft/Lxv8C836fJlx8/RzzqnRMRzQGUQPmpHgtc68N/wmkzEgTieFdgjyEQckgB
+	3CcaTGlXua28fIKaMTupPY4/rIKcVziIfq2jRsRCbosQdG863ZdmNG8CFHML4g9ak2vy
+	yv7A==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1368413938-7757-1-git-send-email-net147@gmail.com>
-	<CAJTo0LaFExB-DxJCJ-Sranagpbxc56sT9ahBwgtBLH0PVq3_9g@mail.gmail.com>
-	<-7685674658700664845@unknownmsgid>
-	<CAJTo0LaVF+sV6JxpaxfL2_daoP+y1CQe=-VqWbTFW+ZVNA8i5Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LaVF+sV6JxpaxfL2_daoP+y1CQe=-VqWbTFW+ZVNA8i5Q@mail.gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.112.159.136 with SMTP id xc8mr12675697lbb.57.1368448318586; 
+	Mon, 13 May 2013 05:31:58 -0700 (PDT)
+Received: by 10.112.234.166 with HTTP; Mon, 13 May 2013 05:31:58 -0700 (PDT)
+In-Reply-To: <5190A747.6090403@communistcode.co.uk>
+References: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
+	<9E4F6205-6171-4D60-A669-609A49F763C1@gmail.com>
+	<518FD2F2.5070105@linux.intel.com>
+	<020E3790-121B-49E9-87E3-55ACA9095B10@gmail.com>
+	<5190166A.5050000@windriver.com>
+	<5190A747.6090403@communistcode.co.uk>
+Date: Mon, 13 May 2013 08:31:58 -0400
+Message-ID: <CADkTA4MAFAJbb8e-da4g_4t579FkOPC0hJJs3roP513hfVJtgw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] connman: add iptables to RDEPENDS
+Subject: Re: [RFC] tcmode-default: Set 4.8 as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,28 +46,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 11:52:33 -0000
-X-List-Received-Date: Mon, 13 May 2013 11:52:33 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2013 12:50:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 13/05/2013 8:03 PM, Burton, Ross wrote:
-> On 13 May 2013 10:23, Jonathan Liu <net147@gmail.com> wrote:
->> I did a git pull which updated connman to 1.13 and rebuilt image from
->> scratch clearing all temp files and work. The iptables dependency was
->> missing when I checked with opkg-cl on the target.
-> I really can't replicate this - my connman packages just built with
-> latest git have a versioned iptables dependency from the link.  Check
-> your do_package logs, you should find lines like this:
+On Mon, May 13, 2013 at 4:41 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> On 12/05/13 23:23, Bruce Ashfield wrote:
+>>
+>> On 13-05-12 5:49 PM, Khem Raj wrote:
+>>>
+>>>
+>>> On May 12, 2013, at 10:35 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>>>
+>>>> On 05/12/2013 09:29 AM, Khem Raj wrote:
+>>>>>
+>>>>> Hi Saul
+>>>>>
+>>>>> There is one serious problem that I ran into was that qemuarm 3.8
+>>>>> kernel segfaulted
+>>>>> is it working for you ?
+>>>>>
+>>>> Nope your right there does appear to be a problem with ARM, I thought we
+>>>> where have sanity test issues again, I just completed a build and verified
+>>>> that I get a Kernel paninc with 3.8 Kernel and 4.8 GCC.
+>>>>
+>>>> Not ready yet!
+>>>>
+>>>> Khem, are you looking into it?  I have CC'ed Bruce for the kernel also.
+>>>
+>>>
+>>> haven't looked into the problem in detail. Its one of those either a
+>>> problem in gcc or gcc uncovering a latent bug in kernel.
+>>
+>>
+>> I'll get myself set up and do a build on Monday, see if anything obvious
+>> pops up (i.e. start with the latest and see if it works, then bisect
+>> back). I'm already poking at mips64, so I can do this in parallel.
+>>
+>> Bruce
+>>
+>>>
+>>>
+>>
 >
-> DEBUG: connman: Dependency libxtables.so.9 requires package iptables
->
-> Ross
-The connmand daemon was complaining about libxtables.so.9 missing, but 
-it's libxtables.so.10 now.
-Maybe I just had to force a more complete rebuild.
+> I know the beaglebone kernel was segfaulting on me until Koen updated to
+> 3.8.11, I think it included some important backports. Would definitely be
+> worth a try, Koen can point to you to commit which fixed it, I seem to have
+> lost the link into the IRC nether.
 
-Regards,
-Jonathan
+Luckily I have the latest 3.8.x ready to go, and we are already on 3.8.11, so
+as Koen indicated in his follow up, it may be a patch in 3.8.11 + something
+else. I'll start with my latest 3.8 tree, and then use 3.9 and 3.10 respectively
+until I can find the patch.
+
+That being said, if anyone else bisects and finds the fix, I'll be
+happy to merge
+a change, or take the confirmation that it's in the pending -stable update.
+
+Bruce
+
+>
+> Cheers,
+>
+> --
+>
+>   Jack Mitchell (jack@embed.me.uk)
+>   Embedded Systems Engineer
+>   http://www.embed.me.uk
+>
+> --
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
