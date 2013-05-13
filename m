@@ -1,25 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UboTp-0002e7-0Z
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1UboV5-0002nG-GM
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 10:51:38 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 May 2013 01:33:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,660,1363158000"; d="scan'208";a="336157526"
-Received: from unknown (HELO helios.localnet) ([10.255.12.245])
-	by orsmga002.jf.intel.com with ESMTP; 13 May 2013 01:33:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2013 09:33:25 +0100
-Message-ID: <11599561.3zUhJSzPUZ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <51909DB8.3060407@linux.intel.com>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<3529451.hQA8zCVn47@helios> <51909DB8.3060407@linux.intel.com>
+	Mon, 13 May 2013 10:53:20 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4D8YhxG014840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2013 01:34:44 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 13 May 2013 01:34:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 May 2013 16:34:27 +0800
+Message-ID: <cover.1368414411.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
+Subject: [PATCH 0/1] cachedpath.py: global name 'error' is not defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,48 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 08:51:46 -0000
-X-List-Received-Date: Mon, 13 May 2013 08:51:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 13 May 2013 08:53:36 -0000
+Content-Type: text/plain
 
-On Monday 13 May 2013 11:00:56 Saul Wold wrote:
-> On 05/12/2013 10:55 PM, Paul Eggleton wrote:
-> > On Sunday 12 May 2013 19:54:50 Phil Blundell wrote:
-> >> On Sun, 2013-05-12 at 08:40 -0700, Saul Wold wrote:
-> >>> On 05/12/2013 06:27 AM, Otavio Salvador wrote:
-> >>>> I think so, it'd be good to have it in oe-core and allow use of vpn :)
-> >>> 
-> >>> I would like to see what the full dependency set looks like for these,
-> >>> clearly there is the vpnc, openvpn, l2tp and pptp recipes, but what else
-> >>> and what licenses are they under.
-> >> 
-> >> I don't think we necessarily want openvpn, l2tpd and suchlike in
-> >> oe-core.  None of those things seem very "core" to me (in an embedded
-> >> context) and testing them seems like it would be a bit of a challenge.
-> > 
-> > I agree, these don't belong in OE-Core. We already have them in meta-
-> > networking.
-> 
-> This is what I get for replying to an email while traveling overseas and
-> not being 100% clear about my points.
-> 
-> I was more interested in the dependencies then actually thinking about
-> including them in OE-Core,that was not my intent.
-> 
-> This would would allow us to better understand if those recipes not in
-> meta-networking could be moved from meta-oe to meta-networking.
-> Currently, I think vpnc and pptp are in meta-networking, not the other 2.
+The following changes since commit f7afeeb75993b159bb8959e0309bc5eb3978a8fb:
 
-They are all in meta-networking (xl2tpd, pptp-linux and vpnc have always been 
-there, openvpn got moved in mid-April).
+  bitbake: bitbake-layers/tinfoil: Catch up with status -> recpiecache rename (2013-05-12 18:00:46 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib robert/cachedpath
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/cachedpath
+
+Robert Yang (1):
+  cachedpath.py: global name 'error' is not defined
+
+ meta/lib/oe/cachedpath.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
