@@ -1,20 +1,22 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uc0xJ-0002DV-Hw
+	(envelope-from <rpjday@crashcourse.ca>) id 1Uc1Bf-0003RW-0P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 00:10:54 +0200
+	Tue, 14 May 2013 00:25:45 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:59710 helo=crashcourse.ca)
+	([174.115.5.73]:59816 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Uc0fk-0006hu-0u; Mon, 13 May 2013 17:52:44 -0400
-Date: Mon, 13 May 2013 17:52:40 -0400 (EDT)
+	id 1Uc0u5-000787-60; Mon, 13 May 2013 18:07:33 -0400
+Date: Mon, 13 May 2013 18:07:30 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: Trevor Woerner <twoerner@gmail.com>
-In-Reply-To: <CAHUNapQcmVKd2iruA5ubzLBLJx6asQZK5Y_NhgBPZRnFUfUxcQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305131751080.14773@oneiric>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1305131805100.28372@oneiric>
 References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
+	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
 	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
 	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
 	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
@@ -24,12 +26,6 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
 	<alpine.DEB.2.02.1305131650030.12354@oneiric>
 	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131704540.13080@oneiric>
-	<CAHUNapSJe0JNi2EikxLTFtTaoNWm3m9+_Lk68qreY+vSbdQsrg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131712570.13256@oneiric>
-	<CAHUNapTaTrZ8A8zMiaAiqwYbZx09s096EHNDRCo0nOw5-EO8HA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131729130.13480@oneiric>
-	<CAHUNapQcmVKd2iruA5ubzLBLJx6asQZK5Y_NhgBPZRnFUfUxcQ@mail.gmail.com>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -56,45 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 22:10:54 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1784280958-1368481963=:14773"
+X-List-Received-Date: Mon, 13 May 2013 22:25:50 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---8323329-1784280958-1368481963=:14773
-Content-Type: TEXT/PLAIN; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+On Mon, 13 May 2013, Bruce Ashfield wrote:
 
-On Mon, 13 May 2013, Trevor Woerner wrote:
-
-> On Mon, May 13, 2013 at 5:30 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->       On Mon, 13 May 2013, Trevor Woerner wrote:
->
-> > I'm building core-image-minimal, I assume that's what everyone else is doing.
-> > When I run the "bitbake -s" as Robert is, I get the following:
+> On Mon, May 13, 2013 at 4:51 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > On Mon, 13 May 2013, Bruce Ashfield wrote:
 > >
-> > $ bitbake -s | grep linux
-> > linux-dummy                                           :1.0-r1                          
-> > linux-firmware                      1:0.0+gitAUTOINC+c530a75c1e6a472b0eb9558310b518f0dfcd8860-r0      
->              
-> >      
-> > linux-libc-headers                                    :3.8-r0                          
-> > linux-libc-headers-yocto          
-> >  :3.4+git-AUTOINC+a1cdb60720c452c3965eaec3ec2cd10f06261cc5_a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r6
->              
-> >            
-> > linux-yocto                        
+> >> That's all you need, here's my output:
+> >>
+> >> root@qemumips64:~# uname -a
+> >> Linux qemumips64 3.8.11-yocto-standard #1 PREEMPT Mon May 13 15:47:58
+> >> EDT 2013 mips64 GNU/Linux
+> >>
+> >> That's built from scratch on Yocto master. So clearly there's
+> >> something strange going on in the failing configs.
 > >
-> :3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_dd089cb5ba37ea14e8f90a884bf2a5be64ed817d-r4.1
-> >
-> :3.4.43+gitAUTOINC+1bab5bd090948b4cc4c4ed57c834603a3cf9f235_fff57da7886cf5e99c07adf6649610cb1cd89330-r4.4
+> >    i attached a screenshot of the last part of the boot which includes
+> > the call trace, if that's of any interest.
 >
->  i'm confused ... why would you be building two versions of the
-> kernel?
+> That's the same trace the Trevor saw, and that Khem and I have seen (and fixed)
+> a few times.
 >
-> I'm not explicitly trying to build two versions of the kernel :-)
+> I'm betting everyone is using a different SRCREV for the kernel that I am, since
+> I've built and booted this multiple times.
+>
+> Can you dump your board and meta top commits to the thread ?
 
-  i know, bad choice of wording. :-) anyway, i'm open to suggestions
-as to what to try next.  how can we be getting such differences when
-trying to build the same thing?  how odd ...
+  for posterity, i'm wikifying my config and build attempt:
+
+http://www.crashcourse.ca/wiki/index.php/Adding_MIPS64_QEMU_machine
+
+so i don't have to repeat stuff.
 
 rday
 
@@ -108,4 +98,4 @@ Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
 
---8323329-1784280958-1368481963=:14773--
+
