@@ -1,47 +1,34 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uc1cq-0005nD-UL
+	(envelope-from <joe.slater@windriver.com>) id 1Uc1dt-0005pW-R5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 00:53:51 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:60050 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Uc1LH-0007r4-DF; Mon, 13 May 2013 18:35:39 -0400
-Date: Mon, 13 May 2013 18:35:35 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305131833570.23685@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
-	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
-	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 14 May 2013 00:54:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4DMaZO2002028
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 May 2013 15:36:35 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.88]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.02.0342.003;
+	Mon, 13 May 2013 15:36:34 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>, "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] sysvinit: modify bootlog location
+Thread-Index: AQHOTEBSzMgy+p17Dkmg7P1Y+jJzPZj+oh2AgADOPoCABEr38A==
+Date: Mon, 13 May 2013 22:36:33 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436FC4D2B@ALA-MBA.corp.ad.wrs.com>
+References: <1368054238-21389-1-git-send-email-jslater@windriver.com>
+	<CAJTo0LZW4aw9eKoXg5zZhV9-ncSWpWD=AfgW45HQrQadqZatAw@mail.gmail.com>
+	<518D6DF1.6080903@linux.intel.com>
+In-Reply-To: <518D6DF1.6080903@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+Subject: Re: [PATCH 1/1] sysvinit: modify bootlog location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,36 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 22:53:53 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 13 May 2013 22:55:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 May 2013, Khem Raj wrote:
 
-> Robert and Trevor
->
-> so whats your cross-gcc version ?
-> should be in tmpdir under
->
-> sysroots/x86_64-linux/usr/bin/mips64-angstrom-linux/mips64-angstrom-linux-gcc -v
 
-  in the middle of a fresh build just to play it safe, i should know
-in a few minutes.  so is my wiki description reasonable?
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Friday, May 10, 2013 3:00 PM
+> To: Burton, Ross; Slater, Joseph
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] sysvinit: modify bootlog location
+>=20
+> On 05/10/2013 02:42 AM, Burton, Ross wrote:
+> > On 9 May 2013 00:03, Joe Slater <jslater@windriver.com> wrote:
+> >> The default location for bootlog is volatile,
+> >> so we change it to something that is not.
+> >
+> > If this is a problem, why not make /var/log not volatile?  I never
+> > understood why the log directory was volatile to be honest.
+> >
+> How would we handle the Read-Only FS situation?
 
-http://www.crashcourse.ca/wiki/index.php/Adding_MIPS64_QEMU_machine
+Maybe we could change around the creation of bootlogd.log such that,
+if /var/local were not writeable, we'd stick it in /var/log.
 
-AFAICT, i need only the two layers i list there, yes?  and my build
-configuration looks sane, doesn't it?
+Joe
 
-rday
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+>=20
+> Sau!
+>=20
+> > Ross
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+> >
 
 
