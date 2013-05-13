@@ -1,38 +1,33 @@
-Received: from mail-pa0-f42.google.com ([209.85.220.42])
+Received: from mail-wg0-f48.google.com ([74.125.82.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UbxqA-00066C-So
+	(envelope-from <twoerner@gmail.com>) id 1Uby9k-0008I1-K8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 20:51:20 +0200
-Received: by mail-pa0-f42.google.com with SMTP id bj3so4844525pad.29
+	Mon, 13 May 2013 21:11:33 +0200
+Received: by mail-wg0-f48.google.com with SMTP id f11so6698659wgh.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 11:33:07 -0700 (PDT)
+	Mon, 13 May 2013 11:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:message-id:references:to:x-mailer;
-	bh=MSHRUb/VoONABQtn1KWIRdtfa8YNj19roUtFylhHTck=;
-	b=Dg1DmALlav1BX2J2LqekIl4p2aFyDFscNHUGIwicZpz7dN8Vm+12kOh8H+hD//CJhY
-	PehEqLBJS+u5Zu+T4FA1jEZEVvHc8rhlRO4NhDXQtGVRjh4j+Qen6uBvzNQScfEeUwcD
-	gCTv44fKD/JjpCWF4QwrznPw2+FQX6RsT7ss0Yikb7gUZ/kChWZLWmwdmC9zdpZqmyEu
-	TD1Q0/7pdgDWejUQZyqspjiUANx3oB/w9/IHQpqSLCstU3B92+EWnFPzdJRM4g0dVbFp
-	s8Oo6WBygo0B+4LT9v9AVMiqHG59ElQegIivIuIjvFrlUfSgUttbRSGhxOXt+vwT9+ep
-	Ermg==
-X-Received: by 10.66.248.7 with SMTP id yi7mr31135650pac.41.1368469987809;
-	Mon, 13 May 2013 11:33:07 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id l4sm14974619pbo.6.2013.05.13.11.33.05
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 11:33:06 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
-Date: Mon, 13 May 2013 11:33:06 -0700
-Message-Id: <203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=0ASBy2sw2qpc659VADBa0EFcLb33AP2prn8FQ7th6sk=;
+	b=bOuSHhtH5y3PXK/3WHA3QiMSAfMFEfARF7e/QXNG22aGr9lJcxYBRTaX8nFQDPOUF1
+	M7LgKCwU9dq5Pm2YrNbwxBw6aVczUsAKd+lvOA/T6S56TlTdTikPd//QYy7oQeitZVlx
+	bPb5jsbsLtw3UF9b+nC1hjWYYHQSiAasYpBOlbSKb7aCB8T3/Gf0C+oqCdZUWb11XJpQ
+	fGM6QuUG+Xvw3qN3LN/bYPkGN4VkjuQ+TX88IRCSSpeErIOpjg6jUVkgQU2jdqPHd6Ei
+	mpkcH0tfQwpIc6e8FyVa3hsI2xJYx+mOCjohgY8cAdfHvPVwOUeFY/MIiMzVj02LAbrH
+	eplQ==
+MIME-Version: 1.0
+X-Received: by 10.180.39.137 with SMTP id p9mr11161271wik.27.1368471202105;
+	Mon, 13 May 2013 11:53:22 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Mon, 13 May 2013 11:53:22 -0700 (PDT)
+In-Reply-To: <203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Mailer: Apple Mail (2.1503)
+	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
+Date: Mon, 13 May 2013 14:53:22 -0400
+Message-ID: <CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
@@ -48,130 +43,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 18:51:22 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_6573BA84-DB66-4E98-81BD-067D41001DDB"
+X-List-Received-Date: Mon, 13 May 2013 19:11:33 -0000
+Content-Type: multipart/alternative; boundary=001a11c36572e3151604dc9e0764
 
---Apple-Mail=_6573BA84-DB66-4E98-81BD-067D41001DDB
+--001a11c36572e3151604dc9e0764
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, May 13, 2013 at 2:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On May 13, 2013, at 9:45 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> try  runqemu qemumips64 bootparams="root=/dev/sda"
+>
+> does that boot ?
+
+It gets a little further but doesn't succeed. I have now tried booting a
+number of
+times using various combinations of "serial" and "bootparams". Currently I'm
+using:
+
+    $ runqemu qemumips64 serial bootparams="root=/dev/sda probe_mask=0x3f"
+
+How far the boot gets seems random, but sometimes I'll get the following
+panic:
+
+
+[...snip...]
+Creating 3 MTD partitions on "physmap-flash.0":
+0x000000000000-0x000000100000 : "YAMON"
+0x000000100000-0x0000003e0000 : "User FS"
+0x0000003e0000-0x000000400000 : "Board Config"
+pcnet32: pcnet32.c:v1.35 21.Apr.2008 tsbogend@alpha.franken.de
+PCI: Enabling device 0000:00:0b.0 (0000 -> 0003)
+pcnet32: PCnet/PCI II 79C970A at 0x1020, 52:54:00:12:34:56 assigned IRQ 10
+pcnet32: eth0: registered as PCnet/PCI II 79C970A
+pcnet32: 1 cards_found
+ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+serio: i8042 KBD port at 0x60,0x64 irq 1
+serio: i8042 AUX port at 0x60,0x64 irq 12
+mousedev: PS/2 mouse device common for all mice
+usbcore: registered new interface driver wacom
+input: AT Raw Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
+md: linear personality registered for level -1
+md: raid0 personality registered for level 0
+md: raid1 personality registered for level 1
+input: ImExPS/2 Generic Explorer Mouse as
+/devices/platform/i8042/serio1/input/input1
+md: raid10 personality registered for level 10
+md: multipath personality registered for level -4
+md: faulty personality registered for level -5
+device-mapper: ioctl: 4.22.0-ioctl (2011-10-19) initialised:
+dm-devel@redhat.com
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+Reserved instruction in kernel code[#1]:
+Cpu 0
+$ 0   : 0000000000000000 ffffffff80968790 0000000000000001 0000000000000000
+$ 4   : 0000000000000001 ffffffff80850000 ffffffffffffffff ffffffffffffffff
+$ 8   : 0000000000000000 9000000010000010 0000000000000000 0000000000000000
+$12   : 0000000000000000 0000000000000488 000000000000000f 0000000000000007
+$16   : 0000000000000006 0000000000000001 ffffffff808f0000 0000000000000000
+$20   : ffffffff809b0000 ffffffff808e0000 000000000000008b ffffffff809b0000
+$24   : 0000000000000000 0000000000000000
+$28   : 9800000007c80000 9800000007c83cd0 9800000007c83cd0 ffffffff80968790
+Hi    : 0000000000000000
+Lo    : 0000000000000000
+epc   : ffffffff80635910 reset_counters+0x60/0x90
+    Not tainted
+ra    : ffffffff80968790 mipsxx_init+0x1d4/0x2d8
+Status: 1400a4e2    KX SX UX KERNEL EXL
+Cause : 00800028
+PrId  : 000182a0 (MIPS 20Kc)
+Modules linked in:
+Process swapper (pid: 1, threadinfo=9800000007c80000,
+task=9800000007c38000, tls=0000000000000000)
+Stack : 9800000007c83ce0 9800000007c83ce0 000000000000008b ffffffff809b0000
+        9800000007c83d00 0000000000000006 ffffffff80a778a0 ffffffff80936930
+        9800000007c83d20 ffffffff80968528 ffffffff80930000 0000000000000000
+        ffffffffffffffff 0000000000000006 ffffffff80a70000 ffffffff80a70000
+        9800000007c83d60 ffffffff809683ec 9800000007c83d70 0000000000000006
+        ffffffff809b0000 ffffffff809683bc 9800000007c83d90 ffffffff80100530
+        ffffffff809b0000 0000000000000006 0000000000000030 ffffffff809b0000
+        ffffffff809b1578 ffffffff8097d960 9800000007c83dd0 ffffffff80948c98
+        0000000000000000 0000000000000000 0000000000000000 0000000000000000
+        0000000000000000 0000000000000000 0000000000000000 0000000000000000
+        ...
+Call Trace:
+[<ffffffff80635910>] reset_counters+0x60/0x90
+[<ffffffff80968790>] mipsxx_init+0x1d4/0x2d8
+[<ffffffff80968528>] oprofile_arch_init+0x84/0x118
+[<ffffffff809683ec>] oprofile_init+0x30/0xb8
+[<ffffffff80100530>] do_one_initcall+0x120/0x1a0
+[<ffffffff80948c98>] kernel_init+0x194/0x258
+[<ffffffff80103ffc>] kernel_thread_helper+0x24/0x30
+
+
+Code: 4080c802  4080c803  4080c800 <4080c801> 03c0e82d  dfbe0008  03e00008
+ 67bd0010  00000000
+---[ end trace 340dd7de1cdea432 ]---
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+
+--001a11c36572e3151604dc9e0764
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
 
+<div dir=3D"ltr">On Mon, May 13, 2013 at 2:33 PM, Khem Raj &lt;<a href=3D"m=
+ailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>&gt; On May =
+13, 2013, at 9:45 AM, Trevor Woerner &lt;<a href=3D"mailto:twoerner@gmail.c=
+om">twoerner@gmail.com</a>&gt; wrote:<br>
+&gt; try =A0runqemu qemumips64 bootparams=3D&quot;root=3D/dev/sda&quot;<br>=
+&gt;<br>&gt; does that boot ?<br><br><div>It gets a little further but does=
+n&#39;t succeed. I have now tried booting a number of</div><div>times using=
+ various combinations of &quot;serial&quot; and &quot;bootparams&quot;. Cur=
+rently I&#39;m</div>
+<div>using:</div><div><br></div><div>=A0 =A0 $=A0runqemu qemumips64 serial =
+bootparams=3D&quot;root=3D/dev/sda probe_mask=3D0x3f&quot;</div><div><br></=
+div><div>How far the boot gets seems random, but sometimes I&#39;ll get the=
+ following panic:</div>
+<div><br></div><div style><br></div><div style>[...snip...]</div><div><div>=
+Creating 3 MTD partitions on &quot;physmap-flash.0&quot;:</div><div>0x00000=
+0000000-0x000000100000 : &quot;YAMON&quot;</div><div>0x000000100000-0x00000=
+03e0000 : &quot;User FS&quot;</div>
+<div>0x0000003e0000-0x000000400000 : &quot;Board Config&quot;</div><div>pcn=
+et32: pcnet32.c:v1.35 21.Apr.2008 <a href=3D"mailto:tsbogend@alpha.franken.=
+de">tsbogend@alpha.franken.de</a></div><div>PCI: Enabling device 0000:00:0b=
+.0 (0000 -&gt; 0003)</div>
+<div>pcnet32: PCnet/PCI II 79C970A at 0x1020, 52:54:00:12:34:56 assigned IR=
+Q 10</div><div>pcnet32: eth0: registered as PCnet/PCI II 79C970A</div><div>=
+pcnet32: 1 cards_found</div><div>ohci_hcd: USB 1.1 &#39;Open&#39; Host Cont=
+roller (OHCI) Driver</div>
+<div>serio: i8042 KBD port at 0x60,0x64 irq 1</div><div>serio: i8042 AUX po=
+rt at 0x60,0x64 irq 12</div><div>mousedev: PS/2 mouse device common for all=
+ mice</div><div>usbcore: registered new interface driver wacom</div><div>
+input: AT Raw Set 2 keyboard as /devices/platform/i8042/serio0/input/input0=
+</div><div>md: linear personality registered for level -1</div><div>md: rai=
+d0 personality registered for level 0</div><div>md: raid1 personality regis=
+tered for level 1</div>
+<div>input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/seri=
+o1/input/input1</div><div>md: raid10 personality registered for level 10</d=
+iv><div>md: multipath personality registered for level -4</div><div>md: fau=
+lty personality registered for level -5</div>
+<div>device-mapper: ioctl: 4.22.0-ioctl (2011-10-19) initialised: <a href=
+=3D"mailto:dm-devel@redhat.com">dm-devel@redhat.com</a></div><div>usbcore: =
+registered new interface driver usbhid</div><div>usbhid: USB HID core drive=
+r</div>
+<div>Reserved instruction in kernel code[#1]:</div><div>Cpu 0</div><div>$ 0=
+ =A0 : 0000000000000000 ffffffff80968790 0000000000000001 0000000000000000<=
+/div><div>$ 4 =A0 : 0000000000000001 ffffffff80850000 ffffffffffffffff ffff=
+ffffffffffff</div>
+<div>$ 8 =A0 : 0000000000000000 9000000010000010 0000000000000000 000000000=
+0000000</div><div>$12 =A0 : 0000000000000000 0000000000000488 0000000000000=
+00f 0000000000000007</div><div>$16 =A0 : 0000000000000006 0000000000000001 =
+ffffffff808f0000 0000000000000000</div>
+<div>$20 =A0 : ffffffff809b0000 ffffffff808e0000 000000000000008b ffffffff8=
+09b0000</div><div>$24 =A0 : 0000000000000000 0000000000000000 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0</div><div>$28 =A0 :=
+ 9800000007c80000 9800000007c83cd0 9800000007c83cd0 ffffffff80968790</div>
+<div>Hi =A0 =A0: 0000000000000000</div><div>Lo =A0 =A0: 0000000000000000</d=
+iv><div>epc =A0 : ffffffff80635910 reset_counters+0x60/0x90</div><div>=A0 =
+=A0 Not tainted</div><div>ra =A0 =A0: ffffffff80968790 mipsxx_init+0x1d4/0x=
+2d8</div><div>Status: 1400a4e2 =A0 =A0KX SX UX KERNEL EXL=A0</div>
+<div>Cause : 00800028</div><div>PrId =A0: 000182a0 (MIPS 20Kc)</div><div>Mo=
+dules linked in:</div><div>Process swapper (pid: 1, threadinfo=3D9800000007=
+c80000, task=3D9800000007c38000, tls=3D0000000000000000)</div><div>Stack : =
+9800000007c83ce0 9800000007c83ce0 000000000000008b ffffffff809b0000</div>
+<div>=A0 =A0 =A0 =A0 9800000007c83d00 0000000000000006 ffffffff80a778a0 fff=
+fffff80936930</div><div>=A0 =A0 =A0 =A0 9800000007c83d20 ffffffff80968528 f=
+fffffff80930000 0000000000000000</div><div>=A0 =A0 =A0 =A0 ffffffffffffffff=
+ 0000000000000006 ffffffff80a70000 ffffffff80a70000</div>
+<div>=A0 =A0 =A0 =A0 9800000007c83d60 ffffffff809683ec 9800000007c83d70 000=
+0000000000006</div><div>=A0 =A0 =A0 =A0 ffffffff809b0000 ffffffff809683bc 9=
+800000007c83d90 ffffffff80100530</div><div>=A0 =A0 =A0 =A0 ffffffff809b0000=
+ 0000000000000006 0000000000000030 ffffffff809b0000</div>
+<div>=A0 =A0 =A0 =A0 ffffffff809b1578 ffffffff8097d960 9800000007c83dd0 fff=
+fffff80948c98</div><div>=A0 =A0 =A0 =A0 0000000000000000 0000000000000000 0=
+000000000000000 0000000000000000</div><div>=A0 =A0 =A0 =A0 0000000000000000=
+ 0000000000000000 0000000000000000 0000000000000000</div>
+<div>=A0 =A0 =A0 =A0 ...</div><div>Call Trace:</div><div>[&lt;ffffffff80635=
+910&gt;] reset_counters+0x60/0x90</div><div>[&lt;ffffffff80968790&gt;] mips=
+xx_init+0x1d4/0x2d8</div><div>[&lt;ffffffff80968528&gt;] oprofile_arch_init=
++0x84/0x118</div>
+<div>[&lt;ffffffff809683ec&gt;] oprofile_init+0x30/0xb8</div><div>[&lt;ffff=
+ffff80100530&gt;] do_one_initcall+0x120/0x1a0</div><div>[&lt;ffffffff80948c=
+98&gt;] kernel_init+0x194/0x258</div><div>[&lt;ffffffff80103ffc&gt;] kernel=
+_thread_helper+0x24/0x30</div>
+<div><br></div><div><br></div><div>Code: 4080c802 =A04080c803 =A04080c800 &=
+lt;4080c801&gt; 03c0e82d =A0dfbe0008 =A003e00008 =A067bd0010 =A000000000=A0=
+</div><div>---[ end trace 340dd7de1cdea432 ]---</div><div>Kernel panic - no=
+t syncing: Attempted to kill init! exitcode=3D0x0000000b</div>
+</div></div>
 
-On May 13, 2013, at 9:45 AM, Trevor Woerner <twoerner@gmail.com> wrote:
-
-> On Mon, May 13, 2013 at 1:41 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> > This patchset adds a new qemu based machine target for mips64 =
-Big-endian
-> > linux-yocto recipe is modified to have it in tree to support =
-qemumips64
-> > machine
->=20
-> My machine seems to build fine, but I can't seem to fully boot the =
-resulting image properly.
-
-try  runqemu qemumips64 bootparams=3D"root=3D/dev/sda"
-
-does that boot ?
-
->=20
-> Build Configuration:
-> BB_VERSION        =3D "1.19.0"
-> BUILD_SYS         =3D "x86_64-linux"
-> NATIVELSBSTRING   =3D "openSUSE-project-12.3"
-> TARGET_SYS        =3D "mips64-poky-linux"
-> MACHINE           =3D "qemumips64"
-> DISTRO            =3D "poky"
-> DISTRO_VERSION    =3D "1.3+snapshot-20130513"
-> TUNE_FEATURES     =3D "n64 bigendian fpu-hard"
-> TARGET_FPU        =3D ""
-> meta             =20
-> meta-yocto       =20
-> meta-yocto-bsp    =3D =
-"master:f7afeeb75993b159bb8959e0309bc5eb3978a8fb"
-> meta              =3D =
-"kraj/qemumips64:b0592ab08273e17cb1511384ad189281f88c8b03"
->=20
->=20
->=20
-> layers:
-> # LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
-> # changes incompatibly
-> LCONF_VERSION =3D "6"
->=20
-> BBPATH =3D "${TOPDIR}"
-> BBFILES ?=3D ""
->=20
-> BBLAYERS ?=3D " \
->   /home/trevor/devel/yocto/git/meta-poky/meta \
->   /home/trevor/devel/yocto/git/meta-poky/meta-yocto \
->   /home/trevor/devel/yocto/git/meta-poky/meta-yocto-bsp \
->   /home/trevor/devel/yocto/git/openembedded-core/meta \
->   "
-> BBLAYERS_NON_REMOVABLE ?=3D " \
->   /home/trevor/devel/yocto/git/meta-poky/meta \
->   /home/trevor/devel/yocto/git/meta-poky/meta-yocto \
->=20
->=20
->=20
-> config:
-> BB_NUMBER_THREADS =3D "4"
-> PARALLEL_MAKE =3D "-j 4"
-> MACHINE =3D "qemumips64"
-> DL_DIR =3D "/home/trevor/devel/Downloads"
-> SSTATE_DIR =3D "/home/trevor/devel/yocto/sstate-cache"
-> TMPDIR =3D "${TOPDIR}/tmp"
-> DISTRO ?=3D "poky"
-> PACKAGE_CLASSES ?=3D "package_rpm"
-> #SDKMACHINE ?=3D "i686"
-> EXTRA_IMAGE_FEATURES =3D "debug-tweaks"
-> USER_CLASSES ?=3D "buildstats image-mklibs image-prelink"
-> #IMAGETEST =3D "qemu"
-> #TEST_SCEN =3D "sanity bat sanity:boot toolchain"
-> #TEST_SERIALIZE =3D "1"
-> #OE_TERMINAL =3D "auto"
-> PATCHRESOLVE =3D "noop"
-> BB_DISKMON_DIRS =3D "\
->     STOPTASKS,${TMPDIR},1G,100K \
->     STOPTASKS,${DL_DIR},1G,100K \
->     STOPTASKS,${SSTATE_DIR},1G,100K \
->     ABORT,${TMPDIR},100M,1K \
->     ABORT,${DL_DIR},100M,1K \
->     ABORT,${SSTATE_DIR},100M,1K"
-> CONF_VERSION =3D "1"
->=20
->=20
->=20
-> When I run:
->=20
->     $ runqemu qemumips64
->=20
-> the virtual machine doens't appear to throw any errors (perhaps "hda: =
-unknown partition table"?),
-> however the boot simply stops without ever getting to a cmdline (see =
-attached image).
-> <qemumips64.png>
-
-
---Apple-Mail=_6573BA84-DB66-4E98-81BD-067D41001DDB
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=iso-8859-1
-
-<html><head><meta http-equiv="Content-Type" content="text/html charset=iso-8859-1"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space; "><br><div><div>On May 13, 2013, at 9:45 AM, Trevor Woerner &lt;<a href="mailto:twoerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><blockquote type="cite"><div dir="ltr">On Mon, May 13, 2013 at 1:41 AM, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>&gt; This patchset adds a new qemu based machine target for mips64 Big-endian<br>&gt; linux-yocto recipe is modified to have it in tree to support qemumips64<br>
-&gt; machine<br><br>My machine seems to build fine, but I can't seem to fully boot the resulting image properly.<br></div></blockquote><div><br></div><div>try&nbsp;&nbsp;runqemu qemumips64&nbsp;bootparams="root=/dev/sda"</div><div><br></div><div>does that boot ?</div><br><blockquote type="cite"><div dir="ltr"><br>Build Configuration:<br>BB_VERSION &nbsp; &nbsp; &nbsp; &nbsp;= "1.19.0"<br>BUILD_SYS &nbsp; &nbsp; &nbsp; &nbsp; = "x86_64-linux"<br>
-NATIVELSBSTRING &nbsp; = "openSUSE-project-12.3"<br>TARGET_SYS &nbsp; &nbsp; &nbsp; &nbsp;= "mips64-poky-linux"<br>MACHINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "qemumips64"<br>DISTRO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "poky"<br>DISTRO_VERSION &nbsp; &nbsp;= "1.3+snapshot-20130513"<br>
-TUNE_FEATURES &nbsp; &nbsp; = "n64 bigendian fpu-hard"<br>TARGET_FPU &nbsp; &nbsp; &nbsp; &nbsp;= ""<br>meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>meta-yocto &nbsp; &nbsp; &nbsp; &nbsp;<br>meta-yocto-bsp &nbsp; &nbsp;= "master:f7afeeb75993b159bb8959e0309bc5eb3978a8fb"<br>
-meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "kraj/qemumips64:b0592ab08273e17cb1511384ad189281f88c8b03"<br><br><br><br>layers:<br># LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf<br># changes incompatibly<br>LCONF_VERSION = "6"<br>
-<br>BBPATH = "${TOPDIR}"<br>BBFILES ?= ""<br><br>BBLAYERS ?= " \<br>&nbsp; /home/trevor/devel/yocto/git/meta-poky/meta \<br>&nbsp; /home/trevor/devel/yocto/git/meta-poky/meta-yocto \<br>&nbsp; /home/trevor/devel/yocto/git/meta-poky/meta-yocto-bsp \<br>
-&nbsp; /home/trevor/devel/yocto/git/openembedded-core/meta \<br>&nbsp; "<br>BBLAYERS_NON_REMOVABLE ?= " \<br>&nbsp; /home/trevor/devel/yocto/git/meta-poky/meta \<br>&nbsp; /home/trevor/devel/yocto/git/meta-poky/meta-yocto \<div><br>
-</div><div><br></div><div><br></div><div style="">config:</div><div style=""><div>BB_NUMBER_THREADS = "4"</div><div>PARALLEL_MAKE = "-j 4"</div><div>MACHINE = "qemumips64"</div><div>DL_DIR = "/home/trevor/devel/Downloads"</div>
-<div>SSTATE_DIR = "/home/trevor/devel/yocto/sstate-cache"</div><div>TMPDIR = "${TOPDIR}/tmp"</div><div>DISTRO ?= "poky"</div><div>PACKAGE_CLASSES ?= "package_rpm"</div><div>#SDKMACHINE ?= "i686"</div>
-<div>EXTRA_IMAGE_FEATURES = "debug-tweaks"</div><div>USER_CLASSES ?= "buildstats image-mklibs image-prelink"</div><div>#IMAGETEST = "qemu"</div><div>#TEST_SCEN = "sanity bat sanity:boot toolchain"</div>
-<div>#TEST_SERIALIZE = "1"</div><div>#OE_TERMINAL = "auto"</div><div>PATCHRESOLVE = "noop"</div><div>BB_DISKMON_DIRS = "\</div><div>&nbsp; &nbsp; STOPTASKS,${TMPDIR},1G,100K \</div><div>&nbsp; &nbsp; STOPTASKS,${DL_DIR},1G,100K \</div>
-<div>&nbsp; &nbsp; STOPTASKS,${SSTATE_DIR},1G,100K \</div><div>&nbsp; &nbsp; ABORT,${TMPDIR},100M,1K \</div><div>&nbsp; &nbsp; ABORT,${DL_DIR},100M,1K \</div><div>&nbsp; &nbsp; ABORT,${SSTATE_DIR},100M,1K"</div><div>CONF_VERSION = "1"</div><div><br>
-</div><div><br></div><div><br></div><div style="">When I run:</div><div style=""><br></div><div style="">&nbsp; &nbsp; $ runqemu qemumips64</div><div style=""><br></div><div style="">the virtual machine doens't appear to throw any errors (perhaps "hda: unknown partition table"?),</div>
-<div style="">however the boot simply stops without ever getting to a cmdline (see attached image).</div></div></div>
-<span>&lt;qemumips64.png&gt;</span></blockquote></div><br></body></html>
-
---Apple-Mail=_6573BA84-DB66-4E98-81BD-067D41001DDB--
+--001a11c36572e3151604dc9e0764--
