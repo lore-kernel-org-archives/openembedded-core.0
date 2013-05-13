@@ -1,26 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Ubp2f-0006oW-HI
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1Ubp2f-0006oI-Hk
 	for openembedded-core@lists.openembedded.org;
 	Mon, 13 May 2013 11:27:39 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4D99QVT011951
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4D99NAp011944
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 02:09:26 -0700 (PDT)
+	Mon, 13 May 2013 02:09:23 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 13 May 2013 02:09:25 -0700
+	14.2.342.3; Mon, 13 May 2013 02:09:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 May 2013 05:09:20 -0400
-Message-ID: <94a28fe791cf7f0f1337d439e970c939632cc501.1368425946.git.liezhi.yang@windriver.com>
+Date: Mon, 13 May 2013 05:09:18 -0400
+Message-ID: <cover.1368425946.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1368425946.git.liezhi.yang@windriver.com>
-References: <cover.1368425946.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] defaultsetup.conf: remove INHERIT_INSANE
+Subject: [PATCH 0/3] insane/package: refactor packaging sanity tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +34,25 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 13 May 2013 09:27:41 -0000
 Content-Type: text/plain
 
-The insane has been inherited by package.bbclass and becomes a
-requirement, so we can remove it from defaultsetup.conf.
+The following changes since commit c5c1517726aa103a3cdb60abda95e28997cac7c4:
 
-Note:
-You can decide whether to take this patch or not.
+  image-vmdk.bbclass: disable the NOISO = "1" (2013-05-12 09:37:21 +0100)
 
-[YOCTO #3190]
-[YOCTO #4396]
+are available in the git repository at:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  git://git.pokylinux.org/poky-contrib robert/qa
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/qa
+
+Robert Yang (3):
+  insane/package: let package.bbclass inherit insane.bbclass
+  defaultsetup.conf: remove INHERIT_INSANE
+  insane/package: refactor packaging sanity tests
+
+ meta/classes/insane.bbclass        |   39 ++++++++++++++++++++++------------
+ meta/classes/package.bbclass       |   41 ++++++++++++++++++++++++------------
  meta/conf/distro/defaultsetup.conf |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ 3 files changed, 54 insertions(+), 29 deletions(-)
 
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index be28510..5557350 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -17,7 +17,6 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'
- 
- USER_CLASSES ?= ""
- PACKAGE_CLASSES ?= "package_ipk"
--INHERIT_INSANE ?= "insane"
- INHERIT_DISTRO ?= "debian devshell sstate license"
--INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_INSANE} ${INHERIT_DISTRO}"
-+INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}"
- 
 -- 
 1.7.10.4
 
