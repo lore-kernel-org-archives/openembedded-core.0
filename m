@@ -1,32 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1UbpR2-00016b-3b
+	(envelope-from <martin.jansa@gmail.com>) id 1Ubpkn-0005zZ-IK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 11:52:49 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4D9YYeu015258
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 May 2013 02:34:34 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 13 May 2013 02:34:34 -0700
-Message-ID: <5190B3A4.6010802@windriver.com>
-Date: Mon, 13 May 2013 17:34:28 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Mon, 13 May 2013 12:13:17 +0200
+Received: by mail-da0-f47.google.com with SMTP id k13so1234080dae.20
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2013 02:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=UBxAOwAe3DBTzualWJNOkpFJW5qH92jgGbitSwon56U=;
+	b=F3O+ZU+qZEU/h6126ZyMRFI48H+nkFncEcH9xcFcSr5DuVGst1le2bEJDcLjurZ+Vd
+	Sd3YOu8sZ0vPoAou6Hgv7rauZ8D317N0nEmKzl/BtXRjI/q0L7RCcJe6bIW803aQ1x9N
+	V7p/Sef7dhbgOkPJGf3cVKpKaiw4vAJbrwfbsM+JgYxRYA/DNME0DNN+aYZsYU5ejL7E
+	fWL7WXdCmGQUjgs1Pt+8dnuvhxWwZZu77K26NUE+kt4t0wB5+S6xiKY4YQ7Ey4k+iUHn
+	7V/E3ebibt+9BMC+OcMga2RnoXpF9une6Dj8OVI9VBE/9QQ77CkHFcSEQF+NzWBSRIHg
+	OGZw==
+X-Received: by 10.68.137.168 with SMTP id qj8mr28566039pbb.17.1368438903174;
+	Mon, 13 May 2013 02:55:03 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	t1sm14333279pab.12.2013.05.13.02.55.00 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 13 May 2013 02:55:02 -0700 (PDT)
+Date: Mon, 13 May 2013 11:55:00 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20130513095459.GA3187@jama>
+References: <cover.1368425946.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>
-References: <cover.1368002042.git.liezhi.yang@windriver.com>
-	<ee7a94478d58f0f43640cf9ae97018545a4ce6b6.1368002042.git.liezhi.yang@windriver.com>
-	<518A3EF8.20807@topic.nl> <518B06A2.6000708@windriver.com>
-	<CABcZANmKO+dpRti22tAuHP4bMbwyYDY6B52kDkUZqhdASGx1Rg@mail.gmail.com>
-	<518B1932.8070207@windriver.com> <51909544.4060506@topic.nl>
-In-Reply-To: <51909544.4060506@topic.nl>
-Cc: Chris Larson <clarson@kergoth.com>, Patches,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bbclass: bb.fatal() clean up
+In-Reply-To: <cover.1368425946.git.liezhi.yang@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] insane/package: refactor packaging sanity tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,131 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 09:52:50 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2013 10:13:28 -0000
+X-Groupsio-MsgNum: 39111
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
 
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, May 13, 2013 at 05:09:18AM -0400, Robert Yang wrote:
+> The following changes since commit c5c1517726aa103a3cdb60abda95e28997cac7=
+c4:
+>=20
+>   image-vmdk.bbclass: disable the NOISO =3D "1" (2013-05-12 09:37:21 +010=
+0)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib robert/qa
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Drobert/qa
 
-On 05/13/2013 03:24 PM, Mike Looijmans wrote:
-> On 05/09/2013 05:34 AM, Robert Yang wrote:
->>
->>
->> On 05/09/2013 10:23 AM, Chris Larson wrote:
->>> On Wed, May 8, 2013 at 7:14 PM, Robert Yang
->>> <liezhi.yang@windriver.com>wrote:
->>>
->>>> On 05/08/2013 08:03 PM, Mike Looijmans wrote:
->>>>
->>>>> On 05/08/2013 11:06 AM, Robert Yang wrote:
->>>>>
->>>>>> The bb.fatal() is defined as:
->>>>>>
->>>>>> def fatal(*args):
->>>>>>       logger.critical(''.join(args))
->>>>>>       sys.exit(1)
->>>>>>
->>>>>> So anything after bb.fatal() in the same code block doesn't have any
->>>>>> effect, e.g.:
->>>>>>
->>>>>>       bb.fatal("%s_%s: %s" % (var, pkg, e))
->>>>>>       raise e
->>>>>>
->>>>>> The "raise e" should be removed.
->>>>>>
->>>>>
->>>>> Just some random thoughts that occurred to me when I read this:
->>>>>
->>>>>
->>>> Hi Mike, thanks for your comments, but the "raise sys.exit(1)" doesn't
->>>> raise
->>>> anything, e.g.:
->>>>
->>>> import sys
->>>>
->>>> def fatal():
->>>>          sys.exit(1)
->>>>
->>>> try:
->>>>          raise fatal()
->>>> except Exception as e:
->>>>          raise e
->>>>
->>>> I think that the "raise fatal()" equals to "fatal()" here.
->>>
->>>
->>> He didn't say raise sys.exit(1), he said sys.exit(1) is equivalent to
->>> raise
->>> SystemExit(1), which it is.
->>>
->>
->> Hi Chris, thanks, if I understand correctly, what you mean is that
->> change the
->> definition of bb.fatal() to let it can raise the exception "e" (not only
->> change
->> the "sys.exit(1)" to "raise SystemExit(1)"), something like:
->>
->> def fatal(e, *args):
->>      logger.critical(''.join(args))
->>      try:
->>      if e:
->>          raise e # if there is e
->>      finally:
->>          # but this one will flush the previous "raise e"
->>          raise SystemExit(1)
->>
->> it seems that this doesn't work (or do we have other ways to make it
->> work that I
->> don't know?) or make much differences.
->>
->> and not all the bb.fatal() has an exception, e.g.:
->>
->> bb.fatal("No OUTSPECFILE")
->>
->> we need change all the current bb.fatal()'s usage, is it worth ?
->>
->> // Robert
->
-> I was actually more thinking like this (untested pseusocode follows):
->
-> class Fatal(SystemExit):
->      def __init__(self, *args):
->          SystemExit.__init__(self, 1, ''.join(*args)) # or so
->
->
-> def fatal(*args):
->      'For backward compatibility'
->      raise Fatal(*args)
->
->
-> New code should use "raise bb.Fatal(..)" instead of "fatal(..)". It has the
-> added advantage of being able to explicitly catch and handle the Fatal error.
-> Which could be useful in bitbake frontends.
->
-> Inheriting from SystemExit makes it behave exactly like the old code in all
-> ways, so it wouldn't break things.
->
+Looks good, it probably solves also at least partially:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4085
 
-Sounds good, this is a case for bitbake, I filed another enhancement bug for it:
+> Robert Yang (3):
+>   insane/package: let package.bbclass inherit insane.bbclass
+>   defaultsetup.conf: remove INHERIT_INSANE
+>   insane/package: refactor packaging sanity tests
+>=20
+>  meta/classes/insane.bbclass        |   39 ++++++++++++++++++++++--------=
+----
+>  meta/classes/package.bbclass       |   41 ++++++++++++++++++++++++------=
+------
+>  meta/conf/distro/defaultsetup.conf |    3 +--
+>  3 files changed, 54 insertions(+), 29 deletions(-)
+>=20
+> --=20
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4491
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Let's wait for more people's comments on it.
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-@Saul
-I think that this patch only removes the unused code, so it doesn't matter much
-with how we define fatal().
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
-// Robert
+iEYEARECAAYFAlGQuHMACgkQN1Ujt2V2gBxdLgCfUs1CCqL01RIkuz64DzDtu3bc
+GfYAn37yuRaLZyfY9Q+QHtROQHDV6ffF
+=CNBv
+-----END PGP SIGNATURE-----
 
-> It makes it clear what happens. bb.fatal() is a function that doesn't really
-> return. But it isn't as fatal as its name suggests, because it really just
-> raises an exception, so anyone doing a catch or finally may be surprised by its
-> implementation. Converting it into an exception makes it obvious to the world
-> what it does without the need for documentation...
->
-> Mike.
->
->
-
-
+--M9NhX3UHpAaciwkO--
