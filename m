@@ -1,40 +1,41 @@
-Received: from mail-ve0-f170.google.com ([209.85.128.170])
+Received: from mail-ve0-f173.google.com ([209.85.128.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UbtvI-00062m-Ix
+	(envelope-from <ross.burton@intel.com>) id 1Ubtxv-0006Ia-Ki
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 16:40:25 +0200
-Received: by mail-ve0-f170.google.com with SMTP id 14so1790867vea.1
+	Mon, 13 May 2013 16:43:05 +0200
+Received: by mail-ve0-f173.google.com with SMTP id cy12so2332984veb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 07:22:10 -0700 (PDT)
+	Mon, 13 May 2013 07:24:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=NIAvHfcGjUzWU4ZhT/y345yX+GDF7QLmvL0lCw8+k/4=;
-	b=FKdY8/rl8ywl5iNVp4dELgJ6Camh8z35W0swurgV3Y16MoP1AZGHQ6GtzOeIhBCBdR
-	WYmhNeAXb5n59oDxhu9aXyGve70VISe4dZm/ynoDsM8TT8zGgWyjlrv4I8ACoOYJWyjD
-	o0dOVcADdxJKDby5Mrh+/hDHUvlGiHkQS8Dx10MwKd9DYRV+f9dZz+wmAaq2+N/v6Wt7
-	Od7ItO8o5HP9UqHWvgbfXFvfbqKUoohhrp0iexSax5p/psFrsxF7eWB9PuX0Vn2tgOzQ
-	90X+6aV/mZVIanfgOZ9pkpVs1UkZVn80cppcatP9QDW88DdPQMcFAy77GTC9ou+wZLqV
-	7vLw==
-X-Received: by 10.52.37.196 with SMTP id a4mr15917920vdk.82.1368454930526;
-	Mon, 13 May 2013 07:22:10 -0700 (PDT)
+	bh=F0ZB1MBHOqEG8MnenNOwnuQgF9KRoDM1stxywLh6Mt0=;
+	b=GJpWHjp8O2NWLrcXo6Zi+kLCLXSIV/iY4FysGbqtVow9agmbZNDE0TSVwgWZeghcou
+	l6YJ/mBffs9IvMF0q9vROs8+syLmVUugDl+0K+0YwX9s80oCClDsBymoi7rUiZeJCtP1
+	1ho/cPaNsEJ/4F7z+lcH71H82Vm+9ce2x4u0zV3mws1gcRZZJ5dhuHdECQUjrJTht/C0
+	pMUembX3YGunMfgbMueKXZNJzq85RmtAbL8Zfnf8rowjAY9ilaDCCBVn160Ns3DBPdxn
+	1pZE6gUytnrGUbLQcNa4ynJ55stBLppeqCeLnwE1hgRgMZOsjaDPj1/jt/j7n6RZX7LP
+	b6QA==
+X-Received: by 10.52.174.41 with SMTP id bp9mr15762185vdc.4.1368455089952;
+	Mon, 13 May 2013 07:24:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.221.8.3 with HTTP; Mon, 13 May 2013 07:21:50 -0700 (PDT)
-In-Reply-To: <5190CE8C.703@gmail.com>
-References: <1368413938-7757-1-git-send-email-net147@gmail.com>
-	<CAJTo0LaFExB-DxJCJ-Sranagpbxc56sT9ahBwgtBLH0PVq3_9g@mail.gmail.com>
-	<-7685674658700664845@unknownmsgid>
-	<CAJTo0LaVF+sV6JxpaxfL2_daoP+y1CQe=-VqWbTFW+ZVNA8i5Q@mail.gmail.com>
-	<5190CE8C.703@gmail.com>
+Received: by 10.221.8.3 with HTTP; Mon, 13 May 2013 07:24:29 -0700 (PDT)
+In-Reply-To: <5190CF63.2030303@r-finger.com>
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518FB7F9.2020102@linux.intel.com>
+	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
+	<3529451.hQA8zCVn47@helios>
+	<1368442968.6920.4.camel@phil-desktop.brightsign>
+	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
+	<5190CF63.2030303@r-finger.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 May 2013 15:21:50 +0100
-Message-ID: <CAJTo0LZeDaucw4PGP8JjaJEJemyiYbf+2-eUim9Nfj-cuWj-DQ@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQlfSx6+C5KVM/0dRCIgIAIUO2XykzyFom2wS03eelk6cJnJ0TYmn6/RrTwVdlxdDlJTC4sD
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] connman: add iptables to RDEPENDS
+Date: Mon, 13 May 2013 15:24:29 +0100
+Message-ID: <CAJTo0LZ9WO0to_gs2tJvTbqxfkYAAO6jQw_7g2Ev8DS5BNttSA@mail.gmail.com>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+X-Gm-Message-State: ALoCoQlbX83VqVd7mlB5ZvwfX2MX9bfJeq9gN2VMhaIBwa6n/Ynfmss52G0Y7jFSFeBb3qXza0YG
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,18 +48,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 14:40:41 -0000
+X-List-Received-Date: Mon, 13 May 2013 14:43:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 May 2013 12:29, Jonathan Liu <net147@gmail.com> wrote:
-> The connmand daemon was complaining about libxtables.so.9 missing, but it's
-> libxtables.so.10 now.
-> Maybe I just had to force a more complete rebuild.
+On 13 May 2013 12:32, Tomas Frydrych <tf+lists.yocto@r-finger.com> wrote:
+> On 13/05/13 12:06, Burton, Ross wrote:
+>> The problem with bbappends is that they break every time the package
+>> in oe-core changes version.
+>
+> I see this as a good thing; if I maintain a bbappend, I want to know
+> when the base package changes its a version, and I get an immediate
+> error due to bbappend to a non-existent file.
 
-iptables upgrading should have caused connman to rebuild against the
-new iptables and pick up the new dependency, so it's possible that
-your machine is pending a connman upgrade if you've been using a feed
-to upgrade.  If it's a fresh image, then something went rather wrong.
+The counter-argument is that meta-fsl-arm and meta-fsm-ppc for example
+have a number of .bbappends, and it seems to be a regular occurrence
+for the autobuilder to break because oe-core upgraded but the BSP
+didn't follow in sync.
+
+Allowing non-versioned appends would mean the developer can pick what
+their preference is, which seems like a good idea.
 
 Ross
 
