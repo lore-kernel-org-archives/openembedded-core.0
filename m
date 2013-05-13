@@ -1,45 +1,38 @@
-Received: from mail-da0-f51.google.com ([209.85.210.51])
+Received: from mail-pb0-f46.google.com ([209.85.160.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1Ubt4e-0006fY-Lu
+	(envelope-from <martin.jansa@gmail.com>) id 1UbtFy-0008Br-9u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 15:46:00 +0200
-Received: by mail-da0-f51.google.com with SMTP id h15so1443315dan.38
+	Mon, 13 May 2013 15:57:46 +0200
+Received: by mail-pb0-f46.google.com with SMTP id rq13so897238pbb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 06:27:46 -0700 (PDT)
+	Mon, 13 May 2013 06:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=vk0W3fuF5FuD3O99QTraUyFBmACJJUYB8ae6OezPblA=;
-	b=bzds4iQ/rXouromMZOm1QzBop0+HO+UUJUMz8jfN96gSHNDQCAHMxt8fLH9TMg3+fq
-	OxSM+ijaf6Kwoz+foEeri0yyECBvWNngYFW6TwdSeWVbiZlDd9edSoz82E4mp1sTFCYF
-	20FBgNYzsK9eIEh4LRIFhxwa4wqAsj9iZQmHXL7od7hBR958QYRBab+vToKKYT7X8Hmb
-	TptMB7Pofjw1F14ol6tnsydZ0ALF/jf646bXSu1/5Nv+a8QIIgwmp6ZUunbT82IgGCHR
-	rI+m9zyblHGWHZRyzRnmvvbcIqTHb1PO8SeLgkmT+pC7GOBYlUrZws3azp2ZW/+TgpBq
-	TWCA==
-X-Received: by 10.68.239.169 with SMTP id vt9mr28847595pbc.8.1368451666173;
-	Mon, 13 May 2013 06:27:46 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id w8sm14107527pbo.9.2013.05.13.06.27.43
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 06:27:45 -0700 (PDT)
-Message-ID: <5190E932.2010604@gmail.com>
-Date: Mon, 13 May 2013 23:22:58 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=cSIrTmSxyN9unxjEhO+A9dPlKuffV/UVhTCqYSX36w0=;
+	b=dUFtdKfWyBvsAFzW65pM1W8ijhxBhwVm1bijQww4r95OullKYRyIexdU4YzkalUtzp
+	/rOfVAanqbbVuq8iK3yy9mtybJ36ZPcC3Cx3NoLUKV39C1bolOyEA8kUGAnhG9Qon3ll
+	rd85FYfR9gdArXEyEA4HPq8Oo/6z6kJWd0zeRXwcM0ivOf13xkIw4VjZW1eqr2ErI859
+	2bKxQm7wEQPBXUUzKTWL84wNS6FAgiWYF8h8Jeg2TjUScYxuy2eRHHn/is3GQkBbECX0
+	Fz9y28lbtFMYArPs1P4ep3hWbdeYJ/gkd3kwwZmO7g6DsbnSgtU3NlpVFhSu2rlaUyog
+	D9lQ==
+X-Received: by 10.66.220.10 with SMTP id ps10mr30342826pac.117.1368452367889; 
+	Mon, 13 May 2013 06:39:27 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	ya4sm14123199pbb.24.2013.05.13.06.39.25 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 13 May 2013 06:39:26 -0700 (PDT)
+Date: Mon, 13 May 2013 15:39:24 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Message-ID: <20130513133924.GB3187@jama>
+References: <1368449357-3191-1-git-send-email-jukka.rissanen@linux.intel.com>
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1367919920.git.liezhi.yang@windriver.com>
-	<CANwerB3vdQu+WCYv-WzBMMFyv77LymqLkjp3wVMFHCO=KF53Dg@mail.gmail.com>
-	<5190B127.40400@windriver.com> <5190B770.9050109@gmail.com>
-	<5190C570.40700@windriver.com>
-In-Reply-To: <5190C570.40700@windriver.com>
-Cc: dvhart@linux.intel.com, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] replace genext2fs with populate-extfs.sh
+In-Reply-To: <1368449357-3191-1-git-send-email-jukka.rissanen@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,414 +45,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 13:46:06 -0000
-X-List-Received-Date: Mon, 13 May 2013 13:46:06 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2013 13:58:14 -0000
+X-Groupsio-MsgNum: 39131
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="CdrF4e02JqNVZeln"
+Content-Disposition: inline
 
-On 13/05/2013 8:50 PM, Robert Yang wrote:
->
->
-> On 05/13/2013 05:50 PM, Jonathan Liu wrote:
->> On 13/05/2013 7:23 PM, Robert Yang wrote:
->>>
->>> Hi Jonathan Liu,
->>>
->>> What's your configuration, please, I tried a core-image-minimal 
->>> building
->>> just now, didn't notice this error. Did the error come after these 
->>> patches
->>> applied ?
->> Yes, the errors occured after applying your patches.
->>
->
-> Thanks, I will try a build with these configuration tonight, and see the
-> result tomorrow.
->
-> // Robert
-I can reproduce the fsck errors using the following:
-meta: f7afeeb75993b159bb8959e0309bc5eb3978a8fb
+--CdrF4e02JqNVZeln
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-conf/local.conf:
-BB_NUMBER_THREADS = "8"
-PARALLEL_MAKE = "-j 8"
-MACHINE ??= "qemux86"
-DISTRO ?= "poky"
-PACKAGE_CLASSES = "package_ipk"
-EXTRA_IMAGE_FEATURES = "debug-tweaks"
-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
-PATCHRESOLVE = "noop"
-BB_DISKMON_DIRS = "\
-     STOPTASKS,${TMPDIR},1G,100K \
-     STOPTASKS,${DL_DIR},1G,100K \
-     STOPTASKS,${SSTATE_DIR},1G,100K \
-     ABORT,${TMPDIR},100M,1K \
-     ABORT,${DL_DIR},100M,1K \
-     ABORT,${SSTATE_DIR},100M,1K"
-CONF_VERSION = "1"
-DISTRO_FEATURES_append = " systemd"
-DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-VIRTUAL-RUNTIME_init_manager = "systemd"
-IMAGE_FSTYPES = "ext4"
+On Mon, May 13, 2013 at 03:49:12PM +0300, Jukka Rissanen wrote:
+> Hi,
+>=20
+> v2:
+> - removed the DISTRO_FEATURES as suggested by Ross,
+>   now PACKAGECONFIG is used instead in connman.inc
+> - all generic vpn files are placed into connman-vpn package
+>   and vpn plugins rdepend on it
+>=20
+> v1:
+> this patchset enables OpenVPN, vpnc, L2TP and PPTP VPN
+> technogies in ConnMan and fixes this bug
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4456
+>=20
+>=20
+> Cheers,
+> Jukka
+>=20
+>=20
+> Jukka Rissanen (5):
+>   connman: Add VPN support
+>   connman: Add OpenVPN support
+>   connman: Add vpnc support
+>   connman: Add L2TP support
+>   connman: Add PPTP support
 
-# bitbake core-image-minimal
-# fsck.ext4 -fn tmp/deploy/images/core-image-minimal-qemux86.ext4
+I think that 2-5 are missing
 
-Regards,
-Jonathan
->
->> distro conf:
->> DISTRO_FEATURES_append = " largefile opengl systemd"
->> DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
->> VIRTUAL-RUNTIME_graphical_init_manager = ""
->> VIRTUAL-RUNTIME_init_manager = "systemd"
->> PACKAGE_CLASSES = "package_ipk"
->>
->> image bb:
->> SYSLINUX_ROOT ?= "root=/dev/sda2"
->> SYSLINUX_PROMPT = "0"
->> SYSLINUX_TIMEOUT = "1"
->> SYSLINUX_LABELS = "boot"
->> LABELS_append = " ${SYSLINUX_LABELS} "
->> do_bootdirectdisk[depends] += "${PN}:do_rootfs"
->> APPEND += "rootfstype=ext4 rw"
->> ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
->> inherit boot-directdisk
->> IMAGE_FEATURES += "hwcodecs package-management ssh-server-openssh x11"
->> IMAGE_FSTYPES = "ext4"
->> IMAGE_LINGUAS = ""
->>
->>>
->>> My configuration:
->>> MACHINE = "qemux86"
->>> IMAGE_FSTYPES += "ext4"
->>>
->>> // Robert
->>>
->>> On 05/13/2013 12:59 PM, Jonathan Liu wrote:
->>>> Hi Robert,
->>>>
->>>> I get the following errors doing filesystem check on the ext4 image:
->>>>
->>>> # fsck.ext4 -fn tmp/deploy/images/custom-image-custom.ext4.ext4
->>>> e2fsck 1.42.7 (21-Jan-2013)
->>>> Pass 1: Checking inodes, blocks, and sizes
->>>> Pass 2: Checking directory structure
->>>> Entry 'mtd7' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd4' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'fb0' in /dev (2739) has an incorrect filetype (was 4, should 
->>>> be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd5' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty' in /dev (2739) has an incorrect filetype (was 4, should 
->>>> be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty6' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'random' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be
->>>> 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd1' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'urandom' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be
->>>> 3).
->>>> Fix? no
->>>>
->>>> Entry 'zero' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'null' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'kmsg' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'kmem' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd6' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty7' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty4' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'apm_bios' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be
->>>> 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty5' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd0' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty0' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'ttySA0' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be
->>>> 3).
->>>> Fix? no
->>>>
->>>> Entry 'mem' in /dev (2739) has an incorrect filetype (was 4, should 
->>>> be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd2' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty8' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'console' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be
->>>> 3).
->>>> Fix? no
->>>>
->>>> Entry 'ttyS0' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty2' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'mtd3' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty1' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Entry 'tty3' in /dev (2739) has an incorrect filetype (was 4, 
->>>> should be 3).
->>>> Fix? no
->>>>
->>>> Pass 3: Checking directory connectivity
->>>> Pass 4: Checking reference counts
->>>> Inode 774 ref count is 9, should be 10.  Fix? no
->>>>
->>>> Pass 5: Checking group summary information
->>>>
->>>> tmp/deploy/images/custom-image-custom.ext4.ext4: ********** WARNING:
->>>> Filesystem still has errors **********
->>>>
->>>> tmp/deploy/images/custom-image-custom.ext4.ext4: 3899/21336 files 
->>>> (0.5%
->>>> non-contiguous), 131042/169656 blocks
->>>>
->>>>
->>>> After booting the image I get the following:
->>>> # dmesg | grep EXT4-fs
->>>> EXT4-fs (sda2): mounted filesystem with ordered data mode. Opts: 
->>>> (null)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 
->>>> 0(0),
->>>> depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 
->>>> 0(0),
->>>> depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd: bad header/extent: invalid magic - magic 0, entries 0, max 
->>>> 0(0),
->>>> depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-machine: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-machine: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-journal: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs (sda2): re-mounted. Opts: (null)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-journal: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-journal: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-journal: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #883: 
->>>> comm
->>>> systemd-journal: bad header/extent: invalid magic - magic 0, 
->>>> entries 0, max
->>>> 0(0), depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #810: 
->>>> comm
->>>> login: bad header/extent: invalid magic - magic 0, entries 0, max 
->>>> 0(0),
->>>> depth 0(0)
->>>> EXT4-fs error (device sda2): ext4_ext_check_inode:467: inode #810: 
->>>> comm
->>>> sshd: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
->>>> depth 0(0)
->>>>
->>>>
->>>> # systemctl --failed | cat
->>>> UNIT                     LOAD   ACTIVE SUB    DESCRIPTION
->>>> machineid.service        loaded failed failed Machine ID first boot
->>>> configure
->>>> systemd-journald.service loaded failed failed Journal Service
->>>> systemd-journald.socket  loaded failed failed Journal Socket
->>>>
->>>> LOAD   = Reflects whether the unit definition was properly loaded.
->>>> ACTIVE = The high-level unit activation state, i.e. generalization 
->>>> of SUB.
->>>> SUB    = The low-level unit activation state, values depend on unit 
->>>> type.
->>>>
->>>> 3 loaded units listed. Pass --all to see loaded but inactive units, 
->>>> too.
->>>> To show all installed unit files use 'systemctl list-unit-files'.
->>>>
->>>>
->>>> I am booting kernel with rootfstype=ext4. IMAGE_FSTYPES = "ext4".
->>>>
->>>> Regards,
->>>> Jonathan
->>>>
->>>>
->>>> On 7 May 2013 19:48, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>>
->>>>> * The benefits:
->>>>>    - Really support ext4
->>>>>    - Support the sparse file (the sparse file became into the 
->>>>> common file
->>>>> before)
->>>>>    - Have a uniform code for ext2/3/4 generation
->>>>>    - Remove the depends on genext2fs-native
->>>>>
->>>>> * Impact
->>>>>    - Build time:
->>>>>      a) If we build fresh core-image-sato, there is nearly no impact.
->>>>>      b) If we do the image generation, which means:
->>>>>         $ bitbake core-image-sato
->>>>>         $ bitbake core-image-sato -ccleansstate
->>>>>         $ bitbake core-image-sato
->>>>>     About 50 extra seconds are needed, here is my test result:
->>>>>     Before the patches: 4m25s
->>>>>     After the patches: 5m17s
->>>>>     This is because the genext2fs is much faster than the
->>>>>     populate-extfs.sh, we will replace this script by the mke2fs 
->>>>> when it
->>>>>     supports create the filesystem from a initial directory.
->>>>>
->>>>>    - Disk space (take core-image-sato as an example)
->>>>>      a) The image file size is the same as before (529M)
->>>>>      b) The disk usage is a little different: (du -sh)
->>>>>                before       now
->>>>>         ext2:  364M         388M
->>>>>         ext3:  381M         404M
->>>>>         ext4:  380M         387M
->>>>>
->>>>>     We may need to adjust the IMAGE_OVERHEAD_FACTOR from 1.3 to 1.4.
->>>>>
->>>>>     I have done some simple runtime testing on core-image-sato and
->>>>>     core-image-minimal, they worked well.
->>>>>
->>>>> // Robert
->>>>>
->>>>> The following changes since commit
->>>>> 3472c1f7ab409cd91c1d4782d9e00880b84e3ae8:
->>>>>
->>>>>    grub-efi-native: Cleanup whitespace (2013-05-03 16:37:05 +0100)
->>>>>
->>>>> are available in the git repository at:
->>>>>
->>>>>    git://git.pokylinux.org/poky-contrib robert/ext4
->>>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/ext4
->>>>>
->>>>> Robert Yang (4):
->>>>>    e2fsprogs: the max length of debugfs argument is too short
->>>>>    e2fsprogs: let debugfs do sparse copy
->>>>>    e2fsprogs: add populate-extfs.sh
->>>>>    image_types.bbclass: replace genext2fs with populate-extfs.sh
->>>>>
->>>>>   meta/classes/image_types.bbclass                   | 46 ++++----
->>>>>   .../e2fsprogs-1.42.7/debugfs-too-short.patch       | 28 +++++
->>>>>   .../e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh   | 93 
->>>>> ++++++++++++++++
->>>>>   .../e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch   | 114
->>>>> ++++++++++++++++++++
->>>>>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb | 4 +
->>>>>   5 files changed, 257 insertions(+), 28 deletions(-)
->>>>>   create mode 100644
->>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/debugfs-too-short.patch 
->>>>>
->>>>>   create mode 100644
->>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/populate-extfs.sh
->>>>>   create mode 100644
->>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/sparse_copy.patch
->>>>>
->>>>> -- 
->>>>> 1.7.10.4
->>>>>
->>>>>
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>>
->>>>
->> Regards,
->> Jonathan
->>
->>
+PACKAGES =3D+ "${PN}-vpn-foo"
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--CdrF4e02JqNVZeln
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlGQ7QwACgkQN1Ujt2V2gByt8QCfSKCiVSLB8KgpmNFaLHCsho4/
+5qwAn3QFJM+U/0SbG3x4lHebQkR0Pf3p
+=o+Ri
+-----END PGP SIGNATURE-----
+
+--CdrF4e02JqNVZeln--
