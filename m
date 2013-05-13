@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uc0Fq-0006M8-QJ
+	(envelope-from <rpjday@crashcourse.ca>) id 1Uc0HG-0006W6-UD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 23:25:59 +0200
+	Mon, 13 May 2013 23:27:27 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:58891 helo=crashcourse.ca)
+	([174.115.5.73]:58893 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UbzyH-0005Hv-CH; Mon, 13 May 2013 17:07:49 -0400
-Date: Mon, 13 May 2013 17:07:45 -0400 (EDT)
+	id 1Ubzzh-0005KP-UC; Mon, 13 May 2013 17:09:18 -0400
+Date: Mon, 13 May 2013 17:09:16 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 In-Reply-To: <CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305131704540.13080@oneiric>
+Message-ID: <alpine.DEB.2.02.1305131708160.13080@oneiric>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
 	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
@@ -52,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 21:25:59 -0000
+X-List-Received-Date: Mon, 13 May 2013 21:27:27 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 On Mon, 13 May 2013, Bruce Ashfield wrote:
@@ -75,58 +75,35 @@ On Mon, 13 May 2013, Bruce Ashfield wrote:
 > That's the same trace the Trevor saw, and that Khem and I have seen (and fixed)
 > a few times.
 >
-> I'm betting everyone is using a different SRCREV for the kernel that
-> I am, since I've built and booted this multiple times.
+> I'm betting everyone is using a different SRCREV for the kernel that I am, since
+> I've built and booted this multiple times.
 >
 > Can you dump your board and meta top commits to the thread ?
 
-  i'm using only the two layers.  here's oe-core:
+$ bitbake core-image-minimal
+Loading cache: 100%
+|#############################################################################| ETA:  00:00:00
+Loaded 2255 entries from dependency cache.
 
-commit cf5e40598ae9a83f22cabedc7b72000beb62703c
-Author: Peter Seebach <peter.seebach@windriver.com>
-Date:   Thu May 17 23:45:58 2012 +0000
+Build Configuration:
+BB_VERSION        = "1.19.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-12.04"
+TARGET_SYS        = "mips64-oe-linux"
+MACHINE           = "qemumips64"
+DISTRO_VERSION    = "oe-core.0"
+TUNE_FEATURES     = "n64 bigendian fpu-hard"
+TARGET_FPU        = ""
+meta              = "master:cf5e40598ae9a83f22cabedc7b72000beb62703c"
+meta              = "kraj/qemumips64:b0592ab08273e17cb1511384ad189281f88c8b03"
 
-    sanity.bbclass: Attach the missing value to a format string.
-
-    The tuning changes to sanity.bbclass were almost right, but one of
-    the messages had a %s with no % operator.
-
-    Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-
-and here's openembedded-core-contrib (the top few) on branch
-kraj/qemumips64:
-
-commit b0592ab08273e17cb1511384ad189281f88c8b03
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Tue Mar 26 18:01:56 2013 -0700
-
-    machine/qemumips64: Add machine definition
-
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-commit 74e3eb74194baade027edc3f23985aa72ce055eb
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Tue Apr 16 19:17:03 2013 -0700
-
-    binutils: Add broadcom XLP support
-
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-commit e4d9bfb01c5657a7f30597d83829375520d64627
-Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date:   Wed May 8 08:37:48 2013 -0700
-
-    linux-yocto: add qemumips64 compatibility
-
-    The 3.8 and linux-yocto-dev kernel trees carry qemumips64 support. Adding
-    the board to the compatibility directly in the recipes is the first step
-    to adding mips64 support to the broader set of packages.
-
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-
-am i just not up to date somehow?
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted 1608 tasks of which 1608 didn't need to
+be rerun and all succeeded.
+$
 
 rday
 
