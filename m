@@ -1,39 +1,50 @@
-Received: from mail-pd0-f170.google.com ([209.85.192.170])
+Received: from mail-wg0-f54.google.com ([74.125.82.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Uc0fC-0000DC-9O
+	(envelope-from <twoerner@gmail.com>) id 1Uc0j6-0000TS-U0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 23:52:23 +0200
-Received: by mail-pd0-f170.google.com with SMTP id 10so4734475pdi.29
+	Mon, 13 May 2013 23:56:15 +0200
+Received: by mail-wg0-f54.google.com with SMTP id x12so6595370wgg.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 14:33:59 -0700 (PDT)
+	Mon, 13 May 2013 14:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=OR8/If19OjfP2tj/tFRa8jdQyU4dherUIhqWVgI8inQ=;
-	b=s+na9A0tmMT+4hejQB1X2Gh1dCnM+PmhIlXGU28o1yJI6m0/iXWFZCrdvbflZu7pSc
-	1Gdce1tq+PcZegvGLG6GJ0Ct3yZmeV0IXzoEgO4AXqoXE7Aq5W25qtmhjBUnqy+GjT8c
-	dS79AQHgSopuyjT/NyfkrW3DghDT815XyWlg2gC/uh+Rb7iHHRJ7kP/BLGRTt8cL9rFA
-	f0SYOEKmkgm9H4cZNQYp9sVqL3Klfy6owK5+l6pqRMQEaAt3x2RaOsc3k4sMjFTTiVET
-	tvXwlORdJxjAviwzB3p74O2KTvtt/tkTzq9tjJjZtDfBFTTOuJhEi1mr2jDRLVNpU1tX
-	0j1Q==
-X-Received: by 10.68.252.227 with SMTP id zv3mr31713032pbc.14.1368480839299;
-	Mon, 13 May 2013 14:33:59 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	v5sm15371573pbz.4.2013.05.13.14.33.56 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 13 May 2013 14:33:58 -0700 (PDT)
-Date: Mon, 13 May 2013 23:33:56 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Message-ID: <20130513213356.GE3187@jama>
-References: <519153C8.6060708@linux.intel.com>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=y+c25tbzNdCtWrCrCAwFQf3+Ydndeu3GiEAnaJNMm9I=;
+	b=j31UvPZzsWYDJVI9VU8i7uhQ2CRCmovs1gKAvzFcdQ9GGfjiWUs5z7AlV0Pl4/Wsia
+	iqaoWjHNUhfK9zNMcxw/BUQO35JgZ+2AmSaPfU1B3xZcKwTHopXYnLudME8vrFhaZ2Gx
+	vrGHFaZWp540SmYaO0bUNh1d2mDPpkFP1dPBLkiKhWRMEq00lEBSYxZ5BEOeIYCaAc4j
+	7D3d3p5h1Cgs0BsiVnXzD6Fe/L1FW7Nw/kl2mA3dJgLtM8TWpuLAPO7wxnsS/UzmCsEC
+	Hxo3bSAOl9bjHDRKbUijjaJMz1EWeg2SPNkLik+nuSaPUkO/gbgcc3Aq6narngZe42wj
+	so9A==
 MIME-Version: 1.0
-In-Reply-To: <519153C8.6060708@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Received: by 10.180.37.133 with SMTP id y5mr149484wij.20.1368481082236; Mon,
+	13 May 2013 14:38:02 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Mon, 13 May 2013 14:38:02 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1305131729130.13480@oneiric>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
+	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
+	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
+	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
+	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131536070.2354@oneiric>
+	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
+	<alpine.DEB.2.02.1305131558330.23405@oneiric>
+	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131650030.12354@oneiric>
+	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131704540.13080@oneiric>
+	<CAHUNapSJe0JNi2EikxLTFtTaoNWm3m9+_Lk68qreY+vSbdQsrg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131712570.13256@oneiric>
+	<CAHUNapTaTrZ8A8zMiaAiqwYbZx09s096EHNDRCo0nOw5-EO8HA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131729130.13480@oneiric>
+Date: Mon, 13 May 2013 17:38:02 -0400
+Message-ID: <CAHUNapQcmVKd2iruA5ubzLBLJx6asQZK5Y_NhgBPZRnFUfUxcQ@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: init-ifupdown: do_package_ipk failing
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,119 +57,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 21:52:26 -0000
-X-Groupsio-MsgNum: 39170
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="orO6xySwJI16pVnm"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 13 May 2013 21:56:21 -0000
+Content-Type: multipart/alternative; boundary=e89a8f50335ac9e5fe04dca05421
 
---orO6xySwJI16pVnm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--e89a8f50335ac9e5fe04dca05421
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, May 13, 2013 at 5:30 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
+
+> On Mon, 13 May 2013, Trevor Woerner wrote:
+>
+> > I'm building core-image-minimal, I assume that's what everyone else is
+> doing.
+> > When I run the "bitbake -s" as Robert is, I get the following:
+> >
+> > $ bitbake -s | grep linux
+> > linux-dummy                                           :1.0-r1
+>
+> > linux-firmware
+>  1:0.0+gitAUTOINC+c530a75c1e6a472b0eb9558310b518f0dfcd8860-r0
+>
+> >
+> > linux-libc-headers                                    :3.8-r0
+>
+> > linux-libc-headers-yocto
+> >
+>  :3.4+git-AUTOINC+a1cdb60720c452c3965eaec3ec2cd10f06261cc5_a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r6
+>
+> >
+> > linux-yocto
+> >
+> :3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_dd089cb5ba37ea14e8f90a884bf2a5be64ed817d-r4.1
+> >
+> :3.4.43+gitAUTOINC+1bab5bd090948b4cc4c4ed57c834603a3cf9f235_fff57da7886cf5e99c07adf6649610cb1cd89330-r4.4
+>
+>  i'm confused ... why would you be building two versions of the
+> kernel?
+>
+
+I'm not explicitly trying to build two versions of the kernel :-)
+
+--e89a8f50335ac9e5fe04dca05421
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2013 at 01:57:44PM -0700, Darren Hart wrote:
-> After removing a bbappend for init-ifupdown I am seeing failures in
-> do_package_ipk:
->=20
-> Build Configuration:
-> BB_VERSION        =3D "1.19.0"
-> BUILD_SYS         =3D "x86_64-linux"
-> NATIVELSBSTRING   =3D "Ubuntu-11.10"
-> TARGET_SYS        =3D "i586-poky-linux"
-> MACHINE           =3D "minnow"
-> DISTRO            =3D "poky"
-> DISTRO_VERSION    =3D "1.3+snapshot-20130513"
-> TUNE_FEATURES     =3D "m32 core2"
-> TARGET_FPU        =3D ""
-> meta-yocto        =3D "master:94d31b0b36be389710bfb1c5d7aeacda92efad5b"
-> meta-minnow       =3D "master:d474c4304dc1c9e9703fce0cd6a4329289681f92"
-> meta-intel        =3D "master:624aada76d2de84bd0263065b112ed4e94798b6b"
-> meta              =3D "master:94d31b0b36be389710bfb1c5d7aeacda92efad5b"
->=20
-> ...
->=20
-> ERROR: Error executing a python function in
-> /build/yocto/master/minnow_201302231109
-> 41/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb:
->=20
-> OSError: [Errno 2] No such file or directory:
-> '/build/yocto/master/minnow_201302231
-> 10941/build/tmp/work/core2-poky-linux/init-ifupdown/1.0-r2/packages-split=
-/init-ifup
-> down-dbg'
->=20
-> ERROR: Error executing a python function in
-> /build/yocto/master/minnow_201302231109
-> 41/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb:
->=20
-> OSError: [Errno 2] No such file or directory:
-> '/build/yocto/master/minnow_201302231
-> 10941/build/tmp/work/core2-poky-linux/init-ifupdown/1.0-r2/packages-split=
-/init-ifup
-> down-dbg'
->=20
-> ERROR: The stack trace of python calls that resulted in this
-> exception/failure was:
-> ERROR:   File "do_package_ipk", line 194, in <module>
-> ERROR:
-> ERROR:   File "do_package_ipk", line 45, in do_package_ipk
-> ERROR:
-> ERROR: The code that was being executed was:
-> ERROR:      0190:        bb.utils.unlockfile(lf)
-> ERROR:      0191:
-> ERROR:      0192:
-> ERROR:      0193:
-> ERROR:  *** 0194:do_package_ipk(d)
-> ERROR:      0195:
->=20
-> ERROR: [From file: 'do_package_ipk', lineno: 194, function: <module>]
->=20
-> ERROR:      0041:        basedir =3D os.path.join(os.path.dirname(root))
->=20
-> ERROR:      0042:        arch =3D localdata.getVar('PACKAGE_ARCH', True)
->=20
-> ERROR:      0043:        pkgoutdir =3D "%s/%s" % (outdir, arch)
->=20
-> ERROR:      0044:        bb.mkdirhier(pkgoutdir)
-> ERROR:  *** 0045:        os.chdir(root)
-> ERROR:      0046:        from glob import glob
-> ERROR:      0047:        g =3D glob('*')
-> ERROR:      0048:        try:
-> ERROR:      0049:            del g[g.index('CONTROL')]
-> ERROR: [From file: 'do_package_ipk', lineno: 45, function: do_package_ipk]
-> ERROR: Function failed: do_package_ipk
-> ERROR: Logfile of failure stored in:
-> /build/yocto/master/minnow_20130223110941/build/tmp/work/core2-poky-linux=
-/init-ifupdown/1.0-r0/temp/log.do_package_write_ipk.16210
-> ERROR: Task 1399
-> (/build/yocto/master/minnow_20130223110941/poky/meta/recipes-core/init-if=
-updown/init-ifupdown_1.0.bb,
-> do_package_write_ipk) failed with exit code '1'
->=20
-> I have done cleansstate and cleanall, but the error is repeatable.
+<div dir=3D"ltr">On Mon, May 13, 2013 at 5:30 PM, Robert P. J. Day <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rp=
+jday@crashcourse.ca</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
+v class=3D"gmail_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Mon, 13 May 2013, Trevo=
+r Woerner wrote:<br>
+<br>
+</div><div class=3D"im">&gt; I&#39;m building core-image-minimal, I assume =
+that&#39;s what everyone else is doing.<br>
+&gt; When I run the &quot;bitbake -s&quot; as Robert is, I get the followin=
+g:<br>
+&gt;<br>
+&gt; $ bitbake -s | grep linux<br>
+&gt; linux-dummy =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 :1.0-r1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0<br>
+&gt; linux-firmware =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A01:0.0+gitAUT=
+OINC+c530a75c1e6a472b0eb9558310b518f0dfcd8860-r0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0<br>
+&gt; =A0 =A0 =A0<br>
+&gt; linux-libc-headers =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0:3.8-r0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0<br>
+&gt; linux-libc-headers-yocto =A0 =A0 =A0 =A0 =A0<br>
+&gt; =A0:3.4+git-AUTOINC+a1cdb60720c452c3965eaec3ec2cd10f06261cc5_a1cdb6072=
+0c452c3965eaec3ec2cd10f06261cc5-r6 =A0 =A0 =A0 =A0 =A0 =A0 =A0<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0<br>
+&gt; linux-yocto =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0<br>
+&gt; :3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_dd089cb5ba=
+37ea14e8f90a884bf2a5be64ed817d-r4.1<br>
+&gt; :3.4.43+gitAUTOINC+1bab5bd090948b4cc4c4ed57c834603a3cf9f235_fff57da788=
+6cf5e99c07adf6649610cb1cd89330-r4.4<br>
+<br>
+</div>=A0i&#39;m confused ... why would you be building two versions of the=
+<br>
+kernel?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"></div></div></blockquote></div><br>=
+</div><div class=3D"gmail_extra" style>I&#39;m not explicitly trying to bui=
+ld two versions of the kernel :-)</div><div class=3D"gmail_extra" style><br=
+></div>
+<div class=3D"gmail_extra" style><br></div></div>
 
-You need to manually remove minnow init-ifupdown from runtime/pkgdata
-
-> Is anyone else experiencing this with init-ifupdown and ipk packaging?
-
-See
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4102
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---orO6xySwJI16pVnm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlGRXEQACgkQN1Ujt2V2gBzIoACeKp2hHPHtmConS9FI997O+0G8
-LzoAnR308n7vtXcP2KFFUQFvbjZL8lzt
-=cRhV
------END PGP SIGNATURE-----
-
---orO6xySwJI16pVnm--
+--e89a8f50335ac9e5fe04dca05421--
