@@ -1,46 +1,29 @@
-Received: from mail-ea0-f170.google.com ([209.85.215.170])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UbpMC-0000U3-Lo
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UbpMu-0000Wn-Ny
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 11:47:54 +0200
-Received: by mail-ea0-f170.google.com with SMTP id f15so1975348eak.1
+	Mon, 13 May 2013 11:48:36 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 8195B952B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 02:29:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=JCezG9TklgrUbxdzl2/Vm6NugLrxt+402HnRs/PMqgI=;
-	b=JsGKyiKd0JXhGhSbGyRaGgj9ZluBRWlbs1y8w0GA9GIngNwGaqtEwp8T5ZSINcgYVZ
-	Bn7bkLt/BtYFNlIQugOhR/L99UWMtuZfg086p60IgaFHl5xufGKTbDc5vPaPOU6sf4HJ
-	DrgueTETMiQRQyqNDus5pENJxHXu3w7DcFzP4TTNMyOeg3GULdf0XZn2KOxzldNrcaO5
-	pZQnqi7owtpWJGPRmzEB5ghDUe48ec0fYqME1GWDXyTma5nswXJiBFUTKgIyYQ90gY09
-	8PoorEhJmcit40CmLyjVn9kCxBtBPGcfFVRgD0lKrAkn8o7HO0msvRj79ip4epqSMMSx
-	7B8A==
-X-Received: by 10.14.0.129 with SMTP id 1mr76036190eeb.43.1368437379302;
-	Mon, 13 May 2013 02:29:39 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id s8sm21606996eeo.4.2013.05.13.02.29.37
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 02:29:38 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <5190A747.6090403@communistcode.co.uk>
-Date: Mon, 13 May 2013 11:29:36 +0200
-Message-Id: <A84A36D5-C3ED-4D82-A5AB-AF4C7CA6805F@dominion.thruhere.net>
-References: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
-	<9E4F6205-6171-4D60-A669-609A49F763C1@gmail.com>
-	<518FD2F2.5070105@linux.intel.com>
-	<020E3790-121B-49E9-87E3-55ACA9095B10@gmail.com>
-	<5190166A.5050000@windriver.com>
-	<5190A747.6090403@communistcode.co.uk>
-To: ml@communistcode.co.uk
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQmFjArN6lnz7kkez1okO2fTYt8b4zB/1UlI0ShkEVSohZRIgvpZI3p4fejaHd1slmW0k59N
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] tcmode-default: Set 4.8 as default
+	Mon, 13 May 2013 10:30:23 +0100 (BST)
+Message-ID: <5190B2AE.9010102@r-finger.com>
+Date: Mon, 13 May 2013 10:30:22 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
+	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
+	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
+	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
+	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
+	<518D5A7D.20606@windriver.com>
+In-Reply-To: <518D5A7D.20606@windriver.com>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,65 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 09:48:13 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 May 2013 09:48:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Mark,
 
-Op 13 mei 2013, om 10:41 heeft Jack Mitchell <ml@communistcode.co.uk> =
-het volgende geschreven:
+On 10/05/13 21:37, Mark Hatle wrote:
+> One of the key pieces of the oe-core, it must be able to work without
+> any additional layers.  It also much be able to be tested without any
+> additional layers.
+> 
+> I personally don't have a preference for the clutter and related items
+> on where they live... but I do want to make sure that oe-core can
+> standalone as a starting point for people to develop devices.  Part of
+> being standalone means that it is capable of being tested.
 
-> On 12/05/13 23:23, Bruce Ashfield wrote:
->> On 13-05-12 5:49 PM, Khem Raj wrote:
->>>=20
->>> On May 12, 2013, at 10:35 AM, Saul Wold <sgw@linux.intel.com> wrote:
->>>=20
->>>> On 05/12/2013 09:29 AM, Khem Raj wrote:
->>>>> Hi Saul
->>>>>=20
->>>>> There is one serious problem that I ran into was that qemuarm 3.8 =
-kernel segfaulted
->>>>> is it working for you ?
->>>>>=20
->>>> Nope your right there does appear to be a problem with ARM, I =
-thought we where have sanity test issues again, I just completed a build =
-and verified that I get a Kernel paninc with 3.8 Kernel and 4.8 GCC.
->>>>=20
->>>> Not ready yet!
->>>>=20
->>>> Khem, are you looking into it?  I have CC'ed Bruce for the kernel =
-also.
->>>=20
->>> haven't looked into the problem in detail. Its one of those either a =
-problem in gcc or gcc uncovering a latent bug in kernel.
->>=20
->> I'll get myself set up and do a build on Monday, see if anything =
-obvious
->> pops up (i.e. start with the latest and see if it works, then bisect
->> back). I'm already poking at mips64, so I can do this in parallel.
->>=20
->> Bruce
->>=20
->>>=20
->>>=20
->>=20
->=20
-> I know the beaglebone kernel was segfaulting on me until Koen updated =
-to 3.8.11, I think it included some important backports. Would =
-definitely be worth a try, Koen can point to you to commit which fixed =
-it, I seem to have lost the link into the IRC nether.
+Yes, but the clutter packages are not being tested, and more to the
+point, they cannot be meaningfully tested using oe-core, because such
+testing has to be done against a real OGL/GLES implementation -- Clutter
+can only be tested properly in conjunction with BSP layer(s). All you
+can test with oe-core is the mesa software rasterizer, which is just
+about the one thing nobody cares about because it is of no practical use.
 
-I'm fairly sure this is the one:=20
-=09
-	=
-http://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit=
-/?id=3D84237e8d1b43b896a86e14928993901993ede254
+There are two ways that tested clutter packages are achievable:
 
-I only tested the 3.8.10 -> 3.811 update in one go, so it could a =
-different patch.
+a) Generic clutter recipes in oe-core and BSP specific bbappends in the
+BSP layers. There are a couple of problems with this: I don't think the
+BSP maintainers have time/impetus for maintaining the bbappends and
+testing Clutter, and the BSP support might need upgrading the base
+package and dependencies (plus Clutter is a fairly high level package to
+be part of a BSP anyway, IMO).
 
-regars,
+b) A dedicated layer that is not subject to the oe-core constraints and
+can make reference to external BSP layers.
 
-Koen=
+Tomas
+
+-- 
+http://sleepfive.com
 
 
