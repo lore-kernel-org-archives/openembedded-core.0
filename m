@@ -1,38 +1,29 @@
-Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UbnPT-0003RI-PM
+	(envelope-from <sgw@linux.intel.com>) id 1UbnyQ-0007na-Kf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 09:43:10 +0200
-Received: from atl4mhob10.myregisteredsite.com
-	(atl4mhob10.myregisteredsite.com [209.17.115.48])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4D7Otjx024699 for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 03:24:55 -0400
-Received: from mail.hostingplatform.com ([10.30.71.206])
-	by atl4mhob10.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4D7Oro3012941 for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 03:24:53 -0400
-Received: (qmail 29955 invoked by uid 0); 13 May 2013 07:24:53 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 13 May 2013 07:24:53 -0000
-Message-ID: <51909544.4060506@topic.nl>
-Date: Mon, 13 May 2013 09:24:52 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Mon, 13 May 2013 10:19:11 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 13 May 2013 01:01:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,660,1363158000"; d="scan'208";a="240653566"
+Received: from unknown (HELO [10.255.12.238]) ([10.255.12.238])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 May 2013 01:00:57 -0700
+Message-ID: <51909DB8.3060407@linux.intel.com>
+Date: Mon, 13 May 2013 11:00:56 +0300
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1368002042.git.liezhi.yang@windriver.com>
-	<ee7a94478d58f0f43640cf9ae97018545a4ce6b6.1368002042.git.liezhi.yang@windriver.com>
-	<518A3EF8.20807@topic.nl> <518B06A2.6000708@windriver.com>
-	<CABcZANmKO+dpRti22tAuHP4bMbwyYDY6B52kDkUZqhdASGx1Rg@mail.gmail.com>
-	<518B1932.8070207@windriver.com>
-In-Reply-To: <518B1932.8070207@windriver.com>
-Cc: Chris Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bbclass: bb.fatal() clean up
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518FB7F9.2020102@linux.intel.com>
+	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
+	<3529451.hQA8zCVn47@helios>
+In-Reply-To: <3529451.hQA8zCVn47@helios>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,114 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 07:43:17 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 13 May 2013 08:19:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/09/2013 05:34 AM, Robert Yang wrote:
->
->
-> On 05/09/2013 10:23 AM, Chris Larson wrote:
->> On Wed, May 8, 2013 at 7:14 PM, Robert Yang
->> <liezhi.yang@windriver.com>wrote:
+On 05/12/2013 10:55 PM, Paul Eggleton wrote:
+> On Sunday 12 May 2013 19:54:50 Phil Blundell wrote:
+>> On Sun, 2013-05-12 at 08:40 -0700, Saul Wold wrote:
+>>> On 05/12/2013 06:27 AM, Otavio Salvador wrote:
+>>>> I think so, it'd be good to have it in oe-core and allow use of vpn :)
+>>>
+>>> I would like to see what the full dependency set looks like for these,
+>>> clearly there is the vpnc, openvpn, l2tp and pptp recipes, but what else
+>>> and what licenses are they under.
 >>
->>> On 05/08/2013 08:03 PM, Mike Looijmans wrote:
->>>
->>>> On 05/08/2013 11:06 AM, Robert Yang wrote:
->>>>
->>>>> The bb.fatal() is defined as:
->>>>>
->>>>> def fatal(*args):
->>>>>       logger.critical(''.join(args))
->>>>>       sys.exit(1)
->>>>>
->>>>> So anything after bb.fatal() in the same code block doesn't have any
->>>>> effect, e.g.:
->>>>>
->>>>>       bb.fatal("%s_%s: %s" % (var, pkg, e))
->>>>>       raise e
->>>>>
->>>>> The "raise e" should be removed.
->>>>>
->>>>
->>>> Just some random thoughts that occurred to me when I read this:
->>>>
->>>>
->>> Hi Mike, thanks for your comments, but the "raise sys.exit(1)" doesn't
->>> raise
->>> anything, e.g.:
->>>
->>> import sys
->>>
->>> def fatal():
->>>          sys.exit(1)
->>>
->>> try:
->>>          raise fatal()
->>> except Exception as e:
->>>          raise e
->>>
->>> I think that the "raise fatal()" equals to "fatal()" here.
->>
->>
->> He didn't say raise sys.exit(1), he said sys.exit(1) is equivalent to
->> raise
->> SystemExit(1), which it is.
->>
+>> I don't think we necessarily want openvpn, l2tpd and suchlike in
+>> oe-core.  None of those things seem very "core" to me (in an embedded
+>> context) and testing them seems like it would be a bit of a challenge.
 >
-> Hi Chris, thanks, if I understand correctly, what you mean is that
-> change the
-> definition of bb.fatal() to let it can raise the exception "e" (not only
-> change
-> the "sys.exit(1)" to "raise SystemExit(1)"), something like:
+> I agree, these don't belong in OE-Core. We already have them in meta-
+> networking.
 >
-> def fatal(e, *args):
->      logger.critical(''.join(args))
->      try:
->      if e:
->          raise e # if there is e
->      finally:
->          # but this one will flush the previous "raise e"
->          raise SystemExit(1)
+This is what I get for replying to an email while traveling overseas and 
+not being 100% clear about my points.
+
+I was more interested in the dependencies then actually thinking about 
+including them in OE-Core,that was not my intent.
+
+This would would allow us to better understand if those recipes not in 
+meta-networking could be moved from meta-oe to meta-networking. 
+Currently, I think vpnc and pptp are in meta-networking, not the other 2.
+
+>> Equally, we certainly don't want to have dependencies in oe-core
+>> pointing to packages in meta-oe or any other layer, since this would
+>> make it impossible to test oe-core in isolation.  So I would be inclined
+>> to say that the right way to deal with this is for those connman bits to
+>> go in a .bbappend which lives in the same layer as the recipes in
+>> question.
 >
-> it seems that this doesn't work (or do we have other ways to make it
-> work that I
-> don't know?) or make much differences.
+> That doesn't work well for software layers - it is not a good thing for
+> various recipes to get rebuilt just because you add meta-oe to your
+> configuration for example.
 >
-> and not all the bb.fatal() has an exception, e.g.:
+> The protocol we've established is to add PACKAGECONFIG options to enable the
+> dependencies but have them disabled by default; these can be enabled as
+> desired in distro or local configuration when the layer satisfying the
+> dependency is also enabled.
 >
-> bb.fatal("No OUTSPECFILE")
+This is correct and I talked with RP about this to verify, having these 
+kind of dependencies use PACKAGECONFIG and being disabled by default in 
+OE-Core make sense and is vaild recipe, a Distro or local configuration 
+can then enable and require the additional layers whether it's meta-oe 
+or meta-networking as needed.
+
+Sau!
+
+> Cheers,
+> Paul
 >
-> we need change all the current bb.fatal()'s usage, is it worth ?
->
-> // Robert
-
-I was actually more thinking like this (untested pseusocode follows):
-
-class Fatal(SystemExit):
-	def __init__(self, *args):
-		SystemExit.__init__(self, 1, ''.join(*args)) # or so
-
-
-def fatal(*args):
-	'For backward compatibility'
-	raise Fatal(*args)
-
-
-New code should use "raise bb.Fatal(..)" instead of "fatal(..)". It has 
-the added advantage of being able to explicitly catch and handle the 
-Fatal error. Which could be useful in bitbake frontends.
-
-Inheriting from SystemExit makes it behave exactly like the old code in 
-all ways, so it wouldn't break things.
-
-It makes it clear what happens. bb.fatal() is a function that doesn't 
-really return. But it isn't as fatal as its name suggests, because it 
-really just raises an exception, so anyone doing a catch or finally may 
-be surprised by its implementation. Converting it into an exception 
-makes it obvious to the world what it does without the need for 
-documentation...
-
-Mike.
 
 
