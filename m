@@ -1,24 +1,40 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Ubtds-0002NY-Rg for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 16:22:28 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UbtMK-0004KX-82; Mon, 13 May 2013 16:04:12 +0200
-Message-ID: <1368453851.6920.11.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Date: Mon, 13 May 2013 15:04:11 +0100
-In-Reply-To: <5190F0EA.1090807@linux.intel.com>
-References: <1368449357-3191-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<20130513133924.GB3187@jama> <5190F0EA.1090807@linux.intel.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/5] Enable VPN support in ConnMan
+Received: from mail-ve0-f170.google.com ([209.85.128.170])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1UbtvI-00062m-Ix
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 May 2013 16:40:25 +0200
+Received: by mail-ve0-f170.google.com with SMTP id 14so1790867vea.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2013 07:22:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=NIAvHfcGjUzWU4ZhT/y345yX+GDF7QLmvL0lCw8+k/4=;
+	b=FKdY8/rl8ywl5iNVp4dELgJ6Camh8z35W0swurgV3Y16MoP1AZGHQ6GtzOeIhBCBdR
+	WYmhNeAXb5n59oDxhu9aXyGve70VISe4dZm/ynoDsM8TT8zGgWyjlrv4I8ACoOYJWyjD
+	o0dOVcADdxJKDby5Mrh+/hDHUvlGiHkQS8Dx10MwKd9DYRV+f9dZz+wmAaq2+N/v6Wt7
+	Od7ItO8o5HP9UqHWvgbfXFvfbqKUoohhrp0iexSax5p/psFrsxF7eWB9PuX0Vn2tgOzQ
+	90X+6aV/mZVIanfgOZ9pkpVs1UkZVn80cppcatP9QDW88DdPQMcFAy77GTC9ou+wZLqV
+	7vLw==
+X-Received: by 10.52.37.196 with SMTP id a4mr15917920vdk.82.1368454930526;
+	Mon, 13 May 2013 07:22:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.221.8.3 with HTTP; Mon, 13 May 2013 07:21:50 -0700 (PDT)
+In-Reply-To: <5190CE8C.703@gmail.com>
+References: <1368413938-7757-1-git-send-email-net147@gmail.com>
+	<CAJTo0LaFExB-DxJCJ-Sranagpbxc56sT9ahBwgtBLH0PVq3_9g@mail.gmail.com>
+	<-7685674658700664845@unknownmsgid>
+	<CAJTo0LaVF+sV6JxpaxfL2_daoP+y1CQe=-VqWbTFW+ZVNA8i5Q@mail.gmail.com>
+	<5190CE8C.703@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 May 2013 15:21:50 +0100
+Message-ID: <CAJTo0LZeDaucw4PGP8JjaJEJemyiYbf+2-eUim9Nfj-cuWj-DQ@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+X-Gm-Message-State: ALoCoQlfSx6+C5KVM/0dRCIgIAIUO2XykzyFom2wS03eelk6cJnJ0TYmn6/RrTwVdlxdDlJTC4sD
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] connman: add iptables to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 14:22:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2013 14:40:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-05-13 at 16:55 +0300, Jukka Rissanen wrote:
-> On 13.05.2013 16:39, Martin Jansa wrote:
-> >> Jukka Rissanen (5):
-> >>    connman: Add VPN support
-> >>    connman: Add OpenVPN support
-> >>    connman: Add vpnc support
-> >>    connman: Add L2TP support
-> >>    connman: Add PPTP support
-> >
-> > I think that 2-5 are missing
-> >
-> > PACKAGES =+ "${PN}-vpn-foo"
-> >
-> 
-> The individual vpn plugin packages were created and added to distro 
-> without a problem even if they were not in PACKAGES.
-> But I can certainly send another version that adds these.
+On 13 May 2013 12:29, Jonathan Liu <net147@gmail.com> wrote:
+> The connmand daemon was complaining about libxtables.so.9 missing, but it's
+> libxtables.so.10 now.
+> Maybe I just had to force a more complete rebuild.
 
-If it's using do_split_packages() then you don't need to (and shouldn't)
-add those things to PACKAGES directly.
+iptables upgrading should have caused connman to rebuild against the
+new iptables and pick up the new dependency, so it's possible that
+your machine is pending a connman upgrade if you've been using a feed
+to upgrade.  If it's a fresh image, then something went rather wrong.
 
-You might consider patching connman.inc to add the INSANE_SKIP stuff
-automatically since all the plugins will presumably need that treatment.
-
-p.
-
-
+Ross
 
 
