@@ -1,29 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UbnyQ-0007na-Kf
+	(envelope-from <sgw@linux.intel.com>) id 1UboHi-0001Lo-1U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 May 2013 10:19:11 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 May 2013 01:01:00 -0700
+	Mon, 13 May 2013 10:39:07 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 13 May 2013 01:20:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,660,1363158000"; d="scan'208";a="240653566"
+X-IronPort-AV: E=Sophos;i="4.87,660,1363158000"; d="scan'208";a="301560575"
 Received: from unknown (HELO [10.255.12.238]) ([10.255.12.238])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 May 2013 01:00:57 -0700
-Message-ID: <51909DB8.3060407@linux.intel.com>
-Date: Mon, 13 May 2013 11:00:56 +0300
+	by azsmga001.ch.intel.com with ESMTP; 13 May 2013 01:20:54 -0700
+Message-ID: <5190A265.2040009@linux.intel.com>
+Date: Mon, 13 May 2013 11:20:53 +0300
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<518FB7F9.2020102@linux.intel.com>
-	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
-	<3529451.hQA8zCVn47@helios>
-In-Reply-To: <3529451.hQA8zCVn47@helios>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
+To: Ionut Radu <ionutx.radu@intel.com>
+References: <1368024119-4149-1-git-send-email-ionutx.radu@intel.com>
+	<1368024119-4149-7-git-send-email-ionutx.radu@intel.com>
+In-Reply-To: <1368024119-4149-7-git-send-email-ionutx.radu@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 6/9] qemu: Updated from 1.4.0 to 1.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,63 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2013 08:19:11 -0000
+X-List-Received-Date: Mon, 13 May 2013 08:39:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/12/2013 10:55 PM, Paul Eggleton wrote:
-> On Sunday 12 May 2013 19:54:50 Phil Blundell wrote:
->> On Sun, 2013-05-12 at 08:40 -0700, Saul Wold wrote:
->>> On 05/12/2013 06:27 AM, Otavio Salvador wrote:
->>>> I think so, it'd be good to have it in oe-core and allow use of vpn :)
->>>
->>> I would like to see what the full dependency set looks like for these,
->>> clearly there is the vpnc, openvpn, l2tp and pptp recipes, but what else
->>> and what licenses are they under.
->>
->> I don't think we necessarily want openvpn, l2tpd and suchlike in
->> oe-core.  None of those things seem very "core" to me (in an embedded
->> context) and testing them seems like it would be a bit of a challenge.
+On 05/08/2013 05:41 PM, Ionut Radu wrote:
+> 0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch and 3f08ffb4a4741d147634761dc053ed386243a0de.patch were backported in 1.4.1
 >
-> I agree, these don't belong in OE-Core. We already have them in meta-
-> networking.
+
+What kind of testing did you do with qemu?  Qemu even minor updates can 
+lead to issues since it such a core part of OE-Core development and test.
+
+Thanks
+	Sau!
+
+> Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+> ---
+>   meta/recipes-devtools/qemu/qemu.inc                         |    1 -
+>   meta/recipes-devtools/qemu/{qemu_1.4.0.bb => qemu_1.4.1.bb} |    8 +++-----
+>   2 files changed, 3 insertions(+), 6 deletions(-)
+>   rename meta/recipes-devtools/qemu/{qemu_1.4.0.bb => qemu_1.4.1.bb} (49%)
 >
-This is what I get for replying to an email while traveling overseas and 
-not being 100% clear about my points.
-
-I was more interested in the dependencies then actually thinking about 
-including them in OE-Core,that was not my intent.
-
-This would would allow us to better understand if those recipes not in 
-meta-networking could be moved from meta-oe to meta-networking. 
-Currently, I think vpnc and pptp are in meta-networking, not the other 2.
-
->> Equally, we certainly don't want to have dependencies in oe-core
->> pointing to packages in meta-oe or any other layer, since this would
->> make it impossible to test oe-core in isolation.  So I would be inclined
->> to say that the right way to deal with this is for those connman bits to
->> go in a .bbappend which lives in the same layer as the recipes in
->> question.
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index bd7890d..0a7dc4e 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -26,7 +26,6 @@ SRC_URI = "\
+>       file://larger_default_ram_size.patch \
+>       file://arm-bgr.patch \
+>       file://Revert-vmware_vga-Add-back-some-info-in-local-state-.patch \
+> -    file://0001-doc-Fix-texinfo-table-markup-in-qemu-options.hx.patch \
+>       file://0002-docs-Fix-generating-qemu-doc.html-with-texinfo-5.patch \
+>       "
 >
-> That doesn't work well for software layers - it is not a good thing for
-> various recipes to get rebuilt just because you add meta-oe to your
-> configuration for example.
+> diff --git a/meta/recipes-devtools/qemu/qemu_1.4.0.bb b/meta/recipes-devtools/qemu/qemu_1.4.1.bb
+> similarity index 49%
+> rename from meta/recipes-devtools/qemu/qemu_1.4.0.bb
+> rename to meta/recipes-devtools/qemu/qemu_1.4.1.bb
+> index d968782..f59d28a 100644
+> --- a/meta/recipes-devtools/qemu/qemu_1.4.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_1.4.1.bb
+> @@ -3,10 +3,8 @@ require qemu.inc
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+>                       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
 >
-> The protocol we've established is to add PACKAGECONFIG options to enable the
-> dependencies but have them disabled by default; these can be enabled as
-> desired in distro or local configuration when the layer satisfying the
-> dependency is also enabled.
+> -SRC_URI += "file://3f08ffb4a4741d147634761dc053ed386243a0de.patch \
+> -            file://fdt_header.patch \
+> -           "
+> +SRC_URI += "file://fdt_header.patch"
 >
-This is correct and I talked with RP about this to verify, having these 
-kind of dependencies use PACKAGECONFIG and being disabled by default in 
-OE-Core make sense and is vaild recipe, a Distro or local configuration 
-can then enable and require the additional layers whether it's meta-oe 
-or meta-networking as needed.
-
-Sau!
-
-> Cheers,
-> Paul
+>   SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+> -SRC_URI[md5sum] = "78f13b774814b6b7ebcaf4f9b9204318"
+> -SRC_URI[sha256sum] = "066297ed77408fb7588889c271a85cf3c259ad55c939315988e6062d7708eda8"
+> +SRC_URI[md5sum] = "eb2d696956324722b5ecfa46e41f9a75"
+> +SRC_URI[sha256sum] = "75063a9326221607de3599e89fb5af80f2d8080ddc55ca253fff113843432df1"
 >
 
 
