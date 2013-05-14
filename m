@@ -1,33 +1,25 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1UcIIN-0005eB-TT
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 18:41:51 +0200
-Received: (qmail 3896 invoked by uid 1003); 14 May 2013 16:23:35 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.30.249)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	14 May 2013 16:23:35 -0000
-Message-ID: <51926506.5070302@balister.org>
-Date: Tue, 14 May 2013 12:23:34 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
-	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
-	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
-	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
-	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
-	<1368224314.11129.65.camel@ted>
-	<CAP9ODKo4Knb2Ho5+XS3dGJ2K7DuxSasfhbiMUsLp_SkeOwbkEg@mail.gmail.com>
-	<1368308951.11129.108.camel@ted>
-In-Reply-To: <1368308951.11129.108.camel@ted>
-X-Enigmail-Version: 1.5.1
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UcIJb-0005lq-C1 for openembedded-core@lists.openembedded.org;
+	Tue, 14 May 2013 18:43:13 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UcI22-000642-1c; Tue, 14 May 2013 18:24:54 +0200
+Message-ID: <1368548693.6920.70.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 14 May 2013 17:24:53 +0100
+In-Reply-To: <CAMKF1srAGRK=9BP5VrqhH50VrtWb+PFL5G5P-EEBPefb16xxTA@mail.gmail.com>
+References: <1368513918-16448-1-git-send-email-raj.khem@gmail.com>
+	<1368525912.25898.15.camel@ted>
+	<CAMKF1srAGRK=9BP5VrqhH50VrtWb+PFL5G5P-EEBPefb16xxTA@mail.gmail.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pam: Add libtirpc to build dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,29 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 16:41:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 14 May 2013 16:43:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/11/2013 05:49 PM, Richard Purdie wrote:
+On Tue, 2013-05-14 at 07:33 -0700, Khem Raj wrote:
 > 
-> I will however raise the point that a lot of people currently have a
-> tendency to "hide behind" me in discussions. They see me reply and
-> assume that since I've said something, that is it and they can keep
-> quiet. I want to be clear this isn't going to work as on this and some
-> other topics, it looks like I'm a lone voice. If people do believe in a
-> particular issue, they do need to stand up and add weight to an argument
-> themselves.
+> 
+> On Tuesday, May 14, 2013, RicharPurdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2013-05-13 at 23:45 -0700, Khem Raj wrote:
+> >> libtirpc is looked for by configure and if found
+> >> its enabled. So lets make it consistent and enable
+> >> it always
+> >>
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >>  meta/recipes-extended/pam/libpam_1.1.6.bb |    2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > What is the benefit of this dependency?
+> 
+> 
+> When building from sstate the build of libpam would fail during
+> configure if the machine who populated sstate had libtirpc staged
+> before building libpam and with high parallelism its quite often 
 
-I'd like to emphasize this point. Sometimes, Richard seems to be all
-alone defending decisions that are made. If he is supporting your
-position, support him publicly. Otherwise, there is a perception in the
-community that Richard is acting alone.
+Does this mean that every image which uses pam will also drag in tirpc?
+What's the cost in space and time for that?
 
-Also, getting a variety of viewpoints out really helps technical
-discussion. Sometimes it is the little details in individual use cases
-that become really important.
+p.
 
-Philip
+
 
 
