@@ -1,49 +1,20 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1UcAQi-0002VP-8W
+	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UcAbT-0003Zj-QV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 10:17:56 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:34823 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UcA97-0000Jy-Aq; Tue, 14 May 2013 03:59:41 -0400
-Date: Tue, 14 May 2013 03:59:37 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305140359190.27580@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+	Tue, 14 May 2013 10:29:01 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 May 2013 01:10:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,667,1363158000"; d="scan'208";a="302127691"
+Received: from sorvi.fi.intel.com ([10.237.72.154])
+	by azsmga001.ch.intel.com with ESMTP; 14 May 2013 01:10:46 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2013 11:10:40 +0300
+Message-Id: <1368519045-8266-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v3 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,33 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 08:18:01 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 14 May 2013 08:29:42 -0000
+X-List-Received-Date: Tue, 14 May 2013 08:29:42 -0000
 
-On Mon, 13 May 2013, Khem Raj wrote:
+Hi,
 
-> can you try this
->
-> add
->
-> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
->
-> to linux-yocto_3.8.bb
->
-> and rebuild the kernel and see if that boots
+This v3 fixes following issues noticed by Phil Blundell.
+Thanks for comments Phil!
 
-  does that apply to me as well?
+v3:
+- removed do_install_append_${PN}-vpn() as it is useless here
+- refactored populate_packages_prepend(), now the RDEPENDS are
+  created in lambda function
+- added INSANE_SKIP_<pkg> setting in populate_packages_prepend()
+- patch no longer touches FILES_${PN}
 
-rday
+v2:
+- removed the DISTRO_FEATURES as suggested by Ross,
+  now PACKAGECONFIG is used instead in connman.inc
+- all generic vpn files are placed into connman-vpn package
+  and vpn plugins rdepend on it
+
+v1:
+this patchset enables OpenVPN, vpnc, L2TP and PPTP VPN
+technogies in ConnMan and fixes this bug
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4456
+
+
+Cheers,
+Jukka
+
+
+Jukka Rissanen (5):
+  connman: Add VPN support
+  connman: Add OpenVPN support
+  connman: Add vpnc support
+  connman: Add L2TP support
+  connman: Add PPTP support
+
+ meta/recipes-connectivity/connman/connman.inc | 88 ++++++++++++++++++++++++---
+ 1 file changed, 78 insertions(+), 10 deletions(-)
 
 -- 
+1.7.11.7
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
