@@ -1,50 +1,39 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1UcEaR-00015w-0D
+	(envelope-from <mike.looijmans@topic.nl>) id 1UcEeN-0001XX-8M
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 14:44:12 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:40147 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UcEIq-0001jO-N0; Tue, 14 May 2013 08:26:00 -0400
-Date: Tue, 14 May 2013 08:25:56 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305140824360.23009@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-	<alpine.DEB.2.02.1305140423590.26605@oneiric>
-	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 14 May 2013 14:48:17 +0200
+Received: from atl4mhob08.myregisteredsite.com
+	(atl4mhob08.myregisteredsite.com [209.17.115.46])
+	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r4ECU5YL022788 for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 08:30:05 -0400
+Received: from mail.hostingplatform.com ([10.30.71.203])
+	by atl4mhob08.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r4ECU36E025122 for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 08:30:03 -0400
+Received: (qmail 24409 invoked by uid 0); 14 May 2013 12:30:03 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 14 May 2013 12:30:03 -0000
+Message-ID: <51922E4A.4020809@topic.nl>
+Date: Tue, 14 May 2013 14:30:02 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+To: openembedded-core@lists.openembedded.org
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518FB7F9.2020102@linux.intel.com>
+	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
+	<3529451.hQA8zCVn47@helios>
+	<1368442968.6920.4.camel@phil-desktop.brightsign>
+	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
+	<5190CF63.2030303@r-finger.com>
+	<1368456796.6920.23.camel@phil-desktop.brightsign>
+	<51920240.3070408@r-finger.com>
+In-Reply-To: <51920240.3070408@r-finger.com>
+Subject: libsoup missing DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,52 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 12:44:20 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 14 May 2013 12:48:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 14 May 2013, Bruce Ashfield wrote:
+I got the following build error once, on an attempt to fix it (and 
+create a patch for OE-core) from the devshell, the problem magically 
+disappeared:
 
-> On Tue, May 14, 2013 at 4:28 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > On Mon, 13 May 2013, Khem Raj wrote:
-> >
-> >> can you try this
-> >>
-> >> add
-> >>
-> >> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
-> >>
-> >> to linux-yocto_3.8.bb
-> >>
-> >> and rebuild the kernel and see if that boots
-> >
-> >   ok, that gives me a successful boot (tried it twice, success both
-> > times) but i'm now at a boot prompt:
-> >
-> >   qemumips64 login:
-> >
-> > that's not accepting any keyboard input.  tried a couple more times,
-> > same result -- boot to login prompt, but no keyboard input. thoughts?
->
-> I'm going to switch to an oe-core only, clean build today. The
-> commit that Khem referenced was my change where we prototyped this
-> work .. and I fixed the boot. But I'm still able to boot here, so I
-> was unaware that my -stable updates managed to break my own fix :)
->
-> Stay tuned, but for now, I'd suggest waiting to hear back from me...
 
-  i will be sitting here, waiting on tenterhooks for someone to
-explain to me what "tenterhooks" are.
+| 
+/home/mike/zynq/build/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libsoup-2.4/2.42.1-r0/temp/run.do_configure.26683: 
+line 175: intltoolize: command not found
+| ERROR: Function failed: do_configure (see 
+/home/mike/zynq/build/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libsoup-2.4/2.42.1-r0/temp/log.do_configure.26683 
+for further information)
+ERROR: Task 420 
+(/home/mike/zynq/oe-core/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb, 
+do_configure) failed with exit code '1'
 
-rday
 
--- 
+I suspect libsoup-2.4_2.42.1.bb is lacking a dependency, I don't know 
+what provides the "intltoolize" program though.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Mike.
 
 
