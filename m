@@ -1,33 +1,26 @@
-Received: from mail-pd0-f177.google.com ([209.85.192.177])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Uc4qr-0007mW-P7
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Uc4sC-00081G-Pg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 04:20:30 +0200
-Received: by mail-pd0-f177.google.com with SMTP id g10so4800021pdj.8
+	Tue, 14 May 2013 04:21:58 +0200
+Received: by mail-lb0-f175.google.com with SMTP id v10so68052lbd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 19:02:18 -0700 (PDT)
+	Mon, 13 May 2013 19:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=lWEoSClRrfquAwxR6WiXriyhSc7ob/d9xD10bC1HSew=;
-	b=YS9yDGBntNj6OaVsxJHefaRIkZwUFPiBNUmY6ecYPzoanQCIWL079/9Rs6HApjV2Cb
-	sSVY+JyQ5d3cKUAegvgdKeUj5XOb8ZGB6tn8Xlq16n20H0OHJ5azj46JYhKxglO+Fk9D
-	fA/A49lLHBPRkAxuMn2nCnOgvc3I8a49tcj7NNmgzr1hQnpvoQdlnElxOH1zSHIKDoTj
-	z0b7B08il8chmDph03rIqafOkd9BpCvHMk6fba6Cb+SLDGGZhBktssXM7iHS5iXXQDb7
-	sTq9D6qa2RDBZlq1TddQ4s/bxeQVKGkhEYIfrQWLWvOQJ9wEOdJAAHvsfvXJZ8PRTN5Q
-	UC4A==
-X-Received: by 10.66.150.168 with SMTP id uj8mr31264755pab.34.1368496938632;
-	Mon, 13 May 2013 19:02:18 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	gh9sm16004695pbc.37.2013.05.13.19.02.16 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 19:02:17 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=FNdejYXQPVlg1GxhPqYZwLcKXucDkA57CdKBDivz0jM=;
+	b=mAWA8gCD3ho8hlSSMn1kqZV94U2pdQjsneBKfCGq6yS5dxsg0btpvsaV1N0VAi93Wg
+	6NXGvLLJz+QBF08zA287i/T+JeKjUEAz6cip0nozWVWDvw2w+Q4FrUiRW5LQu7QFcTx3
+	yLFFadSeofx/CKvBxEu8f0/5/ClGSiV9QyxJsJ+JDaS54h7TP+QaPV6XmLMUvDiuU1M1
+	GOLSJGWDf/atKj+hj6eCfjiiPdIN1JJygH+AU8W4pJvu9WStnbsfbUHZ1xGlK4TjyUSY
+	oyUP1NcYrWZgNY4FS7ls4l6mDDCdyCzT6jy6PzoxU2E7aXWAHsBNJrlCJJWNPxSbN889
+	88BQ==
+MIME-Version: 1.0
+X-Received: by 10.152.19.98 with SMTP id d2mr843007lae.19.1368497022052; Mon,
+	13 May 2013 19:03:42 -0700 (PDT)
+Received: by 10.112.234.166 with HTTP; Mon, 13 May 2013 19:03:41 -0700 (PDT)
 In-Reply-To: <CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-Date: Mon, 13 May 2013 19:02:16 -0700
-Message-Id: <83471DB4-C056-4995-9DCD-F3AD198F04A3@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
 	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
@@ -44,8 +37,10 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
 	<alpine.DEB.2.02.1305132059460.25048@oneiric>
 	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+Date: Mon, 13 May 2013 22:03:41 -0400
+Message-ID: <CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Trevor Woerner <twoerner@gmail.com>
-X-Mailer: Apple Mail (2.1503)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
@@ -61,21 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 02:20:31 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 May 2013 02:22:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-cool, keep tuned I might have narrowed it down
-
-On May 13, 2013, at 7:01 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-
+On Mon, May 13, 2013 at 10:01 PM, Trevor Woerner <twoerner@gmail.com> wrote:
 > By adding:
-> 
->    PREFERRED_VERSION_linux-yocto := "3.8%"
-> 
+>
+>     PREFERRED_VERSION_linux-yocto := "3.8%"
+
+Yep. This is what I was about to recommend, but did you apply Khem's patches, or
+use his contrib branch ? The 3.4 kernel has no compatibility with
+qemumips64, so it
+should have never built, and you shouldn't have needed the version set.
+
+Bruce
+
+>
 > to my conf/local.conf I was able to get the image to build/use 3.8.11;
 > but I too am still seeing the kernel panic as described before (i.e.
 > in reset_counters()).
 
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
