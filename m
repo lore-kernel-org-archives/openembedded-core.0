@@ -1,35 +1,27 @@
-Received: from mail-ee0-f49.google.com ([74.125.83.49])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UcIO6-0006CW-NF
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UcInT-0000Rq-Hk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 18:47:44 +0200
-Received: by mail-ee0-f49.google.com with SMTP id d17so453783eek.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2013 09:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=QX7g+1edxbc4ILu7RLwwXP7Xb4Ems8XOr836BzLbrVo=;
-	b=U+/7JARGjn3jB9Hz5NBL56DtLwvZxt5K0tZFbM1foYtNFXr2bCaLeamTdU+y2Zgsoh
-	paQupOH96nJCHsvbVxf2n6oy7jrleGyZAurMt5zQS0FyReTyu0lgWf86aDJy/Wk8znKF
-	tgdZ974GR62ZfIJdKso6AFXNTJK4RWwEbaVZOmdUIW9eBWXomo6x+7yiU98uWhncH4PV
-	i9DJhj6Pi95xvJUEjhYaoBDFKOv51RORvag7UeI+A/zGYodhe1fKntw5zweoRrbBzNLM
-	wU85gTxk7PvODYRe0yWl9qadzDF0OIeOFUiPvbW+umWqthzwZ6wND2Yq6sDFH9BeUjeH
-	unZg==
-X-Received: by 10.15.73.197 with SMTP id h45mr52252698eey.46.1368548971483;
-	Tue, 14 May 2013 09:29:31 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	w52sm30500941eev.12.2013.05.14.09.29.30 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 14 May 2013 09:29:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2013 18:29:36 +0200
-Message-Id: <1368548976-28229-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <20130510125303.GF12329@jama.dyndns-home.com>
-References: <20130510125303.GF12329@jama.dyndns-home.com>
-Subject: [RFC][PATCH] gcc-4.8: temporary disable thumb
+	Tue, 14 May 2013 19:14:15 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 May 2013 09:55:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,671,1363158000"; d="scan'208";a="302353556"
+Received: from unknown (HELO helios.localnet) ([10.255.12.153])
+	by azsmga001.ch.intel.com with ESMTP; 14 May 2013 09:55:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+Date: Tue, 14 May 2013 17:55:40 +0100
+Message-ID: <1824887.iAjz2He6PC@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <5192006C.1060803@r-finger.com>
+References: <518A6B25.5000108@r-finger.com>
+	<1368459699.6920.41.camel@phil-desktop.brightsign>
+	<5192006C.1060803@r-finger.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 16:47:46 -0000
+X-List-Received-Date: Tue, 14 May 2013 17:14:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* temporary work around for build issue on armv4t:
-| cp/decl.o: In function `bad_specifiers':
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7171:(.text.unlikely+0x24): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7173:(.text.unlikely+0x32): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7176:(.text.unlikely+0x3e): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7180:(.text.unlikely+0x4c): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7182:(.text.unlikely+0x5a): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7185:(.text.unlikely+0x66): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7189:(.text.unlikely+0x74): relocation truncated to fit: R_ARM_THM_CALL against sym
-bol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7191:(.text.unlikely+0x82): relocation truncated to fit: R_ARM_THM_CALL against symbol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7194:(.text.unlikely+0x8e): relocation truncated to fit: R_ARM_THM_CALL against symbol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7198:(.text.unlikely+0x9c): relocation truncated to fit: R_ARM_THM_CALL against symbol `error(char const*, ...)' defined in .glue_7 section in linker stubs
-| /OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7200:(.text.unlikely+0xaa): additional relocation overflows omitted from the output
-| collect2: error: ld returned 1 exit status
-| make[2]: *** [cc1plus] Error 1
+On Tuesday 14 May 2013 10:14:20 Tomas Frydrych wrote:
+> On 13/05/13 16:41, Phil Blundell wrote:
+> > It seems a bit hyperbolic to claim that testing clutter is impossible
+> > without GPU hardware (either real or emulated).  The majority of the
+> > code even in cogl, and virtually all the code in clutter itself, is
+> > mostly independent of the underlying GL implementation.  From the point
+> > of view of testing whether clutter basically "works" and is correctly
+> > built/packaged it seems as though this ought to be quite sufficient.
+> 
+> There are too separate issues: testing clutter itself, and using clutter
+> to test other parts of the graphics stack.
+> 
+> Re the former, all you can say after testing cogl/clutter against mesa
+> software rasterizer is that a particular configuration and a particular
+> backend (in oe-core that would be the GLX backend) work with mesa
+> software rasterizer. This says nothing about any other configuration,
+> with any other backend or whether it works with any other GL/GLES
+> implementation.
+> 
+> In reality, cogl/clutter need patches to build against the likes of TI's
+> GLES (e.g., Beagleboard) or to work on the likes of RaspberryPi, and
+> these patches cannot be included in oe-core, of course, because oe-core
+> knows nothing of such machines. 
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gcc/gcc_4.8.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Having clutter in OE-Core does not preclude such testing with additional BSPs, 
+and I'm unclear on how moving it out to another layer helps at all with this 
+specific issue.
 
-diff --git a/meta/recipes-devtools/gcc/gcc_4.8.bb b/meta/recipes-devtools/gcc/gcc_4.8.bb
-index 9954375..99485bc 100644
---- a/meta/recipes-devtools/gcc/gcc_4.8.bb
-+++ b/meta/recipes-devtools/gcc/gcc_4.8.bb
-@@ -3,3 +3,5 @@ require gcc-configure-target.inc
- require gcc-package-target.inc
- 
- ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
-+
-+ARM_INSTRUCTION_SET = "arm"
+> Then there are little annoyances, like
+> the fact that over the last year or so, clutter has tended to have a
+> dependency on a specific but mostly random versions of libxkbcommon
+> (from what I can gather, determined more then anything by whatever the
+> Fedora packager happened to package and what version of Fedora the
+> clutter maintainer was using), or Clutter's customary insistence on as
+> recent glib as you can get. This can all be nicely encapsulated in small
+> layer.
+
+This could present a problem. What if I want Clutter but I don't want the 
+latest version of glib, but instead the version that is being shipped with OE-
+Core that is tested with the other pieces of the system that depend upon it 
+(especially given glib has recent history of breaking other packages)? Surely 
+the safest alternative is the last stable version of Clutter that works with 
+that version of glib? That would make it difficult to depend upon an external 
+layer that provides its own newer version of glib would it not?
+
+There's no denying that the maintenance of the Clutter recipes in OE-Core has 
+slipped. I don't think that is an argument in itself to split them out, that 
+just means we need to recognise that and maintain those recipes more 
+effectively. It's not a case where we've missed the release because it was too 
+close, we've not updated it for longer than that.
+
+Honestly I think if Clutter continues to be something that people are using to 
+develop applications we're much better off with the "canonical" stable version 
+being in OE-Core.
+
+Cheers,
+Paul
+
 -- 
-1.8.2.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
