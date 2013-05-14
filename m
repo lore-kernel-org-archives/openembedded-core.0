@@ -1,23 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefanx.stanacar@intel.com>) id 1UcIGL-0005Oa-K8
+Received: from starfish.geekisp.com ([216.168.135.166])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <philip@balister.org>) id 1UcIIN-0005eB-TT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 18:39:49 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 May 2013 09:21:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,671,1363158000"; d="scan'208";a="241429065"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 May 2013 09:21:28 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.149])
-	by linux.intel.com (Postfix) with ESMTP id 51A586A4083;
-	Tue, 14 May 2013 09:21:18 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2013 19:21:35 +0300
-Message-Id: <1368548495-30122-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH v2] connman: replace hardcoded path in init script and systemd service
+	Tue, 14 May 2013 18:41:51 +0200
+Received: (qmail 3896 invoked by uid 1003); 14 May 2013 16:23:35 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@71.171.30.249)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	14 May 2013 16:23:35 -0000
+Message-ID: <51926506.5070302@balister.org>
+Date: Tue, 14 May 2013 12:23:34 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
+	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
+	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
+	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
+	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
+	<1368224314.11129.65.camel@ted>
+	<CAP9ODKo4Knb2Ho5+XS3dGJ2K7DuxSasfhbiMUsLp_SkeOwbkEg@mail.gmail.com>
+	<1368308951.11129.108.camel@ted>
+In-Reply-To: <1368308951.11129.108.camel@ted>
+X-Enigmail-Version: 1.5.1
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,66 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 16:39:50 -0000
+X-List-Received-Date: Tue, 14 May 2013 16:41:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-The connman init script sources a setup file from /usr/lib/connman,
-so we end up with no network in qemu multilib enabled images.
+On 05/11/2013 05:49 PM, Richard Purdie wrote:
+> 
+> I will however raise the point that a lot of people currently have a
+> tendency to "hide behind" me in discussions. They see me reply and
+> assume that since I've said something, that is it and they can keep
+> quiet. I want to be clear this isn't going to work as on this and some
+> other topics, it looks like I'm a lone voice. If people do believe in a
+> particular issue, they do need to stand up and add weight to an argument
+> themselves.
 
-The init script it's installed by connman and because wired-setup
-it's installed by another package (connman-conf) we can't use
-libexecdir here and now (in the init script and systemd service file).
+I'd like to emphasize this point. Sometimes, Richard seems to be all
+alone defending decisions that are made. If he is supporting your
+position, support him publicly. Otherwise, there is a perception in the
+community that Richard is acting alone.
 
-Once libexecdir changes from ${libdir}/${bpn} to something else like
-/usr/libexec we could use that instead of ${libdir}/connman.
+Also, getting a variety of viewpoints out really helps technical
+discussion. Sometimes it is the little details in individual use cases
+that become really important.
 
-Changed in v2: - better commit message
-
-[YOCTO #4493]
-
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/recipes-connectivity/connman/connman.inc     | 3 ++-
- meta/recipes-connectivity/connman/connman/connman | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index afc361c..3d3ec93 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -47,7 +47,7 @@ INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
- SYSTEMD_SERVICE_${PN} = "connman.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-/usr/lib/connman/wired-setup"
-+SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
- 
- # IMPORTANT: because xuser is shared with rootless X, please make sure the
- # USERADD_PARAM is in sync with the one in xserver-nodm-init.bb
-@@ -73,6 +73,7 @@ do_install_append() {
- 	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
- 		install -d ${D}${sysconfdir}/init.d
- 		install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
-+		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
- 	fi
- 
- 	install -d ${D}${bindir}
-diff --git a/meta/recipes-connectivity/connman/connman/connman b/meta/recipes-connectivity/connman/connman/connman
-index a111f60..67ba7c8 100644
---- a/meta/recipes-connectivity/connman/connman/connman
-+++ b/meta/recipes-connectivity/connman/connman/connman
-@@ -32,8 +32,8 @@ do_start() {
- 		ethn=`ifconfig | grep eth | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
- 		EXTRA_PARAM="-I $ethn"
- 	fi
--	if [ -f /usr/lib/connman/wired-setup ] ; then
--		. /usr/lib/connman/wired-setup
-+	if [ -f @LIBDIR@/connman/wired-setup ] ; then
-+		. @LIBDIR@/connman/wired-setup
- 	fi
- 	$DAEMON $EXTRA_PARAM
- }
--- 
-1.8.1.4
-
+Philip
 
 
