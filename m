@@ -1,26 +1,33 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-pd0-f177.google.com ([209.85.192.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1Uc4pv-0007eT-KK
+	(envelope-from <raj.khem@gmail.com>) id 1Uc4qr-0007mW-P7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 04:19:42 +0200
-Received: by mail-wg0-f43.google.com with SMTP id c11so6953540wgh.10
+	Tue, 14 May 2013 04:20:30 +0200
+Received: by mail-pd0-f177.google.com with SMTP id g10so4800021pdj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 19:01:21 -0700 (PDT)
+	Mon, 13 May 2013 19:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=9GP5r7NcY0z3ErPgrqT8yx7lwO4pHfA9pVvipMMI0BQ=;
-	b=k1XlikTUG/sL/UDjbivyhEmmBK8aHzyLpcbMcNMLlbzqHGuBiXbo53N44CKChAEeKj
-	k/L755VHhGBBa3KgZPtSNnFA4VXEZSQkHdTeSpekZuQLwLwMH7Iukxaqs1yCCgyWq9Nl
-	q8tIcebd1zm2TqiN95j4zIT6v+pIo6eZTdM1WzAQzXHoaemF5tdxOp1rCm/SJurEC+Fe
-	Ar/Iv6WtshHboFx9IcwJZKShIoEdtbAq4as1WWqsQRzjBeu+TwPIlCR6c9l8kkM8A8D/
-	B8AVqcwP4AcmzfqNShjupb+ycVlw64eAJkptul8yphhOysdzKnIDEAEBdLgb2KOxxAps
-	xTrw==
-MIME-Version: 1.0
-X-Received: by 10.180.37.133 with SMTP id y5mr1492186wij.20.1368496881329;
-	Mon, 13 May 2013 19:01:21 -0700 (PDT)
-Received: by 10.194.5.132 with HTTP; Mon, 13 May 2013 19:01:21 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1305132059460.25048@oneiric>
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=lWEoSClRrfquAwxR6WiXriyhSc7ob/d9xD10bC1HSew=;
+	b=YS9yDGBntNj6OaVsxJHefaRIkZwUFPiBNUmY6ecYPzoanQCIWL079/9Rs6HApjV2Cb
+	sSVY+JyQ5d3cKUAegvgdKeUj5XOb8ZGB6tn8Xlq16n20H0OHJ5azj46JYhKxglO+Fk9D
+	fA/A49lLHBPRkAxuMn2nCnOgvc3I8a49tcj7NNmgzr1hQnpvoQdlnElxOH1zSHIKDoTj
+	z0b7B08il8chmDph03rIqafOkd9BpCvHMk6fba6Cb+SLDGGZhBktssXM7iHS5iXXQDb7
+	sTq9D6qa2RDBZlq1TddQ4s/bxeQVKGkhEYIfrQWLWvOQJ9wEOdJAAHvsfvXJZ8PRTN5Q
+	UC4A==
+X-Received: by 10.66.150.168 with SMTP id uj8mr31264755pab.34.1368496938632;
+	Mon, 13 May 2013 19:02:18 -0700 (PDT)
+Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	gh9sm16004695pbc.37.2013.05.13.19.02.16 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 13 May 2013 19:02:17 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+Date: Mon, 13 May 2013 19:02:16 -0700
+Message-Id: <83471DB4-C056-4995-9DCD-F3AD198F04A3@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
 	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
@@ -36,10 +43,9 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<alpine.DEB.2.02.1305131805100.28372@oneiric>
 	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
 	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-Date: Mon, 13 May 2013 22:01:21 -0400
-Message-ID: <CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+X-Mailer: Apple Mail (2.1503)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
@@ -55,15 +61,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 02:19:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 14 May 2013 02:20:31 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 7bit
 
-By adding:
+cool, keep tuned I might have narrowed it down
 
-    PREFERRED_VERSION_linux-yocto := "3.8%"
+On May 13, 2013, at 7:01 PM, Trevor Woerner <twoerner@gmail.com> wrote:
 
-to my conf/local.conf I was able to get the image to build/use 3.8.11;
-but I too am still seeing the kernel panic as described before (i.e.
-in reset_counters()).
+> By adding:
+> 
+>    PREFERRED_VERSION_linux-yocto := "3.8%"
+> 
+> to my conf/local.conf I was able to get the image to build/use 3.8.11;
+> but I too am still seeing the kernel panic as described before (i.e.
+> in reset_counters()).
+
 
 
