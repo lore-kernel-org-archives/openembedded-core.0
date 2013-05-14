@@ -1,34 +1,48 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Uc4cP-0006C9-KF
+	(envelope-from <twoerner@gmail.com>) id 1Uc4pv-0007eT-KK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 04:05:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4E1lJrm028562
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 May 2013 18:47:19 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 13 May 2013 18:47:19 -0700
-Message-ID: <519197A0.2010201@windriver.com>
-Date: Tue, 14 May 2013 09:47:12 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Tue, 14 May 2013 04:19:42 +0200
+Received: by mail-wg0-f43.google.com with SMTP id c11so6953540wgh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2013 19:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=9GP5r7NcY0z3ErPgrqT8yx7lwO4pHfA9pVvipMMI0BQ=;
+	b=k1XlikTUG/sL/UDjbivyhEmmBK8aHzyLpcbMcNMLlbzqHGuBiXbo53N44CKChAEeKj
+	k/L755VHhGBBa3KgZPtSNnFA4VXEZSQkHdTeSpekZuQLwLwMH7Iukxaqs1yCCgyWq9Nl
+	q8tIcebd1zm2TqiN95j4zIT6v+pIo6eZTdM1WzAQzXHoaemF5tdxOp1rCm/SJurEC+Fe
+	Ar/Iv6WtshHboFx9IcwJZKShIoEdtbAq4as1WWqsQRzjBeu+TwPIlCR6c9l8kkM8A8D/
+	B8AVqcwP4AcmzfqNShjupb+ycVlw64eAJkptul8yphhOysdzKnIDEAEBdLgb2KOxxAps
+	xTrw==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1366963971.git.liezhi.yang@windriver.com>
-	<4aa663aaedff33870a96a676b9394ff79fe49eac.1366963971.git.liezhi.yang@windriver.com>
-	<CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
-	<517B30A4.5050405@windriver.com>
-	<CAJTo0LYzafv3Eb3QtbVT+jbRkfPN2_vUxh0bsS0WZ9bJc8-NaQ@mail.gmail.com>
-	<CAP9ODKrOs_bqf0g5Aw3WhJ3ZVoNM2aqMCoQzWZ+8e9LX7cwscg@mail.gmail.com>
-	<CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
-In-Reply-To: <CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
-Cc: Patches, Otavio Salvador <otavio@ossystems.com.br>,
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] glib-2.0-native: do_compile failed on opensuse 12.2 64bit
+X-Received: by 10.180.37.133 with SMTP id y5mr1492186wij.20.1368496881329;
+	Mon, 13 May 2013 19:01:21 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Mon, 13 May 2013 19:01:21 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1305132059460.25048@oneiric>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
+	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
+	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
+	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
+	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131536070.2354@oneiric>
+	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
+	<alpine.DEB.2.02.1305131558330.23405@oneiric>
+	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131650030.12354@oneiric>
+	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131805100.28372@oneiric>
+	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	<alpine.DEB.2.02.1305132059460.25048@oneiric>
+Date: Mon, 13 May 2013 22:01:21 -0400
+Message-ID: <CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +55,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 02:05:55 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 May 2013 02:19:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+By adding:
 
-OK, got it, I will file a new patch sooner.
+    PREFERRED_VERSION_linux-yocto := "3.8%"
 
-// Robert
-
-On 05/13/2013 11:28 PM, Burton, Ross wrote:
-> On 13 May 2013 16:23, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> We may need to have a mechanism to specific build dependencies for
->> native depending on host version/distribution.
->
-> The situation is that Suse splits the expat parser into a separate
-> package for some reason, so the "fix" is to actually install the whole
-> Python core library by installing python-xml if it isn't already
-> pulled in.  We could add a sanity test that the python available is a
-> full python and not missing the expat parser (suse without python-xml)
-> or isn't python-minimal (ubuntu).
->
-> Ross
->
->
+to my conf/local.conf I was able to get the image to build/use 3.8.11;
+but I too am still seeing the kernel panic as described before (i.e.
+in reset_counters()).
 
 
