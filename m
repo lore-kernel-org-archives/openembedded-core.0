@@ -1,22 +1,49 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jukka.rissanen@linux.intel.com>) id 1UcAc6-0003Zp-1q
+	(envelope-from <rpjday@crashcourse.ca>) id 1UcAt6-0005O9-4V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 10:29:46 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 May 2013 01:10:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,667,1363158000"; d="scan'208";a="302127733"
-Received: from sorvi.fi.intel.com ([10.237.72.154])
-	by azsmga001.ch.intel.com with ESMTP; 14 May 2013 01:10:52 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2013 11:10:45 +0300
-Message-Id: <1368519045-8266-6-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1368519045-8266-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1368519045-8266-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH v3 5/5] connman: Add PPTP support
+	Tue, 14 May 2013 10:47:13 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:35294 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1UcAbV-0001Vq-9H; Tue, 14 May 2013 04:29:01 -0400
+Date: Tue, 14 May 2013 04:28:56 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
+Message-ID: <alpine.DEB.2.02.1305140423590.26605@oneiric>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
+	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131536070.2354@oneiric>
+	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
+	<alpine.DEB.2.02.1305131558330.23405@oneiric>
+	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131650030.12354@oneiric>
+	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131805100.28372@oneiric>
+	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	<alpine.DEB.2.02.1305132059460.25048@oneiric>
+	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
+	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
+	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 08:30:01 -0000
+X-List-Received-Date: Tue, 14 May 2013 08:47:13 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Mon, 13 May 2013, Khem Raj wrote:
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- meta/recipes-connectivity/connman/connman.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> can you try this
+>
+> add
+>
+> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
+>
+> to linux-yocto_3.8.bb
+>
+> and rebuild the kernel and see if that boots
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index b26555c..8d6f68c 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -49,6 +49,7 @@ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
- PACKAGECONFIG[openvpn] = "--enable-openvpn,--disable-openvpn,,openvpn"
- PACKAGECONFIG[vpnc] = "--enable-vpnc,--disable-vpnc,,vpnc"
- PACKAGECONFIG[l2tp] = "--enable-l2tp,--disable-l2tp,,xl2tpd"
-+PACKAGECONFIG[pptp] = "--enable-pptp,--disable-pptp,,pptp-linux"
- 
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
-@@ -199,3 +200,11 @@ FILES_${PN}-plugin-vpn-l2tp += "${libdir}/connman/scripts/libppp-plugin.so* \
-                                 ${libdir}/connman/plugins-vpn/l2tp.so"
- RDEPENDS_${PN}-plugin-vpn-l2tp += "${PN}-vpn"
- RRECOMMENDS_${PN} += "${@base_contains('PACKAGECONFIG','l2tp','${PN}-plugin-vpn-l2tp', '', d)}"
-+
-+SUMMARY_${PN}-plugin-vpn-pptp = "A PPTP plugin for ConnMan VPN"
-+DESCRIPTION_${PN}-plugin-vpn-pptp = "The ConnMan PPTP plugin uses pptp-linux client \
-+to create a VPN connection to PPTP server."
-+FILES_${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so* \
-+                                ${libdir}/connman/plugins-vpn/pptp.so"
-+RDEPENDS_${PN}-plugin-vpn-pptp += "${PN}-vpn"
-+RRECOMMENDS_${PN} += "${@base_contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
+  ok, that gives me a successful boot (tried it twice, success both
+times) but i'm now at a boot prompt:
+
+  qemumips64 login:
+
+that's not accepting any keyboard input.  tried a couple more times,
+same result -- boot to login prompt, but no keyboard input. thoughts?
+
+rday
+
+p.s.  i can ping the VM (192.168.7.2) but can't ssh into it, FWIW.
+
 -- 
-1.7.11.7
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
