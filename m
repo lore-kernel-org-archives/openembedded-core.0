@@ -1,28 +1,27 @@
-Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UcEeN-0001XX-8M
+	(envelope-from <ross.burton@intel.com>) id 1UcEkv-00023a-Nt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 14:48:17 +0200
-Received: from atl4mhob08.myregisteredsite.com
-	(atl4mhob08.myregisteredsite.com [209.17.115.46])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4ECU5YL022788 for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2013 08:30:05 -0400
-Received: from mail.hostingplatform.com ([10.30.71.203])
-	by atl4mhob08.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4ECU36E025122 for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2013 08:30:03 -0400
-Received: (qmail 24409 invoked by uid 0); 14 May 2013 12:30:03 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 14 May 2013 12:30:03 -0000
-Message-ID: <51922E4A.4020809@topic.nl>
-Date: Tue, 14 May 2013 14:30:02 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Tue, 14 May 2013 14:55:05 +0200
+Received: by mail-vc0-f180.google.com with SMTP id gd11so455432vcb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 05:36:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=1eJY4p929umygfNAZOfiX9ozmabHz/H1oDsjocA9D1Q=;
+	b=MziFCy7Syfm1xUFI6a0IbF9bx+juGfmsR4rVU8h/+WHK/aoBLLDsnhcMmarobBlEG9
+	nHUOklnevG92392imGJAa3+04OjXmziXqPFo3oG+poszToP0uFqNNHRbq3UQevQilJWJ
+	dzjn+4uaxqUyu7CQnG3XmvieLc6RL2yERYtPB6y5brrmnXv+mMjS0mwiTJ3bMoWdzUT3
+	UEgXcwf6GwHAjEGpBc5T6swO+dChFKx7fr5Gyyz3/NRXCyENMasYIETQbpaFSrJT/Igg
+	dAl2NRJRKJFstUjwdI0KHZezSS6xbI6yVLQVM5oNdwUY1YJvXYcnAaLIxmDEXHz2ydZK
+	DJNg==
+X-Received: by 10.52.37.196 with SMTP id a4mr18417548vdk.82.1368535010096;
+	Tue, 14 May 2013 05:36:50 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.221.8.3 with HTTP; Tue, 14 May 2013 05:36:30 -0700 (PDT)
+In-Reply-To: <51922E4A.4020809@topic.nl>
 References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
 	<518FB7F9.2020102@linux.intel.com>
 	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
@@ -31,9 +30,14 @@ References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
 	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
 	<5190CF63.2030303@r-finger.com>
 	<1368456796.6920.23.camel@phil-desktop.brightsign>
-	<51920240.3070408@r-finger.com>
-In-Reply-To: <51920240.3070408@r-finger.com>
-Subject: libsoup missing DEPENDS
+	<51920240.3070408@r-finger.com> <51922E4A.4020809@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 May 2013 13:36:30 +0100
+Message-ID: <CAJTo0LbsZmpF=wrhRHiBunkEyviguY-VxThLTM6=AOraAYkk8w@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+X-Gm-Message-State: ALoCoQn2Ob4qZ2Rah9UvzBAJiqg4DbsZMPrrnk5JNAI+pwrRSR3U4y0fBiwDh8VFEFAhcRhg6DEO
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: libsoup missing DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,29 +50,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 12:48:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 May 2013 12:55:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I got the following build error once, on an attempt to fix it (and 
-create a patch for OE-core) from the devshell, the problem magically 
-disappeared:
+On 14 May 2013 13:30, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> I suspect libsoup-2.4_2.42.1.bb is lacking a dependency, I don't know what
+> provides the "intltoolize" program though.
 
+Yes, and it's "intltool".
 
-| 
-/home/mike/zynq/build/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libsoup-2.4/2.42.1-r0/temp/run.do_configure.26683: 
-line 175: intltoolize: command not found
-| ERROR: Function failed: do_configure (see 
-/home/mike/zynq/build/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/libsoup-2.4/2.42.1-r0/temp/log.do_configure.26683 
-for further information)
-ERROR: Task 420 
-(/home/mike/zynq/oe-core/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb, 
-do_configure) failed with exit code '1'
-
-
-I suspect libsoup-2.4_2.42.1.bb is lacking a dependency, I don't know 
-what provides the "intltoolize" program though.
-
-Mike.
+Ross
 
 
