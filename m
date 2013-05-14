@@ -1,56 +1,31 @@
-Received: from mail-pb0-f45.google.com ([209.85.160.45])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Uc5Pi-0002pX-QZ
+	(envelope-from <Qi.Chen@windriver.com>) id 1Uc69l-0008EG-1s
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 04:56:38 +0200
-Received: by mail-pb0-f45.google.com with SMTP id mc8so13904pbc.18
+	Tue, 14 May 2013 05:44:05 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4E3PjLh005534
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2013 19:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=6TQF0a1ENVS9Yhn/PMuKSGM4GmPGGzpOAFzI85HIM1w=;
-	b=0rdjEsr0sSs46LQhVRvfOPPKgrg2qfPULHfPHdn0wfFqmmBOB6qJvQIjxERx2kzYG3
-	ccheHwBAplzCWzFeSlSwqAfi+JsOPpQavjRG8HSV89rqVa4qaW3FQJKh38lsIlucK3Z/
-	b3spMfsigoJVfLzL/6ULJ4DYh1L1ipcIqWu1Y/O554ylaZO2LF6Yz0erMjcykLlTcO5c
-	aZn6kBgllMdpvWP/ybPCffsLdVUs3dtVPLtQVmOT/Ltmb74C2xe9bADsI//UVuPZk8Ty
-	1fFEPWgrodsSthV+yUdhaBFtB1gG0A1ZocgP1i9ohMl8Fnn+gYQ/pD+hbR0+gKIRZJhu
-	q4iw==
-X-Received: by 10.66.91.107 with SMTP id cd11mr32181295pab.74.1368499099600;
-	Mon, 13 May 2013 19:38:19 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	kv2sm16123323pbc.28.2013.05.13.19.38.17 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 13 May 2013 19:38:18 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-Date: Mon, 13 May 2013 19:38:16 -0700
-Message-Id: <D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
-	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
-	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+	Mon, 13 May 2013 20:25:45 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Mon, 13 May 2013 20:25:46 -0700
+Message-ID: <5191AEC3.2050503@windriver.com>
+Date: Tue, 14 May 2013 11:25:55 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1368054238-21389-1-git-send-email-jslater@windriver.com>
+	<CAJTo0LZW4aw9eKoXg5zZhV9-ncSWpWD=AfgW45HQrQadqZatAw@mail.gmail.com>
+	<518D6DF1.6080903@linux.intel.com>
+	<007BD92917A2324FA403BCF9A464CF8436FC4D2B@ALA-MBA.corp.ad.wrs.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF8436FC4D2B@ALA-MBA.corp.ad.wrs.com>
+X-Originating-IP: [128.224.162.233]
+Subject: Re: [PATCH 1/1] sysvinit: modify bootlog location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,53 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 02:56:53 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 May 2013 03:44:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-can you try this=20
+On 05/14/2013 06:36 AM, Slater, Joseph wrote:
+>
+>> -----Original Message-----
+>> From: Saul Wold [mailto:sgw@linux.intel.com]
+>> Sent: Friday, May 10, 2013 3:00 PM
+>> To: Burton, Ross; Slater, Joseph
+>> Cc: openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 1/1] sysvinit: modify bootlog location
+>>
+>> On 05/10/2013 02:42 AM, Burton, Ross wrote:
+>>> On 9 May 2013 00:03, Joe Slater <jslater@windriver.com> wrote:
+>>>> The default location for bootlog is volatile,
+>>>> so we change it to something that is not.
+>>> If this is a problem, why not make /var/log not volatile?  I never
+>>> understood why the log directory was volatile to be honest.
+>>>
+>> How would we handle the Read-Only FS situation?
+> Maybe we could change around the creation of bootlogd.log such that,
+> if /var/local were not writeable, we'd stick it in /var/log.
+>
+> Joe
+>
+Hi all,
 
-add
+I once wanted to make /var/log not volatile, but then I realised that 
+not preserving logs between reboots doesn't seem to bother any user, so 
+I dropped the patches and marked the bug NOTABUG.
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=3397)
 
-SRCREV_machine_qemumips64 =3D "bbefde394205a1b317eae31942bfc13afce0b0ac"
+So the key problem here is, are we going to preserve logs between reboots?
 
-to linux-yocto_3.8.bb
+If so, we can make /var/log not volatile, in the same way Laurentiu did 
+with /var/cache, and add the following lines to the 
+read-only-rootfs-hook.sh script to make things work in case of a 
+read-only filesystem.
 
-and rebuild the kernel and see if that boots
+mkdir -p /var/volatile/log
+mount --bind /var/volatile/log /var/log
 
-On May 13, 2013, at 7:18 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+Best Regards,
+Chen Qi
 
-> On Mon, May 13, 2013 at 10:03 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Mon, May 13, 2013 at 10:01 PM, Trevor Woerner <twoerner@gmail.com> =
-wrote:
->>> By adding:
->>>=20
->>>    PREFERRED_VERSION_linux-yocto :=3D "3.8%"
->>=20
->> Yep. This is what I was about to recommend, but did you apply Khem's =
-patches, or
->> use his contrib branch ?
->=20
-> His contrib branch:
->=20
-> Build Configuration:
-> BB_VERSION        =3D "1.19.0"
-> BUILD_SYS         =3D "x86_64-linux"
-> NATIVELSBSTRING   =3D "openSUSE-project-12.3"
-> TARGET_SYS        =3D "mips64-poky-linux"
-> MACHINE           =3D "qemumips64"
-> DISTRO            =3D "poky"
-> DISTRO_VERSION    =3D "1.3+snapshot-20130514"
-> TUNE_FEATURES     =3D "n64 bigendian fpu-hard"
-> TARGET_FPU        =3D ""
-> meta-yocto        =3D =
-"master:a9f5bf0ed398bf9cb861feaa8b6fefd8645b1d09"
-> meta              =3D =
-"kraj/qemumips64:b0592ab08273e17cb1511384ad189281f88c8b03"
->=20
->=20
-> Are there patches to apply too?
+
+>> Sau!
+>>
+>>> Ross
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
 
