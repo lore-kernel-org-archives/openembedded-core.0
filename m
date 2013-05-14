@@ -1,27 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UcInT-0000Rq-Hk
+	(envelope-from <otavio.salvador@gmail.com>) id 1UcMlT-0005cK-Df
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 19:14:15 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 May 2013 09:55:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,671,1363158000"; d="scan'208";a="302353556"
-Received: from unknown (HELO helios.localnet) ([10.255.12.153])
-	by azsmga001.ch.intel.com with ESMTP; 14 May 2013 09:55:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Tue, 14 May 2013 17:55:40 +0100
-Message-ID: <1824887.iAjz2He6PC@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <5192006C.1060803@r-finger.com>
-References: <518A6B25.5000108@r-finger.com>
-	<1368459699.6920.41.camel@phil-desktop.brightsign>
-	<5192006C.1060803@r-finger.com>
+	Tue, 14 May 2013 23:28:15 +0200
+Received: by mail-ob0-f174.google.com with SMTP id un3so1160983obb.33
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 14:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=5oxHhUPS8i+RONPCXzMZjprkjanHlIr0q6eV5honKK0=;
+	b=zA3BhVdDkh3luUlonDlElaxiSRkkgyXBTNpv9NCfjKt6n8LpRPKal5QRK0yMuXbVaZ
+	ybjAVngucvSwg+kz7QVbfEox9iW7N5vWaQg5Xoys0shyXIQChtYXjyAL4cCQQ8g+h66U
+	Ygh9Q2oW5T7p34/PsBFhS/6LVdeEDTA5R5QxnhUpacgFx8QAH9buFCqE6f0cmdD2wDmh
+	gX5PBRBIv0PtkOYFqLEmStoxGidN/1V6QJ5WDlWfYfKFE5+NuwXewK/w9+b9202Ww6os
+	ZsTsZPeDZM5WkiHY2nmUKAgtmK7HWt0vfCxMjshlkhPo/6L3b0F72wm+vRXHHtL0/9ck
+	ZVDQ==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+X-Received: by 10.60.116.3 with SMTP id js3mr15431902oeb.142.1368565792319;
+	Tue, 14 May 2013 14:09:52 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Tue, 14 May 2013 14:09:52 -0700 (PDT)
+In-Reply-To: <1368513794-20427-1-git-send-email-b40527@freescale.com>
+References: <1368513794-20427-1-git-send-email-b40527@freescale.com>
+Date: Tue, 14 May 2013 18:09:52 -0300
+X-Google-Sender-Auth: f39JbXTk2YywPOcTBSyVYzQn3wU
+Message-ID: <CAP9ODKqvTauWrg3QAwuJvwHMWKDXwPDLdXP_xb9Fu44SKNqPaA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: b40527@freescale.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] toolchain-scripts.bbclass:Add CROSS_COMPILE variable to environment-setup file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,71 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 17:14:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 14 May 2013 21:28:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tuesday 14 May 2013 10:14:20 Tomas Frydrych wrote:
-> On 13/05/13 16:41, Phil Blundell wrote:
-> > It seems a bit hyperbolic to claim that testing clutter is impossible
-> > without GPU hardware (either real or emulated).  The majority of the
-> > code even in cogl, and virtually all the code in clutter itself, is
-> > mostly independent of the underlying GL implementation.  From the point
-> > of view of testing whether clutter basically "works" and is correctly
-> > built/packaged it seems as though this ought to be quite sufficient.
-> 
-> There are too separate issues: testing clutter itself, and using clutter
-> to test other parts of the graphics stack.
-> 
-> Re the former, all you can say after testing cogl/clutter against mesa
-> software rasterizer is that a particular configuration and a particular
-> backend (in oe-core that would be the GLX backend) work with mesa
-> software rasterizer. This says nothing about any other configuration,
-> with any other backend or whether it works with any other GL/GLES
-> implementation.
-> 
-> In reality, cogl/clutter need patches to build against the likes of TI's
-> GLES (e.g., Beagleboard) or to work on the likes of RaspberryPi, and
-> these patches cannot be included in oe-core, of course, because oe-core
-> knows nothing of such machines. 
+On Tue, May 14, 2013 at 3:43 AM,  <b40527@freescale.com> wrote:
+> From: Zongchun Yu <b40527@freescale.com>
+>
+> when compiling the linux kernel manually. users need to set CROSS_COMPILE separately.
+> adding the CROSS_COMPILE variable will be nice for using.
+>
+> Signed-off-by: Zongchun Yu <b40527@freescale.com>
 
-Having clutter in OE-Core does not preclude such testing with additional BSPs, 
-and I'm unclear on how moving it out to another layer helps at all with this 
-specific issue.
+I agree; it makes it easy to use with many make based projects (kernel
+and u-boot, for example).
 
-> Then there are little annoyances, like
-> the fact that over the last year or so, clutter has tended to have a
-> dependency on a specific but mostly random versions of libxkbcommon
-> (from what I can gather, determined more then anything by whatever the
-> Fedora packager happened to package and what version of Fedora the
-> clutter maintainer was using), or Clutter's customary insistence on as
-> recent glib as you can get. This can all be nicely encapsulated in small
-> layer.
-
-This could present a problem. What if I want Clutter but I don't want the 
-latest version of glib, but instead the version that is being shipped with OE-
-Core that is tested with the other pieces of the system that depend upon it 
-(especially given glib has recent history of breaking other packages)? Surely 
-the safest alternative is the last stable version of Clutter that works with 
-that version of glib? That would make it difficult to depend upon an external 
-layer that provides its own newer version of glib would it not?
-
-There's no denying that the maintenance of the Clutter recipes in OE-Core has 
-slipped. I don't think that is an argument in itself to split them out, that 
-just means we need to recognise that and maintain those recipes more 
-effectively. It's not a case where we've missed the release because it was too 
-close, we've not updated it for longer than that.
-
-Honestly I think if Clutter continues to be something that people are using to 
-develop applications we're much better off with the "canonical" stable version 
-being in OE-Core.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
