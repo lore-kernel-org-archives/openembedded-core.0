@@ -1,49 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1UcCUG-0001sv-79
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 12:29:46 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:37742 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UcCCf-0005NW-M7; Tue, 14 May 2013 06:11:29 -0400
-Date: Tue, 14 May 2013 06:11:23 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305140610570.5647@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UcCbd-0006YA-9w for openembedded-core@lists.openembedded.org;
+	Tue, 14 May 2013 12:37:19 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4EALxx8001370; Tue, 14 May 2013 11:21:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Htfgmd6a4GDu; Tue, 14 May 2013 11:21:59 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4EALo9p001361
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 14 May 2013 11:21:53 +0100
+Message-ID: <1368526728.25898.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+Date: Tue, 14 May 2013 13:18:48 +0300
+In-Reply-To: <51920240.3070408@r-finger.com>
+References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<518FB7F9.2020102@linux.intel.com>
+	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
+	<3529451.hQA8zCVn47@helios>
+	<1368442968.6920.4.camel@phil-desktop.brightsign>
+	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
+	<5190CF63.2030303@r-finger.com>
+	<1368456796.6920.23.camel@phil-desktop.brightsign>
+	<51920240.3070408@r-finger.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,35 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 10:29:57 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 14 May 2013 10:37:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 May 2013, Khem Raj wrote:
+On Tue, 2013-05-14 at 10:22 +0100, Tomas Frydrych wrote:
+> On 13/05/13 15:53, Phil Blundell wrote:
+> > On Mon, 2013-05-13 at 12:32 +0100, Tomas Frydrych wrote:
+> >> On 13/05/13 12:06, Burton, Ross wrote:
+> >>> The problem with bbappends is that they break every time the package
+> >>> in oe-core changes version.
+> >>
+> >> I see this as a good thing; if I maintain a bbappend, I want to know
+> >> when the base package changes its a version, and I get an immediate
+> >> error due to bbappend to a non-existent file.
+> > 
+> > Personally, for the .bbappends that I maintain, I would much rather not
+> > have to go around renaming a bunch of files every time I merge a new
+> > version of oe-core and all the recipes get upgraded. 
+> > 
+> > But, if you enjoy the errors, you could easily enough get them back even
+> > if the filenames didn't change:
+> > 
+> > python() {
+> >     tolerable_pvs = [ '1.0', '1.1', '1.2' ]
+> >     pv = d.getVar('PV', True)
+> >     if not pv in tolerable_pvs:
+> >         bb.fatal("encountered intolerable version %s of underlying recipe, please adjust me accordingly" % pv)
+> > }
+> > 
+> > or something.  One could wrap that in some extra sugar and put it in
+> > base.bbclass if having the boilerplate in each .bbappend is unappealing.
+> 
+> I do like this approach; I'd probably wrap it in a class and let the
+> bbappend maintainer to decide if their bbappend deserves this or not.
 
-> can you try this
->
-> add
->
-> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
->
-> to linux-yocto_3.8.bb
->
-> and rebuild the kernel and see if that boots
+I'd take a patch adding this form of function to the core. I'd also take
+a patch to have bitbake do some primitive wildcard (% along the lines of
+PREFERRED_VERSION?) type match on the bbappend filenames. It will add in
+a few new interesting corner cases such as one bbappend matching
+multiple recipes. We have to keep in mind bitbake has no knowledge of
+the filename format, that is metadata defined.
 
-  i've updated my results here:
+Cheers,
 
-http://www.crashcourse.ca/wiki/index.php/Adding_MIPS64_QEMU_machine
+Richard
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
