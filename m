@@ -1,49 +1,30 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1UcAt6-0005O9-4V
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UcBax-0007tk-Tl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 10:47:13 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:35294 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UcAbV-0001Vq-9H; Tue, 14 May 2013 04:29:01 -0400
-Date: Tue, 14 May 2013 04:28:56 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305140423590.26605@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 14 May 2013 11:32:39 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 8388C952B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 10:14:22 +0100 (BST)
+Message-ID: <5192006C.1060803@r-finger.com>
+Date: Tue, 14 May 2013 10:14:20 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+CC: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com> <1368026618.27116.52.camel@ted>
+	<518A7B37.8050308@r-finger.com> <1368176725.11129.9.camel@ted>
+	<518CD26F.3090901@r-finger.com> <1368185566.11129.28.camel@ted>
+	<518D22CC.1040002@r-finger.com> <1368206371.11129.46.camel@ted>
+	<CAP9ODKqGThBAjFkc1ViF9TJhW6z-xuVwwmDOa9mXg+h=TALJpw@mail.gmail.com>
+	<518D5A7D.20606@windriver.com> <5190B2AE.9010102@r-finger.com>
+	<1368459699.6920.41.camel@phil-desktop.brightsign>
+In-Reply-To: <1368459699.6920.41.camel@phil-desktop.brightsign>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,41 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 08:47:13 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 14 May 2013 09:32:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 May 2013, Khem Raj wrote:
+Hi Phil,
 
-> can you try this
->
-> add
->
-> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
->
-> to linux-yocto_3.8.bb
->
-> and rebuild the kernel and see if that boots
+On 13/05/13 16:41, Phil Blundell wrote:
+> It seems a bit hyperbolic to claim that testing clutter is impossible
+> without GPU hardware (either real or emulated).  The majority of the
+> code even in cogl, and virtually all the code in clutter itself, is
+> mostly independent of the underlying GL implementation.  From the point
+> of view of testing whether clutter basically "works" and is correctly
+> built/packaged it seems as though this ought to be quite sufficient.
 
-  ok, that gives me a successful boot (tried it twice, success both
-times) but i'm now at a boot prompt:
+There are too separate issues: testing clutter itself, and using clutter
+to test other parts of the graphics stack.
 
-  qemumips64 login:
+Re the former, all you can say after testing cogl/clutter against mesa
+software rasterizer is that a particular configuration and a particular
+backend (in oe-core that would be the GLX backend) work with mesa
+software rasterizer. This says nothing about any other configuration,
+with any other backend or whether it works with any other GL/GLES
+implementation.
 
-that's not accepting any keyboard input.  tried a couple more times,
-same result -- boot to login prompt, but no keyboard input. thoughts?
+In reality, cogl/clutter need patches to build against the likes of TI's
+GLES (e.g., Beagleboard) or to work on the likes of RaspberryPi, and
+these patches cannot be included in oe-core, of course, because oe-core
+knows nothing of such machines. Then there are little annoyances, like
+the fact that over the last year or so, clutter has tended to have a
+dependency on a specific but mostly random versions of libxkbcommon
+(from what I can gather, determined more then anything by whatever the
+Fedora packager happened to package and what version of Fedora the
+clutter maintainer was using), or Clutter's customary insistence on as
+recent glib as you can get. This can all be nicely encapsulated in small
+layer.
 
-rday
+Regarding using clutter to test other parts of the graphics stack, which
+is what Richard is wanting clutter in oe-core for, this amounts to
+testing mesa sw rasterizer. There is limited value here, it's the one GL
+implementation that nobody using Yocto to build images will be deploying
+for real, so this is a weak argument for needing clutter in oe-core.
 
-p.s.  i can ping the VM (192.168.7.2) but can't ssh into it, FWIW.
+Tomas
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+http://sleepfive.com
 
 
