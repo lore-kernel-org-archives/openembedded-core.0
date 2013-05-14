@@ -1,47 +1,34 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uc4AL-00038e-GW
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1Uc4cP-0006C9-KF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 03:36:38 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:32845 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Uc3sl-0004y7-Hn; Mon, 13 May 2013 21:18:23 -0400
-Date: Mon, 13 May 2013 21:18:19 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305132059460.25048@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapTS=bCegKdFntAnaSja5rZ08c-J9aAzbQiuSTJLk6w3Bw@mail.gmail.com>
-	<203C5055-E0F5-42E6-A607-DE8F2EE36D5C@gmail.com>
-	<CAHUNapT_QZr6OwgbyahtxQ16DuRZSgbQrTYg63k-qark8H-_Rw@mail.gmail.com>
-	<CADkTA4PzaR2ERLBArRSPxpX5U=NtXfG4_2NBBymMwmONZQSV6Q@mail.gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 14 May 2013 04:05:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4E1lJrm028562
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 May 2013 18:47:19 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 13 May 2013 18:47:19 -0700
+Message-ID: <519197A0.2010201@windriver.com>
+Date: Tue, 14 May 2013 09:47:12 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1366963971.git.liezhi.yang@windriver.com>
+	<4aa663aaedff33870a96a676b9394ff79fe49eac.1366963971.git.liezhi.yang@windriver.com>
+	<CAJTo0LbU2=iEOpnw3GRSntQQyH73RaJ++zdzye2s1zvsgEznSQ@mail.gmail.com>
+	<517B30A4.5050405@windriver.com>
+	<CAJTo0LYzafv3Eb3QtbVT+jbRkfPN2_vUxh0bsS0WZ9bJc8-NaQ@mail.gmail.com>
+	<CAP9ODKrOs_bqf0g5Aw3WhJ3ZVoNM2aqMCoQzWZ+8e9LX7cwscg@mail.gmail.com>
+	<CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
+In-Reply-To: <CAJTo0La+3k4HPZzXuV8gqKUSGhk3+=jHXnpa516Ge7KSAi9waA@mail.gmail.com>
+Cc: Patches, Otavio Salvador <otavio@ossystems.com.br>,
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] glib-2.0-native: do_compile failed on opensuse 12.2 64bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,31 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 01:36:41 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 14 May 2013 02:05:55 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 May 2013, Khem Raj wrote:
 
-> Robert and Trevor
+OK, got it, I will file a new patch sooner.
+
+// Robert
+
+On 05/13/2013 11:28 PM, Burton, Ross wrote:
+> On 13 May 2013 16:23, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> We may need to have a mechanism to specific build dependencies for
+>> native depending on host version/distribution.
 >
-> so whats your cross-gcc version ?
-> should be in tmpdir under
+> The situation is that Suse splits the expat parser into a separate
+> package for some reason, so the "fix" is to actually install the whole
+> Python core library by installing python-xml if it isn't already
+> pulled in.  We could add a sanity test that the python available is a
+> full python and not missing the expat parser (suse without python-xml)
+> or isn't python-minimal (ubuntu).
 >
-> sysroots/x86_64-linux/usr/bin/mips64-angstrom-linux/mips64-angstrom-linux-gcc -v
-
-  after a fresh build, each attempt to boot qemumips64 hangs at some
-point. i am definitely open to suggestions.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+> Ross
+>
+>
 
 
