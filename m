@@ -1,40 +1,30 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UcMpx-000634-2l
+	(envelope-from <joe.slater@windriver.com>) id 1UcNE8-0007kO-Lx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 23:32:47 +0200
-Received: by mail-pa0-f47.google.com with SMTP id kl13so874680pab.20
+	Tue, 14 May 2013 23:57:45 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4ELdVKM014068
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2013 14:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=ageLI3MZcNHKaHKC2Ic+D0K1pP+iMd1uRyZ2wt9AOtg=;
-	b=KMtWnKw8CuDxSg3JlME936aluZP5tZ5MOwdpSRJDQ5PeSJ9ENixvYcbNGAqjsi81Gn
-	ZXMotfmo92AKudB5vLdoaTUGBv5MKwrGOD5/Lz8N1lWGmxWOMZj/QNrYQFfYVIan60Ck
-	VIhlZ/D8XbRk6EUhERU0lel+oSmqgHgAA5UjZFF/aUwHbYGxe1Yq+1TfRI4KSnOHuyKi
-	ANwNLoVNIcKlDUe+BbPo8D8jyIw0sqVlpLAgd7V0Boa1TKolOaDwhk41CAC98OEKfVN7
-	2qlIG+bK7a8Ey9F9xcaCGtrFK4Dvd2LBtmX8JhkCSWy65oYiGg3hIhnMdb/PDke/t1tg
-	nnTQ==
-X-Received: by 10.68.224.65 with SMTP id ra1mr35369911pbc.103.1368566072686;
-	Tue, 14 May 2013 14:14:32 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id xu10sm391609pab.3.2013.05.14.14.14.31
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 14 May 2013 14:14:31 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1368548976-28229-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Tue, 14 May 2013 14:14:32 -0700
-Message-Id: <7ABA838A-F468-47D2-A277-32DD9C6CA6CC@gmail.com>
-References: <20130510125303.GF12329@jama.dyndns-home.com>
-	<1368548976-28229-1-git-send-email-Martin.Jansa@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] gcc-4.8: temporary disable thumb
+	Tue, 14 May 2013 14:39:31 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.88]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
+	Tue, 14 May 2013 14:39:31 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: distrodata.bbclass
+Thread-Index: Ac5Q61hj38LStAjsTUKauiJ3GpmP5w==
+Date: Tue, 14 May 2013 21:39:30 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436FC7143@ALA-MBA.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
+MIME-Version: 1.0
+Subject: distrodata.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,107 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 21:32:49 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 14 May 2013 21:57:45 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF8436FC7143ALAMBAcorpadwrs_"
+
+--_000_007BD92917A2324FA403BCF9A464CF8436FC7143ALAMBAcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On May 14, 2013, at 9:29 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
+I see this class for generating a report of package data, but I don't see i=
+t ever
+being used.  Is there info about how to use it?
 
-> * temporary work around for build issue on armv4t:
-> | cp/decl.o: In function `bad_specifiers':
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-171:(.text.unlikely+0x24): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-173:(.text.unlikely+0x32): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-176:(.text.unlikely+0x3e): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-180:(.text.unlikely+0x4c): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-182:(.text.unlikely+0x5a): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-185:(.text.unlikely+0x66): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-189:(.text.unlikely+0x74): relocation truncated to fit: R_ARM_THM_CALL =
-against sym
-> bol `error(char const*, ...)' defined in .glue_7 section in linker =
-stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-191:(.text.unlikely+0x82): relocation truncated to fit: R_ARM_THM_CALL =
-against symbol `error(char const*, ...)' defined in .glue_7 section in =
-linker stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-194:(.text.unlikely+0x8e): relocation truncated to fit: R_ARM_THM_CALL =
-against symbol `error(char const*, ...)' defined in .glue_7 section in =
-linker stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-198:(.text.unlikely+0x9c): relocation truncated to fit: R_ARM_THM_CALL =
-against symbol `error(char const*, ...)' defined in .glue_7 section in =
-linker stubs
-> | =
-/OE/shr-core/tmp-eglibc/work-shared/gcc-4.8.0-r0/gcc-4.8.0/gcc/cp/decl.c:7=
-200:(.text.unlikely+0xaa): additional relocation overflows omitted from =
-the output
-> | collect2: error: ld returned 1 exit status
-> | make[2]: *** [cc1plus] Error 1
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
-> meta/recipes-devtools/gcc/gcc_4.8.bb | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc_4.8.bb =
-b/meta/recipes-devtools/gcc/gcc_4.8.bb
-> index 9954375..99485bc 100644
-> --- a/meta/recipes-devtools/gcc/gcc_4.8.bb
-> +++ b/meta/recipes-devtools/gcc/gcc_4.8.bb
-> @@ -3,3 +3,5 @@ require gcc-configure-target.inc
-> require gcc-package-target.inc
->=20
-> ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_INCDIR}"
-> +
-> +ARM_INSTRUCTION_SET =3D "arm"
-
-Looks ok. For now it would be nicer to get a test case narrowed down
-
-> --=20
-> 1.8.2.1
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Joe
 
 
+--_000_007BD92917A2324FA403BCF9A464CF8436FC7143ALAMBAcorpadwrs_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I see this class for generating a report of package =
+data, but I don't see it ever<o:p></o:p></p>
+<p class=3D"MsoNormal">being used.&nbsp; Is there info about how to use it?=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_007BD92917A2324FA403BCF9A464CF8436FC7143ALAMBAcorpadwrs_--
