@@ -1,27 +1,43 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <drew_moseley@mentor.com>) id 1UcQTs-0007OP-Uc
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UcRv4-0008FG-Qn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 03:26:16 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1UcQ3I-0001FD-Uz from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 May 2013 17:58:44 -0700
-Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 14 May 2013 17:58:44 -0700
-Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
-	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Tue, 14 May 2013 17:58:44 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2013 17:59:05 -0700
-Message-Id: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 15 May 2013 00:58:44.0744 (UTC)
-	FILETIME=[596FC080:01CE5107]
-Subject: [PATCH] kernel: Package additional modules files needed for systemtap
+	Wed, 15 May 2013 04:58:27 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 1D571D22DE; Wed, 15 May 2013 04:39:42 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id D5C02D22B2;
+	Wed, 15 May 2013 04:39:11 +0200 (CEST)
+Message-ID: <5192F56B.3000206@linaro.org>
+Date: Wed, 15 May 2013 04:39:39 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <515ED999.9040100@communistcode.co.uk>
+	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
+	<515EFD76.2090009@communistcode.co.uk>
+	<0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
+	<51628545.6050106@communistcode.co.uk>
+	<5162888A.90502@communistcode.co.uk>
+	<6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
+	<5189F404.8090300@linaro.org> <518A0B61.4090403@linaro.org>
+	<4648F3D2-7FA2-4672-91D4-CC2ADAA4F051@gmail.com>
+In-Reply-To: <4648F3D2-7FA2-4672-91D4-CC2ADAA4F051@gmail.com>
+X-Enigmail-Version: 1.4.6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gcc-cross-initial Failure (is a meta-aarch64 screw up)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 01:26:23 -0000
+X-List-Received-Date: Wed, 15 May 2013 02:58:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- meta/classes/kernel.bbclass |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+W dniu 14.05.2013 23:43, Khem Raj pisze:
+> 
+> On May 8, 2013, at 1:22 AM, Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> wrote:
+> 
+>> W dniu 08.05.2013 08:43, Marcin Juszkiewicz pisze:
+>>
+>>> I will sort it out today.
+>>
+>> Should be solved now.
+>>
+> 
+> Not yet. Can you pick up this patch here please
+> 
+> https://github.com/kraj/meta-linaro/commit/22bc67f2229f3e36a030787a516117271b05aee0
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6ba31bd..f23818e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -108,8 +108,6 @@ kernel_do_install() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
--		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
--		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
- 	else
-@@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
- PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
- FILES = ""
--FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-+FILES_kernel-image = " \
-+	/boot/${KERNEL_IMAGETYPE}* \
-+	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
-+	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
-+"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
- FILES_kernel-vmlinux = "/boot/vmlinux*"
- RDEPENDS_kernel = "kernel-base"
--- 
-1.7.9.5
+OOPS. sorry for that - it was not planned.
 
 
 
