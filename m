@@ -1,26 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UcgiE-0006g4-2b
+	(envelope-from <walters@verbum.org>) id 1UcgqV-0007DV-4H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 20:46:12 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 15 May 2013 11:24:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,678,1363158000"; d="scan'208";a="242048972"
-Received: from unknown (HELO helios.localnet) ([10.255.12.118])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 May 2013 11:24:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Wed, 15 May 2013 19:24:03 +0100
-Message-ID: <1671648.4UWfFTD1eS@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
-References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
-	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
-MIME-Version: 1.0
+	Wed, 15 May 2013 20:54:40 +0200
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 77B9520EC4;
+	Wed, 15 May 2013 14:36:25 -0400 (EDT)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute3.internal (MEProxy); Wed, 15 May 2013 14:36:27 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=1CQdREbD0bt02gK8ehYmVc
+	kYpgY=; b=BgV91wEyoTQqmqJakoUwvWwjJgL7t6zNWfrEfh605germGJmlzj41G
+	jfbnEp8TWJx14A6fiP+AanVXOwKUCTBRSiMMh5PeLjSUm5mxK8vFHKgadSOpCxLy
+	CfeFuZTFMNfFxHLLJe7TjFWM8XO9Aj/I5vYdkgF6s7ERO7rs97r7o=
+X-Sasl-enc: 3S8ApQuv6AG+gVPmZBKCX3ZjWhvwTh8lHKcpTo/g6E0F 1368642985
+Received: from [10.193.23.197] (unknown [66.187.233.207])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0ABC0C80004;
+	Wed, 15 May 2013 14:36:24 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Ross Burton <ross.burton@intel.com>
+In-Reply-To: <1368458850-5309-1-git-send-email-ross.burton@intel.com>
+References: <1368458850-5309-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 15 May 2013 14:36:23 -0400
+Message-ID: <1368642983.28256.109.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+Subject: Re: [PATCH] glib-2.0: drop dependency on python-argparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +41,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 18:46:25 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 15 May 2013 18:54:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 15 May 2013 14:36:16 Otavio Salvador wrote:
-> On Wed, May 15, 2013 at 2:30 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > I'd ask that we give trying to make this work from OE-Core a fair try.
-> > 
-> > If in say 3 months from now OE-Core is causing clutter users pain we can
-> > look again at the problem. Equally, if nobody has sent me any clutter
-> > patches in the next three months, I wouldn't consider than a fair try.
-> 
-> No, this is not fair. If you wish to keep it you need to do the work
-> or find someone to make it. Tomas is willing to work in meta-clutter
-> and he has the right to work in his solution.
+On Mon, 2013-05-13 at 16:27 +0100, Ross Burton wrote:
+> Since 2.20 the use of argparse was removed, so we don't need these dependencies
+> anymore.
 
-Nobody's suggesting Tomas can't work on meta-clutter. This is an open source 
-project, people are pretty much free to contribute as they see fit. For my 
-part, I will try to make sure the clutter recipes in OE-Core are better 
-maintained in future.
+You mean 2.30.  Other than that,
 
-However, I do think it's important for us to try to work together for the 
-benefit of everyone, and when it comes to OE-Core and other central pieces of 
-the OE ecosystem, that means trying to understand the bigger picture outside 
-of the day-to-day requirements that we all have on the projects we work on 
-individually.
+Reviewed-by: Colin Walters <walters@verbum.org>
 
-Cheers,
-Paul
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
