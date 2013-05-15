@@ -1,33 +1,26 @@
-Received: from atl4mhfb03.myregisteredsite.com ([209.17.115.61])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UcXCf-0001Do-Ve
+	(envelope-from <sgw@linux.intel.com>) id 1UcXYr-0003DO-Mc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 10:36:55 +0200
-Received: from atl4mhob09.myregisteredsite.com
-	(atl4mhob09.myregisteredsite.com [209.17.115.47])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4F8IhS9002285 for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 04:18:43 -0400
-Received: from mail.hostingplatform.com ([10.30.71.210])
-	by atl4mhob09.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4F8Igua031434 for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 04:18:42 -0400
-Received: (qmail 16720 invoked by uid 0); 15 May 2013 08:18:41 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 15 May 2013 08:18:41 -0000
-Message-ID: <519344E1.3020704@topic.nl>
-Date: Wed, 15 May 2013 10:18:41 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Wed, 15 May 2013 11:00:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 15 May 2013 01:41:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,675,1363158000"; d="scan'208";a="337543892"
+Received: from unknown (HELO [10.255.12.183]) ([10.255.12.183])
+	by orsmga002.jf.intel.com with ESMTP; 15 May 2013 01:41:34 -0700
+Message-ID: <51934A31.2080905@linux.intel.com>
+Date: Wed, 15 May 2013 11:41:21 +0300
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Yi Qingliang <niqingliang2003@gmail.com>
-References: <3388285.jCfN1Lj2u9@yiqingliang-pc> <519341D9.6080104@topic.nl>
-	<1875466.EG2CYrV9ea@yiqingliang-pc>
-In-Reply-To: <1875466.EG2CYrV9ea@yiqingliang-pc>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt keyboard problem
+To: "Slater, Joseph" <joe.slater@windriver.com>
+References: <007BD92917A2324FA403BCF9A464CF8436FC7143@ALA-MBA.corp.ad.wrs.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF8436FC7143@ALA-MBA.corp.ad.wrs.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: distrodata.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 08:37:06 -0000
+X-List-Received-Date: Wed, 15 May 2013 09:00:13 -0000
+X-List-Received-Date: Wed, 15 May 2013 09:00:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/15/2013 10:10 AM, Yi Qingliang wrote:
-> On Wednesday, May 15, 2013 10:05:45 AM Mike Looijmans wrote:
->> On 05/15/2013 08:19 AM, Yi Qingliang wrote:
->>> I'm running qt application on yocto's qt image. cpu is s3c2442, like
->>> mini2440.
->>>
->>> the problem is:
->>>
->>> key event issued by pressing gpio-key eat by 'getty' (from busybox),
->>> my application can't receive input event,
->>> if I remove respawn 'getty' for tty1 in /etc/inittab, everything ok.
->>
->> I solved it by no longer starting the console login. Set the following
->> in one of your .conf files (distro or local.conf):
->>
->> USE_VT = "0"
->> SYSVINIT_ENABLED_GETTYS = ""
->>
->> You may need to rebuild initscripts for this to have effect.
+On 05/15/2013 12:39 AM, Slater, Joseph wrote:
+> Hi,
+>
+> I see this class for generating a report of package data, but I don't
+> see it ever
+>
+> being used.  Is there info about how to use it?
+>
+The Package Reporting System (http://packages.yoctoproject.org) backend 
+uses the distrodata class, it's not included by default because it reads 
+data in the meta-yocto/conf/distro/include files and increases the load 
+time and variable space.
 
-Alternatively, you could disconnect the console when the GUI starts. You 
-probably have some script that sets things up and starts the GUI, so you 
-could extend it with the console on/off function.
+To use it you would need to inherit the distrodata class and also 
+include the files in meta-yocto/conf/distro/include (or equivalents for 
+your distro).
 
-That allows you to see the boot log on the screen for example, and debug 
-things via the console when the GUI isn't running.
+There are a couple of tasks that can operate on recipes, world or 
+universe (includes every recipe, to be used for validation, not 
+buildable in the normal case).
 
-I forgot how to do that though, I think is was something in /proc/.
+There are 4 main tasks that can be run:
+distrodata
+- generate a CSV file in tmp/logs that will create a Bill of Materials 
+like spreadsheet, listing all the recipes with version and license info.
 
-Mike.
+checkpkg
+- does some basic sanity checking of package information and distro 
+maintenance
 
+distro_check
+- tries to match our recipe names with a Full Distros like Ubuntu, 
+Fedora, OpenSuSeE and produces a CVS report
+
+checklicense
+- validates licenses, this could be depreated now, it was primarily used 
+in the early days of the Yocto Project to check the license data.
+
+Let me know if this helps.
+
+Sau!
+
+
+
+> Joe
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
