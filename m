@@ -1,26 +1,53 @@
-Received: from exprod5og107.obsmtp.com ([64.18.0.184])
+Received: from mail-wg0-f53.google.com ([74.125.82.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.donnelly@ge.com>) id 1Ucffg-00013M-1p
+	(envelope-from <twoerner@gmail.com>) id 1UcfgT-00017Z-6R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 19:39:27 +0200
-Received: from alpmlip10.e2k.ad.ge.com ([12.43.191.1]) (using TLSv1) by
-	exprod5ob107.postini.com ([64.18.4.12]) with SMTP
-	ID DSNKUZPECFXaq64zjuCYI2E7S8Tc6OYt2opJ@postini.com;
-	Wed, 15 May 2013 10:21:13 PDT
-Received: from unknown (HELO cinmlip01.e2k.ad.ge.com) ([3.159.213.48])
-	by alpmlip10.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
-	15 May 2013 13:11:09 -0400
-Received: from selma.edi.geip.ge.com ([3.26.68.70])
-	by cinmlip01.e2k.ad.ge.com with ESMTP; 15 May 2013 13:11:08 -0400
-Received: from edna.edi.geip.ge.com (edna.edi.geip.ge.com [3.26.68.71])
-	by selma.edi.geip.ge.com (Postfix) with ESMTP id 78FEFE03B9;
-	Wed, 15 May 2013 18:11:07 +0100 (BST)
-From: Martin Donnelly <martin.donnelly@ge.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 May 2013 18:10:57 +0100
-Message-Id: <1368637857-3155-1-git-send-email-martin.donnelly@ge.com>
-X-Mailer: git-send-email 1.7.1
-Subject: [RFC] gcc: add gccgo support
+	Wed, 15 May 2013 19:41:05 +0200
+Received: by mail-wg0-f53.google.com with SMTP id y10so1884534wgg.20
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 10:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=5lbOk1Hp2b6yJbZUZk8Z7kHKK6AzlAubxU7gIWM4Nuo=;
+	b=IvHmnV03PfWP0yk9p22Yc9OzU34ijKyx8os8CP62FnsYhHrctaii5dTXzx9p0UdqnG
+	7WbrMUYtWn8we/RGwdsGQYPzKCSEQl0sJFpSRB1IvEjkugtVT8LoRCrDWMIIXCKTPCPK
+	ELCmirbiHg7z9JjngxdXSyZRVgjROc2kaY9fKglpf99y38F/1li5yza1FmFAOoEsd9zp
+	Ze41F4ElZB9Yn9Ev7BX/UoCUPslc4tRlNaCxu6VHEbmr8Im2ZrwXmaCpIW0t0SIj7K2q
+	PXvpFzA3svQEqJ1Ap5Ws2dqm/4EE79cMMPS21BKUIuuMzTE13KZSna/PL8e1a6WYdHv7
+	pcnw==
+MIME-Version: 1.0
+X-Received: by 10.180.21.242 with SMTP id y18mr16282147wie.7.1368638520284;
+	Wed, 15 May 2013 10:22:00 -0700 (PDT)
+Received: by 10.194.5.132 with HTTP; Wed, 15 May 2013 10:22:00 -0700 (PDT)
+In-Reply-To: <CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131536070.2354@oneiric>
+	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
+	<alpine.DEB.2.02.1305131558330.23405@oneiric>
+	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131650030.12354@oneiric>
+	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131805100.28372@oneiric>
+	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	<alpine.DEB.2.02.1305132059460.25048@oneiric>
+	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
+	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
+	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
+	<alpine.DEB.2.02.1305140423590.26605@oneiric>
+	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
+	<alpine.DEB.2.02.1305140824360.23009@oneiric>
+	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
+Date: Wed, 15 May 2013 13:22:00 -0400
+Message-ID: <CAHUNapTw8-B5AEk2YN3t+vRkjwVOS65Ehs6HV5RkbipYUWpS3A@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,178 +60,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 17:39:42 -0000
+X-List-Received-Date: Wed, 15 May 2013 17:41:23 -0000
+X-List-Received-Date: Wed, 15 May 2013 17:41:23 -0000
+Content-Type: multipart/alternative; boundary=047d7bb70b2cd3dae304dcc4fcf8
 
-This is an initial attempt at adding gccgo support to the
-gcc recipes. There are some issues that I wasn't able to
-resolve properly that need resolved before this is usable
-and likely even more that I didn't notice. It isn't ready
-to be merged but feedback on what I've missed would be
-appreciated.
+--047d7bb70b2cd3dae304dcc4fcf8
+Content-Type: text/plain; charset=ISO-8859-1
 
-In this state it builds working cross and target
-compilers for GCC 4.7
+What really confuses me about the attempts I was making is that in
+my local.conf file I have explicitly asked for kernel version 3.8.11:
 
-The major issues I am aware of are:
+    PREFERRED_VERSION_linux-yocto := "3.8.11%"
 
-* building with libffi causes circular dependencies 
-  so I just disabled it in the initial and intermediate
-  builds. I'm not sure this is the correct thing to do.
-* Dependencies were not being pulled in where I thought
-  they should be: meta-toolchain and target-sdk builds
-  all needed additional dependencies above defining go
-  in LANGUAGES. Should there be dependencies being
-  created here?
-* doesn't support gcc 4.8
+When I watch the build messages fly by I see that linux-yocto_3.8.11
+is being built.
 
-Signed-off-by: Martin Donnelly <martin.donnelly@ge.com>
----
- meta/recipes-devtools/gcc/gcc-4.7.inc              |    6 ++++--
- .../recipes-devtools/gcc/gcc-configure-runtime.inc |    2 +-
- meta/recipes-devtools/gcc/gcc-package-cross.inc    |    2 +-
- meta/recipes-devtools/gcc/gcc-package-runtime.inc  |   13 +++++++++++++
- meta/recipes-devtools/gcc/gcc-package-target.inc   |   12 +++++++++++-
- meta/recipes-devtools/gcc/gcc-runtime_4.7.bb       |    2 +-
- 6 files changed, 31 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index a05cac9..cad8aa6 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -107,7 +107,8 @@ EXTRA_OECONF_INITIAL = "--disable-libmudflap \
- 			--with-system-zlib \
- 			--disable-lto \
- 			--disable-plugin \
--			--enable-decimal-float=no"
-+			--enable-decimal-float=no \
-+			--without-libffi"
- 
- EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
- 				--disable-libgomp \
-@@ -115,7 +116,8 @@ EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
- 				--with-system-zlib \
- 				--disable-lto \
- 				--disable-plugin \
--				--disable-libssp"
-+				--disable-libssp \
-+				--without-libffi "
- 
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-index a9f77d9..255a2eb 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-@@ -7,7 +7,7 @@ EXTRA_OECONF_PATHS = " \
-     --with-sysroot=${STAGING_DIR_TARGET} \
-     --with-build-sysroot=${STAGING_DIR_TARGET}"
- 
--RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
-+RUNTIMETARGET = "libssp libstdc++-v3 libgomp libgo"
- #  ?
- # libiberty
- # libmudflap
-diff --git a/meta/recipes-devtools/gcc/gcc-package-cross.inc b/meta/recipes-devtools/gcc/gcc-package-cross.inc
-index 3d81677..82183a0 100644
---- a/meta/recipes-devtools/gcc/gcc-package-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-cross.inc
-@@ -18,7 +18,7 @@ do_install () {
- 	# found. These need to be relative paths so they work in different locations.
- 	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
- 	install -d $dest
--	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-+	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran gccgo; do
- 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
- 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
- 	done
-diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-index 2e2f75a..71f84b1 100644
---- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-@@ -16,6 +16,9 @@ PACKAGES = "\
-   libgomp \
-   libgomp-dev \
-   libgomp-staticdev \
-+  libgo \
-+  libgo-dev \
-+  libgo-staticdev \
- "
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
-@@ -75,6 +78,16 @@ FILES_libgomp-staticdev = "\
-   ${libdir}/libgomp*.a \
-   "
- 
-+FILES_libgo = "${libdir}/libgo.so.* ${libdir}/go"
-+FILES_libgo-dev = "\
-+  ${libdir}/libgo.so \
-+  ${libdir}/libgo.la \
-+  "
-+FILES_libgo-staticdev = " \
-+  ${libdir}/libgo.a \
-+  ${libdir}/libgobegin.a \
-+  "
-+
- do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
-diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
-index 95a92c1..7608b69 100644
---- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-@@ -5,6 +5,7 @@ PACKAGES = "\
-   g77 g77-symlinks \
-   gfortran gfortran-symlinks \
-   gcov gcov-symlinks \
-+  go go-symlinks \
-   ${PN}-plugin-dev \
-   ${PN}-doc \
-   ${PN}-dev \
-@@ -12,7 +13,8 @@ PACKAGES = "\
- "
- 
- FILES_${PN} = "\
--  ${bindir}/${TARGET_PREFIX}gcc* \
-+  ${bindir}/${TARGET_PREFIX}gcc \
-+  ${bindir}/${TARGET_PREFIX}gcc-* \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/collect2 \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
-@@ -84,6 +86,11 @@ FILES_g++-symlinks = "\
-   ${bindir}/g++ \
- "
- 
-+FILES_go = "\
-+  ${bindir}/${TARGET_PREFIX}gccgo \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/go1"
-+FILES_go-symlinks = "${bindir}/gccgo"
-+
- 
- FILES_${PN}-doc = "\
-   ${infodir} \
-@@ -130,6 +137,9 @@ do_install () {
- 		ln -sf ${TARGET_PREFIX}gfortran gfortran || true
- 		ln -sf gfortran f95 || true
- 	fi
-+	if [ -e ${TARGET_PREFIX}gccgo ]; then
-+		ln -sf ${TARGET_PREFIX}gccgo gccgo || true
-+	fi
- 	ln -sf ${TARGET_PREFIX}g++ g++
- 	ln -sf ${TARGET_PREFIX}gcc gcc
- 	ln -sf ${TARGET_PREFIX}cpp cpp
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.7.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.7.bb
-index fbaf057..7c4698b 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime_4.7.bb
-+++ b/meta/recipes-devtools/gcc/gcc-runtime_4.7.bb
-@@ -4,5 +4,5 @@ require gcc-package-runtime.inc
- 
- ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
- 
--EXTRA_OECONF += "--disable-libunwind-exceptions"
-+EXTRA_OECONF += "--disable-libunwind-exceptions --without-libffi"
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
--- 
-1.7.1
+In my work directory there is a directory called:
 
 
+tmp/work/qemumips64-poky-linux/linux-yocto/3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_bbefde394205a1b317eae31942bfc13afce0b0ac-r4.1/
 
+but when I got into the
+
+
+tmp/work/qemumips64-poky-linux/linux-yocto/3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_bbefde394205a1b317eae31942bfc13afce0b0ac-r4.1/linux
+
+directory and have a look at the Makefile, I see:
+
+     VERSION = 3
+     PATCHLEVEL = 8
+     SUBLEVEL = 4
+     EXTRAVERSION =
+     NAME = Unicycling Gorilla
+
+and when I boot the image the kernel banner says:
+
+    Linux version 3.8.4-yocto-standard (trevor@zzz) (gcc version 4.7.2
+(GCC) ) #1 PREEMPT Tue May 14 11:10:07 EDT 2013
+
+Can anyone explain the discrepancy?
+
+--047d7bb70b2cd3dae304dcc4fcf8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">What really confuses me about the attempts I was making is=
+ that in<br>my local.conf file I have explicitly asked for kernel version 3=
+.8.11:<br><br>=A0 =A0 PREFERRED_VERSION_linux-yocto :=3D &quot;3.8.11%&quot=
+;<br>
+<br>When I watch the build messages fly by I see that linux-yocto_3.8.11<br=
+>is being built.<br><br>In my work directory there is a directory called:<b=
+r><br>=A0 =A0 tmp/work/qemumips64-poky-linux/linux-yocto/3.8.11+gitAUTOINC+=
+8482dcdf68f9f7501118f4c01fdcb8f851882997_bbefde394205a1b317eae31942bfc13afc=
+e0b0ac-r4.1/<br>
+<br>but when I got into the<br><br>=A0 =A0 tmp/work/qemumips64-poky-linux/l=
+inux-yocto/3.8.11+gitAUTOINC+8482dcdf68f9f7501118f4c01fdcb8f851882997_bbefd=
+e394205a1b317eae31942bfc13afce0b0ac-r4.1/linux<br><br>directory and have a =
+look at the Makefile, I see:<br>
+<br>=A0 =A0 =A0VERSION =3D 3<br>=A0 =A0 =A0PATCHLEVEL =3D 8<br>=A0 =A0 =A0S=
+UBLEVEL =3D 4<br>=A0 =A0 =A0EXTRAVERSION =3D<br>=A0 =A0 =A0NAME =3D Unicycl=
+ing Gorilla<br><br>and when I boot the image the kernel banner says:<br><br=
+>=A0 =A0 Linux version 3.8.4-yocto-standard (trevor@zzz) (gcc version 4.7.2=
+ (GCC) ) #1 PREEMPT Tue May 14 11:10:07 EDT 2013<div>
+<br></div><div>Can anyone explain the discrepancy?</div></div>
+
+--047d7bb70b2cd3dae304dcc4fcf8--
