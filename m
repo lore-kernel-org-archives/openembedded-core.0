@@ -1,43 +1,37 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-pa0-f44.google.com ([209.85.220.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1UcRv4-0008FG-Qn
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 04:58:27 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 1D571D22DE; Wed, 15 May 2013 04:39:42 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id D5C02D22B2;
-	Wed, 15 May 2013 04:39:11 +0200 (CEST)
-Message-ID: <5192F56B.3000206@linaro.org>
-Date: Wed, 15 May 2013 04:39:39 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <515ED999.9040100@communistcode.co.uk>
-	<D19A794A-8644-4443-9628-2B137F2BC89F@gmail.com>
-	<515EFD76.2090009@communistcode.co.uk>
-	<0CA85874-9D57-4E2A-B47D-79DAAD3E78A6@gmail.com>
-	<51628545.6050106@communistcode.co.uk>
-	<5162888A.90502@communistcode.co.uk>
-	<6488B785-095B-4077-96A6-0E2004900C68@gmail.com>
-	<5189F404.8090300@linaro.org> <518A0B61.4090403@linaro.org>
-	<4648F3D2-7FA2-4672-91D4-CC2ADAA4F051@gmail.com>
-In-Reply-To: <4648F3D2-7FA2-4672-91D4-CC2ADAA4F051@gmail.com>
-X-Enigmail-Version: 1.4.6
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gcc-cross-initial Failure (is a meta-aarch64 screw up)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1UcTFN-00007n-I7; Wed, 15 May 2013 06:23:26 +0200
+Received: by mail-pa0-f44.google.com with SMTP id jh10so1125565pab.3
+	for <multiple recipients>; Tue, 14 May 2013 21:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:content-type:content-transfer-encoding:subject
+	:message-id:date:to:mime-version:x-mailer;
+	bh=Ing8Lj6VjMIaf6s9qOHAlwEH+Ad1l2XwLHBv5rAM97Q=;
+	b=gWjrOMQilYdbU07HBEU5pxum5H7p79f/nRzZ0v2qeXqbLRa8/3MCGQEEHm8ELl0Sx4
+	+utAMZTmLE0tlhD31Pk0n3v6PEzcw2kZshOg8dDSbfThEHG0ATaSd1wa7CQwU8DEhh0u
+	a7u+UAsgo2Kq3b3jPpcoPLNteCQ4xccKhbUtv0jqv2U45PEbqcLpUaRkgtQ0RkEuN7Qd
+	6N/ImC2yzj2hEhO1jkJHTatM/mG9BjLVFJMU2n1xEe4CduE7R80nLZikKN/vAWR95Qtr
+	R6+EqUKKPr+ord//UqZIx0FWokSQNyhBf/pLjDKbyQ41ygMC/hT7z3sFDOW+WDNQDSHU
+	uz8g==
+X-Received: by 10.66.148.132 with SMTP id ts4mr38172909pab.19.1368590712544;
+	Tue, 14 May 2013 21:05:12 -0700 (PDT)
+Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id fn2sm1096581pbc.15.2013.05.14.21.05.11
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 14 May 2013 21:05:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Message-Id: <1A97FEA3-4D93-4CE8-A265-1C9CFBB66FEB@gmail.com>
+Date: Tue, 14 May 2013 21:05:10 -0700
+To: "openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+X-Mailer: Apple Mail (2.1503)
+Subject: RFT: Python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,26 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 02:58:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 May 2013 04:23:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-W dniu 14.05.2013 23:43, Khem Raj pisze:
-> 
-> On May 8, 2013, at 1:22 AM, Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> wrote:
-> 
->> W dniu 08.05.2013 08:43, Marcin Juszkiewicz pisze:
->>
->>> I will sort it out today.
->>
->> Should be solved now.
->>
-> 
-> Not yet. Can you pick up this patch here please
-> 
-> https://github.com/kraj/meta-linaro/commit/22bc67f2229f3e36a030787a516117271b05aee0
+Hi All,
 
-OOPS. sorry for that - it was not planned.
+Python3 (3.3.0) is now available. Please test it out on your platforms =
+and report issues/successes you see, and above all feedback on patches
+
+ the contrib tree for OE-Core is here
+
+=
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/python=
+3
+
+I have tested it on all supported architectures in qemu and few hardware =
+machines I have access to, Recipes have been around for
+a long time so they have received some soak time
+
+at minimum add=20
+
+       python3 \
+       python3-modules \
+       python3-misc \
+
+to your IMAGE_INSTALL in order to include it in images.=20
+
+Complete set can be included by
+
+python3-2to3            python3-audio \
+python3-codecs          python3-compile \
+python3-compression     python3-core \
+python3-crypt           python3-ctypes \
+python3-curses          python3-datetime \
+python3-debugger        python3-difflib \
+python3-distutils       python3-doctest \
+python3-email           python3-html \
+python3-idle            python3-image \
+python3-io              python3-json \
+python3-lang            python3-logging \
+python3-mailbox         python3-man \
+python3-math            python3-mime \
+python3-misc            python3-modules \
+python3-multiprocessing python3-netclient \
+python3-netserver       python3-numbers \
+python3-pickle          python3-pkgutil \
+python3-pprint          python3-profile \
+python3-pydoc           python3-pyvenv \
+python3-re              python3-readline \
+python3-shell           python3-smtpd \
+python3-sqlite3         python3-sqlite3-tests \
+python3-stringold       python3-subprocess \
+python3-terminal        python3-tests \
+python3-textutils       python3-threading \
+python3-unittest        python3-unixadmin \
+python3-xml \
+python3-distribute \
+
+Thanks
+-Khem
+
+
 
 
 
