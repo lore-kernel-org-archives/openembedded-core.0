@@ -1,31 +1,49 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UcjUU-0004eo-LS for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 23:44:15 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UcjCt-0000Fu-9w; Wed, 15 May 2013 23:25:55 +0200
-Message-ID: <1368653137.16243.153.camel@pb-ThinkPad-R50e>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 15 May 2013 22:25:37 +0100
-In-Reply-To: <1368526728.25898.18.camel@ted>
-References: <1368189198-1294-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<518FB7F9.2020102@linux.intel.com>
-	<1368384890.16243.79.camel@pb-ThinkPad-R50e>
-	<3529451.hQA8zCVn47@helios>
-	<1368442968.6920.4.camel@phil-desktop.brightsign>
-	<CAJTo0LYSqikcyXKsXA5OpnUNmwbvrRqbi4kQ93r2QzBtEuo2zQ@mail.gmail.com>
-	<5190CF63.2030303@r-finger.com>
-	<1368456796.6920.23.camel@phil-desktop.brightsign>
-	<51920240.3070408@r-finger.com> <1368526728.25898.18.camel@ted>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] Enable VPN support in ConnMan
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1Uck09-0007Cm-UL
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 00:16:50 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:52984 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1UcjiW-0003td-GL; Wed, 15 May 2013 17:58:36 -0400
+Date: Wed, 15 May 2013 17:58:33 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1305151757110.12800@oneiric>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<alpine.DEB.2.02.1305131805100.28372@oneiric>
+	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	<alpine.DEB.2.02.1305132059460.25048@oneiric>
+	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
+	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
+	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
+	<alpine.DEB.2.02.1305140423590.26605@oneiric>
+	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
+	<alpine.DEB.2.02.1305140824360.23009@oneiric>
+	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
+	<CAHUNapTw8-B5AEk2YN3t+vRkjwVOS65Ehs6HV5RkbipYUWpS3A@mail.gmail.com>
+	<CADkTA4P+CaEJFfkWSzGrcYMgs7Kxa9iNkgNbQou0xhf53oP6Uw@mail.gmail.com>
+	<CAHUNapSuTwy0sSDCXAmk6PEqVkqJzGsrLyPJL9VQCaN5gMbOOA@mail.gmail.com>
+	<CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 21:44:30 -0000
-X-List-Received-Date: Wed, 15 May 2013 21:44:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 May 2013 22:16:52 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Tue, 2013-05-14 at 13:18 +0300, Richard Purdie wrote:
-> I'd also take
-> a patch to have bitbake do some primitive wildcard (% along the lines of
-> PREFERRED_VERSION?) type match on the bbappend filenames.
+On Wed, 15 May 2013, Bruce Ashfield wrote:
 
-I do still think that, as far as oe-core goes at least, simply
-discontinuing the practice of putting PV in the filenames would be an
-easier and better plan.  This would: not require any bitbake changes,
-avoid the need for a .inc in most cases, discourage the common mistake
-of adding a new version and forgetting to remove the old one, and make
-it easier to follow the git history because there wouldn't be renames
-all over the place.  
+> On Wed, May 15, 2013 at 1:58 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+> > On Wed, May 15, 2013 at 1:24 PM, Bruce Ashfield
+> > <bruce.ashfield@gmail.com> wrote:
+> >> You set the SRCREV that Khem sent. That was my 3.8.4. commit. The version
+> >> number in the directories is coming coming from the PV of the package, which you
+> >> didn't tweak.
+> >
+> > Ahh... yes. Thank you. Makes perfect sense now :-)
+>
+> qemumips64 login: root
+> root@qemumips64:~# uname -a
+> Linux qemumips64 3.8.11-yocto-standard #1 PREEMPT Wed May 15 16:43:43
+> EDT 2013 mips64 GNU/Linux
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> index b79fa4e..d458212 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+> @@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
+>
+>  SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
+>  SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
+> +SRCREV_machine_qemumips64  ?= "49041e56a3c4ff552bf9f8195809b8040e2e2723"
+>  SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
+>  SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
+>  SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
 
-But it appears that I am in a minority of one in favouring this plan and
-I guess wildcarded .bbappends are the next best thing.  Your proposal
-above sounds like a reasonable enough idea; having % in .bbappend
-filenames will look a bit weird but there doesn't seem to be any obvious
-reason why it wouldn't work.
+  so just to be painfully clear, if i have current oe-core and
+openembedded-core-contrib repoes, i need make only the above change in
+the latter to get a working qemumips64 build that will boot to the
+command line and let me log in?
 
-p.
+rday
 
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
