@@ -1,26 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1UcP2P-00081z-S4
+	(envelope-from <drew_moseley@mentor.com>) id 1UcQTs-0007OP-Uc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 01:53:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4ENZVWn027299
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2013 16:35:33 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 14 May 2013 16:35:31 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 May 2013 16:35:28 -0700
-Message-ID: <1368574528-28247-2-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1368574528-28247-1-git-send-email-jslater@windriver.com>
-References: <1368574528-28247-1-git-send-email-jslater@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] zlib: put shared libraries in base_libdir
+	Wed, 15 May 2013 03:26:16 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1UcQ3I-0001FD-Uz from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 May 2013 17:58:44 -0700
+Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 14 May 2013 17:58:44 -0700
+Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
+	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Tue, 14 May 2013 17:58:44 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2013 17:59:05 -0700
+Message-Id: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 15 May 2013 00:58:44.0744 (UTC)
+	FILETIME=[596FC080:01CE5107]
+Subject: [PATCH] kernel: Package additional modules files needed for systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 23:54:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 May 2013 01:26:23 -0000
 
-We put the shared libraries in base_libdir because at least
-one library under base_libdir, pam_cracklib.so, needs them
-and will cause a qa warning when it is built.
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-core/zlib/zlib_1.2.7.bb |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
+ meta/classes/kernel.bbclass |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/zlib_1.2.7.bb
-index 803fec3..f5deba1 100644
---- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-@@ -6,6 +6,8 @@ SECTION = "libs"
- LICENSE = "Zlib"
- LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=94d1b5a40dadd127f3351471727e66a9"
- 
-+PR = "r1"
-+
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
-            file://remove.ldconfig.call.patch \
-            "
-@@ -22,6 +24,18 @@ do_compile (){
- 
- do_install() {
- 	oe_runmake DESTDIR=${D} install
-+
-+	# move the shared libraries to avoid possible qa warnings
-+	#
-+	case ${PN} in
-+		zlib-native*)
-+			;;
-+		*)
-+			mkdir -p ${D}/${base_libdir}
-+			mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
-+			tmp=`readlink ${D}/${libdir}/libz.so`
-+			ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
-+	esac
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6ba31bd..f23818e 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -108,8 +108,6 @@ kernel_do_install() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+-		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
+-		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
+ 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
+ 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+ 	else
+@@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ # kernel-image becomes kernel-image-${KERNEL_VERISON}
+ PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
+ FILES = ""
+-FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
++FILES_kernel-image = " \
++	/boot/${KERNEL_IMAGETYPE}* \
++	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
++	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
++"
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
+ FILES_kernel-vmlinux = "/boot/vmlinux*"
+ RDEPENDS_kernel = "kernel-base"
 -- 
-1.7.3.4
+1.7.9.5
 
 
 
