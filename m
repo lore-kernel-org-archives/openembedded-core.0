@@ -1,30 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Ucbiy-00042C-1r
+	(envelope-from <obi@opendreambox.org>) id 1UcbuY-0004xt-89
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 15:27:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4FD8IYJ011742
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 May 2013 15:38:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 900EA31406F9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 06:08:19 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 15 May 2013 06:08:18 -0700
-Message-ID: <519388C2.5000706@windriver.com>
-Date: Wed, 15 May 2013 08:08:18 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130328 Thunderbird/17.0.5
+	Wed, 15 May 2013 15:20:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ck4ByI5UemyU
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 15:20:10 +0200 (CEST)
+Received: from [172.22.22.61] (unknown [212.255.230.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id A0A9C31414D0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 15:20:10 +0200 (CEST)
+Message-ID: <51938B89.1060701@opendreambox.org>
+Date: Wed, 15 May 2013 13:20:09 +0000
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1368574528-28247-1-git-send-email-jslater@windriver.com>
-	<1368574528-28247-2-git-send-email-jslater@windriver.com>
-	<1368611695.6920.79.camel@phil-desktop.brightsign>
-In-Reply-To: <1368611695.6920.79.camel@phil-desktop.brightsign>
-Subject: Re: [PATCH 1/1] zlib: put shared libraries in base_libdir
+To: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com> <1824887.iAjz2He6PC@helios>
+	<5193533D.70503@r-finger.com> <3057509.dy5Cs7AUqs@helios>
+	<519372F1.6050902@r-finger.com>
+	<CAP9ODKqiTzMNpeMq_L7X40_omoNTXjAt3w8N8ykgPwjuEYr9Lg@mail.gmail.com>
+In-Reply-To: <CAP9ODKqiTzMNpeMq_L7X40_omoNTXjAt3w8N8ykgPwjuEYr9Lg@mail.gmail.com>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 13:27:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 15 May 2013 13:38:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 5/15/13 4:54 AM, Phil Blundell wrote:
-> On Tue, 2013-05-14 at 16:35 -0700, Joe Slater wrote:
->> We put the shared libraries in base_libdir because at least
->> one library under base_libdir, pam_cracklib.so, needs them
->> and will cause a qa warning when it is built.
->
-> Which warning are you getting?  From the description it sounds like
-> unsafe-references-in-binaries but that one has been disabled since
-> 2fb58da56e8e7044de21fd10fe9164d204587236.
+On 15.05.2013 11:53, Otavio Salvador wrote:
+> On Wed, May 15, 2013 at 8:35 AM, Tomas Frydrych
+> <tf+lists.yocto@r-finger.com> wrote:
+>> Hi Paul,
+>>
+>> On 15/05/13 10:49, Paul Eggleton wrote:
+>>>> It prevents efficiently supporting clutter on any real machine that does
+>>>> not use mesa's GL, which means all machines not in meta-intel, and some
+>>>> machines in meta-intel. This is the main issue, real HW support.
+>>>
+>>> How does it prevent that? Surely if machine-specific changes are required then
+>>> they will be required on top of a separate layer as much as they are if the
+>>> recipes remain in OE-Core.
+>>
+>> It could be all pulled together into the meta-clutter layer, the
+>> supported BSPs and machines documented, etc, so that common machines
+>> just work out of the box. We could have a dedicated mailing list, a bug
+>> tracker, build a community around it, pull resources.
+> 
+> +1
+> 
+>>> The layer mechanism exists to allow specific
+>>> recipes to be extended if needed. Having the recipes in OE-Core does not
+>>> preclude their extension or replacement with newer versions elsewhere for
+>>> those that need it.
+>>
+>> I have followed the model you advocate for over a year with clutter, and
+>> it is a PITA, so I am thinking that perhaps there are others who are
+>> doing the same and we could do it in one well known place.
+> 
+> +1
+> 
+>>> You may well be right about the need to test on other GL implementations.
+>>> That does not explain how moving them to a separate layer directly helps to address
+>>> that need. You must also expect to make some changes to the recipes
+>>> themselves, so what changes would you be making?
+>>
+>> It's not just about testing, you have to build it first: I would like to
+>> see a set of recipes that can support a whole bunch of machines in the
+>> public OE BSP layers out of the box: configs that work and make sense,
+>> patches where needed, documentation, including documentation of BSP
+>> specific issues.
+>>
+>> In the absence of a community-owned meta-clutter layer, if anyone is
+>> stuck maintaining their own clutter recipes, I have a set at
+>> https://github.com/Guacamayo/meta-clutter which can perhaps be of some use.
+> 
+> +1
+> 
+> I share same feeling of Tomas and I agree that a new layer is the way
+> to go. Having it in a specific layer will allow for more shared work
+> and easy a community creation around it.
 
-We have that enabled in our builds.  We do so because we have customers who 
-still want the root, /usr split.
+I fail to see why the presence of meta-clutter contradicts keeping
+clutter and related recipes in oe-core. If you add meta-clutter to your
+layers, then its recipes will override those in oe-core anyway.
 
---Mark
+Of course, clutter recipes in oe-core could see some maintenance, but
+that's IMO a different topic.
 
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+Regards,
+Andreas
 
 
