@@ -1,28 +1,20 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1UcZkC-0007Za-PR
+Received: from smarthost.techfak.uni-bielefeld.de ([129.70.137.17])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <stefan@herbrechtsmeier.net>) id 1Uca5r-00013U-D8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 13:19:46 +0200
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Wed, 15 May 2013 13:01:19 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id EC91028893A;
-	Wed, 15 May 2013 13:01:27 +0200 (CEST)
-Date: Wed, 15 May 2013 13:01:27 +0200
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: Jesse Zhang <sen.zhang@windriver.com>
-Message-ID: <20130515110127.GY25918@sestofb10.enea.se>
-References: <cover.1368517957.git.sen.zhang@windriver.com>
-	<52b7eb9a13f023eb8d5987ac14d79ef265be5d5a.1368517957.git.sen.zhang@windriver.com>
-	<20130514125841.GV25918@sestofb10.enea.se>
-	<51933BC3.5090001@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <51933BC3.5090001@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] perl-tests: convert to ptest
+	Wed, 15 May 2013 13:42:08 +0200
+Received: from localhost.localdomain (sarotti.TechFak.Uni-Bielefeld.DE
+	[129.70.144.156])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested) (Authenticated sender: sherbrec)
+	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
+	7965E8000C; Wed, 15 May 2013 13:23:50 +0200 (CEST)
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 May 2013 13:23:24 +0200
+Message-Id: <1368617004-14299-1-git-send-email-stefan@herbrechtsmeier.net>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH] tcf-agent: Use common two-digit sequence numbers for init script links
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 11:20:28 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 May 2013 11:42:18 -0000
 
-Jesse Zhang wrote:
-> How verbose should the output be? The TEST script actually does its own
-> analyzing and summarizing of the test results. Do we want the summary
-> only or all the details? Do you want the detailed output converted to
-> ptest format too?
->=20
-> For example,
->=20
->     # ./TEST=20
->     t/base/cond....................................................ok
->     t/base/if......................................................ok
->     t/base/lex.....................................................ok
->     t/base/num.....................................................ok
+The common init script links use two-digit sequence numbers and
+systemd interprets everything behind the two-digits as service name.
+This leads to the following failure during boot:
+  Cannot add dependency job for unit 9tcf-agent.service
 
-I would say this higher-level form is OK. Just sed it into:
+Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-PASS: t/base/cond
-PASS: t/base/if
-PASS: t/base/lex
-PASS: t/base/num
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index ced2b41..5df661c 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+ SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
+ PV = "0.4.0+git${SRCPV}"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;protocol=git \
+            file://fix_ranlib.patch \
+@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
+ inherit update-rc.d
+ 
+ INITSCRIPT_NAME = "tcf-agent"
+-INITSCRIPT_PARAMS = "start 999 3 5 . stop 20 0 1 2 6 ."
++INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
+ 
+ # mangling needed for make
+ MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686,`"
+-- 
+1.7.0.4
 
-> The output from the actual test case conforms to the TAP format (not
-> sure about the top-level TEST). If you have an analysis tool, why not
-> support one more widely used format? I can't see much value in forcing
-> one format everywhere.
-
-There is no supplied analysis tool for ptest. Ptest is defined as producing=
- a specific output format, to simplify parsing and analysis of the results =
-however and wherever you want to do it.
-
-The alternative would be to say that a specific analysis tool must be used =
-which understands every different way of reporting results. And after going=
- through a number of packages I can assure you are a lot of different ways =
-to do that, some quite creative. It would mean that every package maintaine=
-r would also have to add the result format of his package into that analysi=
-s tool, likely creating a huge mess.
-
-I prefer the current way of putting the responsibility on each package to p=
-roduce a standard output format.
-
---=20
-Bj=F6rn
 
 
