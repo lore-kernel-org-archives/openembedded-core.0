@@ -1,20 +1,25 @@
-Received: from smarthost.techfak.uni-bielefeld.de ([129.70.137.17])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@herbrechtsmeier.net>) id 1Uca5r-00013U-D8
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UcaGr-000285-2t
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 13:42:08 +0200
-Received: from localhost.localdomain (sarotti.TechFak.Uni-Bielefeld.DE
-	[129.70.144.156])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: sherbrec)
-	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
-	7965E8000C; Wed, 15 May 2013 13:23:50 +0200 (CEST)
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+	Wed, 15 May 2013 13:53:36 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 0FA7A952B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 12:35:13 +0100 (BST)
+Message-ID: <519372F1.6050902@r-finger.com>
+Date: Wed, 15 May 2013 12:35:13 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 May 2013 13:23:24 +0200
-Message-Id: <1368617004-14299-1-git-send-email-stefan@herbrechtsmeier.net>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH] tcf-agent: Use common two-digit sequence numbers for init script links
+References: <518A6B25.5000108@r-finger.com> <1824887.iAjz2He6PC@helios>
+	<5193533D.70503@r-finger.com> <3057509.dy5Cs7AUqs@helios>
+In-Reply-To: <3057509.dy5Cs7AUqs@helios>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 11:42:18 -0000
+X-List-Received-Date: Wed, 15 May 2013 11:53:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The common init script links use two-digit sequence numbers and
-systemd interprets everything behind the two-digits as service name.
-This leads to the following failure during boot:
-  Cannot add dependency job for unit 9tcf-agent.service
+Hi Paul,
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
----
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+On 15/05/13 10:49, Paul Eggleton wrote:
+>> It prevents efficiently supporting clutter on any real machine that does
+>> not use mesa's GL, which means all machines not in meta-intel, and some
+>> machines in meta-intel. This is the main issue, real HW support.
+> 
+> How does it prevent that? Surely if machine-specific changes are required then 
+> they will be required on top of a separate layer as much as they are if the 
+> recipes remain in OE-Core.
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index ced2b41..5df661c 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
- 
- SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
- PV = "0.4.0+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;protocol=git \
-            file://fix_ranlib.patch \
-@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
- inherit update-rc.d
- 
- INITSCRIPT_NAME = "tcf-agent"
--INITSCRIPT_PARAMS = "start 999 3 5 . stop 20 0 1 2 6 ."
-+INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
- 
- # mangling needed for make
- MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686,`"
+It could be all pulled together into the meta-clutter layer, the
+supported BSPs and machines documented, etc, so that common machines
+just work out of the box. We could have a dedicated mailing list, a bug
+tracker, build a community around it, pull resources.
+
+
+> The layer mechanism exists to allow specific 
+> recipes to be extended if needed. Having the recipes in OE-Core does not 
+> preclude their extension or replacement with newer versions elsewhere for 
+> those that need it.
+
+I have followed the model you advocate for over a year with clutter, and
+it is a PITA, so I am thinking that perhaps there are others who are
+doing the same and we could do it in one well known place.
+
+
+> You may well be right about the need to test on other GL implementations.
+> That does not explain how moving them to a separate layer directly helps to address 
+> that need. You must also expect to make some changes to the recipes 
+> themselves, so what changes would you be making?
+
+It's not just about testing, you have to build it first: I would like to
+see a set of recipes that can support a whole bunch of machines in the
+public OE BSP layers out of the box: configs that work and make sense,
+patches where needed, documentation, including documentation of BSP
+specific issues.
+
+In the absence of a community-owned meta-clutter layer, if anyone is
+stuck maintaining their own clutter recipes, I have a set at
+https://github.com/Guacamayo/meta-clutter which can perhaps be of some use.
+
+Tomas
+
+
 -- 
-1.7.0.4
-
+http://sleepfive.com
 
 
