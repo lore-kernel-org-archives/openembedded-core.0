@@ -1,39 +1,26 @@
-Received: from mail-pd0-f179.google.com ([209.85.192.179])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1UcXcE-0003ph-IQ
+	(envelope-from <sgw@linux.intel.com>) id 1UcXgg-0004Me-Kk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 11:03:24 +0200
-Received: by mail-pd0-f179.google.com with SMTP id q10so1174717pdj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 01:45:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=S0XKyVFasTKmb5hTyxcKVHJJKFLTzUqkqkG6B01H7nE=;
-	b=Sgr15qWtgcycyt4uklR/ASjalVIrRdmt/berTLKbGKDrY6q3D/9D20x5/9IUAnzI7O
-	OixFPvo4+V6I5sFVz1UOPPuQw/gUiWTen2pCqsSgIGRIDYGy2YCI+jtt8lKVBFHSgN5o
-	CVK2lYq0GmjiDtHR7OuD1GvvVVor6Al3Lb2r+uqQDNVz6rxn2SPiYpEnPa7sSEki+/+/
-	/iLIq6HSrg9cfvXnyqCQzvEoAaKhcXdZZh2/74yWhlqLUQncR0VScjlS/qOQPdgC9A+V
-	fkic2k5COUz4ZSoi5bsEtyntv27jfyXU7D93eBL1KfEs/gpIDwPbNh+F/KBsu0a8p4ky
-	ZGuA==
-X-Received: by 10.68.51.234 with SMTP id n10mr10177217pbo.221.1368607505530;
-	Wed, 15 May 2013 01:45:05 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([121.237.163.165])
-	by mx.google.com with ESMTPSA id v5sm2046716pbz.4.2013.05.15.01.45.02
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 May 2013 01:45:04 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Wed, 15 May 2013 16:41:13 +0800
-Message-ID: <5586817.YLlYCAFBIu@yiqingliang-pc>
-User-Agent: KMail/4.10.2 (Linux/3.8.11-1-ARCH; KDE/4.10.2; x86_64; ; )
-In-Reply-To: <519344E1.3020704@topic.nl>
-References: <3388285.jCfN1Lj2u9@yiqingliang-pc>
-	<1875466.EG2CYrV9ea@yiqingliang-pc> <519344E1.3020704@topic.nl>
+	Wed, 15 May 2013 11:07:57 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 15 May 2013 01:49:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,675,1363158000"; d="scan'208";a="334317779"
+Received: from unknown (HELO [10.255.12.183]) ([10.255.12.183])
+	by fmsmga001.fm.intel.com with ESMTP; 15 May 2013 01:48:01 -0700
+Message-ID: <51934BBC.7010103@linux.intel.com>
+Date: Wed, 15 May 2013 11:47:56 +0300
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
+To: Joe Slater <jslater@windriver.com>
+References: <1368574528-28247-1-git-send-email-jslater@windriver.com>
+	<1368574528-28247-2-git-send-email-jslater@windriver.com>
+In-Reply-To: <1368574528-28247-2-git-send-email-jslater@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt keyboard problem
+Subject: Re: [PATCH 1/1] zlib: put shared libraries in base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,50 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 09:03:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 15 May 2013 09:08:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday, May 15, 2013 10:18:41 AM Mike Looijmans wrote:
-> On 05/15/2013 10:10 AM, Yi Qingliang wrote:
-> > On Wednesday, May 15, 2013 10:05:45 AM Mike Looijmans wrote:
-> >> On 05/15/2013 08:19 AM, Yi Qingliang wrote:
-> >>> I'm running qt application on yocto's qt image. cpu is s3c2442, like
-> >>> mini2440.
-> >>> 
-> >>> the problem is:
-> >>> 
-> >>> key event issued by pressing gpio-key eat by 'getty' (from busybox),
-> >>> my application can't receive input event,
-> >>> if I remove respawn 'getty' for tty1 in /etc/inittab, everything ok.
-> >> 
-> >> I solved it by no longer starting the console login. Set the following
-> >> in one of your .conf files (distro or local.conf):
-> >> 
-> >> USE_VT = "0"
-> >> SYSVINIT_ENABLED_GETTYS = ""
-> >> 
-> >> You may need to rebuild initscripts for this to have effect.
-> 
-> Alternatively, you could disconnect the console when the GUI starts. You
-> probably have some script that sets things up and starts the GUI, so you
-> could extend it with the console on/off function.
-> 
-> That allows you to see the boot log on the screen for example, and debug
-> things via the console when the GUI isn't running.
+On 05/15/2013 02:35 AM, Joe Slater wrote:
+> We put the shared libraries in base_libdir because at least
+> one library under base_libdir, pam_cracklib.so, needs them
+> and will cause a qa warning when it is built.
+> ---
+>   meta/recipes-core/zlib/zlib_1.2.7.bb |   14 ++++++++++++++
+>   1 files changed, 14 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/zlib_1.2.7.bb
+> index 803fec3..f5deba1 100644
+> --- a/meta/recipes-core/zlib/zlib_1.2.7.bb
+> +++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
+> @@ -6,6 +6,8 @@ SECTION = "libs"
+>   LICENSE = "Zlib"
+>   LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=94d1b5a40dadd127f3351471727e66a9"
+>
+> +PR = "r1"
+> +
+>   SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
+>              file://remove.ldconfig.call.patch \
+>              "
+> @@ -22,6 +24,18 @@ do_compile (){
+>
+>   do_install() {
+>   	oe_runmake DESTDIR=${D} install
+> +
+> +	# move the shared libraries to avoid possible qa warnings
+> +	#
+> +	case ${PN} in
+> +		zlib-native*)
+> +			;;
 
-Good idea!
+This should really be handled by using the classing mechanism to extend 
+the do_install specificaly for the "target" class. The following will 
+append to the do_install for the target class.
 
-> 
-> I forgot how to do that though, I think is was something in /proc/.
+do_install_append_class-target() {}
 
-if you remembered, tell me please! thanks!
+You should also protect against the case where base_libdir == libdir 
+which some distro can set.
 
-> 
-> Mike.
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+I am also still investigating if this is an appropriate move from it's 
+default location, I guess I need to understand further why pam_cracklib 
+is causing a QA Warning, can you provide the warning please.
+
+Thanks
+	Sau!
+
+> +		*)
+> +			mkdir -p ${D}/${base_libdir}
+> +			mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
+> +			tmp=`readlink ${D}/${libdir}/libz.so`
+> +			ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
+> +	esac
+>   }
+>
+>   BBCLASSEXTEND = "native nativesdk"
+>
 
 
