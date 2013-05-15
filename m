@@ -1,39 +1,51 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-lb0-f177.google.com ([209.85.217.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <drew_moseley@mentor.com>) id 1UcbxG-0005Cx-Iu
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Ucbxu-0005Gk-Hd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 15:41:23 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Ucbfb-0004g7-QT from drew_moseley@mentor.com ;
-	Wed, 15 May 2013 06:23:03 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 15 May 2013 06:23:03 -0700
-Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
-	SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) with mapi id
-	14.02.0247.003; Wed, 15 May 2013 06:23:02 -0700
-From: "Moseley, Drew" <drew_moseley@mentor.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] kernel: Package additional modules files
-	needed for systemtap
-Thread-Index: AQHOUS9xN1xxhEg5VEahFckJ89jkjpkGsaAA
-Date: Wed, 15 May 2013 13:23:02 +0000
-Message-ID: <58F22199-6AD3-4FB0-9344-43A7BD08D003@mentor.com>
-References: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
-	<1368596392.25898.61.camel@ted>
-In-Reply-To: <1368596392.25898.61.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.34.91.1]
+	Wed, 15 May 2013 15:42:13 +0200
+Received: by mail-lb0-f177.google.com with SMTP id 13so1854052lba.36
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 06:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=hx8NGezm/mn7SdvW1gHeZQ+h+gqgGzNzB2rRz+nXQyc=;
+	b=Gzank5ib7Sp6PHtSYz1v4VR9rGoV5NYDXr2az3QiMJVgbhvorKdxpKV/O1bhI38+rA
+	Rl557lz6TquPd7z3SYjpma1yX1wxzzNCiETnRicvEPTmlvhePEGcTivLYB8JdpN1GzHK
+	3F00ZGXt4R1H+LwnvK2PvDUHIPBieh5Ipgrpx83rdKT6H4HOa9bbdHS+IH3I/tuolnVJ
+	NA4MscARkv7Hu8jHbe0I0tKFkmcQZvFPUQiDoqI+SBp8E/faRv4hs6k2W96XAWQnOlQc
+	WdHYZSJYHAM6wEF6kGN+lnFcjsapr45UmI03CvAEVXuzsdguFbBvnvwTf4DgDWryrbJy
+	K6hQ==
 MIME-Version: 1.0
-X-OriginalArrivalTime: 15 May 2013 13:23:03.0178 (UTC)
-	FILETIME=[53EFFEA0:01CE516F]
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	"<openembedded-core@lists.openembedded.org>"
+X-Received: by 10.112.149.35 with SMTP id tx3mr17559360lbb.95.1368624225814;
+	Wed, 15 May 2013 06:23:45 -0700 (PDT)
+Received: by 10.112.234.166 with HTTP; Wed, 15 May 2013 06:23:45 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1305140824360.23009@oneiric>
+References: <cover.1368423406.git.raj.khem@gmail.com>
+	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
+	<alpine.DEB.2.02.1305131536070.2354@oneiric>
+	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
+	<alpine.DEB.2.02.1305131558330.23405@oneiric>
+	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131650030.12354@oneiric>
+	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
+	<alpine.DEB.2.02.1305131805100.28372@oneiric>
+	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
+	<alpine.DEB.2.02.1305132059460.25048@oneiric>
+	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
+	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
+	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
+	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
+	<alpine.DEB.2.02.1305140423590.26605@oneiric>
+	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
+	<alpine.DEB.2.02.1305140824360.23009@oneiric>
+Date: Wed, 15 May 2013 09:23:45 -0400
+Message-ID: <CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: Package additional modules files needed for systemtap
+Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,84 +58,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 13:41:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <73BDCE9BD0292C43AEF603C8F64579AA@mentor.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 May 2013 13:42:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On May 15, 2013, at 1:39 AM, Richard Purdie <richard.purdie@linuxfoundation=
-.org> wrote:
-> On Tue, 2013-05-14 at 17:59 -0700, Drew Moseley wrote:
->> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
->> ---
->> meta/classes/kernel.bbclass |    8 +++++---
->> 1 file changed, 5 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 6ba31bd..f23818e 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -108,8 +108,6 @@ kernel_do_install() {
->> 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->> 	if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
->> 		oe_runmake DEPMOD=3Decho INSTALL_MOD_PATH=3D"${D}" modules_install
->> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
->> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
->> 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
->> 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
->> 	else
->> @@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->> # kernel-image becomes kernel-image-${KERNEL_VERISON}
->> PACKAGES =3D "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
->> FILES =3D ""
->> -FILES_kernel-image =3D "/boot/${KERNEL_IMAGETYPE}*"
->> +FILES_kernel-image =3D " \
->> +	/boot/${KERNEL_IMAGETYPE}* \
->> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
->> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
->> +"
->> FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* /boot/conf=
-ig* ${KERNEL_SRC_PATH}"
->> FILES_kernel-vmlinux =3D "/boot/vmlinux*"
->> RDEPENDS_kernel =3D "kernel-base"
->=20
-> Should these really be installed into every system with a kernel?
-> Doesn't systemtap also need other symbol information so these files
-> would be better off in whatever other packages systemtap also needs?
->=20
-> Cheers,
->=20
-> Richard
+On Tue, May 14, 2013 at 8:25 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> On Tue, 14 May 2013, Bruce Ashfield wrote:
+>
+>> On Tue, May 14, 2013 at 4:28 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>> > On Mon, 13 May 2013, Khem Raj wrote:
+>> >
+>> >> can you try this
+>> >>
+>> >> add
+>> >>
+>> >> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
+>> >>
+>> >> to linux-yocto_3.8.bb
+>> >>
+>> >> and rebuild the kernel and see if that boots
+>> >
+>> >   ok, that gives me a successful boot (tried it twice, success both
+>> > times) but i'm now at a boot prompt:
+>> >
+>> >   qemumips64 login:
+>> >
+>> > that's not accepting any keyboard input.  tried a couple more times,
+>> > same result -- boot to login prompt, but no keyboard input. thoughts?
+>>
+>> I'm going to switch to an oe-core only, clean build today. The
+>> commit that Khem referenced was my change where we prototyped this
+>> work .. and I fixed the boot. But I'm still able to boot here, so I
+>> was unaware that my -stable updates managed to break my own fix :)
+>>
+>> Stay tuned, but for now, I'd suggest waiting to hear back from me...
+>
+>   i will be sitting here, waiting on tenterhooks for someone to
+> explain to me what "tenterhooks" are.
 
-Running systemtap probes without these files results in warning such as the=
- following when trying to install packages:
+:) and the "good" news, is that I finally managed to get a boot to fail
+locally. I'm not bisecting and debugging the problem. I've fixed this
+before, so I don't expect it will take too long.
 
-Installing kernel-image-3.5.7.11 (3.5.7.11+gitr4+524c7f7782e2c671cccab87aaf=
-a1ee41f7202aaf-r6) to root...
-Configuring kernel-image-3.5.7.11.
-WARNING: could not open /lib/modules/3.5.7.11/modules.order: No such file o=
-r directory
-WARNING: could not open /lib/modules/3.5.7.11/modules.builtin: No such file=
- or directory
+I see that Saul picked up the support and plumbing for this, so if that
+merges, I'll send incremental updates to the SRCREVs. I'll ignore
+any high priority bugzilla entries on principle, since this is still baking
+and we just want to get the plumbing in place :)
 
-but I suspect systemtap is not the only place where these files are used.  =
-Below is the description of these files from the kernel Documentation/kbuil=
-d/kbuild.txt and they seem valuable on any module based system.
+Cheers,
 
-modules.order
---------------------------------------------------
-This file records the order in which modules appear in Makefiles. This
-is used by modprobe to deterministically resolve aliases that match
-multiple modules.
+Bruce
 
-modules.builtin
---------------------------------------------------
-This file lists all modules that are built into the kernel. This is used
-by modprobe to not fail when trying to load something builtin.
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 
 
-Regards,
-Drew=
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
