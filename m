@@ -1,51 +1,28 @@
-Received: from mail-lb0-f177.google.com ([209.85.217.177])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Ucbxu-0005Gk-Hd
+	(envelope-from <tom.zanussi@intel.com>) id 1Ucc9v-00068z-6S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 15:42:13 +0200
-Received: by mail-lb0-f177.google.com with SMTP id 13so1854052lba.36
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 06:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=hx8NGezm/mn7SdvW1gHeZQ+h+gqgGzNzB2rRz+nXQyc=;
-	b=Gzank5ib7Sp6PHtSYz1v4VR9rGoV5NYDXr2az3QiMJVgbhvorKdxpKV/O1bhI38+rA
-	Rl557lz6TquPd7z3SYjpma1yX1wxzzNCiETnRicvEPTmlvhePEGcTivLYB8JdpN1GzHK
-	3F00ZGXt4R1H+LwnvK2PvDUHIPBieh5Ipgrpx83rdKT6H4HOa9bbdHS+IH3I/tuolnVJ
-	NA4MscARkv7Hu8jHbe0I0tKFkmcQZvFPUQiDoqI+SBp8E/faRv4hs6k2W96XAWQnOlQc
-	WdHYZSJYHAM6wEF6kGN+lnFcjsapr45UmI03CvAEVXuzsdguFbBvnvwTf4DgDWryrbJy
-	K6hQ==
-MIME-Version: 1.0
-X-Received: by 10.112.149.35 with SMTP id tx3mr17559360lbb.95.1368624225814;
-	Wed, 15 May 2013 06:23:45 -0700 (PDT)
-Received: by 10.112.234.166 with HTTP; Wed, 15 May 2013 06:23:45 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1305140824360.23009@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapTYnSeB0yfXdxtRjqk49y8VHO9KPR_RjxgsN5rWCvDvdg@mail.gmail.com>
-	<alpine.DEB.2.02.1305131536070.2354@oneiric>
-	<CAHUNapSAjqkiNCy4bBxp_7JLmMDRc0omMYggfgZ33KhbEyqbZw@mail.gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-	<alpine.DEB.2.02.1305140423590.26605@oneiric>
-	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-	<alpine.DEB.2.02.1305140824360.23009@oneiric>
-Date: Wed, 15 May 2013 09:23:45 -0400
-Message-ID: <CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 15 May 2013 15:54:24 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 15 May 2013 06:35:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,677,1363158000"; d="scan'208";a="241915861"
+Received: from unknown (HELO [10.255.13.40]) ([10.255.13.40])
+	by AZSMGA002.ch.intel.com with ESMTP; 15 May 2013 06:35:00 -0700
+Message-ID: <1368624899.1607.8.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "Moseley, Drew" <drew_moseley@mentor.com>
+Date: Wed, 15 May 2013 08:34:59 -0500
+In-Reply-To: <58F22199-6AD3-4FB0-9344-43A7BD08D003@mentor.com>
+References: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
+	<1368596392.25898.61.camel@ted>
+	<58F22199-6AD3-4FB0-9344-43A7BD08D003@mentor.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	"<openembedded-core@lists.openembedded.org>"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+Subject: Re: [PATCH] kernel: Package additional modules files needed for systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,73 +35,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 13:42:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 13:54:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 14, 2013 at 8:25 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> On Tue, 14 May 2013, Bruce Ashfield wrote:
->
->> On Tue, May 14, 2013 at 4:28 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->> > On Mon, 13 May 2013, Khem Raj wrote:
->> >
->> >> can you try this
->> >>
->> >> add
->> >>
->> >> SRCREV_machine_qemumips64 = "bbefde394205a1b317eae31942bfc13afce0b0ac"
->> >>
->> >> to linux-yocto_3.8.bb
->> >>
->> >> and rebuild the kernel and see if that boots
->> >
->> >   ok, that gives me a successful boot (tried it twice, success both
->> > times) but i'm now at a boot prompt:
->> >
->> >   qemumips64 login:
->> >
->> > that's not accepting any keyboard input.  tried a couple more times,
->> > same result -- boot to login prompt, but no keyboard input. thoughts?
->>
->> I'm going to switch to an oe-core only, clean build today. The
->> commit that Khem referenced was my change where we prototyped this
->> work .. and I fixed the boot. But I'm still able to boot here, so I
->> was unaware that my -stable updates managed to break my own fix :)
->>
->> Stay tuned, but for now, I'd suggest waiting to hear back from me...
->
->   i will be sitting here, waiting on tenterhooks for someone to
-> explain to me what "tenterhooks" are.
+On Wed, 2013-05-15 at 13:23 +0000, Moseley, Drew wrote:
+> On May 15, 2013, at 1:39 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2013-05-14 at 17:59 -0700, Drew Moseley wrote:
+> >> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+> >> ---
+> >> meta/classes/kernel.bbclass |    8 +++++---
+> >> 1 file changed, 5 insertions(+), 3 deletions(-)
+> >> 
+> >> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> >> index 6ba31bd..f23818e 100644
+> >> --- a/meta/classes/kernel.bbclass
+> >> +++ b/meta/classes/kernel.bbclass
+> >> @@ -108,8 +108,6 @@ kernel_do_install() {
+> >> 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> >> 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> >> 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+> >> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
+> >> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
+> >> 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
+> >> 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+> >> 	else
+> >> @@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+> >> # kernel-image becomes kernel-image-${KERNEL_VERISON}
+> >> PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
+> >> FILES = ""
+> >> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+> >> +FILES_kernel-image = " \
+> >> +	/boot/${KERNEL_IMAGETYPE}* \
+> >> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
+> >> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
+> >> +"
+> >> FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
+> >> FILES_kernel-vmlinux = "/boot/vmlinux*"
+> >> RDEPENDS_kernel = "kernel-base"
+> > 
+> > Should these really be installed into every system with a kernel?
+> > Doesn't systemtap also need other symbol information so these files
+> > would be better off in whatever other packages systemtap also needs?
+> > 
+> > Cheers,
+> > 
+> > Richard
+> 
+> Running systemtap probes without these files results in warning such as the following when trying to install packages:
+> 
+> Installing kernel-image-3.5.7.11 (3.5.7.11+gitr4+524c7f7782e2c671cccab87aafa1ee41f7202aaf-r6) to root...
+> Configuring kernel-image-3.5.7.11.
+> WARNING: could not open /lib/modules/3.5.7.11/modules.order: No such file or directory
+> WARNING: could not open /lib/modules/3.5.7.11/modules.builtin: No such file or directory
+> 
+> but I suspect systemtap is not the only place where these files are used.  Below is the description of these files from the kernel Documentation/kbuild/kbuild.txt and they seem valuable on any module based system.
+> 
+> modules.order
+> --------------------------------------------------
+> This file records the order in which modules appear in Makefiles. This
+> is used by modprobe to deterministically resolve aliases that match
+> multiple modules.
+> 
+> modules.builtin
+> --------------------------------------------------
+> This file lists all modules that are built into the kernel. This is used
+> by modprobe to not fail when trying to load something builtin.
+> 
 
-:) and the "good" news, is that I finally managed to get a boot to fail
-locally. I'm not bisecting and debugging the problem. I've fixed this
-before, so I don't expect it will take too long.
+Hmm, is this happening when using the crosstap script?  I haven't seen
+it before..
 
-I see that Saul picked up the support and plumbing for this, so if that
-merges, I'll send incremental updates to the SRCREVs. I'll ignore
-any high priority bugzilla entries on principle, since this is still baking
-and we just want to get the plumbing in place :)
+If this is happening when trying to compile probes on the target, that
+isn't really supported yet, but there's a bug open for it in 1.5: 
 
-Cheers,
+Bug 4442 - systemtap: make it usable on-target 
 
-Bruce
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4442
 
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
+Part of that would be to get all the debug symbols systemtap needs on
+the target, which as Richard mentions would be overkill to install on
+every system regardless of whether systemtap or something else that
+needs the kernel debug symbols was also installed..
+
+It's on my plate for 1.5, but I haven't really spend much time thinking
+about it yet..
+
+Tom
 
 
+> 
+> Regards,
+> Drew
 
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
 
 
