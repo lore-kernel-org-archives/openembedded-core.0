@@ -1,37 +1,31 @@
-Received: from mail-pa0-f44.google.com ([209.85.220.44])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1UcTFN-00007n-I7; Wed, 15 May 2013 06:23:26 +0200
-Received: by mail-pa0-f44.google.com with SMTP id jh10so1125565pab.3
-	for <multiple recipients>; Tue, 14 May 2013 21:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:content-type:content-transfer-encoding:subject
-	:message-id:date:to:mime-version:x-mailer;
-	bh=Ing8Lj6VjMIaf6s9qOHAlwEH+Ad1l2XwLHBv5rAM97Q=;
-	b=gWjrOMQilYdbU07HBEU5pxum5H7p79f/nRzZ0v2qeXqbLRa8/3MCGQEEHm8ELl0Sx4
-	+utAMZTmLE0tlhD31Pk0n3v6PEzcw2kZshOg8dDSbfThEHG0ATaSd1wa7CQwU8DEhh0u
-	a7u+UAsgo2Kq3b3jPpcoPLNteCQ4xccKhbUtv0jqv2U45PEbqcLpUaRkgtQ0RkEuN7Qd
-	6N/ImC2yzj2hEhO1jkJHTatM/mG9BjLVFJMU2n1xEe4CduE7R80nLZikKN/vAWR95Qtr
-	R6+EqUKKPr+ord//UqZIx0FWokSQNyhBf/pLjDKbyQ41ygMC/hT7z3sFDOW+WDNQDSHU
-	uz8g==
-X-Received: by 10.66.148.132 with SMTP id ts4mr38172909pab.19.1368590712544;
-	Tue, 14 May 2013 21:05:12 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id fn2sm1096581pbc.15.2013.05.14.21.05.11
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 14 May 2013 21:05:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Message-Id: <1A97FEA3-4D93-4CE8-A265-1C9CFBB66FEB@gmail.com>
-Date: Tue, 14 May 2013 21:05:10 -0700
-To: "openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>, 
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-X-Mailer: Apple Mail (2.1503)
-Subject: RFT: Python3
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1UcUoI-0004W6-2p for openembedded-core@lists.openembedded.org;
+	Wed, 15 May 2013 08:03:36 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4F5h4Tu012398; Wed, 15 May 2013 06:43:05 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nG7z1_lc9MHH; Wed, 15 May 2013 06:43:04 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4F5gwK7012390
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 15 May 2013 06:43:01 +0100
+Message-ID: <1368596392.25898.61.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Drew Moseley <drew_moseley@mentor.com>, "Ashfield, Bruce"
+	<Bruce.Ashfield@windriver.com>, "Zanussi, Tom" <tom.zanussi@intel.com>
+Date: Wed, 15 May 2013 08:39:52 +0300
+In-Reply-To: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
+References: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: Package additional modules files needed for systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 04:23:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 May 2013 06:03:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi All,
+On Tue, 2013-05-14 at 17:59 -0700, Drew Moseley wrote:
+> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+> ---
+>  meta/classes/kernel.bbclass |    8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 6ba31bd..f23818e 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -108,8 +108,6 @@ kernel_do_install() {
+>  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+>  		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
+> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
+>  		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
+>  		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+>  	else
+> @@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>  # kernel-image becomes kernel-image-${KERNEL_VERISON}
+>  PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
+>  FILES = ""
+> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+> +FILES_kernel-image = " \
+> +	/boot/${KERNEL_IMAGETYPE}* \
+> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
+> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
+> +"
+>  FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
+>  FILES_kernel-vmlinux = "/boot/vmlinux*"
+>  RDEPENDS_kernel = "kernel-base"
 
-Python3 (3.3.0) is now available. Please test it out on your platforms =
-and report issues/successes you see, and above all feedback on patches
+Should these really be installed into every system with a kernel?
+Doesn't systemtap also need other symbol information so these files
+would be better off in whatever other packages systemtap also needs?
 
- the contrib tree for OE-Core is here
+Cheers,
 
-=
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/python=
-3
-
-I have tested it on all supported architectures in qemu and few hardware =
-machines I have access to, Recipes have been around for
-a long time so they have received some soak time
-
-at minimum add=20
-
-       python3 \
-       python3-modules \
-       python3-misc \
-
-to your IMAGE_INSTALL in order to include it in images.=20
-
-Complete set can be included by
-
-python3-2to3            python3-audio \
-python3-codecs          python3-compile \
-python3-compression     python3-core \
-python3-crypt           python3-ctypes \
-python3-curses          python3-datetime \
-python3-debugger        python3-difflib \
-python3-distutils       python3-doctest \
-python3-email           python3-html \
-python3-idle            python3-image \
-python3-io              python3-json \
-python3-lang            python3-logging \
-python3-mailbox         python3-man \
-python3-math            python3-mime \
-python3-misc            python3-modules \
-python3-multiprocessing python3-netclient \
-python3-netserver       python3-numbers \
-python3-pickle          python3-pkgutil \
-python3-pprint          python3-profile \
-python3-pydoc           python3-pyvenv \
-python3-re              python3-readline \
-python3-shell           python3-smtpd \
-python3-sqlite3         python3-sqlite3-tests \
-python3-stringold       python3-subprocess \
-python3-terminal        python3-tests \
-python3-textutils       python3-threading \
-python3-unittest        python3-unixadmin \
-python3-xml \
-python3-distribute \
-
-Thanks
--Khem
+Richard
 
 
 
