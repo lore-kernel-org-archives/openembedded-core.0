@@ -1,31 +1,37 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pa0-f51.google.com ([209.85.220.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UcUoI-0004W6-2p for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 08:03:36 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4F5h4Tu012398; Wed, 15 May 2013 06:43:05 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nG7z1_lc9MHH; Wed, 15 May 2013 06:43:04 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4F5gwK7012390
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 15 May 2013 06:43:01 +0100
-Message-ID: <1368596392.25898.61.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Drew Moseley <drew_moseley@mentor.com>, "Ashfield, Bruce"
-	<Bruce.Ashfield@windriver.com>, "Zanussi, Tom" <tom.zanussi@intel.com>
-Date: Wed, 15 May 2013 08:39:52 +0300
-In-Reply-To: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
-References: <1368579545-16079-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: Package additional modules files needed for systemtap
+	(envelope-from <niqingliang2003@gmail.com>) id 1UcVOu-0007Sr-SK
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 15 May 2013 08:42:13 +0200
+Received: by mail-pa0-f51.google.com with SMTP id ld10so1198861pab.38
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2013 23:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=bM7vQ+EF0ihnxBqUBkwUDbKCpXVH47QyNRCngJBU9sQ=;
+	b=ZmaGTs623Vpp4MH64ddKyEl0OZZCMhGbFYY5fAH45M/N9d6M5xN4S3V9nMKG6OKcKP
+	axBfc8XgVoax3pSWEaKK5PsBBbftt5UxJSeFbgWZov5pkbOnYxz4m2p7zt6kHYMcbTmj
+	7jU7uTyvzloH61vXkjNINDDdu+kOQYGRW/S3pDHfqEMI2wKhXPtVR47uJpEDR+GTNK1v
+	gPyGUun8Pc0CIHwQ4q4yovxEGdhm3A155qRhm0dBVy3qy0azf6yU3rjipOYO+RJmbd6l
+	IcIFiQAzvamAk01mqjDe3LL1zOSX7YjOKT1cFbRE+HPnaVx4uxZAa61lmMHcVJjVsCYb
+	nQsw==
+X-Received: by 10.68.0.199 with SMTP id 7mr10492491pbg.105.1368598987124;
+	Tue, 14 May 2013 23:23:07 -0700 (PDT)
+Received: from yiqingliang-pc.localnet ([121.237.163.165])
+	by mx.google.com with ESMTPSA id
+	ea15sm1999405pad.16.2013.05.14.23.23.04
+	for <Openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 14 May 2013 23:23:06 -0700 (PDT)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: "openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Date: Wed, 15 May 2013 14:19:20 +0800
+Message-ID: <3388285.jCfN1Lj2u9@yiqingliang-pc>
+User-Agent: KMail/4.10.2 (Linux/3.8.11-1-ARCH; KDE/4.10.2; x86_64; ; )
+MIME-Version: 1.0
+Subject: qt keyboard problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,52 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 06:03:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 May 2013 06:42:35 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2013-05-14 at 17:59 -0700, Drew Moseley wrote:
-> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
-> ---
->  meta/classes/kernel.bbclass |    8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 6ba31bd..f23818e 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -108,8 +108,6 @@ kernel_do_install() {
->  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
->  		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
-> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.order"
-> -		rm -f "${D}/lib/modules/${KERNEL_VERSION}/modules.builtin"
->  		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
->  		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
->  	else
-> @@ -259,7 +257,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->  # kernel-image becomes kernel-image-${KERNEL_VERISON}
->  PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
->  FILES = ""
-> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-> +FILES_kernel-image = " \
-> +	/boot/${KERNEL_IMAGETYPE}* \
-> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.order \
-> +	${base_libdir}/modules/${KERNEL_VERSION}/modules.builtin \
-> +"
->  FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
->  FILES_kernel-vmlinux = "/boot/vmlinux*"
->  RDEPENDS_kernel = "kernel-base"
+Hello, all.
 
-Should these really be installed into every system with a kernel?
-Doesn't systemtap also need other symbol information so these files
-would be better off in whatever other packages systemtap also needs?
+I'm running qt application on yocto's qt image. cpu is s3c2442, like mini2440.
 
-Cheers,
+the problem is:
 
-Richard
+key event issued by pressing gpio-key eat by 'getty' (from busybox), 
+my application can't receive input event,
+if I remove respawn 'getty' for tty1 in /etc/inittab, everything ok.
+
+any idea?
 
 
-
+-- 
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
 
