@@ -1,26 +1,34 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-pa0-f49.google.com ([209.85.220.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1UckYI-000132-Rv
+	(envelope-from <raj.khem@gmail.com>) id 1UckZp-00017p-E3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 00:52:10 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hr14so2138832wib.16
+	Thu, 16 May 2013 00:53:51 +0200
+Received: by mail-pa0-f49.google.com with SMTP id bi5so1902816pad.22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 15:33:53 -0700 (PDT)
+	Wed, 15 May 2013 15:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=PWjmpts38Qol0ybA6KJ3HKeBP/SSm7kcBUwA9B5r8Ao=;
-	b=qhD14MGTZStP3Mqu+nKRb4fxzIin7bvy1rYFqCZ8/N4KzvNi6qKNaYMCb6gsz4ZRAc
-	u/Tgw58lsoElZQJiIO91J46csk+9jxkEtjfI+zUVwmSjzFgiodYFQMj1OYv0zfGTD4Pv
-	c1lAghCRQ3NNW88T50eZEEA49/sW14RX4PdCQpnATODbTOfhvQPLghi3TgdAQ1J4sU4u
-	bemjB47N/hVN2M0/20jg2P6/HFv9ofsTgULYTL3veXRhy4o5G60zEpQ7bWSHMeSKpmY2
-	JV5koyhuaRRES6yGCcONPHwrYSCgiWeALeUR6IPgYVM7S5jtY7Urv4V2DskeaZCut3T1
-	iLWQ==
-MIME-Version: 1.0
-X-Received: by 10.180.37.229 with SMTP id b5mr18741305wik.29.1368657233502;
-	Wed, 15 May 2013 15:33:53 -0700 (PDT)
-Received: by 10.194.5.132 with HTTP; Wed, 15 May 2013 15:33:53 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1305151757110.12800@oneiric>
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=eIWwTTrVccl86ZFvoi+1EAA0v89tWHdJjYzz32W+A3k=;
+	b=xRCeMVKL8TKyikaq3p5YJCA1e0JzMEyv1hUcKKjBnehP1+P6O09ShOqRCDCUsh2sMB
+	QV3otg2XgSdF9xi+dW8oLSZVef6OKbtspk7BhDwpEOH0oxWvoGdrj0vDH67hdpKl6TK5
+	mBLRgWuU33mqesNIPoGWq55Iv1bfO5arNXSZxQlTqkoxCq+wMA0+XjubMQTqb6MPGO/0
+	vLAT/NPBOwkzgVbZLSES8vs631fwvbikwuF/LCVrQ4zTRM+0+5LKlrnWBQ84cNg2nXu4
+	grEbNeXVQRKHOBS3YBlLFPwuhX2tQ1YH99v6SlqeVIrChclnY+VdyR1DOr9bUtEB0O4E
+	fTLg==
+X-Received: by 10.68.178.130 with SMTP id cy2mr16413402pbc.106.1368657327517; 
+	Wed, 15 May 2013 15:35:27 -0700 (PDT)
+Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id gi2sm4237207pbb.2.2013.05.15.15.35.26
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 15 May 2013 15:35:26 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
+Date: Wed, 15 May 2013 15:35:25 -0700
+Message-Id: <913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<alpine.DEB.2.02.1305131805100.28372@oneiric>
 	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
@@ -38,11 +46,11 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CAHUNapSuTwy0sSDCXAmk6PEqVkqJzGsrLyPJL9VQCaN5gMbOOA@mail.gmail.com>
 	<CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
 	<alpine.DEB.2.02.1305151757110.12800@oneiric>
-Date: Wed, 15 May 2013 18:33:53 -0400
-Message-ID: <CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Patches and discussions about the oe-core layer
+	<CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,41 +65,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 22:52:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 22:53:55 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 15, 2013 at 5:58 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> On Wed, 15 May 2013, Bruce Ashfield wrote:
->> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
->> b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
->> index b79fa4e..d458212 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
->> @@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
->>
->>  SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
->>  SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
->> +SRCREV_machine_qemumips64  ?= "49041e56a3c4ff552bf9f8195809b8040e2e2723"
->>  SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
->>  SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
->>  SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
->
->   so just to be painfully clear, if i have current oe-core and
-> openembedded-core-contrib repoes, i need make only the above change in
-> the latter to get a working qemumips64 build that will boot to the
-> command line and let me log in?
 
-I just built and ran it using plain meta-poky/meta and
-meta-poky/meta-yocto (applying the above change to meta-poky/meta/...,
-and using a very recent pull to master) and am quite happy to report
-that it works for me (as I understand it Saul pushed the various parts
-required for the toolchain earlier today). The linux kernel banner,
-sources, and "uname -a" are all linux-yocto_3.8.11 and I can log in
-using the qemu SDL interface.
+On May 15, 2013, at 3:33 PM, Trevor Woerner <twoerner@gmail.com> wrote:
 
-Now I just have to remove the kernel version preference line in my
-config and verify that works okay too.
+> Does this mean we now have something that can work on the EdgeRouter =
+Lite?
 
-Does this mean we now have something that can work on the EdgeRouter Lite?
+well you have to have a kernel for that platform. If you have working =
+kernel everything else will ditto work
+
 
 
