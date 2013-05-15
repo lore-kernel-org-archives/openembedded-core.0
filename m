@@ -1,38 +1,27 @@
-Received: from mail-ob0-f170.google.com ([209.85.214.170])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UcfFq-0007H3-RT
+	(envelope-from <drew_moseley@mentor.com>) id 1UcfJN-0007fq-HV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 19:12:43 +0200
-Received: by mail-ob0-f170.google.com with SMTP id er7so2273279obc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 09:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=xOsddqJJNNzHtA0trGV8neC6plkwTdjw4TLktO4ySYE=;
-	b=nRn/KkBZcOwh+/+h3V+JKalni2JKqt1hIBsn5f88C4rCNtSebznqTynCCxBDys2iuh
-	04t9S03S/yf0JSA7X09qvNunE6BZxtV3i4r3UNPwARqOFetBHeFtc33neqHrcEgbJQE+
-	++xU7ix1kxH9xOZPFHU7Xn3ZNqaCFlnHoJAieP4UehW5Z84qft4/OoX17ZUsREngXGnW
-	IaQhiaEHK10W1P7v4rTkqB9CF3ZW+0xBJUUBzj4nawv6TZDes27aKQ4WOXuoydV4o/kh
-	gWTeCYUixWs+IQQ1d3OR3LczkFuQl7JMukhEFeKrY2AUzAhdo4Ydq9Z7kJB3LohcUnEC
-	39Mg==
-MIME-Version: 1.0
-X-Received: by 10.60.135.102 with SMTP id pr6mr13463964oeb.138.1368636868972; 
-	Wed, 15 May 2013 09:54:28 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Wed, 15 May 2013 09:54:28 -0700 (PDT)
-In-Reply-To: <5193B925.6010607@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <3057509.dy5Cs7AUqs@helios>
-	<519372F1.6050902@r-finger.com> <5543572.N8ppyBn6lW@helios>
-	<5193B925.6010607@r-finger.com>
-Date: Wed, 15 May 2013 13:54:28 -0300
-X-Google-Sender-Auth: KoxXV0GESghiroTwKh-wSRl-tvA
-Message-ID: <CAP9ODKoi9ZPDdZTYJ6wfqAdofQeBWCmZAEuMzKQCFkHBYyYkeA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+	Wed, 15 May 2013 19:16:22 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Ucf1j-0006ny-QA from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 15 May 2013 09:58:07 -0700
+Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 15 May 2013 09:58:07 -0700
+Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
+	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Wed, 15 May 2013 09:58:06 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 May 2013 09:58:30 -0700
+Message-Id: <1368637110-6785-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 15 May 2013 16:58:07.0090 (UTC)
+	FILETIME=[5F44B520:01CE518D]
+Subject: [PATCH] orc: Add generic license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,46 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 17:12:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 17:16:27 -0000
 
-On Wed, May 15, 2013 at 1:34 PM, Tomas Frydrych
-<tf+lists.yocto@r-finger.com> wrote:
-> Hi Paul,
->
-> On 15/05/13 15:09, Paul Eggleton wrote:
->> Can you not just get the appropriate changes into the BSP layers
->> so that when you add the BSP on top of OE-Core it does just work "out of the
->> box"?
->
-> What you are really saying is that the onus of maintaining working
-> clutter packages should be on the BSP maintainers. I have already
-> explained previously in this thread why I don't think this is going to
-> work out in practice, so I am not going to repeat myself again.
->
->
->> If clutter is taken out of OE-Core this becomes even harder because then
->> BSPs can no longer bbappend clutter or cogl (if that is indeed what is
->> required in order to enable machine-specific functionality) without fiddling
->> around with BBMASK or keeping the appends in yet another separate layer so
->> they don't impact other BSP users who aren't building Clutter.
->
-> The BSPs would not need to do anything regarding clutter, no bbappends,
-> meta-clutter would be self-contained in this regard.
->
-> I don't think there is any point in bothering the list with this
-> discussion any further, we have gone around the circle more than once.
-> The whole point of the proposal was to make maintaining, using and
-> supporting the clutter packages easier for everyone, but it seems I
-> underestimated how important Clutter is to oe-core, and I am already
-> looking forward to this newly discovered importance being translated
-> into user happiness before too long. :)
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/conf/licenses.conf        |    2 +-
+ meta/files/common-licenses/orc |   62 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/files/common-licenses/orc
 
-I'd prefer we keep meta-clutter working until it happens ;-)
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+index 3090214..5e06109 100644
+--- a/meta/conf/licenses.conf
++++ b/meta/conf/licenses.conf
+@@ -32,7 +32,7 @@ SRC_DISTRIBUTE_LICENSES += "LGPL-2.1 LGPL-3.0 Libpng LPL-1.02 LPPL-1.0 LPPL-1.1"
+ SRC_DISTRIBUTE_LICENSES += "LPPL-1.2 LPPL-1.3c MirOS MIT Motosoto MPL-1.0"
+ SRC_DISTRIBUTE_LICENSES += "MPL-1.1 MS-PL MS-RL Multics NASA-1.3 Nauman NCSA"
+ SRC_DISTRIBUTE_LICENSES += "NGPL Nokia NPOSL-3.0 NTP OASIS OCLC-2.0 ODbL-1.0"
+-SRC_DISTRIBUTE_LICENSES += "OFL-1.1 OGTSL OLDAP-2.8 OpenSSL OSL-1.0 OSL-2.0"
++SRC_DISTRIBUTE_LICENSES += "OFL-1.1 OGTSL OLDAP-2.8 OpenSSL orc OSL-1.0 OSL-2.0"
+ SRC_DISTRIBUTE_LICENSES += "OSL-3.0 PD PHP-3.0 PostgreSQL Proprietary"
+ SRC_DISTRIBUTE_LICENSES += "Python-2.0 QPL-1.0 RHeCos-1 RHeCos-1.1 RPL-1.5"
+ SRC_DISTRIBUTE_LICENSES += "RPSL-1.0 RSCPL Ruby SAX-PD Simple-2.0 Sleepycat"
+diff --git a/meta/files/common-licenses/orc b/meta/files/common-licenses/orc
+new file mode 100644
+index 0000000..2a43304
+--- /dev/null
++++ b/meta/files/common-licenses/orc
+@@ -0,0 +1,62 @@
++
++The majority of the source code and the collective work is subject
++to the following license:
++  
++  Copyright 2002 - 2009 David A. Schleef <ds@schleef.org>
++  All rights reserved.
++  
++  Redistribution and use in source and binary forms, with or without
++  modification, are permitted provided that the following conditions
++  are met:
++  1. Redistributions of source code must retain the above copyright
++     notice, this list of conditions and the following disclaimer.
++  2. Redistributions in binary form must reproduce the above copyright
++     notice, this list of conditions and the following disclaimer in the
++     documentation and/or other materials provided with the distribution.
++  
++  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
++  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
++  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
++  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
++  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
++  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
++  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++  POSSIBILITY OF SUCH DAMAGE.
++  
++  
++The source code implementing the Mersenne Twister algorithm is
++subject to the following license:
++
++   Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
++   All rights reserved.                          
++
++   Redistribution and use in source and binary forms, with or without
++   modification, are permitted provided that the following conditions
++   are met:
++
++     1. Redistributions of source code must retain the above copyright
++        notice, this list of conditions and the following disclaimer.
++
++     2. Redistributions in binary form must reproduce the above copyright
++        notice, this list of conditions and the following disclaimer in the
++        documentation and/or other materials provided with the distribution.
++
++     3. The names of its contributors may not be used to endorse or promote 
++        products derived from this software without specific prior written 
++        permission.
++
++   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++   A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
++   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
+-- 
+1.7.9.5
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
