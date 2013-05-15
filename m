@@ -1,49 +1,46 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-oa0-f43.google.com ([209.85.219.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uck09-0007Cm-UL
+	(envelope-from <eu@felipetonello.com>) id 1UckJK-00005A-Qh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 00:16:50 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:52984 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UcjiW-0003td-GL; Wed, 15 May 2013 17:58:36 -0400
-Date: Wed, 15 May 2013 17:58:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305151757110.12800@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-	<alpine.DEB.2.02.1305140423590.26605@oneiric>
-	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-	<alpine.DEB.2.02.1305140824360.23009@oneiric>
-	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-	<CAHUNapTw8-B5AEk2YN3t+vRkjwVOS65Ehs6HV5RkbipYUWpS3A@mail.gmail.com>
-	<CADkTA4P+CaEJFfkWSzGrcYMgs7Kxa9iNkgNbQou0xhf53oP6Uw@mail.gmail.com>
-	<CAHUNapSuTwy0sSDCXAmk6PEqVkqJzGsrLyPJL9VQCaN5gMbOOA@mail.gmail.com>
-	<CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 16 May 2013 00:36:42 +0200
+Received: by mail-oa0-f43.google.com with SMTP id o6so2898199oag.16
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 15:18:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:user-agent
+	:in-reply-to:references:mime-version:content-transfer-encoding
+	:content-type:x-gm-message-state;
+	bh=XRKnuFP7rglQo7eaCLmfD7wyIoBLAPfCFqFzcMrFeCY=;
+	b=grJzwE/VSKgiXFZvArpa5LKfU2sIXRAPcMKRF38FUp5NnDG2xCplmodz+0VF2iwlJa
+	C6T1LxM4y1nNJFrZIOsjW6c9sMwmxu6Z0zvWgyb1RBWvBKMwqNn//VoY3Radyry2Ei9Z
+	IimwucZmxYFbQ6V7ny6SCuxYBce+YOCMjI4se4SAe5eVX6RZLX+xiifFr+hrO/msrEGW
+	U3oNwT0qbknrH0lZZnfAos10d4orKhrI66QuyfpS+T72ttMd4C0lDatHCqZ53kAbfEu8
+	ATyUrX21PeJ40j35xT0HhRobxpGRSt+32sO/ejz9LfovJnHB7WIjOx6ie6a8gqsS18wx
+	bBjg==
+X-Received: by 10.182.97.168 with SMTP id eb8mr18522356obb.89.1368656305068;
+	Wed, 15 May 2013 15:18:25 -0700 (PDT)
+Received: from localhost.localdomain (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPSA id eq4sm4964007obb.5.2013.05.15.15.18.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 15 May 2013 15:18:24 -0700 (PDT)
+From: Felipe Ferreri Tonello <eu@felipetonello.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 15 May 2013 15:18:22 -0700
+Message-ID: <1844830.bmNtCV2qGo@localhost.localdomain>
+User-Agent: KMail/4.10.2 (Linux/3.8.9-200.fc18.x86_64; KDE/4.10.2; x86_64; ; )
+In-Reply-To: <1711232.dboPgR0GxB@helios>
+References: <1368123358-10995-1-git-send-email-eu@felipetonello.com>
+	<CAP9ODKrkH4dKFLFNUA_RusUk=27N7n-Dzu3DNaFLbPNK6FtDVQ@mail.gmail.com>
+	<1711232.dboPgR0GxB@helios>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
+X-Gm-Message-State: ALoCoQl7c90kvhMuNns6eVMx17NN5iRncivz6OUSLEzx74TwQsOL/j6uz6yJgGTxMinVw5bLPlXQ
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+Subject: Re: [PATCH] qt: updated qmake2 class to export qconfig.pri mkspec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,54 +53,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 22:16:52 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 15 May 2013 22:36:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 15 May 2013, Bruce Ashfield wrote:
+Hi Paul,
 
-> On Wed, May 15, 2013 at 1:58 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> > On Wed, May 15, 2013 at 1:24 PM, Bruce Ashfield
-> > <bruce.ashfield@gmail.com> wrote:
-> >> You set the SRCREV that Khem sent. That was my 3.8.4. commit. The version
-> >> number in the directories is coming coming from the PV of the package, which you
-> >> didn't tweak.
-> >
-> > Ahh... yes. Thank you. Makes perfect sense now :-)
->
-> qemumips64 login: root
-> root@qemumips64:~# uname -a
-> Linux qemumips64 3.8.11-yocto-standard #1 PREEMPT Wed May 15 16:43:43
-> EDT 2013 mips64 GNU/Linux
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-> b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-> index b79fa4e..d458212 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-> @@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
->
->  SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
->  SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
-> +SRCREV_machine_qemumips64  ?= "49041e56a3c4ff552bf9f8195809b8040e2e2723"
->  SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
->  SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
->  SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
+On Wednesday, May 15, 2013 05:39:38 PM Paul Eggleton wrote:
+> On Wednesday 15 May 2013 13:31:41 Otavio Salvador wrote:
+> > On Thu, May 9, 2013 at 3:15 PM,  <eu@felipetonello.com> wrote:
+> > > From: "Felipe F. Tonello" <eu@felipetonello.com>
+> > > 
+> > > This is necessary when Qt applicatins want to know variables such as
+> > > QT_MAJOR_VERSION, QT_VERSION, QT_MINOR_VERSION, gcc version etc.
+> > > 
+> > > OBS: This change made the build system crazy. When I changed it and run
+> > > bitbake my-qt-app-recipe, qmake was consuming 100% cpu usage for long
+> > > time. I had to stop it. So I recommend rebuild the entire Qt stack when
+> > > changing this.
+> > > 
+> > > Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+> > > ---
+> > > 
+> > >  meta/classes/qmake2.bbclass | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+> > > index 5eebd8e..8b9861c 100644
+> > > --- a/meta/classes/qmake2.bbclass
+> > > +++ b/meta/classes/qmake2.bbclass
+> > > @@ -6,6 +6,7 @@ inherit qmake_base
+> > > 
+> > >  DEPENDS_prepend = "qt4-tools-native "
+> > >  
+> > >  export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
+> > > 
+> > > +export OE_QMAKE_QT_CONFIG =
+> > > "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+> > > 
+> > >  export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
+> > >  export OE_QMAKE_UIC3 = "${STAGING_BINDIR_NATIVE}/uic34"
+> > >  export OE_QMAKE_MOC = "${STAGING_BINDIR_NATIVE}/moc4"
+> > 
+> > The patch makes a lot of sense for me, Paul?
+> 
+> I'm not sure I know enough about this to say either way; the comment about
+> qmake going crazy doesn't exactly inspire confidence though...
 
-  so just to be painfully clear, if i have current oe-core and
-openembedded-core-contrib repoes, i need make only the above change in
-the latter to get a working qemumips64 build that will boot to the
-command line and let me log in?
+About that I'm not sure why it happened. But after cleaning all Qt related 
+builds it worked as expected.
 
-rday
+> 
+> I guess one question I would have is why have we not needed this before?
+
+This is been used in the Qt based SDK. It's necessary to build Qt applications 
+or libraries that makes use of those cited variables in their Qt project file.
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Felipe Ferreri Tonello
 
 
