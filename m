@@ -1,26 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UcXgg-0004Me-Kk
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UcY9x-0006u4-1w
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 11:07:57 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 15 May 2013 01:49:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,675,1363158000"; d="scan'208";a="334317779"
-Received: from unknown (HELO [10.255.12.183]) ([10.255.12.183])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2013 01:48:01 -0700
-Message-ID: <51934BBC.7010103@linux.intel.com>
-Date: Wed, 15 May 2013 11:47:56 +0300
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 15 May 2013 11:38:09 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id E9AF0952B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 10:19:57 +0100 (BST)
+Message-ID: <5193533D.70503@r-finger.com>
+Date: Wed, 15 May 2013 10:19:57 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-To: Joe Slater <jslater@windriver.com>
-References: <1368574528-28247-1-git-send-email-jslater@windriver.com>
-	<1368574528-28247-2-git-send-email-jslater@windriver.com>
-In-Reply-To: <1368574528-28247-2-git-send-email-jslater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] zlib: put shared libraries in base_libdir
+To: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com>
+	<1368459699.6920.41.camel@phil-desktop.brightsign>
+	<5192006C.1060803@r-finger.com> <1824887.iAjz2He6PC@helios>
+In-Reply-To: <1824887.iAjz2He6PC@helios>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,67 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 09:08:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 15 May 2013 09:38:09 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 05/15/2013 02:35 AM, Joe Slater wrote:
-> We put the shared libraries in base_libdir because at least
-> one library under base_libdir, pam_cracklib.so, needs them
-> and will cause a qa warning when it is built.
-> ---
->   meta/recipes-core/zlib/zlib_1.2.7.bb |   14 ++++++++++++++
->   1 files changed, 14 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> index 803fec3..f5deba1 100644
-> --- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> @@ -6,6 +6,8 @@ SECTION = "libs"
->   LICENSE = "Zlib"
->   LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=94d1b5a40dadd127f3351471727e66a9"
->
-> +PR = "r1"
-> +
->   SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
->              file://remove.ldconfig.call.patch \
->              "
-> @@ -22,6 +24,18 @@ do_compile (){
->
->   do_install() {
->   	oe_runmake DESTDIR=${D} install
-> +
-> +	# move the shared libraries to avoid possible qa warnings
-> +	#
-> +	case ${PN} in
-> +		zlib-native*)
-> +			;;
+Hi Paul,
 
-This should really be handled by using the classing mechanism to extend 
-the do_install specificaly for the "target" class. The following will 
-append to the do_install for the target class.
+On 14/05/13 17:55, Paul Eggleton wrote:
+> Having clutter in OE-Core does not preclude such testing with additional BSPs, 
+> and I'm unclear on how moving it out to another layer helps at all with this 
+> specific issue.
 
-do_install_append_class-target() {}
+It prevents efficiently supporting clutter on any real machine that does
+not use mesa's GL, which means all machines not in meta-intel, and some
+machines in meta-intel. This is the main issue, real HW support.
 
-You should also protect against the case where base_libdir == libdir 
-which some distro can set.
 
-I am also still investigating if this is an appropriate move from it's 
-default location, I guess I need to understand further why pam_cracklib 
-is causing a QA Warning, can you provide the warning please.
+> This could present a problem. What if I want Clutter but I don't want the 
+> latest version of glib, but instead the version that is being shipped with OE-
+> Core that is tested with the other pieces of the system that depend upon it 
+> (especially given glib has recent history of breaking other packages)? Surely 
+> the safest alternative is the last stable version of Clutter that works with 
+> that version of glib? That would make it difficult to depend upon an external 
+> layer that provides its own newer version of glib would it not?
 
-Thanks
-	Sau!
+Sometimes a 6 month old release is not enough, and having to provide the
+updated packages yourself is the least desirable of all options. In a
+small layer, such issues can be handled gracefully, and their impact
+limited.
 
-> +		*)
-> +			mkdir -p ${D}/${base_libdir}
-> +			mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
-> +			tmp=`readlink ${D}/${libdir}/libz.so`
-> +			ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
-> +	esac
->   }
->
->   BBCLASSEXTEND = "native nativesdk"
->
+
+> There's no denying that the maintenance of the Clutter recipes in OE-Core has 
+> slipped. I don't think that is an argument in itself to split them out, that 
+> just means we need to recognise that and maintain those recipes more 
+> effectively.
+
+The lack of maintenance reflects the relative importance of Clutter for
+oe-core, and is an orthogonal issue. I am not complaining that it is not
+being maintained, I am arguing that it cannot be properly maintained
+with just reference to mesa and qemu, hence the suggestion to split it out.
+
+
+> Honestly I think if Clutter continues to be something that people are using to 
+> develop applications we're much better off with the "canonical" stable version 
+> being in OE-Core.
+
+Where 'canonical' means 'unusable on non-Intel HW', but I am repeating
+myself ...
+
+Tomas
 
 
