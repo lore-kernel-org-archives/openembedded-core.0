@@ -1,38 +1,20 @@
-Received: from mail-pa0-f49.google.com ([209.85.220.49])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1UckZp-00017p-E3
+	(envelope-from <rpjday@crashcourse.ca>) id 1Uckdf-0001Mn-2j
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 00:53:51 +0200
-Received: by mail-pa0-f49.google.com with SMTP id bi5so1902816pad.22
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 15:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=eIWwTTrVccl86ZFvoi+1EAA0v89tWHdJjYzz32W+A3k=;
-	b=xRCeMVKL8TKyikaq3p5YJCA1e0JzMEyv1hUcKKjBnehP1+P6O09ShOqRCDCUsh2sMB
-	QV3otg2XgSdF9xi+dW8oLSZVef6OKbtspk7BhDwpEOH0oxWvoGdrj0vDH67hdpKl6TK5
-	mBLRgWuU33mqesNIPoGWq55Iv1bfO5arNXSZxQlTqkoxCq+wMA0+XjubMQTqb6MPGO/0
-	vLAT/NPBOwkzgVbZLSES8vs631fwvbikwuF/LCVrQ4zTRM+0+5LKlrnWBQ84cNg2nXu4
-	grEbNeXVQRKHOBS3YBlLFPwuhX2tQ1YH99v6SlqeVIrChclnY+VdyR1DOr9bUtEB0O4E
-	fTLg==
-X-Received: by 10.68.178.130 with SMTP id cy2mr16413402pbc.106.1368657327517; 
-	Wed, 15 May 2013 15:35:27 -0700 (PDT)
-Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id gi2sm4237207pbb.2.2013.05.15.15.35.26
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 May 2013 15:35:26 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
-Date: Wed, 15 May 2013 15:35:25 -0700
-Message-Id: <913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
+	Thu, 16 May 2013 00:57:40 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:53128 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1UckM1-0005Qy-P2; Wed, 15 May 2013 18:39:25 -0400
+Date: Wed, 15 May 2013 18:39:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
+Message-ID: <alpine.DEB.2.02.1305151836490.11559@oneiric>
 References: <cover.1368423406.git.raj.khem@gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
 	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
 	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
 	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
@@ -47,10 +29,19 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
 	<alpine.DEB.2.02.1305151757110.12800@oneiric>
 	<CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-X-Mailer: Apple Mail (2.1503)
-Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>,
-	Patches and discussions about the oe-core layer
+	<913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -65,18 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 22:53:55 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 May 2013 22:57:45 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Wed, 15 May 2013, Khem Raj wrote:
 
-On May 15, 2013, at 3:33 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> On May 15, 2013, at 3:33 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> > Does this mean we now have something that can work on the EdgeRouter Lite?
+>
+> well you have to have a kernel for that platform. If you have
+> working kernel everything else will ditto work
 
-> Does this mean we now have something that can work on the EdgeRouter =
-Lite?
+  whoo hoo.  ok, with current oe-core and current
+openembedded-core-contrib with the following patch from bruce:
 
-well you have to have a kernel for that platform. If you have working =
-kernel everything else will ditto work
+--- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+@@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
 
+ SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
+ SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
++SRCREV_machine_qemumips64  ?= "49041e56a3c4ff552bf9f8195809b8040e2e2723"
+ SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
+ SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
+ SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
+
+  i have a qemumips64 build that boots to the command line and accepts
+input and I CAN LOG IN!!!!!!!!!!!!!!!
+
+  awesome. it's martini time.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
