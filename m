@@ -1,38 +1,20 @@
-Received: from mail-ob0-f174.google.com ([209.85.214.174])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1UcaYo-000448-3H
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1UcbAS-00080p-In
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 14:12:21 +0200
-Received: by mail-ob0-f174.google.com with SMTP id un3so1846084obb.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 04:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=zjjnmq8amb8QZDxTtkcztkPfcW1E3ZI2YU8iGfAaq1Y=;
-	b=r5nsm0hcB/w01f9CALcNqV9ZkCx6HXiTZfmcbmC5Cpxc2dA8WgCao7zIBj/tdxMnnJ
-	ldFzPU3Blx3bMwfpdiKU9Br0PeO4yvIJLdW9WiiRZbt7EWYorAYyfGYx/2cVixRh8KpC
-	2IrqHk3cUcnivPOESbkNjjVEpT45adB0sDWzOZ2rr9KgBXbJ7gb3KcFBbgpXq5r2d8uY
-	4a5dpafinOkJ1+Mx489CXoia0xa8iNjSMx1RE16eZyVI4GxVWcPP8rzqYMUYCnd1D7i4
-	qGIrzw6Tq9uuJhKCtc1+sDRmAFLzgUGDyMHGp1Vqcu6hkvxhmwH7MwlvDx9fg1Y26Jj3
-	1XUQ==
-MIME-Version: 1.0
-X-Received: by 10.60.35.100 with SMTP id g4mr7747638oej.53.1368618824694; Wed,
-	15 May 2013 04:53:44 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Wed, 15 May 2013 04:53:44 -0700 (PDT)
-In-Reply-To: <519372F1.6050902@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <1824887.iAjz2He6PC@helios>
-	<5193533D.70503@r-finger.com> <3057509.dy5Cs7AUqs@helios>
-	<519372F1.6050902@r-finger.com>
-Date: Wed, 15 May 2013 08:53:44 -0300
-X-Google-Sender-Auth: WBtKajVClQIdliKNnyUTFIK8_AE
-Message-ID: <CAP9ODKqiTzMNpeMq_L7X40_omoNTXjAt3w8N8ykgPwjuEYr9Lg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+	Wed, 15 May 2013 14:51:00 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 May 2013 05:31:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,677,1363158000"; d="scan'208";a="337949528"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.143])
+	by fmsmga002.fm.intel.com with ESMTP; 15 May 2013 05:31:33 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 May 2013 15:32:12 +0300
+Message-Id: <1368621132-15266-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] nfs-utils : upgrade to 1.2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +27,702 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 12:12:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 12:51:48 -0000
+X-List-Received-Date: Wed, 15 May 2013 12:51:48 -0000
 
-On Wed, May 15, 2013 at 8:35 AM, Tomas Frydrych
-<tf+lists.yocto@r-finger.com> wrote:
-> Hi Paul,
->
-> On 15/05/13 10:49, Paul Eggleton wrote:
->>> It prevents efficiently supporting clutter on any real machine that does
->>> not use mesa's GL, which means all machines not in meta-intel, and some
->>> machines in meta-intel. This is the main issue, real HW support.
->>
->> How does it prevent that? Surely if machine-specific changes are required then
->> they will be required on top of a separate layer as much as they are if the
->> recipes remain in OE-Core.
->
-> It could be all pulled together into the meta-clutter layer, the
-> supported BSPs and machines documented, etc, so that common machines
-> just work out of the box. We could have a dedicated mailing list, a bug
-> tracker, build a community around it, pull resources.
+upgrade from 1.2.7 -> 1.2.8
 
-+1
+Removed patches that are already in the upstream.
 
->> The layer mechanism exists to allow specific
->> recipes to be extended if needed. Having the recipes in OE-Core does not
->> preclude their extension or replacement with newer versions elsewhere for
->> those that need it.
->
-> I have followed the model you advocate for over a year with clutter, and
-> it is a PITA, so I am thinking that perhaps there are others who are
-> doing the same and we could do it in one well known place.
+Added a make clean routine needed because the package comes with
+precompiled 64-bit objects that break the build.
 
-+1
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch |   26 -
+ .../nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch  |  599 --------------------
+ .../{nfs-utils_1.2.7.bb => nfs-utils_1.2.8.bb}     |   12 +-
+ 3 files changed, 8 insertions(+), 629 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.2.7.bb => nfs-utils_1.2.8.bb} (88%)
 
->> You may well be right about the need to test on other GL implementations.
->> That does not explain how moving them to a separate layer directly helps to address
->> that need. You must also expect to make some changes to the recipes
->> themselves, so what changes would you be making?
->
-> It's not just about testing, you have to build it first: I would like to
-> see a set of recipes that can support a whole bunch of machines in the
-> public OE BSP layers out of the box: configs that work and make sense,
-> patches where needed, documentation, including documentation of BSP
-> specific issues.
->
-> In the absence of a community-owned meta-clutter layer, if anyone is
-> stuck maintaining their own clutter recipes, I have a set at
-> https://github.com/Guacamayo/meta-clutter which can perhaps be of some use.
-
-+1
-
-I share same feeling of Tomas and I agree that a new layer is the way
-to go. Having it in a specific layer will allow for more shared work
-and easy a community creation around it.
-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
+deleted file mode 100644
+index 465144a..0000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-[PATCH] fix build with uClibc
+-
+-uClibc doesn't have/need libio.h, so don't include it from sockaddr.h
+-
+-Signed-off-by: Peter Korsgaard <jacmet@sunsite.dk>
+----
+- support/include/sockaddr.h |    5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-Upstream-Status: Pending
+-
+-Index: nfs-utils-1.2.3/support/include/sockaddr.h
+-===================================================================
+---- nfs-utils-1.2.3.orig/support/include/sockaddr.h
+-+++ nfs-utils-1.2.3/support/include/sockaddr.h
+-@@ -20,7 +20,10 @@
+- #ifndef NFS_UTILS_SOCKADDR_H
+- #define NFS_UTILS_SOCKADDR_H
+- 
+-+/* uClibc doesn't have/need libio.h */
+-+#ifndef __UCLIBC__
+- #include <libio.h>
+-+#endif
+- #include <stdbool.h>
+- #include <sys/socket.h>
+- #include <netinet/in.h>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
+deleted file mode 100644
+index 0411b47..0000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.1.2.8.rc3.patch
++++ /dev/null
+@@ -1,599 +0,0 @@
+-Backported from Fedora
+-
+-This is a cumulative fixes patch between 1.2.7 and 1.2.8 latest rc
+-
+-Upstream-Status: Backport
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-diff --git a/support/export/rmtab.c b/support/export/rmtab.c
+-index 31c0f50..d16b3b3 100644
+---- a/support/export/rmtab.c
+-+++ b/support/export/rmtab.c
+-@@ -1,7 +1,7 @@
+- /*
+-- * support/export/rmntab.c
+-+ * support/export/rmtab.c
+-  *
+-- * Interface to the rmnt file.
+-+ * Interface to the rmtab file.
+-  *
+-  */
+- 
+-@@ -12,7 +12,7 @@
+- #include <stdlib.h>
+- #include <string.h>
+- #include <errno.h>
+--#include "xmalloc.h"
+-+
+- #include "misc.h"
+- #include "nfslib.h"
+- #include "exportfs.h"
+-diff --git a/support/export/xtab.c b/support/export/xtab.c
+-index 2a43193..e953071 100644
+---- a/support/export/xtab.c
+-+++ b/support/export/xtab.c
+-@@ -14,7 +14,7 @@
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <string.h>
+--#include "xmalloc.h"
+-+
+- #include "nfslib.h"
+- #include "exportfs.h"
+- #include "xio.h"
+-diff --git a/support/nfs/cacheio.c b/support/nfs/cacheio.c
+-index e641c45..61e07a8 100644
+---- a/support/nfs/cacheio.c
+-+++ b/support/nfs/cacheio.c
+-@@ -162,11 +162,16 @@ int qword_eol(FILE *f)
+- {
+- 	int err;
+- 
+--	fprintf(f,"\n");
+--	err = fflush(f);
+--	if (err) {
+--		xlog_warn("qword_eol: fflush failed: errno %d (%s)",
+-+	err = fprintf(f,"\n");
+-+	if (err < 0) {
+-+		xlog_warn("qword_eol: fprintf failed: errno %d (%s)",
+- 			    errno, strerror(errno));
+-+	} else {
+-+		err = fflush(f);
+-+		if (err) {
+-+			xlog_warn("qword_eol: fflush failed: errno %d (%s)",
+-+				  errno, strerror(errno));
+-+		}
+- 	}
+- 	/*
+- 	 * We must send one line (and one line only) in a single write
+-diff --git a/utils/gssd/gssd_proc.c b/utils/gssd/gssd_proc.c
+-index ec251fa..d01ba2f 100644
+---- a/utils/gssd/gssd_proc.c
+-+++ b/utils/gssd/gssd_proc.c
+-@@ -52,6 +52,7 @@
+- #include <sys/socket.h>
+- #include <arpa/inet.h>
+- #include <sys/fsuid.h>
+-+#include <sys/resource.h>
+- 
+- #include <stdio.h>
+- #include <stdlib.h>
+-@@ -250,21 +251,10 @@ read_service_info(char *info_file_name, char **servicename, char **servername,
+- 	if ((p = strstr(buf, "port")) != NULL)
+- 		sscanf(p, "port: %127s\n", port);
+- 
+--	/* check service, program, and version */
+--	if (memcmp(service, "nfs", 3) != 0)
+--		return -1;
+-+	/* get program, and version numbers */
+- 	*prog = atoi(program + 1); /* skip open paren */
+- 	*vers = atoi(version);
+- 
+--	if (strlen(service) == 3 ) {
+--		if ((*prog != 100003) || ((*vers != 2) && (*vers != 3) &&
+--		    (*vers != 4)))
+--			goto fail;
+--	} else if (memcmp(service, "nfs4_cb", 7) == 0) {
+--		if (*vers != 1)
+--			goto fail;
+--	}
 --
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+- 	if (!addrstr_to_sockaddr(addr, address, port))
+- 		goto fail;
+- 
+-@@ -398,10 +388,10 @@ process_clnt_dir_files(struct clnt_info * clp)
+- static int
+- get_poll_index(int *ind)
+- {
+--	int i;
+-+	unsigned int i;
+- 
+- 	*ind = -1;
+--	for (i=0; i<FD_ALLOC_BLOCK; i++) {
+-+	for (i=0; i<pollsize; i++) {
+- 		if (pollarray[i].events == 0) {
+- 			*ind = i;
+- 			break;
+-@@ -483,9 +473,13 @@ fail_keep_client:
+- void
+- init_client_list(void)
+- {
+-+	struct rlimit rlim;
+- 	TAILQ_INIT(&clnt_list);
+- 	/* Eventually plan to grow/shrink poll array: */
+- 	pollsize = FD_ALLOC_BLOCK;
+-+	if (getrlimit(RLIMIT_NOFILE, &rlim) < 0 &&
+-+	    rlim.rlim_cur != RLIM_INFINITY)
+-+		pollsize = rlim.rlim_cur;
+- 	pollarray = calloc(pollsize, sizeof(struct pollfd));
+- }
+- 
+-@@ -567,9 +561,8 @@ process_pipedir(char *pipe_name)
+- 
+- 	update_old_clients(namelist, j, pipe_name);
+- 	for (i=0; i < j; i++) {
+--		if (i < FD_ALLOC_BLOCK
+--				&& !strncmp(namelist[i]->d_name, "clnt", 4)
+--				&& !find_client(namelist[i]->d_name, pipe_name))
+-+		if (!strncmp(namelist[i]->d_name, "clnt", 4)
+-+		    && !find_client(namelist[i]->d_name, pipe_name))
+- 			process_clnt_dir(namelist[i]->d_name, pipe_name);
+- 		free(namelist[i]);
+- 	}
+-@@ -962,12 +955,6 @@ process_krb5_upcall(struct clnt_info *clp, uid_t uid, int fd, char *tgtname,
+- 
+- 	printerr(1, "handling krb5 upcall (%s)\n", clp->dirname);
+- 
+--	if (tgtname) {
+--		if (clp->servicename) {
+--			free(clp->servicename);
+--			clp->servicename = strdup(tgtname);
+--		}
+--	}
+- 	token.length = 0;
+- 	token.value = NULL;
+- 	memset(&pd, 0, sizeof(struct authgss_private_data));
+-@@ -1016,7 +1003,8 @@ process_krb5_upcall(struct clnt_info *clp, uid_t uid, int fd, char *tgtname,
+- 			int success = 0;
+- 			do {
+- 				gssd_refresh_krb5_machine_credential(clp->servername,
+--								     NULL, service);
+-+								     NULL, service,
+-+								     tgtname);
+- 				/*
+- 				 * Get a list of credential cache names and try each
+- 				 * of them until one works or we've tried them all
+-diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
+-index 60ba594..aeb8f70 100644
+---- a/utils/gssd/krb5_util.c
+-+++ b/utils/gssd/krb5_util.c
+-@@ -774,12 +774,16 @@ gssd_search_krb5_keytab(krb5_context context, krb5_keytab kt,
+- }
+- 
+- /*
+-- * Find a keytab entry to use for a given target hostname.
+-+ * Find a keytab entry to use for a given target realm.
+-  * Tries to find the most appropriate keytab to use given the
+-  * name of the host we are trying to connect with.
+-+ *
+-+ * Note: the tgtname contains a hostname in the realm that we
+-+ * are authenticating to. It may, or may not be the same as
+-+ * the server hostname.
+-  */
+- static int
+--find_keytab_entry(krb5_context context, krb5_keytab kt, const char *hostname,
+-+find_keytab_entry(krb5_context context, krb5_keytab kt, const char *tgtname,
+- 		  krb5_keytab_entry *kte, const char **svcnames)
+- {
+- 	krb5_error_code code;
+-@@ -795,7 +799,7 @@ find_keytab_entry(krb5_context context, krb5_keytab kt, const char *hostname,
+- 
+- 
+- 	/* Get full target hostname */
+--	retval = get_full_hostname(hostname, targethostname,
+-+	retval = get_full_hostname(tgtname, targethostname,
+- 				   sizeof(targethostname));
+- 	if (retval)
+- 		goto out;
+-@@ -1128,7 +1132,7 @@ gssd_get_krb5_machine_cred_list(char ***list)
+- 		if (ple->ccname) {
+- 			/* Make sure cred is up-to-date before returning it */
+- 			retval = gssd_refresh_krb5_machine_credential(NULL, ple,
+--				NULL);
+-+				NULL, NULL);
+- 			if (retval)
+- 				continue;
+- 			if (i + 1 > listsize) {
+-@@ -1219,7 +1223,8 @@ gssd_destroy_krb5_machine_creds(void)
+- int
+- gssd_refresh_krb5_machine_credential(char *hostname,
+- 				     struct gssd_k5_kt_princ *ple, 
+--					 char *service)
+-+					 char *service,
+-+					 char *tgtname)
+- {
+- 	krb5_error_code code = 0;
+- 	krb5_context context;
+-@@ -1258,7 +1263,10 @@ gssd_refresh_krb5_machine_credential(char *hostname,
+- 	if (ple == NULL) {
+- 		krb5_keytab_entry kte;
+- 
+--		code = find_keytab_entry(context, kt, hostname, &kte, svcnames);
+-+		if (tgtname == NULL)
+-+			tgtname = hostname;
+-+
+-+		code = find_keytab_entry(context, kt, tgtname, &kte, svcnames);
+- 		if (code) {
+- 			printerr(0, "ERROR: %s: no usable keytab entry found "
+- 				 "in keytab %s for connection with host %s\n",
+-diff --git a/utils/gssd/krb5_util.h b/utils/gssd/krb5_util.h
+-index cd6e107..9f41625 100644
+---- a/utils/gssd/krb5_util.h
+-+++ b/utils/gssd/krb5_util.h
+-@@ -31,7 +31,8 @@ void gssd_setup_krb5_machine_gss_ccache(char *servername);
+- void gssd_destroy_krb5_machine_creds(void);
+- int  gssd_refresh_krb5_machine_credential(char *hostname,
+- 					  struct gssd_k5_kt_princ *ple, 
+--					  char *service);
+-+					  char *service,
+-+					  char *tgtname);
+- char *gssd_k5_err_msg(krb5_context context, krb5_error_code code);
+- void gssd_k5_get_default_realm(char **def_realm);
+- 
+-diff --git a/utils/gssd/svcgssd_krb5.c b/utils/gssd/svcgssd_krb5.c
+-index 6c34faf..1d44d34 100644
+---- a/utils/gssd/svcgssd_krb5.c
+-+++ b/utils/gssd/svcgssd_krb5.c
+-@@ -38,6 +38,7 @@
+- 
+- #include <stdio.h>
+- #include <errno.h>
+-+#include <ctype.h>
+- #include <gssapi/gssapi.h>
+- #include <krb5.h>
+- 
+-@@ -98,6 +99,12 @@ parse_enctypes(char *enctypes)
+- 	if (n == 0)
+- 		return ENOENT;
+- 
+-+	/* Skip pass any non digits */
+-+	while (*enctypes && isdigit(*enctypes) == 0)
+-+		enctypes++;
+-+	if (*enctypes == '\0')
+-+		return EINVAL;
+-+
+- 	/* Allocate space for enctypes array */
+- 	if ((parsed_enctypes = (int *) calloc(n, sizeof(int))) == NULL) {
+- 		return ENOMEM;
+-diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
+-index e80efb4..beba9c4 100644
+---- a/utils/idmapd/idmapd.c
+-+++ b/utils/idmapd/idmapd.c
+-@@ -145,7 +145,6 @@ static void svrreopen(int, short, void *);
+- static int  nfsopen(struct idmap_client *);
+- static void nfscb(int, short, void *);
+- static void nfsdcb(int, short, void *);
+--static int  validateascii(char *, u_int32_t);
+- static int  addfield(char **, ssize_t *, char *);
+- static int  getfield(char **, char *, size_t);
+- 
+-@@ -425,7 +424,8 @@ dirscancb(int UNUSED(fd), short UNUSED(which), void *data)
+- 			    pipefsdir, ents[i]->d_name);
+- 
+- 			if ((ic->ic_dirfd = open(path, O_RDONLY, 0)) == -1) {
+--				xlog_warn("dirscancb: open(%s): %s", path, strerror(errno));
+-+				if (verbose > 0)
+-+					xlog_warn("dirscancb: open(%s): %s", path, strerror(errno));
+- 				free(ic);
+- 				goto out;
+- 			}
+-@@ -642,6 +642,8 @@ out:
+- static void
+- imconv(struct idmap_client *ic, struct idmap_msg *im)
+- {
+-+	u_int32_t len;
+-+
+- 	switch (im->im_conv) {
+- 	case IDMAP_CONV_IDTONAME:
+- 		idtonameres(im);
+-@@ -652,10 +654,10 @@ imconv(struct idmap_client *ic, struct idmap_msg *im)
+- 			    im->im_id, im->im_name);
+- 		break;
+- 	case IDMAP_CONV_NAMETOID:
+--		if (validateascii(im->im_name, sizeof(im->im_name)) == -1) {
+--			im->im_status |= IDMAP_STATUS_INVALIDMSG;
+-+		len = strnlen(im->im_name, IDMAP_NAMESZ - 1);
+-+		/* Check for NULL termination just to be careful */
+-+		if (im->im_name[len+1] != '\0')
+- 			return;
+--		}
+- 		nametoidres(im);
+- 		if (verbose > 1)
+- 			xlog_warn("%s %s: (%s) name \"%s\" -> id \"%d\"",
+-@@ -855,25 +857,6 @@ nametoidres(struct idmap_msg *im)
+- }
+- 
+- static int
+--validateascii(char *string, u_int32_t len)
+--{
+--	u_int32_t i;
+--
+--	for (i = 0; i < len; i++) {
+--		if (string[i] == '\0')
+--			break;
+--
+--		if (string[i] & 0x80)
+--			return (-1);
+--	}
+--
+--	if ((i >= len) || string[i] != '\0')
+--		return (-1);
+--
+--	return (i + 1);
+--}
+--
+--static int
+- addfield(char **bpp, ssize_t *bsizp, char *fld)
+- {
+- 	char ch, *bp = *bpp;
+-diff --git a/utils/mount/error.c b/utils/mount/error.c
+-index 83ad1d2..f8fc13f 100644
+---- a/utils/mount/error.c
+-+++ b/utils/mount/error.c
+-@@ -225,7 +225,7 @@ void mount_error(const char *spec, const char *mount_point, int error)
+- 	case ENOENT:
+- 		if (spec)
+- 			nfs_error(_("%s: mounting %s failed, "
+--				"reason given by server:\n  %s"),
+-+				"reason given by server: %s"),
+- 				progname, spec, strerror(error));
+- 		else
+- 			nfs_error(_("%s: mount point %s does not exist"),
+-diff --git a/utils/mount/stropts.c b/utils/mount/stropts.c
+-index 9b4197b..8ee3024 100644
+---- a/utils/mount/stropts.c
+-+++ b/utils/mount/stropts.c
+-@@ -666,6 +666,7 @@ static int nfs_try_mount_v3v2(struct nfsmount_info *mi)
+- 		case EOPNOTSUPP:
+- 		case EHOSTUNREACH:
+- 		case ETIMEDOUT:
+-+		case EACCES:
+- 			continue;
+- 		default:
+- 			goto out;
+-@@ -761,6 +762,7 @@ static int nfs_try_mount_v4(struct nfsmount_info *mi)
+- 		case ECONNREFUSED:
+- 		case EHOSTUNREACH:
+- 		case ETIMEDOUT:
+-+		case EACCES:
+- 			continue;
+- 		default:
+- 			goto out;
+-diff --git a/utils/mountd/auth.c b/utils/mountd/auth.c
+-index 508040a..330cab5 100644
+---- a/utils/mountd/auth.c
+-+++ b/utils/mountd/auth.c
+-@@ -10,10 +10,12 @@
+- #include <config.h>
+- #endif
+- 
+-+#include <sys/types.h>
+- #include <sys/stat.h>
+- #include <netinet/in.h>
+- #include <arpa/inet.h>
+- #include <errno.h>
+-+#include <fcntl.h>
+- #include <unistd.h>
+- 
+- #include "sockaddr.h"
+-@@ -21,7 +23,6 @@
+- #include "nfslib.h"
+- #include "exportfs.h"
+- #include "mountd.h"
+--#include "xmalloc.h"
+- #include "v4root.h"
+- 
+- enum auth_error
+-diff --git a/utils/mountd/cache.c b/utils/mountd/cache.c
+-index e950ec6..45012be 100644
+---- a/utils/mountd/cache.c
+-+++ b/utils/mountd/cache.c
+-@@ -29,7 +29,6 @@
+- #include "nfslib.h"
+- #include "exportfs.h"
+- #include "mountd.h"
+--#include "xmalloc.h"
+- #include "fsloc.h"
+- #include "pseudoflavors.h"
+- 
+-@@ -109,12 +108,10 @@ static void auth_unix_ip(FILE *f)
+- 		struct addrinfo *ai = NULL;
+- 
+- 		ai = client_resolve(tmp->ai_addr);
+--		if (ai == NULL)
+--			goto out;
+--		client = client_compose(ai);
+--		freeaddrinfo(ai);
+--		if (!client)
+--			goto out;
+-+		if (ai) {
+-+			client = client_compose(ai);
+-+			freeaddrinfo(ai);
+-+		}
+- 	}
+- 	qword_print(f, "nfsd");
+- 	qword_print(f, ipaddr);
+-@@ -127,7 +124,6 @@ static void auth_unix_ip(FILE *f)
+- 	xlog(D_CALL, "auth_unix_ip: client %p '%s'", client, client?client: "DEFAULT");
+- 
+- 	free(client);
+--out:
+- 	freeaddrinfo(tmp);
+- 
+- }
+-@@ -347,6 +343,30 @@ static char *next_mnt(void **v, char *p)
+- 	return me->mnt_dir;
+- }
+- 
+-+static int is_subdirectory(char *child, char *parent)
+-+{
+-+	size_t l = strlen(parent);
+-+
+-+	if (strcmp(parent, "/") == 0)
+-+		return 1;
+-+
+-+	return strcmp(child, parent) == 0
+-+		|| (strncmp(child, parent, l) == 0 && child[l] == '/');
+-+}
+-+
+-+static int path_matches(nfs_export *exp, char *path)
+-+{
+-+	if (exp->m_export.e_flags & NFSEXP_CROSSMOUNT)
+-+		return is_subdirectory(path, exp->m_export.e_path);
+-+	return strcmp(path, exp->m_export.e_path) == 0;
+-+}
+-+
+-+static int
+-+export_matches(nfs_export *exp, char *dom, char *path, struct addrinfo *ai)
+-+{
+-+	return path_matches(exp, path) && client_matches(exp, dom, ai);
+-+}
+-+
+- /* True iff e1 is a child of e2 and e2 has crossmnt set: */
+- static bool subexport(struct exportent *e1, struct exportent *e2)
+- {
+-@@ -354,8 +374,7 @@ static bool subexport(struct exportent *e1, struct exportent *e2)
+- 	size_t l2 = strlen(p2);
+- 
+- 	return e2->e_flags & NFSEXP_CROSSMOUNT
+--	       && strncmp(p1, p2, l2) == 0
+--	       && p1[l2] == '/';
+-+		&& is_subdirectory(p1, p2);
+- }
+- 
+- struct parsed_fsid {
+-@@ -756,27 +775,6 @@ static int dump_to_cache(FILE *f, char *domain, char *path, struct exportent *ex
+- 	return qword_eol(f);
+- }
+- 
+--static int is_subdirectory(char *child, char *parent)
+--{
+--	size_t l = strlen(parent);
+--
+--	return strcmp(child, parent) == 0
+--		|| (strncmp(child, parent, l) == 0 && child[l] == '/');
+--}
+--
+--static int path_matches(nfs_export *exp, char *path)
+--{
+--	if (exp->m_export.e_flags & NFSEXP_CROSSMOUNT)
+--		return is_subdirectory(path, exp->m_export.e_path);
+--	return strcmp(path, exp->m_export.e_path) == 0;
+--}
+--
+--static int
+--export_matches(nfs_export *exp, char *dom, char *path, struct addrinfo *ai)
+--{
+--	return path_matches(exp, path) && client_matches(exp, dom, ai);
+--}
+--
+- static nfs_export *
+- lookup_export(char *dom, char *path, struct addrinfo *ai)
+- {
+-@@ -830,6 +828,7 @@ lookup_export(char *dom, char *path, struct addrinfo *ai)
+- 
+- #ifdef HAVE_NFS_PLUGIN_H
+- #include <dlfcn.h>
+-+#include <link.h>
+- #include <nfs-plugin.h>
+- 
+- /*
+-@@ -1094,6 +1093,7 @@ static struct exportent *lookup_junction(char *dom, const char *pathname,
+- 		struct addrinfo *ai)
+- {
+- 	struct exportent *exp;
+-+	struct link_map *map;
+- 	void *handle;
+- 
+- 	handle = dlopen("libnfsjunct.so", RTLD_NOW);
+-@@ -1101,6 +1101,11 @@ static struct exportent *lookup_junction(char *dom, const char *pathname,
+- 		xlog(D_GENERAL, "%s: dlopen: %s", __func__, dlerror());
+- 		return NULL;
+- 	}
+-+
+-+	if (dlinfo(handle, RTLD_DI_LINKMAP, &map) == 0)
+-+		xlog(D_GENERAL, "%s: loaded plug-in %s",
+-+			__func__, map->l_name);
+-+
+- 	(void)dlerror();	/* Clear any error */
+- 
+- 	exp = invoke_junction_ops(handle, dom, pathname, ai);
+-diff --git a/utils/nfsdcltrack/nfsdcltrack.c b/utils/nfsdcltrack/nfsdcltrack.c
+-index 9801b9c..4334340 100644
+---- a/utils/nfsdcltrack/nfsdcltrack.c
+-+++ b/utils/nfsdcltrack/nfsdcltrack.c
+-@@ -379,6 +379,17 @@ cltrack_legacy_gracedone(void)
+- 	while ((entry = readdir(v4recovery))) {
+- 		int len;
+- 
+-+		/* skip "." and ".." */
+-+		if (entry->d_name[0] == '.') {
+-+			switch (entry->d_name[1]) {
+-+			case '\0':
+-+				continue;
+-+			case '.':
+-+				if (entry->d_name[2] == '\0')
+-+					continue;
+-+			}
+-+		}
+-+
+- 		/* borrow the clientid blob for this */
+- 		len = snprintf((char *)blob, sizeof(blob), "%s/%s", dirname,
+- 				entry->d_name);
+-diff --git a/utils/statd/rmtcall.c b/utils/statd/rmtcall.c
+-index 4ecb03c..fd576d9 100644
+---- a/utils/statd/rmtcall.c
+-+++ b/utils/statd/rmtcall.c
+-@@ -68,21 +68,19 @@ statd_get_socket(void)
+- {
+- 	struct sockaddr_in	sin;
+- 	struct servent *se;
+--	int loopcnt = 100;
+-+	const int loopcnt = 100;
+-+	int i, tmp_sockets[loopcnt];
+- 
+- 	if (sockfd >= 0)
+- 		return sockfd;
+- 
+--	while (loopcnt-- > 0) {
+--
+--		if (sockfd >= 0) close(sockfd);
+-+	for (i = 0; i < loopcnt; ++i) {
+- 
+- 		if ((sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
+- 			xlog(L_ERROR, "%s: Can't create socket: %m", __func__);
+--			return -1;
+-+			break;
+- 		}
+- 
+--
+- 		memset(&sin, 0, sizeof(sin));
+- 		sin.sin_family = AF_INET;
+- 		sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+-@@ -96,7 +94,16 @@ statd_get_socket(void)
+- 		if (se == NULL)
+- 			break;
+- 		/* rather not use that port, try again */
+-+
+-+		tmp_sockets[i] = sockfd;
+- 	}
+-+
+-+	while (--i >= 0)
+-+		close(tmp_sockets[i]);
+-+
+-+	if (sockfd < 0)
+-+		return -1;
+-+
+- 	FD_SET(sockfd, &SVC_FDSET);
+- 	return sockfd;
+- }
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+similarity index 88%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+index cd97810..2f35094 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.7.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+@@ -13,14 +13,12 @@ RDEPENDS_${PN} = "rpcbind"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
+-           file://nfs-utils.1.2.8.rc3.patch \
+            file://nfs-utils-1.0.6-uclibc.patch \
+-           file://nfs-utils-1.2.3-uclibc-libio.h.patch \
+            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
+            file://nfsserver"
+ 
+-SRC_URI[md5sum] = "3b5ca797197765dc0c3a4122720c7716"
+-SRC_URI[sha256sum] = "7ef8e0a8b22cd7ff33f3afd28e770d45643fae303468a180640c2967833fe75e"
++SRC_URI[md5sum] = "6e7d97de51e428a0b8698c16ca23db77"
++SRC_URI[sha256sum] = "1cc8f02a633eddbf0a1d93421f331479c4cdab4c5ab33b8bf8c7c369f9156ac6"
+ 
+ PARALLEL_MAKE = ""
+ 
+@@ -54,6 +52,12 @@ FILES_${PN}-client = "${base_sbindir}/*mount.nfs*"
+ FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
+ RDEPENDS_${PN}-stats = "python"
+ 
++# Make clean needed because the package comes with
++# precompiled 64-bit objects that break the build
++do_compile_prepend() {
++    make clean
++}
++
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -d ${D}${localstatedir}/lib/nfs/statd
+-- 
+1.7.9.5
+
 
 
