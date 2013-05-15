@@ -1,34 +1,38 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mail-oa0-f51.google.com ([209.85.219.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1UcgqV-0007DV-4H
+	(envelope-from <otavio.salvador@gmail.com>) id 1Uched-0002rX-D7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 20:54:40 +0200
-Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 77B9520EC4;
-	Wed, 15 May 2013 14:36:25 -0400 (EDT)
-Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
-	by compute3.internal (MEProxy); Wed, 15 May 2013 14:36:27 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=1CQdREbD0bt02gK8ehYmVc
-	kYpgY=; b=BgV91wEyoTQqmqJakoUwvWwjJgL7t6zNWfrEfh605germGJmlzj41G
-	jfbnEp8TWJx14A6fiP+AanVXOwKUCTBRSiMMh5PeLjSUm5mxK8vFHKgadSOpCxLy
-	CfeFuZTFMNfFxHLLJe7TjFWM8XO9Aj/I5vYdkgF6s7ERO7rs97r7o=
-X-Sasl-enc: 3S8ApQuv6AG+gVPmZBKCX3ZjWhvwTh8lHKcpTo/g6E0F 1368642985
-Received: from [10.193.23.197] (unknown [66.187.233.207])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0ABC0C80004;
-	Wed, 15 May 2013 14:36:24 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Ross Burton <ross.burton@intel.com>
-In-Reply-To: <1368458850-5309-1-git-send-email-ross.burton@intel.com>
-References: <1368458850-5309-1-git-send-email-ross.burton@intel.com>
-Date: Wed, 15 May 2013 14:36:23 -0400
-Message-ID: <1368642983.28256.109.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 (2.28.3-30.el6) 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glib-2.0: drop dependency on python-argparse
+	Wed, 15 May 2013 21:47:30 +0200
+Received: by mail-oa0-f51.google.com with SMTP id f4so2698881oah.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 12:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=rSCW+R8biG2Z4NslB3if+BBBuq6gfUDguGp5lCHndBM=;
+	b=naIBFNn2vYfa2MXXGxJjg8BNUNLXW0WXInI/v01ewNAbGVOx2lzP9pVB7oPr+kpN+1
+	DXjcs2TcWe+P1joByb2MAQnJeSmRzuH8XxweifynvCY9Wg+vSil4yTNJW9qI0rlHB54E
+	HJTScYMmpiyuOtzhKgzrpBsWCyRd2yo5fieR8d23nkEUG/kGwhxM4+j+emRXWrj2RvI2
+	iTP4aj9L+cnsWovEomywa/+kwmyFtgxp0JWPkbYCseD/RM+S/i0ylSmb3xNlmCXz/SAi
+	LgVJFEd85i1IqSQbc/CQ1UrSNEB/s77Qoz4MYjetMKiPpoO8ojtDpT1Bc7kn+UW9mko2
+	EKTw==
+MIME-Version: 1.0
+X-Received: by 10.60.35.100 with SMTP id g4mr8880217oej.53.1368646093683; Wed,
+	15 May 2013 12:28:13 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Wed, 15 May 2013 12:28:13 -0700 (PDT)
+In-Reply-To: <1671648.4UWfFTD1eS@helios>
+References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
+	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
+	<1671648.4UWfFTD1eS@helios>
+Date: Wed, 15 May 2013 16:28:13 -0300
+X-Google-Sender-Auth: y4GH65gXUtx9sYRC8VWbzKnBK40
+Message-ID: <CAP9ODKpqFxzooVtRzzfDzOQcicXQYnJ3wp0qO-jHyt1fi+1XGQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,18 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 18:54:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 May 2013 19:47:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, 2013-05-13 at 16:27 +0100, Ross Burton wrote:
-> Since 2.20 the use of argparse was removed, so we don't need these dependencies
-> anymore.
+On Wed, May 15, 2013 at 3:24 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 15 May 2013 14:36:16 Otavio Salvador wrote:
+>> On Wed, May 15, 2013 at 2:30 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > I'd ask that we give trying to make this work from OE-Core a fair try.
+>> >
+>> > If in say 3 months from now OE-Core is causing clutter users pain we can
+>> > look again at the problem. Equally, if nobody has sent me any clutter
+>> > patches in the next three months, I wouldn't consider than a fair try.
+>>
+>> No, this is not fair. If you wish to keep it you need to do the work
+>> or find someone to make it. Tomas is willing to work in meta-clutter
+>> and he has the right to work in his solution.
+>
+> Nobody's suggesting Tomas can't work on meta-clutter. This is an open source
+> project, people are pretty much free to contribute as they see fit. For my
+> part, I will try to make sure the clutter recipes in OE-Core are better
+> maintained in future.
+>
+> However, I do think it's important for us to try to work together for the
+> benefit of everyone, and when it comes to OE-Core and other central pieces of
+> the OE ecosystem, that means trying to understand the bigger picture outside
+> of the day-to-day requirements that we all have on the projects we work on
+> individually.
 
-You mean 2.30.  Other than that,
+I agree but it seems it hadn't succeed in this specific case until
+now. I personally think Clutter will benefit from getting a specific
+place to look at and it does seem multiple people has been adding
+Clutter recipes in their internal layers (Phil for example, Guacamayo
+project and so on).
 
-Reviewed-by: Colin Walters <walters@verbum.org>
+People did group in Guacamayo community and got it working in some
+platforms, it might have been backported to OE-Core by Yocto team as
+it is important for the test coverage but it didn't happen until now.
+So far, meta-clutter seems to be the way to go for me.
 
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
