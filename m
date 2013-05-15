@@ -1,49 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Uckdf-0001Mn-2j
+	(envelope-from <joe.slater@windriver.com>) id 1Uckxd-00033S-29
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 00:57:40 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:53128 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1UckM1-0005Qy-P2; Wed, 15 May 2013 18:39:25 -0400
-Date: Wed, 15 May 2013 18:39:23 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
-Message-ID: <alpine.DEB.2.02.1305151836490.11559@oneiric>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-	<alpine.DEB.2.02.1305140423590.26605@oneiric>
-	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-	<alpine.DEB.2.02.1305140824360.23009@oneiric>
-	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-	<CAHUNapTw8-B5AEk2YN3t+vRkjwVOS65Ehs6HV5RkbipYUWpS3A@mail.gmail.com>
-	<CADkTA4P+CaEJFfkWSzGrcYMgs7Kxa9iNkgNbQou0xhf53oP6Uw@mail.gmail.com>
-	<CAHUNapSuTwy0sSDCXAmk6PEqVkqJzGsrLyPJL9VQCaN5gMbOOA@mail.gmail.com>
-	<CADkTA4MpRM5Vw8iDL6gw9jMZ93Bu3Y6mGwy5JVx69pkkP2F06w@mail.gmail.com>
-	<alpine.DEB.2.02.1305151757110.12800@oneiric>
-	<CAHUNapTU2he7VM+CrEYv5cwoWdB82nVgLowy8d+_zMCzChNZLw@mail.gmail.com>
-	<913F9482-BBBF-4400-8745-3983254A997A@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 16 May 2013 01:18:49 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4FN02sv021615
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 May 2013 16:00:02 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.88]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
+	Wed, 15 May 2013 16:00:02 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Phil Blundell <pb@pbcl.net>
+Thread-Topic: [OE-core] [PATCH 1/1] zlib: put shared libraries in base_libdir
+Thread-Index: AQHOUW2KTs0OFuwDAk6jnMjBV1KVjJkGpy4wgACFYwD//6/6oA==
+Date: Wed, 15 May 2013 23:00:01 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8436FC7D46@ALA-MBA.corp.ad.wrs.com>
+References: <1368574528-28247-1-git-send-email-jslater@windriver.com>
+	<1368574528-28247-2-git-send-email-jslater@windriver.com>
+	<1368611695.6920.79.camel@phil-desktop.brightsign>
+	<519388C2.5000706@windriver.com>
+	<007BD92917A2324FA403BCF9A464CF8436FC7C27@ALA-MBA.corp.ad.wrs.com>
+	<1368650688.16243.142.camel@pb-ThinkPad-R50e>
+In-Reply-To: <1368650688.16243.142.camel@pb-ThinkPad-R50e>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+Subject: Re: [PATCH 1/1] zlib: put shared libraries in base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,48 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 22:57:45 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 15 May 2013 23:18:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 15 May 2013, Khem Raj wrote:
-
->
-> On May 15, 2013, at 3:33 PM, Trevor Woerner <twoerner@gmail.com> wrote:
->
-> > Does this mean we now have something that can work on the EdgeRouter Lite?
->
-> well you have to have a kernel for that platform. If you have
-> working kernel everything else will ditto work
-
-  whoo hoo.  ok, with current oe-core and current
-openembedded-core-contrib with the following patch from bruce:
-
---- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-@@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
-
- SRCREV_machine_qemuarm ?= "8fb1a478c9a05362e2e4e62fc30f5ef5d6c21f49"
- SRCREV_machine_qemumips  ?= "b8870f2b11f4c948ae90a19886335fa8b7fca487"
-+SRCREV_machine_qemumips64  ?= "49041e56a3c4ff552bf9f8195809b8040e2e2723"
- SRCREV_machine_qemuppc ?= "e4c12f12e61a29b6605c4fcbcfd6dbe18bd7b4e4"
- SRCREV_machine_qemux86 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
- SRCREV_machine_qemux86-64 ?= "dd089cb5ba37ea14e8f90a884bf2a5be64ed817d"
-
-  i have a qemumips64 build that boots to the command line and accepts
-input and I CAN LOG IN!!!!!!!!!!!!!!!
-
-  awesome. it's martini time.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbCBCbHVuZGVsbCBb
+bWFpbHRvOnBiQHBiY2wubmV0XQ0KPiBTZW50OiBXZWRuZXNkYXksIE1heSAxNSwgMjAxMyAxOjQ1
+IFBNDQo+IFRvOiBTbGF0ZXIsIEpvc2VwaA0KPiBDYzogSGF0bGUsIE1hcms7IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0ggMS8xXSB6bGliOiBwdXQgc2hhcmVkIGxpYnJhcmllcyBpbiBiYXNlX2xpYmRpcg0KPiAN
+Cj4gT24gV2VkLCAyMDEzLTA1LTE1IGF0IDE5OjUwICswMDAwLCBTbGF0ZXIsIEpvc2VwaCB3cm90
+ZToNCj4gPiBZZXMsIHRoaXMgaXMgaXQ6DQo+ID4NCj4gPiBXQVJOSU5HOiBRQSBJc3N1ZTogbGli
+cGFtOiAvbGliNjQvc2VjdXJpdHkvcGFtX2NyYWNrbGliLnNvLCBpbnN0YWxsZWQgaW4gdGhlDQo+
+IGJhc2VfcHJlZml4LA0KPiA+IHJlcXVpcmVzIGEgc2hhcmVkIGxpYnJhcnkgdW5kZXIgZXhlY19w
+cmVmaXgNCj4gPiAoL3Vzcik6IGxpYnouc28uMSA9PiAvdXNyL2xpYjY0L2xpYnouc28uMSAoMHgw
+MDAwMDAwMGRlYWQ1MDAwKQ0KPiANCj4gUHJlc3VtYWJseSBwYW1fY3JhY2tsaWIuc28gY2FuJ3Qg
+Z28gaW4gL3VzciBkdWUgdG8gcmVhc29ucywgcmlnaHQ/DQoNCk1heWJlIGl0IGNvdWxkLCBidXQg
+YWxsIG9mIGl0cyBidWRkaWVzIGFyZSBpbiAvbGliNjQvc2VjdXJpdHkgYW5kIGl0IG1pZ2h0DQpn
+ZXQgbG9uZWx5LiAgQXQgbGVhc3Qgd2Uga25vdyB0aGF0IG1vdmluZyBsaWJ6LnNvLiogZG9lcyBu
+b3QgY2F1c2UgYW55DQpuZXcgcHJvYmxlbXMgYmVjYXVzZSB0aGF0J3MgaG93IHdlJ3ZlIGJlZW4g
+YnVpbGRpbmcgZm9yIGEgbG9uZyB0aW1lLg0KDQpKb2UNCg0KDQo+IA0KPiBwLg0KPiANCg0K
 
 
