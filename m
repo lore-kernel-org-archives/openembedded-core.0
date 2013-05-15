@@ -1,37 +1,25 @@
-Received: from mail-oa0-f45.google.com ([209.85.219.45])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Ucetn-00057v-BD
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1Ucewk-0005Ue-L4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 18:49:58 +0200
-Received: by mail-oa0-f45.google.com with SMTP id j6so2467688oag.18
+	Wed, 15 May 2013 18:53:04 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id DC148952D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 09:31:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=JX/475XYB2Mtzkxyi5hbk35F6kp9307khHjKCqwvckY=;
-	b=Mo17ZAsmMHF2ttRkSVhhcMkUYKGLpTpN0+NP6tQscEu2+j81ELmWrbwcP6WyEyiXG9
-	LFahYmdBP5vaBxwKzpZmIfbG2A5UjfNSB8XqZ9juiKIY3G88CxmXH35cftyKHQatIvIn
-	Ot2/WJjh5CNLgwMdjpLwel0U1XjdXEx4mao0SvOp01PrA/wneDgx6FfZZKI4o03chWqE
-	B8QgwP1jTKY5bmLnuPbg1xlG9D9qwl1GDwHJO4ayCdGajGspW5nh2GUFvB6kjyLhMGPZ
-	OaoDlRqyuuxso5UmtrlCliUzRrqGL/k6rsPBdRIXxI2p8vlR0+wtue9ZILNq53JQz6DT
-	tvHw==
+	Wed, 15 May 2013 17:34:46 +0100 (BST)
+Message-ID: <5193B925.6010607@r-finger.com>
+Date: Wed, 15 May 2013 17:34:45 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-X-Received: by 10.60.135.102 with SMTP id pr6mr13406377oeb.138.1368635501611; 
-	Wed, 15 May 2013 09:31:41 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Wed, 15 May 2013 09:31:41 -0700 (PDT)
-In-Reply-To: <1368123358-10995-1-git-send-email-eu@felipetonello.com>
-References: <1368123358-10995-1-git-send-email-eu@felipetonello.com>
-Date: Wed, 15 May 2013 13:31:41 -0300
-X-Google-Sender-Auth: lrkkL1ElWDjOn9UwbLpyeCjMvJM
-Message-ID: <CAP9ODKrkH4dKFLFNUA_RusUk=27N7n-Dzu3DNaFLbPNK6FtDVQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Felipe Tonello <eu@felipetonello.com>, "Eggleton,
-	Paul" <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt: updated qmake2 class to export qconfig.pri mkspec
+To: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com> <3057509.dy5Cs7AUqs@helios>
+	<519372F1.6050902@r-finger.com> <5543572.N8ppyBn6lW@helios>
+In-Reply-To: <5543572.N8ppyBn6lW@helios>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 16:50:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 16:53:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 9, 2013 at 3:15 PM,  <eu@felipetonello.com> wrote:
-> From: "Felipe F. Tonello" <eu@felipetonello.com>
->
-> This is necessary when Qt applicatins want to know variables such as
-> QT_MAJOR_VERSION, QT_VERSION, QT_MINOR_VERSION, gcc version etc.
->
-> OBS: This change made the build system crazy. When I changed it and run
-> bitbake my-qt-app-recipe, qmake was consuming 100% cpu usage for long time. I
-> had to stop it. So I recommend rebuild the entire Qt stack when changing this.
->
-> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
-> ---
->  meta/classes/qmake2.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
-> index 5eebd8e..8b9861c 100644
-> --- a/meta/classes/qmake2.bbclass
-> +++ b/meta/classes/qmake2.bbclass
-> @@ -6,6 +6,7 @@ inherit qmake_base
->  DEPENDS_prepend = "qt4-tools-native "
->
->  export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
-> +export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
->  export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
->  export OE_QMAKE_UIC3 = "${STAGING_BINDIR_NATIVE}/uic34"
->  export OE_QMAKE_MOC = "${STAGING_BINDIR_NATIVE}/moc4"
+Hi Paul,
 
-The patch makes a lot of sense for me, Paul?
+On 15/05/13 15:09, Paul Eggleton wrote:
+> Can you not just get the appropriate changes into the BSP layers 
+> so that when you add the BSP on top of OE-Core it does just work "out of the 
+> box"?
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+What you are really saying is that the onus of maintaining working
+clutter packages should be on the BSP maintainers. I have already
+explained previously in this thread why I don't think this is going to
+work out in practice, so I am not going to repeat myself again.
+
+
+> If clutter is taken out of OE-Core this becomes even harder because then 
+> BSPs can no longer bbappend clutter or cogl (if that is indeed what is 
+> required in order to enable machine-specific functionality) without fiddling 
+> around with BBMASK or keeping the appends in yet another separate layer so 
+> they don't impact other BSP users who aren't building Clutter.
+
+The BSPs would not need to do anything regarding clutter, no bbappends,
+meta-clutter would be self-contained in this regard.
+
+I don't think there is any point in bothering the list with this
+discussion any further, we have gone around the circle more than once.
+The whole point of the proposal was to make maintaining, using and
+supporting the clutter packages easier for everyone, but it seems I
+underestimated how important Clutter is to oe-core, and I am already
+looking forward to this newly discovered importance being translated
+into user happiness before too long. :)
+
+Tomas
 
 
