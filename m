@@ -1,32 +1,37 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mail-oa0-f45.google.com ([209.85.219.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Uce8X-0001IQ-3Q
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ucetn-00057v-BD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 May 2013 18:01:45 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 4FDA3F811DA; Wed, 15 May 2013 09:42:53 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id ECB56F81199;
-	Wed, 15 May 2013 09:42:51 -0600 (MDT)
-Message-ID: <5193ACFC.5070509@mlbassoc.com>
-Date: Wed, 15 May 2013 09:42:52 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	Wed, 15 May 2013 18:49:58 +0200
+Received: by mail-oa0-f45.google.com with SMTP id j6so2467688oag.18
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2013 09:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=JX/475XYB2Mtzkxyi5hbk35F6kp9307khHjKCqwvckY=;
+	b=Mo17ZAsmMHF2ttRkSVhhcMkUYKGLpTpN0+NP6tQscEu2+j81ELmWrbwcP6WyEyiXG9
+	LFahYmdBP5vaBxwKzpZmIfbG2A5UjfNSB8XqZ9juiKIY3G88CxmXH35cftyKHQatIvIn
+	Ot2/WJjh5CNLgwMdjpLwel0U1XjdXEx4mao0SvOp01PrA/wneDgx6FfZZKI4o03chWqE
+	B8QgwP1jTKY5bmLnuPbg1xlG9D9qwl1GDwHJO4ayCdGajGspW5nh2GUFvB6kjyLhMGPZ
+	OaoDlRqyuuxso5UmtrlCliUzRrqGL/k6rsPBdRIXxI2p8vlR0+wtue9ZILNq53JQz6DT
+	tvHw==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <51939E73.8070605@mlbassoc.com>
-	<1368629183.6920.101.camel@phil-desktop.brightsign>
-	<1368629601.18324.1.camel@ted>
-In-Reply-To: <1368629601.18324.1.camel@ted>
+X-Received: by 10.60.135.102 with SMTP id pr6mr13406377oeb.138.1368635501611; 
+	Wed, 15 May 2013 09:31:41 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Wed, 15 May 2013 09:31:41 -0700 (PDT)
+In-Reply-To: <1368123358-10995-1-git-send-email-eu@felipetonello.com>
+References: <1368123358-10995-1-git-send-email-eu@felipetonello.com>
+Date: Wed, 15 May 2013 13:31:41 -0300
+X-Google-Sender-Auth: lrkkL1ElWDjOn9UwbLpyeCjMvJM
+Message-ID: <CAP9ODKrkH4dKFLFNUA_RusUk=27N7n-Dzu3DNaFLbPNK6FtDVQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Felipe Tonello <eu@felipetonello.com>, "Eggleton,
+	Paul" <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Image dependency broken
+Subject: Re: [PATCH] qt: updated qmake2 class to export qconfig.pri mkspec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 16:01:58 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 May 2013 16:50:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2013-05-15 08:53, Richard Purdie wrote:
-> On Wed, 2013-05-15 at 15:46 +0100, Phil Blundell wrote:
->> On Wed, 2013-05-15 at 08:40 -0600, Gary Thomas wrote:
->>> * Build an image, e.g. core-image-sato
->>>     $ bitbake core-image-sato
->>> * Cause some dependency to be rebuilt
->>>     $ bitbake xserver-xorg -c cleansstate
->>> * Rebuild the image
->>>     $ bitbake core-image-sato
->>
->> That's probably to be expected.  You haven't done anything to actually
->> change the xserver-xorg package, just regenerated the same bits as you
->> had before, so there's no reason why the image would need rebuilding.
->>
->> Does it rebuild the image correctly if you do make a change to the
->> xserver-xorg package?
+On Thu, May 9, 2013 at 3:15 PM,  <eu@felipetonello.com> wrote:
+> From: "Felipe F. Tonello" <eu@felipetonello.com>
 >
-> Agreed, this is expected since the xserver-xorg output is unchanged and
-> therefore the system is deciding it doesn't need to rebuild the image.
-> If you change xserver-xorg somehow the checksum will change and the
-> image will rebuild.
+> This is necessary when Qt applicatins want to know variables such as
+> QT_MAJOR_VERSION, QT_VERSION, QT_MINOR_VERSION, gcc version etc.
+>
+> OBS: This change made the build system crazy. When I changed it and run
+> bitbake my-qt-app-recipe, qmake was consuming 100% cpu usage for long time. I
+> had to stop it. So I recommend rebuild the entire Qt stack when changing this.
+>
+> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+> ---
+>  meta/classes/qmake2.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+> index 5eebd8e..8b9861c 100644
+> --- a/meta/classes/qmake2.bbclass
+> +++ b/meta/classes/qmake2.bbclass
+> @@ -6,6 +6,7 @@ inherit qmake_base
+>  DEPENDS_prepend = "qt4-tools-native "
+>
+>  export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
+> +export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+>  export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
+>  export OE_QMAKE_UIC3 = "${STAGING_BINDIR_NATIVE}/uic34"
+>  export OE_QMAKE_MOC = "${STAGING_BINDIR_NATIVE}/moc4"
 
-Understood.  I'm sure that I had a recipe which did have such a change
-that failed to cause my image to be rebuilt (not this contrived example
-that I thought was the same).  However, I can't make it happen now.
+The patch makes a lot of sense for me, Paul?
 
-If it happens again, I'll get back to you.
-
-Thanks
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
