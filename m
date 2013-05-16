@@ -1,24 +1,22 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <xiao.zhang@windriver.com>) id 1UcwJc-0004NK-1a
+	(envelope-from <xiao.zhang@windriver.com>) id 1UcwKC-0004Sj-DQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 13:25:44 +0200
+	Thu, 16 May 2013 13:26:21 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4G7QiUF029553
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4G7Qg66029471
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 00:26:44 -0700 (PDT)
+	Thu, 16 May 2013 00:26:42 -0700 (PDT)
 Received: from localhost.localdomain (128.224.153.21) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 16 May 2013 00:26:43 -0700
+	(TLS) id 14.2.342.3; Thu, 16 May 2013 00:26:42 -0700
 From: Zhang Xiao <xiao.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <xiao.zhang@windriver.com>
-Date: Thu, 16 May 2013 15:26:27 +0800
-Message-ID: <1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+Date: Thu, 16 May 2013 15:26:26 +0800
+Message-ID: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
-References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.21]
 Subject: [PATCH] util-linux: replace package files
@@ -34,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 11:25:44 -0000
+X-List-Received-Date: Thu, 16 May 2013 11:26:21 -0000
 Content-Type: text/plain
 
 Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
