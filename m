@@ -1,37 +1,27 @@
-Received: from mail-vb0-f51.google.com ([209.85.212.51])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.betafive@gmail.com>)
-	id 1UcvpX-0001ED-DP; Thu, 16 May 2013 12:54:47 +0200
-Received: by mail-vb0-f51.google.com with SMTP id x16so1236635vbf.24
-	for <multiple recipients>; Thu, 16 May 2013 03:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=zVeMpbQ2FqHwDt/+HDUQoIZ/5bPRcVYmxshKJCYIfLE=;
-	b=jbdAmpvsIa4e18grV/qCG9n8eXc9XsIQXWfe9c5JtWy7yciqpCYQ3Ukvxt23S2vJd0
-	ATQbwSPWLaBXdCa+G3H0jRJWp9PozanRwGcWuwPBz5w4DSqYPAzsrGO7eXNdUGc0j3Ko
-	BK9T8nvwZOQwztA1fy6DVCzUqIBjKXRwHYPDErDnqfT16QHqPTSp3VUp+vBngpQ2JqnJ
-	rxtnvQOmm9DPAio6DzDVdQg87nknl2RAY4cANG7Vi+ixFuz4YUv4XzXRSkaIOPrrfvKe
-	JOuRkfFj1kkjt/ivglLOI3D5qv8D0RjEgeX5hN7zyKkfYEF8tiR8mVtx/lZHBXL4wig8
-	EkNA==
-X-Received: by 10.220.41.84 with SMTP id n20mr14628307vce.25.1368700584681;
-	Thu, 16 May 2013 03:36:24 -0700 (PDT)
+	(envelope-from <xiao.zhang@windriver.com>) id 1UcwJc-0004NK-1a
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 13:25:44 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4G7QiUF029553
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2013 00:26:44 -0700 (PDT)
+Received: from localhost.localdomain (128.224.153.21) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Thu, 16 May 2013 00:26:43 -0700
+From: Zhang Xiao <xiao.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <xiao.zhang@windriver.com>
+Date: Thu, 16 May 2013 15:26:27 +0800
+Message-ID: <1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
+References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.48.5 with HTTP; Thu, 16 May 2013 03:36:04 -0700 (PDT)
-In-Reply-To: <20130516075215.GA24809@jama.dyndns-home.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 16 May 2013 11:36:04 +0100
-X-Google-Sender-Auth: zNs5Au69nJIS3PIHb9DmzFGy2oQ
-Message-ID: <CANyK_8fQrdjXq0WBJYZsJwnovD+Do8FC8TSsD40=9VMAZGs1=g@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org, 
-	Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+X-Originating-IP: [128.224.153.21]
+Subject: [PATCH] util-linux: replace package files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 10:54:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 16 May 2013 11:25:44 -0000
+Content-Type: text/plain
 
-On 16 May 2013 08:52, Martin Jansa <martin.jansa@gmail.com> wrote:
->
->   meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
->
+Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
+package to related library's dev RPM packages.
 
-Picked this one up as it's relevant to what I'm doing with networking
-at the minute. It works for me so likely related to the introduction
-of gcc 4.8.
+[YOCTO #4500]
+[CQID: WIND00412705]
 
-Cause of failure is:
+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+---
+ .../util-linux-replace-package-files.patch         |   56 ++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.22.2.bb  |    1 +
+ 2 files changed, 57 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
 
-| ipsec_doi.c: In function 'get_proppair':
-| ipsec_doi.c:1321:24: error: argument to 'sizeof' in 'memset' call is
-the same expression as the destination; did you mean to dereference
-it? [-Werror=sizeof-pointer-memaccess]
-|   memset(pair, 0, sizeof(pair));
-|                         ^
-| cc1: all warnings being treated as errors
+diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+new file mode 100644
+index 0000000..32868cc
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+@@ -0,0 +1,56 @@
++Upstream-Status: Pending
++Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com> 
++
++Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
++package to related library's dev RPM packages.
++---
++ libblkid/src/Makemodule.am |    6 +-----
++ libmount/src/Makemodule.am |    6 +-----
++ libuuid/src/Makemodule.am  |    6 +-----
++ 3 files changed, 3 insertions(+), 15 deletions(-)
++
++--- util-linux-2.22.2/libuuid/src/Makemodule.am.orig
+++++ util-linux-2.22.2/libuuid/src/Makemodule.am
++@@ -42,11 +42,7 @@ install-exec-hook-libuuid:
++ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
++ 		mkdir -p $(DESTDIR)$(libdir); \
++ 		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so.* $(DESTDIR)$(libdir); \
++-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libuuid.so); \
++-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
++-		(cd $(DESTDIR)$(usrlib_execdir) && \
++-			rm -f libuuid.so && \
++-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libuuid.so); \
+++		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so $(DESTDIR)$(libdir); \
++ 	fi
++ 
++ uninstall-hook-libuuid:
++--- util-linux-2.22.2/libmount/src/Makemodule.am.orig
+++++ util-linux-2.22.2/libmount/src/Makemodule.am
++@@ -123,11 +123,7 @@ install-exec-hook-libmount:
++ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
++ 		mkdir -p $(DESTDIR)$(libdir); \
++ 		mv $(DESTDIR)$(usrlib_execdir)/libmount.so.* $(DESTDIR)$(libdir); \
++-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libmount.so); \
++-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
++-		(cd $(DESTDIR)$(usrlib_execdir) && \
++-			rm -f libmount.so && \
++-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libmount.so); \
+++		mv $(DESTDIR)$(usrlib_execdir)/libmount.so $(DESTDIR)$(libdir); \
++ 	fi
++ 
++ uninstall-hook-libmount:
++--- util-linux-2.22.2/libblkid/src/Makemodule.am.orig
+++++ util-linux-2.22.2/libblkid/src/Makemodule.am
++@@ -219,11 +219,7 @@ install-exec-hook-libblkid:
++ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
++ 		mkdir -p $(DESTDIR)$(libdir); \
++ 		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so.* $(DESTDIR)$(libdir); \
++-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libblkid.so); \
++-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
++-		(cd $(DESTDIR)$(usrlib_execdir) && \
++-			rm -f libblkid.so && \
++-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libblkid.so); \
+++		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so $(DESTDIR)$(libdir); \
++ 	fi
++ 
++ uninstall-hook-libblkid:
+diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+index 43a55a6..526308d 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+             file://configure-sbindir.patch \
+             file://fix-configure.patch \
+             file://mbsalign-license.patch \
++            file://util-linux-replace-package-files.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3e379b4d8b9693948d751c154614c73e"
+-- 
+1.7.1
 
-Looked at the PKGBUILD for arch linux
-(https://projects.archlinux.org/svntogit/community.git/tree/trunk/PKGBUILD?h=packages/ipsec-tools)
-and they seem to be disabling -Werror which would work around this.
-
-This doesn't even seem to be reported upstream, nothing in the
-relevant bugtracker.
-
-When I get time to run a build with gcc 4.8 I'll have a bash at the
-obvious fix to the code (ie. "sizeof(*pair)" not "sizeof(pair)").
-
---
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
 
