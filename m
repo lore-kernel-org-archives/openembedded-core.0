@@ -1,27 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UcoL4-00047N-VA
+	(envelope-from <net147@gmail.com>) id 1UcoVP-0005Nk-VT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 04:54:45 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4G2aUbs024431
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 16 May 2013 05:05:29 +0200
+Received: by mail-pa0-f41.google.com with SMTP id rl6so2076178pac.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 19:36:30 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 15 May 2013 19:36:27 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 May 2013 10:36:25 +0800
-Message-ID: <05add70b55729aaf6780063d8cb0f8b806e88481.1368602187.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1368602187.git.Qi.Chen@windriver.com>
-References: <cover.1368602187.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 1/1] bind: use /var/run/named instead of /var/run/bind/run
+	Wed, 15 May 2013 19:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=i+64HULGehdItPUf6VLV2nnIQV27Ja5OfeVwgqzF1VY=;
+	b=zE6kyHh+4pHI8HtUUegDV4eIBln8fRLoQ4WcLjHlDYUpXIuKAUYJQdOHedHokdolIr
+	OvWZYN0bmi9kiST7inT5BkVTF/YBNpZF0FTNPhGY7Q06IhffkCD3j//XOXey/4E6w0MP
+	E7akwuhj/YSR84Lno2ZKpWFXKQ+aLMr8dK7AF53j3+UVuF1C64Of+Qe28pMjeWY4IQhz
+	5jhwJVE8gyaCHpXYXzKHA7oPDPaSK/+oPvX77cMjaJk5Z0u2uVLbVUaUIMJPYEhu1sAr
+	mtWsSHMfbYNgjh8GwwE/a/pNyOk6J1RgiVwc9Lc9g6A7nFigRof64FymXcGAX5g5dzSs
+	IZ2A==
+X-Received: by 10.68.189.164 with SMTP id gj4mr40884357pbc.193.1368672429809; 
+	Wed, 15 May 2013 19:47:09 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	vu10sm4858236pbc.27.2013.05.15.19.47.07 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 15 May 2013 19:47:08 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2013 12:59:47 +1000
+Message-Id: <1368673187-20121-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] systemd: fix ordering for machineid and run-postinsts services
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,39 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 02:54:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 May 2013 03:05:35 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The remount-rootfs.service unit has been renamed to
+systemd-remount-fs.service in systemd v183 and later.
 
-Change /var/run/bind/run to /var/run/named to avoid the following error message.
+The run-postinsts script writes to /var/log (a symbolic link to
+/var/volatile/log), so systemd-tmpfiles-setup.service is added to After=
+in run-postinsts.service to ensure /var/volatile/log is created before
+running the script.
 
-  chmod: cannot access '/var/run/bind/run': No such file or directory
+[YOCTO #4490]
 
-[YOCTO #4429]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../bind/bind-9.8.1/conf.patch                     |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd-compat-units/machineid.service     | 2 +-
+ meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch b/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch
-index 6fea70e..2785c6a 100644
---- a/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch
-@@ -270,8 +270,8 @@ diff -urN bind-9.3.1.orig/init.d bind-9.3.1/init.d
- +	# dirs under /var/run can go away on reboots.
- +	mkdir -p /var/run/named
- +	mkdir -p /var/cache/bind
--+	chmod 775 /var/run/bind/run
--+	chown root:bind /var/run/bind/run >/dev/null 2>&1 || true
-++	chmod 775 /var/run/named
-++	chown root:bind /var/run/named >/dev/null 2>&1 || true
- +
- +	if [ ! -x /usr/sbin/named ]; then
- +	    echo "named binary missing - not starting"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units/machineid.service b/meta/recipes-core/systemd/systemd-compat-units/machineid.service
+index cab8f76..f586c6d 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units/machineid.service
++++ b/meta/recipes-core/systemd/systemd-compat-units/machineid.service
+@@ -2,7 +2,7 @@
+ Description=Machine ID first boot configure
+ DefaultDependencies=no
+ ConditionPathExists=|!/etc/machine-id
+-After=remount-rootfs.service
++After=systemd-remount-fs.service
+ Before=sysinit.target
+ 
+ [Service]
+diff --git a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+index da6fe76..02c1d86 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
++++ b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+@@ -2,7 +2,7 @@
+ Description=Run pending postinsts
+ DefaultDependencies=no
+ ConditionPathExists=|/etc/rcS.d/S98run-postinsts
+-After=remount-rootfs.service tmp.mount
++After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+ Before=sysinit.target
+ 
+ [Service]
 -- 
-1.7.9.5
+1.8.2.3
 
 
 
