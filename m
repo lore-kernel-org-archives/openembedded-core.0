@@ -1,27 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1UctKe-0001qS-Ty
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 10:14:57 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4G7uMnl003269
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 00:56:22 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 16 May 2013 00:56:22 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 May 2013 15:56:17 +0800
-Message-ID: <f5f342b1188325a222a7e9c776286ea1cef79165.1368690819.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1368690819.git.Qi.Chen@windriver.com>
-References: <cover.1368690819.git.Qi.Chen@windriver.com>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1Uctr5-0004tf-UI; Thu, 16 May 2013 10:48:11 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 16 May 2013 01:29:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,683,1363158000"; d="scan'208";a="334970833"
+Received: from unknown (HELO helios.localnet) ([10.255.12.131])
+	by fmsmga001.fm.intel.com with ESMTP; 16 May 2013 01:29:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 16 May 2013 09:29:48 +0100
+Message-ID: <2253707.h5Yg7SAvOu@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-19-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <879938A8-B7BD-4FA6-A38B-F2DDF9D5A48B@dominion.thruhere.net>
+References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
+	<1499979.6pTC18VfFV@helios>
+	<879938A8-B7BD-4FA6-A38B-F2DDF9D5A48B@dominion.thruhere.net>
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 4/4] rpm-postinsts.bb: enable postinst logging
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,56 +34,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 08:15:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 May 2013 08:48:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Thursday 16 May 2013 08:31:33 Koen Kooi wrote:
+> Op 15 mei 2013, om 16:44 heeft Paul Eggleton <paul.eggleton@linux.intel.com>
+> het volgende geschreven:
+> > On Tuesday 14 May 2013 09:36:02 Koen Kooi wrote:
+> >> What triggered PR going backwards this time was a BSP removing its
+> >> netbase
+> >> bbappend because it wasn't needed anymore. That's great, I hate netbase
+> >> bbappends since they tend to be ifupdown specific and don't work as
+> >> 
+> >> intended with connman/NM/netctl/etc. Long story short:
+> >> 	ERROR: Package version for package netbase-dbg went backwards which
+> >> 	would
+> >> 
+> >> break package feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: Package
+> >> version
+> >> for package netbase-staticdev went backwards which would break package
+> >> feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: Package version for package
+> >> netbase-dev went backwards which would break package feeds from
+> >> (0:5.0-r3.1
+> >> to 0:5.0-r1.2) ERROR: Package version for package netbase-doc went
+> >> backwards which would break package feeds from (0:5.0-r3.1 to 0:5.0-r1.2)
+> >> ERROR: Package version for package netbase-locale went backwards which
+> >> would break package feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: Package
+> >> version for package netbase went backwards which would break package
+> >> feeds
+> >> from (0:5.0-r3.1 to 0:5.0-r1.2)
+> >> 
+> >> To avoid things like that in the future I have a few recommendations I'd
+> >> like to get feedback on:
+> >> 
+> >> 1) For a given BSP split it in multiple layers:
+> >> 	a) One 'core' BSP layer with only:
+> >> 		o Bootloader
+> >> 		o Kernel
+> >> 		o Tooling to build bootloader/kernel/image
+> >> 	
+> >> 	b) One BSP layer with bbappends for shadow/netbase/xorg-conf/etc
+> >> 	c) One or more layers with bbappends for libav/clutter/etc[2]
+> > 
+> > I don't like this. This will mean effectively 3x the number of BSP layers,
+> > with independent testing effectively expected for the different
+> > combinations; I don't think this will be practical. It's fine for distros
+> > with pre-supplied lists of layers but lots of users are assembling their
+> > own layer stacks and this is just going to add pain for them.
+> 
+> The flip side is that adding BSP layers becomes a lot safer. I don't mind
+> adding layers. Adding layers is easy.
 
-Enable postinst logging according to the existence of the file
-/etc/.enable_postinst_logging.
+For distros like Angstrom it is, yes, as I said above.
 
-In this way, the postinst logging is enabled if 'debug-tweaks' is
-in IMAGE_FEATURES, and at the same time, we avoid unnecessary rebuild
-if IMAGE_FEATURES is changed.
+> Removing layers is pretty much impossible, though.
 
-[YOCTO #4262]
+With PRINC gone would there be any other issue that would make removing layers 
+a problem?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/rpm/rpm-postinsts.bb |   11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+> >> 2) *Never* use PRINC in type b) bbappends
+> >> 
+> >> 3) Avoid PRINC in general
+> > 
+> > Do we even need PRINC at all any more? I realise we have PRINC values
+> > around in bbappends that we can't easily drop without causing the problem
+> > you mentioned.
+> 
+> If PRSERV would work reliably we wouldn't need it. But even with the current
+> flaky PRSERV PRINC is causing more problems than it's supposed to solve.
 
-diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-index 3d2d05d..ae0e37e 100644
---- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
-+++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-@@ -11,10 +11,6 @@ inherit allarch
- #
- POSTINSTALL_INITPOSITION ?= "98"
- 
--POSTLOG ?= "/var/log/postinstall.log"
--REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
--REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
--
- do_fetch() {
- 	:
- }
-@@ -40,7 +36,12 @@ if [ "x$D" != "x" ] && [ -f $D/var/lib/rpm/Packages ]; then
- [ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
- 	i=/etc/rpm-postinsts/$i
- 	echo "Running postinst $i..."
--	if [ -f $i ] && $i ${REDIRECT_CMD}; then
-+	if [ -x $i ]; then
-+		if [ -e /etc/.enable_postinst_logging ]; then
-+			$i >/var/log/postinstall.log 2&>1
-+		else
-+			$i
-+		fi
- 		rm $i
- 	else
- 		echo "ERROR: postinst $i failed."
+Can you help us to find out what's wrong with the PR server, assuming it's more 
+than just PRINC-related? I suspect you'd need to be preserving the database 
+prior to each build; maybe dumping the database into a file within buildhistory 
+at the end would do the trick and then we'd have the repo revisions to go with 
+that in the same place.
+
+> >> During the last TSC meeting we discussed that there is currently no way
+> >> to force maintainers to behave. I think the most we can do is have clear
+> >> guidelines on the OE side and enforce those during the "Yocto Project
+> >> Compatible" process.
+> > 
+> > Being more specific in the Yocto Project Compatible process requirements
+> > might help; I wasn't involved in developing that process so I can't
+> > really comment more than that. That wouldn't help with other layers in
+> > the OE community that aren't put through that process however.
+> > 
+> > I think we need to improve the documentation we have about what is and
+> > what is not appropriate in a BSP layer. Most of the time it's not that
+> > maintainers are too lazy or deliberately setting out to force values,
+> > it's that they don't know they're doing anything wrong because we haven't
+> > documented all of the best practices anywhere. There was recently a
+> > question on this very mailing list about what constitute distro policy
+> > settings in the context of what shouldn't go into a BSP layer; the
+> > response has been a resounding "".> 
+
+You didn't respond to this; I think this is the biggest issue we have. 
+Contributors cannot be expected to just know the right way to do things unless 
+you've made it easy for them to learn in the first place.
+
+> >> And have the layer index orange/red flag layers that
+> >> do stupid things. Come to think of it, that would actually be the most
+> >> visible way to go, having wikipedia style warning banners on the
+> >> offending
+> >> layers.
+> > 
+> > I think that's reasonable as long as maintainers can understand the
+> > problem. We'd need to be notifying maintainers directly about
+> > specifically what they are doing wrong and how to fix it; just putting a
+> > warning in the index isn't enough IMO. The layer index does record
+> > maintainer information and regularly reads layer metadata, so we have the
+> > infrastructure to do this now, just not the specific tools.
+> 
+> My thinking was that adding such a banner would email the maintainers of
+> that layer. That still assumes that the layer maintainer actually reads
+> email, which I don't think is true for a lot of layers :/
+
+It's not just adding the banner but what the banner contains; in most cases 
+the banner is going to be much shorter than the necessary explanation. In the 
+most recent issue which we've been alluding to, the maintainer was very 
+responsive when contacted directly and once they understood the nature of the 
+problem, it was solved rapidly.
+
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
