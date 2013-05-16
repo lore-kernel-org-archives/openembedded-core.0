@@ -1,20 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1Ucwsk-0007Pg-17
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 14:02:07 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 16 May 2013 04:43:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,683,1363158000"; d="scan'208";a="335045107"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 16 May 2013 04:43:45 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2013 14:44:39 +0300
-Message-Id: <1368704679-3957-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] python-pygobject-native: fix build dependency on python-native
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1UcxjA-000384-UO; Thu, 16 May 2013 14:56:20 +0200
+Received: by mail-vc0-f180.google.com with SMTP id gd11so2751099vcb.11
+	for <multiple recipients>; Thu, 16 May 2013 05:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=fHt9OYvaNZRv7z7nRCpXziRZ38+jcrmZouBxV+oYC1g=;
+	b=kRbbKY4VqM6Ns3oMm4ufJ6oJGbSirjLars3fSykhum4Su/b/za2hrYnHcV5oBlIOe3
+	6YI9YHLlKJ3hBwE1NOvB3PzIHS5gy0g+mq8jiak7M4hpaLVQPprhcDQ1G8RpW0XEjZul
+	P3MI5lngufH9MPgPVT4H5R9PSHOrLlYj3oQVMTYNY4wfnz0dFMXWMsc7yFWHu4xasV9K
+	lDYwh6Ny9Gx/DHP2RB1Ut0B1AscewcXl2xnSFeixqA3QXlOSI0BBXGxQu/wMy8HG1dFF
+	wZaEsGeT3Gg+cZ3g8mEeVvQYu5+m9AXi77OU5XjyNsO5oEojdLGmvR3xVk4Of2lXzFEU
+	zmEQ==
+MIME-Version: 1.0
+X-Received: by 10.58.32.131 with SMTP id j3mr15948749vei.57.1368707878041;
+	Thu, 16 May 2013 05:37:58 -0700 (PDT)
+Received: by 10.52.18.177 with HTTP; Thu, 16 May 2013 05:37:57 -0700 (PDT)
+In-Reply-To: <20130516091427.GE24809@jama.dyndns-home.com>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130516091427.GE24809@jama.dyndns-home.com>
+Date: Thu, 16 May 2013 14:37:57 +0200
+Message-ID: <CALbNGRSipKrPfpzYx_SDETPY_kp5orHsHQT+=2Ds22d=sBiR7A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 12:02:20 -0000
+X-List-Received-Date: Thu, 16 May 2013 12:56:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Override needed for native package because of
-dependencies brought in by inheriting
-distutils-base.bbclass.
+On Thu, May 16, 2013 at 11:14 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> FYI: these builds were started +- 3 days ago, because it takes +- 24hours for
+> world build on one architecture (even with sstate-cache kept between
+> builds, because it's quickly changing checksums with oe-core changes) ...
+>
+> so some fixes sent in last 3 days weren't used (there is patch to fix at
+> least maliit-framework and gnome-bluetooth)
+The patch for mallit-framework fixes glib-2.0 2.36 error (so we need
+that patch). I looked into the logs and this one seems caused by gcc
+4.8. Will send further patch soon.
 
-Fixes [YOCTO #4502].
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-devtools/python/python-pygobject_2.27.91.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 4381107..3dc2d99 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -3,7 +3,7 @@ SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- DEPENDS = "python python-pygobject-native glib-2.0"
--DEPENDS_class-native = "glib-2.0-native"
-+DEPENDS_class-native = "python-native glib-2.0-native"
- RDEPENDS_class-native = ""
- PR = "r6"
- 
--- 
-1.7.10.4
-
+Andreas
 
 
