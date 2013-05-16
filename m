@@ -1,27 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Ucvp3-0001Cu-KY for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 12:54:16 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UcvXP-0000hT-RI; Thu, 16 May 2013 12:35:55 +0200
-Message-ID: <1368700555.6920.118.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Thu, 16 May 2013 11:35:55 +0100
-In-Reply-To: <5194A04E.3000300@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
-	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
-	<1671648.4UWfFTD1eS@helios>
-	<CAP9ODKpqFxzooVtRzzfDzOQcicXQYnJ3wp0qO-jHyt1fi+1XGQ@mail.gmail.com>
-	<1368650968.16243.145.camel@pb-ThinkPad-R50e>
-	<5194A04E.3000300@r-finger.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+Received: from mail-vb0-f51.google.com ([209.85.212.51])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.betafive@gmail.com>)
+	id 1UcvpX-0001ED-DP; Thu, 16 May 2013 12:54:47 +0200
+Received: by mail-vb0-f51.google.com with SMTP id x16so1236635vbf.24
+	for <multiple recipients>; Thu, 16 May 2013 03:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=zVeMpbQ2FqHwDt/+HDUQoIZ/5bPRcVYmxshKJCYIfLE=;
+	b=jbdAmpvsIa4e18grV/qCG9n8eXc9XsIQXWfe9c5JtWy7yciqpCYQ3Ukvxt23S2vJd0
+	ATQbwSPWLaBXdCa+G3H0jRJWp9PozanRwGcWuwPBz5w4DSqYPAzsrGO7eXNdUGc0j3Ko
+	BK9T8nvwZOQwztA1fy6DVCzUqIBjKXRwHYPDErDnqfT16QHqPTSp3VUp+vBngpQ2JqnJ
+	rxtnvQOmm9DPAio6DzDVdQg87nknl2RAY4cANG7Vi+ixFuz4YUv4XzXRSkaIOPrrfvKe
+	JOuRkfFj1kkjt/ivglLOI3D5qv8D0RjEgeX5hN7zyKkfYEF8tiR8mVtx/lZHBXL4wig8
+	EkNA==
+X-Received: by 10.220.41.84 with SMTP id n20mr14628307vce.25.1368700584681;
+	Thu, 16 May 2013 03:36:24 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.48.5 with HTTP; Thu, 16 May 2013 03:36:04 -0700 (PDT)
+In-Reply-To: <20130516075215.GA24809@jama.dyndns-home.com>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 16 May 2013 11:36:04 +0100
+X-Google-Sender-Auth: zNs5Au69nJIS3PIHb9DmzFGy2oQ
+Message-ID: <CANyK_8fQrdjXq0WBJYZsJwnovD+Do8FC8TSsD40=9VMAZGs1=g@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org, 
+	Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 10:54:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 May 2013 10:54:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2013-05-16 at 10:01 +0100, Tomas Frydrych wrote:
-> The solution I came up with is to predefine a bunch common
-> configure+depends+rdepends sets in the clutter/cogl includes (there is
-> only a finite number of configurations that makes sense, though my
-> recipes do not cover them all), and then in a Guacamayo-specific
-> bbappend choose a suitable configuration on per-machine basis.
+On 16 May 2013 08:52, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+>   meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
+>
 
-Right, that sounds fairly reasonable.  Or one could presumably use
-PACKAGECONFIG for this sort of thing.
+Picked this one up as it's relevant to what I'm doing with networking
+at the minute. It works for me so likely related to the introduction
+of gcc 4.8.
 
-> > - we have a slightly funky 2-stage bootstrap process for cogl in order
-> > to break the dependency cycle with cairo; this involves hacks to the
-> > recipes for cogl, cairo, pango and harfbuzz (at least) which I suspect
-> > would not be very palatable to oe-core.
-> 
-> I have never run into this, is this with recent cogls?
+Cause of failure is:
 
-It's because we build Cairo with the cogl backend enabled.  That
-introduces a dependency of cairo on cogl (obviously), which is a problem
-because cogl-pango needs pango, which needs harfbuzz, which needs cairo.
-So what we do is build cogl initially with pango disabled, then use that
-to compile cairo and the rest of the stack, and then finally build the
-"real" cogl with everything enabled.
+| ipsec_doi.c: In function 'get_proppair':
+| ipsec_doi.c:1321:24: error: argument to 'sizeof' in 'memset' call is
+the same expression as the destination; did you mean to dereference
+it? [-Werror=sizeof-pointer-memaccess]
+|   memset(pair, 0, sizeof(pair));
+|                         ^
+| cc1: all warnings being treated as errors
 
-Obviously the other option would be to build cairo twice, firstly
-without cogl and the second time with it.  I don't think there's much to
-choose between the two.
+Looked at the PKGBUILD for arch linux
+(https://projects.archlinux.org/svntogit/community.git/tree/trunk/PKGBUILD?h=packages/ipsec-tools)
+and they seem to be disabling -Werror which would work around this.
 
-> this limitation, but are the wrong place for this, plus it is entirely
-> conceivable you might want be able to build different configs for the
-> same machine on the same tmp dir (I use pseudo-machines for this, like
-> atom-egl, but that is just a nasty hack).
+This doesn't even seem to be reported upstream, nothing in the
+relevant bugtracker.
 
-This is something that's just fundamentally difficult in OE; there
-simply isn't any namespace to express that degree of freedom.  DISTRO is
-essentially invariant for any given tmpdir, and the hierarchy in there
-reflects MACHINE and PN.  So, if you want to build the same package with
-a different configuration then either MACHINE or PN is going to have to
-change.  Traditionally of course it's been PN that changes in this
-situation.
+When I get time to run a build with gcc 4.8 I'll have a bash at the
+obvious fix to the code (ie. "sizeof(*pair)" not "sizeof(pair)").
 
-p.
+--
+Paul Barker
 
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
