@@ -1,44 +1,42 @@
-Received: from mail-ea0-f180.google.com ([209.85.215.180])
+Received: from mail-ea0-f182.google.com ([209.85.215.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ucrsv-0001lH-Ga
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ucs0d-0002Zn-VY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 08:41:53 +0200
-Received: by mail-ea0-f180.google.com with SMTP id g10so1484510eak.11
+	Thu, 16 May 2013 08:49:52 +0200
+Received: by mail-ea0-f182.google.com with SMTP id r16so1552098ead.41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2013 23:23:40 -0700 (PDT)
+	Wed, 15 May 2013 23:31:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
 	:cc:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=0J+TbfGjSdM6+m63rlyvlE1UiDzGpp6lURSgsBs1Eoo=;
-	b=RjsuPrfO3pj/IebR0lMlGgasDp0L8ZqrATpASc7VuEwQho3ayN8K/AUZf+Vup4XQaq
-	oPCvL3voqX/IrQI9yORY5qzQLevPMyJKE0tp6PiTQHko4z/aQ3LjPpmJ8To24tx9gjeg
-	5NYaP9vNuHEB+/4e2P38x7XtNT9DFgnTB2M8uq8K4SRuAfPj55sFRyPxN6fiH8By616L
-	gFasBO+pLsPAijKfgjgjFIAIVcoRjZ5O4z3uq85dvPk++D3un/F2+xGjPeWHF5bNxzoX
-	0At1eJFLE/u//BO+xsa8yWPltpUhGg7wtgM78L2Hbi7Qa4BqTodrnXPmO5JrJyBVqagZ
-	BX3g==
-X-Received: by 10.15.23.133 with SMTP id h5mr112923489eeu.12.1368685419444;
-	Wed, 15 May 2013 23:23:39 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::95c9:88e3:5cd0:95f8?
-	([2001:610:612:0:95c9:88e3:5cd0:95f8])
-	by mx.google.com with ESMTPSA id x41sm8380634eey.17.2013.05.15.23.23.37
+	bh=4AcZNuNqksZA3RwO0VyeYcKZLqXTlZSGSgW5oesJRRg=;
+	b=Ef5/Dk4teUkgQssiBx2zqviQiJjRD1JhlLKQOyQFV2xGTURguyOICp7fWKi8xWePxO
+	zBmdoF2uDYqlTOga6kAIaOUTQZ6+KN42u+Uq1Z0f/Iy85UbAC2TWJqUqB33ZXzYClY/y
+	OUfYo8NwIgmi5NXYeE1rIp0yB0B1S/MituYQvCxC0bfWMGAtq62FFhum+sLW27QWaoFt
+	VfdDfFmKfPA7vduiPi99lS7gKIB4/l+qZ1mb0TUK+gCeFd8dVmRT8yNVtqV8aUbJm+dZ
+	Ep5bmzrVJnIa43Twdx5KTw5pI1tZFsmfbNhJh3K61+2hdpS9/xkECXUyhj98uUQRpWJw
+	rBHw==
+X-Received: by 10.15.73.197 with SMTP id h45mr71746964eey.46.1368685898361;
+	Wed, 15 May 2013 23:31:38 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id g7sm8406211eew.15.2013.05.15.23.31.35
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 May 2013 23:23:38 -0700 (PDT)
+	Wed, 15 May 2013 23:31:35 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1368650024.18324.102.camel@ted>
-Date: Thu, 16 May 2013 08:23:35 +0200
-Message-Id: <E8F9ED28-58F5-422C-8B07-ACD8791202A1@dominion.thruhere.net>
+In-Reply-To: <1499979.6pTC18VfFV@helios>
+Date: Thu, 16 May 2013 08:31:33 +0200
+Message-Id: <879938A8-B7BD-4FA6-A38B-F2DDF9D5A48B@dominion.thruhere.net>
 References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
-	<1368650024.18324.102.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<1499979.6pTC18VfFV@helios>
+To: openembedded-core layer <openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQmQbAzlxwuG5SV4g+KST3QL806WxdylANT6OnV+A7+kBhl6Ei4EQjcGFGSktWe6Jzfs01PE
-Cc: "Hart, Darren" <darren.hart@intel.com>,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnrVxkTjwNjQRVEGIz8n9v2xr+bGQI4LCS3PvNnkpob5PkmBzxtdzMNEsDTWbFsh6tvsvcF
+Cc: "openembedded-devel@lists.openembedded.org List"
+	<openembedded-devel@lists.openembedded.org>
 Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -52,28 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 06:41:54 -0000
+X-List-Received-Date: Thu, 16 May 2013 06:50:07 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 15 mei 2013, om 22:33 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+Op 15 mei 2013, om 16:44 heeft Paul Eggleton =
+<paul.eggleton@linux.intel.com> het volgende geschreven:
 
-> On Tue, 2013-05-14 at 09:36 +0200, Koen Kooi wrote:
->> To avoid things like that in the future I have a few recommendations
->> I'd like to get feedback on:
+> Hi Koen,
 >=20
-> In future can we please discuss this on the oe-core list or at least
-> give a heads up there as this is pretty key to the core of the project
-> and we've implicitly agreed to discuss architecture there? I =
-appreciate
-> this affects oe-devel layer maintainers too.
-
-I meant to send it to oe-core, but I didn't check autocomplete. Anyway, =
-seems I reached the people I wanted to reach :)
-
->=20
+> On Tuesday 14 May 2013 09:36:02 Koen Kooi wrote:
+>> What triggered PR going backwards this time was a BSP removing its =
+netbase
+>> bbappend because it wasn't needed anymore. That's great, I hate =
+netbase
+>> bbappends since they tend to be ifupdown specific and don't work as
+>> intended with connman/NM/netctl/etc. Long story short:
+>>=20
+>> 	ERROR: Package version for package netbase-dbg went backwards =
+which would
+>> break package feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: Package =
+version
+>> for package netbase-staticdev went backwards which would break =
+package
+>> feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: Package version for =
+package
+>> netbase-dev went backwards which would break package feeds from =
+(0:5.0-r3.1
+>> to 0:5.0-r1.2) ERROR: Package version for package netbase-doc went
+>> backwards which would break package feeds from (0:5.0-r3.1 to =
+0:5.0-r1.2)
+>> ERROR: Package version for package netbase-locale went backwards =
+which
+>> would break package feeds from (0:5.0-r3.1 to 0:5.0-r1.2) ERROR: =
+Package
+>> version for package netbase went backwards which would break package =
+feeds
+>> from (0:5.0-r3.1 to 0:5.0-r1.2)
+>>=20
+>> To avoid things like that in the future I have a few recommendations =
+I'd
+>> like to get feedback on:
+>>=20
 >> 1) For a given BSP split it in multiple layers:
 >> 	a) One 'core' BSP layer with only:
 >> 		o Bootloader
@@ -82,132 +101,126 @@ seems I reached the people I wanted to reach :)
 >> 	b) One BSP layer with bbappends for shadow/netbase/xorg-conf/etc
 >> 	c) One or more layers with bbappends for libav/clutter/etc[2]
 >=20
-> You're missing d) which would presumably be everything not in a-c) =
-e.g.
-> binary graphics libs which aren't bbappends.
+> I don't like this. This will mean effectively 3x the number of BSP =
+layers, with=20
+> independent testing effectively expected for the different =
+combinations; I don't=20
+> think this will be practical. It's fine for distros with pre-supplied =
+lists of=20
+> layers but lots of users are assembling their own layer stacks and =
+this is=20
+> just going to add pain for them.
 
-I'd group those with c)
+The flip side is that adding BSP layers becomes a lot safer. I don't =
+mind adding layers. Adding layers is easy. Removing layers is pretty =
+much impossible, though.
 
-> I have a feeling this will break more than it solves so I'm not keen =
-on
-> this and I think we need to dig deeper into the problem and find a
-> better solution.
+> It's probably time we looked seriously at more effective analysis =
+tools for=20
+> examining what a layer is actually doing. We now have the variable =
+history in=20
+> bitbake which means that pinpointing a change to a variable down to =
+the=20
+> specific line in the file that made the change is now possible; we =
+should be=20
+> able to build upon this to provide tools that determine when e.g. BSP =
+layers=20
+> are doing things that affect builds for other machines.
+>=20
+> Of course, getting maintainers to deal with these issues is another =
+problem,=20
+> but identifying them in the first place would help a lot.
 
->>=20
+Yes, layer maintainers are proving to be the weak link is the layer =
+system.
+
 >> 2) *Never* use PRINC in type b) bbappends
+>>=20
 >> 3) Avoid PRINC in general
 >=20
-> Could we undergo some mass purge of PRINC from master branches and =
-then
-> change the PR values once and for all in the core recipes? We could =
-make
-> PRINC throw a bb.fatal() from that point onwards.
+> Do we even need PRINC at all any more? I realise we have PRINC values =
+around=20
+> in bbappends that we can't easily drop without causing the problem you=20=
 
-That would be nice.
+> mentioned.
 
->=20
+If PRSERV would work reliably we wouldn't need it. But even with the =
+current flaky PRSERV PRINC is causing more problems than it's supposed =
+to solve.
+
 >> 4) make buildhistory.bbclass mandatory in OE-core
 >=20
-> and force enable the PR backwards check?
+> Buildhistory does have some overhead as you know, which is why it's =
+not on by=20
+> default. I wonder if we could move the version going backwards check =
+to=20
+> package.bbclass or package QA, instead making it read the previous =
+values from=20
+> pkgdata. I'm not sure if sstate would get in the way in that the =
+previous set=20
+> of files might already be removed by the time it got to do_package; =
+this would=20
+> need to be investigated. Even if that is the case it might be that we =
+can work=20
+> around it.
 
-Yes
+I personally think the overhead is worth it, but as you say, moving bits =
+to package.bbclass (and maybe using a sqlite db) would be very good as =
+well.
 
-> Again, I think the people
-> you're trying to target to fix these issues are also the people who'd
-> probably not have the history around to see the issues that most =
-bother
-> you.
-
-True, but they'd have less plausible deniability :)
-
-> I agree there are some issues here but I think we're going to need a
-> more creative fix.
+>> During the last TSC meeting we discussed that there is currently no =
+way to
+>> force maintainers to behave. I think the most we can do is have clear
+>> guidelines on the OE side and enforce those during the "Yocto Project
+>> Compatible" process.=20
 >=20
-> My personal view is we need to reduce the number of bbappends. One way
-> to do this is to make a general/central bsp-files type recipe which
-> generates all the standard packages (tscalibration data, xorg config =
-and
-> all the other single machine specific config files).
+> Being more specific in the Yocto Project Compatible process =
+requirements might=20
+> help; I wasn't involved in developing that process so I can't really =
+comment=20
+> more than that. That wouldn't help with other layers in the OE =
+community that=20
+> aren't put through that process however.
 >=20
-> Yes, this would be a disruptive change but it would significantly =
-clean
-> up the BSP layers and hopefully make maintenance easier. It is on the
-> Yocto project proposed features list although we've only got the idea,
-> we haven't discussed with the community etc. Now would see as good a
-> time as any.
+> I think we need to improve the documentation we have about what is and =
+what is=20
+> not appropriate in a BSP layer. Most of the time it's not that =
+maintainers are=20
+> too lazy or deliberately setting out to force values, it's that they =
+don't=20
+> know they're doing anything wrong because we haven't documented all of =
+the=20
+> best practices anywhere. There was recently a question on this very =
+mailing=20
+> list about what constitute distro policy settings in the context of =
+what=20
+> shouldn't go into a BSP layer; the response has been a resounding "".
 >=20
->> There's another use case that suffers from PRINC problems and that is
->> removing layers when they break parsing and the maintainer is slow to
->> push patches. With the current situation I have to choose between
->> "being able to do builds" and "having working feeds".
+>> And have the layer index orange/red flag layers that
+>> do stupid things. Come to think of it, that would actually be the =
+most
+>> visible way to go, having wikipedia style warning banners on the =
+offending
+>> layers.
 >=20
-> We have talked about a version wildcard for bbappend. You are still at
-> the mercy of what the bbappend does though (e.g. when I include
-> meta-raspberrypi, it changes the psplash logo, regardless of whether =
-I'm
-> building for the pi).
->=20
-> In many ways the bbappend is too easy and encourages anti-social
-> behaviour.
+> I think that's reasonable as long as maintainers can understand the =
+problem.=20
+> We'd need to be notifying maintainers directly about specifically what =
+they are=20
+> doing wrong and how to fix it; just putting a warning in the index =
+isn't enough=20
+> IMO. The layer index does record maintainer information and regularly =
+reads=20
+> layer metadata, so we have the infrastructure to do this now, just not =
+the=20
+> specific tools.
 
-The funny thing is that I've run into bb(appends) trying to be social =
-and breaking things, e.g.
-
-linux-yocto.bbappend:
-
-SRC_URI =3D "git://foo"
-SRCREV_mymachine =3D "1849032784092359023"
-ANOTHER_VAR_mymachine =3D "meta"
-
-And that breaks parsing for every machine that isn't named "mymachine".=20=
-
-
-> I would recommend bouncing meta-rpi as being non yocto
-> project compatible due to the psplash issue if it were to apply which =
-it
-> has not.
->=20
->> During the last TSC meeting we discussed that there is currently no
->> way to force maintainers to behave. I think the most we can do is =
-have
->> clear guidelines on the OE side and enforce those during the "Yocto
->> Project Compatible" process.=20
->=20
-> How many layers apply for that status though?
-
-Ideally all of them.
+My thinking was that adding such a banner would email the maintainers of =
+that layer. That still assumes that the layer maintainer actually reads =
+email, which I don't think is true for a lot of layers :/
 
 regards,
 
-Koen
-
->> And have the layer index orange/red flag layers that do stupid =
-things.
->> Come to think of it, that would actually be the most visible way to
->> go, having wikipedia style warning banners on the offending layers.
->=20
-> I think Paul had good feedback here.
->=20
->> [1] It always happens after editing bblayers.conf and dragging in
->> major update to layers. Since I tend to do both at the same time I
->> can't say which action triggers it or if it's the combination.
->> [2] I spent 3 days trying to figure out why mesa was so *$(*$(@ =
-broken
->> before I finally located the bbappends in meta-ti that were causing
->> this breakage
->=20
-> I do appreciate understanding where some of the problem arises from,
-> thanks!
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Koen=
 
 
