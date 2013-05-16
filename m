@@ -1,29 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UczYn-0002ot-8q for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 16:53:41 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UczHA-0000qP-Na; Thu, 16 May 2013 16:35:24 +0200
-Message-ID: <1368714923.6920.136.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-Date: Thu, 16 May 2013 15:35:23 +0100
-In-Reply-To: <5194C123.5090506@r-finger.com>
-References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
-	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
-	<1671648.4UWfFTD1eS@helios>
-	<CAP9ODKpqFxzooVtRzzfDzOQcicXQYnJ3wp0qO-jHyt1fi+1XGQ@mail.gmail.com>
-	<1368650968.16243.145.camel@pb-ThinkPad-R50e>
-	<5194A04E.3000300@r-finger.com>
-	<1368700555.6920.118.camel@phil-desktop.brightsign>
-	<5194C123.5090506@r-finger.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <joe@deserted.net>) id 1Ud03y-0005I3-II
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 17:25:52 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4GBb46h007622
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2013 04:37:05 -0700 (PDT)
+Received: from yow-jmacdona-d1.ottawa.wrs.com (128.224.146.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Thu, 16 May 2013 04:37:04 -0700
+Received: from yow-jmacdona-l1 (yow-jmacdona-d2.wrs.com [128.224.146.166])	by
+	yow-jmacdona-d1.ottawa.wrs.com (Postfix) with ESMTP id 0E84F7FCE;
+	Thu, 16 May 2013 07:36:50 -0400 (EDT)
+Received: by yow-jmacdona-l1 (Postfix, from userid 1000)	id 7905443430; Thu,
+	16 May 2013 07:37:03 -0400 (EDT)
+Date: Thu, 16 May 2013 07:37:03 -0400
+From: Joe MacDonald <joe@deserted.net>
+To: Jesse Zhang <sen.zhang@windriver.com>
+Message-ID: <20130516113702.GB11432@windriver.com>
+References: <51948307.5070608@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <51948307.5070608@windriver.com>
+X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Editor: Vim-703 http://www.vim.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
+Subject: Re: should perl modules go in oe-core? (possibly python and ruby ones too)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,24 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 14:53:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 May 2013 15:25:55 -0000
+X-Groupsio-MsgNum: 39344
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="BwCQnh7xodEAoBMC"
+Content-Disposition: inline
 
-On Thu, 2013-05-16 at 12:21 +0100, Tomas Frydrych wrote:
-> This would probably merit some sort of cogl-initial recipe to add.
+--BwCQnh7xodEAoBMC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yeah.  If it was just a case of doing that then I would have done so;
-the trouble is that you end up having to put garbage like
+[[OE-core] should perl modules go in oe-core? (possibly python and ruby one=
+s too)] On 13.05.16 (Thu 14:56) Jesse Zhang wrote:
 
-# We need to use the nopango build of cogl because we are a build dependency of pango
-PKG_CONFIG_PATH_prepend = "${STAGING_DIR_HOST}/${exec_prefix}/cogl-nopango/${baselib}/pkgconfig:"
-TARGET_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}/${exec_prefix}/cogl-nopango/${baselib}"
+> Hi,
+>=20
+> We've accumulated quite a few perl modules and would like to contribute
+> some/all of them to oe-core. But I think we'd better ask how everyone
+> thinks before doing so, since the number of the modules are pretty
+> large, and the policy may as well apply to python/ruby packages.
+>=20
+> Most of the modules are simple cpan recipes. They are easy to maintain,
+> but do consume *some* manpower.
+>=20
+> I think there are a few alternatives.
+>=20
+> 1. decide on each module on a case-by-case basis.
+>=20
+> 2. keep all of them in some special layer other than oe-core.
+>=20
+> 3. everyone maintain what they need in-house.
 
-in the recipes for everything else that participates in this dependency
-chain and needs building before the "real" cogl.  Which is ugly.
+Have you considered the possibility of a meta-perl or meta-cpan layer in
+meta-openembedded?  It was the first thing that occurred to me and I see
+both Phil and Richard making pretty similar suggestions.  There's
+already a meta-ruby layer there and it may also help address some of the
+perl dependency problems that crop up in recipes in meta-Openembedded.
 
-p.
+-J.
 
+>=20
+> None of them seems perfect. Is there already some policy?
+>=20
+> jesse
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+-Joe MacDonald.
+:wq
 
+--BwCQnh7xodEAoBMC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iEYEARECAAYFAlGUxN4ACgkQPN8S4W6ZZncPpQCfS2aSEvB0LqRa9rT1zob/Hn1M
+QysAn26boAfsBgKmbIM1acnsH3inQ5it
+=HiiP
+-----END PGP SIGNATURE-----
+
+--BwCQnh7xodEAoBMC--
