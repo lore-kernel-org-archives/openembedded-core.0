@@ -1,25 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <xiao.zhang@windriver.com>) id 1UcwKC-0004Sj-DQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 13:26:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4G7Qg66029471
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 00:26:42 -0700 (PDT)
-Received: from localhost.localdomain (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 16 May 2013 00:26:42 -0700
-From: Zhang Xiao <xiao.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <xiao.zhang@windriver.com>
-Date: Thu, 16 May 2013 15:26:26 +0800
-Message-ID: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.21]
-Subject: [PATCH] util-linux: replace package files
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UcwPm-0004w3-Tp for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 13:32:09 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Ucw8A-0000jr-E0; Thu, 16 May 2013 13:13:54 +0200
+Message-ID: <1368702833.6920.125.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Jesse Zhang <sen.zhang@windriver.com>
+Date: Thu, 16 May 2013 12:13:53 +0100
+In-Reply-To: <51948307.5070608@windriver.com>
+References: <51948307.5070608@windriver.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: should perl modules go in oe-core? (possibly python and ruby ones too)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,98 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 11:26:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 May 2013 11:32:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
-package to related library's dev RPM packages.
+On Thu, 2013-05-16 at 14:56 +0800, Jesse Zhang wrote:
+> We've accumulated quite a few perl modules and would like to contribute
+> some/all of them to oe-core. But I think we'd better ask how everyone
+> thinks before doing so, since the number of the modules are pretty
+> large, and the policy may as well apply to python/ruby packages.
+> 
+> Most of the modules are simple cpan recipes. They are easy to maintain,
+> but do consume *some* manpower.
+> 
+> I think there are a few alternatives.
+> 
+> 1. decide on each module on a case-by-case basis.
+> 
+> 2. keep all of them in some special layer other than oe-core.
+> 
+> 3. everyone maintain what they need in-house.
+> 
+> None of them seems perfect. Is there already some policy?
 
-[YOCTO #4500]
-[CQID: WIND00412705]
+As you say, all the options seem to have at least some drawbacks.  I've
+been faced with this problem recently when trying to make an updated
+recipe for xmltv (which has a vast number of perl dependencies) and
+wasn't able to come up with any ideal answer either. 
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- .../util-linux-replace-package-files.patch         |   56 ++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.22.2.bb  |    1 +
- 2 files changed, 57 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+I think my preference would be to have a dedicated meta-cpan layer which
+does nothing other than provide recipes for CPAN modules (or, possibly,
+Perl modules in general) and which strives to be a comprehensive
+resource for them.  This seems like the only way to avoid ending up with
+overlapping sets of modules in different layers, with the consequent
+duplication of work and confusion that would result. 
 
-diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
-new file mode 100644
-index 0000000..32868cc
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
-@@ -0,0 +1,56 @@
-+Upstream-Status: Pending
-+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com> 
-+
-+Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
-+package to related library's dev RPM packages.
-+---
-+ libblkid/src/Makemodule.am |    6 +-----
-+ libmount/src/Makemodule.am |    6 +-----
-+ libuuid/src/Makemodule.am  |    6 +-----
-+ 3 files changed, 3 insertions(+), 15 deletions(-)
-+
-+--- util-linux-2.22.2/libuuid/src/Makemodule.am.orig
-++++ util-linux-2.22.2/libuuid/src/Makemodule.am
-+@@ -42,11 +42,7 @@ install-exec-hook-libuuid:
-+ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
-+ 		mkdir -p $(DESTDIR)$(libdir); \
-+ 		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so.* $(DESTDIR)$(libdir); \
-+-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libuuid.so); \
-+-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-+-		(cd $(DESTDIR)$(usrlib_execdir) && \
-+-			rm -f libuuid.so && \
-+-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libuuid.so); \
-++		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so $(DESTDIR)$(libdir); \
-+ 	fi
-+ 
-+ uninstall-hook-libuuid:
-+--- util-linux-2.22.2/libmount/src/Makemodule.am.orig
-++++ util-linux-2.22.2/libmount/src/Makemodule.am
-+@@ -123,11 +123,7 @@ install-exec-hook-libmount:
-+ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
-+ 		mkdir -p $(DESTDIR)$(libdir); \
-+ 		mv $(DESTDIR)$(usrlib_execdir)/libmount.so.* $(DESTDIR)$(libdir); \
-+-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libmount.so); \
-+-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-+-		(cd $(DESTDIR)$(usrlib_execdir) && \
-+-			rm -f libmount.so && \
-+-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libmount.so); \
-++		mv $(DESTDIR)$(usrlib_execdir)/libmount.so $(DESTDIR)$(libdir); \
-+ 	fi
-+ 
-+ uninstall-hook-libmount:
-+--- util-linux-2.22.2/libblkid/src/Makemodule.am.orig
-++++ util-linux-2.22.2/libblkid/src/Makemodule.am
-+@@ -219,11 +219,7 @@ install-exec-hook-libblkid:
-+ 	if test "$(usrlib_execdir)" != "$(libdir)"; then \
-+ 		mkdir -p $(DESTDIR)$(libdir); \
-+ 		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so.* $(DESTDIR)$(libdir); \
-+-		so_img_name=$$(readlink $(DESTDIR)$(usrlib_execdir)/libblkid.so); \
-+-		so_img_rel_target=$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-+-		(cd $(DESTDIR)$(usrlib_execdir) && \
-+-			rm -f libblkid.so && \
-+-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libblkid.so); \
-++		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so $(DESTDIR)$(libdir); \
-+ 	fi
-+ 
-+ uninstall-hook-libblkid:
-diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-index 43a55a6..526308d 100644
---- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://configure-sbindir.patch \
-             file://fix-configure.patch \
-             file://mbsalign-license.patch \
-+            file://util-linux-replace-package-files.patch \
- "
- 
- SRC_URI[md5sum] = "3e379b4d8b9693948d751c154614c73e"
--- 
-1.7.1
+I don't think these modules belong in oe-core: it would be a lot of
+recipes (with all the parse time and testing overhead that this entails)
+and most oe-core users aren't going to want them.
+
+p.
+
 
 
 
