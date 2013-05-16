@@ -1,24 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1Ud1zx-0005sh-4B
+	(envelope-from <sgw@linux.intel.com>) id 1Ud2o0-0000qN-Bx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 19:29:50 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4GHBXt3007776
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 10:11:33 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 16 May 2013 10:11:33 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 May 2013 10:11:33 -0700
-Message-ID: <1368724293-30048-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH v3 1/1] zlib: put shared libraries in base_libdir
+	Thu, 16 May 2013 20:21:38 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 May 2013 11:03:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,685,1363158000"; d="scan'208";a="242589253"
+Received: from unknown (HELO localhost.localdomain) ([10.255.12.48])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 May 2013 11:03:12 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2013 21:03:04 +0300
+Message-Id: <cover.1368727195.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH 0/3] Fix mtab issue for initramfs install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,51 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 17:30:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 May 2013 18:21:50 -0000
 
-We put the shared libraries in base_libdir because at least
-one library under base_libdir, pam_cracklib.so, needs them
-and will cause a qa warning when it is built.
+This patch set reversn and older patch and correctly fixes the
+issue that /etc/mtab was getting installed in the initramfs 
+because of a RDEPENDS on base files from rpm-postinsts. This RDEPENDS
+was wrong and now removed by this patch.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-core/zlib/zlib_1.2.7.bb |   15 +++++++++++++++
- 1 files changed, 15 insertions(+), 0 deletions(-)
+The revert need to undo the remove of the cat /proc/mounts > /etc/mtab
+and then ensure that the PR bumps are retained.
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/zlib_1.2.7.bb
-index 803fec3..dfdf5fe 100644
---- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-@@ -6,6 +6,8 @@ SECTION = "libs"
- LICENSE = "Zlib"
- LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=94d1b5a40dadd127f3351471727e66a9"
- 
-+PR = "r1"
-+
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
-            file://remove.ldconfig.call.patch \
-            "
-@@ -24,4 +26,17 @@ do_install() {
- 	oe_runmake DESTDIR=${D} install
- }
- 
-+# We move zlib shared libraries for target builds to avoid
-+# qa warnings.
-+#
-+do_install_append_class-target() {
-+	if [ ${base_libdir} != ${libdir} ]
-+	then
-+		mkdir -p ${D}/${base_libdir}
-+		mv ${D}/${libdir}/libz.so.* ${D}/${base_libdir}
-+		tmp=`readlink ${D}/${libdir}/libz.so`
-+		ln -sf ../../${base_libdir}/$tmp ${D}/${libdir}/libz.so
-+	fi
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
+Sau!
+
+The following changes since commit e3561c1cae467a4fb79723f83dea54d9d62adf7d:
+
+  qemuimage-testlib: change default directory for target tests (2013-05-16 00:23:34 +0300)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/update
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/update
+
+Saul Wold (3):
+  rpm-postinst: remove un-needed RDEPENDS on base-files
+  Revert "initramfs-live-install*: fix the "install" boot option"
+  initrdscripts: Not let PR go backwards after revert
+
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 1 +
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 1 +
+ meta/recipes-devtools/rpm/rpm-postinsts.bb                | 2 --
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-1.7.3.4
+1.8.0.2
 
 
 
