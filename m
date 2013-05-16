@@ -1,30 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1UcuxI-0003e8-15 for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 11:58:39 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4G9hOwq010071; Thu, 16 May 2013 10:43:25 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yxXnweM2F5cV; Thu, 16 May 2013 10:43:24 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4G9hE6a010053
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 16 May 2013 10:43:18 +0100
-Message-ID: <1368697200.18324.142.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jesse Zhang <sen.zhang@windriver.com>
-Date: Thu, 16 May 2013 12:40:00 +0300
-In-Reply-To: <51948307.5070608@windriver.com>
-References: <51948307.5070608@windriver.com>
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: should perl modules go in oe-core? (possibly python and ruby ones too)
+	(envelope-from <xiao.zhang@windriver.com>) id 1UcvG4-0005Z4-Ur
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 12:18:04 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4G9xj5d021546
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2013 02:59:45 -0700 (PDT)
+Received: from [128.224.162.169] (128.224.162.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 16 May 2013 02:59:44 -0700
+Message-ID: <5194AE0D.8030508@windriver.com>
+Date: Thu, 16 May 2013 17:59:41 +0800
+From: zhangxiao <xiao.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
+	<1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+In-Reply-To: <1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+X-Originating-IP: [128.224.162.169]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r4G9xj5d021546
+Subject: Re: [PATCH] util-linux: replace package files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +38,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 09:58:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 May 2013 10:18:06 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-05-16 at 14:56 +0800, Jesse Zhang wrote:
-> We've accumulated quite a few perl modules and would like to contribute
-> some/all of them to oe-core. But I think we'd better ask how everyone
-> thinks before doing so, since the number of the modules are pretty
-> large, and the policy may as well apply to python/ruby packages.
-> 
-> Most of the modules are simple cpan recipes. They are easy to maintain,
-> but do consume *some* manpower.
-> 
-> I think there are a few alternatives.
-> 
-> 1. decide on each module on a case-by-case basis.
-> 
-> 2. keep all of them in some special layer other than oe-core.
-> 
-> 3. everyone maintain what they need in-house.
-> 
-> None of them seems perfect. Is there already some policy?
+And, another method lies on meta/recipes-core/util-linux/util-linux.inc:
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -69,11 +69,11 @@ FILES_util-linux-uuidd =3D "${sbindir}/uuidd"
+  FILES_util-linux-reset =3D "${base_bindir}/reset"
 
-I think the best approach would be to put these into meta-openembedded,
-at least at first and then we can think about whether we want to move
-any into OE-Core. I don't think we would want to take everything.
+  FILES_util-linux-libblkid =3D "${base_libdir}/libblkid.so.*"
+-FILES_util-linux-libblkid-dev =3D "${base_libdir}/libblkid.so=20
+${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.=
+pc"
++FILES_util-linux-libblkid-dev =3D "${libdir}/libblkid.so=20
+${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.=
+pc"
+  FILES_util-linux-libmount =3D "${base_libdir}/libmount.so.*"
+-FILES_util-linux-libmount-dev =3D "${base_libdir}/libmount.so=20
+${base_libdir}/libmount.la ${includedir}/libmount=20
+${libdir}/pkgconfig/mount.pc"
++FILES_util-linux-libmount-dev =3D "${libdir}/libmount.so=20
+${base_libdir}/libmount.la ${includedir}/libmount=20
+${libdir}/pkgconfig/mount.pc"
+  FILES_util-linux-libuuid =3D "${base_libdir}/libuuid.so.*"
+-FILES_util-linux-libuuid-dev =3D "${base_libdir}/libuuid.so=20
+${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
++FILES_util-linux-libuuid-dev =3D "${libdir}/libuuid.so=20
+${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+  FILES_util-linux-lscpu =3D "${bindir}/lscpu"
 
-Cheers,
+  FILES_util-linux-fsck =3D "${base_sbindir}/fsck*"
 
-Richard
+Which one is better?
 
+Thanks
+Xiao
 
-
+On 2013=E5=B9=B405=E6=9C=8816=E6=97=A5 15:26, Zhang Xiao wrote:
+> Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
+> package to related library's dev RPM packages.
+>
+> [YOCTO #4500]
+> [CQID: WIND00412705]
+>
+> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+> ---
+>   .../util-linux-replace-package-files.patch         |   56 +++++++++++=
++++++++++
+>   meta/recipes-core/util-linux/util-linux_2.22.2.bb  |    1 +
+>   2 files changed, 57 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux=
+-replace-package-files.patch
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-replace=
+-package-files.patch b/meta/recipes-core/util-linux/util-linux/util-linux=
+-replace-package-files.patch
+> new file mode 100644
+> index 0000000..32868cc
+> --- /dev/null
+> +++ b/meta/recipes-core/util-linux/util-linux/util-linux-replace-packag=
+e-files.patch
+> @@ -0,0 +1,56 @@
+> +Upstream-Status: Pending
+> +Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+> +
+> +Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
+> +package to related library's dev RPM packages.
+> +---
+> + libblkid/src/Makemodule.am |    6 +-----
+> + libmount/src/Makemodule.am |    6 +-----
+> + libuuid/src/Makemodule.am  |    6 +-----
+> + 3 files changed, 3 insertions(+), 15 deletions(-)
+> +
+> +--- util-linux-2.22.2/libuuid/src/Makemodule.am.orig
+> ++++ util-linux-2.22.2/libuuid/src/Makemodule.am
+> +@@ -42,11 +42,7 @@ install-exec-hook-libuuid:
+> + 	if test "$(usrlib_execdir)" !=3D "$(libdir)"; then \
+> + 		mkdir -p $(DESTDIR)$(libdir); \
+> + 		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so.* $(DESTDIR)$(libdir); \
+> +-		so_img_name=3D$$(readlink $(DESTDIR)$(usrlib_execdir)/libuuid.so); =
+\
+> +-		so_img_rel_target=3D$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/]=
+[^/]*,..,g'); \
+> +-		(cd $(DESTDIR)$(usrlib_execdir) && \
+> +-			rm -f libuuid.so && \
+> +-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libuuid.so); \
+> ++		mv $(DESTDIR)$(usrlib_execdir)/libuuid.so $(DESTDIR)$(libdir); \
+> + 	fi
+> +
+> + uninstall-hook-libuuid:
+> +--- util-linux-2.22.2/libmount/src/Makemodule.am.orig
+> ++++ util-linux-2.22.2/libmount/src/Makemodule.am
+> +@@ -123,11 +123,7 @@ install-exec-hook-libmount:
+> + 	if test "$(usrlib_execdir)" !=3D "$(libdir)"; then \
+> + 		mkdir -p $(DESTDIR)$(libdir); \
+> + 		mv $(DESTDIR)$(usrlib_execdir)/libmount.so.* $(DESTDIR)$(libdir); \
+> +-		so_img_name=3D$$(readlink $(DESTDIR)$(usrlib_execdir)/libmount.so);=
+ \
+> +-		so_img_rel_target=3D$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/]=
+[^/]*,..,g'); \
+> +-		(cd $(DESTDIR)$(usrlib_execdir) && \
+> +-			rm -f libmount.so && \
+> +-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libmount.so); \
+> ++		mv $(DESTDIR)$(usrlib_execdir)/libmount.so $(DESTDIR)$(libdir); \
+> + 	fi
+> +
+> + uninstall-hook-libmount:
+> +--- util-linux-2.22.2/libblkid/src/Makemodule.am.orig
+> ++++ util-linux-2.22.2/libblkid/src/Makemodule.am
+> +@@ -219,11 +219,7 @@ install-exec-hook-libblkid:
+> + 	if test "$(usrlib_execdir)" !=3D "$(libdir)"; then \
+> + 		mkdir -p $(DESTDIR)$(libdir); \
+> + 		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so.* $(DESTDIR)$(libdir); \
+> +-		so_img_name=3D$$(readlink $(DESTDIR)$(usrlib_execdir)/libblkid.so);=
+ \
+> +-		so_img_rel_target=3D$$(echo $(usrlib_execdir) | sed 's,\(^/\|\)[^/]=
+[^/]*,..,g'); \
+> +-		(cd $(DESTDIR)$(usrlib_execdir) && \
+> +-			rm -f libblkid.so && \
+> +-			$(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name libblkid.so); \
+> ++		mv $(DESTDIR)$(usrlib_execdir)/libblkid.so $(DESTDIR)$(libdir); \
+> + 	fi
+> +
+> + uninstall-hook-libblkid:
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb b/meta/r=
+ecipes-core/util-linux/util-linux_2.22.2.bb
+> index 43a55a6..526308d 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+> @@ -8,6 +8,7 @@ SRC_URI +=3D "file://util-linux-ng-replace-siginterrupt=
+.patch \
+>               file://configure-sbindir.patch \
+>               file://fix-configure.patch \
+>               file://mbsalign-license.patch \
+> +            file://util-linux-replace-package-files.patch \
+>   "
+>
+>   SRC_URI[md5sum] =3D "3e379b4d8b9693948d751c154614c73e"
+>
 
 
