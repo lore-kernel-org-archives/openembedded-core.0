@@ -1,45 +1,32 @@
-Received: from mail-bk0-f45.google.com ([209.85.214.45])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koansoftware@gmail.com>) id 1UczBp-0001S1-EP
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 16:29:58 +0200
-Received: by mail-bk0-f45.google.com with SMTP id je9so1692735bkc.4
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 07:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:reply-to:organization:user-agent
-	:mime-version:to:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=5UCXHq/2KQzYbu9KaZEDJZgdBICIJNxeNfqF6L2g0MY=;
-	b=LvT7UskOOEUv3AttPJZsiH23I8Ihk/vbOUKq0diGFa3kP/4FIDmipyCvVPct7z7TM+
-	MZ+CLmZ9HoE1C3u+RDsn9u51+lxdP9bOMI6oqGJaOCgRRWYcu5BUQIBO6HgHpUMxMP3e
-	dFhquGK1kkDfeRh9jHfwpAV5zOEIFiW5+r9sLe2Vksc0S1tn7X1rmhGPP2FgT3yX/42a
-	4JmwMP9v7ximz3M0m9b6Ps3WO0DRTB19iHul9Cw53qzc1JYUMa4qUuKJ7PMlqZqpdjwH
-	fHmQw/eMWTFwmTXvg8khzNi0rXiYtj8Py2aqjYbY97e744ctCPOdZoyYEmE6ecwb77Xk
-	+b9w==
-X-Received: by 10.204.246.194 with SMTP id lz2mr13111287bkb.98.1368713499096; 
-	Thu, 16 May 2013 07:11:39 -0700 (PDT)
-Received: from [192.168.0.5]
-	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
-	by mx.google.com with ESMTPSA id v6sm2087758bko.3.2013.05.16.07.11.35
-	for <Openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 16 May 2013 07:11:37 -0700 (PDT)
-Message-ID: <5194E914.5010701@gmail.com>
-Date: Thu, 16 May 2013 16:11:32 +0200
-From: Marco <koansoftware@gmail.com>
-Organization: MC
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Openembedded-core@lists.openembedded.org
-References: <5194DFF9.5080103@gmail.com>
-In-Reply-To: <5194DFF9.5080103@gmail.com>
-Subject: Re: Problem with QTcreator and meta-toolchain-qte
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UczYn-0002ot-8q for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 16:53:41 +0200
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UczHA-0000qP-Na; Thu, 16 May 2013 16:35:24 +0200
+Message-ID: <1368714923.6920.136.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+Date: Thu, 16 May 2013 15:35:23 +0100
+In-Reply-To: <5194C123.5090506@r-finger.com>
+References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
+	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
+	<1671648.4UWfFTD1eS@helios>
+	<CAP9ODKpqFxzooVtRzzfDzOQcicXQYnJ3wp0qO-jHyt1fi+1XGQ@mail.gmail.com>
+	<1368650968.16243.145.camel@pb-ThinkPad-R50e>
+	<5194A04E.3000300@r-finger.com>
+	<1368700555.6920.118.camel@phil-desktop.brightsign>
+	<5194C123.5090506@r-finger.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: koansoftware@gmail.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -49,33 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 14:30:02 -0000
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+X-List-Received-Date: Thu, 16 May 2013 14:53:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Il 16/05/2013 15:32, Marco ha scritto:
-> Host development machine
-> - Ubuntu 12.04 (native and into In WmWare virtual machine)
->
-> OE/Yocto version
-> - Yocto Dylan 1.4 (and master)
->
-> Machine
-> - imx53-qsb (and at91sam9263)
->
-> After setting /opt/poky/1.4/environment-setup-arm......
-> I can successfully make the Qt/e app in console mode, but...
->
-> 1. Launching compilation into QTcreator I get this final message
->
->   http://pastebin.com/NVWCb4yq
->
+On Thu, 2013-05-16 at 12:21 +0100, Tomas Frydrych wrote:
+> This would probably merit some sort of cogl-initial recipe to add.
 
-This happens only in Debug build mode and is only a warning because the 
-binary is generated.
+Yeah.  If it was just a case of doing that then I would have done so;
+the trouble is that you end up having to put garbage like
 
-TIA
--- 
-Marco
+# We need to use the nopango build of cogl because we are a build dependency of pango
+PKG_CONFIG_PATH_prepend = "${STAGING_DIR_HOST}/${exec_prefix}/cogl-nopango/${baselib}/pkgconfig:"
+TARGET_LDFLAGS += "-Wl,-rpath-link,${STAGING_DIR_HOST}/${exec_prefix}/cogl-nopango/${baselib}"
+
+in the recipes for everything else that participates in this dependency
+chain and needs building before the "real" cogl.  Which is ugly.
+
+p.
+
 
 
