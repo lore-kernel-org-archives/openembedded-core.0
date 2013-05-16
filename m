@@ -1,22 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UcwPm-0004w3-Tp for openembedded-core@lists.openembedded.org;
-	Thu, 16 May 2013 13:32:09 +0200
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Ucw8A-0000jr-E0; Thu, 16 May 2013 13:13:54 +0200
-Message-ID: <1368702833.6920.125.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Jesse Zhang <sen.zhang@windriver.com>
-Date: Thu, 16 May 2013 12:13:53 +0100
-In-Reply-To: <51948307.5070608@windriver.com>
-References: <51948307.5070608@windriver.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: should perl modules go in oe-core? (possibly python and ruby ones too)
+Received: from r-finger.com ([178.79.160.5])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UcwWu-0005TP-Fb
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 May 2013 13:39:48 +0200
+Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
+	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 00DF1952B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2013 12:21:13 +0100 (BST)
+Message-ID: <5194C123.5090506@r-finger.com>
+Date: Thu, 16 May 2013 12:21:07 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <518A6B25.5000108@r-finger.com> <1368639038.18324.6.camel@ted>
+	<CAP9ODKqQ-TXBwUqPVZ_oZOK2MLRQhSp_9Xb7a=dOiPaQ+zUw5A@mail.gmail.com>
+	<1671648.4UWfFTD1eS@helios>
+	<CAP9ODKpqFxzooVtRzzfDzOQcicXQYnJ3wp0qO-jHyt1fi+1XGQ@mail.gmail.com>
+	<1368650968.16243.145.camel@pb-ThinkPad-R50e>
+	<5194A04E.3000300@r-finger.com>
+	<1368700555.6920.118.camel@phil-desktop.brightsign>
+In-Reply-To: <1368700555.6920.118.camel@phil-desktop.brightsign>
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,47 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 11:32:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 16 May 2013 11:39:54 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-05-16 at 14:56 +0800, Jesse Zhang wrote:
-> We've accumulated quite a few perl modules and would like to contribute
-> some/all of them to oe-core. But I think we'd better ask how everyone
-> thinks before doing so, since the number of the modules are pretty
-> large, and the policy may as well apply to python/ruby packages.
-> 
-> Most of the modules are simple cpan recipes. They are easy to maintain,
-> but do consume *some* manpower.
-> 
-> I think there are a few alternatives.
-> 
-> 1. decide on each module on a case-by-case basis.
-> 
-> 2. keep all of them in some special layer other than oe-core.
-> 
-> 3. everyone maintain what they need in-house.
-> 
-> None of them seems perfect. Is there already some policy?
 
-As you say, all the options seem to have at least some drawbacks.  I've
-been faced with this problem recently when trying to make an updated
-recipe for xmltv (which has a vast number of perl dependencies) and
-wasn't able to come up with any ideal answer either. 
+On 16/05/13 11:35, Phil Blundell wrote:
+> On Thu, 2013-05-16 at 10:01 +0100, Tomas Frydrych wrote:
+>> The solution I came up with is to predefine a bunch common
+>> configure+depends+rdepends sets in the clutter/cogl includes (there is
+>> only a finite number of configurations that makes sense, though my
+>> recipes do not cover them all), and then in a Guacamayo-specific
+>> bbappend choose a suitable configuration on per-machine basis.
+> 
+> Right, that sounds fairly reasonable.  Or one could presumably use
+> PACKAGECONFIG for this sort of thing.
 
-I think my preference would be to have a dedicated meta-cpan layer which
-does nothing other than provide recipes for CPAN modules (or, possibly,
-Perl modules in general) and which strives to be a comprehensive
-resource for them.  This seems like the only way to avoid ending up with
-overlapping sets of modules in different layers, with the consequent
-duplication of work and confusion that would result. 
-
-I don't think these modules belong in oe-core: it would be a lot of
-recipes (with all the parse time and testing overhead that this entails)
-and most oe-core users aren't going to want them.
-
-p.
+Yep, that's one of the things I need to clean up in my own recipes.
 
 
+> It's because we build Cairo with the cogl backend enabled.  That
+> introduces a dependency of cairo on cogl (obviously), which is a problem
+> because cogl-pango needs pango, which needs harfbuzz, which needs cairo.
+> So what we do is build cogl initially with pango disabled, then use that
+> to compile cairo and the rest of the stack, and then finally build the
+> "real" cogl with everything enabled.
+
+This would probably merit some sort of cogl-initial recipe to add.
+
+
+> This is something that's just fundamentally difficult in OE; there
+> simply isn't any namespace to express that degree of freedom.  DISTRO is
+> essentially invariant for any given tmpdir, and the hierarchy in there
+> reflects MACHINE and PN.  So, if you want to build the same package with
+> a different configuration then either MACHINE or PN is going to have to
+> change.  Traditionally of course it's been PN that changes in this
+> situation.
+
+I originally went down the PN route, but that meant having to specify
+preferred providers and in my use case the sole criterion was the
+MACHINE. But for a generic solution, it's probably necessary to have
+some PN mechanism in place, maybe the keys in PACKAGECONFIG could be
+used to automatically create a mangled PN for non-standard configs.
+
+Tomas
 
 
