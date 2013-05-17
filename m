@@ -1,31 +1,25 @@
-Received: from atl4mhob09.myregisteredsite.com ([209.17.115.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mike.looijmans@topic.nl>) id 1UdJHj-0001Uf-FY
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1UdK5U-0005Lp-1C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 13:57:28 +0200
-Received: from mail.hostingplatform.com ([10.30.71.211])
-	by atl4mhob09.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r4HBd42F014801 for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2013 07:39:04 -0400
-Received: (qmail 27380 invoked by uid 0); 17 May 2013 11:39:04 -0000
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 17 May 2013 11:39:04 -0000
-Message-ID: <519616D8.9040608@topic.nl>
-Date: Fri, 17 May 2013 13:39:04 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Fri, 17 May 2013 14:48:51 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 May 2013 05:28:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,692,1363158000"; d="scan'208";a="338916226"
+Received: from unknown (HELO helios.localnet) ([10.255.12.245])
+	by orsmga002.jf.intel.com with ESMTP; 17 May 2013 05:30:25 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>, openembedded-core@lists.openembedded.org
+Date: Fri, 17 May 2013 13:30:24 +0100
+Message-ID: <8007192.MZnvvGgZfG@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-21-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <1368700555.6920.118.camel@phil-desktop.brightsign>
+References: <518A6B25.5000108@r-finger.com> <5194A04E.3000300@r-finger.com>
+	<1368700555.6920.118.camel@phil-desktop.brightsign>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
-	<1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
-	<5194AE0D.8030508@windriver.com>
-	<5195D693.9090003@linux.intel.com> <5195FBBA.6030309@topic.nl>
-	<20130517101526.GI24809@jama.dyndns-home.com>
-	<5196105C.8080808@topic.nl> <519610E1.1030607@topic.nl>
-In-Reply-To: <519610E1.1030607@topic.nl>
-Subject: Re: package_write_ipk somehow looks into the wrong path
+Subject: Re: proposal to move cogl, clutter and related recipes from oe-core to dedicated meta-clutter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,65 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 11:57:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 May 2013 12:48:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 05/17/2013 01:13 PM, Mike Looijmans wrote:
-> On 05/17/2013 01:11 PM, Mike Looijmans wrote:
->> On 05/17/2013 12:15 PM, Martin Jansa wrote:
->>> On Fri, May 17, 2013 at 11:43:22AM +0200, Mike Looijmans wrote:
->>>>
->>>> I got this very weird build failure. It builds fine for one machine
->>>> (zedboard), but it craps out in a really weird way on the "zynq-zc702"
->>>> machine.
->>>>
->>>> Somehow the "package_write_ipk" task wants to find files in a directory
->>>> with "1-r0" (a version that has once existed a long long time ago) in
->>>> the version part, instead of the proper git hashed name.
->>>>
->>>> I've tried a "cleansstate" but that did not help. The "compile" step in
->>>> this recipe takes about 1,5 hour on my i7 system, so debugging this
->>>> recipe is painfully slow...
->>>>
->>>> I've attached the recipes, pasted the log below.
->>>
->>> try it with 2/2 patch from
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4102
->>
->> Okay, I just manually applied those changes. Then I get:
->>
->> ERROR: Recipe fpga-image is trying to change PV from
->> '2.AUTOINC-bfd37feb034919cc11b3879745f2770810a4e796' to '1'. This will
->> cause do_package_write_ipk failing to find right workdir.
->>
->>
->> That helps, but I still don't have the faintest idea what is going on
->> here. What's wrong with my recipe?
->
-> As a last resort, I tried just putting PV="3" into the recipe. WTF?
->
->
-> ERROR: Recipe fpga-image is trying to change PV from '3' to '1'. This
-> will cause do_package_write_ipk failing to find right workdir.
-> ERROR: Function failed: read_subpackage_metadata
-> ERROR: Logfile of failure stored in:
-> /home/mike/zynq/build/tmp-eglibc/work/zynq-zc702-oe-linux-gnueabi/fpga-image/3-r0/temp/log.do_package_write_ipk.13519
->
-> ERROR: Task 12
-> (/home/mike/zynq/meta-zynq/recipes-bsp/fpga/fpga-image.bb,
-> do_package_write_ipk) failed with exit code '1'
->
->
-> Who's touching my PV?
+On Thursday 16 May 2013 11:35:55 Phil Blundell wrote:
+> On Thu, 2013-05-16 at 10:01 +0100, Tomas Frydrych wrote:
+> > On 15/05/13 21:49, Phil Blundell wrote:
+> > > - we have a slightly funky 2-stage bootstrap process for cogl in order
+> > > to break the dependency cycle with cairo; this involves hacks to the
+> > > recipes for cogl, cairo, pango and harfbuzz (at least) which I suspect
+> > > would not be very palatable to oe-core.
+> > 
+> > I have never run into this, is this with recent cogls?
+> 
+> It's because we build Cairo with the cogl backend enabled.  That
+> introduces a dependency of cairo on cogl (obviously), which is a problem
+> because cogl-pango needs pango, which needs harfbuzz, which needs cairo.
+> So what we do is build cogl initially with pango disabled, then use that
+> to compile cairo and the rest of the stack, and then finally build the
+> "real" cogl with everything enabled.
+> 
+> Obviously the other option would be to build cairo twice, firstly
+> without cogl and the second time with it.  I don't think there's much to
+> choose between the two.
 
-And found the problem at last. As a long time user of "classic" OE, I added:
-PACKAGE_ARCH = "${MACHINE}"
-this was causing the failure, replacing it with
-PACKAGE_ARCH = "${MACHINE_ARCH}"
-as other recipes appear to do fixed it.
+I was just speaking to one of the cogl developers and he was surprised that 
+anyone would be using cairo's cogl backend since it's never really been 
+finished. Is that backend definitely functionality that you're using?
 
-Mike.
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
