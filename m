@@ -1,37 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from atl4mhob09.myregisteredsite.com ([209.17.115.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1UdJG7-0001Lr-Fe for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 13:55:40 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 May 2013 04:35:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,691,1363158000"; d="scan'208";a="338893097"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by orsmga002.jf.intel.com with ESMTP; 17 May 2013 04:37:20 -0700
-Received: from irsmsx105.ger.corp.intel.com (163.33.3.28) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 17 May 2013 12:37:19 +0100
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.193]) by
-	IRSMSX105.ger.corp.intel.com ([169.254.7.3]) with mapi id
-	14.03.0123.003; Fri, 17 May 2013 12:37:18 +0100
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] connman-gnome: fixed DHCP segfault
-Thread-Index: AQHOUujsKytUZ+Aj/Ua0zmdTn5OS3JkJIpWAgAAYAPA=
-Date: Fri, 17 May 2013 11:37:18 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B301905439@IRSMSX102.ger.corp.intel.com>
-References: <1368786726-32071-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>,
-	<CAJTo0LaQjm-EukLTCYCMqCXT426L9qGJ69WoQ1NgacthBBecgA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaQjm-EukLTCYCMqCXT426L9qGJ69WoQ1NgacthBBecgA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.137]
+	(envelope-from <mike.looijmans@topic.nl>) id 1UdJHj-0001Uf-FY
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 May 2013 13:57:28 +0200
+Received: from mail.hostingplatform.com ([10.30.71.211])
+	by atl4mhob09.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r4HBd42F014801 for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 May 2013 07:39:04 -0400
+Received: (qmail 27380 invoked by uid 0); 17 May 2013 11:39:04 -0000
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 17 May 2013 11:39:04 -0000
+Message-ID: <519616D8.9040608@topic.nl>
+Date: Fri, 17 May 2013 13:39:04 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman-gnome: fixed DHCP segfault
+To: openembedded-core@lists.openembedded.org
+References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
+	<1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+	<5194AE0D.8030508@windriver.com>
+	<5195D693.9090003@linux.intel.com> <5195FBBA.6030309@topic.nl>
+	<20130517101526.GI24809@jama.dyndns-home.com>
+	<5196105C.8080808@topic.nl> <519610E1.1030607@topic.nl>
+In-Reply-To: <519610E1.1030607@topic.nl>
+Subject: Re: package_write_ipk somehow looks into the wrong path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 11:56:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 May 2013 11:57:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,=0A=
-=0A=
-When using manual ip the ipv4_config structure has all fields populated and=
- this condition=0A=
-is skipped. The only case when the data structure fields are NULL is when w=
-e have=0A=
-DHCP settings and for different reasons network configurations are not done=
-. In this=0A=
-case, connman automatically renews the ipv4 configurations in less than a m=
-inute.=0A=
-Ethernet manual configuration behavior remains unchanged after this fix.=0A=
-=0A=
-Thanks,=0A=
-Ema=0A=
-________________________________________=0A=
-From: Burton, Ross [ross.burton@intel.com]=0A=
-Sent: Friday, May 17, 2013 1:52 PM=0A=
-To: Ciobanu, Emilia Maria Silvia=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] connman-gnome: fixed DHCP segfault=0A=
-=0A=
-On 17 May 2013 11:32, Emilia Ciobanu=0A=
-<emilia.maria.silvia.ciobanu@intel.com> wrote:=0A=
-> +-      if (g_str_equal(ipv4_config.method, "dhcp") =3D=3D TRUE)=0A=
-> ++      if (!ipv4_config.method || g_str_equal(ipv4_config.method, "dhcp"=
-) =3D=3D TRUE)=0A=
-=0A=
-Is this really the right behaviour if IPv4.Method isn't set?=0A=
-=0A=
-Ross=0A=
+On 05/17/2013 01:13 PM, Mike Looijmans wrote:
+> On 05/17/2013 01:11 PM, Mike Looijmans wrote:
+>> On 05/17/2013 12:15 PM, Martin Jansa wrote:
+>>> On Fri, May 17, 2013 at 11:43:22AM +0200, Mike Looijmans wrote:
+>>>>
+>>>> I got this very weird build failure. It builds fine for one machine
+>>>> (zedboard), but it craps out in a really weird way on the "zynq-zc702"
+>>>> machine.
+>>>>
+>>>> Somehow the "package_write_ipk" task wants to find files in a directory
+>>>> with "1-r0" (a version that has once existed a long long time ago) in
+>>>> the version part, instead of the proper git hashed name.
+>>>>
+>>>> I've tried a "cleansstate" but that did not help. The "compile" step in
+>>>> this recipe takes about 1,5 hour on my i7 system, so debugging this
+>>>> recipe is painfully slow...
+>>>>
+>>>> I've attached the recipes, pasted the log below.
+>>>
+>>> try it with 2/2 patch from
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4102
+>>
+>> Okay, I just manually applied those changes. Then I get:
+>>
+>> ERROR: Recipe fpga-image is trying to change PV from
+>> '2.AUTOINC-bfd37feb034919cc11b3879745f2770810a4e796' to '1'. This will
+>> cause do_package_write_ipk failing to find right workdir.
+>>
+>>
+>> That helps, but I still don't have the faintest idea what is going on
+>> here. What's wrong with my recipe?
+>
+> As a last resort, I tried just putting PV="3" into the recipe. WTF?
+>
+>
+> ERROR: Recipe fpga-image is trying to change PV from '3' to '1'. This
+> will cause do_package_write_ipk failing to find right workdir.
+> ERROR: Function failed: read_subpackage_metadata
+> ERROR: Logfile of failure stored in:
+> /home/mike/zynq/build/tmp-eglibc/work/zynq-zc702-oe-linux-gnueabi/fpga-image/3-r0/temp/log.do_package_write_ipk.13519
+>
+> ERROR: Task 12
+> (/home/mike/zynq/meta-zynq/recipes-bsp/fpga/fpga-image.bb,
+> do_package_write_ipk) failed with exit code '1'
+>
+>
+> Who's touching my PV?
+
+And found the problem at last. As a long time user of "classic" OE, I added:
+PACKAGE_ARCH = "${MACHINE}"
+this was causing the failure, replacing it with
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+as other recipes appear to do fixed it.
+
+Mike.
+
 
 
