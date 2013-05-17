@@ -1,23 +1,21 @@
 Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UdJ5B-0000YU-9g
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UdJ5B-0000YQ-01
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 13:44:31 +0200
+	Fri, 17 May 2013 13:44:22 +0200
 Received: from i7-990x.r-finger.com
 	(host86-137-102-112.range86-137.btcentralplus.com [86.137.102.112])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id CFACC9530
+	by r-finger.com (Postfix) with ESMTPSA id 372DC952B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 May 2013 12:26:07 +0100 (BST)
 From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2013 12:25:37 +0100
-Message-Id: <1368789942-7476-3-git-send-email-tf+lists.yocto@r-finger.com>
+Date: Fri, 17 May 2013 12:25:35 +0100
+Message-Id: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
-References: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
-Subject: [PATCH 2/7] clutter.bbclass: helper class for clutter and friends
+Subject: updates for cogl, clutter and mx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +31,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 17 May 2013 11:44:47 -0000
 X-List-Received-Date: Fri, 17 May 2013 11:44:47 -0000
 X-List-Received-Date: Fri, 17 May 2013 11:44:47 -0000
-X-List-Received-Date: Fri, 17 May 2013 11:44:47 -0000
 
-From: Tomas Frydrych <tomas@sleepfive.com>
+The following set of patches updates clutter and friends; the recipes were
+completely reworked and use PACKAGECONFIG to facilitate easy reconfiguration 
+to match distro / machine needs. 
 
+Clutter and Cogl packages are renamed to use a '-1.0' suffix instead of the 
+'-vmajor.vminor' suffix of the old recipes, in keeping up with the upstream 
+versioning policy, and to simplify dependency maintenance (note that dev files
+for the 1.x series are not parallel installable anyway); the '-1.0' suffix is 
+with a view toward the '2.0' series which are on the horizon.
 
-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
----
- meta/classes/clutter.bbclass |   28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/classes/clutter.bbclass
+The Cogl recipe is moved into a subdirectory of its own, this seemed 
+appropriate as Cogl is now a seprate project in its own right.
 
-diff --git a/meta/classes/clutter.bbclass b/meta/classes/clutter.bbclass
-new file mode 100644
-index 0000000..184fb44
---- /dev/null
-+++ b/meta/classes/clutter.bbclass
-@@ -0,0 +1,28 @@
-+
-+def get_minor_dir(v):
-+    import re
-+    m = re.match("^([0-9]+)\.([0-9]+)", v)
-+    return "%s.%s" % (m.group(1), m.group(2))
-+
-+def get_real_name(n):
-+    import re
-+    m = re.match("^([a-z]+(-[a-z]+)?)(-[0-9]+\.[0-9]+)?", n)
-+    return "%s" % (m.group(1))
-+
-+VERMINOR = "${@get_minor_dir("${PV}")}"
-+REALNAME = "${@get_real_name("${BPN}")}"
-+FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${REALNAME}-${PV}", "${FILE_DIRNAME}/${REALNAME}-${VERMINOR}", "${FILE_DIRNAME}/${REALNAME}", "${FILE_DIRNAME}/files"], d)}"
-+
-+def get_fpu_setting(bb, d):
-+    if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
-+        return "--without-fpu"
-+    return ""
-+
-+CLUTTER_SRC_FTP = "${GNOME_MIRROR}/${REALNAME}/${VERMINOR}/${REALNAME}-${PV}.tar.xz;name=archive"
-+
-+CLUTTER_SRC_GIT = "git://git.gnome.org/${REALNAME};protocol=git"
-+
-+SRC_URI = "${CLUTTER_SRC_FTP}"
-+S = "${WORKDIR}/${REALNAME}-${PV}"
-+
-+inherit autotools pkgconfig gtk-doc gettext
--- 
-1.7.10.4
+The new versions are: cogl 1.4.0, clutter 1.14.4, clutter-gst 1.6.0, 
+clutter-gtk 1.4.2. The mx recipe is fixed up to build against the updated cogl
+and clutter.
 
+[PATCH 1/7] Remove old clutter recipes
+[PATCH 2/7] clutter.bbclass: helper class for clutter and friends
+[PATCH 3/7] New cogl recipe (1.14.0)
+[PATCH 4/7] New clutter recipe (1.14.4)
+[PATCH 5/7] New clutter gst recipe (1.6.0)
+[PATCH 6/7] New clutter-gtk recipe (1.4.2)
+[PATCH 7/7] Update mx recipe to build with clutter 1.14.4
 
 
