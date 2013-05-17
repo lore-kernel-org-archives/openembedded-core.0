@@ -1,27 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ee0-f50.google.com ([74.125.83.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UdF0W-0004ZH-He
+	(envelope-from <koen@dominion.thruhere.net>) id 1UdH4s-00078z-Mv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 09:23:22 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 May 2013 00:05:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,690,1363158000"; d="scan'208";a="338776965"
-Received: from unknown (HELO [10.255.12.57]) ([10.255.12.57])
-	by orsmga002.jf.intel.com with ESMTP; 17 May 2013 00:04:53 -0700
-Message-ID: <5195D693.9090003@linux.intel.com>
-Date: Fri, 17 May 2013 10:04:51 +0300
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: zhangxiao <xiao.zhang@windriver.com>
-References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
-	<1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
-	<5194AE0D.8030508@windriver.com>
-In-Reply-To: <5194AE0D.8030508@windriver.com>
+	Fri, 17 May 2013 11:35:56 +0200
+Received: by mail-ee0-f50.google.com with SMTP id c41so2425918eek.23
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 May 2013 02:17:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=HuJ88wZz5+9LUrwFPreIwj6nqWJ7iW2o+dFgqWVOa2Q=;
+	b=NVUHyxmzRbvggf0tt/l0FM7raDI0czLgq0JW5cJreuB+ZjPI6m5XPFJ01PTwtOQwYp
+	7tIHMojjWPufZWUWJt/qPPnqgSMpPsDi65NHVImwIcGURiWuvkZ+XjmAFEkgDeVDS/ac
+	vNZO7FlpFUbd7+0r9bgPT68AcUr5cKTdSmeNsmUOiPo1h/33EmkT1UVfgKU19c/R32tu
+	WE2+mGRYa7gkn4QxdNG6eLcRPCMkcSBp0cxSTImoPXlDroJZvPJKAorwNYSdvHLB27wa
+	wLJLTm43kD8Bb8CzRtI6yMv/DsSaaP56K3fnouioZ6vD4XCpTdiHBBWYGAUJmvOjsGT1
+	VJTA==
+X-Received: by 10.14.99.198 with SMTP id x46mr126516222eef.38.1368782259393;
+	Fri, 17 May 2013 02:17:39 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	bj12sm17298478eeb.8.2013.05.17.02.17.37 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 17 May 2013 02:17:38 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <e2fdb0ddaf77f2801326bb896ed5470e29cd1d16.1368727195.git.sgw@linux.intel.com>
+Date: Fri, 17 May 2013 11:17:36 +0200
+Message-Id: <10D36FCF-E82F-43EB-9540-72D820F146B4@dominion.thruhere.net>
+References: <cover.1368727195.git.sgw@linux.intel.com>
+	<e2fdb0ddaf77f2801326bb896ed5470e29cd1d16.1368727195.git.sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQmibg1vAOPEYeCVqr/y0E478TBBQA1zZI9F0+PfwLlvVYng3MsT2oGHViUAmAuraljpc5kP
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: replace package files
+Subject: Re: [PATCH 2/3] Revert "initramfs-live-install*: fix the "install" boot option"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,175 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 07:23:33 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-On 05/16/2013 12:59 PM, zhangxiao wrote:
-> And, another method lies on meta/recipes-core/util-linux/util-linux.inc:
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -69,11 +69,11 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
->   FILES_util-linux-reset = "${base_bindir}/reset"
->
->   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
-> -FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so
-> ${base_libdir}/libblkid.la ${includedir}/blkid
-> ${libdir}/pkgconfig/blkid.pc"
-> +FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so
-> ${base_libdir}/libblkid.la ${includedir}/blkid
-> ${libdir}/pkgconfig/blkid.pc"
->   FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
-> -FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so
-> ${base_libdir}/libmount.la ${includedir}/libmount
-> ${libdir}/pkgconfig/mount.pc"
-> +FILES_util-linux-libmount-dev = "${libdir}/libmount.so
-> ${base_libdir}/libmount.la ${includedir}/libmount
-> ${libdir}/pkgconfig/mount.pc"
->   FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
-> -FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so
-> ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
-> +FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so
-> ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
->   FILES_util-linux-lscpu = "${bindir}/lscpu"
->
->   FILES_util-linux-fsck = "${base_sbindir}/fsck*"
->
-> Which one is better?
->
-Xiao,
-
-Not sure what level of testing you did, the patch as it stands does need 
-to be fixed, and as you note above which location for the .so library 
-should be ${libdir}.
+X-List-Received-Date: Fri, 17 May 2013 09:36:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-With you original patch the pkgconfig file points to /usr/lib, while you 
-have installed the library in /lib, this caused some failures in the 
-world build.
+Op 16 mei 2013, om 20:03 heeft Saul Wold <sgw@linux.intel.com> het =
+volgende geschreven:
+
+> This was not the correct fix for this issues, it turns out that
+> base-files package was getting installed un-intentionally when
+> rpm-postinsts was split out. The base-files recipe lays down the
+> link that caused the cat failure.
+>=20
+> [YOCTO #4504]
+>=20
+> This reverts commit 45e460d0846f0f660128dc06064b597ce40282b3.
+> ---
+> meta/recipes-core/initrdscripts/files/init-install-efi.sh         | 1 =
++
+> meta/recipes-core/initrdscripts/files/init-install.sh             | 1 =
++
+> meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb | 2 =
++-
+> meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb     | 2 =
++-
+> 4 files changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh =
+b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> index 9f7a9e7..23228c9 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> @@ -66,6 +66,7 @@ rm -f /etc/udev/scripts/mount*
+> umount /dev/${device}* 2> /dev/null || /bin/true
+>=20
+> mkdir -p /tmp
+> +cat /proc/mounts > /etc/mtab
+
+Traditionally /etc/mtab is a symlink to /proc/mounts, not a copy of it.
 
 
-> Thanks
-> Xiao
->
-> On 2013年05月16日 15:26, Zhang Xiao wrote:
->> Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
->> package to related library's dev RPM packages.
->>
->> [YOCTO #4500]
->> [CQID: WIND00412705]
->>
->> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
->> ---
->>   .../util-linux-replace-package-files.patch         |   56
->> ++++++++++++++++++++
->>   meta/recipes-core/util-linux/util-linux_2.22.2.bb  |    1 +
->>   2 files changed, 57 insertions(+), 0 deletions(-)
->>   create mode 100644
->> meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
->>
->>
->> diff --git
->> a/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
->> b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
->>
->> new file mode 100644
->> index 0000000..32868cc
->> --- /dev/null
->> +++
->> b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
->>
->> @@ -0,0 +1,56 @@
->> +Upstream-Status: Pending
->> +Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
->> +
->> +Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
->> +package to related library's dev RPM packages.
->> +---
->> + libblkid/src/Makemodule.am |    6 +-----
->> + libmount/src/Makemodule.am |    6 +-----
->> + libuuid/src/Makemodule.am  |    6 +-----
->> + 3 files changed, 3 insertions(+), 15 deletions(-)
->> +
->> +--- util-linux-2.22.2/libuuid/src/Makemodule.am.orig
->> ++++ util-linux-2.22.2/libuuid/src/Makemodule.am
->> +@@ -42,11 +42,7 @@ install-exec-hook-libuuid:
->> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
->> +         mkdir -p $(DESTDIR)$(libdir); \
->> +         mv $(DESTDIR)$(usrlib_execdir)/libuuid.so.*
->> $(DESTDIR)$(libdir); \
->> +-        so_img_name=$$(readlink
->> $(DESTDIR)$(usrlib_execdir)/libuuid.so); \
->> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
->> 's,\(^/\|\)[^/][^/]*,..,g'); \
->> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
->> +-            rm -f libuuid.so && \
->> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
->> libuuid.so); \
->> ++        mv $(DESTDIR)$(usrlib_execdir)/libuuid.so
->> $(DESTDIR)$(libdir); \
->> +     fi
->> +
->> + uninstall-hook-libuuid:
->> +--- util-linux-2.22.2/libmount/src/Makemodule.am.orig
->> ++++ util-linux-2.22.2/libmount/src/Makemodule.am
->> +@@ -123,11 +123,7 @@ install-exec-hook-libmount:
->> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
->> +         mkdir -p $(DESTDIR)$(libdir); \
->> +         mv $(DESTDIR)$(usrlib_execdir)/libmount.so.*
->> $(DESTDIR)$(libdir); \
->> +-        so_img_name=$$(readlink
->> $(DESTDIR)$(usrlib_execdir)/libmount.so); \
->> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
->> 's,\(^/\|\)[^/][^/]*,..,g'); \
->> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
->> +-            rm -f libmount.so && \
->> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
->> libmount.so); \
->> ++        mv $(DESTDIR)$(usrlib_execdir)/libmount.so
->> $(DESTDIR)$(libdir); \
->> +     fi
->> +
->> + uninstall-hook-libmount:
->> +--- util-linux-2.22.2/libblkid/src/Makemodule.am.orig
->> ++++ util-linux-2.22.2/libblkid/src/Makemodule.am
->> +@@ -219,11 +219,7 @@ install-exec-hook-libblkid:
->> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
->> +         mkdir -p $(DESTDIR)$(libdir); \
->> +         mv $(DESTDIR)$(usrlib_execdir)/libblkid.so.*
->> $(DESTDIR)$(libdir); \
->> +-        so_img_name=$$(readlink
->> $(DESTDIR)$(usrlib_execdir)/libblkid.so); \
->> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
->> 's,\(^/\|\)[^/][^/]*,..,g'); \
->> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
->> +-            rm -f libblkid.so && \
->> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
->> libblkid.so); \
->> ++        mv $(DESTDIR)$(usrlib_execdir)/libblkid.so
->> $(DESTDIR)$(libdir); \
->> +     fi
->> +
->> + uninstall-hook-libblkid:
->> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> index 43a55a6..526308d 100644
->> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
->> @@ -8,6 +8,7 @@ SRC_URI +=
->> "file://util-linux-ng-replace-siginterrupt.patch \
->>               file://configure-sbindir.patch \
->>               file://fix-configure.patch \
->>               file://mbsalign-license.patch \
->> +            file://util-linux-replace-package-files.patch \
->>   "
->>
->>   SRC_URI[md5sum] = "3e379b4d8b9693948d751c154614c73e"
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
