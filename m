@@ -1,40 +1,40 @@
-Received: from mail-ee0-f54.google.com ([74.125.83.54])
+Received: from mail-ee0-f50.google.com ([74.125.83.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UdHVB-00019S-C7
+	(envelope-from <ross.burton@intel.com>) id 1UdHVA-00018k-0q
 	for openembedded-core@lists.openembedded.org;
 	Fri, 17 May 2013 12:03:08 +0200
-Received: by mail-ee0-f54.google.com with SMTP id e50so2346193eek.27
+Received: by mail-ee0-f50.google.com with SMTP id c41so2442967eek.23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2013 02:44:50 -0700 (PDT)
+	Fri, 17 May 2013 02:44:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references:x-gm-message-state;
-	bh=sDS8h5CTBvI5Qc36gUZ54W7GOIAIhpqD2621Cg3K5IY=;
-	b=S5VPwZX0MLXFQ353o5lM5w362BzkWCn/+VpvqP578YadU6Fsp7dQmgX92sCZ5TdAHz
-	YVdKEKz/Aq+2dW7eO4pf9RbnrLWVYlQMMHSkamXyAohKdlQi0etesm83p5TTx2IXIhWL
-	ofJ6vKIqK78r+36petaW4pw7zijxAijx3jriXklFNNUcEiKPHF0cYwvre8s4+dQZ2KBc
-	wGU/pzai2H8aZINJvKmYw4Z0CvnyNOgydj3XWtdQ1LYJdw/Vqgr4AlAZaq3pva+AyngE
-	1e4dpJq7dzfazznmftoJmk/WRT9fwJKIBKnQenDGof2iCJKqpWBJLTPpTFDJTQcOmTP8
-	aZAA==
-X-Received: by 10.14.216.201 with SMTP id g49mr97332843eep.42.1368783890069;
-	Fri, 17 May 2013 02:44:50 -0700 (PDT)
+	bh=bQRnj2ligePRUi9BcdnJdE4nHKNF4RHl6gG7jcs60ZE=;
+	b=SWWlsfZELP0Hp3+2lkwCQ/tZ8qud0TL6FfTTAHxba51jzmw68oT4xkAo8bPOD5bg1i
+	Ka4RHHBsXMIcz7wmHtSHJXl2mplbEjvjn4F4TObEkStjmatWFwlRassuuq4sE0XRY6zK
+	nFyea48vR7xt/5BzW96aLqqgzNX1YAB4nTCpsHeagwE7+9CKeprVeMakWNK+CNPJJskX
+	9czL63x6cNfzX+9OT/9C60x8Ik/LYGLJcHQJc6fInT1uSPdV7RIh0uvEsUe7sFD0ffGS
+	zYCZckHKnOvLiWp6gJ71vQJ6YLIiC2mzzbUOQhRCwwfcBTaWwf6/Va4pYLjatqDhphnt
+	M/uw==
+X-Received: by 10.14.38.198 with SMTP id a46mr127817600eeb.11.1368783888720;
+	Fri, 17 May 2013 02:44:48 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id y10sm17473904eev.3.2013.05.17.02.44.48
+	by mx.google.com with ESMTPSA id y10sm17473904eev.3.2013.05.17.02.44.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 17 May 2013 02:44:49 -0700 (PDT)
+	Fri, 17 May 2013 02:44:48 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2013 10:40:44 +0100
-Message-Id: <c18afe68e7b5ddac6671600fe73ad44f49cbfd0b.1368783549.git.ross.burton@intel.com>
+Date: Fri, 17 May 2013 10:40:43 +0100
+Message-Id: <97d108e5e5de539826209f972a27ca50698fae88.1368783549.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1368783549.git.ross.burton@intel.com>
 References: <cover.1368783549.git.ross.burton@intel.com>
 In-Reply-To: <cover.1368783549.git.ross.burton@intel.com>
 References: <cover.1368783549.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmE6+z4Fmp08KcKyGmgEo+F/6vAbyDtWNj7lcDsRSeeJlpbZHbq5jmu8Mty0krkZgQp1FmS
-Subject: [PATCH 4/5] librsvg: clean up native depends
+X-Gm-Message-State: ALoCoQlg40k2Kl6MP8SXDLBwrmAnIpEfROr3I7uS8TeIC6rAJCyoij7odG7Z33vZuVm31eCjjYNL
+Subject: [PATCH 3/5] librsvg: add more PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,33 +49,47 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 May 2013 10:03:31 -0000
 
-inherit gnome was only used for the SRC_URI, so just inherit gnomebase and
-remove the native-specific DEPENDS which was only required as the gnome class
-pulls in an impossible hicolor-icon-theme-native dependency.
+Add options for the gdk-pixbuf loaders and the GTK+ 2 theme engine.  The theme
+engine is generally unused so don't enable that by default, but enable the
+gdk-pixbuf loader and also enable the croco feature which is required for
+parsing CSS embedded into SVG.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |   11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-index 980c01c..f50c1a8 100644
+index ff17cf7..980c01c 100644
 --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
 +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-@@ -8,12 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://rsvg.h;beginline=3;endline=24;md5=20b4113c4909bbf0d67e006778302bc6"
  
  SECTION = "x11/utils"
- DEPENDS = "cairo glib-2.0 gdk-pixbuf fontconfig freetype libxml2 pango"
--DEPENDS_class-native = "cairo-native pango-native gdk-pixbuf-native"
+-DEPENDS = "gtk+ cairo libxml2"
++DEPENDS = "cairo glib-2.0 gdk-pixbuf fontconfig freetype libxml2 pango"
+ DEPENDS_class-native = "cairo-native pango-native gdk-pixbuf-native"
  BBCLASSEXTEND = "native"
  
- PR = "r12"
- 
--inherit autotools pkgconfig gnome gtk-doc pixbufcache
-+inherit autotools pkgconfig gnomebase gtk-doc pixbufcache
+@@ -17,11 +17,14 @@ inherit autotools pkgconfig gnome gtk-doc pixbufcache
  
  EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz"
  
+-PACKAGECONFIG ??= "croco"
+-# When native we can manage without croco, as it's only for GTK+
+-PACKAGECONFIG_class-native = ""
++PACKAGECONFIG ??= "croco gdkpixbuf"
+ 
++# Support embedded CSS stylesheets (recommended upstream)
+ PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
++# gdk-pixbuf loader
++PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader"
++# GTK+ 2 theme engine
++PACKAGECONFIG[gtk] = "--enable-gtk-theme,--disable-gtk-theme,gtk+"
+ 
+ SRC_URI += "file://doc_Makefile.patch \
+ 	    file://librsvg-CVE-2011-3146.patch \
 -- 
 1.7.10.4
 
