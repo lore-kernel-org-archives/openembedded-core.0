@@ -1,34 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1UdPdp-0004yz-Gy
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 20:44:34 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4HIQEqg024858
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 May 2013 11:26:14 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.88]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
-	Fri, 17 May 2013 11:26:14 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Thread-Topic: [OE-core] qt keyboard problem
-Thread-Index: AQHOUTU/QwV9GD/l4UmrvhQctCU0cpkIB5SQgAD7OYCAALHFIA==
-Date: Fri, 17 May 2013 18:26:13 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF8436FC9D3A@ALA-MBA.corp.ad.wrs.com>
-References: <3388285.jCfN1Lj2u9@yiqingliang-pc>
-	<007BD92917A2324FA403BCF9A464CF8436FC944F@ALA-MBA.corp.ad.wrs.com>
-	<1475581.xrrjhtfao2@yiqingliang-pc>
-In-Reply-To: <1475581.xrrjhtfao2@yiqingliang-pc>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.152.80]
+	(envelope-from <gary@mlbassoc.com>) id 1UdQCk-0007QF-S5
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 May 2013 21:20:59 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 35193F8126B; Fri, 17 May 2013 13:02:22 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4F0DCF81269;
+	Fri, 17 May 2013 13:02:21 -0600 (MDT)
+Message-ID: <51967EC1.1030509@mlbassoc.com>
+Date: Fri, 17 May 2013 13:02:25 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: qt keyboard problem
+To: "William M.A. Traynor" <wmat@alphatroop.com>
+References: <51954B2C.4060900@mlbassoc.com>
+	<CAGfZjq7xwYGgxx2nyAbuutzNe4kPNUhJ5cbKBfG1PF2cBHU7gw@mail.gmail.com>
+In-Reply-To: <CAGfZjq7xwYGgxx2nyAbuutzNe4kPNUhJ5cbKBfG1PF2cBHU7gw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Why doesn't my package rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,125 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 18:44:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 May 2013 19:21:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2013-05-17 09:29, William M.A. Traynor wrote:
+> On Thu, May 16, 2013 at 5:10 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>> Sort of as a follow up to my problem of yesterday, I've run into
+>> a problem - I have a simple recipe which only unpacks a source tarball
+>> and then installs it - no other steps are listed or required.  The recipe
+>> also does not have an explicit PR value and I'm not running a PR server.
+>>
+>> If I have the package built, then change the tarball and the checksums
+>> in the recipe itself, it does not get rebuilt :-(  I have to force it
+>> using cleansstate.
+>>
+>> This setup seems to work fine for my other recipes.  I just tried it
+>> with two nearly identical recipes.  I made similar changes in both
+>> recipes/files - one was rebuilt, the other not.
+>>
+>> How can I diagnose this?  It's a private recipe (no use to anyone but me)
+>> so I'm not going to send it to the list but I can gladly share it with
+>> anyone who might be able to help.
+>
+> Hi Gary,
+>
+> You can increase the Debug level for your build with bitbake -D.  You
+> can specify this more than once for additional output, example: -DDD.
+> This may help you to diagnose what's going on.
 
+Thanks, that was the hint I was looking for.
 
-> -----Original Message-----
-> From: Yi Qingliang [mailto:niqingliang2003@gmail.com]
-> Sent: Thursday, May 16, 2013 5:46 PM
-> To: Slater, Joseph
-> Cc: openembedded-core@lists.openembedded.org oe-core layer
-> Subject: Re: [OE-core] qt keyboard problem
->=20
-> On Thursday, May 16, 2013 04:51:04 PM Slater, Joseph wrote:
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org
-> > > [mailto:openembedded-core- bounces@lists.openembedded.org] On Behalf =
-Of
-> > > Yi Qingliang
-> > > Sent: Tuesday, May 14, 2013 11:19 PM
-> > > To: openembedded-core@lists.openembedded.org oe-core layer
-> > > Subject: [OE-core] qt keyboard problem
-> > >
-> > > Hello, all.
-> > >
-> > > I'm running qt application on yocto's qt image. cpu is s3c2442, like
-> > > mini2440.
-> > >
-> > > the problem is:
-> > >
-> > > key event issued by pressing gpio-key eat by 'getty' (from busybox),
-> > > my application can't receive input event,
-> > > if I remove respawn 'getty' for tty1 in /etc/inittab, everything ok.
-> >
-> > This could be the same thing I have seen in a slightly different contex=
-t.
-> > If so, you can keep the getty's attached to VT's.  Just move the line i=
-n
-> > inittab that starts runlevel 5 to the very end of inittab.  As long as =
-the
-> > getty's start first, you'll be okay.
->=20
-> you mean: move 'id:5:initdefault:' as the last line of the file, right?
+Of course, today the recipe behaves...  At least I'll know what to
+do the next time I have problems.
 
-No, the line is "l5:5:wait:/etc/init.d/rc 5".
-
-Joe
-
-
->=20
->=20
->=20
->=20
->=20
->=20
->=20
-> # /etc/inittab: init(8) configuration.
-> # $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
->=20
-> # The default runlevel.
-> id:5:initdefault:
->=20
-> # Boot-time system configuration/initialization script.
-> # This is run first except when booting in emergency (-b) mode.
-> si::sysinit:/etc/init.d/rcS
->=20
-> # What to do in single-user mode.
-> ~~:S:wait:/sbin/sulogin
->=20
-> # /etc/init.d executes the S and K scripts upon change
-> # of runlevel.
-> #
-> # Runlevel 0 is halt.
-> # Runlevel 1 is single-user.
-> # Runlevels 2-5 are multi-user.
-> # Runlevel 6 is reboot.
->=20
-> l0:0:wait:/etc/init.d/rc 0
-> l1:1:wait:/etc/init.d/rc 1
-> l2:2:wait:/etc/init.d/rc 2
-> l3:3:wait:/etc/init.d/rc 3
-> l4:4:wait:/etc/init.d/rc 4
-> l5:5:wait:/etc/init.d/rc 5
-> l6:6:wait:/etc/init.d/rc 6
-> # Normally not reached, but fallthrough in case of emergency.
-> z6:6:respawn:/sbin/sulogin
-> S:2345:respawn:/sbin/getty 115200 ttySAC0
-> # /sbin/getty invocations for the runlevels.
-> #
-> # The "id" field MUST be the same as the last
-> # characters of the device (after "tty").
-> #
-> # Format:
-> #  <id>:<runlevels>:<action>:<process>
-> #
->=20
-> 1:2345:respawn:/sbin/getty 38400 tty1
->=20
->=20
->=20
-> >
-> > Joe
-> >
-> > > any idea?
-> > >
-> > >
-> > > --
-> > > Nanjing Jilong
-> > > Yi Qingliang
-> > > niqingliang2003@gmail.com
-> > >
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> --
-> Nanjing Jilong
-> Yi Qingliang
-> niqingliang2003@gmail.com
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
