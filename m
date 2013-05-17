@@ -1,42 +1,26 @@
-Received: from mail-ee0-f50.google.com ([74.125.83.50])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1UdH4s-00078z-Mv
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1UdHII-0008Bi-N2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 11:35:56 +0200
-Received: by mail-ee0-f50.google.com with SMTP id c41so2425918eek.23
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2013 02:17:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=HuJ88wZz5+9LUrwFPreIwj6nqWJ7iW2o+dFgqWVOa2Q=;
-	b=NVUHyxmzRbvggf0tt/l0FM7raDI0czLgq0JW5cJreuB+ZjPI6m5XPFJ01PTwtOQwYp
-	7tIHMojjWPufZWUWJt/qPPnqgSMpPsDi65NHVImwIcGURiWuvkZ+XjmAFEkgDeVDS/ac
-	vNZO7FlpFUbd7+0r9bgPT68AcUr5cKTdSmeNsmUOiPo1h/33EmkT1UVfgKU19c/R32tu
-	WE2+mGRYa7gkn4QxdNG6eLcRPCMkcSBp0cxSTImoPXlDroJZvPJKAorwNYSdvHLB27wa
-	wLJLTm43kD8Bb8CzRtI6yMv/DsSaaP56K3fnouioZ6vD4XCpTdiHBBWYGAUJmvOjsGT1
-	VJTA==
-X-Received: by 10.14.99.198 with SMTP id x46mr126516222eef.38.1368782259393;
-	Fri, 17 May 2013 02:17:39 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id
-	bj12sm17298478eeb.8.2013.05.17.02.17.37 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 17 May 2013 02:17:38 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <e2fdb0ddaf77f2801326bb896ed5470e29cd1d16.1368727195.git.sgw@linux.intel.com>
-Date: Fri, 17 May 2013 11:17:36 +0200
-Message-Id: <10D36FCF-E82F-43EB-9540-72D820F146B4@dominion.thruhere.net>
-References: <cover.1368727195.git.sgw@linux.intel.com>
-	<e2fdb0ddaf77f2801326bb896ed5470e29cd1d16.1368727195.git.sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQmibg1vAOPEYeCVqr/y0E478TBBQA1zZI9F0+PfwLlvVYng3MsT2oGHViUAmAuraljpc5kP
+	Fri, 17 May 2013 11:50:00 +0200
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Fri, 17 May 2013 11:31:19 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id A415B288979;
+	Fri, 17 May 2013 11:31:29 +0200 (CEST)
+Date: Fri, 17 May 2013 11:31:29 +0200
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: Jesse Zhang <sen.zhang@windriver.com>
+Message-ID: <20130517093129.GC25918@sestofb10.enea.se>
+References: <cover.1368761545.git.sen.zhang@windriver.com>
+	<6f982350937c07b4dd73231e4d99322cb86c6fab.1368761545.git.sen.zhang@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <6f982350937c07b4dd73231e4d99322cb86c6fab.1368761545.git.sen.zhang@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] Revert "initramfs-live-install*: fix the "install" boot option"
+Subject: Re: [PATCH 1/1] perl-tests: convert to ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,46 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 09:36:01 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 17 May 2013 09:50:01 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+Jesse Zhang wrote:
+> +--- a/t/TEST	2013-05-15 23:12:12.705104588 -0400
+> ++++ b/t/TEST	2013-05-15 23:20:20.126104587 -0400
 
-Op 16 mei 2013, om 20:03 heeft Saul Wold <sgw@linux.intel.com> het =
-volgende geschreven:
+Is patching t/TEST better than simply using sed to transform the output?
 
-> This was not the correct fix for this issues, it turns out that
-> base-files package was getting installed un-intentionally when
-> rpm-postinsts was split out. The base-files recipe lays down the
-> link that caused the cat failure.
->=20
-> [YOCTO #4504]
->=20
-> This reverts commit 45e460d0846f0f660128dc06064b597ce40282b3.
-> ---
-> meta/recipes-core/initrdscripts/files/init-install-efi.sh         | 1 =
-+
-> meta/recipes-core/initrdscripts/files/init-install.sh             | 1 =
-+
-> meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb | 2 =
-+-
-> meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb     | 2 =
-+-
-> 4 files changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh =
-b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> index 9f7a9e7..23228c9 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> @@ -66,6 +66,7 @@ rm -f /etc/udev/scripts/mount*
-> umount /dev/${device}* 2> /dev/null || /bin/true
->=20
-> mkdir -p /tmp
-> +cat /proc/mounts > /etc/mtab
+I took a quick look at future versions and t/TEST is modified in both perl =
+5.16.3 and 5.18.0-RC4. This means the patch will have to be manually update=
+d for each of those version updates. And the patch cannot be upstreamed.
 
-Traditionally /etc/mtab is a symlink to /proc/mounts, not a copy of it.
+Unless there are clear advantages with patching t/TEST that I have overlook=
+ed, I suggest using sed in run-ptest instead.
 
-
+--=20
+Bj=F6rn
 
 
