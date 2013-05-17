@@ -1,24 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-qe0-f41.google.com ([209.85.128.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1Ud8BP-0006Jk-O7
+	(envelope-from <kirgene@gmail.com>) id 1Ud8V8-0007N3-UV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 02:06:04 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4GNlkLI004305
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 May 2013 16:47:46 -0700 (PDT)
-Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.136) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 16 May 2013 16:47:46 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 16 May 2013 16:47:39 -0700
-Message-ID: <cover.1368733883.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Fri, 17 May 2013 02:26:27 +0200
+Received: by mail-qe0-f41.google.com with SMTP id b10so2370390qen.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2013 17:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:date:message-id:subject:from:to
+	:content-type; bh=A5yvH5pcWTLCSB4PErq/jShugu4f6nMcJ6RPiySq3PY=;
+	b=fsgW2KNqPiNfzdwKiE1ae228LGTopfeYx77yYnhysYiK3bL9ciw8unXBO3R5NwQT4M
+	aajTs7dI7vHP0Br26vUYl5y52kMEyJ1f3xy5fzvOh4LSVvFNZ0LP9QGB/0rwzZyjnH5X
+	Bp4mtHgAob/Di7Ub0GL8oYd/h2pd1LhQYkq1VkLXNA4HbM02pcuao8jpj/7PtR3NrNm4
+	/gBj7Rf0tOaOS/GBn17VrLoO0pCNue4tBVYOg9Y8WeMmBsY20EQXzlwp2ieiimi9eeCy
+	Gel7ILgU9CeNAnONyV66pytfdxjXQDF018ObvP/Grl48gwOk3h6YSGnLYnZaIMrQz5yJ
+	BZ7A==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto/3.8: set qemumips64 SRCREVs
+X-Received: by 10.224.7.195 with SMTP id e3mr34622283qae.5.1368749291341; Thu,
+	16 May 2013 17:08:11 -0700 (PDT)
+Received: by 10.49.86.33 with HTTP; Thu, 16 May 2013 17:08:11 -0700 (PDT)
+Date: Fri, 17 May 2013 03:08:11 +0300
+Message-ID: <CADV-EXGo-3gRBOx5yoZhuqn6MWxfrRhsjBOs2CGLd8YV6=-Seg@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Redefine variable in bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,41 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 00:06:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 May 2013 00:26:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Richard/Saul,
+Hi!
 
-The patch says it all:
+I'm using "base-files" recipe but I don't want that /var/log be a
+symlink to temp directory.
+Therefore in my custom layer I created base-files bbappend file with
+following content:
 
-   When qemumips64 was enabled, its machine specific SRCREV was missed.
-   Without it, qemumips64 builds from the wrong branch and we miss important
-   oprofile/ftrace fixes that are required for boot.
+PRINC := "${@int(PRINC) + 1}"
 
-This has been confirmed by everyone testing qemumips64 and gives us
-a working baseline.
+dirs755_append += "${localstatedir}/log"
+volatiles = "run lock tmp"
 
-Cheers,
+In this recipe I removed "log" from volatiles but it doesn't work.
+I'm getting error:
+ERROR: Fixup Perms: Unable to correct directory link, target already
+exists: /var/log -> /var/volatile/log
 
-Bruce
+How to properly redefine the variable in bbappend file?
 
-The following changes since commit 6520bab2ffe865ccef428604a46d968719864cc1:
-
-  poky-lsb: make NFS kernel server support specific to linux-yocto (2013-05-16 05:46:10 -0700)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto/3.8: set qemumips64 SRCREVs
-
- meta/recipes-kernel/linux/linux-yocto_3.8.bb |    1 +
- 1 file changed, 1 insertion(+)
-
--- 
-1.7.10.4
-
+Best regards,
+Yevhen
 
 
