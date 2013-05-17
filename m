@@ -1,26 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1UdDN0-0004Mq-V1
+	(envelope-from <sgw@linux.intel.com>) id 1UdF0W-0004ZH-He
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 May 2013 07:38:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4H5K6P3004492
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2013 22:20:06 -0700 (PDT)
-Received: from jesse-wrs-desktop.wrs.com (128.224.162.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 16 May 2013 22:20:06 -0700
-From: Jesse Zhang <sen.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 May 2013 13:22:02 +0800
-Message-ID: <6f982350937c07b4dd73231e4d99322cb86c6fab.1368761545.git.sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1368761545.git.sen.zhang@windriver.com>
-References: <cover.1368761545.git.sen.zhang@windriver.com>
+	Fri, 17 May 2013 09:23:22 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 May 2013 00:05:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,690,1363158000"; d="scan'208";a="338776965"
+Received: from unknown (HELO [10.255.12.57]) ([10.255.12.57])
+	by orsmga002.jf.intel.com with ESMTP; 17 May 2013 00:04:53 -0700
+Message-ID: <5195D693.9090003@linux.intel.com>
+Date: Fri, 17 May 2013 10:04:51 +0300
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] perl-tests: convert to ptest
+To: zhangxiao <xiao.zhang@windriver.com>
+References: <1368689187-4714-1-git-send-email-xiao.zhang@windriver.com>
+	<1368689187-4714-2-git-send-email-xiao.zhang@windriver.com>
+	<5194AE0D.8030508@windriver.com>
+In-Reply-To: <5194AE0D.8030508@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: replace package files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,224 +34,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2013 05:38:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 May 2013 07:23:33 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-[YOCTO #4292]
+On 05/16/2013 12:59 PM, zhangxiao wrote:
+> And, another method lies on meta/recipes-core/util-linux/util-linux.inc:
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -69,11 +69,11 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
+>   FILES_util-linux-reset = "${base_bindir}/reset"
+>
+>   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
+> -FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so
+> ${base_libdir}/libblkid.la ${includedir}/blkid
+> ${libdir}/pkgconfig/blkid.pc"
+> +FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so
+> ${base_libdir}/libblkid.la ${includedir}/blkid
+> ${libdir}/pkgconfig/blkid.pc"
+>   FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+> -FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so
+> ${base_libdir}/libmount.la ${includedir}/libmount
+> ${libdir}/pkgconfig/mount.pc"
+> +FILES_util-linux-libmount-dev = "${libdir}/libmount.so
+> ${base_libdir}/libmount.la ${includedir}/libmount
+> ${libdir}/pkgconfig/mount.pc"
+>   FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
+> -FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so
+> ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+> +FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so
+> ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+>   FILES_util-linux-lscpu = "${bindir}/lscpu"
+>
+>   FILES_util-linux-fsck = "${base_sbindir}/fsck*"
+>
+> Which one is better?
+>
+Xiao,
 
-Replace PERL_TEST_DIR with PTEST_PATH, and rename "tests" with "ptest"
-in various places. Add a run-ptest script. Also add a patch to change
-the output format.
+Not sure what level of testing you did, the patch as it stands does need 
+to be fixed, and as you note above which location for the .so library 
+should be ${libdir}.
 
-Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
----
- .../perl/perl-5.14.3/ptest-format.patch            | 69 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl-5.14.3/run-ptest   |  2 +
- meta/recipes-devtools/perl/perl-ptest.inc          | 50 ++++++++++++++++
- meta/recipes-devtools/perl/perl-tests.inc          | 36 -----------
- meta/recipes-devtools/perl/perl_5.14.3.bb          |  2 +-
- 5 files changed, 122 insertions(+), 37 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/ptest-format.patch
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/run-ptest
- create mode 100644 meta/recipes-devtools/perl/perl-ptest.inc
- delete mode 100644 meta/recipes-devtools/perl/perl-tests.inc
 
-diff --git a/meta/recipes-devtools/perl/perl-5.14.3/ptest-format.patch b/meta/recipes-devtools/perl/perl-5.14.3/ptest-format.patch
-new file mode 100644
-index 0000000..3910269
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl-5.14.3/ptest-format.patch
-@@ -0,0 +1,69 @@
-+Change test output to ptest format
-+
-+Change from
-+
-+    testname........ok
-+    testname........failrue
-+    testname........skipped
-+
-+to
-+
-+    PASS: testname
-+    FAIL: testname
-+    SKIP: testname
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-+
-+--- a/t/TEST	2013-05-15 23:12:12.705104588 -0400
-++++ b/t/TEST	2013-05-15 23:20:20.126104587 -0400
-+@@ -511,7 +511,6 @@
-+     }
-+     my $maxlen = 0;
-+     foreach (@::path_to_name{@tests}) {
-+-	s/\.\w+\z/./;
-+ 	my $len = length ;
-+ 	$maxlen = $len if $len > $maxlen;
-+     }
-+@@ -540,12 +539,12 @@
-+ 		next;
-+ 	    }
-+ 	}
-+-	my $te = $::path_to_name{$test} . '.'
-+-		    x ($dotdotdot - length($::path_to_name{$test}));
-++	my $testname = $::path_to_name{$test};
-++	my $te = $testname . '.' x ($dotdotdot - length($testname));
-+ 
-+ 	if ($^O ne 'VMS') {  # defer printing on VMS due to piping bug
-+-	    print $te;
-+-	    $te = '';
-++	    #print $te;
-++	    #$te = '';
-+ 	}
-+ 
-+         (local $Valgrind_Log = "$test.valgrind-current") =~ s/^.*\///;
-+@@ -718,7 +717,8 @@
-+ 	}
-+ 
-+ 	if (defined $failure) {
-+-	    print "${te}$failure\n";
-++	    print "FAIL: $testname\n";
-++	    print "$failure\n";
-+ 	    $::bad_files = $::bad_files + 1;
-+ 	    if ($test =~ /^base/) {
-+ 		die "Failed a basic test ($test) -- cannot continue.\n";
-+@@ -734,11 +734,11 @@
-+ 		else {
-+ 		    $elapsed = "";
-+ 		}
-+-		print "${te}ok$elapsed\n";
-++		print "PASS: $testname\n";
-+ 		$good_files = $good_files + 1;
-+ 	    }
-+ 	    else {
-+-		print "${te}skipped\n";
-++		print "SKIP: $testname\n";
-+ 		$tested_files = $tested_files - 1;
-+ 	    }
-+ 	}
-diff --git a/meta/recipes-devtools/perl/perl-5.14.3/run-ptest b/meta/recipes-devtools/perl/perl-5.14.3/run-ptest
-new file mode 100644
-index 0000000..28935e1
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl-5.14.3/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+cd t && ./TEST
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-new file mode 100644
-index 0000000..5d61743
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -0,0 +1,50 @@
-+inherit ptest
-+
-+SRC_URI += "file://run-ptest \
-+            file://ptest-format.patch \
-+           "
-+
-+do_install_ptest () {
-+	mkdir -p ${D}${PTEST_PATH}
-+	cp -pv TestInit.pm MANIFEST config.sh ${D}${PTEST_PATH}/
-+
-+	tar -cf - t/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/
-+	ln -sf ${libdir}/perl/${PV} ${D}${PTEST_PATH}/lib
-+
-+	for dir in `find ext/ dist/ cpan/ -maxdepth 2 -type d -name t ` ; do
-+	    tar -cf - $dir | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	done
-+	for file in `find ext dist cpan -name \*.t -o -name \test.pl`;  do
-+	    tar -cf - $file | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	done
-+
-+	# Tweaks to make tests pass
-+	cp -pv lib/unicore/TestProp.pl ${D}${libdir}/perl/${PV}/unicore/
-+	# Put all *.t files from the lib dir in the ptest package
-+	pushd lib
-+	for file in `find -name \*.t`; do
-+	    tar -cf - $file | ( cd ${D}${libdir}/perl/${PV} && tar -xf - )
-+	done
-+	popd
-+
-+	mkdir -p ${D}${libdir}/perl/${PV}/XS
-+	cp -pv lib/XS/APItest.pm ${D}${libdir}/perl/${PV}/XS/
-+	cp -pv lib/XS/Typemap.pm ${D}${libdir}/perl/${PV}/XS/
-+	mkdir -p ${D}${libdir}/perl/${PV}/auto/XS/APItest
-+	cp -pv lib/auto/XS/APItest/APItest.so ${D}${libdir}/perl/${PV}/auto/XS/APItest/
-+	mkdir -p ${D}${libdir}/perl/${PV}/auto/XS/Typemap
-+	cp -pv lib/auto/XS/Typemap/Typemap.so ${D}${libdir}/perl/${PV}/auto/XS/Typemap/
-+	cp -pv cpan/Digest-MD5/README ${D}${PTEST_PATH}/cpan/Digest-MD5/
-+	cp -pv cpan/Digest-MD5/MD5.xs ${D}${PTEST_PATH}/cpan/Digest-MD5/
-+}
-+
-+python populate_packages_prepend() {
-+    # Put all *.t files from the lib dir in the ptest package
-+    # do_split_packages requires a pair of () in the regex, but we have nothing
-+    # to match, so use an empty pair.
-+    do_split_packages(d, d.expand('${libdir}/perl/${PV}'), '.*\.t()',
-+        '${PN}-ptest%s', '%s', recursive=True, match_path=True)
-+}
-+
-+RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc ${PN}-misc"
-diff --git a/meta/recipes-devtools/perl/perl-tests.inc b/meta/recipes-devtools/perl/perl-tests.inc
-deleted file mode 100644
-index b97b467..0000000
---- a/meta/recipes-devtools/perl/perl-tests.inc
-+++ /dev/null
-@@ -1,36 +0,0 @@
--PACKAGES += "perl-tests"
--PERL_TEST_DIR = "/opt/perl-tests"
--
--do_install_append () {
--	mkdir -p ${D}${PERL_TEST_DIR}
--	cp -pv TestInit.pm MANIFEST config.sh ${D}${PERL_TEST_DIR}/
--
--	tar -cf - t/ | ( cd ${D}${PERL_TEST_DIR} && tar -xf - )
--	ln -sf ${bindir}/perl ${D}${PERL_TEST_DIR}/t/
--	ln -sf ${libdir}/perl/${PV} ${D}${PERL_TEST_DIR}/lib
--
--	for dir in `find ext/ dist/ cpan/ -maxdepth 2 -type d -name t ` ; do
--	    tar -cf - $dir | ( cd ${D}${PERL_TEST_DIR} && tar -xf - )
--	done
--	for file in `find ext dist cpan -name \*.t -o -name \test.pl`;  do
--	    tar -cf - $file | ( cd ${D}${PERL_TEST_DIR} && tar -xf - )
--	done
--
--	# Tweaks to make tests pass
--	cp -pv lib/unicore/TestProp.pl ${D}${libdir}/perl/${PV}/unicore/
--	cp -pv lib/AnyDBM_File.t ${D}${libdir}/perl/${PV}/
--
--	mkdir -p ${D}${libdir}/perl/${PV}/XS
--	cp -pv lib/XS/APItest.pm ${D}${libdir}/perl/${PV}/XS/
--	cp -pv lib/XS/Typemap.pm ${D}${libdir}/perl/${PV}/XS/
--	mkdir -p ${D}${libdir}/perl/${PV}/auto/XS/APItest
--	cp -pv lib/auto/XS/APItest/APItest.so ${D}${libdir}/perl/${PV}/auto/XS/APItest/
--	mkdir -p ${D}${libdir}/perl/${PV}/auto/XS/Typemap
--	cp -pv lib/auto/XS/Typemap/Typemap.so ${D}${libdir}/perl/${PV}/auto/XS/Typemap/
--	cp -pv cpan/Digest-MD5/README ${D}${PERL_TEST_DIR}/cpan/Digest-MD5/
--	cp -pv cpan/Digest-MD5/MD5.xs ${D}${PERL_TEST_DIR}/cpan/Digest-MD5/
--}
--
--FILES_${PN}-tests = "${PERL_TEST_DIR} \
--                     ${libdir}/perl/${PV}/AnyDBM_File.t"
--RDEPENDS_${PN}-tests = "${PN}-modules ${PN}-doc ${PN}-misc"
-diff --git a/meta/recipes-devtools/perl/perl_5.14.3.bb b/meta/recipes-devtools/perl/perl_5.14.3.bb
-index 72efc63..9915042 100644
---- a/meta/recipes-devtools/perl/perl_5.14.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.3.bb
-@@ -324,7 +324,7 @@ RPROVIDES_perl-lib = "perl-lib"
- require perl-rdepends_${PV}.inc
- require perl-rprovides.inc
- require perl-rprovides_${PV}.inc
--include perl-tests.inc
-+require perl-ptest.inc
- 
- SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
- 
--- 
-1.7.11.7
+With you original patch the pkgconfig file points to /usr/lib, while you 
+have installed the library in /lib, this caused some failures in the 
+world build.
 
+
+> Thanks
+> Xiao
+>
+> On 2013年05月16日 15:26, Zhang Xiao wrote:
+>> Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
+>> package to related library's dev RPM packages.
+>>
+>> [YOCTO #4500]
+>> [CQID: WIND00412705]
+>>
+>> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+>> ---
+>>   .../util-linux-replace-package-files.patch         |   56
+>> ++++++++++++++++++++
+>>   meta/recipes-core/util-linux/util-linux_2.22.2.bb  |    1 +
+>>   2 files changed, 57 insertions(+), 0 deletions(-)
+>>   create mode 100644
+>> meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+>> b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+>>
+>> new file mode 100644
+>> index 0000000..32868cc
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-core/util-linux/util-linux/util-linux-replace-package-files.patch
+>>
+>> @@ -0,0 +1,56 @@
+>> +Upstream-Status: Pending
+>> +Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+>> +
+>> +Move libuuid.so, libmount.so and libblkid.so from util-linux's dev RPM
+>> +package to related library's dev RPM packages.
+>> +---
+>> + libblkid/src/Makemodule.am |    6 +-----
+>> + libmount/src/Makemodule.am |    6 +-----
+>> + libuuid/src/Makemodule.am  |    6 +-----
+>> + 3 files changed, 3 insertions(+), 15 deletions(-)
+>> +
+>> +--- util-linux-2.22.2/libuuid/src/Makemodule.am.orig
+>> ++++ util-linux-2.22.2/libuuid/src/Makemodule.am
+>> +@@ -42,11 +42,7 @@ install-exec-hook-libuuid:
+>> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
+>> +         mkdir -p $(DESTDIR)$(libdir); \
+>> +         mv $(DESTDIR)$(usrlib_execdir)/libuuid.so.*
+>> $(DESTDIR)$(libdir); \
+>> +-        so_img_name=$$(readlink
+>> $(DESTDIR)$(usrlib_execdir)/libuuid.so); \
+>> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
+>> 's,\(^/\|\)[^/][^/]*,..,g'); \
+>> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
+>> +-            rm -f libuuid.so && \
+>> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
+>> libuuid.so); \
+>> ++        mv $(DESTDIR)$(usrlib_execdir)/libuuid.so
+>> $(DESTDIR)$(libdir); \
+>> +     fi
+>> +
+>> + uninstall-hook-libuuid:
+>> +--- util-linux-2.22.2/libmount/src/Makemodule.am.orig
+>> ++++ util-linux-2.22.2/libmount/src/Makemodule.am
+>> +@@ -123,11 +123,7 @@ install-exec-hook-libmount:
+>> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
+>> +         mkdir -p $(DESTDIR)$(libdir); \
+>> +         mv $(DESTDIR)$(usrlib_execdir)/libmount.so.*
+>> $(DESTDIR)$(libdir); \
+>> +-        so_img_name=$$(readlink
+>> $(DESTDIR)$(usrlib_execdir)/libmount.so); \
+>> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
+>> 's,\(^/\|\)[^/][^/]*,..,g'); \
+>> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
+>> +-            rm -f libmount.so && \
+>> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
+>> libmount.so); \
+>> ++        mv $(DESTDIR)$(usrlib_execdir)/libmount.so
+>> $(DESTDIR)$(libdir); \
+>> +     fi
+>> +
+>> + uninstall-hook-libmount:
+>> +--- util-linux-2.22.2/libblkid/src/Makemodule.am.orig
+>> ++++ util-linux-2.22.2/libblkid/src/Makemodule.am
+>> +@@ -219,11 +219,7 @@ install-exec-hook-libblkid:
+>> +     if test "$(usrlib_execdir)" != "$(libdir)"; then \
+>> +         mkdir -p $(DESTDIR)$(libdir); \
+>> +         mv $(DESTDIR)$(usrlib_execdir)/libblkid.so.*
+>> $(DESTDIR)$(libdir); \
+>> +-        so_img_name=$$(readlink
+>> $(DESTDIR)$(usrlib_execdir)/libblkid.so); \
+>> +-        so_img_rel_target=$$(echo $(usrlib_execdir) | sed
+>> 's,\(^/\|\)[^/][^/]*,..,g'); \
+>> +-        (cd $(DESTDIR)$(usrlib_execdir) && \
+>> +-            rm -f libblkid.so && \
+>> +-            $(LN_S) $$so_img_rel_target$(libdir)/$$so_img_name
+>> libblkid.so); \
+>> ++        mv $(DESTDIR)$(usrlib_execdir)/libblkid.so
+>> $(DESTDIR)$(libdir); \
+>> +     fi
+>> +
+>> + uninstall-hook-libblkid:
+>> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> index 43a55a6..526308d 100644
+>> --- a/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> +++ b/meta/recipes-core/util-linux/util-linux_2.22.2.bb
+>> @@ -8,6 +8,7 @@ SRC_URI +=
+>> "file://util-linux-ng-replace-siginterrupt.patch \
+>>               file://configure-sbindir.patch \
+>>               file://fix-configure.patch \
+>>               file://mbsalign-license.patch \
+>> +            file://util-linux-replace-package-files.patch \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "3e379b4d8b9693948d751c154614c73e"
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
