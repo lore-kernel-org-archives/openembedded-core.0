@@ -1,19 +1,34 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pd0-f179.google.com ([209.85.192.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Udgso-0006eV-V5
+	(envelope-from <raj.khem@gmail.com>) id 1Udk3w-0005WS-Q2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 May 2013 15:09:45 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:43389 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Udgb7-0003Zy-EL; Sat, 18 May 2013 08:50:53 -0400
-Date: Sat, 18 May 2013 08:50:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1305180850090.20316@oneiric>
+	Sat, 18 May 2013 18:32:57 +0200
+Received: by mail-pd0-f179.google.com with SMTP id q10so4198302pdj.38
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 May 2013 09:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
+	:cc:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=aDae9VkJFEP/4zdvs8BmfId4RwV5G+w9OSeFck6qIss=;
+	b=W8iKxREb45Wq65dcM0lWKgQm5FPXGr9CiLFI8VjgUWTuPaA0vkipKNcAqQcOzkziCF
+	F4it5CKKxBXAfzZVmiqPX10ReAWlBiCQeaa1jhVL+KTdTfwSD9PIE+hxG9AGlnbBYAuY
+	N9lPUsjionLyxX7J9/8zCNnoWtH9Q5q5j2aSrWNTgbAUxAH+l4lEJCbOcFnljTHR9dJW
+	d1VStzujjEr7Rg2ps20S1nrr1Adp2J7KHeGEbFfQoeVZsjS6aM2qiS+cNYIT+zfhFPbO
+	sjMSMIr8vAWy3fBKJ7PuSkJOGAnkVJXcEQbtDnuCdvLDKphqub5/NRU6/uQ6UFCLbLFG
+	fnUw==
+X-Received: by 10.68.176.133 with SMTP id ci5mr53142376pbc.21.1368893674484;
+	Sat, 18 May 2013 09:14:34 -0700 (PDT)
+Received: from vjalali-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id l4sm16188999pbo.6.2013.05.18.09.14.32
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 18 May 2013 09:14:33 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <alpine.DEB.2.02.1305180850090.20316@oneiric>
+Date: Sat, 18 May 2013 09:14:31 -0700
+Message-Id: <276E57F3-518F-4A46-A7FB-0CE89A519905@gmail.com>
 References: <cover.1368423406.git.raj.khem@gmail.com>
 	<alpine.DEB.2.02.1305131558330.23405@oneiric>
 	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
@@ -30,17 +45,9 @@ References: <cover.1368423406.git.raj.khem@gmail.com>
 	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
 	<alpine.DEB.2.02.1305140824360.23009@oneiric>
 	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+	<alpine.DEB.2.02.1305180850090.20316@oneiric>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-Mailer: Apple Mail (2.1503)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] Add qemumips64 machine support
@@ -56,23 +63,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2013 13:09:50 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 18 May 2013 16:33:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-  just FYI, did a fresh build for qemumips64 from updated oe-core
-layer alone, and it seems to work fine. i think it's a keeper.
+On May 18, 2013, at 5:50 AM, "Robert P. J. Day" <rpjday@crashcourse.ca> =
+wrote:
 
-rday
+>=20
+>  just FYI, did a fresh build for qemumips64 from updated oe-core
+> layer alone, and it seems to work fine. i think it's a keeper.
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+thanks. Now expecting people to build world with qemumips64 and report =
+issues.=
 
 
