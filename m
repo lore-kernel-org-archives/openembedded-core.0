@@ -1,27 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vc0-f169.google.com ([209.85.220.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ue18Y-0000Iy-PS for openembedded-core@lists.openembedded.org;
-	Sun, 19 May 2013 12:46:58 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4JAVU2x032709; Sun, 19 May 2013 11:31:49 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RKGiL1MqfdRI; Sun, 19 May 2013 11:31:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4JAVhEb032723
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 19 May 2013 11:31:44 +0100
-Message-ID: <1368959294.32727.102.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	(envelope-from <paul.betafive@gmail.com>) id 1Ue2Zr-0006e8-3W
+	for openembedded-core@lists.openembedded.org;
+	Sun, 19 May 2013 14:19:05 +0200
+Received: by mail-vc0-f169.google.com with SMTP id kw10so4742146vcb.28
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 May 2013 05:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:from:date:x-google-sender-auth
+	:message-id:subject:to:content-type;
+	bh=pLv+cTEULVwkZaHDU2hg46SBNiTZQA6aZdKLsJ7O6fI=;
+	b=uJLf5lAYRVP+uvhgeSf1KGd/ytQuVxoUBc22t/c5GTm9ghfouwdFmhlJgCn5i47Xbe
+	MYtQ5RL5GPgZMPQ/2LHlW0MrxOTEoX1AJvq9Tc+gqkXoffTD/uBN9ub/2uPPQtLeXQRz
+	KKVl8pS14OEN/h3WbS0yFxNNikq+manJXJuz1goYQDs+Si9jFD7tF2J++3sN0vkuX+Z0
+	w1f+TXp2j8oRChFjkoF66znWnZoIuC8Smet7Pmn7KcjpIe+FrmhEyXoZI7Y7CHGPxLLI
+	uJlY4vgU726wex5UnEQ6rLPiJcx+jUJZ43QWWhKz3tIfOdiRZGL7HXcBICpMPO9xjerl
+	81Qw==
+X-Received: by 10.58.243.102 with SMTP id wx6mr23067791vec.26.1368964844156;
+	Sun, 19 May 2013 05:00:44 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.48.5 with HTTP; Sun, 19 May 2013 05:00:24 -0700 (PDT)
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Sun, 19 May 2013 13:00:24 +0100
+X-Google-Sender-Auth: mU8fA47vR28V-Mhwq1NkzCeCdOE
+Message-ID: <CANyK_8eXDE0PFgtzrBdXw3=eXrn5H_hdZ6ivVj4+TRQbnC1+eg@mail.gmail.com>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 19 May 2013 13:28:14 +0300
-X-Mailer: Evolution 3.6.2-0ubuntu0.1 
-Mime-Version: 1.0
-Subject: [RFC PATCH] devshell: Add interactive python shell
+Subject: Clashing man pages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,115 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2013 10:47:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 May 2013 12:19:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Being able to interact with the python context in the Bitbake task execution
-environment has long been desirable. This patch introduces such a
-mechanism. Executing "bitbake X -c devpyshell" will open a terminal connected
-to a python interactive interpretor in the task context so for example you can
-run commands like "d.getVar('WORKDIR')"
+I'm generating a rootfs image which I intend to be usable
+interactively so I've added IMAGE_FEATURES += "doc-pkgs" to my image
+recipe. do_rootfs fails with the following clashes:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-I've marked this as RFC since this is not production ready at this
-point. It does illustrate what we could possibly do for an interactive
-python shell though. Usage is "bitbake bash -c devpyshell" and then you
-can type 'd.getVar("WORKDIR")' into the prompt.
+|  * check_data_file_clashes: Package ncurses-doc wants to install
+file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/reset.1
+| But that file is already provided by package  * util-linux-doc
+|  * opkg_install_cmd: Cannot install package ncurses-doc.
+|  * check_data_file_clashes: Package coreutils-doc wants to install
+file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/kill.1
+| But that file is already provided by package  * util-linux-doc
+|  * opkg_install_cmd: Cannot install package coreutils-doc.
+|  * check_data_file_clashes: Package shadow-doc wants to install file
+/home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man5/passwd.5
+| But that file is already provided by package  * man-pages
+|  * check_data_file_clashes: Package shadow-doc wants to install file
+/home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man3/getspnam.3
+| But that file is already provided by package  * man-pages
+|  * opkg_install_cmd: Cannot install package shadow-doc.
 
-Cleanup needed:
+I've explicitly said I want coreutils and man-pages, the rest is being
+pulled in implicitly as dependencies of something. There's nothing in
+qa.log or the bitbake output to suggest that installed files are
+clashing so I'm not sure if this could have been reported earlier.
 
- * The formatting of the prompt and return data is ugly and needs 
-   correctly handling.
- * Shutdown is broken as there is a hanging python child process left 
-   around you have to kill manually before you can restart bitbake.
- * d.keys() crashes the terminal. Large data transfer breaks it?
- * Would local=locals() get us the correct context rather than building 
-   manually?
+The best fix I can think of at the minute is to add a bbappend to my
+layer which removes the clashing man pages from one of the packages in
+each case, leaving the files just in the package I do want to take
+precedence. If anyone has any better ideas let me know.
 
-Whether I'll find time to fix these things I don't know, is anyone
-interested in working on this?
+I know we have update-alternatives for executables but is there a way
+to link this with the relevant man page? So for example when I select
+kill from coreutils, kill.1 is provided by coreutils as well, when I
+select kill from util-linux, kill.1 is provided by util-linux as well.
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index a780118..8a54b74 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -25,3 +25,35 @@ python () {
-             d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
-        d.delVarFlag("do_devshell", "fakeroot")
- } 
-+
-+python do_devpyshell() {
-+    m, s = os.openpty()
-+    sname = os.ttyname(s)
-+    os.system('stty cs8 -icanon -echo < %s' % sname)
-+    pid = os.fork()
-+    if pid:
-+        oe_terminal("oepydevshell-internal.py %s" % sname, 'OpenEmbedded Developer PyShell', d)
-+        os._exit(0)
-+    else:
-+        os.dup2(m, sys.stdin.fileno())
-+        os.dup2(m, sys.stdout.fileno())
-+        os.dup2(m, sys.stderr.fileno())
-+        bb.utils.nonblockingfd(sys.stdout)
-+        bb.utils.nonblockingfd(sys.stdin)
-+
-+        _context = {
-+            "os": os,
-+            "bb": bb,
-+            "time": time,
-+            "d": d,
-+        }
-+
-+        import code
-+        try:
-+            code.interact("BB: ", local=_context)
-+        except Exception as e:
-+            bb.fatal(str(e))
-+}
-+addtask devpyshell after do_patch
-+
-+do_devpyshell[nostamp] = "1"
-diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
-new file mode 100755
-index 0000000..946f562
---- /dev/null
-+++ b/scripts/oepydevshell-internal.py
-@@ -0,0 +1,32 @@
-+#!/usr/bin/env python
-+
-+import os
-+import sys
-+import time
-+import select
-+import fcntl
-+
-+def nonblockingfd(fd):
-+    fcntl.fcntl(fd, fcntl.F_SETFL, fcntl.fcntl(fd, fcntl.F_GETFL) | os.O_NONBLOCK)
-+
-+if len(sys.argv) != 2:
-+    print("Incorrect parameters")
-+    sys.exit(1)
-+
-+try:
-+    print(sys.argv[1])
-+    pty = open(sys.argv[1], "w+b")
-+    nonblockingfd(pty)
-+    nonblockingfd(sys.stdin)
-+    while True:
-+        (ready, _, _) = select.select([pty, sys.stdin], [] , [], 1)
-+        if pty in ready:
-+            r = pty.read()
-+            sys.stdout.write(r)
-+        if sys.stdin in ready:
-+            r = sys.stdin.read()
-+            pty.write(r)
-+except Exception as e:
-+    print(str(e))
-+    time.sleep(5)
-+
+--
+Paul Barker
 
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
 
