@@ -1,51 +1,40 @@
-Received: from mail-lb0-f174.google.com ([209.85.217.174])
+Received: from mail-pa0-f43.google.com ([209.85.220.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1UdqNg-0000xl-Ga
+	(envelope-from <martin.jansa@gmail.com>) id 1UdyoS-0007uD-L6
 	for openembedded-core@lists.openembedded.org;
-	Sun, 19 May 2013 01:17:49 +0200
-Received: by mail-lb0-f174.google.com with SMTP id u10so3470803lbi.33
+	Sun, 19 May 2013 10:18:45 +0200
+Received: by mail-pa0-f43.google.com with SMTP id hz10so4848578pad.16
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2013 15:59:22 -0700 (PDT)
+	Sun, 19 May 2013 00:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:content-type;
-	bh=K2bKRNNQmgbof4ei6eY8cRxazNuWzh1HT4AO82+F2vw=;
-	b=fpmDoSXKNuwgvfetWC/wrHufz79KyO+7jUYdr3htqknwDvQJzx/FqdbcIA7adwAVn3
-	LeMgt2d2r6+NrJR9nzgD5LJbLKqU18KRCrYq0qXPSGwFVF0poC0XvOKvGDZyR5m3qJCG
-	k0zbNh0WjFqDbs6bt0vluPOdMirPEKq0tpPPAI1qHX8pQqZTdF51OyrYf1UWukdkGl04
-	IraOKcMnpIETgXvj3Wld2uYg7JqKSIPh45qgaCc0JFafbqYLKANlqsbSLiR3hOe9Ne9I
-	qfK20bN+t6F3bNS6UkCuU8vB9clVZSk6Ba7qMLvnpYLTNUkCPSSCCXG44e1yFt/s8VRq
-	iI/w==
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=K4FFph91jN5y9Yje6e8TMAUWNQIjpLb7mwpwqwDU4BY=;
+	b=LDg2m1WMuE9dnBJF/DNminnTKtsBkUsrtSi2By1Kwl35o0TtrlpXkY/0+Sj0NYSzzm
+	B0/l3f2on8O56YmoBEMgdiXQ/FkOiMyjQJ0YP5nGJA0u1Y94TgvqPvz2OvxItNv2DtkE
+	xXCGGniz2rHPTbAMVk3Ku39Wvm7z9vHmxphMaYZ5yi/RMaETa0kIVM1xkE1djP2E4qPE
+	Q/yNRNA4vCEj6COfPgD8C/SS73dZyLhYEb9yHUR/fbkYwKfrXFL3xQCwcpxxhH+XK4kL
+	hCA1qbocpiGzmIAh7LDwUTchDIhIkxTjsESd6cTuKIjaBgDU+47kZ3wZvl3vWCrs1YDC
+	c7FQ==
+X-Received: by 10.68.172.65 with SMTP id ba1mr55901017pbc.166.1368950373626;
+	Sun, 19 May 2013 00:59:33 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	k2sm20242141pat.7.2013.05.19.00.59.30 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sun, 19 May 2013 00:59:32 -0700 (PDT)
+Date: Sun, 19 May 2013 09:59:22 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Message-ID: <20130519075922.GC3196@jama>
+References: <1367917522-29378-1-git-send-email-paul@paulbarker.me.uk>
+	<CANyK_8e2uowYYky7Oq=yDsZcxWNVMmeTjaVxWEhubVspuQrLDw@mail.gmail.com>
+	<20130508191416.GC3188@jama>
 MIME-Version: 1.0
-X-Received: by 10.112.20.199 with SMTP id p7mr24855287lbe.71.1368917962359;
-	Sat, 18 May 2013 15:59:22 -0700 (PDT)
-Received: by 10.112.135.136 with HTTP; Sat, 18 May 2013 15:59:22 -0700 (PDT)
-In-Reply-To: <276E57F3-518F-4A46-A7FB-0CE89A519905@gmail.com>
-References: <cover.1368423406.git.raj.khem@gmail.com>
-	<alpine.DEB.2.02.1305131558330.23405@oneiric>
-	<CADkTA4MSXBhGpZAzUzdWTZEgvsvkXp9EOO8PPgKX2-LSw3pTgA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131650030.12354@oneiric>
-	<CADkTA4O7Ls7sPfKXcLnR_ordcHKnGqkPCRtrDjWm7xXeUDgqaA@mail.gmail.com>
-	<alpine.DEB.2.02.1305131805100.28372@oneiric>
-	<A5DB8053-5E16-47A6-B83D-70F75EE5C592@gmail.com>
-	<alpine.DEB.2.02.1305132059460.25048@oneiric>
-	<CAHUNapQ2DctEVAKNX2X6--w5GH=BA8Qd3bSXtCCpY+Uqr__gUw@mail.gmail.com>
-	<CADkTA4OkTOJXa6EDDCUCyckMtJdJq+sCexrtQgo-85v84edpgQ@mail.gmail.com>
-	<CAHUNapQcwEJPrDgrzTtUrY7N-R7MBzsAMY-3MvefOvt0f=0f+g@mail.gmail.com>
-	<D9D792CF-EAA0-4B7B-8C5D-9429196AEC70@gmail.com>
-	<alpine.DEB.2.02.1305140423590.26605@oneiric>
-	<CADkTA4O1VFk1juzepWzjV1FjF9F2J_A83ga92USdgxwegd3Qwg@mail.gmail.com>
-	<alpine.DEB.2.02.1305140824360.23009@oneiric>
-	<CADkTA4M+Ya24qHwFbB-ETyGwTM-8p_OvuzkUF4yDaQ+=iDZQuA@mail.gmail.com>
-	<alpine.DEB.2.02.1305180850090.20316@oneiric>
-	<276E57F3-518F-4A46-A7FB-0CE89A519905@gmail.com>
-Date: Sun, 19 May 2013 00:59:22 +0200
-Message-ID: <CAAQYJAtCNDiC6m9RJNxDhn_3edo4pqDsmftK8K+6rB7uLjej7A@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Add qemumips64 machine support
+In-Reply-To: <20130508191416.GC3188@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qt4: remove trailing slash from prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,29 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2013 23:17:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 19 May 2013 08:18:47 -0000
+X-Groupsio-MsgNum: 39421
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
 
-On Sat, May 18, 2013 at 6:14 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On May 18, 2013, at 5:50 AM, "Robert P. J. Day" <rpjday@crashcourse.ca> wrote:
->
->>
->>  just FYI, did a fresh build for qemumips64 from updated oe-core
->> layer alone, and it seems to work fine. i think it's a keeper.
->
-> thanks. Now expecting people to build world with qemumips64 and report issues.
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Well, I can already say that klibc (meta-initramfs layer) fails to
-compile. Help much appreciated upstream.
+On Wed, May 08, 2013 at 09:14:16PM +0200, Martin Jansa wrote:
+> On Wed, May 08, 2013 at 07:07:57PM +0100, Paul Barker wrote:
+> > On 7 May 2013 10:05, Paul Barker <paul@paulbarker.me.uk> wrote:
+> > > The trailing slashs on "Prefix=3D${prefix}/" and "-prefix ${prefix}/"=
+ are passed
+> > > through to the generated pkgconfig files and may be joined to paths l=
+ike
+> > > "/include" yielding a final path with a double forward-slash (eg.
+> > > "/usr//include"). This may end up in the debugging symbols in other a=
+pplications
+> > > or libraries which depend on qt4 which in turn causes the debugedit p=
+rogram to
+> > > fail with the message "canonicalization unexpectedly shrank by one ch=
+aracter"
+> > > when it tries to replace the double forward-slash with a single forwa=
+rd-slash.
+> > > Thus the function split_and_strip_files fails and ultimately do_packa=
+ge fails.
+> > >
+> > > As this slash is removed from the prefix it is added into the regular=
+ expression
+> > > used to fix up pkgconfig files later in the recipe.
+> > >
+> > > This error was seen in vlc in meta-openembedded and should be solved =
+by this
+> > > change in openembedded-core.
+> > >
+> > > Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+> >=20
+> > Martin, could you check whether applying this patch to oe-core fixes
+> > the vlc do_package failure you were seeing?
+>=20
+> Yes I plan to include it in next build, but I would like to fix
+> webkit-efl build with newer binutils first, because that adds 3.9M lines=
+=20
+> from log.do_compile and resulting logs from world have 600M :/
 
-Regards
-Andrea
+Yes it fixed it, thanks!
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
 
+iEYEARECAAYFAlGYhloACgkQN1Ujt2V2gBxweACePYW/Kdq5ZCR27qSdqy98BaJJ
+EgYAoJmfMUATpY4gSfOzgaA5t0Z4e8Qo
+=prK1
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
