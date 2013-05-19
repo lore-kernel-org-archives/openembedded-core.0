@@ -1,32 +1,23 @@
-Received: from mail-vc0-f169.google.com ([209.85.220.169])
+Received: from mail.kernelconcepts.de ([212.60.202.196])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.betafive@gmail.com>) id 1Ue2Zr-0006e8-3W
-	for openembedded-core@lists.openembedded.org;
-	Sun, 19 May 2013 14:19:05 +0200
-Received: by mail-vc0-f169.google.com with SMTP id kw10so4742146vcb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2013 05:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:from:date:x-google-sender-auth
-	:message-id:subject:to:content-type;
-	bh=pLv+cTEULVwkZaHDU2hg46SBNiTZQA6aZdKLsJ7O6fI=;
-	b=uJLf5lAYRVP+uvhgeSf1KGd/ytQuVxoUBc22t/c5GTm9ghfouwdFmhlJgCn5i47Xbe
-	MYtQ5RL5GPgZMPQ/2LHlW0MrxOTEoX1AJvq9Tc+gqkXoffTD/uBN9ub/2uPPQtLeXQRz
-	KKVl8pS14OEN/h3WbS0yFxNNikq+manJXJuz1goYQDs+Si9jFD7tF2J++3sN0vkuX+Z0
-	w1f+TXp2j8oRChFjkoF66znWnZoIuC8Smet7Pmn7KcjpIe+FrmhEyXoZI7Y7CHGPxLLI
-	uJlY4vgU726wex5UnEQ6rLPiJcx+jUJZ43QWWhKz3tIfOdiRZGL7HXcBICpMPO9xjerl
-	81Qw==
-X-Received: by 10.58.243.102 with SMTP id wx6mr23067791vec.26.1368964844156;
-	Sun, 19 May 2013 05:00:44 -0700 (PDT)
+	(envelope-from <florian.boor@kernelconcepts.de>)
+	id 1Ue2v8-0007qh-1V; Sun, 19 May 2013 14:41:08 +0200
+Received: from [84.175.25.18] (helo=[192.168.178.24])
+	by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>)
+	id 1Ue2bN-0005Rx-M2; Sun, 19 May 2013 14:20:42 +0200
+Message-ID: <5198C3F0.2060105@kernelconcepts.de>
+Date: Sun, 19 May 2013 14:22:08 +0200
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.48.5 with HTTP; Sun, 19 May 2013 05:00:24 -0700 (PDT)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 19 May 2013 13:00:24 +0100
-X-Google-Sender-Auth: mU8fA47vR28V-Mhwq1NkzCeCdOE
-Message-ID: <CANyK_8eXDE0PFgtzrBdXw3=eXrn5H_hdZ6ivVj4+TRQbnC1+eg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Clashing man pages
+To: openembedded-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-members@lists.openembedded.org
+X-Enigmail-Version: 1.4.6
+Subject: LinuxTag 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2013 12:19:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 19 May 2013 12:41:11 -0000
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8bit
 
-I'm generating a rootfs image which I intend to be usable
-interactively so I've added IMAGE_FEATURES += "doc-pkgs" to my image
-recipe. do_rootfs fails with the following clashes:
+Hi all,
 
-|  * check_data_file_clashes: Package ncurses-doc wants to install
-file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/reset.1
-| But that file is already provided by package  * util-linux-doc
-|  * opkg_install_cmd: Cannot install package ncurses-doc.
-|  * check_data_file_clashes: Package coreutils-doc wants to install
-file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/kill.1
-| But that file is already provided by package  * util-linux-doc
-|  * opkg_install_cmd: Cannot install package coreutils-doc.
-|  * check_data_file_clashes: Package shadow-doc wants to install file
-/home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man5/passwd.5
-| But that file is already provided by package  * man-pages
-|  * check_data_file_clashes: Package shadow-doc wants to install file
-/home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man3/getspnam.3
-| But that file is already provided by package  * man-pages
-|  * opkg_install_cmd: Cannot install package shadow-doc.
+LinuxTag starts next week and we (well I) will be there.
 
-I've explicitly said I want coreutils and man-pages, the rest is being
-pulled in implicitly as dependencies of something. There's nothing in
-qa.log or the bitbake output to suggest that installed files are
-clashing so I'm not sure if this could have been reported earlier.
+LinuxTag takes place from May 22th to May 25th at 'Messegelände unter dem
+Funkturm' in Berlin, Germany.
 
-The best fix I can think of at the minute is to add a bbappend to my
-layer which removes the clashing man pages from one of the packages in
-each case, leaving the files just in the package I do want to take
-precedence. If anyone has any better ideas let me know.
+We share the booth 141 'Linux & Embedded' with other cool projects and look
+forward to meet you there.
 
-I know we have update-alternatives for executables but is there a way
-to link this with the relevant man page? So for example when I select
-kill from coreutils, kill.1 is provided by coreutils as well, when I
-select kill from util-linux, kill.1 is provided by util-linux as well.
+Greetings
 
---
-Paul Barker
+Florian
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+PS: Someone with enough power please add some note to the news section of the
+website.
+
+-- 
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
 
