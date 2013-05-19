@@ -1,35 +1,27 @@
-Received: from mail-ea0-f180.google.com ([209.85.215.180])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Ue0HD-0004wt-HA
-	for openembedded-core@lists.openembedded.org;
-	Sun, 19 May 2013 11:51:40 +0200
-Received: by mail-ea0-f180.google.com with SMTP id g10so3093009eak.25
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2013 02:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=aYGpqV5cKcBY7Tt3bbnBqIrMvOfuBwCAcPyiaaZa6wc=;
-	b=Xz+eRW6Xo4OlUeltU6Tkt0TOBYkvkWdUWolFOJw3hyR7diSB2xgsV37ku0a3JzNxiQ
-	WgmYuPeQWunzXpzal6eA+KO1XrPkQi70BPTGB76ZeGKfeFkxtVcQ33+GYjyai4hR3emT
-	kY/IcsH6snbMZV6UbBQqOm/ykM+ncPHLNw2D6Dll1bcnneKjftDBKULagQTFdFX3gsV6
-	zk2x9yI+9g6WEkC2eE/9YvLV97JIswTLprPFmhenMbNwIAjSS4wRLkrshP7V5ZYIrmef
-	6VGaKBoFIpRum2fhlh9ieq7bxQaI3fnuy+OkLZHE7X8uYlpe+FII0PTpCHO1cpo5GuUR
-	YpQA==
-X-Received: by 10.14.107.200 with SMTP id o48mr73640716eeg.35.1368956001260;
-	Sun, 19 May 2013 02:33:21 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	y10sm30529340eev.3.2013.05.19.02.33.20 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 19 May 2013 02:33:20 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 May 2013 11:33:17 +0200
-Message-Id: <1368955997-22347-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <1368952056-26629-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1368952056-26629-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] pixman: temporary disable thumb
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Ue18Y-0000Iy-PS for openembedded-core@lists.openembedded.org;
+	Sun, 19 May 2013 12:46:58 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4JAVU2x032709; Sun, 19 May 2013 11:31:49 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RKGiL1MqfdRI; Sun, 19 May 2013 11:31:48 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4JAVhEb032723
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sun, 19 May 2013 11:31:44 +0100
+Message-ID: <1368959294.32727.102.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 19 May 2013 13:28:14 +0300
+X-Mailer: Evolution 3.6.2-0ubuntu0.1 
+Mime-Version: 1.0
+Subject: [RFC PATCH] devshell: Add interactive python shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,31 +34,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2013 09:51:42 -0000
+X-List-Received-Date: Sun, 19 May 2013 10:47:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* building with thumb triggers ICE with gcc-4.8
-  http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57329
+Being able to interact with the python context in the Bitbake task execution
+environment has long been desirable. This patch introduces such a
+mechanism. Executing "bitbake X -c devpyshell" will open a terminal connected
+to a python interactive interpretor in the task context so for example you can
+run commands like "d.getVar('WORKDIR')"
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I've marked this as RFC since this is not production ready at this
+point. It does illustrate what we could possibly do for an interactive
+python shell though. Usage is "bitbake bash -c devpyshell" and then you
+can type 'd.getVar("WORKDIR")' into the prompt.
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb
-index b1bd557..7cc5a74 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb
-@@ -23,6 +23,8 @@ NEON = " --disable-arm-neon "
- NEON_armv7a = " "
- NEON_armv7a-vfp-neon = " "
- 
-+ARM_INSTRUCTION_SET = "arm"
+Cleanup needed:
+
+ * The formatting of the prompt and return data is ugly and needs 
+   correctly handling.
+ * Shutdown is broken as there is a hanging python child process left 
+   around you have to kill manually before you can restart bitbake.
+ * d.keys() crashes the terminal. Large data transfer breaks it?
+ * Would local=locals() get us the correct context rather than building 
+   manually?
+
+Whether I'll find time to fix these things I don't know, is anyone
+interested in working on this?
+
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index a780118..8a54b74 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -25,3 +25,35 @@ python () {
+             d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
+        d.delVarFlag("do_devshell", "fakeroot")
+ } 
 +
- EXTRA_OECONF = "--disable-gtk ${IWMMXT} ${LOONGSON_MMI} ${NEON}"
- EXTRA_OECONF_class-native = "--disable-gtk"
- 
--- 
-1.8.2.1
++python do_devpyshell() {
++    m, s = os.openpty()
++    sname = os.ttyname(s)
++    os.system('stty cs8 -icanon -echo < %s' % sname)
++    pid = os.fork()
++    if pid:
++        oe_terminal("oepydevshell-internal.py %s" % sname, 'OpenEmbedded Developer PyShell', d)
++        os._exit(0)
++    else:
++        os.dup2(m, sys.stdin.fileno())
++        os.dup2(m, sys.stdout.fileno())
++        os.dup2(m, sys.stderr.fileno())
++        bb.utils.nonblockingfd(sys.stdout)
++        bb.utils.nonblockingfd(sys.stdin)
++
++        _context = {
++            "os": os,
++            "bb": bb,
++            "time": time,
++            "d": d,
++        }
++
++        import code
++        try:
++            code.interact("BB: ", local=_context)
++        except Exception as e:
++            bb.fatal(str(e))
++}
++addtask devpyshell after do_patch
++
++do_devpyshell[nostamp] = "1"
+diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
+new file mode 100755
+index 0000000..946f562
+--- /dev/null
++++ b/scripts/oepydevshell-internal.py
+@@ -0,0 +1,32 @@
++#!/usr/bin/env python
++
++import os
++import sys
++import time
++import select
++import fcntl
++
++def nonblockingfd(fd):
++    fcntl.fcntl(fd, fcntl.F_SETFL, fcntl.fcntl(fd, fcntl.F_GETFL) | os.O_NONBLOCK)
++
++if len(sys.argv) != 2:
++    print("Incorrect parameters")
++    sys.exit(1)
++
++try:
++    print(sys.argv[1])
++    pty = open(sys.argv[1], "w+b")
++    nonblockingfd(pty)
++    nonblockingfd(sys.stdin)
++    while True:
++        (ready, _, _) = select.select([pty, sys.stdin], [] , [], 1)
++        if pty in ready:
++            r = pty.read()
++            sys.stdout.write(r)
++        if sys.stdin in ready:
++            r = sys.stdin.read()
++            pty.write(r)
++except Exception as e:
++    print(str(e))
++    time.sleep(5)
++
+
 
 
 
