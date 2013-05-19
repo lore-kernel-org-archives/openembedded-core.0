@@ -1,40 +1,38 @@
-Received: from mail-pa0-f43.google.com ([209.85.220.43])
+Received: from mail-pb0-f51.google.com ([209.85.160.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1UdyoS-0007uD-L6
+	(envelope-from <martin.jansa@gmail.com>) id 1UdzCo-0000z3-EN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 19 May 2013 10:18:45 +0200
-Received: by mail-pa0-f43.google.com with SMTP id hz10so4848578pad.16
+	Sun, 19 May 2013 10:43:07 +0200
+Received: by mail-pb0-f51.google.com with SMTP id jt11so3415926pbb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2013 00:59:33 -0700 (PDT)
+	Sun, 19 May 2013 01:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=K4FFph91jN5y9Yje6e8TMAUWNQIjpLb7mwpwqwDU4BY=;
-	b=LDg2m1WMuE9dnBJF/DNminnTKtsBkUsrtSi2By1Kwl35o0TtrlpXkY/0+Sj0NYSzzm
-	B0/l3f2on8O56YmoBEMgdiXQ/FkOiMyjQJ0YP5nGJA0u1Y94TgvqPvz2OvxItNv2DtkE
-	xXCGGniz2rHPTbAMVk3Ku39Wvm7z9vHmxphMaYZ5yi/RMaETa0kIVM1xkE1djP2E4qPE
-	Q/yNRNA4vCEj6COfPgD8C/SS73dZyLhYEb9yHUR/fbkYwKfrXFL3xQCwcpxxhH+XK4kL
-	hCA1qbocpiGzmIAh7LDwUTchDIhIkxTjsESd6cTuKIjaBgDU+47kZ3wZvl3vWCrs1YDC
-	c7FQ==
-X-Received: by 10.68.172.65 with SMTP id ba1mr55901017pbc.166.1368950373626;
-	Sun, 19 May 2013 00:59:33 -0700 (PDT)
+	:user-agent; bh=P3qRku6l9S5hFlomi8ZPXcxpwOeNDlusREWgEbdnJhc=;
+	b=GK7IDKMd7JefEW6hV6QXJf5+VsB7FUebRLH4YL+VKZMrNT5FhSCT+q10ccHvce2dOx
+	K94aCn8MHb2/H1fOuAGzCQrUnNGtHgGsJND33ZOL0CiNcHEDAL+eYV+1NblZ1kcecWUH
+	3XzDwSUD6sIe8nZH+URh0Qla7RY4nOiZGTijhK3dGkDEGpx0js8LjRz53Rmg6tmqBHkd
+	I42qlR2xuJAko/Cyouc8Gg5YBTBnz6fh0fkiNh1QflnKf+rlzd4XxvFp2ugM+5Tns463
+	Sb8hxBvp7EXZtAlbahiRbQHdNUM66lVS2DoZA1n/EvAyWEWubFx4huUNb8Ccurq57rEE
+	uPKg==
+X-Received: by 10.68.139.33 with SMTP id qv1mr49370170pbb.93.1368951883372;
+	Sun, 19 May 2013 01:24:43 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	k2sm20242141pat.7.2013.05.19.00.59.30 for <multiple recipients>
+	ov2sm18858626pbc.34.2013.05.19.01.24.40 for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 19 May 2013 00:59:32 -0700 (PDT)
-Date: Sun, 19 May 2013 09:59:22 +0200
+	Sun, 19 May 2013 01:24:41 -0700 (PDT)
+Date: Sun, 19 May 2013 10:24:32 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Message-ID: <20130519075922.GC3196@jama>
-References: <1367917522-29378-1-git-send-email-paul@paulbarker.me.uk>
-	<CANyK_8e2uowYYky7Oq=yDsZcxWNVMmeTjaVxWEhubVspuQrLDw@mail.gmail.com>
-	<20130508191416.GC3188@jama>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130519082432.GD3196@jama>
+References: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20130508191416.GC3188@jama>
+In-Reply-To: <1368356739-17625-1-git-send-email-sgw@linux.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: remove trailing slash from prefix
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] tcmode-default: Set 4.8 as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,69 +45,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2013 08:18:47 -0000
-X-Groupsio-MsgNum: 39421
+X-List-Received-Date: Sun, 19 May 2013 08:43:14 -0000
+X-Groupsio-MsgNum: 39422
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+	protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
 Content-Disposition: inline
 
---vOmOzSkFvhd7u8Ms
+--uxuisgdDHaNETlh8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 08, 2013 at 09:14:16PM +0200, Martin Jansa wrote:
-> On Wed, May 08, 2013 at 07:07:57PM +0100, Paul Barker wrote:
-> > On 7 May 2013 10:05, Paul Barker <paul@paulbarker.me.uk> wrote:
-> > > The trailing slashs on "Prefix=3D${prefix}/" and "-prefix ${prefix}/"=
- are passed
-> > > through to the generated pkgconfig files and may be joined to paths l=
-ike
-> > > "/include" yielding a final path with a double forward-slash (eg.
-> > > "/usr//include"). This may end up in the debugging symbols in other a=
-pplications
-> > > or libraries which depend on qt4 which in turn causes the debugedit p=
-rogram to
-> > > fail with the message "canonicalization unexpectedly shrank by one ch=
-aracter"
-> > > when it tries to replace the double forward-slash with a single forwa=
-rd-slash.
-> > > Thus the function split_and_strip_files fails and ultimately do_packa=
-ge fails.
-> > >
-> > > As this slash is removed from the prefix it is added into the regular=
- expression
-> > > used to fix up pkgconfig files later in the recipe.
-> > >
-> > > This error was seen in vlc in meta-openembedded and should be solved =
-by this
-> > > change in openembedded-core.
-> > >
-> > > Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> >=20
-> > Martin, could you check whether applying this patch to oe-core fixes
-> > the vlc do_package failure you were seeing?
+On Sun, May 12, 2013 at 04:05:39AM -0700, Saul Wold wrote:
+> This changes the default GCC to 4.8, it has been tested with OE-Core
+> and a number of layers have been testing with it for the last few weeks.
 >=20
-> Yes I plan to include it in next build, but I would like to fix
-> webkit-efl build with newer binutils first, because that adds 3.9M lines=
-=20
-> from log.do_compile and resulting logs from world have 600M :/
+> There are some minor issues outside of OE-Core. These will be addressed
+> with time.
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Cc: Khem Raj <raj.khem@gmail.com>
+>=20
+> ---
+>  meta/conf/distro/include/tcmode-default.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
+ro/include/tcmode-default.inc
+> index 88d109b..f3942b5 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -17,7 +17,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial=
+ =3D "${TCLIBC}-initial"
+>  PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial =3D "nati=
+vesdk-${TCLIBC}-initial"
+>  PREFERRED_PROVIDER_virtual/gettext ??=3D "gettext"
+> =20
+> -GCCVERSION ?=3D "4.7%"
+> +GCCVERSION ?=3D "4.8%"
+>  SDKGCCVERSION ?=3D "${GCCVERSION}"
+>  BINUVERSION ?=3D "2.23.2"
+>  EGLIBCVERSION ?=3D "2.17"
 
-Yes it fixed it, thanks!
+There is also ICE when pixman is built with thumb enabled (e.g. qemuarm
++ ARM_INSTRUCTION_SET =3D "thumb" set, with thumb disabled it builds fine.
+
+OE @ ~/oe-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/pixman/1_0.29.4-r0/=
+pixman-0.29.4/test $ make
+=2E./arm-oe-linux-gnueabi-libtool  --tag=3DCC   --mode=3Dcompile arm-oe-lin=
+ux-gnueabi-gcc  -march=3Darmv5te -mthumb -mthumb-interwork --sysroot=3D/OE/=
+oe-core/tmp-eglibc/sysroots/qemuarm -DHAVE_CONFIG_H -I. -I..  -I../pixman -=
+I../pixman -I/OE/oe-core/tmp-eglibc/sysroots/qemuarm/usr/include/libpng16  =
+  -O2 -pipe -g -feliminate-unused-debug-types -Wall -fno-strict-aliasing -f=
+visibility=3Dhidden -c -o utils-prng.lo utils-prng.c
+arm-oe-linux-gnueabi-libtool: compile:  arm-oe-linux-gnueabi-gcc -march=3Da=
+rmv5te -mthumb -mthumb-interwork --sysroot=3D/OE/oe-core/tmp-eglibc/sysroot=
+s/qemuarm -DHAVE_CONFIG_H -I. -I.. -I../pixman -I../pixman -I/OE/oe-core/tm=
+p-eglibc/sysroots/qemuarm/usr/include/libpng16 -O2 -pipe -g -feliminate-unu=
+sed-debug-types -Wall -fno-strict-aliasing -fvisibility=3Dhidden -c utils-p=
+rng.c  -fPIC -DPIC -o .libs/utils-prng.o
+utils-prng.c: In function 'prng_srand_r':
+utils-prng.c:73:1: internal compiler error: Segmentation fault
+ }
+ ^
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+make: *** [utils-prng.lo] Error 1
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vOmOzSkFvhd7u8Ms
+--uxuisgdDHaNETlh8
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlGYhloACgkQN1Ujt2V2gBxweACePYW/Kdq5ZCR27qSdqy98BaJJ
-EgYAoJmfMUATpY4gSfOzgaA5t0Z4e8Qo
-=prK1
+iEYEARECAAYFAlGYjEAACgkQN1Ujt2V2gBwDegCeKYXjOS435o51+MPnz9aaJbuN
+emcAnjIRhKHMvhLRg+yuL2Tlybuu5XEq
+=WRk4
 -----END PGP SIGNATURE-----
 
---vOmOzSkFvhd7u8Ms--
+--uxuisgdDHaNETlh8--
