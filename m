@@ -1,23 +1,38 @@
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=elite.brightsigndigital.co.uk)
+Received: from mail1.bemta8.messagelabs.com ([216.82.243.202])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>) id 1UePP4-0002Ov-Bb
+	(envelope-from <Javier.Viguera@digi.com>) id 1UePt8-0005nJ-DS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 14:41:27 +0200
-Received: from chuckie.brightsign ([172.30.1.25])
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1UeP7I-00086y-28; Mon, 20 May 2013 13:23:04 +0100
-Received: from mac by chuckie.brightsign with local (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1UeP7I-0006oh-0t; Mon, 20 May 2013 13:23:04 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2013 13:22:45 +0100
-Message-Id: <1369052565-26170-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] kernel.bbclass: Add dependency on binutils
+	Mon, 20 May 2013 15:12:35 +0200
+Received: from [216.82.241.196:23457] by server-10.bemta-8.messagelabs.com id
+	1C/25-02860-07B1A915; Mon, 20 May 2013 12:47:44 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-6.tower-46.messagelabs.com!1369054062!30834997!1
+X-Originating-IP: [66.77.174.13]
+X-StarScan-Received: 
+X-StarScan-Version: 6.8.6.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 8009 invoked from network); 20 May 2013 12:47:42 -0000
+Received: from mail.mx1.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
+	by server-6.tower-46.messagelabs.com with RC4-SHA encrypted SMTP;
+	20 May 2013 12:47:42 -0000
+Received: from mcl-sms-exch01.digi.com (10.5.8.50) by mail.mx1.digi.com
+	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.298.1;
+	Mon, 20 May 2013 07:47:52 -0500
+Received: from dor-sms-exch01.digi.com (10.49.8.100) by
+	mcl-sms-exch01.digi.com (10.5.8.50) with Microsoft SMTP Server (TLS) id
+	8.3.298.1; Mon, 20 May 2013 07:47:41 -0500
+Received: from [10.101.1.79] (10.101.1.79) by dor-sms-exch01.digi.com
+	(10.49.8.100) with Microsoft SMTP Server (TLS) id 8.3.298.1;
+	Mon, 20 May 2013 14:47:39 +0200
+Message-ID: <519A1B6A.8080600@digi.com>
+Date: Mon, 20 May 2013 14:47:38 +0200
+From: Javier Viguera <javier.viguera@digi.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: gst-plugins-base tremor build time dependence?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,39 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 12:41:34 -0000
-X-List-Received-Date: Mon, 20 May 2013 12:41:34 -0000
+X-List-Received-Date: Mon, 20 May 2013 13:12:39 -0000
+X-List-Received-Date: Mon, 20 May 2013 13:12:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Compiling the Linux kernel requires binutils; kernel.bbclass uses
-INHIBIT_DEFAULT_DEPS so it had better depend on binutils explicitly.
+Hi all,
 
-(The lack of this dependency isn't always a problem because binutils
-is required to build gcc-cross but if gcc-cross is reconstructed from
-the sstate cache then gcc-cross's dependency on binutils-cross is
-ignored due to being in the safe dependency list in
-setscene_depvalid.)
+In gst-plugins-base package there is a patch that explicitly removes the 
+'-DTREMOR' symbol so the package compiles without that support:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Acked-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/kernel.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+<http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.36/gst-plugins-base-tremor.patch>
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ffb0b11..38973db 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,7 +1,7 @@
- inherit linux-kernel-base module_strip kernel-module-split
- 
- PROVIDES += "virtual/kernel"
--DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
-+DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
- 
- # we include gcc above, we dont need virtual/libc
- INHIBIT_DEFAULT_DEPS = "1"
--- 
-1.7.10.4
+But then the gst-plugins-base bitbake recipe has a build-time dependence 
+on tremor:
 
+<http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb>
+
+DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora 
+util-linux *tremor*"
+
+Is this expected?
+Can tremor build-time dependence be removed?
+
+If this is the case i can cook up a patch, but I'm not sure if I'm 
+missing something else.
+
+-
+Javier Viguera
+Software Engineer
+Digi International® Spain S.A.U.
 
 
