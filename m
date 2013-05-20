@@ -1,37 +1,26 @@
-Received: from mail-ve0-f177.google.com ([209.85.128.177])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UeSRh-0000Ab-A2
+	(envelope-from <sgw@linux.intel.com>) id 1UeSRj-0000Af-4Y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 17:56:22 +0200
-Received: by mail-ve0-f177.google.com with SMTP id ox1so5685639veb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 08:38:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=TAKAhq3QlmalRoz/q7k60/XnkuQhmsF9obvSJ5Ot+6o=;
-	b=gU+juq2iDYdXn63aDx26KnnVf8mc8icbOR7nI19x0NbIA/DrP2B4ellpnRxV7WmUwk
-	tDAD8OA3wYbTWEo8FvOVzdOX49FsuBA666x0i/TXWT7Wc9eRTwuX9mfaf44/utj2YsS2
-	lPHADGZjkDLI7DPEmVATf87rCi0UGIqfdlhMEfQn+WdC8R+Z8Xic9s79IorD5cBd53AQ
-	su4sxSPjtNARhBCdoHfgwLbYLDV/v0IS2SF+4v9Hdrk1joBPSFHKeRZKVxP96+xYbMjN
-	PPQUqO+cr9CxO3zNAKefswfsLafivTejearz7tZ8ogpeUunKz306DtivBjoOWRpCiAwe
-	XflQ==
-X-Received: by 10.52.69.200 with SMTP id g8mr11619337vdu.4.1369064280439; Mon,
-	20 May 2013 08:38:00 -0700 (PDT)
+	Mon, 20 May 2013 17:56:27 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 May 2013 08:38:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="316659101"
+Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
+	by orsmga001.jf.intel.com with ESMTP; 20 May 2013 08:38:01 -0700
+Message-ID: <519A4359.2090205@linux.intel.com>
+Date: Mon, 20 May 2013 08:38:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.220.98.7 with HTTP; Mon, 20 May 2013 08:37:40 -0700 (PDT)
-In-Reply-To: <CAMKF1soCeFEhBfdGJBiBwRGv+r+XiqD_MUJqz9eKjiYjh53rYw@mail.gmail.com>
-References: <1369018801-23696-1-git-send-email-net147@gmail.com>
-	<CAMKF1soCeFEhBfdGJBiBwRGv+r+XiqD_MUJqz9eKjiYjh53rYw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 May 2013 16:37:40 +0100
-Message-ID: <CAJTo0LbG-QhymfkD7MyMuC1=x=UYARv9VDQmpQ-3UVKUK8tUXw@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQlTkzdEkzwhDP/iGhaYtdSzYz/E3ykMqve5jvfR9Zjr+BfEHztuU7rdf33JJG3hqgQkoHhH
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] systemd: update to 204
+To: Qi.Chen@windriver.com
+References: <cover.1369018014.git.Qi.Chen@windriver.com>
+	<a0237296a606069eb2987ff126be556c61f62b7b.1369018014.git.Qi.Chen@windriver.com>
+In-Reply-To: <a0237296a606069eb2987ff126be556c61f62b7b.1369018014.git.Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 4/4] rpm-postinsts.bb: enable postinst logging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,17 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 15:56:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 May 2013 15:56:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 20 May 2013 16:32, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, May 19, 2013 at 8:00 PM, Jonathan Liu <net147@gmail.com> wrote:
->> Tested startup/shutdown and serial getty under QEMU x86.
+On 05/19/2013 07:50 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> Thats not enough. It should be tested on all qemus before it gets pulled.
+> Enable postinst logging by checking the configuration in /etc/
+> default/postinst.
+>
+> In this way, the postinst logging is enabled if 'debug-tweaks' is
+> in IMAGE_FEATURES, and at the same time, we avoid unnecessary rebuild
+> if IMAGE_FEATURES is changed.
+>
+> [YOCTO #4262]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-devtools/rpm/rpm-postinsts.bb |   13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
+> index 3d2d05d..01d7450 100644
+> --- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
+> +++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
+> @@ -11,10 +11,6 @@ inherit allarch
+>   #
+>   POSTINSTALL_INITPOSITION ?= "98"
+>
+> -POSTLOG ?= "/var/log/postinstall.log"
+> -REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
+> -REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
+> -
+>   do_fetch() {
+>   	:
+>   }
+> @@ -36,11 +32,16 @@ if [ "x$D" != "x" ] && [ -f $D/var/lib/rpm/Packages ]; then
+>   	install -d $D/${sysconfdir}/rcS.d
+>   	cat > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
+>   #!/bin/sh
+> -
+> +[ -e /etc/default/postinst ] && . /etc/default/postinst
+>   [ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
+>   	i=/etc/rpm-postinsts/$i
+>   	echo "Running postinst $i..."
+> -	if [ -f $i ] && $i ${REDIRECT_CMD}; then
+> +	if [ -x $i ]; then
+> +		if [ "$POSTINST_LOGGING" = "ENABLED" ]; then
+> +			$i >/var/log/postinstall.log 2&>1
 
-Agreed.  And please use -M so renames are easier to review.
+This will over write the results of a previous postinstall because this 
+is running in a for look, you should use >> instead of >.
 
-Ross
+I also suggested that the log file be a variable and you should use the 
+${localestatedir} as the base for /var.  So you would add something like 
+POSTINST_LOGFILE.
+
+Thanks
+	Sau!
+
+
+
+> +		else
+> +			$i
+> +		fi
+>   		rm $i
+>   	else
+>   		echo "ERROR: postinst $i failed."
+>
 
 
