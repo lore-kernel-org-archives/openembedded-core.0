@@ -1,34 +1,34 @@
-Received: from mail-pb0-f45.google.com ([209.85.160.45])
+Received: from mail-pd0-f173.google.com ([209.85.192.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UeNsU-0000Hw-8Y
+	(envelope-from <net147@gmail.com>) id 1UeNuM-0000cO-Iw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 13:03:48 +0200
-Received: by mail-pb0-f45.google.com with SMTP id mc17so1818104pbc.18
+	Mon, 20 May 2013 13:05:53 +0200
+Received: by mail-pd0-f173.google.com with SMTP id v10so5276003pde.18
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 03:45:21 -0700 (PDT)
+	Mon, 20 May 2013 03:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=6074oNUVdovigUkKyZIYsWHMFIsi16lCigS9M3tN/dQ=;
-	b=Etb1EwcsyI1w3VeiXNoDLIqZ5HjXBZeCSDaGqctz9Mpf6EyT4h25IPqQH2WWqYGbjc
-	wGEmg6TLzTWrmUfd4isoxVQ7dt8kgx3/SXog4/A4Z2Rh7jH0ZnFOEMIIRCisXyLM1xcC
-	Vten8PbOWWIPbAvJge9suU8SpBZSpM8KnJQ1apn8M7BHUsYJDl1fDa3OavkOkP5fXJw4
-	tutBCbhsVQh0ISQXjOX6FjiHEnXxKrZje3kGtxBWqJJhezI5CnmSpc8Cy/YWmIpG+l65
-	g484sSS2Ty3da3eB8ehAgJR+3L06GL2//LzUPfx5/2a7CAbLlxD1zsu9xDSlOqNmwBL+
-	im1w==
-X-Received: by 10.66.155.102 with SMTP id vv6mr60420595pab.64.1369046721388;
-	Mon, 20 May 2013 03:45:21 -0700 (PDT)
+	bh=CNBa61TedE5EFKFO0t8GXw0qQAoZvpkRie5RsMWdNi0=;
+	b=a1JroSg5jsqcjElxKfRZGWT7FovbExSx4D0kRWE1YnMTNxIqJd3OtT2WvoWIm6EeEQ
+	GLwbV6ybtmGpwz3Z2Ivo/qFuh/IU9BEiltIFEL13OGj2QdweDG2gGEAV695x2+189t5c
+	u4TZnPhh6bbaBijUOiQrPVUyT41rKgysHqGmgTjOZFKEX8++hvL2MV1x1tjxyZlS/ZMB
+	JaQAViYfFXG16FjcodIiwicLtnNn7K1ByGZT2eLq4MbO+6vXLShk8a/ApWSjReAzh7ni
+	XB5U9u1aDlXBFXALPYkyw2sP0GnSJwgKWPFb+wUkgzI8b3mN4lJgfR6dlCTo4+2Clsko
+	m1jA==
+X-Received: by 10.68.198.69 with SMTP id ja5mr60867755pbc.183.1369046837915;
+	Mon, 20 May 2013 03:47:17 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by mx.google.com with ESMTPSA id
-	qb1sm23621966pbb.33.2013.05.20.03.45.19 for <multiple recipients>
+	vu10sm23637262pbc.27.2013.05.20.03.47.14 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 20 May 2013 03:45:20 -0700 (PDT)
+	Mon, 20 May 2013 03:47:16 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2013 20:58:23 +1000
-Message-Id: <1369047503-2792-1-git-send-email-net147@gmail.com>
+Date: Mon, 20 May 2013 21:00:25 +1000
+Message-Id: <1369047625-2966-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH v2] populate-volatile.sh: remove repeated leading slashes in TNAME
+Subject: [PATCH v3] populate-volatile.sh: remove repeated leading slashes in TNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 11:03:54 -0000
+X-List-Received-Date: Mon, 20 May 2013 11:05:56 -0000
 
 This avoids triple slashes in the generated /etc/volatile.cache to
 reduce disk usage and in the output when verbose mode is enabled.
@@ -53,11 +53,11 @@ ROOT_DIR.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../initscripts/initscripts-1.0/populate-volatile.sh         | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../initscripts/initscripts-1.0/populate-volatile.sh       | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index ab09231..430d083 100755
+index ab09231..eb89cd1 100755
 --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
 +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
 @@ -10,11 +10,11 @@
@@ -110,6 +110,15 @@ index ab09231..430d083 100755
  		[ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
  
  		[ "${TTYPE}" = "l" ] && {
+@@ -213,7 +213,7 @@ else
+ 	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
+ fi
+ 
+-if [ "${ROOT_DIR}" = "/" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
++if [ -n "${ROOT_DIR}" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
+ then
+ 	ln -s /etc/ld.so.cache /var/run/ld.so.cache
+ fi
 -- 
 1.8.2.3
 
