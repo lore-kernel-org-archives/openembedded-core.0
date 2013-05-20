@@ -1,25 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-oa0-f45.google.com ([209.85.219.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UeT1i-0005IQ-Q5
+	(envelope-from <otavio.salvador@gmail.com>) id 1UeT7p-0005qB-9K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 18:33:46 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 20 May 2013 09:14:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="337084701"
-Received: from unknown (HELO helios.localnet) ([10.255.12.168])
-	by fmsmga001.fm.intel.com with ESMTP; 20 May 2013 09:14:11 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Mon, 20 May 2013 17:14:08 +0100
-Message-ID: <2288145.mduqYWGKLk@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-21-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <1368746922-6279-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1368746922-6279-1-git-send-email-schnitzeltony@googlemail.com>
+	Mon, 20 May 2013 18:39:58 +0200
+Received: by mail-oa0-f45.google.com with SMTP id j6so7776052oag.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2013 09:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=oRBYTk0Eo2HT6WCHF/E+Cemt73qi5mrPCN1FU0xQ3H8=;
+	b=Wlf5fMrDw0UbkrrTOSupzvKTGpG3RXYz9H6s+1kodxg0CG+DXNAjZM+3cVsGzH63UA
+	iKGZ9qGESiC1SMxLHltHZvH6Xycsrwh+7tG/9mCfLtJSXbd5MOQUnCBPGA+Y6Bxm6h4Q
+	1lBxrQdoI5N28kYs9KnFoZzl3yRytLr/pbRqTBaqejbCWxln7SFL4Lckzc9qlzP3nGK4
+	buwJ1mU6g8ytgwoOgg56Ig7I7Y7j97lIiDKne9sOwsCIyBMr+uIk7uq7l/CLDOOf1rYU
+	Xp0+2o5hZbqt+lLPuCh5TwKGzviA8gpGo5mVX54OoA+9NG8Hql5Rl915/w52RPonxvQH
+	OrSQ==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qt: fix warning -Wunused-local-typedefs introduced by gcc 4.8
+X-Received: by 10.182.40.202 with SMTP id z10mr27414635obk.74.1369066889899;
+	Mon, 20 May 2013 09:21:29 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Mon, 20 May 2013 09:21:29 -0700 (PDT)
+In-Reply-To: <cover.1369063930.git.paul.eggleton@linux.intel.com>
+References: <cover.1369063930.git.paul.eggleton@linux.intel.com>
+Date: Mon, 20 May 2013 13:21:29 -0300
+X-Google-Sender-Auth: T4GacoYSyHxE0AsoVSi0vMKdFxw
+Message-ID: <CAP9ODKpjkaACp937RtWqsP02Ama=HLDSPAG_KDaAMe-8nPi1Ag@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dylan][PATCH 00/41] Stable branch cherry-picks (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,190 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 16:33:54 -0000
+X-List-Received-Date: Mon, 20 May 2013 16:40:22 -0000
+Content-Type: multipart/alternative; boundary=001a11c32db6a5762304dd28b9db
+
+--001a11c32db6a5762304dd28b9db
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, May 20, 2013 at 12:58 PM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
+
+> ...
+> Bruce Ashfield (4):
+>   linux-yocto/3.4: iwlwifi, ext4, brtfs warning and -rt fixes
+>   kern-tools: anchor and delimit regexs
+>   linux-yocto/3.4: update to v3.4.43, ltsi-65311d8 and v3.4.42-rt56
+>   linux-yocto/3.8: udpate to v3.8.11
+>
+
+Does this includes the dash kernel-tools fix?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--001a11c32db6a5762304dd28b9db
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-On Friday 17 May 2013 01:28:42 Andreas M=FCller wrote:
-> in meta-oe maliit-framework failed with
->=20
-> | In file included from
-> | /home/andreas/tmp/oe-core-eglibc/sysroots/overo/usr/include/qt4/QtC=
-ore/Qt
-> | Core:53:0,|=20
-> |                  from ../utils/core-utils.cpp:18:
-> | /home/andreas/tmp/oe-core-eglibc/sysroots/overo/usr/include/qt4/QtC=
-ore/qtc
-> | oncurrentfilter.h: In function 'QtConcurrent::ThreadEngineStarter<v=
-oid>
-> | QtConcurrent::filterInternal(Sequence&, KeepFunctor, Redu
-> | /home/andreas/tmp/oe-core-eglibc/sysroots/overo/usr/include/qt4/QtC=
-ore/qt
-> | concurrentfilter.h:108:47: error: typedef 'Iterator' locally define=
-d but
-> | not used [-Werror=3Dunused-local-typedefs]|=20
-> |      typedef typename Sequence::const_iterator Iterator;
-> |     =20
-> |                                                ^
-> |=20
-> | cc1plus: all warnings being treated as errors
->=20
-> Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
-> ---
->  meta/recipes-qt/qt4/qt4-4.8.4.inc                  |    1 +
->  ...emove-unnecessary-typedef-found-by-gcc4-8.patch |   37
-> ++++++++++++++++++++ meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb       =
-   | =20
->  2 +-
->  meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
->  meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb          |    2 +-
->  5 files changed, 42 insertions(+), 3 deletions(-)
->  create mode 100644
-> meta/recipes-qt/qt4/qt4-4.8.4/0025-Remove-unnecessary-typedef-found-b=
-y-gcc4
-> -8.patch
->=20
-> diff --git a/meta/recipes-qt/qt4/qt4-4.8.4.inc
-> b/meta/recipes-qt/qt4/qt4-4.8.4.inc index 3f0f003..965b617 100644
-> --- a/meta/recipes-qt/qt4/qt4-4.8.4.inc
-> +++ b/meta/recipes-qt/qt4/qt4-4.8.4.inc
-> @@ -24,6 +24,7 @@ SRC_URI =3D
-> "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-s=
-r
-> file://0022-ssl-certificates-blacklist-mis-issued-turktrust-certifica=
-tes.pa
-> tch \ file://0023-qtnetwork-blacklist-two-more-certificates.patch \
-> file://0024-Change-all-shmget-calls-to-user-only-memory.patch \ +    =
-     =20
-> file://0025-Remove-unnecessary-typedef-found-by-gcc4-8.patch \
-> file://g++.conf \
->             file://linux.conf \
->             "
-> diff --git
-> a/meta/recipes-qt/qt4/qt4-4.8.4/0025-Remove-unnecessary-typedef-found=
--by-gc
-> c4-8.patch
-> b/meta/recipes-qt/qt4/qt4-4.8.4/0025-Remove-unnecessary-typedef-found=
--by-gc
-> c4-8.patch new file mode 100644
-> index 0000000..498f14f
-> --- /dev/null
-> +++
-> b/meta/recipes-qt/qt4/qt4-4.8.4/0025-Remove-unnecessary-typedef-found=
--by-gc
-> c4-8.patch @@ -0,0 +1,37 @@
-> +From https://codereview.qt-project.org/p/qt/qt
-> + * branch            refs/changes/22/53322/2 -> FETCH_HEAD
-> +From 28524b867ee8c9784f00eec0f07e4d9491a651b8 Mon Sep 17 00:00:00 20=
-01
-> +From: Thiago Macieira <thiago.macieira@intel.com>
-> +Date: Tue, 9 Apr 2013 16:41:23 -0700
-> +Subject: [PATCH] Remove unnecessary typedef, found by GCC 4.8
-> +
-> +qtconcurrentfilter.h:108:47: warning: typedef 'Iterator' locally def=
-ined
-> but not used [-Wunused-local-typedefs] +
-> +Qt5 commit: d4c241a98059edaa7a4b15beb1cfd16ed041284e (qtbase)
-> +Task-number: QTBUG-30594
-> +Change-Id: Icc69e41c2d4e11962f0c8434236d4847b46e7d9d
-> +
-> +Upstream-Status: Pending for 4.8.5 [1]
-> +
-> +[1] https://codereview.qt-project.org/#change,53322
-> +
-> +Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
-> +---
-> + src/corelib/concurrent/qtconcurrentfilter.h |    1 -
-> + 1 files changed, 0 insertions(+), 1 deletions(-)
-> +
-> +diff --git a/src/corelib/concurrent/qtconcurrentfilter.h
-> b/src/corelib/concurrent/qtconcurrentfilter.h +index 50b58bd..5a70182=
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Mon, May 20, 2013 at 12:58 PM, Paul Eggleton <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.=
+eggleton@linux.intel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">...<br>
+Bruce Ashfield (4):<br>
+=A0 linux-yocto/3.4: iwlwifi, ext4, brtfs warning and -rt fixes<br>
+=A0 kern-tools: anchor and delimit regexs<br>
+=A0 linux-yocto/3.4: update to v3.4.43, ltsi-65311d8 and v3.4.42-rt56<br>
+=A0 linux-yocto/3.8: udpate to v3.8.11<br></blockquote></div><div><br></div=
+><div style>Does this includes the dash kernel-tools fix?</div><div><br></d=
+iv>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_=
+blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
 
-> 100644
-> +--- a/src/corelib/concurrent/qtconcurrentfilter.h
-> ++++ b/src/corelib/concurrent/qtconcurrentfilter.h
-> +@@ -105,7 +105,6 @@ namespace QtConcurrent {
-> + template <typename Sequence, typename KeepFunctor, typename ReduceF=
-unctor>
-> + ThreadEngineStarter<void> filterInternal(Sequence &sequence, KeepFu=
-nctor
-> keep, ReduceFunctor reduce) + {
-> +-    typedef typename Sequence::const_iterator Iterator;
-> +     typedef FilterKernel<Sequence, KeepFunctor, ReduceFunctor> Kern=
-elType;
-> +     return startThreadEngine(new KernelType(sequence, keep, reduce)=
-); + }
-> +--
-> +1.7.4.4
-> +
-> diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
-> b/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb index 286da95..c08927e 10=
-0644
-> --- a/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
-> +++ b/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb
-> @@ -1,7 +1,7 @@
->  require qt4-${PV}.inc
->  require qt4-embedded.inc
->=20
-> -PR =3D "${INC_PR}.3"
-> +PR =3D "${INC_PR}.4"
->=20
->  QT_CONFIG_FLAGS_append_arm =3D "${@bb.utils.contains("TUNE_FEATURES"=
-, "neon",
-> "", " -no-neon" ,d)}"
->=20
-> diff --git a/meta/recipes-qt/qt4/qt4-native.inc
-> b/meta/recipes-qt/qt4/qt4-native.inc index 7645232..59c8ab5 100644
-> --- a/meta/recipes-qt/qt4/qt4-native.inc
-> +++ b/meta/recipes-qt/qt4/qt4-native.inc
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSE.LGPL;md5=3Dfbc093901857fcd118f065f900982c24 \
-> file://LICENSE.GPL3;md5=3D6e1694ee338db410417517884918d4d2 \
-> file://LGPL_EXCEPTION.txt;md5=3D0145c4d1b6f96a661c2c139dfb268fb6"
->=20
-> -INC_PR =3D "r19"
-> +INC_PR =3D "r20"
->=20
->  inherit native
->=20
-> @@ -18,6 +18,7 @@ SRC_URI =3D
-> "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-s=
-r
-> file://0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch \
-> file://0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch \
-> file://0021-configure-make-qt4-native-work-with-long-building-pa.patc=
-h \ +=20
->          file://0025-Remove-unnecessary-typedef-found-by-gcc4-8.patch=
- \
-> file://g++.conf \
->             file://linux.conf \
->  =09"
-> diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb
-> b/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb index e5db30d..d6edef9 10=
-0644
-> --- a/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb
-> +++ b/meta/recipes-qt/qt4/qt4-x11-free_4.8.4.bb
-> @@ -1,7 +1,7 @@
->  require qt4-x11-free.inc
->  require qt4-${PV}.inc
->=20
-> -PR =3D "${INC_PR}.3"
-> +PR =3D "${INC_PR}.4"
->=20
->  QT_CONFIG_FLAGS_append_arm =3D "${@bb.utils.contains("TUNE_FEATURES"=
-, "neon",
-> "", " -no-neon" ,d)}"
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-I'm not sure that the PR bumps are necessary however.
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
-
+--001a11c32db6a5762304dd28b9db--
