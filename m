@@ -1,43 +1,20 @@
-Received: from mail-pd0-f177.google.com ([209.85.192.177])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <net147@gmail.com>) id 1UeNFV-0004QB-Hg
+	(envelope-from <laurentiu.palcu@intel.com>) id 1UeNK3-0004tn-H6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 12:23:27 +0200
-Received: by mail-pd0-f177.google.com with SMTP id u11so559856pdi.22
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 03:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=EteY8JiPcfb8gC140stq9n/mNGqsVcuZxlhWzTtzlPM=;
-	b=U80T8G3vRiNAtx/tJDBoPCJgjrcGlU3ekkhH0fGU+tZAjlsQSWziLlgjwgriNxc/3O
-	MiPGUfEkKIOrNT0soGFURn9lOo5r/GF5t4fO9yAxzDvcg7rWlPu+xcI231oTPI7BAeTx
-	kbAVV5D7kwaLTh4fwwjIAfAc/1vSBdt/3o9xQRltaMBprgz7Lgqc05DldcdkQ27BOOin
-	RPEHXRCyCIBCYDjTmTKILGK60WLohuQttuhp8ZdaHwnpv4am6nlKEvjNAbF2um1fjmDc
-	knGBbNwGxD3tG7rkjf+TWdrojjXmee4o5ptaKJ3Thia/Jbb5eeKibF/8SkGo5xjlGGsK
-	4P7Q==
-X-Received: by 10.66.222.69 with SMTP id qk5mr26286547pac.71.1369044304769;
-	Mon, 20 May 2013 03:05:04 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	ya4sm23497347pbb.24.2013.05.20.03.05.02 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 20 May 2013 03:05:03 -0700 (PDT)
-Message-ID: <5199F430.7060202@gmail.com>
-Date: Mon, 20 May 2013 20:00:16 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1369013370-21391-1-git-send-email-net147@gmail.com>
-	<1369041556.6920.182.camel@phil-desktop.brightsign>
-	<5199EB97.50900@gmail.com>
-	<1369042689.6920.188.camel@phil-desktop.brightsign>
-In-Reply-To: <1369042689.6920.188.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] populate-volatile.sh: normalize repeated leading slashes in TNAME
+	Mon, 20 May 2013 12:28:13 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 20 May 2013 03:09:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="340142649"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 20 May 2013 03:09:45 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 May 2013 13:09:44 +0300
+Message-Id: <1369044584-6053-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] runqemu: fix networking issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,37 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 10:23:41 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 May 2013 10:28:27 -0000
 
-On 20/05/2013 7:38 PM, Phil Blundell wrote:
-> On Mon, 2013-05-20 at 19:23 +1000, Jonathan Liu wrote:
->> On 20/05/2013 7:19 PM, Phil Blundell wrote:
->>> On Mon, 2013-05-20 at 11:29 +1000, Jonathan Liu wrote:
->>>> -		TNAME=${ROOT_DIR}/${TNAME}
->>>> +		TNAME=`echo ${ROOT_DIR}/${TNAME} | sed -e 's@^//*@/@'`
->>> Why is this a good thing?  Your commit message is rather terse.
->>>
->>> p.
->> It reduces the size of /etc/volatile.cache.
->> Otherwise for example if you have ROOT_DIR=/, TNAME=/var/log, TNAME
->> becomes ///var/log.
->>
->> Also if you have verbose mode enabled it actually prints out the extra
->> unnecessary leading slashes.
-> How many bytes does it actually save on a typical system?  Is this worth
-> the overhead of forking an extra 2 processes for every line in the
-> file?
->
-> Would it not be better fixed by requiring TNAME to start with a slash
-> (which it probably does already), ROOT_DIR to not end with a slash, and
-> just dropping the intermediate separator?
->
-> p.
-That does sound like a better solution, let's go with that.
+After switching from ifconfig to ip, networking stopped working. This
+commit contains the following fixes:
 
-Regards,
-Jonathan
+ * set a decent broadcast address for the tap device;
+ * bring up the device;
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+Apparently, the autobuilder has some magic into it because all the sanity tests
+succeeded... So, I don't know why AB tests succeeded but on my machine, and several
+others, networking was broken and couldn't connect into the qemu image. If I'm
+missing something, please, do not hesitate to correct me. This patch fixes the
+issue for me though.
+
+Thanks,
+Laurentiu
+
+ scripts/runqemu-ifup |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index 8948153..108d9a4 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -100,7 +100,8 @@ if [ ! -x "$IPTABLES" ]; then
+ fi
+ 
+ n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+-$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
++$IFCONFIG addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
++$IFCONFIG link set dev $TAP up
+ 
+ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
+ $ROUTE add -host 192.168.7.$dest $TAP
+-- 
+1.7.9.5
+
 
 
