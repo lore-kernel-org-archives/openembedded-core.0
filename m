@@ -1,20 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-pb0-f45.google.com ([209.85.160.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1UeNK3-0004tn-H6
+	(envelope-from <net147@gmail.com>) id 1UeNsU-0000Hw-8Y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 12:28:13 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 May 2013 03:09:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="340142649"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 20 May 2013 03:09:45 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 20 May 2013 13:03:48 +0200
+Received: by mail-pb0-f45.google.com with SMTP id mc17so1818104pbc.18
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2013 03:45:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=6074oNUVdovigUkKyZIYsWHMFIsi16lCigS9M3tN/dQ=;
+	b=Etb1EwcsyI1w3VeiXNoDLIqZ5HjXBZeCSDaGqctz9Mpf6EyT4h25IPqQH2WWqYGbjc
+	wGEmg6TLzTWrmUfd4isoxVQ7dt8kgx3/SXog4/A4Z2Rh7jH0ZnFOEMIIRCisXyLM1xcC
+	Vten8PbOWWIPbAvJge9suU8SpBZSpM8KnJQ1apn8M7BHUsYJDl1fDa3OavkOkP5fXJw4
+	tutBCbhsVQh0ISQXjOX6FjiHEnXxKrZje3kGtxBWqJJhezI5CnmSpc8Cy/YWmIpG+l65
+	g484sSS2Ty3da3eB8ehAgJR+3L06GL2//LzUPfx5/2a7CAbLlxD1zsu9xDSlOqNmwBL+
+	im1w==
+X-Received: by 10.66.155.102 with SMTP id vv6mr60420595pab.64.1369046721388;
+	Mon, 20 May 2013 03:45:21 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	qb1sm23621966pbb.33.2013.05.20.03.45.19 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 20 May 2013 03:45:20 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2013 13:09:44 +0300
-Message-Id: <1369044584-6053-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] runqemu: fix networking issues
+Date: Mon, 20 May 2013 20:58:23 +1000
+Message-Id: <1369047503-2792-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH v2] populate-volatile.sh: remove repeated leading slashes in TNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,44 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 10:28:27 -0000
+X-List-Received-Date: Mon, 20 May 2013 11:03:54 -0000
 
-After switching from ifconfig to ip, networking stopped working. This
-commit contains the following fixes:
+This avoids triple slashes in the generated /etc/volatile.cache to
+reduce disk usage and in the output when verbose mode is enabled.
 
- * set a decent broadcast address for the tap device;
- * bring up the device;
+As all the paths for volatiles start with a slash, we can change
+TNAME=${ROOT_DIR}/${TNAME} to TNAME=${ROOT_DIR}${TNAME}. To avoid
+a double slash when ROOT_DIR is /, we strip the extra slash from
+ROOT_DIR.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
-Apparently, the autobuilder has some magic into it because all the sanity tests
-succeeded... So, I don't know why AB tests succeeded but on my machine, and several
-others, networking was broken and couldn't connect into the qemu image. If I'm
-missing something, please, do not hesitate to correct me. This patch fixes the
-issue for me though.
+ .../initscripts/initscripts-1.0/populate-volatile.sh         | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Thanks,
-Laurentiu
-
- scripts/runqemu-ifup |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 8948153..108d9a4 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -100,7 +100,8 @@ if [ ! -x "$IPTABLES" ]; then
- fi
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index ab09231..430d083 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -10,11 +10,11 @@
  
- n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
--$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
-+$IFCONFIG addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
-+$IFCONFIG link set dev $TAP up
+ # Get ROOT_DIR
+ DIRNAME=`dirname $0`
+-ROOT_DIR=`echo $DIRNAME | sed -ne 's:etc/.*::p'`
++ROOT_DIR=`echo $DIRNAME | sed -ne 's:/etc/.*::p'`
  
- dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
- $ROUTE add -host 192.168.7.$dest $TAP
+ [ -e ${ROOT_DIR}/etc/default/rcS ] && . ${ROOT_DIR}/etc/default/rcS
+ # When running populate-volatile.sh at rootfs time, disable cache.
+-[ "$ROOT_DIR" != "/" ] && VOLATILE_ENABLE_CACHE=no
++[ -n "$ROOT_DIR" ] && VOLATILE_ENABLE_CACHE=no
+ # If rootfs is read-only, disable cache.
+ [ "$ROOTFS_READ_ONLY" = "yes" ] && VOLATILE_ENABLE_CACHE=no
+ 
+@@ -35,7 +35,7 @@ create_file() {
+ 	[ -e "$1" ] && {
+ 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+ 	} || {
+-		if [ "$ROOT_DIR" = "/" ]; then
++		if [ -z "$ROOT_DIR" ]; then
+ 			eval $EXEC &
+ 		else
+ 			# Creating some files at rootfs time may fail and should fail,
+@@ -57,7 +57,7 @@ mk_dir() {
+ 	[ -e "$1" ] && {
+ 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+ 	} || {
+-		if [ "$ROOT_DIR" = "/" ]; then
++		if [ -z "$ROOT_DIR" ]; then
+ 			eval $EXEC
+ 		else
+ 			# For the same reason with create_file(), failures should
+@@ -82,7 +82,7 @@ link_file() {
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+ 
+-	if [ "$ROOT_DIR" = "/" ]; then
++	if [ -z "$ROOT_DIR" ]; then
+ 		eval $EXEC &
+ 	else
+ 		# For the same reason with create_file(), failures should
+@@ -150,7 +150,7 @@ apply_cfgfile() {
+ 	cat ${CFGFILE} | grep -v "^#" | \
+ 		while read LINE; do
+ 		eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
+-		TNAME=${ROOT_DIR}/${TNAME}
++		TNAME=${ROOT_DIR}${TNAME}
+ 		[ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
+ 
+ 		[ "${TTYPE}" = "l" ] && {
 -- 
-1.7.9.5
+1.8.2.3
 
 
 
