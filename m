@@ -1,24 +1,34 @@
-Received: from r-finger.com ([178.79.160.5])
+Received: from mail-ie0-f177.google.com ([209.85.223.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UeRwM-00043T-Ke
+	(envelope-from <raj.khem@gmail.com>) id 1UeSN3-0007sI-So
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 17:23:59 +0200
-Received: from i7-990x.r-finger.com
-	(host86-137-102-112.range86-137.btcentralplus.com [86.137.102.112])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 52F0E9533
+	Mon, 20 May 2013 17:51:35 +0200
+Received: by mail-ie0-f177.google.com with SMTP id 9so13342682iec.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 16:05:33 +0100 (BST)
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2013 16:05:22 +0100
-Message-Id: <1369062325-30335-6-git-send-email-tf+lists.yocto@r-finger.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1369062325-30335-1-git-send-email-tf+lists.yocto@r-finger.com>
-References: <51969025.6040407@linux.intel.com>
-	<1369062325-30335-1-git-send-email-tf+lists.yocto@r-finger.com>
-Subject: [PATCH v2 5/8] New clutter-gst recipe (1.6.0)
+	Mon, 20 May 2013 08:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=l+7/LAi5XMu2HJxX+YssLxY5WVGj8VIPvwP3b4Z2rCs=;
+	b=OSHWom0h8PXnIllJtJpM4e3ZfKdLRyVmgCcbEeLli4cAo62SkMnLHpTt5MGqAf918F
+	Ne/aQ0giMNXGcj1Zo3+013dPdSVdxlY+9S8Ip+7AvaiYbEqpjUsQae1T0ADoJ8LMBLAY
+	29LSj2SkUyItESzN4bRYoKT2h4WCjCXRERUZ/RUKHKT4KefpFjbI0CbL0RYSOVZpWwgY
+	jiLGCQd+KXGJF8kNKYLQAvG5HvvGsu7QtubmEbnII2Wq5iP1Gigkzf984rTMjwN/xbpL
+	0yrR0+VCt6MJLCfQ16Xa9qoq5/6nGWL9X15S552ceAYiTvpTyfUxmTQVghRjTgvOfopY
+	PvuQ==
+X-Received: by 10.50.87.10 with SMTP id t10mr5611201igz.108.1369063993153;
+	Mon, 20 May 2013 08:33:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.109.133 with HTTP; Mon, 20 May 2013 08:32:43 -0700 (PDT)
+In-Reply-To: <1369018801-23696-1-git-send-email-net147@gmail.com>
+References: <1369018801-23696-1-git-send-email-net147@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 20 May 2013 08:32:43 -0700
+Message-ID: <CAMKF1soCeFEhBfdGJBiBwRGv+r+XiqD_MUJqz9eKjiYjh53rYw@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] systemd: update to 204
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,152 +41,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 15:24:03 -0000
+X-List-Received-Date: Mon, 20 May 2013 15:51:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Tomas Frydrych <tomas@sleepfive.com>
+On Sun, May 19, 2013 at 8:00 PM, Jonathan Liu <net147@gmail.com> wrote:
+> Tested startup/shutdown and serial getty under QEMU x86.
 
 
-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
----
- meta/recipes-graphics/clutter/clutter-gst-1.0.inc  |   23 ++++++++++
- .../clutter/clutter-gst-1.0_1.6.0.bb               |    9 ++++
- .../clutter/clutter-gst-1.6/cogl-1.14.patch        |   48 ++++++++++++++++++++
- .../clutter/clutter-gst/enable-tests.patch         |   23 ++++++++++
- 4 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.0.inc
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.0_1.6.0.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.6/cogl-1.14.patch
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable-tests.patch
-
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.0.inc b/meta/recipes-graphics/clutter/clutter-gst-1.0.inc
-new file mode 100644
-index 0000000..f79795c
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst-1.0.inc
-@@ -0,0 +1,23 @@
-+DESCRIPTION = "Clutter GStreamer"
-+HOMEPAGE = "http://www.clutter-project.org/"
-+LICENSE = "LGPLv2+"
-+
-+inherit clutter
-+
-+SRC_URI += "file://enable-tests.patch"
-+
-+DEPENDS = "gst-plugins-base gst-plugins-bad clutter-1.0"
-+RDEPENDS_${PN} += "gst-meta-base"
-+PACKAGES  =+ "${PN}-examples"
-+
-+EXTRA_OECONF += "--disable-introspection"
-+
-+FILES_${PN}          += "${libdir}/gstreamer-0.10/lib*.so"
-+FILES_${PN}-dev      += "${libdir}/gstreamer-0.10/*.la"
-+FILES_${PN}-dbg      += "${libdir}/gstreamer-0.10/.debug/lib*.so"
-+FILES_${PN}-examples  = "${bindir}/video-player ${bindir}/video-sink"
-+
-+do_configure_prepend () {
-+       # Disable DOLT
-+       sed -i -e 's/^DOLT//' ${S}/configure.ac
-+}
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.0_1.6.0.bb b/meta/recipes-graphics/clutter/clutter-gst-1.0_1.6.0.bb
-new file mode 100644
-index 0000000..dc5cc13
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst-1.0_1.6.0.bb
-@@ -0,0 +1,9 @@
-+require clutter-gst-1.0.inc
-+
-+SRC_URI += "file://cogl-1.14.patch"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-+                    file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
-+
-+SRC_URI[archive.md5sum] = "d60ab0118730cecd5dd9988ad7da034b"
-+SRC_URI[archive.sha256sum] = "abc879cdd562f1640a825131405f4327a427bfe65b805ebc25d0c78909c8c622"
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.6/cogl-1.14.patch b/meta/recipes-graphics/clutter/clutter-gst-1.6/cogl-1.14.patch
-new file mode 100644
-index 0000000..a46b448
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst-1.6/cogl-1.14.patch
-@@ -0,0 +1,48 @@
-+From 1ae4c3e7b1e2c33892590f9ac7bf0e892a5bcbd5 Mon Sep 17 00:00:00 2001
-+From: Tomas Frydrych <tomas@sleepfive.com>
-+Date: Thu, 11 Oct 2012 08:53:03 +0100
-+Subject: [PATCH] ClutterGstVideoSink: fix includes so we can build against
-+ cogl-1.14
-+
-+Cogl 1.14 exposes various GL types through the public API but it does not
-+pull in the GL type definitions through its public headers; specifically
-+compilation will fail due to undefined GL_TEXTURE_2D. So include the headers
-+the hard way.
-+
-+Upstream-status: Submitted @ https://bugzilla.gnome.org/show_bug.cgi?id=700509
-+Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
-+---
-+ clutter-gst/clutter-gst-video-sink.c |   17 +++++++++++++++++
-+ 1 file changed, 17 insertions(+)
-+
-+diff --git a/clutter-gst/clutter-gst-video-sink.c b/clutter-gst/clutter-gst-video-sink.c
-+index 9b4b53c..f092581 100644
-+--- a/clutter-gst/clutter-gst-video-sink.c
-++++ b/clutter-gst/clutter-gst-video-sink.c
-+@@ -42,6 +42,23 @@
-+ #include "config.h"
-+ #endif
-+
-++/*
-++ * cogl-1.14 exposes generic GL types in the API, but not the actual includes.
-++ */
-++#include <cogl/cogl.h>
-++
-++#ifdef COGL_HAS_GLES1
-++#include <GLES/gl.h>
-++#include <GLES/glext.h>
-++#elif COGL_HAS_GLES2
-++#include <GLES2/gl2.h>
-++#include <GLES2/gl2ext.h>
-++#elif COGL_HAS_GL
-++#include <GL/gl.h>
-++#else
-++#error Unknown cogl configuration
-++#endif
-++
-+ #include "clutter-gst-video-sink.h"
-+ #include "clutter-gst-util.h"
-+ #include "clutter-gst-private.h"
-+--
-+1.7.10.4
-+
-diff --git a/meta/recipes-graphics/clutter/clutter-gst/enable-tests.patch b/meta/recipes-graphics/clutter/clutter-gst/enable-tests.patch
-new file mode 100644
-index 0000000..b3aec39
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst/enable-tests.patch
-@@ -0,0 +1,23 @@
-+Install example binary needed for core-image-clutter
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Imported from clutter-gst-1.8 package, git://git.openembedded.org/openembedded,
-+commit ae28ee3f7a060b9e0d13154a84f2444a98490b5b, updated for clutter-gst 1.6
-+
-+Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
-+
-+Index: git/examples/Makefile.am
-+===================================================================
-+--- git.orig/examples/Makefile.am	2011-01-31 10:14:23.000000000 +0800
-++++ git/examples/Makefile.am	2011-01-31 10:14:34.000000000 +0800
-+@@ -1,6 +1,6 @@
-+ NULL = #
-+ 
-+-noinst_PROGRAMS = video-player video-sink video-sink-navigation
-++bin_PROGRAMS = video-player video-sink video-sink-navigation
-+ 
-+ INCLUDES = -I$(top_srcdir) \
-+ 	   $(MAINTAINER_CFLAGS) \
--- 
-1.7.10.4
-
+Thats not enough. It should be tested on all qemus before it gets pulled.
 
 
