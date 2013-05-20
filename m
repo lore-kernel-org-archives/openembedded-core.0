@@ -1,35 +1,23 @@
-Received: from mail-pd0-f181.google.com ([209.85.192.181])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1UeQi1-0003RM-H4
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1UeRwE-00042S-FD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 16:05:06 +0200
-Received: by mail-pd0-f181.google.com with SMTP id p11so5414748pdj.12
+	Mon, 20 May 2013 17:23:54 +0200
+Received: from i7-990x.r-finger.com
+	(host86-137-102-112.range86-137.btcentralplus.com [86.137.102.112])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id CEA62952B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 06:46:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=zF6dXnFzbHpNYcZ3gE4qCNkL8GXXdsdKJnVbK3HReDc=;
-	b=bKtRtwT+TXF+xjIji6kwsrq7rHH7Z+/6sKiYS6cJBrnAHCVQ/9SusP+9JxuAxJXeec
-	yKSBMrNJ/ClsslKhJxR5CqaJSPoOQAKw59NKq0FOPm1XU2Eub5rSq/v3hF8jkUBlrzNm
-	tYOXk0Bq/KRty8Ai6rmMS4EeR023IaOM+xZOg/I4z6mxyo9rGLIkthlnuEl+mTGKvhY3
-	iMErMuj+wgZWkrNLfqYck8nFRdwoE2ig5mu80vyuGOjBjy6ypexxMN7AnzZU50xwsEpq
-	XOYac2qh5UcbDK4aOGMfcsWncIMiDQDqIONj4BgEID6I39+ot9OL1lcWo0IrmKx2LQxy
-	6tfA==
-X-Received: by 10.66.197.136 with SMTP id iu8mr62234622pac.0.1369057604515;
-	Mon, 20 May 2013 06:46:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.66.100.104 with HTTP; Mon, 20 May 2013 06:46:24 -0700 (PDT)
-In-Reply-To: <1369054950-4271-1-git-send-email-riku.voipio@linaro.org>
-References: <1369054950-4271-1-git-send-email-riku.voipio@linaro.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 May 2013 14:46:24 +0100
-Message-ID: <CAJTo0LYtDvcsq93YqieYRh=qJJe-WzMpLEv_haC8NS9nAe-Hhg@mail.gmail.com>
-To: Riku Voipio <riku.voipio@linaro.org>
-X-Gm-Message-State: ALoCoQkYTbNn0zdMUvfnj8S3kYyVBKWIC4jwSyb9cAYW6OUtzHGharWrbvqsNKuV8r9VxUDfGp/o
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xserver-xorg: enable xvfb
+	Mon, 20 May 2013 16:05:31 +0100 (BST)
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 May 2013 16:05:17 +0100
+Message-Id: <1369062325-30335-1-git-send-email-tf+lists.yocto@r-finger.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <51969025.6040407@linux.intel.com>
+References: <51969025.6040407@linux.intel.com>
+Subject: updates for cogl, clutter and mx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,17 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 14:05:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 May 2013 15:23:59 -0000
+X-List-Received-Date: Mon, 20 May 2013 15:23:59 -0000
 
-On 20 May 2013 14:02, Riku Voipio <riku.voipio@linaro.org> wrote:
-> Currently Xvfb has been enabled in openembedded-core. Xvfb is needed
-> for example in Mauve testsuite.
->
-> Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+> There are some issues with this patch set, some of the included patches
+> either do not have Upstream-Status or Signed-off-by tags, please review 
+> that.
 
-Ross
+Updated the various patch headers in v.2.
+
+> Also, I want to confirm that these are all new recipes and will not cause 
+> backward PRs (ie do you need PE bumps to these)?
+
+I renamed the mx recipe also to mx-1.0 for consistency, so yes, these are all 
+different packages now.
+
+> Finally, I think you need to update the packagegroup-core-clutter recipe. 
+
+Done.
+
+Tomas
 
 
