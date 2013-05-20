@@ -1,26 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ie0-f178.google.com ([209.85.223.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1UeSRj-0000Af-4Y
+	(envelope-from <raj.khem@gmail.com>) id 1UeSbS-0001uG-AQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 17:56:27 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 May 2013 08:38:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="316659101"
-Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
-	by orsmga001.jf.intel.com with ESMTP; 20 May 2013 08:38:01 -0700
-Message-ID: <519A4359.2090205@linux.intel.com>
-Date: Mon, 20 May 2013 08:38:01 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Mon, 20 May 2013 18:06:32 +0200
+Received: by mail-ie0-f178.google.com with SMTP id b11so13683445iee.23
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2013 08:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ST9YUtIyHoUrWPDnK5xHJ312UyRbTTVP5Q2DoOQijhg=;
+	b=vVWxiFSu4g8CHlffGmEVTDtWfn30EzfOcaVkDr20J0yt4CfZNtpEVYsfTdfhVLbNVh
+	Rr9xHwU6sSXFj3nbk0G09r8PaZ+DXJA0sN63sARDmH+iNa5thT9MUv9eqO2J9UdvcyYv
+	Sh8bvJIQHVPdLSypxehu79q00v2+ZTgM/FN3jHZ/I99OmQlUraC08KpzdStJjpqndOzZ
+	xYLjjpgWSXa/8wPxaoIl2p3OmNxAb0Got0PeaSgLwgegKL11b7tvPNNqln+uG8nwAm0v
+	/hl7HvXo59L1ei1m16i7TtWXdv0FMXHQ30ibGBLpxBhdJeYN4jEz9KqSsZ1zI8MyeNiw
+	0ZvQ==
+X-Received: by 10.50.17.166 with SMTP id p6mr5661087igd.12.1369064885235; Mon,
+	20 May 2013 08:48:05 -0700 (PDT)
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1369018014.git.Qi.Chen@windriver.com>
-	<a0237296a606069eb2987ff126be556c61f62b7b.1369018014.git.Qi.Chen@windriver.com>
-In-Reply-To: <a0237296a606069eb2987ff126be556c61f62b7b.1369018014.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 4/4] rpm-postinsts.bb: enable postinst logging
+Received: by 10.50.109.133 with HTTP; Mon, 20 May 2013 08:47:35 -0700 (PDT)
+In-Reply-To: <1369044584-6053-1-git-send-email-laurentiu.palcu@intel.com>
+References: <1369044584-6053-1-git-send-email-laurentiu.palcu@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 20 May 2013 08:47:35 -0700
+Message-ID: <CAMKF1spPt2ZKU-VnUT0KWS5sUMWrWybOdhmTn+pBxeu7TAt=Cg@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: fix networking issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 15:56:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 May 2013 16:06:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/19/2013 07:50 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
+thanks for fixing it. I wonder why I did not run into it something in
+my settings probably.
+
+On Mon, May 20, 2013 at 3:09 AM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+> After switching from ifconfig to ip, networking stopped working. This
+> commit contains the following fixes:
 >
-> Enable postinst logging by checking the configuration in /etc/
-> default/postinst.
+>  * set a decent broadcast address for the tap device;
+>  * bring up the device;
 >
-> In this way, the postinst logging is enabled if 'debug-tweaks' is
-> in IMAGE_FEATURES, and at the same time, we avoid unnecessary rebuild
-> if IMAGE_FEATURES is changed.
->
-> [YOCTO #4262]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 > ---
->   meta/recipes-devtools/rpm/rpm-postinsts.bb |   13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
+> Apparently, the autobuilder has some magic into it because all the sanity tests
+> succeeded... So, I don't know why AB tests succeeded but on my machine, and several
+> others, networking was broken and couldn't connect into the qemu image. If I'm
+> missing something, please, do not hesitate to correct me. This patch fixes the
+> issue for me though.
 >
-> diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-> index 3d2d05d..01d7450 100644
-> --- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
-> +++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-> @@ -11,10 +11,6 @@ inherit allarch
->   #
->   POSTINSTALL_INITPOSITION ?= "98"
+> Thanks,
+> Laurentiu
 >
-> -POSTLOG ?= "/var/log/postinstall.log"
-> -REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
-> -REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
-> -
->   do_fetch() {
->   	:
->   }
-> @@ -36,11 +32,16 @@ if [ "x$D" != "x" ] && [ -f $D/var/lib/rpm/Packages ]; then
->   	install -d $D/${sysconfdir}/rcS.d
->   	cat > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
->   #!/bin/sh
-> -
-> +[ -e /etc/default/postinst ] && . /etc/default/postinst
->   [ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
->   	i=/etc/rpm-postinsts/$i
->   	echo "Running postinst $i..."
-> -	if [ -f $i ] && $i ${REDIRECT_CMD}; then
-> +	if [ -x $i ]; then
-> +		if [ "$POSTINST_LOGGING" = "ENABLED" ]; then
-> +			$i >/var/log/postinstall.log 2&>1
-
-This will over write the results of a previous postinstall because this 
-is running in a for look, you should use >> instead of >.
-
-I also suggested that the log file be a variable and you should use the 
-${localestatedir} as the base for /var.  So you would add something like 
-POSTINST_LOGFILE.
-
-Thanks
-	Sau!
-
-
-
-> +		else
-> +			$i
-> +		fi
->   		rm $i
->   	else
->   		echo "ERROR: postinst $i failed."
+>  scripts/runqemu-ifup |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+> index 8948153..108d9a4 100755
+> --- a/scripts/runqemu-ifup
+> +++ b/scripts/runqemu-ifup
+> @@ -100,7 +100,8 @@ if [ ! -x "$IPTABLES" ]; then
+>  fi
+>
+>  n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+> -$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
+> +$IFCONFIG addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
+> +$IFCONFIG link set dev $TAP up
+>
+>  dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
+>  $ROUTE add -host 192.168.7.$dest $TAP
+> --
+> 1.7.9.5
 >
 
 
