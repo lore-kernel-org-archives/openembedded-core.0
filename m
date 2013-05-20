@@ -1,26 +1,28 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1UeSwc-0004ZK-HI
+	(envelope-from <mark.hatle@windriver.com>) id 1UeSzm-00056W-08
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 May 2013 18:28:19 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 May 2013 09:09:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,707,1363158000"; d="scan'208";a="244189538"
-Received: from unknown (HELO helios.localnet) ([10.255.12.168])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 May 2013 09:09:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Qi.Chen@windriver.com
-Date: Mon, 20 May 2013 17:09:55 +0100
-Message-ID: <7023411.OWblAEEYiP@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-21-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <87754446fd070cded9dee7bff2b18d0f080be934.1369018014.git.Qi.Chen@windriver.com>
-References: <cover.1369018014.git.Qi.Chen@windriver.com>
-	<87754446fd070cded9dee7bff2b18d0f080be934.1369018014.git.Qi.Chen@windriver.com>
+	Mon, 20 May 2013 18:32:10 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4KGDEao029766
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2013 09:13:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 20 May 2013 09:13:12 -0700
+Message-ID: <519A4B9E.30305@windriver.com>
+Date: Mon, 20 May 2013 11:13:18 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 2/4] dpkg: modify the run-postinst script to enable postinst logging
+To: <openembedded-core@lists.openembedded.org>
+References: <CANyK_8eXDE0PFgtzrBdXw3=eXrn5H_hdZ6ivVj4+TRQbnC1+eg@mail.gmail.com>
+In-Reply-To: <CANyK_8eXDE0PFgtzrBdXw3=eXrn5H_hdZ6ivVj4+TRQbnC1+eg@mail.gmail.com>
+Subject: Re: Clashing man pages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2013 16:28:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 20 May 2013 16:32:18 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday 20 May 2013 10:50:29 Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> Enable postinst logging by checking the configuration in /etc/
-> default/postinst.
-> 
-> In this way, the postinst logging is enabled if 'debug-tweaks' is
-> in IMAGE_FEATURES, and at the same time, we avoid unnecessary rebuilt
-> if IMAGE_FEATURES is changed.
-> 
-> [YOCTO #4262]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-devtools/dpkg/dpkg.inc |   11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/dpkg/dpkg.inc
-> b/meta/recipes-devtools/dpkg/dpkg.inc index d773fbd..c5c8aec 100644
-> --- a/meta/recipes-devtools/dpkg/dpkg.inc
-> +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-> @@ -35,10 +35,6 @@ do_configure () {
->      autotools_do_configure
->  }
-> 
-> -POSTLOG ?= "/var/log/postinstall.log"
-> -REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks',
-> '>${POSTLOG} 2>&1', '', d)}" -REDIRECT_CMD[vardepsexclude] +=
-> "IMAGE_FEATURES POSTLOG"
-> -
->  DPKG_INIT_POSITION ?= "98"
-> 
->  do_install_append () {
-> @@ -67,7 +63,12 @@ if [ "x$D" != "x" ] && [ -f $D/var/lib/dpkg/status ];
-> then
-> 
->  	# this happens at S98 where our good 'ole packages script used to run
->  	echo "#!/bin/sh
-> -dpkg --configure -a ${REDIRECT_CMD}
-> +[ -e /etc/default/postinst ] && . /etc/default/postinst
-> +if [ \"\$POSTINST_LOGGING\" = \"ENABLED\" ]; then
+On 5/19/13 7:00 AM, Paul Barker wrote:
+> I'm generating a rootfs image which I intend to be usable
+> interactively so I've added IMAGE_FEATURES += "doc-pkgs" to my image
+> recipe. do_rootfs fails with the following clashes:
+>
+> |  * check_data_file_clashes: Package ncurses-doc wants to install
+> file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/reset.1
+> | But that file is already provided by package  * util-linux-doc
+> |  * opkg_install_cmd: Cannot install package ncurses-doc.
+> |  * check_data_file_clashes: Package coreutils-doc wants to install
+> file /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man1/kill.1
+> | But that file is already provided by package  * util-linux-doc
+> |  * opkg_install_cmd: Cannot install package coreutils-doc.
+> |  * check_data_file_clashes: Package shadow-doc wants to install file
+> /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man5/passwd.5
+> | But that file is already provided by package  * man-pages
+> |  * check_data_file_clashes: Package shadow-doc wants to install file
+> /home/pbarker/build/20130518_wych/build/tmp/work/qemuarm-wych-linux-gnueabi/wych-image-full/1.0-r0/rootfs/usr/share/man/man3/getspnam.3
+> | But that file is already provided by package  * man-pages
+> |  * opkg_install_cmd: Cannot install package shadow-doc.
+>
+> I've explicitly said I want coreutils and man-pages, the rest is being
+> pulled in implicitly as dependencies of something. There's nothing in
+> qa.log or the bitbake output to suggest that installed files are
+> clashing so I'm not sure if this could have been reported earlier.
+>
+> The best fix I can think of at the minute is to add a bbappend to my
+> layer which removes the clashing man pages from one of the packages in
+> each case, leaving the files just in the package I do want to take
+> precedence. If anyone has any better ideas let me know.
+>
+> I know we have update-alternatives for executables but is there a way
+> to link this with the relevant man page? So for example when I select
+> kill from coreutils, kill.1 is provided by coreutils as well, when I
+> select kill from util-linux, kill.1 is provided by util-linux as well.
 
-Can we use 1 for this instead of ENABLED? This would be more consistent with 
-how variables such as this are generally used.
+What we have advocated is the update-alternatives approach.  When the levels are 
+set the same for the docs as the primary components (and renaming as well) then 
+it makes the system much easier to deal with.
 
-Cheers,
-Paul
+I.e. if you have:
 
--- 
+kill.busybox
+kill.coreutils
+kill.util-linux
 
-Paul Eggleton
-Intel Open Source Technology Centre
+I want to be able to try man on each of those names, as well as 'kill' and get 
+the right man page.
+
+Also, with the RPM package manager, if the contents of the two files are the 
+same no conflict is generated.  I don't know in this case if that is true or 
+not.  But that could be an alternative approach for some of these packages -- 
+ensure the files are the same and use RPM (or adapt ipk to compare file contents 
+before reporting a conflict.)
+
+--Mark
+
+
+> --
+> Paul Barker
+>
+> Email: paul@paulbarker.me.uk
+> http://www.paulbarker.me.uk
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
