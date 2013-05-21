@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 530F760897
+Return-Path: <tf+lists.yocto@r-finger.com>
+Received: from r-finger.com (r-finger.com [178.79.160.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 7103360897
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 12:14:43 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4LCI59D019797; Tue, 21 May 2013 13:18:13 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Ejk_z00jez-i; Tue, 21 May 2013 13:18:12 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4LCHvbU019766
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 21 May 2013 13:18:09 +0100
-Message-ID: <1369127448.11013.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>
-In-Reply-To: <51962FFE.3040202@mlbassoc.com>
-References: <51962FFE.3040202@mlbassoc.com>
-Date: Tue, 21 May 2013 10:10:48 +0100
-Mime-Version: 1.0
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Poor first impression
+	Tue, 21 May 2013 12:36:59 +0000 (UTC)
+Received: from [192.168.0.2] (unknown [86.137.102.112])
+	(using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 4F417952B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 13:37:00 +0100 (BST)
+Message-ID: <519B6A4E.7010707@r-finger.com>
+Date: Tue, 21 May 2013 13:36:30 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
+CC: openembedded-core@lists.openembedded.org
+References: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
+	<1369134259-12091-1-git-send-email-tf+lists.yocto@r-finger.com>
+	<1369134259-12091-5-git-send-email-tf+lists.yocto@r-finger.com>
+	<1369135252.6695.16.camel@phil-desktop.brightsign>
+In-Reply-To: <1369135252.6695.16.camel@phil-desktop.brightsign>
+Subject: Re: [PATCH v3 4/8] fix clutter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 12:14:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 May 2013 12:37:00 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-05-17 at 07:26 -0600, Gary Thomas wrote:
-> I just tried to run Poky/Yocto on a fresh Ubuntu 12.04 system.  I knew there would
-> be missing bits and have seen the "sanity" messages in the past, so I thought I'd
-> just carry on.  Today's experience was not pretty and would it not for my experience
-> with this, I would have been very perplexed...
+On 21/05/13 12:20, Phil Blundell wrote:
+> On Tue, 2013-05-21 at 12:04 +0100, Tomas Frydrych wrote:
+>> -# Disable pretty much everything, override in platform specific set up
+>> -EXTRA_OECONF += "--disable-gtk-doc		\
+>> -	     	 ${@get_fpu_setting(bb, d)}	\
+>> -             	 --disable-introspection	\
+>> -	     	 --disable-egl-backend		\
+>> +# Disable backends we do not currently support building
+>> +EXTRA_OECONF += "--disable-introspection	\
+> 
+> Was this supposed to have been squashed with 3/8?
 
-There are two issues there, firstly the scripts/bitbake binary is doing
-a really bad job, secondly, one of the improved debugging patches I
-added to bitbake, regressed things in this case.
+Yes, sorry :( I think Richard already pushed the previous version as well.
 
-I posted a patch to bitbake last night, I've just posted a fix for
-scripts/bitbake now. These two together should improve this. I agree
-that particular error would create a poor first impression, thanks for
-reporting it.
+Tomas
 
-Cheers,
 
-Richard
-
+-- 
+http://sleepfive.com
 
