@@ -1,39 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
-	[209.85.212.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 145166148D
+Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
+	[209.85.212.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6296148D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 09:52:45 +0000 (UTC)
-Received: by mail-vb0-f43.google.com with SMTP id e15so260762vbg.30
+	Tue, 21 May 2013 10:01:53 +0000 (UTC)
+Received: by mail-vb0-f44.google.com with SMTP id e13so268909vbg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 02:52:46 -0700 (PDT)
+	Tue, 21 May 2013 03:01:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type:x-gm-message-state;
-	bh=DQ8HrHkrAsxmXm6S0Jju4s2y+MsMN0xWvSh+Dwq9j8k=;
-	b=p2UhitBTWQtcBgTkIfyDtiAVDLNHYawmh0JERRHsbHTmxnDbdAq0HCRB5CbxrnL6My
-	g2627+PTtxSK6/ZYoHU71DSj8wR0JlrySO3YSz5lhZjVTZV+p0cFlHgpBIEgMgLPAUha
-	o4SqbNiVJfq0UDOqj9f6nWNCheehvxWAjvsN32S9NwD9dgole+5w+7OSQGgvcs4ly99D
-	w9LFx2uspshhd1IIOFWG7EAdqCQx1m5lCfj0Z6VDd2Q88s/RvsTkwxW6fBm2LbABAfUb
-	q1Qroff/TfPwL2qVefcypugqz8Yyqmbz+S+pE5iPdN86AjK9STf7TNHfLfuNXsL3SzLP
-	Ne4g==
+	bh=IUoTIH0lOcsX/oIv618RIg5CXIGGEOttMoymOKIgqr8=;
+	b=UCHFcTi9Tvr475dJUxTp0OlD3Vyhiee4Z+ahXuuw+eNfRnK5SS6SpqKLSnVFSP26vj
+	Yw50tr/5KMC/YPfGsJr+8SS1j0HW+pY6Ss5lSZnFyX9TFqQDhmi3a4uw8MwWLiiuhPCP
+	tfEJc0bllelo/WHzxvkW2LVT9TI1zLgm7yqawB/XVf9SdyQN+KFli2rgXoyOVBjxjJpf
+	e9Hu/YnyHE93vsBg3WarpYERASO/6cHnGawDDT5WG/tni/qVvwGeH+Y7zWBDqB61m1Lc
+	M+0IGpYYyb6XTF1PgZdgb0v2xXddO4RtcyfWvVNndSeMYZWnr+fELI6bEmpe3/HFHGK8
+	pA9A==
 MIME-Version: 1.0
-X-Received: by 10.52.117.212 with SMTP id kg20mr500152vdb.55.1369129966617;
-	Tue, 21 May 2013 02:52:46 -0700 (PDT)
-Received: by 10.220.98.7 with HTTP; Tue, 21 May 2013 02:52:46 -0700 (PDT)
-In-Reply-To: <1369062325-30335-3-git-send-email-tf+lists.yocto@r-finger.com>
+X-Received: by 10.220.176.71 with SMTP id bd7mr593942vcb.12.1369130513859;
+	Tue, 21 May 2013 03:01:53 -0700 (PDT)
+Received: by 10.220.98.7 with HTTP; Tue, 21 May 2013 03:01:53 -0700 (PDT)
+In-Reply-To: <1369062325-30335-4-git-send-email-tf+lists.yocto@r-finger.com>
 References: <51969025.6040407@linux.intel.com>
 	<1369062325-30335-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369062325-30335-3-git-send-email-tf+lists.yocto@r-finger.com>
-Date: Tue, 21 May 2013 10:52:46 +0100
-Message-ID: <CAJTo0LbAWWZNLAD4mBGa2xjFX9hJxhHTSRk0d40sSbOfm=EkBA@mail.gmail.com>
+	<1369062325-30335-4-git-send-email-tf+lists.yocto@r-finger.com>
+Date: Tue, 21 May 2013 11:01:53 +0100
+Message-ID: <CAJTo0LZn_xvXnyCUJ6UR+Dg2uge1_m6R85RMDi-+0Zsf54vW+w@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
 To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-X-Gm-Message-State: ALoCoQkNxGfk4GT7DuqxSe6XqovsXXXEmyZk+nHTPhlRlkYAr8GmU9iy7g7o5A5upul5yMzjShy/
+X-Gm-Message-State: ALoCoQkApckO0+ubRNzDOl8nOnxpH6eFCMuZ9tPy5/d3emPFAGL5glz2h+oakZZJLpry3Y9uVM65
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/8] clutter.bbclass: helper class for clutter and friends
+Subject: Re: [PATCH v2 3/8] New cogl recipe (1.14.0)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +46,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 09:52:46 -0000
-Content-Type: multipart/alternative; boundary=bcaec547c9714fda1204dd3769c0
+X-List-Received-Date: Tue, 21 May 2013 10:01:54 -0000
+Content-Type: multipart/alternative; boundary=001a11c1c278ee194504dd378930
 
---bcaec547c9714fda1204dd3769c0
+--001a11c1c278ee194504dd378930
 Content-Type: text/plain; charset=UTF-8
-
-Hi Tomas,
 
 On Monday, 20 May 2013, Tomas Frydrych wrote:
 
-> +def get_minor_dir(v):
-> +    import re
-> +    m = re.match("^([0-9]+)\.([0-9]+)", v)
-> +    return "%s.%s" % (m.group(1), m.group(2))
+> GL flavour:   'gl' for big GL or 'gles2' for GLES2
+>               (GLES1 is availabe in cogl, but not supporeted here at
+> present.)
 >
->
-Just an observation not a critic, but I'd love to see these centralised,
-we've got the same logic duplicated all over the place now.
 
-+def get_fpu_setting(bb, d):
-> +    if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
-> +        return "--without-fpu"
-> +    return ""
+Does this support enabling both GL and GLES2 in the same build? (at which
+point the choice of backend becomes someone else's problem, but that's fine)
+
+
+> +DEPENDS = "gtk-doc-native pango glib-2.0 gdk-pixbuf"
 >
-> This option isn't used by Clutter or cogl anymore, so you can drop this
-function.
+
+The inherit gtk-doc in clutter.bbclass already adds a dependency on gtk-doc.
+
+
+> +EXTRA_OECONF += "--disable-introspection       \
+> +                --disable-gtk-doc              \
+>
+
+gtk-doc.bbclass does this for you.
+
+
+> +                ${@get_fpu_setting(bb, d)}     \
+>
+
+Unused, you can drop this.
+
++                --enable-examples-install      \
+> +                --enable-debug                 \
+> +                --disable-gl                   \
+> +                --disable-gles1                \
+> +                --disable-gles2                \
+> +                --disable-glx                  \
+>
+
+Why are these not "disabled flags" in each of the relevant PACKAGECONFIG
+definitions?
+
++       # Disable DOLT
+> +       sed -i -e 's/^DOLT//' ${S}/configure.ac
+
+
+This was removed from clutter/cogl in 2010, so drop this.
 
 Ross
 
---bcaec547c9714fda1204dd3769c0
+--001a11c1c278ee194504dd378930
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tomas,<br><br>On Monday, 20 May 2013, Tomas Frydrych  wrote:<br><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">+def get_minor_dir(v):<br>
-+ =C2=A0 =C2=A0import re<br>
-+ =C2=A0 =C2=A0m =3D re.match(&quot;^([0-9]+)\.([0-9]+)&quot;, v)<br>
-+ =C2=A0 =C2=A0return &quot;%s.%s&quot; % (m.group(1), m.group(2))<br><br><=
-/blockquote><div><br></div><div>Just an observation not a critic, but I&#39=
-;d love to see these centralised, we&#39;ve got the same logic duplicated a=
-ll over the place now.</div>
-<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">+def get_fpu_setting(bb, d):<=
-br>
-+ =C2=A0 =C2=A0if d.getVar(&#39;TARGET_FPU&#39;, True) in [ &#39;soft&#39; =
-]:<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;--without-fpu&quot;<br>
-+ =C2=A0 =C2=A0return &quot;&quot;<br><br></blockquote><div>This option isn=
-&#39;t used by Clutter or cogl anymore, so you can drop this function.</div=
-><div><br></div><div>Ross</div>
+On Monday, 20 May 2013, Tomas Frydrych  wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">GL flavour: =C2=A0 &#39;gl&#39; for big GL or &#39;gles2&#39; for GLE=
+S2<br>
 
---bcaec547c9714fda1204dd3769c0--
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (GLES1 is availabe in cogl=
+, but not supporeted here at present.)<br></blockquote><div><br></div><div>=
+Does this support enabling both GL and GLES2 in the same build? (at which p=
+oint the choice of backend becomes someone else&#39;s problem, but that&#39=
+;s fine)</div>
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">+DEPENDS =3D &quot;gtk-doc-=
+native pango glib-2.0 gdk-pixbuf&quot;<br></blockquote><div><br></div><div>=
+The inherit gtk-doc in clutter.bbclass already adds a dependency on gtk-doc=
+.</div>
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">+EXTRA_OECONF +=3D &quot;--=
+disable-introspection =C2=A0 =C2=A0 =C2=A0 \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-gtk-doc =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br></blockquote><div><br>=
+</div><div>gtk-doc.bbclass does this for you.</div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@get_fpu_setting=
+(bb, d)} =C2=A0 =C2=A0 \<br></blockquote><div><br></div><div>Unused, you ca=
+n drop this.=C2=A0</div><div><br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-examples-=
+install =C2=A0 =C2=A0 =C2=A0\<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-debug =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-gl =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-gles1 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-gles2 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-glx =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br></blockquot=
+e><div><br></div><div>Why are these not &quot;disabled flags&quot; in each =
+of the relevant PACKAGECONFIG definitions?</div><div><br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">
++ =C2=A0 =C2=A0 =C2=A0 # Disable DOLT<br>
++ =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;s/^DOLT//&#39; ${S}/<a href=3D"http:/=
+/configure.ac" target=3D"_blank">configure.ac</a></blockquote><div><br></di=
+v><div>This was removed from clutter/cogl in 2010, so drop this.</div><div>=
+<br></div><div>
+Ross</div>
+
+--001a11c1c278ee194504dd378930--
