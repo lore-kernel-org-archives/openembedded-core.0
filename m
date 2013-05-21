@@ -1,27 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D06C60653
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D55960657
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 08:12:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4L8C9Id027913
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 01:12:09 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 21 May 2013 01:12:09 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 May 2013 16:12:11 +0800
-Message-ID: <ec4fc8a782c11d14bd86148f38a59aee339f6f3c.1369123754.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1369123754.git.Qi.Chen@windriver.com>
-References: <cover.1369123754.git.Qi.Chen@windriver.com>
+	Tue, 21 May 2013 08:41:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.87,713,1363132800"; d="scan'208";a="14994533"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 21 May 2013 09:41:13 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1Uei7y-0008Eq-L2; Tue, 21 May 2013 09:41:02 +0100
+Date: Tue, 21 May 2013 09:41:02 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130521084102.GA31419@mcrowe.com>
+References: <1369052565-26170-1-git-send-email-mac@mcrowe.com>
+	<B646CCF4-2E7C-4135-AD1D-D72E0827C779@gmail.com>
+	<1369088718.11013.3.camel@ted>
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH V3 4/4] rpm-postinsts.bb: enable postinst logging
+In-Reply-To: <1369088718.11013.3.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org, Mike Crowe <mac@mcrowe.com>
+Subject: Re: [PATCH] kernel.bbclass: Add dependency on binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 08:12:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 May 2013 08:41:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Mon, May 20, 2013 at 11:25:18PM +0100, Richard Purdie wrote:
+> On Mon, 2013-05-20 at 10:37 -0700, Khem Raj wrote:
+> > On May 20, 2013, at 5:22 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > 
+> > > Compiling the Linux kernel requires binutils; kernel.bbclass uses
+> > > INHIBIT_DEFAULT_DEPS so it had better depend on binutils explicitly.
+> > > 
+> > > (The lack of this dependency isn't always a problem because binutils
+> > > is required to build gcc-cross but if gcc-cross is reconstructed from
+> > > the sstate cache then gcc-cross's dependency on binutils-cross is
+> > > ignored due to being in the safe dependency list in
+> > > setscene_depvalid.)
+> > 
+> > what good is cross-gcc without cross-binutils. Could it be fixed in gcc recipes instead so
+> > it pulls binutils-cross 
+> 
+> This needs fixing in the logic in sstate.bbclass.
 
-Enable postinst logging by checking the configuration in /etc/
-default/postinst.
+The most straightforward fix there (with thanks to Phil Blundell) is to
+just remove binutils-cross from the safe dependency list:
 
-In this way, the postinst logging is enabled if 'debug-tweaks' is
-in IMAGE_FEATURES, and at the same time, we avoid unnecessary rebuild
-if IMAGE_FEATURES is changed.
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1f85c54..be08a66 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -648,7 +648,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+     def isNativeCross(x):
+         return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
+     def isSafeDep(x):
+-        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
++        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "gcc-cross-initial"]:
+             return True
+         return False
+     def isPostInstDep(x):
 
-[YOCTO #4262]
+Is this the sort of fix you mean?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/rpm/rpm-postinsts.bb |   13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Thanks.
 
-diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-index 3c0f520..7798fe6 100644
---- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
-+++ b/meta/recipes-devtools/rpm/rpm-postinsts.bb
-@@ -9,10 +9,6 @@ inherit allarch
- #
- POSTINSTALL_INITPOSITION ?= "98"
- 
--POSTLOG ?= "/var/log/postinstall.log"
--REDIRECT_CMD = "${@base_contains('IMAGE_FEATURES', 'debug-tweaks', '>>${POSTLOG} 2>&1', '', d)}"
--REDIRECT_CMD[vardepsexclude] += "IMAGE_FEATURES POSTLOG"
--
- do_fetch() {
- 	:
- }
-@@ -34,11 +30,16 @@ if [ "x$D" != "x" ] && [ -f $D/var/lib/rpm/Packages ]; then
- 	install -d $D/${sysconfdir}/rcS.d
- 	cat > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
- #!/bin/sh
--
-+[ -e /etc/default/postinst ] && . /etc/default/postinst
- [ -d /etc/rpm-postinsts ] && for i in `ls /etc/rpm-postinsts/`; do
- 	i=/etc/rpm-postinsts/$i
- 	echo "Running postinst $i..."
--	if [ -f $i ] && $i ${REDIRECT_CMD}; then
-+	if [ -x $i ]; then
-+		if [ "$POSTINST_LOGGING" = "1" ]; then
-+			$i >>$LOGFILE 2&>1
-+		else
-+			$i
-+		fi
- 		rm $i
- 	else
- 		echo "ERROR: postinst $i failed."
--- 
-1.7.9.5
-
+Mike.
 
