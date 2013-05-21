@@ -1,28 +1,21 @@
-Return-Path: <tf+lists.yocto@r-finger.com>
-Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F4C6148D
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 164146148D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 10:28:44 +0000 (UTC)
-Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
-	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 1273D952B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 11:28:44 +0100 (BST)
-Message-ID: <519B4C56.6030203@r-finger.com>
-Date: Tue, 21 May 2013 11:28:38 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
-MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <51969025.6040407@linux.intel.com>
-	<1369062325-30335-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369062325-30335-4-git-send-email-tf+lists.yocto@r-finger.com>
-	<CAJTo0LZn_xvXnyCUJ6UR+Dg2uge1_m6R85RMDi-+0Zsf54vW+w@mail.gmail.com>
-In-Reply-To: <CAJTo0LZn_xvXnyCUJ6UR+Dg2uge1_m6R85RMDi-+0Zsf54vW+w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] New cogl recipe (1.14.0)
+	Tue, 21 May 2013 10:40:07 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1UejzC-0006Wv-RC
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 May 2013 12:40:06 +0200
+Message-ID: <1369132806.6695.12.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 May 2013 11:40:06 +0100
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Subject: [PATCH] cross: Clear do_populate_sysroot[stamp-extra-info] so that stamps are not MACHINE specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 10:28:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 May 2013 10:40:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 21/05/13 11:01, Burton, Ross wrote:
-> On Monday, 20 May 2013, Tomas Frydrych wrote:
-> 
->     GL flavour:   'gl' for big GL or 'gles2' for GLES2
->                   (GLES1 is availabe in cogl, but not supporeted here at
->     present.)
-> 
-> 
-> Does this support enabling both GL and GLES2 in the same build? (at
-> which point the choice of backend becomes someone else's problem, but
-> that's fine)
+Otherwise we will try to run the setscene task once per MACHINE which will lead to
+file conflicts in the sysroot for packages like gcc-cross.  The stamps
+are already namespaced by TARGET_ARCH which should be sufficient.
 
-Yes, the PACKAGECONFIG options are additive.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/cross.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-Tomas
-
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index b57e523..eaba4d1 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -55,6 +55,7 @@ libdir = "${exec_prefix}/lib/${CROSS_TARGET_SYS_DIR}"
+ libexecdir = "${exec_prefix}/libexec/${CROSS_TARGET_SYS_DIR}"
+ 
+ do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_NATIVE}/"
++do_populate_sysroot[stamp-extra-info] = ""
+ 
+ python cross_virtclass_handler () {
+     if not isinstance(e, bb.event.RecipePreFinalise):
 -- 
-http://sleepfive.com
+1.7.10.4
+
+
+
 
