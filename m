@@ -1,27 +1,28 @@
-Return-Path: <tf+lists.yocto@r-finger.com>
-Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7103360897
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 5B24862110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 12:36:59 +0000 (UTC)
-Received: from [192.168.0.2] (unknown [86.137.102.112])
-	(using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 4F417952B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 13:37:00 +0100 (BST)
-Message-ID: <519B6A4E.7010707@r-finger.com>
-Date: Tue, 21 May 2013 13:36:30 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+	Tue, 21 May 2013 12:39:31 +0000 (UTC)
+Received: (qmail 10890 invoked by uid 1003); 21 May 2013 12:39:32 -0000
+Received: from unknown (HELO ?192.168.0.60?)
+	(philip@opensdr.com@75.136.226.207)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	21 May 2013 12:39:32 -0000
+Message-ID: <519B6B02.6050702@balister.org>
+Date: Tue, 21 May 2013 08:39:30 -0400
+From: Philip Balister <philip@balister.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+	rv:17.0) Gecko/20130311 Thunderbird/17.0.4
 MIME-Version: 1.0
-CC: openembedded-core@lists.openembedded.org
-References: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369134259-12091-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369134259-12091-5-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369135252.6695.16.camel@phil-desktop.brightsign>
-In-Reply-To: <1369135252.6695.16.camel@phil-desktop.brightsign>
-Subject: Re: [PATCH v3 4/8] fix clutter
+To: openembedded-devel@lists.openembedded.org
+References: <5198C3F0.2060105@kernelconcepts.de>
+In-Reply-To: <5198C3F0.2060105@kernelconcepts.de>
+X-Enigmail-Version: 1.5.1
+Cc: openembedded-members@lists.openembedded.org,
+	Florian Boor <florian.boor@kernelconcepts.de>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] LinuxTag 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 12:37:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2013 12:39:31 -0000
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8bit
 
-On 21/05/13 12:20, Phil Blundell wrote:
-> On Tue, 2013-05-21 at 12:04 +0100, Tomas Frydrych wrote:
->> -# Disable pretty much everything, override in platform specific set up
->> -EXTRA_OECONF += "--disable-gtk-doc		\
->> -	     	 ${@get_fpu_setting(bb, d)}	\
->> -             	 --disable-introspection	\
->> -	     	 --disable-egl-backend		\
->> +# Disable backends we do not currently support building
->> +EXTRA_OECONF += "--disable-introspection	\
+Florian,
+
+Thanks for all your effort on behalf of the OpenEmbedded Project!
+
+Philip
+
+On 05/19/2013 08:22 AM, Florian Boor wrote:
+> Hi all,
 > 
-> Was this supposed to have been squashed with 3/8?
-
-Yes, sorry :( I think Richard already pushed the previous version as well.
-
-Tomas
-
-
--- 
-http://sleepfive.com
+> LinuxTag starts next week and we (well I) will be there.
+> 
+> LinuxTag takes place from May 22th to May 25th at 'Messegelände unter dem
+> Funkturm' in Berlin, Germany.
+> 
+> We share the booth 141 'Linux & Embedded' with other cool projects and look
+> forward to meet you there.
+> 
+> Greetings
+> 
+> Florian
+> 
+> PS: Someone with enough power please add some note to the news section of the
+> website.
+> 
 
