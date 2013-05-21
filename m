@@ -1,36 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D869460655
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 9382360655
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 22:18:59 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id kp6so1159420pab.35
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 15:19:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=CkLKeL4gY+K38PgUz8S+L080XU2HhPcnmxKd/Q2e6z0=;
-	b=K5JtKVVDu+Lz7oGXquMPxFqRTTL+d9Z+m0alBUpZM8f2PxGuS1gY+GY1p0BvCoq3hH
-	lE1m5VhcCGp2StJBlrTcwvGNEqCvxLkDHJWY7lqxRyrQ6LAjRGRmr9CjzUt+CbNuTOSs
-	WTSB2BpTPgX7OK6vfcu0gNYyunYCMhIOrmTcKragpfP+Zs1yzcgGXYzksCRxp8BQn/Ua
-	R8tf3V2bPaWxTBgh3fY4HcinYFXuyymumLf1vROQ2ugQgE1rc96uT87iyzPRRSBEe7qn
-	29pz+Ik6B2MkYRvAJi4krN6uGRnK8m3VJD6l+JOiVzT1yIJs+Ch3AJ2W4XEzF9T3Jbrp
-	d65A==
-X-Received: by 10.66.89.65 with SMTP id bm1mr5166876pab.179.1369174741076;
-	Tue, 21 May 2013 15:19:01 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	nt2sm4293947pbc.17.2013.05.21.15.18.58 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 21 May 2013 15:19:00 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2013 00:18:53 +0200
-Message-Id: <1369174733-25584-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <20130521221615.GG32431@jama>
-References: <20130521221615.GG32431@jama>
-Subject: [PATCH] kernel: Remove unnecessary cd and rm, fix MODULE_TARBALL_SYMLINK_NAME creation
+	Tue, 21 May 2013 22:57:03 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4LN0aI2011437; Wed, 22 May 2013 00:00:36 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ATZISBtX_RG8; Wed, 22 May 2013 00:00:36 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4LN0POX011428
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 22 May 2013 00:00:31 +0100
+Message-ID: <1369177001.3843.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Tue, 21 May 2013 23:56:41 +0100
+In-Reply-To: <519BB951.2040502@mlbassoc.com>
+References: <51962FFE.3040202@mlbassoc.com> <1369127448.11013.16.camel@ted>
+	<519BB951.2040502@mlbassoc.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Poor first impression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 22:18:59 -0000
+X-List-Received-Date: Tue, 21 May 2013 22:57:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* DEPLOYDIR is used as target for every other file deployed by do_deploy,
-  this was just unnecessary switching CWD to create relative symlink and I
-  have no idea why rm -f was used together with ln -sf.
+On Tue, 2013-05-21 at 12:13 -0600, Gary Thomas wrote:
+> On 2013-05-21 03:10, Richard Purdie wrote:
+> > On Fri, 2013-05-17 at 07:26 -0600, Gary Thomas wrote:
+> >> I just tried to run Poky/Yocto on a fresh Ubuntu 12.04 system.  I knew there would
+> >> be missing bits and have seen the "sanity" messages in the past, so I thought I'd
+> >> just carry on.  Today's experience was not pretty and would it not for my experience
+> >> with this, I would have been very perplexed...
+> >
+> > There are two issues there, firstly the scripts/bitbake binary is doing
+> > a really bad job, secondly, one of the improved debugging patches I
+> > added to bitbake, regressed things in this case.
+> >
+> > I posted a patch to bitbake last night, I've just posted a fix for
+> > scripts/bitbake now. These two together should improve this. I agree
+> > that particular error would create a poor first impression, thanks for
+> > reporting it.
+> 
+> With this patch, no 'git' and a fresh build I still get this:
+> 
+> Traceback (most recent call last):
+>    File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
+>      ret = main()
+>    File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
+>      event = server.event_queue.get(block=False)
+>    File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
+>      raise Empty
+> Empty
+> Pseudo is not present but is required, building this first before the main build
+> Traceback (most recent call last):
+>    File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
+>      ret = main()
+>    File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
+>      event = server.event_queue.get(block=False)
+>    File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
+>      raise Empty
+> Empty
+> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+>      Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+>      Following is the list of potential problems / advisories:
+> 
+>      Please install the following missing utilities: git
+> 
+> Still not very pretty.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel.bbclass | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3320747..5a4f4ea 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -375,16 +375,13 @@ kernel_do_deploy() {
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		mkdir -p ${D}/lib
- 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
--		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
-+		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
- 	fi
- 
--	cd ${DEPLOYDIR}
--	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
--	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
--	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
-+	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
-+	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
- 
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
--	cd -
- }
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
- do_deploy[prefuncs] += "package_get_auto_pr"
--- 
-1.8.2.1
+Did you apply both patches, the one for bitbake and the one for OE-Core?
+This looks like the bitbake one is missing.
+
+Cheers,
+
+Richard
+
 
 
