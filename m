@@ -1,40 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 91C6B60655
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D869460655
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 22:16:21 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id rp8so1050473pbb.22
+	Tue, 21 May 2013 22:18:59 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id kp6so1159420pab.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 15:16:21 -0700 (PDT)
+	Tue, 21 May 2013 15:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=1FYz5gfpGZwdz35l2vzVvRvjy87rQD/9Wa4GRLMesCc=;
-	b=HwhCF0eSKQfV8PSVscbJGSR7fIiOcBMLTWXdSn8JQLADNcsWUKqD6D7wkX7qVY/kqG
-	lUVCzqxhc9KoZiYnT8Xq1wDb12U4CI+dzyORuA+I/onPQMuNcoihxemZSWaA45yuxH6s
-	hk+5qwaEci4ByzVtpZ/eOTMbaC5QsisikOvotJu6i4fn2YVbiWWxqmI2P4rN+8FPM2b6
-	bQsjs6slVrMFZ5WN7wTWv2n6WVp7oI8nWdMn7BypMK2A6tqDMfB2UWnSU1MJYhqdhg9f
-	qvU6maoZvdNKeMiqEWQBlORDHoy8iwA2r0TGXz2A1JRUO16O79PxwlNEyRh4arm+B0O0
-	+j/g==
-X-Received: by 10.68.180.4 with SMTP id dk4mr4780028pbc.104.1369174581392;
-	Tue, 21 May 2013 15:16:21 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=CkLKeL4gY+K38PgUz8S+L080XU2HhPcnmxKd/Q2e6z0=;
+	b=K5JtKVVDu+Lz7oGXquMPxFqRTTL+d9Z+m0alBUpZM8f2PxGuS1gY+GY1p0BvCoq3hH
+	lE1m5VhcCGp2StJBlrTcwvGNEqCvxLkDHJWY7lqxRyrQ6LAjRGRmr9CjzUt+CbNuTOSs
+	WTSB2BpTPgX7OK6vfcu0gNYyunYCMhIOrmTcKragpfP+Zs1yzcgGXYzksCRxp8BQn/Ua
+	R8tf3V2bPaWxTBgh3fY4HcinYFXuyymumLf1vROQ2ugQgE1rc96uT87iyzPRRSBEe7qn
+	29pz+Ik6B2MkYRvAJi4krN6uGRnK8m3VJD6l+JOiVzT1yIJs+Ch3AJ2W4XEzF9T3Jbrp
+	d65A==
+X-Received: by 10.66.89.65 with SMTP id bm1mr5166876pab.179.1369174741076;
+	Tue, 21 May 2013 15:19:01 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	10sm4235821pbr.45.2013.05.21.15.16.19 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 21 May 2013 15:16:20 -0700 (PDT)
-Date: Wed, 22 May 2013 00:16:15 +0200
+	nt2sm4293947pbc.17.2013.05.21.15.18.58 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 21 May 2013 15:19:00 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Message-ID: <20130521221615.GG32431@jama>
-References: <1369150787-21878-1-git-send-email-Martin.Jansa@gmail.com>
-	<519BE69F.9060606@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <519BE69F.9060606@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: Remove unnecessary cd and rm
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2013 00:18:53 +0200
+Message-Id: <1369174733-25584-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <20130521221615.GG32431@jama>
+References: <20130521221615.GG32431@jama>
+Subject: [PATCH] kernel: Remove unnecessary cd and rm, fix MODULE_TARBALL_SYMLINK_NAME creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,80 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 22:16:21 -0000
-X-Groupsio-MsgNum: 39555
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="f5QefDQHtn8hx44O"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 May 2013 22:18:59 -0000
 
---f5QefDQHtn8hx44O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* DEPLOYDIR is used as target for every other file deployed by do_deploy,
+  this was just unnecessary switching CWD to create relative symlink and I
+  have no idea why rm -f was used together with ln -sf.
 
-On Tue, May 21, 2013 at 02:26:55PM -0700, Darren Hart wrote:
-> Please include a a comment. The burden is on the submitter to prove
-> the cd and the rm are unnecessary, not the reviewer.
->=20
->=20
-> On 05/21/2013 08:39 AM, Martin Jansa wrote:
-> > ---
-> >  meta/classes/kernel.bbclass | 7 ++-----
-> >  1 file changed, 2 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index 3320747..47a96c5 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -378,13 +378,10 @@ kernel_do_deploy() {
-> >  		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
-> >  	fi
-> > =20
-> > -	cd ${DEPLOYDIR}
-> > -	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
-> > -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
-> > -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
-> > +	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYML=
-INK_NAME}.bin
-> > +	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
->=20
-> So we are now in a different directory (do we know which one?) but the
-> source of the ln commands doesn't change. If we are in the same
-> directory, then why add DEPLOYDIR to the destination?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel.bbclass | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-yes we know which one - ${B} as defined in deploy.bbclass:
-do_deploy[dirs] =3D "${DEPLOYDIR} ${B}", and the same is defined again (may=
-be unnecessary) in
-kernel.bbclass
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3320747..5a4f4ea 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -375,16 +375,13 @@ kernel_do_deploy() {
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}/lib
+ 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+-		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
++		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
+ 	fi
+ 
+-	cd ${DEPLOYDIR}
+-	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+-	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
++	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
++	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
+ 
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+-	cd -
+ }
+ do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+ do_deploy[prefuncs] += "package_get_auto_pr"
+-- 
+1.8.2.1
 
-DEPLOYDIR is defined in deploy.bbclass as well
-DEPLOYDIR =3D "${WORKDIR}/deploy-${PN}"
 
-DEPLOYDIR is used as target for every other file deployed by do_deploy,
-this was just unnecessary switching CWD to create relative symlink and I
-have no idea why rm -f was used together with ln -sf.
-
-I'll send v2, because
-ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
-is wrong.
-
-See related
-http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
-class?id=3Dfd5d80ab1a405cb4ef94f2cde25f8c251da490f0
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---f5QefDQHtn8hx44O
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGb8i8ACgkQN1Ujt2V2gBw3xwCgjAVc+QPzV32vhp8e9j0TqiTH
-BrYAnjzss4K2CW+4u8Wp9d4qQDV/aVNc
-=bUJW
------END PGP SIGNATURE-----
-
---f5QefDQHtn8hx44O--
