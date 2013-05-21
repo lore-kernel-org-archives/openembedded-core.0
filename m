@@ -1,23 +1,23 @@
 Return-Path: <tf+lists.yocto@r-finger.com>
 Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C0E62235
+	by mail.openembedded.org (Postfix) with ESMTP id 30D2162235
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 15:08:52 +0000 (UTC)
+	Tue, 21 May 2013 15:08:53 +0000 (UTC)
 Received: from i7-990x.r-finger.com
 	(host86-137-102-112.range86-137.btcentralplus.com [86.137.102.112])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id BA1A49530
+	by r-finger.com (Postfix) with ESMTPSA id 08F779531
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 May 2013 16:08:53 +0100 (BST)
 From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2013 16:08:41 +0100
-Message-Id: <1369148923-20676-3-git-send-email-tf+lists.yocto@r-finger.com>
+Date: Tue, 21 May 2013 16:08:42 +0100
+Message-Id: <1369148923-20676-4-git-send-email-tf+lists.yocto@r-finger.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1369148923-20676-1-git-send-email-tf+lists.yocto@r-finger.com>
 References: <1369148923-20676-1-git-send-email-tf+lists.yocto@r-finger.com>
-Subject: [PATCH 2/4] cogl: further improvements
+Subject: [PATCH 3/4] clutter: further improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,75 +35,72 @@ X-List-Received-Date: Tue, 21 May 2013 15:08:53 -0000
 From: Tomas Frydrych <tomas@sleepfive.com>
 
  * Removed unnecessary gtk-doc related depends/configure options (handled in
-   gtk-doc class)
- * Moved more configure options into PACKAGECONFIG
- * Fixed typo in RDEPENDS of PACKAGECONFIG[gl] setup
- * Removed no longer needed DOLT-related configure fragment
+   gtk-doc class),
+ * Moved more configure options into PACKAGECONFIG,
+ * Fixed missing comma in PACKAGECONFIG[glx] setup,
+ * Removed no longer required DOLT-related config fragment.
 
 Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
 ---
- meta/recipes-graphics/cogl/cogl-1.0.inc |   24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ meta/recipes-graphics/clutter/clutter-1.0.inc |   22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 17d8629..3a6de28 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -4,7 +4,7 @@ LICENSE = "LGPLv2.1+"
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
+index 6710776..e1d3cf4 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.0.inc
++++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
+@@ -6,7 +6,7 @@ inherit clutter
  
- inherit clutter
+ SRC_URI += "file://enable_tests.patch"
  
--DEPENDS = "gtk-doc-native pango glib-2.0 gdk-pixbuf"
-+DEPENDS = "pango glib-2.0 gdk-pixbuf"
+-DEPENDS = "gtk-doc-native pango glib-2.0 json-glib atk udev cogl-1.0"
++DEPENDS = "pango glib-2.0 json-glib atk udev cogl-1.0"
  PACKAGES =+ "${PN}-examples"
  AUTOTOOLS_AUXDIR = "${S}/build"
  
-@@ -21,38 +21,30 @@ ERDEPENDS_GL    = "libgl"
- ERDEPENDS_GLES2 = "libgles2"
+@@ -18,28 +18,23 @@ EDEPENDS_EVDEV = "libxkbcommon"
+ ERDEPENDS_EVDEV = "xkeyboard-config"
  
- EXTRA_OECONF += "--disable-introspection	\
--	       	 --disable-gtk-doc		\
--	       	 ${@get_fpu_setting(bb, d)}	\
- 	       	 --enable-examples-install	\
- 	       	 --enable-debug		 	\
--	       	 --disable-gl			\
- 	       	 --disable-gles1		\
--	       	 --disable-gles2		\
--	       	 --disable-glx			\
+ # Disable pretty much everything, override in platform specific set up
+-EXTRA_OECONF += "--disable-gtk-doc		\
+-	     	 ${@get_fpu_setting(bb, d)}	\
+-             	 --disable-introspection	\
+-	     	 --disable-egl-backend		\
++EXTRA_OECONF += "--disable-introspection	\
+ 	     	 --disable-quartz-backend	\
+ 	     	 --disable-win32-backend	\
+-	     	 --disable-x11-backend		\
+ 	     	 --disable-gdk-backend		\
+ 	     	 --disable-wayland-backend	\
+ 	     	 --disable-wayland-compositor	\
+ 	     	 --disable-cex100-backend	\
+ 	     	 --disable-tslib-input		\
+-	     	 --disable-evdev-input		\
  	    	"
  
- # GL flavours
--PACKAGECONFIG[gl] = "--enable-gl,,${EDEPENDS_GL},${ERDPENDS_GL}"
--PACKAGECONFIG[gles2] = "--enable-gles2,,${EDEPENDS_GLES2}, ${ERDEPENDS_GLES2}"
-+PACKAGECONFIG[gl] = "--enable-gl,--disable-gl,${EDEPENDS_GL},${ERDEPENDS_GL}"
-+PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,${EDEPENDS_GLES2}, ${ERDEPENDS_GLES2}"
+-PACKAGECONFIG[x11] = "--enable-x11-backend,,${EDEPENDS_X11}"
+-PACKAGECONFIG[glx] = "--enable-x11-backend,,${EDEPENDS_X11} ${EDEPENDS_GLX}"
+-PACKAGECONFIG[egl] = "--enable-egl-backend,,${EDEPENDS_EGL}"
+-PACKAGECONFIG[evdev] = "--enable-evdev-input,,${EDEPENDS_EVDEV},${ERDEPENDS_EVDEV}"
++PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,${EDEPENDS_X11}"
++PACKAGECONFIG[glx] = ",,${EDEPENDS_X11} ${EDEPENDS_GLX}"
++PACKAGECONFIG[egl] = "--enable-egl-backend,--disable-egl-backend,${EDEPENDS_EGL}"
++PACKAGECONFIG[evdev] = "--enable-evdev-input,--disable-evdev-input,${EDEPENDS_EVDEV},${ERDEPENDS_EVDEV}"
  
- # egl backends
--PACKAGECONFIG[egl-kms] = "--enable-kms-egl-platform,,${EDEPENDS_KMS}"
--PACKAGECONFIG[egl-null] = "--enable-null-egl-platform"
--PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,,${EDEPENDS_X11}"
-+PACKAGECONFIG[egl-kms] = "--enable-kms-egl-platform,--disable-kms-egl-platform,${EDEPENDS_KMS}"
-+PACKAGECONFIG[egl-null] = "--enable-null-egl-platform,--disable-null-egl-platform"
-+PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11}"
- 
- # glx
--PACKAGECONFIG[glx] = "--enable-gl --enable-glx, ${EDEPENDS_GL} ${EDEPENDS_X11}"
-+PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11}"
- 
- # Default to GLX
+ # Default configuration, distros might want to override
 -PACKAGECONFIG ??= "glx"
-+PACKAGECONFIG ??= "gl glx"
++PACKAGECONFIG ??= "x11 glx"
  
- #Fix up some weirdness in the docs
- do_configure_prepend() {
-         sed -i s:doc/reference/Makefile::g ${S}/configure.ac
-         sed -i s:doc::g ${S}/Makefile.am
+ FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
+ 
+@@ -50,7 +45,4 @@ do_configure_prepend() {
+ 
+ 	# see https://bugzilla.gnome.org/show_bug.cgi?id=661128 for this
+ 	touch -t 200001010000 po/clutter-1.0.pot
 -
 -	# Disable DOLT
 -	sed -i -e 's/^DOLT//' ${S}/configure.ac
  }
- 
- FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
 -- 
 1.7.10.4
 
