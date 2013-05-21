@@ -1,38 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 594D060655;
-	Tue, 21 May 2013 21:45:43 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id fb10so1136135pad.9
-	for <multiple recipients>; Tue, 21 May 2013 14:45:44 -0700 (PDT)
+Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
+	[209.85.160.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 91C6B60655
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 22:16:21 +0000 (UTC)
+Received: by mail-pb0-f49.google.com with SMTP id rp8so1050473pbb.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 15:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
+	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kQHI92+sphrqCxffe6Rabq1czmeAgkE/uhn8dJRBoro=;
-	b=ed0uNaOn+lLY62Wr8371B8CJ+0/wiMepRdJ2B3/jwx0CzmsqwZoTMPybMjfByFD9/i
-	LFXBWOqle4Im7H0z/5dOsXR0JXJDeIs4Fcg5/hEtmiCRpTMNXvSVafd2lffhhhs4ipk5
-	jYqrf0waonWtYPDDRmBUbUkpOYPUZCJwob/VNcfwaZD1MecT7PqarG2bWfpezz+Ywa0X
-	CirVkS4D1eeYOAlqOELJWoWoCVBJLVE1dw1txNG7Pg3+SwTGF0vj8IezJcxwu0slhjCN
-	MdNCNc297/BD18gQRN6ZAv2X6ihcVmDuNvNRAWJfrBmY2RLc8p0za78hUwkIUloWd/mc
-	q8/A==
-X-Received: by 10.68.90.197 with SMTP id by5mr4596876pbb.196.1369172744770;
-	Tue, 21 May 2013 14:45:44 -0700 (PDT)
+	bh=1FYz5gfpGZwdz35l2vzVvRvjy87rQD/9Wa4GRLMesCc=;
+	b=HwhCF0eSKQfV8PSVscbJGSR7fIiOcBMLTWXdSn8JQLADNcsWUKqD6D7wkX7qVY/kqG
+	lUVCzqxhc9KoZiYnT8Xq1wDb12U4CI+dzyORuA+I/onPQMuNcoihxemZSWaA45yuxH6s
+	hk+5qwaEci4ByzVtpZ/eOTMbaC5QsisikOvotJu6i4fn2YVbiWWxqmI2P4rN+8FPM2b6
+	bQsjs6slVrMFZ5WN7wTWv2n6WVp7oI8nWdMn7BypMK2A6tqDMfB2UWnSU1MJYhqdhg9f
+	qvU6maoZvdNKeMiqEWQBlORDHoy8iwA2r0TGXz2A1JRUO16O79PxwlNEyRh4arm+B0O0
+	+j/g==
+X-Received: by 10.68.180.4 with SMTP id dk4mr4780028pbc.104.1369174581392;
+	Tue, 21 May 2013 15:16:21 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	tq8sm4176552pbc.30.2013.05.21.14.45.42 for <multiple recipients>
+	10sm4235821pbr.45.2013.05.21.15.16.19 for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 21 May 2013 14:45:44 -0700 (PDT)
-Date: Tue, 21 May 2013 23:45:39 +0200
+	Tue, 21 May 2013 15:16:20 -0700 (PDT)
+Date: Wed, 22 May 2013 00:16:15 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Message-ID: <20130521214539.GF32431@jama>
-References: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-ID: <20130521221615.GG32431@jama>
+References: <1369150787-21878-1-git-send-email-Martin.Jansa@gmail.com>
+	<519BE69F.9060606@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
+In-Reply-To: <519BE69F.9060606@linux.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: OE TSC Minutes 7 May 2013
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: Remove unnecessary cd and rm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,80 +47,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 21:45:43 -0000
-X-Groupsio-MsgNum: 39554
+X-List-Received-Date: Tue, 21 May 2013 22:16:21 -0000
+X-Groupsio-MsgNum: 39555
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fwqqG+mf3f7vyBCB"
+	protocol="application/pgp-signature"; boundary="f5QefDQHtn8hx44O"
 Content-Disposition: inline
 
---fwqqG+mf3f7vyBCB
+--f5QefDQHtn8hx44O
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 21, 2013 at 12:36:54PM -0700, Jeff Osier-Mixon wrote:
-> TSC could chair it but make it a public IRC thing
-> -> proposal: monthly IRC meeting to replace one of the bi-weekly TSC
-> meetings, open to all
->  timezone will be an issue
-> =3D> think about for next meeting
+On Tue, May 21, 2013 at 02:26:55PM -0700, Darren Hart wrote:
+> Please include a a comment. The burden is on the submitter to prove
+> the cd and the rm are unnecessary, not the reviewer.
+>=20
+>=20
+> On 05/21/2013 08:39 AM, Martin Jansa wrote:
+> > ---
+> >  meta/classes/kernel.bbclass | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index 3320747..47a96c5 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -378,13 +378,10 @@ kernel_do_deploy() {
+> >  		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
+> >  	fi
+> > =20
+> > -	cd ${DEPLOYDIR}
+> > -	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+> > -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+> > -	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+> > +	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYML=
+INK_NAME}.bin
+> > +	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
+>=20
+> So we are now in a different directory (do we know which one?) but the
+> source of the ln commands doesn't change. If we are in the same
+> directory, then why add DEPLOYDIR to the destination?
 
-I really like this idea, I think it will improve situation with:
-status updates - people can watch it immediately on IRC, instead=20
-  of waiting for minutes
-lack of community input - easier for people to comment on issues or add
-  to agenda when they see discussion about related topic
-community involvement - seeing some AR discussed a month ago is too late
-  to volunteer
+yes we know which one - ${B} as defined in deploy.bbclass:
+do_deploy[dirs] =3D "${DEPLOYDIR} ${B}", and the same is defined again (may=
+be unnecessary) in
+kernel.bbclass
 
-> f. python 3
-> hard to support both py2 and 3
-> two issues: python3 on target, using p3 for bitbake
-> don't think we can reasonably support both
-> make the switch in the 1.5 timeframe?
-> need to start informing people of it -now-..
+DEPLOYDIR is defined in deploy.bbclass as well
+DEPLOYDIR =3D "${WORKDIR}/deploy-${PN}"
 
-p3-only looks good to me, I would be happy to help testing this and then
-drop p2 from my minimalistic chroot. There are also some external tools
-like opkg-utils (IIRC this one is 99% p3 compatible now, I can take care
-of remaining).
+DEPLOYDIR is used as target for every other file deployed by do_deploy,
+this was just unnecessary switching CWD to create relative symlink and I
+have no idea why rm -f was used together with ln -sf.
 
-> (9:32:11 AM) RP: For 3a, I'd agreed to provide status updates. I've
-> now provided two of these
-> (9:32:24 AM) Jefro: wiki page is not yet done
-> (9:32:27 AM) RP: I'm trying to turn it into a habit
-> (9:32:50 AM) RP: Did people like/dislike them?
+I'll send v2, because
+ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODULE_TARBALL_SYMLINK_NAME}
+is wrong.
 
-I like them.
+See related
+http://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bb=
+class?id=3Dfd5d80ab1a405cb4ef94f2cde25f8c251da490f0
 
-> (9:36:03 AM) bluelightning: it's worth noting I'm aware that some
-> people have migrated recipes and then kept them in their own layers
-> (9:36:35 AM) bluelightning: which is not hugely bad but it would be
-> nice if they could send them somewhere more appropriate
-> (9:36:59 AM) RP: bluelightning: any idea why they're doing that?
-> Simply don't know any different?
-
-For many recipes I've used meta-shr as "staging" area to test it on more
-builders and probably by more people before moving them to meta-oe.
-
-But it's also easy to forget them in "staging" area, when they just
-work for me (as I have meta-shr always included) and nobody shows any=20
-interest in them.
-
-Cheers,
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---fwqqG+mf3f7vyBCB
+--f5QefDQHtn8hx44O
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlGb6wIACgkQN1Ujt2V2gBy0RwCgqbF2yoV9+VA8c+CZYBP6+smz
-V7UAn3D933Hcw7EVzwA6zhbOnJZAoR9k
-=ejGf
+iEYEARECAAYFAlGb8i8ACgkQN1Ujt2V2gBw3xwCgjAVc+QPzV32vhp8e9j0TqiTH
+BrYAnjzss4K2CW+4u8Wp9d4qQDV/aVNc
+=bUJW
 -----END PGP SIGNATURE-----
 
---fwqqG+mf3f7vyBCB--
+--f5QefDQHtn8hx44O--
