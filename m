@@ -1,24 +1,31 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id DD3E160897
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E71F160653
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 07:39:04 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 21 May 2013 00:39:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,713,1363158000"; d="scan'208";a="244495374"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 21 May 2013 00:38:50 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2013 10:38:40 +0300
-Message-Id: <4038377c71573129009473c15599e3d40b6b66a4.1369121729.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1369121729.git.laurentiu.palcu@intel.com>
-References: <cover.1369121729.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1369121729.git.laurentiu.palcu@intel.com>
-References: <cover.1369121729.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 1/1] runqemu: fix networking issues
+	Tue, 21 May 2013 08:04:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4L87anM008752 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 09:07:36 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Wxu5AsKCGOpm
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 09:07:36 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4L86wX8008743
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 09:07:33 +0100
+Message-ID: <1369121731.11013.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 May 2013 08:35:31 +0100
+Mime-Version: 1.0
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Subject: [PATCH] update-alternatives: Drop deprecated code, update to show error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +38,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 07:39:05 -0000
+X-List-Received-Date: Tue, 21 May 2013 08:04:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-After switching from ifconfig to ip, networking stopped working. This
-commit contains the following fixes:
+This code has been deprecated for a while and confuses the class, lets drop it
+and just give the user hard error messages instead of the current warnings/fixups.
 
- * set a decent broadcast address for the tap device;
- * bring up the device;
- * add the route using ip tool instead of the old route tool;
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu-ifup |   15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ meta/classes/update-alternatives.bbclass | 95 +-------------------------------
+ 1 file changed, 1 insertion(+), 94 deletions(-)
 
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 8948153..5f6a437 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -80,16 +80,6 @@ if [ ! -x "$IFCONFIG" ]; then
- 	exit 1
- fi
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 2cadaf7..f75f5b6 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -57,96 +57,12 @@
+ #
+ # The package priority for a specific target
+ # ALTERNATIVE_PRIORITY_<pkg>[name] = "priority"
+-#
+-#
+-# -----
+-#
+-#
+-# The following describes deprecated behavior, using any of the
+-# following modes will result in a warning, and eventually an error:
+-#
+-# There are two basic modes supported: 'single update' and 'batch update'
+-#
+-# 'single update' is used for a single alternative command, and you're
+-# expected to provide at least below keywords:
+-#
+-#     ALTERNATIVE_NAME - the name that the alternative is registered
+-#     ALTERNATIVE_PATH - the path of installed alternative
+-#
+-# ALTERNATIVE_PRIORITY and ALTERNATIVE_LINK are optional which have defaults
+-# in this class.
+-#
+-# 'batch update' is used if you have multiple alternatives to be updated.
+-# Unlike 'single update', 'batch update' in most times only require two
+-# parameters:
+-#
+-#     ALTERNATIVE_LINKS - a list of symbolic links for which you'd like to
+-#                         create alternatives, with space as delimiter, e.g:
+-#
+-#         ALTERNATIVE_LINKS = "${bindir}/cmd1 ${sbindir}/cmd2 ..."
+-#
+-#     ALTERNATIVE_PRIORITY - optional, applies to all
+-#
+-# To simplify the design, this class has the assumption that for a name
+-# listed in ALTERNATIVE_LINKS, say /path/cmd:
+-#
+-#     the name of the alternative would be: cmd
+-#     the path of installed alternative would be: /path/cmd.${BPN}
+-#     ${D}/path/cmd will be renamed to ${D}/path/cmd.{BPN} automatically
+-#     priority will be the same from ALTERNATIVE_PRIORITY
+-#
+-# If above assumption breaks your requirement, then you still need to use
+-# your own update-alternatives command directly.
  
--ROUTE=`which route`
--if [ "x$ROUTE" = "x" ]; then
--	# better than nothing...
--	ROUTE=/sbin/route
--fi
--if [ ! -x "$ROUTE" ]; then
--	echo "$ROUTE cannot be executed"
--	exit 1
--fi
+-# defaults
+ ALTERNATIVE_PRIORITY = "10"
+ 
+-# The following code is deprecated, but included for compatibility with older packages
+-def update_alternatives_after_parse(d):
+-    if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d):
+-        return
 -
- IPTABLES=`which iptables 2> /dev/null`
- if [ "x$IPTABLES" = "x" ]; then
- 	IPTABLES=/sbin/iptables
-@@ -100,10 +90,11 @@ if [ ! -x "$IPTABLES" ]; then
- fi
+-    # The following code is deprecated, but included for compatibility with older packages
+-    pn = d.getVar('BPN', True)
+-
+-    if d.getVar('ALTERNATIVE_LINKS') != None:
+-        # Convert old format to new format...
+-        alt_links = d.getVar('ALTERNATIVE_LINKS', True) or ""
+-        for alt_link in alt_links.split():
+-            alt_name = os.path.basename(alt_link)
+-
+-            alternative = d.getVar('ALTERNATIVE_%s' % pn, True) or ""
+-            alternative += " " + alt_name
+-            d.setVar('ALTERNATIVE_%s' % pn, alternative)
+-            d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, alt_link)
+-            d.setVarFlag('ALTERNATIVE_TARGET', alt_name, alt_link)
+-        return
+-
+-    if d.getVar('ALTERNATIVE_NAME') != None or d.getVar('ALTERNATIVE_PATH') != None:
+-        # Convert old format to new format...
+-        alt_name = d.getVar('ALTERNATIVE_NAME', True)
+-        alt_path = d.getVar('ALTERNATIVE_PATH', True)
+-        alt_link = d.getVar('ALTERNATIVE_LINK', True) or ("%s/%s" % (d.getVar('bindir', True), alt_name))
+-        if alt_name == None:
+-            raise bb.build.build.FuncFailed("%s inherits update-alternatives but doesn't set ALTERNATIVE_NAME" % d.getVar('FILE'))
+-        if alt_path == None:
+-            raise bb.build.build.FuncFailed("%s inherits update-alternatives but doesn't set ALTERNATIVE_PATH" % d.getVar('FILE'))
+-
+-        alternative = d.getVar('ALTERNATIVE_%s' % pn, True) or ""
+-        alternative += " " + alt_name
+-
+-        # Fix the alt_path if it's relative
+-        alt_path = os.path.join(os.path.dirname(alt_link), alt_path)
+-
+-        d.setVar('ALTERNATIVE_%s' % pn, alternative)
+-        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, alt_link)
+-        d.setVarFlag('ALTERNATIVE_TARGET', alt_name, alt_path)
+-
+-
+ # We need special processing for vardeps because it can not work on
+ # modified flag values.  So we agregate the flags into a new variable
+ # and include that vairable in the set.
+-
+ UPDALTVARS  = "ALTERNATIVE ALTERNATIVE_LINK_NAME ALTERNATIVE_TARGET ALTERNATIVE_PRIORITY"
  
- n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
--$IFCONFIG addr add 192.168.7.$n/32 dev $TAP
-+$IFCONFIG addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
-+$IFCONFIG link set dev $TAP up
+ def gen_updatealternativesvardeps(d):
+@@ -178,9 +94,6 @@ python __anonymous() {
+        bb.data.inherits_class('cross-canadian', d):
+         return
  
- dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
--$ROUTE add -host 192.168.7.$dest $TAP
-+$IFCONFIG route add to 192.168.7.$dest dev $TAP
+-    # deprecated stuff...
+-    update_alternatives_after_parse(d)
+-
+     # compute special vardeps
+     gen_updatealternativesvardeps(d)
  
- # setup NAT for tap0 interface to have internet access in QEMU
- $IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
--- 
-1.7.9.5
+@@ -202,9 +115,6 @@ def gen_updatealternativesvars(d):
+             ret.append(v + "_VARDEPS_" + p)
+     return " ".join(ret)
+ 
+-# First the deprecated items...
+-populate_packages[vardeps] += "ALTERNATIVE_LINKS ALTERNATIVE_NAME ALTERNATIVE_PATH"
+-
+ # Now the new stuff, we use a custom function to generate the right values
+ populate_packages[vardeps] += "${UPDALTVARS} ${@gen_updatealternativesvars(d)}"
+ 
+@@ -215,10 +125,7 @@ python perform_packagecopy_append () {
+     # Check for deprecated usage...
+     pn = d.getVar('BPN', True)
+     if d.getVar('ALTERNATIVE_LINKS', True) != None:
+-        bb.warn('%s: Use of ALTERNATIVE_LINKS is deprecated, see update-alternatives.bbclass for more info.' % pn)
+-
+-    if d.getVar('ALTERNATIVE_NAME', True) != None or d.getVar('ALTERNATIVE_PATH', True) != None:
+-        bb.warn('%s: Use of ALTERNATIVE_NAME is deprecated, see update-alternatives.bbclass for more info.' % pn)
++        bb.fatal('%s: Use of ALTERNATIVE_LINKS/ALTERNATIVE_PATH/ALTERNATIVE_NAME is no longer supported, please convert to the updated syntax, see update-alternatives.bbclass for more info.' % pn)
+ 
+     # Do actual update alternatives processing
+     pkgdest = d.getVar('PKGD', True)
+
 
 
