@@ -1,28 +1,45 @@
-Return-Path: <xiao.zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 63EA560897
+Return-Path: <B40527@freescale.com>
+Received: from co1outboundpool.messaging.microsoft.com
+	(co1ehsobe006.messaging.microsoft.com [216.32.180.189])
+	by mail.openembedded.org (Postfix) with ESMTP id 3557E60897
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 05:17:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4L5HtH9014068
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2013 22:17:55 -0700 (PDT)
-Received: from [128.224.162.169] (128.224.162.169) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Mon, 20 May 2013 22:17:53 -0700
-Message-ID: <519B037E.5020700@windriver.com>
-Date: Tue, 21 May 2013 13:17:50 +0800
-From: zhangxiao <xiao.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Tue, 21 May 2013 07:04:46 +0000 (UTC)
+Received: from mail97-co1-R.bigfish.com (10.243.78.245) by
+	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 21 May 2013 07:04:41 +0000
+Received: from mail97-co1 (localhost [127.0.0.1])	by mail97-co1-R.bigfish.com
+	(Postfix) with ESMTP id ACC96480245	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 07:04:41 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1155h)
+Received: from mail97-co1 (localhost.localdomain [127.0.0.1]) by mail97-co1
+	(MessageSwitch) id 1369119879649359_9847;
+	Tue, 21 May 2013 07:04:39 +0000 (UTC)
+Received: from CO1EHSMHS011.bigfish.com (unknown [10.243.78.239])	by
+	mail97-co1.bigfish.com (Postfix) with ESMTP id 9218C580049	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2013 07:04:39 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS011.bigfish.com
+	(10.243.66.21) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 21 May 2013 07:04:39 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 21 May 2013 07:05:14 +0000
+Received: from localhost.localdomain (rhuath.am.freescale.net [10.82.176.1])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r4L74ZhB001251; Tue, 21 May 2013 00:04:36 -0700
+From: <b40527@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <519AE3E1.8040404@windriver.com>
-In-Reply-To: <519AE3E1.8040404@windriver.com>
-X-Originating-IP: [128.224.162.169]
-Subject: Re: How about separate client only mode from nfs-utils?
+Date: Tue, 21 May 2013 02:04:35 -0500
+Message-ID: <1369119875-4984-1-git-send-email-b40527@freescale.com>
+X-Mailer: git-send-email 1.6.2.5
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Zongchun Yu <b40527@freescale.com>
+Subject: [PATCH] base-files:fix the command line wrap around issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 05:17:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 May 2013 07:04:46 -0000
+Content-Type: text/plain
 
-On 2013年05月21日 11:02, zhangxiao wrote:
-> Hi Experts,
->
-> I find current nfs-utils just support client+server mode. No client only
-> mode support. Yes, we can say the client can be used normally in this full
-> function mode. But... I wonder if we have any plan to make it? I think only
-> script modification is OK. To start necessary daemon for client side only.
->
-Especially the rpc.statd that needed for both client and server side. Or we
-can only use nfs client with "-o nolock".
+From: Zongchun Yu <b40527@freescale.com>
 
-Thanks
-Xiao
+when the character number of cmdline is more than 80. the following character should
+go to a new line. rather than cover the prompt and the inputting character before.
 
-> How about your opinions and plan?
->
-> Thanks a lot!
-> Xiao
->
->
+Signed-off-by: Zongchun Yu <b40527@freescale.com>
+---
+ meta/recipes-core/base-files/base-files/profile |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index 8eeaac3..f58ae3d 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -27,6 +27,7 @@ if [ -d /etc/profile.d ]; then
+ fi
+ 
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
++export COLUMNS=2000
+ 
+ umask 022
+ 
+-- 
+1.6.2.5
+
+
 
