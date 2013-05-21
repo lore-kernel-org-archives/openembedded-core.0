@@ -1,24 +1,24 @@
 Return-Path: <tf+lists.yocto@r-finger.com>
 Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 831BA6A38A
+	by mail.openembedded.org (Postfix) with ESMTP id 7458A6A387
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 May 2013 11:04:24 +0000 (UTC)
 Received: from i7-990x.r-finger.com
 	(host86-137-102-112.range86-137.btcentralplus.com [86.137.102.112])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 499739532
+	by r-finger.com (Postfix) with ESMTPSA id 9307D9530
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 May 2013 12:04:25 +0100 (BST)
 From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2013 12:04:17 +0100
-Message-Id: <1369134259-12091-7-git-send-email-tf+lists.yocto@r-finger.com>
+Date: Tue, 21 May 2013 12:04:18 +0100
+Message-Id: <1369134259-12091-8-git-send-email-tf+lists.yocto@r-finger.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1369134259-12091-1-git-send-email-tf+lists.yocto@r-finger.com>
 References: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
 	<1369134259-12091-1-git-send-email-tf+lists.yocto@r-finger.com>
-Subject: [PATCH v3 6/8] New clutter-gtk recipe (1.4.2)
+Subject: [PATCH v3 7/8] New mx recipe (1.4.7)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +35,173 @@ X-List-Received-Date: Tue, 21 May 2013 11:04:25 -0000
 
 From: Tomas Frydrych <tomas@sleepfive.com>
 
+The package has been renamed to mx-1.0, keeping up with the upstream versioning
+policy. The 1.14.7 tag does not build with clutter 1.14, so git revision
+9b1db6b8060bd00b121a692f942404a24ae2960f from the 1.14 branch is used instead.
 
 Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
 ---
- meta/recipes-graphics/clutter/clutter-gtk-1.0.inc      |   12 ++++++++++++
- meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.2.bb |    6 ++++++
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.2.bb
+ meta/recipes-graphics/mx/mx-1.0_1.4.7.bb           |   14 ++++++
+ .../recipes-graphics/mx/mx-1.4/fix-build-dir.patch |   46 ++++++++++++++++++++
+ meta/recipes-graphics/mx/mx.inc                    |   21 +++++++++
+ .../recipes-graphics/mx/mx/fix-test-includes.patch |   20 +++++++++
+ meta/recipes-graphics/mx/mx_1.4.7.bb               |   18 --------
+ 5 files changed, 101 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
+ create mode 100644 meta/recipes-graphics/mx/mx-1.4/fix-build-dir.patch
+ create mode 100644 meta/recipes-graphics/mx/mx.inc
+ create mode 100644 meta/recipes-graphics/mx/mx/fix-test-includes.patch
+ delete mode 100644 meta/recipes-graphics/mx/mx_1.4.7.bb
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
+diff --git a/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb b/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
 new file mode 100644
-index 0000000..3717f48
+index 0000000..4c4c8eb
 --- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-@@ -0,0 +1,12 @@
-+DESCRIPTION = "ClutterGtk"
-+HOMEPAGE = "http://www.clutter-project.org/"
-+LICENSE = "LGPLv2+"
++++ b/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
+@@ -0,0 +1,14 @@
++require mx.inc
++
++# The 1.4.7 tag does not build against cogl 1.14, pull in a revision with a fix
++SRCREV = "9b1db6b8060bd00b121a692f942404a24ae2960f"
++PV = "1.4.7+git${SRCPV}"
++
++SRC_URI = "git://github.com/clutter-project/mx.git;protocol=git \
++	   file://fix-build-dir.patch \
++	   file://fix-test-includes.patch \
++	  "
++S = "${WORKDIR}/git"
++
++LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
++                    file://mx/mx-widget.c;beginline=8;endline=20;md5=13bba3c973a72414a701e1e87b5ee879"
+diff --git a/meta/recipes-graphics/mx/mx-1.4/fix-build-dir.patch b/meta/recipes-graphics/mx/mx-1.4/fix-build-dir.patch
+new file mode 100644
+index 0000000..e7481e9
+--- /dev/null
++++ b/meta/recipes-graphics/mx/mx-1.4/fix-build-dir.patch
+@@ -0,0 +1,46 @@
++Fix build for S != B
++
++This patch is specific to version 1.4.x
++Upstream-status: Submitted @ https://github.com/clutter-project/mx/issues/81
++Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
++--
++Index: git/docs/reference/libmx-gtk/Makefile.am
++===================================================================
++--- git.orig/docs/reference/libmx-gtk/Makefile.am	2013-05-08 15:07:02.027154788 +0100
+++++ git/docs/reference/libmx-gtk/Makefile.am	2013-05-08 15:14:33.684318650 +0100
++@@ -1,3 +1,6 @@
+++EXTRA_DIST=
+++CLEANFILES=
+++
++ ## Process this file with automake to produce Makefile.in
++ 
++ # We require automake 1.6 at least.
++@@ -77,7 +80,7 @@
++ GTKDOC_LIBS=$(MX_LIBS) $(top_builddir)/mx-gtk/libmx-gtk-$(MX_API_VERSION).la
++ 
++ # This includes the standard gtk-doc make rules, copied by gtkdocize.
++-include $(top_srcdir)/gtk-doc.make
+++include $(top_builddir)/gtk-doc.make
++ 
++ # Other files to distribute
++ EXTRA_DIST += version.xml.in
++Index: git/docs/reference/libmx/Makefile.am
++===================================================================
++--- git.orig/docs/reference/libmx/Makefile.am	2013-05-08 15:07:02.027154788 +0100
+++++ git/docs/reference/libmx/Makefile.am	2013-05-08 15:14:24.456378135 +0100
++@@ -1,3 +1,6 @@
+++EXTRA_DIST=
+++CLEANFILES=
+++
++ ## Process this file with automake to produce Makefile.in
++ 
++ # We require automake 1.6 at least.
++@@ -106,7 +109,7 @@
++ GTKDOC_LIBS=$(MX_LIBS) $(top_builddir)/mx/libmx-$(MX_API_VERSION).la
++ 
++ # This includes the standard gtk-doc make rules, copied by gtkdocize.
++-include $(top_srcdir)/gtk-doc.make
+++include $(top_builddir)/gtk-doc.make
++ 
++ # Other files to distribute
++ EXTRA_DIST += version.xml.in
+diff --git a/meta/recipes-graphics/mx/mx.inc b/meta/recipes-graphics/mx/mx.inc
+new file mode 100644
+index 0000000..e3b4b15
+--- /dev/null
++++ b/meta/recipes-graphics/mx/mx.inc
+@@ -0,0 +1,21 @@
++DESCRIPTION = "Clutter based widget library"
++LICENSE = "LGPLv2.1"
 +
 +inherit clutter
 +
-+DEPENDS = "clutter-1.0 gtk+3"
-+PACKAGES  =+ "${PN}-examples"
-+AUTOTOOLS_AUXDIR = "${S}/build"
++DEPENDS = "clutter-1.0 dbus-glib gdk-pixbuf"
 +
-+EXTRA_OECONF += "--disable-introspection"
++SRC_URI = "http://source.clutter-project.org/sources/mx/${@get_verdir("${PV}")}/mx-${PV}.tar.xz"
 +
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.2.bb b/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.2.bb
++EXTRA_OECONF = "--disable-introspection		\
++	        --disable-gtk-doc		\
++	        --disable-gtk-widgets		\
++		--with-dbus			\
++		--with-winsys=none		\
++		--without-clutter-imcontext	\
++		--without-clutter-gesture	\
++		--without-startup-notification	\
++		--without-glade			\
++	       "
++
++FILES_${PN} += "${datadir}"
+diff --git a/meta/recipes-graphics/mx/mx/fix-test-includes.patch b/meta/recipes-graphics/mx/mx/fix-test-includes.patch
 new file mode 100644
-index 0000000..64eb70c
+index 0000000..c6496a9
 --- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.2.bb
-@@ -0,0 +1,6 @@
-+require clutter-gtk-1.0.inc
++++ b/meta/recipes-graphics/mx/mx/fix-test-includes.patch
+@@ -0,0 +1,20 @@
++Fix missing include directory when building tests
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-+
-+SRC_URI[archive.md5sum] = "842601b584daf4447a46799a4ba88df6"
-+SRC_URI[archive.sha256sum] = "dc3ec6e90bc742c8a68ed7fa4c0d25b9b376828f1a7f013c363fbaf14f3a6974"
++This patch is currently required for all versions of mx
++Upstream-status: Submitted @ https://github.com/clutter-project/mx/issues/82
++Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
++--
++Index: git/tests/Makefile.am
++===================================================================
++--- git.orig/tests/Makefile.am	2013-05-08 15:18:56.918596425 +0100
+++++ git/tests/Makefile.am	2013-05-08 15:23:26.864781401 +0100
++@@ -10,7 +10,8 @@
++ 
++ INCLUDES = \
++ 	-I$(top_srcdir) \
++-	-I$(top_builddir)
+++	-I$(top_builddir)\
+++	-I$(top_builddir)/mx
++ 
++ noinst_PROGRAMS = 			\
++ 	test-deform-texture		\
+diff --git a/meta/recipes-graphics/mx/mx_1.4.7.bb b/meta/recipes-graphics/mx/mx_1.4.7.bb
+deleted file mode 100644
+index fd9189b..0000000
+--- a/meta/recipes-graphics/mx/mx_1.4.7.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-DESCRIPTION = "Clutter based widget library"
+-LICENSE = "LGPLv2.1"
+-
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+-                    file://mx/mx-widget.c;beginline=8;endline=20;md5=13bba3c973a72414a701e1e87b5ee879"
+-
+-PR = "r0"
+-
+-DEPENDS = "clutter-1.8 dbus-glib libxrandr gdk-pixbuf startup-notification"
+-
+-inherit autotools gettext
+-
+-SRC_URI = "https://github.com/downloads/clutter-project/${BPN}/${BP}.tar.xz"
+-
+-SRC_URI[md5sum] = "19b1e4918a5ae6d014fc0dab2bb3d0a1"
+-SRC_URI[sha256sum] = "1d2930d196717cacbee0ee101cf21d289b8200b5e938823d852b3b4a2f4a0e9d"
+-
+-EXTRA_OECONF = "--disable-introspection --disable-gtk-widgets --with-dbus"
 -- 
 1.7.10.4
 
