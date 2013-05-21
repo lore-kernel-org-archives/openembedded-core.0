@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 167B460657
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D997860653
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 08:04:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4L87acS008751 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 09:07:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OFZHJeNPrzl5
+	Tue, 21 May 2013 08:12:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4L8C4V7027895
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 09:07:36 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4L86wX7008743
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2013 09:07:30 +0100
-Message-ID: <1369121802.11013.10.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 May 2013 08:36:42 +0100
-Mime-Version: 1.0
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Subject: [PATCH] task.bbclass: Drop deprecated class
+	Tue, 21 May 2013 01:12:04 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 21 May 2013 01:12:03 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 May 2013 16:12:07 +0800
+Message-ID: <cover.1369123754.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V3 0/4] Postinst logging reimplementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2013 08:04:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2013 08:12:04 -0000
+Content-Type: text/plain
 
-Any users have had time to adapt to this change by now, drop the old class.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/task.bbclass | 6 ------
- 1 file changed, 6 deletions(-)
- delete mode 100644 meta/classes/task.bbclass
+Goal:
+1. Enable postinst logging if 'debug-tweaks' is in IMAGE_FEATURES
+2. Make rpm, opkg and dpkg not depend on IMAGE_FEATURES and POSTLOG
 
-diff --git a/meta/classes/task.bbclass b/meta/classes/task.bbclass
-deleted file mode 100644
-index 28db500..0000000
---- a/meta/classes/task.bbclass
-+++ /dev/null
-@@ -1,6 +0,0 @@
--python __anonymous() {
--    bb.warn("%s: task.bbclass is deprecated, please inherit packagegroup instead" % d.getVar("PN", True))
--}
--
--inherit packagegroup
--
+Implementation:
+1. The run-postinst scripts will log outputs by checking the configuration in /etc/default/postinst.
+2. The log location is by default /var/log/postinstall.log. 
+   But it could be configured to a different location.
 
+The following changes since commit 6271ac326d08fb3e9b4c2008b796233ee11a83e4:
+
+  zlib: put shared libraries in base_libdir (2013-05-21 00:18:46 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/postinst-logging-reimplementation
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/postinst-logging-reimplementation
+
+Chen Qi (4):
+  image.bbclass: add postinst_enable_logging
+  dpkg: modify the run-postinst script to enable postinst logging
+  opkg: modify the run-postinst script to enable postinst logging
+  rpm-postinsts.bb: enable postinst logging
+
+ meta/classes/image.bbclass                 |   11 +++++++++++
+ meta/recipes-devtools/dpkg/dpkg.inc        |   11 ++++++-----
+ meta/recipes-devtools/opkg/opkg.inc        |    7 ++++++-
+ meta/recipes-devtools/rpm/rpm-postinsts.bb |   13 +++++++------
+ 4 files changed, 30 insertions(+), 12 deletions(-)
+
+-- 
+1.7.9.5
 
 
