@@ -1,27 +1,36 @@
-Return-Path: <tf+lists.yocto@r-finger.com>
-Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9FA60984
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 08:23:35 +0000 (UTC)
-Received: from [192.168.0.2] (host86-137-102-112.range86-137.btcentralplus.com
-	[86.137.102.112]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id E80DF952B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 09:23:35 +0100 (BST)
-Message-ID: <519C8086.8060702@r-finger.com>
-Date: Wed, 22 May 2013 09:23:34 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 346C36099F;
+	Wed, 22 May 2013 08:31:16 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id oz10so1251703veb.10
+	for <multiple recipients>; Wed, 22 May 2013 01:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=OacJgMfRaXrhJ9cSoVoGY8GSMrh0BReDDcJx8SP7FbM=;
+	b=0pejd1FAGbVa7kMA86F6h0zViTwAQ0KeMRDe0zdJ9JaL7vNU+d3b9oOXfBdkwQRGqh
+	TzbB1mjT8fxSZ+j0vmpUyFPRlROkHYzQiRp2Ja/lIdWQlq0paHgfhlK1ZYAckMKDN/M5
+	2wGwXBvWc0n0FrYeYJOKfwiexHvz3Z4B5ZoPMog5854c65xryz4Od41rmaAXmfEBR8mE
+	ULSqAUu9xXcD4Wn04wTjR6eM71u7EugTp0FIqh8YkNgkpTfy5NiQronBD8IbY1i3xKX6
+	cH31YM5OpZKhmhTR5B8pjXp/IguR8dcBQPSSdd5CBKW8eSkZOcUgzD6ggPJygFmTey+p
+	o3vg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1368789942-7476-1-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369134259-12091-2-git-send-email-tf+lists.yocto@r-finger.com>
-	<1369135176.6695.15.camel@phil-desktop.brightsign>
-	<11605555.E9oYV9MnH1@helios>
-In-Reply-To: <11605555.E9oYV9MnH1@helios>
-Subject: Re: [PATCH v3 1/8] clutter.bbclass: helper class for clutter and friends
+X-Received: by 10.220.111.133 with SMTP id s5mr2412104vcp.63.1369211476618;
+	Wed, 22 May 2013 01:31:16 -0700 (PDT)
+Received: by 10.52.18.177 with HTTP; Wed, 22 May 2013 01:31:16 -0700 (PDT)
+In-Reply-To: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
+References: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
+Date: Wed, 22 May 2013 10:31:16 +0200
+Message-ID: <CALbNGRSV7KK5hPddSiVTRborW6_PZfYstDFfu4M2oRJ5QwtV_Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Jeff Osier-Mixon <jefro@jefro.net>
+Cc: tsc <tsc@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE TSC Minutes 7 May 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +43,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 08:23:35 -0000
+X-List-Received-Date: Wed, 22 May 2013 08:31:17 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 21/05/13 17:51, Paul Eggleton wrote:
-> On Tuesday 21 May 2013 12:19:36 Phil Blundell wrote:
->> On Tue, 2013-05-21 at 12:04 +0100, Tomas Frydrych wrote:
->>>  meta/classes/clutter.bbclass |   23 +++++++++++++++++++++++
->>>  1 file changed, 23 insertions(+)
->>>  create mode 100644 meta/classes/clutter.bbclass
->>
->> Do we really need a new class for this?  Can it be merged with gnomebase
->> somehow, perhaps?
->>
->> If clutter really does need its own specialised logic then maybe clutter
->> and cogl should both stay in recipes-graphics/clutter and just share
->> an .inc file.  It seems a bit sad to clutter (no pun intended) the
->> global classes directory with this sort of thing.
-> 
-> Have to say I agree; given that this set has been merged we could take this as 
-> an additional patch if it works for Tomas?
+On Tue, May 21, 2013 at 9:36 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
+> OpenEmbedded Technical Steering Committee
+> 7 May 2013
+>
+> Attendees:
+>   Koen (koen)
+>   Khem (khem)
+>   Fray (fray)
+>   Paul (bluelightning)
+>   Richard (RP)
+> Apologies:
+>
+> Notes: Jefro
+>
+> Agenda at a glance:
+>
+> 1. pick a chair
+> 2. new issues
+> 3. lingering issues
+> a. systemd merge unhappiness
+> 4. projects in progress - status
+> a. oe-classic recipe migration status
+> b. oe-core release
+> c. systemd into master
+> d. meta-oe appends/overlayed recipes RFC
+> e. 1.5 planning
+> 5. infrastructure
+> a. mailing list moving to YP server, in progress
+> b. oe.org flooded
+> 6. projects deferred
+> a. raise awareness of "janitor" list, QA "bugs"
+> b. document whitespace changes to the shell
+> c. raise ntp with the Yocto Project [RP]
+>
+There are three issues I would like to comment on:
 
-The clutter class is used by cogl, clutter and mx (only the version
-parsing logic in the latter); it is also used by the mutter package in
-meta-clutter. But if you prefer includes in oecore, that's fine by me.
+1. systemd migration:
 
-Tomas
+From what I see the only major step left over is to bury meta-systemd.
+The only appends found there are those for oe-core. I asked for this
+long time ago [1] and support was offered but...
 
--- 
-http://sleepfive.com
+2. indention:
+Reading between the lines there is some unhappiness on meta-oe using
+four spaces for shell and python code. I personally agree with Martin
+here because I have not seen a technical reason for shell requiring
+tabs so far. To me this looks like a style decision which increases
+the burden to submit for low-skilled people like me. Could somebody
+please enlighten me: For what technical reason do we need tabs in
+shell code?
+
+3. xserver-nodm-init oe-core vs. meta-oe
+This is a long lasting issue and Martin commented on why there is a
+different approach in meta-oe [2]. One blocker for progress is xinput
+calibrator rework. Short story: I have a solution working here which
+is capable of starting calibrator by udev/systemd and can be invoked
+by an unprivileged user at any time. Unfortunately this solution has
+still too many issues to be submitted and from what I see now I won't
+find the time to fix them in the next future. So if anybody wants to
+unify xserver-nodm-init - feel free. Users can add xserver.common to
+images manually (and xinput calibrator is not really working anyway).
+
+If I could I would add an additional item on the agenda:
+
+gtk3-migration:
+In meta-gnome we are working with terribly old gnome recipes. These
+needed much backporting efforts to survive glib-2.36 / gcc 4.8 updates
+- and I don't think this increases code quality in any way - so it is
+more or less a useless effort which we will continue.
+
+* Are there plans for a step-by step migration? A good starter would
+be to solve libnotify 2/3 API issue. Is anybody else working on this /
+thinking about?
+* Are there plans to update gtk3 to 3.8.x to have wayland support?
+
+Cheers
+
+Andreas
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2013-January/073596.html
+[2] http://lists.openembedded.org/pipermail/openembedded-core/2013-February/075336.html
 
