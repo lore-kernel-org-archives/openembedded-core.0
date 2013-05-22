@@ -1,28 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B5F776A37C
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id EE5A86A34D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 11:11:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 May 2013 04:09:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,719,1363158000"; d="scan'208";a="341328741"
-Received: from unknown (HELO helios.localnet) ([10.255.12.181])
-	by orsmga002.jf.intel.com with ESMTP; 22 May 2013 04:11:59 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 22 May 2013 12:11:58 +0100
-Message-ID: <2443317.KenNugOWqv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-21-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CADkTA4MMVZR7hQbr5rdATrYmQtDPAVxLK29cq2SDTECYRWkD_Q@mail.gmail.com>
-References: <cover.1369063930.git.paul.eggleton@linux.intel.com>
-	<2007052.kOyn5X0lFt@helios>
-	<CADkTA4MMVZR7hQbr5rdATrYmQtDPAVxLK29cq2SDTECYRWkD_Q@mail.gmail.com>
+	Wed, 22 May 2013 11:57:46 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 8B32EF811EC; Wed, 22 May 2013 05:57:47 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id F27E1F811E9;
+	Wed, 22 May 2013 05:57:45 -0600 (MDT)
+Message-ID: <519CB2BD.4040604@mlbassoc.com>
+Date: Wed, 22 May 2013 05:57:49 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [dylan][PATCH 00/41] Stable branch cherry-picks (cover letter only)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <51962FFE.3040202@mlbassoc.com> <1369127448.11013.16.camel@ted>
+	<519BB951.2040502@mlbassoc.com> <1369177001.3843.9.camel@ted>
+In-Reply-To: <1369177001.3843.9.camel@ted>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Poor first impression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +38,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 11:11:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 22 May 2013 11:57:48 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday 20 May 2013 16:05:15 Bruce Ashfield wrote:
-> On Mon, May 20, 2013 at 1:02 PM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Monday 20 May 2013 17:54:21 Paul Eggleton wrote:
-> >> On Monday 20 May 2013 13:21:29 Otavio Salvador wrote:
-> >> > On Mon, May 20, 2013 at 12:58 PM, Paul Eggleton <
-> >> > 
-> >> > paul.eggleton@linux.intel.com> wrote:
-> >> > > ...
-> >> > > 
-> >> > > Bruce Ashfield (4):
-> >> > >   linux-yocto/3.4: iwlwifi, ext4, brtfs warning and -rt fixes
-> >> > >   kern-tools: anchor and delimit regexs
-> >> > >   linux-yocto/3.4: update to v3.4.43, ltsi-65311d8 and v3.4.42-rt56
-> >> > >   linux-yocto/3.8: udpate to v3.8.11
-> >> > 
-> >> > Does this includes the dash kernel-tools fix?
-> >> 
-> >> I don't think it does. Bruce is that suitable to be pulled into dylan?
-> > 
-> > Scratch that - it is, I just missed including it.
-> 
-> Holiday here, so a slow response. But looks like you've sorted it out now.
+On 2013-05-21 16:56, Richard Purdie wrote:
+> On Tue, 2013-05-21 at 12:13 -0600, Gary Thomas wrote:
+>> On 2013-05-21 03:10, Richard Purdie wrote:
+>>> On Fri, 2013-05-17 at 07:26 -0600, Gary Thomas wrote:
+>>>> I just tried to run Poky/Yocto on a fresh Ubuntu 12.04 system.  I knew there would
+>>>> be missing bits and have seen the "sanity" messages in the past, so I thought I'd
+>>>> just carry on.  Today's experience was not pretty and would it not for my experience
+>>>> with this, I would have been very perplexed...
+>>>
+>>> There are two issues there, firstly the scripts/bitbake binary is doing
+>>> a really bad job, secondly, one of the improved debugging patches I
+>>> added to bitbake, regressed things in this case.
+>>>
+>>> I posted a patch to bitbake last night, I've just posted a fix for
+>>> scripts/bitbake now. These two together should improve this. I agree
+>>> that particular error would create a poor first impression, thanks for
+>>> reporting it.
+>>
+>> With this patch, no 'git' and a fresh build I still get this:
+>>
+>> Traceback (most recent call last):
+>>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
+>>       ret = main()
+>>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
+>>       event = server.event_queue.get(block=False)
+>>     File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
+>>       raise Empty
+>> Empty
+>> Pseudo is not present but is required, building this first before the main build
+>> Traceback (most recent call last):
+>>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
+>>       ret = main()
+>>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
+>>       event = server.event_queue.get(block=False)
+>>     File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
+>>       raise Empty
+>> Empty
+>> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+>>       Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+>>       Following is the list of potential problems / advisories:
+>>
+>>       Please install the following missing utilities: git
+>>
+>> Still not very pretty.
+>
+>
+> Did you apply both patches, the one for bitbake and the one for OE-Core?
+> This looks like the bitbake one is missing.
 
-Right, I've added that patch onto my paule/dylan-next branch and pushed it, 
-and have alerted Richard as well. Thanks Otavio for pointing out this 
-omission.
+Sorry, I missed that since they went to different mailing lists.
 
-Cheers,
-Paul
+The output is much cleaner with the other patch.
+
+Thanks
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
