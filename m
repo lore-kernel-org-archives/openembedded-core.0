@@ -1,24 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CD13A60420
+	by mail.openembedded.org (Postfix) with ESMTP id 077E660420
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 00:40:37 +0000 (UTC)
+	Wed, 22 May 2013 00:40:38 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 21 May 2013 17:40:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,717,1363158000"; d="scan'208";a="341405591"
+X-IronPort-AV: E=Sophos;i="4.87,717,1363158000"; d="scan'208";a="341405589"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.171])
 	by fmsmga002.fm.intel.com with ESMTP; 21 May 2013 17:40:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2013 17:40:19 -0700
-Message-Id: <956e704118008aa337ede574febbcc44c43adbf3.1369183108.git.sgw@linux.intel.com>
+Date: Tue, 21 May 2013 17:40:18 -0700
+Message-Id: <cover.1369183108.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1369183108.git.sgw@linux.intel.com>
-References: <cover.1369183108.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1369183108.git.sgw@linux.intel.com>
-References: <cover.1369183108.git.sgw@linux.intel.com>
-Subject: [PATCH 1/7] gnupg: Update to 2.0.20
+Subject: [PATCH 0/7] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,113 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 00:40:37 -0000
+X-List-Received-Date: Wed, 22 May 2013 00:40:38 -0000
 
-Removed obsolete patch
+Updates for Milestone 1
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch  | 63 ----------------------
- .../gnupg/{gnupg_2.0.19.bb => gnupg_2.0.20.bb}     |  8 ++-
- 2 files changed, 3 insertions(+), 68 deletions(-)
+
+Sau!
+
+The following changes since commit f45aa6e07318f22ede4614b28ea15cd48f5e4095:
+
+  packagegroup-core-clutter: use clutter-1.0 packages (2013-05-21 09:14:38 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+
+Saul Wold (7):
+  gnupg: Update to 2.0.20
+  desktop-file-utils: Update to 0.21
+  mklibs: Update to 0.1.37
+  libnl: Update to 3.2.22
+  mc: Update to 4.8.8
+  resolvconf: Update to 1.72
+  cmake: Update to 2.8.11
+
+ .../{resolvconf_1.71.bb => resolvconf_1.72.bb}     |  4 +-
+ .../cmake/cmake-native_2.8.10.2.bb                 |  7 ---
+ meta/recipes-devtools/cmake/cmake-native_2.8.11.bb |  5 ++
+ meta/recipes-devtools/cmake/cmake.inc              |  2 -
+ .../cmake/cmake/support-oe-qt4-tools-names.patch   | 70 +++++-----------------
+ .../cmake/{cmake_2.8.10.2.bb => cmake_2.8.11.bb}   |  6 +-
+ ...e_0.15.bb => desktop-file-utils-native_0.21.bb} | 10 ++--
+ ...bs-native_0.1.35.bb => mklibs-native_0.1.37.bb} |  4 +-
+ .../mc/{mc_4.8.7.bb => mc_4.8.8.bb}                |  6 +-
+ .../gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch  | 63 -------------------
+ .../gnupg/{gnupg_2.0.19.bb => gnupg_2.0.20.bb}     |  8 +--
+ .../libnl/{libnl_3.2.21.bb => libnl_3.2.22.bb}     |  5 +-
+ 12 files changed, 37 insertions(+), 153 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.71.bb => resolvconf_1.72.bb} (88%)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.10.2.bb
+ create mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.11.bb
+ rename meta/recipes-devtools/cmake/{cmake_2.8.10.2.bb => cmake_2.8.11.bb} (86%)
+ rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils-native_0.15.bb => desktop-file-utils-native_0.21.bb} (57%)
+ rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.35.bb => mklibs-native_0.1.37.bb} (80%)
+ rename meta/recipes-extended/mc/{mc_4.8.7.bb => mc_4.8.8.bb} (81%)
  delete mode 100644 meta/recipes-support/gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch
  rename meta/recipes-support/gnupg/{gnupg_2.0.19.bb => gnupg_2.0.20.bb} (80%)
+ rename meta/recipes-support/libnl/{libnl_3.2.21.bb => libnl_3.2.22.bb} (90%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch b/meta/recipes-support/gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch
-deleted file mode 100644
-index 64c3034..0000000
---- a/meta/recipes-support/gnupg/gnupg-2.0.19/GnuPG2-CVE-2012-6085.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--commit 498882296ffac7987c644aaf2a0aa108a2925471
--Author: Werner Koch <wk@gnupg.org>
--Date:   Thu Dec 20 09:43:41 2012 +0100
--
--    gpg: Import only packets which are allowed in a keyblock.
--    
--    * g10/import.c (valid_keyblock_packet): New.
--    (read_block): Store only valid packets.
--    --
--    
--    A corrupted key, which for example included a mangled public key
--    encrypted packet, used to corrupt the keyring.  This change skips all
--    packets which are not allowed in a keyblock.
--    
--    GnuPG-bug-id: 1455
--    
--    (cherry-picked from commit 3a4b96e665fa639772854058737ee3d54ba0694e)
--
--Upstream-Status: Backport
--
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
--
--diff --git a/g10/import.c b/g10/import.c
--index ba2439d..ad112d6 100644
----- a/g10/import.c
--+++ b/g10/import.c
--@@ -347,6 +347,27 @@ import_print_stats (void *hd)
-- }
-- 
-- 
--+/* Return true if PKTTYPE is valid in a keyblock.  */
--+static int
--+valid_keyblock_packet (int pkttype)
--+{
--+  switch (pkttype)
--+    {
--+    case PKT_PUBLIC_KEY:
--+    case PKT_PUBLIC_SUBKEY:
--+    case PKT_SECRET_KEY:
--+    case PKT_SECRET_SUBKEY:
--+    case PKT_SIGNATURE:
--+    case PKT_USER_ID:
--+    case PKT_ATTRIBUTE:
--+    case PKT_RING_TRUST:
--+      return 1;
--+    default:
--+      return 0;
--+    }
--+}
--+
--+
-- /****************
--  * Read the next keyblock from stream A.
--  * PENDING_PKT should be initialzed to NULL
--@@ -424,7 +445,7 @@ read_block( IOBUF a, PACKET **pending_pkt, KBNODE *ret_root )
-- 	    }
-- 	    in_cert = 1;
-- 	  default:
---	    if( in_cert ) {
--+	    if (in_cert && valid_keyblock_packet (pkt->pkttype)) {
-- 		if( !root )
-- 		    root = new_kbnode( pkt );
-- 		else
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.20.bb
-similarity index 80%
-rename from meta/recipes-support/gnupg/gnupg_2.0.19.bb
-rename to meta/recipes-support/gnupg/gnupg_2.0.20.bb
-index 593250a..87acd00 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.20.bb
-@@ -7,15 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
- DEPENDS = "${PTH} libassuan libksba zlib bzip2 readline libgcrypt"
- PTH = "pth"
- PTH_libc-uclibc = "npth"
--PR = "r5"
- 
- inherit autotools gettext
- 
--SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
--           file://GnuPG2-CVE-2012-6085.patch"
-+SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "6a8589381ca1b0c1a921e9955f42b016"
--SRC_URI[sha256sum] = "efa23a8a925adb51c7d3b708c25b6d000300f5ce37de9bdec6453be7b419c622"
-+SRC_URI[md5sum] = "9d18ee71bb0b10d40d1c8a393bdd7a89"
-+SRC_URI[sha256sum] = "6e949b7f062cab8a3cf0910f91ecf04cabaad458c0aeeec66298651b8b04b79a"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
 -- 
 1.8.1.4
 
