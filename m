@@ -1,40 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D838061AD0;
-	Wed, 22 May 2013 15:19:55 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id g10so1791825pdj.27
-	for <multiple recipients>; Wed, 22 May 2013 08:19:56 -0700 (PDT)
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D28B6A352;
+	Wed, 22 May 2013 16:07:31 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id 6so1495709pdd.6
+	for <multiple recipients>; Wed, 22 May 2013 09:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=yWSAsN8jxFltjisLe2ZKDZPluGFRSKkwTfgRzsD15Ao=;
-	b=OIqbIwNhVVJ1wQz6SUc+Ah+I3TJ/5DgUqUU8NYIERLGCouCgtT+Ce1A0mVfsUlc4LV
-	MkSz8HU8mVv66XOa2oDYT9+cCYc2V56Uys8oJtDFs3udq3WPdxKO344R/wghzdn9fVQB
-	h6UTcsalH66B4/uOluZuImcdM3o47cI65SeUxF8W5Usu9qH1CYGAEHarenvfo2Gh7XE7
-	W45BmxmRZs2J9Y7KQQw21RN91Qk4jwkLpTQrvzZHq4OLxaDKrAktubs4gmJXemRW+QqO
-	gFPTpea5ZU8+2cwuxMIPoVF0kKGqqn78moccC1YoN9ff5I73y3SPVXoG2cqxOiYSP9jI
-	w8Fg==
-X-Received: by 10.66.11.164 with SMTP id r4mr8757752pab.221.1369235996486;
-	Wed, 22 May 2013 08:19:56 -0700 (PDT)
+	bh=WrFQd+reFA7Ugcq8chrA4HfnBs8S8HzKIjDx8Dr3G58=;
+	b=re45zJHnZuk8KikEWstkziHC7jMBIIItgJ3E2HvvZ8+reMG5jN0+m9JGYR+2nXX/bA
+	ZdpValbxYEd+EimjI7Mq21h8C301oba+xQMMVY4ece1NEBhCFKfeWHtM07ZYsCTz2ZYb
+	clWfYo9N9spQq5rkztDrjxZcdfjlyw9mtrNsijzUrn9UN0kLYVw1yY2IVjeVNxwMX2Gy
+	m2M94jAdnbHriy5jo+LJ+VfuZYC+dBiR9KXPAIdcDpOdZ9CwLgrRs1htwbzPMY4eZXO3
+	tDOzBZRDUrc1Ls6m48WcRJay9/kBcEKH5pszoc/8RHBmteRUZUEFDdkCYHECzZkbhJx/
+	RMwA==
+X-Received: by 10.66.220.197 with SMTP id py5mr9078814pac.86.1369238851632;
+	Wed, 22 May 2013 09:07:31 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	al2sm7623385pbc.25.2013.05.22.08.19.53 for <multiple recipients>
+	by mx.google.com with ESMTPSA id l4sm7809379pbo.6.2013.05.22.09.07.28
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 22 May 2013 08:19:55 -0700 (PDT)
-Date: Wed, 22 May 2013 17:19:50 +0200
+	Wed, 22 May 2013 09:07:30 -0700 (PDT)
+Date: Wed, 22 May 2013 18:07:25 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20130522151950.GL32431@jama>
-References: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
-	<519CCFFF.2060506@windriver.com> <20130522144925.GJ32431@jama>
-	<3795534.7yd4ZVD7nC@helios>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20130522160725.GM32431@jama>
+References: <20130512163307.035FC504FC@opal>
 MIME-Version: 1.0
-In-Reply-To: <3795534.7yd4ZVD7nC@helios>
+In-Reply-To: <20130512163307.035FC504FC@opal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] OE TSC Minutes 7 May 2013
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Laurentiu Palcu : libdrm: upgrade to 2.4.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,122 +45,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 15:19:56 -0000
-X-Groupsio-MsgNum: 39598
+X-List-Received-Date: Wed, 22 May 2013 16:07:31 -0000
+X-Groupsio-MsgNum: 39599
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W/+CTqSGWdiRg+8j"
+	protocol="application/pgp-signature"; boundary="iAzLNm1y1mIRgolD"
 Content-Disposition: inline
 
---W/+CTqSGWdiRg+8j
+--iAzLNm1y1mIRgolD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2013 at 04:11:02PM +0100, Paul Eggleton wrote:
-> On Wednesday 22 May 2013 16:49:25 Martin Jansa wrote:
-> > Using combination of tabs and spaces in the same file (and even on the
-> > same lines) is quite bad, because it looks different based on tab length
-> > and can show wrong indentation in case like 8 spaces and 2
-> > 4-character-wide tabs on next line (where author was seeing 18 spaces on
-> > 2nd line)
-> >=20
-> > It was acked by 2 TSC members:
-> > Koen:
-> > http://lists.openembedded.org/pipermail/openembedded-devel/2013-April/0=
-9016
-> > 2.html Khem:
-> > http://lists.openembedded.org/pipermail/openembedded-devel/2013-April/0=
-9020
-> > 3.html
-> >=20
-> > 3rd member of TSC and maintainer of some meta-oe layers, was aware of t=
-his
-> > change and wasn't complaining:
-> > Paul:
-> > http://lists.openembedded.org/pipermail/openembedded-devel/2013-April/0=
-9018
-> > 4.html
+On Sun, May 12, 2013 at 04:33:07PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 563edb321594b007cae2294e807235ad22fd27da
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D563edb321594b007cae2294e807235ad22fd27da
 >=20
-> I didn't feel like I had good reason to object other than what had alread=
-y=20
-> been discussed. That should not be construed as me supporting the move. I=
- now=20
-> regret not commenting further at the time.
+> Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Date:   Fri May 10 16:23:33 2013 +0300
+>=20
+> libdrm: upgrade to 2.4.44
+>=20
+> Removed part of the installtests.patch since tests can now be installed
+> giving an option to configure script.
+>=20
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-I didn't say that you supported that, just that you was aware and didn't
-complain about it being such a bad idea.
+Are you using buildhistory to test such upgrades?
 
-> The problem is we now have a split between how shell function indentation=
- is=20
-> done in OE-Core and how it is done elsewhere, which as I'm sure you can=
+This was caused by added --enable-install-test-programs.
+
+Buildhistory shows that kmstest and vbltest were added to PN causing PKG to=
 =20
-> understand is also a suboptimal situation.
+change from libdrm2 to libdrm and breaking upgrade path
 
-The split was there before too, because more recipes were using some
-number of spaces than recipes using tabs "correctly".
+${PN}-tests looks like better place for tests.
 
-> > When this was discussed about a year ago in TSC, the most important
-> > reason was complicating backports, you can read something about it my R=
-FC:
-> > http://lists.openembedded.org/pipermail/openembedded-devel/2013-April/0=
-90135
-> > .html Now close to creating dylan branch for meta-openembedded is imho =
-best
-> > time to do this, not many changes from released dylan will be backporte=
-d to
-> > danny, because people will start moving to newer release instead of
-> > backporting more and more stuff to old one (also resolving possible
-> > whitespace merge conflict it not hard).  Causing conflicts for merge was
-> > IIRC most important reason why my proposal was rejected for oe-core.
+ * check_data_file_clashes: Package libdrm wants to install file /usr/lib/l=
+ibdrm.so.2
+        But that file is already provided by package  * libdrm2
+ * check_data_file_clashes: Package libdrm wants to install file /usr/lib/l=
+ibdrm.so.2.4.0
+        But that file is already provided by package  * libdrm2
+
+-PV =3D 2.4.42
+-PR =3D r4.0
+-PKGR =3D r4.0.2
+-PKG =3D libdrm2
++PV =3D 2.4.44
++PR =3D r0
++PKGR =3D r0.0
+ RPROVIDES =3D=20
+-RDEPENDS =3D eglibc (>=3D 2.17)
++RDEPENDS =3D eglibc (>=3D 2.17) libdrm-kms (>=3D 2.4.44)
+ RRECOMMENDS =3D=20
+-PKGSIZE =3D 34635
++PKGSIZE =3D 46491
+ FILES =3D /usr/bin/* /usr/sbin/* /usr/lib/libdrm/* /usr/lib/lib*.so.* /etc=
+ /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d /usr/lib/udev/rules=
+=2Ed /usr/share/libdrm /usr/lib/libdrm/* /usr/share/pixmaps /usr/share/appl=
+ications /usr/share/idl /usr/share/omf /usr/share/sounds /usr/lib/bonobo/se=
+rvers
+-FILELIST =3D /usr/lib/libdrm.so.2 /usr/lib/libdrm.so.2.4.0
++FILELIST =3D /usr/bin/kmstest /usr/bin/vbltest /usr/lib/libdrm.so.2 /usr/l=
+ib/libdrm.so.2.4.0
+
+> ---
 >=20
-> We've been through this with OE-Core. We do do a significant number of=20
-> backports and it has been painful when whitespace has changed. The TSC=20
-> decision was taken in order to avoid this.
-
-Advantage with this is that if you backport patch with different whitespace,
-worse you can cause is few spaces in shell task in danny recipe.
-
-> > And TSC minutes which discussed it say:
-> > Reluctant conclusion: tabs for shell, 4 spaces for python.
-> >=20
-> > So please stop trying to show it as action of one maintainer who
-> > decided to go against TSC decision and to scr3w everybody.
+>  meta/recipes-graphics/drm/libdrm.inc               |    1 +
+>  .../recipes-graphics/drm/libdrm/installtests.patch |   26 --------------=
+------
+>  meta/recipes-graphics/drm/libdrm_2.4.42.bb         |   10 -------
+>  meta/recipes-graphics/drm/libdrm_2.4.44.bb         |    8 ++++++
+>  4 files changed, 9 insertions(+), 36 deletions(-)
 >=20
-> The problem with this is that you've effectively added pressure on Richar=
-d to=20
-> change the the policy in OE-Core despite the explicit decision not to mak=
-e=20
-> this change there.
+> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics=
+/drm/libdrm.inc
+> index 9c1124e..e395e03 100644
+> --- a/meta/recipes-graphics/drm/libdrm.inc
+> +++ b/meta/recipes-graphics/drm/libdrm.inc
+> @@ -20,6 +20,7 @@ inherit autotools pkgconfig
+> =20
+>  EXTRA_OECONF +=3D "--disable-cairo-tests \
+>                   --enable-omap-experimental-api \
+> +                 --enable-install-test-programs \
+>                  "
+>  ALLOW_EMPTY_${PN}-drivers =3D "1"
+>  PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN=
+}-omap \
+> diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/r=
+ecipes-graphics/drm/libdrm/installtests.patch
+> index 1f39719..7d443af 100644
+> --- a/meta/recipes-graphics/drm/libdrm/installtests.patch
+> +++ b/meta/recipes-graphics/drm/libdrm/installtests.patch
+> @@ -21,29 +21,3 @@ index bf1987f..d909e19 100644
+>   SUBDIRS =3D modeprint
+>  =20
+>   if HAVE_LIBKMS
+> -diff --git a/tests/modeprint/Makefile.am b/tests/modeprint/Makefile.am
+> -index c4862ac..7db76ea 100644
+> ---- a/tests/modeprint/Makefile.am
+> -+++ b/tests/modeprint/Makefile.am
+> -@@ -2,7 +2,7 @@ AM_CFLAGS =3D \
+> - 	-I$(top_srcdir)/include/drm \
+> - 	-I$(top_srcdir)
+> -=20
+> --noinst_PROGRAMS =3D \
+> -+bin_PROGRAMS =3D \
+> - 	modeprint
+> -=20
+> - modeprint_SOURCES =3D \
+> -diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
+> -index 2191242..1d2c1b0 100644
+> ---- a/tests/modetest/Makefile.am
+> -+++ b/tests/modetest/Makefile.am
+> -@@ -4,7 +4,7 @@ AM_CFLAGS =3D \
+> - 	-I$(top_srcdir) \
+> - 	$(CAIRO_CFLAGS)
+> -=20
+> --noinst_PROGRAMS =3D \
+> -+bin_PROGRAMS =3D \
+> - 	modetest
+> -=20
+> - modetest_SOURCES =3D \
+> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.42.bb b/meta/recipes-gr=
+aphics/drm/libdrm_2.4.42.bb
+> deleted file mode 100644
+> index 67ae2e6..0000000
+> --- a/meta/recipes-graphics/drm/libdrm_2.4.42.bb
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -require libdrm.inc
+> -
+> -PR =3D "${INC_PR}.0"
+> -
+> -SRC_URI +=3D "file://installtests.patch \
+> -            file://GNU_SOURCE_definition.patch \
+> -           "
+> -
+> -SRC_URI[md5sum] =3D "a6e2e26951bcc920b2049b65e86a659f"
+> -SRC_URI[sha256sum] =3D "e0671082a77871c8474d3c0f09dbf5ff82d2429cd248088a=
+691f7b484cbc76e1"
+> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.44.bb b/meta/recipes-gr=
+aphics/drm/libdrm_2.4.44.bb
+> new file mode 100644
+> index 0000000..b016958
+> --- /dev/null
+> +++ b/meta/recipes-graphics/drm/libdrm_2.4.44.bb
+> @@ -0,0 +1,8 @@
+> +require libdrm.inc
+> +
+> +SRC_URI +=3D "file://installtests.patch \
+> +            file://GNU_SOURCE_definition.patch \
+> +           "
+> +SRC_URI[md5sum] =3D "b760b1f2ae4ec6452383164ec697cd5d"
+> +SRC_URI[sha256sum] =3D "42b45ad15bb1bc52630a4b37b7afcfaea27e01b3c0b4791e=
+f25d0f7b2456f6a2"
+> +
 >=20
-> This kind of overall policy change *must* be done everywhere and not just=
- in=20
-> one place or even the majority of places. We shouldn't ever need to be in=
- a=20
-> position where OE-Core says you must do one thing and meta-oe and other l=
-ayers=20
-> say you must do the opposite.
-
-That's why I was asking to change styleguide and allow new metadata to
-be submitted with spaces, as it's only aestetic so changing styleguide
-wouldn't force to change every recipe (the same as many recipes having
-RDEPENDS next to DEPENDS instead of near the end of file next to
-do_package and FILES_ etc.).=20
-
-Cheers,
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---W/+CTqSGWdiRg+8j
+--iAzLNm1y1mIRgolD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlGc4hYACgkQN1Ujt2V2gByYNACfXc2ScnE8YuelqhV5bydGhuKS
-/nUAn3eUSPrmXFkOZ4o65bQj9J0r9xSH
-=yCeX
+iEYEARECAAYFAlGc7T0ACgkQN1Ujt2V2gBwCkgCeL1Wz30EXEyy5sItaxXBaouVN
+/JwAn0wW2UGwEKu31lHdHmh0ayZdmpoa
+=BWt3
 -----END PGP SIGNATURE-----
 
---W/+CTqSGWdiRg+8j--
+--iAzLNm1y1mIRgolD--
