@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A1CBD61489
+	by mail.openembedded.org (Postfix) with ESMTP id B908B608CA
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 May 2013 00:40:38 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 21 May 2013 17:40:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,717,1363158000"; d="scan'208";a="341405596"
+X-IronPort-AV: E=Sophos;i="4.87,717,1363158000"; d="scan'208";a="341405595"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.171])
 	by fmsmga002.fm.intel.com with ESMTP; 21 May 2013 17:40:28 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2013 17:40:24 -0700
-Message-Id: <5c625bd876b0d599495268c909f1b65a26b97297.1369183108.git.sgw@linux.intel.com>
+Date: Tue, 21 May 2013 17:40:23 -0700
+Message-Id: <67c8939d905f9ddd106a65884181fa61545a30e7.1369183108.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1369183108.git.sgw@linux.intel.com>
 References: <cover.1369183108.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1369183108.git.sgw@linux.intel.com>
 References: <cover.1369183108.git.sgw@linux.intel.com>
-Subject: [PATCH 6/7] resolvconf: Update to 1.72
+Subject: [PATCH 5/7] mc: Update to 4.8.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +35,31 @@ X-List-Received-Date: Wed, 22 May 2013 00:40:38 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../resolvconf/{resolvconf_1.71.bb => resolvconf_1.72.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.71.bb => resolvconf_1.72.bb} (88%)
+ meta/recipes-extended/mc/{mc_4.8.7.bb => mc_4.8.8.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/mc/{mc_4.8.7.bb => mc_4.8.8.bb} (81%)
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.72.bb
-similarity index 88%
-rename from meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
-rename to meta/recipes-connectivity/resolvconf/resolvconf_1.72.bb
-index d342a6e..a96dbff 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.72.bb
-@@ -13,8 +13,8 @@ RDEPENDS_${PN} = "bash"
+diff --git a/meta/recipes-extended/mc/mc_4.8.7.bb b/meta/recipes-extended/mc/mc_4.8.8.bb
+similarity index 81%
+rename from meta/recipes-extended/mc/mc_4.8.7.bb
+rename to meta/recipes-extended/mc/mc_4.8.8.bb
+index 0e8f3c1..20ae797 100644
+--- a/meta/recipes-extended/mc/mc_4.8.7.bb
++++ b/meta/recipes-extended/mc/mc_4.8.8.bb
+@@ -6,12 +6,10 @@ SECTION = "console/utils"
+ DEPENDS = "ncurses glib-2.0"
+ RDEPENDS_${PN} = "ncurses-terminfo"
  
- SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
+-PR = "r0"
+-
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
  
--SRC_URI[md5sum] = "f073ab06b11584c8af86e7f84a56680e"
--SRC_URI[sha256sum] = "f2ec30a0e89330c6cbc3117efd60639da8305782979844ee4a1906e4b0ca230c"
-+SRC_URI[md5sum] = "6bf631213c97f89261d997c78f7b9506"
-+SRC_URI[sha256sum] = "196e8b5ef0a0282bf99e156113b058e65dd7f889cf4aea16597cddeef7e7cd43"
+-SRC_URI[md5sum] = "b113e50682293a953141134969dba785"
+-SRC_URI[sha256sum] = "4e9c45925b47650dac58d7556a89c3e9b4275e48976b6c13b63c2f8eed3a383b"
++SRC_URI[md5sum] = "324ff5a192d30d3a3b234c130550eb0a"
++SRC_URI[sha256sum] = "7b5e6f90e6709d1c1bcb4a2bf6d2a62b9494adef3ff4325ffdb3551c29e42a1c"
  
- inherit allarch
+ inherit autotools gettext
  
 -- 
 1.8.1.4
