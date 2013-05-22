@@ -1,20 +1,20 @@
 Return-Path: <bogdan.a.marinescu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 97BB460657
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 59DDB60657
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 10:56:36 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 May 2013 03:54:32 -0700
+	Wed, 22 May 2013 10:57:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 May 2013 03:57:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,719,1363158000"; d="scan'208";a="317681035"
+X-IronPort-AV: E=Sophos;i="4.87,719,1363158000"; d="scan'208";a="341619785"
 Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by orsmga001.jf.intel.com with ESMTP; 22 May 2013 03:56:22 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 May 2013 03:57:17 -0700
 From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2013 13:56:01 +0300
-Message-Id: <1369220161-28240-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Wed, 22 May 2013 13:57:03 +0300
+Message-Id: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] guile: added runtime dependency on glibc-gconv-iso8859-1
+Subject: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,11 +27,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 10:56:37 -0000
+X-List-Received-Date: Wed, 22 May 2013 10:57:18 -0000
 
 guile needs to be able to convert strings from ISO-8859-1 in order
 to work properly. This patch adds a runtime dependency to the required
 convert package.
+
+[YOCTO #4019]
 
 Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
