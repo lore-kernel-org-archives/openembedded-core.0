@@ -1,37 +1,15 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f49.google.com (mail-vb0-f49.google.com
-	[209.85.212.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A61556065C
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E4A6F60657
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 12:05:51 +0000 (UTC)
-Received: by mail-vb0-f49.google.com with SMTP id q12so1226682vbe.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 05:05:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=AL2zQ6EkSvxlxaB5sDemQh44jVK2J4kqi6YsPb2hLJA=;
-	b=RaqNVV+jjzetFrBWQYvRqGW3YuLfaF5MmQIELhVJ8DyLreCmyIOdPxZOKOLnlQ3pw5
-	j8o/T8moSQXT979a7EOv/0isCWq2RQPKbPggy58pV+cU3rj+D63hCSHNv8zaV0reZMMV
-	5y968/DifL75Rxgvrz6ZGCEIevHjUqYNqGNtDaLiP1GhQ18Wt3UG1tJa3rc8RvPEEjme
-	KMS5WylsaPLdzHPC5PMJ4a6O0sq1dfE9wwI8ijM8ZkSIB9JZFiaG9/VOOKTsC5GFX7JG
-	ahD1i70Rc6OWDQ7erCq+oScWGRxwfa6Ay3x1P37WynDFL3/kqMvPSkcLPD5H2JMmYaJZ
-	VwAA==
-X-Received: by 10.220.248.137 with SMTP id mg9mr2670730vcb.38.1369224351968;
-	Wed, 22 May 2013 05:05:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.98.7 with HTTP; Wed, 22 May 2013 05:05:31 -0700 (PDT)
-In-Reply-To: <1369220302.6695.72.camel@phil-desktop.brightsign>
-References: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<1369220302.6695.72.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 May 2013 13:05:31 +0100
-Message-ID: <CAJTo0LYC2Xa=31R=eCACZDFJkWT8NBSmHVkQnL+x7jausCkDbw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQnVNFZkNS+w9Eyfft5xlfkCVa+MJJ76QvJHRruUJX8dMUjKVMryPIB5yJN3pU/CF/DufhBW
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
+	Wed, 22 May 2013 12:45:23 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2013 13:45:12 +0100
+Message-Id: <1369226712-22786-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.2.3
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH] sqlite3: update to 3.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +22,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 12:05:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 May 2013 12:45:24 -0000
 
-On 22 May 2013 11:58, Phil Blundell <pb@pbcl.net> wrote:
-> On Wed, 2013-05-22 at 13:57 +0300, Bogdan Marinescu wrote:
->> +RDEPENDS_${PN} = "glibc-gconv-iso8859-1"
->
-> That will make it unbuildable with anything other than (e)glibc.  Is
-> this ok?
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-Presumably in this case libiconv will be used.  Is there a standard
-way of depending on a specific encoding from either eglibc or
-libiconv?
+build and runtime tested on armv7a
 
-Ross
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ .../recipes-support/sqlite/{sqlite3_3071602.bb => sqlite3_3071700.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3071602.bb => sqlite3_3071700.bb} (60%)
+
+diff --git a/meta/recipes-support/sqlite/sqlite3_3071602.bb b/meta/recipes-support/sqlite/sqlite3_3071700.bb
+similarity index 60%
+rename from meta/recipes-support/sqlite/sqlite3_3071602.bb
+rename to meta/recipes-support/sqlite/sqlite3_3071700.bb
+index 09f54f6..113e8ce 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3071602.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3071700.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b357
+ 
+ SRC_URI = "http://www.sqlite.org/2013/sqlite-autoconf-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "ce7d2bc0d9b8dd18995b888c6b0b220f"
+-SRC_URI[sha256sum] = "1d7e6937c19fc5de1c0cdb392638296e4a6d8b158001dbb421e257dfb6f088db"
++SRC_URI[md5sum] = "18c285053e9562b848209cb0ee16d4ab"
++SRC_URI[sha256sum] = "8ff46d0baa9e64c0815544e829e985f1161c096aa6344c8f430791dbeadc2baf"
+ 
+ S = "${WORKDIR}/sqlite-autoconf-${PV}"
+-- 
+1.8.2.3
+
 
