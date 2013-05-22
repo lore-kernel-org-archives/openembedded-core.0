@@ -1,28 +1,38 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A64D860810
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
+	[209.85.219.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 000FD60810
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 12:54:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4MCsVaE022426
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 22 May 2013 13:13:05 +0000 (UTC)
+Received: by mail-oa0-f51.google.com with SMTP id f4so2522897oah.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 05:54:31 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 22 May 2013 05:54:31 -0700
-Message-ID: <519CC006.6060507@windriver.com>
-Date: Wed, 22 May 2013 07:54:30 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Wed, 22 May 2013 06:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=bUbsysJoixS5XqLP0j9oGUowR1wHTjTtQi/4S7OaG3Q=;
+	b=DuKmpcdsDDkd/29/JVElSDO0HPw2gVI0YxERNr51OonqfdBI8V0QYSOEtIWDRvKw5j
+	j+guWHr6T2GfvS84adCSfHQuhxNIMVd0br324Zw5DOEKiQMmBduSUQbIakggDm6z5a5A
+	HaReyNpUDG00xeApmVF4uNb3i8ESAZs0lgrpyWePMnl0XDNeKsCVR1nCVPWXUIJnCCLQ
+	AAk0fvnl9gZ7b2N1xfns3eBP5qYftusBv8/YjR8ByS0Z0s08NMiGIbANGL0nC3v8iLcE
+	rXAGYGs5R1kieFgbUWvB0p3ohs/+fPCpzoAI+L9ianUGwyZ+wSq8ROkei6SnSXhufHyL
+	tTiQ==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1369188863-26540-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1369188863-26540-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH v2] patch: use PACKAGECONFIG to ensure correct dependency for xattr
+X-Received: by 10.60.40.36 with SMTP id u4mr4519820oek.93.1369228386660; Wed,
+	22 May 2013 06:13:06 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.89.226 with HTTP; Wed, 22 May 2013 06:13:06 -0700 (PDT)
+In-Reply-To: <70e21b5f16cb4a509adc3652bc0b2f14a9c621e7.1369183108.git.sgw@linux.intel.com>
+References: <cover.1369183108.git.sgw@linux.intel.com>
+	<70e21b5f16cb4a509adc3652bc0b2f14a9c621e7.1369183108.git.sgw@linux.intel.com>
+Date: Wed, 22 May 2013 10:13:06 -0300
+X-Google-Sender-Auth: 6i76XG_zHopXyT1F3SnM6BrXil8
+Message-ID: <CAP9ODKqVyK4teRo8Ha4+FTBorQNX2F1zJi=7oRRL3LBDJ1Zz9A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] cmake: Update to 2.8.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 12:54:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2013 13:13:06 -0000
+Content-Type: multipart/alternative; boundary=e89a8f921a069a81ab04dd4e53cc
 
-On 5/21/13 9:14 PM, Saul Wold wrote:
-> This will enable or disable xattr with the correct dependency
-> on attr as needed.
+--e89a8f921a069a81ab04dd4e53cc
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Tue, May 21, 2013 at 9:40 PM, Saul Wold <sgw@linux.intel.com> wrote:
+
+> Rebased support-oe-qt4-tools-names as some of the changes where
 >
 > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-
-Looks right.  :)
-
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
-
-> ---
->   meta/recipes-devtools/patch/patch_2.7.1.bb |    3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/patch/patch_2.7.1.bb b/meta/recipes-devtools/patch/patch_2.7.1.bb
-> index 38df034..16e3cc4 100644
-> --- a/meta/recipes-devtools/patch/patch_2.7.1.bb
-> +++ b/meta/recipes-devtools/patch/patch_2.7.1.bb
-> @@ -9,3 +9,6 @@ SRC_URI[sha256sum] = "c05f28668c3474bc63adcd48abae921d15e71c254fbebdbaeda40456d6
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->
->   acpaths = "-I ${S}/m4 "
-> +
-> +PACKAGECONFIG ?= "${@base_contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)}"
-> +PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
 >
 
+I think the commit log is incomplete. Can you take a look?
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--e89a8f921a069a81ab04dd4e53cc
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Tue, May 21, 2013 at 9:40 PM, Saul Wold <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com<=
+/a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Rebased support-oe-qt4-tools-names as some o=
+f the changes where<br>
+<br>
+Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
+ux.intel.com</a>&gt;<br></blockquote><div><br></div><div style>I think the =
+commit log is incomplete. Can you take a look?=A0</div></div><div><br></div=
+>
+-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blan=
+k">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projeto=
+s.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><=
+br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
+
+--e89a8f921a069a81ab04dd4e53cc--
