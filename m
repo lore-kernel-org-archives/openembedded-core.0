@@ -1,36 +1,37 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 346C36099F;
-	Wed, 22 May 2013 08:31:16 +0000 (UTC)
-Received: by mail-ve0-f179.google.com with SMTP id oz10so1251703veb.10
-	for <multiple recipients>; Wed, 22 May 2013 01:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=OacJgMfRaXrhJ9cSoVoGY8GSMrh0BReDDcJx8SP7FbM=;
-	b=0pejd1FAGbVa7kMA86F6h0zViTwAQ0KeMRDe0zdJ9JaL7vNU+d3b9oOXfBdkwQRGqh
-	TzbB1mjT8fxSZ+j0vmpUyFPRlROkHYzQiRp2Ja/lIdWQlq0paHgfhlK1ZYAckMKDN/M5
-	2wGwXBvWc0n0FrYeYJOKfwiexHvz3Z4B5ZoPMog5854c65xryz4Od41rmaAXmfEBR8mE
-	ULSqAUu9xXcD4Wn04wTjR6eM71u7EugTp0FIqh8YkNgkpTfy5NiQronBD8IbY1i3xKX6
-	cH31YM5OpZKhmhTR5B8pjXp/IguR8dcBQPSSdd5CBKW8eSkZOcUgzD6ggPJygFmTey+p
-	o3vg==
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B0FA60984;
+	Wed, 22 May 2013 08:47:58 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id ht10so1133329vcb.18
+	for <multiple recipients>; Wed, 22 May 2013 01:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=cgCg0ZxS7VXMc3VGTGoe+Ej8QVq00P9GK9JxjF/kQko=;
+	b=sjcE4rPwPczM2tj5sbM5qsDR3A1Wu8sMWyhn7bgwOYmI7a+eGY+qIWecD3O0HID/Nh
+	5bwLODFnekfcZ0vpY59QXBOI8rQTWZ/syYUKwYz3nfBoTRDA/e73lIZE2sTgjbSQ/P+F
+	sVWdJuPdRITasRpBj23alYeLwz9/Qzkx0JDDq7bdSRzjSVhQv/AB6nbuR6rxOprk1+HU
+	jugbTLYJ537jVWrRBQb6lqRF+mGsEErQgGusnhA4od98E+h/qlc1901sGwjOsO9z6UtO
+	bI3ykp4jm7gs4vqvhbuyg6mtslimusZzFYFWDBxb7THyAH6k7gA8gJUgQLCtiwoTRDVA
+	w8Cw==
+X-Received: by 10.220.172.2 with SMTP id j2mr2444608vcz.17.1369212479450; Wed,
+	22 May 2013 01:47:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.220.111.133 with SMTP id s5mr2412104vcp.63.1369211476618;
-	Wed, 22 May 2013 01:31:16 -0700 (PDT)
-Received: by 10.52.18.177 with HTTP; Wed, 22 May 2013 01:31:16 -0700 (PDT)
-In-Reply-To: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
-References: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
-Date: Wed, 22 May 2013 10:31:16 +0200
-Message-ID: <CALbNGRSV7KK5hPddSiVTRborW6_PZfYstDFfu4M2oRJ5QwtV_Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Jeff Osier-Mixon <jefro@jefro.net>
-Cc: tsc <tsc@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OE TSC Minutes 7 May 2013
+Sender: paul.betafive@gmail.com
+Received: by 10.220.48.5 with HTTP; Wed, 22 May 2013 01:47:39 -0700 (PDT)
+In-Reply-To: <CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
+References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
+	<1368650024.18324.102.camel@ted>
+	<CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 22 May 2013 09:47:39 +0100
+X-Google-Sender-Auth: bifhZ4LE1P0-6hBvqEXuv2VpNaE
+Message-ID: <CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 08:31:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 May 2013 08:47:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, May 21, 2013 at 9:36 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
-> OpenEmbedded Technical Steering Committee
-> 7 May 2013
+On 16 May 2013 00:02, Paul Barker <paul@paulbarker.me.uk> wrote:
+> On 15 May 2013 21:33, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 >
-> Attendees:
->   Koen (koen)
->   Khem (khem)
->   Fray (fray)
->   Paul (bluelightning)
->   Richard (RP)
-> Apologies:
+>>
+>> (e.g. when I include
+>> meta-raspberrypi, it changes the psplash logo, regardless of whether I'm
+>> building for the pi).
+>>
+>> In many ways the bbappend is too easy and encourages anti-social
+>> behaviour. I would recommend bouncing meta-rpi as being non yocto
+>> project compatible due to the psplash issue if it were to apply which it
+>> has not.
+>>
 >
-> Notes: Jefro
+> I noticed the psplash logo when building a qemu image with
+> meta-raspberrypi included, will look into fixing it so it only goes
+> into MACHINE="raspberrypi" builds. Copying in yocto@ and Andrei as
+> this is raspberrypi related.
 >
-> Agenda at a glance:
->
-> 1. pick a chair
-> 2. new issues
-> 3. lingering issues
-> a. systemd merge unhappiness
-> 4. projects in progress - status
-> a. oe-classic recipe migration status
-> b. oe-core release
-> c. systemd into master
-> d. meta-oe appends/overlayed recipes RFC
-> e. 1.5 planning
-> 5. infrastructure
-> a. mailing list moving to YP server, in progress
-> b. oe.org flooded
-> 6. projects deferred
-> a. raise awareness of "janitor" list, QA "bugs"
-> b. document whitespace changes to the shell
-> c. raise ntp with the Yocto Project [RP]
->
-There are three issues I would like to comment on:
 
-1. systemd migration:
+I've just sent a patch to the yocto@ list to fix this but it's brought
+up two things:
 
-From what I see the only major step left over is to bury meta-systemd.
-The only appends found there are those for oe-core. I asked for this
-long time ago [1] and support was offered but...
+1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with
+'?='. I'm overriding this with '=' in
+meta-raspberrypi/conf/machine/raspberrypi.conf which means it can't be
+overridden further in local.conf. Is this worth changing to '??=' in
+image.bbclass, '?=' in the machine conf so that it can be overridden
+with '=' in local.conf? Is my understanding of the overrides correct
+here?
 
-2. indention:
-Reading between the lines there is some unhappiness on meta-oe using
-four spaces for shell and python code. I personally agree with Martin
-here because I have not seen a technical reason for shell requiring
-tabs so far. To me this looks like a style decision which increases
-the burden to submit for low-skilled people like me. Could somebody
-please enlighten me: For what technical reason do we need tabs in
-shell code?
+2) If you look at the patch I've basically added the raspberrypi logo
+as an extra psplash image and overridden SPLASH in the machine conf to
+make this the default for raspberrypi. Is this the intended approach
+for customising psplash images? There's a lot of interesting logic in
+the psplash recipe and it took me a while to figure out. If I've got
+it right it may be worth adding some documentation comments to explain
+this method. If I've got it wrong could someone correct me.
 
-3. xserver-nodm-init oe-core vs. meta-oe
-This is a long lasting issue and Martin commented on why there is a
-different approach in meta-oe [2]. One blocker for progress is xinput
-calibrator rework. Short story: I have a solution working here which
-is capable of starting calibrator by udev/systemd and can be invoked
-by an unprivileged user at any time. Unfortunately this solution has
-still too many issues to be submitted and from what I see now I won't
-find the time to fix them in the next future. So if anybody wants to
-unify xserver-nodm-init - feel free. Users can add xserver.common to
-images manually (and xinput calibrator is not really working anyway).
+Both of these (assignment change and adding documentation) would be
+patches to openembedded-core.
 
-If I could I would add an additional item on the agenda:
+Thanks.
 
-gtk3-migration:
-In meta-gnome we are working with terribly old gnome recipes. These
-needed much backporting efforts to survive glib-2.36 / gcc 4.8 updates
-- and I don't think this increases code quality in any way - so it is
-more or less a useless effort which we will continue.
+--
+Paul Barker
 
-* Are there plans for a step-by step migration? A good starter would
-be to solve libnotify 2/3 API issue. Is anybody else working on this /
-thinking about?
-* Are there plans to update gtk3 to 3.8.x to have wayland support?
-
-Cheers
-
-Andreas
-
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2013-January/073596.html
-[2] http://lists.openembedded.org/pipermail/openembedded-core/2013-February/075336.html
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
