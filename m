@@ -1,38 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
-	[209.85.219.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 000FD60810
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CC0856086B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 13:13:05 +0000 (UTC)
-Received: by mail-oa0-f51.google.com with SMTP id f4so2522897oah.24
+	Wed, 22 May 2013 13:41:22 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id p11so1696680pdj.26
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 06:13:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=bUbsysJoixS5XqLP0j9oGUowR1wHTjTtQi/4S7OaG3Q=;
-	b=DuKmpcdsDDkd/29/JVElSDO0HPw2gVI0YxERNr51OonqfdBI8V0QYSOEtIWDRvKw5j
-	j+guWHr6T2GfvS84adCSfHQuhxNIMVd0br324Zw5DOEKiQMmBduSUQbIakggDm6z5a5A
-	HaReyNpUDG00xeApmVF4uNb3i8ESAZs0lgrpyWePMnl0XDNeKsCVR1nCVPWXUIJnCCLQ
-	AAk0fvnl9gZ7b2N1xfns3eBP5qYftusBv8/YjR8ByS0Z0s08NMiGIbANGL0nC3v8iLcE
-	rXAGYGs5R1kieFgbUWvB0p3ohs/+fPCpzoAI+L9ianUGwyZ+wSq8ROkei6SnSXhufHyL
-	tTiQ==
+	Wed, 22 May 2013 06:41:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=SDffPP83uZfCbIuUrLwwRJrycBWnO3S/aUyHyCsW7wI=;
+	b=mRFBzbYieTKX5/HPMCsPnvyqZAtE9LWeJVQU07mCCKhdQixFwAe5W36uuUMFDHv/py
+	liiVKNdNaSXdh5tHksgR0aWJ1upywz7qvCokYUzNXk9692HFPMJhs9LAKJ1Q01f095Jm
+	Y11I6lCR9MCZSqRxGeXzMk1xg+3j2OZ7IQuQ8t4nUFkeuxkBB6PBoFQEjw2cKxyV480H
+	MF3wCS9ZWtpOuxuhKOvoFNOIlEaLJajS6BMgTlPAoBBMcZvUfYoiw3qsKBuXlQfHFSbb
+	noXFBSvvIUL2zZ1GA2Odmu9LTEWr/NjmSbEJrsJohJJUM7MbGhbZq+fKesMW4YGwoLes
+	CTIg==
+X-Received: by 10.68.254.225 with SMTP id al1mr8035223pbd.69.1369230083911;
+	Wed, 22 May 2013 06:41:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.40.36 with SMTP id u4mr4519820oek.93.1369228386660; Wed,
-	22 May 2013 06:13:06 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.89.226 with HTTP; Wed, 22 May 2013 06:13:06 -0700 (PDT)
-In-Reply-To: <70e21b5f16cb4a509adc3652bc0b2f14a9c621e7.1369183108.git.sgw@linux.intel.com>
-References: <cover.1369183108.git.sgw@linux.intel.com>
-	<70e21b5f16cb4a509adc3652bc0b2f14a9c621e7.1369183108.git.sgw@linux.intel.com>
-Date: Wed, 22 May 2013 10:13:06 -0300
-X-Google-Sender-Auth: 6i76XG_zHopXyT1F3SnM6BrXil8
-Message-ID: <CAP9ODKqVyK4teRo8Ha4+FTBorQNX2F1zJi=7oRRL3LBDJ1Zz9A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] cmake: Update to 2.8.11
+Received: by 10.66.100.104 with HTTP; Wed, 22 May 2013 06:41:03 -0700 (PDT)
+In-Reply-To: <1369227075.6695.89.camel@phil-desktop.brightsign>
+References: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<1369220302.6695.72.camel@phil-desktop.brightsign>
+	<CAJTo0LYC2Xa=31R=eCACZDFJkWT8NBSmHVkQnL+x7jausCkDbw@mail.gmail.com>
+	<1369227075.6695.89.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 May 2013 14:41:03 +0100
+Message-ID: <CAJTo0Laer3rQPAA3mBt9qr6K3QVazfOvafAWHEMQosVT0SXrOA@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQmMbRQbeAPU3RweslQnY7bmhxClOv5zYmp1YMFZNVy/HNRnVkmjltLVMpd+4a5zOmI7RHbq
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,49 +46,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 13:13:06 -0000
-Content-Type: multipart/alternative; boundary=e89a8f921a069a81ab04dd4e53cc
+X-List-Received-Date: Wed, 22 May 2013 13:41:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
---e89a8f921a069a81ab04dd4e53cc
-Content-Type: text/plain; charset=ISO-8859-1
+On 22 May 2013 13:51, Phil Blundell <pb@pbcl.net> wrote:
+> I had thought we had virtual-gconv-ENCODING providers but apparently
+> that's not the case.  So I think the answer at the moment is probably
+> no.  I guess we should add something like that.
 
-On Tue, May 21, 2013 at 9:40 PM, Saul Wold <sgw@linux.intel.com> wrote:
+Agreed.  Filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=4530.
 
-> Rebased support-oe-qt4-tools-names as some of the changes where
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
+Ross
 
-I think the commit log is incomplete. Can you take a look?
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
---e89a8f921a069a81ab04dd4e53cc
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Tue, May 21, 2013 at 9:40 PM, Saul Wold <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com<=
-/a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Rebased support-oe-qt4-tools-names as some o=
-f the changes where<br>
-<br>
-Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
-ux.intel.com</a>&gt;<br></blockquote><div><br></div><div style>I think the =
-commit log is incomplete. Can you take a look?=A0</div></div><div><br></div=
->
--- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blan=
-k">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projeto=
-s.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><=
-br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
-
---e89a8f921a069a81ab04dd4e53cc--
