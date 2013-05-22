@@ -1,20 +1,23 @@
-Return-Path: <bogdan.a.marinescu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 59DDB60657
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 86C7A608CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 10:57:17 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 May 2013 03:57:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,719,1363158000"; d="scan'208";a="341619785"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by fmsmga002.fm.intel.com with ESMTP; 22 May 2013 03:57:17 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2013 13:57:03 +0300
-Message-Id: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
+	Wed, 22 May 2013 10:58:22 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Uf6kQ-0001dR-P7; Wed, 22 May 2013 12:58:22 +0200
+Message-ID: <1369220302.6695.72.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Date: Wed, 22 May 2013 11:58:22 +0100
+In-Reply-To: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
+References: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,43 +30,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 10:57:18 -0000
+X-List-Received-Date: Wed, 22 May 2013 10:58:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-guile needs to be able to convert strings from ISO-8859-1 in order
-to work properly. This patch adds a runtime dependency to the required
-convert package.
+On Wed, 2013-05-22 at 13:57 +0300, Bogdan Marinescu wrote:
+> +RDEPENDS_${PN} = "glibc-gconv-iso8859-1"
 
-[YOCTO #4019]
+That will make it unbuildable with anything other than (e)glibc.  Is
+this ok?
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- meta/recipes-devtools/guile/guile_2.0.9.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+p.
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
-index 617f7ce..5afccd1 100644
---- a/meta/recipes-devtools/guile/guile_2.0.9.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
-@@ -27,7 +27,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
- SRC_URI[md5sum] = "a69b575d4a633bdd9118f3a4a1e97766"
- SRC_URI[sha256sum] = "f70a38c8d9751f442679bfe61852bba8545af4d4355d037630997c2f37f2895b"
- 
--PR = "r0"
-+PR = "r1"
- 
- inherit autotools gettext
- BBCLASSEXTEND = "native"
-@@ -36,6 +36,9 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) != 'guile']}"
- 
-+RDEPENDS_${PN} = "glibc-gconv-iso8859-1"
-+RDEPENDS_${PN}_class-native = ""
-+
- EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix', ''][bb.data.inherits_class('native',d)]}"
- 
- do_configure_prepend() {
--- 
-1.7.10.4
 
 
