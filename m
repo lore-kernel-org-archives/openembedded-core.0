@@ -1,31 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5A86A34D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f49.google.com (mail-vb0-f49.google.com
+	[209.85.212.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A61556065C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 11:57:46 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 8B32EF811EC; Wed, 22 May 2013 05:57:47 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id F27E1F811E9;
-	Wed, 22 May 2013 05:57:45 -0600 (MDT)
-Message-ID: <519CB2BD.4040604@mlbassoc.com>
-Date: Wed, 22 May 2013 05:57:49 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	Wed, 22 May 2013 12:05:51 +0000 (UTC)
+Received: by mail-vb0-f49.google.com with SMTP id q12so1226682vbe.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2013 05:05:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=AL2zQ6EkSvxlxaB5sDemQh44jVK2J4kqi6YsPb2hLJA=;
+	b=RaqNVV+jjzetFrBWQYvRqGW3YuLfaF5MmQIELhVJ8DyLreCmyIOdPxZOKOLnlQ3pw5
+	j8o/T8moSQXT979a7EOv/0isCWq2RQPKbPggy58pV+cU3rj+D63hCSHNv8zaV0reZMMV
+	5y968/DifL75Rxgvrz6ZGCEIevHjUqYNqGNtDaLiP1GhQ18Wt3UG1tJa3rc8RvPEEjme
+	KMS5WylsaPLdzHPC5PMJ4a6O0sq1dfE9wwI8ijM8ZkSIB9JZFiaG9/VOOKTsC5GFX7JG
+	ahD1i70Rc6OWDQ7erCq+oScWGRxwfa6Ay3x1P37WynDFL3/kqMvPSkcLPD5H2JMmYaJZ
+	VwAA==
+X-Received: by 10.220.248.137 with SMTP id mg9mr2670730vcb.38.1369224351968;
+	Wed, 22 May 2013 05:05:51 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <51962FFE.3040202@mlbassoc.com> <1369127448.11013.16.camel@ted>
-	<519BB951.2040502@mlbassoc.com> <1369177001.3843.9.camel@ted>
-In-Reply-To: <1369177001.3843.9.camel@ted>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Poor first impression
+Received: by 10.220.98.7 with HTTP; Wed, 22 May 2013 05:05:31 -0700 (PDT)
+In-Reply-To: <1369220302.6695.72.camel@phil-desktop.brightsign>
+References: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<1369220302.6695.72.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 May 2013 13:05:31 +0100
+Message-ID: <CAJTo0LYC2Xa=31R=eCACZDFJkWT8NBSmHVkQnL+x7jausCkDbw@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQnVNFZkNS+w9Eyfft5xlfkCVa+MJJ76QvJHRruUJX8dMUjKVMryPIB5yJN3pU/CF/DufhBW
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,68 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 11:57:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2013 12:05:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2013-05-21 16:56, Richard Purdie wrote:
-> On Tue, 2013-05-21 at 12:13 -0600, Gary Thomas wrote:
->> On 2013-05-21 03:10, Richard Purdie wrote:
->>> On Fri, 2013-05-17 at 07:26 -0600, Gary Thomas wrote:
->>>> I just tried to run Poky/Yocto on a fresh Ubuntu 12.04 system.  I knew there would
->>>> be missing bits and have seen the "sanity" messages in the past, so I thought I'd
->>>> just carry on.  Today's experience was not pretty and would it not for my experience
->>>> with this, I would have been very perplexed...
->>>
->>> There are two issues there, firstly the scripts/bitbake binary is doing
->>> a really bad job, secondly, one of the improved debugging patches I
->>> added to bitbake, regressed things in this case.
->>>
->>> I posted a patch to bitbake last night, I've just posted a fix for
->>> scripts/bitbake now. These two together should improve this. I agree
->>> that particular error would create a poor first impression, thanks for
->>> reporting it.
->>
->> With this patch, no 'git' and a fresh build I still get this:
->>
->> Traceback (most recent call last):
->>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
->>       ret = main()
->>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
->>       event = server.event_queue.get(block=False)
->>     File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
->>       raise Empty
->> Empty
->> Pseudo is not present but is required, building this first before the main build
->> Traceback (most recent call last):
->>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 293, in <module>
->>       ret = main()
->>     File "/home/local/poky-multi/bitbake/bin/bitbake", line 260, in main
->>       event = server.event_queue.get(block=False)
->>     File "/usr/lib/python2.6/multiprocessing/queues.py", line 104, in get
->>       raise Empty
->> Empty
->> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
->>       Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
->>       Following is the list of potential problems / advisories:
->>
->>       Please install the following missing utilities: git
->>
->> Still not very pretty.
+On 22 May 2013 11:58, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2013-05-22 at 13:57 +0300, Bogdan Marinescu wrote:
+>> +RDEPENDS_${PN} = "glibc-gconv-iso8859-1"
 >
->
-> Did you apply both patches, the one for bitbake and the one for OE-Core?
-> This looks like the bitbake one is missing.
+> That will make it unbuildable with anything other than (e)glibc.  Is
+> this ok?
 
-Sorry, I missed that since they went to different mailing lists.
+Presumably in this case libiconv will be used.  Is there a standard
+way of depending on a specific encoding from either eglibc or
+libiconv?
 
-The output is much cleaner with the other patch.
-
-Thanks
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
