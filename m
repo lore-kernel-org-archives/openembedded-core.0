@@ -1,26 +1,38 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BC8060657;
-	Wed, 22 May 2013 10:14:15 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Uf63j-000121-Td; Wed, 22 May 2013 12:14:15 +0200
-Message-ID: <1369217654.6695.62.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 22 May 2013 11:14:14 +0100
-In-Reply-To: <CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
-References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
-	<1368650024.18324.102.camel@ted>
-	<CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
-	<CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 3920660657
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2013 10:31:29 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id jz10so1308127veb.35
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2013 03:31:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=UlmCOckd974NxVMTBnxkvuH8KLMjRb0AEwv4C/XtJNs=;
+	b=p5T0Xqe7kRuF5Gwtn+0NVjHzZVQFRQ/cYxTYPwEMGeSr9qORuA2NQIXbFYSY3O93AR
+	F/dQ40beGIrBJYCf507IURng41RF06Yw4ZzBarfokWpjduADC0dK8n/d2xR44/+2ESmo
+	zIG3hS0r17pNGYRSn6tviwaYAH0oOb42nw8u2lxX7GU1Rv9kgYYROTCX48sACwwdfNeD
+	npmZAWTlDUEwkZnTsQGmeG3yWzWWyZy41rij47lJzEh5KGg8ssT3wHQMKW5Tm4GeASXc
+	yABdC5pFKa2hYiZ0d24jL346zt4kZFZz1LSvunS6G2hW4L+7VF8WrXez++gQMQ5qye4+
+	AkSQ==
+X-Received: by 10.220.191.129 with SMTP id dm1mr2566056vcb.54.1369218689464;
+	Wed, 22 May 2013 03:31:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.98.7 with HTTP; Wed, 22 May 2013 03:31:09 -0700 (PDT)
+In-Reply-To: <CALbNGRSV7KK5hPddSiVTRborW6_PZfYstDFfu4M2oRJ5QwtV_Q@mail.gmail.com>
+References: <CA+YB3rYf0Tt181v+zAqCwjKk74uP88Zoaht_+FMuS7ee2tJRfQ@mail.gmail.com>
+	<CALbNGRSV7KK5hPddSiVTRborW6_PZfYstDFfu4M2oRJ5QwtV_Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 May 2013 11:31:09 +0100
+Message-ID: <CAJTo0Lb-d-ZOYc+WxaONDXy+vwbsEJKG8SsnQ0LDP7og5Sm9SQ@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+X-Gm-Message-State: ALoCoQkBTtdydST3NpuCLRRCPiSJX9B9SaffOyQhdokTKC0K2IhO7ObxFUvlRSRYqL7CHBlbPsuO
+Cc: tsc <tsc@lists.openembedded.org>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
+Subject: Re: [oe] OE TSC Minutes 7 May 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2013 10:14:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2013 10:31:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2013-05-22 at 09:47 +0100, Paul Barker wrote:
-> I've just sent a patch to the yocto@ list to fix this but it's brought
-> up two things:
-> 
-> 1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with
-> '?='. I'm overriding this with '=' in
-> meta-raspberrypi/conf/machine/raspberrypi.conf which means it can't be
-> overridden further in local.conf. Is this worth changing to '??=' in
-> image.bbclass, '?=' in the machine conf so that it can be overridden
-> with '=' in local.conf? Is my understanding of the overrides correct
-> here?
+On 22 May 2013 09:31, Andreas M=C3=BCller <schnitzeltony@googlemail.com> wr=
+ote:
+> 1. systemd migration:
+>
+> From what I see the only major step left over is to bury meta-systemd.
+> The only appends found there are those for oe-core. I asked for this
+> long time ago [1] and support was offered but...
 
-You can always override it from local.conf using a _forcevariable
-override (which used to be named "_local", in fact, but that terminology
-turned out to be a bit confusing), or a _MACHINE override of course.  So
-I don't think there is any major problem here.  
+This is a 1.5 goal, and will be getting around to it but I'm also
+going on holiday in the first week of June, so if you want to send
+patches before I get to it them you're more than welcome.
 
-But, that said, it probably is true that the semantics of ??= are less
-surprising for users (since it isn't position-dependent in the way
-that ?= is) which might make it a better choice for image.bbclass.
+> * Are there plans to update gtk3 to 3.8.x to have wayland support?
 
-p.
+Yes, another 1.5 feature I own.  I have most of the pieces around now.
+ If anyone has a ARM or PPC board to immediate hand, then doing a
+configure of at-spi2-core and at-spi2-gtk on the devices to get the
+right alignment values (yet more alignment checks in configure.ac)
+would be incredibly useful.
 
+Ross
 
