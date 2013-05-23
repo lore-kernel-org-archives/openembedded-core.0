@@ -1,47 +1,37 @@
-Return-Path: <B19537@freescale.com>
-Received: from am1outboundpool.messaging.microsoft.com
-	(am1ehsobe003.messaging.microsoft.com [213.199.154.206])
-	by mail.openembedded.org (Postfix) with ESMTP id F1C916086B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f51.google.com (mail-vb0-f51.google.com
+	[209.85.212.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E6C56089F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 08:46:05 +0000 (UTC)
-Received: from mail70-am1-R.bigfish.com (10.3.201.251) by
-	AM1EHSOBE026.bigfish.com (10.3.207.148) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 May 2013 08:46:05 +0000
-Received: from mail70-am1 (localhost [127.0.0.1])	by mail70-am1-R.bigfish.com
-	(Postfix) with ESMTP id C13543E010F	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 08:46:05 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz1443I14ffIzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzzz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1hbe9i1155h)
-Received: from mail70-am1 (localhost.localdomain [127.0.0.1]) by mail70-am1
-	(MessageSwitch) id 1369298764476611_20951;
-	Thu, 23 May 2013 08:46:04 +0000 (UTC)
-Received: from AM1EHSMHS009.bigfish.com (unknown [10.3.201.227])	by
-	mail70-am1.bigfish.com (Postfix) with ESMTP id 68ADF2C0C49	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 08:46:04 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS009.bigfish.com
-	(10.3.207.109) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 May 2013 08:46:04 +0000
-Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0328.011; Thu, 23 May 2013 08:46:46 +0000
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Query for multilib support in Yocto
-Thread-Index: Ac5XkfOOG+GOdd4KTn+RuqsEmY7v4A==
-Date: Thu, 23 May 2013 08:46:45 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A01570F29@039-SN2MPN1-021.039d.mgd.msft.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.134]
+	Thu, 23 May 2013 08:49:35 +0000 (UTC)
+Received: by mail-vb0-f51.google.com with SMTP id x16so1927509vbf.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2013 01:49:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=YRpJ4r2sFw3fgthKx7ZsAYv77QCxR2UM5DYItX+OI18=;
+	b=fMfRst+raGmEus6XbcJOUg3/qOCvGrPeHwVjMLkS8V6HJDokho5XBFRDpzRmrRFozj
+	x1lXe+T4WYeS7vUx3xCzG+nHS8Cd4vMHJhiFOP2A1kwPIZAfeLAa/OoEzsofUaTa+sfT
+	7fy6K86Gqb3Nru68HUpATazmNVL8ClJTlYZwDAL0jj4odUMj08WU04a8aT6WsOVMzKDy
+	Uc6AWIuUuUtZDV5/Qk+qA3mWrD8Ut/RfeXAB+UCuZLX6keq3c2rAO7VcGjq8Wr1VCyWz
+	knT3bFEXHj9bcUIO6q9D1mhjYXtSs8aGcw3r8S8YGO00+poDbDEJAwBTiNk5N6gOFHch
+	dTGg==
+X-Received: by 10.52.165.99 with SMTP id yx3mr3815830vdb.34.1369298975951;
+	Thu, 23 May 2013 01:49:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Query for multilib support in Yocto
+Received: by 10.220.98.7 with HTTP; Thu, 23 May 2013 01:49:15 -0700 (PDT)
+In-Reply-To: <CA+AhUGxnKoTeEFYZUAZTtzEfOQ2sUEy1S_Hdz7SBo=hZVYkP=g@mail.gmail.com>
+References: <1369270777-2932-1-git-send-email-net147@gmail.com>
+	<CA+AhUGxnKoTeEFYZUAZTtzEfOQ2sUEy1S_Hdz7SBo=hZVYkP=g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 May 2013 09:49:15 +0100
+Message-ID: <CAJTo0La8OEJSayD09eQNDKJz++h5V3FTeufPmo2XVoAYPKRf6Q@mail.gmail.com>
+To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
+X-Gm-Message-State: ALoCoQmL3EiH7LXDEEg0fpEaMRZgclyTnz7lGF+JDa6mt7TomoLBBVnO2yKwPcw6Xb0UULcpyvUY
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4] systemd: update to 204
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,68 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 08:46:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 23 May 2013 08:49:36 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,=20
+On 23 May 2013 09:27, Erik Bot=C3=B6 <erik.boto@pelagicore.com> wrote:
+> I'd like util-linux added to DEPENDS to avoid the issue described in
+> http://lists.openembedded.org/pipermail/openembedded-core/2013-May/078641=
+.html
+> .
+>
+> Most of the times util-linux seems to be staged in sysroot due to other
+> dependencies, but I guess this is sort of a race situation where it's not
+> guaranteed to be there.
 
-I am trying the multilib feature of Yocto, and I want to make sure if below=
- scenarios are supported, who can help to clarify? Thanks in advance.=20
+Yes, it may or may not be present, and for even more fun may be in the
+process of being replaced when systemd needs it.
 
-For standalone toolchain built by "bitbake meta-toolchain"
-1. Can the same gcc binary build both 32b and 64b applications or two diffe=
-rent gcc binaries(one is for 32b, the other is for 64b) are required?=20
-
-For gcc with multilib support running on target board
-1. Can the same gcc binary build both 32b and 64b applications or two diffe=
-rent gcc binaries(one is for 32b, the other is for 64b) are required?=20
-2. Can both 32b and 64b application be executed in the same rootfs image wi=
-th multilib support?
-
-BTW, may I know how the default value of LIBRARY_PATH is set? I experienced=
- following error when I use gcc(32bit rootfs with multilib support) to do 6=
-4b build, I find the linker search libraries in /usr/lib and /lib instead o=
-f /usr/lib64 and /lib64.=20
-
-root@p5020ds:~# gcc -m64 my_test.c -o my_test
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powe=
-rpc-poky-linux/4.7.2/libgcc.a when searching for -lgcc
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when sea=
-rching for -lgcc
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: cannot find -lgcc
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible /lib/../lib/libgcc_s.so.1 when searching for libgcc=
-_s.so.1
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible //lib/libgcc_s.so.1 when searching for libgcc_s.so.=
-1
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: cannot find libgcc_s.so.1
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powe=
-rpc-poky-linux/4.7.2/libgcc.a when searching for libgcc.a
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: skipping incompatible /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when sea=
-rching for libgcc.a
-/usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld=
-: cannot find libgcc.a
-collect2: error: ld returned 1 exit status
-root@p5020ds:~# cat my_test.c=20
-int main()
-{
-    int a=3D0;
-
-    return a;
-}
-
-
-Best Regards,
-
-Zhenhua
-
+Ross
 
