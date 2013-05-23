@@ -1,29 +1,28 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EFE1E6A2F4
+	by mail.openembedded.org (Postfix) with ESMTP id 75C016A443
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 14:40:50 +0000 (UTC)
+	Thu, 23 May 2013 14:46:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4NEeqxt013994
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4NEkYUp014075
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 07:40:52 -0700 (PDT)
+	Thu, 23 May 2013 07:46:34 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.232) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 23 May 2013 07:40:51 -0700
-Message-ID: <519E2A73.3020509@windriver.com>
-Date: Thu, 23 May 2013 09:40:51 -0500
+	14.2.342.3; Thu, 23 May 2013 07:46:32 -0700
+Message-ID: <519E2BC8.2090905@windriver.com>
+Date: Thu, 23 May 2013 09:46:32 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>
-References: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpam: fix multilib packaging issue for pam-plugins
+To: <openembedded-core@lists.openembedded.org>
+References: <CA452391058F6D4E9715FB2C29D9312A01570F29@039-SN2MPN1-021.039d.mgd.msft.net>
+In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A01570F29@039-SN2MPN1-021.039d.mgd.msft.net>
+Subject: Re: Query for multilib support in Yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,123 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 14:40:51 -0000
+X-List-Received-Date: Thu, 23 May 2013 14:46:31 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/23/13 3:01 AM, Ming Liu wrote:
-> libpam might miss ABI specific dependencies for pam-plugins-*, for RPM uses
-> generic names to check the packages depending on it and doesn't consider the
-> arch, which will lead to packaging issues in multilib build.
+On 5/23/13 3:46 AM, Luo Zhenhua-B19537 wrote:
+> Hi all,
 >
-> pam_plugin_hook is added because the plugin packages are dynamically
-> generated, so we need to manually process multilib names by add baselib to
-> RPROVIDES/RDEPENDS as ABI specific tag.
+> I am trying the multilib feature of Yocto, and I want to make sure if below scenarios are supported, who can help to clarify? Thanks in advance.
 >
-> [YOCTO #4532]
-> [ CQID: WIND00416824 ]
+> For standalone toolchain built by "bitbake meta-toolchain"
+> 1. Can the same gcc binary build both 32b and 64b applications or two different gcc binaries(one is for 32b, the other is for 64b) are required?
+
+As far as I know, you can create a multilib SDK, but you will need multilib gcc 
+binaries.  We don't yet have singular gcc with multilib cflag options available. 
+  (At Wind River we use a prebuilt binary toolchain that does allow this single 
+binary/multilib target behavior.  Other then that we are using the standard SDK 
+support and it is working for us.)
+
+> For gcc with multilib support running on target board
+> 1. Can the same gcc binary build both 32b and 64b applications or two different gcc binaries(one is for 32b, the other is for 64b) are required?
+
+As far as I'm aware the same issue above holds true here.  You still need 
+multiple compiler binaries, one for each multilib.  (Khem Raj would know if this 
+is still true however.)
+
+It was discussed a while back that we really want to follow the single binary, 
+multilib target model -- but I don't know where that is from a development 
+perspective.
+
+> 2. Can both 32b and 64b application be executed in the same rootfs image with multilib support?
+
+Yes.  As long as the multilib support is configured properly (i.e. different 
+baselib for each tune) it works properly today.  I've been building 1.4 (and 
+master) recently for x86/x86_64 systems with multilib support and as far as I 
+can tell it is working correctly.
+
+On Power there have been some issues reported in the past with the prelinker and 
+PPC64 binaries.  But other then that, it should be working fine.
+
+> BTW, may I know how the default value of LIBRARY_PATH is set? I experienced following error when I use gcc(32bit rootfs with multilib support) to do 64b build, I find the linker search libraries in /usr/lib and /lib instead of /usr/lib64 and /lib64.
 >
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> root@p5020ds:~# gcc -m64 my_test.c -o my_test
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powerpc-poky-linux/4.7.2/libgcc.a when searching for -lgcc
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when searching for -lgcc
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: cannot find -lgcc
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible /lib/../lib/libgcc_s.so.1 when searching for libgcc_s.so.1
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible //lib/libgcc_s.so.1 when searching for libgcc_s.so.1
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: cannot find libgcc_s.so.1
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powerpc-poky-linux/4.7.2/libgcc.a when searching for libgcc.a
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: skipping incompatible /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when searching for libgcc.a
+> /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/bin/ld: cannot find libgcc.a
 
-I worked with Ming Liu on this particular issue.  You may wonder why this is 
-necessary let me attempt to explain the underlying causes.
+Ya, this is running the 'wrong' toolchain.  From the errors it appears to me 
+that it's the 32-bit gcc, attempting to compile for 64-bit.  There is a command 
+that will tell you what architectures gcc was built to support, but 
+unfortunately I don't remember it offhand.
 
-In deb/ipk on a multilib package, the package name has specific multilib 
-references in it.  I.e. the alternative libraries start with something like 
-lib32-...  This was done primarily because deb/ipk do not allow two packages 
-with the same name (but different architectures) to be installed at the same 
-time.  So the name has to be unique.
-
-In RPM however, the names of the packages and matches with the architectures and 
-if they are not the same we can do these multilib installs.  This matches the 
-behavior of other RPM based distributions and in many ways the tools people are 
-used to working with RPM.  For the most part this works fine in multilib 
-configurations because additional per-file dependencies are added that capture 
-the shared library dependencies with ABI specific information.  This 
-unfortunately fails in a few cases where plugins are dynamically loaded via 
-dlopen -- such as libpam.
-
-One possible fix is simply to follow the deb/ipk package naming, but this causes 
-a design advantage of rpm.  When a package has a dependency on 'bash', we really 
-don't care what bash is installed, only that -a- bash is installed.  In the 
-deb/ipk case, the lib32- packages would end up with a lib32-bash dependency and 
-you could potentially end up with two 'bash' packages being installed.
-
-So the fix I recommended for the issue was to add the baselib path to the 
-internal dependencies.  Since we know that the libpam installed in 'lib' needs 
-the modules that were compiled to also work with the 'lib' version of libpam. 
-While the libpam in 'lib64' need the modules to work with the 'lib64' version of 
-the plugins.
-
-Existing dependencies are preserved so there is no impact in the ipk/deb case, 
-the RPM case is resolved as the additional dependency information is now present 
-for the package manager to select the package we really want.
-
-If anyone else has a suggestion for an alternative fix, we're interested -- but 
-this is the best answer we could come up with.  (If any of the above should be 
-added to the commit message, the YP bug, or documentation, please let me know 
-and I'll make sure it gets added.)
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+At one point we had installed the full canonical name of the gcc binary, so 
+"powerpc-poky-linux-gcc" would be 32-bit, and "powerpc64-poky-linux-gcc" would 
+be the 64-bit version.  I don't know if that is still true however.
 
 --Mark
 
-> ---
->   meta/recipes-extended/pam/libpam_1.1.6.bb | 29 +++++++++++++++++++++++++----
->   1 file changed, 25 insertions(+), 4 deletions(-)
+> collect2: error: ld returned 1 exit status
+> root@p5020ds:~# cat my_test.c
+> int main()
+> {
+>      int a=0;
 >
-> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> index c355634..289f134 100644
-> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> @@ -51,9 +51,12 @@ FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
+>      return a;
+> }
 >
->   PACKAGES_DYNAMIC += "^pam-plugin-.*"
 >
-> -RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-> -RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory pam-plugin-succeed-if pam-plugin-time coreutils"
-> -RRECOMMENDS_${PN} = "libpam-runtime"
-> +RPROVIDES_${PN} += "libpam-${baselib}"
-> +RPROVIDES_${PN}-runtime += "libpam-runtime-${baselib}"
-> +
-> +RDEPENDS_${PN}-runtime = "libpam-${baselib} pam-plugin-deny-${baselib} pam-plugin-permit-${baselib} pam-plugin-warn-${baselib} pam-plugin-unix-${baselib}"
-> +RDEPENDS_${PN}-xtests = "libpam-${baselib} pam-plugin-access-${baselib} pam-plugin-debug-${baselib} pam-plugin-cracklib-${baselib} pam-plugin-pwhistory-${baselib} pam-plugin-succeed-if-${baselib} pam-plugin-time-${baselib} coreutils"
-> +RRECOMMENDS_${PN} = "libpam-runtime-${baselib}"
+> Best Regards,
 >
->   python populate_packages_prepend () {
->       def pam_plugin_append_file(pn, dir, file):
-> @@ -63,12 +66,30 @@ python populate_packages_prepend () {
->               nf = of + " " + nf
->           d.setVar('FILES_' + pn, nf)
+> Zhenhua
 >
-> +    def pam_plugin_hook(file, pkg, pattern, format, basename):
-> +        baselib = d.getVar('baselib', True)
-> +        mlprefix = d.getVar('MLPREFIX', True) or ''
-> +
-> +        rdeps = d.getVar('RDEPENDS_' + pkg, True)
-> +        if rdeps:
-> +            rdeps = rdeps + " " + mlprefix + "libpam-" + baselib
-> +        else:
-> +            rdeps = mlprefix + "libpam-" + baselib
-> +        d.setVar('RDEPENDS_' + pkg, rdeps)
-> +
-> +        provides = d.getVar('RPROVIDES_' + pkg, True)
-> +        if provides:
-> +            provides = provides + " " + pkg + "-" + baselib
-> +        else:
-> +            provides = pkg + "-" + baselib
-> +        d.setVar('RPROVIDES_' + pkg, provides)
-> +
->       dvar = bb.data.expand('${WORKDIR}/package', d, True)
->       pam_libdir = d.expand('${base_libdir}/security')
->       pam_sbindir = d.expand('${sbindir}')
->       pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
->
-> -    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', extra_depends='')
-> +    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
->       mlprefix = d.getVar('MLPREFIX', True) or ''
->       pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_chkpwd')
->       pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_update')
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
 
