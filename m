@@ -1,36 +1,31 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 760FF6086B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C868A6086B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 21:43:50 +0000 (UTC)
-Received: by mail-yh0-f43.google.com with SMTP id a41so173575yho.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 14:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=UeDyxferO93ot1MU0ZMWrsBnSNdxSMnRsOl77mWy2Fs=;
-	b=odTzpjHBSvKkZbXjcdf4AiuJhvR2l51YKrB3WDyjCdkYBb0YAt0SUKBS1tx9gwdpV/
-	2Vs+gZqM6QJMX8agTiL1cWVO7lvbEWdClSUzKc3NJiBjHImLQ2GbpUfiL+r2pKhALuil
-	srNNTAmghj3LvSr15w+TROAdZra5xHxLbsnLnRNCzdZaV70uvMewLW/2QYAOmD+DX+OH
-	6071Z9sWDWUuZVnpC0LRnW6dt/MyoIM6mTGrLFhj58MloGHCNmp1ywDps8eqJwWx2jXU
-	5m8Z0ZF3uPLgYYnK3v4xsAZTZbNHgqiNcb6dL2Zya9XDCLSWof/trLCn0Ut4wlkxx1L9
-	d/Ag==
-X-Received: by 10.236.207.162 with SMTP id n22mr9305536yho.45.1369345430746;
-	Thu, 23 May 2013 14:43:50 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.194.146])
-	by mx.google.com with ESMTPSA id
-	j27sm19813811yhf.18.2013.05.23.14.43.48 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 23 May 2013 14:43:50 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 May 2013 18:43:29 -0300
-Message-Id: <1369345409-19343-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.1
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] linux-firmware: Split 'ar3k' in a linux-firmware-ar3k package
+	Thu, 23 May 2013 22:52:49 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4NMuVaq018014; Thu, 23 May 2013 23:56:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SWO6GIv1revZ; Thu, 23 May 2013 23:56:31 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4NMuNqi018010
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 23 May 2013 23:56:26 +0100
+Message-ID: <1369349549.14887.47.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Thu, 23 May 2013 23:52:29 +0100
+In-Reply-To: <519E359B.2010203@mlbassoc.com>
+References: <519E359B.2010203@mlbassoc.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Shortened git hashes causing pain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 21:43:51 -0000
+X-List-Received-Date: Thu, 23 May 2013 22:52:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+On Thu, 2013-05-23 at 09:28 -0600, Gary Thomas wrote:
+> The shortening of the git hashes in this commit
+>    commit 77fc40a0f843e2488b356d90b64ef436c11c9973
+>    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+>    Date:   Sun May 19 13:21:55 2013 +0300
+>      bitbake: fetch2: Shorten long srcrevs
+> is causing some problems.
+> 
+> I have a simple .bbappend for gtk-sato-engine (attached) which
+> just applies a one-line patch.  When I build this recipe, I
+> get two different work trees (this is from scratch):
+> $ ls -l tmp/work/cobra4430p82-amltd-linux-gnueabi/gtk-sato-engine
+> total 8
+> drwxrwxr-x  3 gthomas gthomas 4096 May 23 09:12 0.3.3+gitAUTOINC+4740ad8d53aba4368ce3e03b06cfdc69eb86dcdc-r0
+> drwxrwxr-x 11 gthomas gthomas 4096 May 23 09:13 0.3.3+gitAUTOINC+4740ad8d53-r0
+> 
+> Note: it doesn't seem to happen for the virgin gtk-sato-engine
+> recipe, only when my patch is applied.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 414f47a..8b27f14 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -55,7 +55,7 @@ do_install() {
- PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-wl12xx ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
--             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k"
-+             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k"
- 
- FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
- 
-@@ -65,6 +65,12 @@ FILES_${PN}-ar9170 = " \
- "
- RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
- 
-+LICENSE_${PN}-ar3k = "Firmware-atheros_firmware"
-+FILES_${PN}-ar3k = " \
-+  /lib/firmware/ar3k \
-+"
-+RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
-+
- LICENSE_${PN}-ath6k = "Firmware-atheros_firmware"
- FILES_${PN}-ath6k = " \
-   /lib/firmware/ath6k \
--- 
-1.8.1
+Try moving the cache directory in tmp/ out the way. I suspect some kind
+of caching issue since there should not be two work directories. What is
+the contents of each?
+
+Cheers,
+
+Richard
 
 
