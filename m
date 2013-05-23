@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B7A6086B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C32D96086B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 09:08:43 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id ib11so2002010vcb.36
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 02:08:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=SLJgwZd0riAh9NFmp5ahlQHlECOghqdEmyll3w+vCDo=;
-	b=DQbUluSUnuGf2M7YLrzwmQK4InUVeZVwJ6EdU7K5DjAyEYqIs15N+EU41N/geMrTwD
-	jU4lZg5HuiOdo7YsqDh26qmgFibFNNcYO0IyRhOefvQme4oOxoiYiu7FCYVuOn0foBI6
-	ChstIa199pd/lT6hjban1+6YS1lvGwKNKLtSijAirGM7BxpsKRwjT5l4xmY/wrBB9YG3
-	EIrcTbPHC1UHnFlMFZcOAeuXwaPltXuxsnElqLvhIpCUjmVF8AEEaEkZrlPWtfp4mwUN
-	/xre1jAAhwgY+0lGPR9XHusAmwhthNlFQTTMYU4LizfB1QeKwITt59eUbaFxi/waaGXE
-	DRlg==
-X-Received: by 10.59.3.198 with SMTP id by6mr4578592ved.39.1369300123983; Thu,
-	23 May 2013 02:08:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.98.7 with HTTP; Thu, 23 May 2013 02:08:23 -0700 (PDT)
-In-Reply-To: <1369299303-15980-1-git-send-email-Martin.Jansa@gmail.com>
-References: <519DD2D2.3010009@intel.com>
-	<1369299303-15980-1-git-send-email-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 May 2013 10:08:23 +0100
-Message-ID: <CAJTo0Lbw4-fCkk_K4Li8CZ-UsnDBdu9WgH1ByXdGyvfSU7bUPw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQk2Co9G9JurIfbPrpSjpfxBemyn5GeRW2Jnti+5ERxclZdyUjwYTshIOp+iT3WMCFiGJb2v
+	Thu, 23 May 2013 11:39:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4NBgl5O022789; Thu, 23 May 2013 12:42:47 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rXiqoNVcj11o; Thu, 23 May 2013 12:42:47 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4NBgh0l022773
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 23 May 2013 12:42:44 +0100
+Message-ID: <1369309132.14887.32.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jonathan Liu <net147@gmail.com>
+Date: Thu, 23 May 2013 12:38:52 +0100
+In-Reply-To: <1369281734-7989-1-git-send-email-net147@gmail.com>
+References: <1369281734-7989-1-git-send-email-net147@gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libdrm: fix packaging after last upgrade
+Subject: Re: [PATCH] dbus: remove /var/run from package as it is created on startup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 09:08:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 May 2013 11:39:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 23 May 2013 09:55, Martin Jansa <martin.jansa@gmail.com> wrote:
-> -FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode*"
-> +FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
+On Thu, 2013-05-23 at 14:02 +1000, Jonathan Liu wrote:
+> /var/run is a tmpfs that is created on startup.
+> For sysvinit, /var/run/dbus is created by populate-volatiles.sh.
+> For systemd, /var/run/dbus is created implicitly by dbus.socket when
+> creating a listen stream socket at /var/run/dbus/system_bus_socket.
+> 
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-core/dbus/dbus.inc | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> index 2be5bda..8055824 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -101,9 +101,9 @@ do_install() {
+>  	     > ${D}${sysconfdir}/default/volatiles/99_dbus
+>  
+> 
+> -	mkdir -p ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
+> +	mkdir -p ${D}${localstatedir}/lib/dbus
+>  
+> -	chown messagebus:messagebus ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
+> +	chown messagebus:messagebus ${D}${localstatedir}/lib/dbus
 
-Why not just capture ${bindir}/* and we won't have this problem in the future?
+Is what populate-volatiles does truly equivalent? Does this directory
+need to be owned by messagebus (which is a user created by dbus) iirc?
 
-Ross
+Cheers,
+
+Richard
+
 
