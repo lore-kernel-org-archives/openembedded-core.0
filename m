@@ -1,24 +1,26 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B505C6086B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 08:01:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4N81xxr019262
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 01:01:59 -0700 (PDT)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 23 May 2013 01:01:59 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 May 2013 16:01:55 +0800
-Message-ID: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.11
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 748206086B;
+	Thu, 23 May 2013 08:27:17 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 May 2013 01:27:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,726,1363158000"; d="scan'208";a="245559252"
+Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
+	([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 May 2013 01:27:02 -0700
+Message-ID: <519DD2D2.3010009@intel.com>
+Date: Thu, 23 May 2013 11:26:58 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-Subject: [PATCH] libpam: fix multilib packaging issue for pam-plugins
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130512163307.035FC504FC@opal> <20130522160725.GM32431@jama>
+In-Reply-To: <20130522160725.GM32431@jama>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Laurentiu Palcu : libdrm: upgrade to 2.4.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,78 +33,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 08:01:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 May 2013 08:27:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-libpam might miss ABI specific dependencies for pam-plugins-*, for RPM uses
-generic names to check the packages depending on it and doesn't consider the
-arch, which will lead to packaging issues in multilib build.
 
-pam_plugin_hook is added because the plugin packages are dynamically
-generated, so we need to manually process multilib names by add baselib to
-RPROVIDES/RDEPENDS as ABI specific tag.
 
-[YOCTO #4532]
-[ CQID: WIND00416824 ]
+On 05/22/2013 07:07 PM, Martin Jansa wrote:
+> On Sun, May 12, 2013 at 04:33:07PM +0000, git@git.openembedded.org wrote:
+>> > Module: openembedded-core.git
+>> > Branch: master
+>> > Commit: 563edb321594b007cae2294e807235ad22fd27da
+>> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=563edb321594b007cae2294e807235ad22fd27da
+>> > 
+>> > Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> > Date:   Fri May 10 16:23:33 2013 +0300
+>> > 
+>> > libdrm: upgrade to 2.4.44
+>> > 
+>> > Removed part of the installtests.patch since tests can now be installed
+>> > giving an option to configure script.
+>> > 
+>> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Are you using buildhistory to test such upgrades?
+> 
+> This was caused by added --enable-install-test-programs.
+> 
+> Buildhistory shows that kmstest and vbltest were added to PN causing PKG to 
+> change from libdrm2 to libdrm and breaking upgrade path
+> 
+> ${PN}-tests looks like better place for tests.
+> 
+>  * check_data_file_clashes: Package libdrm wants to install file /usr/lib/libdrm.so.2
+>         But that file is already provided by package  * libdrm2
+>  * check_data_file_clashes: Package libdrm wants to install file /usr/lib/libdrm.so.2.4.0
+>         But that file is already provided by package  * libdrm2
+> 
+> -PV = 2.4.42
+> -PR = r4.0
+> -PKGR = r4.0.2
+> -PKG = libdrm2
+> +PV = 2.4.44
+> +PR = r0
+> +PKGR = r0.0
+>  RPROVIDES = 
+> -RDEPENDS = eglibc (>= 2.17)
+> +RDEPENDS = eglibc (>= 2.17) libdrm-kms (>= 2.4.44)
+>  RRECOMMENDS = 
+> -PKGSIZE = 34635
+> +PKGSIZE = 46491
+>  FILES = /usr/bin/* /usr/sbin/* /usr/lib/libdrm/* /usr/lib/lib*.so.* /etc /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d /usr/lib/udev/rules.d /usr/share/libdrm /usr/lib/libdrm/* /usr/share/pixmaps /usr/share/applications /usr/share/idl /usr/share/omf /usr/share/sounds /usr/lib/bonobo/servers
+> -FILELIST = /usr/lib/libdrm.so.2 /usr/lib/libdrm.so.2.4.0
+> +FILELIST = /usr/bin/kmstest /usr/bin/vbltest /usr/lib/libdrm.so.2 /usr/lib/libdrm.so.2.4.0
+> 
+No, I didn't use buildhistory on this... :( My bad. I just wasn't
+expecting the PKG to change. It looks like I was wrong.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-extended/pam/libpam_1.1.6.bb | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+Thanks for reminding me. Hopefully, I'll remember it next time.
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index c355634..289f134 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -51,9 +51,12 @@ FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
- 
- PACKAGES_DYNAMIC += "^pam-plugin-.*"
- 
--RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
--RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory pam-plugin-succeed-if pam-plugin-time coreutils"
--RRECOMMENDS_${PN} = "libpam-runtime"
-+RPROVIDES_${PN} += "libpam-${baselib}"
-+RPROVIDES_${PN}-runtime += "libpam-runtime-${baselib}"
-+
-+RDEPENDS_${PN}-runtime = "libpam-${baselib} pam-plugin-deny-${baselib} pam-plugin-permit-${baselib} pam-plugin-warn-${baselib} pam-plugin-unix-${baselib}"
-+RDEPENDS_${PN}-xtests = "libpam-${baselib} pam-plugin-access-${baselib} pam-plugin-debug-${baselib} pam-plugin-cracklib-${baselib} pam-plugin-pwhistory-${baselib} pam-plugin-succeed-if-${baselib} pam-plugin-time-${baselib} coreutils"
-+RRECOMMENDS_${PN} = "libpam-runtime-${baselib}"
- 
- python populate_packages_prepend () {
-     def pam_plugin_append_file(pn, dir, file):
-@@ -63,12 +66,30 @@ python populate_packages_prepend () {
-             nf = of + " " + nf
-         d.setVar('FILES_' + pn, nf)
- 
-+    def pam_plugin_hook(file, pkg, pattern, format, basename):
-+        baselib = d.getVar('baselib', True)
-+        mlprefix = d.getVar('MLPREFIX', True) or ''
-+
-+        rdeps = d.getVar('RDEPENDS_' + pkg, True)
-+        if rdeps:
-+            rdeps = rdeps + " " + mlprefix + "libpam-" + baselib
-+        else:
-+            rdeps = mlprefix + "libpam-" + baselib
-+        d.setVar('RDEPENDS_' + pkg, rdeps)
-+
-+        provides = d.getVar('RPROVIDES_' + pkg, True)
-+        if provides:
-+            provides = provides + " " + pkg + "-" + baselib
-+        else:
-+            provides = pkg + "-" + baselib
-+        d.setVar('RPROVIDES_' + pkg, provides)
-+
-     dvar = bb.data.expand('${WORKDIR}/package', d, True)
-     pam_libdir = d.expand('${base_libdir}/security')
-     pam_sbindir = d.expand('${sbindir}')
-     pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
- 
--    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', extra_depends='')
-+    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
-     mlprefix = d.getVar('MLPREFIX', True) or ''
-     pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_chkpwd')
-     pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_update')
--- 
-1.7.11
+I agree that the tests should be in a separate package. I'll make the
+change as soon as I find some time.
 
+Thanks,
+Laurentiu
 
