@@ -1,39 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 403996065B;
-	Thu, 23 May 2013 02:50:21 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id o10so2791635lbi.8
-	for <multiple recipients>; Wed, 22 May 2013 19:50:21 -0700 (PDT)
+Return-Path: <net147@gmail.com>
+Received: from mail-vb0-f48.google.com (mail-vb0-f48.google.com
+	[209.85.212.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B79B6065B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2013 03:20:27 +0000 (UTC)
+Received: by mail-vb0-f48.google.com with SMTP id w8so887589vbf.21
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2013 20:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=4yij6AFdQMMpJJqCr9uVeXAWWHUqkyRX+FtJek9qHx8=;
-	b=jEc/oxIOlkfgPbht859sW5/u1Lqyc0aPtNvaL8j1amt4TBIXMR2imAjIjakLPS3Emc
-	Pi9O024m19Ipslyh49jbfTm93mL2D5S9fllrtN1FWdCLYiMSWDFqs9vquQ91QreDNg49
-	C+HsksaqnXFI5fWdpMNScoF8lgHesT1hl3dFT+ssnC9K093OkGT35BHRqcOlhc4KvDVZ
-	NCKWNTFfAbYuNvbok9HAGQKgjBF4PN2uITadKrLSthPQUPf0rD3dGRUnFdVoXaMZAeu9
-	kFvVTu1spd9HINrZpj9F1CuKmprXkNrvhkSuojzZnatrQRH3z+dqVbTh5ch5UxuDCtyM
-	mpPQ==
-X-Received: by 10.112.202.105 with SMTP id kh9mr5248595lbc.120.1369277420739; 
-	Wed, 22 May 2013 19:50:20 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=lUrUb/bllK0xZLb9HhAqF9XC1BU9cpR8lyQ0OWrUhag=;
+	b=jw2jLnYMkmLhhCb9qdGRJsxOqlIPQb5sMvBRyhgFAT/Lim6J6ItCIQb9LN/ioALku9
+	TrOxPrxHnIzuf4oS1bbgEEa7a1MAR+ZoYIYl86REj0taN/FAy12LFzqlmb+NQguupfsX
+	7+c5KZ0pwZB5tfu1LttBMRiaLglAake5UD1yYWgWiX5D3kB78rkOLG5K+EkuHbP9CXvI
+	OeUuBBa3HHrvwfO+FVHPvrjtpm/DaUaroHTQu2QQvpbdd5ajcAErJuyWGwCP/ApGidvC
+	V9t9/USefz6zMNbpFKfzQoXPthCsL28y7arIijyREYXjZOjhaKKvAjm9TSFrjOvScjuc
+	w9Cw==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.141.74 with HTTP; Wed, 22 May 2013 19:50:00 -0700 (PDT)
-In-Reply-To: <1369217654.6695.62.camel@phil-desktop.brightsign>
-References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
-	<1368650024.18324.102.camel@ted>
-	<CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
-	<CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
-	<1369217654.6695.62.camel@phil-desktop.brightsign>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 22 May 2013 19:50:00 -0700
-X-Google-Sender-Auth: l1Tw370NTkEqOePp2NhIYOaRiFU
-Message-ID: <CABcZAN=kxmSiDUGxgz0CWgmsr=Biwo9PiLf-inDeBwJhCGpzmA@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
+X-Received: by 10.52.171.135 with SMTP id au7mr3366638vdc.126.1369279227895;
+	Wed, 22 May 2013 20:20:27 -0700 (PDT)
+Received: by 10.58.34.132 with HTTP; Wed, 22 May 2013 20:20:27 -0700 (PDT)
+In-Reply-To: <CAJTo0LawHFMUtJHzYGqyCzHA8sJhwC4x9xF1PwSUkZ4AB34j0Q@mail.gmail.com>
+References: <1369187256-31043-1-git-send-email-net147@gmail.com>
+	<CAJTo0LawHFMUtJHzYGqyCzHA8sJhwC4x9xF1PwSUkZ4AB34j0Q@mail.gmail.com>
+Date: Thu, 23 May 2013 13:20:27 +1000
+Message-ID: <CANwerB0S=w9+qpEpnVj==bCpKGpsi0eaakhQwGZj-B+fPXux9Q@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] base-files: add /run directory from FHS 3 draft specification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,98 +43,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 02:50:21 -0000
-Content-Type: multipart/alternative; boundary=001a11c36c944322e704dd59bed5
+X-List-Received-Date: Thu, 23 May 2013 03:20:27 -0000
+Content-Type: multipart/alternative; boundary=089e0160cdf6fa294504dd5a2949
 
---001a11c36c944322e704dd59bed5
+--089e0160cdf6fa294504dd5a2949
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, May 22, 2013 at 3:14 AM, Phil Blundell <pb@pbcl.net> wrote:
+On 23 May 2013 02:33, Burton, Ross <ross.burton@intel.com> wrote:
 
-> On Wed, 2013-05-22 at 09:47 +0100, Paul Barker wrote:
-> > I've just sent a patch to the yocto@ list to fix this but it's brought
-> > up two things:
+> Hi Jonathan
+>
+> On 22 May 2013 02:47, Jonathan Liu <net147@gmail.com> wrote:
+> > This adds the /run directory from the Filesystem Hierarchy Standard 3.0
+> > Draft [1] and refactors the filesystem as follows:
+>
+> Good start!
+>
+> > - Remove /var/run from dbus package as it is created on startup
+> > - Remove /var/volatile/run/resolvconf/interface from resolvconf package
+> >   as resolvconf package uses /etc/resolvconf/run/interface
+>
+> Can these be separate patches, as they're essentially unrelated cleanups.
+>
+Ok.
+
+
+> Please also drop all PR changes, they're not needed in oe-core.
+>
+
+Ok.
+
+>
+> > diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+> > index becb85c..c829bec 100644
+> > --- a/meta/files/fs-perms.txt
+> > +++ b/meta/files/fs-perms.txt
+> > @@ -45,15 +45,14 @@ ${oldincludedir}    0755    root    root    true
+>  0644    root    root
 > >
-> > 1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with
-> > '?='. I'm overriding this with '=' in
-> > meta-raspberrypi/conf/machine/raspberrypi.conf which means it can't be
-> > overridden further in local.conf. Is this worth changing to '??=' in
-> > image.bbclass, '?=' in the machine conf so that it can be overridden
-> > with '=' in local.conf? Is my understanding of the overrides correct
-> > here?
+> >  # Items from base-files
+> >  # Links
+> > -${localstatedir}/run   link    volatile/run
+> > +${localstatedir}/run   link    /run
+> >  ${localstatedir}/log   link    volatile/log
+> > -${localstatedir}/lock  link    volatile/lock
+> > +${localstatedir}/lock  link    /run/lock
+> >  ${localstatedir}/tmp   link    volatile/tmp
+> >
+> >  # Special permissions from base-files
+> >  # Set 1777
+> >  /tmp                           01777   root    root    false - - -
+> > -${localstatedir}/volatile/lock 01777   root    root    false - - -
+> >  ${localstatedir}/volatile/tmp  01777   root    root    false - - -
 >
-> You can always override it from local.conf using a _forcevariable
-> override (which used to be named "_local", in fact, but that terminology
-> turned out to be a bit confusing), or a _MACHINE override of course.  So
-> I don't think there is any major problem here.
+> Nothing appears to sets mode 1777 on /run/lock.  Then again Fedora
+> thinks that 0755 is sufficient, although Debian uses 1777.  We should
+> probably keep the permissions as 1777.
 >
-> But, that said, it probably is true that the semantics of ??= are less
-> surprising for users (since it isn't position-dependent in the way
-> that ?= is) which might make it a better choice for image.bbclass.
+For sysvinit case, /run/lock is created with root:root owner and 1777
+permissions by populate-volatiles.sh.
+For systemd case, /run/lock is created with root:root owner and 0755
+permissions by /usr/lib/tmpfiles.d/legacy.conf -
+http://cgit.freedesktop.org/systemd/systemd/tree/tmpfiles.d/legacy.conf.
+Presumably any system using the stock systemd legacy.conf, it would be
+using 0755 permissions. This is true on Arch Linux and Fedora for example.
+I would generally prefer to stick with permissions from systemd upstream.
+What is your opinion on the matter?
 
 
-??= is great in config files, but not ideal in classes that aren't globally
-inherited. If bitbake.conf sets a ??=, and a distro .conf updates the
-default by using ??= again, and then the class uses ??=, it'll replace the
-latest default set by the config. So, I think for default values, classes
-should use ?=, config files should use ??=.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+> diff --git a/meta/recipes-core/dbus/dbus.inc
+> b/meta/recipes-core/dbus/dbus.inc
+> index 2be5bda..8055824 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -101,9 +101,9 @@ do_install() {
+>              > ${D}${sysconfdir}/default/volatiles/99_dbus
+>
+>
+> -       mkdir -p ${D}${localstatedir}/run/dbus
+> ${D}${localstatedir}/lib/dbus
+> +       mkdir -p ${D}${localstatedir}/lib/dbus
+>
+> Presumably dbus will create /run/dbus if required?
+>
+> Ross
+>
+/run/dbus is created automatically on boot.
+For sysvinit case, it is created by populate-volatiles.sh which also sets
+messagebus:messagebus owner.
+For systemd case, it is created when dbus.socket (a dependency of
+dbus.service) is started by systemd. dbus.socket implicitly creates it when
+specifying:
+[Socket]
+ListenStream=/var/run/dbus/system_bus_socket
 
---001a11c36c944322e704dd59bed5
+Regards,
+Jonathan
+
+--089e0160cdf6fa294504dd5a2949
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Wed, May 22, 2013 at 3:14 AM, Phil Blundell <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</spa=
-n> wrote:<br>
+<div dir=3D"ltr">On 23 May 2013 02:33, Burton, Ross <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel=
+.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmai=
+l_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex">Hi Jonathan<br>
+<div class=3D"im"><br>
+On 22 May 2013 02:47, Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">=
+net147@gmail.com</a>&gt; wrote:<br>
+&gt; This adds the /run directory from the Filesystem Hierarchy Standard 3.=
+0<br>
+&gt; Draft [1] and refactors the filesystem as follows:<br>
+<br>
+</div>Good start!<br>
+<div class=3D"im"><br>
+&gt; - Remove /var/run from dbus package as it is created on startup<br>
+&gt; - Remove /var/volatile/run/resolvconf/interface from resolvconf packag=
+e<br>
+&gt; =C2=A0 as resolvconf package uses /etc/resolvconf/run/interface<br>
+<br>
+</div>Can these be separate patches, as they&#39;re essentially unrelated c=
+leanups.<br></blockquote><div style>Ok.</div><div style>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wi=
+dth:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-=
+left:1ex">
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, 2013-05-22 at 09:4=
-7 +0100, Paul Barker wrote:<br>
-&gt; I&#39;ve just sent a patch to the yocto@ list to fix this but it&#39;s=
- brought<br>
-&gt; up two things:<br>
+Please also drop all PR changes, they&#39;re not needed in oe-core.<br></bl=
+ockquote><div><br></div><div style>Ok.=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
+t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+
+<div class=3D"im"><br>
+&gt; diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt<br>
+&gt; index becb85c..c829bec 100644<br>
+&gt; --- a/meta/files/fs-perms.txt<br>
+&gt; +++ b/meta/files/fs-perms.txt<br>
+&gt; @@ -45,15 +45,14 @@ ${oldincludedir} =C2=A0 =C2=A00755 =C2=A0 =C2=A0ro=
+ot =C2=A0 =C2=A0root =C2=A0 =C2=A0true =C2=A0 =C2=A00644 =C2=A0 =C2=A0root =
+=C2=A0 =C2=A0root<br>
 &gt;<br>
-&gt; 1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with<=
+&gt; =C2=A0# Items from base-files<br>
+&gt; =C2=A0# Links<br>
+&gt; -${localstatedir}/run =C2=A0 link =C2=A0 =C2=A0volatile/run<br>
+&gt; +${localstatedir}/run =C2=A0 link =C2=A0 =C2=A0/run<br>
+&gt; =C2=A0${localstatedir}/log =C2=A0 link =C2=A0 =C2=A0volatile/log<br>
+&gt; -${localstatedir}/lock =C2=A0link =C2=A0 =C2=A0volatile/lock<br>
+&gt; +${localstatedir}/lock =C2=A0link =C2=A0 =C2=A0/run/lock<br>
+&gt; =C2=A0${localstatedir}/tmp =C2=A0 link =C2=A0 =C2=A0volatile/tmp<br>
+&gt;<br>
+&gt; =C2=A0# Special permissions from base-files<br>
+&gt; =C2=A0# Set 1777<br>
+&gt; =C2=A0/tmp =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 01777 =C2=A0 root =C2=A0 =C2=A0root =C2=A0 =
+=C2=A0false - - -<br>
+&gt; -${localstatedir}/volatile/lock 01777 =C2=A0 root =C2=A0 =C2=A0root =
+=C2=A0 =C2=A0false - - -<br>
+&gt; =C2=A0${localstatedir}/volatile/tmp =C2=A001777 =C2=A0 root =C2=A0 =C2=
+=A0root =C2=A0 =C2=A0false - - -<br>
+<br>
+</div>Nothing appears to sets mode 1777 on /run/lock. =C2=A0Then again Fedo=
+ra<br>
+thinks that 0755 is sufficient, although Debian uses 1777. =C2=A0We should<=
 br>
-&gt; &#39;?=3D&#39;. I&#39;m overriding this with &#39;=3D&#39; in<br>
-&gt; meta-raspberrypi/conf/machine/raspberrypi.conf which means it can&#39;=
-t be<br>
-&gt; overridden further in local.conf. Is this worth changing to &#39;??=3D=
-&#39; in<br>
-&gt; image.bbclass, &#39;?=3D&#39; in the machine conf so that it can be ov=
-erridden<br>
-&gt; with &#39;=3D&#39; in local.conf? Is my understanding of the overrides=
- correct<br>
-&gt; here?<br>
-<br>
-</div>You can always override it from local.conf using a _forcevariable<br>
-override (which used to be named &quot;_local&quot;, in fact, but that term=
-inology<br>
-turned out to be a bit confusing), or a _MACHINE override of course. =C2=A0=
-So<br>
-I don&#39;t think there is any major problem here.<br>
-<br>
-But, that said, it probably is true that the semantics of ??=3D are less<br=
->
-surprising for users (since it isn&#39;t position-dependent in the way<br>
-that ?=3D is) which might make it a better choice for image.bbclass.</block=
-quote><div><br></div><div style>??=3D is great in config files, but not ide=
-al in classes that aren&#39;t globally inherited. If bitbake.conf sets a ??=
-=3D, and a distro .conf updates the default by using ??=3D again, and then =
-the class uses ??=3D, it&#39;ll replace the latest default set by the confi=
-g. So, I think for default values, classes should use ?=3D, config files sh=
-ould use ??=3D.</div>
+probably keep the permissions as 1777.<br></blockquote><div>For sysvinit ca=
+se, /run/lock is created with root:root owner and 1777 permissions by popul=
+ate-volatiles.sh.</div><div>For systemd case, /run/lock is created with roo=
+t:root owner and 0755 permissions by /usr/lib/tmpfiles.d/legacy.conf - <a h=
+ref=3D"http://cgit.freedesktop.org/systemd/systemd/tree/tmpfiles.d/legacy.c=
+onf">http://cgit.freedesktop.org/systemd/systemd/tree/tmpfiles.d/legacy.con=
+f</a>. Presumably any system using the stock systemd legacy.conf, it would =
+be using 0755 permissions. This is true on Arch Linux and Fedora for exampl=
+e.</div>
+<div>I would generally prefer to stick with permissions from systemd upstre=
+am.</div><div>What is your opinion on the matter?</div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padd=
+ing-left:1ex">
 
-</div>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - =
-BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software =
-Engineer, Mentor Graphics
-</div></div>
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.=
+inc<br>
+index 2be5bda..8055824 100644<br>
+--- a/meta/recipes-core/dbus/dbus.inc<br>
++++ b/meta/recipes-core/dbus/dbus.inc<br>
+<div class=3D"im">@@ -101,9 +101,9 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; ${D}${sysconfdir}/defa=
+ult/volatiles/99_dbus<br>
+<br>
+<br>
+- =C2=A0 =C2=A0 =C2=A0 mkdir -p ${D}${localstatedir}/run/dbus ${D}${localst=
+atedir}/lib/dbus<br>
++ =C2=A0 =C2=A0 =C2=A0 mkdir -p ${D}${localstatedir}/lib/dbus<br>
+<br>
+</div>Presumably dbus will create /run/dbus if required?<br>
+<span class=3D""><font color=3D"#888888"><br>
+Ross<br>
+</font></span></blockquote></div><div class=3D"gmail_extra"><div class=3D"g=
+mail_extra">/run/dbus is created automatically on boot.</div><div class=3D"=
+gmail_extra">For sysvinit case, it is created by populate-volatiles.sh whic=
+h also sets messagebus:messagebus owner.</div>
+<div class=3D"gmail_extra">For systemd case, it is created when dbus.socket=
+ (a dependency of dbus.service) is started by systemd. dbus.socket implicit=
+ly creates it when specifying:</div></div></div><div class=3D"gmail_extra" =
+style>
+[Socket]</div><div class=3D"gmail_extra" style>ListenStream=3D/var/run/dbus=
+/system_bus_socket</div><div class=3D"gmail_extra" style><br></div><div cla=
+ss=3D"gmail_extra" style>Regards,</div><div class=3D"gmail_extra" style>Jon=
+athan</div>
+</div>
 
---001a11c36c944322e704dd59bed5--
+--089e0160cdf6fa294504dd5a2949--
