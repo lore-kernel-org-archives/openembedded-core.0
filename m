@@ -1,35 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1774860897
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1040560897
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 03:49:26 +0000 (UTC)
-Received: by mail-pb0-f48.google.com with SMTP id md12so2393939pbc.7
+	Thu, 23 May 2013 03:49:57 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id w16so2386718pde.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2013 20:49:27 -0700 (PDT)
+	Wed, 22 May 2013 20:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=pVQu2pj+UQLD85h7D0Z43Ltg4OqMWRQb4jq2hlTOpK8=;
-	b=vSRUn7R4pxLY+qyi75y9dXDDsGrtaoCu1SuXqmN0DlIp9DsrI9YDcw5Y3nqDgmRtbu
-	z3cmUJ6pXe/kXk/KAFTsj7Qqspy4lvcr7Q9cKp0VYLlCTBfZQuDrkT5W8RIR01q7Z/S/
-	iPHlw5jbuCsbhQjIIzlT+xQxIiwthKm2Jporjth1gc+z3xIYZtiyh9f3XLOgJ0J4PdIG
-	lC2s15R8oiItvcyKnCKxjmKFaKJxPU8aB6NRsWfocemw2hMHvH8F+8pJ5iyaiNEYBhAb
-	QjBS5tsF7KkM3RFR1YgHie0q6+6VZvtsCNAgW+KtZ/BH0whjESU0Grd2PtDuSvD6ynKS
-	P/Yw==
-X-Received: by 10.68.171.36 with SMTP id ar4mr10610967pbc.195.1369280967519;
-	Wed, 22 May 2013 20:49:27 -0700 (PDT)
+	bh=vIyWOKCJvhb4FdsG+/fFdLjCPaR5co9/1ZA863LaKQo=;
+	b=y9zXeepbYF5Ba+fRbzgbeIO0jl/3ZvZBUPebBm+PyWaoqvc0eva6piQ4+PDCMjuZq9
+	AH4G6/aUe2rKF5xpSpCeHeUlUW1CHKEIpKSJ+C+RLsis0XVphte3n6824NrmY+Kh94R/
+	pfyZWdgEn8z+orSGVTudBrhqaARKQhjrSFdWMWq49kgjs7HJB/qBz5A0xwZBsMCHXcXX
+	7bw0/1d7SNPOaPq6X3GjCCZdNUhaYKO1axM/TN4JV/BgKtZecIC4vpGZ7oWxgYORgtVl
+	40xzI4gWAT8oDZsqJlJsE6WU2VFJa+vfmsT9/Gtbk3m4hvh6PDMiLzG1MeMBpdKVzABz
+	eFXg==
+X-Received: by 10.66.144.98 with SMTP id sl2mr11447898pab.92.1369280998347;
+	Wed, 22 May 2013 20:49:58 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id do4sm9893140pbc.8.2013.05.22.20.49.25
+	by mx.google.com with ESMTPSA id kv2sm9860202pbc.28.2013.05.22.20.49.56
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 May 2013 20:49:26 -0700 (PDT)
+	Wed, 22 May 2013 20:49:57 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2013 14:02:14 +1000
-Message-Id: <1369281734-7989-1-git-send-email-net147@gmail.com>
+Date: Thu, 23 May 2013 14:02:58 +1000
+Message-Id: <1369281778-8031-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH] dbus: remove /var/run from package as it is created on startup
+Subject: [PATCH] resolvconf: remove /var/volatile/run/resolvconf/interface from package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 03:49:26 -0000
+X-List-Received-Date: Thu, 23 May 2013 03:49:57 -0000
 
-/var/run is a tmpfs that is created on startup.
-For sysvinit, /var/run/dbus is created by populate-volatiles.sh.
-For systemd, /var/run/dbus is created implicitly by dbus.socket when
-creating a listen stream socket at /var/run/dbus/system_bus_socket.
+resolvconf uses /etc/resolvconf/run/interface instead of
+/var/volatile/run/resolvconf/interface.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-core/dbus/dbus.inc | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 2be5bda..8055824 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -101,9 +101,9 @@ do_install() {
- 	     > ${D}${sysconfdir}/default/volatiles/99_dbus
- 
- 
--	mkdir -p ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-+	mkdir -p ${D}${localstatedir}/lib/dbus
- 
--	chown messagebus:messagebus ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-+	chown messagebus:messagebus ${D}${localstatedir}/lib/dbus
- 
- 	chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
- 	chmod 4755 ${D}${libexecdir}/dbus-daemon-launch-helper
-@@ -113,6 +113,9 @@ do_install() {
- 
- 	# Remove empty testexec directory as we don't build tests
- 	rm -rf ${D}${libdir}/dbus-1.0/test
-+
-+	# Remove /var/run as it is created on startup
-+	rm -rf ${D}${localstatedir}/run
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+index d342a6e..5bbe0b5 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+@@ -23,7 +23,7 @@ do_compile () {
  }
  
- do_install_class-native() {
+ do_install () {
+-	install -d ${D}${sysconfdir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
++	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+ 	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+ 	cp -pPR etc/* ${D}${sysconfdir}/
+ 	chown -R root:root ${D}${sysconfdir}/
 -- 
 1.8.2.3
 
