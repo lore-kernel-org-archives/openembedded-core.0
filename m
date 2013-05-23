@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B2AAF6086B
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 30CDD6086B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 12:50:55 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4NCsaaG026126; Thu, 23 May 2013 13:54:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AEbYgL82_ey9; Thu, 23 May 2013 13:54:36 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4NCsWN9026121
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 23 May 2013 13:54:33 +0100
-Message-ID: <1369313440.14887.45.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Liu <net147@gmail.com>
-Date: Thu, 23 May 2013 13:50:40 +0100
-In-Reply-To: <519E0C26.40502@gmail.com>
-References: <1369281734-7989-1-git-send-email-net147@gmail.com>
-	<1369309132.14887.32.camel@ted> <519E0C26.40502@gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dbus: remove /var/run from package as it is created on startup
+	Thu, 23 May 2013 13:15:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2013 06:15:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,728,1363158000"; d="scan'208";a="342006790"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2013 06:15:29 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 May 2013 16:15:18 +0300
+Message-Id: <cover.1369313581.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/7] run-postinsts refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,48 +27,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 12:50:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 May 2013 13:15:29 -0000
 
-On Thu, 2013-05-23 at 22:31 +1000, Jonathan Liu wrote:
-> On 23/05/2013 9:38 PM, Richard Purdie wrote:
-> > On Thu, 2013-05-23 at 14:02 +1000, Jonathan Liu wrote:
-> >> /var/run is a tmpfs that is created on startup.
-> >> For sysvinit, /var/run/dbus is created by populate-volatiles.sh.
-> >> For systemd, /var/run/dbus is created implicitly by dbus.socket when
-> >> creating a listen stream socket at /var/run/dbus/system_bus_socket.
-> >>
-> >> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> >> ---
-> >>   meta/recipes-core/dbus/dbus.inc | 7 +++++--
-> >>   1 file changed, 5 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-> >> index 2be5bda..8055824 100644
-> >> --- a/meta/recipes-core/dbus/dbus.inc
-> >> +++ b/meta/recipes-core/dbus/dbus.inc
-> >> @@ -101,9 +101,9 @@ do_install() {
-> >>   	     > ${D}${sysconfdir}/default/volatiles/99_dbus
-> >>   
-> >>
-> >> -	mkdir -p ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-> >> +	mkdir -p ${D}${localstatedir}/lib/dbus
-> >>   
-> >> -	chown messagebus:messagebus ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-> >> +	chown messagebus:messagebus ${D}${localstatedir}/lib/dbus
-> > Is what populate-volatiles does truly equivalent? Does this directory
-> > need to be owned by messagebus (which is a user created by dbus) iirc?
-> >
-> > Cheers,
-> >
-> > Richard
-> The dbus recipe writes /etc/default/volatiles/99_dbus.
+Hi all,
 
-That is the piece I'd missed, thanks :).
+My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
+of PM meta-data (when the PM is not deployed) and the delayed postinstalls
+execution in their own way. Currently we have:
+ * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
+   postinstalls on target when the PM is not part of the image;
+ * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
+   only the meta-data;
+ * both opkg and deb have no way of running the delayed postinstalls on target,
+   if package-management is not part of IMAGE_FEATURES, because the meta-data
+   was deleted (and it would have been useless anyway since the PM is not installed);
 
-Cheers,
+That being said, this patchset tries to create a more unified solution for all
+PM backends.
 
-Richard
+rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
+for a while (a couple of weeks maybe), just in case the current solution does not
+satisfy the RPM users (I doubt it though).
+
+I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
+postinstalls. The results are as expected.
+
+Thanks,
+Laurentiu
+
+The following changes since commit f7b639e527a65f9ce77aef07651ac5ec1e094e52:
+
+  rpm-postinsts.bb: enable postinst logging (2013-05-23 10:28:05 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor
+
+Laurentiu Palcu (7):
+  systemd: add udev-utils dependency for udev-hwdb
+  rootfs_*.bbclass: add some helper functions
+  image.bbclass: remove unneeded files from the image
+  core-image-minimal: do not remove packaging files in the rootfs
+    postprocess
+  run-postinsts: make it generic
+  rootfs_rpm.bbclas: switch to using run-postinsts
+  rpm: replace rpm-postinsts dependency with run-postinsts
+
+ meta/classes/image.bbclass                         |   33 +++++++++++
+ meta/classes/rootfs_deb.bbclass                    |   23 +++++++-
+ meta/classes/rootfs_ipk.bbclass                    |   39 ++++++-------
+ meta/classes/rootfs_rpm.bbclass                    |   25 ++++++++-
+ meta/recipes-core/images/core-image-minimal.bb     |    2 -
+ meta/recipes-core/systemd/systemd_199.bb           |    2 +
+ .../dpkg/run-postinsts/run-postinsts               |   59 ++++++++++++--------
+ .../dpkg/run-postinsts/run-postinsts.awk           |   30 ----------
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    7 +--
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
+ 10 files changed, 135 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
+
+-- 
+1.7.9.5
 
 
