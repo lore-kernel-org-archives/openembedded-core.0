@@ -1,39 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4325C6086B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 282F26098C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 18:48:25 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b12so2160068wgh.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 11:48:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=Muc4TiCIo/fB9mnTn/hPxFRudD317vaaFwa8vewxsTY=;
-	b=MQgTswZAH8nkWC+wpiPb1aG/HCJIfP75cV0PiR66bz9mVF1KbaP8Sfzr1KCCBJpxiv
-	aud3ynISlfrhesf85s8Fa/83A1cQCRlqdhnaAasIBKuw1VWSzlfbjvUFlr4ITWl+8ada
-	tVOivrFBlKBqcbrb8vXHogTFGvy14Tgv6qXFibOM2OGU7gA4+E6akK3Z/ubFQTsm4ha0
-	TWOGl28D/qEr5KjRIIuROXbk2xrkImxt7QvXbNCyR67y1eGm49CbCFPUmEvWsgcswPgN
-	1Eta1lEUthdv5iuHaXSz4tGJOZ4nGFWaqndKR6Z9qr8FvpRUYRGX2meM13CdZLjeJrFH
-	rw2g==
-X-Received: by 10.180.39.233 with SMTP id s9mr27377943wik.25.1369334898383;
-	Thu, 23 May 2013 11:48:18 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ca19sm37546635wib.3.2013.05.23.11.48.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 23 May 2013 11:48:17 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2013 19:45:01 +0100
-Message-Id: <1369334701-18752-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1369334701-18752-1-git-send-email-ross.burton@intel.com>
-References: <1369334701-18752-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmMWZFwKPIOSvLKavnovkmQaMov0WjWcA3trxeBuINw6U+VyNwhkyI+IfTUHLM5r8P5hWCO
-Subject: [PATCH 3/3] utils: add trim_version() function
+	Thu, 23 May 2013 19:09:26 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 23 May 2013 12:09:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,729,1363158000"; d="scan'208";a="306977409"
+Received: from unknown (HELO [10.255.12.172]) ([10.255.12.172])
+	by azsmga001.ch.intel.com with ESMTP; 23 May 2013 12:09:06 -0700
+Message-ID: <519E6952.1020406@linux.intel.com>
+Date: Thu, 23 May 2013 12:09:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Jonathan Liu <net147@gmail.com>
+References: <1369281778-8031-1-git-send-email-net147@gmail.com>
+In-Reply-To: <1369281778-8031-1-git-send-email-net147@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] resolvconf: remove /var/volatile/run/resolvconf/interface from package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,72 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 18:48:25 -0000
+X-List-Received-Date: Thu, 23 May 2013 19:09:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a helper function that returns just the first <num_parts> of <version>,
-split by periods.  For example, trim_version("1.2.3", 2) will return "1.2".
+On 05/22/2013 09:02 PM, Jonathan Liu wrote:
+> resolvconf uses /etc/resolvconf/run/interface instead of
+> /var/volatile/run/resolvconf/interface.
+>
+resolvconf uses /etc/resolvconf/run, but it really should be a link to 
+/run/resolvconf/, with the interfaces created there.
 
-This should help reduce the spread of numerous copies of this idea across
-classes and recipes.
+I don't thing keeping it in /etc/resolvconf will work for read-only FS
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/tests/test_utils.py |   20 ++++++++++++++++++++
- meta/lib/oe/utils.py            |   15 +++++++++++++++
- 2 files changed, 35 insertions(+)
 
-diff --git a/meta/lib/oe/tests/test_utils.py b/meta/lib/oe/tests/test_utils.py
-index 8bb36f2..5d9ac52 100644
---- a/meta/lib/oe/tests/test_utils.py
-+++ b/meta/lib/oe/tests/test_utils.py
-@@ -29,3 +29,23 @@ class TestPackagesFilterOutSystem(unittest.TestCase):
-         d.setVar("PACKAGES", "foo foo-data foo-locale-en-gb")
-         pkgs = packages_filter_out_system(d)
-         self.assertEqual(pkgs, ["foo-data"])
-+
-+
-+class TestTrimVersion(unittest.TestCase):
-+    def test_version_exception(self):
-+        with self.assertRaises(TypeError):
-+            trim_version(None, 2)
-+        with self.assertRaises(TypeError):
-+            trim_version((1, 2, 3), 2)
-+
-+    def test_num_exception(self):
-+        with self.assertRaises(ValueError):
-+            trim_version("1.2.3", 0)
-+        with self.assertRaises(ValueError):
-+            trim_version("1.2.3", -1)
-+
-+    def test_valid(self):
-+        self.assertEqual(trim_version("1.2.3", 1), "1")
-+        self.assertEqual(trim_version("1.2.3", 2), "1.2")
-+        self.assertEqual(trim_version("1.2.3", 3), "1.2.3")
-+        self.assertEqual(trim_version("1.2.3", 4), "1.2.3")
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 0a2092b..82987e8 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -135,3 +135,18 @@ def packages_filter_out_system(d):
- 
- def getstatusoutput(cmd):
-     return cmdstatus.getstatusoutput(cmd)
-+
-+
-+def trim_version(version, num_parts=2):
-+    """
-+    Return just the first <num_parts> of <version>, split by periods.  For
-+    example, trim_version("1.2.3", 2) will return "1.2".
-+    """
-+    if type(version) is not str:
-+        raise TypeError("Version should be a string")
-+    if num_parts < 1:
-+        raise ValueError("Cannot split to parts < 1")
-+
-+    parts = version.split(".")
-+    trimmed = ".".join(parts[:num_parts])
-+    return trimmed
--- 
-1.7.10.4
+Sau!
 
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>   meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+> index d342a6e..5bbe0b5 100644
+> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+> @@ -23,7 +23,7 @@ do_compile () {
+>   }
+>
+>   do_install () {
+> -	install -d ${D}${sysconfdir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
+> +	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+>   	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+>   	cp -pPR etc/* ${D}${sysconfdir}/
+>   	chown -R root:root ${D}${sysconfdir}/
+>
 
