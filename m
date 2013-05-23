@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B036098C
+	by mail.openembedded.org (Postfix) with ESMTP id 268BE6086B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 13:15:37 +0000 (UTC)
+	Thu, 23 May 2013 13:15:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 23 May 2013 06:15:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,728,1363158000"; d="scan'208";a="342006826"
+X-IronPort-AV: E=Sophos;i="4.87,728,1363158000"; d="scan'208";a="342006834"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 23 May 2013 06:15:36 -0700
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2013 06:15:37 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2013 16:15:24 +0300
-Message-Id: <a020169b6dae74321fdc21306d18151ee6d6517c.1369313581.git.laurentiu.palcu@intel.com>
+Date: Thu, 23 May 2013 16:15:25 +0300
+Message-Id: <71069f2036e04af1138ee8ba36c07e1134bfbcce.1369313581.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1369313581.git.laurentiu.palcu@intel.com>
 References: <cover.1369313581.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1369313581.git.laurentiu.palcu@intel.com>
 References: <cover.1369313581.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 6/7] rootfs_rpm.bbclas: switch to using run-postinsts
+Subject: [PATCH 7/7] rpm: replace rpm-postinsts dependency with run-postinsts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 23 May 2013 13:15:38 -0000
 
-Since run-postinsts was made generic, use it for RPM too.
+run-postinsts is generic and will handle rpm delayed postinsts just
+fine. No need to use another recipe.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/rootfs_rpm.bbclass |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index d1d6eff..5027cee 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -3,7 +3,7 @@
- #
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 2dbdca6..0e3a883 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -310,7 +310,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
+ 		${libdir}/rpm/vpkg-provides2.sh \
+ 		${libdir}/rpm/perfile_rpmdeps.sh \
+ 		"
+-RDEPENDS_${PN} = "base-files ${PN}-postinsts"
++RDEPENDS_${PN} = "base-files run-postinsts"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}-build = "file"
  
- ROOTFS_PKGMANAGE = "rpm smartpm"
--ROOTFS_PKGMANAGE_BOOTSTRAP = "rpm-postinsts"
-+ROOTFS_PKGMANAGE_BOOTSTRAP = "run-postinsts"
- 
- # Add 50Meg of extra space for Smart
- IMAGE_ROOTFS_EXTRA_SPACE_append = "${@base_contains("PACKAGE_INSTALL", "smartpm", " + 51200", "" ,d)}"
 -- 
 1.7.9.5
 
