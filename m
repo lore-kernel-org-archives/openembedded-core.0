@@ -1,36 +1,20 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 0214560974
+Return-Path: <ionutx.radu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EBEB62110
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 10:40:27 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 May 2013 03:40:28 -0700
+	Fri, 24 May 2013 10:42:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2013 03:40:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="246088859"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 May 2013 03:40:27 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.3]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.127]) with mapi id
-	14.03.0123.003; Fri, 24 May 2013 11:40:23 +0100
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 4/7] libsoup-2.4: Update from 2.42.1 to 2.43.1
-Thread-Index: AQHOWF+FHWukpArHDEC7viBulytr9ZkUAQMAgAABxwCAAB9p0A==
-Date: Fri, 24 May 2013 10:40:24 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3022AB2D0@IRSMSX105.ger.corp.intel.com>
-References: <cover.1369386157.git.ionutx.radu@intel.com>
-	<f0b5620742216d1c7edaf721b5be599fb8c1a044.1369386157.git.ionutx.radu@intel.com>
-	<CAJTo0La4fnedhZLWVTGruWSbP_MhOLa5WFW1_6-0KJrCMp_4_Q@mail.gmail.com>
-	<2891613.OHSbzUYamb@helios>
-In-Reply-To: <2891613.OHSbzUYamb@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Subject: Re: [PATCH 4/7] libsoup-2.4: Update from 2.42.1 to 2.43.1
+X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="342537657"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2013 03:42:34 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 May 2013 13:44:35 +0300
+Message-Id: <cover.1369391140.git.ionutx.radu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH v2 0/7] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +27,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 10:40:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 May 2013 10:42:49 -0000
 
-Hi,
+Sending only the cover letter for v2.
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Friday, May 24, 2013 12:36 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Burton, Ross; Radu, IonutX; Saul Wold; Ciobanu, Emilia Maria Silvia
-> Subject: Re: [OE-core] [PATCH 4/7] libsoup-2.4: Update from 2.42.1 to 2.4=
-3.1
->=20
-> On Friday 24 May 2013 10:30:00 Burton, Ross wrote:
-> > NACK.  libsoup is GNOMEy, so odd minor versions indicate development
-> > releases.  Stick with 2.42.x until 2.44.x appears.
->=20
-> Could we just add some logic to distrodata.bbclass so that we don't get
-> reports of needing to upgrade to these unstable releases?
+Changes in v2:
+ * freetype: added LIC_FILES_CHKSUM change explaination
+ * matchbox-keyboard: changed commit subject and fixed tabs and spaces mix for FILES_${PN}
+ * matchbox-terminal: changed commit subject and removed PR="r0"
 
-We thought about this situation. Because for different packages, the=20
-development  versions have their own naming convention, the solution
-was to hardcode each case individually.
+Changes in v1:
 
-For the moment, when a maintainer finds such a package, he/she should=20
-update the  upstream_tracking.inc file with the flag NO_UPGRADE_REASON
-set to "Development Version" or any relevant message and the CHECK_DATE
-to the moment when the check was done.
+test: I've tested patches with autobuilder on all 5 architectures
+(nightly-x86, nightly-x86-64, nightly-arm, nightly-ppc, nightly-mips).
+A have also tested locally on all architectures and verified that all 
+images successfully build and graphics is correcly displayed.
 
-Thanks,
-Ema
+For each package individually I tested the basic functionality.
 
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+apt: I build an image with deb package management and I verified the
+version with command line.
+
+The following changes since commit fa4b1fa2577fb1a8128154c2f1417df575dbb022:
+
+  bitbake: cooker/cookerdata: Improve configuration object handling (2013-05-24 10:34:53 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ionutx/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+
+Ionut Radu (7):
+  apt: Updated from 0.9.7.8 to 0.9.8.1
+  freetype: Updated from 2.4.11 to 2.4.12
+  libtasn1: Updated from 2.14 to 3.3
+  libsoup-2.4: Update from 2.42.1 to 2.43.1
+  matchbox-keyboard: Update to git HEAD
+    135daab9eb4cd3647c02e82687f96d93619
+  matchbox-terminal: Update to git HEAD
+    452bca253492a97a587f440289b9ab27d217353e
+  settings-daemon: Update to git HEAD
+    9a99528b02255450db81176abd9bbcc1dab9a4c1
+
+ .../disable-configure-in-makefile.patch            |    0
+ .../fix-gcc-4.6-null-not-defined.patch             |    0
+ .../{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch    |    0
+ .../no-ko-translation.patch                        |    0
+ .../{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch |    0
+ .../{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch |    0
+ .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch   |    0
+ .../truncate-filename.patch                        |    0
+ .../{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch    |    0
+ ...apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} |    0
+ .../apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb}         |    4 ++--
+ .../no-hardcode.patch                              |    0
+ .../{freetype_2.4.11.bb => freetype_2.4.12.bb}     |   11 ++++------
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |   21 ++++++++++----------
+ .../matchbox-terminal/matchbox-terminal_git.bb     |    3 +--
+ .../settings-daemon/settings-daemon_git.bb         |    2 +-
+ .../gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb}   |    6 ++----
+ ...libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} |    4 ++--
+ 18 files changed, 22 insertions(+), 29 deletions(-)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/disable-configure-in-makefile.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/fix-gcc-4.6-null-not-defined.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-ko-translation.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/truncate-filename.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch (100%)
+ rename meta/recipes-devtools/apt/{apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} (100%)
+ rename meta/recipes-devtools/apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb} (74%)
+ rename meta/recipes-graphics/freetype/{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch (100%)
+ rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (83%)
+ rename meta/recipes-support/gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb} (81%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} (85%)
+
+-- 
+1.7.10.4
+
 
