@@ -1,30 +1,35 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 1479462110
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ABCC60130
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2013 23:31:03 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 25426F811F4; Thu, 23 May 2013 17:31:04 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 718B2F811F2;
-	Thu, 23 May 2013 17:31:02 -0600 (MDT)
-Message-ID: <519EA6BC.3050102@mlbassoc.com>
-Date: Thu, 23 May 2013 17:31:08 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <519E359B.2010203@mlbassoc.com> <1369349549.14887.47.camel@ted>
-In-Reply-To: <1369349549.14887.47.camel@ted>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Shortened git hashes causing pain
+	Thu, 23 May 2013 23:56:58 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id wp1so1003410pac.17
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2013 16:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=XaFdWkdWyW8XD3dJWhaMCvh2+xURbb+qe61/25axp48=;
+	b=Xa4CLt2KQsiT+TObS4X6gAgE9lMuCtXE5YF/wvTYJagkuDriCT5qSYXB4pFaxm2cbr
+	jLGUHdqmRxzN1F3JokLA6J802KvURKoZz50vGoQA30V6Wo2AqbrfxhQFcCTDF6cE/y+F
+	PSaEnDpCtoNmRwn/r5c0062+RWkiLjCjxsbqxLPYTLiolMhB0ml2GVj0gAs4gJiH+Cwi
+	fhB/7n+T9/zwpCy3lDARtuwxpLjTzvFrD26J9KJNTOyaruX+ZbnNgm1AzOTtl/rNZqLH
+	/TjkgVVtQQEGPkQTd5D7WCWu1eS9PITdIA8EMauYLzmf8D0AIDYgfNIlUXqlS8eVG9nE
+	yzBA==
+X-Received: by 10.69.0.226 with SMTP id bb2mr15305828pbd.34.1369353418979;
+	Thu, 23 May 2013 16:56:58 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	lq4sm14688941pab.19.2013.05.23.16.56.56 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 23 May 2013 16:56:57 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 May 2013 10:10:06 +1000
+Message-Id: <1369354206-9466-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH v2] resolvconf: remove /var/volatile/run/resolvconf/interface from package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2013 23:31:03 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 May 2013 23:56:58 -0000
 
-On 2013-05-23 16:52, Richard Purdie wrote:
-> On Thu, 2013-05-23 at 09:28 -0600, Gary Thomas wrote:
->> The shortening of the git hashes in this commit
->>     commit 77fc40a0f843e2488b356d90b64ef436c11c9973
->>     Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->>     Date:   Sun May 19 13:21:55 2013 +0300
->>       bitbake: fetch2: Shorten long srcrevs
->> is causing some problems.
->>
->> I have a simple .bbappend for gtk-sato-engine (attached) which
->> just applies a one-line patch.  When I build this recipe, I
->> get two different work trees (this is from scratch):
->> $ ls -l tmp/work/cobra4430p82-amltd-linux-gnueabi/gtk-sato-engine
->> total 8
->> drwxrwxr-x  3 gthomas gthomas 4096 May 23 09:12 0.3.3+gitAUTOINC+4740ad8d53aba4368ce3e03b06cfdc69eb86dcdc-r0
->> drwxrwxr-x 11 gthomas gthomas 4096 May 23 09:13 0.3.3+gitAUTOINC+4740ad8d53-r0
->>
->> Note: it doesn't seem to happen for the virgin gtk-sato-engine
->> recipe, only when my patch is applied.
->
-> Try moving the cache directory in tmp/ out the way. I suspect some kind
-> of caching issue since there should not be two work directories. What is
-> the contents of each?
+- Remove /etc/resolvconf/run/interface from package as it actually uses
+/etc/resolvconf/run/interface
+- Create /var/run/resolvconf/interface on startup using
+populate-volatiles.sh and tmpfiles.d for systemd
+- Create symbolic link from /etc/resolvconf/run to /var/run/resolvconf
 
-Wow, that caused a boatload of other packages to be rebuilt, including
-qemu-native, which took forever :-(
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-This did remove the problem - there is now only the build tree with
-the short hash name.  Sadly, it's also now forcing me to basically
-rebuild everything to get back to being able to build my image, just
-what I didn't want to happen.
-
-Oh well, once this finished I'm sure all will be fine again.  At least
-my pain may help others that might experience this, although I don't
-know how many folks do very long term development/builds in a single
-tree.  This one has been one of my main projects and was started in
-early March with more than 500 builds (entries in tmp/log/cooker)!
-
-Thanks
-
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+index d342a6e..78de492 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.71.bb
+@@ -23,7 +23,15 @@ do_compile () {
+ }
+ 
+ do_install () {
+-	install -d ${D}${sysconfdir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
++	install -d ${D}${sysconfdir}/default/volatiles
++	echo "d root root 0755 ${localstatedir}/run/${P}/interface none" \
++	     > ${D}${sysconfdir}/default/volatiles/99_resolvconf
++	if ${@base_contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++		echo "d /run/${P}/interface - - - -" \
++		     > ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf
++	fi
++	ln -snf ${localstatedir}/run/${P} ${D}${sysconfdir}/${P}/run
++	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+ 	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+ 	cp -pPR etc/* ${D}${sysconfdir}/
+ 	chown -R root:root ${D}${sysconfdir}/
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.8.2.3
+
 
