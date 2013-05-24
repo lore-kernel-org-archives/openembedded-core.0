@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2653E61F47
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C3C660974
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 09:36:55 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 May 2013 02:36:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="342751227"
-Received: from unknown (HELO helios.localnet) ([10.255.12.195])
-	by fmsmga002.fm.intel.com with ESMTP; 24 May 2013 02:36:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 May 2013 10:36:22 +0100
-Message-ID: <2891613.OHSbzUYamb@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-21-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CAJTo0La4fnedhZLWVTGruWSbP_MhOLa5WFW1_6-0KJrCMp_4_Q@mail.gmail.com>
-References: <cover.1369386157.git.ionutx.radu@intel.com>
-	<f0b5620742216d1c7edaf721b5be599fb8c1a044.1369386157.git.ionutx.radu@intel.com>
-	<CAJTo0La4fnedhZLWVTGruWSbP_MhOLa5WFW1_6-0KJrCMp_4_Q@mail.gmail.com>
+	Fri, 24 May 2013 09:56:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4O9v0GO023192
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 May 2013 02:57:00 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.146) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 24 May 2013 02:56:59 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 May 2013 17:56:57 +0800
+Message-ID: <cover.1369389192.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/7] libsoup-2.4: Update from 2.42.1 to 2.43.1
+Subject: [PATCH 0/1]cracklib: do_compile failed on RHEL5.8 in which glibc version less than 2.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,22 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 09:36:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 24 May 2013 09:56:59 -0000
+Content-Type: text/plain
 
-On Friday 24 May 2013 10:30:00 Burton, Ross wrote:
-> NACK.  libsoup is GNOMEy, so odd minor versions indicate development
-> releases.  Stick with 2.42.x until 2.44.x appears.
+The following changes since commit 350c36fcd97e8ef223b91e548d39c346c1c4cb29:
 
-Could we just add some logic to distrodata.bbclass so that we don't get 
-reports of needing to upgrade to these unstable releases?
+  bitbake: test/fetch: Allow the conditional network tests to work under python 2.6 (2013-05-17 12:42:08 +0300)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-cracklib
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-cracklib
+
+Hongxu Jia (1):
+  cracklib: do_compile failed on RHEL5.8 in which glibc version less
+    than 2.9
+
+ .../0003-cracklib-fix-do_compile-failed.patch      |  189 ++++++++++++++++++++
+ meta/recipes-extended/cracklib/cracklib_2.8.22.bb  |    4 +-
+ 2 files changed, 192 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/cracklib/cracklib/0003-cracklib-fix-do_compile-failed.patch
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
