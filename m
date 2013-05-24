@@ -1,37 +1,49 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D3676621E1
+Return-Path: <B19537@freescale.com>
+Received: from co1outboundpool.messaging.microsoft.com
+	(co1ehsobe003.messaging.microsoft.com [216.32.180.186])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C7C9621CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 07:58:40 +0000 (UTC)
-Received: by mail-la0-f41.google.com with SMTP id ee20so4163682lab.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 00:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=4FkJlFlh8zocKA4jsFMA/JnYAwaHlViILsqbsgM1paA=;
-	b=U6Axm+saRzlENQvHl2Kb4sdSwHa0tUQ9XBY/H8W1DatvdVVVSelzU8PMm624A2Tw+c
-	WKwWZchjSocBE7FY4iO8tfl8WjnsHz/MLsdxxUCM0rNAuHg/DQyzOtWsd72gr+XNHkqK
-	QwB3CllCPJMMNEmHhuWG4my52w7v1lBqmQJYMLOXUGptU9x3dcIyIFhLFihYl7I26kpe
-	MtYjdcV3hytD+7aXjo26DEN8WbNhkHGQXBvjTaU6V60QflUBcf+KXuj0gPW+51Dtz8jW
-	jPn+83aX8l+GivS9PPGxbwvzaZYmHQN2WRV66ZneLMkuevokiHJ2+CnI9qzwvnDVa5Nj
-	f1nw==
-X-Received: by 10.112.169.37 with SMTP id ab5mr8255806lbc.25.1369382320037;
-	Fri, 24 May 2013 00:58:40 -0700 (PDT)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPSA id z10sm6072732lbv.14.2013.05.24.00.58.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 24 May 2013 00:58:39 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1UfmtZ-0005AN-8S; Fri, 24 May 2013 10:58:37 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 May 2013 10:58:35 +0300
-Message-Id: <cover.1369381416.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/5] Low-hanging updates
+	Fri, 24 May 2013 08:25:12 +0000 (UTC)
+Received: from mail176-co1-R.bigfish.com (10.243.78.241) by
+	CO1EHSOBE038.bigfish.com (10.243.66.103) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 24 May 2013 08:25:12 +0000
+Received: from mail176-co1 (localhost [127.0.0.1])	by
+	mail176-co1-R.bigfish.com (Postfix) with ESMTP id 59B90580358;
+	Fri, 24 May 2013 08:25:12 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -4
+X-BigFish: VS-4(zzbb2dI98dI9371I542I1432Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fhbe9i1155h)
+Received: from mail176-co1 (localhost.localdomain [127.0.0.1]) by mail176-co1
+	(MessageSwitch) id 1369383910604868_26171;
+	Fri, 24 May 2013 08:25:10 +0000 (UTC)
+Received: from CO1EHSMHS026.bigfish.com (unknown [10.243.78.240])	by
+	mail176-co1.bigfish.com (Postfix) with ESMTP id 9119088004C;
+	Fri, 24 May 2013 08:25:10 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS026.bigfish.com
+	(10.243.66.36) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 24 May 2013 08:25:10 +0000
+Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0328.011; Fri, 24 May 2013 08:25:55 +0000
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Thread-Topic: [OE-core] Query for multilib support in Yocto
+Thread-Index: Ac5XkfOOG+GOdd4KTn+RuqsEmY7v4AAMl0sAACPmlgA=
+Date: Fri, 24 May 2013 08:25:55 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A01572F8B@039-SN2MPN1-021.039d.mgd.msft.net>
+References: <CA452391058F6D4E9715FB2C29D9312A01570F29@039-SN2MPN1-021.039d.mgd.msft.net>
+	<519E2BC8.2090905@windriver.com>
+In-Reply-To: <519E2BC8.2090905@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.134]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Query for multilib support in Yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,87 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 07:58:41 -0000
+X-List-Received-Date: Fri, 24 May 2013 08:25:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This is set of simple package updates.
+Hi Mark,
 
-HarfBuzz update drops avoid_double_version_h.patch rather
-than tries to update it. The code in question has changed
-so that I think original problem addressed by the patch is
-no longer present, and patch instead would remove the only
-remaining installation of required header (pango build was
-failing when I tested with the patch still present). I
-cannot be absolutely sure though, as I've never been able
-to reproduce the original problem - race condition in
-installing hb-version.h twice, probably in highly parallel
-build - myself.
+Thanks for your comments.=20
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ma=
+rk Hatle
+> Sent: Thursday, May 23, 2013 10:47 PM
+>=20
+> On 5/23/13 3:46 AM, Luo Zhenhua-B19537 wrote:
+> >
+> > For gcc with multilib support running on target board 1. Can the same
+> > gcc binary build both 32b and 64b applications or two different gcc
+> binaries(one is for 32b, the other is for 64b) are required?
+>=20
+> As far as I'm aware the same issue above holds true here.  You still need
+> multiple compiler binaries, one for each multilib.  (Khem Raj would know
+> if this is still true however.)
+[Luo Zhenhua-B19537] I see an successful case of single gcc on target can b=
+uild both 32b and 64b app, https://bugzilla.yoctoproject.org/show_bug.cgi?i=
+d=3D1369. Is that still true in recent Yocto?=20
+=20
+> I experienced following error when I use gcc(32bit rootfs with multilib
+> support) to do 64b build, I find the linker search libraries in /usr/lib
+> and /lib instead of /usr/lib64 and /lib64.
+> >
+> > root@p5020ds:~# gcc -m64 my_test.c -o my_test
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powerpc-poky-linux/4.7.
+> > 2/libgcc.a when searching for -lgcc
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible
+> > /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when searching for -lgcc
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: cannot find -lgcc
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible /lib/../lib/libgcc_s.so.1 when searching
+> > for libgcc_s.so.1
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible //lib/libgcc_s.so.1 when searching for
+> > libgcc_s.so.1
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: cannot find libgcc_s.so.1
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../powerpc-poky-linux/4.7.
+> > 2/libgcc.a when searching for libgcc.a
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: skipping incompatible
+> > /usr/lib/powerpc-poky-linux/4.7.2/libgcc.a when searching for libgcc.a
+> > /usr/lib/gcc/powerpc-poky-linux/4.7.2/../../../../powerpc-poky-linux/b
+> > in/ld: cannot find libgcc.a
+>=20
+> Ya, this is running the 'wrong' toolchain.  From the errors it appears to
+> me that it's the 32-bit gcc, attempting to compile for 64-bit.  There is
+> a command that will tell you what architectures gcc was built to support,
+> but unfortunately I don't remember it offhand.
+[Luo Zhenhua-B19537] The test program can be compiled and assembled correct=
+ly, but link failed. Seems like -m64 influenced powerpc-poky-linux-gcc, but=
+ not influenced powerpc-poky-linux-ld, LIBRARY_PATH is same for both 32b an=
+d 64b build, how can the value of LIBRARY_PATH be set to different value if=
+ -m64 is passed?
+
+root@p5020ds:~# gcc -m64 -c my_test.c=20
+root@p5020ds:~# ls -l
+total 3
+-rw-r--r-- 1 root root   30 May 23 09:40 my_test.c
+-rw-r--r-- 1 root root 1208 May 24 08:09 my_test.o
+root@p5020ds:~# file my_test.o=20
+my_test.o: ELF 64-bit MSB relocatable, 64-bit PowerPC or cisco 7500, versio=
+n 1 (SYSV), not stripped
+root@p5020ds:~# cat my_test.c=20
+int main()
+{
+    return 0;
+}
 
 
- - ML
+Best Regards,
 
-The following changes since commit 835b64d4e9ed7b627b56a75d529f1a403c5db1a8:
-
-  buildhistory: Sync with bitbake changes (2013-05-23 11:49:43 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/up
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/up
-
-Marko Lindqvist (5):
-  freetype: update to upstream version 2.4.12
-  harfbuzz: update to upstream version 0.9.17
-  gtk+: update to upstream version 2.24.18
-  curl: update to upstream version 7.30.0
-  zlib: update to upstream version 1.2.8
-
- .../remove.ldconfig.call.patch                     |    0
- .../zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb}          |   11 +-
- ...utton-do-not-prelight-in-touchscreen-mode.patch |    0
- ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
- .../cellrenderer-cairo.patch                       |    0
- .../configure-nm.patch                             |    0
- .../configurefix.patch                             |    0
- .../{gtk+-2.24.15 => gtk+-2.24.18}/doc-fixes.patch |    0
- .../entry-cairo.patch                              |    0
- .../hardcoded_libtool.patch                        |    0
- .../{gtk+-2.24.15 => gtk+-2.24.18}/no-demos.patch  |    0
- .../run-iconcache.patch                            |    0
- .../toggle-font.diff                               |    0
- .../{gtk+-2.24.15 => gtk+-2.24.18}/xsettings.patch |    0
- .../gtk+/{gtk+_2.24.15.bb => gtk+_2.24.18.bb}      |    6 +-
- .../freetype/freetype-2.4.11/no-hardcode.patch     |   13 --
- .../{freetype_2.4.11.bb => freetype_2.4.12.bb}     |    8 +-
- .../harfbuzz-0.9.12/avoid_double_version_h.patch   |   14 --
- .../disable_graphite.patch                         |    0
- .../{harfbuzz_0.9.12.bb => harfbuzz_0.9.17.bb}     |    5 +-
- ...inter-reference-when-closing-an-unused-mu.patch |  170 --------------------
- .../curl/{curl_7.29.0.bb => curl_7.30.0.bb}        |    7 +-
- 22 files changed, 18 insertions(+), 216 deletions(-)
- rename meta/recipes-core/zlib/{zlib-1.2.7 => zlib-1.2.8}/remove.ldconfig.call.patch (100%)
- rename meta/recipes-core/zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb} (73%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/cellrenderer-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/configure-nm.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/configurefix.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/doc-fixes.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/entry-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/no-demos.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/run-iconcache.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/toggle-font.diff (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.15 => gtk+-2.24.18}/xsettings.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+_2.24.15.bb => gtk+_2.24.18.bb} (93%)
- delete mode 100644 meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch
- rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (84%)
- delete mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.12/avoid_double_version_h.patch
- rename meta/recipes-graphics/harfbuzz/{harfbuzz-0.9.12 => harfbuzz-0.9.17}/disable_graphite.patch (100%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.12.bb => harfbuzz_0.9.17.bb} (83%)
- delete mode 100644 meta/recipes-support/curl/curl/0001-Fix-NULL-pointer-reference-when-closing-an-unused-mu.patch
- rename meta/recipes-support/curl/{curl_7.29.0.bb => curl_7.30.0.bb} (89%)
-
--- 
-1.7.10.4
+Zhenhua
 
 
