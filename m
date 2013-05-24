@@ -1,24 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 895A5621E1
+	by mail.openembedded.org (Postfix) with ESMTP id 9D04C6A453
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 09:16:16 +0000 (UTC)
+	Fri, 24 May 2013 09:16:18 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 May 2013 02:16:17 -0700
+	by azsmga102.ch.intel.com with ESMTP; 24 May 2013 02:16:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="246063869"
+X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="246063880"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 May 2013 02:16:16 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 May 2013 02:16:18 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 May 2013 12:18:05 +0300
-Message-Id: <ee4e07da825cb7bc949bbdfe0705b4806d8e6142.1369386157.git.ionutx.radu@intel.com>
+Date: Fri, 24 May 2013 12:18:06 +0300
+Message-Id: <b03438668613cd856b4993a5cfaa4faadb17fd62.1369386157.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1369386157.git.ionutx.radu@intel.com>
 References: <cover.1369386157.git.ionutx.radu@intel.com>
 In-Reply-To: <cover.1369386157.git.ionutx.radu@intel.com>
 References: <cover.1369386157.git.ionutx.radu@intel.com>
-Subject: [PATCH 1/7] apt: Updated from 0.9.7.8 to 0.9.8.1
+Subject: [PATCH 2/7] freetype: Updated from 2.4.11 to 2.4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,91 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 09:16:16 -0000
+X-List-Received-Date: Fri, 24 May 2013 09:16:18 -0000
 
 Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- .../disable-configure-in-makefile.patch                            |    0
- .../fix-gcc-4.6-null-not-defined.patch                             |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch                |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-ko-translation.patch       |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch             |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch             |    0
- meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/truncate-filename.patch       |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch                |    0
- .../apt/{apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb}           |    0
- meta/recipes-devtools/apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb}       |    4 ++--
- 11 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/disable-configure-in-makefile.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/fix-gcc-4.6-null-not-defined.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-ko-translation.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/truncate-filename.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch (100%)
- rename meta/recipes-devtools/apt/{apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} (100%)
- rename meta/recipes-devtools/apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb} (74%)
 
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/disable-configure-in-makefile.patch
+freetype: no-hardcode.patch does not apply to 2.4.12 version because
+hardcode_libdir_flag_spec variable is set to '' in 2.4.12
+
+---
+ .../{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch  |    0
+ .../freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb}     |   11 ++++-------
+ 2 files changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch (100%)
+ rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (83%)
+
+diff --git a/meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch b/meta/recipes-graphics/freetype/freetype-2.4.12/no-hardcode.patch
 similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/disable-configure-in-makefile.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/disable-configure-in-makefile.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/fix-gcc-4.6-null-not-defined.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/fix-gcc-4.6-null-not-defined.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/fix-gcc-4.6-null-not-defined.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/makerace.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/makerace.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/makerace.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/makerace.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/no-ko-translation.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/no-ko-translation.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/no-ko-translation.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/no-nls-dpkg.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/no-nls-dpkg.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/no-nls-dpkg.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/noconfigure.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/noconfigure.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/noconfigure.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/nodoc.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/nodoc.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/nodoc.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/nodoc.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/truncate-filename.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/truncate-filename.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/truncate-filename.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/truncate-filename.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.7.8/use-host.patch b/meta/recipes-devtools/apt/apt-0.9.8.1/use-host.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.7.8/use-host.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.1/use-host.patch
-diff --git a/meta/recipes-devtools/apt/apt-native_0.9.7.8.bb b/meta/recipes-devtools/apt/apt-native_0.9.8.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-native_0.9.7.8.bb
-rename to meta/recipes-devtools/apt/apt-native_0.9.8.1.bb
-diff --git a/meta/recipes-devtools/apt/apt_0.9.7.8.bb b/meta/recipes-devtools/apt/apt_0.9.8.1.bb
-similarity index 74%
-rename from meta/recipes-devtools/apt/apt_0.9.7.8.bb
-rename to meta/recipes-devtools/apt/apt_0.9.8.1.bb
-index 9653ee9..445d14c 100644
---- a/meta/recipes-devtools/apt/apt_0.9.7.8.bb
-+++ b/meta/recipes-devtools/apt/apt_0.9.8.1.bb
-@@ -3,8 +3,8 @@ RDEPENDS_${PN} = "dpkg"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
+rename from meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch
+rename to meta/recipes-graphics/freetype/freetype-2.4.12/no-hardcode.patch
+diff --git a/meta/recipes-graphics/freetype/freetype_2.4.11.bb b/meta/recipes-graphics/freetype/freetype_2.4.12.bb
+similarity index 83%
+rename from meta/recipes-graphics/freetype/freetype_2.4.11.bb
+rename to meta/recipes-graphics/freetype/freetype_2.4.12.bb
+index 53fde1d..36817a6 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.4.11.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.4.12.bb
+@@ -7,19 +7,16 @@ HOMEPAGE = "http://www.freetype.org/"
+ BUGTRACKER = "https://savannah.nongnu.org/bugs/?group=freetype"
  
--SRC_URI[md5sum] = "d44f459d59d8fa7fc5f455f1f982f08c"
--SRC_URI[sha256sum] = "9570905992f4a83b0c182f11f9e0a8c20a1209a52996d1a01ddbfa359ae2c819"
-+SRC_URI[md5sum] = "85781bb39901d6fb79c37ca307929594"
-+SRC_URI[sha256sum] = "dcef6fc33948d5e430d337ad6326bf7ac3d06b14d99ede176809461ac12b4c6f"
+ LICENSE = "FreeType | GPLv2+"
+-LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=28d5381b1bef2649c59f20c20bae4f39 \
++LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56 \
+                     file://docs/FTL.TXT;md5=d479e83797f699fe873b38dadd0fcd4c \
+                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec"
  
- require apt-package.inc
+ SECTION = "libs"
+ 
+-PR = "r0"
++SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
+-           file://no-hardcode.patch"
+-
+-SRC_URI[md5sum] = "b93435488942486c8d0ca22e8f768034"
+-SRC_URI[sha256sum] = "ef9d0bcb64647d9e5125dc7534d7ca371c98310fec87677c410f397f71ffbe3f"
++SRC_URI[md5sum] = "3463102764315eb86c0d3c2e1f3ffb7d"
++SRC_URI[sha256sum] = "a78a17486689ab6852a9e1a759b179827ac9dfd7e2f237ddf169c73398c85381"
+ 
+ S = "${WORKDIR}/freetype-${PV}"
  
 -- 
 1.7.10.4
