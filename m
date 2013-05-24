@@ -1,36 +1,36 @@
 Return-Path: <cazfi74@gmail.com>
-Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
-	[209.85.212.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DF99160974
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B8F5621E6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 22:17:22 +0000 (UTC)
-Received: by mail-vb0-f45.google.com with SMTP id 12so3448381vbf.4
+	Fri, 24 May 2013 22:21:48 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id p12so2542068vbe.39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 15:17:23 -0700 (PDT)
+	Fri, 24 May 2013 15:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=oFH1F5+0nQInPEermNevD5OrOQnBN1xezeQYlrZTkaw=;
-	b=z6lwr9Zxx2smAvPpNRhRJkcdm5iupEVxdcPn8iABiCqORt5b5q8L4nAYFUoSwKc16Y
-	Xx4zE1X2PY4uYy1ceiSXCuoS+pGDrjf7IN3ezb2FSpYzxWy6vjLIqH12oaHbj1XmpImD
-	vUfy98MrVXWcZFyhB6bfbcKUPL/YzBfN5h8KE6++/mmh/zTG/+klYvu6G0H+cX+Fd751
-	pc3hepMPtTdUF6wQnig/h0ewhY+9TBwTT8fBMX4Up1pYpVuAX4n75kez8tq1qXWJp1Ng
-	XW/StsA/KMRVhizvYQ3/7zK1QV7VDrgFj6BgwFmOjIfbfOA3u87vo0uyWBryurjBTnjC
-	LlkQ==
+	bh=Pq94lTGpBaknXBVAuRMyC+FZ2WDArOWejI3dCm5vnv8=;
+	b=zqP1TrYBLPiPoOzuZqNBLp9OE0ITbi5fT62M4vMv9WYyUeW4bOD0w0Y5NKFgvrnbCO
+	5yrWaoAL2P3d0bjUSfHGubzn6CiZEQsevwmaIWg/tISeY0MlULmqmJwJJTFoo+kGJ2uV
+	zdFOuN4wLy5BaPHT7g9n6Efvx725Lou8SwDMC480xkTjtEmevtE9yHQSw/g5NEwaM5Az
+	XPkx5S5p0S4J8lIlqyf2N/hrJgCKacIcxjG4VVxvbgxyBk/EFpba0PNrNrEPtvmT2gqC
+	MMQJbtCOAjMOJkDLx8SQtPihUPWhui8q3neQrhzJhVRTc6kEirID1c7GMbjGzlbOw60I
+	yCxA==
 MIME-Version: 1.0
-X-Received: by 10.59.12.106 with SMTP id ep10mr7130992ved.47.1369433843056;
-	Fri, 24 May 2013 15:17:23 -0700 (PDT)
-Received: by 10.58.207.138 with HTTP; Fri, 24 May 2013 15:17:23 -0700 (PDT)
-In-Reply-To: <CAJTo0LZqh=GWQCQDEMGYm2HVzguoUoJVvLsAtiBLKkB64O6zkA@mail.gmail.com>
-References: <cover.1369381416.git.cazfi74@gmail.com>
-	<CAJTo0LZqh=GWQCQDEMGYm2HVzguoUoJVvLsAtiBLKkB64O6zkA@mail.gmail.com>
-Date: Sat, 25 May 2013 01:17:23 +0300
-Message-ID: <CAF6bG8c=b8+AXZgr70R9ZrWowDq_A8htBXgywPCuEP7EOY22GA@mail.gmail.com>
+X-Received: by 10.52.69.200 with SMTP id g8mr8388669vdu.4.1369434109514; Fri,
+	24 May 2013 15:21:49 -0700 (PDT)
+Received: by 10.58.207.138 with HTTP; Fri, 24 May 2013 15:21:49 -0700 (PDT)
+In-Reply-To: <519EA042.1@linux.intel.com>
+References: <cover.1369298825.git.cazfi74@gmail.com>
+	<519EA042.1@linux.intel.com>
+Date: Sat, 25 May 2013 01:21:49 +0300
+Message-ID: <CAF6bG8c7v4eFuw+QfjaE3HDsooYm9XOexx2wXQuaAM2W0OzM_Q@mail.gmail.com>
 From: Marko Lindqvist <cazfi74@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Low-hanging updates
+Subject: Re: [PATCH 0/1] Update automake to version 1.13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,65 +43,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 22:17:23 -0000
-Content-Type: multipart/alternative; boundary=047d7bd75540c24b7004dd7e2999
+X-List-Received-Date: Fri, 24 May 2013 22:21:49 -0000
+Content-Type: multipart/alternative; boundary=20cf307d0454a41cfc04dd7e399c
 
---047d7bd75540c24b7004dd7e2999
+--20cf307d0454a41cfc04dd7e399c
 Content-Type: text/plain; charset=UTF-8
 
-On 24 May 2013 15:42, Burton, Ross <ross.burton@intel.com> wrote:
+ Confirmed. Automake update to (any) 1.13.x version breaks gtk-engines
+build. I don't know yet if it's automake or gtk-engines bug.
 
-> On 24 May 2013 08:58, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> >   freetype: update to upstream version 2.4.12
-> >   harfbuzz: update to upstream version 0.9.17
-> >   gtk+: update to upstream version 2.24.18
-> >   curl: update to upstream version 7.30.0
-> >   zlib: update to upstream version 1.2.8
+
+On 24 May 2013 02:03, Saul Wold <sgw@linux.intel.com> wrote:
+
+> On 05/23/2013 01:52 AM, Marko Lindqvist wrote:
 >
-> I'd prefer to see zlib using .xz instead of .gz for size/speed, but
-> apart from that:
+>> New upstream release, 1.13.2, has reverted some of the 1.13.0 backward
+>> compatibility dropping changes, for the duration of 1.13 series. Unlike
+>> earlier 1.13 releases, it can be used without breaking huge number of
+>> packages.
+>>
+>>
+> I have not dug into it too deeply, but I think this update is causing a
+> problem with gtk-engines test Makefile, there is a section that has
+> $(patsubst incomplete.
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>.
+> From the Makefile.in that is generated from Makefile.am
 >
-> Ross
+> $(patsubst.log: $(patsubst
+>         @p='$(patsubst'; \
+>         b='$(patsubst'; \
+>         $(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>         --log-file $$b.log --trs-file $$b.trs \
+>         $(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS)
+> $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+>
+> That does not look right!
+>
+> Sau!
+>
+>
+>
+>  The following changes since commit aeb704fee8b4ffeaeddcdb36ae4e1d**
+>> 62c264ce42:
+>>
+>>    scripts/bitbake: Handle the case where git isn't installed cleanly
+>> (2013-05-21 10:06:11 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.openembedded.org/**openembedded-core-contrib<http://git.openembedded.org/openembedded-core-contrib>cazfi/am13
+>>    http://cgit.openembedded.org/**cgit.cgi/openembedded-core-**
+>> contrib/log/?h=cazfi/am13<http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/am13>
+>>
+>> Marko Lindqvist (1):
+>>    automake: update to upstream version 1.13.2
+>>
+>>   .../prefer-cpio-over-pax-for-**ustar-archives.patch  |   37
+>> ++++++++++----------
+>>   .../{automake_1.12.6.bb => automake_1.13.2.bb}     |    4 +--
+>>   2 files changed, 21 insertions(+), 20 deletions(-)
+>>   rename meta/recipes-devtools/**automake/{automake_1.12.6.bb =>
+>> automake_1.13.2.bb} (90%)
+>>
+>>
+>
+>
 
-
- Right. I had missed that it's available with several compressions. I'll
-make updated version of that patch to next set.
-
-
- - ML
-
---047d7bd75540c24b7004dd7e2999
+--20cf307d0454a41cfc04dd7e399c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 24 May 2013 15:42, Burton, Ross <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel=
-.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmai=
-l_quote">
+<div dir=3D"ltr"><div><br></div>=C2=A0Confirmed. Automake update to (any) 1=
+.13.x version breaks gtk-engines build. I don&#39;t know yet if it&#39;s au=
+tomake or gtk-engines bug.<br><div><div><br><br>On 24 May 2013 02:03, Saul =
+Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com" target=3D=
+"_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br>
+<div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div class=3D"im">On 05/23/2013 01:52 AM, Marko Lindqvist wrote:<=
+br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 24 May 2013 08:58, Mark=
-o Lindqvist &lt;<a href=3D"mailto:cazfi74@gmail.com">cazfi74@gmail.com</a>&=
-gt; wrote:<br>
-
-&gt; =C2=A0 freetype: update to upstream version 2.4.12<br>
-&gt; =C2=A0 harfbuzz: update to upstream version 0.9.17<br>
-&gt; =C2=A0 gtk+: update to upstream version 2.24.18<br>
-&gt; =C2=A0 curl: update to upstream version 7.30.0<br>
-&gt; =C2=A0 zlib: update to upstream version 1.2.8<br>
+x #ccc solid;padding-left:1ex">
+New upstream release, 1.13.2, has reverted some of the 1.13.0 backward<br>
+compatibility dropping changes, for the duration of 1.13 series. Unlike<br>
+earlier 1.13 releases, it can be used without breaking huge number of<br>
+packages.<br>
 <br>
-</div>I&#39;d prefer to see zlib using .xz instead of .gz for size/speed, b=
-ut<br>
-apart from that:<br>
+</blockquote>
+<br></div>
+I have not dug into it too deeply, but I think this update is causing a pro=
+blem with gtk-engines test Makefile, there is a section that has $(patsubst=
+ incomplete.<br>
 <br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Ross</font></span></blockquote></div><br></div><div class=3D"gmail_extra">=
-=C2=A0Right. I had missed that it&#39;s available with several compressions=
-. I&#39;ll make updated version of that patch to next set.<br><br><br></div=
-><div class=3D"gmail_extra">
-=C2=A0- ML<br><br></div></div>
+From the Makefile.in that is generated from Makefile.am<br>
+<br>
+$(patsubst.log: $(patsubst<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 @p=3D&#39;$(patsubst&#39;; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 b=3D&#39;$(patsubst&#39;; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(am__check_pre) $(LOG_DRIVER) --test-name &quo=
+t;$$f&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 --log-file $$b.log --trs-file $$b.trs \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(am__common_driver_flags) $(AM_LOG_DRIVER_FLAG=
+S) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \<br>
+<br>
+That does not look right!<br>
+<br>
+Sau!<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+The following changes since commit aeb704fee8b4ffeaeddcdb36ae4e1d<u></u>62c=
+264ce42:<br>
+<br>
+=C2=A0 =C2=A0scripts/bitbake: Handle the case where git isn&#39;t installed=
+ cleanly (2013-05-21 10:06:11 +0100)<br>
+<br>
+are available in the git repository at:<br>
+<br>
+=C2=A0 =C2=A0git://<a href=3D"http://git.openembedded.org/openembedded-core=
+-contrib" target=3D"_blank">git.openembedded.org/<u></u>openembedded-core-c=
+ontrib</a> cazfi/am13<br>
+=C2=A0 =C2=A0<a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded-=
+core-contrib/log/?h=3Dcazfi/am13" target=3D"_blank">http://cgit.openembedde=
+d.org/<u></u>cgit.cgi/openembedded-core-<u></u>contrib/log/?h=3Dcazfi/am13<=
+/a><br>
+<br>
+Marko Lindqvist (1):<br>
+=C2=A0 =C2=A0automake: update to upstream version 1.13.2<br>
+<br>
+=C2=A0 .../prefer-cpio-over-pax-for-<u></u>ustar-archives.patch =C2=A0| =C2=
+=A0 37 ++++++++++----------<br>
+=C2=A0 .../{<a href=3D"http://automake_1.12.6.bb" target=3D"_blank">automak=
+e_1.12.6.bb</a> =3D&gt; <a href=3D"http://automake_1.13.2.bb" target=3D"_bl=
+ank">automake_1.13.2.bb</a>} =C2=A0 =C2=A0 | =C2=A0 =C2=A04 +--<br>
+=C2=A0 2 files changed, 21 insertions(+), 20 deletions(-)<br>
+=C2=A0 rename meta/recipes-devtools/<u></u>automake/{<a href=3D"http://auto=
+make_1.12.6.bb" target=3D"_blank">automake_1.12.6.bb</a> =3D&gt; <a href=3D=
+"http://automake_1.13.2.bb" target=3D"_blank">automake_1.13.2.bb</a>} (90%)=
+<br>
+<br>
+</blockquote>
+<br>
+<br>
+</div></div></blockquote></div><br></div></div></div></div>
 
---047d7bd75540c24b7004dd7e2999--
+--20cf307d0454a41cfc04dd7e399c--
