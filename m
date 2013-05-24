@@ -1,40 +1,29 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C0036969F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E204F61F47
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 13:38:56 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id bj3so4308131pad.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 06:38:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=WQvFrhdQJosziFi0Dva+nc+vl8YLotXzQid/ZJjrvbM=;
-	b=FhxTnFwSCC9PzDSi/HrM1d8fGMk5jBkoDxWa1W8OV9asd4LQKvS87ISPHi96ty4iRb
-	hA61AbnoE6WeXuonJCVj2Zx9PTCksUdF8yEN+ZM0wQVGPvuTlV+x2JX+KoL6Qz5GO1CB
-	ZksCu0GZqkM4WcdhtkB6e4ciC+1lTDPS7rlQhh0MGDMJLGITxO0XlKsljwfYnflS1iQA
-	78mwN51LCobz8FBob/NYifHh3LALiljBRhDjsSBNXIUOIyg+G9/ROsOZhucuXaoptKR0
-	x9ZlFDUlnIeMl02syLpsaoKrwLNOtWMLVnILpwbm7ji2UJ4TcBtbXSEV1w14/s53vYaQ
-	Gz7g==
-X-Received: by 10.68.189.105 with SMTP id gh9mr17838561pbc.77.1369402722195;
-	Fri, 24 May 2013 06:38:42 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	ze11sm17481449pab.22.2013.05.24.06.38.40 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 24 May 2013 06:38:41 -0700 (PDT)
-Message-ID: <519F6C40.3070108@gmail.com>
-Date: Fri, 24 May 2013 23:33:52 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	Fri, 24 May 2013 14:49:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4OEnBr3007615
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 May 2013 07:49:11 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 24 May 2013 07:49:09 -0700
+Message-ID: <519F7DE5.1030308@windriver.com>
+Date: Fri, 24 May 2013 09:49:09 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>
-References: <1368673187-20121-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1368673187-20121-1-git-send-email-net147@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
+	<519E2A73.3020509@windriver.com> <2953870.4rIkZfJEeW@helios>
+In-Reply-To: <2953870.4rIkZfJEeW@helios>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: fix ordering for machineid and run-postinsts services
+Subject: Re: [PATCH] libpam: fix multilib packaging issue for pam-plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +36,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 13:38:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 24 May 2013 14:49:15 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 16/05/2013 12:59 PM, Jonathan Liu wrote:
-> The remount-rootfs.service unit has been renamed to
-> systemd-remount-fs.service in systemd v183 and later.
+On 5/24/13 3:52 AM, Paul Eggleton wrote:
+> On Thursday 23 May 2013 09:40:51 Mark Hatle wrote:
+>> On 5/23/13 3:01 AM, Ming Liu wrote:
+>>> libpam might miss ABI specific dependencies for pam-plugins-*, for RPM
+>>> uses
+>>> generic names to check the packages depending on it and doesn't consider
+>>> the arch, which will lead to packaging issues in multilib build.
+>>>
+>>> pam_plugin_hook is added because the plugin packages are dynamically
+>>> generated, so we need to manually process multilib names by add baselib to
+>>> RPROVIDES/RDEPENDS as ABI specific tag.
+>>>
+>>> [YOCTO #4532]
+>>> [ CQID: WIND00416824 ]
+>>>
+>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>>
+>> I worked with Ming Liu on this particular issue.  You may wonder why this is
+>> necessary let me attempt to explain the underlying causes.
+>>
+>> In deb/ipk on a multilib package, the package name has specific multilib
+>> references in it.  I.e. the alternative libraries start with something like
+>> lib32-...  This was done primarily because deb/ipk do not allow two packages
+>> with the same name (but different architectures) to be installed at the
+>> same time.  So the name has to be unique.
+>>
+>> In RPM however, the names of the packages and matches with the architectures
+>> and if they are not the same we can do these multilib installs.  This
+>> matches the behavior of other RPM based distributions and in many ways the
+>> tools people are used to working with RPM.  For the most part this works
+>> fine in multilib configurations because additional per-file dependencies
+>> are added that capture the shared library dependencies with ABI specific
+>> information.  This unfortunately fails in a few cases where plugins are
+>> dynamically loaded via dlopen -- such as libpam.
+>>
+>> One possible fix is simply to follow the deb/ipk package naming, but this
+>> causes a design advantage of rpm.  When a package has a dependency on
+>> 'bash', we really don't care what bash is installed, only that -a- bash is
+>> installed.  In the deb/ipk case, the lib32- packages would end up with a
+>> lib32-bash dependency and you could potentially end up with two 'bash'
+>> packages being installed.
+>>
+>> So the fix I recommended for the issue was to add the baselib path to the
+>> internal dependencies.  Since we know that the libpam installed in 'lib'
+>> needs the modules that were compiled to also work with the 'lib' version of
+>> libpam. While the libpam in 'lib64' need the modules to work with the
+>> 'lib64' version of the plugins.
+>>
+>> Existing dependencies are preserved so there is no impact in the ipk/deb
+>> case, the RPM case is resolved as the additional dependency information is
+>> now present for the package manager to select the package we really want.
+>>
+>> If anyone else has a suggestion for an alternative fix, we're interested --
+>> but this is the best answer we could come up with.  (If any of the above
+>> should be added to the commit message, the YP bug, or documentation, please
+>> let me know and I'll make sure it gets added.)
 >
-> The run-postinsts script writes to /var/log (a symbolic link to
-> /var/volatile/log), so systemd-tmpfiles-setup.service is added to After=
-> in run-postinsts.service to ensure /var/volatile/log is created before
-> running the script.
+> This is the same problem as bug 4408:
 >
-> [YOCTO #4490]
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4408
 >
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->   meta/recipes-core/systemd/systemd-compat-units/machineid.service     | 2 +-
->   meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd-compat-units/machineid.service b/meta/recipes-core/systemd/systemd-compat-units/machineid.service
-> index cab8f76..f586c6d 100644
-> --- a/meta/recipes-core/systemd/systemd-compat-units/machineid.service
-> +++ b/meta/recipes-core/systemd/systemd-compat-units/machineid.service
-> @@ -2,7 +2,7 @@
->   Description=Machine ID first boot configure
->   DefaultDependencies=no
->   ConditionPathExists=|!/etc/machine-id
-> -After=remount-rootfs.service
-> +After=systemd-remount-fs.service
->   Before=sysinit.target
->   
->   [Service]
-> diff --git a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-> index da6fe76..02c1d86 100644
-> --- a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-> +++ b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-> @@ -2,7 +2,7 @@
->   Description=Run pending postinsts
->   DefaultDependencies=no
->   ConditionPathExists=|/etc/rcS.d/S98run-postinsts
-> -After=remount-rootfs.service tmp.mount
-> +After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
->   Before=sysinit.target
->   
->   [Service]
-Bump. This fixes the postinst service failing on startup when using 
-systemd with an image that inherits from boot-directdisk.
+> It's a bit nasty to have to solve this on a per-recipe basis; we need some
+> kind of generic solution. At the moment I'm not sure what that would be
+> however.
 
-Regards,
-Jonathan
+Yes this would be the same issue.  I'm really not sure how to do this 
+automatically as it requires knowledge that the recipe has plugins, and that the 
+plugs are ABI/lib specific.
+
+I'm definitely open to suggestions.
+
+--Mark
+
+> Cheers,
+> Paul
+>
+
 
