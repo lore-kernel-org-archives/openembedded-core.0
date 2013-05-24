@@ -1,24 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D04C6A453
+	by mail.openembedded.org (Postfix) with ESMTP id 427346A453
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2013 09:16:18 +0000 (UTC)
+	Fri, 24 May 2013 09:16:20 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 May 2013 02:16:20 -0700
+	by azsmga102.ch.intel.com with ESMTP; 24 May 2013 02:16:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="246063880"
+X-IronPort-AV: E=Sophos;i="4.87,734,1363158000"; d="scan'208";a="246063887"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 May 2013 02:16:18 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 May 2013 02:16:20 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 May 2013 12:18:06 +0300
-Message-Id: <b03438668613cd856b4993a5cfaa4faadb17fd62.1369386157.git.ionutx.radu@intel.com>
+Date: Fri, 24 May 2013 12:18:07 +0300
+Message-Id: <b93824e44f2df285a89c86c20fba461e8642432c.1369386157.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1369386157.git.ionutx.radu@intel.com>
 References: <cover.1369386157.git.ionutx.radu@intel.com>
 In-Reply-To: <cover.1369386157.git.ionutx.radu@intel.com>
 References: <cover.1369386157.git.ionutx.radu@intel.com>
-Subject: [PATCH 2/7] freetype: Updated from 2.4.11 to 2.4.12
+Subject: [PATCH 3/7] libtasn1: Updated from 2.14 to 3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 09:16:18 -0000
+X-List-Received-Date: Fri, 24 May 2013 09:16:20 -0000
 
 Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
-
-freetype: no-hardcode.patch does not apply to 2.4.12 version because
-hardcode_libdir_flag_spec variable is set to '' in 2.4.12
-
 ---
- .../{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch  |    0
- .../freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb}     |   11 ++++-------
- 2 files changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-graphics/freetype/{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch (100%)
- rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (83%)
+ .../recipes-support/gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb} |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb} (81%)
 
-diff --git a/meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch b/meta/recipes-graphics/freetype/freetype-2.4.12/no-hardcode.patch
-similarity index 100%
-rename from meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch
-rename to meta/recipes-graphics/freetype/freetype-2.4.12/no-hardcode.patch
-diff --git a/meta/recipes-graphics/freetype/freetype_2.4.11.bb b/meta/recipes-graphics/freetype/freetype_2.4.12.bb
-similarity index 83%
-rename from meta/recipes-graphics/freetype/freetype_2.4.11.bb
-rename to meta/recipes-graphics/freetype/freetype_2.4.12.bb
-index 53fde1d..36817a6 100644
---- a/meta/recipes-graphics/freetype/freetype_2.4.11.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.4.12.bb
-@@ -7,19 +7,16 @@ HOMEPAGE = "http://www.freetype.org/"
- BUGTRACKER = "https://savannah.nongnu.org/bugs/?group=freetype"
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.14.bb b/meta/recipes-support/gnutls/libtasn1_3.3.bb
+similarity index 81%
+rename from meta/recipes-support/gnutls/libtasn1_2.14.bb
+rename to meta/recipes-support/gnutls/libtasn1_3.3.bb
+index 68d5ddf..53de118 100644
+--- a/meta/recipes-support/gnutls/libtasn1_2.14.bb
++++ b/meta/recipes-support/gnutls/libtasn1_3.3.bb
+@@ -8,15 +8,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
  
- LICENSE = "FreeType | GPLv2+"
--LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=28d5381b1bef2649c59f20c20bae4f39 \
-+LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56 \
-                     file://docs/FTL.TXT;md5=d479e83797f699fe873b38dadd0fcd4c \
-                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec"
- 
- SECTION = "libs"
- 
--PR = "r0"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
--           file://no-hardcode.patch"
+-PR = "r1"
 -
--SRC_URI[md5sum] = "b93435488942486c8d0ca22e8f768034"
--SRC_URI[sha256sum] = "ef9d0bcb64647d9e5125dc7534d7ca371c98310fec87677c410f397f71ffbe3f"
-+SRC_URI[md5sum] = "3463102764315eb86c0d3c2e1f3ffb7d"
-+SRC_URI[sha256sum] = "a78a17486689ab6852a9e1a759b179827ac9dfd7e2f237ddf169c73398c85381"
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://libtasn1_fix_for_automake_1.12.patch \
+            file://dont-depend-on-help2man.patch \
+            "
  
- S = "${WORKDIR}/freetype-${PV}"
+-SRC_URI[md5sum] = "a08c5936f9672da9b05691785499bcc3"
+-SRC_URI[sha256sum] = "bc2936cd20267859278145e563427c274d27aaae30ecdf50a04cdd4ec0153d54"
++SRC_URI[md5sum] = "2bdd687f487c50a0382b99553866a6e0"
++SRC_URI[sha256sum] = "92652a2cd10f63c56984b5e5cee46ecadf2292e2262fff99278f7ee46ff93ac0"
+ 
+ inherit autotools binconfig lib_package
  
 -- 
 1.7.10.4
