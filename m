@@ -1,37 +1,39 @@
 Return-Path: <cazfi74@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 712116065B
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 24D8A6065B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 14:03:33 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id er20so5806566lab.33
+	Sun, 26 May 2013 14:03:44 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id fp13so5782098lab.36
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 07:03:32 -0700 (PDT)
+	Sun, 26 May 2013 07:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ehw/JxFz1F6Uv4KRKBFSGpToHWyd+tIXgiUBbZTxSnk=;
-	b=qX18xjmRmFLblKgQGtuJMZf8Dhjm72I8sF2jL7XKNXMbR4hzjxriDcleECZ6chXKTT
-	12iH9OHLvO+zWaySjQZaYsBqk5K9bYvwsXdV5SMNOftSgV7iddyXFJL4UeukNnCbT/Lk
-	vqur0eNj2I+LS0wI96A78uq0sECGjBTurPoOPzzCRcZM/IXjx3QZ1VIpm+IZ/XfwsT/F
-	yv5i9qprZ+hI6hFHQdW/MGVo7DIuga8wygkzpPnyU3uKvMwCG2FVMIgPNCUd6DD+8QOF
-	YJYVActkIzqA+jA5LEHHboWDHUZi3pwGaj5UZtigSrqbximyGYBHQULMRGd3Z8JRTjD/
-	i5OQ==
-X-Received: by 10.112.149.8 with SMTP id tw8mr12312182lbb.117.1369577012459;
-	Sun, 26 May 2013 07:03:32 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=MLdWIyAmsvUQWeLKaLto3cxr9DfCfBNYAKljFnXFQVw=;
+	b=gmYvPflTYSM4BoJNxvaP4BaWdfOPn21V6DZL+LO/ePVKFroaWdVJpnUlSLjlbcxiqJ
+	+8b3H13Db9S91FyD8E0Z1fFX5R4pqfKEsaAZR2QznGfXMs0rdyc1t29Dv1K+coa7OWsc
+	X1oSygHQBKLeS73YuDqjS3vHImjkT4f/JzmU5i3hOGqUrC4a4ohGFEMEwIH90195hDcn
+	DugXE26da9upthUYGP2i9jyEqiiP44FJ7BybSlXgNrjnTWMCwmwEuhtY7njWgkSVxpzp
+	kHaAS3b6VZLBW3nyY+zmTOK+SNJzkzah9ARwSjyM6WQwwJOVKANsxFicFWuN62h7P1hq
+	17Ng==
+X-Received: by 10.112.88.228 with SMTP id bj4mr12069439lbb.14.1369577025564;
+	Sun, 26 May 2013 07:03:45 -0700 (PDT)
 Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPSA id f8sm9872330lbr.10.2013.05.26.07.03.31
+	by mx.google.com with ESMTPSA id f9sm9887165lbf.4.2013.05.26.07.03.44
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 26 May 2013 07:03:31 -0700 (PDT)
+	Sun, 26 May 2013 07:03:44 -0700 (PDT)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1UgbXm-0000Iw-3D; Sun, 26 May 2013 17:03:30 +0300
+	id 1UgbXz-0000JZ-DP; Sun, 26 May 2013 17:03:43 +0300
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2013 17:03:28 +0300
-Message-Id: <cover.1369576071.git.cazfi74@gmail.com>
+Date: Sun, 26 May 2013 17:03:42 +0300
+Message-Id: <5e0683c21f43c105a484741110b6da590d5a33ea.1369576072.git.cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/1] RFC: Add recipe of gtk3 version of vte alongside gtk2 one.
+In-Reply-To: <cover.1369576071.git.cazfi74@gmail.com>
+References: <cover.1369576071.git.cazfi74@gmail.com>
+Subject: [PATCH 1/1] vte: add 0.34.5 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +46,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2013 14:03:33 -0000
+X-List-Received-Date: Sun, 26 May 2013 14:03:45 -0000
 
-RFC only! Patch is only build-tested.
+Add latest vte version for gtk3-based systems. Keep 0.28.2 as it's last
+gtk2-compatible version.
 
-Last gtk2-compatible version of vte is 0.28.2 currently present on OE core.
-Later versions depend on gtk3. Since gtk3 exist in OE core, it would make
-sense to be able to build version of vte (and other similar packages)
-that does not depend on gtk2. Otherwise we end with systems that must
-contain both gtk2 (to be used by some programs) and gtk3 (to be used by
-other programs).
-This patch just adds new recipe for latest vte version, 0.34.5, alongside
-with 0.28.2 version.
-How should priorities be set? "1" for gtk2-version, so it gets selected despite gtk3-version being newer?
-
-
- - ML
-
-The following changes since commit 8f5bc47729edb8cb051d81e9ff1680cb8d2eca25:
-
-  dropbear: a fix for hang in dropbearkey, built for x32 (2013-05-24 14:14:30 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/rfc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/rfc
-
-Marko Lindqvist (1):
-  vte: add 0.34.5 recipe
-
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
  .../vte/vte-0.34.5/obsolete_automake_macros.patch        |   14 ++++++++++++++
  meta/recipes-support/vte/vte.inc                         |    4 +++-
  meta/recipes-support/vte/vte_0.28.2.bb                   |    6 ++++--
@@ -81,6 +61,75 @@ Marko Lindqvist (1):
  create mode 100644 meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
  create mode 100644 meta/recipes-support/vte/vte_0.34.5.bb
 
+diff --git a/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch b/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
+new file mode 100644
+index 0000000..6763d37
+--- /dev/null
++++ b/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
+@@ -0,0 +1,14 @@
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=691545]
++
++Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
++diff -Nurd vte-0.28.2/gnome-pty-helper/configure.in vte-0.28.2/gnome-pty-helper/configure.in
++--- vte-0.28.2/gnome-pty-helper/configure.in	2010-07-15 20:08:44.000000000 +0300
+++++ vte-0.28.2/gnome-pty-helper/configure.in	2013-01-11 14:50:34.971027440 +0200
++@@ -8,7 +8,6 @@
++ AC_ISC_POSIX
++ AC_PROG_CC
++ AC_STDC_HEADERS
++-AM_PROG_CC_STDC
++
++ if test -z "$enable_maintainer_mode"; then
++   enable_maintainer_mode=yes
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index b653fab..bc9736a 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -1,9 +1,11 @@
+ DESCRIPTION = "vte is a virtual terminal emulator"
+ BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+ LICENSE = "LGPLv2.1+"
+-DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
++DEPENDS = " glib-2.0 intltool-native ncurses gobject-introspection-stub"
+ RDEPENDS_libvte = "vte-termcap"
+ 
++GNOME_COMPRESS_TYPE = "xz"
++
+ inherit gnome gtk-doc
+ 
+ EXTRA_OECONF = "--disable-python --disable-introspection"
+diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
+index 485187d..caf7515 100644
+--- a/meta/recipes-support/vte/vte_0.28.2.bb
++++ b/meta/recipes-support/vte/vte_0.28.2.bb
+@@ -6,5 +6,7 @@ PR = "r6"
+ 
+ SRC_URI += "file://obsolete_automake_macros.patch"
+ 
+-SRC_URI[archive.md5sum] = "f07a4bf943194f94b7f142db8f7f36dc"
+-SRC_URI[archive.sha256sum] = "8d04e202b617373dfb47689e5e628febe2c58840b34cccc4af4feb88c48df903"
++SRC_URI[archive.md5sum] = "497f26e457308649e6ece32b3bb142ff"
++SRC_URI[archive.sha256sum] = "86cf0b81aa023fa93ed415653d51c96767f20b2d7334c893caba71e42654b0ae"
++
++DEPENDS += "gtk+"
+diff --git a/meta/recipes-support/vte/vte_0.34.5.bb b/meta/recipes-support/vte/vte_0.34.5.bb
+new file mode 100644
+index 0000000..8707213
+--- /dev/null
++++ b/meta/recipes-support/vte/vte_0.34.5.bb
+@@ -0,0 +1,12 @@
++require vte.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
++
++PR = "r0"
++
++SRC_URI += "file://obsolete_automake_macros.patch"
++
++SRC_URI[archive.md5sum] = "ce1f11568992df8e61c9366918fed571"
++SRC_URI[archive.sha256sum] = "8847fb75b620a94ba62c2ffd9e1653396978106f294574ba24a19ced259a7351"
++
++DEPENDS += "gtk+3"
 -- 
 1.7.10.4
 
