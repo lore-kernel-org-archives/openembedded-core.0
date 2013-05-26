@@ -1,37 +1,37 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DA4A662249
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 124C76A364
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 10:59:42 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id v14so4429588pde.18
+	Sun, 26 May 2013 10:59:43 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id g10so5645449pdj.27
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 03:59:43 -0700 (PDT)
+	Sun, 26 May 2013 03:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=BvGvusCNAVwO1mZuo67pVUnEOYFc8P6kmexiV+rjfpo=;
-	b=rqHZUay5h5cPRYP8iAbufe7zQFIqr7YD9F8YvO2Xvgw+S9d2xVU5z9dTHRW5uoiTAl
-	ss4pMWc1x5mwLapxQmz67lAx8IabduHo9hrKnGvtekaQtwodoPtVxPp+hCnzDIJDV+eO
-	TkV3Ep9+sNyGo23QxIsa5WkjkmMls02Hmn33CxVgtwsiTDuKaz6qrtsXQq2uHoVFn97I
-	smCzp0gtqUXtEc+5baiA2cIynQTNKCv0+LkFfA9L0zM4MMNiftSWpVdKf2YRHMpzjNE4
-	zWLK7Z5wlrec6V4b/URtunrI2SqP7kKB545CGQhZmwxVgljjMc/vPFK/LqRq/+kigQQ6
-	HLxA==
-X-Received: by 10.68.135.231 with SMTP id pv7mr24763035pbb.108.1369565983758; 
-	Sun, 26 May 2013 03:59:43 -0700 (PDT)
+	bh=PSefQilRxC2X9JLd9D8l+Ote9E1EvevfxpXixHPiwnM=;
+	b=oz0FUkohYw84Z/LaCbWDpK41w/8jdr5R998XfbjcNC1TTWUm3CJuUYLBEPGQwaeGes
+	WyGF3uxzIzOmwpGwYvxrYXuQlfogR7utUfxfjnYCwvyyZqysYL6IPxEjw+iKUxRhRVaI
+	MKeFYtMcCZvHx2M6Pj7u6lPhtPBC2HlLo1Yl3Tg85rVjwCS4B0oMCt8VDssXtRoVzB/S
+	b8utYbBBnmlPw1hkiyUE2lhphp6ykKGpdFZLguTCbMht8qzKU2AU+8KqGBrhKJV6gt67
+	x/tir8akaHvNOgqoLsxxQOOsL3tG9oXyicTZ07K5O09VDYCmhmhCcnrGMi7wrflp34EH
+	UpTw==
+X-Received: by 10.66.164.3 with SMTP id ym3mr25547375pab.106.1369565984437;
+	Sun, 26 May 2013 03:59:44 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by mx.google.com with ESMTPSA id
-	kv2sm24028601pbc.28.2013.05.26.03.59.41 for <multiple recipients>
+	yj2sm24006095pbb.40.2013.05.26.03.59.41 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 26 May 2013 03:59:42 -0700 (PDT)
+	Sun, 26 May 2013 03:59:43 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2013 21:13:04 +1000
-Message-Id: <1369566786-20341-5-git-send-email-net147@gmail.com>
+Date: Sun, 26 May 2013 21:13:02 +1000
+Message-Id: <1369566786-20341-3-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.2.3
 In-Reply-To: <1369566786-20341-1-git-send-email-net147@gmail.com>
 References: <1369566786-20341-1-git-send-email-net147@gmail.com>
-Subject: [PATCH 4/6] systemd: remove old /var/run workarounds
+Subject: [PATCH 2/6] systemd: do not create /var/volatile/run and /var/volatile/lock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,48 +46,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 26 May 2013 10:59:43 -0000
 
-Do not clear /var/run on startup as it is a tmpfs.
-Do not create empty /var/run/utmp on startup as it no longer seems
-needed for systemd-update-utmp-runlevel.service to start properly.
+The directories are not needed anymore.
+
+Previously:
+/var/run  -> /var/volatile/run
+/var/lock -> /var/volatile/lock
+
+Now:
+/var/run  -> /run
+/var/lock -> /run/lock
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-core/systemd/systemd/var-run.conf | 4 ----
- meta/recipes-core/systemd/systemd_204.bb       | 3 ---
- 2 files changed, 7 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
+ meta/recipes-core/systemd/systemd/00-create-volatile.conf | 2 --
+ meta/recipes-core/systemd/systemd/init                    | 1 -
+ 2 files changed, 3 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/var-run.conf b/meta/recipes-core/systemd/systemd/var-run.conf
-deleted file mode 100644
-index c2c18e2..0000000
---- a/meta/recipes-core/systemd/systemd/var-run.conf
-+++ /dev/null
-@@ -1,4 +0,0 @@
--# empty /var/run
--R	/var/run/*	-	-	-	-	-
--# systemd-update-utmp-runlevel.service fails to start without this
--f /var/run/utmp 0644 root root - -
-diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
-index ec5be1f..9664e04 100644
---- a/meta/recipes-core/systemd/systemd_204.bb
-+++ b/meta/recipes-core/systemd/systemd_204.bb
-@@ -20,7 +20,6 @@ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-altern
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-            file://modprobe.rules \
--           file://var-run.conf \
-            ${UCLIBCPATCHES} \
-            file://0001-utmp-turn-systemd-update-utmp-shutdown.service-into-.patch \
-            file://00-create-volatile.conf \
-@@ -105,8 +104,6 @@ do_install() {
+diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+index 6163a9c..9ffa88e 100644
+--- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
++++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+@@ -4,6 +4,4 @@
  
- 	install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
  
--	install -m 0644 ${WORKDIR}/var-run.conf ${D}${sysconfdir}/tmpfiles.d/
--
- 	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
- 
- 	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+ d		/var/volatile/log		-	-	-	-
+-d		/var/volatile/lock		-	-	-	-
+-d		/var/volatile/run		-	-	-	-
+ d		/var/volatile/tmp		-	-	-	-
+diff --git a/meta/recipes-core/systemd/systemd/init b/meta/recipes-core/systemd/systemd/init
+index ac56cca..a42e732 100644
+--- a/meta/recipes-core/systemd/systemd/init
++++ b/meta/recipes-core/systemd/systemd/init
+@@ -42,7 +42,6 @@ case "$1" in
+     [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
+     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
+     mount -a -t tmpfs 2>/dev/null
+-    mkdir -p /var/volatile/run
+     if [ ! -e /run ]; then
+         ln -s /var/run /run
+     fi
 -- 
 1.8.2.3
 
