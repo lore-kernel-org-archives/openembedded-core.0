@@ -1,41 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B38D3608F7
+Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 02003608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 07:39:45 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id bg2so5799318pad.39
+	Sun, 26 May 2013 08:00:42 +0000 (UTC)
+Received: by mail-pb0-f42.google.com with SMTP id uo1so5741957pbc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 00:39:46 -0700 (PDT)
+	Sun, 26 May 2013 01:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=uoRvvLVOMvMThtjHt4280QAv+2WjuGjjBkKno4o2yzM=;
-	b=YyREsvUj62pjmLg9M8sd5FT+518eetndcOO5BpAEUafT9N+yi7AXF5hrVE3BRqxUEr
-	oQFgLE3tToP3HLvbgviWCHIFH0yFlmRO9MdBj++ffOk8fLXr0H4U/5v1O71dT4FW3f+8
-	KMMYHczez0fnrzTXwMq5oi7MsTiiWAAJodNzrnyt2nthQPPwjqtUkjtCEyoRZBCydpmN
-	zptZ17PZ5GHbkX/gILcPOFIOJYS17SzspXcunDD+5w7d5/pHrUWMRYPghrFHrh6VE2KJ
-	cdjrq9eCkHfADkQy/rnI8WSyjkXoF+WsfvaSH6jMjDxFYCj9pkL6cKm3NPXn2Amv6hqk
-	ZZtg==
-X-Received: by 10.66.231.7 with SMTP id tc7mr24824106pac.143.1369553986650;
-	Sun, 26 May 2013 00:39:46 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id l4sm23528712pbo.6.2013.05.26.00.39.44
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZmYIJPPtxDFENaSN3/1Mut1ywCpb20zHCQQLQyep1tg=;
+	b=fYyTfFmx4DPLFwU4e3IEw3DGmM+NxKuUK3y2WGqD1SmYdWJ31EXgDkSuToEYGH2PAx
+	8JkZ6gbAEN74UO9Ew2EsaihqBmx/XS5x9EkpYJWbLd2fenA0XPPd71QqYYZ8I+vcZDvm
+	ne91k7wF0QePPBekYrgL/i5FOLwPDnq9xQ4/niabHsW/OK4dm0bZrrFFht9YGiKds3rh
+	nsDoDA+FlvdOldhbtqsiCVRAHMEPrGNIumfVT1U5/CA41bakQsqqR9pMr0A1X3KnXAbm
+	33wRhZHXHHQrQL1Gen9sfbrsYdhnSSXfhofTb8rFmUsAUvwn2ggZNQI/Sx3xblpBqCaI
+	mnrA==
+X-Received: by 10.68.176.197 with SMTP id ck5mr20133498pbc.165.1369555244129; 
+	Sun, 26 May 2013 01:00:44 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id q8sm16516309pan.12.2013.05.26.01.00.41
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 26 May 2013 00:39:45 -0700 (PDT)
-Message-ID: <51A1BB1F.20102@gmail.com>
-Date: Sun, 26 May 2013 17:34:55 +1000
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 26 May 2013 01:00:43 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>
-References: <1369554058-11484-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1369554058-11484-1-git-send-email-net147@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5] resolvconf: remove /var/volatile/run/resolvconf/interface from package
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 26 May 2013 18:14:13 +1000
+Message-Id: <1369556053-12445-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] consolekit: remove /var/run from package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,28 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2013 07:39:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 26 May 2013 08:00:43 -0000
 
-On 26/05/2013 5:40 PM, Jonathan Liu wrote:
-> - Remove /etc/resolvconf/run/interface from package as it actually uses
-> /etc/resolvconf/run/interface
-> - Create /var/run/resolvconf/interface on startup using
-> populate-volatiles.sh and tmpfiles.d for systemd
-> - Create symbolic link from /etc/resolvconf/run to /var/run/resolvconf
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->   .../resolvconf/resolvconf_1.72.bb                  | 22 +++++++++++++++++++++-
->   1 file changed, 21 insertions(+), 1 deletion(-)
-I tested this with sysvinit and systemd using opkg feed to install under 
-core-image-base/qemux86.
-/var/run/resolvconf/interface is created after install and also after 
-reboot.
-Running "resolvconf -a eth0" doesn't return error when checking if 
-/etc/resolvconf/run/interface exists.
+The /var/run/ConsoleKit directory doesn't need to be included in the
+package as it is created by console-kit-daemon if it doesn't exist.
+The /var/run directory is already created by base-files.
 
-Regards,
-Jonathan
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-support/consolekit/consolekit_0.4.5.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index db4ac00..7d66b39 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -37,3 +37,8 @@ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+ PACKAGES =+ "pam-plugin-ck-connector"
+ FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
+ RDEPENDS_pam-plugin-ck-connector += "${PN}"
++
++do_install_append() {
++	# Remove /var/run from package as console-kit-daemon will populate it on startup
++	rm -fr "${D}${localstatedir}/run"
++}
+-- 
+1.8.2.3
+
 
