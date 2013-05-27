@@ -1,39 +1,40 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F55E61AD0;
-	Mon, 27 May 2013 11:48:08 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id hr11so4565188vcb.19
-	for <multiple recipients>; Mon, 27 May 2013 04:48:08 -0700 (PDT)
+Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D3138621CA;
+	Mon, 27 May 2013 12:08:05 +0000 (UTC)
+Received: by mail-ve0-f178.google.com with SMTP id pb11so2915218veb.37
+	for <multiple recipients>; Mon, 27 May 2013 05:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date
 	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=YYutIrySjjrjA5aK8p+lQjSn8RxCflJNEZ906/vwleU=;
-	b=B16A6Nz2c8A/4sh97TF1rSUh6HS9p5wfFVxYuDGyDzFjYBVQB4fv5sxJE5TMHGi08R
-	PtWv+VrCDQ/8D+4f2xndsDolQ0wmvqX8Keume+E7ZBvdnMejwwJQCylayK+dpdXsPCUd
-	ygg9YNeV5KBjhqEHes1M6wjxi3V2LG/7dJGXiRYCA85MW8wtCUqWTEQUPEqnI80YhGxN
-	Mm0lAEvltg0sQWTpA4uVfu/mhY2Iw/l8O+I/yfWTzLNIqQ02knPiteTfB84y14hNdIjG
-	OEpHU1dSzVpwWqaMyEXHoamzhkPaks+i2iLvhAh30Wlpas37hda+8UJojjHyhPQ7ABGT
-	qI3A==
-X-Received: by 10.58.75.73 with SMTP id a9mr15013735vew.25.1369655288311; Mon,
-	27 May 2013 04:48:08 -0700 (PDT)
+	bh=5vtY/q0PSbRf7dkjez7bdtnde4TgAYBhmZDRTO12zpM=;
+	b=o1bFWZjtAZLf9Irj4VO69CMF96i58b8xzRXyL1KyhzmUeAkx3joszokN8ngPz9o37i
+	reQbeJuHfOkrwkQeVhE3pN+XlK7sYs/y+cyyI4raM1OtYVY2EdoL+Khv57xarVfbGpmb
+	kGoSFqJt7vAsmKSMbUsXN7ITkK0d7gay30CI7USurpkcZ34UTbdRHZBwKVfgfPWDQIpD
+	p5ExlVIphRUwt/NSW7pQ1YYWLL5gjo4+wygpBtX8iOxh8r6M5XjCUoYl2Njd7ztCBH77
+	1qNMhRVhveRNyKQjMnLSm3gyxQ9iA2Hs55CTSlpejXslv+JTTu4n38S7XqhZ5iyWLVtv
+	RC3g==
+X-Received: by 10.220.3.144 with SMTP id 16mr2886370vcn.6.1369656486135; Mon,
+	27 May 2013 05:08:06 -0700 (PDT)
 MIME-Version: 1.0
 Sender: paul.betafive@gmail.com
-Received: by 10.220.110.6 with HTTP; Mon, 27 May 2013 04:47:28 -0700 (PDT)
-In-Reply-To: <CANyK_8fQrdjXq0WBJYZsJwnovD+Do8FC8TSsD40=9VMAZGs1=g@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<CANyK_8fQrdjXq0WBJYZsJwnovD+Do8FC8TSsD40=9VMAZGs1=g@mail.gmail.com>
+Received: by 10.220.110.6 with HTTP; Mon, 27 May 2013 05:07:26 -0700 (PDT)
+In-Reply-To: <CABcZAN=kxmSiDUGxgz0CWgmsr=Biwo9PiLf-inDeBwJhCGpzmA@mail.gmail.com>
+References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
+	<1368650024.18324.102.camel@ted>
+	<CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
+	<CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
+	<1369217654.6695.62.camel@phil-desktop.brightsign>
+	<CABcZAN=kxmSiDUGxgz0CWgmsr=Biwo9PiLf-inDeBwJhCGpzmA@mail.gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 27 May 2013 12:47:28 +0100
-X-Google-Sender-Auth: HbqtkJfnzmPo20QvyajJ20ZwYKM
-Message-ID: <CANyK_8caVdHpX+jXXKh3xz=N7PQZm8X2Z06J4pngQ999cAQfrw@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org, 
-	Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+Date: Mon, 27 May 2013 13:07:26 +0100
+X-Google-Sender-Auth: V3WeZyqM7jG_jdR6LkcPO8q2A08
+Message-ID: <CANyK_8dhFHBQRsqyxbJH5MoBHYRLytkCE23f8wxsQ0vfSc3B3w@mail.gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Openembedded Discussion <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +47,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2013 11:48:09 -0000
+X-List-Received-Date: Mon, 27 May 2013 12:08:06 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 16 May 2013 11:36, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On 16 May 2013 08:52, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 23 May 2013 03:50, Chris Larson <clarson@kergoth.com> wrote:
+> On Wed, May 22, 2013 at 3:14 AM, Phil Blundell <pb@pbcl.net> wrote:
 >>
->>   meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
+>> On Wed, 2013-05-22 at 09:47 +0100, Paul Barker wrote:
+>> > I've just sent a patch to the yocto@ list to fix this but it's brought
+>> > up two things:
+>> >
+>> > 1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with
+>> > '?='. I'm overriding this with '=' in
+>> > meta-raspberrypi/conf/machine/raspberrypi.conf which means it can't be
+>> > overridden further in local.conf. Is this worth changing to '??=' in
+>> > image.bbclass, '?=' in the machine conf so that it can be overridden
+>> > with '=' in local.conf? Is my understanding of the overrides correct
+>> > here?
 >>
+>> You can always override it from local.conf using a _forcevariable
+>> override (which used to be named "_local", in fact, but that terminology
+>> turned out to be a bit confusing), or a _MACHINE override of course.  So
+>> I don't think there is any major problem here.
+>>
+>> But, that said, it probably is true that the semantics of ??= are less
+>> surprising for users (since it isn't position-dependent in the way
+>> that ?= is) which might make it a better choice for image.bbclass.
 >
-> Cause of failure is:
 >
-> | ipsec_doi.c: In function 'get_proppair':
-> | ipsec_doi.c:1321:24: error: argument to 'sizeof' in 'memset' call is
-> the same expression as the destination; did you mean to dereference
-> it? [-Werror=sizeof-pointer-memaccess]
-> |   memset(pair, 0, sizeof(pair));
-> |                         ^
-> | cc1: all warnings being treated as errors
->
+> ??= is great in config files, but not ideal in classes that aren't globally
+> inherited. If bitbake.conf sets a ??=, and a distro .conf updates the
+> default by using ??= again, and then the class uses ??=, it'll replace the
+> latest default set by the config. So, I think for default values, classes
+> should use ?=, config files should use ??=.
 
-I've updated locally to ipsec-tools-0.8.1 and still get this error.
-The 'obvious fix' isn't so obvious so I'm going to hold back on making
-any changes to see what the upstream developers say. Reported to
-upstream mailing list.
+Lets leave this as it is then.
+
+I've had no responses to the second point I made or feedback on my
+patch to meta-raspberrypi. I really think it's worth adding a
+documentation comment to the psplash recipe to explain the intended
+way to customise the splash image as the logic there isn't
+straightforward. My approach was to append the image to SPLASH_IMAGES
+in a bbappend and then set this as the default via the SPLASH variable
+in the machine config file for raspberrypi. I imagine it'd be a
+similar approach for setting a distro default. It then ensures that
+just including a machine or distro layer with a bbappend to psplash
+doesn't force it's image on the user unless they're building for that
+machine or distro. Is that the correct approach? If so I'm happy to
+submit a patch adding something to this effect as a documentation
+comment to the psplash recipe.
 
 --
 Paul Barker
