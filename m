@@ -1,28 +1,44 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 40BDB61082
+Return-Path: <bogdan.a.marinescu@intel.com>
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FA4E6A36E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2013 02:00:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4R20ZD3014613
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 27 May 2013 07:48:58 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id n9so8571923oag.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 19:00:36 -0700 (PDT)
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Sun, 26 May 2013 19:00:35 -0700
-Message-ID: <51A2BE3F.9090102@windriver.com>
-Date: Mon, 27 May 2013 10:00:31 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	Mon, 27 May 2013 00:48:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=6AjfuLbz5tpgIHGXP9aL+h0YDoQkf7ExkFRzIKYqotg=;
+	b=Ec1pbDROsf1rJui1PZ7c2bAAiHjgIeIS+ls/V0TQ7pQmp5LRMxbDAtsVCn0n0crIQv
+	kbVarWK4DD9uE7H354TeE5fTqRtJOjeiu3o4WxG95o0iVx0/F21Q/DpsO9AvdXWCWIJd
+	rHz9KqjkTJT83pt3CY+z00ZIbD4UI9Y+GnQEUxz4NbhjQKlfkNl2fDle7W6oUdv0i4jk
+	2ErO+0uw3DSOja+FfWlmvpEgT3Nm8PpnymKlj2OoZSO+JBHu6/DBaffZoI1htR+ynflB
+	6ggf04FXT5hQf1uqb/TUnYfvKhRQ+xMjt1Hc3fPcq1vlrnGgUw14SI1oqafnC0VTZShX
+	pItA==
+X-Received: by 10.182.125.4 with SMTP id mm4mr17457121obb.63.1369640939296;
+	Mon, 27 May 2013 00:48:59 -0700 (PDT)
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <1369407834-16644-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1369407834-16644-1-git-send-email-mark.hatle@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cracklib: Allow byte order patch to work on older Linux hosts
+Received: by 10.182.225.230 with HTTP; Mon, 27 May 2013 00:48:39 -0700 (PDT)
+In-Reply-To: <1368343938.21569.1.camel@ted>
+References: <1368180910-17476-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<20130510102041.GA12329@jama.dyndns-home.com>
+	<1368181932.11129.11.camel@ted>
+	<1368182760.24706.3.camel@phil-desktop.brightsign>
+	<1368183027.24706.6.camel@phil-desktop.brightsign>
+	<CAJTo0LYgAzXW4PEt_KucpDG7Uk5rpXJEDzWPGTgA7X3jZkU-yQ@mail.gmail.com>
+	<1368343938.21569.1.camel@ted>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Mon, 27 May 2013 10:48:39 +0300
+Message-ID: <CAMZjud3-UWnZTjn+sQ6hsRxRWL+btKVoJ1J7D=+TAG+daco5_g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQkFEBj0nhwEzt1vDtgN7tVDHzT2CcsakKDIRZhqnvVDQype7smw+++piRRXC1LWYB9hK6/F
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Phil Blundell <philb@brightsign.biz>
+Subject: Re: [PATCH] flex: updated to 2.5.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,348 +51,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2013 02:00:35 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 May 2013 07:48:59 -0000
+Content-Type: multipart/alternative; boundary=089e0118413ea83bbe04ddae610a
 
-Great, I think it is the better one which didn't need to
-define extra functions.
+--089e0118413ea83bbe04ddae610a
+Content-Type: text/plain; charset=ISO-8859-1
 
-//Hongxu
+On Sun, May 12, 2013 at 10:32 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-On 05/24/2013 11:03 PM, Mark Hatle wrote:
-> Older hosts don't have the htobe* and be*toh functions defined.
-> Instead we fall back to checking the endian and calling bswap_*
-> directly.  This works on both old and new hosts.
+> On Fri, 2013-05-10 at 12:00 +0100, Burton, Ross wrote:
+> > On 10 May 2013 11:50, Phil Blundell <philb@brightsign.biz> wrote:
+> > > Or you could replace the shell wrapper that create_wrapper() currently
+> > > generates with either a compiled binary or a Python script.  That would
+> > > allow you to execl("/path/foo.real", "foo", ...), which I don't think
+> > > you can do in shell but which would avoid this whole class of problem.
+> >
+> > Bash can do that, but it's not POSIX. :/
 >
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   ...c-support-dictionary-byte-order-dependent.patch | 120 +++++++++++----------
->   1 file changed, 65 insertions(+), 55 deletions(-)
+> I'm quite happy to have the wrapper as bash shell script. We only need
+> dash compatibility in things that get run under /bin/sh (i.e. bitbake
+> shell tasks).
 >
-> diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-> index fc402ee..8e0f406 100644
-> --- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-> +++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-> @@ -10,25 +10,38 @@ load them. This could fix the endian issue on multiple platform.
->   
->   Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->   Upstream-Status: Pending
-> +
-> +We can't use the endian.h, htobe* and be*toh functions because they are
-> +not available on older versions of glibc, such as that found in RHEL
-> +5.9.
-> +
-> +Change to checking endian and directly calling bswap_* as defined in
-> +byteswap.h.
-> +
-> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> +
->   ---
->    lib/packlib.c |  208 +++++++++++++++++++++++++++++++++++++++++++++++++++++++--
->    1 file changed, 204 insertions(+), 4 deletions(-)
->   
-> -diff --git a/lib/packlib.c b/lib/packlib.c
-> -index 8f32d14..323ee83 100644
-> ---- a/lib/packlib.c
-> -+++ b/lib/packlib.c
-> -@@ -16,6 +16,9 @@
-> +Index: cracklib-2.8.22/lib/packlib.c
-> +===================================================================
-> +--- cracklib-2.8.22.orig/lib/packlib.c
-> ++++ cracklib-2.8.22/lib/packlib.c
-> +@@ -16,6 +16,12 @@
->    #ifdef HAVE_STDINT_H
->    #include <stdint.h>
->    #endif
->   +
-> ++#ifndef _BSD_SOURCE
->   +#define _BSD_SOURCE             /* See feature_test_macros(7) */
-> ++#endif
->   +#include <endian.h>
-> ++#include <byteswap.h>
->    #include "packer.h"
->    
->    static const char vers_id[] = "packlib.c : v2.3p2 Alec Muffett 18 May 1993";
-> -@@ -45,6 +48,182 @@ typedef struct
-> +@@ -45,6 +51,182 @@ typedef struct
->        char data_get[NUMWORDS][MAXWORDLEN];
->    } PWDICT64;
->    
-> @@ -40,14 +53,14 @@ index 8f32d14..323ee83 100644
->   +static int
->   +IheaderHostToBigEndian(char *pHeader, int nBitType)
->   +{
-> -+    if (nBitType == en_is64)
-> ++    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
->   +
-> -+        pHeader64->pih_magic = htobe64(pHeader64->pih_magic);
-> -+        pHeader64->pih_numwords = htobe64(pHeader64->pih_numwords);
-> -+        pHeader64->pih_blocklen = htobe16(pHeader64->pih_blocklen);
-> -+        pHeader64->pih_pad = htobe16(pHeader64->pih_pad);
-> ++        pHeader64->pih_magic = bswap_64(pHeader64->pih_magic);
-> ++        pHeader64->pih_numwords = bswap_64(pHeader64->pih_numwords);
-> ++        pHeader64->pih_blocklen = bswap_16(pHeader64->pih_blocklen);
-> ++        pHeader64->pih_pad = bswap_16(pHeader64->pih_pad);
->   +
->   +#if DEBUG
->   +        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
-> @@ -55,14 +68,14 @@ index 8f32d14..323ee83 100644
->   +          pHeader64->pih_blocklen, pHeader64->pih_pad);
->   +#endif
->   +    }
-> -+    else if (nBitType == en_is32)
-> ++    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
->   +
-> -+        pHeader32->pih_magic = htobe32(pHeader32->pih_magic);
-> -+        pHeader32->pih_numwords = htobe32(pHeader32->pih_numwords);
-> -+        pHeader32->pih_blocklen = htobe16(pHeader32->pih_blocklen);
-> -+        pHeader32->pih_pad = htobe16(pHeader32->pih_pad);
-> ++        pHeader32->pih_magic = bswap_32(pHeader32->pih_magic);
-> ++        pHeader32->pih_numwords = bswap_32(pHeader32->pih_numwords);
-> ++        pHeader32->pih_blocklen = bswap_16(pHeader32->pih_blocklen);
-> ++        pHeader32->pih_pad = bswap_16(pHeader32->pih_pad);
->   +
->   +#if DEBUG
->   +        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
-> @@ -70,7 +83,7 @@ index 8f32d14..323ee83 100644
->   +          pHeader32->pih_blocklen, pHeader32->pih_pad);
->   +#endif
->   +    }
-> -+    else
-> ++    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
->   +        return (-1);
-> @@ -82,14 +95,14 @@ index 8f32d14..323ee83 100644
->   +static int
->   +IheaderBigEndianToHost(char *pHeader, int nBitType)
->   +{
-> -+    if (nBitType == en_is64)
-> ++    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        struct pi_header64 *pHeader64 = (struct pi_header64*)pHeader;
->   +
-> -+        pHeader64->pih_magic = be64toh(pHeader64->pih_magic);
-> -+        pHeader64->pih_numwords = be64toh(pHeader64->pih_numwords);
-> -+        pHeader64->pih_blocklen = be16toh(pHeader64->pih_blocklen);
-> -+        pHeader64->pih_pad = be16toh(pHeader64->pih_pad);
-> ++        pHeader64->pih_magic = bswap_64(pHeader64->pih_magic);
-> ++        pHeader64->pih_numwords = bswap_64(pHeader64->pih_numwords);
-> ++        pHeader64->pih_blocklen = bswap_16(pHeader64->pih_blocklen);
-> ++        pHeader64->pih_pad = bswap_16(pHeader64->pih_pad);
->   +
->   +#if DEBUG
->   +        printf("Header64: magic %x, numwords %x, blocklen %x, pad %x\n",
-> @@ -97,14 +110,14 @@ index 8f32d14..323ee83 100644
->   +          pHeader64->pih_blocklen, pHeader64->pih_pad);
->   +#endif
->   +    }
-> -+    else if (nBitType == en_is32)
-> ++    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        struct pi_header *pHeader32 = (struct pi_header*)pHeader;
->   +
-> -+        pHeader32->pih_magic = be32toh(pHeader32->pih_magic);
-> -+        pHeader32->pih_numwords = be32toh(pHeader32->pih_numwords);
-> -+        pHeader32->pih_blocklen = be16toh(pHeader32->pih_blocklen);
-> -+        pHeader32->pih_pad = be16toh(pHeader32->pih_pad);
-> ++        pHeader32->pih_magic = bswap_32(pHeader32->pih_magic);
-> ++        pHeader32->pih_numwords = bswap_32(pHeader32->pih_numwords);
-> ++        pHeader32->pih_blocklen = bswap_16(pHeader32->pih_blocklen);
-> ++        pHeader32->pih_pad = bswap_16(pHeader32->pih_pad);
->   +
->   +#if DEBUG
->   +        printf("Header32: magic %x, numwords %x, blocklen %x, pad %x\n",
-> @@ -112,7 +125,7 @@ index 8f32d14..323ee83 100644
->   +            pHeader32->pih_blocklen, pHeader32->pih_pad);
->   +#endif
->   +    }
-> -+    else
-> ++    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
->   +        return (-1);
-> @@ -126,27 +139,27 @@ index 8f32d14..323ee83 100644
->   +{
->   +    int i = 0;
->   +
-> -+    if (nBitType == en_is64)
-> ++    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        uint64_t *pHwms64 = (uint64_t*)pHwms;
->   +
->   +        for (i = 0; i < nLen / sizeof(uint64_t); i++)
->   +        {
-> -+            *pHwms64++ = htobe64(*pHwms64);
-> ++            *pHwms64++ = bswap_64(*pHwms64);
->   +        }
->   +
->   +    }
-> -+    else if (nBitType == en_is32)
-> ++    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        uint32_t *pHwms32 = (uint32_t*)pHwms;
->   +
->   +        for (i = 0; i < nLen / sizeof(uint32_t); i++)
->   +        {
-> -+            *pHwms32++ = htobe32(*pHwms32);
-> ++            *pHwms32++ = bswap_32(*pHwms32);
->   +        }
->   +
->   +    }
-> -+    else
-> ++    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
->   +        return (-1);
-> @@ -170,27 +183,27 @@ index 8f32d14..323ee83 100644
->   +{
->   +    int i = 0;
->   +
-> -+    if (nBitType == en_is64)
-> ++    if (nBitType == en_is64 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        uint64_t *pHwms64 = (uint64_t*)pHwms;
->   +
->   +        for (i = 0; i < nLen / sizeof(uint64_t); i++)
->   +        {
-> -+            *pHwms64++ = be64toh(*pHwms64);
-> ++            *pHwms64++ = bswap_64(*pHwms64);
->   +        }
->   +
->   +    }
-> -+    else if (nBitType == en_is32)
-> ++    else if (nBitType == en_is32 && __BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        uint32_t *pHwms32 = (uint32_t*)pHwms;
->   +
->   +        for (i = 0; i < nLen / sizeof(uint32_t); i++)
->   +        {
-> -+            *pHwms32++ = be32toh(*pHwms32);
-> ++            *pHwms32++ = bswap_32(*pHwms32);
->   +        }
->   +
->   +    }
-> -+    else
-> ++    else if (__BYTE_ORDER == __LITTLE_ENDIAN)
->   +    {
->   +        fprintf(stderr, "Neither 32 or 64: %d\n", nBitType);
->   +        return (-1);
-> @@ -211,7 +224,7 @@ index 8f32d14..323ee83 100644
->    
->    static int
->    _PWIsBroken64(FILE *ifp)
-> -@@ -57,6 +236,7 @@ _PWIsBroken64(FILE *ifp)
-> +@@ -57,6 +239,7 @@ _PWIsBroken64(FILE *ifp)
->           return 0;
->        }
->    
-> @@ -219,7 +232,7 @@ index 8f32d14..323ee83 100644
->        return (pdesc64.header.pih_magic == PIH_MAGIC);
->    }
->    
-> -@@ -149,7 +329,11 @@ PWOpen(prefix, mode)
-> +@@ -149,7 +332,11 @@ PWOpen(prefix, mode)
->    	pdesc.header.pih_blocklen = NUMWORDS;
->    	pdesc.header.pih_numwords = 0;
->    
-> @@ -232,7 +245,7 @@ index 8f32d14..323ee83 100644
->        } else
->        {
->    	pdesc.flags &= ~PFOR_WRITE;
-> -@@ -173,6 +357,7 @@ PWOpen(prefix, mode)
-> +@@ -173,6 +360,7 @@ PWOpen(prefix, mode)
->    	    return ((PWDICT *) 0);
->    	}
->    
-> @@ -240,7 +253,7 @@ index 8f32d14..323ee83 100644
->            if ((pdesc.header.pih_magic == 0) || (pdesc.header.pih_numwords == 0))
->            {
->                /* uh-oh. either a broken "64-bit" file or a garbage file. */
-> -@@ -195,6 +380,7 @@ PWOpen(prefix, mode)
-> +@@ -195,6 +383,7 @@ PWOpen(prefix, mode)
->    		}
->                    return ((PWDICT *) 0);
->                }
-> @@ -248,7 +261,7 @@ index 8f32d14..323ee83 100644
->                if (pdesc64.header.pih_magic != PIH_MAGIC)
->                {
->                    /* nope, not "64-bit" after all */
-> -@@ -290,6 +476,7 @@ PWOpen(prefix, mode)
-> +@@ -290,6 +479,7 @@ PWOpen(prefix, mode)
->                    {
->                        pdesc.flags &= ~PFOR_USEHWMS;
->                    }
-> @@ -256,7 +269,7 @@ index 8f32d14..323ee83 100644
->                    for (i = 0; i < sizeof(pdesc.hwms) / sizeof(pdesc.hwms[0]); i++)
->                    {
->                        pdesc.hwms[i] = pdesc64.hwms[i];
-> -@@ -299,6 +486,7 @@ PWOpen(prefix, mode)
-> +@@ -299,6 +489,7 @@ PWOpen(prefix, mode)
->    	    {
->    		pdesc.flags &= ~PFOR_USEHWMS;
->    	    }
-> @@ -264,7 +277,7 @@ index 8f32d14..323ee83 100644
->    #if DEBUG
->                for (i=1; i<=0xff; i++)
->                {
-> -@@ -332,7 +520,11 @@ PWClose(pwp)
-> +@@ -332,7 +523,11 @@ PWClose(pwp)
->    	    return (-1);
->    	}
->    
-> @@ -277,7 +290,7 @@ index 8f32d14..323ee83 100644
->    	{
->    	    fprintf(stderr, "index magic fwrite failed\n");
->    	    return (-1);
-> -@@ -351,7 +543,12 @@ PWClose(pwp)
-> +@@ -351,7 +546,12 @@ PWClose(pwp)
->    	    	printf("hwm[%02x] = %d\n", i, pwp->hwms[i]);
->    #endif
->    	    }
-> @@ -291,32 +304,29 @@ index 8f32d14..323ee83 100644
->    	}
->        }
->    
-> -@@ -405,7 +602,8 @@ PutPW(pwp, string)
-> +@@ -405,7 +605,8 @@ PutPW(pwp, string)
->    
->    	datum = (uint32_t) ftell(pwp->dfp);
->    
->   -	fwrite((char *) &datum, sizeof(datum), 1, pwp->ifp);
-> -+	uint32_t tmpdatum = htobe32(datum);
-> ++	uint32_t tmpdatum = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_32(datum) : datum;
->   +	fwrite((char *) &tmpdatum, sizeof(tmpdatum), 1, pwp->ifp);
->    
->    	fputs(pwp->data_put[0], pwp->dfp);
->    	putc(0, pwp->dfp);
-> -@@ -473,6 +671,7 @@ GetPW(pwp, number)
-> +@@ -473,6 +674,7 @@ GetPW(pwp, number)
->               perror("(index fread failed)");
->               return ((char *) 0);
->           }
-> -+       datum64 =  be64toh(datum64);
-> ++       datum64 = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_64(datum64) : datum64;
->           datum = datum64;
->        } else {
->           if (fseek(pwp->ifp, sizeof(struct pi_header) + (thisblock * sizeof(uint32_t)), 0))
-> -@@ -486,6 +685,7 @@ GetPW(pwp, number)
-> +@@ -486,6 +688,7 @@ GetPW(pwp, number)
->               perror("(index fread failed)");
->               return ((char *) 0);
->           }
-> -+       datum = be32toh(datum);
-> ++       datum = (__BYTE_ORDER == __LITTLE_ENDIAN) ? bswap_32(datum) : datum;
->        }
->    
->    	int r = 1;
-> ---
-> -1.7.10.4
-> -
+
+So is there a conclusion regarding this issue? Should the wrapper be kepy
+as a bash shell script?
+
+Thanks,
+Bogdan
 
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+--089e0118413ea83bbe04ddae610a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Sun, May 12, 2013 at 10:32 AM, Richard Purdie <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><di=
+v class=3D"gmail_extra">
+
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"im"=
+>On Fri, 2013-05-10 at 12:00 +0100, Burton, Ross wrote:<br>
+&gt; On 10 May 2013 11:50, Phil Blundell &lt;<a href=3D"mailto:philb@bright=
+sign.biz">philb@brightsign.biz</a>&gt; wrote:<br>
+&gt; &gt; Or you could replace the shell wrapper that create_wrapper() curr=
+ently<br>
+&gt; &gt; generates with either a compiled binary or a Python script. =A0Th=
+at would<br>
+&gt; &gt; allow you to execl(&quot;/path/foo.real&quot;, &quot;foo&quot;, .=
+..), which I don&#39;t think<br>
+&gt; &gt; you can do in shell but which would avoid this whole class of pro=
+blem.<br>
+&gt;<br>
+&gt; Bash can do that, but it&#39;s not POSIX. :/<br>
+<br>
+</div>I&#39;m quite happy to have the wrapper as bash shell script. We only=
+ need<br>
+dash compatibility in things that get run under /bin/sh (i.e. bitbake<br>
+shell tasks).<br></blockquote><div><br></div><div style>So is there a concl=
+usion regarding this issue? Should the wrapper be kepy as a bash shell scri=
+pt?</div><div style><br></div><div style>Thanks,</div><div style>Bogdan</di=
+v>
+
+<div style>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br></div></div>
+
+--089e0118413ea83bbe04ddae610a--
