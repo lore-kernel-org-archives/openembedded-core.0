@@ -1,39 +1,35 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D8A6065B
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
+	[209.85.160.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A1D6081A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 14:03:44 +0000 (UTC)
-Received: by mail-la0-f49.google.com with SMTP id fp13so5782098lab.36
+	Mon, 27 May 2013 00:53:45 +0000 (UTC)
+Received: by mail-pb0-f47.google.com with SMTP id rr4so6198252pbb.20
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2013 07:03:45 -0700 (PDT)
+	Sun, 26 May 2013 17:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=MLdWIyAmsvUQWeLKaLto3cxr9DfCfBNYAKljFnXFQVw=;
-	b=gmYvPflTYSM4BoJNxvaP4BaWdfOPn21V6DZL+LO/ePVKFroaWdVJpnUlSLjlbcxiqJ
-	+8b3H13Db9S91FyD8E0Z1fFX5R4pqfKEsaAZR2QznGfXMs0rdyc1t29Dv1K+coa7OWsc
-	X1oSygHQBKLeS73YuDqjS3vHImjkT4f/JzmU5i3hOGqUrC4a4ohGFEMEwIH90195hDcn
-	DugXE26da9upthUYGP2i9jyEqiiP44FJ7BybSlXgNrjnTWMCwmwEuhtY7njWgkSVxpzp
-	kHaAS3b6VZLBW3nyY+zmTOK+SNJzkzah9ARwSjyM6WQwwJOVKANsxFicFWuN62h7P1hq
-	17Ng==
-X-Received: by 10.112.88.228 with SMTP id bj4mr12069439lbb.14.1369577025564;
-	Sun, 26 May 2013 07:03:45 -0700 (PDT)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPSA id f9sm9887165lbf.4.2013.05.26.07.03.44
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 26 May 2013 07:03:44 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1UgbXz-0000JZ-DP; Sun, 26 May 2013 17:03:43 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=12Xm/rpEGMlaCLHS6oFb7YwvPLj/n/2A9ug7XCtoiso=;
+	b=S0SxSX0fTO2l+HJOtj51DpJiPUY8qO8+rkm3oBzGa/fmfA5q1HMFu4I1MDlV3M2Y6f
+	niWrA3ToDSCu57L1SPBhrMK2AMWbeUAcT8bKrxzkrCrawdpmk39lEW0kjC3ycdBNQ1ro
+	zs8MQpTE9dCGUlP59EiBQxRWlYb+gCRjNEaJ2vLR0KwL77+Qpo/3L1KfKwWppmIl2O+0
+	+UvCzk4nEUH3zzw0Eu+4Ps9CWmZNM2E2so7Nj1KZ54M3gnDQCnMfQ7G7blNKsjbA6AAo
+	VY7jIk6+oX0tncW8DvhS31c5AcMRxgZbJY0eLUwEWhnGDASZAt3aoSWnTuEKyyRoGWq+
+	bJWA==
+X-Received: by 10.68.232.42 with SMTP id tl10mr27055075pbc.72.1369616026425;
+	Sun, 26 May 2013 17:53:46 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	zs12sm28125617pab.0.2013.05.26.17.53.44 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 26 May 2013 17:53:45 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2013 17:03:42 +0300
-Message-Id: <5e0683c21f43c105a484741110b6da590d5a33ea.1369576072.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1369576071.git.cazfi74@gmail.com>
-References: <cover.1369576071.git.cazfi74@gmail.com>
-Subject: [PATCH 1/1] vte: add 0.34.5 recipe
+Date: Mon, 27 May 2013 11:07:06 +1000
+Message-Id: <1369616826-7870-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] findutils: backport fixes for documentation build errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,91 +42,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2013 14:03:45 -0000
+X-List-Received-Date: Mon, 27 May 2013 00:53:46 -0000
 
-Add latest vte version for gtk3-based systems. Keep 0.28.2 as it's last
-gtk2-compatible version.
-
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../vte/vte-0.34.5/obsolete_automake_macros.patch        |   14 ++++++++++++++
- meta/recipes-support/vte/vte.inc                         |    4 +++-
- meta/recipes-support/vte/vte_0.28.2.bb                   |    6 ++++--
- meta/recipes-support/vte/vte_0.34.5.bb                   |   12 ++++++++++++
- 4 files changed, 33 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/vte/vte_0.34.5.bb
+ .../findutils-4.4.2/findutils_fix_doc.patch        | 50 ++++++++++++++++++++++
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_doc.patch
 
-diff --git a/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch b/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
+diff --git a/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_doc.patch b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_doc.patch
 new file mode 100644
-index 0000000..6763d37
+index 0000000..8469b8d
 --- /dev/null
-+++ b/meta/recipes-support/vte/vte-0.34.5/obsolete_automake_macros.patch
-@@ -0,0 +1,14 @@
-+Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=691545]
++++ b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_doc.patch
+@@ -0,0 +1,50 @@
++Fix documentation build errors
 +
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd vte-0.28.2/gnome-pty-helper/configure.in vte-0.28.2/gnome-pty-helper/configure.in
-+--- vte-0.28.2/gnome-pty-helper/configure.in	2010-07-15 20:08:44.000000000 +0300
-++++ vte-0.28.2/gnome-pty-helper/configure.in	2013-01-11 14:50:34.971027440 +0200
-+@@ -8,7 +8,6 @@
-+ AC_ISC_POSIX
-+ AC_PROG_CC
-+ AC_STDC_HEADERS
-+-AM_PROG_CC_STDC
++This fixes the following errors building the findutils documentation:
++find.texi:53: misplaced {
++find.texi:53: misplaced }
++find.texi:1862: warning: node `Formatting Flags' is next for `Time Directives' in menu but not in sectioning
++find.texi:1975: warning: node `Formatting Flags' is next for `Combined Time Formats' in sectioning but not in menu
++find.texi:2004: warning: node prev `Formatting Flags' in menu `Time Directives' and in sectioning `Combined Time Formats' differ
++find.texi:2004: warning: node up `Formatting Flags' in menu `Format Directives' and in sectioning `Time Formats' differ
++find.texi:1893: node `Time Formats' lacks menu item for `Formatting Flags' despite being its Up target
 +
-+ if test -z "$enable_maintainer_mode"; then
-+   enable_maintainer_mode=yes
-diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
-index b653fab..bc9736a 100644
---- a/meta/recipes-support/vte/vte.inc
-+++ b/meta/recipes-support/vte/vte.inc
-@@ -1,9 +1,11 @@
- DESCRIPTION = "vte is a virtual terminal emulator"
- BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
- LICENSE = "LGPLv2.1+"
--DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
-+DEPENDS = " glib-2.0 intltool-native ncurses gobject-introspection-stub"
- RDEPENDS_libvte = "vte-termcap"
++Upstream-Status: Backport
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++
++--- a/doc/find.texi
+++++ b/doc/find.texi
++@@ -50,7 +50,7 @@ Texts.  A copy of the license is included in the section entitled
++
++ @page
++ @vskip 0pt plus 1filll
++-@insertcopying{}
+++@insertcopying
++ @end titlepage
++
++ @contents
++@@ -1665,6 +1665,7 @@ no output is ever sent to it.
++ * Escapes::
++ * Format Directives::
++ * Time Formats::
+++* Formatting Flags::
++ @end menu
++
++ @node Escapes
++@@ -1733,7 +1734,6 @@ from the novel you are reading.
++ * Size Directives::
++ * Location Directives::
++ * Time Directives::
++-* Formatting Flags::
++ @end menu
++
++ @node Name Directives
++@@ -2002,7 +2002,7 @@ seconds field includes a fractional part.
++ @end table
++
++ @node Formatting Flags
++-@subsubsection Formatting Flags
+++@subsection Formatting Flags
++
++ The @samp{%m} and @samp{%d} directives support the @samp{#}, @samp{0}
++ and @samp{+} flags, but the other directives do not, even if they
+diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+index 3f49300..ee91945 100644
+--- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
++++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://01-27017.patch \
+             file://03-28872.patch \
+             file://findutils_fix_for_x32.patch \
+             file://findutils_fix_for_automake-1.12.patch \
++            file://findutils_fix_doc.patch \
+             "
  
-+GNOME_COMPRESS_TYPE = "xz"
-+
- inherit gnome gtk-doc
- 
- EXTRA_OECONF = "--disable-python --disable-introspection"
-diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
-index 485187d..caf7515 100644
---- a/meta/recipes-support/vte/vte_0.28.2.bb
-+++ b/meta/recipes-support/vte/vte_0.28.2.bb
-@@ -6,5 +6,7 @@ PR = "r6"
- 
- SRC_URI += "file://obsolete_automake_macros.patch"
- 
--SRC_URI[archive.md5sum] = "f07a4bf943194f94b7f142db8f7f36dc"
--SRC_URI[archive.sha256sum] = "8d04e202b617373dfb47689e5e628febe2c58840b34cccc4af4feb88c48df903"
-+SRC_URI[archive.md5sum] = "497f26e457308649e6ece32b3bb142ff"
-+SRC_URI[archive.sha256sum] = "86cf0b81aa023fa93ed415653d51c96767f20b2d7334c893caba71e42654b0ae"
-+
-+DEPENDS += "gtk+"
-diff --git a/meta/recipes-support/vte/vte_0.34.5.bb b/meta/recipes-support/vte/vte_0.34.5.bb
-new file mode 100644
-index 0000000..8707213
---- /dev/null
-+++ b/meta/recipes-support/vte/vte_0.34.5.bb
-@@ -0,0 +1,12 @@
-+require vte.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
-+
-+PR = "r0"
-+
-+SRC_URI += "file://obsolete_automake_macros.patch"
-+
-+SRC_URI[archive.md5sum] = "ce1f11568992df8e61c9366918fed571"
-+SRC_URI[archive.sha256sum] = "8847fb75b620a94ba62c2ffd9e1653396978106f294574ba24a19ced259a7351"
-+
-+DEPENDS += "gtk+3"
+ SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
 -- 
-1.7.10.4
+1.8.2.3
 
 
