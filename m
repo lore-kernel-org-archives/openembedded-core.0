@@ -1,40 +1,20 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id D3138621CA;
-	Mon, 27 May 2013 12:08:05 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id pb11so2915218veb.37
-	for <multiple recipients>; Mon, 27 May 2013 05:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=5vtY/q0PSbRf7dkjez7bdtnde4TgAYBhmZDRTO12zpM=;
-	b=o1bFWZjtAZLf9Irj4VO69CMF96i58b8xzRXyL1KyhzmUeAkx3joszokN8ngPz9o37i
-	reQbeJuHfOkrwkQeVhE3pN+XlK7sYs/y+cyyI4raM1OtYVY2EdoL+Khv57xarVfbGpmb
-	kGoSFqJt7vAsmKSMbUsXN7ITkK0d7gay30CI7USurpkcZ34UTbdRHZBwKVfgfPWDQIpD
-	p5ExlVIphRUwt/NSW7pQ1YYWLL5gjo4+wygpBtX8iOxh8r6M5XjCUoYl2Njd7ztCBH77
-	1qNMhRVhveRNyKQjMnLSm3gyxQ9iA2Hs55CTSlpejXslv+JTTu4n38S7XqhZ5iyWLVtv
-	RC3g==
-X-Received: by 10.220.3.144 with SMTP id 16mr2886370vcn.6.1369656486135; Mon,
-	27 May 2013 05:08:06 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.110.6 with HTTP; Mon, 27 May 2013 05:07:26 -0700 (PDT)
-In-Reply-To: <CABcZAN=kxmSiDUGxgz0CWgmsr=Biwo9PiLf-inDeBwJhCGpzmA@mail.gmail.com>
-References: <40EC58CA-E878-4F77-8E39-4F8D86F48E29@dominion.thruhere.net>
-	<1368650024.18324.102.camel@ted>
-	<CANyK_8c4t0Oy1p8sktO-rxMfc1CR+-gbkXYH1RzDSTRy6qQORQ@mail.gmail.com>
-	<CANyK_8cbVGMQkD7_KEd5KYTBxP+ZT5jY6VVVpdSAv_uY7JPY1w@mail.gmail.com>
-	<1369217654.6695.62.camel@phil-desktop.brightsign>
-	<CABcZAN=kxmSiDUGxgz0CWgmsr=Biwo9PiLf-inDeBwJhCGpzmA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 27 May 2013 13:07:26 +0100
-X-Google-Sender-Auth: V3WeZyqM7jG_jdR6LkcPO8q2A08
-Message-ID: <CANyK_8dhFHBQRsqyxbJH5MoBHYRLytkCE23f8wxsQ0vfSc3B3w@mail.gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Openembedded Discussion <openembedded-devel@lists.openembedded.org>
-Subject: Re: [oe] [RFC] Layers, PRINC and bbappends
+Return-Path: <bogdan.a.marinescu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 222DB621CA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 May 2013 12:20:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 May 2013 05:18:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,750,1363158000"; d="scan'208";a="320184246"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by orsmga001.jf.intel.com with ESMTP; 27 May 2013 05:20:06 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 May 2013 15:19:52 +0300
+Message-Id: <cover.1369657070.git.bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/3] multiple package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,59 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2013 12:08:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 27 May 2013 12:20:07 -0000
 
-On 23 May 2013 03:50, Chris Larson <clarson@kergoth.com> wrote:
-> On Wed, May 22, 2013 at 3:14 AM, Phil Blundell <pb@pbcl.net> wrote:
->>
->> On Wed, 2013-05-22 at 09:47 +0100, Paul Barker wrote:
->> > I've just sent a patch to the yocto@ list to fix this but it's brought
->> > up two things:
->> >
->> > 1) In openembedded-core/meta/classes/image.bbclass SPLASH is set with
->> > '?='. I'm overriding this with '=' in
->> > meta-raspberrypi/conf/machine/raspberrypi.conf which means it can't be
->> > overridden further in local.conf. Is this worth changing to '??=' in
->> > image.bbclass, '?=' in the machine conf so that it can be overridden
->> > with '=' in local.conf? Is my understanding of the overrides correct
->> > here?
->>
->> You can always override it from local.conf using a _forcevariable
->> override (which used to be named "_local", in fact, but that terminology
->> turned out to be a bit confusing), or a _MACHINE override of course.  So
->> I don't think there is any major problem here.
->>
->> But, that said, it probably is true that the semantics of ??= are less
->> surprising for users (since it isn't position-dependent in the way
->> that ?= is) which might make it a better choice for image.bbclass.
->
->
-> ??= is great in config files, but not ideal in classes that aren't globally
-> inherited. If bitbake.conf sets a ??=, and a distro .conf updates the
-> default by using ??= again, and then the class uses ??=, it'll replace the
-> latest default set by the config. So, I think for default values, classes
-> should use ?=, config files should use ??=.
+Upgrades for git, python-dbus and autogen-native.
 
-Lets leave this as it is then.
+The following changes since commit 676fd3f394a0c0576b63c77ed2184bf5f42c29b6:
 
-I've had no responses to the second point I made or feedback on my
-patch to meta-raspberrypi. I really think it's worth adding a
-documentation comment to the psplash recipe to explain the intended
-way to customise the splash image as the logic there isn't
-straightforward. My approach was to append the image to SPLASH_IMAGES
-in a bbappend and then set this as the default via the SPLASH variable
-in the machine config file for raspberrypi. I imagine it'd be a
-similar approach for setting a distro default. It then ensures that
-just including a machine or distro layer with a bbappend to psplash
-doesn't force it's image on the user unless they're building for that
-machine or distro. Is that the correct approach? If so I'm happy to
-submit a patch adding something to this effect as a documentation
-comment to the psplash recipe.
+  dropbear: a fix for hang in dropbearkey, built for x32 (2013-05-24 14:14:49 +0100)
 
---
-Paul Barker
+are available in the git repository at:
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+  git://git.yoctoproject.org/poky-contrib bogdanm/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bogdanm/work
+
+Bogdan Marinescu (3):
+  git: upgraded to 1.8.3
+  python-dbus: upgraded to 1.2.0
+  autogen-native: upgraded to 5.17.4
+
+ ...en-native_5.17.3.bb => autogen-native_5.17.4.bb} |    4 ++--
+ meta/recipes-devtools/autogen/files/guile.patch     |   19 +++++++++----------
+ .../git/{git_1.8.2.2.bb => git_1.8.3.bb}            |    4 ++--
+ .../obsolete_automake_macros.patch                  |   14 --------------
+ .../{python-dbus_1.1.1.bb => python-dbus_1.2.0.bb}  |    8 +++-----
+ 5 files changed, 16 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/autogen/{autogen-native_5.17.3.bb => autogen-native_5.17.4.bb} (90%)
+ rename meta/recipes-devtools/git/{git_1.8.2.2.bb => git_1.8.3.bb} (67%)
+ delete mode 100644 meta/recipes-devtools/python/python-dbus-1.1.1/obsolete_automake_macros.patch
+ rename meta/recipes-devtools/python/{python-dbus_1.1.1.bb => python-dbus_1.2.0.bb} (70%)
+
+-- 
+1.7.10.4
+
 
