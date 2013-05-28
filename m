@@ -1,39 +1,27 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E10FB61F27
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 35F696A413
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 16:25:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 May 2013 09:25:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,758,1363158000"; d="scan'208";a="344587159"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by fmsmga002.fm.intel.com with ESMTP; 28 May 2013 09:25:31 -0700
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.15]) by
-	ORSMSX106.amr.corp.intel.com ([169.254.5.62]) with mapi id
-	14.03.0123.003; Tue, 28 May 2013 09:25:31 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Eggleton, Paul" <paul.eggleton@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] dropbear: a fix for hang in dropbearkey,
-	built for x32
-Thread-Index: AQHOWArHnmb8Vl14IEW2FUq6o2S8AJkayukQgAB3ZAD//4z/AA==
-Date: Tue, 28 May 2013 16:25:30 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C70406D62@ORSMSX103.amr.corp.intel.com>
-References: <cover.1369324957.git.nitin.a.kamble@intel.com>
-	<f5d15445e6981c814b2726f916feb2ead0d3930c.1369324957.git.nitin.a.kamble@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C70406D1D@ORSMSX103.amr.corp.intel.com>
-	<2106642.Q9pyc3AhWP@helios>
-In-Reply-To: <2106642.Q9pyc3AhWP@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
-MIME-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>, "Wold,
-	Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH 1/1] dropbear: a fix for hang in dropbearkey, built for x32
+	Tue, 28 May 2013 16:28:37 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UhMlJ-0006tC-W2; Tue, 28 May 2013 18:28:38 +0200
+Message-ID: <1369758517.8846.20.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 28 May 2013 17:28:37 +0100
+In-Reply-To: <CAP9ODKpzC7hM54OQ3dBQ5fBs5D5Fo=vawo1xWWA_wLKY8cPv-w@mail.gmail.com>
+References: <1369753475-22573-1-git-send-email-otavio@ossystems.com.br>
+	<1369753938.8846.8.camel@phil-desktop.brightsign>
+	<CAP9ODKqkoXrrYSyQJzRxmDfBKnQWYMUoCV8dhRvHGm2Y-sXp7g@mail.gmail.com>
+	<1369755098.8846.16.camel@phil-desktop.brightsign>
+	<CAP9ODKpzC7hM54OQ3dBQ5fBs5D5Fo=vawo1xWWA_wLKY8cPv-w@mail.gmail.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base.bbclass: Add COMPATIBLE_DISTRO_FEATURES support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 16:25:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 May 2013 16:28:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Tue, 2013-05-28 at 13:08 -0300, Otavio Salvador wrote:
+
+> I dislike the 'required' my idea here was each item of the 'compat
+> distro features' would be as an OR. Like
+> 
+> 
+> COMPATIBLE_DISTRO_FEATURE = "x11 wayland"
+
+Oh, right, I see.  Sorry, I misunderstood the intent of your original
+patch.
+
+Well, then, how about making each item be a regex and having:
+
+REQUIRED_DISTRO_FEATURES = "x11|wayland qt|gtk"
+
+or some such?
+
+All that said, before spending too much more time debating the minutiae
+of this particular feature, I'd kind of like to get a better
+understanding of what problem it's actually solving.  How many recipes
+would actually need to use this mechanism and why?
+
+p.
 
 
-
-> -----Original Message-----
-> From: Eggleton, Paul
-> Sent: Tuesday, May 28, 2013 9:15 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Kamble, Nitin A; Openembedded-core@lists.openembedded.org;
-> Purdie, Richard; Wold, Saul
-> Subject: Re: [OE-core] [PATCH 1/1] dropbear: a fix for hang in dropbearke=
-y,
-> built for x32
->=20
-> On Tuesday 28 May 2013 16:10:33 Kamble, Nitin A wrote:
-> > Saul, RP,
-> >   FYI, this fix is still pending for oecore layer.
->=20
-> It has already been merged:
-Right, Thanks Paul for pointing it out. I missed rebasing my branch, and th=
-ought it is not in yet...
-
-Nitin
-
-
->=20
-> http://cgit.openembedded.org/openembedded-
-> core/commit/?id=3D8f5bc47729edb8cb051d81e9ff1680cb8d2eca25
->=20
-> > Paul,
-> >   This is for the 1.4.1 bug
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4496 . Once Saul or
-> > RP pulls it in master, you can pull it in 1.4.1 release branch.
->=20
-> OK; I have done this locally.
->=20
-> Cheers,
-> Paul
 
