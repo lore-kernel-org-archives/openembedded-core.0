@@ -1,31 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 49B676A428;
-	Tue, 28 May 2013 14:06:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4SEAeAS017112; Tue, 28 May 2013 15:10:40 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3ge9DGDo6jOe; Tue, 28 May 2013 15:10:40 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4SEAaw6017108
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 28 May 2013 15:10:37 +0100
-Message-ID: <1369749977.14887.165.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Mark Hatle
-	<mark.hatle@windriver.com>
-Date: Tue, 28 May 2013 15:06:17 +0100
-In-Reply-To: <20130528134606.GJ3192@jama>
-References: <20130528132841.A450B5039B@opal> <20130528134606.GJ3192@jama>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Mark Hatle : base.bbclass: Deprecate the PRINC logic
+Return-Path: <bogdan.a.marinescu@intel.com>
+Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
+	[209.85.219.47])
+	by mail.openembedded.org (Postfix) with ESMTP id EB8FF6A57F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 14:14:27 +0000 (UTC)
+Received: by mail-oa0-f47.google.com with SMTP id m1so10160459oag.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 07:14:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=NCbbGs9U9hegk5aUUW6CUwzHmsPg6SyE/T2A0dT11iY=;
+	b=B/WGmixj6Ijg66+EK9FulMW6OZdizd+zfvRCImZRR71I1QMIliUQQn6TVRJ9iK+P9e
+	hfmeLuxgr0O7XERD3oiiVCapCZfTEL0H1UPS5iKHnokUzM8jxbFjxHOz1zOfIgGiXgav
+	m9rxz+CrhS6jOangigROiEb0uBXzLIhhx8Iz1qIMK5i4fXAbF7opsHyKDjEv3oBldAFn
+	7lqAm58rz0c2Sbw7/eglsTnCJESZGhrOQeD6/iGtpZ+BQQC0iKL8Rm9CAPgnyUd+1kNh
+	jXMHHWS0wz+ng16xtEtZetmwRKeYwjEX6uJHrscINKUZpLnJU4361S3aeY7to25wKnuu
+	zkwg==
+X-Received: by 10.60.59.37 with SMTP id w5mr3272185oeq.7.1369750468646; Tue,
+	28 May 2013 07:14:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.225.230 with HTTP; Tue, 28 May 2013 07:14:08 -0700 (PDT)
+In-Reply-To: <CAJTo0Laer3rQPAA3mBt9qr6K3QVazfOvafAWHEMQosVT0SXrOA@mail.gmail.com>
+References: <1369220223-28298-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<1369220302.6695.72.camel@phil-desktop.brightsign>
+	<CAJTo0LYC2Xa=31R=eCACZDFJkWT8NBSmHVkQnL+x7jausCkDbw@mail.gmail.com>
+	<1369227075.6695.89.camel@phil-desktop.brightsign>
+	<CAJTo0Laer3rQPAA3mBt9qr6K3QVazfOvafAWHEMQosVT0SXrOA@mail.gmail.com>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Tue, 28 May 2013 17:14:08 +0300
+Message-ID: <CAMZjud39jnVQwMShEzn33EAs_VyxM-BESBLhyyp_vZj+T8M+4A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmm6sJAsasTrpytPfwXfRJ8RVd7w2CKXjSZ9DBWup5BgVYYj4MNd5qVQvgRx7P2itjvnSMV
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,61 +48,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 14:06:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 May 2013 14:14:28 -0000
+Content-Type: multipart/alternative; boundary=089e0149d1861d6f0104ddc7e212
 
-On Tue, 2013-05-28 at 15:46 +0200, Martin Jansa wrote:
-> On Tue, May 28, 2013 at 01:28:41PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master-next
-> > Commit: e1cf564ebc8e7b4fa626a645356f6a4d7f5ba064
-> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=e1cf564ebc8e7b4fa626a645356f6a4d7f5ba064
-> > 
-> > Author: Mark Hatle <mark.hatle@windriver.com>
-> > Date:   Tue May 21 13:29:03 2013 -0500
-> > 
-> > base.bbclass: Deprecate the PRINC logic
-> > 
-> > The PRINC logic is now deprecated, the PR server should be used to handle
-> > the automatic incrementing of the PR (package release) field.  The default
-> > setting of '0' has been removed, and a warning message has been added.
-> 
-> How are people supposed to remove existing PRINC without causing version
-> going backwards?
-> 
-> Do I have to choose between seeing 100 warnings about deprecated PRINC
-> or 100 ERRORs from buildhistory about versions going backwards?
+--089e0149d1861d6f0104ddc7e212
+Content-Type: text/plain; charset=ISO-8859-1
 
-Sorry, this is coming out a bit backwards.
+On Wed, May 22, 2013 at 4:41 PM, Burton, Ross <ross.burton@intel.com> wrote:
 
-At the TSC meeting, we discussed ways of progressing with removal of
-PRINC as it is causing pain and we shouldn't need it any more. We were
-wondering if we could have the system warn on usage of PRINC, then
-accept PR bumps to the main recipe at the same time that the usage of
-PRINC was removed (taking PR bumps and removing PRINC seems to be the
-only way to proceed). Initially I wondered if we could make it a hard
-error, which would then force the PR bump to be in sync with the
-removal. People are justifiably concerned at the idea of hard errors
-though.
+> On 22 May 2013 13:51, Phil Blundell <pb@pbcl.net> wrote:
+> > I had thought we had virtual-gconv-ENCODING providers but apparently
+> > that's not the case.  So I think the answer at the moment is probably
+> > no.  I guess we should add something like that.
+>
+> Agreed.  Filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=4530.
+>
 
-Mark sent me a patch, I thought it was an RFC on the list and applied it
-to master-next to experiment with. It wasn't send to the list, I'm not
-sure what Mark's intention was, its possible I was supposed to raise the
-subject, then post the patch.
+So, if I understand correctly, this bug depends on the fix for #4530
+(because the patch that I've sent isn't generic enough) ?
 
-Anyhow, as you point out, the patch has a couple of issues. We need to
-put back the default value into local.conf for now at the very least so
-this warns, rather than gives an obtuse error. Its not going into master
-until there is more discussion.
-
-So lets reset here, Mark will post the RFC patch and we can discuss
-whether there is a way we can get rid of the PRINC usage without causing
-people too many problems. Sorry for the confusion caused :/.
-
-Cheers,
-
-Richard
+Thanks,
+Bogdan
 
 
+>
+> Ross
+> ---------------------------------------------------------------------
+> Intel Corporation (UK) Limited
+> Registered No. 1134945 (England)
+> Registered Office: Pipers Way, Swindon SN3 1RJ
+> VAT No: 860 2173 47
+>
+> This e-mail and any attachments may contain confidential material for
+> the sole use of the intended recipient(s). Any review or distribution
+> by others is strictly prohibited. If you are not the intended
+> recipient, please contact the sender and delete all copies.
+>
 
+--089e0149d1861d6f0104ddc7e212
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Wed, May 22, 2013 at 4:41 PM, Burton, Ross <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.b=
+urton@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_quote">
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div class=3D"im">On 22 May 2013 13:51, Phil Blundell &lt;=
+<a href=3D"mailto:pb@pbcl.net">pb@pbcl.net</a>&gt; wrote:<br>
+
+
+&gt; I had thought we had virtual-gconv-ENCODING providers but apparently<b=
+r>
+&gt; that&#39;s not the case. =A0So I think the answer at the moment is pro=
+bably<br>
+&gt; no. =A0I guess we should add something like that.<br>
+<br>
+</div>Agreed. =A0Filed <a href=3D"https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D4530" target=3D"_blank">https://bugzilla.yoctoproject.org/show_b=
+ug.cgi?id=3D4530</a>.<br></blockquote><div><br></div><div>So, if I understa=
+nd correctly, this bug depends on the fix for #4530 (because the patch that=
+ I&#39;ve sent isn&#39;t generic enough) ?</div>
+
+<div><br></div><div>Thanks,</div><div>Bogdan</div><div>=A0=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-l=
+eft:1ex">
+
+
+<div class=3D""><div class=3D"h5"><br>
+Ross<br>
+---------------------------------------------------------------------<br>
+Intel Corporation (UK) Limited<br>
+Registered No. 1134945 (England)<br>
+Registered Office: Pipers Way, Swindon SN3 1RJ<br>
+VAT No: 860 2173 47<br>
+<br>
+This e-mail and any attachments may contain confidential material for<br>
+the sole use of the intended recipient(s). Any review or distribution<br>
+by others is strictly prohibited. If you are not the intended<br>
+recipient, please contact the sender and delete all copies.<br>
+</div></div></blockquote></div><br></div></div>
+
+--089e0149d1861d6f0104ddc7e212--
