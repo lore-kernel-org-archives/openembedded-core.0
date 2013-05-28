@@ -1,25 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 07FC76A498
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E83576A537
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 13:03:23 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 28 May 2013 06:03:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,758,1363158000"; d="scan'208";a="247634787"
-Received: from unknown (HELO [10.255.12.146]) ([10.255.12.146])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 May 2013 06:03:20 -0700
-Message-ID: <51A4AB07.4070904@linux.intel.com>
-Date: Tue, 28 May 2013 22:03:03 +0900
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue, 28 May 2013 13:13:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4SDDoVx016245
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 06:13:50 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.146) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 28 May 2013 06:13:49 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 May 2013 21:13:47 +0800
+Message-ID: <cover.1369654710.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>
-References: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1369296115-20823-1-git-send-email-ming.liu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpam: fix multilib packaging issue for pam-plugins
+Subject: [PATCH 0/1]python-scons-native: fix invoking scons failed on Fedora-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,91 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 13:03:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 May 2013 13:13:49 -0000
+Content-Type: text/plain
 
-On 05/23/2013 05:01 PM, Ming Liu wrote:
-> libpam might miss ABI specific dependencies for pam-plugins-*, for RPM uses
-> generic names to check the packages depending on it and doesn't consider the
-> arch, which will lead to packaging issues in multilib build.
->
-> pam_plugin_hook is added because the plugin packages are dynamically
-> generated, so we need to manually process multilib names by add baselib to
-> RPROVIDES/RDEPENDS as ABI specific tag.
->
-There seems to still be an issue with multilib
+The following changes since commit 350c36fcd97e8ef223b91e548d39c346c1c4cb29:
 
->
-> | Computing transaction...error: Can't install pam-plugin-unix-1.1.6-r2@lib64_x86_64: no package provides libpam-lib64
-> |
-> | Saving cache...
+  bitbake: test/fetch: Allow the conditional network tests to work under python 2.6 (2013-05-17 12:42:08 +0300)
 
-this is from the Autobuilder:
+are available in the git repository at:
 
-http://autobuilder.yoctoproject.org:8011/builders/nightly-multilib/builds/151/steps/Building%20Images_4/logs/stdio
+  git://git.pokylinux.org/poky-contrib hongxu/fix-scons
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-scons
 
-Sau!
+Hongxu Jia (1):
+  python-scons-native: fix invoking scons failed on Fedora-17
 
-> [YOCTO #4532]
-> [ CQID: WIND00416824 ]
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->   meta/recipes-extended/pam/libpam_1.1.6.bb | 29 +++++++++++++++++++++++++----
->   1 file changed, 25 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> index c355634..289f134 100644
-> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> @@ -51,9 +51,12 @@ FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
->
->   PACKAGES_DYNAMIC += "^pam-plugin-.*"
->
-> -RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-> -RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory pam-plugin-succeed-if pam-plugin-time coreutils"
-> -RRECOMMENDS_${PN} = "libpam-runtime"
-> +RPROVIDES_${PN} += "libpam-${baselib}"
-> +RPROVIDES_${PN}-runtime += "libpam-runtime-${baselib}"
-> +
-> +RDEPENDS_${PN}-runtime = "libpam-${baselib} pam-plugin-deny-${baselib} pam-plugin-permit-${baselib} pam-plugin-warn-${baselib} pam-plugin-unix-${baselib}"
-> +RDEPENDS_${PN}-xtests = "libpam-${baselib} pam-plugin-access-${baselib} pam-plugin-debug-${baselib} pam-plugin-cracklib-${baselib} pam-plugin-pwhistory-${baselib} pam-plugin-succeed-if-${baselib} pam-plugin-time-${baselib} coreutils"
-> +RRECOMMENDS_${PN} = "libpam-runtime-${baselib}"
->
->   python populate_packages_prepend () {
->       def pam_plugin_append_file(pn, dir, file):
-> @@ -63,12 +66,30 @@ python populate_packages_prepend () {
->               nf = of + " " + nf
->           d.setVar('FILES_' + pn, nf)
->
-> +    def pam_plugin_hook(file, pkg, pattern, format, basename):
-> +        baselib = d.getVar('baselib', True)
-> +        mlprefix = d.getVar('MLPREFIX', True) or ''
-> +
-> +        rdeps = d.getVar('RDEPENDS_' + pkg, True)
-> +        if rdeps:
-> +            rdeps = rdeps + " " + mlprefix + "libpam-" + baselib
-> +        else:
-> +            rdeps = mlprefix + "libpam-" + baselib
-> +        d.setVar('RDEPENDS_' + pkg, rdeps)
-> +
-> +        provides = d.getVar('RPROVIDES_' + pkg, True)
-> +        if provides:
-> +            provides = provides + " " + pkg + "-" + baselib
-> +        else:
-> +            provides = pkg + "-" + baselib
-> +        d.setVar('RPROVIDES_' + pkg, provides)
-> +
->       dvar = bb.data.expand('${WORKDIR}/package', d, True)
->       pam_libdir = d.expand('${base_libdir}/security')
->       pam_sbindir = d.expand('${sbindir}')
->       pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
->
-> -    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', extra_depends='')
-> +    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
->       mlprefix = d.getVar('MLPREFIX', True) or ''
->       pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_chkpwd')
->       pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_update')
->
+ meta/recipes-devtools/python/python-scons-native_2.3.0.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+1.7.10.4
+
 
