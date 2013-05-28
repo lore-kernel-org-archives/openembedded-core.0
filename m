@@ -1,20 +1,46 @@
-Return-Path: <andrei.adrianx.dinu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 578256A49F
+Return-Path: <B19537@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0188.outbound.messaging.microsoft.com [213.199.154.188])
+	by mail.openembedded.org (Postfix) with ESMTP id B2A206A507
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 08:59:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 28 May 2013 01:59:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,756,1363158000"; d="scan'208";a="341212584"
-Received: from adinu-vostro-460.rb.intel.com ([10.237.105.40])
-	by fmsmga001.fm.intel.com with ESMTP; 28 May 2013 01:59:02 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2013 11:59:38 +0300
-Message-Id: <1369731579-13048-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	Tue, 28 May 2013 09:00:56 +0000 (UTC)
+Received: from mail64-db8-R.bigfish.com (10.174.8.240) by
+	DB8EHSOBE036.bigfish.com (10.174.4.99) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 28 May 2013 09:00:56 +0000
+Received: from mail64-db8 (localhost [127.0.0.1])	by mail64-db8-R.bigfish.com
+	(Postfix) with ESMTP id A6B40B006A6	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 09:00:56 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz709fIzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1155h)
+Received: from mail64-db8 (localhost.localdomain [127.0.0.1]) by mail64-db8
+	(MessageSwitch) id 1369731654110416_20037;
+	Tue, 28 May 2013 09:00:54 +0000 (UTC)
+Received: from DB8EHSMHS026.bigfish.com (unknown [10.174.8.241])	by
+	mail64-db8.bigfish.com (Postfix) with ESMTP id 1932C540050	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 09:00:54 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS026.bigfish.com
+	(10.174.4.36) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 28 May 2013 09:00:52 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 28 May 2013 09:01:46 +0000
+Received: from b19537-desktop.ap.freescale.net
+	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r4S90lrU015779;
+	Tue, 28 May 2013 02:00:48 -0700
+From: Zhenhua Luo <zhenhua.luo@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 May 2013 17:06:24 +0800
+Message-ID: <1369731984-16835-1-git-send-email-zhenhua.luo@freescale.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] Replaced "stty sane" with saved stty settings
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Zhenhua Luo <zhenhua.luo@freescale.com>, b40527@freescale.com
+Subject: [PATCH] apr: fix configure issue for ppc64 targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,61 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 08:59:17 -0000
+X-List-Received-Date: Tue, 28 May 2013 09:00:57 -0000
+Content-Type: text/plain
 
-stty manual says :
+Fix following error of apr configure for powerpc64 targets:
+| configure:27173: checking whether TCP_NODELAY and TCP_CORK can both be enabled
+| configure:27179: error: in `/home/yocto/workspace/sdk-devel/build_p5020ds-64b_release/tmp/work/ppc64e5500-fsl-linux/apr/1.4.6-r2/apr-1.4.6':
+| configure:27181: error: cannot run test program while cross compiling
 
-"sane - Resets all modes to reasonable values for interactive terminal use."
-
-But reasonable isn't the most viable solution, because we want to keep the
-original stty settings before running runqemu. Saving the stty settings and
-setting them at the end of the runqemu script solves the terminal
-settings differences after the script ran.
-
-[Yocto #4512]
-
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
 ---
- scripts/runqemu-internal |   11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-support/apr/apr_1.4.6.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index d4825d1..4f3ba7b 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -104,6 +104,9 @@ fi
+diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
+index 77dffee..a89d25e 100644
+--- a/meta/recipes-support/apr/apr_1.4.6.bb
++++ b/meta/recipes-support/apr/apr_1.4.6.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
  
- NFSRUNNING="false"
+ BBCLASSEXTEND = "native"
  
-+#capture original stty values
-+ORIG_STTY=$(stty -g)
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://configure_fixes.patch \
+@@ -23,6 +23,8 @@ inherit autotools lib_package binconfig multilib_header
+ 
+ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
+ 
++EXTRA_OECONF_powerpc64 += "apr_cv_tcp_nodelay_with_cork=yes"
 +
- if [ "$SLIRP_ENABLED" = "yes" ]; then
-     KERNEL_NETWORK_CMD=""
-     QEMU_TAP_CMD=""
-@@ -221,7 +224,11 @@ else
-             fi
-             # If QEMU crashes or somehow tty properties are not restored
-             # after qemu exits, we need to run stty sane
--            stty sane
-+            #stty sane
-+
-+            #instead of using stty sane we set the original stty values
-+            stty ${ORIG_STTY}
-+
-         }
- 
- 
-@@ -589,6 +596,8 @@ if [ "$SLIRP_ENABLED" != "yes" ]; then
-         cleanup
- fi
- 
-+#set the original stty values before exit
-+stty ${ORIG_STTY}
- trap - INT TERM QUIT
- 
- return $ret
+ do_configure_prepend() {
+ 	cd ${S}
+ 	./buildconf
 -- 
 1.7.9.5
+
 
 
