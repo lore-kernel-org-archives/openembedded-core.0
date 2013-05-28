@@ -1,50 +1,24 @@
-Return-Path: <B19537@freescale.com>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0186.outbound.messaging.microsoft.com [213.199.154.186])
-	by mail.openembedded.org (Postfix) with ESMTP id 226AA6A413
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 65F626A529
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 09:49:46 +0000 (UTC)
-Received: from mail80-db8-R.bigfish.com (10.174.8.238) by
-	DB8EHSOBE005.bigfish.com (10.174.4.68) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 28 May 2013 09:49:46 +0000
-Received: from mail80-db8 (localhost [127.0.0.1])	by mail80-db8-R.bigfish.com
-	(Postfix) with ESMTP id 5AC8E240212	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 09:49:46 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz709fI9371I542I1432Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fhbe9i1155h)
-Received: from mail80-db8 (localhost.localdomain [127.0.0.1]) by mail80-db8
-	(MessageSwitch) id 136973458478527_24891;
-	Tue, 28 May 2013 09:49:44 +0000 (UTC)
-Received: from DB8EHSMHS006.bigfish.com (unknown [10.174.8.230])	by
-	mail80-db8.bigfish.com (Postfix) with ESMTP id 105DCAC004B	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 09:49:44 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS006.bigfish.com
-	(10.174.4.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 28 May 2013 09:49:39 +0000
-Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0328.011; Tue, 28 May 2013 09:50:33 +0000
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-core][PATCH] apr: fix configure issue for ppc64 targets
-Thread-Index: AQHOW4H7F5sON8j63kmCsqVTZ2LhI5kaWdxQ
-Date: Tue, 28 May 2013 09:49:18 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A01575DFA@039-SN2MPN1-021.039d.mgd.msft.net>
-References: <1369731984-16835-1-git-send-email-zhenhua.luo@freescale.com>
-In-Reply-To: <1369731984-16835-1-git-send-email-zhenhua.luo@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.134]
+	Tue, 28 May 2013 10:03:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 May 2013 03:00:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,757,1363158000"; d="scan'208";a="320651343"
+Received: from unknown (HELO helios.localnet) ([10.255.12.250])
+	by orsmga001.jf.intel.com with ESMTP; 28 May 2013 03:02:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 May 2013 11:02:33 +0100
+Message-ID: <1876342.IDW41su17Y@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-22-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <1369729792-19019-1-git-send-email-net147@gmail.com>
+References: <1369729792-19019-1-git-send-email-net147@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Yu Zongchun-B40527 <B40527@freescale.com>
-Subject: Re: [PATCH] apr: fix configure issue for ppc64 targets
+Subject: Re: [PATCH] qt4: fix path to demos documentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 09:49:46 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 28 May 2013 10:03:00 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Please ignore this patch.=20
-
-Another patch has been sent out to fix the same issue. http://patches.opene=
-mbedded.org/patch/50617/
-
-
-Best Regards,
-
-Zhenhua
-
-
-> -----Original Message-----
-> From: Luo Zhenhua-B19537
-> Sent: Tuesday, May 28, 2013 5:06 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Liu Ting-B28495; Guo Chunrong-B40290; Yu Zongchun-B40527; Luo
-> Zhenhua-B19537
-> Subject: [oe-core][PATCH] apr: fix configure issue for ppc64 targets
->=20
-> Fix following error of apr configure for powerpc64 targets:
-> | configure:27173: checking whether TCP_NODELAY and TCP_CORK can both be
-> | enabled
-> | configure:27179: error: in `/home/yocto/workspace/sdk-
-> devel/build_p5020ds-64b_release/tmp/work/ppc64e5500-fsl-linux/apr/1.4.6-
-> r2/apr-1.4.6':
-> | configure:27181: error: cannot run test program while cross compiling
->=20
-> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+On Tuesday 28 May 2013 18:29:52 Jonathan Liu wrote:
+> The qt4-demos-doc package is not created when building qt4-x11-free
+> because ${docdir}/qtopia/qch/qt.qch doesn't exist.
+> 
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
 > ---
->  meta/recipes-support/apr/apr_1.4.6.bb |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-
-> support/apr/apr_1.4.6.bb
-> index 77dffee..a89d25e 100644
-> --- a/meta/recipes-support/apr/apr_1.4.6.bb
-> +++ b/meta/recipes-support/apr/apr_1.4.6.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSE;md5=3D0c35ff3c4c83b89d2f076e315caac28b \
->=20
->  BBCLASSEXTEND =3D "native"
->=20
-> -PR =3D "r2"
-> +PR =3D "r3"
->=20
->  SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
->             file://configure_fixes.patch \ @@ -23,6 +23,8 @@ inherit
-> autotools lib_package binconfig multilib_header
->=20
->  OE_BINCONFIG_EXTRA_MANGLE =3D " -e
-> 's:location=3Dsource:location=3Dinstalled:'"
->=20
-> +EXTRA_OECONF_powerpc64 +=3D "apr_cv_tcp_nodelay_with_cork=3Dyes"
-> +
->  do_configure_prepend() {
->  	cd ${S}
->  	./buildconf
-> --
-> 1.7.9.5
+>  meta/recipes-qt/qt4/qt4.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+> index 84c0ae9..828e30a 100644
+> --- a/meta/recipes-qt/qt4/qt4.inc
+> +++ b/meta/recipes-qt/qt4/qt4.inc
+> @@ -130,7 +130,7 @@ ALLOW_EMPTY_${PN} = "1"
+>  FILES_${PN}     = ""
+>  FILES_${PN}-dev = "${includedir}/${QT_DIR_NAME}/Qt/*"
+>  FILES_${PN}-dbg = "/usr/src/debug/"
+> -FILES_${QT_BASE_NAME}-demos-doc = "${docdir}/qtopia/qch/qt.qch"
+> +FILES_${QT_BASE_NAME}-demos-doc = "${docdir}/${QT_DIR_NAME}/qch/qt.qch"
+>  RRECOMMENDS_${PN} = "${LIB_PACKAGES} ${OTHER_PACKAGES}"
+>  RRECOMMENDS_${PN}-dev = "${DEV_PACKAGES}"
+>  RRECOMMENDS_${PN}-dbg = "${DBG_PACKAGES}"
 
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
