@@ -1,25 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E0CE6A362
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 68D4D6A4EF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 05:39:21 +0000 (UTC)
+	Tue, 28 May 2013 05:39:22 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4S5dLQo007147
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4S5dNT1010935
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2013 22:39:21 -0700 (PDT)
+	Mon, 27 May 2013 22:39:23 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 27 May 2013 22:39:21 -0700
+	14.2.342.3; Mon, 27 May 2013 22:39:22 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 May 2013 13:39:37 +0800
-Message-ID: <cover.1369719531.git.Qi.Chen@windriver.com>
+Date: Tue, 28 May 2013 13:39:38 +0800
+Message-ID: <1b7f03b5de1290adcf9c4356dcf7d840291c048a.1369719531.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1369719531.git.Qi.Chen@windriver.com>
+References: <cover.1369719531.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: qingtao.cao@windriver.com
-Subject: [PATCH 0/2] switch to using busybox instead of tinylogin
+Subject: [PATCH 1/2] packagegroup-core-boot: use busybox as the default login manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 05:39:21 -0000
+X-List-Received-Date: Tue, 28 May 2013 05:39:23 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit 21089515bd18ba18e86ec8f72ff8141b9fb1dea8:
+tinylogin has been deprecated and the functionality ported into busybox.
+So we switch to using busybox instead of tinylogin.
 
-  ref-manual: Added xmlto and dblatex packages for docs (2013-05-22 17:23:41 +0100)
+[YOCTO #4207]
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/tinylogin-busybox
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/tinylogin-busybox
-
-Chen Qi (2):
-  packagegroup-core-boot: use busybox as the default login manager
-  busybox: enable login/password commands by default
-
- meta/recipes-core/busybox/busybox-1.20.2/defconfig |   26 ++++++++++----------
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  .../packagegroups/packagegroup-core-boot.bb        |    2 +-
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 9306a34..d69c41d 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -25,7 +25,7 @@ RCONFLICTS_${PN} = "task-core-boot"
+ 
+ # Distro can override the following VIRTUAL-RUNTIME providers:
+ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+-VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
++VIRTUAL-RUNTIME_login_manager ?= "busybox"
+ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
 -- 
 1.7.9.5
 
