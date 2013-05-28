@@ -1,43 +1,42 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B87F61F27
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 596766A450
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 16:39:27 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id j6so10397709oag.32
+	Tue, 28 May 2013 16:49:41 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id wy17so8009427pbc.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 09:39:27 -0700 (PDT)
+	Tue, 28 May 2013 09:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=6IxpULDd5j+15OixI2MtdzUCOFvwNBWVCmrn08dihNY=;
-	b=f9TY5+CTY187eDZe/mRZ90Krn6+33RNGsar5BvIBvWWujQv3QR+sTXODujjBp3dl7Y
-	41ajyS8QwiizLlwKUkrQ0R6venpM/Pr6QFzUbhCOZtv8Bz1yiaT1msWSE0QQCeQhEm6K
-	5xVxXr/+dbV/95PhzKQYH9ls1SSbkpmuj969/fDog+6B7ifpV6HG7swm2wcL7ULfmJic
-	P+qfhnBJc/4RXCBSbUaMiTuaSWbnCy8MuWaxaob+ElZ3MK4QbrQSu/bzaypfBObn6WAR
-	CgtThxOB6/1p7VipJ/aeSAwqxqo8QbbCjB1diUtKLPkH/Q8gtBCtgRipJ0lrsjD+9fk0
-	mQvQ==
-MIME-Version: 1.0
-X-Received: by 10.182.39.226 with SMTP id s2mr21352728obk.46.1369759167501;
-	Tue, 28 May 2013 09:39:27 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Tue, 28 May 2013 09:39:27 -0700 (PDT)
-In-Reply-To: <1369758977.8846.21.camel@phil-desktop.brightsign>
-References: <1369753475-22573-1-git-send-email-otavio@ossystems.com.br>
-	<1369753938.8846.8.camel@phil-desktop.brightsign>
-	<CAP9ODKqkoXrrYSyQJzRxmDfBKnQWYMUoCV8dhRvHGm2Y-sXp7g@mail.gmail.com>
-	<1369755098.8846.16.camel@phil-desktop.brightsign>
-	<CAP9ODKpzC7hM54OQ3dBQ5fBs5D5Fo=vawo1xWWA_wLKY8cPv-w@mail.gmail.com>
-	<1369758517.8846.20.camel@phil-desktop.brightsign>
-	<CAP9ODKp_DwsLazRcsidwiwsLNZAsrv1PZ7Rou8FM1StmygUxzw@mail.gmail.com>
-	<1369758977.8846.21.camel@phil-desktop.brightsign>
-Date: Tue, 28 May 2013 13:39:27 -0300
-X-Google-Sender-Auth: bvAqozVWP_oy8pvKy-uEswvlZx8
-Message-ID: <CAP9ODKo6JxtOO+zxyFNpJ+Zr7wcgD+0X-8RpbuX4Nx4=aFE1sw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: Add COMPATIBLE_DISTRO_FEATURES support
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=yLxiuE5tfs0uH4L9/eztTaITaYx6ZBMeUR9jesK4l0I=;
+	b=umQXwNEt3/iAQnLc2xn79sdY8iT1HVtJaPIYrMaXyGBwmf8W7zfE7grE8TUZKNggMJ
+	nzuxR8czkTUkZ33CcEv7LZ+bRjkYU+5ciA7IgkY3uAuvcKiIrwXgxyULMiwCfnUtQDZF
+	48EH/jPaxpr/Ej4RkofY7lkFbQns+2XZwsVvMYmuwwXSDGNg8PHNi5k9zGyJruqaHHH0
+	J9j+A7ajKM02iUpMu6ie2G5ua27GyxKCCxR8XMOmpeIHByD+O1Y+EI2aWRL3Thm3QxHv
+	QfhpLCEa1ca1UM8elWMz9XbhfU3fyJAiH9YlK2+NPGFItKP+E9clo8PlsnU3wcvzVe0C
+	TVBw==
+X-Received: by 10.66.164.161 with SMTP id yr1mr35115582pab.77.1369759782663;
+	Tue, 28 May 2013 09:49:42 -0700 (PDT)
+Received: from sa-nc-common3-43.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id l16sm5160521pag.22.2013.05.28.09.49.41
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 28 May 2013 09:49:41 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51A4B77E.7070906@linaro.org>
+Date: Tue, 28 May 2013 09:49:40 -0700
+Message-Id: <62850F83-2155-4191-A292-8C01CF6E52E6@gmail.com>
+References: <1369665656-20275-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<CCC27A1E-27F7-4D70-B7A5-30F2118D3D0C@gmail.com>
+	<51A4B77E.7070906@linaro.org>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc 4.8: use /lib/ for AArch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,60 +49,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 16:39:27 -0000
-Content-Type: multipart/alternative; boundary=001a11c2faec9ba94804ddc9e809
-
---001a11c2faec9ba94804ddc9e809
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Tue, May 28, 2013 at 1:36 PM, Phil Blundell <pb@pbcl.net> wrote:
-
-> On Tue, 2013-05-28 at 13:33 -0300, Otavio Salvador wrote:
->
-> > In meta-fsl-arm, for now, it'll be 4 (gpu-viv-bin, gpu-viv-wl-bin,
-> > amd-gpu-bin and amd-gpu-x11-bin) but I think other layers has same
-> > need.
->
-> Can you explain why those recipes need this feature?
->
-
-gpu-viv and gpu-viv-wl provide support for Vivante GPU.
-
-gpu-viv: x11
-gpu-viv-wl: wayland
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
---001a11c2faec9ba94804ddc9e809
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Tue, 28 May 2013 16:49:42 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Tue, May 28, 2013 at 1:36 PM, Phil Blundell <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</spa=
-n> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Tue, 2013-05-28 at 13:3=
-3 -0300, Otavio Salvador wrote:<br>
-<br>
-&gt; In meta-fsl-arm, for now, it&#39;ll be 4 (gpu-viv-bin, gpu-viv-wl-bin,=
-<br>
-&gt; amd-gpu-bin and amd-gpu-x11-bin) but I think other layers has same<br>
-&gt; need.<br>
-<br>
-</div>Can you explain why those recipes need this feature?<br></blockquote>=
-<div><br></div><div style>gpu-viv and gpu-viv-wl provide support for Vivant=
-e GPU.</div><div style><br></div><div style>gpu-viv: x11</div><div style>
-gpu-viv-wl: wayland</div><div style>=A0</div></div>-- <br>Otavio Salvador =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a =
-href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems=
-.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" tar=
-get=3D"_blank">http://projetos.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
 
---001a11c2faec9ba94804ddc9e809--
+On May 28, 2013, at 6:56 AM, Marcin Juszkiewicz =
+<marcin.juszkiewicz@linaro.org> wrote:
+
+> W dniu 28.05.2013 01:23, Khem Raj pisze:
+>> On May 27, 2013, at 7:40 AM, Marcin Juszkiewicz
+>> <marcin.juszkiewicz@linaro.org> wrote:
+>=20
+>>> +++ b/meta/recipes-devtools/gcc/gcc-4.8/use-lib-for-aarch64.patch
+>>> @@ -0,0 +1,23 @@
+>>> +From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+>>> +
+>>> +AArch64 is built with /lib/ as prefix but GCC 4.8 tries to use =
+/lib64/
+>>> +path so build fails.
+>>> +
+>>> +It may affect builds when /lib64/ will be used but so far it is not
+>>> +default.
+>>> +
+>>=20
+>> Marcin,
+>>=20
+>> what is the multilib strategy for aarch64? i think using lib64 for
+>> 64bit and keep /lib for 32bit apps would be ideal so you can keep the
+>> existing apps running. In OE we have convoluted x86_64 where when not
+>> using mutlilib it uses /lib for 64bit apps and when doing multilib it
+>> does /lib64 for default 64bit apps and /lib for 32bit apps its quite
+>> confusing. For arm lets not follow those footsteps and use /lib64 for
+>> 64bit from the onset and then multilib can come later and will fit in
+>> nicely.
+>=20
+> I will leave that decision to Riku as new meta-linaro maintainer.
+>=20
+> My view is that so far AArch64 is still in kind of "testing phase" =
+rather
+> then fully used system. Switch to /lib64/ would require far more =
+patches
+> (gcc-4.7, eglibc etc) than switching to /lib/ which is used since we
+> started with this architecture.
+
+
+This is beginning of aarch64 and whatever defaults you set now will be =
+harder to change as time passes
+by. As I said earlier, if multilib and keeping precompiled 32bit =
+binaries running is not priority then its fine.=20
+
+
