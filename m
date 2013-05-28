@@ -1,42 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 596766A450
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 79E2B6A49D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 16:49:41 +0000 (UTC)
-Received: by mail-pb0-f50.google.com with SMTP id wy17so8009427pbc.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 09:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=yLxiuE5tfs0uH4L9/eztTaITaYx6ZBMeUR9jesK4l0I=;
-	b=umQXwNEt3/iAQnLc2xn79sdY8iT1HVtJaPIYrMaXyGBwmf8W7zfE7grE8TUZKNggMJ
-	nzuxR8czkTUkZ33CcEv7LZ+bRjkYU+5ciA7IgkY3uAuvcKiIrwXgxyULMiwCfnUtQDZF
-	48EH/jPaxpr/Ej4RkofY7lkFbQns+2XZwsVvMYmuwwXSDGNg8PHNi5k9zGyJruqaHHH0
-	J9j+A7ajKM02iUpMu6ie2G5ua27GyxKCCxR8XMOmpeIHByD+O1Y+EI2aWRL3Thm3QxHv
-	QfhpLCEa1ca1UM8elWMz9XbhfU3fyJAiH9YlK2+NPGFItKP+E9clo8PlsnU3wcvzVe0C
-	TVBw==
-X-Received: by 10.66.164.161 with SMTP id yr1mr35115582pab.77.1369759782663;
-	Tue, 28 May 2013 09:49:42 -0700 (PDT)
-Received: from sa-nc-common3-43.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id l16sm5160521pag.22.2013.05.28.09.49.41
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 28 May 2013 09:49:41 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <51A4B77E.7070906@linaro.org>
-Date: Tue, 28 May 2013 09:49:40 -0700
-Message-Id: <62850F83-2155-4191-A292-8C01CF6E52E6@gmail.com>
-References: <1369665656-20275-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<CCC27A1E-27F7-4D70-B7A5-30F2118D3D0C@gmail.com>
-	<51A4B77E.7070906@linaro.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-X-Mailer: Apple Mail (2.1503)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc 4.8: use /lib/ for AArch64
+	Tue, 28 May 2013 17:36:33 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4SHeGU1026756; Tue, 28 May 2013 18:40:16 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Tsia6cScp116; Tue, 28 May 2013 18:40:16 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4SHe9Pf026752
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 28 May 2013 18:40:10 +0100
+Message-ID: <1369762549.14887.191.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, yocto
+	<yocto@yoctoproject.org>
+Date: Tue, 28 May 2013 18:35:49 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: Status Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,54 +35,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 16:49:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 May 2013 17:36:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+Its been a few weeks since I sent one of these out, mainly as I've not
+had much to report.
+
+Pending Patches
+===============
+
+Patches have been steadily getting reviewed and merged. Some things took
+a little longer than is ideal due to travel on Saul and my part. I know
+Saul is still travelling.
+
+Autobuilder status is much improved compared to where its been the past
+couple of weeks. We added a number of new sanity tests, they found
+issues, we've now got many of them fixed. The nightly-qa test is still
+problematic, the fsl-ppc machines are continuing to fail and have been
+failing for a while now :(.
+
+Automated QA
+============
+
+Architecture/planning wise, there is a big shakeup of the automated QA
+tests coming down the pipeline for 1.5. The current shell script based
+system isn't scaling so we're looking at moving to python unittest.
+
+Why is this important? Manual QA currently uses a lot of or QA resources
+and means releases take longer than we'd like, we also have issues if we
+ever try two in parallel (e.g. a point release). I want to see this
+problem removed and automation looks like the best way to achieve it. It
+means the QA teams can then focus on more automation and writing new
+test cases for new features and so on.
+
+Once the initial conversion happens, we're looking to convert many of
+the currently manual tests over to become automated and hence improve
+the speed we can put releases through the QA process amongst other
+things.
+
+This is all still being planned, further discussion will no doubt happen
+as soon as there is a plan to propose/discuss. There are a variety of
+open bugs in the bugzilla and people interested in what is going on can
+look at those and see the rough plans for 1.5.
+
+I can quickly summarise that:
+
+a) this work is focused on testing with qemu, not target hardware.
+Nothing done in this work would be incompatible with real hardware, its
+just not a focus right now (maybe 1.6?)
+
+b) We plan to leverage existing tests where we can, e.g. "make check" on
+target using ptest packages
+
+c) initially the plan is to cover the runtime qemu tests
+
+d) we're also looking at some kind of oe-selftest, a bit like
+bitbake-selftest which would run "bitbake X, change Y, bitbake X, check
+something" type scenarios.
+
+e) extensions to the package QA tests (insane.bbclass) are being
+considered
+
+f) a new level of QA tests against rootfs after they're generated will
+likely be created
+
+The plan is to establish the new python unittest code using a small
+team, then open things up for more contributions of test cases since
+this part of the process can be parallelised.
+
+1.3.2
+=====
+
+It shipped! Thanks Ross! :)
+
+Hopefully this should round out the bulk of the 1.3 issues people were
+running into. There is no 1.3.3 planned at this point.
+
+1.4.1
+=====
+
+A number of fixes were merged for this. I know there are a small number
+of patches still to come in but we'll need to start putting this through
+the release process shortly so please get any requests for bugs fixes
+for 1.4.x to Paul ASAP.
+
+Bitbake
+=======
+
+I've been spending quite a bit of time reviewing and also writing some
+changes to the core of bitbake, splitting up cooker. These changes set
+the scene for webhob and the memory resident bitbake concept as well as
+removal of the double bitbake execution. There will be more changes in
+this area landing and there may be some further mild instability whilst
+we work though any issues.
+
+There have also been some patches which remove the "global method scope"
+we had in bitbake. Those patches merged, I've not heard of anyone with
+issues due to them yet (the parallel parsing already half broke the
+global scope anyway).
+
+Cheers,
+
+Richard
 
 
-On May 28, 2013, at 6:56 AM, Marcin Juszkiewicz =
-<marcin.juszkiewicz@linaro.org> wrote:
-
-> W dniu 28.05.2013 01:23, Khem Raj pisze:
->> On May 27, 2013, at 7:40 AM, Marcin Juszkiewicz
->> <marcin.juszkiewicz@linaro.org> wrote:
->=20
->>> +++ b/meta/recipes-devtools/gcc/gcc-4.8/use-lib-for-aarch64.patch
->>> @@ -0,0 +1,23 @@
->>> +From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
->>> +
->>> +AArch64 is built with /lib/ as prefix but GCC 4.8 tries to use =
-/lib64/
->>> +path so build fails.
->>> +
->>> +It may affect builds when /lib64/ will be used but so far it is not
->>> +default.
->>> +
->>=20
->> Marcin,
->>=20
->> what is the multilib strategy for aarch64? i think using lib64 for
->> 64bit and keep /lib for 32bit apps would be ideal so you can keep the
->> existing apps running. In OE we have convoluted x86_64 where when not
->> using mutlilib it uses /lib for 64bit apps and when doing multilib it
->> does /lib64 for default 64bit apps and /lib for 32bit apps its quite
->> confusing. For arm lets not follow those footsteps and use /lib64 for
->> 64bit from the onset and then multilib can come later and will fit in
->> nicely.
->=20
-> I will leave that decision to Riku as new meta-linaro maintainer.
->=20
-> My view is that so far AArch64 is still in kind of "testing phase" =
-rather
-> then fully used system. Switch to /lib64/ would require far more =
-patches
-> (gcc-4.7, eglibc etc) than switching to /lib/ which is used since we
-> started with this architecture.
-
-
-This is beginning of aarch64 and whatever defaults you set now will be =
-harder to change as time passes
-by. As I said earlier, if multilib and keeping precompiled 32bit =
-binaries running is not priority then its fine.=20
 
 
