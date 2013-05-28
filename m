@@ -1,37 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FF886A57F;
-	Tue, 28 May 2013 13:46:05 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id 14so5251557pdc.39
-	for <multiple recipients>; Tue, 28 May 2013 06:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WP4PR7SrT6rTVw+hNjh4/iDLtXe1G/P80qAq1IC2P04=;
-	b=cFavPhTRB/Pa9okNfPOiipRDpWvzMMvbcGYxD8FxQvuDvCoG3jhM7JNMjlahtNr5Ky
-	s4u0Arp7kdxT0hBoKhbNfddqLsp6l3USM0u8A6hM2d+Sfd8PAOfMGVPwJwBCCnN2YQ5C
-	dhIkzNoFn9sVj8XLgKEXjvCiQzcQn4cH9iSY8/MsyWavXzIO05aZXJcKYMgYwPZDbvSK
-	j6YyTBueLPOYJ7Vpj12kAIq6z5RKTrfbBIu4Xt3DP4i4A2/nvvCk6rMHc/LoK5tJx2kV
-	KVbsUNcGZY6Vtsy4jzKFFJmVH5eRdmy1SwL+dY7huYF3EihsmlXgBREefI5EKlrmFSM9
-	oFRg==
-X-Received: by 10.66.246.131 with SMTP id xw3mr33956467pac.114.1369748766763; 
-	Tue, 28 May 2013 06:46:06 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	bs2sm35261589pad.17.2013.05.28.06.46.03 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 28 May 2013 06:46:05 -0700 (PDT)
-Date: Tue, 28 May 2013 15:46:06 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20130528134606.GJ3192@jama>
-References: <20130528132841.A450B5039B@opal>
+Return-Path: <marcin.juszkiewicz@linaro.org>
+Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
+	[178.33.81.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 43D006A428
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2013 13:56:18 +0000 (UTC)
+Received: from [192.168.0.101] (87-206-152-156.dynamic.chello.pl
+	[87.206.152.156])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B67BAD22B2;
+	Tue, 28 May 2013 15:55:52 +0200 (CEST)
+Message-ID: <51A4B77E.7070906@linaro.org>
+Date: Tue, 28 May 2013 15:56:14 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-In-Reply-To: <20130528132841.A450B5039B@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: Khem Raj <raj.khem@gmail.com>
+References: <1369665656-20275-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<CCC27A1E-27F7-4D70-B7A5-30F2118D3D0C@gmail.com>
+In-Reply-To: <CCC27A1E-27F7-4D70-B7A5-30F2118D3D0C@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Mark Hatle : base.bbclass: Deprecate the PRINC logic
+Subject: Re: [PATCH] gcc 4.8: use /lib/ for AArch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,103 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 13:46:05 -0000
-X-Groupsio-MsgNum: 39771
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dwWFXG4JqVa0wfCP"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 28 May 2013 13:56:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---dwWFXG4JqVa0wfCP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+W dniu 28.05.2013 01:23, Khem Raj pisze:
+> On May 27, 2013, at 7:40 AM, Marcin Juszkiewicz
+> <marcin.juszkiewicz@linaro.org> wrote:
 
-On Tue, May 28, 2013 at 01:28:41PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master-next
-> Commit: e1cf564ebc8e7b4fa626a645356f6a4d7f5ba064
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3De1cf564ebc8e7b4fa626a645356f6a4d7f5ba064
->=20
-> Author: Mark Hatle <mark.hatle@windriver.com>
-> Date:   Tue May 21 13:29:03 2013 -0500
->=20
-> base.bbclass: Deprecate the PRINC logic
->=20
-> The PRINC logic is now deprecated, the PR server should be used to handle
-> the automatic incrementing of the PR (package release) field.  The default
-> setting of '0' has been removed, and a warning message has been added.
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8/use-lib-for-aarch64.patch
+>> @@ -0,0 +1,23 @@
+>> +From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+>> +
+>> +AArch64 is built with /lib/ as prefix but GCC 4.8 tries to use /lib64/
+>> +path so build fails.
+>> +
+>> +It may affect builds when /lib64/ will be used but so far it is not
+>> +default.
+>> +
+> 
+> Marcin,
+> 
+> what is the multilib strategy for aarch64? i think using lib64 for
+> 64bit and keep /lib for 32bit apps would be ideal so you can keep the
+> existing apps running. In OE we have convoluted x86_64 where when not
+> using mutlilib it uses /lib for 64bit apps and when doing multilib it
+> does /lib64 for default 64bit apps and /lib for 32bit apps its quite
+> confusing. For arm lets not follow those footsteps and use /lib64 for
+> 64bit from the onset and then multilib can come later and will fit in
+> nicely.
 
-How are people supposed to remove existing PRINC without causing version
-going backwards?
+I will leave that decision to Riku as new meta-linaro maintainer.
 
-Do I have to choose between seeing 100 warnings about deprecated PRINC
-or 100 ERRORs from buildhistory about versions going backwards?
+My view is that so far AArch64 is still in kind of "testing phase" rather
+then fully used system. Switch to /lib64/ would require far more patches
+(gcc-4.7, eglibc etc) than switching to /lib/ which is used since we
+started with this architecture.
 
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/classes/base.bbclass |    4 ++++
->  meta/conf/bitbake.conf    |    1 -
->  2 files changed, 4 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index b1642a2..29084a2 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -465,8 +465,12 @@ python () {
->              appendVar('EXTRA_OECONF', extraconf)
-> =20
->      # If PRINC is set, try and increase the PR value by the amount speci=
-fied
-> +    # The PR server is now the preferred way to handle PR changes based =
-on
-> +    # the checksum of the recipe (including bbappend).  The PRINC is now
-> +    # obsolete.  Return a warning to the user.
->      princ =3D d.getVar('PRINC', True)
->      if princ and princ !=3D "0":
-> +        bb.warn("Use of PRINC is deprecated.  The PR server should be us=
-ed to automatically increment the PR.  See: https://wiki.yoctoproject.org/w=
-iki/PR_Service"
->          pr =3D d.getVar('PR', True)
->          pr_prefix =3D re.search("\D+",pr)
->          prval =3D re.search("\d+",pr)
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 174236d..115832c 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -186,7 +186,6 @@ ASSUME_PROVIDED =3D "\
->  PN =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or '=
-defaultpkgname'}"
->  PV =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '=
-1.0'}"
->  PR =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or '=
-r0'}"
-> -PRINC ?=3D "0"
->  PF =3D "${PN}-${EXTENDPE}${PV}-${PR}"
->  EXTENDPE =3D "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
->  P =3D "${PN}-${PV}"
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---dwWFXG4JqVa0wfCP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGktR4ACgkQN1Ujt2V2gBzFGQCgtC5HhAxe+97SfV6WNoynYZcO
-PJ8AnjpuMHwkKSIJkf38vpdiWWmsmEA8
-=OmNt
------END PGP SIGNATURE-----
-
---dwWFXG4JqVa0wfCP--
