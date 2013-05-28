@@ -1,27 +1,38 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 213296A4E5
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C4D161AD0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 05:39:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4S5dOXY007152
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 May 2013 06:17:51 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id tb18so8677476obb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2013 22:39:24 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 27 May 2013 22:39:24 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 May 2013 13:39:39 +0800
-Message-ID: <4f4edbf9838c30a32a61d1284b86c9eacb30b1d1.1369719531.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1369719531.git.Qi.Chen@windriver.com>
-References: <cover.1369719531.git.Qi.Chen@windriver.com>
+	Mon, 27 May 2013 23:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=wpi1tK99t96QUH9rFU2yjSIPyRrKSgSBVdQ8C6Bmwn0=;
+	b=qQ5i4oPF8q9hDZBj2r78arsibHRhSHo/+4Y6Qaos5F9JBOKduV1URnozOnrrAd2RVo
+	7uudaTeASjXK47BdUDFGCcl9dIU/d/hykhiJrON0fNLoF3P+KlqPAudU7PoAt+ELanvU
+	6Kwwn2WTl/3Sr3QV4x7TnO0nOTOoWj07PdNKsN1hodeHP+JGuen9fq+xWQe529FT1ss8
+	uQxM4BzYaBD0dgvVLMZUtj90GkQXMZHGWAcy2ZguXNQfJWcpe2lmRjMWOylbxXDvnnF2
+	zALPpI5q6zhJLjhcG+IqqthghJYK8fJQt2EaCOI/sGzWsrktDkatuRHkZr81FfRutCZo
+	Dlqw==
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 2/2] busybox: enable login/password commands by default
+X-Received: by 10.60.144.99 with SMTP id sl3mr20569697oeb.0.1369721871882;
+	Mon, 27 May 2013 23:17:51 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Mon, 27 May 2013 23:17:51 -0700 (PDT)
+In-Reply-To: <4f4edbf9838c30a32a61d1284b86c9eacb30b1d1.1369719531.git.Qi.Chen@windriver.com>
+References: <cover.1369719531.git.Qi.Chen@windriver.com>
+	<4f4edbf9838c30a32a61d1284b86c9eacb30b1d1.1369719531.git.Qi.Chen@windriver.com>
+Date: Tue, 28 May 2013 03:17:51 -0300
+X-Google-Sender-Auth: UdRc-rFMoTGj6yRoiJPSLpI4I5Q
+Message-ID: <CAP9ODKq79WMuL8K+E7oE__p3Y2Q_1-8TrtEtHM7L+cWFYP6r4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] busybox: enable login/password commands by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 05:39:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 May 2013 06:17:52 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a831c9dac7504ddc1396c
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--047d7b3a831c9dac7504ddc1396c
+Content-Type: text/plain; charset=ISO-8859-1
 
-As we switch to using busybox as the default login manager, we here
-modify the defconfig file of busybox to enable the commands that
-were previously provided by tinylogin.
+On Tue, May 28, 2013 at 2:39 AM, <Qi.Chen@windriver.com> wrote:
 
-These commands are: addgroup, adduser, delgroup, deluser, login, su,
-getty, sulogin, passwd and vlock.
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> As we switch to using busybox as the default login manager, we here
+> modify the defconfig file of busybox to enable the commands that
+> were previously provided by tinylogin.
+>
+> These commands are: addgroup, adduser, delgroup, deluser, login, su,
+> getty, sulogin, passwd and vlock.
+>
+> [YOCTO #4207]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>
 
-[YOCTO #4207]
+This patch needs to be applied before packagegroup one.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/busybox/busybox-1.20.2/defconfig |   26 ++++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox-1.20.2/defconfig b/meta/recipes-core/busybox/busybox-1.20.2/defconfig
-index bdfdadf..72f792d 100644
---- a/meta/recipes-core/busybox/busybox-1.20.2/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.20.2/defconfig
-@@ -449,39 +449,39 @@ CONFIG_INIT_TERMINAL_TYPE=""
- #
- # CONFIG_ADD_SHELL is not set
- # CONFIG_REMOVE_SHELL is not set
--# CONFIG_FEATURE_SHADOWPASSWDS is not set
-+CONFIG_FEATURE_SHADOWPASSWDS=y
- # CONFIG_USE_BB_PWD_GRP is not set
- # CONFIG_USE_BB_SHADOW is not set
- CONFIG_USE_BB_CRYPT=y
- # CONFIG_USE_BB_CRYPT_SHA is not set
--# CONFIG_ADDUSER is not set
--# CONFIG_FEATURE_ADDUSER_LONG_OPTIONS is not set
-+CONFIG_ADDUSER=y
-+CONFIG_FEATURE_ADDUSER_LONG_OPTIONS=y
- # CONFIG_FEATURE_CHECK_NAMES is not set
- CONFIG_FIRST_SYSTEM_ID=0
- CONFIG_LAST_SYSTEM_ID=0
--# CONFIG_ADDGROUP is not set
--# CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS is not set
-+CONFIG_ADDGROUP=y
-+CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS=y
- # CONFIG_FEATURE_ADDUSER_TO_GROUP is not set
--# CONFIG_DELUSER is not set
--# CONFIG_DELGROUP is not set
-+CONFIG_DELUSER=y
-+CONFIG_DELGROUP=y
- # CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set
--# CONFIG_GETTY is not set
--# CONFIG_LOGIN is not set
-+CONFIG_GETTY=y
-+CONFIG_LOGIN=y
- # CONFIG_LOGIN_SESSION_AS_CHILD is not set
- # CONFIG_PAM is not set
- # CONFIG_LOGIN_SCRIPTS is not set
- # CONFIG_FEATURE_NOLOGIN is not set
- # CONFIG_FEATURE_SECURETTY is not set
--# CONFIG_PASSWD is not set
-+CONFIG_PASSWD=y
- # CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set
- # CONFIG_CRYPTPW is not set
- # CONFIG_CHPASSWD is not set
- CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
--# CONFIG_SU is not set
-+CONFIG_SU=y
- # CONFIG_FEATURE_SU_SYSLOG is not set
- # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
--# CONFIG_SULOGIN is not set
--# CONFIG_VLOCK is not set
-+CONFIG_SULOGIN=y
-+CONFIG_VLOCK=y
- 
- #
- # Linux Ext2 FS Progs
 -- 
-1.7.9.5
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
+--047d7b3a831c9dac7504ddc1396c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Tue, May 28, 2013 at 2:39 AM,  <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&g=
+t;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@=
+windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
+<br>
+As we switch to using busybox as the default login manager, we here<br>
+modify the defconfig file of busybox to enable the commands that<br>
+were previously provided by tinylogin.<br>
+<br>
+These commands are: addgroup, adduser, delgroup, deluser, login, su,<br>
+getty, sulogin, passwd and vlock.<br>
+<br>
+[YOCTO #4207]<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
+@windriver.com</a>&gt;<br></blockquote><div><br></div><div style>This patch=
+ needs to be applied before packagegroup one.=A0</div></div><div><br></div>
+-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blan=
+k">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projeto=
+s.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><=
+br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
+
+--047d7b3a831c9dac7504ddc1396c--
