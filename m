@@ -1,32 +1,27 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
-	[209.85.212.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C5BF662051
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8C361EB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 06:25:44 +0000 (UTC)
-Received: by mail-vb0-f52.google.com with SMTP id p12so4158512vbe.39
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2013 23:25:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=dyvdEIf51O/6ia8u5L+nGjU536I/0y3KuAOS5Qkp+cA=;
-	b=BUXFK3H5ll7/lgHm/4cbMPm9RE5V45p9aRIoCD1nVAxJnO6Qzp/4QZ5teQ9qN5xeK7
-	zkFGx1+Y9gcxyON0gGS1Hz9KjFnuYGZlUNKDXXmJSd2QSkXmL1fGfIHvAHpUNKQnJqUv
-	4eRAT6aVwuGVFS0Wo2bIbT6eAZgrbJQg0KhVYU3HOAlgxFHPkK7LMCV7xsaT2sQ1Xbbp
-	djMtigpT6ceH57R23bLPIbDB5DkRFeuTSm+GbUHbYqmZjHfUcvSsqQyBd59nUWFrzD+G
-	2FsGxvkzeVNKoQGTGr6TBvgqUV+KwHTHEK/Fgzy2G6FSNuv1H9/yaIUbB8gEw/2cb1xJ
-	M33Q==
+	Tue, 28 May 2013 06:32:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4S6WTTH017205
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 27 May 2013 23:32:29 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Mon, 27 May 2013 23:32:29 -0700
+Message-ID: <51A44F8D.90002@windriver.com>
+Date: Tue, 28 May 2013 14:32:45 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.220.101.69 with SMTP id b5mr17110702vco.55.1369722345390;
-	Mon, 27 May 2013 23:25:45 -0700 (PDT)
-Received: by 10.58.34.132 with HTTP; Mon, 27 May 2013 23:25:45 -0700 (PDT)
-In-Reply-To: <cover.1369719531.git.Qi.Chen@windriver.com>
+To: Jonathan Liu <net147@gmail.com>
 References: <cover.1369719531.git.Qi.Chen@windriver.com>
-Date: Tue, 28 May 2013 16:25:45 +1000
-Message-ID: <CANwerB12XmNSm9AYAdz+SZGp6VYmjDiLyJYQY8g6F+GdJqn0rQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Qi.Chen@windriver.com
+	<CANwerB12XmNSm9AYAdz+SZGp6VYmjDiLyJYQY8g6F+GdJqn0rQ@mail.gmail.com>
+In-Reply-To: <CANwerB12XmNSm9AYAdz+SZGp6VYmjDiLyJYQY8g6F+GdJqn0rQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.233]
 Cc: qingtao.cao@windriver.com, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/2] switch to using busybox instead of tinylogin
@@ -42,98 +37,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 06:25:45 -0000
-Content-Type: multipart/alternative; boundary=047d7b3a7e92d6892404ddc15539
+X-List-Received-Date: Tue, 28 May 2013 06:32:29 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070100090900060902000706"
 
---047d7b3a7e92d6892404ddc15539
-Content-Type: text/plain; charset=UTF-8
+--------------070100090900060902000706
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28 May 2013 15:39, <Qi.Chen@windriver.com> wrote:
-
-> From: Chen Qi <Qi.Chen@windriver.com>
+On 05/28/2013 02:25 PM, Jonathan Liu wrote:
+> On 28 May 2013 15:39, <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
 >
-> The following changes since commit
-> 21089515bd18ba18e86ec8f72ff8141b9fb1dea8:
+>     From: Chen Qi <Qi.Chen@windriver.com <mailto:Qi.Chen@windriver.com>>
 >
->   ref-manual: Added xmlto and dblatex packages for docs (2013-05-22
-> 17:23:41 +0100)
+>     The following changes since commit
+>     21089515bd18ba18e86ec8f72ff8141b9fb1dea8:
 >
-> are available in the git repository at:
+>       ref-manual: Added xmlto and dblatex packages for docs
+>     (2013-05-22 17:23:41 +0100)
 >
->   git://git.pokylinux.org/poky-contrib ChenQi/tinylogin-busybox
+>     are available in the git repository at:
 >
-> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/tinylogin-busybox
+>       git://git.pokylinux.org/poky-contrib
+>     <http://git.pokylinux.org/poky-contrib> ChenQi/tinylogin-busybox
+>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/tinylogin-busybox
 >
-> Chen Qi (2):
->   packagegroup-core-boot: use busybox as the default login manager
->   busybox: enable login/password commands by default
+>     Chen Qi (2):
+>       packagegroup-core-boot: use busybox as the default login manager
+>       busybox: enable login/password commands by default
 >
->  meta/recipes-core/busybox/busybox-1.20.2/defconfig |   26
-> ++++++++++----------
->  .../packagegroups/packagegroup-core-boot.bb        |    2 +-
->  2 files changed, 14 insertions(+), 14 deletions(-)
+>      meta/recipes-core/busybox/busybox-1.20.2/defconfig |   26
+>     ++++++++++----------
+>      .../packagegroups/packagegroup-core-boot.bb
+>     <http://packagegroup-core-boot.bb>        |    2 +-
+>      2 files changed, 14 insertions(+), 14 deletions(-)
 >
+>
+> After switching from tinylogin to busybox, the following commands that 
+> used to be provided by tinylogin are provided by other packages 
+> instead of busybox:
+> -/bin/login [shadow]
+> -/sbin/getty [util-linux-agetty]
+> -/usr/bin/passwd  [shadow]
+> -/usr/bin/su [shadow]
+>
+> Perhaps util-linux-agetty and shadow packages have higher alternatives 
+> priority?
+>
+The answer seems to be 'yes'.
 
-After switching from tinylogin to busybox, the following commands that used
-to be provided by tinylogin are provided by other packages instead of
-busybox:
--/bin/login [shadow]
--/sbin/getty [util-linux-agetty]
--/usr/bin/passwd  [shadow]
--/usr/bin/su [shadow]
+meta/recipes-core/busybox/busybox.inc:ALTERNATIVE_PRIORITY = "50"
+meta/recipes-extended/shadow/shadow_4.1.4.3.bb:ALTERNATIVE_PRIORITY = "200"
+meta/recipes-core/util-linux/util-linux.inc:ALTERNATIVE_PRIORITY = "100"
 
-Perhaps util-linux-agetty and shadow packages have higher alternatives
-priority?
+//Chen Qi
 
-Regards,
-Jonathan
+> Regards,
+> Jonathan
 
---047d7b3a7e92d6892404ddc15539
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 28 May 2013 15:39,  <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;=
-</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padd=
-ing-left:1ex">
+--------------070100090900060902000706
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank=
-">Qi.Chen@windriver.com</a>&gt;<br>
-<br>
-The following changes since commit 21089515bd18ba18e86ec8f72ff8141b9fb1dea8=
-:<br>
-<br>
-=C2=A0 ref-manual: Added xmlto and dblatex packages for docs (2013-05-22 17=
-:23:41 +0100)<br>
-<br>
-are available in the git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://git.pokylinux.org/poky-contrib" target=3D"_b=
-lank">git.pokylinux.org/poky-contrib</a> ChenQi/tinylogin-busybox<br>
-=C2=A0 <a href=3D"http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3DC=
-henQi/tinylogin-busybox" target=3D"_blank">http://git.pokylinux.org/cgit.cg=
-i/poky-contrib/log/?h=3DChenQi/tinylogin-busybox</a><br>
-<br>
-Chen Qi (2):<br>
-=C2=A0 packagegroup-core-boot: use busybox as the default login manager<br>
-=C2=A0 busybox: enable login/password commands by default<br>
-<br>
-=C2=A0meta/recipes-core/busybox/busybox-1.20.2/defconfig | =C2=A0 26 ++++++=
-++++----------<br>
-=C2=A0.../packagegroups/<a href=3D"http://packagegroup-core-boot.bb" target=
-=3D"_blank">packagegroup-core-boot.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=
-=A0 =C2=A02 +-<br>
-=C2=A02 files changed, 14 insertions(+), 14 deletions(-)<br></blockquote><d=
-iv><br></div>After switching from tinylogin to busybox, the following comma=
-nds that used to be provided by tinylogin are provided by other packages in=
-stead of busybox:<br>
-<div>-/bin/login [shadow]<br></div><div>-/sbin/getty [util-linux-agetty]<br=
-></div><div>-/usr/bin/passwd =C2=A0[shadow]</div><div>-/usr/bin/su [shadow]=
-<br></div><div><br></div><div style>Perhaps util-linux-agetty and shadow pa=
-ckages have higher alternatives priority?</div>
-<div style><br></div><div style>Regards,</div><div style>Jonathan</div></di=
-v></div></div>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 05/28/2013 02:25 PM, Jonathan Liu
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CANwerB12XmNSm9AYAdz+SZGp6VYmjDiLyJYQY8g6F+GdJqn0rQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">On 28 May 2013 15:39, <span dir="ltr">&lt;<a
+            moz-do-not-send="true" href="mailto:Qi.Chen@windriver.com"
+            target="_blank">Qi.Chen@windriver.com</a>&gt;</span> wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">From:
+              Chen Qi &lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;<br>
+              <br>
+              The following changes since commit
+              21089515bd18ba18e86ec8f72ff8141b9fb1dea8:<br>
+              <br>
+                ref-manual: Added xmlto and dblatex packages for docs
+              (2013-05-22 17:23:41 +0100)<br>
+              <br>
+              are available in the git repository at:<br>
+              <br>
+                git://<a moz-do-not-send="true"
+                href="http://git.pokylinux.org/poky-contrib"
+                target="_blank">git.pokylinux.org/poky-contrib</a>
+              ChenQi/tinylogin-busybox<br>
+                <a moz-do-not-send="true"
+href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/tinylogin-busybox"
+                target="_blank">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/tinylogin-busybox</a><br>
+              <br>
+              Chen Qi (2):<br>
+                packagegroup-core-boot: use busybox as the default login
+              manager<br>
+                busybox: enable login/password commands by default<br>
+              <br>
+               meta/recipes-core/busybox/busybox-1.20.2/defconfig |   26
+              ++++++++++----------<br>
+               .../packagegroups/<a moz-do-not-send="true"
+                href="http://packagegroup-core-boot.bb" target="_blank">packagegroup-core-boot.bb</a>
+                     |    2 +-<br>
+               2 files changed, 14 insertions(+), 14 deletions(-)<br>
+            </blockquote>
+            <div><br>
+            </div>
+            After switching from tinylogin to busybox, the following
+            commands that used to be provided by tinylogin are provided
+            by other packages instead of busybox:<br>
+            <div>-/bin/login [shadow]<br>
+            </div>
+            <div>-/sbin/getty [util-linux-agetty]<br>
+            </div>
+            <div>-/usr/bin/passwd  [shadow]</div>
+            <div>-/usr/bin/su [shadow]<br>
+            </div>
+            <div><br>
+            </div>
+            <div style="">Perhaps util-linux-agetty and shadow packages
+              have higher alternatives priority?</div>
+            <div style=""><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    The answer seems to be 'yes'.<br>
+    <br>
+    meta/recipes-core/busybox/busybox.inc:ALTERNATIVE_PRIORITY = "50"<br>
+    meta/recipes-extended/shadow/shadow_4.1.4.3.bb:ALTERNATIVE_PRIORITY
+    = "200"<br>
+    meta/recipes-core/util-linux/util-linux.inc:ALTERNATIVE_PRIORITY =
+    "100"<br>
+    <br>
+    //Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:CANwerB12XmNSm9AYAdz+SZGp6VYmjDiLyJYQY8g6F+GdJqn0rQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div style="">Regards,</div>
+            <div style="">Jonathan</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
---047d7b3a7e92d6892404ddc15539--
+--------------070100090900060902000706--
