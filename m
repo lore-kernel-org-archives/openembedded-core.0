@@ -1,35 +1,20 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 938376A48C
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 578256A49F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 08:16:27 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id y11so7384499pdj.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2013 01:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=cH93ti4iF/lhqnQvfHBZBddWjUguRxdQZkPo5kZ9OvI=;
-	b=r3zdoEBBpAS96fQe/xrzo5nrV9rbHFhNSbnxqKG3zxkpk6mytIYeUCVkBTGj0/wTCf
-	RhI2fzrdxZEnYptb4w+G2d0+Ytrl9lN98Gt5M3wDv34ck0MTfYse3igLPMGnJmRO45KE
-	A+c4ZBLo97DowvrGpicIblUhtC7Ctmqyfc2bdDwWVEDsedpTECdHyH8O8uX5BYKCUcjK
-	wFCuhF5f+HsigB4P3VgdTZTGZnJ4s7M71+LbH1SjQmiQCH7PcX6gWXVKXoqT+yZRSRcW
-	AIgWQY9AM9SbaUNjV8iwxjz9k9dl8OLMBVxgWy886y0WmD1wTrJ7sr4vM1I0EiY9Wday
-	nKNg==
-X-Received: by 10.68.190.104 with SMTP id gp8mr32882353pbc.120.1369728988649; 
-	Tue, 28 May 2013 01:16:28 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id w8sm31989382pbo.9.2013.05.28.01.16.25
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 28 May 2013 01:16:27 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	Tue, 28 May 2013 08:59:17 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 28 May 2013 01:59:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,756,1363158000"; d="scan'208";a="341212584"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.40])
+	by fmsmga001.fm.intel.com with ESMTP; 28 May 2013 01:59:02 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2013 18:29:52 +1000
-Message-Id: <1369729792-19019-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH] qt4: fix path to demos documentation
+Date: Tue, 28 May 2013 11:59:38 +0300
+Message-Id: <1369731579-13048-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Replaced "stty sane" with saved stty settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +27,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2013 08:16:27 -0000
+X-List-Received-Date: Tue, 28 May 2013 08:59:17 -0000
 
-The qt4-demos-doc package is not created when building qt4-x11-free
-because ${docdir}/qtopia/qch/qt.qch doesn't exist.
+stty manual says :
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+"sane - Resets all modes to reasonable values for interactive terminal use."
+
+But reasonable isn't the most viable solution, because we want to keep the
+original stty settings before running runqemu. Saving the stty settings and
+setting them at the end of the runqemu script solves the terminal
+settings differences after the script ran.
+
+[Yocto #4512]
+
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 ---
- meta/recipes-qt/qt4/qt4.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu-internal |   11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index 84c0ae9..828e30a 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -130,7 +130,7 @@ ALLOW_EMPTY_${PN} = "1"
- FILES_${PN}     = ""
- FILES_${PN}-dev = "${includedir}/${QT_DIR_NAME}/Qt/*"
- FILES_${PN}-dbg = "/usr/src/debug/"
--FILES_${QT_BASE_NAME}-demos-doc = "${docdir}/qtopia/qch/qt.qch"
-+FILES_${QT_BASE_NAME}-demos-doc = "${docdir}/${QT_DIR_NAME}/qch/qt.qch"
- RRECOMMENDS_${PN} = "${LIB_PACKAGES} ${OTHER_PACKAGES}"
- RRECOMMENDS_${PN}-dev = "${DEV_PACKAGES}"
- RRECOMMENDS_${PN}-dbg = "${DBG_PACKAGES}"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index d4825d1..4f3ba7b 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -104,6 +104,9 @@ fi
+ 
+ NFSRUNNING="false"
+ 
++#capture original stty values
++ORIG_STTY=$(stty -g)
++
+ if [ "$SLIRP_ENABLED" = "yes" ]; then
+     KERNEL_NETWORK_CMD=""
+     QEMU_TAP_CMD=""
+@@ -221,7 +224,11 @@ else
+             fi
+             # If QEMU crashes or somehow tty properties are not restored
+             # after qemu exits, we need to run stty sane
+-            stty sane
++            #stty sane
++
++            #instead of using stty sane we set the original stty values
++            stty ${ORIG_STTY}
++
+         }
+ 
+ 
+@@ -589,6 +596,8 @@ if [ "$SLIRP_ENABLED" != "yes" ]; then
+         cleanup
+ fi
+ 
++#set the original stty values before exit
++stty ${ORIG_STTY}
+ trap - INT TERM QUIT
+ 
+ return $ret
 -- 
-1.8.2.3
+1.7.9.5
 
 
