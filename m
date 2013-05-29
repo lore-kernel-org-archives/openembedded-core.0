@@ -1,30 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9187D6066A
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA3D6066A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 21:54:02 +0000 (UTC)
+	Wed, 29 May 2013 21:59:24 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TLw9sN024971; Wed, 29 May 2013 22:58:10 +0100
+	r4TM3fZ1025143; Wed, 29 May 2013 23:03:41 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id S7Y2hzTUIi_h; Wed, 29 May 2013 22:58:09 +0100 (BST)
+	with LMTP id dcnxd1N-dpOb; Wed, 29 May 2013 23:03:41 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TLvvrE024957
+	r4TM3bL7025132
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 29 May 2013 22:58:00 +0100
-Message-ID: <1369864411.14887.255.camel@ted>
+	verify=NOT); Wed, 29 May 2013 23:03:39 +0100
+Message-ID: <1369864751.14887.258.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
-Date: Wed, 29 May 2013 22:53:31 +0100
-In-Reply-To: <1369863047-3105-1-git-send-email-eric@eukrea.com>
-References: <1369863047-3105-1-git-send-email-eric@eukrea.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 22:59:11 +0100
+In-Reply-To: <51A672E5.3060000@windriver.com>
+References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+	<1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
+	<1369861845.14887.232.camel@ted> <51A672E5.3060000@windriver.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: depend on gdk-pixbuf-native
+Subject: Re: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +39,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 21:54:03 -0000
+X-List-Received-Date: Wed, 29 May 2013 21:59:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-05-29 at 23:30 +0200, Eric Bénard wrote:
-> it's using scripts from scripts/postinst-intercepts/ which contain
-> gdk-pixbuf-query-loaders so it should depend on gdk-pixbuf-native
-> else the host binary will be used and it will try to update the
-> host's cache
+On Wed, 2013-05-29 at 16:28 -0500, Mark Hatle wrote:
+> On 5/29/13 4:10 PM, Richard Purdie wrote:
+> > On Wed, 2013-05-29 at 10:10 -0500, Mark Hatle wrote:
+> >> From: Jason Wessel <jason.wessel@windriver.com>
+> >>
+> >> The ncurses package was generating the following error as a result
+> >> of not specifing the PACKAGES_DYNAMIC correctly.  This error only
+> >> appear when using the IMAGE_INSTALL list that has been expanded by
+> >> the hob or from the pkgdata.
+> >>
+> >> ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
+> >>
+> >> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> >> ---
+> >>   meta/recipes-core/ncurses/ncurses.inc | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> >> index 8a81381..584ad46 100644
+> >> --- a/meta/recipes-core/ncurses/ncurses.inc
+> >> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> >> @@ -29,6 +29,8 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
+> >>   # natives don't generally look in base_libdir
+> >>   base_libdir_class-native = "${libdir}"
+> >>
+> >> +PACKAGES_DYNAMIC = "^${PN}-.*"
+> >> +
+> >>   # Fall back to the host termcap / terminfo for -nativesdk and -native
+> >>   # The reality is a work around for strange problems with things like
+> >>   # "bitbake -c menuconfig busybox" where it cannot find the terminfo
+> >
+> > I'm pretty sure I talked to Jason about this and we concluded this was
+> > fixed with some other change in master. Certainly this fix as it stands
+> > doesn't sound right.
 > 
-> [YOCTO #4572]
+> The original thread included libpcre, it was libpcre side was in fact fixed 
+> prior to the initial patch being submitted.  ncurses however is still broken.
 > 
-> Signed-off-by: Eric Bénard <eric@eukrea.com>
-> ---
-> fix the same problem in dylan
+> If I revert this commit in my tree, and add to IMAGE_INSTALL "ncurses-libtinfo", 
+> I get the following failure:
 > 
->  meta/classes/image.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> NOTE: Resolving any missing task queue dependencies
+> ERROR: Nothing RPROVIDES 'ncurses-libtinfo' (but 
+> /msp-lpggp21/lmhatle/build-1/layers/oe-core/meta/recipes-core/images/core-image-minimal.bb 
+> RDEPENDS on or otherwise requires it)
+> NOTE: Runtime target 'ncurses-libtinfo' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['ncurses-libtinfo']
+> ERROR: Required build target 'core-image-minimal' has no buildable providers.
+> Missing or unbuildable dependency chain was: ['core-image-minimal', 
+> 'ncurses-libtinfo']
 > 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 04db533..6c16a1a 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -10,7 +10,7 @@ inherit gzipnative
->  
->  LICENSE = "MIT"
->  PACKAGES = ""
-> -DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
-> +DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross gdk-pixbuf-native"
->  RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
->  RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+> with the patch applied it completes successfully.
+> 
+> Reproducer:
+> 
+> Add to conf/local.conf
+> 
+> IMAGE_INSTALL_append = " ncurses-libtinfo"
+> 
+> bitbake core-image-minimal
 
-Ah, this has made me realise what the real problem is and that there is
-a better way to fix this. We need to add
 
-DEPENDS += "gdk-pixbuf-native"
+Fair enough. Can we at least match the pattern do_split_packages uses,
+i.e.:
 
-to pixbufcache.bbclass and gtk-icon-cache.bbclass then people not using
-those things don't get the dependency added.
+PACKAGES_DYNAMIC = "^${PN}-lib.*"
+
+I'm a little paranoid about adding wildcards like ${PN}-* as the
+potential for namespace problems is not insignificant, particularly if
+you know the horrible things bitbake does with this behind the
+scenes :/.
 
 Cheers,
 
 Richard
- 
-
 
 
