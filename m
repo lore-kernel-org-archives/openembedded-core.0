@@ -1,20 +1,25 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B8E606A5A8
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 652916A428
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 12:40:48 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 May 2013 05:38:41 -0700
+	Wed, 29 May 2013 13:22:29 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 29 May 2013 06:22:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,764,1363158000"; d="scan'208";a="344953602"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by orsmga002.jf.intel.com with ESMTP; 29 May 2013 05:40:48 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2013 15:42:56 +0300
-Message-Id: <cover.1369831109.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v3 0/7] Package Upgrades
+X-IronPort-AV: E=Sophos;i="4.87,764,1363158000"; d="scan'208";a="309507760"
+Received: from unknown (HELO [10.255.12.50]) ([10.255.12.50])
+	by azsmga001.ch.intel.com with ESMTP; 29 May 2013 06:22:28 -0700
+Message-ID: <1369833737.1742.3.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Ning Zhang <ning.zhang@windriver.com>
+Date: Wed, 29 May 2013 08:22:17 -0500
+In-Reply-To: <9fbec3ccfc2d674d09ec44c2a7bd57a5b751f8a0.1369814765.git.ning.zhan@windriver.com>
+References: <cover.1369814765.git.ning.zhan@windriver.com>
+	<9fbec3ccfc2d674d09ec44c2a7bd57a5b751f8a0.1369814765.git.ning.zhan@windriver.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] yocto_kernel: check current items before add a new one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,71 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 12:40:48 -0000
+X-List-Received-Date: Wed, 29 May 2013 13:22:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Sending only the cover letter for v3.
+On Wed, 2013-05-29 at 16:14 +0800, Ning Zhang wrote:
+> From: Zhang Ning <ning.zhan@windriver.com>
+> 
+> When use "yocto-kernel config add" to add the same config many times,
+> all of these are list when use "yocto-kernel config list" to check.
+> 
+> This fix modify routine yocto_kernel_config_add, if the new added
+> components already exist in current configuration, just igore them.
+> Now, one config could only be added one time.
+> 
+> [YOCTO #4562]
+> 
+> Signen-off-by: Zhang Ning <ning.zhan@windriver.com>
+> ---
+>  scripts/lib/bsp/kernel.py |   32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
+> 
+> diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
+> index fc1e6bd..9ed6e94 100644
+> --- a/scripts/lib/bsp/kernel.py
+> +++ b/scripts/lib/bsp/kernel.py
+> @@ -239,22 +239,32 @@ def yocto_kernel_config_add(scripts_path, machine, config_items):
+>      user-defined config fragment [${machine}-user-config.cfg].
+>      """
+>      new_items = []
+> +    dup_items = []
+> +
+> +    cur_items = read_config_items(scripts_path, machine)
+>  
+>      for item in config_items:
+>          if not item.startswith("CONFIG") or (not "=y" in item and not "=m" in item):
+>              print "Invalid config item (%s), exiting" % item
+>              sys.exit(1)
+> -        new_items.append(item)
+> -
+> -    cur_items = read_config_items(scripts_path, machine)
+> -    cur_items.extend(new_items)
+> -
+> -    write_config_items(scripts_path, machine, cur_items)
+> -
+> -    print "Added items:"
+> -    for n in new_items:
+> -        print "\t%s" % n
+> -
+> +        if item not in cur_items and item not in new_items:
+> +            new_items.append(item)
+> +        else:
+> +            dup_items.append(item)
+> +
+> +    if len(new_items) > 0:
+> +        cur_items.extend(new_items)
+> +        write_config_items(scripts_path, machine, cur_items)
+> +        print "Added item%s:" % ("" if len(new_items)==1 else "s")
+> +        for n in new_items:
+> +            print "\t%s" % n
+> +
+> +    if len(dup_items) > 0:
+> +        output="Below item%s already exist%s in current configuration, ignore %s" % \
 
-Changes in v3:
- * matchbox-keyboard: added LIC_FILES_CHKSUM change explaination
- * matchbox-keyboard: added png-fix.patch drop explaination
+This patch looks fine, but please change the text to:
 
-The following changes since commit fa4b1fa2577fb1a8128154c2f1417df575dbb022:
++        output="The following item%s already exist%s in the current configuration, ignoring %s" % \
 
-  bitbake: cooker/cookerdata: Improve configuration object handling (2013-05-24 10:34:53 +0100)
+Thanks,
 
-are available in the git repository at:
+Tom
 
-  git://git.yoctoproject.org/poky-contrib ionutx/work
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+> +            (("","s", "it") if len(dup_items)==1 else ("s", "", "them" ))
+> +        print output
+> +        for n in dup_items:
+> +            print "\t%s" % n
+>  
+>  def find_current_kernel(bsp_layer, machine):
+>      """
 
-Ionut Radu (7):
-  apt: Updated from 0.9.7.8 to 0.9.8.1
-  freetype: Updated from 2.4.11 to 2.4.12
-  libtasn1: Updated from 2.14 to 3.3
-  libsoup-2.4: Update from 2.42.1 to 2.43.1
-  matchbox-keyboard: Update to git HEAD
-    135daab9eb4cd3647c02e82687f96d93619
-  matchbox-terminal: Update to git HEAD
-    452bca253492a97a587f440289b9ab27d217353e
-  settings-daemon: Update to git HEAD
-    9a99528b02255450db81176abd9bbcc1dab9a4c1
-
- .../disable-configure-in-makefile.patch            |    0
- .../fix-gcc-4.6-null-not-defined.patch             |    0
- .../{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch    |    0
- .../no-ko-translation.patch                        |    0
- .../{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch |    0
- .../{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch |    0
- .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch   |    0
- .../truncate-filename.patch                        |    0
- .../{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch    |    0
- ...apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} |    0
- .../apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb}         |    4 ++--
- .../no-hardcode.patch                              |    0
- .../{freetype_2.4.11.bb => freetype_2.4.12.bb}     |   11 ++++------
- .../matchbox-keyboard/matchbox-keyboard_git.bb     |   21 ++++++++++----------
- .../matchbox-terminal/matchbox-terminal_git.bb     |    3 +--
- .../settings-daemon/settings-daemon_git.bb         |    2 +-
- .../gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb}   |    6 ++----
- ...libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} |    4 ++--
- 18 files changed, 22 insertions(+), 29 deletions(-)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/disable-configure-in-makefile.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/fix-gcc-4.6-null-not-defined.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-ko-translation.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/truncate-filename.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch (100%)
- rename meta/recipes-devtools/apt/{apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} (100%)
- rename meta/recipes-devtools/apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb} (74%)
- rename meta/recipes-graphics/freetype/{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch (100%)
- rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (83%)
- rename meta/recipes-support/gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb} (81%)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} (85%)
-
--- 
-1.7.10.4
 
 
