@@ -1,26 +1,24 @@
-Return-Path: <Ning.Zhang@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B90446A4EA
+	by mail.openembedded.org (Postfix) with ESMTP id 4CC036A58A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:14:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4T8Enfk019255
+	Wed, 29 May 2013 08:27:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4T8RGAV025570
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 01:14:49 -0700 (PDT)
-Received: from pek-nzhang0-d3.wrs.com (128.224.162.247) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 29 May 2013 01:14:49 -0700
-From: Ning Zhang <ning.zhang@windriver.com>
+	Wed, 29 May 2013 01:27:16 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 29 May 2013 01:27:16 -0700
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 16:14:45 +0800
-Message-ID: <9fbec3ccfc2d674d09ec44c2a7bd57a5b751f8a0.1369814765.git.ning.zhan@windriver.com>
+Date: Wed, 29 May 2013 04:27:13 -0400
+Message-ID: <cover.1369815393.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1369814765.git.ning.zhan@windriver.com>
-References: <cover.1369814765.git.ning.zhan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] yocto_kernel: check current items before add a new one
+Subject: [PATCH 0/1] lrzsz: check locale.h in configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 08:14:48 -0000
+X-List-Received-Date: Wed, 29 May 2013 08:27:15 -0000
 Content-Type: text/plain
 
-From: Zhang Ning <ning.zhan@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-When use "yocto-kernel config add" to add the same config many times,
-all of these are list when use "yocto-kernel config list" to check.
+fix the build failure when using -O0 in debug build:
+lrz.c:284:13: error: 'LC_ALL' undeclared (first use in this function)
 
-This fix modify routine yocto_kernel_config_add, if the new added
-components already exist in current configuration, just igore them.
-Now, one config could only be added one time.
+tested with:
+MACHINE=qemux86-64/qemuarm/qemuppc
+DEBUG_BUILD = "1"
+DEBUG_OPTIMIZATION = "-O0 -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+$ bitbake lrzsz
+$ bitbake core-image-sato
 
-[YOCTO #4562]
+--
+The following changes since commit 8f5bc47729edb8cb051d81e9ff1680cb8d2eca25:
 
-Signen-off-by: Zhang Ning <ning.zhan@windriver.com>
----
- scripts/lib/bsp/kernel.py |   32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+  dropbear: a fix for hang in dropbearkey, built for x32 (2013-05-24 14:14:30 +0100)
 
-diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
-index fc1e6bd..9ed6e94 100644
---- a/scripts/lib/bsp/kernel.py
-+++ b/scripts/lib/bsp/kernel.py
-@@ -239,22 +239,32 @@ def yocto_kernel_config_add(scripts_path, machine, config_items):
-     user-defined config fragment [${machine}-user-config.cfg].
-     """
-     new_items = []
-+    dup_items = []
-+
-+    cur_items = read_config_items(scripts_path, machine)
- 
-     for item in config_items:
-         if not item.startswith("CONFIG") or (not "=y" in item and not "=m" in item):
-             print "Invalid config item (%s), exiting" % item
-             sys.exit(1)
--        new_items.append(item)
--
--    cur_items = read_config_items(scripts_path, machine)
--    cur_items.extend(new_items)
--
--    write_config_items(scripts_path, machine, cur_items)
--
--    print "Added items:"
--    for n in new_items:
--        print "\t%s" % n
--
-+        if item not in cur_items and item not in new_items:
-+            new_items.append(item)
-+        else:
-+            dup_items.append(item)
-+
-+    if len(new_items) > 0:
-+        cur_items.extend(new_items)
-+        write_config_items(scripts_path, machine, cur_items)
-+        print "Added item%s:" % ("" if len(new_items)==1 else "s")
-+        for n in new_items:
-+            print "\t%s" % n
-+
-+    if len(dup_items) > 0:
-+        output="Below item%s already exist%s in current configuration, ignore %s" % \
-+            (("","s", "it") if len(dup_items)==1 else ("s", "", "them" ))
-+        print output
-+        for n in dup_items:
-+            print "\t%s" % n
- 
- def find_current_kernel(bsp_layer, machine):
-     """
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib jhuang0/d_lrzsz_0529_2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_lrzsz_0529_2
+
+Jackie Huang (1):
+  lrzsz: check locale.h in configure
+
+ .../lrzsz/lrzsz-0.12.20/lrzsz-check-locale.h.patch |   26 ++++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb            |    3 ++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz-check-locale.h.patch
+
 -- 
 1.7.9.5
 
