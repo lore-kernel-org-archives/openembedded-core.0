@@ -1,32 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA3D6066A
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qe0-f54.google.com (mail-qe0-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F0AF6066A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 21:59:24 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TM3fZ1025143; Wed, 29 May 2013 23:03:41 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dcnxd1N-dpOb; Wed, 29 May 2013 23:03:41 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TM3bL7025132
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 29 May 2013 23:03:39 +0100
-Message-ID: <1369864751.14887.258.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 29 May 2013 22:59:11 +0100
-In-Reply-To: <51A672E5.3060000@windriver.com>
-References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
-	<1369861845.14887.232.camel@ted> <51A672E5.3060000@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
+	Wed, 29 May 2013 22:14:02 +0000 (UTC)
+Received: by mail-qe0-f54.google.com with SMTP id i11so5506732qej.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 May 2013 15:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=1L77WJ4QmqTPePbVtOnuMI4JUnoJ0vCIgdp7hBf3QCo=;
+	b=ZJ4HnfS/9yaPmXxuUV7qwA6NXLY6SSoEn0as1Ak/ZFLq+ZjWFSD8e4gsAQdFELRF00
+	uIPKOYtKdWJpB+dgKbrFu4wVhmZlftHHLo3rrNrJUrO3RUiTKvD1pVC1jXwVd30tFfWv
+	b+a+up1jKX1p2QOThFCe4uuZ/eWel4eaSNxoh4TWEKdHpsvfz9fS2WOJZJLdBvPI97Y4
+	iDn5yZGZtlcHtdV0uH4KiZJuuU/n7YKeIua/RgjLlFogRDMYUzl0svVIAcwDzlLZyVV3
+	siAJg2/syKpWqdv5MsROdyRnFZL9cRHLgVOh0LJE/VplRn8dhkDNk1fV7BaJ6irJMtOf
+	q5xQ==
+MIME-Version: 1.0
+X-Received: by 10.224.128.70 with SMTP id j6mr5050622qas.41.1369865642963;
+	Wed, 29 May 2013 15:14:02 -0700 (PDT)
+Received: by 10.224.36.17 with HTTP; Wed, 29 May 2013 15:14:02 -0700 (PDT)
+In-Reply-To: <CAJTo0LYaM+1fB7h7cK0jQ3QcDio_79+y4eZ7_cpYxBTwiqoR4A@mail.gmail.com>
+References: <cover.1369576071.git.cazfi74@gmail.com>
+	<CAJTo0LYaM+1fB7h7cK0jQ3QcDio_79+y4eZ7_cpYxBTwiqoR4A@mail.gmail.com>
+Date: Thu, 30 May 2013 01:14:02 +0300
+Message-ID: <CAF6bG8dmfuM_mH3dhBaiM=0y2NkA0pXtehzfJnGJ9cKma+8dJg@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] RFC: Add recipe of gtk3 version of vte alongside gtk2 one.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,85 +43,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 21:59:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 May 2013 22:14:03 -0000
+Content-Type: multipart/alternative; boundary=001a11c1f8cc09f86704dde2b3c5
 
-On Wed, 2013-05-29 at 16:28 -0500, Mark Hatle wrote:
-> On 5/29/13 4:10 PM, Richard Purdie wrote:
-> > On Wed, 2013-05-29 at 10:10 -0500, Mark Hatle wrote:
-> >> From: Jason Wessel <jason.wessel@windriver.com>
-> >>
-> >> The ncurses package was generating the following error as a result
-> >> of not specifing the PACKAGES_DYNAMIC correctly.  This error only
-> >> appear when using the IMAGE_INSTALL list that has been expanded by
-> >> the hob or from the pkgdata.
-> >>
-> >> ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
-> >>
-> >> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> >> ---
-> >>   meta/recipes-core/ncurses/ncurses.inc | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> >> index 8a81381..584ad46 100644
-> >> --- a/meta/recipes-core/ncurses/ncurses.inc
-> >> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> >> @@ -29,6 +29,8 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
-> >>   # natives don't generally look in base_libdir
-> >>   base_libdir_class-native = "${libdir}"
-> >>
-> >> +PACKAGES_DYNAMIC = "^${PN}-.*"
-> >> +
-> >>   # Fall back to the host termcap / terminfo for -nativesdk and -native
-> >>   # The reality is a work around for strange problems with things like
-> >>   # "bitbake -c menuconfig busybox" where it cannot find the terminfo
-> >
-> > I'm pretty sure I talked to Jason about this and we concluded this was
-> > fixed with some other change in master. Certainly this fix as it stands
-> > doesn't sound right.
-> 
-> The original thread included libpcre, it was libpcre side was in fact fixed 
-> prior to the initial patch being submitted.  ncurses however is still broken.
-> 
-> If I revert this commit in my tree, and add to IMAGE_INSTALL "ncurses-libtinfo", 
-> I get the following failure:
-> 
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing RPROVIDES 'ncurses-libtinfo' (but 
-> /msp-lpggp21/lmhatle/build-1/layers/oe-core/meta/recipes-core/images/core-image-minimal.bb 
-> RDEPENDS on or otherwise requires it)
-> NOTE: Runtime target 'ncurses-libtinfo' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['ncurses-libtinfo']
-> ERROR: Required build target 'core-image-minimal' has no buildable providers.
-> Missing or unbuildable dependency chain was: ['core-image-minimal', 
-> 'ncurses-libtinfo']
-> 
-> with the patch applied it completes successfully.
-> 
-> Reproducer:
-> 
-> Add to conf/local.conf
-> 
-> IMAGE_INSTALL_append = " ncurses-libtinfo"
-> 
-> bitbake core-image-minimal
+--001a11c1f8cc09f86704dde2b3c5
+Content-Type: text/plain; charset=UTF-8
+
+On 29 May 2013 13:14, Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 26 May 2013 15:03, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> > Last gtk2-compatible version of vte is 0.28.2 currently present on OE
+> core.
+> > Later versions depend on gtk3.
+>
+> vte supports both gtk2 and gtk3.
+>
+
+ 0.30.0 NEWS states that "dropped support for gtk2". While this sounds like
+upstream 0.28.2 would work with either gtk2 or gtk3, OE recipe depends on
+"gtk+", which is always gtk2?
 
 
-Fair enough. Can we at least match the pattern do_split_packages uses,
-i.e.:
+> > Since gtk3 exist in OE core, it would make
+> > sense to be able to build version of vte (and other similar packages)
+> > that does not depend on gtk2. Otherwise we end with systems that must
+> > contain both gtk2 (to be used by some programs) and gtk3 (to be used by
+> > other programs).
+> > This patch just adds new recipe for latest vte version, 0.34.5, alongside
+> > with 0.28.2 version.
+> > How should priorities be set? "1" for gtk2-version, so it gets selected
+> despite gtk3-version being newer?
+>
+> Because they are *not* drop-in replacements, how about naming the gtk3
+> vte vte3_3.34.5.bb?
+>
 
-PACKAGES_DYNAMIC = "^${PN}-lib.*"
-
-I'm a little paranoid about adding wildcards like ${PN}-* as the
-potential for namespace problems is not insignificant, particularly if
-you know the horrible things bitbake does with this behind the
-scenes :/.
-
-Cheers,
-
-Richard
+ I think calling it vte3 would be confusing at best, when vte itself is not
+version 3.x. How about "vte-gtk3"?
 
 
+ - ML
+
+--001a11c1f8cc09f86704dde2b3c5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 29 May 2013 13:14, Burton, Ross <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel=
+.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmai=
+l_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 26 May 2013 15:03, Mark=
+o Lindqvist &lt;<a href=3D"mailto:cazfi74@gmail.com">cazfi74@gmail.com</a>&=
+gt; wrote:<br>
+
+&gt; Last gtk2-compatible version of vte is 0.28.2 currently present on OE =
+core.<br>
+&gt; Later versions depend on gtk3.<br>
+<br>
+</div>vte supports both gtk2 and gtk3.<br></blockquote><div><br></div><div>=
+=C2=A00.30.0 NEWS states that &quot;dropped support for gtk2&quot;. While t=
+his sounds like upstream 0.28.2 would work with either gtk2 or gtk3, OE rec=
+ipe depends on &quot;gtk+&quot;, which is always gtk2?<br>
+</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"im"=
+>
+&gt; Since gtk3 exist in OE core, it would make<br>
+&gt; sense to be able to build version of vte (and other similar packages)<=
+br>
+&gt; that does not depend on gtk2. Otherwise we end with systems that must<=
+br>
+&gt; contain both gtk2 (to be used by some programs) and gtk3 (to be used b=
+y<br>
+&gt; other programs).<br>
+&gt; This patch just adds new recipe for latest vte version, 0.34.5, alongs=
+ide<br>
+&gt; with 0.28.2 version.<br>
+&gt; How should priorities be set? &quot;1&quot; for gtk2-version, so it ge=
+ts selected despite gtk3-version being newer?<br>
+<br>
+</div>Because they are *not* drop-in replacements, how about naming the gtk=
+3<br>
+vte <a href=3D"http://vte3_3.34.5.bb" target=3D"_blank">vte3_3.34.5.bb</a>?=
+<br></blockquote><div><br></div><div>=C2=A0I think calling it vte3 would be=
+ confusing at best, when vte itself is not version 3.x. How about &quot;vte=
+-gtk3&quot;?<br>
+</div><div>=C2=A0<br><br></div><div><font color=3D"#888888">=C2=A0- ML<br><=
+br></font></div></div></div></div>
+
+--001a11c1f8cc09f86704dde2b3c5--
