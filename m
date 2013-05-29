@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 881C66A621
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 488C66A625
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:03:50 +0000 (UTC)
+	Wed, 29 May 2013 15:03:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3rRS014333
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3qE2016002
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:03:53 -0700 (PDT)
+	Wed, 29 May 2013 08:03:52 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:03:51 -0700
+	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:03:52 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:09:47 -0500
-Message-ID: <1369840203-21898-6-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 10:09:48 -0500
+Message-ID: <1369840203-21898-7-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 5/21] libpam: Avoid wildcards in the SRC_URI
+Subject: [PATCH 6/21] util-linux: Add ability to compile with nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:03:50 -0000
+X-List-Received-Date: Wed, 29 May 2013 15:03:51 -0000
 Content-Type: text/plain
 
-Remove the wildcard from the SRC_URI.  This causes problems when you .bbappend
-and add a FILESEXTRAPATHS entry.  The unpack task may be unable to find the
-files to unpack leading to an error.
+From: Jason Wessel <jason.wessel@windriver.com>
 
-Avoid wildcards at all costs...
+Some of the tools in the util-linux are used for disk and text file
+operations in the nativesdk so as to get around different versions
+that may exist on the host system.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/recipes-extended/pam/libpam_1.1.6.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/util-linux/util-linux.inc     | 5 ++++-
+ meta/recipes-core/util-linux/util-linux_2.23.bb | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index c355634..73a8f88 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -11,7 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7eb5c1bf854e8881005d673599ee74d3"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index b4e64b5..0ada1a5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -20,6 +20,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=679af3e410ee112a5ec94de6501bf5c3
+ inherit autotools gettext pkgconfig systemd
+ DEPENDS = "zlib ncurses"
+ DEPENDS_append_class-native = " lzo-native"
++DEPENDS_append_class-nativesdk = " lzo-native"
  
- SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
--           file://pam.d/* \
-+           file://pam.d/common-account \
-+           file://pam.d/common-auth \
-+           file://pam.d/common-password \
-+           file://pam.d/common-session \
-+           file://pam.d/common-session-noninteractive \
-+           file://pam.d/other \
-            file://libpam-xtests.patch \
-            file://destdirfix.patch \
-            file://fixsepbuild.patch \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.bz2 \
+            file://MCONFIG \
+@@ -94,7 +95,9 @@ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup"
+ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
+ 
+ RRECOMMENDS_${PN}_class-native = ""
++RRECOMMENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}_class-native = ""
++RDEPENDS_${PN}_class-nativesdk = ""
+ 
+ SYSTEMD_PACKAGES = "${PN}-uuidd"
+ SYSTEMD_SERVICE_${PN}-uuidd = "uuidd.service"
+@@ -214,4 +217,4 @@ ALTERNATIVE_util-linux-reset = "reset"
+ ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+ ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.23.bb b/meta/recipes-core/util-linux/util-linux_2.23.bb
+index d80b382..5d9a8dc 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.23.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.23.bb
+@@ -16,3 +16,4 @@ SRC_URI[sha256sum] = "19ee024b4c6678eaa928d38edc011c332b088e0ff06239575f6b7e00a1
+ 
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
+ EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
++EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
 -- 
 1.8.1.2.545.g2f19ada
 
