@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E91C96A487
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FEF6A62F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:03:54 +0000 (UTC)
+	Wed, 29 May 2013 15:03:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3vWW014345
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3uf1016013
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:03:57 -0700 (PDT)
+	Wed, 29 May 2013 08:03:56 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:03:55 -0700
+	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:03:56 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:09:53 -0500
-Message-ID: <1369840203-21898-12-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 10:09:54 -0500
+Message-ID: <1369840203-21898-13-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 11/21] guile: don't search for libreadline in host libdir
+Subject: [PATCH 12/21] dpkg-native: Fix native perl path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 May 2013 15:03:55 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Ming Liu <ming.liu@windriver.com>
 
-Fix the QA warning:
-WARNING: guile: The compile log indicates that host include and/or library paths were used.
+The path to the native perl was incorrect leading to rootfs failures. This
+patch corrects that problem, it's a complementary fix for commit:04432446.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
-index 617f7ce..058f243 100644
---- a/meta/recipes-devtools/guile/guile_2.0.9.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
-@@ -36,7 +36,7 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) != 'guile']}"
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 6197777..5fcf9bc 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -18,6 +18,9 @@ PARALLEL_MAKE = ""
  
--EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix', ''][bb.data.inherits_class('native',d)]}"
-+EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
+ inherit autotools gettext perlnative pkgconfig
  
- do_configure_prepend() {
- 	mkdir -p po
++export PERL = "${bindir}/perl"
++PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
++
+ export PERL_LIBDIR = "${libdir}/perl"
+ PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
+ 
 -- 
 1.8.1.2.545.g2f19ada
 
