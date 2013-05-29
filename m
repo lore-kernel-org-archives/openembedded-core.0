@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3E361A80
+	by mail.openembedded.org (Postfix) with ESMTP id 3C07E61A80
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 21:15:33 +0000 (UTC)
+	Wed, 29 May 2013 21:21:56 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TLJo3Y023374; Wed, 29 May 2013 22:19:50 +0100
+	r4TLQCSC023849; Wed, 29 May 2013 22:26:12 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qSrRijkjL2lY; Wed, 29 May 2013 22:19:50 +0100 (BST)
+	with LMTP id RaMV-qGaScFl; Wed, 29 May 2013 22:26:12 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4TLJhiO023368
+	r4TLQ8qU023845
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 29 May 2013 22:19:45 +0100
-Message-ID: <1369862117.14887.233.camel@ted>
+	verify=NOT); Wed, 29 May 2013 22:26:09 +0100
+Message-ID: <1369862502.14887.234.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 29 May 2013 22:15:17 +0100
-In-Reply-To: <1369840203-21898-11-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 22:21:42 +0100
+In-Reply-To: <1369840203-21898-18-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-11-git-send-email-mark.hatle@windriver.com>
+	<1369840203-21898-18-git-send-email-mark.hatle@windriver.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 10/21] ncurses, busybox, cml1.bbclass: Fix menuconfig display corruption
+Subject: Re: [PATCH 17/21] grep: fix for CVE-2012-5667
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 21:15:33 -0000
+X-List-Received-Date: Wed, 29 May 2013 21:21:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Wed, 2013-05-29 at 10:09 -0500, Mark Hatle wrote:
-> From: Jason Wessel <jason.wessel@windriver.com>
+> From: Ming Liu <ming.liu@windriver.com>
 > 
-> Previously there was a change to the ncurses compile to make it more
-> like the typical way it was compiled on a host system.  This fixed a
-> whole class of host machines, but masked the real underlying problem
-> with the display corruption issues and menuconfig.
+> Multiple integer overflows in GNU Grep before 2.11 might allow
+> context-dependent attackers to execute arbitrary code via vectors
+> involving a long input line that triggers a heap-based buffer overflow.
 > 
-> The corner case that led to the discovery that the wrong curses.h file
-> was getting used was when there was no curses libraries at all on one
-> of the development hosts.  What had happened before was that
-> /usr/include/curses.h on the host system had to match closely enough
-> to the curses.h in the sysroot and then linking against the sysroot
-> version of curses.so was ok (meaning no display corruption).  But on
-> some systems with ncurses.h vs curses.h such as SuSE hosts, there were
-> still issues.
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
 > 
-> If we fix the root of the problem and force the mconf and lxdialog to
-> use the correct headers and libraries from the sysroot there is no
-> further issues and the menuconfig target works properly.  It also
-> means we can back out the custom compilation flags to the ncurses
-> recipe because they are no longer needed.
-> 
-> For the kernel part of the menuconfig / nconfig changes it will be
-> merged separately and this is all based on:
-> 
-> https://lkml.org/lkml/2013/3/3/103
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
 > ---
->  meta/classes/cml1.bbclass                          |  5 +-
->  .../busybox-1.20.2/busybox-cross-menuconfig.patch  | 69 ++++++++++++++++++++++
->  meta/recipes-core/busybox/busybox_1.20.2.bb        |  3 +-
->  meta/recipes-core/ncurses/ncurses.inc              | 14 -----
->  4 files changed, 74 insertions(+), 17 deletions(-)
->  create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-cross-menuconfig.patch
+>  .../grep/grep-2.5.1a/grep-CVE-2012-5667.patch      | 28 ++++++++++++++++++++++
+>  meta/recipes-extended/grep/grep_2.5.1a.bb          |  3 ++-
+>  2 files changed, 30 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
+> 
+> diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
+> new file mode 100644
+> index 0000000..e163736
+> --- /dev/null
+> +++ b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
+> @@ -0,0 +1,28 @@
+> +The patch to fix CVE-2012-5667
+> +Reference: https://bugzilla.redhat.com/attachment.cgi?id=686605&action=diff
+> +
+> +Multiple integer overflows in GNU Grep before 2.11 might allow
+> +context-dependent attackers to execute arbitrary code via vectors
+> +involving a long input line that triggers a heap-based buffer overflow.
+> +
+> +http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
+> +
+> +Signed-off-by Ming Liu <ming.liu@windriver.com>
+> +---
+> + grep.c |    7 +++----
+> + 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Jason asked us to hold off merging this until things were sorted out in
-the mainline kernel. Has that happened?
+This needs an Upstream-Status field (I know its clear when you read it
+but the scripts can't do that).
 
 Cheers,
 
 Richard
+
+> +--- a/src/grep.c	2013-05-15 13:39:33.359191769 +0800
+> ++++ a/src/grep.c	2013-05-15 13:50:22.609191882 +0800
+> +@@ -306,6 +306,11 @@ fillbuf (size_t save, struct stats const
+> +   int cc = 1;
+> +   char *readbuf;
+> +   size_t readsize;
+> ++  const size_t max_save = INT_MAX / 2;
+> ++
+> ++  /* Limit the amount of saved data to INT_MAX to fix CVE-2012-5667 */
+> ++  if (save > max_save)
+> ++     error (2, 0, _("line too long"));
+> + 
+> +   /* Offset from start of buffer to start of old stuff
+> +      that we want to save.  */
+> diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
+> index d6386ed..247c837 100644
+> --- a/meta/recipes-extended/grep/grep_2.5.1a.bb
+> +++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
+> @@ -13,7 +13,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
+>             file://gettext.patch \
+>             file://fix64-int-to-pointer.patch \
+>             file://Makevars \
+> -           "
+> +           file://grep-CVE-2012-5667.patch \
+> +          "
+>  
+>  SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
+>  SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92bdd3132"
+
 
 
