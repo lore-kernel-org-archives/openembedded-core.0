@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
-	[209.85.212.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED546A5DA
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3CB6A42A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 10:14:25 +0000 (UTC)
-Received: by mail-vb0-f45.google.com with SMTP id 12so6093726vbf.18
+	Wed, 29 May 2013 11:00:53 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id c10so3387419wiw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 03:14:24 -0700 (PDT)
+	Wed, 29 May 2013 04:00:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=F6iNlPHFfS8957J03SB/CqXd0SuVXRewkXeNHbl98hM=;
-	b=SmPY4DsXhsDBp3+55hAL2HKtyR+2/gFqEaPpUDMRiqG0JC0ayXurv9dxOsvvdDo60F
-	qv1PaYTWAKZfOCRoeMjo6jN2d1TXH0tvRyuXUzAuXyQzLUynyVucDRj4//625UJTKSSj
-	4xeDZtfB7mOSZBDSboW+v7RZGwNncH9JlooYgeN7JBtW1seBFLTleAEM+hl4us+ltpif
-	N1HL/0JrEeLQ1/9y670tNWkmiwdN8DpzLmfGoRBGMl/0oqJymZlyP3gl/v9ZW+xU4rVo
-	RzMYIqGfI+0+p9jSvU0w71Iv1Y7sjq24TlRxHMkBFeNSJX5/Up9Zr+OdsZtTqTe5zXgb
-	A25g==
-X-Received: by 10.220.248.137 with SMTP id mg9mr1055503vcb.38.1369822464652;
-	Wed, 29 May 2013 03:14:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.98.7 with HTTP; Wed, 29 May 2013 03:14:03 -0700 (PDT)
-In-Reply-To: <cover.1369576071.git.cazfi74@gmail.com>
-References: <cover.1369576071.git.cazfi74@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 May 2013 11:14:03 +0100
-Message-ID: <CAJTo0LYaM+1fB7h7cK0jQ3QcDio_79+y4eZ7_cpYxBTwiqoR4A@mail.gmail.com>
-To: Marko Lindqvist <cazfi74@gmail.com>
-X-Gm-Message-State: ALoCoQlsz95o5xnPX7d2AxO+ZjHmL2DZmpHoYh38e9K9QOpbTffDwbPn6RsjNigs2A5dRrgd3ZMR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] RFC: Add recipe of gtk3 version of vte alongside gtk2 one.
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=QrGVQ6/1zEsC7sjBNAND5WC3l5q6DmZCIQp2xxV5QI8=;
+	b=Lkp9/gx9b8JfXbZYgLpGBqeHeyZKRvojqMzb1cnIFFq9Z2LR8gZs9/3dEr6j0VDDD3
+	w2hBB3m1VVDNh5ezi/r8bXUi9a+r18ZUrsoacWhORUD/+Jl6kToxhf1xT5t9Umc8HQ9i
+	FGNmQs1GSQZRovmPzi+LCAHEv28cnh02GkVgxho2hlAzjzpUcrqX5KuYVwb19SvLbiXQ
+	4lDvj/kkhKH1Rpf11rH3wMaiTi8gn3//0uqNfxnWGrK+mfwpD+Rr2Ai2Pt5Q3QSGzhWc
+	zzC+ifia68GQI+PUL/92mYliVpdE4h3eEHsTYlCZJA4cavQbNG/iolVbXv6oO1II1QTl
+	9Gog==
+X-Received: by 10.180.36.147 with SMTP id q19mr1603425wij.26.1369825253504;
+	Wed, 29 May 2013 04:00:53 -0700 (PDT)
+Received: from melchett.burtonini.com ([81.2.106.35])
+	by mx.google.com with ESMTPSA id m3sm30350942wij.5.2013.05.29.04.00.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 29 May 2013 04:00:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2013 11:57:33 +0100
+Message-Id: <1369825053-10131-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1369825053-10131-1-git-send-email-ross.burton@intel.com>
+References: <1369825053-10131-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnXb9Bq53pc61Z3A2/tIIpaBmAZ7nHKH8EDw/jkgArQdoAWBIFF9cXY7TaRDjZRgbkrLn1Q
+Subject: [PATCH 2/2] librsvg: add sstate dependencies so that the SVG loader works at staging time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,26 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 10:14:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 May 2013 11:00:54 -0000
 
-On 26 May 2013 15:03, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> Last gtk2-compatible version of vte is 0.28.2 currently present on OE core.
-> Later versions depend on gtk3.
+Add more sstate dependencies that were missing from the merge into master.
 
-vte supports both gtk2 and gtk3.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Since gtk3 exist in OE core, it would make
-> sense to be able to build version of vte (and other similar packages)
-> that does not depend on gtk2. Otherwise we end with systems that must
-> contain both gtk2 (to be used by some programs) and gtk3 (to be used by
-> other programs).
-> This patch just adds new recipe for latest vte version, 0.34.5, alongside
-> with 0.28.2 version.
-> How should priorities be set? "1" for gtk2-version, so it gets selected despite gtk3-version being newer?
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+index 3a00369..9b1e0ec 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+@@ -54,4 +54,4 @@ FILES_librsvg-gtk-dbg += "${libdir}/gdk-pixbuf-2.0/.debug \
+ PIXBUF_PACKAGES = "librsvg-gtk"
+ PARALLEL_MAKE = ""
+ 
+-PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene"
++PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene"
+-- 
+1.7.10.4
 
-Because they are *not* drop-in replacements, how about naming the gtk3
-vte vte3_3.34.5.bb?
-
-Ross
 
