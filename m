@@ -1,25 +1,21 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id DB4D86A578
+Return-Path: <eric@eukrea.com>
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by mail.openembedded.org (Postfix) with ESMTP id D38956A44D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 05:30:15 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 May 2013 22:30:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,763,1363158000"; d="scan'208";a="248010777"
-Received: from unknown (HELO [10.255.13.84]) ([10.255.13.84])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 May 2013 22:30:11 -0700
-Message-ID: <51A59262.6050403@linux.intel.com>
-Date: Wed, 29 May 2013 14:30:10 +0900
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Ionut Radu <ionutx.radu@intel.com>
-References: <cover.1369391140.git.ionutx.radu@intel.com>
-In-Reply-To: <cover.1369391140.git.ionutx.radu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/7] Package Upgrades
+	Wed, 29 May 2013 08:00:02 +0000 (UTC)
+Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
+	(Authenticated sender: eukrea)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 6DC714B01CC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 May 2013 09:59:58 +0200 (CEST)
+Date: Wed, 29 May 2013 09:59:56 +0200
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130529095956.3cd5dbd8@e6520eb>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Subject: update_icon_cache host access
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,91 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 05:30:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 29 May 2013 08:00:04 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 05/24/2013 07:44 PM, Ionut Radu wrote:
-> Sending only the cover letter for v2.
->
-> Changes in v2:
->   * freetype: added LIC_FILES_CHKSUM change explaination
->   * matchbox-keyboard: changed commit subject and fixed tabs and spaces mix for FILES_${PN}
->   * matchbox-terminal: changed commit subject and removed PR="r0"
->
-> Changes in v1:
->
-> test: I've tested patches with autobuilder on all 5 architectures
-> (nightly-x86, nightly-x86-64, nightly-arm, nightly-ppc, nightly-mips).
-> A have also tested locally on all architectures and verified that all
-> images successfully build and graphics is correcly displayed.
->
-> For each package individually I tested the basic functionality.
->
-> apt: I build an image with deb package management and I verified the
-> version with command line.
->
-> The following changes since commit fa4b1fa2577fb1a8128154c2f1417df575dbb022:
->
->    bitbake: cooker/cookerdata: Improve configuration object handling (2013-05-24 10:34:53 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib ionutx/work
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
->
-> Ionut Radu (7):
->    apt: Updated from 0.9.7.8 to 0.9.8.1
->    freetype: Updated from 2.4.11 to 2.4.12
->    libtasn1: Updated from 2.14 to 3.3
->    libsoup-2.4: Update from 2.42.1 to 2.43.1
-This was NACK'ed last time.
+Hi,
 
->    matchbox-keyboard: Update to git HEAD
->      135daab9eb4cd3647c02e82687f96d93619
-Commit message seems to have been dropped, no explanation about 
-LIC_FILES_CHKSUM changes or why the patch was dropped.
+while building an image I got :
 
-Sau!
+Running intercept scripts:
+> Executing update_font_cache
+> Executing update_icon_cache
+Failed to create file
+'/usr/lib/i386-linux-gnu/gdk-2.0/2.10.0/loaders.cache.K0FPXW':
+Permission denied
 
->    matchbox-terminal: Update to git HEAD
->      452bca253492a97a587f440289b9ab27d217353e
->    settings-daemon: Update to git HEAD
->      9a99528b02255450db81176abd9bbcc1dab9a4c1
->
->   .../disable-configure-in-makefile.patch            |    0
->   .../fix-gcc-4.6-null-not-defined.patch             |    0
->   .../{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch    |    0
->   .../no-ko-translation.patch                        |    0
->   .../{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch |    0
->   .../{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch |    0
->   .../apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch   |    0
->   .../truncate-filename.patch                        |    0
->   .../{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch    |    0
->   ...apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} |    0
->   .../apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb}         |    4 ++--
->   .../no-hardcode.patch                              |    0
->   .../{freetype_2.4.11.bb => freetype_2.4.12.bb}     |   11 ++++------
->   .../matchbox-keyboard/matchbox-keyboard_git.bb     |   21 ++++++++++----------
->   .../matchbox-terminal/matchbox-terminal_git.bb     |    3 +--
->   .../settings-daemon/settings-daemon_git.bb         |    2 +-
->   .../gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb}   |    6 ++----
->   ...libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} |    4 ++--
->   18 files changed, 22 insertions(+), 29 deletions(-)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/disable-configure-in-makefile.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/fix-gcc-4.6-null-not-defined.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/makerace.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-ko-translation.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/no-nls-dpkg.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/noconfigure.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/nodoc.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/truncate-filename.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.7.8 => apt-0.9.8.1}/use-host.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-native_0.9.7.8.bb => apt-native_0.9.8.1.bb} (100%)
->   rename meta/recipes-devtools/apt/{apt_0.9.7.8.bb => apt_0.9.8.1.bb} (74%)
->   rename meta/recipes-graphics/freetype/{freetype-2.4.11 => freetype-2.4.12}/no-hardcode.patch (100%)
->   rename meta/recipes-graphics/freetype/{freetype_2.4.11.bb => freetype_2.4.12.bb} (83%)
->   rename meta/recipes-support/gnutls/{libtasn1_2.14.bb => libtasn1_3.3.bb} (81%)
->   rename meta/recipes-support/libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.1.bb} (85%)
->
+apt-get remove libgdk-pixbuf2.0-0
+workaround the problem in the present case but it seems that if
+gdk-pixbuf is present on the host, it will be used instead of the one
+built by OE.
+
+Build Configuration:
+BB_VERSION        = "1.18.0"
+BUILD_SYS         = "i686-linux"
+NATIVELSBSTRING   = "Ubuntu-12.04"
+TARGET_SYS        = "arm-oe-linux-gnueabi"
+DISTRO            = "defaultsetup"
+DISTRO_VERSION    = "oe-core.0"
+TUNE_FEATURES     = "armv7a vfp neon"
+TARGET_FPU        = "vfp-neon"
+
+Eric
 
