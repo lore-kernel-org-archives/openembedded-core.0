@@ -1,37 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f169.google.com (mail-ie0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A98F61A80
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 024876A499
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 17:36:11 +0000 (UTC)
-Received: by mail-ie0-f169.google.com with SMTP id u16so26180985iet.28
+	Wed, 29 May 2013 17:41:24 +0000 (UTC)
+Received: by mail-ie0-f172.google.com with SMTP id 17so5001923iea.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 10:36:12 -0700 (PDT)
+	Wed, 29 May 2013 10:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=H+j2Q7ybhh8VIwgCB+gRBAfZZffGOweGDsJHqxIhxDc=;
-	b=LSSUQJaHanKncjkfXzfbIHPlPaiVEOk3Ci85GDGwnZ0qS7YlCldkQNao3eOpl9+LwS
-	LHP8ZALifohVg6oLS7P9H5ZztHkjDGnXV5AO4TSXnNxG6OGVEgbsnTw+j55Qf4ok2ZE1
-	oFN4DyWHa7M/HAzm4TVEmtF8v1dbKHGioRTwXd4Xp4P0CambU/3O5UJSUaKF8MHiTX6R
-	qQpYrm3zTZb2w2/ryj9N6OUWn0lxT/tOl2nAZ1JNj8JxNyNJKS4qujl44h7qhfBuoqsm
-	rzyFARG+QmQo/a5jLa+brva34hRcagPJCSdCo4arj/1hngHT5iuW0wXyCQFkgOOWeIor
-	rsvQ==
+	bh=OSHtIZNYOv4AJb1ojymDfqIYV6Kpb0D0Q8hTuvbjdrg=;
+	b=Y9TsdlfsyGcqNxda3NPi80/yggdDqAg1MAlUIMYXvGOSvFYeCNU2NZQSWUQYTjjTfr
+	K/wDxQUnIlZ9QnCsetoWRve50G2vXVicBdCKCT2pFBhoj1Etl45Mx4i4zvVi5QNpGKSR
+	uk4GIScO11cs7Z3jGN9jcfdVwU0SMTiSATAB/K7owCiWgrb6jilScFtN3sZwp9jNsEIj
+	/ll2GIBEyh8CRKvxvZGfWmHd9X2sOyHgIu89IiBU7o48+sF9Lsvq0vFLjmfFYLD5cQTB
+	lKDQic0OjVp0cPy6zv1YEisszK8Vk6vxox6fhYSAqVj0mrKSYqlnKTyy7IMAc1pP8jgz
+	/nrg==
 MIME-Version: 1.0
-X-Received: by 10.42.155.202 with SMTP id v10mr1619918icw.2.1369848972130;
-	Wed, 29 May 2013 10:36:12 -0700 (PDT)
-Received: by 10.50.108.45 with HTTP; Wed, 29 May 2013 10:36:11 -0700 (PDT)
-In-Reply-To: <51A62D21.4010909@windriver.com>
-References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-3-git-send-email-mark.hatle@windriver.com>
-	<20130529155906.GO3192@jama> <51A62D21.4010909@windriver.com>
-Date: Wed, 29 May 2013 10:36:11 -0700
-Message-ID: <CAMKF1soU+fZPUJFq8NNB85RTv8JEmYvwww5Du8cNBR1ScKNXGQ@mail.gmail.com>
+X-Received: by 10.50.7.97 with SMTP id i1mr8711883iga.82.1369849285830; Wed,
+	29 May 2013 10:41:25 -0700 (PDT)
+Received: by 10.50.108.45 with HTTP; Wed, 29 May 2013 10:41:25 -0700 (PDT)
+In-Reply-To: <1369842682-11880-1-git-send-email-paul.eggleton@linux.intel.com>
+References: <1369842682-11880-1-git-send-email-paul.eggleton@linux.intel.com>
+Date: Wed, 29 May 2013 10:41:25 -0700
+Message-ID: <CAMKF1sotc9HtmKM8ZAE1k3Z1P8qf7G44T31X4T-Zbo1PcWWS4A@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/21] Add directory information to the pkgdata files
+Subject: Re: [PATCH] python-smartpm: add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,115 +42,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 17:36:11 -0000
-Content-Type: multipart/alternative; boundary=90e6ba212477613f5904ddded182
+X-List-Received-Date: Wed, 29 May 2013 17:41:25 -0000
+Content-Type: multipart/alternative; boundary=089e0122f7d413f1d404dddee401
 
---90e6ba212477613f5904ddded182
+--089e0122f7d413f1d404dddee401
 Content-Type: text/plain; charset=UTF-8
 
-On Wednesday, May 29, 2013, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 5/29/13 10:59 AM, Martin Jansa wrote:
->>
->> On Wed, May 29, 2013 at 10:09:44AM -0500, Mark Hatle wrote:
->>>
->>> Add S(ource) and B(uild) directory information to the recipe pkgdata
-files.
->>> This allows external tools to find the appropriate information, and be
-able
->>> to easily access the corresponding sources and build directories.
->>>
->>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-
-Hi Mark
-
-This won't work well when package is populated from sstate is there a way
-for it to work seamlessly across sstate it might be useful
-
-
->>> ---
->>>   meta/classes/package.bbclass | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->>> index 02a1460..19b2b4c 100644
->>> --- a/meta/classes/package.bbclass
->>> +++ b/meta/classes/package.bbclass
->>> @@ -1124,6 +1124,8 @@ python emit_pkgdata() {
->>>
->>>       data_file = pkgdatadir + d.expand("/${PN}" )
->>>       f = open(data_file, 'w')
->>> +    f.write("S: %s\n" % d.expand("${S}"))
->>> +    f.write("B: %s\n" % d.expand("${B}"))
->>>       f.write("PACKAGES: %s\n" % packages)
->>>       f.close()
->>
->> how does this interact with sstate? does setscene task create
->> pkgdata with right paths?
->>
+On Wednesday, May 29, 2013, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
+> Fixes the following failure at do_install if gettext-native has not
+> already been built and gettext tools are not installed on the host:
 >
-> The pkgdata is always current to the current build/work directory.  When
-the sstate-cache runs, and the associated pkgdata is dumped to the disk the
-S and B for the current directory is written.  But when sstate-cache is
-used, there is no extracted source (or build) components so those
-directories remain unresolved.
+> | compiling locale/it/LC_MESSAGES/smart.po ->
+locale/it/LC_MESSAGES/smart.mo
+> | sh: msgfmt: command not found
+> ...
+> | creating $D/usr/share/share/locale/it/LC_MESSAGES
+> | error: can't copy 'locale/it/LC_MESSAGES/smart.mo': doesn't exist or
+not a regular file
 >
-> It's up to the tooling that are using these files to check if the
-directory exists, if it does not -- then using bitbake -c patch <recipe>
-will create it. (even in the sstate-cache case.)
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-devtools/python/python-smartpm_1.4.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> --Mark
+> diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bbb/meta/recipes-devtools/python/
+python-smartpm_1.4.1.bb
+> index cfa2dba..0cf3847 100644
+> --- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> +++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> @@ -8,7 +8,7 @@ SECTION = "devel/python"
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+>
+> -DEPENDS = "python rpm"
+> +DEPENDS = "python rpm gettext-native"
+
+Why not inherit gettext ?
+
+
+>  PR = "r9"
+>  SRCNAME = "smart"
+>
+> --
+> 1.8.1.2
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---90e6ba212477613f5904ddded182
+--089e0122f7d413f1d404dddee401
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Wednesday, May 29, 2013, Mark Hatle &lt;<a href=3D"mailto:mark.h=
-atle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>&gt; On 5/29=
-/13 10:59 AM, Martin Jansa wrote:<br>&gt;&gt;<br>&gt;&gt; On Wed, May 29, 2=
-013 at 10:09:44AM -0500, Mark Hatle wrote:<br>
-&gt;&gt;&gt;<br>&gt;&gt;&gt; Add S(ource) and B(uild) directory information=
- to the recipe pkgdata files.<br>&gt;&gt;&gt; This allows external tools to=
- find the appropriate information, and be able<br>&gt;&gt;&gt; to easily ac=
-cess the corresponding sources and build directories.<br>
-&gt;&gt;&gt;<br>&gt;&gt;&gt; Signed-off-by: Mark Hatle &lt;<a href=3D"mailt=
-o:mark.hatle@windriver.com">mark.hatle@windriver.com</a>&gt;<br><br>Hi Mark=
-<br><br>This won&#39;t work well when package is populated from sstate is t=
-here a way for it to work seamlessly across sstate it might be useful<br>
-<br><br>&gt;&gt;&gt; ---<br>&gt;&gt;&gt; =C2=A0 meta/classes/package.bbclas=
-s | 2 ++<br>&gt;&gt;&gt; =C2=A0 1 file changed, 2 insertions(+)<br>&gt;&gt;=
-&gt;<br>&gt;&gt;&gt; diff --git a/meta/classes/package.bbclass b/meta/class=
-es/package.bbclass<br>
-&gt;&gt;&gt; index 02a1460..19b2b4c 100644<br>&gt;&gt;&gt; --- a/meta/class=
-es/package.bbclass<br>&gt;&gt;&gt; +++ b/meta/classes/package.bbclass<br>&g=
-t;&gt;&gt; @@ -1124,6 +1124,8 @@ python emit_pkgdata() {<br>&gt;&gt;&gt;<br=
->
-&gt;&gt;&gt; =C2=A0 =C2=A0 =C2=A0 data_file =3D pkgdatadir + d.expand(&quot=
-;/${PN}&quot; )<br>&gt;&gt;&gt; =C2=A0 =C2=A0 =C2=A0 f =3D open(data_file, =
-&#39;w&#39;)<br>&gt;&gt;&gt; + =C2=A0 =C2=A0f.write(&quot;S: %s\n&quot; % d=
-.expand(&quot;${S}&quot;))<br>&gt;&gt;&gt; + =C2=A0 =C2=A0f.write(&quot;B: =
-%s\n&quot; % d.expand(&quot;${B}&quot;))<br>
-&gt;&gt;&gt; =C2=A0 =C2=A0 =C2=A0 f.write(&quot;PACKAGES: %s\n&quot; % pack=
-ages)<br>&gt;&gt;&gt; =C2=A0 =C2=A0 =C2=A0 f.close()<br>&gt;&gt;<br>&gt;&gt=
-; how does this interact with sstate? does setscene task create<br>&gt;&gt;=
- pkgdata with right paths?<br>
-&gt;&gt;<br>&gt;<br>&gt; The pkgdata is always current to the current build=
-/work directory. =C2=A0When the sstate-cache runs, and the associated pkgda=
-ta is dumped to the disk the S and B for the current directory is written. =
-=C2=A0But when sstate-cache is used, there is no extracted source (or build=
-) components so those directories remain unresolved.<br>
-&gt;<br>&gt; It&#39;s up to the tooling that are using these files to check=
- if the directory exists, if it does not -- then using bitbake -c patch &lt=
-;recipe&gt; will create it. (even in the sstate-cache case.)<br>&gt;<br>
-&gt; --Mark<br>&gt; _______________________________________________<br>&gt;=
- Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-core=
-@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>&gt;
+<br><br>On Wednesday, May 29, 2013, Paul Eggleton &lt;<a href=3D"mailto:pau=
+l.eggleton@linux.intel.com">paul.eggleton@linux.intel.com</a>&gt; wrote:<br=
+>&gt; Fixes the following failure at do_install if gettext-native has not<b=
+r>
+&gt; already been built and gettext tools are not installed on the host:<br=
+>&gt;<br>&gt; | compiling locale/it/LC_MESSAGES/smart.po -&gt; locale/it/LC=
+_MESSAGES/smart.mo<br>&gt; | sh: msgfmt: command not found<br>&gt; ...<br>
+&gt; | creating $D/usr/share/share/locale/it/LC_MESSAGES<br>&gt; | error: c=
+an&#39;t copy &#39;locale/it/LC_MESSAGES/smart.mo&#39;: doesn&#39;t exist o=
+r not a regular file<br>&gt;<br>&gt; Signed-off-by: Paul Eggleton &lt;<a hr=
+ef=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.intel.com</=
+a>&gt;<br>
+&gt; ---<br>&gt; =C2=A0meta/recipes-devtools/python/<a href=3D"http://pytho=
+n-smartpm_1.4.1.bb">python-smartpm_1.4.1.bb</a> | 2 +-<br>&gt; =C2=A01 file=
+ changed, 1 insertion(+), 1 deletion(-)<br>&gt;<br>&gt; diff --git a/meta/r=
+ecipes-devtools/python/<a href=3D"http://python-smartpm_1.4.1.bb">python-sm=
+artpm_1.4.1.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python-=
+smartpm_1.4.1.bb">python-smartpm_1.4.1.bb</a><br>
+&gt; index cfa2dba..0cf3847 100644<br>&gt; --- a/meta/recipes-devtools/pyth=
+on/<a href=3D"http://python-smartpm_1.4.1.bb">python-smartpm_1.4.1.bb</a><b=
+r>&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python-smartpm_=
+1.4.1.bb">python-smartpm_1.4.1.bb</a><br>
+&gt; @@ -8,7 +8,7 @@ SECTION =3D &quot;devel/python&quot;<br>&gt; =C2=A0LIC=
+ENSE =3D &quot;GPLv2&quot;<br>&gt; =C2=A0LIC_FILES_CHKSUM =3D &quot;file://=
+LICENSE;md5=3D393a5ca445f6965873eca0259a17f833&quot;<br>&gt;<br>&gt; -DEPEN=
+DS =3D &quot;python rpm&quot;<br>
+&gt; +DEPENDS =3D &quot;python rpm gettext-native&quot;<br><br>Why not inhe=
+rit gettext ?<br><br><br>&gt; =C2=A0PR =3D &quot;r9&quot;<br>&gt; =C2=A0SRC=
+NAME =3D &quot;smart&quot;<br>&gt;<br>&gt; --<br>&gt; 1.8.1.2<br>&gt;<br>&g=
+t; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-=
+core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><b=
+r>&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedd=
+ed-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</=
+a><br>
+&gt;
 
---90e6ba212477613f5904ddded182--
+--089e0122f7d413f1d404dddee401--
