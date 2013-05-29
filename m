@@ -1,35 +1,20 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB7A6A61B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 717686A4E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:37:18 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id m16so4753879qcq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=tKa/mMzZsuhqzE8I1QG9BiRdjM5Axv/p1xTl+GzWtao=;
-	b=Q5IPnDeevZ0pSQLPfsajzu8/K9wGnThFz2ccpl6vvW6+jqGoUsByieF7RX5BCWFGzY
-	U3e3bZNH8Qa82PkgT3YXgbzye2/ITvKx+IYDv8OETS3zmy8/HQdwVhoCJUT27roJ5ekq
-	4Qai88bjxtbLdj7iltr7mHq+/tBaUuVl5w2G3UIVq0OGSqJ0nYy/kqLwsBlvg6GMg2I8
-	DSKiE82i32cVfBTa4vvQ6A12cI3iG50aJG4ajNIlFucKiraj1rsXDs8JKevwwo36PNWr
-	ZvpHNmlPPcjq8f8miZjILQizAW3oENZB4xGrmJ3nD2gvX1k/tMTpnXoo/dAoDEgMysx9
-	wdfw==
-MIME-Version: 1.0
-X-Received: by 10.229.24.198 with SMTP id w6mr379261qcb.37.1369841838982; Wed,
-	29 May 2013 08:37:18 -0700 (PDT)
-Received: by 10.224.36.17 with HTTP; Wed, 29 May 2013 08:37:18 -0700 (PDT)
-In-Reply-To: <cover.1369783207.git.sgw@linux.intel.com>
-References: <cover.1369783207.git.sgw@linux.intel.com>
-Date: Wed, 29 May 2013 18:37:18 +0300
-Message-ID: <CAF6bG8cZMz5CZ7zEHN=zTNWe_vK_f7P_-Vir6FVSeQ6sJqu-EA@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/28] Updates and /run fixes
+	Wed, 29 May 2013 15:51:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 May 2013 08:51:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,765,1363158000"; d="scan'208";a="345164372"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.189])
+	by fmsmga002.fm.intel.com with ESMTP; 29 May 2013 08:51:27 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2013 16:51:22 +0100
+Message-Id: <1369842682-11880-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] python-smartpm: add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:37:18 -0000
-Content-Type: multipart/alternative; boundary=14dae9d70e7436102b04dddd28cc
+X-List-Received-Date: Wed, 29 May 2013 15:51:40 -0000
 
---14dae9d70e7436102b04dddd28cc
-Content-Type: text/plain; charset=UTF-8
+Fixes the following failure at do_install if gettext-native has not
+already been built and gettext tools are not installed on the host:
 
-On 29 May 2013 02:23, Saul Wold <sgw@linux.intel.com> wrote:
+| compiling locale/it/LC_MESSAGES/smart.po -> locale/it/LC_MESSAGES/smart.mo
+| sh: msgfmt: command not found
+...
+| creating $D/usr/share/share/locale/it/LC_MESSAGES
+| error: can't copy 'locale/it/LC_MESSAGES/smart.mo': doesn't exist or not a regular file
 
->
-> Marko Lindqvist (5):
->   zlib: update to upstream version 1.2.8
->
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-smartpm_1.4.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- I already have new version of this that uses tar.xz source package in my
-next set of updates.
+diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+index cfa2dba..0cf3847 100644
+--- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
++++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+@@ -8,7 +8,7 @@ SECTION = "devel/python"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+ 
+-DEPENDS = "python rpm"
++DEPENDS = "python rpm gettext-native"
+ PR = "r9"
+ SRCNAME = "smart"
+ 
+-- 
+1.8.1.2
 
 
-
- - ML
-
---14dae9d70e7436102b04dddd28cc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 29 May 2013 02:23, Saul Wold <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a=
->&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">
-
-<br>
-Marko Lindqvist (5):<br>
-=C2=A0 zlib: update to upstream version 1.2.8<br></blockquote></div><br></d=
-iv><div class=3D"gmail_extra">=C2=A0I already have new version of this that=
- uses tar.xz source package in my next set of updates.<br><br><br><br></div=
-><div class=3D"gmail_extra">
-=C2=A0- ML<br><br></div></div>
-
---14dae9d70e7436102b04dddd28cc--
