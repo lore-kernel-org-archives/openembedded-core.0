@@ -1,11 +1,11 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BC886A62F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A1346A621
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:03:56 +0000 (UTC)
+	Wed, 29 May 2013 15:03:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3wPM014348
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF3wpu016018
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 May 2013 08:03:58 -0700 (PDT)
@@ -14,14 +14,14 @@ Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:03:57 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:09:55 -0500
-Message-ID: <1369840203-21898-14-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 10:09:56 -0500
+Message-ID: <1369840203-21898-15-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 13/21] qmake_base.bbclass:add linux-gnun32-oe-g++ to QMAKESPEC
+Subject: [PATCH 14/21] portmap: /etc/init.d/portmap restart complains "command not found"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:03:56 -0000
+X-List-Received-Date: Wed, 29 May 2013 15:03:57 -0000
 Content-Type: text/plain
 
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
+From: Amy Fong <amy.fong@windriver.com>
 
-For some mips targets, TARGET_OS is set to linux-gnun32, while
-linux-gnun32-oe-g++ is not listed in the default QMAKESPEC list of
-qmake in oe-core/wrlinux. This would cause build failures for qt
-apps, so add a matching rule to fix this.
+portmap splits pmap_dump and pmap_set into a different package:
+portmap_utils. Since this package might not be installed, I introduce
+another init file that tests for the existance of these apps before trying
+to run the pmap_* commands.
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/qmake_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/portmap/portmap/portmap.init | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
-index fa1b5f0..52e7fb0 100644
---- a/meta/classes/qmake_base.bbclass
-+++ b/meta/classes/qmake_base.bbclass
-@@ -48,7 +48,7 @@ addtask generate_qt_config_file after do_patch before do_configure
- 
- qmake_base_do_configure() {
- 	case ${QMAKESPEC} in
--	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++|*linux-gnuspe-oe-g++|*linux-uclibcspe-oe-g++)
-+	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++|*linux-gnuspe-oe-g++|*linux-uclibcspe-oe-g++|*linux-gnun32-oe-g++)
- 		;;
- 	*-oe-g++)
- 		die Unsupported target ${TARGET_OS} for oe-g++ qmake spec
+diff --git a/meta/recipes-connectivity/portmap/portmap/portmap.init b/meta/recipes-connectivity/portmap/portmap/portmap.init
+index e46513e..e7031af 100755
+--- a/meta/recipes-connectivity/portmap/portmap/portmap.init
++++ b/meta/recipes-connectivity/portmap/portmap/portmap.init
+@@ -40,14 +40,22 @@ case "$1" in
+         $0 restart
+ 	;;
+     restart)
+-	pmap_dump >/var/run/portmap.state
++	# pmap_dump and pmap_set may be in a different package and not installed...
++	if [ -f /sbin/pmap_dump -a -f /sbin/pmap_set ]; then
++		do_state=1
++	else
++		do_state=0
++	fi
++	[ $do_state -eq 1 ] && pmap_dump >/var/run/portmap.state
+         $0 stop
+         $0 start
+-	if [ ! -f /var/run/portmap.upgrade-state ]; then
+-          sleep 1
+-	  pmap_set </var/run/portmap.state
++	if [ $do_state -eq 1 ]; then
++	  if [ ! -f /var/run/portmap.upgrade-state ]; then
++            sleep 1
++	    pmap_set </var/run/portmap.state
++	  fi
++	  rm -f /var/run/portmap.state
+ 	fi
+-	rm -f /var/run/portmap.state
+ 	;;
+     *)
+ 	echo "Usage: /etc/init.d/portmap {start|stop|reload|restart}"
 -- 
 1.8.1.2.545.g2f19ada
 
