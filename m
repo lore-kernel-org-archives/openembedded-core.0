@@ -1,41 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 093616A633
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EB7A6A61B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:24:34 +0000 (UTC)
-Received: by mail-ve0-f171.google.com with SMTP id b10so1270186vea.30
+	Wed, 29 May 2013 15:37:18 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id m16so4753879qcq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:24:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=lb28RPNC60gilpUl3ExcUROWVIsMKnbhz+/f5eGi5sY=;
-	b=cd/vztrwUV7ex3SC1Rss8aQdgx7ro7njvi0VeVYzQ/2sKOryXGQfmZaXiB1/aoVY4K
-	TIrGbT7zUhWCre+ErLCF/DXwzroaFzIB03NVmXJ0+se+QAkITqy6djKlhBcS7f5nMvgg
-	NhhkTpbQ4clFrCSNYDEqcmNhbucuLwFidVl3PhY2pntnurqKCfurVAPVNroyoK32yTWu
-	RJuMKoKqKjx8mvji1k6W0NYX/13xnelssFMQ8VtfoaPX2aFEQwwx3symhm0uDEsEhf5T
-	xSEH5EwjczrkZ1zG/mic0A+l+l6LRJWD6SLO6uO9nYhUZYH4Q9J8eU9VhRZyjjhHjWlF
-	XG8g==
-X-Received: by 10.220.248.137 with SMTP id mg9mr1883358vcb.38.1369841075558;
-	Wed, 29 May 2013 08:24:35 -0700 (PDT)
+	Wed, 29 May 2013 08:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=tKa/mMzZsuhqzE8I1QG9BiRdjM5Axv/p1xTl+GzWtao=;
+	b=Q5IPnDeevZ0pSQLPfsajzu8/K9wGnThFz2ccpl6vvW6+jqGoUsByieF7RX5BCWFGzY
+	U3e3bZNH8Qa82PkgT3YXgbzye2/ITvKx+IYDv8OETS3zmy8/HQdwVhoCJUT27roJ5ekq
+	4Qai88bjxtbLdj7iltr7mHq+/tBaUuVl5w2G3UIVq0OGSqJ0nYy/kqLwsBlvg6GMg2I8
+	DSKiE82i32cVfBTa4vvQ6A12cI3iG50aJG4ajNIlFucKiraj1rsXDs8JKevwwo36PNWr
+	ZvpHNmlPPcjq8f8miZjILQizAW3oENZB4xGrmJ3nD2gvX1k/tMTpnXoo/dAoDEgMysx9
+	wdfw==
 MIME-Version: 1.0
-Received: by 10.220.98.7 with HTTP; Wed, 29 May 2013 08:24:15 -0700 (PDT)
-In-Reply-To: <000f01ce5b5b$c64e39d0$52eaad70$@com>
-References: <1369119875-4984-1-git-send-email-b40527@freescale.com>
-	<CAJTo0LZA89rPdGy65ShyfxjS4jenHsinO5JPsTbWNi3sgOD=Eg@mail.gmail.com>
-	<000701ce5b4e$3c7684e0$b5638ea0$@com>
-	<CAP9ODKo8453_vw-9u+8308vsvy3zRoSk0ptoEzgo8gFpwp76SQ@mail.gmail.com>
-	<000f01ce5b5b$c64e39d0$52eaad70$@com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 May 2013 16:24:15 +0100
-Message-ID: <CAJTo0LbLEH+S4OpoKVQyeV2j2gV9pkzsS1L9vyoB=SPSCzL1VQ@mail.gmail.com>
-To: Zongchun YU <b40527@freescale.com>
-X-Gm-Message-State: ALoCoQk0PvzVsevgrLe4H4PBO6r4ukz5gTh4ClvBAWR4rr+4F1+azYesZxqRlWJ0XhBxH7t5OZ5d
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files:fix the command line wrap around issue
+X-Received: by 10.229.24.198 with SMTP id w6mr379261qcb.37.1369841838982; Wed,
+	29 May 2013 08:37:18 -0700 (PDT)
+Received: by 10.224.36.17 with HTTP; Wed, 29 May 2013 08:37:18 -0700 (PDT)
+In-Reply-To: <cover.1369783207.git.sgw@linux.intel.com>
+References: <cover.1369783207.git.sgw@linux.intel.com>
+Date: Wed, 29 May 2013 18:37:18 +0300
+Message-ID: <CAF6bG8cZMz5CZ7zEHN=zTNWe_vK_f7P_-Vir6FVSeQ6sJqu-EA@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/28] Updates and /run fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,20 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:24:35 -0000
+X-List-Received-Date: Wed, 29 May 2013 15:37:18 -0000
+Content-Type: multipart/alternative; boundary=14dae9d70e7436102b04dddd28cc
+
+--14dae9d70e7436102b04dddd28cc
 Content-Type: text/plain; charset=UTF-8
+
+On 29 May 2013 02:23, Saul Wold <sgw@linux.intel.com> wrote:
+
+>
+> Marko Lindqvist (5):
+>   zlib: update to upstream version 1.2.8
+>
+
+ I already have new version of this that uses tar.xz source package in my
+next set of updates.
+
+
+
+ - ML
+
+--14dae9d70e7436102b04dddd28cc
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 28 May 2013 05:28, Zongchun YU <b40527@freescale.com> wrote:
-> It seems that setting it in environment is a workaround for the real issu=
-e.
-> Can't the same be accomplished changing busybox settings?
->
-> Can you explain your idea in detail? Do you mean changing the setting of
-> =E2=80=9Cresize=E2=80=9D in busybox or other?
+<div dir=3D"ltr">On 29 May 2013 02:23, Saul Wold <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a=
+>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
 
-Yes.  At least for my target, CONFIG_RESIZE isn't enabled that I'd
-expect to be required for this to work.
+<br>
+Marko Lindqvist (5):<br>
+=C2=A0 zlib: update to upstream version 1.2.8<br></blockquote></div><br></d=
+iv><div class=3D"gmail_extra">=C2=A0I already have new version of this that=
+ uses tar.xz source package in my next set of updates.<br><br><br><br></div=
+><div class=3D"gmail_extra">
+=C2=A0- ML<br><br></div></div>
 
-Ross
-
+--14dae9d70e7436102b04dddd28cc--
