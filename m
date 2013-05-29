@@ -1,27 +1,26 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D09C06A651
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 83A786A631
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:04:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF43ti016045
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:04:03 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:04:02 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:10:03 -0500
-Message-ID: <1369840203-21898-22-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+	Wed, 29 May 2013 15:11:14 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 29 May 2013 08:09:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,764,1363158000"; d="scan'208";a="345021544"
+Received: from unknown (HELO helios.localnet) ([10.252.121.189])
+	by orsmga002.jf.intel.com with ESMTP; 29 May 2013 08:11:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 16:11:13 +0100
+Message-ID: <1430982.Rlu8fDEFUU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-22-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <1369840203-21898-3-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+	<1369840203-21898-3-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 21/21] libarchive: Fix build dependencies
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/21] Add directory information to the pkgdata files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:04:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 May 2013 15:11:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Move to using the PACKAGECONFIG mechanism to select configure options and
-dependencies.  Without this the system will attempt to discover various
-dependencies, and usually does so incorrectly.
+On Wednesday 29 May 2013 10:09:44 Mark Hatle wrote:
+> Add S(ource) and B(uild) directory information to the recipe pkgdata files.
+> This allows external tools to find the appropriate information, and be able
+> to easily access the corresponding sources and build directories.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/package.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 02a1460..19b2b4c 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1124,6 +1124,8 @@ python emit_pkgdata() {
+> 
+>      data_file = pkgdatadir + d.expand("/${PN}" )
+>      f = open(data_file, 'w')
+> +    f.write("S: %s\n" % d.expand("${S}"))
+> +    f.write("B: %s\n" % d.expand("${B}"))
+>      f.write("PACKAGES: %s\n" % packages)
+>      f.close()
 
-We also ensure that the nativesdk version does not inherit any of the
-DISTRO_FEATURES.  We shouldn't need acl or xattr support for nativesdk.
+I'm not sure I'm totally comfortable with this idea. External tools shouldn't 
+necessarily expect to be able to poke into the source after packaging occurs - 
+rm_work (if enabled) will remove the work directory, and separately sstate may 
+restore the pkgdata and not the workdir. In both situations these values will 
+be invalid.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-extended/libarchive/libarchive_2.8.5.bb | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+If tools need to be able to find out the values of S and B then I think they 
+ought to be querying them via bitbake.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-index 5cf13e6..06989d3 100644
---- a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-@@ -5,7 +5,25 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4255e2e6f0349a4ac8fbd68459296e46"
- PR = "r0"
- 
--DEPENDS = "libxml2"
-+PACKAGECONFIG ?= "libxml2 zlib bz2"
-+
-+PACKAGECONFIG_class-target += "\
-+	${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-+	${@base_contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)} \
-+	${@base_contains('DISTRO_FEATURES', 'largefile', 'largefile', '', d)} \
-+"
-+
-+PACKAGECONFIG_class-nativesdk += "largefile"
-+
-+PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
-+PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
-+PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
-+PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib,"
-+PACKAGECONFIG[bz2] = "--with-bz2lib,--without-bz2lib,bzip2,"
-+PACKAGECONFIG[xz] = "--with-lzmadec --with-lzma,--without-lzmadec --without-lzma,xz,"
-+PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
-+PACKAGECONFIG[libxml2] = "--with-xml2,--without-xml2,libxml2,"
-+PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat,"
- 
- SRC_URI = "http://libarchive.googlecode.com/files/libarchive-${PV}.tar.gz \
-            file://0001-Patch-from-upstream-revision-1990.patch \
+Cheers,
+Paul
+
 -- 
-1.8.1.2.545.g2f19ada
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
