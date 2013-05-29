@@ -1,30 +1,41 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 461C06A619
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 093616A633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:23:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TFNmmb020475
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 May 2013 08:23:48 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 29 May 2013 08:23:47 -0700
-Message-ID: <51A61D83.30700@windriver.com>
-Date: Wed, 29 May 2013 10:23:47 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Wed, 29 May 2013 15:24:34 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id b10so1270186vea.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 May 2013 08:24:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=lb28RPNC60gilpUl3ExcUROWVIsMKnbhz+/f5eGi5sY=;
+	b=cd/vztrwUV7ex3SC1Rss8aQdgx7ro7njvi0VeVYzQ/2sKOryXGQfmZaXiB1/aoVY4K
+	TIrGbT7zUhWCre+ErLCF/DXwzroaFzIB03NVmXJ0+se+QAkITqy6djKlhBcS7f5nMvgg
+	NhhkTpbQ4clFrCSNYDEqcmNhbucuLwFidVl3PhY2pntnurqKCfurVAPVNroyoK32yTWu
+	RJuMKoKqKjx8mvji1k6W0NYX/13xnelssFMQ8VtfoaPX2aFEQwwx3symhm0uDEsEhf5T
+	xSEH5EwjczrkZ1zG/mic0A+l+l6LRJWD6SLO6uO9nYhUZYH4Q9J8eU9VhRZyjjhHjWlF
+	XG8g==
+X-Received: by 10.220.248.137 with SMTP id mg9mr1883358vcb.38.1369841075558;
+	Wed, 29 May 2013 08:24:35 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-3-git-send-email-mark.hatle@windriver.com>
-	<1430982.Rlu8fDEFUU@helios>
-In-Reply-To: <1430982.Rlu8fDEFUU@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/21] Add directory information to the pkgdata files
+Received: by 10.220.98.7 with HTTP; Wed, 29 May 2013 08:24:15 -0700 (PDT)
+In-Reply-To: <000f01ce5b5b$c64e39d0$52eaad70$@com>
+References: <1369119875-4984-1-git-send-email-b40527@freescale.com>
+	<CAJTo0LZA89rPdGy65ShyfxjS4jenHsinO5JPsTbWNi3sgOD=Eg@mail.gmail.com>
+	<000701ce5b4e$3c7684e0$b5638ea0$@com>
+	<CAP9ODKo8453_vw-9u+8308vsvy3zRoSk0ptoEzgo8gFpwp76SQ@mail.gmail.com>
+	<000f01ce5b5b$c64e39d0$52eaad70$@com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 May 2013 16:24:15 +0100
+Message-ID: <CAJTo0LbLEH+S4OpoKVQyeV2j2gV9pkzsS1L9vyoB=SPSCzL1VQ@mail.gmail.com>
+To: Zongchun YU <b40527@freescale.com>
+X-Gm-Message-State: ALoCoQk0PvzVsevgrLe4H4PBO6r4ukz5gTh4ClvBAWR4rr+4F1+azYesZxqRlWJ0XhBxH7t5OZ5d
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base-files:fix the command line wrap around issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +48,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:23:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 May 2013 15:24:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/29/13 10:11 AM, Paul Eggleton wrote:
-> On Wednesday 29 May 2013 10:09:44 Mark Hatle wrote:
->> Add S(ource) and B(uild) directory information to the recipe pkgdata files.
->> This allows external tools to find the appropriate information, and be able
->> to easily access the corresponding sources and build directories.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>   meta/classes/package.bbclass | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 02a1460..19b2b4c 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -1124,6 +1124,8 @@ python emit_pkgdata() {
->>
->>       data_file = pkgdatadir + d.expand("/${PN}" )
->>       f = open(data_file, 'w')
->> +    f.write("S: %s\n" % d.expand("${S}"))
->> +    f.write("B: %s\n" % d.expand("${B}"))
->>       f.write("PACKAGES: %s\n" % packages)
->>       f.close()
+On 28 May 2013 05:28, Zongchun YU <b40527@freescale.com> wrote:
+> It seems that setting it in environment is a workaround for the real issu=
+e.
+> Can't the same be accomplished changing busybox settings?
 >
-> I'm not sure I'm totally comfortable with this idea. External tools shouldn't
-> necessarily expect to be able to poke into the source after packaging occurs -
-> rm_work (if enabled) will remove the work directory, and separately sstate may
-> restore the pkgdata and not the workdir. In both situations these values will
-> be invalid.
->
-> If tools need to be able to find out the values of S and B then I think they
-> ought to be querying them via bitbake.
+> Can you explain your idea in detail? Do you mean changing the setting of
+> =E2=80=9Cresize=E2=80=9D in busybox or other?
 
-When discussing this in the past, via IRC, it was mentioned that the pkgdata has 
-all of the necessary data to figure out what has been built and much of the data 
-that external (think eclipse based UI tools) need to figure out.
+Yes.  At least for my target, CONFIG_RESIZE isn't enabled that I'd
+expect to be required for this to work.
 
-This particular case allows our tooling to not only list what was built, but 
-allows the tools to go into the directory (B or S) and explore the sources, 
-logs, etc.
-
-If this is rejected, I'm fine, we'll just carry it forward on our own.. but I 
-think it does have some generic value.
-
-(Actually querying bitbake is what we started with, but when you query it 1000 
-times.. it's pretty obvious this doesn't work, the time alone to query it for 
-the 'B' and 'S' of each recipe is significant to the point of being unusable for 
-external tools.)
-
---Mark
-
-> Cheers,
-> Paul
->
-
+Ross
 
