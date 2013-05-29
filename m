@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 499326A61C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E226A6A65C
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 May 2013 15:03:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF40Ti016032
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF42u9014357
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:04:00 -0700 (PDT)
+	Wed, 29 May 2013 08:04:02 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
 	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:04:00 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:09:59 -0500
-Message-ID: <1369840203-21898-18-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 10:10:00 -0500
+Message-ID: <1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 17/21] grep: fix for CVE-2012-5667
+Subject: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 15:03:59 -0000
+X-List-Received-Date: Wed, 29 May 2013 15:04:00 -0000
 Content-Type: text/plain
 
-From: Ming Liu <ming.liu@windriver.com>
+From: Jason Wessel <jason.wessel@windriver.com>
 
-Multiple integer overflows in GNU Grep before 2.11 might allow
-context-dependent attackers to execute arbitrary code via vectors
-involving a long input line that triggers a heap-based buffer overflow.
+The ncurses package was generating the following error as a result
+of not specifing the PACKAGES_DYNAMIC correctly.  This error only
+appear when using the IMAGE_INSTALL list that has been expanded by
+the hob or from the pkgdata.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
+ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../grep/grep-2.5.1a/grep-CVE-2012-5667.patch      | 28 ++++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.5.1a.bb          |  3 ++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
+ meta/recipes-core/ncurses/ncurses.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
-new file mode 100644
-index 0000000..e163736
---- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
-@@ -0,0 +1,28 @@
-+The patch to fix CVE-2012-5667
-+Reference: https://bugzilla.redhat.com/attachment.cgi?id=686605&action=diff
-+
-+Multiple integer overflows in GNU Grep before 2.11 might allow
-+context-dependent attackers to execute arbitrary code via vectors
-+involving a long input line that triggers a heap-based buffer overflow.
-+
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
-+
-+Signed-off-by Ming Liu <ming.liu@windriver.com>
-+---
-+ grep.c |    7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
-+
-+--- a/src/grep.c	2013-05-15 13:39:33.359191769 +0800
-++++ a/src/grep.c	2013-05-15 13:50:22.609191882 +0800
-+@@ -306,6 +306,11 @@ fillbuf (size_t save, struct stats const
-+   int cc = 1;
-+   char *readbuf;
-+   size_t readsize;
-++  const size_t max_save = INT_MAX / 2;
-++
-++  /* Limit the amount of saved data to INT_MAX to fix CVE-2012-5667 */
-++  if (save > max_save)
-++     error (2, 0, _("line too long"));
-+ 
-+   /* Offset from start of buffer to start of old stuff
-+      that we want to save.  */
-diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
-index d6386ed..247c837 100644
---- a/meta/recipes-extended/grep/grep_2.5.1a.bb
-+++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
-@@ -13,7 +13,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
-            file://gettext.patch \
-            file://fix64-int-to-pointer.patch \
-            file://Makevars \
--           "
-+           file://grep-CVE-2012-5667.patch \
-+          "
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 8a81381..584ad46 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -29,6 +29,8 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
+ # natives don't generally look in base_libdir
+ base_libdir_class-native = "${libdir}"
  
- SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
- SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92bdd3132"
++PACKAGES_DYNAMIC = "^${PN}-.*"
++
+ # Fall back to the host termcap / terminfo for -nativesdk and -native
+ # The reality is a work around for strange problems with things like
+ # "bitbake -c menuconfig busybox" where it cannot find the terminfo
 -- 
 1.8.1.2.545.g2f19ada
 
