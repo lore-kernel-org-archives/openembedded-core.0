@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E226A6A65C
+	by mail.openembedded.org (Postfix) with ESMTP id 7A9936A64D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 15:03:59 +0000 (UTC)
+	Wed, 29 May 2013 15:04:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF42u9014357
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TF42Dm014360
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 08:04:02 -0700 (PDT)
+	Wed, 29 May 2013 08:04:03 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:04:00 -0700
+	(TLS) id 14.2.342.3; Wed, 29 May 2013 08:04:01 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 10:10:00 -0500
-Message-ID: <1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 29 May 2013 10:10:01 -0500
+Message-ID: <1369840203-21898-20-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
+Subject: [PATCH 19/21] siteinfo.bbclass: Add mips64 common siteinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +37,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 May 2013 15:04:00 -0000
 Content-Type: text/plain
 
-From: Jason Wessel <jason.wessel@windriver.com>
+There is no mips64-common file, replace the definition with mips-common.
 
-The ncurses package was generating the following error as a result
-of not specifing the PACKAGES_DYNAMIC correctly.  This error only
-appear when using the IMAGE_INSTALL list that has been expanded by
-the hob or from the pkgdata.
-
-ERROR: Nothing RPROVIDES 'ncurses-libtinfo'
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/siteinfo.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 8a81381..584ad46 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -29,6 +29,8 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
- # natives don't generally look in base_libdir
- base_libdir_class-native = "${libdir}"
- 
-+PACKAGES_DYNAMIC = "^${PN}-.*"
-+
- # Fall back to the host termcap / terminfo for -nativesdk and -native
- # The reality is a work around for strange problems with things like
- # "bitbake -c menuconfig busybox" where it cannot find the terminfo
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 09f88c6..8705eaa 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -31,8 +31,8 @@ def siteinfo_data(d):
+         "microblaze": "endian-big bit-32 microblaze-common",
+         "microblazeel": "endian-little bit-32 microblaze-common",
+         "mips": "endian-big bit-32 mips-common",
+-        "mips64": "endian-big bit-64 mips64-common",
+-        "mips64el": "endian-little bit-64 mips64-common",
++        "mips64": "endian-big bit-64 mips-common",
++        "mips64el": "endian-little bit-64 mips-common",
+         "mipsel": "endian-little bit-32 mips-common",
+         "powerpc": "endian-big bit-32 powerpc-common",
+         "nios2": "endian-little bit-32 nios2-common",
 -- 
 1.8.1.2.545.g2f19ada
 
