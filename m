@@ -1,26 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id DF82C60959
+Return-Path: <eric@eukrea.com>
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B02560FC6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 10:46:17 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Ui0N6-000239-6I; Thu, 30 May 2013 12:46:16 +0200
-Message-ID: <1369910774.8846.26.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 30 May 2013 11:46:14 +0100
-In-Reply-To: <1369864751.14887.258.camel@ted>
-References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
-	<1369861845.14887.232.camel@ted> <51A672E5.3060000@windriver.com>
-	<1369864751.14887.258.camel@ted>
-X-Mailer: Evolution 3.4.4-1 
+	Thu, 30 May 2013 10:48:19 +0000 (UTC)
+Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
+	(Authenticated sender: eukrea)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id C3AF74B008E;
+	Thu, 30 May 2013 12:48:14 +0200 (CEST)
+Date: Thu, 30 May 2013 12:48:13 +0200
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130530124813.418a2f54@e6520eb>
+In-Reply-To: <20130530123230.78dab18a@e6520eb>
+References: <1369899843-3318-1-git-send-email-eric@eukrea.com>
+	<CA+chaQeCTAq3dtUao2+oAmETHe5s7gkTjtd86fS2NBcyR=bmdQ@mail.gmail.com>
+	<CAJTo0LYDRHqO2kveMW4ftq3g4BNjLE_sJJ6mej2cNbaC3TKh6g@mail.gmail.com>
+	<20130530123230.78dab18a@e6520eb>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] hicolor-icon-theme: keep inherited dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 10:46:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 10:48:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2013-05-29 at 22:59 +0100, Richard Purdie wrote:
-> Fair enough. Can we at least match the pattern do_split_packages uses,
-> i.e.:
-> 
-> PACKAGES_DYNAMIC = "^${PN}-lib.*"
-> 
-> I'm a little paranoid about adding wildcards like ${PN}-* as the
-> potential for namespace problems is not insignificant, particularly if
-> you know the horrible things bitbake does with this behind the
-> scenes :/.
+Hi Ross,
 
-Does it really need to be dynamic at all?  I don't think the list of
-libraries installed by ncurses varies all that much (apart from WIDEC
-on/off), and nor is it overwhelmingly large.  It doesn't seem like it
-would be all that hard to arrange for the right stuff to be added to
-PACKAGES at parse time, in which case this whole problem would just go
-away.
+Le Thu, 30 May 2013 12:32:30 +0200,
+Eric B=C3=A9nard <eric@eukrea.com> a =C3=A9crit :
 
-p.
+> Le Thu, 30 May 2013 09:32:38 +0100,
+> "Burton, Ross" <ross.burton@intel.com> a =C3=A9crit :
+>=20
+> > On 30 May 2013 09:09, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > > Doesn't it depend now on something which isn't allarch? IIRC gnome.bb=
+class
+> > > brings gconf.
+> >=20
+> > gnome.bbclass is an abomination and should be gutted.  Yes, this will
+> > mean the build dependencies are massive, and I can't see why this
+> > recipe needs gnome.bbclass.  Then again it doesn't need gtk-icon-cache
+> > either as it doesn't actually have any icons in.  I'd be interested in
+> > seeing a buildhistory-diff between the current recipe and one with
+> > both inherit gnome and DEPENDS=3D"" removed.
+> >=20
+> when  removing gnome I get the following error at install :
+> DEBUG: Executing shell function do_install
+> install: cannot create regular file
+> `/scratch/setup-scripts/build/tmp-defaultsetup-eglibc-eglibc/work/all-oe-=
+li\
+> nux/hicolor-icon-theme/0.12-r1/image//usr/share/icons/hicolor': No such
+> file or directory
+>=20
+turning on the brain and fixing do_install, the diff between original et
+new (without gnome and DEPENDS=3D"") is :
 
+packages/all-oe-linux/hicolor-icon-theme/hicolor-icon-theme:
+pkg_postinst cleared:
+packages/all-oe-linux/hicolor-icon-theme/hicolor-icon-theme: pkg_postrm
+cleared:
 
+So that seems the right thing to do don't you think ?
+
+Eric
 
