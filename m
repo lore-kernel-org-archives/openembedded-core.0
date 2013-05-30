@@ -1,42 +1,24 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 82CB760991
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EE1B6065B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 08:59:06 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id hn14so5048097wib.0
+	Thu, 30 May 2013 09:01:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4U91fH4003603
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 01:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:date:message-id:in-reply-to:references:user-agent:subject
-	:mime-version:content-type:content-transfer-encoding;
-	bh=5OdEYTiyeaXx1nmogFqucPoWTYAJb2AElltFVuXK9LA=;
-	b=EG1MZShQ3lQWesR0h+QM56VGJ+VLPoNaoOY2lSVb+un/rZ7BXHvHCUv86ihzreFd2i
-	G8iHmRSn3++hu1ydkJVZw6A8KqZi85hZVbWJ/avgYcxlwyAKpy1QaoBQ+D7wB9TU96x9
-	4uBaQThpMmhkUrLHQvw0B+sWPn76ddvTVo4KGeMLWpIRSf7XjD1VcGTsEXAN4NNyiPJW
-	ZqxsecT7DndYDe7LnjacHlslJIEkxvtH/hEh4zLuyCcYlQmrHqyHpsmg+vdyJqGfVj/U
-	fM7d9S4KABvEHPeAQhuXu6hVtPLdfaz/pqls+m0VfbwyIgzpIoCLMMeAWoG7ItRnoSFS
-	Dltg==
-X-Received: by 10.180.205.200 with SMTP id li8mr3560386wic.15.1369904346521;
-	Thu, 30 May 2013 01:59:06 -0700 (PDT)
-Received: from [46.207.127.247] (046207127247.atmpu0028.highway.a1.net.
-	[46.207.127.247])
-	by mx.google.com with ESMTPSA id en3sm36525806wid.1.2013.05.30.01.59.04
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 01:59:05 -0700 (PDT)
-From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 30 May 2013 11:02:24 +0200
-Message-ID: <13ef4ac6c35.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-In-Reply-To: <cover.1369898198.git.pkj@axis.com>
-References: <cover.1369898198.git.pkj@axis.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.4.0 (build:
-	2100294)
+	Thu, 30 May 2013 02:01:41 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.146) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 30 May 2013 02:01:38 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 May 2013 17:01:31 +0800
+Message-ID: <cover.1369820334.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/4] Fixes for makedevs
+Subject: [PATCH 0/4]Add FUSE: File system in Userspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +31,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 08:59:07 -0000
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 May 2013 09:01:38 -0000
+Content-Type: text/plain
 
-On 30 May 2013 09:19:54 Peter Kjellerstedt <peter.kjellerstedt@axis.com> wrote:
-> When I wanted to create devices from a package I stumbled upon a couple
-> of problems with the makedevs program. Most notable was that it failed
-> to set the correct uid/gid for devices created as part of a block (i.e.,
-> with a count > 0).
->
-> And now with Signed-off-by lines, as requested.
+Add fuse to oe-core and let target system could support
+`ntfs' and `exfat' filesystems.
 
-Are these appropriate for or fixed already in upstream, I.e. Busybox?
+Test Case
 
- Thanks,
->
-> The following changes since commit efb8a460d2a977dbd481a0650fba8eb637c65bec:
->
->   package.bbclass: Fix sources contents (2013-05-14 08:52:47 +0300)
->
-> are available in the git repository at:
->
->   git://git.yoctoproject.org/poky-contrib pkj/makedevs
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/makedevs
->
-> Peter Kjellerstedt (4):
->   makedevs: Create blocks of devices with the correct uid/gid
->   makedevs: Correct the device number calculation for blocks of devices
->   makedevs: Make the mode number readable in debug messages
->   makedevs: Avoid unnecessary timestamp calculation
->
->  .../recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
->
-> --
-> 1.8.2.1
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+*Steps
+1, preparation
+1 target: e-menlow
+2 usb sticks: one for boot and install, another for filesystem test.
 
+2, config 
+conf/local.conf:
+247 MACHINE ?= "emenlow-noemgd"
+247 IMAGE_INSTALL_append = " ntfs-3g ntfsprogs fuse-exfat exfat-utils"
 
-Sent with AquaMail for Android
-http://www.aqua-mail.com
+conf/bblayers.conf:
+  8 BBLAYERS ?= " \ 
+  9   /home/jiahongxu/yocto/poky/meta \
+ 10   /home/jiahongxu/yocto/poky/meta-yocto \
+ 11   /home/jiahongxu/yocto/poky/meta-yocto-bsp \
+ 12   /home/jiahongxu/yocto/poky/meta-intel \
+ 13   /home/jiahongxu/yocto/poky/meta-intel/meta-emenlow \
 
+3, build image
+bitbake core-image-sato
+
+4, load image to emenlow
+Test Case TC-2927: boot and install from usb 
+
+5, open a terminal/ssh of e-menlow
+Test Case TC-2955: remote access by ssh 
+
+6, make exfat filesystem on the testing usb storage
+1) plug usb stick into e-menlow
+2) execute `mkfs.exfat /dev/sdc1'
+
+7, test usb stick with exfat filesystem is accessible
+Test Case TC-2947: usb mount
+Test Case TC-2948: usb read files
+Test Case TC-2949: usb umount
+Test Case TC-2950: usb write files
+
+8, make ntfs filesystem on the testing usb storage
+1) plug usb stick into e-menlow, if mounted, invoke `umount /dev/sdc1' first.
+2) execute `mkfs.ntfs -f /dev/sdc1'
+
+9, test usb stick with ntfs filesystem is accessible 
+Test Case TC-2947: usb mount
+Test Case TC-2948: usb read files
+Test Case TC-2949: usb umount
+Test Case TC-2950: usb write files
+
+*Expected Results:
+1, build image success
+
+2, make exfat filesystem success
+root@emenlow-noemgd:~# mkfs.exfat /dev/sdc1
+mkexfatfs 1.0.1
+Creating... done.
+Flushing... done.
+File system created successfully.
+
+3, make ntfs filesystem success
+root@emenlow-noemgd:~# mkfs.ntfs -f /dev/sdc1
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
+ 
+4, While the usb's filesystem type is exfat or ntfs, system can mount
+plugged usb automatically, read files from usb, write files to usb and
+unmout usb automatically.
+
+[YOCTO #4178]
+
+The following changes since commit 350c36fcd97e8ef223b91e548d39c346c1c4cb29:
+
+  bitbake: test/fetch: Allow the conditional network tests to work under python 2.6 (2013-05-17 12:42:08 +0300)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/support-fuse
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/support-fuse
+
+Hongxu Jia (4):
+  fuse: import recipe from meta-oe
+  ntfs-3g-ntfsprogs:import and update recipe from meta-oe
+  fuse-exfat: add version 1.0.1
+  exfat-utils: add version 1.0.1
+
+ meta/recipes-support/exfat/exfat-utils_1.0.1.bb    |   29 ++++++++++
+ meta/recipes-support/exfat/fuse-exfat_1.0.1.bb     |   26 +++++++++
+ meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch |   20 +++++++
+ .../fuse/fuse-2.9.2/gold-unversioned-symbol.patch  |   60 ++++++++++++++++++++
+ meta/recipes-support/fuse/fuse_2.9.2.bb            |   38 +++++++++++++
+ .../ntfs-3g-ntfsprogs_2013.1.13.bb                 |   33 +++++++++++
+ 6 files changed, 206 insertions(+)
+ create mode 100644 meta/recipes-support/exfat/exfat-utils_1.0.1.bb
+ create mode 100644 meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
+ create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch
+ create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/gold-unversioned-symbol.patch
+ create mode 100644 meta/recipes-support/fuse/fuse_2.9.2.bb
+ create mode 100644 meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
+
+-- 
+1.7.10.4
 
 
