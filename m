@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AE40960811
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2788160897
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:48:19 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hj6so254506wib.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 06:48:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=QJGHwSSJMU1BPeM8MFPaLWdWyyEDIEL9JAI2cYoI8ZM=;
-	b=THGNTHEQaA7kyuF7ZZLSln/y62VwkLdcvlEZwus7ODskF7bbnVFMehjeytBiAhda5B
-	2MGdELU2TTeUYiXrEBU2BGQo4pBkLiUYkdblXfQXanCWrS8IkKciaSoSVidu5ouNVVc8
-	wQaALq8/2hqEY1V5C1CD1LxzCoqplWEpBbdY0zHYAg+vEkpPdB61SxCklWfvQ4150G9n
-	3nz0zFa1G9XI+HLBXXVeTXVVShSVxtc0fPxEzko3PFKS3Qc4M4+d1wNw1Xx/rB1r8E5B
-	mjgExco8vFeOrlgbTYmtkMSCOUAUKHvaU7yyQ/vc2N9BqXcQM2Pb1if/hx209ahl0OUQ
-	SIXA==
-X-Received: by 10.194.83.5 with SMTP id m5mr4864640wjy.20.1369921699355;
-	Thu, 30 May 2013 06:48:19 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ca19sm38151698wib.3.2013.05.30.06.48.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 06:48:18 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 14:45:02 +0100
-Message-Id: <1369921502-10997-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnlUH/pdc1PxbacVtauXrHe8x7DmBeYURk9bOKhgLIZRRxGOiih3Dr8k+PLLyDVH+w1NjZG
-Subject: [PATCH] cogl: add missing xrandr dependency
+	Thu, 30 May 2013 13:53:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 May 2013 06:51:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="345715202"
+Received: from unknown (HELO helios.localnet) ([10.252.121.217])
+	by orsmga002.jf.intel.com with ESMTP; 30 May 2013 06:52:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Date: Thu, 30 May 2013 14:52:50 +0100
+Message-ID: <1956799.LN9zTEVmsc@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-22-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <1369834810-18927-1-git-send-email-bogdan.a.marinescu@intel.com>
+References: <1369834810-18927-1-git-send-email-bogdan.a.marinescu@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:48:20 -0000
+X-List-Received-Date: Thu, 30 May 2013 13:53:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/cogl/cogl-1.0.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wednesday 29 May 2013 16:40:10 Bogdan Marinescu wrote:
+> guile needs to be able to convert strings from ISO-8859-1 in order
+> to work properly. This patch adds a runtime dependency to the required
+> convert package, but only when glibc is used. The fix for uClibc depends
+> on another bug (#4530).
+> 
+> [YOCTO #4019]
+> 
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> ---
+>  meta/recipes-devtools/guile/guile_2.0.9.bb |    5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb
+> b/meta/recipes-devtools/guile/guile_2.0.9.bb index 617f7ce..8ba7afc 100644
+> --- a/meta/recipes-devtools/guile/guile_2.0.9.bb
+> +++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
+> @@ -27,7 +27,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+>  SRC_URI[md5sum] = "a69b575d4a633bdd9118f3a4a1e97766"
+>  SRC_URI[sha256sum] =
+> "f70a38c8d9751f442679bfe61852bba8545af4d4355d037630997c2f37f2895b"
+> 
+> -PR = "r0"
+> +PR = "r1"
+> 
+>  inherit autotools gettext
+>  BBCLASSEXTEND = "native"
+> @@ -36,6 +36,9 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
+>  # add guile-native only to the target recipe's DEPENDS
+>  DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) !=
+> 'guile']}"
+> 
+> +RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
+> +RDEPENDS_${PN}_class-native = ""
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 3a6de28..9dc47f8 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -13,7 +13,7 @@ EDEPENDS_GL    = "virtual/libgl libdrm"
- EDEPENDS_GLES2 = "virtual/libgles2"
- EDEPENDS_KMS   = "libdrm virtual/egl"
- EDEPENDS_EGL   = "virtual/egl"
--EDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi"
-+EDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
- 
- # Extra RDEPENDS for PACKAGECONFIG
- # This has to be explictly listed, because cogl dlopens the backends
+The second line is erroneous, surely we only need the first to solve this 
+issue?
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
