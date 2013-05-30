@@ -1,32 +1,26 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ADB4660825
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CD6B760897
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 12:22:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4UCMPvp008587
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2013 05:22:25 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 30 May 2013 05:22:24 -0700
-Message-ID: <51A74480.6080102@windriver.com>
-Date: Thu, 30 May 2013 07:22:24 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Thu, 30 May 2013 12:26:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 May 2013 05:26:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="321892659"
+Received: from unknown (HELO [10.255.13.98]) ([10.255.13.98])
+	by orsmga001.jf.intel.com with ESMTP; 30 May 2013 05:26:34 -0700
+Message-ID: <51A74576.6020604@linux.intel.com>
+Date: Thu, 30 May 2013 21:26:30 +0900
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
-	<1369840203-21898-19-git-send-email-mark.hatle@windriver.com>
-	<1369861845.14887.232.camel@ted> <51A672E5.3060000@windriver.com>
-	<1369864751.14887.258.camel@ted>
-	<1369910774.8846.26.camel@phil-desktop.brightsign>
-In-Reply-To: <1369910774.8846.26.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 18/21] Fix problems expanding the IMAGE_INSTALL package groups
+To: Qi.Chen@windriver.com
+References: <cover.1369895527.git.Qi.Chen@windriver.com>
+	<61b6db5766ad5f6690aa059ffd26f0b00834e433.1369895527.git.Qi.Chen@windriver.com>
+In-Reply-To: <61b6db5766ad5f6690aa059ffd26f0b00834e433.1369895527.git.Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] busybox: fix to support FEATURE_INDIVIDUAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,57 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 12:22:26 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 30 May 2013 12:26:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/30/13 5:46 AM, Phil Blundell wrote:
-> On Wed, 2013-05-29 at 22:59 +0100, Richard Purdie wrote:
->> Fair enough. Can we at least match the pattern do_split_packages uses,
->> i.e.:
->>
->> PACKAGES_DYNAMIC = "^${PN}-lib.*"
->>
->> I'm a little paranoid about adding wildcards like ${PN}-* as the
->> potential for namespace problems is not insignificant, particularly if
->> you know the horrible things bitbake does with this behind the
->> scenes :/.
+On 05/30/2013 05:51 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> Does it really need to be dynamic at all?  I don't think the list of
-> libraries installed by ncurses varies all that much (apart from WIDEC
-> on/off), and nor is it overwhelmingly large.  It doesn't seem like it
-> would be all that hard to arrange for the right stuff to be added to
-> PACKAGES at parse time, in which case this whole problem would just go
-> away.
-
-Certainly possible.  That's not the tactic we took on resolving the issue.  One 
-line change vs significantly modifying the package.   The following is the chunk 
-that handles the dynamic generation (from ncurses.inc)
-
-python populate_packages_prepend () {
-     libdir = d.expand("${libdir}")
-     base_libdir = d.expand("${base_libdir}")
-     pnbase = d.expand("${PN}-lib%s")
-     do_split_packages(d, libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses %s 
-library', prepend=True, extra_depends = '', allow_links=True)
-     if libdir is not base_libdir:
-         do_split_packages(d, base_libdir, '^lib(.*)\.so\..*', pnbase, 'ncurses 
-%s library', prepend=True, extra_depends = '', allow_links=True)
-}
-
-Beyond this even, the package has a number of dynamic configurations that should 
-probably be done based on libc and/or distro flags as well.
-
-So this is probably a job for a janitor task.
-
-I still think as a minimal change the PACKAGES_DYNAMIC is the correct change, 
-but as you said -- during a cleanup -- the need for PACKAGES_DYNAMIC can be 
-diminished or removed.
-
---Mark
-
-> p.
+> Previously, if CONFIG_FEATURE_INDIVIDUAL was enabled for busybox,
+> yocto-based systems could start correctly.
 >
+> This is because if busybox is built as individual apps, '/bin/busybox'
+> may not be present, so setting the default ALTERNATIVE_TARGET to
+> '/bin/busybox' is not appropriate and could lead to errors.
 >
+> This patch fixes this problem by checking the existence of '/bin/busybox'
+> before setting the ALTERNATIVE_TARGET to '/bin/busybox'.
+>
+> After this change, if busybox is built as individual apps, we'll have
+> links like '/bin/ls -> /bin/ls.busybox', otherwise, we'll have links
+> like '/bin/ls -> /bin/busybox'.
+>
+Does this add size to the image?  In this example does ls.busybox link 
+to something else or is it a binary on it's own?
 
+Sau!
+
+
+> Besides, this patch removes the pkg_postinst part in the busybox recipe,
+> because it's redundant.
+>
+> [YOCTO #4570]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-core/busybox/busybox.inc |   16 +++++-----------
+>   1 file changed, 5 insertions(+), 11 deletions(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index c8908b0..6abe167 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -171,7 +171,7 @@ do_install () {
+>   			install -m 0755 "0_lib/$NAME" "${D}$FILE.${BPN}"
+>   		done
+>   		# add suid bit where needed
+> -		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
+> +		for i in `grep -E "APPLET.*BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
+>   			find ${D} -name $i.${BPN} -exec chmod a+s {} \;
+>   		done
+>   		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
+> @@ -242,14 +242,16 @@ ALTERNATIVE_TARGET[syslog-init] = "${sysconfdir}/init.d/syslog.${BPN}"
+>   ALTERNATIVE_LINK_NAME[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf"
+>   ALTERNATIVE_TARGET[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf.${BPN}"
+>
+> -ALTERNATIVE_TARGET = "/bin/busybox"
+> -
+>   python do_package_prepend () {
+>       # We need to load the full set of busybox provides from the /etc/busybox.links
+>       # Use this to see the update-alternatives with the right information
+>
+>       dvar = d.getVar('D', True)
+>       pn = d.getVar('PN', True)
+> +
+> +    if os.path.exists('%s/bin/busybox' % (dvar)):
+> +        d.setVar('ALTERNATIVE_TARGET', "/bin/busybox")
+> +
+>       f = open('%s/etc/busybox.links' % (dvar), 'r')
+>
+>       for alt_link_name in f:
+> @@ -265,14 +267,6 @@ python do_package_prepend () {
+>       f.close()
+>   }
+>
+> -pkg_postinst_${PN} () {
+> -	# If we are not making an image we create links for the utilities that doesn't exist
+> -	# so the update-alternatives script will get the utilities it needs
+> -	# (update-alternatives have no problem replacing links later anyway)
+> -	test -n 2> /dev/null || alias test='busybox test'
+> -	if test "x$D" = "x"; then while read link; do if test ! -h "$link"; then case "$link" in /*/*/*) to="../../bin/busybox";; /bin/*) to="busybox";; /*/*) to="../bin/busybox";; esac; busybox ln -s $to $link; fi; done </etc/busybox.links; fi
+> -}
+> -
+>   pkg_prerm_${PN} () {
+>   	# This is so you can make busybox commit suicide - removing busybox with no other packages
+>   	# providing its files, this will make update-alternatives work, but the update-rc.d part
+>
 
