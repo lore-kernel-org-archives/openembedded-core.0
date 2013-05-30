@@ -1,41 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 292AC60811
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 55DB76A4FF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 14:03:57 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id hn14so4593373wib.8
+	Thu, 30 May 2013 14:03:59 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id k13so268352wgh.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:03:57 -0700 (PDT)
+	Thu, 30 May 2013 07:03:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=YcUoQ4dDt4YsU6sUuSIMHK+ayx/i8ULi2eDnxpWdYzc=;
-	b=JqMHP2iMSMagTJ3z4oHhTQzFHA7DyMWAM58xeNUESo5Fr3H3/MVGyyaLpYy40QaqWn
-	K0qPg2xZox2AbAHYzYJCgnoOfUJt6Q+TX7H8S9gT9x38sJIIJDZs+WS4/4r73aLvu7t2
-	jPQS1d1/0q5C72FF1TPXMKU2hTF/CA5kcQV52lMt/L4gMzK2UREE5UZRdSdxglQoC7En
-	NEhUL9tyhq2LvHETCvZ9N6J/+AcEeMbDhhif0A3Xet2qiOt0CoYqyLw6sEPVARPiQYbB
-	OApLBFZ4vbWJZB28XNgO5YECw3IwkiQag0Iy4Th1IfzGE0ogBP69SgP9q83obfs5zIAR
-	sgcA==
-X-Received: by 10.180.198.140 with SMTP id jc12mr4701933wic.53.1369922637854; 
-	Thu, 30 May 2013 07:03:57 -0700 (PDT)
+	bh=hmr5Zj5u4K8Mc6AujsG1aeEthtpWPx5idjciiQsNBEA=;
+	b=mlKkXJoHt+wdiS4ROfHDZqCUmZMuo5bXasJ5QACFem/9qaCbU4UFb3y6fP53MD6yPS
+	Rt/RF6X97gkyRyP4WK3PlAfinwP3UNoNzS5/TXgxWWScq07HeV9ApFjujZxlC4tEwqmr
+	RdQs//WVkwTni1Swlfkc1SgkN/IcfP37D9+wHtIbDAVzEKpvKbVlW+WZmSIpxUToSBAn
+	8+O80iXtCXDoS9QEF1kTC9JPA4+uWuqyjxvRiiG97m+3OI2yQDnQdq9phT5oQ9yvHIx5
+	ZC3uJLHGcL3k+JSTGLp44B/kMU6VTCREN1N/98jOC6HaQCrkL/oOMkpDeDpBv/SZgs0V
+	6SzQ==
+X-Received: by 10.180.212.3 with SMTP id ng3mr4905623wic.22.1369922639751;
+	Thu, 30 May 2013 07:03:59 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id h8sm38208362wiz.9.2013.05.30.07.03.56
+	by mx.google.com with ESMTPSA id h8sm38208362wiz.9.2013.05.30.07.03.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 07:03:56 -0700 (PDT)
+	Thu, 30 May 2013 07:03:58 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 15:00:35 +0100
-Message-Id: <96e26985a886c355cb5cbdd0b62e2c52eaaff80f.1369922325.git.ross.burton@intel.com>
+Date: Thu, 30 May 2013 15:00:36 +0100
+Message-Id: <ed9bc6364911cb9594e33c1bd253f3ef9cd6bb86.1369922325.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
 References: <cover.1369922325.git.ross.burton@intel.com>
 In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
 References: <cover.1369922325.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnfrkCgg+i2nFVDMepewR3rgOpLDQ85aDTEvnfJNnRkqmsaxKludZkNDooq4qDQ18rjsXD6
-Subject: [PATCH 2/4] wayland: update to 1.1.0
+X-Gm-Message-State: ALoCoQmam0uUg3tN7sUyrmdOwAhc5pg52D1VQQgK+RjhBNxA4Ofq87rcvPtfDErPp1qWA5On+FI3
+Subject: [PATCH 3/4] weston-init: basic init script to start Weston on KMS/DRM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +47,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 14:03:57 -0000
+X-List-Received-Date: Thu, 30 May 2013 14:03:59 -0000
+
+weston-init is a very basic init script to start Weston as root on KMS/DRM.
+
+To re-iterate, this runs Weston as root.  This will be fixed to use
+weston-launch shortly.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb}               |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} (91%)
+ meta/recipes-graphics/wayland/weston-init.bb   |   17 +++++++
+ meta/recipes-graphics/wayland/weston-init/init |   56 ++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/init
 
-diff --git a/meta/recipes-graphics/wayland/wayland_1.0.6.bb b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
-similarity index 91%
-rename from meta/recipes-graphics/wayland/wayland_1.0.6.bb
-rename to meta/recipes-graphics/wayland/wayland_1.1.0.bb
-index 7c18979..a71402e 100644
---- a/meta/recipes-graphics/wayland/wayland_1.0.6.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
-@@ -10,11 +10,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
-                     file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
- 
--PR = "r1"
--
- SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "936a2590aea69fa3c0cf234d54b9137c"
--SRC_URI[sha256sum] = "f52a012df699eff434b0f49e56000d6978b5f781048402ca8e0232242970fc49"
-+SRC_URI[md5sum] = "d2dc9398a83692cafc16eba6e45f85d8"
-+SRC_URI[sha256sum] = "2ef587cf1a0e52b6dee44eeb9c288110e8180819abf4e419d247dfe234867a5c"
- 
- SRC_URI_append_class-native = " file://just-scanner.patch"
- 
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+new file mode 100644
+index 0000000..a3fe811
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION = "startup for weston"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
++
++SRC_URI = "file://init"
++
++S = "${WORKDIR}"
++
++do_install() {
++	install -d ${D}/${sysconfdir}/init.d
++	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
++}
++
++inherit allarch update-rc.d
++
++INITSCRIPT_NAME = "weston"
++INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
+new file mode 100644
+index 0000000..3c73e7c
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/init
+@@ -0,0 +1,56 @@
++#!/bin/sh
++#
++### BEGIN INIT INFO
++# Provides: weston
++# Required-Start: $local_fs $remote_fs
++# Required-Stop: $local_fs $remote_fs
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++### END INIT INFO
++
++killproc() {
++        pid=`/bin/pidof $1`
++        [ "$pid" != "" ] && kill $pid
++}
++
++read CMDLINE < /proc/cmdline
++for x in $CMDLINE; do
++        case $x in
++        weston=false)
++		echo "Weston disabled"
++		exit 0;
++                ;;
++        esac
++done
++
++case "$1" in
++  start)
++        . /etc/profile
++
++        # This is all a nasty hack
++        if test -z "$XDG_RUNTIME_DIR"; then
++                export XDG_RUNTIME_DIR=/var/run/user/root
++                mkdir --parents $XDG_RUNTIME_DIR
++                chmod 0700 $XDG_RUNTIME_DIR
++        fi
++
++        weston
++  ;;
++
++  stop)
++        echo "Stopping XServer"
++        killproc weston
++  ;;
++
++  restart)
++	$0 stop
++        sleep 1
++        $0 start
++  ;;
++
++  *)
++        echo "usage: $0 { start | stop | restart }"
++  ;;
++esac
++
++exit 0
 -- 
 1.7.10.4
 
