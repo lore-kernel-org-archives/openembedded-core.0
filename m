@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0046A428
+	by mail.openembedded.org (Postfix) with ESMTP id 98BF76098C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 12:18:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by anubis.se.axis.com (Postfix) with ESMTP id CEC6619DC3
+	by anubis.se.axis.com (Postfix) with ESMTP id 2873419DC2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:43 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from anubis.se.axis.com ([127.0.0.1])
 	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id T3-1nAew6IZi
+	with LMTP id YmKJq1KEcWcC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 14:18:43 +0200 (CEST)
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
 Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
-	by anubis.se.axis.com (Postfix) with ESMTP id 7642119D94
+	by anubis.se.axis.com (Postfix) with ESMTP id 7F80219DAC
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:42 +0200 (CEST)
 Received: from boulder.localdomain (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 5E16A1176
+	by postfix.imss71 (Postfix) with ESMTP id 691363B7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:42 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.localdomain (Postfix) with ESMTP id 5199FA0A
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.localdomain (Postfix) with ESMTP id 5AEBEA24
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 4EBFF3E06D
+	by thoth.se.axis.com (Postfix) with ESMTP id 590893405E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4UCIgFO017029
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4UCIgCB017033
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 May 2013 14:18:42 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4UCIgA4017028
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4UCIg5i017032
 	for openembedded-core@lists.openembedded.org;
 	Thu, 30 May 2013 14:18:42 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 14:18:29 +0200
-Message-Id: <2e7062acdcc5114d0b1dd9b90344b6ff85e6c4a8.1369916015.git.pkj@axis.com>
+Date: Thu, 30 May 2013 14:18:30 +0200
+Message-Id: <96e901a9e3cd5047c319233bd7cd904ea5600ae0.1369916015.git.pkj@axis.com>
 X-Mailer: git-send-email 1.8.2.1
 In-Reply-To: <cover.1369916015.git.pkj@axis.com>
 References: <cover.1369916015.git.pkj@axis.com>
 In-Reply-To: <cover.1369916015.git.pkj@axis.com>
 References: <cover.1369916015.git.pkj@axis.com>
-Subject: [PATCH v3 1/5] makedevs: Create blocks of devices with the correct uid/gid
+Subject: [PATCH v3 2/5] makedevs: Correct the device number calculation for blocks of devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,46 +62,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 May 2013 12:18:45 -0000
 
-When creating a block of devices (i.e., when count > 0), the wrong
-path was used with the call to chown(), effectively trying to change
-the owner of some (probably) non-existent file. Thus the created
-device nodes were always owned by root.
+If the increment > 1 and the start > 0 then the calculation for the
+minor device number was incorrect.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-index c7ad722..247d6c1 100644
+index 247d6c1..d58e891 100644
 --- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
 +++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-@@ -130,7 +130,7 @@ static void add_new_device(char *name, char *path, unsigned long uid,
- 		timestamp = sb.st_mtime;
- 	}
- 
--	mknod(name, mode, rdev);
-+	mknod(path, mode, rdev);
- 	chown(path, uid, gid);
- //	printf("Device: %s %s  UID: %ld  GID: %ld  MODE: %ld  MAJOR: %d  MINOR: %d\n",
- //			path, name, uid, gid, mode, (short)(rdev >> 8), (short)(rdev & 0xff));
-@@ -198,7 +198,7 @@ static int interpret_table_entry(char *line)
- 		error_msg_and_die("Device table entries require absolute paths");
- 	}
- 	name = xstrdup(path + 1);
--	sprintf(path, "%s/%s\0", rootdir, name);
-+	sprintf(path, "%s/%s", rootdir, name);
- 
- 	switch (type) {
- 	case 'd':
-@@ -223,6 +223,7 @@ static int interpret_table_entry(char *line)
- 
- 			for (i = start; i < count; i++) {
- 				sprintf(buf, "%s%d", name, i);
-+				sprintf(path, "%s/%s%d", rootdir, name, i);
+@@ -226,7 +226,7 @@ static int interpret_table_entry(char *line)
+ 				sprintf(path, "%s/%s%d", rootdir, name, i);
  				/* FIXME:  MKDEV uses illicit insider knowledge of kernel 
  				 * major/minor representation...  */
- 				rdev = MKDEV(major, minor + (i * increment - start));
+-				rdev = MKDEV(major, minor + (i * increment - start));
++				rdev = MKDEV(major, minor + (i - start) * increment);
+ 				add_new_device(buf, path, uid, gid, mode, rdev);
+ 			}
+ 		} else {
 -- 
 1.8.2.1
 
