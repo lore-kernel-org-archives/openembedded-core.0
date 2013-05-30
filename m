@@ -1,22 +1,40 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F125060991
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AAE960959
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 09:18:57 +0000 (UTC)
-Message-ID: <51A71980.30802@communistcode.co.uk>
-Date: Thu, 30 May 2013 10:18:56 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
+	Thu, 30 May 2013 10:20:25 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id fs12so58726lab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 03:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=mEG6Rx6ziDy5PiW4Tf2HxTx0J0LKJkn74J3KqJz3suQ=;
+	b=J2pFmIT3Eau/m6hetQVdjDTLnCRy0WpY3RiiGgqGN5B65tA/wY8GiOQoHGgj3h2Ppu
+	xIKQK+IjIyEjaT5t5Eh0F6/AK2uwmBT+3C/Qn12FxFsEOgFNp/GUfO9mB777wtYtCrgc
+	ZmMtlvGqiwiJGyrAs4FOTOU9VgUk7/9ZF3lzKAcSaIcwJ3kzLklFvVqZnIveNQgwj3ZS
+	UE9Is9iiIw77FMAk4dta9Xa8dKGGb71dpdh/OUX8fGkO3uComjStJ2Isss/g2ivw3t4m
+	0E+3wgh8KHBXsc5lHRjJ+yY4G8cgf7b9L1/NXeV85gBwQhpBJKrZfNOIbYHZgm0TLcJc
+	u5hQ==
+X-Received: by 10.152.116.7 with SMTP id js7mr3280299lab.7.1369909224912;
+	Thu, 30 May 2013 03:20:24 -0700 (PDT)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPSA id a3sm10657948lbg.2.2013.05.30.03.20.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 30 May 2013 03:20:24 -0700 (PDT)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1Uhzy2-0005oN-FB; Thu, 30 May 2013 13:20:22 +0300
+From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1369820334.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1369820334.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
+Date: Thu, 30 May 2013 13:20:20 +0300
+Message-Id: <cover.1369909097.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/4] Misc package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -26,129 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 09:18:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 10:20:25 -0000
 
+zlib update now using tar.xz source package. Other updates
+have not been submitted before.
 
-On 30/05/13 10:01, Hongxu Jia wrote:
-> Add fuse to oe-core and let target system could support
-> `ntfs' and `exfat' filesystems.
->
-> Test Case
->
-> *Steps
-> 1, preparation
-> 1 target: e-menlow
-> 2 usb sticks: one for boot and install, another for filesystem test.
->
-> 2, config
-> conf/local.conf:
-> 247 MACHINE ?= "emenlow-noemgd"
-> 247 IMAGE_INSTALL_append = " ntfs-3g ntfsprogs fuse-exfat exfat-utils"
->
-> conf/bblayers.conf:
->    8 BBLAYERS ?= " \
->    9   /home/jiahongxu/yocto/poky/meta \
->   10   /home/jiahongxu/yocto/poky/meta-yocto \
->   11   /home/jiahongxu/yocto/poky/meta-yocto-bsp \
->   12   /home/jiahongxu/yocto/poky/meta-intel \
->   13   /home/jiahongxu/yocto/poky/meta-intel/meta-emenlow \
->
-> 3, build image
-> bitbake core-image-sato
->
-> 4, load image to emenlow
-> Test Case TC-2927: boot and install from usb
->
-> 5, open a terminal/ssh of e-menlow
-> Test Case TC-2955: remote access by ssh
->
-> 6, make exfat filesystem on the testing usb storage
-> 1) plug usb stick into e-menlow
-> 2) execute `mkfs.exfat /dev/sdc1'
->
-> 7, test usb stick with exfat filesystem is accessible
-> Test Case TC-2947: usb mount
-> Test Case TC-2948: usb read files
-> Test Case TC-2949: usb umount
-> Test Case TC-2950: usb write files
->
-> 8, make ntfs filesystem on the testing usb storage
-> 1) plug usb stick into e-menlow, if mounted, invoke `umount /dev/sdc1' first.
-> 2) execute `mkfs.ntfs -f /dev/sdc1'
->
-> 9, test usb stick with ntfs filesystem is accessible
-> Test Case TC-2947: usb mount
-> Test Case TC-2948: usb read files
-> Test Case TC-2949: usb umount
-> Test Case TC-2950: usb write files
->
-> *Expected Results:
-> 1, build image success
->
-> 2, make exfat filesystem success
-> root@emenlow-noemgd:~# mkfs.exfat /dev/sdc1
-> mkexfatfs 1.0.1
-> Creating... done.
-> Flushing... done.
-> File system created successfully.
->
-> 3, make ntfs filesystem success
-> root@emenlow-noemgd:~# mkfs.ntfs -f /dev/sdc1
-> Cluster size has been automatically set to 4096 bytes.
-> Creating NTFS volume structures.
-> mkntfs completed successfully. Have a nice day.
->
-> 4, While the usb's filesystem type is exfat or ntfs, system can mount
-> plugged usb automatically, read files from usb, write files to usb and
-> unmout usb automatically.
->
-> [YOCTO #4178]
->
-> The following changes since commit 350c36fcd97e8ef223b91e548d39c346c1c4cb29:
->
->    bitbake: test/fetch: Allow the conditional network tests to work under python 2.6 (2013-05-17 12:42:08 +0300)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib hongxu/support-fuse
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/support-fuse
->
-> Hongxu Jia (4):
->    fuse: import recipe from meta-oe
->    ntfs-3g-ntfsprogs:import and update recipe from meta-oe
->    fuse-exfat: add version 1.0.1
->    exfat-utils: add version 1.0.1
->
->   meta/recipes-support/exfat/exfat-utils_1.0.1.bb    |   29 ++++++++++
->   meta/recipes-support/exfat/fuse-exfat_1.0.1.bb     |   26 +++++++++
->   meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch |   20 +++++++
->   .../fuse/fuse-2.9.2/gold-unversioned-symbol.patch  |   60 ++++++++++++++++++++
->   meta/recipes-support/fuse/fuse_2.9.2.bb            |   38 +++++++++++++
->   .../ntfs-3g-ntfsprogs_2013.1.13.bb                 |   33 +++++++++++
->   6 files changed, 206 insertions(+)
->   create mode 100644 meta/recipes-support/exfat/exfat-utils_1.0.1.bb
->   create mode 100644 meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
->   create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch
->   create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/gold-unversioned-symbol.patch
->   create mode 100644 meta/recipes-support/fuse/fuse_2.9.2.bb
->   create mode 100644 meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
->
+The following changes since commit 984eb9e25b658c5e9a870983841060aca32bc137:
 
-Without trying to be difficult, is oe-core really the place to support 
-and spend effort ensuring NTFS/exFAT formatted drives are supported?
+  bind: add ipv6 support (2013-05-29 22:20:23 +0100)
 
-Could these improvements not stay in meta-oe? I don't really see support 
-for essentially propriety filesystems as a core feature of a Linux build.
+are available in the git repository at:
 
-Shout up if I'm talking nonsense, just my 2p.
+  git://git.openembedded.org/openembedded-core-contrib cazfi/up
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/up
+
+Marko Lindqvist (4):
+  zlib: update to upstream version 1.2.8
+  icu: update to upstream version 51.2
+  pixman: update to upstream version 0.30.0
+  atk: update to upstream version 2.8.0
+
+ .../{zlib-1.2.7 => zlib-1.2.8}/remove.ldconfig.call.patch   |    0
+ meta/recipes-core/zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb}     |   11 ++++++-----
+ .../xorg-lib/{pixman_0.29.4.bb => pixman_0.30.0.bb}         |    4 ++--
+ meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.8.0.bb}     |    6 +++---
+ meta/recipes-support/icu/icu.inc                            |    1 +
+ meta/recipes-support/icu/icu_50.1.2.bb                      |   11 -----------
+ meta/recipes-support/icu/icu_51.2.bb                        |   11 +++++++++++
+ 7 files changed, 23 insertions(+), 21 deletions(-)
+ rename meta/recipes-core/zlib/{zlib-1.2.7 => zlib-1.2.8}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-core/zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb} (73%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.29.4.bb => pixman_0.30.0.bb} (89%)
+ rename meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.8.0.bb} (75%)
+ delete mode 100644 meta/recipes-support/icu/icu_50.1.2.bb
+ create mode 100644 meta/recipes-support/icu/icu_51.2.bb
 
 -- 
+1.7.10.4
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
 
