@@ -1,29 +1,53 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BD0A60825
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 722A660825
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 12:17:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4UCHrKt005487
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 30 May 2013 12:18:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 342281204E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 05:17:53 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 30 May 2013 05:17:52 -0700
-Message-ID: <51A74370.3030700@windriver.com>
-Date: Thu, 30 May 2013 07:17:52 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1369820334.git.hongxu.jia@windriver.com>
-	<51A71980.30802@communistcode.co.uk>
-In-Reply-To: <51A71980.30802@communistcode.co.uk>
-Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
+	Thu, 30 May 2013 14:18:43 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KtkYufksFBFO
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
+Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 95EE211FD5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
+Received: from boulder.localdomain (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 7F7A31198
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.localdomain (Postfix) with ESMTP id 741541194
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 6F4783E06E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4UCIgB0017041
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:18:42 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4UCIgSN017040
+	for openembedded-core@lists.openembedded.org;
+	Thu, 30 May 2013 14:18:42 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2013 14:18:32 +0200
+Message-Id: <acbf7929f56933bca73123fcd77084c36c5b7a07.1369916015.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <cover.1369916015.git.pkj@axis.com>
+References: <cover.1369916015.git.pkj@axis.com>
+In-Reply-To: <cover.1369916015.git.pkj@axis.com>
+References: <cover.1369916015.git.pkj@axis.com>
+Subject: [PATCH v3 4/5] makedevs: Avoid unnecessary timestamp calculation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,140 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 12:17:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 12:18:42 -0000
 
-On 5/30/13 4:18 AM, Jack Mitchell wrote:
->
-> On 30/05/13 10:01, Hongxu Jia wrote:
->> Add fuse to oe-core and let target system could support
->> `ntfs' and `exfat' filesystems.
->>
->> Test Case
->>
->> *Steps
->> 1, preparation
->> 1 target: e-menlow
->> 2 usb sticks: one for boot and install, another for filesystem test.
->>
->> 2, config
->> conf/local.conf:
->> 247 MACHINE ?= "emenlow-noemgd"
->> 247 IMAGE_INSTALL_append = " ntfs-3g ntfsprogs fuse-exfat exfat-utils"
->>
->> conf/bblayers.conf:
->>     8 BBLAYERS ?= " \
->>     9   /home/jiahongxu/yocto/poky/meta \
->>    10   /home/jiahongxu/yocto/poky/meta-yocto \
->>    11   /home/jiahongxu/yocto/poky/meta-yocto-bsp \
->>    12   /home/jiahongxu/yocto/poky/meta-intel \
->>    13   /home/jiahongxu/yocto/poky/meta-intel/meta-emenlow \
->>
->> 3, build image
->> bitbake core-image-sato
->>
->> 4, load image to emenlow
->> Test Case TC-2927: boot and install from usb
->>
->> 5, open a terminal/ssh of e-menlow
->> Test Case TC-2955: remote access by ssh
->>
->> 6, make exfat filesystem on the testing usb storage
->> 1) plug usb stick into e-menlow
->> 2) execute `mkfs.exfat /dev/sdc1'
->>
->> 7, test usb stick with exfat filesystem is accessible
->> Test Case TC-2947: usb mount
->> Test Case TC-2948: usb read files
->> Test Case TC-2949: usb umount
->> Test Case TC-2950: usb write files
->>
->> 8, make ntfs filesystem on the testing usb storage
->> 1) plug usb stick into e-menlow, if mounted, invoke `umount /dev/sdc1' first.
->> 2) execute `mkfs.ntfs -f /dev/sdc1'
->>
->> 9, test usb stick with ntfs filesystem is accessible
->> Test Case TC-2947: usb mount
->> Test Case TC-2948: usb read files
->> Test Case TC-2949: usb umount
->> Test Case TC-2950: usb write files
->>
->> *Expected Results:
->> 1, build image success
->>
->> 2, make exfat filesystem success
->> root@emenlow-noemgd:~# mkfs.exfat /dev/sdc1
->> mkexfatfs 1.0.1
->> Creating... done.
->> Flushing... done.
->> File system created successfully.
->>
->> 3, make ntfs filesystem success
->> root@emenlow-noemgd:~# mkfs.ntfs -f /dev/sdc1
->> Cluster size has been automatically set to 4096 bytes.
->> Creating NTFS volume structures.
->> mkntfs completed successfully. Have a nice day.
->>
->> 4, While the usb's filesystem type is exfat or ntfs, system can mount
->> plugged usb automatically, read files from usb, write files to usb and
->> unmout usb automatically.
->>
->> [YOCTO #4178]
->>
->> The following changes since commit 350c36fcd97e8ef223b91e548d39c346c1c4cb29:
->>
->>     bitbake: test/fetch: Allow the conditional network tests to work under python 2.6 (2013-05-17 12:42:08 +0300)
->>
->> are available in the git repository at:
->>
->>     git://git.pokylinux.org/poky-contrib hongxu/support-fuse
->>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/support-fuse
->>
->> Hongxu Jia (4):
->>     fuse: import recipe from meta-oe
->>     ntfs-3g-ntfsprogs:import and update recipe from meta-oe
->>     fuse-exfat: add version 1.0.1
->>     exfat-utils: add version 1.0.1
->>
->>    meta/recipes-support/exfat/exfat-utils_1.0.1.bb    |   29 ++++++++++
->>    meta/recipes-support/exfat/fuse-exfat_1.0.1.bb     |   26 +++++++++
->>    meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch |   20 +++++++
->>    .../fuse/fuse-2.9.2/gold-unversioned-symbol.patch  |   60 ++++++++++++++++++++
->>    meta/recipes-support/fuse/fuse_2.9.2.bb            |   38 +++++++++++++
->>    .../ntfs-3g-ntfsprogs_2013.1.13.bb                 |   33 +++++++++++
->>    6 files changed, 206 insertions(+)
->>    create mode 100644 meta/recipes-support/exfat/exfat-utils_1.0.1.bb
->>    create mode 100644 meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
->>    create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch
->>    create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/gold-unversioned-symbol.patch
->>    create mode 100644 meta/recipes-support/fuse/fuse_2.9.2.bb
->>    create mode 100644 meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
->>
->
-> Without trying to be difficult, is oe-core really the place to support
-> and spend effort ensuring NTFS/exFAT formatted drives are supported?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-The basis of this work comes from pretty much all SD/MicroSD cards, most 
-consumer USB hard disks, etc being preformatted as NTFS/exFAT.  When building a 
-consumer device the designers often want to just use FUSE out of the box so they 
-don't have to work on adding the functionality themselves.
-
-meta-oe is often times too much stuff in one bundle to just included in a 
-project.  The developers I work with prefer a smaller load of packages, 
-primarily oe-core + whatever they need.  It makes it easier to support and 
-easier to prevent problems from being introduced by feature creep.
-
-> Could these improvements not stay in meta-oe? I don't really see support
-> for essentially propriety filesystems as a core feature of a Linux build.
-
-Yes they could, but then it forces more people to copy the recipes out of meta-oe.
-
-I myself am mixed on if fuse belongs on oe-core or not.  I can see the argument 
-both ways on including it or rejecting it.  However, I'm getting more and more 
-commercial requests for FUSE to be part of the main system.
-
-> Shout up if I'm talking nonsense, just my 2p.
->
+diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+index 4cfb1d5..4bb316b 100644
+--- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+@@ -116,7 +116,6 @@ static void add_new_device(char *name, char *path, unsigned long uid,
+ {
+ 	int status;
+ 	struct stat sb;
+-	time_t timestamp = time(NULL);
+ 
+ 	memset(&sb, 0, sizeof(struct stat));
+ 	status = lstat(path, &sb);
+@@ -127,7 +126,6 @@ static void add_new_device(char *name, char *path, unsigned long uid,
+ 		 * better match the actual file or strange things will happen.... */
+ 		if ((mode & S_IFMT) != (sb.st_mode & S_IFMT))
+ 			error_msg_and_die("%s: file type does not match specified type!", path);
+-		timestamp = sb.st_mtime;
+ 	}
+ 
+ 	mknod(path, mode, rdev);
+-- 
+1.8.2.1
 
 
