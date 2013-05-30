@@ -1,42 +1,37 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
-	[209.85.160.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AABD6098C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AE40960811
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:42:07 +0000 (UTC)
-Received: by mail-pb0-f53.google.com with SMTP id un4so375178pbc.12
+	Thu, 30 May 2013 13:48:19 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id hj6so254506wib.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 06:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=ULdT8Md2duFrjTiwmb43Q2yEDVk83+/cDpfs+DhlfjE=;
-	b=LVREgZfZKFFuliFe+cWYIZK2t1Ufr5paQ/aSYXY+yCDttqPZ58crFG2zPBXaD17f2v
-	OFiLh1rsWeNLlwiorChNKPGG4whyK+MFVEUNte9WC1QBmB0Dv6oLSWAou5Vhrf5r21qc
-	z0DCgRF4p+F1zZKmhOr+RAWB+S9c+VZ0GaEYT8xpKPDXtBVlBFM89Pvim+S0CJ0ldkdZ
-	2PGSLbjoYhY8reC9e/J4KrcKVYHGiapBRjGe5eRF3WeB3UgFonFJaSRQIJA7mR9drkUP
-	AOA59L2RKbeQnlyM5Kb6E+w9oAF5SDwUSqkaG5X8hyot60kRs9fmgW3ZrHQzWtNMMlK2
-	zwsw==
-X-Received: by 10.66.155.102 with SMTP id vv6mr8576362pab.64.1369921328631;
-	Thu, 30 May 2013 06:42:08 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id fn9sm44943082pab.2.2013.05.30.06.42.06
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 06:42:07 -0700 (PDT)
-Message-ID: <51A7560E.7060202@gmail.com>
-Date: Thu, 30 May 2013 23:37:18 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: ml@communistcode.co.uk
-References: <51A7470C.403@communistcode.co.uk>
-	<51A747D6.6000203@communistcode.co.uk>
-In-Reply-To: <51A747D6.6000203@communistcode.co.uk>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: OpenSSL compile failure - building-docs related
+	Thu, 30 May 2013 06:48:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=QJGHwSSJMU1BPeM8MFPaLWdWyyEDIEL9JAI2cYoI8ZM=;
+	b=THGNTHEQaA7kyuF7ZZLSln/y62VwkLdcvlEZwus7ODskF7bbnVFMehjeytBiAhda5B
+	2MGdELU2TTeUYiXrEBU2BGQo4pBkLiUYkdblXfQXanCWrS8IkKciaSoSVidu5ouNVVc8
+	wQaALq8/2hqEY1V5C1CD1LxzCoqplWEpBbdY0zHYAg+vEkpPdB61SxCklWfvQ4150G9n
+	3nz0zFa1G9XI+HLBXXVeTXVVShSVxtc0fPxEzko3PFKS3Qc4M4+d1wNw1Xx/rB1r8E5B
+	mjgExco8vFeOrlgbTYmtkMSCOUAUKHvaU7yyQ/vc2N9BqXcQM2Pb1if/hx209ahl0OUQ
+	SIXA==
+X-Received: by 10.194.83.5 with SMTP id m5mr4864640wjy.20.1369921699355;
+	Thu, 30 May 2013 06:48:19 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	ca19sm38151698wib.3.2013.05.30.06.48.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 30 May 2013 06:48:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2013 14:45:02 +0100
+Message-Id: <1369921502-10997-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnlUH/pdc1PxbacVtauXrHe8x7DmBeYURk9bOKhgLIZRRxGOiih3Dr8k+PLLyDVH+w1NjZG
+Subject: [PATCH] cogl: add missing xrandr dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,39 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:42:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 13:48:20 -0000
 
-On 30/05/2013 10:36 PM, Jack Mitchell wrote:
-> On 30/05/13 13:33, Jack Mitchell wrote:
->> I hit this today after a pull on master, seems to be an issue with perl
->> maybe? Anyone have a clue what it might mean? A -c clean didn't fix up
->> the issue.
->>
->> Attached(1)
->>
->> Cheers,
->> Jack.
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
-> Hmmm, seems a discussion here put it down to a dodgy perl, does this 
-> mean that my hosts perl could be trashed?
->
-> http://forums.gentoo.org/viewtopic-t-958406.html?sid=008a250955b12c23986955ae9f3dcca0 
->
->
-> Cheers,
-> Jack.
->
-Just submitted a patch for this to the mailing list.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/cogl/cogl-1.0.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Jonathan
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index 3a6de28..9dc47f8 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -13,7 +13,7 @@ EDEPENDS_GL    = "virtual/libgl libdrm"
+ EDEPENDS_GLES2 = "virtual/libgles2"
+ EDEPENDS_KMS   = "libdrm virtual/egl"
+ EDEPENDS_EGL   = "virtual/egl"
+-EDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi"
++EDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
+ 
+ # Extra RDEPENDS for PACKAGECONFIG
+ # This has to be explictly listed, because cogl dlopens the backends
+-- 
+1.7.10.4
+
 
