@@ -1,41 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 23EE26065B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A21D660811
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 11:52:15 +0000 (UTC)
-Received: by mail-pb0-f50.google.com with SMTP id wy17so204455pbc.23
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 04:52:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=hk9tgEBDcndg8fzPyEAf+qVkwzmeot6gC5kn6hqof5c=;
-	b=VZspOgV19L+QwrOpAMVA5FKnXFqcvZAk5Cflgzw1v1YXNexigFDafF3PQwf//eAmpo
-	o8ik9zte16rxeazbgFi13w53EzlVgbydBhNSza2UmQtO0r7NZhv6m+5xevJ+BOsJQGgL
-	Gyrr0bBWd/sBg3LStPGf39WukA2Xu9LHvGR6CEjOfPLPNlFsIYegu9jQhgoM4yw9PFBG
-	6DhOUNc6GbTgsOUchZdvwHAKu6nsa6LA97J2j0hqMtkdz8P9T8nnLKkFmLrG0Sfr5Qfn
-	xUB/wzB3lFCDbVV1/Qwddcpb8dL+Jv9/LNj9COyzzHaa+m04t8FK106RgxdG+qLUPX7n
-	38Cw==
-X-Received: by 10.68.239.228 with SMTP id vv4mr7561578pbc.5.1369914735775;
-	Thu, 30 May 2013 04:52:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.66.252.98 with HTTP; Thu, 30 May 2013 04:51:55 -0700 (PDT)
-In-Reply-To: <20130530131142.4050a9c7@e6520eb>
-References: <1369899843-3318-1-git-send-email-eric@eukrea.com>
-	<CA+chaQeCTAq3dtUao2+oAmETHe5s7gkTjtd86fS2NBcyR=bmdQ@mail.gmail.com>
-	<CAJTo0LYDRHqO2kveMW4ftq3g4BNjLE_sJJ6mej2cNbaC3TKh6g@mail.gmail.com>
-	<20130530123230.78dab18a@e6520eb> <1369910940.14887.295.camel@ted>
-	<20130530131142.4050a9c7@e6520eb>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 May 2013 12:51:55 +0100
-Message-ID: <CAJTo0LY0D=MN+vMS4U1YdZBvYXpKmHfV0ADvRbBxT_kPM8PEpw@mail.gmail.com>
-To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-X-Gm-Message-State: ALoCoQnrhdT3ITP7Fr9Hdg5IfBbPUDjD0RN5snvAky0jEwaKW+X9CKovfOl3M7ngmt2chFzBEvxw
-Cc: Patches and discussions about the oe-core layer
+	Thu, 30 May 2013 12:17:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 45405349649;
+	Thu, 30 May 2013 14:17:12 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ZnHDM2qnst7b; Thu, 30 May 2013 14:17:11 +0200 (CEST)
+Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id F261C11FD9;
+	Thu, 30 May 2013 14:17:10 +0200 (CEST)
+Received: from boulder.localdomain (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 8BD051198;
+	Thu, 30 May 2013 14:14:51 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.localdomain (Postfix) with ESMTP id 80E57A05;
+	Thu, 30 May 2013 14:14:51 +0200 (CEST)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by thoth.se.axis.com (Postfix) with ESMTP id 7EB9E3405E;
+	Thu, 30 May 2013 14:14:51 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Thu, 30 May 2013 14:14:51 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] hicolor-icon-theme: keep inherited dependencies
+Date: Thu, 30 May 2013 14:14:50 +0200
+Thread-Topic: [OE-core] [PATCH v2 0/4] Fixes for makedevs
+Thread-Index: Ac5dE/HAY/72jWY9TDyHXoZ8efXE0AAFtexw
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7986359B025@xmail3.se.axis.com>
+References: <cover.1369898198.git.pkj@axis.com>
+	<13ef4ac6c35.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <13ef4ac6c35.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 0/4] Fixes for makedevs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,22 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 11:52:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 May 2013 12:17:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On 30 May 2013 12:11, Eric B=C3=A9nard <eric@eukrea.com> wrote:
->> I have a suspicion we really want a gnomebase inherit in the recipe
->> instead of gnome and that might solve serveral issues in one.
->>
-> inherit gnomebase and remove DEPENDS=3D""
-> seems to work fine (the postinst and postrm scripts are removed).
-> removing DEPENDS=3D"" is not a big issue as it only brings native
-> packages :
-> DEPENDS =3D autoconf-native automake-native gnome-common-native
-> gnu-config-native libtool-native pkgconfig-native
+> -----Original Message-----
+> From: Bernhard Reutner-Fischer [mailto:rep.dot.nop@gmail.com]
+> Sent: den 30 maj 2013 11:02
+> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH v2 0/4] Fixes for makedevs
+>=20
+> On 30 May 2013 09:19:54 Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> wrote:
+> > When I wanted to create devices from a package I stumbled upon a
+> couple
+> > of problems with the makedevs program. Most notable was that it
+> failed
+> > to set the correct uid/gid for devices created as part of a block
+> (i.e.,
+> > with a count > 0).
+> >
+> > And now with Signed-off-by lines, as requested.
+>=20
+> Are these appropriate for or fixed already in upstream, I.e. Busybox?
 
-Sounds fine, they actually are the build-dependencies.
+I took a look at makdevs.c in BusyBox, and as far as I can tell=20
+that version already has the relevant fixes.=20
 
-Ross
+It also made me notice another mistake in the current OE version=20
+(it loops from start to count-1 rather than start to start+count-1)...
+I will send an updated version of the patch series that fixes this.
+
+//Peter
+
 
