@@ -1,42 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CF676A4B8
+Return-Path: <bogdan.a.marinescu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B4D106A4BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:56:32 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x50so271239wes.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 06:56:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=HpoDQ2KsRhDvrxFDwo+RhUPOcrUKSmI+bmDTeSJkqpo=;
-	b=d6DRaDzcUfzaMXgBX6nl55YNcbK8dOtB2VPQPzGC4CeAx95Lx7Rir+ULvXefIP/g8g
-	exWpvGVcVuz/K4OBOfiDA265HCYi6KYqZgKwOvTYBuFJXb/jaQXWxYQJLBwNw9U6XLm0
-	70QqfvtflgE6UUbHpUpmXrDHrHRuKjXxZ84Lfinx7ZpKC78oYCfV60v/Q8mCGKhbgycV
-	njo4N7QE6iwbrstZvOLwgZaspU5jusJGn7fFiMewvJzJ2DslikA3QyrXV7R+QlT953Cb
-	+05zMQdequkqqU5xxM8ZpGmj4a0dtfbzuahfXpWKuHFwh62SO+4yjsRlYZTzTGBi0s3F
-	IA6A==
-X-Received: by 10.180.160.167 with SMTP id xl7mr18614446wib.62.1369922193169; 
-	Thu, 30 May 2013 06:56:33 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	fu14sm38247963wic.0.2013.05.30.06.56.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 06:56:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 30 May 2013 13:56:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 May 2013 06:56:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="345716558"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by orsmga002.jf.intel.com with ESMTP; 30 May 2013 06:56:40 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 14:52:48 +0100
-Message-Id: <7f6817c212b8cb777b9117990c238f2a75ae8750.1369921759.git.ross.burton@intel.com>
+Date: Thu, 30 May 2013 16:56:28 +0300
+Message-Id: <1369922188-24571-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1369921759.git.ross.burton@intel.com>
-References: <cover.1369921759.git.ross.burton@intel.com>
-In-Reply-To: <cover.1369921759.git.ross.burton@intel.com>
-References: <cover.1369921759.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnrwsjeyHfBE0ZbS+iMtseA6JZk46lwukwc8Ec6VOL2qdI/z35/nIzmku5yVVuPZMHv2LMH
-Subject: [PATCH 14/14] gtk+3: clean up libtool link creation to avoid errors in configure log
+Subject: [PATCH v4] guile: added runtime dependency on glibc-gconv-iso8859-1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:56:32 -0000
+X-List-Received-Date: Thu, 30 May 2013 13:56:55 -0000
 
+guile needs to be able to convert strings from ISO-8859-1 in order
+to work properly. This patch adds a runtime dependency to the required
+convert package, but only when glibc is used. The fix for uClibc depends
+on another bug (#4530).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+[YOCTO #4019]
+
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/guile/guile_2.0.9.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 4742eb9..f4d5254 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -18,7 +18,8 @@ export PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
+diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
+index 617f7ce..2d36717 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.9.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
+@@ -27,7 +27,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+ SRC_URI[md5sum] = "a69b575d4a633bdd9118f3a4a1e97766"
+ SRC_URI[sha256sum] = "f70a38c8d9751f442679bfe61852bba8545af4d4355d037630997c2f37f2895b"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit autotools gettext
+ BBCLASSEXTEND = "native"
+@@ -36,6 +36,8 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
+ # add guile-native only to the target recipe's DEPENDS
+ DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) != 'guile']}"
+ 
++RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
++
+ EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix', ''][bb.data.inherits_class('native',d)]}"
  
  do_configure_prepend() {
-     # Do this because the configure script is running ./libtool directly
--    ln -s ${TARGET_PREFIX}libtool libtool || true
-+    rm -f libtool
-+    ln -s ${TARGET_PREFIX}libtool libtool
- }
- 
- # Forcibly disable the GTK+ 2 dependency as we don't want to natively build the
 -- 
 1.7.10.4
 
