@@ -1,40 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 55DB76A4FF
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 03B5E62238
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 14:03:59 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id k13so268352wgh.17
+	Thu, 30 May 2013 14:04:00 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hr14so4593853wib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:03:59 -0700 (PDT)
+	Thu, 30 May 2013 07:04:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=hmr5Zj5u4K8Mc6AujsG1aeEthtpWPx5idjciiQsNBEA=;
-	b=mlKkXJoHt+wdiS4ROfHDZqCUmZMuo5bXasJ5QACFem/9qaCbU4UFb3y6fP53MD6yPS
-	Rt/RF6X97gkyRyP4WK3PlAfinwP3UNoNzS5/TXgxWWScq07HeV9ApFjujZxlC4tEwqmr
-	RdQs//WVkwTni1Swlfkc1SgkN/IcfP37D9+wHtIbDAVzEKpvKbVlW+WZmSIpxUToSBAn
-	8+O80iXtCXDoS9QEF1kTC9JPA4+uWuqyjxvRiiG97m+3OI2yQDnQdq9phT5oQ9yvHIx5
-	ZC3uJLHGcL3k+JSTGLp44B/kMU6VTCREN1N/98jOC6HaQCrkL/oOMkpDeDpBv/SZgs0V
-	6SzQ==
-X-Received: by 10.180.212.3 with SMTP id ng3mr4905623wic.22.1369922639751;
-	Thu, 30 May 2013 07:03:59 -0700 (PDT)
+	bh=bRomjYvk9zJtdQbKYIDLgixq9DQaD3lPCN07DBeucHY=;
+	b=cWyIraqidRknQ1MhA1+VQ0r6Gq+j+m7V5gunQYi646hNBoeP5etPaJcYRCtSYqVeVA
+	kIy9JVEIKhAztr4ewUYIQx+DPr0db+u6LJ0q2KTZqdXyQ1yp2oQyUrth6yYRGpS0hPaD
+	oXu8RlijsjIF+s4QkRnWps4KEQ7aPSmfbhFbS5ZaR0u+jHz3faJ8hL4q6fkbtiH5g5Al
+	9qtag9mjj3p/5k21gFHpkQj15fpo+kpQGlemLhG1c/c/R4Uno9X86+y/1nYifZzKPCC3
+	7IPtshbpb09IDuzekOlsPzScR+ldecekeK/v5PE7ua9l2ByTipujIUf/kHEsCFjzGNb8
+	6v0w==
+X-Received: by 10.194.235.99 with SMTP id ul3mr4976826wjc.6.1369922641785;
+	Thu, 30 May 2013 07:04:01 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id h8sm38208362wiz.9.2013.05.30.07.03.57
+	by mx.google.com with ESMTPSA id h8sm38208362wiz.9.2013.05.30.07.03.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 07:03:58 -0700 (PDT)
+	Thu, 30 May 2013 07:04:00 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 15:00:36 +0100
-Message-Id: <ed9bc6364911cb9594e33c1bd253f3ef9cd6bb86.1369922325.git.ross.burton@intel.com>
+Date: Thu, 30 May 2013 15:00:37 +0100
+Message-Id: <6792689a9b2c5269b2e9e2c6fc21a52dca1cef9d.1369922325.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
 References: <cover.1369922325.git.ross.burton@intel.com>
 In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
 References: <cover.1369922325.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmam0uUg3tN7sUyrmdOwAhc5pg52D1VQQgK+RjhBNxA4Ofq87rcvPtfDErPp1qWA5On+FI3
-Subject: [PATCH 3/4] weston-init: basic init script to start Weston on KMS/DRM
+X-Gm-Message-State: ALoCoQnpNA81P6UndCMB39BRrYjgWfDhJb7Ftm8gowgmLkeGjwe7bUq2LjMHldkl+vEf8DZL4K2b
+Subject: [PATCH 4/4] core-image-weston: basic image that boots directly to Weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,106 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 14:03:59 -0000
+X-List-Received-Date: Thu, 30 May 2013 14:04:01 -0000
 
-weston-init is a very basic init script to start Weston as root on KMS/DRM.
-
-To re-iterate, this runs Weston as root.  This will be fixed to use
-weston-launch shortly.
+This adds an image that boots directly to Weston on KMS/DRM, and includes the
+Weston terminal and gtk+3-demo for incredibly basic testing.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/wayland/weston-init.bb   |   17 +++++++
- meta/recipes-graphics/wayland/weston-init/init |   56 ++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston-init.bb
- create mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ meta/recipes-graphics/images/core-image-weston.bb |    9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 meta/recipes-graphics/images/core-image-weston.bb
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
 new file mode 100644
-index 0000000..a3fe811
+index 0000000..e49b205
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -0,0 +1,17 @@
-+DESCRIPTION = "startup for weston"
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -0,0 +1,9 @@
++DESCRIPTION = "A very basic Wayland image with a terminal"
++
++IMAGE_FEATURES += "splash package-management"
++
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
 +
-+SRC_URI = "file://init"
++inherit core-image
 +
-+S = "${WORKDIR}"
-+
-+do_install() {
-+	install -d ${D}/${sysconfdir}/init.d
-+	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
-+}
-+
-+inherit allarch update-rc.d
-+
-+INITSCRIPT_NAME = "weston"
-+INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
-diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
-new file mode 100644
-index 0000000..3c73e7c
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/init
-@@ -0,0 +1,56 @@
-+#!/bin/sh
-+#
-+### BEGIN INIT INFO
-+# Provides: weston
-+# Required-Start: $local_fs $remote_fs
-+# Required-Stop: $local_fs $remote_fs
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+### END INIT INFO
-+
-+killproc() {
-+        pid=`/bin/pidof $1`
-+        [ "$pid" != "" ] && kill $pid
-+}
-+
-+read CMDLINE < /proc/cmdline
-+for x in $CMDLINE; do
-+        case $x in
-+        weston=false)
-+		echo "Weston disabled"
-+		exit 0;
-+                ;;
-+        esac
-+done
-+
-+case "$1" in
-+  start)
-+        . /etc/profile
-+
-+        # This is all a nasty hack
-+        if test -z "$XDG_RUNTIME_DIR"; then
-+                export XDG_RUNTIME_DIR=/var/run/user/root
-+                mkdir --parents $XDG_RUNTIME_DIR
-+                chmod 0700 $XDG_RUNTIME_DIR
-+        fi
-+
-+        weston
-+  ;;
-+
-+  stop)
-+        echo "Stopping XServer"
-+        killproc weston
-+  ;;
-+
-+  restart)
-+	$0 stop
-+        sleep 1
-+        $0 start
-+  ;;
-+
-+  *)
-+        echo "usage: $0 { start | stop | restart }"
-+  ;;
-+esac
-+
-+exit 0
++CORE_IMAGE_BASE_INSTALL += "weston weston-init gtk+3-demo"
 -- 
 1.7.10.4
 
