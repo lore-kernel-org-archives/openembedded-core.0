@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7797E6162D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C0E761802
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 09:01:40 +0000 (UTC)
+	Thu, 30 May 2013 09:01:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4U91f8w006581
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4U91iWW003607
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 02:01:41 -0700 (PDT)
+	Thu, 30 May 2013 02:01:44 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.146) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 30 May 2013 02:01:41 -0700
+	14.2.342.3; Thu, 30 May 2013 02:01:42 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 May 2013 17:01:33 +0800
-Message-ID: <af7f8fbdaf90a005c3306f5a1a3f3802e0669a82.1369820334.git.hongxu.jia@windriver.com>
+Date: Thu, 30 May 2013 17:01:34 +0800
+Message-ID: <662548838a4367790781ef3dae982343550727eb.1369820334.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1369820334.git.hongxu.jia@windriver.com>
 References: <cover.1369820334.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] ntfs-3g-ntfsprogs:import and update recipe from meta-oe
+Subject: [PATCH 3/4] fuse-exfat: add version 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 09:01:40 -0000
+X-List-Received-Date: Thu, 30 May 2013 09:01:41 -0000
 Content-Type: text/plain
 
-Import version 2011.4.12 from meta-oe and update to version 2013.1.13.
-
-This recipe is a merge of ntfs-3g and ntfsprogs
+The fuse-exfat is read and write exFAT driver for FUSE
 
 [YOCTO #4178]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../ntfs-3g-ntfsprogs_2013.1.13.bb                 |   33 ++++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
+ meta/recipes-support/exfat/fuse-exfat_1.0.1.bb |   26 ++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
 
-diff --git a/meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb b/meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
+diff --git a/meta/recipes-support/exfat/fuse-exfat_1.0.1.bb b/meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
 new file mode 100644
-index 0000000..0067cb2
+index 0000000..d29dc0a
 --- /dev/null
-+++ b/meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
-@@ -0,0 +1,33 @@
-+DESCRIPTION = "The NTFS-3G driver is an open source, freely available NTFS driver for Linux with read and write support."
-+HOMEPAGE = "http://www.ntfs-3g.org/"
-+DEPENDS = "fuse libgcrypt"
-+PROVIDES = "ntfsprogs ntfs-3g"
-+LICENSE = "GPLv2 & LGPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+                    file://COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a"
++++ b/meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "read and write exFAT driver for FUSE"
++DESCRIPTION = "fuse-exfat is a read and write driver implementing the \
++extended file allocation table as a filesystem in userspace. A mounthelper \
++is provided unter the name mount.exfat-fuse. \
++"
++HOMEPAGE = "http://code.google.com/p/exfat/"
++SECTION = "universe/otherosfs"
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++SRC_URI = "${DEBIAN_MIRROR}/main/f/fuse-exfat/fuse-exfat_${PV}.orig.tar.gz \
++"
++DEPENDS = "fuse virtual/libc"
++RDEPENDS_${PN} += "util-linux-mount"
 +
-+SRC_URI = "http://tuxera.com/opensource/ntfs-3g_ntfsprogs-${PV}.tgz"
-+S = "${WORKDIR}/ntfs-3g_ntfsprogs-${PV}"
++inherit scons
 +
-+SRC_URI[md5sum] = "2d6fb47ddf62b51733227126fe9227fe"
-+SRC_URI[sha256sum] = "4b383f0074a3ab7683339d1f18222b107aaeb4983db119292c43c2b275cefb27"
++SRC_URI[md5sum] = "7988a5111841593231f20af22153362d"
++SRC_URI[sha256sum] = "12ac1ba1b7d4343bef64e7898176705a41cfe3b5a7a179e28549d242e2854758"
 +
-+inherit autotools
++EXTRA_OESCONS = " \
++    DESTDIR=${D}/${base_sbindir} \
++"
 +
-+# required or it calls ldconfig at install step
-+EXTRA_OEMAKE = "LDCONFIG=echo"
-+
-+PACKAGES =+ "ntfs-3g ntfsprogs libntfs-3g"
-+
-+FILES_ntfs-3g = "${base_sbindir}/*.ntfs-3g ${bindir}/ntfs-3g* ${base_sbindir}/mount.ntfs"
-+RDEPENDS_ntfs-3g += "fuse util-linux-mount"
-+
-+FILES_ntfsprogs = "${base_sbindir}/* ${bindir}/* ${sbindir}/*"
-+FILES_libntfs-3g = "${libdir}/*${SOLIBS}"
-+
-+do_install_append() {
-+    # Standard mount will execute the program /sbin/mount.TYPE
-+    # when called. Add the symbolic to let mount could find ntfs.
-+    ln -sf mount.ntfs-3g ${D}/${base_sbindir}/mount.ntfs
++do_install_prepend() {
++    install -d ${D}/${base_sbindir}
 +}
-+
 -- 
 1.7.10.4
 
