@@ -1,35 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D1F760991
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A908608CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 16:58:26 +0000 (UTC)
-Received: by mail-wg0-f54.google.com with SMTP id j13so472610wgh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 09:58:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=ahxi9J8y/PNYPOdtRaRoB7hABgXRiZN+3CmRMvY8PcE=;
-	b=JVi3HJJXxVD7qCOPIbhjqezfEIKtxHyqjPozHZljSgpvT+cxcF6hBAR2/r/SCDcVzv
-	GZB0fiknL3Kv6D+lj2AHlfMlINwuqZdsfD9fL1D0d2KwRzZB7vNnoFpkUvroCm0106q1
-	5N1uiMpO7lQOTBiM+5twFn6MHO+7tONgt0Ell/EGt/21CRqXrFWBKPeVEvtpY6YrDZo/
-	8leGsldKC7WM3YJ0erw3hau9J942XnVVNZOofjbQReFR7xL2NT946cSm/GqW71ysIkP4
-	XilMOyNYB3RFQe++KOfv3Q7wzwGn0PFOXIPqjTW1R+kaJRGgK1Rp7wHkKV8ebRiPSM0d
-	gN/w==
-X-Received: by 10.180.126.97 with SMTP id mx1mr5565337wib.57.1369933106300;
-	Thu, 30 May 2013 09:58:26 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id dj7sm39213425wib.6.2013.05.30.09.58.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 09:58:25 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 17:55:10 +0100
-Message-Id: <1369932910-5557-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQkc5We4J51byNINP9MAOwol4VOsQK70DkVItyCgkke84k/HKH4iAwlzVNzdDGRCUixmgmsO
-Subject: [PATCH] utils.bbclass: ensure $0 is correct in wrapper scripts
+	Thu, 30 May 2013 16:59:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4UGxdNL023337
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 May 2013 09:59:39 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 30 May 2013 09:59:39 -0700
+Message-ID: <51A78579.3050704@windriver.com>
+Date: Thu, 30 May 2013 11:59:37 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1369820334.git.hongxu.jia@windriver.com>
+	<51A71980.30802@communistcode.co.uk>
+	<51A74370.3030700@windriver.com> <51A74CFA.5090609@balister.org>
+	<51A7751E.9060102@windriver.com>
+	<BD275838-4C3A-49B8-8CEF-27A3A7BBC81E@gmail.com>
+In-Reply-To: <BD275838-4C3A-49B8-8CEF-27A3A7BBC81E@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +39,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 16:58:26 -0000
+X-List-Received-Date: Thu, 30 May 2013 16:59:43 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Some packages (eg mesa) will invoke a tool with --version and do string matches
-on the output (i.e. mesa does $LEX --version |grep "^flex ").  This doesn't work
-with the combination of wrapper scripts and binaries that use $0 as they output
-"flex.real".
+On 5/30/13 11:56 AM, Khem Raj wrote:
+>
+> On May 30, 2013, at 8:49 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>
+>> The issue isn't that it's a few bad recipes, the issue is that meta-oe is a collection of software that doesn't fit anywhere else.  (I'm speaking specifically of meta-oe, -not- meta-openembedded which has multiple layers in it.)
+>
+> OK I see that you are not supporting meta-oe in your commercial product but are in need of bits and pieces from it I would suggest to poach the recipes and keep them in your own supported layer if you do not wish to support meta-oe and It would be nice if you fed back any bug fixes or changes.
+>
 
-Luckily bash's exec lets you set $0.  As we want to use this we can't use env,
-but using export appears to work just as well.
+Just to be clear, this is exactly what we are doing, and intend to do.  Pick 
+pieces as needed from meta-oe, submit fixes/uprevs back to meta-oe for those pieces.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/utils.bbclass |    9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+If we see a more general need we will submit them to oe-core as well, if they're 
+not accepted, then they go back to meta-oe.
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index be0a25a..cf8893f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -261,9 +261,9 @@ create_cmdline_wrapper () {
- 	mv $cmd $cmd.real
- 	cmdname=`basename $cmd`.real
- 	cat <<END >$cmd
--#!/bin/sh
-+#!/bin/bash
- realpath=\`readlink -fn \$0\`
--exec \`dirname \$realpath\`/$cmdname $@ "\$@"
-+exec -a $cmd \`dirname \$realpath\`/$cmdname $@ "\$@"
- END
- 	chmod +x $cmd
- }
-@@ -284,9 +284,10 @@ create_wrapper () {
- 	mv $cmd $cmd.real
- 	cmdname=`basename $cmd`.real
- 	cat <<END >$cmd
--#!/bin/sh
-+#!/bin/bash
- realpath=\`readlink -fn \$0\`
--exec env $@ \`dirname \$realpath\`/$cmdname "\$@"
-+export $@
-+exec -a $cmd \`dirname \$realpath\`/$cmdname "\$@"
- END
- 	chmod +x $cmd
- }
--- 
-1.7.10.4
-
+--Mark
 
