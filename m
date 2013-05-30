@@ -1,37 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A00D2608F7
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AF9A3608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:56:07 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id p58so268668wes.7
+	Thu, 30 May 2013 13:56:08 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id y10so274495wgg.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 06:56:08 -0700 (PDT)
+	Thu, 30 May 2013 06:56:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=RTqUjV38SmuTMPQTM3nboegslGd1sdUZHK1Y5EHzeg0=;
-	b=pspFTP7xS51rhrhhWtKGma2cPDkL4DPjLRXudHtiRp7Gbdila9mjfaGwHCSag+cRS3
-	wO4ESe7sHs4nPMunyzGkq56V9S1FKbOXtqTsiiX/MrQy2lhotxJd+7OujFY//jZiAfja
-	nhwUQur95IgY4/dRE72Xzbsl0k2ifjd2auGhOBsSibg5EerIKWZRRC2fb1/EZrHIiajZ
-	LryJL8PVZfTAFy8nO9PSK4lPzY48EIfA6EmmTTGiLeKMx2HlKvAJt2Oaa3uqkAXQsR1z
-	/GnybTamOPfynGRCmSLefGOIl+QKIjRDz2AoYEPax6J9qntY+ymKY/F8vh1oO/TxEMTB
-	n6dA==
-X-Received: by 10.180.109.48 with SMTP id hp16mr4815258wib.24.1369922167553;
-	Thu, 30 May 2013 06:56:07 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=RPHUOv3AeXhFuxdrBXVjy8hd02Rez+s4+PPH7B368mQ=;
+	b=WlVHxfM+7SHkOJbgaO0ra2vXU6woFO5izcSDsnfXhnQynjoi78TWmf9lcEAonkTGhT
+	9dM4TXrPrSnA0Vhjj6eOXM0rXM5bLmJF8E16LLb7kdFx6xEA2pG2BVw/BK0KdW7V63wt
+	FSq9tr570kxl0sXlCrdhTIl4UuJh/O8NvNhiXeO7iRtRTqPJkmlii3voM8tOurdhdKvx
+	cCSBLV29Sw3mIUjdl2KPF/tRjLUz5fuXLCEq75MexKBPmYFYVyayhHHt8XULFPtMZ2VH
+	7wuPJbHE9Mx/sY5xBmjAneM7aKgSblYItACuTEJ8TfdcPeUFoxYetL7KYhahwaIwIuvf
+	dg7A==
+X-Received: by 10.180.81.169 with SMTP id b9mr19020232wiy.12.1369922169397;
+	Thu, 30 May 2013 06:56:09 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	fu14sm38247963wic.0.2013.05.30.06.56.05
+	fu14sm38247963wic.0.2013.05.30.06.56.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 06:56:06 -0700 (PDT)
+	Thu, 30 May 2013 06:56:08 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 14:52:34 +0100
-Message-Id: <cover.1369921759.git.ross.burton@intel.com>
+Date: Thu, 30 May 2013 14:52:35 +0100
+Message-Id: <aa47e6da8b03865802907d81efe8cdb62c180815.1369921759.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQniZY6q8Zy8DxmRKnGou//P5ZJtbvurCKwjeJd18gWbIzFcI/Lthg/UUw5iY6glcsPRjm8l
-Subject: [PATCH 00/14] GTK+ 3.8 and Wayland integration
+In-Reply-To: <cover.1369921759.git.ross.burton@intel.com>
+References: <cover.1369921759.git.ross.burton@intel.com>
+In-Reply-To: <cover.1369921759.git.ross.burton@intel.com>
+References: <cover.1369921759.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkgZGPr+ovQz6xjrbpQ7CqaOIJo7CGcW88FvrrgqMVXlo84oWdtQvl4KcvsgxdUDjaKsh7n
+Subject: [PATCH 01/14] test-utils: handle import bb failing and skip the test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,123 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:56:08 -0000
+X-List-Received-Date: Thu, 30 May 2013 13:56:09 -0000
 
-Hi,
+Instead of reporting an error when bb cannot be imported, skip the test
+instead. This makes it a lot easier to iterate a test suite when we don't care
+about this particular test.
 
-This series contains plenty of goodness.  It upgrades gdk-pixbuf to the latest
-stable, adds ATK 2.8 and at-spi2 for GTK+ 3.8, and then GTK+ 3.8.  GTK+ 3.8 has
-good support for Wayland so this is enabled and numerous bugs fixed in the process.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/tests/test_utils.py |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Finally, the recipe is split into a .inc/.bb as I've another branch that adds a
-git recipe for testing (which so far has found a bug in glib master).
-
-Ross
-
-The following changes since commit d0861b7a12113c6626c6206faf3a9389fb8ef5cb:
-
-  bitbake: bitbake: xmlrpc remote server (2013-05-30 10:44:00 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/gtk
-
-for you to fetch changes up to 7f6817c212b8cb777b9117990c238f2a75ae8750:
-
-  gtk+3: clean up libtool link creation to avoid errors in configure log (2013-05-30 14:49:02 +0100)
-
-----------------------------------------------------------------
-Ross Burton (14):
-      test-utils: handle import bb failing and skip the test
-      test_utils: import functions directly for conciseness
-      utils: add trim_version() function
-      gdk-pixbuf: upgrade to 2.28.1
-      atk: upgrade to 2.8
-      at-spi2: add -core and -atk, for GTK+ 3.8
-      gtk+3: update to 3.8.2
-      gtk+3: explicitly disable introspection
-      gtk+3: respect x11 and wayland DISTRO_FEATURES
-      gtk+3: add dependencies for gtk+3-demo
-      gtk+: remove spurious libgcrypt dependency
-      gtk+3: register GSetting schemas
-      gtk+3: split into .bb/.inc
-      gtk+3: clean up libtool link creation to avoid errors in configure log
-
- meta/lib/oe/tests/test_utils.py                    |   34 ++-
- meta/lib/oe/utils.py                               |   15 +
- .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |   23 --
- .../configure_fix.patch                            |    0
- .../extending-libinstall-dependencies.patch        |    0
- .../hardcoded_libtool.patch                        |    0
- .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |   11 +-
- meta/recipes-gnome/gtk+/gtk+.inc                   |    2 +-
- .../gtk+/{gtk+3_3.4.4.bb => gtk+3.inc}             |   33 ++-
- meta/recipes-gnome/gtk+/gtk+3/cross.patch          |  293 --------------------
- .../gtk+/gtk+3/no-x11-in-wayland.patch             |   32 +++
- meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb             |   16 ++
- meta/recipes-support/atk/at-spi2-atk_2.8.1.bb      |   19 ++
- meta/recipes-support/atk/at-spi2-core_2.8.0.bb     |   17 ++
- .../atk/{atk_2.6.0.bb => atk_2.8.0.bb}             |    9 +-
- 15 files changed, 155 insertions(+), 349 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/configure_fix.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/extending-libinstall-dependencies.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} (89%)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.4.4.bb => gtk+3.inc} (79%)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
- create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
- create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
- rename meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.8.0.bb} (70%)
-
-Ross Burton (14):
-  test-utils: handle import bb failing and skip the test
-  test_utils: import functions directly for conciseness
-  utils: add trim_version() function
-  gdk-pixbuf: upgrade to 2.28.1
-  atk: upgrade to 2.8
-  at-spi2: add -core and -atk, for GTK+ 3.8
-  gtk+3: update to 3.8.2
-  gtk+3: explicitly disable introspection
-  gtk+3: respect x11 and wayland DISTRO_FEATURES
-  gtk+3: add dependencies for gtk+3-demo
-  gtk+: remove spurious libgcrypt dependency
-  gtk+3: register GSetting schemas
-  gtk+3: split into .bb/.inc
-  gtk+3: clean up libtool link creation to avoid errors in configure
-    log
-
- meta/lib/oe/tests/test_utils.py                    |   34 ++-
- meta/lib/oe/utils.py                               |   15 +
- .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |   23 --
- .../configure_fix.patch                            |    0
- .../extending-libinstall-dependencies.patch        |    0
- .../hardcoded_libtool.patch                        |    0
- .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |   11 +-
- meta/recipes-gnome/gtk+/gtk+.inc                   |    2 +-
- .../gtk+/{gtk+3_3.4.4.bb => gtk+3.inc}             |   33 ++-
- meta/recipes-gnome/gtk+/gtk+3/cross.patch          |  293 --------------------
- .../gtk+/gtk+3/no-x11-in-wayland.patch             |   32 +++
- meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb             |   16 ++
- meta/recipes-support/atk/at-spi2-atk_2.8.1.bb      |   19 ++
- meta/recipes-support/atk/at-spi2-core_2.8.0.bb     |   17 ++
- .../atk/{atk_2.6.0.bb => atk_2.8.0.bb}             |    9 +-
- 15 files changed, 155 insertions(+), 349 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/configure_fix.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/extending-libinstall-dependencies.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} (89%)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.4.4.bb => gtk+3.inc} (79%)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
- create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
- create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
- rename meta/recipes-support/atk/{atk_2.6.0.bb => atk_2.8.0.bb} (70%)
-
+diff --git a/meta/lib/oe/tests/test_utils.py b/meta/lib/oe/tests/test_utils.py
+index 466c47e..779247a 100644
+--- a/meta/lib/oe/tests/test_utils.py
++++ b/meta/lib/oe/tests/test_utils.py
+@@ -1,11 +1,15 @@
+ import unittest
+-import bb, oe.utils
++import oe.utils
+ 
+ class TestPackagesFilterOutSystem(unittest.TestCase):
+     def test_filter(self):
+         """
+         Test that oe.utils.packages_filter_out_system works.
+         """
++        try:
++            import bb
++        except ImportError:
++            self.skipTest("Cannot import bb")
+ 
+         d = bb.data_smart.DataSmart()
+         d.setVar("PN", "foo")
 -- 
 1.7.10.4
 
