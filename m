@@ -1,41 +1,34 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A16DD6A49F
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E543A6065B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 14:11:48 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id u11so420108pdi.22
+	Thu, 30 May 2013 14:27:13 +0000 (UTC)
+Received: by mail-ve0-f177.google.com with SMTP id cz10so224307veb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:11:49 -0700 (PDT)
+	Thu, 30 May 2013 07:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=zV5z0cuY8vcCoSNgoARbnFHrvcWScV+yUTIuzDyuthI=;
-	b=1IQwPgVy0JOPlOgyurdxKpczHbbEqNAdXkGbdvb4rWfae8pxKLJ42bM4ns0wjG6BSi
-	E3RIwB1FaIpmIFCYyysJY6tmLnErP1m2voEy68FiZ/hqTfARVZ5mR34SMkFYaI+NAIOY
-	c9Jv5w8lnplPazVe6vsG2VE7IBHHmBHtLKKefF8HxLXytbTbmM6d2geMGSK3bM/0BqY0
-	ihDkdprYRtXEcxmQOHaR/HaDdjZOzCjx7QQstEDql3pR7QmyQ8ywvaQbkyoav1AxWDgT
-	AlZS7mO3Bn55JcfAMe7So5Mv0nJ+2vbH7LMlpwA7y26wDDF8UOLZw+wi+EDzm0nqz6vv
-	9bew==
-X-Received: by 10.66.11.164 with SMTP id r4mr8593433pab.221.1369923109319;
-	Thu, 30 May 2013 07:11:49 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	at1sm42193524pbc.10.2013.05.30.07.11.46 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 07:11:48 -0700 (PDT)
-Message-ID: <51A75D03.7040601@gmail.com>
-Date: Fri, 31 May 2013 00:06:59 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=BJt5GtdH4mMhzP02Ns4xJsysq264jgHG9tN3ZWDxrB8=;
+	b=vIVu/cv+ZMVY1quc70FeFPhhdwSOtA29p6ut4pu4gPPoNBVkYhh4awRgwR/R6+sqci
+	qc6pgzjQveJlgOrOz8z5xxXr7FZq/9wSFRDNRmK0yTYNjS8SQh/UEVk7wBI+8q6pudsq
+	jypdipMC4z9vMRCsZqLdmnn1no/IqW9MSq1I0DfcZr50VxvKJRHLSk/P7gRcv0/QrJJO
+	gGrH62CnF/M5utpS0vq9olQeDw/d7FEtpcwwylOxH8XZy4YRTi0PJqQqWdH/6wLXHfqB
+	1bQC2rGDh7V5hn1T7uk0bgZpSasyX2qM+wWAoS+U7j5drQYApo2tycGiLJNDzq0bY3Ae
+	ayIg==
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <cover.1369922325.git.ross.burton@intel.com>
-	<9f69a701378d78848eeccd84759014a4afed492d.1369922325.git.ross.burton@intel.com>
-In-Reply-To: <9f69a701378d78848eeccd84759014a4afed492d.1369922325.git.ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] mesa: upgrade to 9.1.2
+X-Received: by 10.58.248.39 with SMTP id yj7mr5586746vec.53.1369924034294;
+	Thu, 30 May 2013 07:27:14 -0700 (PDT)
+Received: by 10.58.238.37 with HTTP; Thu, 30 May 2013 07:27:14 -0700 (PDT)
+In-Reply-To: <cover.1369909097.git.cazfi74@gmail.com>
+References: <cover.1369909097.git.cazfi74@gmail.com>
+Date: Thu, 30 May 2013 17:27:14 +0300
+Message-ID: <CAF6bG8dzRvvdg6Ztpmz0ZD5aC7o8gkmYBJ=JHOZ2e_TBOfdVPQ@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Misc package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +41,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 14:11:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 14:27:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 31/05/2013 12:00 AM, Ross Burton wrote:
-> Merge mesa-PV.bb and mesa-PV.inc as the is no point to the split now we're only
-> building one variant of Mesa.
+On 30 May 2013 13:20, Marko Lindqvist <cazfi74@gmail.com> wrote:
 >
-> Drop 0002-cross-compile.patch isn't needed as libtool is used instead of mklib.
-> However, as libtool is used instead of mklib add fix-glsl-cross.patch to work
-> around build failures caused by the cross libtool being used to build host
-> binaries.
->
-> Add EGL-Mutate-NativeDisplayType-depending-on-config.patch to build correctly in
-> a non-X11 environment.
->
-> Drop dont-fail-if-libX11-isnt-installed.patch and
-> fix-egl-compilation-without-x11-headers.patch as they were backports.
->
-> license.html had some formatting and typo fixes, update the checksum.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-graphics/mesa/mesa-9.0.2.inc          |   13 -
->   .../mesa/mesa/0002-cross-compile.patch             |   94 ---
->   ...ate-NativeDisplayType-depending-on-config.patch |  358 +++++++++++
->   meta/recipes-graphics/mesa/mesa/cross-glsl.patch   |  632 --------------------
->   .../mesa/dont-fail-if-libX11-isnt-installed.patch  |   36 --
->   .../fix-egl-compilation-without-x11-headers.patch  |   32 -
->   .../mesa/mesa/fix-glsl-cross.patch                 |   43 ++
->   meta/recipes-graphics/mesa/mesa_9.0.2.bb           |    4 -
->   meta/recipes-graphics/mesa/mesa_9.1.2.bb           |   14 +
->   9 files changed, 415 insertions(+), 811 deletions(-)
->   delete mode 100644 meta/recipes-graphics/mesa/mesa-9.0.2.inc
->   delete mode 100644 meta/recipes-graphics/mesa/mesa/0002-cross-compile.patch
->   create mode 100644 meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
->   delete mode 100644 meta/recipes-graphics/mesa/mesa/cross-glsl.patch
->   delete mode 100644 meta/recipes-graphics/mesa/mesa/dont-fail-if-libX11-isnt-installed.patch
->   delete mode 100644 meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch
->   create mode 100644 meta/recipes-graphics/mesa/mesa/fix-glsl-cross.patch
->   delete mode 100644 meta/recipes-graphics/mesa/mesa_9.0.2.bb
->   create mode 100644 meta/recipes-graphics/mesa/mesa_9.1.2.bb
-Note that the current upstream version of Mesa is 9.1.3 - 
-http://lists.freedesktop.org/archives/mesa-announce/2013-May/000051.html
+> Marko Lindqvist (4):
+>   atk: update to upstream version 2.8.0
 
-Regards,
-Jonathan
+ Ross has better patch in his gtk-3.8 set.
+
+
+ - ML
 
