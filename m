@@ -1,41 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 03B5E62238
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8756A489
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 14:04:00 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id hr14so4593853wib.9
+	Thu, 30 May 2013 14:05:40 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id wz12so411794pbc.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:04:01 -0700 (PDT)
+	Thu, 30 May 2013 07:05:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=bRomjYvk9zJtdQbKYIDLgixq9DQaD3lPCN07DBeucHY=;
-	b=cWyIraqidRknQ1MhA1+VQ0r6Gq+j+m7V5gunQYi646hNBoeP5etPaJcYRCtSYqVeVA
-	kIy9JVEIKhAztr4ewUYIQx+DPr0db+u6LJ0q2KTZqdXyQ1yp2oQyUrth6yYRGpS0hPaD
-	oXu8RlijsjIF+s4QkRnWps4KEQ7aPSmfbhFbS5ZaR0u+jHz3faJ8hL4q6fkbtiH5g5Al
-	9qtag9mjj3p/5k21gFHpkQj15fpo+kpQGlemLhG1c/c/R4Uno9X86+y/1nYifZzKPCC3
-	7IPtshbpb09IDuzekOlsPzScR+ldecekeK/v5PE7ua9l2ByTipujIUf/kHEsCFjzGNb8
-	6v0w==
-X-Received: by 10.194.235.99 with SMTP id ul3mr4976826wjc.6.1369922641785;
-	Thu, 30 May 2013 07:04:01 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id h8sm38208362wiz.9.2013.05.30.07.03.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 07:04:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 15:00:37 +0100
-Message-Id: <6792689a9b2c5269b2e9e2c6fc21a52dca1cef9d.1369922325.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
-References: <cover.1369922325.git.ross.burton@intel.com>
-In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
-References: <cover.1369922325.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnpNA81P6UndCMB39BRrYjgWfDhJb7Ftm8gowgmLkeGjwe7bUq2LjMHldkl+vEf8DZL4K2b
-Subject: [PATCH 4/4] core-image-weston: basic image that boots directly to Weston
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=2ruf7M7O6wXqoxt01bOH9m4a0IlWjnHm3HBcDlFyaV0=;
+	b=C7w7/6FbAoabEKg+2QXPQBA/HosRwrnQ8f5dDt4Gy1ZTp/f7lxutfJsYBPrzaR4maE
+	tddapaOSGeQTdNic+KluI6s8zXK0iHvXNFuNMVvhUXUsSAWMMvmv9LCn+IuURIhvImKm
+	VIBWiHLldP1+q6bBVqOc70KPdTxjfg+murHfvyzAlNiaApu9tKK13C0W+TqxPLHZWlok
+	SHSWT7fiPp2xESMkSDQazsITE4waBcfJV2lQmiDwrGCg4P0J3XSsyfqGw39ZLvXyQAr7
+	VAAJgtjC5EaWxwVA4uKHY7GmVuzrj2oOv/gxjKJhRKdctHbYNz+EvMgMUAhmfEtX7S7L
+	R2Og==
+X-Received: by 10.68.162.163 with SMTP id yb3mr7930893pbb.212.1369922741362;
+	Thu, 30 May 2013 07:05:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.66.252.98 with HTTP; Thu, 30 May 2013 07:05:21 -0700 (PDT)
+In-Reply-To: <20130530140207.GC24725@jama>
+References: <cover.1369921759.git.ross.burton@intel.com>
+	<22e0a87c5884adff2aa356bc6f02d9cb49ee2376.1369921759.git.ross.burton@intel.com>
+	<20130530140207.GC24725@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 May 2013 15:05:21 +0100
+Message-ID: <CAJTo0Lb8s7F1b-g2s7K0XobTcFfRWZiY8JzkAz6bMnfpqu3+Jg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQmwnPhZYgk+IUL3omNPHKcgZknayF4NY8bfWxvL8UuezGdlfUd6Cz4yh2t6Ic13DmClpmwF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/14] gdk-pixbuf: upgrade to 2.28.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 14:04:01 -0000
+X-List-Received-Date: Thu, 30 May 2013 14:05:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This adds an image that boots directly to Weston on KMS/DRM, and includes the
-Weston terminal and gtk+3-demo for incredibly basic testing.
+On 30 May 2013 15:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+>   ^ why not ${BP}?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/images/core-image-weston.bb |    9 +++++++++
- 1 file changed, 9 insertions(+)
- create mode 100644 meta/recipes-graphics/images/core-image-weston.bb
+Mainly because I keep on forgetting that $BP exists.
 
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-new file mode 100644
-index 0000000..e49b205
---- /dev/null
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -0,0 +1,9 @@
-+DESCRIPTION = "A very basic Wayland image with a terminal"
-+
-+IMAGE_FEATURES += "splash package-management"
-+
-+LICENSE = "MIT"
-+
-+inherit core-image
-+
-+CORE_IMAGE_BASE_INSTALL += "weston weston-init gtk+3-demo"
--- 
-1.7.10.4
-
+Ross
 
