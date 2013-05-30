@@ -1,20 +1,24 @@
-Return-Path: <bogdan.a.marinescu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B4D106A4BC
+Return-Path: <tf+lists.yocto@r-finger.com>
+Received: from r-finger.com (r-finger.com [178.79.160.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 373B26041D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:56:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 May 2013 06:56:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="345716558"
-Received: from bogdanm.rb.intel.com ([10.237.105.166])
-	by orsmga002.jf.intel.com with ESMTP; 30 May 2013 06:56:40 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+	Thu, 30 May 2013 13:57:22 +0000 (UTC)
+Received: from [192.168.0.2] (host86-137-74-102.range86-137.btcentralplus.com
+	[86.137.74.102]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 81377952B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 14:57:22 +0100 (BST)
+Message-ID: <51A75AC1.5080405@r-finger.com>
+Date: Thu, 30 May 2013 14:57:21 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 16:56:28 +0300
-Message-Id: <1369922188-24571-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v4] guile: added runtime dependency on glibc-gconv-iso8859-1
+References: <1369920136-2815-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1369920136-2815-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH 1/2] cogl: remove documentation hacks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,43 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:56:55 -0000
+X-List-Received-Date: Thu, 30 May 2013 13:57:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-guile needs to be able to convert strings from ISO-8859-1 in order
-to work properly. This patch adds a runtime dependency to the required
-convert package, but only when glibc is used. The fix for uClibc depends
-on another bug (#4530).
+On 30/05/13 14:22, Ross Burton wrote:
+> These sed lines disable the documentation and appear to be historical, building
+> works fine without them.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/cogl/cogl-1.0.inc |    6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+> index 9dc47f8..a44e6c4 100644
+> --- a/meta/recipes-graphics/cogl/cogl-1.0.inc
+> +++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+> @@ -41,10 +41,4 @@ PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11}"
+>  # Default to GLX
+>  PACKAGECONFIG ??= "gl glx"
+>  
+> -#Fix up some weirdness in the docs
+> -do_configure_prepend() {
+> -        sed -i s:doc/reference/Makefile::g ${S}/configure.ac
+> -        sed -i s:doc::g ${S}/Makefile.am
+> -}
+> -
+>  FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
 
-[YOCTO #4019]
+Acked-by: Tomas Frydrych <tomas@sleepfive.com>
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- meta/recipes-devtools/guile/guile_2.0.9.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
-index 617f7ce..2d36717 100644
---- a/meta/recipes-devtools/guile/guile_2.0.9.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
-@@ -27,7 +27,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
- SRC_URI[md5sum] = "a69b575d4a633bdd9118f3a4a1e97766"
- SRC_URI[sha256sum] = "f70a38c8d9751f442679bfe61852bba8545af4d4355d037630997c2f37f2895b"
- 
--PR = "r0"
-+PR = "r1"
- 
- inherit autotools gettext
- BBCLASSEXTEND = "native"
-@@ -36,6 +36,8 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) != 'guile']}"
- 
-+RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
-+
- EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix', ''][bb.data.inherits_class('native',d)]}"
- 
- do_configure_prepend() {
 -- 
-1.7.10.4
-
+http://sleepfive.com
 
