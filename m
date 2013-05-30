@@ -1,29 +1,21 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CD6B760897
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7612060825
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 12:26:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 May 2013 05:26:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="321892659"
-Received: from unknown (HELO [10.255.13.98]) ([10.255.13.98])
-	by orsmga001.jf.intel.com with ESMTP; 30 May 2013 05:26:34 -0700
-Message-ID: <51A74576.6020604@linux.intel.com>
-Date: Thu, 30 May 2013 21:26:30 +0900
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 30 May 2013 12:33:17 +0000 (UTC)
+Message-ID: <51A7470C.403@communistcode.co.uk>
+Date: Thu, 30 May 2013 13:33:16 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1369895527.git.Qi.Chen@windriver.com>
-	<61b6db5766ad5f6690aa059ffd26f0b00834e433.1369895527.git.Qi.Chen@windriver.com>
-In-Reply-To: <61b6db5766ad5f6690aa059ffd26f0b00834e433.1369895527.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] busybox: fix to support FEATURE_INDIVIDUAL
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: OpenSSL compile failure - building-docs related
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -33,89 +25,318 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 12:26:58 -0000
+X-List-Received-Date: Thu, 30 May 2013 12:33:18 -0000
+X-Groupsio-MsgNum: 39935
+Content-Type: multipart/mixed; boundary="------------070100050105040401040306"
+
+--------------070100050105040401040306
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/30/2013 05:51 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, if CONFIG_FEATURE_INDIVIDUAL was enabled for busybox,
-> yocto-based systems could start correctly.
->
-> This is because if busybox is built as individual apps, '/bin/busybox'
-> may not be present, so setting the default ALTERNATIVE_TARGET to
-> '/bin/busybox' is not appropriate and could lead to errors.
->
-> This patch fixes this problem by checking the existence of '/bin/busybox'
-> before setting the ALTERNATIVE_TARGET to '/bin/busybox'.
->
-> After this change, if busybox is built as individual apps, we'll have
-> links like '/bin/ls -> /bin/ls.busybox', otherwise, we'll have links
-> like '/bin/ls -> /bin/busybox'.
->
-Does this add size to the image?  In this example does ls.busybox link 
-to something else or is it a binary on it's own?
+I hit this today after a pull on master, seems to be an issue with perl 
+maybe? Anyone have a clue what it might mean? A -c clean didn't fix up 
+the issue.
 
-Sau!
+Attached(1)
 
+Cheers,
+Jack.
+-- 
 
-> Besides, this patch removes the pkg_postinst part in the busybox recipe,
-> because it's redundant.
->
-> [YOCTO #4570]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/busybox/busybox.inc |   16 +++++-----------
->   1 file changed, 5 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> index c8908b0..6abe167 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -171,7 +171,7 @@ do_install () {
->   			install -m 0755 "0_lib/$NAME" "${D}$FILE.${BPN}"
->   		done
->   		# add suid bit where needed
-> -		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
-> +		for i in `grep -E "APPLET.*BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
->   			find ${D} -name $i.${BPN} -exec chmod a+s {} \;
->   		done
->   		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
-> @@ -242,14 +242,16 @@ ALTERNATIVE_TARGET[syslog-init] = "${sysconfdir}/init.d/syslog.${BPN}"
->   ALTERNATIVE_LINK_NAME[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf"
->   ALTERNATIVE_TARGET[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf.${BPN}"
->
-> -ALTERNATIVE_TARGET = "/bin/busybox"
-> -
->   python do_package_prepend () {
->       # We need to load the full set of busybox provides from the /etc/busybox.links
->       # Use this to see the update-alternatives with the right information
->
->       dvar = d.getVar('D', True)
->       pn = d.getVar('PN', True)
-> +
-> +    if os.path.exists('%s/bin/busybox' % (dvar)):
-> +        d.setVar('ALTERNATIVE_TARGET', "/bin/busybox")
-> +
->       f = open('%s/etc/busybox.links' % (dvar), 'r')
->
->       for alt_link_name in f:
-> @@ -265,14 +267,6 @@ python do_package_prepend () {
->       f.close()
->   }
->
-> -pkg_postinst_${PN} () {
-> -	# If we are not making an image we create links for the utilities that doesn't exist
-> -	# so the update-alternatives script will get the utilities it needs
-> -	# (update-alternatives have no problem replacing links later anyway)
-> -	test -n 2> /dev/null || alias test='busybox test'
-> -	if test "x$D" = "x"; then while read link; do if test ! -h "$link"; then case "$link" in /*/*/*) to="../../bin/busybox";; /bin/*) to="busybox";; /*/*) to="../bin/busybox";; esac; busybox ln -s $to $link; fi; done </etc/busybox.links; fi
-> -}
-> -
->   pkg_prerm_${PN} () {
->   	# This is so you can make busybox commit suicide - removing busybox with no other packages
->   	# providing its files, this will make update-alternatives work, but the update-rc.d part
->
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
 
+--
+
+--------------070100050105040401040306
+Content-Type: text/plain; charset=UTF-8;
+ name="log.do_install.7282"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="log.do_install.7282"
+
+DEBUG: Executing shell function do_install
+NOTE: make -e MAKEFLAGS= INSTALL_PREFIX=/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image MANDIR=/usr/share/man install
+making all in crypto...
+make[1]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto'
+making all in crypto/objects...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/objects'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/objects'
+making all in crypto/md4...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/md4'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/md4'
+making all in crypto/md5...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/md5'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/md5'
+making all in crypto/sha...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/sha'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/sha'
+making all in crypto/mdc2...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/mdc2'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/mdc2'
+making all in crypto/hmac...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/hmac'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/hmac'
+making all in crypto/ripemd...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ripemd'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ripemd'
+making all in crypto/whrlpool...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/whrlpool'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/whrlpool'
+making all in crypto/des...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/des'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/des'
+making all in crypto/aes...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/aes'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/aes'
+making all in crypto/rc2...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rc2'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rc2'
+making all in crypto/rc4...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rc4'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rc4'
+making all in crypto/idea...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/idea'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/idea'
+making all in crypto/bf...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bf'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bf'
+making all in crypto/cast...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cast'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cast'
+making all in crypto/camellia...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/camellia'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/camellia'
+making all in crypto/seed...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/seed'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/seed'
+making all in crypto/modes...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/modes'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/modes'
+making all in crypto/bn...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bn'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bn'
+making all in crypto/ec...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ec'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ec'
+making all in crypto/rsa...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rsa'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rsa'
+making all in crypto/dsa...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dsa'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dsa'
+making all in crypto/ecdsa...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ecdsa'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ecdsa'
+making all in crypto/dh...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dh'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dh'
+making all in crypto/ecdh...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ecdh'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ecdh'
+making all in crypto/dso...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dso'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/dso'
+making all in crypto/engine...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/engine'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/engine'
+making all in crypto/buffer...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/buffer'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/buffer'
+making all in crypto/bio...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bio'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/bio'
+making all in crypto/stack...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/stack'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/stack'
+making all in crypto/lhash...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/lhash'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/lhash'
+making all in crypto/rand...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rand'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/rand'
+making all in crypto/err...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/err'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/err'
+making all in crypto/evp...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/evp'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/evp'
+making all in crypto/asn1...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/asn1'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/asn1'
+making all in crypto/pem...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pem'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pem'
+making all in crypto/x509...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/x509'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/x509'
+making all in crypto/x509v3...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/x509v3'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/x509v3'
+making all in crypto/conf...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/conf'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/conf'
+making all in crypto/txt_db...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/txt_db'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/txt_db'
+making all in crypto/pkcs7...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pkcs7'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pkcs7'
+making all in crypto/pkcs12...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pkcs12'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pkcs12'
+making all in crypto/comp...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/comp'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/comp'
+making all in crypto/ocsp...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ocsp'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ocsp'
+making all in crypto/ui...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ui'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ui'
+making all in crypto/krb5...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/krb5'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/krb5'
+making all in crypto/cms...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cms'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cms'
+making all in crypto/pqueue...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pqueue'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/pqueue'
+making all in crypto/ts...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ts'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/ts'
+making all in crypto/srp...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/srp'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/srp'
+making all in crypto/cmac...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cmac'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto/cmac'
+if [ -n "libcrypto.so.1.0.0 libssl.so.1.0.0" ]; then \
+	(cd ..; make -e libcrypto.so.1.0.0); \
+fi
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+[ -z "" ] || arm-oecore-linux-gnueabi-gcc  -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon --sysroot=/mnt/SSD/oe-r0005/ccoR0005/tmp/sysroots/beaglebone -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DL_ENDIAN 	-DTERMIO  -O2 -pipe -g -feliminate-unused-debug-types -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -Iinclude \
+	-DFINGERPRINT_PREMAIN_DSO_LOAD -o fips_premain_dso  \
+	fips_premain.c fipscanister.o \
+	libcrypto.a -lgcc -ldl
+make[3]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[3]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[1]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/crypto'
+making all in ssl...
+make[1]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/ssl'
+if [ -n "libcrypto.so.1.0.0 libssl.so.1.0.0" ]; then \
+	(cd ..; make -e libssl.so.1.0.0); \
+fi
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+[ -z "" ] || arm-oecore-linux-gnueabi-gcc  -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon --sysroot=/mnt/SSD/oe-r0005/ccoR0005/tmp/sysroots/beaglebone -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DL_ENDIAN 	-DTERMIO  -O2 -pipe -g -feliminate-unused-debug-types -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -Iinclude \
+	-DFINGERPRINT_PREMAIN_DSO_LOAD -o fips_premain_dso  \
+	fips_premain.c fipscanister.o \
+	libcrypto.a -lgcc -ldl
+make[3]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[3]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[3]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[4]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[3]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e'
+make[1]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/ssl'
+making all in engines...
+make[1]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/engines'
+echo 
+
+making all in engines/ccgost...
+make[2]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/engines/ccgost'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/engines/ccgost'
+make[1]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/engines'
+making all in apps...
+make[1]: Entering directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/apps'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/openssl-1.0.1e/apps'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share/man'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share/man/man1'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share/man/man3'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share/man/man5'
+created directory `/mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/image/usr/share/man/man7'
+installing man1/CA.pl.1ssl
+installing man1/asn1parse.1ssl
+installing man1/ca.1ssl
+installing man1/ciphers.1ssl
+installing man1/cms.1ssl
+cms.pod around line 457: Expected text after =item, not a number
+cms.pod around line 461: Expected text after =item, not a number
+cms.pod around line 465: Expected text after =item, not a number
+cms.pod around line 470: Expected text after =item, not a number
+cms.pod around line 474: Expected text after =item, not a number
+POD document had syntax errors at /usr/bin/core_perl/pod2man line 71.
+make: *** [install_docs] Error 1
+ERROR: oe_runmake failed
+ERROR: Function failed: do_install (log file is located at /mnt/SSD/oe-r0005/ccoR0005/tmp/work/armv7a-vfp-neon-oecore-linux-gnueabi/openssl/1.0.1e-r15.0/temp/log.do_install.7282)
+
+--------------070100050105040401040306--
