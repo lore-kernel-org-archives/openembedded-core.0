@@ -1,44 +1,19 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A1C16162D
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 4869C6041D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 20:12:37 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id q15so825899ead.9
+	Thu, 30 May 2013 20:40:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id F2045A628C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:12:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=references:mime-version:in-reply-to:content-type
-	:content-transfer-encoding:message-id:cc:x-mailer:from:subject:date
-	:to:x-gm-message-state;
-	bh=sBFi2tZvhxX2N67TWMX5/IhvlsS1+wrJlU33uWGWYvU=;
-	b=XQyrHstUp6KXUZO7UfgXUIVsDAcc72u1lh80EW50yYRbmd7jh+MbPJXHIZ5hcMcFrm
-	BM7j8ia4er5W8C42zipbCJCHGM2Kxh3k3uP3/EnnsdJw0V5fUy51d0aAUHuMEL4wYg7N
-	MoOkXUY+doxGvIrWPWb4iAz5VcF/F27UB2f5CbQo8Rvhie2lG7TZwm4m2dfSrHvJItGj
-	/VITSr0GD0rpqtezfospGo059ICeqbyffv1CGf0KxvOBX5OjaKy8U83DrfQmlPbyl5nQ
-	9CRtl/+qFJtfwjcox9VN3sLTsOqrtU+N72ifOPrLmYwrusSpRnL5UhbRjgMYiZQ4hhja
-	3VPQ==
-X-Received: by 10.15.32.142 with SMTP id a14mr10782923eev.152.1369944757435;
-	Thu, 30 May 2013 13:12:37 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::e4ff:bb4b:ff36:f86c?
-	([2001:610:612:0:e4ff:bb4b:ff36:f86c])
-	by mx.google.com with ESMTPSA id f1sm34365189eem.17.2013.05.30.13.12.35
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 13:12:36 -0700 (PDT)
-References: <3311603.tBhLUzvcSX@helios>
-Mime-Version: 1.0 (1.0)
-In-Reply-To: <3311603.tBhLUzvcSX@helios>
-Message-Id: <34C50232-3B54-4D15-9A33-5B53CC32349D@dominion.thruhere.net>
-X-Mailer: iPad Mail (10B329)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 30 May 2013 22:12:34 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnmFQooH/W/gFXU7Jhm4A0PhlOrM6LKGimMD9gXIKYxNPkHiQnZeas2Z8XG0YlKtbCwYxAq
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: libav, ffmpeg, and OE-Core
+	Thu, 30 May 2013 22:40:37 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2013 22:40:29 +0200
+Message-Id: <1369946430-12959-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.8.1.4
+MIME-Version: 1.0
+Subject: [PATCH v2 1/2] hicolor-icon-theme: keep inherited dependencies and switch to gnomebase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,78 +26,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 20:12:38 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 May 2013 20:40:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+- switching to gnomebase removes postinst and postrm scripts that
+gtk-icon-cache was bringing (and which are not necessary) else, if an
+image installs hicolor-icon-theme without any other gnome package,
+the dependency on gdk-pixbuf-native was missing and if it exists,
+the host gdk-pixbuf-query-loaders binary was be
+used and it will try to update the host's cache
 
+- keep inherited dependencies as these are only native ones
+DEPENDS = autoconf-native automake-native gnome-common-native
+gnu-config-native libtool-native pkgconfig-native
 
-Op 30 mei 2013 om 21:59 heeft Paul Eggleton <paul.eggleton@linux.intel.com> h=
-et volgende geschreven:
+[YOCTO #4572]
 
-> Hi all,
->=20
-> Video decoding is an important function for a lot of devices. We currently=
+Signed-off-by: Eric Bénard <eric@eukrea.com>
+---
+ meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> have gst-ffmpeg, which includes the ffmpeg sources, in OE-Core but we don'=
-t have
-> ffmpeg or libav itself that is a bit more re-usable outside of GStreamer. T=
-his
-> brings up a few questions:
->=20
-> 1) Which is the preferred option for OE; ffmpeg or its "fork" libav? libav=
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index 7c911e0..9a8e5a6 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -6,9 +6,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
+ 
+ SECTION = "unknown"
+-inherit gnome allarch
+-
+-DEPENDS = ""
++inherit gnomebase allarch
+ 
+ PR = "r1"
+ 
+-- 
+1.8.1.4
 
-> seems to be better suited to use as a library but on the other hand ffmpeg=
-
-> isn't exactly dead. Some background:
->=20
-> http://aballier.wordpress.com/2013/01/18/ffmpeg-vs-libav-a-distribution-ma=
-intainer-point-of-view-almost-two-years-after-the-split/
->=20
-> http://blog.pkh.me/p/13-the-ffmpeg-libav-situation.html
-
-All the developers I have worked with moved to libav. So from a cross-compil=
-e and testing point of view libav is the way to go since the buildsystem per=
-son and funky architecture people have moved there. I am very biased on this=
- however :)
-
-> 2) Following on from that, should we pull the preferred library into OE-Co=
-re
-> and avoid the need for the current bbappend in meta-oe for gst-ffmpeg? (On=
-e of
-> my personal motivations for sorting this out).
-
-I can't make up my mind on that. On one hand it shouldn't be in oe-core sinc=
-e it's just fluff, but on the other hand having libav in oe-core would make a=
- strong case to have everything working with libav and avoid having to have b=
-oth ffmpeg and libav recipes.
-
-> This would of course be
-> protected by LICENSE_FLAGS as we currently do with gst-ffmpeg.
-
-I guess we'd need to do something similar to the gstreamer proposal: a ton o=
-f PACKAGECONFIG options to allow the recipe to drag in meta-multimedia depen=
-dencies.
-
-regards,
-
-Koen
-
->=20
-> Thoughts?
->=20
-> Cheers,
-> Paul
->=20
->=20
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
