@@ -1,42 +1,41 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B6486094D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6153A608CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 17:30:17 +0000 (UTC)
-Received: by mail-ob0-f181.google.com with SMTP id 16so1127027obc.40
+	Thu, 30 May 2013 18:26:22 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id wz12so825923pbc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 10:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=xptytXtPN7fdb8PZxYHGbN13/zt3ZpQ/oUdfvlvVMFQ=;
-	b=EQdbkHQ8GMqLNfF+gYPoHkQ7iZ1XWSK9wIiavM9arQ8nhh9E5PNEY9OFTmnB3FYPqJ
-	21wDByeATHUqsWju3DZGTUSALSJM1qBPKf6iUD4LgGDANS5aBWYuZR5rDRDIml0qbpvm
-	gy9s1XHy0ub9fWjLcKT7+JPdiOGwxVzvnf3b5toUmK/D3/EcC0cmfIrRBrK+A9boZvRt
-	Urjx8eyVWjVLox+q1B5XIEvkbPdlmWMetyFovRakj+9iHUfMLNk2jHemhbxIqyBe2us9
-	Ty7gpstbV3p3cnbZ+egLIPTwTXwTiLuW8VBA1nJXRzdOc2dD7zMfIkWyqvAoamZyPiQt
-	9c7Q==
+	Thu, 30 May 2013 11:26:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=tFpmYCoc+1XK0aPE6Tt3Nc98bQaSN4P+c1q2UIeMzYo=;
+	b=KHuCoPDjQ0SO3J7a0VwP9rIdN6By+WdxUlIz5KIqCHlptcRJMIYTIa0Qd8LuALP7rN
+	fVrcsc27QTPnl/jBXqRrjduab4txehuU7xPhOfqnatybqIP4WLTiMlEbNmWhdOa+xUpO
+	jtZzENs0eGR0CayNdil6yHwz2KjmB89OnLxItRMTF2tMM92zdg/wzu8JrQ8CQb1KxjmD
+	73mYYxIB/O3/cf7jQKKgzDboP358XNNvpJLzI6O6I+jQAzyuEOl+CvgS+geR1Gm9Ybfc
+	pxWjPxD4oBiRKHQIhKKKVn0b27vrDWJ64FmmiCG90JwG4RW+veSG6sfyIQHuD7RH90Qn
+	rbYA==
+X-Received: by 10.68.193.138 with SMTP id ho10mr9165868pbc.163.1369938383447; 
+	Thu, 30 May 2013 11:26:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.59.163 with SMTP id a3mr4612583oer.45.1369935017725; Thu,
-	30 May 2013 10:30:17 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Thu, 30 May 2013 10:30:17 -0700 (PDT)
-In-Reply-To: <001701ce5cdb$de85b1a0$9b9114e0$@com>
-References: <1369119875-4984-1-git-send-email-b40527@freescale.com>
-	<CAJTo0LZA89rPdGy65ShyfxjS4jenHsinO5JPsTbWNi3sgOD=Eg@mail.gmail.com>
-	<000701ce5b4e$3c7684e0$b5638ea0$@com>
-	<CAP9ODKo8453_vw-9u+8308vsvy3zRoSk0ptoEzgo8gFpwp76SQ@mail.gmail.com>
-	<000f01ce5b5b$c64e39d0$52eaad70$@com>
-	<CAJTo0LbLEH+S4OpoKVQyeV2j2gV9pkzsS1L9vyoB=SPSCzL1VQ@mail.gmail.com>
-	<001701ce5cdb$de85b1a0$9b9114e0$@com>
-Date: Thu, 30 May 2013 14:30:17 -0300
-X-Google-Sender-Auth: 1ghtK0bbv27djb_vJnMdir5OpC4
-Message-ID: <CAP9ODKo83jbSYYK88QL_3gfKews6SZxLx5_CQh5W+8RKk5QRuw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Zongchun YU <b40527@freescale.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files:fix the command line wrap around issue
+Received: by 10.66.252.98 with HTTP; Thu, 30 May 2013 11:26:03 -0700 (PDT)
+In-Reply-To: <20130530131142.4050a9c7@e6520eb>
+References: <1369899843-3318-1-git-send-email-eric@eukrea.com>
+	<CA+chaQeCTAq3dtUao2+oAmETHe5s7gkTjtd86fS2NBcyR=bmdQ@mail.gmail.com>
+	<CAJTo0LYDRHqO2kveMW4ftq3g4BNjLE_sJJ6mej2cNbaC3TKh6g@mail.gmail.com>
+	<20130530123230.78dab18a@e6520eb> <1369910940.14887.295.camel@ted>
+	<20130530131142.4050a9c7@e6520eb>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 May 2013 19:26:03 +0100
+Message-ID: <CAJTo0LY=Fs9bFv-jSdmSrqx=Gna4obgN92XvRK2NcbhEOFywPg@mail.gmail.com>
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+X-Gm-Message-State: ALoCoQl6WaAWyouFdA3ICWbypASSI/y+cghACVzl5NLvwKf+oYEbsFP+LZ1edFMWIBA8S8Z8UP+a
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] hicolor-icon-theme: keep inherited dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,55 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 17:30:17 -0000
-Content-Type: multipart/alternative; boundary=089e013d081818d72604ddf2da43
-
---089e013d081818d72604ddf2da43
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Wed, May 29, 2013 at 11:17 PM, Zongchun YU <b40527@freescale.com> wrote:
-
-> Yes.  At least for my target, CONFIG_RESIZE isn't enabled that I'd expect
-> to be required for this to work.
->
-> for my target, CONFIG_RESIZE have been enabled, if we use resize in
-> profile, we may meet the invalid character issue as I mentioned earlier.
->
-
-I think we need to find the cause of the invalid character; your proposed
-patch is a workaround and not a fix for the real issue.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
---089e013d081818d72604ddf2da43
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Thu, 30 May 2013 18:26:22 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Wed, May 29, 2013 at 11:17 PM, Zongchun YU <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:b40527@freescale.com" target=3D"_blank">b40527@freescale=
-.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">Yes. =A0At least for my ta=
-rget, CONFIG_RESIZE isn&#39;t enabled that I&#39;d expect to be required fo=
-r this to work.<br>
+On 30 May 2013 12:11, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> inherit gnomebase and remove DEPENDS=3D""
+> seems to work fine (the postinst and postrm scripts are removed).
+> removing DEPENDS=3D"" is not a big issue as it only brings native
+> packages :
+> DEPENDS =3D autoconf-native automake-native gnome-common-native
+> gnu-config-native libtool-native pkgconfig-native
 
-<br>
-</div>for my target, CONFIG_RESIZE have been enabled, if we use resize in p=
-rofile, we may meet the invalid character issue as I mentioned earlier.<br>=
-</blockquote><div><br></div><div style>I think we need to find the cause of=
- the invalid character; your proposed patch is a workaround and not a fix f=
-or the real issue.=A0</div>
-</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
-m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
-ref=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.=
-ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
+Will you send a patch for this?
 
---089e013d081818d72604ddf2da43--
+Ross
+
