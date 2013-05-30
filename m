@@ -1,25 +1,25 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F33C60959
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E8E460959
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 10:34:15 +0000 (UTC)
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 3EE364B00EC;
-	Thu, 30 May 2013 12:34:11 +0200 (CEST)
-Date: Thu, 30 May 2013 12:34:09 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20130530123409.70302214@e6520eb>
-In-Reply-To: <CA+chaQeCTAq3dtUao2+oAmETHe5s7gkTjtd86fS2NBcyR=bmdQ@mail.gmail.com>
-References: <1369899843-3318-1-git-send-email-eric@eukrea.com>
-	<CA+chaQeCTAq3dtUao2+oAmETHe5s7gkTjtd86fS2NBcyR=bmdQ@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] hicolor-icon-theme: keep inherited dependencies
+	Thu, 30 May 2013 10:38:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 30 May 2013 03:36:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,770,1363158000"; d="scan'208";a="342461497"
+Received: from unknown (HELO helios.localnet) ([10.252.121.217])
+	by fmsmga001.fm.intel.com with ESMTP; 30 May 2013 03:39:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, ml@communistcode.co.uk
+Date: Thu, 30 May 2013 11:38:51 +0100
+Message-ID: <1469273.QNnC6eK3nT@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-22-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <51A71980.30802@communistcode.co.uk>
+References: <cover.1369820334.git.hongxu.jia@windriver.com>
+	<51A71980.30802@communistcode.co.uk>
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,19 +32,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 10:34:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 May 2013 10:38:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Le Thu, 30 May 2013 10:09:36 +0200,
-Martin Jansa <martin.jansa@gmail.com> a =C3=A9crit :
+On Thursday 30 May 2013 10:18:56 Jack Mitchell wrote:
+> On 30/05/13 10:01, Hongxu Jia wrote:
+> > Add fuse to oe-core and let target system could support
+> > `ntfs' and `exfat' filesystems.
+> > 
+> > Test Case
+> > 
+> > *Steps
+> > 1, preparation
+> > 1 target: e-menlow
+> > 2 usb sticks: one for boot and install, another for filesystem test.
+> > 
+> > 2, config
+> > conf/local.conf:
+> > 247 MACHINE ?= "emenlow-noemgd"
+> > 247 IMAGE_INSTALL_append = " ntfs-3g ntfsprogs fuse-exfat exfat-utils"
+> > 
+> > conf/bblayers.conf:
+> >    8 BBLAYERS ?= " \
+> >    9   /home/jiahongxu/yocto/poky/meta \
+> >   
+> >   10   /home/jiahongxu/yocto/poky/meta-yocto \
+> >   11   /home/jiahongxu/yocto/poky/meta-yocto-bsp \
+> >   12   /home/jiahongxu/yocto/poky/meta-intel \
+> >   13   /home/jiahongxu/yocto/poky/meta-intel/meta-emenlow \
+> > 
+> > 3, build image
+> > bitbake core-image-sato
+> > 
+> > 4, load image to emenlow
+> > Test Case TC-2927: boot and install from usb
+> > 
+> > 5, open a terminal/ssh of e-menlow
+> > Test Case TC-2955: remote access by ssh
+> > 
+> > 6, make exfat filesystem on the testing usb storage
+> > 1) plug usb stick into e-menlow
+> > 2) execute `mkfs.exfat /dev/sdc1'
+> > 
+> > 7, test usb stick with exfat filesystem is accessible
+> > Test Case TC-2947: usb mount
+> > Test Case TC-2948: usb read files
+> > Test Case TC-2949: usb umount
+> > Test Case TC-2950: usb write files
+> > 
+> > 8, make ntfs filesystem on the testing usb storage
+> > 1) plug usb stick into e-menlow, if mounted, invoke `umount /dev/sdc1'
+> > first. 2) execute `mkfs.ntfs -f /dev/sdc1'
+> > 
+> > 9, test usb stick with ntfs filesystem is accessible
+> > Test Case TC-2947: usb mount
+> > Test Case TC-2948: usb read files
+> > Test Case TC-2949: usb umount
+> > Test Case TC-2950: usb write files
+> > 
+> > *Expected Results:
+> > 1, build image success
+> > 
+> > 2, make exfat filesystem success
+> > root@emenlow-noemgd:~# mkfs.exfat /dev/sdc1
+> > mkexfatfs 1.0.1
+> > Creating... done.
+> > Flushing... done.
+> > File system created successfully.
+> > 
+> > 3, make ntfs filesystem success
+> > root@emenlow-noemgd:~# mkfs.ntfs -f /dev/sdc1
+> > Cluster size has been automatically set to 4096 bytes.
+> > Creating NTFS volume structures.
+> > mkntfs completed successfully. Have a nice day.
+> > 
+> > 4, While the usb's filesystem type is exfat or ntfs, system can mount
+> > plugged usb automatically, read files from usb, write files to usb and
+> > unmout usb automatically.
+> > 
+> > [YOCTO #4178]
+> > 
+> > The following changes since commit 
+350c36fcd97e8ef223b91e548d39c346c1c4cb29:
+> >    bitbake: test/fetch: Allow the conditional network tests to work under
+> >    python 2.6 (2013-05-17 12:42:08 +0300)> 
+> > are available in the git repository at:
+> >    git://git.pokylinux.org/poky-contrib hongxu/support-fuse
+> >    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/support-fu
+> >    se
+> > 
+> > Hongxu Jia (4):
+> >    fuse: import recipe from meta-oe
+> >    ntfs-3g-ntfsprogs:import and update recipe from meta-oe
+> >    fuse-exfat: add version 1.0.1
+> >    exfat-utils: add version 1.0.1
+> >   
+> >   meta/recipes-support/exfat/exfat-utils_1.0.1.bb    |   29 ++++++++++
+> >   meta/recipes-support/exfat/fuse-exfat_1.0.1.bb     |   26 +++++++++
+> >   meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch |   20 +++++++
+> >   .../fuse/fuse-2.9.2/gold-unversioned-symbol.patch  |   60
+> >   ++++++++++++++++++++ meta/recipes-support/fuse/fuse_2.9.2.bb           
+> >   |   38 +++++++++++++ .../ntfs-3g-ntfsprogs_2013.1.13.bb                
+> >   |   33 +++++++++++ 6 files changed, 206 insertions(+)
+> >   create mode 100644 meta/recipes-support/exfat/exfat-utils_1.0.1.bb
+> >   create mode 100644 meta/recipes-support/exfat/fuse-exfat_1.0.1.bb
+> >   create mode 100644 meta/recipes-support/fuse/fuse-2.9.2/aarch64.patch
+> >   create mode 100644
+> >   meta/recipes-support/fuse/fuse-2.9.2/gold-unversioned-symbol.patch
+> >   create mode 100644 meta/recipes-support/fuse/fuse_2.9.2.bb
+> >   create mode 100644
+> >   meta/recipes-support/ntfs-3g-ntfsprogs/ntfs-3g-ntfsprogs_2013.1.13.bb
+>
+> Without trying to be difficult, is oe-core really the place to support
+> and spend effort ensuring NTFS/exFAT formatted drives are supported?
+> 
+> Could these improvements not stay in meta-oe? I don't really see support
+> for essentially propriety filesystems as a core feature of a Linux build.
+> 
+> Shout up if I'm talking nonsense, just my 2p.
 
-> Doesn't it depend now on something which isn't allarch? IIRC gnome.bbclass
-> brings gconf.
->=20
-true :
-  * DEPENDS: added "shared-mime-info gnome-common-native
-shared-mime-info-native gtk-update-icon-cache-native gconf gconf-native"
+That was also my comment on the bug report, FWIW:
 
-Eric
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4178
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
