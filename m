@@ -1,25 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9665C60304
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A0B6041D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 23:21:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4TNLSW9025290
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 16:21:28 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 29 May 2013 16:21:27 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2013 18:27:46 -0500
-Message-ID: <1369870067-9388-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+	Thu, 30 May 2013 00:53:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 29 May 2013 17:51:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,767,1363158000"; d="scan'208";a="342270111"
+Received: from unknown (HELO [10.255.13.98]) ([10.255.13.98])
+	by fmsmga001.fm.intel.com with ESMTP; 29 May 2013 17:54:07 -0700
+Message-ID: <51A6A320.2050109@linux.intel.com>
+Date: Thu, 30 May 2013 09:53:52 +0900
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 17/21 v2] grep: fix for CVE-2012-5667
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+In-Reply-To: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/21] Misc patch set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 23:21:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 May 2013 00:53:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <ming.liu@windriver.com>
+On 05/30/2013 12:09 AM, Mark Hatle wrote:
+> The following is a set of patches that I've been merging forward for
+> a while now.  Almost all of these items have been sent up previously
+> to the oe-core list, but they have not yet been integrated.
+>
+> As far as I'm aware, all comments to previous submissions have been
+> addressed.
 
-Multiple integer overflows in GNU Grep before 2.11 might allow
-context-dependent attackers to execute arbitrary code via vectors
-involving a long input line that triggers a heap-based buffer overflow.
+Mark,
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
+Do you have a branch someplace that has all the updates and patch 
+removals in it?  With a large set like this having an updated branch
+would be very helpful.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../grep/grep-2.5.1a/grep-CVE-2012-5667.patch      | 32 ++++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.5.1a.bb          |  3 +-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
+Thanks
+	Sau!
 
-diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
-new file mode 100644
-index 0000000..0631f35
---- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.5.1a/grep-CVE-2012-5667.patch
-@@ -0,0 +1,32 @@
-+The patch to fix CVE-2012-5667
-+Reference: https://bugzilla.redhat.com/attachment.cgi?id=686605&action=diff
-+
-+Multiple integer overflows in GNU Grep before 2.11 might allow
-+context-dependent attackers to execute arbitrary code via vectors
-+involving a long input line that triggers a heap-based buffer overflow.
-+
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5667
-+
-+Upstream-status: Inappropriate [other]
-+This version of GNU Grep has been abandoned upstream and they are no longer
-+accepting patches.  This is not a backport.
-+
-+Signed-off-by Ming Liu <ming.liu@windriver.com>
-+---
-+ grep.c |    7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
-+
-+--- a/src/grep.c	2013-05-15 13:39:33.359191769 +0800
-++++ a/src/grep.c	2013-05-15 13:50:22.609191882 +0800
-+@@ -306,6 +306,11 @@ fillbuf (size_t save, struct stats const
-+   int cc = 1;
-+   char *readbuf;
-+   size_t readsize;
-++  const size_t max_save = INT_MAX / 2;
-++
-++  /* Limit the amount of saved data to INT_MAX to fix CVE-2012-5667 */
-++  if (save > max_save)
-++     error (2, 0, _("line too long"));
-+ 
-+   /* Offset from start of buffer to start of old stuff
-+      that we want to save.  */
-diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
-index d6386ed..247c837 100644
---- a/meta/recipes-extended/grep/grep_2.5.1a.bb
-+++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
-@@ -13,7 +13,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
-            file://gettext.patch \
-            file://fix64-int-to-pointer.patch \
-            file://Makevars \
--           "
-+           file://grep-CVE-2012-5667.patch \
-+          "
- 
- SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
- SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92bdd3132"
--- 
-1.8.1.2.545.g2f19ada
-
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
