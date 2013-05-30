@@ -1,40 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D71A60991
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C08A6041D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 13:25:34 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id hr14so232019wib.10
+	Thu, 30 May 2013 13:41:35 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id wy17so366264pbc.23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 06:25:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=zZh+a7328nekjURK+zsA7K8tUCxg4QmIUPkeNcu1DMg=;
-	b=G+IJGJtgeW4Nx5Wv6k5Bia0kkuKXHjkzZvTbpb221Rg6tUr5st0PvEv2PNI1lHAWzf
-	MzwJ6uaAe81SoqXIjtV0Gy3Bx0CGNpWP8CWeE8j7ZvtdoxI/TJhwLtdeEjrs0TOJpNam
-	etx2QFMW0CgMSEIlRxXtmkQGq+47f52Rt2ay6qmjXniVi4Wo7TryETrzDDhwwNVpOmnn
-	Od+PAwJJ9cR8MF8uXHbBcfZXtNakQkWGwZMAiw9X7o7JaFx6kC7DLCydw2TyQ2QEKBbx
-	Kmmp2ssjcoVURmW5YKnByl94hCu04dzUZcPNAlQ7nmtXMWiRqVmS2vOLwjCDHDKvYwqr
-	KkBg==
-X-Received: by 10.180.72.230 with SMTP id g6mr3335289wiv.8.1369920335274;
-	Thu, 30 May 2013 06:25:35 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	Thu, 30 May 2013 06:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=BKotA2FmabBnQs+AuNICp4JauewSgK3P0pi21fpEDHk=;
+	b=NUtvz82aFYEW1otLvz1hfZ7U0qUAc/vpFiTFaCUpQicK/y42lOAtOFN0k22H8dsAga
+	OgsgJA0OVQ/T7GkY4TrRjWsXdauIp0osPlF/KRFfXDgUDzlcFyu963Eh3vZWrMDghDGF
+	gaTi2ghY5jiOkwIUG/hbfuTJ4ObfDwFWqCMP3iKcH8OmfXbgktxtWKXThjttwxR/B0GU
+	T5n1mx3EgjHBiIpZjUR+qHgr9nS5c/7FH8dvW768YzYVwMQEQ533DQlw0x2Tu+UFLnz2
+	D9c7cznCkWUGff/Lj5s0HWAvFeu0zLwihPFJVFrL1Cx9pQu60+UqEPtuJUGa/TmDIaGQ
+	7hQg==
+X-Received: by 10.66.146.138 with SMTP id tc10mr8481232pab.173.1369921296244; 
+	Thu, 30 May 2013 06:41:36 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by mx.google.com with ESMTPSA id
-	ca19sm38020385wib.3.2013.05.30.06.25.33
-	for <openembedded-core@lists.openembedded.org>
+	fm2sm44908712pab.13.2013.05.30.06.41.33 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 06:25:34 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 30 May 2013 06:41:35 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 14:22:16 +0100
-Message-Id: <1369920136-2815-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1369920136-2815-1-git-send-email-ross.burton@intel.com>
-References: <1369920136-2815-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmFfweE3OFGGYtflJzk3AULsek0lsDTJS7tu2S9LAepfmwVHPmkkknthPQ1k1y96ApwXNYB
-Subject: [PATCH 2/2] clutter: remove documentation hacks
+Date: Thu, 30 May 2013 23:55:09 +1000
+Message-Id: <1369922109-25097-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3
+Subject: [PATCH] openssl: fix documentation build errors with Perl 5.18 pod2man
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +42,469 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 13:25:35 -0000
+X-List-Received-Date: Thu, 30 May 2013 13:41:36 -0000
 
-These sed lines disable the documentation and appear to be historical, building
-works fine without them.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-graphics/clutter/clutter-1.0.inc |    4 ----
- 1 file changed, 4 deletions(-)
+ .../openssl/openssl-1.0.1e/openssl-fix-doc.patch   | 435 +++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   1 +
+ 2 files changed, 436 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-doc.patch
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
-index e1d3cf4..68cb22b 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
-@@ -39,10 +39,6 @@ PACKAGECONFIG ??= "x11 glx"
- FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-doc.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-doc.patch
+new file mode 100644
+index 0000000..e87ed80
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-doc.patch
+@@ -0,0 +1,435 @@
++Fix documentation build errors with Perl 5.18 pod2man
++
++This fixes errors building man pages with newer versions of pod2man
++included with Perl 5.18.
++
++Upstream-Status: Submitted
++Signed-off-by: Jonathan Liu
++
++diff --git a/doc/apps/cms.pod b/doc/apps/cms.pod
++index a09588a..881d387 100644
++--- a/doc/apps/cms.pod
+++++ b/doc/apps/cms.pod
++@@ -450,28 +450,28 @@ remains DER.
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ the operation was completely successfully.
++ 
++-=item 1 
+++=item Z<>1 
++ 
++ an error occurred parsing the command options.
++ 
++-=item 2
+++=item Z<>2
++ 
++ one of the input files could not be read.
++ 
++-=item 3
+++=item Z<>3
++ 
++ an error occurred creating the CMS file or when reading the MIME
++ message.
++ 
++-=item 4
+++=item Z<>4
++ 
++ an error occurred decrypting or verifying the message.
++ 
++-=item 5
+++=item Z<>5
++ 
++ the message was verified correctly but an error occurred writing out
++ the signers certificates.
++diff --git a/doc/apps/smime.pod b/doc/apps/smime.pod
++index e4e89af..ef8e8cd 100644
++--- a/doc/apps/smime.pod
+++++ b/doc/apps/smime.pod
++@@ -308,28 +308,28 @@ remains DER.
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ the operation was completely successfully.
++ 
++-=item 1 
+++=item Z<>1 
++ 
++ an error occurred parsing the command options.
++ 
++-=item 2
+++=item Z<>2
++ 
++ one of the input files could not be read.
++ 
++-=item 3
+++=item Z<>3
++ 
++ an error occurred creating the PKCS#7 file or when reading the MIME
++ message.
++ 
++-=item 4
+++=item Z<>4
++ 
++ an error occurred decrypting or verifying the message.
++ 
++-=item 5
+++=item Z<>5
++ 
++ the message was verified correctly but an error occurred writing out
++ the signers certificates.
++diff --git a/doc/crypto/X509_STORE_CTX_get_error.pod b/doc/crypto/X509_STORE_CTX_get_error.pod
++index a883f6c..60e8332 100644
++--- a/doc/crypto/X509_STORE_CTX_get_error.pod
+++++ b/doc/crypto/X509_STORE_CTX_get_error.pod
++@@ -278,6 +278,8 @@ happen if extended CRL checking is enabled.
++ an application specific error. This will never be returned unless explicitly
++ set by an application.
++ 
+++=back
+++
++ =head1 NOTES
++ 
++ The above functions should be used instead of directly referencing the fields
++diff --git a/doc/ssl/SSL_COMP_add_compression_method.pod b/doc/ssl/SSL_COMP_add_compression_method.pod
++index 42fa66b..f4d191c 100644
++--- a/doc/ssl/SSL_COMP_add_compression_method.pod
+++++ b/doc/ssl/SSL_COMP_add_compression_method.pod
++@@ -53,11 +53,11 @@ SSL_COMP_add_compression_method() may return the following values:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The operation succeeded.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation failed. Check the error queue to find out the reason.
++ 
++diff --git a/doc/ssl/SSL_CTX_add_session.pod b/doc/ssl/SSL_CTX_add_session.pod
++index 82676b2..8e0abd3 100644
++--- a/doc/ssl/SSL_CTX_add_session.pod
+++++ b/doc/ssl/SSL_CTX_add_session.pod
++@@ -52,13 +52,13 @@ The following values are returned by all functions:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++  The operation failed. In case of the add operation, it was tried to add
++  the same (identical) session twice. In case of the remove operation, the
++  session was not found in the cache.
++ 
++-=item 1
+++=item Z<>1
++  
++  The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_CTX_load_verify_locations.pod b/doc/ssl/SSL_CTX_load_verify_locations.pod
++index 84a799f..d1d8977 100644
++--- a/doc/ssl/SSL_CTX_load_verify_locations.pod
+++++ b/doc/ssl/SSL_CTX_load_verify_locations.pod
++@@ -100,13 +100,13 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The operation failed because B<CAfile> and B<CApath> are NULL or the
++ processing at one of the locations specified failed. Check the error
++ stack to find out the reason.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_CTX_set_client_CA_list.pod b/doc/ssl/SSL_CTX_set_client_CA_list.pod
++index 632b556..6122a02 100644
++--- a/doc/ssl/SSL_CTX_set_client_CA_list.pod
+++++ b/doc/ssl/SSL_CTX_set_client_CA_list.pod
++@@ -66,11 +66,11 @@ values:
++ 
++ =over 4
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++-=item 0
+++=item Z<>0
++ 
++ A failure while manipulating the STACK_OF(X509_NAME) object occurred or
++ the X509_NAME could not be extracted from B<cacert>. Check the error stack
++diff --git a/doc/ssl/SSL_CTX_set_session_id_context.pod b/doc/ssl/SSL_CTX_set_session_id_context.pod
++index 58fc685..7c9e515 100644
++--- a/doc/ssl/SSL_CTX_set_session_id_context.pod
+++++ b/doc/ssl/SSL_CTX_set_session_id_context.pod
++@@ -64,13 +64,13 @@ return the following values:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The length B<sid_ctx_len> of the session id context B<sid_ctx> exceeded
++ the maximum allowed length of B<SSL_MAX_SSL_SESSION_ID_LENGTH>. The error
++ is logged to the error stack.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_CTX_set_ssl_version.pod b/doc/ssl/SSL_CTX_set_ssl_version.pod
++index 254f2b4..e254f96 100644
++--- a/doc/ssl/SSL_CTX_set_ssl_version.pod
+++++ b/doc/ssl/SSL_CTX_set_ssl_version.pod
++@@ -42,11 +42,11 @@ and SSL_set_ssl_method():
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The new choice failed, check the error stack to find out the reason.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_CTX_use_psk_identity_hint.pod b/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
++index b80e25b..31e6626 100644
++--- a/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
+++++ b/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
++@@ -81,6 +81,8 @@ SSL_CTX_use_psk_identity_hint() and SSL_use_psk_identity_hint() return
++ 
++ Return values from the server callback are interpreted as follows:
++ 
+++=over 4
+++
++ =item > 0
++ 
++ PSK identity was found and the server callback has provided the PSK
++@@ -94,9 +96,11 @@ data to B<psk> and return the length of the random data, so the
++ connection will fail with decryption_error before it will be finished
++ completely.
++ 
++-=item 0
+++=item Z<>0
++ 
++ PSK identity was not found. An "unknown_psk_identity" alert message
++ will be sent and the connection setup fails.
++ 
+++=back
+++
++ =cut
++diff --git a/doc/ssl/SSL_accept.pod b/doc/ssl/SSL_accept.pod
++index cc724c0..4915e5a 100644
++--- a/doc/ssl/SSL_accept.pod
+++++ b/doc/ssl/SSL_accept.pod
++@@ -44,12 +44,12 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 1
+++=item Z<>1
++ 
++ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
++ established.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The TLS/SSL handshake was not successful but was shut down controlled and
++ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
++diff --git a/doc/ssl/SSL_clear.pod b/doc/ssl/SSL_clear.pod
++index d4df1bf..ba192bd 100644
++--- a/doc/ssl/SSL_clear.pod
+++++ b/doc/ssl/SSL_clear.pod
++@@ -56,12 +56,12 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The SSL_clear() operation could not be performed. Check the error stack to
++ find out the reason.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The SSL_clear() operation was successful.
++ 
++diff --git a/doc/ssl/SSL_connect.pod b/doc/ssl/SSL_connect.pod
++index cc56ebb..61cabb7 100644
++--- a/doc/ssl/SSL_connect.pod
+++++ b/doc/ssl/SSL_connect.pod
++@@ -41,12 +41,12 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 1
+++=item Z<>1
++ 
++ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
++ established.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The TLS/SSL handshake was not successful but was shut down controlled and
++ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
++diff --git a/doc/ssl/SSL_do_handshake.pod b/doc/ssl/SSL_do_handshake.pod
++index 2435764..beb0dd1 100644
++--- a/doc/ssl/SSL_do_handshake.pod
+++++ b/doc/ssl/SSL_do_handshake.pod
++@@ -45,12 +45,12 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 1
+++=item Z<>1
++ 
++ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
++ established.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The TLS/SSL handshake was not successful but was shut down controlled and
++ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
++diff --git a/doc/ssl/SSL_read.pod b/doc/ssl/SSL_read.pod
++index 7038cd2..8ca0ce5 100644
++--- a/doc/ssl/SSL_read.pod
+++++ b/doc/ssl/SSL_read.pod
++@@ -86,7 +86,7 @@ The following return values can occur:
++ The read operation was successful; the return value is the number of
++ bytes actually read from the TLS/SSL connection.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The read operation was not successful. The reason may either be a clean
++ shutdown due to a "close notify" alert sent by the peer (in which case
++diff --git a/doc/ssl/SSL_session_reused.pod b/doc/ssl/SSL_session_reused.pod
++index da7d062..b09d8a7 100644
++--- a/doc/ssl/SSL_session_reused.pod
+++++ b/doc/ssl/SSL_session_reused.pod
++@@ -27,11 +27,11 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ A new session was negotiated.
++ 
++-=item 1
+++=item Z<>1
++ 
++ A session was reused.
++ 
++diff --git a/doc/ssl/SSL_set_fd.pod b/doc/ssl/SSL_set_fd.pod
++index 7029112..1480871 100644
++--- a/doc/ssl/SSL_set_fd.pod
+++++ b/doc/ssl/SSL_set_fd.pod
++@@ -35,11 +35,11 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The operation failed. Check the error stack to find out why.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_set_session.pod b/doc/ssl/SSL_set_session.pod
++index 5f54714..197b521 100644
++--- a/doc/ssl/SSL_set_session.pod
+++++ b/doc/ssl/SSL_set_session.pod
++@@ -37,11 +37,11 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ The operation failed; check the error stack to find out the reason.
++ 
++-=item 1
+++=item Z<>1
++ 
++ The operation succeeded.
++ 
++diff --git a/doc/ssl/SSL_set_shutdown.pod b/doc/ssl/SSL_set_shutdown.pod
++index 011a022..fe01308 100644
++--- a/doc/ssl/SSL_set_shutdown.pod
+++++ b/doc/ssl/SSL_set_shutdown.pod
++@@ -24,7 +24,7 @@ The shutdown state of an ssl connection is a bitmask of:
++ 
++ =over 4
++ 
++-=item 0
+++=item Z<>0
++ 
++ No shutdown setting, yet.
++ 
++diff --git a/doc/ssl/SSL_shutdown.pod b/doc/ssl/SSL_shutdown.pod
++index 89911ac..132ebc5 100644
++--- a/doc/ssl/SSL_shutdown.pod
+++++ b/doc/ssl/SSL_shutdown.pod
++@@ -92,19 +92,19 @@ The following return values can occur:
++ 
++ =over 4
++ 
++-=item 1
+++=item Z<>1
++ 
++ The shutdown was successfully completed. The "close notify" alert was sent
++ and the peer's "close notify" alert was received.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The shutdown is not yet finished. Call SSL_shutdown() for a second time,
++ if a bidirectional shutdown shall be performed.
++ The output of L<SSL_get_error(3)|SSL_get_error(3)> may be misleading, as an
++ erroneous SSL_ERROR_SYSCALL may be flagged even though no error occurred.
++ 
++-=item -1
+++=item Z<>-1
++ 
++ The shutdown was not successful because a fatal error occurred either
++ at the protocol level or a connection failure occurred. It can also occur if
++diff --git a/doc/ssl/SSL_write.pod b/doc/ssl/SSL_write.pod
++index e013c12..a57617f 100644
++--- a/doc/ssl/SSL_write.pod
+++++ b/doc/ssl/SSL_write.pod
++@@ -79,7 +79,7 @@ The following return values can occur:
++ The write operation was successful, the return value is the number of
++ bytes actually written to the TLS/SSL connection.
++ 
++-=item 0
+++=item Z<>0
++ 
++ The write operation was not successful. Probably the underlying connection
++ was closed. Call SSL_get_error() with the return value B<ret> to find out,
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index c7c225d..61de3a6 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -29,6 +29,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://debian/no-symbolic.patch \
+             file://debian/debian-targets.patch \
+             file://openssl_fix_for_x32.patch \
++            file://openssl-fix-doc.patch \
+             file://find.pl \
+            "
  
- do_configure_prepend() {
--        # Fix up some weirdness in the docs
--        sed -i s:doc/reference/Makefile::g ${S}/configure.ac
--        sed -i s:doc::g ${S}/Makefile.am
--
- 	# see https://bugzilla.gnome.org/show_bug.cgi?id=661128 for this
- 	touch -t 200001010000 po/clutter-1.0.pot
- }
 -- 
-1.7.10.4
+1.8.3
 
 
