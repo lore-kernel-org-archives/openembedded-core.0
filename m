@@ -1,31 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1525B60881
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B38F560881
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 16:45:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4UGnuBJ005686; Thu, 30 May 2013 17:49:56 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id d64qswPyPAe6; Thu, 30 May 2013 17:49:56 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4UGnq8s005681
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 30 May 2013 17:49:53 +0100
-Message-ID: <1369932321.14887.320.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>, "saul.wold"
-	<saul.wold@intel.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, "Georgescu, Alexandru C"
-	<alexandru.c.georgescu@intel.com>, "Flanagan, Elizabeth"
-	<elizabeth.flanagan@intel.com>, "Hart, Darren" <darren.hart@intel.com>
-Date: Thu, 30 May 2013 17:45:21 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: Issues with gcc 4.8 sstate "contamination" on the autobuilder
+	Thu, 30 May 2013 16:56:46 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id 14so686457pdc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=G2KMaPEre1I2Wj/4uHKr3qfXbMnZXPBhrnPzxrk+mug=;
+	b=zf/gv5eKwX9pr2rgJ7V/hi8+599GtLdn+IY9YGmYY9y2xfKL5oR42WBCWhr8IsbsAC
+	SeUtTyyP34Nxf8h5o9v4d78cuDB2UNkDhsAqHyHNLsnim/2NJcNFNwlZwFZ6uL8Vgmj7
+	3TQjFU1vlL9MfnmXWd6cnKpEbyCfb9tKI25J+KnZ8UwOnEz7qeYtepDjDkXItImdXGlF
+	NnkVSDLY10CcEdfxx0rnpio8YWoACNLdRSBJCwZB86m/MyOw87nM/Wjrkn1DUocbw61c
+	576O2B6GN6suN9Jx/tj0/h4EUcfESEiJmGjjJHdJ3rGuWEy4JOf7sS/EcYaFlvO2oWU5
+	PCYA==
+X-Received: by 10.66.146.232 with SMTP id tf8mr9671578pab.32.1369933007915;
+	Thu, 30 May 2013 09:56:47 -0700 (PDT)
+Received: from ramanathan-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	al2sm42723925pbc.25.2013.05.30.09.56.46 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 30 May 2013 09:56:47 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51A7751E.9060102@windriver.com>
+Date: Thu, 30 May 2013 09:56:44 -0700
+Message-Id: <BD275838-4C3A-49B8-8CEF-27A3A7BBC81E@gmail.com>
+References: <cover.1369820334.git.hongxu.jia@windriver.com>
+	<51A71980.30802@communistcode.co.uk>
+	<51A74370.3030700@windriver.com> <51A74CFA.5090609@balister.org>
+	<51A7751E.9060102@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Mailer: Apple Mail (2.1503)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +49,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 16:45:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 16:56:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-I want to make people aware we're seeing some issues with gcc 4.8 on the
-autobuilder.
 
-gcc is a whitelisted dependency in sstate so it is *not* accounted for
-in the sstate checksums.
+On May 30, 2013, at 8:49 AM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
 
-This means if you run a build with gcc 4.8, switch to 4.7 and then run a
-similar build, you can reuse sstate between the two. This has lead to
-failures on the autobuilder recently which have been rather confusing
-and is why the weekly test report is as red.
+> The issue isn't that it's a few bad recipes, the issue is that meta-oe =
+is a collection of software that doesn't fit anywhere else.  (I'm =
+speaking specifically of meta-oe, -not- meta-openembedded which has =
+multiple layers in it.)
 
-I want to highlight the problem and make it clear this isn't an sstate
-bug, the sstate class is explicitly allowing this as things stand.
-
-In normal usage, you don't want a small change to gcc changing your
-world around so the class is probably ok as it is but we are going to
-have to be careful with builds going forwards. 1.5M1 may need clean
-sstate, just to be sure.
-
-Cheers,
-
-Richard
-
+OK I see that you are not supporting meta-oe in your commercial product =
+but are in need of bits and pieces from it I would suggest to poach the =
+recipes and keep them in your own supported layer if you do not wish to =
+support meta-oe and It would be nice if you fed back any bug fixes or =
+changes.=
 
