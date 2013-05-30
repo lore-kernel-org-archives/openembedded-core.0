@@ -1,38 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B9E7A61F27
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B9C3E61082
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 02:24:04 +0000 (UTC)
-Received: by mail-ie0-f179.google.com with SMTP id c13so27265276ieb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2013 19:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Z5YSnwGQP25aqeCZmHteQUP8zh5HAhS/sz8bOxiDz1M=;
-	b=SSOwjEE1EPXK8TmAf9uOke8de2tad144LWh0VmVvvrESgRJnBtYr/weYNl7Byd64Yt
-	PM0jh1OV1GVjyjopSr03X5UTw+VnGZkKUw0eQDZhP0AZjI4h7CupIRRWMMHVcxhtby1f
-	Cc1ju4tVz89daRSSlZLEUrbzWo8hpe1RlDFkyqC13Q1yO8yhtaifExHbGDAVytFxj1Fl
-	aG6xY9VKp+GmgPazGB4bRFz/6hn3UVE3Mm7eVPhTTrWtdOgnPQoPCl3UNMulaK9J9Gxe
-	dU/phx4cDbSm1lelW2JGeor31StbCcHN8gUPbzZrS5mGXJs4N861GNYeAh0PcxqeT6Ig
-	X32g==
-X-Received: by 10.50.78.100 with SMTP id a4mr2747315igx.102.1369880645967;
-	Wed, 29 May 2013 19:24:05 -0700 (PDT)
+	Thu, 30 May 2013 03:55:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4U3t5EU029466
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 May 2013 20:55:05 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 29 May 2013 20:55:04 -0700
+Message-ID: <51A6CD97.7080603@windriver.com>
+Date: Wed, 29 May 2013 22:55:03 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Received: by 10.50.108.45 with HTTP; Wed, 29 May 2013 19:23:35 -0700 (PDT)
-In-Reply-To: <51A6AC93.7030103@linux.intel.com>
-References: <1369078242-4032-1-git-send-email-jslater@windriver.com>
-	<1369078242-4032-2-git-send-email-jslater@windriver.com>
-	<51A6AC93.7030103@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 May 2013 19:23:35 -0700
-Message-ID: <CAMKF1sqoasj4UmXHKbJ_fctatO7gCf5rcp9vL8cqB4QmmVHcjw@mail.gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-Cc: Joe Slater <jslater@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] util-linux: adjust hwclock ALTERNATIVE_PRIORITY
+References: <1369840203-21898-1-git-send-email-mark.hatle@windriver.com>
+	<51A6A320.2050109@linux.intel.com>
+In-Reply-To: <51A6A320.2050109@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/21] Misc patch set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,14 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 02:24:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 May 2013 03:55:03 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 29, 2013 at 6:34 PM, Saul Wold <sgw@linux.intel.com> wrote:
+On 5/29/13 7:53 PM, Saul Wold wrote:
+> On 05/30/2013 12:09 AM, Mark Hatle wrote:
+>> The following is a set of patches that I've been merging forward for
+>> a while now.  Almost all of these items have been sent up previously
+>> to the oe-core list, but they have not yet been integrated.
+>>
+>> As far as I'm aware, all comments to previous submissions have been
+>> addressed.
 >
-> Can the nslu2 layer which seems to be maintained by Khem Raj take a patch
-> that will set the ALTERNATIVE_PRIORITY of hwclock to 10, we might need to
-> have a patch here:
+> Mark,
+>
+> Do you have a branch someplace that has all the updates and patch
+> removals in it?  With a large set like this having an updated branch
+> would be very helpful.
 
-sure.
+I rebased and pushed the changes to the poky-contrib.  It's down to 11 patches now.
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=mhatle/misc
+
+> Thanks
+> 	Sau!
+>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+
 
