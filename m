@@ -1,28 +1,19 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A84C61AD0
+Return-Path: <eric@eukrea.com>
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 0309761AD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:42:20 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4U7kXfp008704; Thu, 30 May 2013 08:46:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id y8eVWAHvjSyN; Thu, 30 May 2013 08:46:32 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4U7kUXe008667
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 30 May 2013 08:46:31 +0100
-Message-ID: <1369899721.14887.279.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 May 2013 08:42:01 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: [PATCH] dpkg: Be deterministic about lzma dependency
+	Thu, 30 May 2013 07:44:07 +0000 (UTC)
+Received: from e6520eb.local.eukrea.com (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id C32C34B00A5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:44:04 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2013 09:44:02 +0200
+Message-Id: <1369899843-3318-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.8.1.4
+MIME-Version: 1.0
+Subject: [PATCH 1/2] hicolor-icon-theme: keep inherited dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +26,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 07:42:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2013 07:44:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-dpkg has no DEPENDS on lzma so turn it off explicitly.
+else, if an image installs hicolor-icon-theme without any other
+gnome package, the dependency on gdk-pixbuf-native will be missing
+and if it exists, the host gdk-pixbuf-query-loaders binary will be
+used and it will try to update the host's cache
 
-[YOCTO #4518]
+[YOCTO #4572]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Eric Bénard <eric@eukrea.com>
 ---
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 6197777..c983d21 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -26,6 +26,7 @@ EXTRA_OECONF = "--without-static-progs \
- 		--with-start-stop-daemon \
- 		--with-zlib \
- 		--with-bz2lib \
-+		--without-liblzma \
- 		--without-selinux \
- 		--without-sgml-doc"
- 
+this patch will need some testing as it's not clear to me why this dependency was forced to "". At least that fix the problem described in the bug report.
+ meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index 7c911e0..8d48dec 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
+ SECTION = "unknown"
+ inherit gnome allarch
+ 
+-DEPENDS = ""
+-
+ PR = "r1"
+ 
+ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+-- 
+1.8.1.4
 
 
