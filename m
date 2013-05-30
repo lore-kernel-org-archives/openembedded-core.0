@@ -1,24 +1,53 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 6134960991
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 755D960991
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 07:01:01 +0000 (UTC)
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 22BCF4B014E;
-	Thu, 30 May 2013 09:00:56 +0200 (CEST)
-Date: Thu, 30 May 2013 09:00:55 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130530090055.5495d737@e6520eb>
-In-Reply-To: <1369864411.14887.255.camel@ted>
-References: <1369863047-3105-1-git-send-email-eric@eukrea.com>
-	<1369864411.14887.255.camel@ted>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: depend on gdk-pixbuf-native
+	Thu, 30 May 2013 07:21:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 0907B34964C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:21:01 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GiuYNM8ra8MR
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:21:00 +0200 (CEST)
+Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 61122349647
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:21:00 +0200 (CEST)
+Received: from boulder.localdomain (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id ABCE9A6E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:20:03 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.localdomain (Postfix) with ESMTP id 9DBE5E33
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:20:03 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 9C3183E06D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:20:03 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4U7K39O014284
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 09:20:03 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4U7K3qu014283
+	for openembedded-core@lists.openembedded.org;
+	Thu, 30 May 2013 09:20:03 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2013 09:19:56 +0200
+Message-Id: <96e901a9e3cd5047c319233bd7cd904ea5600ae0.1369898198.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <cover.1369898198.git.pkj@axis.com>
+References: <cover.1369898198.git.pkj@axis.com>
+In-Reply-To: <cover.1369898198.git.pkj@axis.com>
+References: <cover.1369898198.git.pkj@axis.com>
+Subject: [PATCH v2 2/4] makedevs: Correct the device number calculation for blocks of devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 07:01:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 May 2013 07:21:04 -0000
 
-Le Wed, 29 May 2013 22:53:31 +0100,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =C3=A9crit :
+If the increment > 1 and the start > 0 then the calculation for the
+minor device number was incorrect.
 
-> On Wed, 2013-05-29 at 23:30 +0200, Eric B=C3=A9nard wrote:
-> > it's using scripts from scripts/postinst-intercepts/ which contain
-> > gdk-pixbuf-query-loaders so it should depend on gdk-pixbuf-native
-> > else the host binary will be used and it will try to update the
-> > host's cache
-> >=20
-> > [YOCTO #4572]
-> >=20
-> > Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-> > ---
-> > fix the same problem in dylan
-> >=20
-> >  meta/classes/image.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 04db533..6c16a1a 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -10,7 +10,7 @@ inherit gzipnative
-> > =20
-> >  LICENSE =3D "MIT"
-> >  PACKAGES =3D ""
-> > -DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cr=
-oss"
-> > +DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cr=
-oss gdk-pixbuf-native"
-> >  RDEPENDS +=3D "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_IN=
-STALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
-> >  RRECOMMENDS +=3D "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
->=20
-> Ah, this has made me realise what the real problem is and that there is
-> a better way to fix this. We need to add
->=20
-> DEPENDS +=3D "gdk-pixbuf-native"
->=20
-> to pixbufcache.bbclass and gtk-icon-cache.bbclass then people not using
-> those things don't get the dependency added.
->=20
-I tried on gtk-icon-cache and that didn't work ... seems I missed
-pixbufcache.bbclass ;-)
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Eric
+diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+index 247d6c1..d58e891 100644
+--- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+@@ -226,7 +226,7 @@ static int interpret_table_entry(char *line)
+ 				sprintf(path, "%s/%s%d", rootdir, name, i);
+ 				/* FIXME:  MKDEV uses illicit insider knowledge of kernel 
+ 				 * major/minor representation...  */
+-				rdev = MKDEV(major, minor + (i * increment - start));
++				rdev = MKDEV(major, minor + (i - start) * increment);
+ 				add_new_device(buf, path, uid, gid, mode, rdev);
+ 			}
+ 		} else {
+-- 
+1.8.2.1
+
 
