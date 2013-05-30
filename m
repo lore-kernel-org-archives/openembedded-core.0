@@ -1,32 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A908608CA
+Return-Path: <marcin@juszkiewicz.com.pl>
+Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
+	[178.33.81.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 35A4360881
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 16:59:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4UGxdNL023337
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2013 09:59:39 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 30 May 2013 09:59:39 -0700
-Message-ID: <51A78579.3050704@windriver.com>
-Date: Thu, 30 May 2013 11:59:37 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Thu, 30 May 2013 17:23:17 +0000 (UTC)
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id CCEEED22DE; Thu, 30 May 2013 19:23:11 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E1730D22B2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2013 19:22:37 +0200 (CEST)
+Message-ID: <51A78ADA.2060308@juszkiewicz.com.pl>
+Date: Thu, 30 May 2013 19:22:34 +0200
+From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1369820334.git.hongxu.jia@windriver.com>
-	<51A71980.30802@communistcode.co.uk>
-	<51A74370.3030700@windriver.com> <51A74CFA.5090609@balister.org>
-	<51A7751E.9060102@windriver.com>
-	<BD275838-4C3A-49B8-8CEF-27A3A7BBC81E@gmail.com>
-In-Reply-To: <BD275838-4C3A-49B8-8CEF-27A3A7BBC81E@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
+To: openembedded-core@lists.openembedded.org
+References: <1369932321.14887.320.camel@ted>
+In-Reply-To: <1369932321.14887.320.camel@ted>
+X-Enigmail-Version: 1.4.6
+OpenPGP: id=117A251E
+Subject: Re: Issues with gcc 4.8 sstate "contamination" on the autobuilder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,24 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2013 16:59:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 30 May 2013 17:23:18 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/30/13 11:56 AM, Khem Raj wrote:
->
-> On May 30, 2013, at 8:49 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->
->> The issue isn't that it's a few bad recipes, the issue is that meta-oe is a collection of software that doesn't fit anywhere else.  (I'm speaking specifically of meta-oe, -not- meta-openembedded which has multiple layers in it.)
->
-> OK I see that you are not supporting meta-oe in your commercial product but are in need of bits and pieces from it I would suggest to poach the recipes and keep them in your own supported layer if you do not wish to support meta-oe and It would be nice if you fed back any bug fixes or changes.
->
+W dniu 30.05.2013 18:45, Richard Purdie pisze:
+> I want to make people aware we're seeing some issues with gcc 4.8 on the
+> autobuilder.
 
-Just to be clear, this is exactly what we are doing, and intend to do.  Pick 
-pieces as needed from meta-oe, submit fixes/uprevs back to meta-oe for those pieces.
+When we are at sstate and gcc...
 
-If we see a more general need we will submit them to oe-core as well, if they're 
-not accepted, then they go back to meta-oe.
+I noticed recently that libunwind may break gcc builds:
 
---Mark
+https://bugs.launchpad.net/linaro-oe/+bug/1183087
+
+The issue exists only when libunwind was built before gcc was started.
+
+To reproduce:
+
+bitbake -ccleansstate gcc libunwind
+bitbake libunwind
+bitbake gcc
+
+Did not yet found proper working solution.
 
