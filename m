@@ -1,42 +1,40 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D5436098F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 07E526098F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 10:57:33 +0000 (UTC)
-Received: by mail-pb0-f48.google.com with SMTP id md4so2011415pbc.35
+	Fri, 31 May 2013 11:01:01 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id t60so1088563wes.39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 03:57:34 -0700 (PDT)
+	Fri, 31 May 2013 04:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=hNXvmOYHOqn3jLcDjxc4H3M0AeyLq8CFMRf7fbigdac=;
-	b=MRgfM7Vy7DA+zQk+TRhThgU5U5DxDDIHOPxg4KxnEM/u/o7+ZwF4KCBv4Zoz4Qh0q7
-	QmA8fPMM7rEd2CJE4KmGzegfBx6M0tATE/g7828Xq0OgYuZ461w7BWUX4F+aDw0LkH0U
-	AMBBh+cgiloUVRWw2b0zHHOPBDu+f9y8TUtWmuUU+cIioQlNOJJRxs576cHPpEzKlLYN
-	bQaaPytYDslCnbzhZa6UPgZPjnv2HjpjscSp7WkMQxUEwoootZNofqPoX/dhUHlqJzY4
-	lj1YvXudpsbFEfIpO9KWfvcEZcIvKcY47F/GozqsX4/U8pD/0z8Yw+b5KKzmQingyh02
-	J7Bg==
-X-Received: by 10.68.243.40 with SMTP id wv8mr8529267pbc.34.1369997854225;
-	Fri, 31 May 2013 03:57:34 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	rn7sm46243725pbc.12.2013.05.31.03.57.31 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 03:57:33 -0700 (PDT)
-Message-ID: <51A880FA.2050108@gmail.com>
-Date: Fri, 31 May 2013 20:52:42 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ZmtzDDi+UyRrrTF1chRfhvH6C1B57JRaKPcx4m/IMY4=;
+	b=HLMyb+NAPCldtPJqfDpGIhaDjuVZuRm/+C/JtNtk+Sbs7UMBScmoIkZ6HceDdzwYCc
+	FLeLtC2waD0XO/EIV80gxmeOJk649AO+r3I63iOsWDJw0FgVIiJ5nctd7PlQg0qUzoza
+	XBrujS/iv8Ldnb/SMK8eOaLsQq8pDsB20z99ZrRSOhyqewVvcfNbzcUfGLJtOATEnwi2
+	bUkjeyxH09W00JnUuyQ3sigxeyBqDNnpMTybhLEoXOG/lMSD+rpnR7+8WMgXEkYZ+Tno
+	327qlXj7ezuzDY5S6odpLHKaI0+xY63fjR1TF4gKZ9WFz5ZjugjFUhlgUv4766lrSAEM
+	Z/Rw==
+X-Received: by 10.194.134.161 with SMTP id pl1mr8862093wjb.31.1369998062272;
+	Fri, 31 May 2013 04:01:02 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b11sm3085886wiv.10.2013.05.31.04.01.00 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 31 May 2013 04:01:01 -0700 (PDT)
+Date: Fri, 31 May 2013 13:01:13 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130531110113.GA23802@jama>
+References: <1369997391-28957-1-git-send-email-ross.burton@intel.com>
+	<1369997391-28957-2-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1369993335-21441-1-git-send-email-net147@gmail.com>
-	<51A87B7F.7050702@gmail.com> <3462145.IjGzaGyojb@helios>
-	<1466229.5OSf9FtHfZ@helios>
-In-Reply-To: <1466229.5OSf9FtHfZ@helios>
+In-Reply-To: <1369997391-28957-2-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] buildhistory: record removals with Git 2.0 and later
+Subject: Re: [PATCH 2/2] mesa: update git recipe to 9.1.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +47,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 10:57:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2013 11:01:02 -0000
+X-Groupsio-MsgNum: 40037
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
 
-On 31/05/2013 8:50 PM, Paul Eggleton wrote:
-> On Friday 31 May 2013 11:42:27 Paul Eggleton wrote:
->> On Friday 31 May 2013 20:29:19 Jonathan Liu wrote:
->>> On 31/05/2013 7:42 PM, Jonathan Liu wrote:
->>>> There is a behavior change with Git 2.0 where "git add ." will no
->>>> longer record removals by default unless -A (--all) is specified.
->>>> Change to "git add -A ." so removals are recorded with Git 2.0 and
->>>> later.
->>>>
->>>> Signed-off-by: Jonathan Liu <net147@gmail.com>
->>>> ---
->>>>
->>>>    meta/classes/buildhistory.bbclass | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>> Hmm... looks like I interpreted the Git warning incorrectly. Maybe I
->>> need to look into this a bit more and perhaps change the commit message.
->>>
->>> The following appears after a build with buildhistory enabled:
->>> warning: You ran 'git add' with neither '-A (--all)' or
->>> '--ignore-removal',
->>> whose behaviour will change in Git 2.0 with respect to paths you removed.
->>> Paths like 'test.txt' that are
->>> removed from your working tree are ignored with this version of Git.
->>>
->>> * 'git add --ignore-removal <pathspec>', which is the current default,
->>>
->>>     ignores paths you removed from your working tree.
->>>
->>> * 'git add --all <pathspec>' will let you also record the removals.
->>>
->>> Run 'git status' to check the paths you removed from your working tree.
->> So it seems the change is reasonable but yes perhaps the commit message
->> should change to mention that it also avoids a warning with 1.8.3.
-> Hmm, I misread - looks like we should be using -A or --all right now since we
-> do want deleted files to be recorded.
->
-> Cheers,
-> Paul
->
-Updated patch submitted.
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Jonathan
+On Fri, May 31, 2013 at 11:49:51AM +0100, Ross Burton wrote:
+> It's not bleeding edge but it's better than the previous pre-9.1 commit.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa-git.inc |    9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graph=
+ics/mesa/mesa-git.inc
+> index ee9a552..aa2f2c3 100644
+> --- a/meta/recipes-graphics/mesa/mesa-git.inc
+> +++ b/meta/recipes-graphics/mesa/mesa-git.inc
+> @@ -1,11 +1,12 @@
+> -# Current pre-9.1 commit
+> -SRCREV =3D "1665af3066f3d58c42e9d5b13098f13615a7672c"
+> -PV =3D "9.1~git${SRCPV}"
+> +# 9.1.3 commit
+> +SRCREV =3D "f32ec82a8cfcabc5b7596796f36afe7986651f02"
+> +PV =3D "9.1.3~git${SRCPV}"
 
+Why '~' and not '+' like other git recipes? Maybe it matches 9.1.3 now
+but with first SRCREV bump or with AUTOREV used '+' would be more
+appropriate.
+
+Cheers,
+
+> =20
+>  LIC_FILES_CHKSUM =3D "file://docs/license.html;md5=3D42d77d95cba529a3637=
+129be87d6555d"
+> =20
+>  SRC_URI =3D "git://anongit.freedesktop.org/git/mesa/mesa;protocol=3Dgit \
+> -           file://0002-cross-compile.patch \
+> +           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch=
+ \
+> +           file://fix-glsl-cross.patch \
+>             "
+> =20
+>  S =3D "${WORKDIR}/git"
+> --=20
+> 1.7.10.4
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGogvkACgkQN1Ujt2V2gBxmPwCgs4IuHRGDOrtCnWOGJhk2Y5I2
+emcAn35/vAEtrp8Nax/PMG1ymZKNrDmH
+=UHDd
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
