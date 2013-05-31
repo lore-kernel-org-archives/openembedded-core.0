@@ -1,43 +1,57 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FD5F6041D
+Return-Path: <B19537@freescale.com>
+Received: from co1outboundpool.messaging.microsoft.com
+	(co1ehsobe004.messaging.microsoft.com [216.32.180.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E3860655
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 07:18:52 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id a11so1264901eae.40
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 00:18:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=2yPOX6CRjzzNZvDAkXEVQNZLidjtjo3FcSTHUpf+ptg=;
-	b=YGhvXaRDwDFSGjZ8ciD36/BwvcmhDMGaqmDToqoxokJ1T2AJmdZ+648udrQutjKDKD
-	Ar1XF/0VSuiOHaHU3q239tJ0rUh6OVdygIDSuCEBOeLrDhqtIU6PdZ/RfsQKDs1J7j+G
-	A7swgWzWZlVBGA89a+kMKQ5SPFjCu0RIN0sYVOUUA5FaGeQWgxjY3YXFREy/SUXSMe0d
-	ld/zBUlsX56qikppVhQTsxMOlS+HqkKluQr5QEwn+WOCOUXiWnQxESTQFc99wSmjWMHp
-	8pNTQfDLgYXCnvf/04/akLFxdXEBV8nO3s7Ym/Yqlw/0MkUIoAXuy4lAuiZtluOxPyPF
-	D7yQ==
-X-Received: by 10.14.208.131 with SMTP id q3mr12498550eeo.111.1369984732352;
-	Fri, 31 May 2013 00:18:52 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::dd64:906a:9471:140e?
-	([2001:610:612:0:dd64:906a:9471:140e])
-	by mx.google.com with ESMTPSA id s8sm64986567eeo.4.2013.05.31.00.18.50
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 00:18:51 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
-Date: Fri, 31 May 2013 09:18:49 +0200
-Message-Id: <373E49FF-E99D-446B-A4A5-F852FDCAEFCF@dominion.thruhere.net>
-References: <cover.1369922325.git.ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1503)
-X-Gm-Message-State: ALoCoQm/tNfhdWWuBOkfHCVzuByr3PMZWwWI8adJNk08BOp0L9CLTrUAAmC71DIJ57stmXkVJEms
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Mesa and Wayland updates
+	Fri, 31 May 2013 08:19:49 +0000 (UTC)
+Received: from mail41-co1-R.bigfish.com (10.243.78.247) by
+	CO1EHSOBE010.bigfish.com (10.243.66.73) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 31 May 2013 08:19:49 +0000
+Received: from mail41-co1 (localhost [127.0.0.1])	by mail41-co1-R.bigfish.com
+	(Postfix) with ESMTP id C8D74A602EF;
+	Fri, 31 May 2013 08:19:49 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zz1443Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffhbe9i1155h)
+Received: from mail41-co1 (localhost.localdomain [127.0.0.1]) by mail41-co1
+	(MessageSwitch) id 1369988388666688_3777;
+	Fri, 31 May 2013 08:19:48 +0000 (UTC)
+Received: from CO1EHSMHS020.bigfish.com (unknown [10.243.78.254])	by
+	mail41-co1.bigfish.com (Postfix) with ESMTP id 967F224005F;
+	Fri, 31 May 2013 08:19:48 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS020.bigfish.com
+	(10.243.66.30) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 31 May 2013 08:19:48 +0000
+Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0328.011; Fri, 31 May 2013 08:20:49 +0000
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yocto@yoctoproject.org"
+	<yocto@yoctoproject.org>
+Thread-Topic: Differnt build result of same u-boot source with differnet
+	binutils
+Thread-Index: Ac5d15j7nzXsrurcQamAouulJ/3pJA==
+Date: Fri, 31 May 2013 08:19:26 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A0157947F@039-SN2MPN1-021.039d.mgd.msft.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-cr-hashedpuzzle: DLsn FpcE GcZe G2jw IYTl JMVE Le94 LhBG NT9m RuXp UNlp
+	V8Ug XgGN XmYQ X7Sy YXq5; 2;
+	bwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALQBjAG8AcgBlAEAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA7AHkAbwBjAHQAbwBAAHkAbwBjAHQAbwBwAHIAbwBqAGUAYwB0AC4AbwByAGcA;
+	Sosha1_v1; 7; {0B31DBC8-809C-411B-B9D0-EE6FFFAF9E4C};
+	YgAxADkANQAzADcAQABmAHIAZQBlAHMAYwBhAGwAZQAuAGMAbwBtAA==; Fri,
+	31 May 2013 08:19:40 GMT;
+	RABpAGYAZgBlAHIAbgB0ACAAYgB1AGkAbABkACAAcgBlAHMAdQBsAHQAIABvAGYAIABzAGEAbQBlACAAdQAtAGIAbwBvAHQAIABzAG8AdQByAGMAZQAgAHcAaQB0AGgAIABkAGkAZgBmAGUAcgBuAGUAdAAgAGIAaQBuAHUAdABpAGwAcwA=
+x-cr-puzzleid: {0B31DBC8-809C-411B-B9D0-EE6FFFAF9E4C}
+x-originating-ip: [10.192.208.134]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Wienskoski Edmar-RA8797 <RA8797@freescale.com>,
+	Udma Catalin-Dan-B32721 <B32721@freescale.com>
+Subject: Differnt build result of same u-boot source with differnet binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,41 +64,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 07:18:53 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 31 May 2013 08:19:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+When the u-boot(HEAD of master in git://git.freescale.com/ppc/sdk/u-boot.gi=
+t) of p1022ds is built with different binutils in Yocto, the result is diff=
+erent.=20
 
-Op 30 mei 2013, om 16:00 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
-
-> Hi,
->=20
-> A short series that updates our Mesa and Wayland to the latest =
-upstream
-> releases, adds a very rudimentary init script to start Weston, and a =
-basic image
-> that boots directly into Weston on DRM.
-
-We talked about weston off-list a few weeks ago and this seems a good =
-time to bring it back on list :)
-
-I'd like to get the framebuffer backend supported, so I upgraded weston =
-to 1.0.90 and added:
-
-+                 --enable-fbdev-compositor \
-
-+# Needed for weston-launch
-+WESTONBACKEND ??=3D "fbdev-backend.so"
-+
-+export WESTON_NATIVE_BACKEND =3D "${WESTONBACKEND}"
+With binutils-2.23.1(last version in Yocto), u-boot can be built correctly.=
 =20
-At the time of writing that weston didn't support runtime detection or =
-config files entries for selecting the backend, only commandline =
-arguments. So whatever is getting picked at build time, you're stuck =
-with that. Does 1.1.x address that situation?
+With binutils-2.23.2(current version in Yocto), the build failed as followi=
+ng:
+| release.S: Assembler messages:
+| release.S:236: Error: value of 4294963524 too large for field of 2 bytes =
+at 170
+| release.S:237: Error: operand out of range (0xfffffffffffff144 is not bet=
+ween 0x0000000000000000 and 0x000000000000ffff)
+| release.S:237: Error: value of 4294963524 too large for field of 2 bytes =
+at 174
+| release.S:365: Error: value of 4294963524 too large for field of 2 bytes =
+at 206
+| release.S:366: Error: operand out of range (0xfffffffffffff144 is not bet=
+ween 0x0000000000000000 and 0x000000000000ffff)
+| release.S:366: Error: value of 4294963524 too large for field of 2 bytes =
+at 210
+| release.S:390: Error: value of 4294963520 too large for field of 2 bytes =
+at 278
+| release.S:391: Error: operand out of range (0xfffffffffffff140 is not bet=
+ween 0x0000000000000000 and 0x000000000000ffff)
+| release.S:391: Error: value of 4294963520 too large for field of 2 bytes =
+at 282
 
-regards,
+Below is the failed code section:
+[..snip..]
+233 #define toreset(x) (x - __secondary_start_page + 0xfffff000)
+234=20
+235         /* get our PIR to figure out our table entry */
+236         lis     r3,toreset(__spin_table_addr)@h
+237         ori     r3,r3,toreset(__spin_table_addr)@l
+238         lwz     r3,0(r3)
+[..snip..]
 
-Koen=
+Seems like the build error is related to binutils, can somebody shed some l=
+ight on the issue? Thanks in advance.=20
+
+
+Best Regards,
+
+Zhenhua
+
 
