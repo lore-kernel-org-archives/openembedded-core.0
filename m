@@ -1,22 +1,24 @@
 Return-Path: <marcin@juszkiewicz.com.pl>
 Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
 	[178.33.81.99])
-	by mail.openembedded.org (Postfix) with ESMTP id B3CD0608F7
+	by mail.openembedded.org (Postfix) with ESMTP id 800116098F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 14:11:27 +0000 (UTC)
+	Fri, 31 May 2013 14:11:28 +0000 (UTC)
 Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id CAC48D22B2
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E0E59D22DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 16:11:26 +0200 (CEST)
+	Fri, 31 May 2013 16:11:28 +0200 (CEST)
 From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 16:11:19 +0200
-Message-Id: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+Date: Fri, 31 May 2013 16:11:20 +0200
+Message-Id: <1370009480-32681-2-git-send-email-marcin@juszkiewicz.com.pl>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [RFC] get minimal rootfs to be even smaller
+In-Reply-To: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+Subject: [PATCH] udev: do not recommend pciutils/usbutils ids
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,16 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 May 2013 14:11:28 -0000
 
-I build core-image-minimal today and got 5.1MB image (AArch64/eglibc).
-Looked inside the image and found some extra files which can be dropped.
+udev does not require those files to be operational and they add ~350KB
+to rootfs
 
-First hit: pci.ids.gz and usb.ids.gz ~350KB in total.
+Signed-off-by: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+---
+ meta/recipes-core/udev/udev.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-Normally they are needed for lspci/lsusb but they are brought by udev
-which does not need them.
-
-Next one can be ldconfig which is ~600KB.
-
-What do you think?
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 769d861..ee05ad0 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -14,7 +14,6 @@ LDFLAGS += "-lrt"
+ 
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native util-linux"
+ RPROVIDES_${PN} = "hotplug"
+-RRECOMMENDS_${PN} += "usbutils-ids pciutils-ids"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
+-- 
+1.8.1.2
 
 
