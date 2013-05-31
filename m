@@ -1,48 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 77AB660959
+	by mail.openembedded.org (Postfix) with ESMTP id 5D69E60959
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 11:37:10 +0000 (UTC)
+	Fri, 31 May 2013 11:37:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id 2DC0611FDA
+	by ra.se.axis.com (Postfix) with ESMTP id 275891204E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:37:09 +0200 (CEST)
+	Fri, 31 May 2013 13:37:12 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from ra.se.axis.com ([127.0.0.1])
 	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NlWqgJtlISd7
+	with LMTP id TpAaDqzHf-t8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:37:08 +0200 (CEST)
+	Fri, 31 May 2013 13:37:11 +0200 (CEST)
 Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
-	by ra.se.axis.com (Postfix) with ESMTP id 03DE813A23
+	by ra.se.axis.com (Postfix) with ESMTP id 8AA2E34962E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+	Fri, 31 May 2013 13:37:02 +0200 (CEST)
 Received: from boulder.localdomain (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id D40E4B94
+	by postfix.imss71 (Postfix) with ESMTP id 751C6AF6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+	Fri, 31 May 2013 13:37:02 +0200 (CEST)
 Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.localdomain (Postfix) with ESMTP id C943B9DE
+	by boulder.localdomain (Postfix) with ESMTP id 69F9A9DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+	Fri, 31 May 2013 13:37:02 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id C55A13E06D
+	by seth.se.axis.com (Postfix) with ESMTP id 684573E06D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+	Fri, 31 May 2013 13:37:02 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4VBatwb020862
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4VBb2ll020866
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 13:36:55 +0200
+	Fri, 31 May 2013 13:37:02 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4VBat3e020861
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4VBb2dQ020865
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 May 2013 13:36:55 +0200
+	Fri, 31 May 2013 13:37:02 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 13:36:44 +0200
-Message-Id: <cover.1370000176.git.pkj@axis.com>
+Date: Fri, 31 May 2013 13:36:49 +0200
+Message-Id: <2831cdfb534e4a2d07a02b028a5879503a4c6168.1370000176.git.pkj@axis.com>
 X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH v4 0/5] Fixes for makedevs
+In-Reply-To: <cover.1370000176.git.pkj@axis.com>
+References: <cover.1370000176.git.pkj@axis.com>
+In-Reply-To: <cover.1370000176.git.pkj@axis.com>
+References: <cover.1370000176.git.pkj@axis.com>
+Subject: [PATCH v4 5/5] makedevs: Make count actually behave as a count for device blocks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +62,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 May 2013 11:37:11 -0000
 
-When I wanted to create devices from a package I stumbled upon a couple
-of problems with the makedevs program. Most notable was that it failed
-to set the correct uid/gid for devices created as part of a block (i.e.,
-with a count > 0).
+Previously count actually behaved as end, and did not take start into
+account.
 
-PATCH v2: And now with Signed-off-by lines, as requested.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/files/device_table-minimal.txt                      | 2 +-
+ meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-PATCH v3: Also made count for blocks of devices behave as a count rather
-than the end (noticed after looking a makedevs.c from BusyBox).
-
-PATCH v4: Added a Signed-off-by to the fifth patch. Will only resend it
-as the other patches have already been accepted.
-The following changes since commit efb8a460d2a977dbd481a0650fba8eb637c65bec:
-
-  package.bbclass: Fix sources contents (2013-05-14 08:52:47 +0300)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/makedevs
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/makedevs
-
-Peter Kjellerstedt (5):
-  makedevs: Create blocks of devices with the correct uid/gid
-  makedevs: Correct the device number calculation for blocks of devices
-  makedevs: Make the mode number readable in debug messages
-  makedevs: Avoid unnecessary timestamp calculation
-  makedevs: Make count actually behave as a count for device blocks
-
- meta/files/device_table-minimal.txt                   |  2 +-
- .../makedevs/makedevs-1.0.0/makedevs.c                | 19 +++++++++----------
- 2 files changed, 10 insertions(+), 11 deletions(-)
-
+diff --git a/meta/files/device_table-minimal.txt b/meta/files/device_table-minimal.txt
+index c6e5463..02ed534 100644
+--- a/meta/files/device_table-minimal.txt
++++ b/meta/files/device_table-minimal.txt
+@@ -13,7 +13,7 @@
+ /dev/apm_bios	c	660	0	46	10	134	-	-	-
+ /dev/fb0	c	600	0	0	29	0	-	-	-
+ /dev/hda	b	660	0	6	3	0	-	-	-
+-/dev/hda	b	660	0	6	3	1	1	1	20
++/dev/hda	b	660	0	6	3	1	1	1	19
+ /dev/kmem	c	640	0	15	1	2	-	-	-
+ /dev/kmsg	c	600	0	0	1	11	-	-	-
+ /dev/mem	c	640	0	15	1	1	-	-	-
+diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+index 4bb316b..6c1f2fb 100644
+--- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+@@ -219,7 +219,7 @@ static int interpret_table_entry(char *line)
+ 			dev_t rdev;
+ 			char buf[80];
+ 
+-			for (i = start; i < count; i++) {
++			for (i = start; i < start + count; i++) {
+ 				sprintf(buf, "%s%d", name, i);
+ 				sprintf(path, "%s/%s%d", rootdir, name, i);
+ 				/* FIXME:  MKDEV uses illicit insider knowledge of kernel 
 -- 
 1.8.2.1
 
