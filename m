@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
-	[209.85.214.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D0B96A4E2
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 083366A4E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 02:26:36 +0000 (UTC)
-Received: by mail-ob0-f176.google.com with SMTP id v19so1996608obq.21
+	Fri, 31 May 2013 02:26:37 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id dn14so2009695obc.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2013 19:26:37 -0700 (PDT)
+	Thu, 30 May 2013 19:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=nXIMB8hrjXI1l3vhWEe8ETYkiNmJsoAiNaBpKP+E85s=;
-	b=OatESe/QQOEXLVoreL3JlcNfNF+owizeifRclL6S/3fOJvwvYssGkmWt9QWCk/ri3V
-	tTbFfTN3VxazWwd6/cUGd2Y/9vVFwJnLMqHx4cyYMp0ZKmRU6RnBKUuBFeRHhg3y1cDq
-	EWv5jJo7G+atqvgch4MXil9Xe4Y5oTY3nlMCD9D8d9X3OLRqqMOWB9X3UxWm8FmtPrpR
-	8O82D0kcDXGD5B1JAGlR78+ecl7M4piEWwBcEYJz6oL+eS3cnN5hSWqyM27sfR/4ou78
-	xKvjxvKV3Rw3iC3S2Dr/yNgFgxwznkBqfGTnzMauYoGzL55GPv1j2p1OeCR5jDm8HmVv
-	zi6Q==
-X-Received: by 10.60.161.68 with SMTP id xq4mr5301202oeb.8.1369967197186;
-	Thu, 30 May 2013 19:26:37 -0700 (PDT)
+	bh=XBZ7yFdXfHumCDV2UXkQgPbd8z/Cpf2J6yg8xTbj21s=;
+	b=IW/XbdcY66zwo6HukkuOA7ovm2pdftC3YenYLi6SDDhGtYizIfYstcKuK6CEQp4wH4
+	Bj+QCfyB95A1NSm/ktlHFcRN1X0cC/HNyVlVFfZpq96VSDa+nGtjDNi6qMchTEGJOnj4
+	GcjriCWNXXhAi8itzXlpmlb7QhyfBX/9bwT6SYhCtcq+VojwX2ACBHpMxVC2wKJYjE57
+	xvLlwSDKbuEQoFdnmiRBOih5/S81MRPnsB9+J5BD8dZAB8SyhwpHz+oa2SKWPw/tCNaQ
+	wlZfAxU9HKV+yGoLifzUMzMCp0B9Bn435Szf1aHhhaOmrIQ2oNiJuSfb0mEV/eh+zsqm
+	5iow==
+X-Received: by 10.60.65.5 with SMTP id t5mr5202462oes.139.1369967199150;
+	Thu, 30 May 2013 19:26:39 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id sa2sm14397164oeb.1.2013.05.30.19.26.35
+	by mx.google.com with ESMTPSA id sa2sm14397164oeb.1.2013.05.30.19.26.37
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 May 2013 19:26:36 -0700 (PDT)
+	Thu, 30 May 2013 19:26:38 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2013 19:26:28 -0700
-Message-Id: <7f7e2e1e4896b4d459bb6252e84377afbfde7e19.1369967097.git.chris_larson@mentor.com>
+Date: Thu, 30 May 2013 19:26:29 -0700
+Message-Id: <2b0ada9e59fbb9271675b8dac7316b8ecea45514.1369967097.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <cover.1369967097.git.chris_larson@mentor.com>
 References: <cover.1369967097.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1369967097.git.chris_larson@mentor.com>
 References: <cover.1369967097.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 4/5] portmap: obey 'tcp-wrappers' PACKAGECONFIG
+Subject: [PATCH 5/5] nfs-utils: obey 'tcp-wrappers' PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 02:26:36 -0000
+X-List-Received-Date: Fri, 31 May 2013 02:26:38 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-connectivity/portmap/portmap_6.0.bb | 5 ++++-
+ meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/portmap/portmap_6.0.bb b/meta/recipes-connectivity/portmap/portmap_6.0.bb
-index 07aa360..2ec6981 100644
---- a/meta/recipes-connectivity/portmap/portmap_6.0.bb
-+++ b/meta/recipes-connectivity/portmap/portmap_6.0.bb
-@@ -1,6 +1,5 @@
- require portmap.inc
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+index 2f35094..40b897b 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+@@ -8,7 +8,7 @@ LICENSE = "MIT & GPLv2+ & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
  
--DEPENDS += "tcp-wrappers"
- PR = "r7"
+ # util-linux for libblkid
+-DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers sqlite3"
++DEPENDS = "libcap libnfsidmap libevent util-linux sqlite3"
+ RDEPENDS_${PN} = "rpcbind"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
  
- SRC_URI = "http://www.sourcefiles.org/Networking/Tools/Miscellanenous/portmap-6.0.tgz \
-@@ -13,8 +12,12 @@ SRC_URI[sha256sum] = "02c820d39f3e6e729d1bea3287a2d8a6c684f1006fb9612f97dcad4a28
- 
- S = "${WORKDIR}/${BPN}_${PV}/"
+@@ -45,6 +45,9 @@ EXTRA_OECONF = "--with-statduser=nobody \
+                 --with-statdpath=/var/lib/nfs/statd \
+                "
  
 +PACKAGECONFIG ??= "tcp-wrappers"
-+PACKAGECONFIG[tcp-wrappers] = ",,tcp-wrappers"
++PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
 +
- CPPFLAGS += "-DFACILITY=LOG_DAEMON -DENABLE_DNS -DHOSTS_ACCESS"
- CFLAGS += "-Wall -Wstrict-prototypes -fPIC"
-+EXTRA_OEMAKE += "'NO_TCP_WRAPPER=${@base_contains('PACKAGECONFIG', 'tcp-wrappers', '', '1', d)}'"
+ INHIBIT_AUTO_STAGE = "1"
  
- fakeroot do_install() {
-     install -d ${D}${mandir}/man8/ ${D}${base_sbindir} ${D}${sysconfdir}/init.d
+ PACKAGES =+ "${PN}-client ${PN}-stats"
 -- 
 1.8.3
 
