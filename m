@@ -1,29 +1,24 @@
-Return-Path: <marcin@juszkiewicz.com.pl>
-Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
-	[178.33.81.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 185AC62222
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E1531608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:24:40 +0000 (UTC)
-Received: from [192.168.0.102] (87-206-152-156.dynamic.chello.pl
-	[87.206.152.156])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 839DED22B2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 17:24:39 +0200 (CEST)
-Message-ID: <51A8C0B3.2030008@juszkiewicz.com.pl>
-Date: Fri, 31 May 2013 17:24:35 +0200
-From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Fri, 31 May 2013 15:48:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFmGYI019910
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 31 May 2013 08:48:16 -0700 (PDT)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:48:15 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 31 May 2013 10:54:51 -0500
+Message-ID: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-	<1370011262.8846.63.camel@phil-desktop.brightsign>
-In-Reply-To: <1370011262.8846.63.camel@phil-desktop.brightsign>
-X-Enigmail-Version: 1.4.6
-Subject: Re: [RFC] get minimal rootfs to be even smaller
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH] gcc 4.7/gcc 4.8 fails when libunwind is built first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:24:40 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2013 15:48:19 -0000
+Content-Type: text/plain
 
-W dniu 31.05.2013 16:41, Phil Blundell pisze:
-> On Fri, 2013-05-31 at 16:11 +0200, Marcin Juszkiewicz wrote:
->> Next one can be ldconfig which is ~600KB.
-> 
-> There's already an option to turn that off: you can set 
-> USE_LDCONFIG=0 in your distro configuration (which micro does, for 
-> example). Converting that to be a modern DISTRO_FEATURE would be a 
-> fine thing.
+Recently Marcin Juszkiewicz reported an issues w/ gcc 4.8 when libunwind
+was built first.  This sounded familar when I encountered the same problem.
 
-Thanks for hint - may look at it next week.
+Back in February Roy Li found the same problem w/ gcc_4.7 and submitted a
+fix for the issue.  I've updated this fix for both gcc 4.7 and gcc 4.8.
 
-> On the udev thing I guess my initial reaction would be that if you 
-> want the smallest rootfs you probably don't want to be using udev at 
-> all.
+I tested this and it does resolve the issue for me.
 
-I just wanted to have smallest possible image without doing any distro
-config changes. Think "minimal image for testing KVM" where KVM host
-rootfs can be built with same setup.
+Roy.Li (1):
+  gcc: add build directory to include directories
+
+ meta/recipes-devtools/gcc/gcc_4.7.bb | 2 +-
+ meta/recipes-devtools/gcc/gcc_4.8.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.8.3.rc1.25.g423ecb0
+
 
