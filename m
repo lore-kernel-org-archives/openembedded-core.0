@@ -1,42 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
-	[209.85.160.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 231E660959
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pb0-f45.google.com (mail-pb0-f45.google.com
+	[209.85.160.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DD6E608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 09:54:05 +0000 (UTC)
-Received: by mail-pb0-f46.google.com with SMTP id rq2so1947064pbb.19
+	Fri, 31 May 2013 10:03:30 +0000 (UTC)
+Received: by mail-pb0-f45.google.com with SMTP id mc17so1965495pbc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 02:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=oYn5jS6sjpHEAR04iFtD/mHFT/xws/SUG1AfLFxipaE=;
-	b=xUBE7ghXMY+wSos7dttPTtxwaaVXsuOWq03uSrxP/5SJ52A5itgzjHrl9Jehw5G35d
-	vmZiOQmQu4aXJCxQ+z1F7NzWUXcip2VezcWasZmCO+YvSL2F+p6TojcD/PLOtyXY3ADh
-	+xRSQ/2m5s0heC0PL0eisW48/rs/gOO4OS1eQTJOTKqPVz7CB/CDPY/IYsDB5euumU5y
-	HXKDt9mebenxfxKazjCMjruGcvdtHkOIdtdhcVKlIdwW3uCf+LWaRkDCs8BBtkx3bpYY
-	mO8a4/1EXGmFs0zZacqeBjmJUg+vKkoOodnoj2u6N3G/GncBEhbOvi9fPdY4EscPY0Nk
-	u4FQ==
-X-Received: by 10.66.144.136 with SMTP id sm8mr12591821pab.115.1369994046566; 
-	Fri, 31 May 2013 02:54:06 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id do4sm46036907pbc.8.2013.05.31.02.54.04
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 02:54:05 -0700 (PDT)
-Message-ID: <51A8721B.5060806@gmail.com>
-Date: Fri, 31 May 2013 19:49:15 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Fri, 31 May 2013 03:03:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=JHzToQFmueJK5ijHJMGvHEiDy+YTE+5uGSu6XSNofh0=;
+	b=ZoD2IIcXGuO85987KsaDq2inEotIzCHnxXXAX+socp5te9eV41hv2xzSasUb/BZT28
+	6cJiz4xhv6bKYJ8iaU4xQmpRUbMFSVNHedkZSDfhiI2yheTaHGrPnE7tOntEqRBeqxmQ
+	7s7nSMwa0wPrwUJh5bdoa8hZSZUghesyDlwPckd0kjXv+Cj6bDiwc9EzRSHQvC/W0ZbJ
+	EwGrnFjgYZOiHJtY+ZafWqnvmfQJhk/hrs/li0zltzO1ZTe5DFyfvCtomN3iY85ikB2n
+	+C7bkV2OCHyWWqtKVaePQHgfCUjN9VGwvqpGw/zJiinLKvWraNFPq6T6t1yYyythF8Nx
+	NXig==
+X-Received: by 10.68.193.138 with SMTP id ho10mr12107434pbc.163.1369994611375; 
+	Fri, 31 May 2013 03:03:31 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1369978815-15261-1-git-send-email-net147@gmail.com>
-	<CAJTo0LbQKdr3CaHrd4G-T5KRxgZRZ4ddakK5i3GWkJxijtmQLA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbQKdr3CaHrd4G-T5KRxgZRZ4ddakK5i3GWkJxijtmQLA@mail.gmail.com>
+Received: by 10.66.252.98 with HTTP; Fri, 31 May 2013 03:03:11 -0700 (PDT)
+In-Reply-To: <1369994854-22597-1-git-send-email-net147@gmail.com>
+References: <1369994854-22597-1-git-send-email-net147@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 May 2013 11:03:11 +0100
+Message-ID: <CAJTo0Laa2-LKTXh+DRTc1oxOh+-fxjtYzpRgCGRacnGgSatWRw@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+X-Gm-Message-State: ALoCoQnMxrOK9in/tb6KK1XO5S89x6UUOECImJL+JrOIxew0cebJxzwPteVY/f4jJvtiySJiiRGU
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xf86-video-modesetting: update to git revision cba29fd8c2
+Subject: Re: [PATCH] xf86-video-modesetting: backport fix for graphics corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,19 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 09:54:05 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2013 10:03:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 31/05/2013 7:28 PM, Burton, Ross wrote:
-> On 31 May 2013 06:40, Jonathan Liu <net147@gmail.com> wrote:
->> This adds support for 32 bpp pixmaps when 24 bpp framebuffer is used
->> which fixes graphics corruption in some cases.
-> Instead of grabbing a random git revision, can the patch be backported?
+On 31 May 2013 11:07, Jonathan Liu <net147@gmail.com> wrote:
+> This fixes graphics corruption that can occur when using 32 bpp pixmaps
+> with 24 bpp framebuffer.
 >
-> Ross
-Done.
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
 
-Regards,
-Jonathan
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
