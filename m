@@ -1,23 +1,37 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E2B6619E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 90167608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 14:41:03 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UiQVr-0003VB-8C; Fri, 31 May 2013 16:41:03 +0200
-Message-ID: <1370011262.8846.63.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
-Date: Fri, 31 May 2013 15:41:02 +0100
-In-Reply-To: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+	Fri, 31 May 2013 14:51:07 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id x10so2326834pdj.15
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 07:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=KHiNv0SjneBhh91WRLINieqBAj/TqldUGxLDBS20idc=;
+	b=f8FoIF1Hj8Jaaureyq5i4TMYQMLcTW18e1HJ+8yTd9Gy4jQhLGWXc9mMC8XZcO4o0c
+	s8Ov9Bkm6AN9JJUAuOvZZ2OFAem+mWS4DDGerKZGDD70xR1uPkX8eh8aPxHfUUIi9+H6
+	pXKFteJEAQajE7Sg9u7vMzP7Ccuh6pN2AoKaVYh1tKEPfkHBv1yUoElhx6fTa0cJkJTz
+	7mhkxkl0hWG6g1xMgLcSJTS0RC+3NhzdnZExFWokmcgwQ1ahL5AMoEiYeT027vqstREa
+	M9191inJKY7caiCmnE+7ODix3WOR+C0L3cijr4SjYT/XHtwQbjwW9YmMJbq1ZKnOi/YT
+	/z1g==
+X-Received: by 10.66.193.199 with SMTP id hq7mr12339190pac.183.1370011868596; 
+	Fri, 31 May 2013 07:51:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.66.252.98 with HTTP; Fri, 31 May 2013 07:50:48 -0700 (PDT)
+In-Reply-To: <1370009480-32681-2-git-send-email-marcin@juszkiewicz.com.pl>
 References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
+	<1370009480-32681-2-git-send-email-marcin@juszkiewicz.com.pl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 May 2013 15:50:48 +0100
+Message-ID: <CAJTo0LZesoPBmcAu87Jvb=P8VvPnD3RjYk1sDe3Y9Krd8DpVqQ@mail.gmail.com>
+To: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+X-Gm-Message-State: ALoCoQnK1QFjla2WfHsOyBL8Nv04CZzfDkYWh+DGCAeQnr80MyyO0qp5EtosbbWn4jz+TCqVvSdM
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] get minimal rootfs to be even smaller
+Subject: Re: [PATCH] udev: do not recommend pciutils/usbutils ids
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,23 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 14:41:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2013 14:51:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2013-05-31 at 16:11 +0200, Marcin Juszkiewicz wrote:
-> Next one can be ldconfig which is ~600KB.
+On 31 May 2013 15:11, Marcin Juszkiewicz <marcin@juszkiewicz.com.pl> wrote:
+> udev does not require those files to be operational and they add ~350KB
+> to rootfs
+>
+> Signed-off-by: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
 
-There's already an option to turn that off: you can set USE_LDCONFIG=0
-in your distro configuration (which micro does, for example).
-Converting that to be a modern DISTRO_FEATURE would be a fine thing.
+Well spotted.
 
-On the udev thing I guess my initial reaction would be that if you want
-the smallest rootfs you probably don't want to be using udev at all.
-But if it's installing files that are totally unnecessary then that does
-seem a bit extravagant and I agree that it should be curtailed.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-p.
-
-
+Ross
 
