@@ -1,36 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9933860991
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A015B6098F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 11:08:56 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x50so1112090wes.5
+	Fri, 31 May 2013 11:15:22 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id wz12so2042469pbc.31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 04:08:56 -0700 (PDT)
+	Fri, 31 May 2013 04:15:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=mm1zcVmT37jA9aQIchyoBw+YpbsnsamhQyXTwnB4QQA=;
-	b=Ht+7ItLS8AXMbO2VrA8rrwNBTZZOjgcR2xX7BSV4u+DhhEWTuQ6PAbvM+JuNHL2vPW
-	LNxnfaWye4Qt+Yt0rYub0AcKc2jp4n+7SVHkjZvu8Ebh/e75si2Lx7BVKQAlkr6bME6X
-	4lBox+m5z7YuJpRCsXcCTDWS/6Ab8/YF0M0v9dbN0hSFMu8GBatKKio+3aqTWQkbfMMJ
-	GRFNJnjXnHX1Z2ASePVM56IJBVdcovDN5ket8saKzAksrAQ8Due8ShooLH6ewGZYLpDz
-	lYvjxPWmqnuFJkzH6UJMGkXFNbDZkYPPpqpcEctuSWIewbNDz3ly7lsAmEhJIJtZEX1+
-	4K5w==
-X-Received: by 10.180.183.211 with SMTP id eo19mr2777578wic.37.1369998536509; 
-	Fri, 31 May 2013 04:08:56 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fp16sm3171952wic.6.2013.05.31.04.08.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 04:08:55 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 12:05:39 +0100
-Message-Id: <1369998339-30120-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmi+3AFJceMG85OO4PjvstwXraVABEw95wON4Gx7Frev5SEfthYeK8B15jfO8XlKSab1B0M
-Subject: [PATCH] rpm: remove .real hacks in argument parsing
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=VGW2jydgqBd+jPDuD6Aa6YaYFDt66lVR7OX2o0GPh1w=;
+	b=FwzHX2MMy+PKnpiL2ich+JgFK9gZNc65ajpeebJRvc6ZYVXgdh8VlxDIMxHnIckMWa
+	u2ioV31wi2WE8P5xQDrv4zUAytRhGlAecduzMKFLNBqqgt5hGB/MUhTH2SKkfe3VJu7v
+	8OpTCg3rAT7yBQzIvMX+lRgBQUdc5ZK4SltQYTdrqrRr2NYSQ6RxXWSuX/2b+vVXWXXw
+	f0CmEyAWj5eOgh/t8IOHsVsBOTCi4ZqjZBzT6NtprI16kcs5uvhTir+SlTP3ZW3RogE2
+	Bc5LiNJ16SP4iAY7hMW8w7Uky7XzrFjY3INCu0kHAHByDUacBHXpCVOI6DiyVJ47mss7
+	omoA==
+X-Received: by 10.68.162.163 with SMTP id yb3mr12239562pbb.212.1369998923781; 
+	Fri, 31 May 2013 04:15:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.66.252.98 with HTTP; Fri, 31 May 2013 04:15:03 -0700 (PDT)
+In-Reply-To: <20130531110113.GA23802@jama>
+References: <1369997391-28957-1-git-send-email-ross.burton@intel.com>
+	<1369997391-28957-2-git-send-email-ross.burton@intel.com>
+	<20130531110113.GA23802@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 May 2013 12:15:03 +0100
+Message-ID: <CAJTo0LYn2LtoU2AbAs_rfgR1HTLUZTBrAeAOoVqhNG=3bJCbfA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQnf6+Sqpo/LwmnNAMeGDoNSISr3fqArszGB8ybizdAijUDoLzHB8+34ZAasnzqRa6mafaQr
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] mesa: update git recipe to 9.1.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 11:08:57 -0000
+X-List-Received-Date: Fri, 31 May 2013 11:15:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The argument parser in RPM was patched to look for <binary>.real, but since the
-wrapper now fakes the right argv[0] rpm wasn't able to parse any options.
+On 31 May 2013 12:01, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Why '~' and not '+' like other git recipes? Maybe it matches 9.1.3 now
+> but with first SRCREV bump or with AUTOREV used '+' would be more
+> appropriate.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    4 ----
- 1 file changed, 4 deletions(-)
+Yes, ~ would be wrong.  Didn't spot this, thanks.
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 2dbdca6..25ec23e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -478,10 +478,6 @@ do_install_append_class-native() {
- 			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
- 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 	done
--
--	# Adjust popt macros to match...
--	cat ${D}/${libdir}/rpm/rpmpopt | sed -e "s,^\(rpm[^ 	]*\)\([ 	]\),\1.real\2," > ${D}/${libdir}/rpm/rpmpopt.new
--	mv ${D}/${libdir}/rpm/rpmpopt.new ${D}/${libdir}/rpm/rpmpopt
- }
- 
- BBCLASSEXTEND = "native"
--- 
-1.7.10.4
-
+Ross
 
