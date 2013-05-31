@@ -1,25 +1,25 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 28A3462222
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B47F36098F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:16:36 +0000 (UTC)
+	Fri, 31 May 2013 15:18:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFGZV9015491
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 May 2013 08:16:35 -0700 (PDT)
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFI1qO004577
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 08:18:02 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:16:34 -0700
+	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:18:00 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
-To: <raj.khem@gmail.com>
-Date: Fri, 31 May 2013 10:23:10 -0500
-Message-ID: <1370013790-22303-1-git-send-email-mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 31 May 2013 10:24:37 -0500
+Message-ID: <1370013877-22361-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH] gcc: Workaround for compiler flag mismatch
+Subject: [PATCH] util-linux: Add support for older hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +32,260 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:16:36 -0000
+X-List-Received-Date: Fri, 31 May 2013 15:18:00 -0000
 Content-Type: text/plain
 
-When cross compiling the target compiler, both the cross-compiler
-and the host compiler are used.  However, the -W options used were
-discovered from the cross-compiler and may be incompatible with the
-host compiler.
+Older hosts don't support some of the features required by
+the latet util-linux.  Add workarounds or revert changes to older
+versions to make it work.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
- .../gcc/gcc-4.8/gcc-4.8-build-args.patch           | 51 ++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch
+ .../util-linux/util-linux/util-linux-native.patch  | 210 +++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.23.bb    |   6 +
+ 2 files changed, 216 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index a9786da..80bd02c 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
- 	   file://0035-wcast-qual-PR-55383.patch \
- 	   file://gcc-4.8-PR56797.patch \
-+	   file://gcc-4.8-build-args.patch \
- 	  "
- SRC_URI[md5sum] = "e6040024eb9e761c3bea348d1fa5abb0"
- SRC_URI[sha256sum] = "b037fe5132b71ecad2ea7141ec92292b5d32427bf90fd90cde432b1d5abacc2c"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch b/meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch
+diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-native.patch b/meta/recipes-core/util-linux/util-linux/util-linux-native.patch
 new file mode 100644
-index 0000000..95f39bb
+index 0000000..9f34497
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch
-@@ -0,0 +1,51 @@
-+When cross compiling a target gcc, target flags may be used on the host
++++ b/meta/recipes-core/util-linux/util-linux/util-linux-native.patch
+@@ -0,0 +1,210 @@
++Support older hosts with latest util-linux-native
 +
-+Configure identifies a number of warning flags (WARN_CFLAGS and 
-+WARN_CXXFLAGS) from the $CC value.  The cross compiler may be different
-+from the host compiler and may not support the same set of flags.  This
-+leads to problems such as:
++mkostemp is not defined on older machines.  So we detect this and
++provide a define that uses mkstemp instead.
 +
-+cc1plus: error: unrecognized command line option "-Wno-narrowing"
-+cc1plus: error: unrecognized command line option "-Wno-overlength-strings"
++O_CLOEXEC is not defined on older machines.  It is however defined
++in the 'c.h' header.  Fix up the users to include 'c.h'.
 +
-+Work around this problem by removing the warning flags from the
-+BUILD_*FLAGS values.
++fdisks/fdisksunlabel.c was modified to use qsort_r, however
++this is not defined on older hosts.  Revert:
++  commit c69bbca9c1f6645097bd20fe3a21f5a99a2a0698
++  fdisk: (sun): use ask API, remove global variable
 +
-+Upstream-Status: Pending
++Upstream-status: Inappropriate [other]
++Patches revert upstream changes in order to support older
++machines.
 +
 +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
-+diff -ur gcc-4.8.0.orig/gcc/configure.ac gcc-4.8.0/gcc/configure.ac
-+--- gcc-4.8.0.orig/gcc/configure.ac	2013-05-29 14:44:24.960853593 -0500
-++++ gcc-4.8.0/gcc/configure.ac	2013-05-31 01:34:09.518775962 -0500
-+@@ -1892,8 +1892,8 @@
-+ # These are the normal (build=host) settings:
-+ CC_FOR_BUILD='$(CC)'		AC_SUBST(CC_FOR_BUILD)
-+ CXX_FOR_BUILD='$(CXX)'		AC_SUBST(CXX_FOR_BUILD)
-+-BUILD_CFLAGS='$(ALL_CFLAGS)'	AC_SUBST(BUILD_CFLAGS)
-+-BUILD_CXXFLAGS='$(ALL_CXXFLAGS)' AC_SUBST(BUILD_CXXFLAGS)
-++BUILD_CFLAGS='$(ALL_BUILD_CFLAGS)'	AC_SUBST(BUILD_CFLAGS)
-++BUILD_CXXFLAGS='$(ALL_BUILD_CXXFLAGS)' AC_SUBST(BUILD_CXXFLAGS)
-+ BUILD_LDFLAGS='$(LDFLAGS)'	AC_SUBST(BUILD_LDFLAGS)
-+ STMP_FIXINC=stmp-fixinc		AC_SUBST(STMP_FIXINC)
++diff -ur util-linux-2.23/configure.ac /home/lmhatle/util-linux-2.23-fixed/configure.ac
++--- util-linux-2.23/configure.ac	2013-05-29 14:44:35.147853585 -0500
+++++ /home/lmhatle/util-linux-2.23-fixed/configure.ac	2013-05-30 14:56:15.050799650 -0500
++@@ -323,6 +323,7 @@
++ 	llseek \
++ 	lseek64 \
++ 	mempcpy \
+++	mkostemp \
++ 	nanosleep \
++ 	personality \
++ 	posix_fadvise \
++diff -ur util-linux-2.23/include/c.h /home/lmhatle/util-linux-2.23-fixed/include/c.h
++--- util-linux-2.23/include/c.h	2013-04-12 04:25:46.852156874 -0500
+++++ /home/lmhatle/util-linux-2.23-fixed/include/c.h	2013-05-30 14:56:11.310799488 -0500
++@@ -236,6 +236,13 @@
++ #endif
 + 
-+diff -ur gcc-4.8.0.orig/gcc/Makefile.in gcc-4.8.0/gcc/Makefile.in
-+--- gcc-4.8.0.orig/gcc/Makefile.in	2013-05-29 14:44:24.369853593 -0500
-++++ gcc-4.8.0/gcc/Makefile.in	2013-05-31 01:34:30.360776427 -0500
-+@@ -989,10 +989,16 @@
-+ ALL_CFLAGS = $(T_CFLAGS) $(CFLAGS-$@) \
-+   $(CFLAGS) $(INTERNAL_CFLAGS) $(COVERAGE_FLAGS) $(WARN_CFLAGS) @DEFS@
-+ 
-++ALL_BUILD_CFLAGS = $(T_CFLAGS) $(CFLAGS-$@) \
-++  $(CFLAGS) $(INTERNAL_CFLAGS) @DEFS@
++ /*
+++ * mkostemp replacement
+++ */
+++#ifndef HAVE_MKOSTEMP
+++#define mkostemp(template, flags) mkstemp(template)
+++#endif
 ++
-+ # The C++ version.
-+ ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@) $(CXXFLAGS) $(INTERNAL_CFLAGS) \
-+   $(COVERAGE_FLAGS) $(NOEXCEPTION_FLAGS) $(WARN_CXXFLAGS) @DEFS@
+++/*
++  * MAXHOSTNAMELEN replacement
++  */
++ static inline size_t get_hostname_max(void)
++diff -ur util-linux-2.23/lib/randutils.c /home/lmhatle/util-linux-2.23-fixed/lib/randutils.c
++--- util-linux-2.23/lib/randutils.c	2013-04-12 04:25:46.855156901 -0500
+++++ /home/lmhatle/util-linux-2.23-fixed/lib/randutils.c	2013-05-30 14:55:26.622799644 -0500
++@@ -16,6 +16,7 @@
++ #include <sys/syscall.h>
 + 
-++ALL_BUILD_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@) $(CXXFLAGS) $(INTERNAL_CFLAGS) \
-++  $(NOEXCEPTION_FLAGS) @DEFS@
++ #include "randutils.h"
+++#include "c.h"
++ 
++ #ifdef HAVE_TLS
++ #define THREAD_LOCAL static __thread
++diff -ur util-linux-2.23/lib/wholedisk.c /home/lmhatle/util-linux-2.23-fixed/lib/wholedisk.c
++--- util-linux-2.23/lib/wholedisk.c	2013-04-12 04:25:46.855156901 -0500
+++++ /home/lmhatle/util-linux-2.23-fixed/lib/wholedisk.c	2013-05-30 14:55:31.182799350 -0500
++@@ -10,6 +10,7 @@
++ 
++ #include "blkdev.h"
++ #include "wholedisk.h"
+++#include "c.h"
++ 
++ int is_whole_disk_fd(int fd, const char *name)
++ {
++diff -ur util-linux-2.23/fdisks/fdisksunlabel.c /home/lmhatle/util-linux-2.23-fixed/fdisks/fdisksunlabel.c
++--- util-linux-2.23/fdisks/fdisksunlabel.c	2013-04-23 09:14:19.229015244 -0500
+++++ /home/lmhatle/util-linux-2.23-fixed/fdisks/fdisksunlabel.c	2013-05-30 14:54:55.978799735 -0500
++@@ -383,10 +383,10 @@
++ 	}
++ }
++ 
++-static int verify_sun_cmp(int *a, int *b, void *data)
++-{
++-    unsigned int *verify_sun_starts = (unsigned int *) data;
+++static unsigned int *verify_sun_starts;
++ 
+++static int verify_sun_cmp(int *a, int *b)
+++{
++     if (*a == -1)
++ 	    return 1;
++     if (*b == -1)
++@@ -401,7 +401,6 @@
++     uint32_t starts[SUN_MAXPARTITIONS], lens[SUN_MAXPARTITIONS], start, stop;
++     uint32_t i,j,k,starto,endo;
++     int array[SUN_MAXPARTITIONS];
++-    unsigned int *verify_sun_starts;
++ 
++     assert(cxt);
++     assert(cxt->label);
++@@ -442,16 +441,14 @@
++ 	    }
++ 	}
++     }
++-
++     for (i = 0; i < SUN_MAXPARTITIONS; i++) {
++         if (lens[i])
++             array[i] = i;
++         else
++             array[i] = -1;
++     }
++-    qsort_r(array,ARRAY_SIZE(array),sizeof(array[0]),
++-	  (int (*)(const void *,const void *,void *)) verify_sun_cmp,
++-	  verify_sun_starts);
+++    qsort(array,ARRAY_SIZE(array),sizeof(array[0]),
+++	  (int (*)(const void *,const void *)) verify_sun_cmp);
++ 
++     if (array[0] == -1) {
++ 	fdisk_info(cxt, _("No partitions defined"));
++@@ -468,6 +465,7 @@
++     start = (starts[array[i]] + lens[array[i]]);
++     if (start < stop)
++         fdisk_warnx(cxt, _("Unused gap - sectors %d-%d"), start, stop);
 ++
-+ # Likewise.  Put INCLUDES at the beginning: this way, if some autoconf macro
-+ # puts -I options in CPPFLAGS, our include files in the srcdir will always
-+ # win against random include files in /usr/include.
++     return 0;
++ }
++ 
++@@ -746,18 +744,12 @@
++ 	}
++ }
++ 
++-
++ void fdisk_sun_set_alt_cyl(struct fdisk_context *cxt)
++ {
++ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
++-	uintmax_t res;
++-	int rc = fdisk_ask_number(cxt, 0,			/* low */
++-			be16_to_cpu(sunlabel->acyl),		/* default */
++-			65535,					/* high */
++-			_("Number of alternate cylinders"),	/* query */
++-			&res);					/* result */
++-	if (!rc)
++-		sunlabel->acyl = cpu_to_be16(res);
+++	sunlabel->acyl =
+++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->acyl), 65535, 0,
+++				_("Number of alternate cylinders")));
++ }
++ 
++ void fdisk_sun_set_ncyl(struct fdisk_context *cxt, int cyl)
++@@ -769,54 +761,33 @@
++ void fdisk_sun_set_xcyl(struct fdisk_context *cxt)
++ {
++ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
++-	uintmax_t res;
++-	int rc = fdisk_ask_number(cxt, 0,			/* low */
++-			be16_to_cpu(sunlabel->apc),		/* default */
++-			cxt->geom.sectors,			/* high */
++-			_("Extra sectors per cylinder"),	/* query */
++-			&res);					/* result */
++-	if (!rc)
++-		sunlabel->apc = cpu_to_be16(res);
+++	sunlabel->apc =
+++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->apc), cxt->geom.sectors, 0,
+++				_("Extra sectors per cylinder")));
++ }
++ 
++ void fdisk_sun_set_ilfact(struct fdisk_context *cxt)
++ {
++ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
++-	uintmax_t res;
++-	int rc = fdisk_ask_number(cxt, 1,			/* low */
++-			be16_to_cpu(sunlabel->intrlv),		/* default */
++-			32,					/* high */
++-			_("Interleave factor"),	/* query */
++-			&res);					/* result */
++-	if (!rc)
++-		sunlabel->intrlv = cpu_to_be16(res);
+++	sunlabel->intrlv =
+++		cpu_to_be16(read_int(cxt, 1, be16_to_cpu(sunlabel->intrlv), 32, 0,
+++				_("Interleave factor")));
++ }
++ 
++ void fdisk_sun_set_rspeed(struct fdisk_context *cxt)
++ {
++ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
++-	uintmax_t res;
++-	int rc = fdisk_ask_number(cxt, 1,			/* low */
++-			be16_to_cpu(sunlabel->rpm),		/* default */
++-			USHRT_MAX,				/* high */
++-			_("Rotation speed (rpm)"),		/* query */
++-			&res);					/* result */
++-	if (!rc)
++-		sunlabel->rpm = cpu_to_be16(res);
++-
+++	sunlabel->rpm =
+++		 cpu_to_be16(read_int(cxt, 1, be16_to_cpu(sunlabel->rpm), 100000, 0,
+++				_("Rotation speed (rpm)")));
++ }
++ 
++ void fdisk_sun_set_pcylcount(struct fdisk_context *cxt)
++ {
++ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
++-	uintmax_t res;
++-	int rc = fdisk_ask_number(cxt, 0,			/* low */
++-			be16_to_cpu(sunlabel->pcyl),		/* default */
++-			USHRT_MAX,				/* high */
++-			_("Number of physical cylinders"),	/* query */
++-			&res);					/* result */
++-	if (!rc)
++-		sunlabel->pcyl = cpu_to_be16(res);
+++	sunlabel->pcyl =
+++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->pcyl), 65535, 0,
+++				_("Number of physical cylinders")));
++ }
++ 
++ static int sun_write_disklabel(struct fdisk_context *cxt)
+diff --git a/meta/recipes-core/util-linux/util-linux_2.23.bb b/meta/recipes-core/util-linux/util-linux_2.23.bb
+index 5d9a8dc..b85df21 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.23.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.23.bb
+@@ -2,6 +2,11 @@ MAJOR_VERSION = "2.23"
+ PR = "r0"
+ require util-linux.inc
+ 
++# To support older hosts, we need to patch and/or revert
++# some upstream changes.  Only do this for native packages.
++OLDHOST = ""
++OLDHOST_class-native = "file://util-linux-native.patch"
++
+ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+             file://util-linux-ng-2.16-mount_lock_path.patch \
+             file://uclibc-__progname-conflict.patch \
+@@ -9,6 +14,7 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+             file://fix-configure.patch \
+             file://0001-lib-loopdev-fix-loopcxt_check_size-to-work-with-blkd.patch \
+             file://0001-losetup-use-warn_size-for-regular-files-only.patch \
++            ${OLDHOST} \
+ "
+ 
+ SRC_URI[md5sum] = "7bd10387f1aa00efaa4b07dfa13215bc"
 -- 
 1.8.3.rc1.25.g423ecb0
 
