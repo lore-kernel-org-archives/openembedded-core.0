@@ -1,24 +1,23 @@
-Return-Path: <marcin@juszkiewicz.com.pl>
-Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
-	[178.33.81.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 800116098F
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E2B6619E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 14:11:28 +0000 (UTC)
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E0E59D22DD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 16:11:28 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 16:11:20 +0200
-Message-Id: <1370009480-32681-2-git-send-email-marcin@juszkiewicz.com.pl>
-X-Mailer: git-send-email 1.8.1.2
+	Fri, 31 May 2013 14:41:03 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UiQVr-0003VB-8C; Fri, 31 May 2013 16:41:03 +0200
+Message-ID: <1370011262.8846.63.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+Date: Fri, 31 May 2013 15:41:02 +0100
 In-Reply-To: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
 References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-Subject: [PATCH] udev: do not recommend pciutils/usbutils ids
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] get minimal rootfs to be even smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +30,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 14:11:28 -0000
+X-List-Received-Date: Fri, 31 May 2013 14:41:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-udev does not require those files to be operational and they add ~350KB
-to rootfs
+On Fri, 2013-05-31 at 16:11 +0200, Marcin Juszkiewicz wrote:
+> Next one can be ldconfig which is ~600KB.
 
-Signed-off-by: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
----
- meta/recipes-core/udev/udev.inc | 1 -
- 1 file changed, 1 deletion(-)
+There's already an option to turn that off: you can set USE_LDCONFIG=0
+in your distro configuration (which micro does, for example).
+Converting that to be a modern DISTRO_FEATURE would be a fine thing.
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 769d861..ee05ad0 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -14,7 +14,6 @@ LDFLAGS += "-lrt"
- 
- DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native util-linux"
- RPROVIDES_${PN} = "hotplug"
--RRECOMMENDS_${PN} += "usbutils-ids pciutils-ids"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
--- 
-1.8.1.2
+On the udev thing I guess my initial reaction would be that if you want
+the smallest rootfs you probably don't want to be using udev at all.
+But if it's installing files that are totally unnecessary then that does
+seem a bit extravagant and I agree that it should be curtailed.
+
+p.
+
 
 
