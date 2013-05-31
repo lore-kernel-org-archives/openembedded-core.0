@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1531608F7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A320608F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:48:18 +0000 (UTC)
+	Fri, 31 May 2013 15:48:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFmGYI019910
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFmH1k005019
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 May 2013 08:48:16 -0700 (PDT)
+	Fri, 31 May 2013 08:48:17 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:48:15 -0700
+	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:48:16 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 May 2013 10:54:51 -0500
-Message-ID: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
+Date: Fri, 31 May 2013 10:54:52 -0500
+Message-ID: <1370015692-22428-2-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+In-Reply-To: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
+References: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] gcc 4.7/gcc 4.8 fails when libunwind is built first
+Subject: [PATCH] gcc: add build directory to include directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 31 May 2013 15:48:19 -0000
 Content-Type: text/plain
 
-Recently Marcin Juszkiewicz reported an issues w/ gcc 4.8 when libunwind
-was built first.  This sounded familar when I encountered the same problem.
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-Back in February Roy Li found the same problem w/ gcc_4.7 and submitted a
-fix for the issue.  I've updated this fix for both gcc 4.7 and gcc 4.8.
+[ CQID: WIND00386962 ]
 
-I tested this and it does resolve the issue for me.
+Add build directory to include directories by -I${B}/include which will
+be searched before standard system include directories.
 
-Roy.Li (1):
-  gcc: add build directory to include directories
+Both libunwind and gcc supply unwind.h, once gcc use libunwind's unwind.h,
+the compiling will fail.
 
+This patch is generally not applicable to the upstream as they do not
+use libunwind.
+
+(LOCAL REV: NOT UPSTREAM)
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/recipes-devtools/gcc/gcc_4.7.bb | 2 +-
  meta/recipes-devtools/gcc/gcc_4.8.bb | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/gcc/gcc_4.7.bb b/meta/recipes-devtools/gcc/gcc_4.7.bb
+index 9954375..f68c67a 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.7.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.7.bb
+@@ -2,4 +2,4 @@ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-configure-target.inc
+ require gcc-package-target.inc
+ 
+-ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
++ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR} -I${B}/gcc/include/ "
+diff --git a/meta/recipes-devtools/gcc/gcc_4.8.bb b/meta/recipes-devtools/gcc/gcc_4.8.bb
+index 9954375..f68c67a 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.8.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.8.bb
+@@ -2,4 +2,4 @@ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-configure-target.inc
+ require gcc-package-target.inc
+ 
+-ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
++ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR} -I${B}/gcc/include/ "
 -- 
 1.8.3.rc1.25.g423ecb0
 
