@@ -1,31 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 21F4B61AD1
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FD5F6041D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 07:08:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4V7C4TT030108; Fri, 31 May 2013 08:12:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dvf-3nbl-blV; Fri, 31 May 2013 08:12:33 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r4V7CPei030128
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 31 May 2013 08:12:27 +0100
-Message-ID: <1369984072.14887.338.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 31 May 2013 08:07:52 +0100
-In-Reply-To: <51A83FDB.4010309@linux.intel.com>
-References: <cover.1369970703.git.bruce.ashfield@windriver.com>
-	<51A83FDB.4010309@linux.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Fri, 31 May 2013 07:18:52 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id a11so1264901eae.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 00:18:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=2yPOX6CRjzzNZvDAkXEVQNZLidjtjo3FcSTHUpf+ptg=;
+	b=YGhvXaRDwDFSGjZ8ciD36/BwvcmhDMGaqmDToqoxokJ1T2AJmdZ+648udrQutjKDKD
+	Ar1XF/0VSuiOHaHU3q239tJ0rUh6OVdygIDSuCEBOeLrDhqtIU6PdZ/RfsQKDs1J7j+G
+	A7swgWzWZlVBGA89a+kMKQ5SPFjCu0RIN0sYVOUUA5FaGeQWgxjY3YXFREy/SUXSMe0d
+	ld/zBUlsX56qikppVhQTsxMOlS+HqkKluQr5QEwn+WOCOUXiWnQxESTQFc99wSmjWMHp
+	8pNTQfDLgYXCnvf/04/akLFxdXEBV8nO3s7Ym/Yqlw/0MkUIoAXuy4lAuiZtluOxPyPF
+	D7yQ==
+X-Received: by 10.14.208.131 with SMTP id q3mr12498550eeo.111.1369984732352;
+	Fri, 31 May 2013 00:18:52 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::dd64:906a:9471:140e?
+	([2001:610:612:0:dd64:906a:9471:140e])
+	by mx.google.com with ESMTPSA id s8sm64986567eeo.4.2013.05.31.00.18.50
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 31 May 2013 00:18:51 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1369922325.git.ross.burton@intel.com>
+Date: Fri, 31 May 2013 09:18:49 +0200
+Message-Id: <373E49FF-E99D-446B-A4A5-F852FDCAEFCF@dominion.thruhere.net>
+References: <cover.1369922325.git.ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1503)
+X-Gm-Message-State: ALoCoQm/tNfhdWWuBOkfHCVzuByr3PMZWwWI8adJNk08BOp0L9CLTrUAAmC71DIJ57stmXkVJEms
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] kernel-yocto: consolidated pull request
+Subject: Re: [PATCH 0/4] Mesa and Wayland updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +50,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 07:08:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2013 07:18:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2013-05-31 at 15:14 +0900, Saul Wold wrote:
-> On 05/31/2013 12:28 PM, Bruce Ashfield wrote:
-> > Richard/Saul,
-> >
-> > While I continue to battle with gcc 4.8, I've got a collection of other fixes
-> > that don't need to wait. Here's part of those pending changes.
-> >
-> >   - Remove the yocto 3.2 kernel, early in the Yocto 1.5 cycle as promised
-> 
-> Did I miss a request to remove the .bbappend from meta-yocto-bsp?  There 
-> seems to be a 3.2 bbappend still.
 
-In the interests of getting roughly caught up with patches, I've added a
-patch to delete this as well...
+Op 30 mei 2013, om 16:00 heeft Ross Burton <ross.burton@intel.com> het =
+volgende geschreven:
 
-Cheers,
+> Hi,
+>=20
+> A short series that updates our Mesa and Wayland to the latest =
+upstream
+> releases, adds a very rudimentary init script to start Weston, and a =
+basic image
+> that boots directly into Weston on DRM.
 
-Richard
+We talked about weston off-list a few weeks ago and this seems a good =
+time to bring it back on list :)
 
+I'd like to get the framebuffer backend supported, so I upgraded weston =
+to 1.0.90 and added:
+
++                 --enable-fbdev-compositor \
+
++# Needed for weston-launch
++WESTONBACKEND ??=3D "fbdev-backend.so"
++
++export WESTON_NATIVE_BACKEND =3D "${WESTONBACKEND}"
+=20
+At the time of writing that weston didn't support runtime detection or =
+config files entries for selecting the backend, only commandline =
+arguments. So whatever is getting picked at build time, you're stuck =
+with that. Does 1.1.x address that situation?
+
+regards,
+
+Koen=
 
