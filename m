@@ -1,41 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DF26A57D
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AC656A589
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:11:32 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id n57so1295341wev.8
+	Fri, 31 May 2013 15:11:33 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id p57so1345053wes.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 08:11:33 -0700 (PDT)
+	Fri, 31 May 2013 08:11:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=YcUoQ4dDt4YsU6sUuSIMHK+ayx/i8ULi2eDnxpWdYzc=;
-	b=W40ujvwTSW6D4fAf5opoKcvIcO/naS8L68ecv9yjiUkNmgNodONtidaxAs/oDZqNP7
-	5Xe0KlSQS6lPjlk2+SmYyg7WLk4t9Y0vtWLRuprqG5rfmO512bfZO5+UDpcENsC4Axe0
-	GxJPFnlHkcQMk8p9XBBRC2h68A03AGo4l3HsQ/NqUXzO2knv7Pr1QB+Pb+HpCPpCVLUq
-	570x0q5tM4u3OFG+y5U7wQSxbcOm2KCuEk2QNRTMfRoMPzUdwvowrvgcQGamVwqNTXKd
-	MOs+3bcQnAGj4x2+zQ3//aVIWw8R08FFO0DrjK0+jo3+mfBWnoKP9cmOer/W3DE6jpup
-	Vtbg==
-X-Received: by 10.180.39.233 with SMTP id s9mr3797757wik.25.1370013093174;
-	Fri, 31 May 2013 08:11:33 -0700 (PDT)
+	bh=dL8SvdxbzJtxGg9dGkhT0uJo8lr1JTWMmukRtij9b2U=;
+	b=iREatPv2v5HSCellVmGu1wEAng7MQFf4CBFAH3mZlIFxIVul8NKCQzqoYYrLT0M2AW
+	1G6Eg9MsIIzn7Ey4blxisvRT+xdSRTMKm97wKmsO37TGLN4G6Wiz/f5hhlE0rxu3Oo3P
+	BJlOAotOIlS6Szaahp7+Vv4RcsZ+DI+mqe8kqeOSjX32HP6CEcAmplMMkU5aksu7/85Y
+	1KCwkFsOIDrF2srR0du2L6fzt8Bm2NzvgUXj7qP9qvgUOZoj1LeQkz1CIp0bEdN6R9DP
+	iAlXDsAgwczdqdrWypZnTfyFBITNgvQOjFK5n9EgeBNVFtsKqKOvgPpZwdyUXSM2N77s
+	YIOw==
+X-Received: by 10.194.134.73 with SMTP id pi9mr9939333wjb.38.1370013094827;
+	Fri, 31 May 2013 08:11:34 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id ca19sm4609942wib.3.2013.05.31.08.11.31
+	by mx.google.com with ESMTPSA id ca19sm4609942wib.3.2013.05.31.08.11.33
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 08:11:32 -0700 (PDT)
+	Fri, 31 May 2013 08:11:33 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 16:08:06 +0100
-Message-Id: <b09f0d332eeb981a851c828442fabfd7c0d36843.1370012830.git.ross.burton@intel.com>
+Date: Fri, 31 May 2013 16:08:07 +0100
+Message-Id: <5daa7f85f92b90a26bc0791463ba3edd90370f02.1370012830.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
 References: <cover.1370012830.git.ross.burton@intel.com>
 In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
 References: <cover.1370012830.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkfZ3bx8hgLVFTctg+CzD/EYDbv6urBfyJrNNa5guV++qk6MAQdOUT/z3F8nL8k9UTrFr5e
-Subject: [PATCH 3/7] wayland: update to 1.1.0
+X-Gm-Message-State: ALoCoQnLKP3Iiys5olsN5vqPdmcOle8gvXOkX1kshAHAYhNcSmuU9DCzkBjYTFVgcuYgskMugtsH
+Subject: [PATCH 4/7] weston: install the examples into weston-examples
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:11:32 -0000
+X-List-Received-Date: Fri, 31 May 2013 15:11:34 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb}               |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} (91%)
+ .../wayland/weston/install-examples.patch            |   18 ++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.0.6.bb        |    6 +++++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston/install-examples.patch
 
-diff --git a/meta/recipes-graphics/wayland/wayland_1.0.6.bb b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
-similarity index 91%
-rename from meta/recipes-graphics/wayland/wayland_1.0.6.bb
-rename to meta/recipes-graphics/wayland/wayland_1.1.0.bb
-index 7c18979..a71402e 100644
---- a/meta/recipes-graphics/wayland/wayland_1.0.6.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
-@@ -10,11 +10,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
-                     file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
+diff --git a/meta/recipes-graphics/wayland/weston/install-examples.patch b/meta/recipes-graphics/wayland/weston/install-examples.patch
+new file mode 100644
+index 0000000..3e2852c
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/install-examples.patch
+@@ -0,0 +1,18 @@
++Install the examples so we can package them.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/clients/Makefile.am b/clients/Makefile.am
++index 621c7c3..749ef20 100644
++--- a/clients/Makefile.am
+++++ b/clients/Makefile.am
++@@ -2,7 +2,7 @@ bin_PROGRAMS =					\
++ 	weston-info				\
++ 	$(terminal)
++ 
++-noinst_PROGRAMS =				\
+++bin_PROGRAMS +=				\
++ 	$(clients_programs)			\
++ 	$(poppler_programs)			\
++ 	$(simple_clients_programs)		\
+diff --git a/meta/recipes-graphics/wayland/weston_1.0.6.bb b/meta/recipes-graphics/wayland/weston_1.0.6.bb
+index cb41e05..dd17c03 100644
+--- a/meta/recipes-graphics/wayland/weston_1.0.6.bb
++++ b/meta/recipes-graphics/wayland/weston_1.0.6.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
+                     file://src/compositor.c;endline=23;md5=aa98a8db03480fe7d500d0b1f4b8850c"
  
--PR = "r1"
--
- SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "936a2590aea69fa3c0cf234d54b9137c"
--SRC_URI[sha256sum] = "f52a012df699eff434b0f49e56000d6978b5f781048402ca8e0232242970fc49"
-+SRC_URI[md5sum] = "d2dc9398a83692cafc16eba6e45f85d8"
-+SRC_URI[sha256sum] = "2ef587cf1a0e52b6dee44eeb9c288110e8180819abf4e419d247dfe234867a5c"
+ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
++           file://install-examples.patch \
+            file://weston.png \
+            file://weston.desktop"
+ SRC_URI[md5sum] = "63202129d66d5514e572814da5dfa1f7"
+@@ -49,7 +50,10 @@ do_install_append() {
+ 	done
+ }
  
- SRC_URI_append_class-native = " file://just-scanner.patch"
+-FILES_${PN} += "${datadir}/applications ${datadir}/icons"
++PACKAGES += "${PN}-examples"
++
++FILES_${PN} = "${bindir}/weston* ${bindir}/wcap-decode ${libexecdir} ${datadir}"
++FILES_${PN}-examples = "${bindir}/*"
  
+ RDEPENDS_${PN} += "xkeyboard-config"
+ RRECOMMENDS_${PN} = "liberation-fonts"
 -- 
 1.7.10.4
 
