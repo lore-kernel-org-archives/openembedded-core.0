@@ -1,41 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 85A58608F7
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 61DF26A57D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:11:30 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id q56so1364918wes.37
+	Fri, 31 May 2013 15:11:32 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id n57so1295341wev.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 08:11:31 -0700 (PDT)
+	Fri, 31 May 2013 08:11:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=namtxTWHPeoo7+EKIoLZPBeIZpHzYQYaCZAvAPqup6I=;
-	b=pA+w+x/ldErvpUf7NlSHBtZveJRRqTUufQLzVcMvD8nY1bPQ9spnpfcaQvpYm09Qh4
-	5ONJN9coI+L8oEngnrnV11L93FQ9CR4VUmdLQoXC3PWMpLTGEOnNG21uuUxz3XHo3TRn
-	KM6L/8XPE+j607fKeAOSlbyA9Z4gC4+krZiKkUo2t0uCokTChHz/4eTWKiWDivJSkXQW
-	/6STHyFKJerr68rSMebUwE/ISSRglFM0W/N13wyV3aytfn63R8yRpuhbXr61HzIprWjn
-	6jBD76ASPnrBa3UbpCPe355ZnrpiYlpXJoqLkVSfYI8mRzFtAUMQID17d5ERk0fXMKsz
-	h8Jw==
-X-Received: by 10.194.235.99 with SMTP id ul3mr9975737wjc.6.1370013091250;
-	Fri, 31 May 2013 08:11:31 -0700 (PDT)
+	bh=YcUoQ4dDt4YsU6sUuSIMHK+ayx/i8ULi2eDnxpWdYzc=;
+	b=W40ujvwTSW6D4fAf5opoKcvIcO/naS8L68ecv9yjiUkNmgNodONtidaxAs/oDZqNP7
+	5Xe0KlSQS6lPjlk2+SmYyg7WLk4t9Y0vtWLRuprqG5rfmO512bfZO5+UDpcENsC4Axe0
+	GxJPFnlHkcQMk8p9XBBRC2h68A03AGo4l3HsQ/NqUXzO2knv7Pr1QB+Pb+HpCPpCVLUq
+	570x0q5tM4u3OFG+y5U7wQSxbcOm2KCuEk2QNRTMfRoMPzUdwvowrvgcQGamVwqNTXKd
+	MOs+3bcQnAGj4x2+zQ3//aVIWw8R08FFO0DrjK0+jo3+mfBWnoKP9cmOer/W3DE6jpup
+	Vtbg==
+X-Received: by 10.180.39.233 with SMTP id s9mr3797757wik.25.1370013093174;
+	Fri, 31 May 2013 08:11:33 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id ca19sm4609942wib.3.2013.05.31.08.11.29
+	by mx.google.com with ESMTPSA id ca19sm4609942wib.3.2013.05.31.08.11.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 08:11:30 -0700 (PDT)
+	Fri, 31 May 2013 08:11:32 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 16:08:05 +0100
-Message-Id: <eb71530258ea97591ca2ce498487889df94e9a46.1370012830.git.ross.burton@intel.com>
+Date: Fri, 31 May 2013 16:08:06 +0100
+Message-Id: <b09f0d332eeb981a851c828442fabfd7c0d36843.1370012830.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
 References: <cover.1370012830.git.ross.burton@intel.com>
 In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
 References: <cover.1370012830.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnRgGvQXMe5BZtshpNODMp3EOX9EchG37uDpTv5xGZTd/t3bwoPkrScdipmEo7LT3JAHFTg
-Subject: [PATCH 2/7] mesa: update git recipe to 9.1.3 release
+X-Gm-Message-State: ALoCoQkfZ3bx8hgLVFTctg+CzD/EYDbv6urBfyJrNNa5guV++qk6MAQdOUT/z3F8nL8k9UTrFr5e
+Subject: [PATCH 3/7] wayland: update to 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:11:30 -0000
-
-It's not bleeding edge but it's better than the previous pre-9.1 commit.
+X-List-Received-Date: Fri, 31 May 2013 15:11:32 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa-git.inc |    9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb}               |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} (91%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
-index ee9a552..c5507ce 100644
---- a/meta/recipes-graphics/mesa/mesa-git.inc
-+++ b/meta/recipes-graphics/mesa/mesa-git.inc
-@@ -1,11 +1,12 @@
--# Current pre-9.1 commit
--SRCREV = "1665af3066f3d58c42e9d5b13098f13615a7672c"
--PV = "9.1~git${SRCPV}"
-+# 9.1.3 commit
-+SRCREV = "f32ec82a8cfcabc5b7596796f36afe7986651f02"
-+PV = "9.1.3+git${SRCPV}"
+diff --git a/meta/recipes-graphics/wayland/wayland_1.0.6.bb b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
+similarity index 91%
+rename from meta/recipes-graphics/wayland/wayland_1.0.6.bb
+rename to meta/recipes-graphics/wayland/wayland_1.1.0.bb
+index 7c18979..a71402e 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.0.6.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
+@@ -10,11 +10,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
+                     file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
  
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=42d77d95cba529a3637129be87d6555d"
+-PR = "r1"
+-
+ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "936a2590aea69fa3c0cf234d54b9137c"
+-SRC_URI[sha256sum] = "f52a012df699eff434b0f49e56000d6978b5f781048402ca8e0232242970fc49"
++SRC_URI[md5sum] = "d2dc9398a83692cafc16eba6e45f85d8"
++SRC_URI[sha256sum] = "2ef587cf1a0e52b6dee44eeb9c288110e8180819abf4e419d247dfe234867a5c"
  
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
--           file://0002-cross-compile.patch \
-+           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch \
-+           file://fix-glsl-cross.patch \
-            "
+ SRC_URI_append_class-native = " file://just-scanner.patch"
  
- S = "${WORKDIR}/git"
 -- 
 1.7.10.4
 
