@@ -1,36 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DA060959
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 77AB660959
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 11:22:32 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id u59so1143181wes.1
+	Fri, 31 May 2013 11:37:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 2DC0611FDA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 04:22:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=JQV5lY7RXCIHgkottBWvis7kQU37j0INrREu1alKZ0c=;
-	b=XjJooFUdSCSbACWTwI6HLD0qpB42fKjl++4ApC0tGI/GxGO5RGiidUwv27cvYPW8Dh
-	3RVNRfZ0WNyodncdaVVNT0y6V55IBgjnr2OjVxB4QSnzLFigEGcjawdBx0Cm/K21aoHb
-	nb+R9ofDwVfFIasWzeM+jJEvGn9Xesp8MfdTcPXYwVd3ddrtxfl50Jf11QKVEFxqeBlp
-	suAm5i6BJJ32rn08z/Zsh3baQ+aBU2CdrOucqGU+J4pfFeEOuznBOWWvxXq0J6OVANLX
-	dzWVgOtLjKsrV2th9CSnedziN1konwEJZ1tTQ6vzPFNWWa/PrcXBvnU89Onf26oM1GPz
-	9lFg==
-X-Received: by 10.194.47.240 with SMTP id g16mr8983287wjn.43.1369999352960;
-	Fri, 31 May 2013 04:22:32 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id eq15sm3268310wic.4.2013.05.31.04.22.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 May 2013 04:22:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 31 May 2013 13:37:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NlWqgJtlISd7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:37:08 +0200 (CEST)
+Received: from boulder.localdomain (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 03DE813A23
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+Received: from boulder.localdomain (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id D40E4B94
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.localdomain (Postfix) with ESMTP id C943B9DE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id C55A13E06D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:36:55 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r4VBatwb020862
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 13:36:55 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r4VBat3e020861
+	for openembedded-core@lists.openembedded.org;
+	Fri, 31 May 2013 13:36:55 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 12:19:16 +0100
-Message-Id: <1369999156-28749-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnQOpp2iPLbodqxToHl4HHhffC60ks4YvBoIzOq6D4tHxcy2QmdgSH1ii/23RdtrJ00MGzB
-Subject: [PATCH][V2] rpm: remove .real hacks in argument parsing
+Date: Fri, 31 May 2013 13:36:44 +0200
+Message-Id: <cover.1370000176.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.2.1
+Subject: [PATCH v4 0/5] Fixes for makedevs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 11:22:32 -0000
+X-List-Received-Date: Fri, 31 May 2013 11:37:11 -0000
 
-The argument parser in RPM was patched to look for <binary>.real, but since the
-wrapper now fakes the right argv[0] rpm wasn't able to parse any options.
+When I wanted to create devices from a package I stumbled upon a couple
+of problems with the makedevs program. Most notable was that it failed
+to set the correct uid/gid for devices created as part of a block (i.e.,
+with a count > 0).
 
-[YOCTO #4581]
+PATCH v2: And now with Signed-off-by lines, as requested.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    4 ----
- 1 file changed, 4 deletions(-)
+PATCH v3: Also made count for blocks of devices behave as a count rather
+than the end (noticed after looking a makedevs.c from BusyBox).
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 2dbdca6..25ec23e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -478,10 +478,6 @@ do_install_append_class-native() {
- 			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
- 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 	done
--
--	# Adjust popt macros to match...
--	cat ${D}/${libdir}/rpm/rpmpopt | sed -e "s,^\(rpm[^ 	]*\)\([ 	]\),\1.real\2," > ${D}/${libdir}/rpm/rpmpopt.new
--	mv ${D}/${libdir}/rpm/rpmpopt.new ${D}/${libdir}/rpm/rpmpopt
- }
- 
- BBCLASSEXTEND = "native"
+PATCH v4: Added a Signed-off-by to the fifth patch. Will only resend it
+as the other patches have already been accepted.
+The following changes since commit efb8a460d2a977dbd481a0650fba8eb637c65bec:
+
+  package.bbclass: Fix sources contents (2013-05-14 08:52:47 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/makedevs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/makedevs
+
+Peter Kjellerstedt (5):
+  makedevs: Create blocks of devices with the correct uid/gid
+  makedevs: Correct the device number calculation for blocks of devices
+  makedevs: Make the mode number readable in debug messages
+  makedevs: Avoid unnecessary timestamp calculation
+  makedevs: Make count actually behave as a count for device blocks
+
+ meta/files/device_table-minimal.txt                   |  2 +-
+ .../makedevs/makedevs-1.0.0/makedevs.c                | 19 +++++++++----------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
+
 -- 
-1.7.10.4
+1.8.2.1
 
 
