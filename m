@@ -1,26 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A320608F7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13BCF6A4B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:48:19 +0000 (UTC)
+	Fri, 31 May 2013 15:49:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFmH1k005019
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFnAKp020058
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 May 2013 08:48:17 -0700 (PDT)
+	Fri, 31 May 2013 08:49:10 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:48:16 -0700
+	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:49:10 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 May 2013 10:54:52 -0500
-Message-ID: <1370015692-22428-2-git-send-email-mark.hatle@windriver.com>
+Date: Fri, 31 May 2013 10:55:46 -0500
+Message-ID: <1370015746-22465-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
-References: <1370015692-22428-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] gcc: add build directory to include directories
+Subject: [PATCH v2] gcc: add build directory to include directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,12 +31,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:48:19 -0000
+X-List-Received-Date: Fri, 31 May 2013 15:49:11 -0000
 Content-Type: text/plain
 
 From: "Roy.Li" <rongqing.li@windriver.com>
-
-[ CQID: WIND00386962 ]
 
 Add build directory to include directories by -I${B}/include which will
 be searched before standard system include directories.
@@ -48,8 +44,6 @@ the compiling will fail.
 
 This patch is generally not applicable to the upstream as they do not
 use libunwind.
-
-(LOCAL REV: NOT UPSTREAM)
 
 Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
