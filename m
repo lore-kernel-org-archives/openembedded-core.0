@@ -1,25 +1,31 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 172B96041D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F4B61AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 06:55:57 +0000 (UTC)
-Received: from e6520eb (tal33-3-82-233-81-124.fbx.proxad.net [82.233.81.124])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 36CE0A623B;
-	Fri, 31 May 2013 08:55:51 +0200 (CEST)
-Date: Fri, 31 May 2013 08:55:50 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+	Fri, 31 May 2013 07:08:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4V7C4TT030108; Fri, 31 May 2013 08:12:33 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dvf-3nbl-blV; Fri, 31 May 2013 08:12:33 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r4V7CPei030128
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 31 May 2013 08:12:27 +0100
+Message-ID: <1369984072.14887.338.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130531085550.5b725c7d@e6520eb>
-In-Reply-To: <51A844B7.9020201@linux.intel.com>
-References: <1369946430-12959-1-git-send-email-eric@eukrea.com>
-	<1369946430-12959-2-git-send-email-eric@eukrea.com>
-	<51A844B7.9020201@linux.intel.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
+Date: Fri, 31 May 2013 08:07:52 +0100
+In-Reply-To: <51A83FDB.4010309@linux.intel.com>
+References: <cover.1369970703.git.bruce.ashfield@windriver.com>
+	<51A83FDB.4010309@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] gtk-icon-cache pixbufcache: add a clear dependency on gdk-pixbuf-native
+Subject: Re: [PATCH 0/4] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,25 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 06:55:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 31 May 2013 07:08:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Le Fri, 31 May 2013 15:35:35 +0900,
-Saul Wold <sgw@linux.intel.com> a =C3=A9crit :
-
-> On 05/31/2013 05:40 AM, Eric B=C3=A9nard wrote:
-> > not really sure if the dependency is always inherited but at least
-> > there won't be bad surprise.
+On Fri, 2013-05-31 at 15:14 +0900, Saul Wold wrote:
+> On 05/31/2013 12:28 PM, Bruce Ashfield wrote:
+> > Richard/Saul,
 > >
-> This seems to have caused a circular dependency, not sure the exact=20
-> nature, please verify this.
->=20
-> There might have been a patch from someone else recently, so please=20
-> check the latest master.
->=20
-ok please forget this one it will need more testing if it's required at
-all
+> > While I continue to battle with gcc 4.8, I've got a collection of other fixes
+> > that don't need to wait. Here's part of those pending changes.
+> >
+> >   - Remove the yocto 3.2 kernel, early in the Yocto 1.5 cycle as promised
+> 
+> Did I miss a request to remove the .bbappend from meta-yocto-bsp?  There 
+> seems to be a 3.2 bbappend still.
 
-Eric
+In the interests of getting roughly caught up with patches, I've added a
+patch to delete this as well...
+
+Cheers,
+
+Richard
+
 
