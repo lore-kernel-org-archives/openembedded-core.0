@@ -1,20 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 72CB36A57E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F39C6A59B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 31 May 2013 15:11:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 May 2013 08:11:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,779,1363158000"; d="scan'208";a="346217084"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.185])
-	by fmsmga002.fm.intel.com with ESMTP; 31 May 2013 08:11:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Received: by mail-we0-f181.google.com with SMTP id u57so1344608wes.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2013 08:11:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=Fr0FAAIi9kaE3jtLGKh6fwXz/ObKLPY4EiggGJLpcwA=;
+	b=KVqGyXT/leVEG/NMu3Bupf72v0vmcbm4EfNZMl2i/+ZZ0XtnQj3MLA/Q3PqStifrLL
+	Xs9woo3ss0peEIBURZS5oAegRNfbT3Yq8PLq0Y4U3Lm9w5dcPpE1vJpIsfjifz6UaivA
+	smEvH0CNvRWYjfCEkZfWi6SwZxrsM5nKSXXoSas3pUM01G2zjD0yd3vfctrZo4GbdbEa
+	3vs6Q9mUUSJpzBf+z3yK7+V0ce1GwR2ddVaajOn2aiN1rcgZiUKKSff5VI2Ucj8ud8sA
+	CugLxRlRlgUtZGQKsZ2f7W5KyefgMqPdgsPdI9WvFkl0sZLYDl7rR/jWEEAGIh2rBgNe
+	DfTw==
+X-Received: by 10.180.90.164 with SMTP id bx4mr3865414wib.13.1370013096625;
+	Fri, 31 May 2013 08:11:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id ca19sm4609942wib.3.2013.05.31.08.11.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 31 May 2013 08:11:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2013 16:10:38 +0100
-Message-Id: <cover.1370012780.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [dylan][PATCH 00/15] Stable branch cherry-picks (cover letter only)
+Date: Fri, 31 May 2013 16:08:08 +0100
+Message-Id: <bd5de26b75e051cd098d2f6ebaa13dff872ab64f.1370012830.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
+References: <cover.1370012830.git.ross.burton@intel.com>
+In-Reply-To: <cover.1370012830.git.ross.burton@intel.com>
+References: <cover.1370012830.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmLYsFSkwKh4tBfy7JZquNbbMUmzQwaVcpjmws/umW1N+9upPwsiWfpjzJT2c65/AKve0nG
+Subject: [PATCH 5/7] weston: add a weston-launch group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,84 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:11:35 -0000
+X-List-Received-Date: Fri, 31 May 2013 15:11:36 -0000
 
-These are cherry-picks from master to be applied to the dylan branch for
-inclusion in the next 1.4 stable release (1.4.1). They have been tested
-on my build machine locally.
+For weston-launch to be used by a non-root user, the user either needs to be a
+member of the weston-launch group or own an active systemd user session.  Create
+this group so users can be members of it.
 
-Please review this series for suitability for inclusion into the stable
-branch.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/wayland/weston_1.0.6.bb |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The following changes since commit f24b4c3daeba43b352977fcdb807f1ed45c1c694:
-
-  kern-tools: refresh and make dash compliant (2013-05-22 11:57:46 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
-
-Bogdan Marinescu (1):
-  guile: added runtime dependency on glibc-gconv-iso8859-1
-
-Bruce Ashfield (1):
-  qemu*: restrict NFSD to linux-yocto only
-
-Jackie Huang (1):
-  guile: don't search for libreadline in host libdir
-
-Jesse Zhang (2):
-  dbus-glib: use BPN instead of PN
-  initscripts: let status return 0 when proc is running well
-
-Jessica Zhang (1):
-  Make toolchain output name using SDK_VERSION instead of DISTRO_VERSION
-    to be consistent [yocto #2342]
-
-Jonathan Liu (3):
-  systemd: fix ordering for machineid and run-postinsts services
-  findutils: backport fixes for documentation build errors
-  findutils: backport more fixes for documentation build errors
-
-Ming Liu (1):
-  dpkg-native: Fix native perl path
-
-Nitin A Kamble (1):
-  dropbear: a fix for hang in dropbearkey, built for x32
-
-Paul Eggleton (1):
-  python-smartpm: add gettext-native to DEPENDS
-
-Richard Purdie (1):
-  dpkg: Be deterministic about lzma dependency
-
-Samuli Piippo (1):
-  gdb-cross-canadian: use correct exec-prefix path for python
-
-Xin Ouyang (1):
-  qmake_base.bbclass: Add linux-gnun32-oe-g++ to QMAKESPEC
-
- meta/classes/populate_sdk_base.bbclass             |   2 +-
- meta/classes/qmake_base.bbclass                    |   2 +-
- meta/conf/machine/include/qemu.inc                 |   2 +-
- meta/recipes-core/dbus/dbus-glib.inc               |   8 +-
- .../0007-dropbear-fix-for-x32-abi.patch            | 140 +++++++++++++++++++++
- meta/recipes-core/dropbear/dropbear.inc            |   1 +
- .../initscripts/initscripts-1.0/functions          |   1 +
- .../systemd/systemd-compat-units/machineid.service |   2 +-
- .../systemd-compat-units/run-postinsts.service     |   2 +-
- meta/recipes-devtools/dpkg/dpkg.inc                |   4 +
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   2 +-
- meta/recipes-devtools/guile/guile_2.0.7.bb         |   4 +-
- .../python/python-smartpm_1.4.1.bb                 |   2 +-
- .../findutils-4.4.2/findutils_fix_doc.patch        |  84 +++++++++++++
- meta/recipes-extended/findutils/findutils_4.4.2.bb |   1 +
- 15 files changed, 245 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear-2012.55/0007-dropbear-fix-for-x32-abi.patch
- create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_doc.patch
-
+diff --git a/meta/recipes-graphics/wayland/weston_1.0.6.bb b/meta/recipes-graphics/wayland/weston_1.0.6.bb
+index dd17c03..07811f2 100644
+--- a/meta/recipes-graphics/wayland/weston_1.0.6.bb
++++ b/meta/recipes-graphics/wayland/weston_1.0.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "63202129d66d5514e572814da5dfa1f7"
+ SRC_URI[sha256sum] = "c833bc4dc8667561d2639b57220541531c039aa9332ce2a7022a3c466eb894f1"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig useradd
+ 
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
+ DEPENDS += "wayland mesa virtual/egl"
+@@ -57,3 +57,6 @@ FILES_${PN}-examples = "${bindir}/*"
+ 
+ RDEPENDS_${PN} += "xkeyboard-config"
+ RRECOMMENDS_${PN} = "liberation-fonts"
++
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM_${PN} = "--system weston-launch"
 -- 
-1.8.1.2
+1.7.10.4
 
 
