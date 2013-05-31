@@ -1,25 +1,29 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B47F36098F
+Return-Path: <marcin@juszkiewicz.com.pl>
+Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
+	[178.33.81.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 185AC62222
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 15:18:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4VFI1qO004577
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 31 May 2013 15:24:40 +0000 (UTC)
+Received: from [192.168.0.102] (87-206-152-156.dynamic.chello.pl
+	[87.206.152.156])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 839DED22B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2013 08:18:02 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Fri, 31 May 2013 08:18:00 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 May 2013 10:24:37 -0500
-Message-ID: <1370013877-22361-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+	Fri, 31 May 2013 17:24:39 +0200 (CEST)
+Message-ID: <51A8C0B3.2030008@juszkiewicz.com.pl>
+Date: Fri, 31 May 2013 17:24:35 +0200
+From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] util-linux: Add support for older hosts
+To: openembedded-core@lists.openembedded.org
+References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+	<1370011262.8846.63.camel@phil-desktop.brightsign>
+In-Reply-To: <1370011262.8846.63.camel@phil-desktop.brightsign>
+X-Enigmail-Version: 1.4.6
+Subject: Re: [RFC] get minimal rootfs to be even smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,261 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2013 15:18:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 31 May 2013 15:24:40 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Older hosts don't support some of the features required by
-the latet util-linux.  Add workarounds or revert changes to older
-versions to make it work.
+W dniu 31.05.2013 16:41, Phil Blundell pisze:
+> On Fri, 2013-05-31 at 16:11 +0200, Marcin Juszkiewicz wrote:
+>> Next one can be ldconfig which is ~600KB.
+> 
+> There's already an option to turn that off: you can set 
+> USE_LDCONFIG=0 in your distro configuration (which micro does, for 
+> example). Converting that to be a modern DISTRO_FEATURE would be a 
+> fine thing.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../util-linux/util-linux/util-linux-native.patch  | 210 +++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.23.bb    |   6 +
- 2 files changed, 216 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native.patch
+Thanks for hint - may look at it next week.
 
-diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-native.patch b/meta/recipes-core/util-linux/util-linux/util-linux-native.patch
-new file mode 100644
-index 0000000..9f34497
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/util-linux-native.patch
-@@ -0,0 +1,210 @@
-+Support older hosts with latest util-linux-native
-+
-+mkostemp is not defined on older machines.  So we detect this and
-+provide a define that uses mkstemp instead.
-+
-+O_CLOEXEC is not defined on older machines.  It is however defined
-+in the 'c.h' header.  Fix up the users to include 'c.h'.
-+
-+fdisks/fdisksunlabel.c was modified to use qsort_r, however
-+this is not defined on older hosts.  Revert:
-+  commit c69bbca9c1f6645097bd20fe3a21f5a99a2a0698
-+  fdisk: (sun): use ask API, remove global variable
-+
-+Upstream-status: Inappropriate [other]
-+Patches revert upstream changes in order to support older
-+machines.
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff -ur util-linux-2.23/configure.ac /home/lmhatle/util-linux-2.23-fixed/configure.ac
-+--- util-linux-2.23/configure.ac	2013-05-29 14:44:35.147853585 -0500
-++++ /home/lmhatle/util-linux-2.23-fixed/configure.ac	2013-05-30 14:56:15.050799650 -0500
-+@@ -323,6 +323,7 @@
-+ 	llseek \
-+ 	lseek64 \
-+ 	mempcpy \
-++	mkostemp \
-+ 	nanosleep \
-+ 	personality \
-+ 	posix_fadvise \
-+diff -ur util-linux-2.23/include/c.h /home/lmhatle/util-linux-2.23-fixed/include/c.h
-+--- util-linux-2.23/include/c.h	2013-04-12 04:25:46.852156874 -0500
-++++ /home/lmhatle/util-linux-2.23-fixed/include/c.h	2013-05-30 14:56:11.310799488 -0500
-+@@ -236,6 +236,13 @@
-+ #endif
-+ 
-+ /*
-++ * mkostemp replacement
-++ */
-++#ifndef HAVE_MKOSTEMP
-++#define mkostemp(template, flags) mkstemp(template)
-++#endif
-++
-++/*
-+  * MAXHOSTNAMELEN replacement
-+  */
-+ static inline size_t get_hostname_max(void)
-+diff -ur util-linux-2.23/lib/randutils.c /home/lmhatle/util-linux-2.23-fixed/lib/randutils.c
-+--- util-linux-2.23/lib/randutils.c	2013-04-12 04:25:46.855156901 -0500
-++++ /home/lmhatle/util-linux-2.23-fixed/lib/randutils.c	2013-05-30 14:55:26.622799644 -0500
-+@@ -16,6 +16,7 @@
-+ #include <sys/syscall.h>
-+ 
-+ #include "randutils.h"
-++#include "c.h"
-+ 
-+ #ifdef HAVE_TLS
-+ #define THREAD_LOCAL static __thread
-+diff -ur util-linux-2.23/lib/wholedisk.c /home/lmhatle/util-linux-2.23-fixed/lib/wholedisk.c
-+--- util-linux-2.23/lib/wholedisk.c	2013-04-12 04:25:46.855156901 -0500
-++++ /home/lmhatle/util-linux-2.23-fixed/lib/wholedisk.c	2013-05-30 14:55:31.182799350 -0500
-+@@ -10,6 +10,7 @@
-+ 
-+ #include "blkdev.h"
-+ #include "wholedisk.h"
-++#include "c.h"
-+ 
-+ int is_whole_disk_fd(int fd, const char *name)
-+ {
-+diff -ur util-linux-2.23/fdisks/fdisksunlabel.c /home/lmhatle/util-linux-2.23-fixed/fdisks/fdisksunlabel.c
-+--- util-linux-2.23/fdisks/fdisksunlabel.c	2013-04-23 09:14:19.229015244 -0500
-++++ /home/lmhatle/util-linux-2.23-fixed/fdisks/fdisksunlabel.c	2013-05-30 14:54:55.978799735 -0500
-+@@ -383,10 +383,10 @@
-+ 	}
-+ }
-+ 
-+-static int verify_sun_cmp(int *a, int *b, void *data)
-+-{
-+-    unsigned int *verify_sun_starts = (unsigned int *) data;
-++static unsigned int *verify_sun_starts;
-+ 
-++static int verify_sun_cmp(int *a, int *b)
-++{
-+     if (*a == -1)
-+ 	    return 1;
-+     if (*b == -1)
-+@@ -401,7 +401,6 @@
-+     uint32_t starts[SUN_MAXPARTITIONS], lens[SUN_MAXPARTITIONS], start, stop;
-+     uint32_t i,j,k,starto,endo;
-+     int array[SUN_MAXPARTITIONS];
-+-    unsigned int *verify_sun_starts;
-+ 
-+     assert(cxt);
-+     assert(cxt->label);
-+@@ -442,16 +441,14 @@
-+ 	    }
-+ 	}
-+     }
-+-
-+     for (i = 0; i < SUN_MAXPARTITIONS; i++) {
-+         if (lens[i])
-+             array[i] = i;
-+         else
-+             array[i] = -1;
-+     }
-+-    qsort_r(array,ARRAY_SIZE(array),sizeof(array[0]),
-+-	  (int (*)(const void *,const void *,void *)) verify_sun_cmp,
-+-	  verify_sun_starts);
-++    qsort(array,ARRAY_SIZE(array),sizeof(array[0]),
-++	  (int (*)(const void *,const void *)) verify_sun_cmp);
-+ 
-+     if (array[0] == -1) {
-+ 	fdisk_info(cxt, _("No partitions defined"));
-+@@ -468,6 +465,7 @@
-+     start = (starts[array[i]] + lens[array[i]]);
-+     if (start < stop)
-+         fdisk_warnx(cxt, _("Unused gap - sectors %d-%d"), start, stop);
-++
-+     return 0;
-+ }
-+ 
-+@@ -746,18 +744,12 @@
-+ 	}
-+ }
-+ 
-+-
-+ void fdisk_sun_set_alt_cyl(struct fdisk_context *cxt)
-+ {
-+ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
-+-	uintmax_t res;
-+-	int rc = fdisk_ask_number(cxt, 0,			/* low */
-+-			be16_to_cpu(sunlabel->acyl),		/* default */
-+-			65535,					/* high */
-+-			_("Number of alternate cylinders"),	/* query */
-+-			&res);					/* result */
-+-	if (!rc)
-+-		sunlabel->acyl = cpu_to_be16(res);
-++	sunlabel->acyl =
-++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->acyl), 65535, 0,
-++				_("Number of alternate cylinders")));
-+ }
-+ 
-+ void fdisk_sun_set_ncyl(struct fdisk_context *cxt, int cyl)
-+@@ -769,54 +761,33 @@
-+ void fdisk_sun_set_xcyl(struct fdisk_context *cxt)
-+ {
-+ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
-+-	uintmax_t res;
-+-	int rc = fdisk_ask_number(cxt, 0,			/* low */
-+-			be16_to_cpu(sunlabel->apc),		/* default */
-+-			cxt->geom.sectors,			/* high */
-+-			_("Extra sectors per cylinder"),	/* query */
-+-			&res);					/* result */
-+-	if (!rc)
-+-		sunlabel->apc = cpu_to_be16(res);
-++	sunlabel->apc =
-++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->apc), cxt->geom.sectors, 0,
-++				_("Extra sectors per cylinder")));
-+ }
-+ 
-+ void fdisk_sun_set_ilfact(struct fdisk_context *cxt)
-+ {
-+ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
-+-	uintmax_t res;
-+-	int rc = fdisk_ask_number(cxt, 1,			/* low */
-+-			be16_to_cpu(sunlabel->intrlv),		/* default */
-+-			32,					/* high */
-+-			_("Interleave factor"),	/* query */
-+-			&res);					/* result */
-+-	if (!rc)
-+-		sunlabel->intrlv = cpu_to_be16(res);
-++	sunlabel->intrlv =
-++		cpu_to_be16(read_int(cxt, 1, be16_to_cpu(sunlabel->intrlv), 32, 0,
-++				_("Interleave factor")));
-+ }
-+ 
-+ void fdisk_sun_set_rspeed(struct fdisk_context *cxt)
-+ {
-+ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
-+-	uintmax_t res;
-+-	int rc = fdisk_ask_number(cxt, 1,			/* low */
-+-			be16_to_cpu(sunlabel->rpm),		/* default */
-+-			USHRT_MAX,				/* high */
-+-			_("Rotation speed (rpm)"),		/* query */
-+-			&res);					/* result */
-+-	if (!rc)
-+-		sunlabel->rpm = cpu_to_be16(res);
-+-
-++	sunlabel->rpm =
-++		 cpu_to_be16(read_int(cxt, 1, be16_to_cpu(sunlabel->rpm), 100000, 0,
-++				_("Rotation speed (rpm)")));
-+ }
-+ 
-+ void fdisk_sun_set_pcylcount(struct fdisk_context *cxt)
-+ {
-+ 	struct sun_disklabel *sunlabel = self_disklabel(cxt);
-+-	uintmax_t res;
-+-	int rc = fdisk_ask_number(cxt, 0,			/* low */
-+-			be16_to_cpu(sunlabel->pcyl),		/* default */
-+-			USHRT_MAX,				/* high */
-+-			_("Number of physical cylinders"),	/* query */
-+-			&res);					/* result */
-+-	if (!rc)
-+-		sunlabel->pcyl = cpu_to_be16(res);
-++	sunlabel->pcyl =
-++		cpu_to_be16(read_int(cxt, 0, be16_to_cpu(sunlabel->pcyl), 65535, 0,
-++				_("Number of physical cylinders")));
-+ }
-+ 
-+ static int sun_write_disklabel(struct fdisk_context *cxt)
-diff --git a/meta/recipes-core/util-linux/util-linux_2.23.bb b/meta/recipes-core/util-linux/util-linux_2.23.bb
-index 5d9a8dc..b85df21 100644
---- a/meta/recipes-core/util-linux/util-linux_2.23.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.23.bb
-@@ -2,6 +2,11 @@ MAJOR_VERSION = "2.23"
- PR = "r0"
- require util-linux.inc
- 
-+# To support older hosts, we need to patch and/or revert
-+# some upstream changes.  Only do this for native packages.
-+OLDHOST = ""
-+OLDHOST_class-native = "file://util-linux-native.patch"
-+
- SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://util-linux-ng-2.16-mount_lock_path.patch \
-             file://uclibc-__progname-conflict.patch \
-@@ -9,6 +14,7 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://fix-configure.patch \
-             file://0001-lib-loopdev-fix-loopcxt_check_size-to-work-with-blkd.patch \
-             file://0001-losetup-use-warn_size-for-regular-files-only.patch \
-+            ${OLDHOST} \
- "
- 
- SRC_URI[md5sum] = "7bd10387f1aa00efaa4b07dfa13215bc"
--- 
-1.8.3.rc1.25.g423ecb0
+> On the udev thing I guess my initial reaction would be that if you 
+> want the smallest rootfs you probably don't want to be using udev at 
+> all.
 
+I just wanted to have smallest possible image without doing any distro
+config changes. Think "minimal image for testing KVM" where KVM host
+rootfs can be built with same setup.
 
