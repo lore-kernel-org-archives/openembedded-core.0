@@ -1,29 +1,34 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AB31361DDE
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E52960912
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Jun 2013 20:31:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r52KVx3A018818
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Jun 2013 13:31:59 -0700 (PDT)
-Received: from [128.224.21.242] (128.224.21.242) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Sun, 2 Jun 2013 13:31:57 -0700
-Message-ID: <51ABABBA.2030301@windriver.com>
-Date: Sun, 2 Jun 2013 16:31:54 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	Sun,  2 Jun 2013 22:47:48 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id eh20so6003734obb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 02 Jun 2013 15:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=inWckWrzHzxBqwZ40d+fsObeC81JBPYPmY/7UXC7gZ4=;
+	b=FAZTzxkF1Y7q4/3B5X+OGK7hgnuxGJ3MK8pinunKhF5bNXX83LcRNAQunjJnTDa67x
+	V0ueL+uyK/5zHRFdRz4gePzKIEwtzXx4E3w/GFbucdZsb1G9O/HmokAVo079ahhep/+b
+	la5wKj9lWhgGvLC1h+Zz7mbmHmbidjmAE5ajFP7XCty2thBEga4jTPQqRH53B8O3tsAx
+	4AlSIrwN2D05Hn2dtBE6NM788R1v4xKO38j3q9iubw0p3r4AejZa17hRVIhgMLge0Jur
+	P3/fir+lwwc75DmY2ZAqqgAkgsKbGGxkkPijHpTcdBsugCLqUC3AHZIG5Kjak2FNPImU
+	nvVQ==
 MIME-Version: 1.0
-To: Koen Martens <gmc@sonologic.nl>
-References: <20130516152515.GB25740@monk.dh.sono>
-	<5194FE20.6000505@windriver.com>
-	<20130602143039.GC26506@monk.dh.sono>
-In-Reply-To: <20130602143039.GC26506@monk.dh.sono>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: adding kernel headers to sysroot
+X-Received: by 10.182.135.161 with SMTP id pt1mr8982557obb.3.1370213268602;
+	Sun, 02 Jun 2013 15:47:48 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Sun, 2 Jun 2013 15:47:48 -0700 (PDT)
+Date: Sun, 2 Jun 2013 19:47:48 -0300
+X-Google-Sender-Auth: WHON0Z4d0uitf2nNCB7DbcI2xO8
+Message-ID: <CAP9ODKqCjD2Fv5zRTgTv9o40-dfZx6+4Bao-bWqOyuhdK9WUNQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: New tags in Poky repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,76 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Jun 2013 20:31:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 02 Jun 2013 22:47:49 -0000
+Content-Type: multipart/alternative; boundary=089e013c6c3e24a11c04de33a33d
 
-On 13-06-02 10:30 AM, Koen Martens wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> Hi Bruce,
->
-> On Thu, May 16, 2013 at 11:41:20AM -0400, Bruce Ashfield wrote:
->> On 13-05-16 11:25 AM, Koen Martens wrote:
->>> I have added a kernel header file to the linux kernel for my project, that
->>> exposes a public API for new kernel functionality I have implemented. This
->>> header file is needed to compile certain user-space programs. I have been
->>> trying to get this include file in the sysroot used to compile the user-
->>> space programs (as well as in the SDK i build for the project).
->>
->>   - point your application at the STAGING_KERNEL_DIR and include the
->>     header from there. You are already coupled to the kernel, since
->>     you need this header, so it isn't as evil as it seems. This will
->>     also get you SDK support.
->>
->>   - Install the header file to another location in the sysroot and
->>     include it from there. You can do this via an append to the
->>     kernel install. Assuming you don't collide with existing headers,
->>     you could use this to install into a standard location as well,
->>     but things start to get a bit more risk. You can also arrange
->
-> I went with the latter option, but i'm still curious as to what part of
-> oe magic installs the standard kernel headers?
+--089e013c6c3e24a11c04de33a33d
+Content-Type: text/plain; charset=ISO-8859-1
 
-That's the linux-libc-headers package. It uses the matching linux
-release tarball and installs them to the /usr/include/linux
-directory structure.
+Hello,
 
-And good choice on the latter option. I've been working with this
-more myself lately, and if you attempt to install over top of the
-libc-headers location, you'll end up with package ordering issues
-if you use the SDK, and in general, not be triggering the right
-rebuilds when things change.
+I noticed some new tags in Poky GIT repository and I'd like to understand
+what they're used for?
 
-Bruce
+ * [new tag]         green-3.3  -> green-3.3
+ * [new tag]         green-3.3.1 -> green-3.3.1
 
->
->> How often does the header file change ? If it really is static there's
->> another option, and that is to capture the header in the applications
->> themselves and simply use it that way. iptables, and other user application
->> have done this in the past, and will do it again in the future.
->
-> Yep, i'm aware of the way ipfilter does it, from personal experience with the
-> insanity that causes :)
->
-> Thanks!
->
-> Koen
->
-> - --
-> https://ohm2013.org/            - outdoor hacker conference, August 2013, NL
-> http://www.sonologic.nl/        - hosting and DBA
-> http://koenmartens.nl/          - curriculum vitae
-> https://www.revspace.nl/        - hackerspace in Den Haag, NL
-> http://signal.hackerspaces.org/ - hackerspace radio
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.12 (GNU/Linux)
->
-> iEYEARECAAYFAlGrVw8ACgkQktDgRrkFPpa0rQCfWUXPWJEUKKn5Ngc8MOdSzlt+
-> clcAoIoGA7jIiVBvZXQz2MpiXHD6/6Tj
-> =zYrm
-> -----END PGP SIGNATURE-----
->
+Regards,
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
+--089e013c6c3e24a11c04de33a33d
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div><br></div><div>I noticed some new tags in Poky =
+GIT repository and I&#39;d like to understand what they&#39;re used for?</d=
+iv><div><br></div><div><div>=A0* [new tag] =A0 =A0 =A0 =A0 green-3.3 =A0-&g=
+t; green-3.3</div>
+<div>=A0* [new tag] =A0 =A0 =A0 =A0 green-3.3.1 -&gt; green-3.3.1</div><div=
+><br></div><div style>Regards,</div><div><br></div>-- <br>Otavio Salvador =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a =
+href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems=
+.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" tar=
+get=3D"_blank">http://projetos.ossystems.com.br</a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
+
+--089e013c6c3e24a11c04de33a33d--
