@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <bogdan.a.marinescu@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 07DEE6A5BC
+	by mail.openembedded.org (Postfix) with ESMTP id 567FC6A5B9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 12:46:29 +0000 (UTC)
+	Mon,  3 Jun 2013 12:57:04 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Jun 2013 05:46:07 -0700
+	by azsmga101.ch.intel.com with ESMTP; 03 Jun 2013 05:57:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,792,1363158000"; d="scan'208";a="249988163"
-Received: from unknown (HELO helios.localnet) ([10.252.121.181])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jun 2013 05:46:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,792,1363158000"; d="scan'208";a="249990823"
+Received: from bogdanm.rb.intel.com ([10.237.105.166])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Jun 2013 05:57:04 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 03 Jun 2013 13:46:05 +0100
-Message-ID: <1618432.aYDQdbICiE@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.2 (Linux/3.8.0-23-generic; KDE/4.10.2; i686; ; )
-In-Reply-To: <CAP9ODKqCjD2Fv5zRTgTv9o40-dfZx6+4Bao-bWqOyuhdK9WUNQ@mail.gmail.com>
-References: <CAP9ODKqCjD2Fv5zRTgTv9o40-dfZx6+4Bao-bWqOyuhdK9WUNQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: New tags in Poky repository
+Date: Mon,  3 Jun 2013 15:56:51 +0300
+Message-Id: <cover.1370264032.git.bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/3] multiple package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 12:46:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Jun 2013 12:57:04 -0000
 
-Hi Otavio,
+Upgrades for diffstat, libpcre and subversion.
 
-On Sunday 02 June 2013 19:47:48 Otavio Salvador wrote:
-> I noticed some new tags in Poky GIT repository and I'd like to understand
-> what they're used for?
-> 
->  * [new tag]         green-3.3  -> green-3.3
->  * [new tag]         green-3.3.1 -> green-3.3.1
+The following changes since commit 73dae11852c656adbf5a2b0e44ac4c7e0078cd8d:
 
-These were added by Richard for the older Poky "green" releases because they 
-were missing.
+  rpm: remove .real hacks in argument parsing (2013-05-31 14:02:45 +0100)
 
-(BTW, this is a question more applicable to the poky mailing list.)
+are available in the git repository at:
 
-Cheers,
-Paul
+  git://git.yoctoproject.org/poky-contrib bogdanm/work2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bogdanm/work2
+
+Bogdan Marinescu (3):
+  diffstat: upgraded to 1.57
+  libpcre: upgraded to 8.33
+  subversion: upgraded to 1.7.10
+
+ .../diffstat/diffstat/aclocal.patch                |   37 ++++++++++++++++++++
+ .../{diffstat_1.55.bb => diffstat_1.57.bb}         |    8 ++---
+ .../fix-install-depends.patch                      |    0
+ .../libtool2.patch                                 |    0
+ .../{subversion_1.7.9.bb => subversion_1.7.10.bb}  |    4 +--
+ .../libpcre/{libpcre_8.32.bb => libpcre_8.33.bb}   |    7 ++--
+ 6 files changed, 46 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-devtools/diffstat/diffstat/aclocal.patch
+ rename meta/recipes-devtools/diffstat/{diffstat_1.55.bb => diffstat_1.57.bb} (76%)
+ rename meta/recipes-devtools/subversion/{subversion-1.7.9 => subversion-1.7.10}/fix-install-depends.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion-1.7.9 => subversion-1.7.10}/libtool2.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion_1.7.9.bb => subversion_1.7.10.bb} (88%)
+ rename meta/recipes-support/libpcre/{libpcre_8.32.bb => libpcre_8.33.bb} (90%)
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
