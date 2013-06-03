@@ -1,38 +1,33 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
-	[209.85.212.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D30061EBD;
-	Mon,  3 Jun 2013 16:03:52 +0000 (UTC)
-Received: by mail-vb0-f41.google.com with SMTP id p14so2711503vbm.14
-	for <multiple recipients>; Mon, 03 Jun 2013 09:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=3QrgQL8tAlvLg7P5nsVGOvOqdQliz8datp37KN7tZdI=;
-	b=xy7L2NXxokpTmxIaK5d8SYcxfqzmOwxCG8xJsSxb8hSwzI4twZjXjMLlgwAhc5e1B8
-	O3UZuT3AlIQ3lNczpSbUQOeL4Thc8ZP6gPZlZFlgwWfWNYzqFwsS5F67wuGz1kckD1Ii
-	5w7m+mMLfxWjEgFC35bmQcAJahnQqe1QzmCMOYSNPZYQQH6e/Oc2Ci5ntGwlLSBcWbFM
-	U9qE4ZrnkrVuCtX/rDCnhQEwCKoJy15KR13kx1/g+l2jOOHsfzHnWaizxxixGgxu/djt
-	pmqvtem2w+WpJsmgvDhGQsx/h68WT13UWILcM+3VYhIzx0dce8GjXVpFSPS0sYMJU+gS
-	wEDg==
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B71601AF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Jun 2013 16:22:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jun 2013 09:23:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,794,1363158000"; d="scan'208";a="347374530"
+Received: from unknown (HELO envy.home) ([10.255.13.115])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2013 09:22:57 -0700
+Message-ID: <51ACC2E1.9000206@linux.intel.com>
+Date: Mon, 03 Jun 2013 09:22:57 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
-X-Received: by 10.58.46.48 with SMTP id s16mr13127341vem.52.1370275432820;
-	Mon, 03 Jun 2013 09:03:52 -0700 (PDT)
-Received: by 10.52.52.84 with HTTP; Mon, 3 Jun 2013 09:03:52 -0700 (PDT)
-In-Reply-To: <20130603151008.GC3279@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-Date: Mon, 3 Jun 2013 18:03:52 +0200
-Message-ID: <CALbNGRREbtVAxJ+vQmSAfmm4aE9AFz=K=p2HvCM2t5RDVsa-jQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+To: Philip Balister <philip@balister.org>
+References: <51781746.2000509@linux.intel.com> <2278334.0GkpBHEP1r@helios>
+	<20130531173450.GC23802@jama> <51A8E185.1010303@linux.intel.com>
+	<938455D5-B24C-4B2E-880B-A235A10D22C5@dominion.thruhere.net>
+	<51AC7B73.8040005@balister.org>
+In-Reply-To: <51AC7B73.8040005@balister.org>
+X-Enigmail-Version: 1.5.1
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "Garman,
+	Scott A" <scott.a.garman@intel.com>
+Subject: Re: Stable Release Process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +40,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 16:03:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Jun 2013 16:22:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 3, 2013 at 5:10 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, May 20, 2013 at 03:06:35PM +0200, Martin Jansa wrote:
->> Couple of issues from last email were fixed, so here is updated status:
+
+
+On 06/03/2013 04:18 AM, Philip Balister wrote:
+> On 06/03/2013 02:00 AM, Koen Kooi wrote:
 >>
->> qemuarm Summary: 14 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_090009.log
->> qemux86 Summary: 19 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130519_170509.log
->> qemux86-64 Summary: 20 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_005747.log
->
-> Hi,
->
-> updated status, still building with gcc-4.8
-> shr-version issue already fixed
-> llvm2.9 also fixed
-> so if we don't count these 3 failures it's a bit better than last status
->
-> qemuarm Summary: 15 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130601_225651.log
->
-> qemux86 Summary: 18 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130603_011743.log/
->
-> qemux86-64: Summary: 21 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130602_103752.log
->
-> common (13):
->   meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb, do_compile
-^ this one is new and caused by oecore
-689ac095b868b3ee975169257e114981f2593b4b libtasn1: Updated from 2.14
-to 3.3.
+>> Op 31 mei 2013, om 19:44 heeft Darren Hart <dvhart@linux.intel.com> het volgende geschreven:
 
-Haven't got the time to look into this further at the moment
+>>>> I like subject tags, at least because they are nicely shown in
+>>>> patchwork subject, so I can easily sort incoming patches to right
+>>>> bundles.
+>>>>
+>>>> And this problem with scaling when sending a patch for multiple 
+>>>> releases we already have when tagging multiple affected layers
+>>>> (which happens more often for meta-oe layers then multiple
+>>>> releases).
+>>>
+>>> It has been expressed that this has been challenging to enforce
+>>> (anything that is freeform is). Do you have any suggestions on how we
+>>> could address that? Documentation? Firm maintainer policy of willfully
+>>> ignoring non-tagged patches?
+>>
+>> An email saying "wrong tag, please read README and resubmit"
+>> followed by willfully ignoring wrong tags has worked quite well in
+>> the past. But only if the README clearly states the tags needed and
+>> has a sample git-send-email cmdline.
+> 
+> I find the sample git send-email line in the README to be a huge
+> help for me.
+> 
+> Philip
+> 
 
-Andreas
+In my experience with this project and our maintainers, they are
+exceptionally good-natured and eager to help compared to some other
+projects. There would definitely be a painful period as they tried to
+resist reminding people and just pulling the patch in anyway. I think it
+could work, but we would have to be firm about it and document it well.
+Some kind of a stable-release.txt README is definitely in order.
+
+I went to check oe-core for some kind of existing documentation on
+policies and came up empty. Perhaps just documenting this
+pseudo-existing policy in a place where developers are likely to find it
+and can be easily referred to would be a good first step.
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
