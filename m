@@ -1,25 +1,25 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 033E26A5C2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 07DEE6A5BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 12:22:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jun 2013 05:22:21 -0700
+	Mon,  3 Jun 2013 12:46:29 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 03 Jun 2013 05:46:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,792,1363158000"; d="scan'208";a="343996936"
-Received: from unknown (HELO [10.255.12.174]) ([10.255.12.174])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2013 05:22:39 -0700
-Message-ID: <1370262140.14580.21.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Ning Zhang <ning.zhang@windriver.com>
-Date: Mon, 03 Jun 2013 07:22:20 -0500
-In-Reply-To: <fc2f4a65e654e548bfba36505ed37285270667f5.1370228342.git.ning.zhang@windriver.com>
-References: <cover.1370228342.git.ning.zhang@windriver.com>
-	<fc2f4a65e654e548bfba36505ed37285270667f5.1370228342.git.ning.zhang@windriver.com>
-X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] yocto_kernel: modify the msg when adding duplicate items
+X-IronPort-AV: E=Sophos;i="4.87,792,1363158000"; d="scan'208";a="249988163"
+Received: from unknown (HELO helios.localnet) ([10.252.121.181])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Jun 2013 05:46:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Jun 2013 13:46:05 +0100
+Message-ID: <1618432.aYDQdbICiE@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-23-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <CAP9ODKqCjD2Fv5zRTgTv9o40-dfZx6+4Bao-bWqOyuhdK9WUNQ@mail.gmail.com>
+References: <CAP9ODKqCjD2Fv5zRTgTv9o40-dfZx6+4Bao-bWqOyuhdK9WUNQ@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: New tags in Poky repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 12:22:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Jun 2013 12:46:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2013-06-03 at 13:21 +0800, Ning Zhang wrote:
-> Privious check-in "yocto_kernel: check current items before add a
-> new one" had been merged before I apply the feedback from Zanussi, Tom.
-> Now fix it as a new patch.
+Hi Otavio,
+
+On Sunday 02 June 2013 19:47:48 Otavio Salvador wrote:
+> I noticed some new tags in Poky GIT repository and I'd like to understand
+> what they're used for?
 > 
-> This fix modify the output message when customer adding duplicate
-> items.
-> 
-> [YOCTO #4558]
-> 
-> Signed-off-by: Ning Zhang <ning.zhang@windriver.com>
+>  * [new tag]         green-3.3  -> green-3.3
+>  * [new tag]         green-3.3.1 -> green-3.3.1
 
-Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+These were added by Richard for the older Poky "green" releases because they 
+were missing.
 
+(BTW, this is a question more applicable to the poky mailing list.)
 
-> ---
->  scripts/lib/bsp/kernel.py |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
-> index 9ed6e94..94ae950 100644
-> --- a/scripts/lib/bsp/kernel.py
-> +++ b/scripts/lib/bsp/kernel.py
-> @@ -260,7 +260,7 @@ def yocto_kernel_config_add(scripts_path, machine, config_items):
->              print "\t%s" % n
->  
->      if len(dup_items) > 0:
-> -        output="Below item%s already exist%s in current configuration, ignore %s" % \
-> +        output="The following item%s already exist%s in the current configuration, ignoring %s:" % \
->              (("","s", "it") if len(dup_items)==1 else ("s", "", "them" ))
->          print output
->          for n in dup_items:
+Cheers,
+Paul
 
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
