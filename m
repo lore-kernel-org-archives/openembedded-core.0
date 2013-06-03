@@ -1,26 +1,35 @@
-Return-Path: <Sen.Zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CB05A61EBD
+Return-Path: <martin.donnelly@ge.com>
+Received: from exprod5og118.obsmtp.com (exprod5og118.obsmtp.com [64.18.0.160])
+	by mail.openembedded.org (Postfix) with ESMTP id F217260881
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 07:35:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r537ZcqV027141
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Jun 2013 00:35:38 -0700 (PDT)
-Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 3 Jun 2013 00:35:37 -0700
-From: Jesse Zhang <sen.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Jun 2013 15:37:48 +0800
-Message-ID: <bbbe7f290de18f1837d9182723de8b866e16099d.1370244833.git.sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1370244833.git.sen.zhang@windriver.com>
-References: <cover.1370244833.git.sen.zhang@windriver.com>
+	Mon,  3 Jun 2013 08:48:26 +0000 (UTC)
+Received: from cinmlip11.e2k.ad.ge.com ([165.156.4.1]) (using TLSv1) by
+	exprod5ob118.postini.com ([64.18.4.12]) with SMTP
+	ID DSNKUaxYW02/43yDUxEgniFRd2m0xD1SJ5bb@postini.com;
+	Mon, 03 Jun 2013 01:48:28 PDT
+Received: from unknown (HELO alpmlip01.e2k.ad.ge.com) ([3.159.17.48])
+	by cinmlip11.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
+	03 Jun 2013 04:48:26 -0400
+Received: from selma.edi.geip.ge.com ([3.26.68.70])
+	by alpmlip01.e2k.ad.ge.com with ESMTP; 03 Jun 2013 04:48:26 -0400
+Received: from [3.26.68.199] (fyvie.edi.geip.ge.com [3.26.68.199])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by selma.edi.geip.ge.com (Postfix) with ESMTPS id 47667E04D5;
+	Mon,  3 Jun 2013 09:48:25 +0100 (BST)
+Message-ID: <51AC5859.70003@ge.com>
+Date: Mon, 03 Jun 2013 09:48:25 +0100
+From: Martin Donnelly <martin.donnelly@ge.com>
+Organization: GE Intelligent Platforms
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sanity.bbclass: make sure python is a full install
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <51A9294F.1090101@windriver.com>
+In-Reply-To: <51A9294F.1090101@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: gcc 4.8 - ICE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 07:35:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Jun 2013 08:48:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Components of the Standard Library should be available. Add a sanity
-check for xml.parsers.expat; we might add more in the future.
+On 31/05/2013 23:50, Mark Hatle wrote:
+> 
+> I suspect the ppce500v2 tuning hasn't been used much, but it appears to
+> trigger the failure case.
+> 
+> Should I enter a bug for this issue in the YP bugzilla?  I can also
+> attempt to file a bug w/ gnu this weekend or early next week.
 
-[YOCTO #4424]
+There is already one there
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4495
 
-Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
----
- meta/classes/sanity.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+Cheers
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 3b01acf..6cad4bc 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -387,6 +387,12 @@ def check_sanity(sanity_data):
-     import sys
-     if sys.hexversion < 0x020600F0:
-         messages = messages + 'The system requires at least Python 2.6 to run. Please update your Python interpreter.\n'
-+    # Check the python install is complete. glib-2.0-natives requries
-+    # xml.parsers.expat
-+    try:
-+        import xml.parsers.expat
-+    except ImportError:
-+        messages = messages + 'Your python is not a full install. Please install the module xml.parsers.expat (python-xml on openSUSE and SUSE Linux).\n'
- 
-     if (LooseVersion(bb.__version__) < LooseVersion(minversion)):
-         messages = messages + 'Bitbake version %s is required and version %s was found\n' % (minversion, bb.__version__)
--- 
-1.7.11.7
-
+-Martin
 
