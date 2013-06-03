@@ -1,33 +1,40 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 482ED6A588
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 14:22:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r53EML6e026041
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Jun 2013 07:22:21 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 3 Jun 2013 07:22:20 -0700
-Message-ID: <51ACA69C.2080303@windriver.com>
-Date: Mon, 3 Jun 2013 09:22:20 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id AF42F6A442;
+	Mon,  3 Jun 2013 15:09:54 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id e11so3344947wgh.14
+	for <multiple recipients>; Mon, 03 Jun 2013 08:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kionEyHYVZainY80hHrkTZjpqSGfzus3JlaDpCYR3D0=;
+	b=HP3m3kCCYWRueFB1q7CwamwoN6l39mcgVCogI4gQxIrBKJq8W1uKd01yCbw3yRjajx
+	X8mNPRv4trKQlvSsYLRj/8bN2cYm/5FUbRvJOFzekW10I1IgE+D1eOAN3oqfo9rnviKe
+	ghbUQR207iwUgRq3RAZr5GDWpqPsUEf3HfvpYo8HwHvLr+DfFmxDJMoO6fBYs3908Wb/
+	x/50jXsgqkBmgktDtrE8LCoog+i5L/gpCXOcOdfsDvIHYcXpxFjQwq8vI7m+tHQ1jaFo
+	DK76LMeZ4SxvDXEKFTLr/bbu7AgMtw6bjXn+ZSyPNMyzDGsFaJvY1DwXiZtt10KkOeBX
+	3vUw==
+X-Received: by 10.180.108.168 with SMTP id hl8mr13278850wib.23.1370272194000; 
+	Mon, 03 Jun 2013 08:09:54 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	h8sm24037520wiz.9.2013.06.03.08.09.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 03 Jun 2013 08:09:53 -0700 (PDT)
+Date: Mon, 3 Jun 2013 17:10:08 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20130603151008.GC3279@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama>
 MIME-Version: 1.0
-To: Philip Balister <philip@balister.org>
-References: <cover.1369820334.git.hongxu.jia@windriver.com>
-	<51A71980.30802@communistcode.co.uk>
-	<51A74370.3030700@windriver.com> <51A74CFA.5090609@balister.org>
-	<51A7751E.9060102@windriver.com>
-	<1369930392.8846.58.camel@phil-desktop.brightsign>
-	<51A77BD8.8020302@windriver.com> <51AC7C02.20907@balister.org>
-In-Reply-To: <51AC7C02.20907@balister.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4]Add FUSE: File system in Userspace
+In-Reply-To: <20130520130635.GA32431@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,88 +47,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 14:22:22 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Jun 2013 15:09:55 -0000
+X-Groupsio-MsgNum: 40119
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="O3RTKUHj+75w1tg5"
+Content-Disposition: inline
 
-On 6/3/13 6:20 AM, Philip Balister wrote:
-> On 05/30/2013 12:18 PM, Mark Hatle wrote:
->> On 5/30/13 11:13 AM, Phil Blundell wrote:
->>> On Thu, 2013-05-30 at 10:49 -0500, Mark Hatle wrote:
->>>> It has 413 recipes (and 2 bbappends).  Of the 413, likely many of
->>>> those should
->>>> really be in one of the other meta-openembedded layers (or even other
->>>> project
->>>> layers).  But my customers are not willing to bring in 413 packages
->>>> just for '1'
->>>> package they might need out of the set.
->>>>
->>>> (Similarly, we don't just "bring in" meta-openembedded either.. we
->>>> break out the
->>>> layers so only the ones we're willing to support, and our customers
->>>> need are
->>>> provided to them.)  There is no such thing as an "unsupported"
->>>> package when you
->>>> are a commercial vendor.
->>>
->>> I'm not entirely sure what you mean by "bring in" in this context or
->>> what the underlying rationale for your reluctance is.  But some general
->>> comments:
->>
->> Support and testing.. if the recipe is there we have to support it, if
->> we don't ship it to our customers -- they are free to source it
->> themselves, but it's clear that we didn't test and don't support it.
->>
->> We provide it, customers expect us to support it.  We're not willing to
->> support meta-oe due to the number of recipes in it.  oe-core,
->> meta-yocto, meta-networking, meta-selinux, meta-webserver, and others we
->> do use, test and provide to our customer.
->
-> Does this mean we should look at splitting meta-oe into more layers? Or
-> is this issue unique to Wind River?
+--O3RTKUHj+75w1tg5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think there is merit in looking at the contents of meta-oe over time and 
-splitting them up into functional units.  However, at this point I don't have 
-any direct suggestions as to what those units would be.
+On Mon, May 20, 2013 at 03:06:35PM +0200, Martin Jansa wrote:
+> Couple of issues from last email were fixed, so here is updated status:
+>=20
+> qemuarm Summary: 14 tasks failed:
+> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.2=
+0130520_090009.log
+> qemux86 Summary: 19 tasks failed:
+> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.2=
+0130519_170509.log
+> qemux86-64 Summary: 20 tasks failed:
+> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.2=
+0130520_005747.log
 
-> At some point, the layer dependencies get out of hand.
+Hi,
 
-Yes they do.  The number of layers and contents of them also have to be 
-reevaluated over time.  What makes sense for one release may drastically change 
-in the future and we have to be willing to adapt to the changing configurations. 
-  I think for the most part the sublayers within meta-openembedded are at 
-roughly the right level.  It's the general "meta-oe" that is the issue for us. 
-(Too many things we're not willing to support.)
+updated status, still building with gcc-4.8
+shr-version issue already fixed
+llvm2.9 also fixed
+so if we don't count these 3 failures it's a bit better than last status
 
---Mark
+qemuarm Summary: 15 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30601_225651.log
 
-> Philip
->
->>
->>> It's entirely possible to have a copy of meta-oe on hand and only
->>> include a subset of the recipes in the parse.  You can do that either by
->>> adding the layer and then BBMASKing out everything you don't want, or by
->>> not adding the layer as such but just admit individual recipes by adding
->>> them to BBFILES specifically.  Either of those approaches would avoid
->>> the risk of accidentally introducing dependencies on recipes from
->>> meta-oe without realising that this is what you are doing.
->>>
->>> Also, I think the toxicity of meta-oe nowadays is much less than it used
->>> to be (thanks mostly to excellent work by Paul in cleaning up
->>
->> I agree, it's significantly better now.  I do use meta-oe from time to
->> time on personal projects...
->>
->>> the .bbappends and overlapping recipes) and, as far as I know, the act
->>> of including meta-oe in your layer list no longer leads to the sort of
->>> random changes to recipe versions and behaviour that you might have
->>> gotten burned by in the past.  So if your previous experience is from
->>> some time ago then you might want to give it another try.
->>>
->>> p.
->>>
->>>
->>
->>
+qemux86 Summary: 18 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30603_011743.log/
 
+qemux86-64: Summary: 21 tasks failed:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30602_103752.log
 
+common (13):
+  meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.=
+32.1.bb, do_compile
+  meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb, do_compi=
+le
+  virtual:native:meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb=
+, do_compile
+  meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_compile
+  meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compi=
+le
+  meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb=
+, do_compile
+  meta-openembedded/meta-oe/recipes-connectivity/gnuradio/gnuradio_git.bb, =
+do_compile
+  meta-openembedded/meta-gnome/recipes-gnome/gthumb/gthumb_2.12.4.bb, do_co=
+mpile
+  meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.5.8.bb, do_configure
+  meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools=
+_0.7.2.bb, do_compile
+  meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, d=
+o_compile
+  meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb, do_configure
+  meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb, do_populate_lic
+
+qemuarm (2):
+  meta-openembedded/meta-oe/recipes-support/libunwind/libunwind_1.1.bb, do_=
+compile
+  openembedded-core/meta/recipes-devtools/qemu/qemu_1.4.1.bb, do_compile
+
+qemux86* common (3):
+  openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21=
+=2E6.bb, do_compile
+  meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+  openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+
+qemux86 (2):
+  meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_compile
+  meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2=
+=2E11.14.bb, do_compile
+
+qemux86-64 (5):
+  meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+  meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobil=
+edevice_1.1.4.bb, do_configure
+  meta-openembedded/meta-gnome/recipes-gnome/gnome-session/gnome-session_2.=
+32.1.bb, do_compile
+  meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_compile
+  meta-openembedded/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2=
+=2E1.26.bb, do_configure
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--O3RTKUHj+75w1tg5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGssdAACgkQN1Ujt2V2gBw1vwCgtX0F649EVbTFAOQrVhXPwm7E
+RaAAn3aiHAMq7PYQnCdY6p8W/awpfbGC
+=AJGR
+-----END PGP SIGNATURE-----
+
+--O3RTKUHj+75w1tg5--
