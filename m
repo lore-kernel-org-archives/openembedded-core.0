@@ -1,26 +1,24 @@
 Return-Path: <Ning.Zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D852560889
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8642460881
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  3 Jun 2013 05:21:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r535LPA8025208
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r535LNP0008376
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 2 Jun 2013 22:21:25 -0700 (PDT)
+	Sun, 2 Jun 2013 22:21:24 -0700 (PDT)
 Received: from pek-nzhang0-d3.wrs.com (128.224.162.247) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 2 Jun 2013 22:21:24 -0700
+	14.2.342.3; Sun, 2 Jun 2013 22:21:23 -0700
 From: Ning Zhang <ning.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Jun 2013 13:21:18 +0800
-Message-ID: <fc2f4a65e654e548bfba36505ed37285270667f5.1370228342.git.ning.zhang@windriver.com>
+Date: Mon, 3 Jun 2013 13:21:17 +0800
+Message-ID: <cover.1370228342.git.ning.zhang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1370228342.git.ning.zhang@windriver.com>
-References: <cover.1370228342.git.ning.zhang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] yocto_kernel: modify the msg when adding duplicate items
+Subject: [PATCH 0/1] yocto_kernel: modify the msg when adding duplicate items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 03 Jun 2013 05:21:24 -0000
 Content-Type: text/plain
 
-Privious check-in "yocto_kernel: check current items before add a
-new one" had been merged before I apply the feedback from Zanussi, Tom.
-Now fix it as a new patch.
+The following changes since commit 73dae11852c656adbf5a2b0e44ac4c7e0078cd8d:
 
-This fix modify the output message when customer adding duplicate
-items.
+  rpm: remove .real hacks in argument parsing (2013-05-31 14:02:45 +0100)
 
-[YOCTO #4558]
+are available in the git repository at:
 
-Signed-off-by: Ning Zhang <ning.zhang@windriver.com>
----
+  git://git.pokylinux.org/poky-contrib ning/bug4558
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ning/bug4558
+
+Ning Zhang (1):
+  yocto_kernel: modify the msg when adding duplicate items
+
  scripts/lib/bsp/kernel.py |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
-index 9ed6e94..94ae950 100644
---- a/scripts/lib/bsp/kernel.py
-+++ b/scripts/lib/bsp/kernel.py
-@@ -260,7 +260,7 @@ def yocto_kernel_config_add(scripts_path, machine, config_items):
-             print "\t%s" % n
- 
-     if len(dup_items) > 0:
--        output="Below item%s already exist%s in current configuration, ignore %s" % \
-+        output="The following item%s already exist%s in the current configuration, ignoring %s:" % \
-             (("","s", "it") if len(dup_items)==1 else ("s", "", "them" ))
-         print output
-         for n in dup_items:
 -- 
 1.7.9.5
 
