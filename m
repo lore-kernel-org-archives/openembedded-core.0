@@ -1,33 +1,20 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 34B71601AF
+Return-Path: <andy.voltz@timesys.com>
+Received: from exchange07.timesys.com (exchange07.timesys.com
+	[209.114.137.116])
+	by mail.openembedded.org (Postfix) with ESMTP id C3302601AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 16:22:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jun 2013 09:23:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,794,1363158000"; d="scan'208";a="347374530"
-Received: from unknown (HELO envy.home) ([10.255.13.115])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2013 09:22:57 -0700
-Message-ID: <51ACC2E1.9000206@linux.intel.com>
-Date: Mon, 03 Jun 2013 09:22:57 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+	Mon,  3 Jun 2013 16:40:12 +0000 (UTC)
+Received: from bob-linux.timesys.com (192.168.3.27) by exchange07.timesys.com
+	(192.168.1.221) with Microsoft SMTP Server id 8.1.436.0;
+	Mon, 3 Jun 2013 12:40:12 -0400
+From: Andy Voltz <andy.voltz@timesys.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 3 Jun 2013 12:40:17 -0400
+Message-ID: <1370277617-26698-1-git-send-email-andy.voltz@timesys.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Philip Balister <philip@balister.org>
-References: <51781746.2000509@linux.intel.com> <2278334.0GkpBHEP1r@helios>
-	<20130531173450.GC23802@jama> <51A8E185.1010303@linux.intel.com>
-	<938455D5-B24C-4B2E-880B-A235A10D22C5@dominion.thruhere.net>
-	<51AC7B73.8040005@balister.org>
-In-Reply-To: <51AC7B73.8040005@balister.org>
-X-Enigmail-Version: 1.5.1
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Garman,
-	Scott A" <scott.a.garman@intel.com>
-Subject: Re: Stable Release Process
+Cc: Andy Voltz <andy.voltz@timesys.com>
+Subject: [PATCH] tune-cortexa5.inc: add tune file for cortex-a5, based on a7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,56 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 16:22:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Jun 2013 16:40:13 -0000
+Content-Type: text/plain
 
+Signed-off-by: Andy Voltz <andy.voltz@timesys.com>
+---
+ meta/conf/machine/include/tune-cortexa5.inc |   36 +++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
 
-
-On 06/03/2013 04:18 AM, Philip Balister wrote:
-> On 06/03/2013 02:00 AM, Koen Kooi wrote:
->>
->> Op 31 mei 2013, om 19:44 heeft Darren Hart <dvhart@linux.intel.com> het volgende geschreven:
-
->>>> I like subject tags, at least because they are nicely shown in
->>>> patchwork subject, so I can easily sort incoming patches to right
->>>> bundles.
->>>>
->>>> And this problem with scaling when sending a patch for multiple 
->>>> releases we already have when tagging multiple affected layers
->>>> (which happens more often for meta-oe layers then multiple
->>>> releases).
->>>
->>> It has been expressed that this has been challenging to enforce
->>> (anything that is freeform is). Do you have any suggestions on how we
->>> could address that? Documentation? Firm maintainer policy of willfully
->>> ignoring non-tagged patches?
->>
->> An email saying "wrong tag, please read README and resubmit"
->> followed by willfully ignoring wrong tags has worked quite well in
->> the past. But only if the README clearly states the tags needed and
->> has a sample git-send-email cmdline.
-> 
-> I find the sample git send-email line in the README to be a huge
-> help for me.
-> 
-> Philip
-> 
-
-In my experience with this project and our maintainers, they are
-exceptionally good-natured and eager to help compared to some other
-projects. There would definitely be a painful period as they tried to
-resist reminding people and just pulling the patch in anyway. I think it
-could work, but we would have to be firm about it and document it well.
-Some kind of a stable-release.txt README is definitely in order.
-
-I went to check oe-core for some kind of existing documentation on
-policies and came up empty. Perhaps just documenting this
-pseudo-existing policy in a place where developers are likely to find it
-and can be easily referred to would be a good first step.
-
+diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+new file mode 100644
+index 0000000..139e65c
+--- /dev/null
++++ b/meta/conf/machine/include/tune-cortexa5.inc
+@@ -0,0 +1,36 @@
++DEFAULTTUNE ?= "armv7a-neon"
++
++require conf/machine/include/arm/arch-armv7a.inc
++
++TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa5", " -mtune=cortex-a5", "", d)}"
++
++# Little Endian base configs
++AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
++ARMPKGARCH_tune-cortexa5 = "cortexa5"
++ARMPKGARCH_tune-cortexa5t = "cortexa5"
++ARMPKGARCH_tune-cortexa5-neon = "cortexa5"
++ARMPKGARCH_tune-cortexa5t-neon = "cortexa5"
++TUNE_FEATURES_tune-cortexa5 = "${TUNE_FEATURES_tune-armv7a} cortexa5"
++TUNE_FEATURES_tune-cortexa5t = "${TUNE_FEATURES_tune-armv7at} cortexa5"
++TUNE_FEATURES_tune-cortexa5-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa5"
++TUNE_FEATURES_tune-cortexa5t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa5"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa5-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa5-vfp cortexa5-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa5-vfp cortexa5-vfp-neon cortexa5t2-vfp cortexa5t2-vfp-neon"
++
++# VFP Tunes
++AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon"
++ARMPKGARCH_tune-cortexa5hf = "cortexa5"
++ARMPKGARCH_tune-cortexa5thf = "cortexa5"
++ARMPKGARCH_tune-cortexa5hf-neon = "cortexa5"
++ARMPKGARCH_tune-cortexa5thf-neon = "cortexa5"
++TUNE_FEATURES_tune-cortexa5hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
++TUNE_FEATURES_tune-cortexa5thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa5"
++TUNE_FEATURES_tune-cortexa5hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa5"
++TUNE_FEATURES_tune-cortexa5thf-neon ?= "${TUNE_FEATURES_tune-armv7athf-neon} cortexa5"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa5hf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa5hf-vfp cortexa5hf-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-vfp-neon cortexa5t2hf-vfp cortexa5t2hf-vfp-neon"
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+1.7.9.5
+
 
