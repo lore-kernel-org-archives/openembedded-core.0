@@ -1,38 +1,34 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
-	[209.85.214.175])
-	by mail.openembedded.org (Postfix) with ESMTP id EE4F66A60E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2013 23:12:45 +0000 (UTC)
-Received: by mail-ob0-f175.google.com with SMTP id xn12so8203470obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2013 16:12:47 -0700 (PDT)
+Return-Path: <ka6sox@gmail.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B53BA6A5C4;
+	Mon,  3 Jun 2013 23:23:49 +0000 (UTC)
+Received: by mail-ob0-f174.google.com with SMTP id wd20so8314161obb.5
+	for <multiple recipients>; Mon, 03 Jun 2013 16:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=Qd+zkW/YancAHiPNbmewns7wOUZxvnJ4c3RL3W3njkI=;
-	b=09RM5vJAQJBK5BitRS5O0GwsiqGxiGg6xo9x5ix27M4J5myMBfoHOHIj/366k+3Beh
-	VBQAzBpERPUBc5xBclb4eyVm87ff45Ylvc5XkR5AFtLsO2NHAZ2hXwXOC2Q5Uj5n0MhV
-	n97S5kBAlrgbZsfwC2H/z3VwgehYnSbiA5bYPMdLEMrasCGM+hXe6bYVkRmlGHwZi3uG
-	EQBle7Bu+VHPqP3NQ9YJNqZx/BaAXN40o7yzXZnROwpVdWmwv6AFADdKShAhL1VO17nI
-	sXuT2n3BYRK5dOs4tQMNHdjDGCZDosVwCDEK+UeHc0e3LRwF/6PSROG0jjnM+GedAaR/
-	jLBw==
-X-Received: by 10.60.98.173 with SMTP id ej13mr11292619oeb.72.1370301167088;
-	Mon, 03 Jun 2013 16:12:47 -0700 (PDT)
-Received: from mediabox.gateway.2wire.net
-	(71-17-188-15.sktn.hsdb.sasknet.sk.ca. [71.17.188.15])
-	by mx.google.com with ESMTPSA id oe10sm3315459oeb.6.2013.06.03.16.12.46
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 03 Jun 2013 16:12:46 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2013 17:12:27 -0600
-Message-Id: <1370301147-4582-2-git-send-email-danismostlikely@gmail.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <1370301147-4582-1-git-send-email-danismostlikely@gmail.com>
-References: <1370301147-4582-1-git-send-email-danismostlikely@gmail.com>
-Cc: Dan McGregor <dan.mcgregor@usask.ca>
-Subject: [PATCH] python: enable IPv6 based on DISTRO_FEATURES
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=/nNyAnTNwuHLPRqZ2USva5+aDaiAYFKcZBswwG1k9bI=;
+	b=LbZf1cuHt7PCrJj6r8DJWQBaD4U1xfBo0aPNx0rpSjmZXEJaT0CzjJEwBV/b/k/qHR
+	6jstRZ6EH6PErc2ShTkac4TOBdX1lL+A9j9g7hPW+oeJozwx0quYoGTYETPceWEZVzz3
+	Fm0MuDYi0e36MCz68JgLrCVmRfyTj71PErTI6BhQfjlp0GFePb+zgBgGspvDYb2X05S+
+	hDUDg7QnSDImuygJ4QNFBFjtkhQfspev+/31WxsY+UP4I+XLIrqIYti4lkUHkKb+pZ6N
+	eALJOdtJxz0SMJedyf+edq2ibYZPUioZbNcTU/A4MVf7oNlncG4EZrMLKMeuufikk27m
+	+HDA==
+MIME-Version: 1.0
+X-Received: by 10.60.33.138 with SMTP id r10mr11413242oei.20.1370301830626;
+	Mon, 03 Jun 2013 16:23:50 -0700 (PDT)
+Received: by 10.76.152.231 with HTTP; Mon, 3 Jun 2013 16:23:50 -0700 (PDT)
+Date: Mon, 3 Jun 2013 16:23:50 -0700
+Message-ID: <CAHQecY6hwR3r4PU_TQ8_iPDTQw-+7M4W=0_aa1C0pp80HNp-DQ@mail.gmail.com>
+From: Tom King <ka6sox@gmail.com>
+To: oevotes@xora.org.uk, green@linuxhacker.ru, 
+	open-general@openwebosproject.org,
+	openembedded-core@lists.openembedded.org, 
+	openembedded-core-request@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org, 
+	openembedded-members@lists.openembedded.org, opensourcequestions@palm.com, 
+	openwebos-general@openwebosproject.org
+Subject: Hello
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +41,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 23:12:46 -0000
+X-List-Received-Date: Mon, 03 Jun 2013 23:23:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
-
-Base this on DISTRO_FEATURES, because we don't want it
-unconditionally enabled.
----
- meta/recipes-devtools/python/python.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index d0ed55b..80609a8 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -27,5 +27,6 @@ EXTRA_OECONF = "\
-   --with-signal-module \
-   --with-wctype-functions \
-   --enable-shared \
-+  --enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)} \
-   ${PYTHONLSBOPTS} \
- "
--- 
-1.8.1.4
-
+http://kk-ll.org/zg/ybusnx.ekrglmac
 
