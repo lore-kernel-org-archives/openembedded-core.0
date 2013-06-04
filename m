@@ -1,36 +1,29 @@
-Return-Path: <marcin@juszkiewicz.com.pl>
-Received: from tygrysek.juszkiewicz.com.pl (tygrysek.juszkiewicz.com.pl
-	[178.33.81.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 935DC6A567
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BF616A49F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 20:04:08 +0000 (UTC)
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id B3E7ED22DE; Tue,  4 Jun 2013 22:04:09 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id DCB66D22CD
+	Tue,  4 Jun 2013 21:01:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r54L1tCd011393
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 22:03:46 +0200 (CEST)
-Message-ID: <51AE4820.5010606@juszkiewicz.com.pl>
-Date: Tue, 04 Jun 2013 22:03:44 +0200
-From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Tue, 4 Jun 2013 14:01:57 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 4 Jun 2013 14:01:54 -0700
+Message-ID: <51AE55C0.7010703@windriver.com>
+Date: Tue, 4 Jun 2013 16:01:52 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+To: <openembedded-core@lists.openembedded.org>
 References: <mailman.5041.1370320509.3521.openembedded-core@lists.openembedded.org>
 	<20130604195725.GH18597@timesys.com>
-In-Reply-To: <20130604195725.GH18597@timesys.com>
-X-Enigmail-Version: 1.4.6
-OpenPGP: id=117A251E
+	<51AE4820.5010606@juszkiewicz.com.pl>
+In-Reply-To: <51AE4820.5010606@juszkiewicz.com.pl>
 Subject: Re: [PATCH] tune-cortexa5.inc: add tune file for cortex-a5, based on a7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,34 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2013 20:04:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 04 Jun 2013 21:01:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-W dniu 04.06.2013 21:57, Andy Voltz pisze:
+On 6/4/13 3:03 PM, Marcin Juszkiewicz wrote:
+> W dniu 04.06.2013 21:57, Andy Voltz pisze:
+>
+>> I just tried this solution with my vybrid cortex-a5 build. The only issue is a
+>> parse error on ${CORTEX_ID} here:
+>>
+>> TUNEVALID[cortex${CORTEX_ID}] = "Enable Cortex-${CORTEX_NAME} specific
+>>
+>> I amended the changes so that each tune-cortexa5.inc (for example) looks like:
+>>
+>> +CORTEX_ID = "a5"
+>> +
+>> +TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
+>> +
+>> +require conf/machine/include/tune-cortex.inc
+>>
+>> I didn't think it was worth having a CORTEX_NAME if TUNEVALID does not parse..
+>
+> Agree.
 
-> I just tried this solution with my vybrid cortex-a5 build. The only issue is a
-> parse error on ${CORTEX_ID} here: 
-> 
-> TUNEVALID[cortex${CORTEX_ID}] = "Enable Cortex-${CORTEX_NAME} specific
-> 
-> I amended the changes so that each tune-cortexa5.inc (for example) looks like:
-> 
-> +CORTEX_ID = "a5"
-> +
-> +TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
-> +
-> +require conf/machine/include/tune-cortex.inc
-> 
-> I didn't think it was worth having a CORTEX_NAME if TUNEVALID does not parse..
+I had forgotten about this limitation.  In a variable's [...] variable elements 
+are not extracted.
 
-Agree.
+>> My only other thought is perhaps tune-cortex.inc should be called
+>> tune-cortexa.inc? It seems like the m series is a different animal.
+>
+> Agree as well. M/R to be exact.
+>
+>> What do you think?
 
-> My only other thought is perhaps tune-cortex.inc should be called
-> tune-cortexa.inc? It seems like the m series is a different animal.
+This seems reasonable to me.
 
-Agree as well. M/R to be exact.
+--Mark
 
-> What do you think?
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
