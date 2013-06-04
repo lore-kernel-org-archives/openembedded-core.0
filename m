@@ -1,34 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 91B6C6A54E
+Return-Path: <andy.voltz@timesys.com>
+Received: from exchange07.timesys.com (exchange07.timesys.com
+	[209.114.137.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 1423F6A54E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 19:31:48 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id p58so575231wes.40
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jun 2013 12:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=AUIKThYFDFX2Tm+v0+G6A8tilWPjf7C+hGYENRwr2R8=;
-	b=KVffJhjYCGBOUqOsezKeU+N8w9MSdEjPj689dHh1241vr5xb6+3/QIY7av9eHs0cef
-	dbpc7s8g1vopbOmdGWCH7wpOw+vKHTWo+ysP4zKcV6mxIaxrBw79w2we0+2ib/CXI+CK
-	5o7ype/xIVHT99bdvmDI0KcxI47aXZdRe111PqSN/lMjglExMQwlN2BoDLLtAqSdahuQ
-	+8zormT6zGewMpDwSJPVidUuvMaXpVD9+gqHcj3DaRlmg4FmmppASWfbxoy2uMYgDfg8
-	OYcGWWSy6fs/D3m/KpROujAgdI59PbCbmOs1KSDSdmOMkKDNr7gUhxnkKIE9BEElLRVo
-	xMTA==
-X-Received: by 10.194.157.165 with SMTP id wn5mr25512798wjb.15.1370374307392; 
-	Tue, 04 Jun 2013 12:31:47 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id d5sm4901879wic.1.2013.06.04.12.31.46
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 04 Jun 2013 12:31:46 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jun 2013 21:32:01 +0200
-Message-Id: <1370374321-13624-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH] site: add alignment values for at-spi2-core
+	Tue,  4 Jun 2013 19:57:11 +0000 (UTC)
+Received: from timesys.com (192.168.3.27) by exchange07.timesys.com
+	(192.168.1.221) with Microsoft SMTP Server id 8.1.436.0; Tue, 4 Jun 2013
+	15:57:12 -0400
+Date: Tue, 4 Jun 2013 15:57:26 -0400
+From: Andy Voltz <andy.voltz@timesys.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20130604195725.GH18597@timesys.com>
+References: <mailman.5041.1370320509.3521.openembedded-core@lists.openembedded.org>
+MIME-Version: 1.0
+In-Reply-To: <mailman.5041.1370320509.3521.openembedded-core@lists.openembedded.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] tune-cortexa5.inc: add tune file for cortex-a5, based on a7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +29,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2013 19:31:50 -0000
+X-List-Received-Date: Tue, 04 Jun 2013 19:57:11 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-* x86 and x86_64 values were added in
-  8c46ec2edc0197b32d32e0f27d5b60271338b600
+> Date: Mon, 03 Jun 2013 23:18:24 +0200
+> From: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] tune-cortexa5.inc: add tune file for
+>         cortex-a5, based on a7
+> Message-ID: <51AD0820.8030302@juszkiewicz.com.pl>
+> Content-Type: text/plain; charset=UTF-8
+> 
+> W dniu 03.06.2013 18:40, Andy Voltz pisze:
+> > Signed-off-by: Andy Voltz <andy.voltz@timesys.com>
+> > ---
+> >  meta/conf/machine/include/tune-cortexa5.inc |   36 +++++++++++++++++++++++++++
+> 
+> I think that it is time to create simple tune-cortex.inc which would be
+> used by cores tunes to set all of it.
+> 
+> So tune-cortexa5.inc would be:
+> 
+> ----
+> CORTEX_ID   = "a5"
+> CORTEX_NAME = "A5"
+> 
+> require conf/machine/include/arm/tune-cortex.inc
+> ----
+> 
+> and tune-cortex.inc will have things like:
+> 
+> ----
+> DEFAULTTUNE ?= "armv7a-neon"
+> 
+> require conf/machine/include/arm/arch-armv7a.inc
+> 
+> TUNEVALID[cortex${CORTEX_ID}] = "Enable Cortex-${CORTEX_NAME} specific
+> processor optimizations"
+> TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES",
+> "cortex${CORTEX_ID}", " -mtune=cortex-${CORTEX_ID}", "", d)}"
+> 
+> # Little Endian base configs
+> AVAILTUNES += "cortex${CORTEX_ID} cortex${CORTEX_ID}t
+> cortex${CORTEX_ID}-neon cortex${CORTEX_ID}t-neon"
+> ARMPKGARCH_tune-cortex${CORTEX_ID} = "cortex${CORTEX_ID}"
+> ARMPKGARCH_tune-cortex${CORTEX_ID}t = "cortex${CORTEX_ID}"
+> ARMPKGARCH_tune-cortex${CORTEX_ID}-neon = "cortex${CORTEX_ID}"
+> ARMPKGARCH_tune-cortex${CORTEX_ID}t-neon = "cortex${CORTEX_ID}"
+> TUNE_FEATURES_tune-cortex${CORTEX_ID} = "${TUNE_FEATURES_tune-armv7a}
+> cortex${CORTEX_ID}"
+> TUNE_FEATURES_tune-cortex${CORTEX_ID}t = "${TUNE_FEATURES_tune-armv7at}
+> cortex${CORTEX_ID}"
+> TUNE_FEATURES_tune-cortex${CORTEX_ID}-neon =
+> "${TUNE_FEATURES_tune-armv7a-neon} cortex${CORTEX_ID}"
+> TUNE_FEATURES_tune-cortex${CORTEX_ID}t-neon =
+> "${TUNE_FEATURES_tune-armv7at-neon} cortex${CORTEX_ID}"
+> PACKAGE_EXTRA_ARCHS_tune-cortex${CORTEX_ID} =
+> "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortex${CORTEX_ID}-vfp"
+> PACKAGE_EXTRA_ARCHS_tune-cortex${CORTEX_ID}t =
+> "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortex${CORTEX_ID}-vfp
+> cortex${CORTEX_ID}t2-vfp"
+> PACKAGE_EXTRA_ARCHS_tune-cortex${CORTEX_ID}-neon =
+> "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortex${CORTEX_ID}-vfp
+> cortex${CORTEX_ID}-vfp-neon"
+> PACKAGE_EXTRA_ARCHS_tune-cortex${CORTEX_ID}t-neon =
+> "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortex${CORTEX_ID}-vfp
+> cortex${CORTEX_ID}-vfp-neon cortex${CORTEX_ID}t2-vfp
+> cortex${CORTEX_ID}t2-vfp-neon"
+> 
+> [..]
+> -----
+> 
+> What do you think?
+> 
+> 
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/site/arm-common | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I just tried this solution with my vybrid cortex-a5 build. The only issue is a
+parse error on ${CORTEX_ID} here: 
 
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index cad8027..b1cf05d 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -185,3 +185,13 @@ jm_cv_func_working_readdir=yes
- 
- # evolution-data-server
- ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+TUNEVALID[cortex${CORTEX_ID}] = "Enable Cortex-${CORTEX_NAME} specific
+
+I amended the changes so that each tune-cortexa5.inc (for example) looks like:
+
++CORTEX_ID = "a5"
 +
-+# dbind, in at-spi2-core
-+ac_cv_alignof_char=1
-+ac_cv_alignof_dbind_pointer=4
-+ac_cv_alignof_dbind_struct=1
-+ac_cv_alignof_dbus_bool_t=4
-+ac_cv_alignof_dbus_int16_t=2
-+ac_cv_alignof_dbus_int32_t=4
-+ac_cv_alignof_dbus_int64_t=8
-+ac_cv_alignof_double=8
--- 
-1.8.2.1
++TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
++
++require conf/machine/include/tune-cortex.inc
 
+I didn't think it was worth having a CORTEX_NAME if TUNEVALID does not parse..
+
+My only other thought is perhaps tune-cortex.inc should be called
+tune-cortexa.inc? It seems like the m series is a different animal.
+
+What do you think?
+
+Regards
+--
+Andy Voltz
+Linux Engineer
+Timesys Corporation
 
