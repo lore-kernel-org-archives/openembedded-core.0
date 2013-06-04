@@ -1,30 +1,24 @@
-Return-Path: <bruce.kumita@gmail.com>
-Received: from mail-ie0-f193.google.com (mail-ie0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D5AD360668
+Return-Path: <Xufeng.Zhang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 307A86086B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 04:35:08 +0000 (UTC)
-Received: by mail-ie0-f193.google.com with SMTP id 9so2429259iec.4
+	Tue,  4 Jun 2013 06:02:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5462i39022365
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2013 21:35:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=KlmB5chVR/ZUGrh8q7lMkY7ahT6I3vC1/GmrAP1bfgM=;
-	b=k80o3oEvyU/V4k36Xfj7vF0e64nVEACbzWJpXrv68U7RGNz7LWQEhYzC0ucwEP0Esk
-	DGcJdkJQmuAe+Ydylv7UL7fJAJfvZLxTPIQEiHlHC6P406KXZOPadK9bKPkVMDRLMTNU
-	Z32Fqz/tdihc2oVNjSpOQunv7/Z5A7VfXEQb290Jdx050ME9OTYQ8spJml0KHbEjYTyg
-	ep0jxjqWqoe4HU5pzPU9fPF7TiJiV/zieWe+DN+PqGXjxudWREhgqfnzErFtqXB2bbcD
-	URgVVFDKWkz9R5q9Pcime/vt86nNTZvAyqhF23J7k0xMwDxo6kZRFY09FvXFdCLStV15
-	Sz1A==
+	Mon, 3 Jun 2013 23:02:44 -0700 (PDT)
+Received: from localhost.localdomain (128.224.163.210) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 3 Jun 2013 23:02:43 -0700
+From: Xufeng Zhang <xufeng.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Jun 2013 14:15:30 +0800
+Message-ID: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.0.2
 MIME-Version: 1.0
-X-Received: by 10.50.122.100 with SMTP id lr4mr687212igb.8.1370320509531; Mon,
-	03 Jun 2013 21:35:09 -0700 (PDT)
-Received: by 10.64.229.114 with HTTP; Mon, 3 Jun 2013 21:35:09 -0700 (PDT)
-Date: Tue, 4 Jun 2013 12:35:09 +0800
-Message-ID: <CALaXJ9ka0jF6QGhBKNKi1crtn3woMQhB4sEa8Kqv3+=sZ-d4fw@mail.gmail.com>
-From: Kumita Bruce <bruce.kumita@gmail.com>
-To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Commercial usage of Yocto
+Subject: [PATCH] openssl: avoid NULL pointer dereference in three places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2013 04:35:09 -0000
-Content-Type: multipart/alternative; boundary=001a11c1f7a432fd3904de4c9bee
+X-List-Received-Date: Tue, 04 Jun 2013 06:02:43 -0000
+Content-Type: text/plain
 
---001a11c1f7a432fd3904de4c9bee
-Content-Type: text/plain; charset=ISO-8859-1
+There are three potential NULL pointer dereference in
+EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
+functions.
+Fix them by adding proper null pointer check.
 
-Yocto experts,
+[YOCTO #4600]
+[ CQID: WIND00373257 ]
 
-I am a learner of Yocto, Yocto is a very good tool to build images for
-embedded devices.
+Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
+---
+ ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   16 +++++++++
+ ...NULL-pointer-dereference-in-dh_pub_encode.patch |   34 ++++++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
+ 4 files changed, 53 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
 
-I have one question, can Yocto be used for commercial purpose? If the
-answer is yes, what should I do before using it for commercial purpose?
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+new file mode 100644
+index 0000000..69924a4
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+@@ -0,0 +1,16 @@
++openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
++
++We should avoid accessing the type pointer if it's NULL,
++this could happen if ctx->digest is not NULL.
++---
++--- a/crypto/evp/digest.c
+++++ b/crypto/evp/digest.c
++@@ -199,7 +199,7 @@
++ 		return 0;
++ 		}
++ #endif
++-	if (ctx->digest != type)
+++	if (type && (ctx->digest != type))
++ 		{
++ 		if (ctx->digest && ctx->digest->ctx_size)
++ 			OPENSSL_free(ctx->md_data);
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+new file mode 100644
+index 0000000..642b0ea
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+@@ -0,0 +1,34 @@
++openssl: avoid NULL pointer dereference in dh_pub_encode()/dsa_pub_encode()
++
++We should avoid accessing the pointer if ASN1_STRING_new()
++allocates memory failed.
++---
++--- a/crypto/dh/dh_ameth.c
+++++ b/crypto/dh/dh_ameth.c
++@@ -139,6 +139,12 @@
++ 	dh=pkey->pkey.dh;
++ 
++ 	str = ASN1_STRING_new();
+++	if (!str)
+++		{
+++		DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+++		goto err;
+++		}
+++
++ 	str->length = i2d_DHparams(dh, &str->data);
++ 	if (str->length <= 0)
++ 		{
++--- a/crypto/dsa/dsa_ameth.c
+++++ b/crypto/dsa/dsa_ameth.c
++@@ -148,6 +148,11 @@
++ 		{
++ 		ASN1_STRING *str;
++ 		str = ASN1_STRING_new();
+++		if (!str)
+++			{
+++			DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+++			goto err;
+++			}
++ 		str->length = i2d_DSAparams(dsa, &str->data);
++ 		if (str->length <= 0)
++ 			{
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index f5b2432..c753a27 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -5,7 +5,7 @@ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
+ SECTION = "libs/network"
+ 
+ # Big Jump for OpenSSL 1.0 support with meta-oe
+-INC_PR = "r15"
++INC_PR = "r16"
+ 
+ # "openssl | SSLeay" dual license
+ LICENSE = "openssl"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index 61de3a6..afd5576 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://openssl_fix_for_x32.patch \
+             file://openssl-fix-doc.patch \
+             file://find.pl \
++	    file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
++	    file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+            "
+ 
+ SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+-- 
+1.7.0.2
 
 
-Cheers,
-
-Bruce
-
---001a11c1f7a432fd3904de4c9bee
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yocto experts,<div><br></div><div style>I am a learner of =
-Yocto, Yocto is a very good tool to build images for embedded devices.=A0</=
-div><div style><br></div><div style>I have one question, can Yocto be used =
-for commercial purpose? If the answer is yes, what should I do before using=
- it for commercial purpose?=A0</div>
-<div style><br></div><div style><br></div><div style>Cheers,</div><div styl=
-e><br></div><div style>Bruce</div></div>
-
---001a11c1f7a432fd3904de4c9bee--
