@@ -1,27 +1,43 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D7B616065C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C68386065C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 12:06:41 +0000 (UTC)
-Message-ID: <51ADD851.50700@communistcode.co.uk>
-Date: Tue, 04 Jun 2013 13:06:41 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue,  4 Jun 2013 14:26:11 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id b13so275367wgh.30
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Jun 2013 07:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=gzGxD71uV0n/g8+ZLTPVtN2nRcr+3uanXZC/Usg0Whw=;
+	b=n9PKoDHOwU+v2ODIcAFpS3cYP9SZLyn+T33U5Yb5HGv1nuSBeVJxSJAyMsG+XBlw8t
+	MDCMRyKo3Ib5eC644L6vQWHTmPIDUw6w5Lnq/75wYBqMKi4njF+Gg3dSNZwKbhcnvj6p
+	EYt0CPu0yagL+P9x80qmnZzPyUq8bOm9cxfCGfV8nLTePAc9FRTsLsF+CCcynhxdskF5
+	FkY1lHxDXcyYbPo8mt987jQqqRnpyqD81Ef+X2iwmXbF4FWqpfm8A0uFAzOUIyABMGf/
+	fyxelO2/lr3zckluIb9FsTrINGhw/qb6RSSiNjqlwP+ydF1UyrVyF6O5YzBAbrwpWQ9r
+	ZpDg==
+X-Received: by 10.180.208.109 with SMTP id md13mr1214320wic.57.1370355971362; 
+	Tue, 04 Jun 2013 07:26:11 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	dj7sm3004046wib.6.2013.06.04.07.26.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 04 Jun 2013 07:26:10 -0700 (PDT)
+Date: Tue, 4 Jun 2013 16:26:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130604142627.GA30727@jama>
+References: <cover.1370012689.git.ross.burton@intel.com>
+	<5bed792688d848b38d1565e2705b1f9dca7a17d5.1370012689.git.ross.burton@intel.com>
+	<51ACFF04.80101@linux.intel.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130604115851.GD3279@jama>
-In-Reply-To: <20130604115851.GD3279@jama>
-Subject: Re: State of bitbake world
+In-Reply-To: <51ACFF04.80101@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/11] at-spi2: add -core and -atk, for GTK+ 3.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -31,113 +47,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2013 12:06:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Jun 2013 14:26:12 -0000
+X-Groupsio-MsgNum: 40153
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
 
-On 04/06/13 12:58, Martin Jansa wrote:
-> On Mon, Jun 03, 2013 at 05:10:08PM +0200, Martin Jansa wrote:
->> On Mon, May 20, 2013 at 03:06:35PM +0200, Martin Jansa wrote:
->>> Couple of issues from last email were fixed, so here is updated status:
->>>
->>> qemuarm Summary: 14 tasks failed:
->>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_090009.log
->>> qemux86 Summary: 19 tasks failed:
->>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130519_170509.log
->>> qemux86-64 Summary: 20 tasks failed:
->>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_005747.log
->>
->> Hi,
->>
->> updated status, still building with gcc-4.8
->> shr-version issue already fixed
->> llvm2.9 also fixed
->> so if we don't count these 3 failures it's a bit better than last status
->>
->> qemuarm Summary: 15 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130601_225651.log
->>
->> qemux86 Summary: 18 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130603_011743.log/
->>
->> qemux86-64: Summary: 21 tasks failed:
->> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130602_103752.log
->>
->> common (13):
->>    meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb, do_compile
->>    virtual:native:meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-connectivity/gnuradio/gnuradio_git.bb, do_compile
->>    meta-openembedded/meta-gnome/recipes-gnome/gthumb/gthumb_2.12.4.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.5.8.bb, do_configure
->>    meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
->>    meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, do_compile
->>    meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb, do_configure
->>    meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb, do_populate_lic
->>
->> qemuarm (2):
->>    meta-openembedded/meta-oe/recipes-support/libunwind/libunwind_1.1.bb, do_compile
->>    openembedded-core/meta/recipes-devtools/qemu/qemu_1.4.1.bb, do_compile
->>
->> qemux86* common (3):
->>    openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.6.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
->>    openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
->>
->> qemux86 (2):
->>    meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2.11.14.bb, do_compile
->>
->> qemux86-64 (5):
->>    meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
->>    meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobiledevice_1.1.4.bb, do_configure
->>    meta-openembedded/meta-gnome/recipes-gnome/gnome-session/gnome-session_2.32.1.bb, do_compile
->>    meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_compile
->>    meta-openembedded/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.26.bb, do_configure
->
-> I forgot to mention that many packages now detect /run directory and
-> install unshipped files, causing many new QA warnings, this isn't complete list,
-> because some packages were reused from sstate-cache:
->
-> usbmuxd-git: usbmuxd: Files/directories were installed but not shipped
->    /usr/lib64
->    /usr/lib64/libusbmuxd.so
->    /usr/lib64/libusbmuxd.so.1.0.8
->    /usr/lib64/libusbmuxd.so.2
->    /usr/lib64/pkgconfig
->    /usr/lib64/.debug
->    /usr/lib64/pkgconfig/libusbmuxd.pc
->    /usr/lib64/.debug/libusbmuxd.so.1.0.8
-> openldap-2.4.23: openldap: Files/directories were installed but not shipped
->    /run
-> networkmanager-0.9.8.0: networkmanager: Files/directories were installed but not shipped
->    /run
->    /run/NetworkManager
-> cherokee-1.2.98: cherokee: Files/directories were installed but not shipped
->    /run
-> nostromo-1.9.5: nostromo: Files/directories were installed but not shipped
->    /run
->    /run/nostromo
-> gdm-2.32.2: gdm: Files/directories were installed but not shipped
->    /run
->    /run/gdm
->    /run/gdm/greeter
-> collectd-5.2.2: collectd: Files/directories were installed but not shipped
->    /run
->
->
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What is the best way to go about fixing these?
+On Mon, Jun 03, 2013 at 01:39:32PM -0700, Saul Wold wrote:
+> On 05/31/2013 08:05 AM, Ross Burton wrote:
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >   meta/recipes-support/atk/at-spi2-atk_2.8.1.bb  |   19 +++++++++++++++=
+++++
+> >   meta/recipes-support/atk/at-spi2-core_2.8.0.bb |   17 +++++++++++++++=
+++
+> >   2 files changed, 36 insertions(+)
+> >   create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
+> >   create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+> >
+>=20
+> Ross,
+>=20
+> I ran into a do_configure issue with this new recipe, the at-spi2-core=20
+> failed to configure on my local test machine.
+>=20
+> Possibly this is the reason:
+> > configure:13783: checking alignment of char
+> > configure:13819: result: 0
+> > configure:13822: error: Failed to find alignment. Check config.log for =
+details.
+>=20
+> Sau!
 
+Hi,=20
 
--- 
+this issue is known:
+http://lists.openembedded.org/pipermail/openembedded-core/2013-February/075=
+178.html
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+>=20
+>=20
+>=20
+> > diff --git a/meta/recipes-support/atk/at-spi2-atk_2.8.1.bb b/meta/recip=
+es-support/atk/at-spi2-atk_2.8.1.bb
+> > new file mode 100644
+> > index 0000000..32cbe3b
+> > --- /dev/null
+> > +++ b/meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
+> > @@ -0,0 +1,19 @@
+> > +SUMMARY =3D "AT-SPI 2 Toolkit Bridge"
+> > +LICENSE =3D "LGPLv2"
+> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De9f288ba982d60518f375b58982=
+83886"
+> > +
+> > +MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+> > +
+> > +SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+> > +SRC_URI[md5sum] =3D "854e36a2538bea50bc08d33aa9499bb2"
+> > +SRC_URI[sha256sum] =3D "eb659b94fde6dc0a2f584c9121a5e6d39a4c8aa297d21d=
+8f9032f7a8a775fd06"
+> > +
+> > +DEPENDS =3D "dbus glib-2.0 atk at-spi2-core"
+> > +
+> > +inherit autotools
+> > +
+> > +PACKAGES =3D+ "${PN}-gnome ${PN}-gtk2"
+> > +
+> > +FILES_${PN}-gnome =3D "${libdir}/gnome-settings-daemon-3.0/gtk-modules"
+> > +FILES_${PN}-gtk2 =3D "${libdir}/gtk-2.0/modules/libatk-bridge.*"
+> > +FILES_${PN}-dbg +=3D "${libdir}/gtk-2.0/modules/.debug"
+> > diff --git a/meta/recipes-support/atk/at-spi2-core_2.8.0.bb b/meta/reci=
+pes-support/atk/at-spi2-core_2.8.0.bb
+> > new file mode 100644
+> > index 0000000..29851bb
+> > --- /dev/null
+> > +++ b/meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+> > @@ -0,0 +1,17 @@
+> > +SUMMARY =3D "Assistive Technology Service Provider Interface (dbus cor=
+e)"
+> > +LICENSE =3D "LGPLv2"
+> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De9f288ba982d60518f375b58982=
+83886"
+> > +
+> > +MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+> > +
+> > +SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+> > +SRC_URI[md5sum] =3D "93b57d5d56d15d1222ddf2386e2f869f"
+> > +SRC_URI[sha256sum] =3D "1861a30fc7f583d5a567a0ba547db67ce9bd294f0d1c9f=
+7403c96a10a481c458"
+> > +
+> > +DEPENDS =3D "dbus glib-2.0 virtual/libx11 libxi"
+> > +
+> > +inherit autotools gtk-doc
+> > +
+> > +EXTRA_OECONF =3D "--disable-introspection --disable-xevie"
+> > +
+> > +FILES_${PN} +=3D "${datadir}/dbus-1/services/*.service"
+> >
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGt+RMACgkQN1Ujt2V2gBw/1ACfUQLrbUQ+DUggwJH6siX5jhls
+spAAnivwy8KyK0fdZiiKF0bmzDr/KiBV
+=ljtV
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
