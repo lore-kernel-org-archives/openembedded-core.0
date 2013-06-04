@@ -1,36 +1,41 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E600261E92
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A94C6A49F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2013 21:28:54 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id m6so4194002wiv.11
+	Tue,  4 Jun 2013 21:38:18 +0000 (UTC)
+Received: by mail-ea0-f170.google.com with SMTP id h10so597257eaj.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jun 2013 14:28:55 -0700 (PDT)
+	Tue, 04 Jun 2013 14:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=iqA08Fj8mFA3+3+FjelL2rdGS4QdVVMrx+dS4hrYgPE=;
-	b=WItkqpfFPEUnOxNiFFxnuagSTST/k+TOsXw5/lBDbJPxcoyThuRP3kqb2NrGv8WaF3
-	mfA8OXLTCXLVZneidqH0AEaoPcRIF3Y63zvQo6MZfr5DJpJkWlnPDyyqKE/qpLFjFtVG
-	6Xo9X7u9QPMuSw3K4tGhycGPGM9F8Vq9JHN7KNebtNtrEA7BelGNwUiB9nLtLjQIcW9n
-	PtrQ2VOzyZM1Z7eACGatXMduj6grQnqQQx8E/wLdv8BhunjN7RSAE70x6d+2PAhNxgbh
-	kLijnFIE7FsXfiFvhINdlTejBPQutD/KMUOKQpUrhuX2wXfqmrqaVf25beibQBW8EMUw
-	lMpA==
-X-Received: by 10.180.9.35 with SMTP id w3mr3319962wia.51.1370381334859;
-	Tue, 04 Jun 2013 14:28:54 -0700 (PDT)
-Received: from mizar.localdomain
-	(host199-42-dynamic.183-80-r.retail.telecomitalia.it.
-	[80.183.42.199])
-	by mx.google.com with ESMTPSA id ca19sm5579880wib.3.2013.06.04.14.28.53
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 04 Jun 2013 14:28:54 -0700 (PDT)
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jun 2013 23:28:45 +0200
-Message-Id: <1370381325-8760-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.8.1.5
-Subject: [PATCH] image_types.bbclass: add ubifs to IMAGE_TYPES
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=J3t4Aq4UwE4xMUtCRwTTtDtmRFQIXUgrPTIcx0O444I=;
+	b=O4OavcTIdjqbfijlC1BMXAHtplEjhm2A0u9nQGgpKw0R9JQGb+s/OQMZKxDt8RLbFu
+	husuY/onesJQ5BW1J1lQo50Vt5uDS68Xo+OWNUdQR8Tf9P309UuNkeYPqV/Zj9sR+tvn
+	9T87cCIADlyhDn8S0pVxlNWACXTGV8nuf2pBVCf4X9BJKMRew4r6wVP24NRR62D9oMIR
+	CXMy1bRZruuUH395YeMWQRJ06IW7AwmyO/IzEa+8Oh3+wn7Gv+9+hgQkNUzaKapU7/dI
+	jCb4eB4KbyujkvGluZuULcMYxQWGDNuiWeCu/uxUN14SaTdPtCgrbY3/Y5FfHvrpOVSb
+	Kp+A==
+X-Received: by 10.14.219.136 with SMTP id m8mr12818350eep.86.1370381898961;
+	Tue, 04 Jun 2013 14:38:18 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	bo9sm80586036eeb.9.2013.06.04.14.38.17 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 04 Jun 2013 14:38:18 -0700 (PDT)
+Date: Tue, 4 Jun 2013 23:38:35 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130604213835.GC30727@jama>
+References: <cover.1370012689.git.ross.burton@intel.com>
+	<5bed792688d848b38d1565e2705b1f9dca7a17d5.1370012689.git.ross.burton@intel.com>
+	<51ACFF04.80101@linux.intel.com> <20130604142627.GA30727@jama>
+MIME-Version: 1.0
+In-Reply-To: <20130604142627.GA30727@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/11] at-spi2: add -core and -atk, for GTK+ 3.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +48,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2013 21:28:56 -0000
+X-List-Received-Date: Tue, 04 Jun 2013 21:38:19 -0000
+X-Groupsio-MsgNum: 40161
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="f0KYrhQ4vYSV2aJu"
+Content-Disposition: inline
 
-* the IMAGE_TYPES variable is used exclusively by hob
-* IMAGE_CMD_ubifs is already present in the class
-* ubifs images can be flashed on existing ubi volumes with 'ubiupdatevol'
+--f0KYrhQ4vYSV2aJu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jun 04, 2013 at 04:26:27PM +0200, Martin Jansa wrote:
+> On Mon, Jun 03, 2013 at 01:39:32PM -0700, Saul Wold wrote:
+> > On 05/31/2013 08:05 AM, Ross Burton wrote:
+> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > > ---
+> > >   meta/recipes-support/atk/at-spi2-atk_2.8.1.bb  |   19 +++++++++++++=
+++++++
+> > >   meta/recipes-support/atk/at-spi2-core_2.8.0.bb |   17 +++++++++++++=
+++++
+> > >   2 files changed, 36 insertions(+)
+> > >   create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
+> > >   create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+> > >
+> >=20
+> > Ross,
+> >=20
+> > I ran into a do_configure issue with this new recipe, the at-spi2-core=
+=20
+> > failed to configure on my local test machine.
+> >=20
+> > Possibly this is the reason:
+> > > configure:13783: checking alignment of char
+> > > configure:13819: result: 0
+> > > configure:13822: error: Failed to find alignment. Check config.log fo=
+r details.
+> >=20
+> > Sau!
+>=20
+> Hi,=20
+>=20
+> this issue is known:
+> http://lists.openembedded.org/pipermail/openembedded-core/2013-February/0=
+75178.html
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 38647cf..059af7d 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -240,7 +240,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
--- 
-1.8.1.5
+I've send site data for arm,=20
+http://lists.openembedded.org/pipermail/openembedded-core/2013-June/079485.=
+html
 
+but now I've noticed that ac_cv_alignof_char is also missing in x86_64
+version of Ross's patch
+http://git.openembedded.org/openembedded-core/commit/?id=3D8c46ec2edc0197b3=
+2d32e0f27d5b60271338b600
+so qemux86-64 also fails.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--f0KYrhQ4vYSV2aJu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGuXlsACgkQN1Ujt2V2gBz8VwCfcXcKSqm+DoeZfnTaH+XcFxCc
+/SYAn1PYEM94KUNg6k8Twp2iVxVt/w1O
+=pKKf
+-----END PGP SIGNATURE-----
+
+--f0KYrhQ4vYSV2aJu--
