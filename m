@@ -1,27 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from vms173013pub.verizon.net (vms173013pub.verizon.net
-	[206.46.173.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DDDC96A598
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 150966A598
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 16:40:38 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173013.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MNX00EV8IAW0N35@vms173013.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 05 Jun 2013 11:40:25 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id C1BE820091; Wed,
-	05 Jun 2013 12:40:08 -0400 (EDT)
-Date: Wed, 05 Jun 2013 12:40:08 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Message-id: <20130605164008.GB10298@denix.org>
-References: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
-MIME-version: 1.0
-In-reply-to: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	Wed,  5 Jun 2013 16:46:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 05 Jun 2013 09:44:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,808,1363158000"; d="scan'208";a="345269021"
+Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2013 09:47:10 -0700
+Message-ID: <51AF6B79.3040506@linux.intel.com>
+Date: Wed, 05 Jun 2013 09:46:49 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1370422910-24366-1-git-send-email-net147@gmail.com>
+	<20130605093056.GD30727@jama>
+In-Reply-To: <20130605093056.GD30727@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH dylan, master] Fix meta-toolchain-qte SDK build for x11-less DISTRO
+Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 16:40:39 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 05 Jun 2013 16:46:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ack, regardless of whether a separate X11DEPENDS variable stays or goes, as we 
-had the same fix for our SDKs for some time now (yeah, I'm well behind on 
-upstreaming my fixes, sorry).
+On 06/05/2013 02:30 AM, Martin Jansa wrote:
+> On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
+>> qconfig.pri was not being loaded by qmake properly. This means Qt
+>> qmake projects are unable to query QT_ARCH, QT_VERSION and other
+>> variables defined in qconfig.pri.
+>>
+>> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
+>> so that it can be located by qmake.
+>
+> There is such patch already:
+> http://lists.openembedded.org/pipermail/openembedded-core/2013-May/078314.html
+>
+Got lost in my queue, adding it for the next MUT.
 
-Acked-by: Denys Dmytriyenko <denys@ti.com>
-Tested-by: Denys Dmytriyenko <denys@ti.com>
+Sau!
 
-On Wed, Jun 05, 2013 at 09:24:27AM +0200, Nicolas Dechesne wrote:
-> When building QTe SDK for a DISTRO that does not have x11 FEATURES,
-> building meta-toolchain-qte failed because it unconditionally pulls in
-> nativesdk-libx11. The 'culprit' is meta/recipes-qt/qt4/nativesdk-qt4-tools.inc.
-> 
-> The fix is inspired from the following commits:
-> 
-> abf2ab7 dbus: only use x11 if DISTRO_FEATURES has selected it
-> ba22cfa cairo: only use x11 if selected in DISTRO_FEATURES
-> 
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> ---
->  meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> index cfc6fd8..3725cac 100644
-> --- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> +++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> @@ -1,5 +1,6 @@
->  DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
-> -DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
-> +X11DEPENDS = "nativesdk-libx11"
-> +DEPENDS = "nativesdk-zlib nativesdk-dbus qt4-native ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
->  SECTION = "libs"
->  HOMEPAGE = "http://qt.nokia.com"
->  LICENSE = "LGPLv2.1 | GPLv3"
-> -- 
-> 1.8.1.2
-> 
+
+>>
+>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> ---
+>>   meta/classes/qmake2.bbclass | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+>> index 5eebd8e..ca6b0f0 100644
+>> --- a/meta/classes/qmake2.bbclass
+>> +++ b/meta/classes/qmake2.bbclass
+>> @@ -22,3 +22,4 @@ export OE_QMAKE_LIBS_X11 = "-lXext -lX11 -lm"
+>>   export OE_QMAKE_LIBS_X11SM = "-lSM -lICE"
+>>   export OE_QMAKE_LRELEASE = "${STAGING_BINDIR_NATIVE}/lrelease4"
+>>   export OE_QMAKE_LUPDATE = "${STAGING_BINDIR_NATIVE}/lupdate4"
+>> +export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+>> --
+>> 1.8.2.3
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
