@@ -1,38 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9594E6A56D
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 00D126065C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 09:30:40 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id z12so472288wgg.31
+	Wed,  5 Jun 2013 10:02:19 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id m6so4634795wiv.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2013 02:30:40 -0700 (PDT)
+	Wed, 05 Jun 2013 03:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=iZ30pv50BqCiWeEAfSZokQDY/3ux/n3vEcOlGxIENYg=;
-	b=EwvTmHHTBT+x69wV1xxnVCN9nk2ajTtPHFOUSpQsJW/UxrViqvj1ZkhoSS8MSrIgg2
-	L9X9OaXMaOJEEMj+vLK8/HYBR8/y2Xi4oZGoInCMXLcYary1ea57LTIBeAfKkkocoEcV
-	ydpfFjGdSmFUYze0w+0vUoQ/lsGnnjIdefyrKSrDl3+iVlRI7/aYUdtypV1H3KSilxaL
-	863c1D4jmOiihkJYCp5ee+0WN2n2nbealBcAirfrQboTtQBF4KWvaZk1V3D4dDBTD0MX
-	G9mXD9XkuJwsUtpIm0mOnkGo6NGB0MLMhsP54WVNq357aIKSnLcsZ9aQUTgR4LHbJVgq
-	fE7A==
-X-Received: by 10.194.238.42 with SMTP id vh10mr17364738wjc.28.1370424640525; 
-	Wed, 05 Jun 2013 02:30:40 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=dSMur0Anyzr1N0YKOUMHKuGhVoIWjTSWa1P6yeGNgTg=;
+	b=eMIHz9V/4oeLTokHorPcoOFz+6yHQgVJfArYeWDvWUvsxDlpGiygoSXdZtxFxpBd0d
+	JP3mG7PFb5yjf1Km6rTCxW48dLVfiOTP2P7DmWmtjb3nuBbds87kKc5mi+OhXY/jY9RP
+	OL7YnrPjpbskmCLZ4HaKwGdPAnwQobxuHIZY0344+o2A9LZx3hjSgCD2ex2pJWdBe9U2
+	KkMQHrcuMebWxTV5Pe5I9YDzI9wfjbWZoeMa7T6NtIyiTQHwvJHRyyy70ER9DNTDbo+a
+	bHzEvwEjNdEJbBokio2D97KwYyStpvUb/PG6Wm4r4yhNnjfyCc4rwO0quZeTNsZev+n2
+	b15Q==
+X-Received: by 10.180.189.136 with SMTP id gi8mr5824340wic.11.1370426539724;
+	Wed, 05 Jun 2013 03:02:19 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id h8sm9037167wiz.9.2013.06.05.02.30.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 05 Jun 2013 02:30:39 -0700 (PDT)
-Date: Wed, 5 Jun 2013 11:30:56 +0200
+	by mx.google.com with ESMTPSA id
+	ay7sm9188561wib.9.2013.06.05.03.02.18 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Jun 2013 03:02:18 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Message-ID: <20130605093056.GD30727@jama>
-References: <1370422910-24366-1-git-send-email-net147@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1370422910-24366-1-git-send-email-net147@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2013 12:02:33 +0200
+Message-Id: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+Subject: [PATCHv2] site: add alignment values for at-spi2-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,66 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 09:30:40 -0000
-X-Groupsio-MsgNum: 40176
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/3yNEOqWowh/8j+e"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Jun 2013 10:02:20 -0000
 
---/3yNEOqWowh/8j+e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* x86 and x86_64 values were added in
+  8c46ec2edc0197b32d32e0f27d5b60271338b600
 
-On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
-> qconfig.pri was not being loaded by qmake properly. This means Qt
-> qmake projects are unable to query QT_ARCH, QT_VERSION and other
-> variables defined in qconfig.pri.
->=20
-> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
-> so that it can be located by qmake.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/site/arm-common   | 10 ++++++++++
+ meta/site/x86_64-linux |  3 ++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-There is such patch already:
-http://lists.openembedded.org/pipermail/openembedded-core/2013-May/078314.h=
-tml
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index cad8027..b1cf05d 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -185,3 +185,13 @@ jm_cv_func_working_readdir=yes
+ 
+ # evolution-data-server
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
++
++# dbind, in at-spi2-core
++ac_cv_alignof_char=1
++ac_cv_alignof_dbind_pointer=4
++ac_cv_alignof_dbind_struct=1
++ac_cv_alignof_dbus_bool_t=4
++ac_cv_alignof_dbus_int16_t=2
++ac_cv_alignof_dbus_int32_t=4
++ac_cv_alignof_dbus_int64_t=8
++ac_cv_alignof_double=8
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 78a3b85..2475d3d 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -125,7 +125,8 @@ ac_cv_func__restgpr_14_x=no
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
+-# dbind
++# dbind, in at-spi2-core
++ac_cv_alignof_char=1
+ ac_cv_alignof_dbind_pointer=8
+ ac_cv_alignof_dbind_struct=1
+ ac_cv_alignof_dbus_bool_t=4
+-- 
+1.8.2.1
 
->=20
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/classes/qmake2.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
-> index 5eebd8e..ca6b0f0 100644
-> --- a/meta/classes/qmake2.bbclass
-> +++ b/meta/classes/qmake2.bbclass
-> @@ -22,3 +22,4 @@ export OE_QMAKE_LIBS_X11 =3D "-lXext -lX11 -lm"
->  export OE_QMAKE_LIBS_X11SM =3D "-lSM -lICE"
->  export OE_QMAKE_LRELEASE =3D "${STAGING_BINDIR_NATIVE}/lrelease4"
->  export OE_QMAKE_LUPDATE =3D "${STAGING_BINDIR_NATIVE}/lupdate4"
-> +export OE_QMAKE_QT_CONFIG =3D "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pr=
-i"
-> --=20
-> 1.8.2.3
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/3yNEOqWowh/8j+e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGvBVAACgkQN1Ujt2V2gBzaxACfVipM8D70yl3abLwXk0yroCFl
-aTwAn0u4fs0AMnXlEgOmQ/pgKnoIataV
-=J6qq
------END PGP SIGNATURE-----
-
---/3yNEOqWowh/8j+e--
