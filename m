@@ -1,20 +1,22 @@
 Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1AE6A4D2
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F8C46A4D2
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 02:30:16 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2013 19:30:17 -0700
+	Thu,  6 Jun 2013 02:30:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 05 Jun 2013 19:28:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,811,1363158000"; d="scan'208";a="312963397"
+X-IronPort-AV: E=Sophos;i="4.87,811,1363158000"; d="scan'208";a="324978393"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2013 19:30:12 -0700
+	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2013 19:30:14 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2013 19:28:20 +0000
-Message-Id: <cover.1370460463.git.nitin.a.kamble@intel.com>
+Date: Wed,  5 Jun 2013 19:28:25 +0000
+Message-Id: <9d0b35fe8c4d81bc9034d7ab3086ba9550e63591.1370460463.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH 0/1] a bugfix for lsb image builds
+In-Reply-To: <cover.1370460463.git.nitin.a.kamble@intel.com>
+References: <cover.1370460463.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/1] tools-testapps: add xserver in dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 02:30:16 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 02:30:41 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This fixes a bug which affects any lsb (or non-X) image which 
-includes the tools-testapp package group.
+This package group adds packages needing Xserver, These packages
+demand X drivers such as EMGD driver. And if the image does not
+include Xserver then it causes a build error about Xserver like
+this:
+   Error: no package provides xorg-abi-video-8
 
-Thanks,
-Nitin
-The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
+Fix the issue by adding Xserver as one of the dependency.
 
-  lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+Fixes this bug:
+[YOCTO #4615]
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib nitin/misc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-
-Nitin A Kamble (1):
-  tools-testapps: add xserver in dependency
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index 343ae1c..6619a98 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -5,7 +5,7 @@
+ SUMMARY = "Testing tools/applications"
+ LICENSE = "MIT"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit packagegroup
+ 
+@@ -44,4 +44,5 @@ RDEPENDS_${PN} = "\
+     xvideo-tests \
+     ltp \
+     connman-client \
++    xserver-xorg \
+     "
 -- 
 1.8.1.4
 
