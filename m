@@ -1,23 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0D96065C
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 774176A598
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 16:30:53 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Jun 2013 09:30:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,808,1363158000"; d="scan'208";a="251060169"
-Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Jun 2013 09:30:49 -0700
-Message-ID: <51AF67B8.20502@linux.intel.com>
-Date: Wed, 05 Jun 2013 09:30:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Wed,  5 Jun 2013 16:32:58 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id fb19so2902881obc.23
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Jun 2013 09:32:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=deBckLQ5LI/1ZUQVD8SsAZDbjNnNMlMM16Bq8FGx4Hs=;
+	b=YwsCO2bc2XjrPKR97FTUwiLj4hSQ/uQ0nUsqd7uYJg8vZ9yZnPD4v/UaRXt1SfzQ/s
+	CUm6b3Ue2xKEMhChzLuHwgJwUDglqE1eOE2dw1gFMe3ysrbT1zX2IohsSlp3vkQ+dTfj
+	QSq/Zq8kzDUwARiR6+acCUsQr1hfV0/uu62PCTiKINSrTXtxaJnGoaTjhmkj9rOmdazK
+	mS9W01Dc/uWqXz2OR3l6BWkaRBiUBcxZKNV1iLbhgf6djTXCRfeCImlIk+RHZEWZ5Lev
+	qsJuGE6Q0V2YMjwNpU6En8OV+Qp/dUrEtO3Z02AIfQRLTTDyGNjiJXvYU9A59V0CmIY5
+	OcfA==
+X-Received: by 10.60.141.231 with SMTP id rr7mr15053782oeb.77.1370449978788;
+	Wed, 05 Jun 2013 09:32:58 -0700 (PDT)
 MIME-Version: 1.0
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Received: by 10.76.27.165 with HTTP; Wed, 5 Jun 2013 09:32:38 -0700 (PDT)
+In-Reply-To: <51AF67B8.20502@linux.intel.com>
 References: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
-In-Reply-To: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
+	<51AF67B8.20502@linux.intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 5 Jun 2013 18:32:38 +0200
+Message-ID: <CAP71WjzSHWmKYLTs3_Ao6Mt_sKnUdNCHM3dSMSs8FpKbVyuCoQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkO3Yewwack8czvMEXoqm5HviXWuNFySbYM4VPDFItn/NUuFMd3ZazpSXGVQrS3aJbXw7Jr
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH dylan, master] Fix meta-toolchain-qte SDK build for x11-less DISTRO
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,42 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 16:30:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Jun 2013 16:32:59 -0000
+Content-Type: multipart/alternative; boundary=047d7b339a3f2c746d04de6ac0dc
 
-On 06/05/2013 12:24 AM, Nicolas Dechesne wrote:
-> When building QTe SDK for a DISTRO that does not have x11 FEATURES,
-> building meta-toolchain-qte failed because it unconditionally pulls in
-> nativesdk-libx11. The 'culprit' is meta/recipes-qt/qt4/nativesdk-qt4-tools.inc.
->
-> The fix is inspired from the following commits:
->
-> abf2ab7 dbus: only use x11 if DISTRO_FEATURES has selected it
-> ba22cfa cairo: only use x11 if selected in DISTRO_FEATURES
->
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> ---
->   meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> index cfc6fd8..3725cac 100644
-> --- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> +++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> @@ -1,5 +1,6 @@
->   DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
-> -DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
-> +X11DEPENDS = "nativesdk-libx11"
-> +DEPENDS = "nativesdk-zlib nativesdk-dbus qt4-native ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+--047d7b339a3f2c746d04de6ac0dc
+Content-Type: text/plain; charset=ISO-8859-1
 
-You could just directly put the nativesdk-libx11 in place of the 
-variable, no need to have the variable there.
+On Wed, Jun 5, 2013 at 6:30 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Sau!
-
->   SECTION = "libs"
->   HOMEPAGE = "http://qt.nokia.com"
->   LICENSE = "LGPLv2.1 | GPLv3"
+> You could just directly put the nativesdk-libx11 in place of the variable,
+> no need to have the variable there.
 >
 
+yes, that's what I had initially, but found it was less easy to read...
+with X11DEPENDS it's more 'obvious' that there is something special.. that
+said, i can make the change if that's really needed.
+
+--047d7b339a3f2c746d04de6ac0dc
+Content-Type: text/html; charset=ISO-8859-1
+
+<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Wed, Jun 5, 2013 at 6:30 PM, Saul Wold <span dir="ltr">&lt;<a href="mailto:sgw@linux.intel.com" target="_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br>
+
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1ny" style="overflow:hidden">You could just directly put the nativesdk-libx11 in place of the variable, no need to have the variable there.<br>
+
+</div></blockquote></div><br>yes, that&#39;s what I had initially, but found it was less easy to read... with X11DEPENDS it&#39;s more &#39;obvious&#39; that there is something special.. that said, i can make the change if that&#39;s really needed.</div>
+
+<div class="gmail_extra"><br></div></div>
+
+--047d7b339a3f2c746d04de6ac0dc--
