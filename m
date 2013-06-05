@@ -1,24 +1,25 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id CF40F6A598
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6511962051
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 16:04:53 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173021.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MNX0041WGNQ1JP0@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 05 Jun 2013 11:04:44 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 0C56620091; Wed,
-	05 Jun 2013 12:04:38 -0400 (EDT)
-Date: Wed, 05 Jun 2013 12:04:37 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20130605160437.GA10298@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: eglibc-2.17 build breaks with nptl #include nested too deeply
+	Wed,  5 Jun 2013 16:16:11 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Jun 2013 09:16:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,807,1363158000"; d="scan'208";a="348590764"
+Received: from unknown (HELO helios.localnet) ([10.252.121.228])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2013 09:16:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Javier Viguera <javier.viguera@digi.com>
+Date: Wed, 05 Jun 2013 17:16:03 +0100
+Message-ID: <2054359.tVZUoD7RsO@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.2 (Linux/3.8.0-23-generic; KDE/4.10.2; i686; ; )
+In-Reply-To: <519A1B6A.8080600@digi.com>
+References: <519A1B6A.8080600@digi.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gst-plugins-base tremor build time dependence?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 16:04:54 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 05 Jun 2013 16:16:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Has anyone seen this issue before - my builds are failing with the following:
+Hi Javier,
 
-                  from ../ports/sysdeps/arm/sysdeps/../nptl/pthread_spin_lock.c:23,
-                  from ../ports/sysdeps/arm/sysdeps/../nptl/pthread_spin_lock.c:23,
-                  from ../ports/sysdeps/arm/nptl/pthread_spin_lock.c:23:
-../ports/sysdeps/arm/sysdeps/../nptl/pthread_spin_lock.c:23:47: error: #include nested too deeply
+On Monday 20 May 2013 14:47:38 Javier Viguera wrote:
+> In gst-plugins-base package there is a patch that explicitly removes the
+> '-DTREMOR' symbol so the package compiles without that support:
+> 
+> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-multimedia
+> /gstreamer/gst-plugins-base-0.10.36/gst-plugins-base-tremor.patch>
+> 
+> But then the gst-plugins-base bitbake recipe has a build-time dependence
+> on tremor:
+> 
+> <http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-multimedia
+> /gstreamer/gst-plugins-base_0.10.36.bb>
+> 
+> DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora
+> util-linux *tremor*"
+> 
+> Is this expected?
+> Can tremor build-time dependence be removed?
+> 
+> If this is the case i can cook up a patch, but I'm not sure if I'm
+> missing something else.
 
-Google only returns a recent discussion on the Cygwin list:
+I just had a look at this. It's not at all clear from the commit message that 
+added this patch (which was quite a long time ago) but I don't think it can be 
+removed outright; without tremor the ivorbisdec plugin won't be built, so 
+despite the removal of -DTREMOR, tremor still appears to be being used. If 
+this is something you don't want then it's probably more a case of needing to 
+introduce a PACKAGECONFIG option to disable it.
 
-http://cygwin.1069669.n5.nabble.com/BUG-Ability-to-access-nonexistent-directories-td98708.html
-
-But, I'm building this on Ubuntu 12.04, not Cygwin. Any pointers, while I 
-keep digging? Thanks.
+Cheers,
+Paul
 
 -- 
-Denys
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
