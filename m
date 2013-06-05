@@ -1,20 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1AC6041D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 22:57:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jun 2013 15:57:48 -0700
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D1AE6A4D2
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu,  6 Jun 2013 02:30:16 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2013 19:30:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,809,1363158000"; d="scan'208";a="348768692"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.19])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2013 15:57:15 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2013 15:57:15 -0700
-Message-Id: <1370473035-22756-1-git-send-email-sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,811,1363158000"; d="scan'208";a="312963397"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
+	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2013 19:30:12 -0700
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2013 19:28:20 +0000
+Message-Id: <cover.1370460463.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] self-hosted: Add libssp libraries to packagegroup/image
+Subject: [PATCH 0/1] a bugfix for lsb image builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 22:57:15 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 02:30:16 -0000
 
-These libraries are needed to ensure when the -fstack-protector flags
-are used the compile will complete and not fail due to missing libraries
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-[YOCTO #4586]
+This fixes a bug which affects any lsb (or non-X) image which 
+includes the tools-testapp package group.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb |    3 +++
- 1 file changed, 3 insertions(+)
+Thanks,
+Nitin
+The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 6dcc44a..ed73617 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -75,6 +75,9 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     intltool \
-     ldd \
-     less \
-+    libssp \
-+    libssp-dev \
-+    libssp-staticdev \
-     libstdc++ \
-     libstdc++-dev \
-     libtool \
+  lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib nitin/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (1):
+  tools-testapps: add xserver in dependency
+
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
 -- 
-1.7.10.4
+1.8.1.4
 
 
