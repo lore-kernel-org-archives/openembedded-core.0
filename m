@@ -1,39 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F99661E92
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F7CE61E92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 12:29:41 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id c10so1217841wiw.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2013 05:29:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=zAzmpct2y56oFvi8UsMeC3U4bg64bfDwRKUGdZKcnCM=;
-	b=Ec1zDdlZ4Np93E5Ipu45cZMFg7lZY5d4kRWply4VwMddQRgwiUViPieQUWAxgHkFXd
-	B6zp2TdCPWjr52Z0DiktgaT/xoPDU4yfNiqygMzbAI4rDDq/cxj1LYsxZHS13a9Grbhh
-	Aite5dHZcRY3V5ara0ZCqkXj+ejEYyoiPAoloH9KLSuOLS0ICHAHpBFZ7L90f9yYyIjh
-	9mwxHhesMe4YD2jcuJQfgGrY+eotc5eCk9bh5EheivJvkxBW540aoJnnZakPqnntjm4+
-	ONVL3a0FWdK25QC9JhNLH2HeoZMJoRccA2jjmhV3070kGFmVqG1lqDZ09D8DB9/Pv2Dv
-	7wNw==
-X-Received: by 10.180.14.130 with SMTP id p2mr6446331wic.32.1370435381263;
-	Wed, 05 Jun 2013 05:29:41 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	b19sm4173808wik.10.2013.06.05.05.29.40 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 05 Jun 2013 05:29:40 -0700 (PDT)
-Date: Wed, 5 Jun 2013 14:29:58 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20130605122958.GF30727@jama>
-References: <1370434054-5470-1-git-send-email-cristian.iorga@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1370434054-5470-1-git-send-email-cristian.iorga@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: upgrade to 1.15
+	Wed,  5 Jun 2013 12:46:14 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2013 05:46:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,806,1363158000"; d="scan'208";a="312617031"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2013 05:46:13 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2013 15:47:15 +0300
+Message-Id: <1370436435-3822-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] iptables: upgrade to 1.4.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,76 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 12:29:42 -0000
-X-Groupsio-MsgNum: 40180
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="xaMk4Io5JJdpkLEb"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Jun 2013 12:46:14 -0000
 
---xaMk4Io5JJdpkLEb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+fix-iptables-extensions-build-error.patch no longer needed.
 
-On Wed, Jun 05, 2013 at 03:07:34PM +0300, Cristian Iorga wrote:
-> Bugfix release.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../fix-iptables-extensions-build-error.patch      |   44 --------------------
+ .../{iptables_1.4.18.bb => iptables_1.4.19.1.bb}   |    5 +--
+ 2 files changed, 2 insertions(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch
+ rename meta/recipes-extended/iptables/{iptables_1.4.18.bb => iptables_1.4.19.1.bb} (90%)
 
-Duplicate
-http://lists.openembedded.org/pipermail/openembedded-core/2013-June/079477.=
-html
+diff --git a/meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch b/meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch
+deleted file mode 100644
+index 4cd919d..0000000
+--- a/meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 0a43f156e23edf616859ac5a8c90e41ccc5cb1cd Mon Sep 17 00:00:00 2001
+-From: Cristian Iorga <cristian.iorga@intel.com>
+-Date: Wed, 16 Jan 2013 20:14:43 +0200
+-Subject: [PATCH] extensions: fix iptables extensions build error            
+- in cross-compilation environments
+-
+-libtool is properly declared and used for cross-platform
+-build environments
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+----
+- extensions/GNUmakefile.in |    5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/extensions/GNUmakefile.in b/extensions/GNUmakefile.in
+-index adad4d6..befb1fb 100644
+---- a/extensions/GNUmakefile.in
+-+++ b/extensions/GNUmakefile.in
+-@@ -13,6 +13,7 @@ xtlibdir     = @xtlibdir@
+- 
+- CC                 = @CC@
+- CCLD               = ${CC}
+-+LIBTOOL            = @LIBTOOL@
+- CFLAGS             = @CFLAGS@
+- CPPFLAGS           = @CPPFLAGS@
+- LDFLAGS            = @LDFLAGS@
+-@@ -94,10 +95,10 @@ lib%.so: lib%.la
+- 	${AM_VERBOSE_NULL} ln -fs .libs/$@ $@
+- 
+- lib%.la: lib%.lo
+--	${AM_VERBOSE_CCLD} ../libtool ${AM_LIBTOOL_SILENT} --tag=CC --mode=link ${CCLD} ${AM_LDFLAGS} -module ${LDFLAGS} -o $@ $< ../libxtables/libxtables.la ${$*_LIBADD} -rpath ${xtlibdir}
+-+	${AM_VERBOSE_CCLD} ${LIBTOOL} ${AM_LIBTOOL_SILENT} --tag=CC --mode=link ${CCLD} ${AM_LDFLAGS} -module ${LDFLAGS} -o $@ $< ../libxtables/libxtables.la ${$*_LIBADD} -rpath ${xtlibdir}
+- 
+- lib%.lo: ${srcdir}/lib%.c
+--	${AM_VERBOSE_CC} ../libtool ${AM_LIBTOOL_SILENT} --tag=CC --mode=compile ${CC} ${AM_CPPFLAGS} ${AM_DEPFLAGS} ${AM_CFLAGS} -D_INIT=lib$*_init ${CFLAGS} -o $@ -c $<
+-+	${AM_VERBOSE_CC} ${LIBTOOL} ${AM_LIBTOOL_SILENT} --tag=CC --mode=compile ${CC} ${AM_CPPFLAGS} ${AM_DEPFLAGS} ${AM_CFLAGS} -D_INIT=lib$*_init ${CFLAGS} -o $@ -c $<
+- 
+- libxt_NOTRACK.so: libxt_CT.so
+- 	${AM_VERBOSE_GEN} ln -fs $< $@
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-extended/iptables/iptables_1.4.18.bb b/meta/recipes-extended/iptables/iptables_1.4.19.1.bb
+similarity index 90%
+rename from meta/recipes-extended/iptables/iptables_1.4.18.bb
+rename to meta/recipes-extended/iptables/iptables_1.4.19.1.bb
+index bb8718f..a98ad4c 100644
+--- a/meta/recipes-extended/iptables/iptables_1.4.18.bb
++++ b/meta/recipes-extended/iptables/iptables_1.4.19.1.bb
+@@ -21,12 +21,11 @@ FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
+ 
+ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://types.h-add-defines-that-are-required-for-if_packet.patch \
+-           file://fix-iptables-extensions-build-error.patch \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+           "
+ 
+-SRC_URI[md5sum] = "a819199d5ec013b82da13a8ffbba857e"
+-SRC_URI[sha256sum] = "14a99fb8b0ca22027a9ac6eb72fa32c834ceb3073820e0ba79bf251c6a7bcf3c"
++SRC_URI[md5sum] = "be97ce9007fa42c867901b496c935a0a"
++SRC_URI[sha256sum] = "dd51d3b942758a462afc7c8495930d25c93058e5319303247375183ad50164d2"
+ 
+ inherit autotools
+ 
+-- 
+1.7.10.4
 
->=20
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->  .../connman/{connman_1.14.bb =3D> connman_1.15.bb}                   |  =
-  4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-connectivity/connman/{connman_1.14.bb =3D> connman_1=
-=2E15.bb} (73%)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman_1.14.bb b/meta/rec=
-ipes-connectivity/connman/connman_1.15.bb
-> similarity index 73%
-> rename from meta/recipes-connectivity/connman/connman_1.14.bb
-> rename to meta/recipes-connectivity/connman/connman_1.15.bb
-> index f9a5ecc..0ec29c9 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.14.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.15.bb
-> @@ -7,8 +7,8 @@ SRC_URI  =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${=
-BP}.tar.xz \
->              file://inet-fix-ip-cleanup-functions.patch \
->              "
-> =20
-> -SRC_URI[md5sum] =3D "6c9ecaf9c044f8c66a7b465f6716b569"
-> -SRC_URI[sha256sum] =3D "d0c37452a4e8eec27e433ff901a6c447963b9d8a8ceddd4a=
-7311cc322e2dbf8c"
-> +SRC_URI[md5sum] =3D "e785c0c4564bfffb5215272f1be6f17c"
-> +SRC_URI[sha256sum] =3D "8229cc5e3e75197453ba2a644c03860a7cf9f4f27fcbf111=
-bb589530d4efb58f"
-> =20
->  PR =3D "${INC_PR}.0"
-> =20
-> --=20
-> 1.7.10.4
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---xaMk4Io5JJdpkLEb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGvL0YACgkQN1Ujt2V2gByjiQCffZlXQPkj4lYjDvtK1WgT+GBZ
-W/kAnjAfYLFKAHmCiASMhpOMx92blNRB
-=EzyF
------END PGP SIGNATURE-----
-
---xaMk4Io5JJdpkLEb--
