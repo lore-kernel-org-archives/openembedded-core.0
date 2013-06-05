@@ -1,36 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FF1061AD1
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A71061AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 08:13:28 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha11so886869vcb.21
+	Wed,  5 Jun 2013 08:48:11 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id hz11so5889pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2013 01:13:29 -0700 (PDT)
+	Wed, 05 Jun 2013 01:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=vWNrjeysKhDZHRqYIQ2bQgpnGF+MFuWRvHDmNy02ScM=;
-	b=rAea12h8V3u8UkepgEBBh5WWykfj6Ga8znrAKqnLqTp4Jqps1reCPEEFBX5qNgFlaM
-	4c31WnYFC7DKnL2auctr2qIhXVismNGkFfoQ+1RID9ZionmPnUU1dhe4GOCqblNiZWnj
-	RYo7QG5mP68sT5UgrK1u/OBg1geo/1eNtDrvBy1BkArRRNL3BgOFKrGvNiAPobDTOCid
-	Q78ZJTH654ihjMoBF4Ndkini+qmlZa7ANIqDntl9W6DQB3XZGEV7Qs2mGb1zweBGE0gv
-	88hHWw+iSEqtyELf7MWZN8T/8PIUXVSAq7r/m9sG8zhUC5pq8ju2ScW/NUzYrgMPbU8F
-	6uxg==
-MIME-Version: 1.0
-X-Received: by 10.52.164.98 with SMTP id yp2mr3658013vdb.111.1370420008892;
-	Wed, 05 Jun 2013 01:13:28 -0700 (PDT)
-Received: by 10.58.34.132 with HTTP; Wed, 5 Jun 2013 01:13:28 -0700 (PDT)
-In-Reply-To: <1370419439.1640.38.camel@ted>
-References: <1370401139-15582-1-git-send-email-net147@gmail.com>
-	<1370419439.1640.38.camel@ted>
-Date: Wed, 5 Jun 2013 18:13:28 +1000
-Message-ID: <CANwerB1jH1dZrRQdMyJPqjrXyP5KYdz9XCmFX=O8i9g8yFq-2w@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ikKaIGWYEZ6u0dK9S9yXwNrEOwRPdFeW3kxK0Y9uco0=;
+	b=njrGsEyczs+9WsAEHw8gBymJlGm9Lyhr4cApdtjHNbbLlTSrWrZKjeBl+2q9qYOvQd
+	YsDKQweq6lJRhuiwPdnLob2nXqrZ4Rz7cYYaue0LxOre5AnkRFR/87X1aWiBemwhxams
+	GJrnWQqbJxgrCYQVI7KHTud7p+susGOorec4Y8vOXH1NtPeB/WfXl95qpPpfvd0BM+mp
+	SLSNoBTBhJVS7f8FpX7EF84pRy9VKN18eR/iXL4lbmUV5gJSVaUeQHI2LKlsPE8HqXrP
+	LftiaXMl/8vnbHLEMdHmoIQMWTYvoq7RGz8Gm0Mnou0Zq9oUjdYF2gM/nKZNjD71utRb
+	MVnA==
+X-Received: by 10.68.233.4 with SMTP id ts4mr32435777pbc.121.1370422091981;
+	Wed, 05 Jun 2013 01:48:11 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	i16sm22886480pag.18.2013.06.05.01.48.09 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Jun 2013 01:48:11 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] valgrind: allow native builds
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2013 19:01:50 +1000
+Message-Id: <1370422910-24366-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 08:13:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Jun 2013 08:48:11 -0000
 
-On 5 June 2013 18:03, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2013-06-05 at 12:58 +1000, Jonathan Liu wrote:
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/recipes-devtools/valgrind/valgrind_3.8.1.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> index 3520d49..503e996 100644
->> --- a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> +++ b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
->>
->>  X11DEPENDS = "virtual/libx11"
->>  DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
->> +BBCLASSEXTEND = "native"
->>  PR = "r8"
->>
->>  SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->
-> Why? Commit message is rather short.
->
-> Cheers,
->
-> Richard
->
-I have a recipe that can make use of it.
+qconfig.pri was not being loaded by qmake properly. This means Qt
+qmake projects are unable to query QT_ARCH, QT_VERSION and other
+variables defined in qconfig.pri.
 
-Regards,
-Jonathan
+Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
+so that it can be located by qmake.
+
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/qmake2.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+index 5eebd8e..ca6b0f0 100644
+--- a/meta/classes/qmake2.bbclass
++++ b/meta/classes/qmake2.bbclass
+@@ -22,3 +22,4 @@ export OE_QMAKE_LIBS_X11 = "-lXext -lX11 -lm"
+ export OE_QMAKE_LIBS_X11SM = "-lSM -lICE"
+ export OE_QMAKE_LRELEASE = "${STAGING_BINDIR_NATIVE}/lrelease4"
+ export OE_QMAKE_LUPDATE = "${STAGING_BINDIR_NATIVE}/lupdate4"
++export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+-- 
+1.8.2.3
+
 
