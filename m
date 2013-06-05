@@ -1,26 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DEBC6065C
+Return-Path: <denis@denix.org>
+Received: from vms173013pub.verizon.net (vms173013pub.verizon.net
+	[206.46.173.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DDDC96A598
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 16:39:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jun 2013 09:39:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,808,1363158000"; d="scan'208";a="348606810"
-Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2013 09:39:17 -0700
-Message-ID: <51AF69B5.2000503@linux.intel.com>
-Date: Wed, 05 Jun 2013 09:39:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: rongqing.li@windriver.com
-References: <cover.1370412765.git.rongqing.li@windriver.com>
-	<d4b82e1f0f05214985908f11d844899b31adf9fa.1370412765.git.rongqing.li@windriver.com>
-In-Reply-To: <d4b82e1f0f05214985908f11d844899b31adf9fa.1370412765.git.rongqing.li@windriver.com>
+	Wed,  5 Jun 2013 16:40:38 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173013.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MNX00EV8IAW0N35@vms173013.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 05 Jun 2013 11:40:25 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id C1BE820091; Wed,
+	05 Jun 2013 12:40:08 -0400 (EDT)
+Date: Wed, 05 Jun 2013 12:40:08 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Message-id: <20130605164008.GB10298@denix.org>
+References: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
+MIME-version: 1.0
+In-reply-to: <1370417067-30166-1-git-send-email-nicolas.dechesne@linaro.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] socat: enable termios
+Subject: Re: [PATCH dylan, master] Fix meta-toolchain-qte SDK build for x11-less DISTRO
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,196 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 16:39:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Jun 2013 16:40:39 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 06/05/2013 12:30 AM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> fix two cross-compile issue to enable termios
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Ack, regardless of whether a separate X11DEPENDS variable stays or goes, as we 
+had the same fix for our SDKs for some time now (yeah, I'm well behind on 
+upstreaming my fixes, sorry).
+
+Acked-by: Denys Dmytriyenko <denys@ti.com>
+Tested-by: Denys Dmytriyenko <denys@ti.com>
+
+On Wed, Jun 05, 2013 at 09:24:27AM +0200, Nicolas Dechesne wrote:
+> When building QTe SDK for a DISTRO that does not have x11 FEATURES,
+> building meta-toolchain-qte failed because it unconditionally pulls in
+> nativesdk-libx11. The 'culprit' is meta/recipes-qt/qt4/nativesdk-qt4-tools.inc.
+> 
+> The fix is inspired from the following commits:
+> 
+> abf2ab7 dbus: only use x11 if DISTRO_FEATURES has selected it
+> ba22cfa cairo: only use x11 if selected in DISTRO_FEATURES
+> 
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 > ---
->   .../socat/files/fix-xxx_SHIFT-autoheader.patch     |   40 +++++++++
->   .../socat/files/fix_termios.patch                  |   85 ++++++++++++++++++++
->   meta/recipes-connectivity/socat/socat_1.7.2.1.bb   |    8 +-
->   3 files changed, 129 insertions(+), 4 deletions(-)
->   create mode 100644 meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
->   create mode 100644 meta/recipes-connectivity/socat/files/fix_termios.patch
->
-> diff --git a/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch b/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
-> new file mode 100644
-> index 0000000..6f7b30b
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
-> @@ -0,0 +1,40 @@
-> +Subject: [PATCH] fix autoheader for *_SHIFT values.
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +
-I am wondering if this could be submitted upstream?
-
-
-> +autoheader would not generate C `#define' statements if
-> +the first param of AC_DEFINE_UNQUOTED is a shell variable.
-> +This will cause build failures while enable termios, so
-> +expand these AC_DEFINE_UNQUOTED from the macro.
-> +
-> +Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
-> +---
-> + configure.in |    5 +++--
-> + 1 file changed, 3 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/configure.in b/configure.in
-> +index c54e4c4..13bae64 100644
-> +--- a/configure.in
-> ++++ b/configure.in
-> +@@ -1335,8 +1335,6 @@ AC_CACHE_CHECK(shift offset of $1, $2,
-> +  [$2=-1]
-> + )
-> +  LIBS="$LIBS1"])
-> +-SHIFT_NAME="$1"_SHIFT
-> +-AC_DEFINE_UNQUOTED($SHIFT_NAME, ${$2}, [foo])
-> + if test "$2" = -1; then
-> + AC_MSG_WARN(please determine $1_SHIFT manually)
-> + fi
-> +@@ -1346,6 +1344,9 @@ AC_SHIFT_OFFSET(CRDLY,  sc_cv_sys_crdly_shift)
-> + AC_SHIFT_OFFSET(TABDLY, sc_cv_sys_tabdly_shift)
-> + AC_SHIFT_OFFSET(CSIZE,  sc_cv_sys_csize_shift)
-> +
-> ++AC_DEFINE_UNQUOTED(CRDLY_SHIFT, ${sc_cv_sys_crdly_shift}, [shift for CRDLY, carriage return delay])
-> ++AC_DEFINE_UNQUOTED(TABDLY_SHIFT, ${sc_cv_sys_tabdly_shift}, [shift for TABDLY, horizontal tab delay])
-> ++AC_DEFINE_UNQUOTED(CSIZE_SHIFT, ${sc_cv_sys_csize_shift}, [shift for CSIZE, character size])
-> +
-> + dnl find what physical type (basic C type) is equivalent to the given type.
-> + dnl arg1: include file(s)
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-connectivity/socat/files/fix_termios.patch b/meta/recipes-connectivity/socat/files/fix_termios.patch
-> new file mode 100644
-> index 0000000..c16949c
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/socat/files/fix_termios.patch
-> @@ -0,0 +1,85 @@
-> +Make sure ISPEED_OFFSET and OSPEED_OFFSET gets defined.
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +
-> +AC_TRY_RUN() can not work on a cross-compile environment, so
-> +define them directly.
-> +
-No Signed-off-by: tag
-
-Can't this be handled differently by setting these on the EXTRA_OECONF?
-
-> +Index: socat-1.7.2.0/configure.in
-> +===================================================================
-> +--- socat-1.7.2.0.orig/configure.in
-> ++++ socat-1.7.2.0/configure.in
-> +@@ -893,39 +893,43 @@
-> + [sc_cv_termios_ispeed=no])])
-> + if test $sc_cv_termios_ispeed = yes; then
-> +    AC_DEFINE(HAVE_TERMIOS_ISPEED, [1], [have ispeed])
-> ++   if test "x$ac_cv_ispeed_offset" != "x"; then
-> ++     AC_DEFINE_UNQUOTED(ISPEED_OFFSET, $ac_cv_ispeed_offset, [have ispeed offset])
-> ++     AC_DEFINE(OSPEED_OFFSET, (ISPEED_OFFSET+1) , [have ospeed offset])
-> ++   fi
-> + fi
-> + AC_MSG_RESULT($sc_cv_termios_ispeed)
-> +
-> +-if test $sc_cv_termios_ispeed = yes; then
-> +-AC_MSG_CHECKING(for offset of c_ispeed in struct termios)
-> +-LIBS1="$LIBS"; LIBS=""	# avoid libwrap allow_severity undefined
-> +-AC_CACHE_VAL(ac_cv_ispeed_offset,
-> +- [conftestspeedoff="conftestspeedoff.out"
-> +- AC_TRY_RUN([
-> +-  #include <errno.h>
-> +-  #include <stdio.h>
-> +-  #include <termios.h>
-> +-  #include <string.h>
-> +-  main(){
-> +-    struct termios t;
-> +-    FILE *f;
-> +-    if ((f=fopen("$conftestspeedoff","w"))==NULL){
-> +-       fprintf(stderr,"\\"$conftestspeedoff\\": %s\n",strerror(errno)); exit(-1);
-> +-    }
-> +-    fprintf(f, "%d", ((char*)&t.c_ispeed-(char*)&t)/sizeof(speed_t));
-> +-    exit(0);
-> +- }
-> +- ],
-> +- [ac_cv_ispeed_offset=`cat $conftestspeedoff`],
-> +- [ac_cv_ispeed_offset=-1],
-> +- [ac_cv_ispeed_offset=-1]	#!
-> +-)])
-> +-LIBS="$LIBS1"
-> +-AC_MSG_RESULT($ac_cv_ispeed_offset)
-> +- if test $ac_cv_ispeed_offset -ge 0; then
-> +-   AC_DEFINE_UNQUOTED(ISPEED_OFFSET, $ac_cv_ispeed_offset, [have ispeed])
-> +- fi
-> +-fi
-> ++# if test $sc_cv_termios_ispeed = yes; then
-> ++# AC_MSG_CHECKING(for offset of c_ispeed in struct termios)
-> ++# LIBS1="$LIBS"; LIBS=""	# avoid libwrap allow_severity undefined
-> ++# AC_CACHE_VAL(ac_cv_ispeed_offset,
-> ++#  [conftestspeedoff="conftestspeedoff.out"
-> ++#  AC_TRY_RUN([
-> ++#   #include <errno.h>
-> ++#   #include <stdio.h>
-> ++#   #include <termios.h>
-> ++#   #include <string.h>
-> ++#   main(){
-> ++#     struct termios t;
-> ++#     FILE *f;
-> ++#     if ((f=fopen("$conftestspeedoff","w"))==NULL){
-> ++#        fprintf(stderr,"\\"$conftestspeedoff\\": %s\n",strerror(errno)); exit(-1);
-> ++#     }
-> ++#     fprintf(f, "%d", ((char*)&t.c_ispeed-(char*)&t)/sizeof(speed_t));
-> ++#     exit(0);
-> ++#  }
-> ++#  ],
-> ++#  [ac_cv_ispeed_offset=`cat $conftestspeedoff`],
-> ++#  [ac_cv_ispeed_offset=-1],
-> ++#  [ac_cv_ispeed_offset=-1]	#!
-> ++# )])
-> ++# LIBS="$LIBS1"
-> ++# AC_MSG_RESULT($ac_cv_ispeed_offset)
-> ++#  if test $ac_cv_ispeed_offset -ge 0; then
-> ++#    AC_DEFINE_UNQUOTED(ISPEED_OFFSET, $ac_cv_ispeed_offset, [have ispeed])
-> ++#  fi
-> ++# fi
-> +
-> + # there is another issue with termios: OSR requires "#define _SVID3 ..."
-> + # for reasonable termios support. We check this situation using IMAXBEL
-> diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.1.bb b/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
-> index 950e1e5..a3b5f7a 100644
-> --- a/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
-> +++ b/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
-> @@ -11,15 +11,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->                       file://README;beginline=252;endline=282;md5=79246f11a1db0b6ccec54d1fb711c01e"
->
->
-> -PR = "r0"
-> +PR = "r1"
-No PR Bump required anymore
-
-
-Sau!
-
->   SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2;name=src \
-> -           file://compile.patch"
-> +           file://compile.patch \
-> +           file://fix_termios.patch \
-> +           file://fix-xxx_SHIFT-autoheader.patch"
->
->   SRC_URI[src.md5sum] = "7ddfea7e9e85f868670f94d3ea08358b"
->   SRC_URI[src.sha256sum] = "faea2ed6c63bb97a59237fd43b7c35ad248317297e8bfeb2e6f2ec1e6bc58277"
->
-> -EXTRA_OECONF = " --disable-termios "
-> -
->   inherit autotools
->
->   do_install_prepend () {
->
+>  meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
+> index cfc6fd8..3725cac 100644
+> --- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
+> +++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
+> @@ -1,5 +1,6 @@
+>  DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
+> -DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
+> +X11DEPENDS = "nativesdk-libx11"
+> +DEPENDS = "nativesdk-zlib nativesdk-dbus qt4-native ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+>  SECTION = "libs"
+>  HOMEPAGE = "http://qt.nokia.com"
+>  LICENSE = "LGPLv2.1 | GPLv3"
+> -- 
+> 1.8.1.2
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
