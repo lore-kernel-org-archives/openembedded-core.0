@@ -1,34 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 00D126065C
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F40E6065C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2013 10:02:19 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id m6so4634795wiv.5
+	Wed,  5 Jun 2013 10:05:43 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id n57so1136531wev.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2013 03:02:20 -0700 (PDT)
+	Wed, 05 Jun 2013 03:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=dSMur0Anyzr1N0YKOUMHKuGhVoIWjTSWa1P6yeGNgTg=;
-	b=eMIHz9V/4oeLTokHorPcoOFz+6yHQgVJfArYeWDvWUvsxDlpGiygoSXdZtxFxpBd0d
-	JP3mG7PFb5yjf1Km6rTCxW48dLVfiOTP2P7DmWmtjb3nuBbds87kKc5mi+OhXY/jY9RP
-	OL7YnrPjpbskmCLZ4HaKwGdPAnwQobxuHIZY0344+o2A9LZx3hjSgCD2ex2pJWdBe9U2
-	KkMQHrcuMebWxTV5Pe5I9YDzI9wfjbWZoeMa7T6NtIyiTQHwvJHRyyy70ER9DNTDbo+a
-	bHzEvwEjNdEJbBokio2D97KwYyStpvUb/PG6Wm4r4yhNnjfyCc4rwO0quZeTNsZev+n2
-	b15Q==
-X-Received: by 10.180.189.136 with SMTP id gi8mr5824340wic.11.1370426539724;
-	Wed, 05 Jun 2013 03:02:19 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=G3FADPa4TwyByeP7TvT+mf9eV9wq01xsucZfOvlRAl0=;
+	b=UO2y+iOWLCBPzST7z6GCl/a0IjQaNB8XLi28L1Pd+eLeLRx9LIZbDg0JJCjwtz+sNM
+	Z6B5aKLfm3SuivCJOgopkI2+fv5VM3IWPeDZvViLZGkovzVQnRSnPZJrioMEIUuDFUiK
+	FihE7wCULkBzz8rem+y3mI8+19jnd7sBIciTHv7JCo8glwrwgVmbNjz5v20fIxjifiYJ
+	LnprQqTf7WdZC/mzvtG94qfHl6aJOCHrA/P1F7i6oqaekRrdKFXQiukWH1cfwn5ekfH4
+	yi1lLdZYIRBY6qzPxD2e2gwEKINmNj0y9r8vg8txr+tPoaAbvdfLH8k/Ds5CnmDvIVU6
+	gMSA==
+X-Received: by 10.180.9.80 with SMTP id x16mr5653262wia.63.1370426743604;
+	Wed, 05 Jun 2013 03:05:43 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	ay7sm9188561wib.9.2013.06.05.03.02.18 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 05 Jun 2013 03:02:18 -0700 (PDT)
+	d10sm9263223wik.0.2013.06.05.03.05.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 05 Jun 2013 03:05:42 -0700 (PDT)
+Date: Wed, 5 Jun 2013 12:05:59 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2013 12:02:33 +0200
-Message-Id: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCHv2] site: add alignment values for at-spi2-core
+To: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <20130605100559.GE30727@jama>
+References: <cover.1370414193.git.yi.zhao@windriver.com>
+	<d26bc9ddb088a29796402194ab5649cfbf916248.1370414193.git.yi.zhao@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <d26bc9ddb088a29796402194ab5649cfbf916248.1370414193.git.yi.zhao@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] kernel.bbclass: Fix link for modules-${MACHINE}.tgz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,50 +47,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2013 10:02:20 -0000
+X-List-Received-Date: Wed, 05 Jun 2013 10:05:43 -0000
+X-Groupsio-MsgNum: 40178
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uCPdOCrL+PnN2Vxy"
+Content-Disposition: inline
 
-* x86 and x86_64 values were added in
-  8c46ec2edc0197b32d32e0f27d5b60271338b600
+--uCPdOCrL+PnN2Vxy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/site/arm-common   | 10 ++++++++++
- meta/site/x86_64-linux |  3 ++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+On Wed, Jun 05, 2013 at 05:20:50PM +0800, Yi Zhao wrote:
+> The modules-${MACHINE}.tgz should link to ${MODULE_TARBALL_BASE_NAME}.
+> But now it links to an invalid file ${MODULE_TARBALL_BASE_NAME}.bin.
+> Remove the extra .bin suffix.
+>=20
+> [YOCTO #4595]
 
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index cad8027..b1cf05d 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -185,3 +185,13 @@ jm_cv_func_working_readdir=yes
- 
- # evolution-data-server
- ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
-+
-+# dbind, in at-spi2-core
-+ac_cv_alignof_char=1
-+ac_cv_alignof_dbind_pointer=4
-+ac_cv_alignof_dbind_struct=1
-+ac_cv_alignof_dbus_bool_t=4
-+ac_cv_alignof_dbus_int16_t=2
-+ac_cv_alignof_dbus_int32_t=4
-+ac_cv_alignof_dbus_int64_t=8
-+ac_cv_alignof_double=8
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 78a3b85..2475d3d 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -125,7 +125,8 @@ ac_cv_func__restgpr_14_x=no
- # cvs
- cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
- 
--# dbind
-+# dbind, in at-spi2-core
-+ac_cv_alignof_char=1
- ac_cv_alignof_dbind_pointer=8
- ac_cv_alignof_dbind_struct=1
- ac_cv_alignof_dbus_bool_t=4
--- 
-1.8.2.1
+Looks good, thanks for fixing it.
 
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+>=20
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 6550615..40a6b5b 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -375,7 +375,7 @@ kernel_do_deploy() {
+>  	if [ ${MODULE_TARBALL_DEPLOY} =3D "1" ] && (grep -q -i -e '^CONFIG_MODU=
+LES=3Dy$' .config); then
+>  		mkdir -p ${D}/lib
+>  		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+> -		ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${DEPLOYDIR}/${MODULE_TARBALL_S=
+YMLINK_NAME}
+> +		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLI=
+NK_NAME}
+>  	fi
+> =20
+>  	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLIN=
+K_NAME}.bin
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--uCPdOCrL+PnN2Vxy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGvDYcACgkQN1Ujt2V2gByYvgCeLDNO+qkqrN9AvXHkMDgZcGs/
+QdkAoJkYsoglUfTrkizUPoN8FD5TPUnY
+=5fsC
+-----END PGP SIGNATURE-----
+
+--uCPdOCrL+PnN2Vxy--
