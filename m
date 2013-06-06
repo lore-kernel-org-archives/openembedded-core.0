@@ -1,25 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A2E096A5A8
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 448966A5A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 20:18:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jun 2013 13:19:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,817,1363158000"; d="scan'208";a="349304480"
-Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2013 13:18:50 -0700
-Message-ID: <51B0EEA9.1030903@linux.intel.com>
-Date: Thu, 06 Jun 2013 13:18:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
+	Thu,  6 Jun 2013 21:02:05 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UkhJt-0006W4-24; Thu, 06 Jun 2013 23:02:05 +0200
+Message-ID: <1370552518.4141.10.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 06 Jun 2013 22:01:58 +0100
+In-Reply-To: <51B0EEA9.1030903@linux.intel.com>
 References: <1370027758-22849-1-git-send-email-dv@pseudoterminal.org>
 	<51B0BE87.8010807@linux.intel.com>
 	<51B0C431.3040505@pseudoterminal.org>
-In-Reply-To: <51B0C431.3040505@pseudoterminal.org>
+	<51B0EEA9.1030903@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/3] GStreamer 1.0 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,49 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 20:18:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 06 Jun 2013 21:02:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/06/2013 10:17 AM, Carlos Rafael Giani wrote:
-> On 06.06.2013 18:53, Saul Wold wrote:
->> On 05/31/2013 12:15 PM, Carlos Rafael Giani wrote:
->>> These patches introduce recipes for GStreamer 1.0 . They
->>> are copied over from my gstreamer 1.0 layer at
->>> https://github.com/dv1/meta-gstreamer1.0 . All files except
->>> gstreamer1.0-plugins-package.inc were copied; gst-plugins-package.inc
->>> was patched to fix a problem with -meta packages and can be used for
->>> both 0.10 and 1.0 now (the only difference is the value of the LIBV
->>> variable).
->>>
->> So is there an update path from 0.10 to 1.0?  Also normally we replace
->> the older version with the newer version by "git mv" in order to
->> preserve history where possible.  I am not sure if you can do this
->> with a move and then copy the new versions in.
->>
->> Since the packages are renamed, and I don's see any
->> RPROVIDES/RREPLACES or RCONFLICTS to cover the upgrade path.
->>
->
-> Replace? Why do you want to replace? 1.0 is designed to be able to
-> coexist with 1.0 in the same rootfs (you cannot use both at the same
-> time in a process; however, this isn't a concern for OE, but for
-> application developers). In essence, simply adding the new files from
-> the patch to recipes-multimedia/gstreamer/ should be sufficient. The old
-> 0.10 ones can be left unchanged.
->
->
-One of the core tenants of OE-Core is to only maintain the latest 
-version of a given recipe and have an upgrade path from existing version 
-to the latest version.
+On Thu, 2013-06-06 at 13:18 -0700, Saul Wold wrote:
+> But back to the orignal question, is the gstreamer 1.0 an upgrade path 
+> for 0.10 or a completely new gstreamer?  Is there an upgrade path? If 
+> so, then the packaging needs to reflect that.
 
-What I am not sure about is the programs that rely on gstream if all of 
-them are ready for the 1.0.
+I think what you're really asking is "is gstreamer 1.0 ABI-compatible
+with 0.10?" and the answer to that question is no.  Binaries compiled
+against 0.10 will need recompiling to use 1.0 so RPROVIDES would make no
+sense, and the two libraries are parallel installable so RCONFLICTS is
+not necessary either.  In any case, using RPROVIDES/RCONFLICTS for
+libraries is sometimes slightly tricky in the presence of the debian
+autonamer, and is generally something that ought to be left to those
+distros that care about it rather than trying to solve the problem in
+oe-core.
 
-But back to the orignal question, is the gstreamer 1.0 an upgrade path 
-for 0.10 or a completely new gstreamer?  Is there an upgrade path? If 
-so, then the packaging needs to reflect that.
+But all this is largely orthogonal to the question of whether or not we
+want to keep both versions in OE-Core.  There does exist some precedent
+for that: we have both gtk2 and gtk3, and we also have multiple versions
+of (at least) linux, pseudo and gcc already.
 
-Sau!
+p.
+
 
 
