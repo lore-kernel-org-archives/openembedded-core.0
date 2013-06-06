@@ -1,30 +1,38 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DBA56A882
+Return-Path: <eu@felipetonello.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 841626A5E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 18:22:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r56IMHsS022930
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Jun 2013 11:22:17 -0700 (PDT)
-Received: from msp-dhcp18.wrs.com (172.25.34.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 6 Jun 2013 11:22:16 -0700
-Message-ID: <51B0D35F.6020105@windriver.com>
-Date: Thu, 6 Jun 2013 13:22:23 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Thu,  6 Jun 2013 19:18:19 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id ey16so692721wid.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Jun 2013 12:18:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=MIDSRWYzY4PI9k7+2sxx1yfR0grbY9TGXrWDTtaFdwI=;
+	b=bg9mwbCUzJneENsfakFofCacI9+EnM/x2kWOzCscPAh/aJRfpfvZO7d2fyHJTcfV5n
+	d1YB2Z2xSFbRu21J0+K3pJseiFGR5+MIxsCyZ83oKSNYXZrqps5SP7gbKZnX3yjL9mt0
+	JGGAnjPswMb3Ifvs98T3HVCGJXSsyLOeE1mXvP9uPfum759bODQmTOWWCuo2+p+Jt9bY
+	YgsIkyGRA99si8oToIPgfAOEmI3UohKiLIF5UhaDHoOvE8q3E8t11TzSKj4V+Vl7nI0h
+	iOxvC44koOyOa3Tbi7JR+yxI3wzOnaVunZDSmmk+IE8OmIQhP4jT5M0TL9/4kN5uTzp0
+	T6hg==
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1369313581.git.laurentiu.palcu@intel.com>
-	<cover.1370502833.git.laurentiu.palcu@intel.com>
-	<51B0BC46.6030208@windriver.com> <51B0D03E.8050300@intel.com>
-In-Reply-To: <51B0D03E.8050300@intel.com>
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/7] run-postinsts refactoring
+X-Received: by 10.180.11.176 with SMTP id r16mr10632280wib.58.1370546299956;
+	Thu, 06 Jun 2013 12:18:19 -0700 (PDT)
+Received: by 10.194.59.203 with HTTP; Thu, 6 Jun 2013 12:18:19 -0700 (PDT)
+In-Reply-To: <14899581.O0scG6jzAS@helios>
+References: <1370422910-24366-1-git-send-email-net147@gmail.com>
+	<2054363.UxqkIOrzAJ@helios> <51AF6ED5.4010500@linux.intel.com>
+	<14899581.O0scG6jzAS@helios>
+Date: Thu, 6 Jun 2013 12:18:19 -0700
+Message-ID: <CAGrhNMzSY-ow4PNzscD31qSW8st1tv9Fjmc9Xxx_Oqa2CjsuJA@mail.gmail.com>
+From: Felipe Tonello <eu@felipetonello.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQlKWoUsYBskseC+w1y//WfgLuzBRSkP+jIgTJXULhxAhntB0hx1QgfF9r2atKJUQoAylOQA
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,151 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 18:22:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Jun 2013 19:18:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 6/6/13 1:09 PM, Laurentiu Palcu wrote:
+On Thu, Jun 6, 2013 at 2:54 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 05 June 2013 10:01:09 Saul Wold wrote:
+>> On 06/05/2013 09:57 AM, Paul Eggleton wrote:
+>> > On Wednesday 05 June 2013 09:46:49 Saul Wold wrote:
+>> >> On 06/05/2013 02:30 AM, Martin Jansa wrote:
+>> >>> On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
+>> >>>> qconfig.pri was not being loaded by qmake properly. This means Qt
+>> >>>> qmake projects are unable to query QT_ARCH, QT_VERSION and other
+>> >>>> variables defined in qconfig.pri.
+>> >>>>
+>> >>>> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
+>> >>>> so that it can be located by qmake.
+>> >>>
+>> >>> There is such patch already:
+>> >>> http://lists.openembedded.org/pipermail/openembedded-core/2013-May/07831
+>> >>> 4.
+>> >>> html
+>> >>
+>> >> Got lost in my queue, adding it for the next MUT.
+>> >
+>> > FWIW I am still concerned by the assertion in the commit message about it
+>> > causing undesirable behaviour. I'd want that checked out and the note
+>> > removed before we look at merging this.
+>>
+>> OK, I will shelf this until I hear more about the testing of this change
+>> regarding the original patch's note.
 >
+> So I tested a rebuild of qt4-x11-free with Felipe's patch and two of
+> Jonathan's ("qt4: fix QMAKE_QT_CONFIG being overwritten with empty value" and
+> "classes/qmake_base: allow parallel make"), and did not observe any unexpected
+> behaviour and buildhistory looks clean for qt itself and fotowall/quicky. So
+> I'd say feel free to throw these into MUT, but I think we need to drop the
+> note.
 >
-> On 06/06/2013 07:43 PM, Mark Hatle wrote:
->> Comments below....
->>
->> On 6/6/13 2:41 AM, Laurentiu Palcu wrote:
->>> (cover letter only)
->>>
->>> Changes in v2:
->>>    * addressed an RPM issue that happened on AB. Interestingly, it happened only on
->>>      certain distros. Our internal AB (running on Ubuntu server 12.04), didn't show
->>>      any issues. So, what was the problem? We use a scriptlet wrapper to run the
->>>      pre/post install scriptlets. What I missed in the previous patchset was that I
->>>      didn't use the scriptlet wrapper when running the pre/post remove scriptlets
->>>      and the context in which they ran was not correct. Hence, the update-rc.d used
->>>      was the host's...
->>>    * addresses Ross's request to move run-postinsts recipe out of dpkg directory,
->>>      since it's generic now;
->>>
->>> Paul, Mark would you please review the RPM changes please?
->>>
->>> Thanks,
->>> Laurentiu
->>>
->>> Changes in v1:
->>> Hi all,
->>>
->>> My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
->>> of PM meta-data (when the PM is not deployed) and the delayed postinstalls
->>> execution in their own way. Currently we have:
->>>    * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
->>>      postinstalls on target when the PM is not part of the image;
->>>    * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
->>>      only the meta-data;
->>>    * both opkg and deb have no way of running the delayed postinstalls on target,
->>>      if package-management is not part of IMAGE_FEATURES, because the meta-data
->>>      was deleted (and it would have been useless anyway since the PM is not installed);
->>>
->>> That being said, this patchset tries to create a more unified solution for all
->>> PM backends.
->>>
->>> rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
->>> for a while (a couple of weeks maybe), just in case the current solution does not
->>> satisfy the RPM users (I doubt it though).
->>>
->>> I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
->>> postinstalls. The results are as expected.
->>>
->>> Thanks,
->>> Laurentiu
->>>
->>> The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
->>>
->>>     lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>     git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor_v2
->>>     http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor_v2
->>>
->>> Laurentiu Palcu (7):
->>>     rootfs_*.bbclass: add some helper functions
->>>     image.bbclass: remove unneeded files from the image
->>>     core-image-minimal: do not remove packaging files in the rootfs
->>>       postprocess
->>>     run-postinsts: make it generic
->>>     rootfs_rpm.bbclass: switch to using run-postinsts
->>>     package_rpm.bbclass: handle pre/post remove scriptlets
->>>     rpm: replace rpm-postinsts dependency with run-postinsts
->>>
->>>    meta/classes/image.bbclass                         |   33 ++++++++++++++
->>>    meta/classes/package_rpm.bbclass                   |   16 ++++---
->>>    meta/classes/rootfs_deb.bbclass                    |   23 +++++++++-
->>>    meta/classes/rootfs_ipk.bbclass                    |   39 ++++++++--------
->>>    meta/classes/rootfs_rpm.bbclass                    |   29 ++++++++++--
->>>    meta/recipes-core/images/core-image-minimal.bb     |    2 -
->>>    .../dpkg/run-postinsts/run-postinsts               |   36 ---------------
->>>    .../dpkg/run-postinsts/run-postinsts.awk           |   30 -------------
->>>    meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
->>>    .../run-postinsts/run-postinsts/run-postinsts      |   47 ++++++++++++++++++++
->>>    .../{dpkg => run-postinsts}/run-postinsts_1.0.bb   |    7 ++-
->>>    11 files changed, 159 insertions(+), 105 deletions(-)
->>>    delete mode 100755 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
->>>    delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
->>>    create mode 100755 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
->>>    rename meta/recipes-devtools/{dpkg => run-postinsts}/run-postinsts_1.0.bb (68%)
->>>
->>
->>> +rootfs_remove_unneeded () {
->>> +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
->>> +		if [ -z "$(delayed_postinsts)" ]; then
->>> +			# All packages were successfully configured.
->>> +			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
->>> +			remove_run_postinsts=false
->>> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
->>> +				remove_run_postinsts=true
->>> +			fi
->>> +			rootfs_remove_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
->>> +
->>> +			# Need to remove rc.d files for run-postinsts by hand since opkg won't
->>> +			# call postrm scripts in offline root mode.
->>> +			if $remove_run_postinsts; then
->>> +				update-rc.d -f -r ${IMAGE_ROOTFS} run-postinsts remove
->>> +			fi
->>
->> The above runs unconditionally for all package types.  Will this cause an issue
->> w/ RPM or deb?  (I don't think it will, but I'm slightly worried about RPM and
->> it's removal scripts.)
-> I believe I missed to remove the opkg from the comment since I pasted
-> this piece of code from rootfs_ipk.bbclass. However, during my tests, I
-> saw no issues with rpm/deb. Is there anything in particular you think I
-> should check for RPM to rule out your concerns?
 
-Simply that the update-rc.d will be run by the RPM rule, and rerun in the above.
+Awesome.
 
-As long as that doesn't cause a problem, I'm fine with the change.
-
---Mark
-
-> Thanks,
-> Laurentiu
->>
->>> +		else
->>> +			# Some packages were not successfully configured, save them only
->>> +			# if we have run-postinsts script present. Otherwise, they're
->>> +			# useless
->>> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
->>> +				save_postinsts
->>> +			fi
->>> +		fi
->>> +
->>> +		# Since no package manager is present in the image the metadata is not needed
->>> +		remove_packaging_data_files
->>> +	fi
->>> +}
->>> +
->>
->> Everything else looks fine.
->>
->> Reviewed-by: Mark Hatle <mark.hatle@windriver.com>
->>
-
+Thank you,
+Felipe
 
