@@ -1,29 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BD5906A8B6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id C1FF96A8BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 16:43:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r56GhlRe022981
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Jun 2013 09:43:47 -0700 (PDT)
-Received: from msp-dhcp18.wrs.com (172.25.34.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 6 Jun 2013 09:43:46 -0700
-Message-ID: <51B0BC46.6030208@windriver.com>
-Date: Thu, 6 Jun 2013 11:43:50 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Thu,  6 Jun 2013 16:53:11 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jun 2013 09:53:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,816,1363158000"; d="scan'208";a="313294044"
+Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
+	by azsmga001.ch.intel.com with ESMTP; 06 Jun 2013 09:52:59 -0700
+Message-ID: <51B0BE6A.7080407@linux.intel.com>
+Date: Thu, 06 Jun 2013 09:52:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1369313581.git.laurentiu.palcu@intel.com>
-	<cover.1370502833.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1370502833.git.laurentiu.palcu@intel.com>
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/7] run-postinsts refactoring
+To: Ross Burton <ross.burton@intel.com>
+References: <cover.1370012689.git.ross.burton@intel.com>
+In-Reply-To: <cover.1370012689.git.ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/11] GTK+ 3 updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,132 +32,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 16:43:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 06 Jun 2013 16:53:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Comments below....
-
-On 6/6/13 2:41 AM, Laurentiu Palcu wrote:
-> (cover letter only)
+On 05/31/2013 08:05 AM, Ross Burton wrote:
+> Hi,
 >
-> Changes in v2:
->   * addressed an RPM issue that happened on AB. Interestingly, it happened only on
->     certain distros. Our internal AB (running on Ubuntu server 12.04), didn't show
->     any issues. So, what was the problem? We use a scriptlet wrapper to run the
->     pre/post install scriptlets. What I missed in the previous patchset was that I
->     didn't use the scriptlet wrapper when running the pre/post remove scriptlets
->     and the context in which they ran was not correct. Hence, the update-rc.d used
->     was the host's...
->   * addresses Ross's request to move run-postinsts recipe out of dpkg directory,
->     since it's generic now;
+> Another revision of my GTK+ 3 branch, minus the test changes that need Python
+> 2.7 and with some more fixes, mainly backports to ensure the Wayland backend
+> works under Weston 1.1.
 >
-> Paul, Mark would you please review the RPM changes please?
+> Ross
 >
-> Thanks,
-> Laurentiu
+> The following changes since commit ea281d3b8e5f2ae21b37ea2ad4d440bf9c6427ff:
 >
-> Changes in v1:
-> Hi all,
->
-> My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
-> of PM meta-data (when the PM is not deployed) and the delayed postinstalls
-> execution in their own way. Currently we have:
->   * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
->     postinstalls on target when the PM is not part of the image;
->   * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
->     only the meta-data;
->   * both opkg and deb have no way of running the delayed postinstalls on target,
->     if package-management is not part of IMAGE_FEATURES, because the meta-data
->     was deleted (and it would have been useless anyway since the PM is not installed);
->
-> That being said, this patchset tries to create a more unified solution for all
-> PM backends.
->
-> rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
-> for a while (a couple of weeks maybe), just in case the current solution does not
-> satisfy the RPM users (I doubt it though).
->
-> I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
-> postinstalls. The results are as expected.
->
-> Thanks,
-> Laurentiu
->
-> The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
->
->    lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+>    bitbake: Added distroy signal to information dialogs (2013-05-31 08:25:40 +0100)
 >
 > are available in the git repository at:
 >
->    git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor_v2
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor_v2
+>    git://git.yoctoproject.org/poky-contrib ross/gtk
 >
-> Laurentiu Palcu (7):
->    rootfs_*.bbclass: add some helper functions
->    image.bbclass: remove unneeded files from the image
->    core-image-minimal: do not remove packaging files in the rootfs
->      postprocess
->    run-postinsts: make it generic
->    rootfs_rpm.bbclass: switch to using run-postinsts
->    package_rpm.bbclass: handle pre/post remove scriptlets
->    rpm: replace rpm-postinsts dependency with run-postinsts
+> for you to fetch changes up to 125c91479244db72a603b9857949645bdaf5c5e0:
 >
->   meta/classes/image.bbclass                         |   33 ++++++++++++++
->   meta/classes/package_rpm.bbclass                   |   16 ++++---
->   meta/classes/rootfs_deb.bbclass                    |   23 +++++++++-
->   meta/classes/rootfs_ipk.bbclass                    |   39 ++++++++--------
->   meta/classes/rootfs_rpm.bbclass                    |   29 ++++++++++--
->   meta/recipes-core/images/core-image-minimal.bb     |    2 -
->   .../dpkg/run-postinsts/run-postinsts               |   36 ---------------
->   .../dpkg/run-postinsts/run-postinsts.awk           |   30 -------------
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
->   .../run-postinsts/run-postinsts/run-postinsts      |   47 ++++++++++++++++++++
->   .../{dpkg => run-postinsts}/run-postinsts_1.0.bb   |    7 ++-
->   11 files changed, 159 insertions(+), 105 deletions(-)
->   delete mode 100755 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
->   delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
->   create mode 100755 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
->   rename meta/recipes-devtools/{dpkg => run-postinsts}/run-postinsts_1.0.bb (68%)
+>    gtk+3: fix repainting under Weston 1.1 (2013-05-31 16:04:27 +0100)
 >
+> ----------------------------------------------------------------
+> Ross Burton (11):
+>        gdk-pixbuf: upgrade to 2.28.1
+>        at-spi2: add -core and -atk, for GTK+ 3.8
 
-> +rootfs_remove_unneeded () {
-> +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
-> +		if [ -z "$(delayed_postinsts)" ]; then
-> +			# All packages were successfully configured.
-> +			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
-> +			remove_run_postinsts=false
-> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
-> +				remove_run_postinsts=true
-> +			fi
-> +			rootfs_remove_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
-> +
-> +			# Need to remove rc.d files for run-postinsts by hand since opkg won't
-> +			# call postrm scripts in offline root mode.
-> +			if $remove_run_postinsts; then
-> +				update-rc.d -f -r ${IMAGE_ROOTFS} run-postinsts remove
-> +			fi
+There has been a number of issues with this patch, therefore I am going 
+to wait for Ross to come back and fix the issues, each ARCH seems to 
+need some additional changes in their site files, some have been 
+provided, but more are needed for other arches, I also found some 
+missing dependencies, which I have put a fix in for.
 
-The above runs unconditionally for all package types.  Will this cause an issue 
-w/ RPM or deb?  (I don't think it will, but I'm slightly worried about RPM and 
-it's removal scripts.)
+Looks like this also need a Dependency on intltool-native, I tried a 
+clean build of just at-spi2-core and got a failure.
 
-> +		else
-> +			# Some packages were not successfully configured, save them only
-> +			# if we have run-postinsts script present. Otherwise, they're
-> +			# useless
-> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
-> +				save_postinsts
-> +			fi
-> +		fi
-> +
-> +		# Since no package manager is present in the image the metadata is not needed
-> +		remove_packaging_data_files
-> +	fi
-> +}
-> +
+Please rebuild this against all arches and re-submit.
 
-Everything else looks fine.
+Thanks
+	Sau!
 
-Reviewed-by: Mark Hatle <mark.hatle@windriver.com>
+
+>        gtk+3: update to 3.8.2
+>        gtk+3: explicitly disable introspection
+>        gtk+3: respect x11 and wayland DISTRO_FEATURES
+>        gtk+3: add dependencies for gtk+3-demo
+>        gtk+: remove spurious libgcrypt dependency
+>        gtk+3: register GSetting schemas
+>        gtk+3: split into .bb/.inc
+>        gtk+3: clean up libtool link creation to avoid errors in configure log
+>        gtk+3: fix repainting under Weston 1.1
+>
+>   .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |   23 --
+>   .../configure_fix.patch                            |    0
+>   .../extending-libinstall-dependencies.patch        |    0
+>   .../hardcoded_libtool.patch                        |    0
+>   .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |   11 +-
+>   meta/recipes-gnome/gtk+/gtk+.inc                   |    2 +-
+>   .../gtk+/{gtk+3_3.4.4.bb => gtk+3.inc}             |   33 ++-
+>   meta/recipes-gnome/gtk+/gtk+3/cross.patch          |  293 --------------------
+>   .../gtk+/gtk+3/no-x11-in-wayland.patch             |   32 +++
+>   meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch |   42 +++
+>   meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb             |   17 ++
+>   meta/recipes-support/atk/at-spi2-atk_2.8.1.bb      |   19 ++
+>   meta/recipes-support/atk/at-spi2-core_2.8.0.bb     |   17 ++
+>   13 files changed, 149 insertions(+), 340 deletions(-)
+>   delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/configure_fix.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/extending-libinstall-dependencies.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/hardcoded_libtool.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} (89%)
+>   rename meta/recipes-gnome/gtk+/{gtk+3_3.4.4.bb => gtk+3.inc} (79%)
+>   delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
+>   create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
+>   create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+>
+> Ross Burton (11):
+>    gdk-pixbuf: upgrade to 2.28.1
+>    at-spi2: add -core and -atk, for GTK+ 3.8
+>    gtk+3: update to 3.8.2
+>    gtk+3: explicitly disable introspection
+>    gtk+3: respect x11 and wayland DISTRO_FEATURES
+>    gtk+3: add dependencies for gtk+3-demo
+>    gtk+: remove spurious libgcrypt dependency
+>    gtk+3: register GSetting schemas
+>    gtk+3: split into .bb/.inc
+>    gtk+3: clean up libtool link creation to avoid errors in configure
+>      log
+>    gtk+3: fix repainting under Weston 1.1
+>
+>   .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |   23 --
+>   .../configure_fix.patch                            |    0
+>   .../extending-libinstall-dependencies.patch        |    0
+>   .../hardcoded_libtool.patch                        |    0
+>   .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |   11 +-
+>   meta/recipes-gnome/gtk+/gtk+.inc                   |    2 +-
+>   .../gtk+/{gtk+3_3.4.4.bb => gtk+3.inc}             |   33 ++-
+>   meta/recipes-gnome/gtk+/gtk+3/cross.patch          |  293 --------------------
+>   .../gtk+/gtk+3/no-x11-in-wayland.patch             |   32 +++
+>   meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch |   42 +++
+>   meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb             |   17 ++
+>   meta/recipes-support/atk/at-spi2-atk_2.8.1.bb      |   19 ++
+>   meta/recipes-support/atk/at-spi2-core_2.8.0.bb     |   17 ++
+>   13 files changed, 149 insertions(+), 340 deletions(-)
+>   delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/configure_fix.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/extending-libinstall-dependencies.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/hardcoded_libtool.patch (100%)
+>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} (89%)
+>   rename meta/recipes-gnome/gtk+/{gtk+3_3.4.4.bb => gtk+3.inc} (79%)
+>   delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
+>   create mode 100644 meta/recipes-support/atk/at-spi2-atk_2.8.1.bb
+>   create mode 100644 meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+>
 
