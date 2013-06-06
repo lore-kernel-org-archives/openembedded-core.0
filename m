@@ -1,31 +1,27 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 887C66A882
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 948DE6A8BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 18:07:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2013 11:04:55 -0700
+	Thu,  6 Jun 2013 18:09:08 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jun 2013 11:09:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,816,1363158000"; d="scan'208";a="325365508"
-Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.77])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jun 2013 11:07:06 -0700
-Message-ID: <51B0CFCA.8080708@linux.intel.com>
-Date: Thu, 06 Jun 2013 11:07:06 -0700
-From: Darren Hart <dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,816,1363158000"; d="scan'208";a="313322738"
+Received: from unknown (HELO [10.252.121.210]) ([10.252.121.210])
+	by azsmga001.ch.intel.com with ESMTP; 06 Jun 2013 11:09:03 -0700
+Message-ID: <51B0D03E.8050300@intel.com>
+Date: Thu, 06 Jun 2013 21:09:02 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-References: <cover.1370534726.git.sgw@linux.intel.com>
-	<51B0BF5F.4040305@linux.intel.com>
-	<51B0C8BD.2070605@linux.intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C70409F7E@ORSMSX103.amr.corp.intel.com>
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C70409F7E@ORSMSX103.amr.corp.intel.com>
-X-Enigmail-Version: 1.5.1
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [CONSOLIDATED PULL 00/37] Post M1 Updates and Fixes
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1369313581.git.laurentiu.palcu@intel.com>
+	<cover.1370502833.git.laurentiu.palcu@intel.com>
+	<51B0BC46.6030208@windriver.com>
+In-Reply-To: <51B0BC46.6030208@windriver.com>
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/7] run-postinsts refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,303 +34,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 18:07:07 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 18:09:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 06/06/2013 11:02 AM, Kamble, Nitin A wrote:
-> Darren,
->    Need to check, whether the new mesa is working well with EMGD. If it does, then the preferred version of mesa can be updated, if not then need to pull the older mesa in meta-intel.
 
-Thanks Nitin, please keep us posted. Minnow will be follow whatever you
-determine is appropriate for the EMGD BSPs in meta-intel.
 
---
-Darren
-
+On 06/06/2013 07:43 PM, Mark Hatle wrote:
+> Comments below....
 > 
-> Nitin
+> On 6/6/13 2:41 AM, Laurentiu Palcu wrote:
+>> (cover letter only)
+>>
+>> Changes in v2:
+>>   * addressed an RPM issue that happened on AB. Interestingly, it happened only on
+>>     certain distros. Our internal AB (running on Ubuntu server 12.04), didn't show
+>>     any issues. So, what was the problem? We use a scriptlet wrapper to run the
+>>     pre/post install scriptlets. What I missed in the previous patchset was that I
+>>     didn't use the scriptlet wrapper when running the pre/post remove scriptlets
+>>     and the context in which they ran was not correct. Hence, the update-rc.d used
+>>     was the host's...
+>>   * addresses Ross's request to move run-postinsts recipe out of dpkg directory,
+>>     since it's generic now;
+>>
+>> Paul, Mark would you please review the RPM changes please?
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>> Changes in v1:
+>> Hi all,
+>>
+>> My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
+>> of PM meta-data (when the PM is not deployed) and the delayed postinstalls
+>> execution in their own way. Currently we have:
+>>   * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
+>>     postinstalls on target when the PM is not part of the image;
+>>   * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
+>>     only the meta-data;
+>>   * both opkg and deb have no way of running the delayed postinstalls on target,
+>>     if package-management is not part of IMAGE_FEATURES, because the meta-data
+>>     was deleted (and it would have been useless anyway since the PM is not installed);
+>>
+>> That being said, this patchset tries to create a more unified solution for all
+>> PM backends.
+>>
+>> rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
+>> for a while (a couple of weeks maybe), just in case the current solution does not
+>> satisfy the RPM users (I doubt it though).
+>>
+>> I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
+>> postinstalls. The results are as expected.
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>> The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
+>>
+>>    lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor_v2
+>>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor_v2
+>>
+>> Laurentiu Palcu (7):
+>>    rootfs_*.bbclass: add some helper functions
+>>    image.bbclass: remove unneeded files from the image
+>>    core-image-minimal: do not remove packaging files in the rootfs
+>>      postprocess
+>>    run-postinsts: make it generic
+>>    rootfs_rpm.bbclass: switch to using run-postinsts
+>>    package_rpm.bbclass: handle pre/post remove scriptlets
+>>    rpm: replace rpm-postinsts dependency with run-postinsts
+>>
+>>   meta/classes/image.bbclass                         |   33 ++++++++++++++
+>>   meta/classes/package_rpm.bbclass                   |   16 ++++---
+>>   meta/classes/rootfs_deb.bbclass                    |   23 +++++++++-
+>>   meta/classes/rootfs_ipk.bbclass                    |   39 ++++++++--------
+>>   meta/classes/rootfs_rpm.bbclass                    |   29 ++++++++++--
+>>   meta/recipes-core/images/core-image-minimal.bb     |    2 -
+>>   .../dpkg/run-postinsts/run-postinsts               |   36 ---------------
+>>   .../dpkg/run-postinsts/run-postinsts.awk           |   30 -------------
+>>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
+>>   .../run-postinsts/run-postinsts/run-postinsts      |   47 ++++++++++++++++++++
+>>   .../{dpkg => run-postinsts}/run-postinsts_1.0.bb   |    7 ++-
+>>   11 files changed, 159 insertions(+), 105 deletions(-)
+>>   delete mode 100755 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
+>>   delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
+>>   create mode 100755 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+>>   rename meta/recipes-devtools/{dpkg => run-postinsts}/run-postinsts_1.0.bb (68%)
+>>
 > 
+>> +rootfs_remove_unneeded () {
+>> +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+>> +		if [ -z "$(delayed_postinsts)" ]; then
+>> +			# All packages were successfully configured.
+>> +			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
+>> +			remove_run_postinsts=false
+>> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
+>> +				remove_run_postinsts=true
+>> +			fi
+>> +			rootfs_remove_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+>> +
+>> +			# Need to remove rc.d files for run-postinsts by hand since opkg won't
+>> +			# call postrm scripts in offline root mode.
+>> +			if $remove_run_postinsts; then
+>> +				update-rc.d -f -r ${IMAGE_ROOTFS} run-postinsts remove
+>> +			fi
 > 
->> -----Original Message-----
->> From: Darren Hart [mailto:dvhart@linux.intel.com]
->> Sent: Thursday, June 06, 2013 10:37 AM
->> To: Saul Wold
->> Cc: Kamble, Nitin A; Otavio Salvador; openembedded-
->> core@lists.openembedded.org
->> Subject: Re: [OE-core] [CONSOLIDATED PULL 00/37] Post M1 Updates and
->> Fixes
->>
->> Nitin, are we fixed with 9.0.2 for emgd? Will we need to carry that recipe in
->> meta-intel now?
->>
->> On 06/06/2013 09:57 AM, Saul Wold wrote:
->>>
->>> Otavio, Darren, Nitin:
->>>
->>> Your BSPs may need .bbappends for mesa, see below
->>>
->>> Sau!
->>>
->>>
->>> On 06/06/2013 09:08 AM, Saul Wold wrote:
->>>> Richard,
->>>>
->>>> Here is a set of patches that I have tested and reviewed.
->>>>
->>>> Robert's changes for insane/package checks look good, but could your
->>>> eyes as a final check.
->>>>
->>>> Thanks
->>>> 	Sau!
->>>>
->>>>
->>>> Mostly Updates
->>>> The following changes since commit
->> 8a2ac668d99f7d64c2acffc3a39cedb2d152be6e:
->>>>
->>>>    lrzsz: check locale.h in configure (2013-06-04 15:53:45 +0100)
->>>>
->>>> are available in the git repository at:
->>>>
->>>>    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->>>>
->>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-
->> contrib/log/?
->>>> h=sgw/stage
->>>>
->>>> Andrea Adami (1):
->>>>    image_types.bbclass: add ubifs to IMAGE_TYPES
->>>>
->>>> Andrei Dinu (2):
->>>>    linuxdoc-tools-native : upgrade to 0.9.69
->>>>    libpng : upgrade to 1.6.2
->>>>
->>>> Andy Voltz (2):
->>>>    tune-cortexa.inc: create a common include for cortex-a armv7a tuning
->>>>    tune-cortexa5.inc: Add tune file for cortex-a5
->>>>
->>>> Bogdan Marinescu (4):
->>>>    diffstat: upgraded to 1.57
->>>>    libpcre: upgraded to 8.33
->>>>    subversion: upgraded to 1.7.10
->>>>    bdwgc: enable full version name in recipe name
->>>>
->>>> Cristian Iorga (2):
->>>>    iptables: upgrade to 1.4.19.1
->>>>    libpcap: upgrade to 1.4.0
->>>>
->>>> Dan McGregor (1):
->>>>    python: enable IPv6 based on DISTRO_FEATURES
->>>>
->>>> Ionut Radu (1):
->>>>    matchbox-terminal: Update to git HEAD
->>>>      452bca253492a97a587f440289b9ab27d217353e
->>>>
->>>> Jack Mitchell (1):
->>>>    connman: update to 1.15
->>>>
->>>> Jackie Huang (1):
->>>>    grub-0.97: fix the objcopy error in configure
->>>>
->>>> Marko Lindqvist (3):
->>>>    icu: update to upstream version 51.2
->>>>    pixman: update to upstream version 0.30.0
->>>>    zlib: update to upstream version 1.2.8
->>>>
->>>> Robert Yang (4):
->>>>    insane/package: let package.bbclass inherit insane.bbclass
->>>>    defaultsetup.conf: remove INHERIT_INSANE
->>>>    insane/package: refactor packaging sanity tests
->>>>    multilib.bbclass: fix the PACKAGEFUNCS_append
->>>>
->>>> Ross Burton (12):
->>>>    weston-init: basic init script to start Weston on KMS/DRM
->>>>    core-image-weston: basic image that boots directly to Weston
->>>>    weston: install the examples into weston-examples
->>>>    weston: add a weston-launch group
->>>>    weston: clean up and add comments
->>>>    gdk-pixbuf: upgrade to 2.28.1
->>>>    test-utils: handle import bb failing and skip the test
->>>>    test_utils: import functions directly for conciseness
->>>>    mesa: upgrade to 9.1.3
->>>>    mesa: update git recipe to 9.1.3 release
->>>>    wayland: update to 1.1.0
->>>>    weston: update to 1.1.0
->>>>
->>>
->>> HEADS up to BSP Maintainers, this may require .bbappend bumps in your
->> BSPS.
->>>
->>>> Saul Wold (2):
->>>>    self-hosted: Add libssp libraries to packagegroup/image
->>>>    libxi: Add libxfixes as dependency
->>>>
->>>> Yi Zhao (1):
->>>>    kernel.bbclass: Fix link for modules-${MACHINE}.tgz
->>>>
->>>>   meta/classes/image_types.bbclass                   |   2 +-
->>>>   meta/classes/insane.bbclass                        |  39 +-
->>>>   meta/classes/kernel.bbclass                        |   2 +-
->>>>   meta/classes/multilib.bbclass                      |   2 +-
->>>>   meta/classes/package.bbclass                       |  41 +-
->>>>   meta/conf/distro/defaultsetup.conf                 |   3 +-
->>>>   meta/conf/machine/include/arm/README               |   3 +
->>>>   meta/conf/machine/include/tune-cortexa.inc         |  35 ++
->>>>   meta/conf/machine/include/tune-cortexa15.inc       |  35 +-
->>>>   meta/conf/machine/include/tune-cortexa5.inc        |   5 +
->>>>   meta/conf/machine/include/tune-cortexa7.inc        |  35 +-
->>>>   meta/conf/machine/include/tune-cortexa8.inc        |  35 +-
->>>>   meta/conf/machine/include/tune-cortexa9.inc        |  35 +-
->>>>   meta/lib/oe/tests/test_utils.py                    |  14 +-
->>>>   .../grub/grub-0.97/objcopy-absolute.patch          |  40 ++
->>>>   meta/recipes-bsp/grub/grub_0.97.bb                 |   1 +
->>>>   .../connman/{connman_1.14.bb => connman_1.15.bb}   |   4 +-
->>>>   .../libpcap-1.3.0/0001-Fix-disable-canusb.patch    |  30 -
->>>>   ...-The-leading-comma-looked-weird-remove-it.patch |  54 --
->>>>   .../libpcap-1.3.0/0001-canusb-needs-lpthread.patch |  32 --
->>>>   .../{libpcap-1.3.0 => libpcap}/aclocal.patch       |   0
->>>>   .../ieee80215-arphrd.patch                         |   0
->>>>   .../libpcap/{libpcap_1.3.0.bb => libpcap_1.4.0.bb} |  13 +-
->>>>   .../packagegroups/packagegroup-self-hosted.bb      |   3 +
->>>>   .../remove.ldconfig.call.patch                     |   0
->>>>   .../zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb}          |  11 +-
->>>>   .../diffstat/diffstat/aclocal.patch                |  37 ++
->>>>   .../{diffstat_1.55.bb => diffstat_1.57.bb}         |   8 +-
->>>>   .../linuxdoc-tools-native/disable_sgml2rtf.patch   |  47 +-
->>>>   ...e_0.9.66.bb => linuxdoc-tools-native_0.9.69.bb} |  10 +-
->>>>   meta/recipes-devtools/python/python.inc            |   1 +
->>>>   .../fix-install-depends.patch                      |   0
->>>>   .../libtool2.patch                                 |   0
->>>>   .../{subversion_1.7.9.bb => subversion_1.7.10.bb}  |   4 +-
->>>>   .../fix-iptables-extensions-build-error.patch      |  44 --
->>>>   .../{iptables_1.4.18.bb => iptables_1.4.19.1.bb}   |   5 +-
->>>>   .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |  23 -
->>>>   .../configure_fix.patch                            |   0
->>>>   .../extending-libinstall-dependencies.patch        |   0
->>>>   .../hardcoded_libtool.patch                        |   0
->>>>   .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |  11 +-
->>>>   meta/recipes-graphics/images/core-image-weston.bb  |   9 +
->>>>   meta/recipes-graphics/mesa/mesa-9.0.2.inc          |  13 -
->>>>   meta/recipes-graphics/mesa/mesa-git.inc            |   9 +-
->>>>   .../mesa/mesa/0002-cross-compile.patch             |  94 ---
->>>>   ...ate-NativeDisplayType-depending-on-config.patch | 358
->> ++++++++++++
->>>>   meta/recipes-graphics/mesa/mesa/cross-glsl.patch   | 632 -----------------
->> ----
->>>>   .../mesa/dont-fail-if-libX11-isnt-installed.patch  |  36 --
->>>>   .../fix-egl-compilation-without-x11-headers.patch  |  32 --
->>>>   .../mesa/mesa/fix-glsl-cross.patch                 |  43 ++
->>>>   meta/recipes-graphics/mesa/mesa_9.0.2.bb           |   4 -
->>>>   meta/recipes-graphics/mesa/mesa_9.1.3.bb           |  14 +
->>>>   .../wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} |   6 +-
->>>>   meta/recipes-graphics/wayland/weston-init.bb       |  17 +
->>>>   meta/recipes-graphics/wayland/weston-init/init     |  56 ++
->>>>   .../wayland/weston/install-examples.patch          |  18 +
->>>>   .../wayland/{weston_1.0.6.bb => weston_1.1.0.bb}   |  38 +-
->>>>   meta/recipes-graphics/xorg-lib/libxi_1.7.1.bb      |   2 +-
->>>>   .../{pixman_0.29.4.bb => pixman_0.30.0.bb}         |   4 +-
->>>>   .../libpng/libpng/transform.patch                  |  46 --
->>>>   .../libpng/{libpng_1.6.1.bb => libpng_1.6.2.bb}    |   9 +-
->>>>   .../matchbox-terminal/matchbox-terminal_git.bb     |   3 +-
->>>>   .../bdwgc/{bdwgc_7.2.bb => bdwgc_7.2d.bb}          |   9 +-
->>>>   meta/recipes-support/icu/icu.inc                   |   1 +
->>>>   meta/recipes-support/icu/icu_50.1.2.bb             |  11 -
->>>>   meta/recipes-support/icu/icu_51.2.bb               |  11 +
->>>>   .../libpcre/{libpcre_8.32.bb => libpcre_8.33.bb}   |   7 +-
->>>>   67 files changed, 841 insertions(+), 1305 deletions(-)
->>>>   create mode 100644 meta/conf/machine/include/tune-cortexa.inc
->>>>   create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
->>>>   create mode 100644 meta/recipes-bsp/grub/grub-0.97/objcopy-
->> absolute.patch
->>>>   rename meta/recipes-connectivity/connman/{connman_1.14.bb =>
->> connman_1.15.bb} (73%)
->>>>   delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-
->> 1.3.0/0001-Fix-disable-canusb.patch
->>>>   delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-
->> 1.3.0/0001-The-leading-comma-looked-weird-remove-it.patch
->>>>   delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-
->> 1.3.0/0001-canusb-needs-lpthread.patch
->>>>   rename meta/recipes-connectivity/libpcap/{libpcap-1.3.0 =>
->> libpcap}/aclocal.patch (100%)
->>>>   rename meta/recipes-connectivity/libpcap/{libpcap-1.3.0 =>
->> libpcap}/ieee80215-arphrd.patch (100%)
->>>>   rename meta/recipes-connectivity/libpcap/{libpcap_1.3.0.bb =>
->> libpcap_1.4.0.bb} (56%)
->>>>   rename meta/recipes-core/zlib/{zlib-1.2.7 => zlib-
->> 1.2.8}/remove.ldconfig.call.patch (100%)
->>>>   rename meta/recipes-core/zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb} (73%)
->>>>   create mode 100644 meta/recipes-
->> devtools/diffstat/diffstat/aclocal.patch
->>>>   rename meta/recipes-devtools/diffstat/{diffstat_1.55.bb =>
->> diffstat_1.57.bb} (76%)
->>>>   rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-
->> native_0.9.66.bb => linuxdoc-tools-native_0.9.69.bb} (70%)
->>>>   rename meta/recipes-devtools/subversion/{subversion-1.7.9 =>
->> subversion-1.7.10}/fix-install-depends.patch (100%)
->>>>   rename meta/recipes-devtools/subversion/{subversion-1.7.9 =>
->> subversion-1.7.10}/libtool2.patch (100%)
->>>>   rename meta/recipes-devtools/subversion/{subversion_1.7.9.bb =>
->> subversion_1.7.10.bb} (88%)
->>>>   delete mode 100644 meta/recipes-extended/iptables/iptables/fix-
->> iptables-extensions-build-error.patch
->>>>   rename meta/recipes-extended/iptables/{iptables_1.4.18.bb =>
->> iptables_1.4.19.1.bb} (90%)
->>>>   delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-
->> 2.26.5/pngversion.patch
->>>>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-
->> pixbuf}/configure_fix.patch (100%)
->>>>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-
->> pixbuf}/extending-libinstall-dependencies.patch (100%)
->>>>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-
->> pixbuf}/hardcoded_libtool.patch (100%)
->>>>   rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-
->> pixbuf_2.28.1.bb} (89%)
->>>>   create mode 100644 meta/recipes-graphics/images/core-image-
->> weston.bb
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa-9.0.2.inc
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/0002-cross-
->> compile.patch
->>>>   create mode 100644 meta/recipes-graphics/mesa/mesa/EGL-Mutate-
->> NativeDisplayType-depending-on-config.patch
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/cross-glsl.patch
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/dont-fail-if-
->> libX11-isnt-installed.patch
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/fix-egl-
->> compilation-without-x11-headers.patch
->>>>   create mode 100644 meta/recipes-graphics/mesa/mesa/fix-glsl-
->> cross.patch
->>>>   delete mode 100644 meta/recipes-graphics/mesa/mesa_9.0.2.bb
->>>>   create mode 100644 meta/recipes-graphics/mesa/mesa_9.1.3.bb
->>>>   rename meta/recipes-graphics/wayland/{wayland_1.0.6.bb =>
->> wayland_1.1.0.bb} (91%)
->>>>   create mode 100644 meta/recipes-graphics/wayland/weston-init.bb
->>>>   create mode 100644 meta/recipes-graphics/wayland/weston-init/init
->>>>   create mode 100644 meta/recipes-graphics/wayland/weston/install-
->> examples.patch
->>>>   rename meta/recipes-graphics/wayland/{weston_1.0.6.bb =>
->> weston_1.1.0.bb} (63%)
->>>>   rename meta/recipes-graphics/xorg-lib/{pixman_0.29.4.bb =>
->> pixman_0.30.0.bb} (89%)
->>>>   delete mode 100644 meta/recipes-
->> multimedia/libpng/libpng/transform.patch
->>>>   rename meta/recipes-multimedia/libpng/{libpng_1.6.1.bb =>
->> libpng_1.6.2.bb} (61%)
->>>>   rename meta/recipes-support/bdwgc/{bdwgc_7.2.bb =>
->> bdwgc_7.2d.bb} (92%)
->>>>   delete mode 100644 meta/recipes-support/icu/icu_50.1.2.bb
->>>>   create mode 100644 meta/recipes-support/icu/icu_51.2.bb
->>>>   rename meta/recipes-support/libpcre/{libpcre_8.32.bb =>
->>>> libpcre_8.33.bb} (90%)
->>>>
->>
->> --
->> Darren Hart
->> Intel Open Source Technology Center
->> Yocto Project - Technical Lead - Linux Kernel
+> The above runs unconditionally for all package types.  Will this cause an issue 
+> w/ RPM or deb?  (I don't think it will, but I'm slightly worried about RPM and 
+> it's removal scripts.)
+I believe I missed to remove the opkg from the comment since I pasted
+this piece of code from rootfs_ipk.bbclass. However, during my tests, I
+saw no issues with rpm/deb. Is there anything in particular you think I
+should check for RPM to rule out your concerns?
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+Thanks,
+Laurentiu
+> 
+>> +		else
+>> +			# Some packages were not successfully configured, save them only
+>> +			# if we have run-postinsts script present. Otherwise, they're
+>> +			# useless
+>> +			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
+>> +				save_postinsts
+>> +			fi
+>> +		fi
+>> +
+>> +		# Since no package manager is present in the image the metadata is not needed
+>> +		remove_packaging_data_files
+>> +	fi
+>> +}
+>> +
+> 
+> Everything else looks fine.
+> 
+> Reviewed-by: Mark Hatle <mark.hatle@windriver.com>
+> 
 
