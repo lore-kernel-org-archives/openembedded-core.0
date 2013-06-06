@@ -1,34 +1,23 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
-	[209.85.212.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DD5F76A60F
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D73206A68E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 07:34:11 +0000 (UTC)
-Received: by mail-vb0-f47.google.com with SMTP id x14so1706124vbb.20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2013 00:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=xX+yPxioZWhXnJVuGHcRF2dSx/MtHea/2PMhqVev7ng=;
-	b=k20/Kc9UPbSrEmobzEHkDUBcB/Cdaw2/57H12XRkMjHGMBCCDoiVPia8yp5nYL53tM
-	5nb/1i0/ICJmm8oTnStCoNmXxAG9M6iOeRF00DLo2H2o1pmKzTMN7KhKNmyw0YyRJKt3
-	PjvDG3M4zATaQbaUS5dgcn9fHpxQD7FM50lxU2i4JWXo9jR/wjYB2rarMbHarFHRuVfl
-	qGuohXV48QlRX0gWROJIrEZ9e5pmqBCZ5pSdCFF7lGgs01Ox8ldJyWspVnhqT/G7aaX2
-	cOIyPkr8QINWJ0TC5pWL9KPdFekk57Z/PUr0fuztOxjQZ5y/2e4LtjGqEOwU6cBadHKU
-	O3cQ==
-MIME-Version: 1.0
-X-Received: by 10.52.35.133 with SMTP id h5mr503403vdj.109.1370504052456; Thu,
-	06 Jun 2013 00:34:12 -0700 (PDT)
-Received: by 10.58.34.132 with HTTP; Thu, 6 Jun 2013 00:34:12 -0700 (PDT)
-In-Reply-To: <1370501684-26590-1-git-send-email-net147@gmail.com>
-References: <1370501684-26590-1-git-send-email-net147@gmail.com>
-Date: Thu, 6 Jun 2013 17:34:12 +1000
-Message-ID: <CANwerB3Ha-dUVEGrzW8FkSpRD13qRqfbZrxSy9pftYR793s9yg@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/qmake2: export QMAKEPATH
+	Thu,  6 Jun 2013 07:41:13 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2013 00:39:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,813,1363158000"; d="scan'208";a="325104374"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 06 Jun 2013 00:41:12 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2013 10:41:11 +0300
+Message-Id: <cover.1370502833.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1369313581.git.laurentiu.palcu@intel.com>
+References: <cover.1369313581.git.laurentiu.palcu@intel.com>
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH v2 0/7] run-postinsts refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,39 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 07:34:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 06 Jun 2013 07:41:14 -0000
 
-On 6 June 2013 16:54, Jonathan Liu <net147@gmail.com> wrote:
-> QMAKEPATH is exported so that qmake is able to detect the webkit module,
-> load it and add it to the QT_CONFIG variable. The detection is done in
-> mkspecs/features/qt_config.prf which reads the qmake QMAKE_MKSPECS
-> builtin. qmake will read QMAKEPATH, append /mkspecs to it and prepend it
-> to the QMAKE_MKSPECS list builtin returned. qt_config.prf will then load
-> modules matching modules/qt_*.pri inside each directory in QMAKE_MKSPECS.
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/classes/qmake2.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
-> index 8b9861c..03ad2f1 100644
-> --- a/meta/classes/qmake2.bbclass
-> +++ b/meta/classes/qmake2.bbclass
-> @@ -5,6 +5,7 @@ inherit qmake_base
->
->  DEPENDS_prepend = "qt4-tools-native "
->
-> +export QMAKEPATH = "${STAGING_DATADIR}/qt4"
->  export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
->  export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
->  export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
-> --
-> 1.8.2.3
->
-This may be causing some packaging QA problems. I am investigating...
+(cover letter only)
 
-Regards,
-Jonathan
+Changes in v2:
+ * addressed an RPM issue that happened on AB. Interestingly, it happened only on
+   certain distros. Our internal AB (running on Ubuntu server 12.04), didn't show
+   any issues. So, what was the problem? We use a scriptlet wrapper to run the
+   pre/post install scriptlets. What I missed in the previous patchset was that I
+   didn't use the scriptlet wrapper when running the pre/post remove scriptlets
+   and the context in which they ran was not correct. Hence, the update-rc.d used
+   was the host's...
+ * addresses Ross's request to move run-postinsts recipe out of dpkg directory,
+   since it's generic now;
+
+Paul, Mark would you please review the RPM changes please?
+
+Thanks,
+Laurentiu
+
+Changes in v1:
+Hi all,
+
+My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
+of PM meta-data (when the PM is not deployed) and the delayed postinstalls
+execution in their own way. Currently we have:
+ * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
+   postinstalls on target when the PM is not part of the image;
+ * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
+   only the meta-data;
+ * both opkg and deb have no way of running the delayed postinstalls on target,
+   if package-management is not part of IMAGE_FEATURES, because the meta-data
+   was deleted (and it would have been useless anyway since the PM is not installed);
+
+That being said, this patchset tries to create a more unified solution for all
+PM backends.
+
+rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
+for a while (a couple of weeks maybe), just in case the current solution does not
+satisfy the RPM users (I doubt it though).
+
+I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
+postinstalls. The results are as expected.
+
+Thanks,
+Laurentiu
+
+The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
+
+  lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor_v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor_v2
+
+Laurentiu Palcu (7):
+  rootfs_*.bbclass: add some helper functions
+  image.bbclass: remove unneeded files from the image
+  core-image-minimal: do not remove packaging files in the rootfs
+    postprocess
+  run-postinsts: make it generic
+  rootfs_rpm.bbclass: switch to using run-postinsts
+  package_rpm.bbclass: handle pre/post remove scriptlets
+  rpm: replace rpm-postinsts dependency with run-postinsts
+
+ meta/classes/image.bbclass                         |   33 ++++++++++++++
+ meta/classes/package_rpm.bbclass                   |   16 ++++---
+ meta/classes/rootfs_deb.bbclass                    |   23 +++++++++-
+ meta/classes/rootfs_ipk.bbclass                    |   39 ++++++++--------
+ meta/classes/rootfs_rpm.bbclass                    |   29 ++++++++++--
+ meta/recipes-core/images/core-image-minimal.bb     |    2 -
+ .../dpkg/run-postinsts/run-postinsts               |   36 ---------------
+ .../dpkg/run-postinsts/run-postinsts.awk           |   30 -------------
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
+ .../run-postinsts/run-postinsts/run-postinsts      |   47 ++++++++++++++++++++
+ .../{dpkg => run-postinsts}/run-postinsts_1.0.bb   |    7 ++-
+ 11 files changed, 159 insertions(+), 105 deletions(-)
+ delete mode 100755 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
+ delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
+ create mode 100755 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+ rename meta/recipes-devtools/{dpkg => run-postinsts}/run-postinsts_1.0.bb (68%)
+
+-- 
+1.7.9.5
+
 
