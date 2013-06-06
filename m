@@ -1,37 +1,35 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 89C886A5A8
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 050B2601AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 21:55:43 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id r11so2491057lbv.41
+	Thu,  6 Jun 2013 22:42:00 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id w20so3654744lbh.38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2013 14:55:44 -0700 (PDT)
+	Thu, 06 Jun 2013 15:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=KVgwxWtM/ITF1oqS2ckmLREk2n1lh7m5VFoq9Mlptq0=;
-	b=dXqHkQ0x3ujMOf84QkK7Ds1wBVaEid52pvpEEobZ3qKK+AQjwwrC6wfHwA8HqXwAYA
-	zGrbEYBhQSS8HgkS5PVIir9TjVPRKSEy9xGUXT6Fpiqt6eepecak9FzT9a7+VxIMxRr3
-	p0Em5MVlUBhS2XUsugyXgliI6E4/Q2WL/mmxFWnaiqYXepyFoY2ohtFi01yXoABc34CB
-	T5lcwr9qoedyEDlIY9bYiAOZxTu8JOHlv6MRMy4aqejkkRZmP0cw7JLe//BPe0NV8D0y
-	+NtXfBoCICBRcjfIVF0CZgV2LtBxZylGXMUpt4bYmy8mxrb5nipW0DgzroLynACRlJfO
-	TXOA==
-X-Received: by 10.152.20.136 with SMTP id n8mr1099233lae.58.1370555743977;
-	Thu, 06 Jun 2013 14:55:43 -0700 (PDT)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPSA id e9sm28439101lbj.3.2013.06.06.14.55.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 06 Jun 2013 14:55:43 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1Uki9m-0004Kx-BH; Fri, 07 Jun 2013 00:55:42 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jun 2013 00:55:40 +0300
-Message-Id: <cover.1370555136.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/2] gnomebase.bbclass improvements
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ePmkAYDUZM2z43RZuZXNVzSEEqxUT5rcTOmUExUj4O0=;
+	b=nfIxlE9e9IGQgGLgxNvvFA9lVkayLXTJNl330XFAMxZW5b/0OxZZ3pthfs0U3ZJGzx
+	ohd7CTlvx7IQ4tCcoHRbMFEAcUYopRbGgIHcj+EVvhAB9sOLmamAGkT5w6iZ8z3i+sDK
+	P+qOUlAQGhMtiuACND0JLYq49cH0Eg2863EeyRwK/NrQlHkbvvqHPQmw3Id0L3KzDYwQ
+	9wIM48R5ouXjRjwFdegV/Lq7STJNCEZ0+qsGtubnvnwNLpmzJuTA6eJ4fAfaMdg9sDO2
+	kiz32wRo4GSWEu9JlFMByDm7RJSyy4/bezRGW+MPaZS2EsMZ82HfI7P3KzzNA26nUrfu
+	7DEw==
+MIME-Version: 1.0
+X-Received: by 10.112.205.163 with SMTP id lh3mr858085lbc.45.1370558520849;
+	Thu, 06 Jun 2013 15:42:00 -0700 (PDT)
+Received: by 10.112.71.14 with HTTP; Thu, 6 Jun 2013 15:42:00 -0700 (PDT)
+In-Reply-To: <CAP9ODKr9zNQENpsL_ASoKRWEfTauWhRx07Ps46=5u3D5=XXxng@mail.gmail.com>
+References: <CAP9ODKr9zNQENpsL_ASoKRWEfTauWhRx07Ps46=5u3D5=XXxng@mail.gmail.com>
+Date: Thu, 6 Jun 2013 18:42:00 -0400
+Message-ID: <CADkTA4NRN5cPFcVLtqwMtwiY3dJb_FJG2n3pYN3dUnGzgpTMuQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Linux kernel build dependency of 'bc'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 21:55:44 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 22:42:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-A couple of gnomebase.bbclass changes from the tree where I've been
-working to include recipe for latest (gtk3-only) vte version in addition
-to older gtk2-compatible one.
+On Thu, Jun 6, 2013 at 11:11 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Hello Bruce,
+>
+> I got a build failure in my auto builder; it has a very lean system install
+> and it spot something it is new for me. It seems the kernel now depends on
+> 'bc' util.
+>
+> I tried to find a 'bc-native'  and couldn't find so I'd like to know if it
+> is a known issue and if someone is already working in a 'bc-native' recipe
+> to proper fix the issue.
 
-trim_version() -patch should't be any way controversial.
-GNOMEBN -patch is one you may want to apply now, or to wait if there
-is going to be any users for the feature and apply only when
-actually needed.
+Following up on this thread late (I was on a plane all day), this
+hasn't popped up on
+my builders, but then again, all of mine have bc, so I wouldn't have noticed
+for some time.
 
-The following changes since commit 8a2ac668d99f7d64c2acffc3a39cedb2d152be6e:
+If nothing has been entered bugzilla for this, we should do that now, just to
+avoid more than one person going ahead and adding bc-native!
 
-  lrzsz: check locale.h in configure (2013-06-04 15:53:45 +0100)
+Bruce
 
-are available in the git repository at:
+>
+> Regards,
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://projetos.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
 
-Marko Lindqvist (2):
-  gnomebase.bbclass: implement gnome_verdir() using trim_version()
-  gnomebase.bbclass: add support for archive name different from BPN
 
- meta/classes/gnomebase.bbclass |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
--- 
-1.7.10.4
-
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
