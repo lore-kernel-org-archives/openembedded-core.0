@@ -1,26 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F12886A877
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 03:17:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jun 2013 20:17:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,811,1363158000"; d="scan'208";a="348870843"
-Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2013 20:17:07 -0700
-Message-ID: <51AFFF33.9050009@linux.intel.com>
-Date: Wed, 05 Jun 2013 20:17:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: nitin.a.kamble@intel.com
-References: <cover.1370460463.git.nitin.a.kamble@intel.com>
-	<9d0b35fe8c4d81bc9034d7ab3086ba9550e63591.1370460463.git.nitin.a.kamble@intel.com>
-In-Reply-To: <9d0b35fe8c4d81bc9034d7ab3086ba9550e63591.1370460463.git.nitin.a.kamble@intel.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] tools-testapps: add xserver in dependency
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC526A87E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Jun 2013 03:51:56 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id z11so2761219pdj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Jun 2013 20:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=+b+lV8R7QtkqDxuuQNV8EiEBM9lpNjhIVRa4gFDuI+A=;
+	b=QJDAkQ3UdDxNA4PDjwyZZ0yhIHjKDFRxyZAXEvWChNUry9woVurqGahjL5LKHIvoc2
+	JW70f4UciXLjVVpBKEd3giCEt7ZyrbQa/ycZeOAro3d/Y63CZOv5/0g0av+U8XcWWBKA
+	ACZg6YE0lfkhPb3SMsFTbLSGQDGgY+cz0tIajNtzazuSv2I+OF5pWdNLdeupEBa5jiLn
+	krZB0pSPpEvrZHm2hXG42G3SIqGa/ECVP/vY366ZR4qck8ZCeh2Dvpu0BKdAjlkYuArU
+	cYf8HaoVA59oXWbCWPk5uK6GRR3BH3JqIiKY4dNjJj7OTka6OYcIYI3+SS3R2rgT6Knq
+	3R0w==
+X-Received: by 10.66.219.102 with SMTP id pn6mr8577318pac.123.1370490717182;
+	Wed, 05 Jun 2013 20:51:57 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	rn7sm70832997pbc.12.2013.06.05.20.51.54 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Jun 2013 20:51:56 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2013 14:05:40 +1000
+Message-Id: <1370491540-21915-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] classes/qmake_base: allow parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 03:17:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Jun 2013 03:51:56 -0000
 
-On 06/05/2013 12:28 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> This package group adds packages needing Xserver, These packages
-> demand X drivers such as EMGD driver. And if the image does not
-> include Xserver then it causes a build error about Xserver like
-> this:
->     Error: no package provides xorg-abi-video-8
->
-> Fix the issue by adding Xserver as one of the dependency.
->
-> Fixes this bug:
-> [YOCTO #4615]
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->   meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> index 343ae1c..6619a98 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> @@ -5,7 +5,7 @@
->   SUMMARY = "Testing tools/applications"
->   LICENSE = "MIT"
->
-> -PR = "r2"
-> +PR = "r3"
->
->   inherit packagegroup
->
-> @@ -44,4 +44,5 @@ RDEPENDS_${PN} = "\
->       xvideo-tests \
->       ltp \
->       connman-client \
-> +    xserver-xorg \
->
-Nitin,
+Remove MAKEFLAGS= from EXTRA_OEMAKE to allow parallel make.
 
-This seems like a stop-gap, what changed in the last few weeks that 
-caused the -lsb bsps to stop working?  All the meta-yocto-bsp work 
-correctly, so it's something to do with emgd.  Maybe there is a missing 
-dependency in the emgd chain.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/qmake_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sau!
+diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
+index 52e7fb0..3762887 100644
+--- a/meta/classes/qmake_base.bbclass
++++ b/meta/classes/qmake_base.bbclass
+@@ -4,7 +4,7 @@ OE_QMAKE_PLATFORM = "${TARGET_OS}-oe-g++"
+ QMAKESPEC := "${QMAKE_MKSPEC_PATH}/${OE_QMAKE_PLATFORM}"
+ 
+ # We override this completely to eliminate the -e normally passed in
+-EXTRA_OEMAKE = ' MAKEFLAGS= '
++EXTRA_OEMAKE = ""
+ 
+ export OE_QMAKE_CC="${CC}"
+ export OE_QMAKE_CFLAGS="${CFLAGS}"
+-- 
+1.8.2.3
 
-     "
->
 
