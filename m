@@ -1,21 +1,26 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 205006A60F
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B777B6A456
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 07:58:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2013 00:56:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,813,1363158000"; d="scan'208";a="349065567"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2013 00:58:30 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jun 2013 10:58:29 +0300
-Message-Id: <1370505509-20264-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: paul.eggleton@linux.intel.com
-Subject: [dylan][PATCH] menu-cache: Fix segmentation fault
+	Thu,  6 Jun 2013 08:32:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r568WnJO000735
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Jun 2013 01:32:49 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.158) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 6 Jun 2013 01:32:49 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Jun 2013 16:32:50 +0800
+Message-ID: <d0a35bd3efbf5e528ea24b4682d6de6d7afe2720.1370506099.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1370506099.git.rongqing.li@windriver.com>
+References: <cover.1370506099.git.rongqing.li@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] socat: enable termios
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,80 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 07:58:31 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 08:32:48 -0000
+Content-Type: text/plain
 
-[YOCTO #4353]
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-(From OE-Core rev: 8c9c6155e6d83675a94b4eaae4ffc6dfeca399ee)
+fix two cross-compile issue to enable termios:
+1. Define ac_cv_ispeed_offset in EXTRA_OECONF to avoid to call AC_TRY_RUN()
+on cross-compile environment.
+2. fix autoheader to generate *_SHIFT macros
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 ---
-Hi Paul,
+ .../socat/files/fix-xxx_SHIFT-autoheader.patch     |   40 ++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.2.1.bb   |   15 ++++++--
+ 2 files changed, 52 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
 
-This needs to go in dylan too.
-
-Thanks,
-Laurentiu
-
- .../menu-cache/files/Fix-segfault.patch            |   31 ++++++++++++++++++++
- .../menu-cache/menu-cache_0.4.1.bb                 |    4 ++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
-
-diff --git a/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+diff --git a/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch b/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
 new file mode 100644
-index 0000000..74a0407
+index 0000000..44659a0
 --- /dev/null
-+++ b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
-@@ -0,0 +1,31 @@
-+From a497ea6aae3994b7f6527ef7599dd95baf2ad841 Mon Sep 17 00:00:00 2001
-+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+Date: Mon, 29 Apr 2013 12:04:20 +0300
-+Subject: [PATCH] Fix segfault
-+
-+Apparently, g_io_channel_unref() was called twice: once in the
-+menu-cache's on_client_closed() callback and once from the finalize
-+function, g_io_unix_finalize()/g_io_win32_finalize(), which is called
-+anyway when the source is removed.
++++ b/meta/recipes-connectivity/socat/files/fix-xxx_SHIFT-autoheader.patch
+@@ -0,0 +1,40 @@
++Subject: [PATCH] fix autoheader for *_SHIFT values.
 +
 +Upstream-Status: Pending
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+---
-+ menu-cache-daemon/menu-cached.c |    1 -
-+ 1 file changed, 1 deletion(-)
 +
-+diff --git a/menu-cache-daemon/menu-cached.c b/menu-cache-daemon/menu-cached.c
-+index e246bb4..a10b6db 100644
-+--- a/menu-cache-daemon/menu-cached.c
-++++ b/menu-cache-daemon/menu-cached.c
-+@@ -579,7 +579,6 @@ static void on_client_closed(gpointer user_data)
-+         }
-+     }
-+     /* DEBUG("client closed"); */
-+-    g_io_channel_unref(ch);
-+ }
++autoheader would not generate C `#define' statements if
++the first param of AC_DEFINE_UNQUOTED is a shell variable.
++This will cause build failures while enable termios, so
++expand these AC_DEFINE_UNQUOTED from the macro.
++
++Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
++---
++ configure.in |    5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index c54e4c4..13bae64 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -1335,8 +1335,6 @@ AC_CACHE_CHECK(shift offset of $1, $2,
++  [$2=-1]
++ )
++  LIBS="$LIBS1"])
++-SHIFT_NAME="$1"_SHIFT
++-AC_DEFINE_UNQUOTED($SHIFT_NAME, ${$2}, [foo])
++ if test "$2" = -1; then
++ AC_MSG_WARN(please determine $1_SHIFT manually)
++ fi
++@@ -1346,6 +1344,9 @@ AC_SHIFT_OFFSET(CRDLY,  sc_cv_sys_crdly_shift)
++ AC_SHIFT_OFFSET(TABDLY, sc_cv_sys_tabdly_shift)
++ AC_SHIFT_OFFSET(CSIZE,  sc_cv_sys_csize_shift)
 + 
-+ static gboolean on_client_data_in(GIOChannel* ch, GIOCondition cond, gpointer user_data)
+++AC_DEFINE_UNQUOTED(CRDLY_SHIFT, ${sc_cv_sys_crdly_shift}, [shift for CRDLY, carriage return delay])
+++AC_DEFINE_UNQUOTED(TABDLY_SHIFT, ${sc_cv_sys_tabdly_shift}, [shift for TABDLY, horizontal tab delay])
+++AC_DEFINE_UNQUOTED(CSIZE_SHIFT, ${sc_cv_sys_csize_shift}, [shift for CSIZE, character size])
++ 
++ dnl find what physical type (basic C type) is equivalent to the given type.
++ dnl arg1: include file(s)
 +-- 
 +1.7.9.5
 +
-diff --git a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-index d0c5340..2aabd4a 100644
---- a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-+++ b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- SECTION = "x11/libs"
- DEPENDS = "glib-2.0 zlib"
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.1.bb b/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
+index 950e1e5..43c2d58 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.2.1.bb
+@@ -13,15 +13,24 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz \
-+           file://Fix-segfault.patch \
-+          "
+ PR = "r0"
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2;name=src \
+-           file://compile.patch"
++           file://compile.patch \
++           file://fix-xxx_SHIFT-autoheader.patch"
++
++EXTRA_OECONF += "ac_cv_have_z_modifier=yes sc_cv_sys_crdly_shift=9 \
++        sc_cv_sys_tabdly_shift=11 sc_cv_sys_csize_shift=4 \
++        ac_cv_ispeed_offset=13 \
++"
  
- SRC_URI[md5sum] = "20fed982f5d8e6ec8a56a5b48894ecf0"
- SRC_URI[sha256sum] = "4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e"
+ SRC_URI[src.md5sum] = "7ddfea7e9e85f868670f94d3ea08358b"
+ SRC_URI[src.sha256sum] = "faea2ed6c63bb97a59237fd43b7c35ad248317297e8bfeb2e6f2ec1e6bc58277"
+ 
+-EXTRA_OECONF = " --disable-termios "
+-
+ inherit autotools
+ 
++do_configure_prepend() {
++    sed '/AC_DEFINE_UNQUOTED(ISPEED_OFFSET/a\AC_DEFINE(OSPEED_OFFSET,\
++(ISPEED_OFFSET+1)\ ,\ [have\ ospeed\ offset])' -i ${S}/configure.in
++}
++
+ do_install_prepend () {
+     mkdir -p ${D}${bindir}
+     install -d ${D}${bindir} ${D}${mandir}/man1
 -- 
-1.7.9.5
+1.7.10.4
 
 
