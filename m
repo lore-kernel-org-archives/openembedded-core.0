@@ -1,35 +1,39 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 050B2601AF
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A9926041D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 22:42:00 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id w20so3654744lbh.38
+	Thu,  6 Jun 2013 23:17:10 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id lj1so2080836pab.22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2013 15:42:01 -0700 (PDT)
+	Thu, 06 Jun 2013 16:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	h=references:from:mime-version:in-reply-to:date:message-id:subject:to
 	:cc:content-type;
-	bh=ePmkAYDUZM2z43RZuZXNVzSEEqxUT5rcTOmUExUj4O0=;
-	b=nfIxlE9e9IGQgGLgxNvvFA9lVkayLXTJNl330XFAMxZW5b/0OxZZ3pthfs0U3ZJGzx
-	ohd7CTlvx7IQ4tCcoHRbMFEAcUYopRbGgIHcj+EVvhAB9sOLmamAGkT5w6iZ8z3i+sDK
-	P+qOUlAQGhMtiuACND0JLYq49cH0Eg2863EeyRwK/NrQlHkbvvqHPQmw3Id0L3KzDYwQ
-	9wIM48R5ouXjRjwFdegV/Lq7STJNCEZ0+qsGtubnvnwNLpmzJuTA6eJ4fAfaMdg9sDO2
-	kiz32wRo4GSWEu9JlFMByDm7RJSyy4/bezRGW+MPaZS2EsMZ82HfI7P3KzzNA26nUrfu
-	7DEw==
-MIME-Version: 1.0
-X-Received: by 10.112.205.163 with SMTP id lh3mr858085lbc.45.1370558520849;
-	Thu, 06 Jun 2013 15:42:00 -0700 (PDT)
-Received: by 10.112.71.14 with HTTP; Thu, 6 Jun 2013 15:42:00 -0700 (PDT)
-In-Reply-To: <CAP9ODKr9zNQENpsL_ASoKRWEfTauWhRx07Ps46=5u3D5=XXxng@mail.gmail.com>
-References: <CAP9ODKr9zNQENpsL_ASoKRWEfTauWhRx07Ps46=5u3D5=XXxng@mail.gmail.com>
-Date: Thu, 6 Jun 2013 18:42:00 -0400
-Message-ID: <CADkTA4NRN5cPFcVLtqwMtwiY3dJb_FJG2n3pYN3dUnGzgpTMuQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+	bh=FEvy7ckG4hjSaCYiOoEF+RgA8+569mehAbN7uGcOyvg=;
+	b=WZIZ0pygau0mw1SxCLzzrcoHc1vguXGLIwO2DmbRmfG0JuKystTYPNqEzTeVHI5C37
+	9sntzzYnYGnIDwqyViePpxEhX7/5OhW1wr1QgOCrVsKwujDFHp/P+Q9meeANiJAeFl96
+	IyxaI1fRfpu2iLzBfACnCWjmKdLCUVceSj9lV80V/JUfwiEDkrmrjFSB4W2DfbwSJ35c
+	d5XnjUqM8gnd8htDnj8qM2Xc0ld/z3ki0d73VhzmrxiNupY8PiMqkqHU2UGeaRWBm5Fb
+	gMVEIjKVyvOnf2uCWP1qbgDeNA8beBcuGzOIfURqTEG92pBuzmsGgGyqaVnm5lPMoiBe
+	VCTA==
+X-Received: by 10.66.172.172 with SMTP id bd12mr40560320pac.139.1370560631245; 
+	Thu, 06 Jun 2013 16:17:11 -0700 (PDT)
+References: <1370422910-24366-1-git-send-email-net147@gmail.com>
+	<2054363.UxqkIOrzAJ@helios> <51AF6ED5.4010500@linux.intel.com>
+	<14899581.O0scG6jzAS@helios>
+	<CAGrhNMzSY-ow4PNzscD31qSW8st1tv9Fjmc9Xxx_Oqa2CjsuJA@mail.gmail.com>
+	<51B0EBE2.3020909@linux.intel.com>
+From: Jonathan Liu <net147@gmail.com>
+Mime-Version: 1.0 (1.0)
+In-Reply-To: <51B0EBE2.3020909@linux.intel.com>
+Date: Fri, 7 Jun 2013 09:17:09 +1000
+Message-ID: <3011112518438126591@unknownmsgid>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Linux kernel build dependency of 'bc'
+Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +46,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 22:42:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 06 Jun 2013 23:17:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 6, 2013 at 11:11 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Hello Bruce,
+On 07/06/2013, at 6:07 AM, Saul Wold <sgw@linux.intel.com> wrote:
+
+> On 06/06/2013 12:18 PM, Felipe Tonello wrote:
+>> On Thu, Jun 6, 2013 at 2:54 AM, Paul Eggleton
+>> <paul.eggleton@linux.intel.com> wrote:
+>>> On Wednesday 05 June 2013 10:01:09 Saul Wold wrote:
+>>>> On 06/05/2013 09:57 AM, Paul Eggleton wrote:
+>>>>> On Wednesday 05 June 2013 09:46:49 Saul Wold wrote:
+>>>>>> On 06/05/2013 02:30 AM, Martin Jansa wrote:
+>>>>>>> On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
+>>>>>>>> qconfig.pri was not being loaded by qmake properly. This means Qt
+>>>>>>>> qmake projects are unable to query QT_ARCH, QT_VERSION and other
+>>>>>>>> variables defined in qconfig.pri.
+>>>>>>>>
+>>>>>>>> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
+>>>>>>>> so that it can be located by qmake.
+>>>>>>>
+>>>>>>> There is such patch already:
+>>>>>>> http://lists.openembedded.org/pipermail/openembedded-core/2013-May/07831
+>>>>>>> 4.
+>>>>>>> html
+>>>>>>
+>>>>>> Got lost in my queue, adding it for the next MUT.
+>>>>>
+>>>>> FWIW I am still concerned by the assertion in the commit message about it
+>>>>> causing undesirable behaviour. I'd want that checked out and the note
+>>>>> removed before we look at merging this.
+>>>>
+>>>> OK, I will shelf this until I hear more about the testing of this change
+>>>> regarding the original patch's note.
+>>>
+>>> So I tested a rebuild of qt4-x11-free with Felipe's patch and two of
+>>> Jonathan's ("qt4: fix QMAKE_QT_CONFIG being overwritten with empty value" and
+>>> "classes/qmake_base: allow parallel make"), and did not observe any unexpected
+>>> behaviour and buildhistory looks clean for qt itself and fotowall/quicky. So
+>>> I'd say feel free to throw these into MUT, but I think we need to drop the
+>>> note.
+>>
+>> Awesome.
 >
-> I got a build failure in my auto builder; it has a very lean system install
-> and it spot something it is new for me. It seems the kernel now depends on
-> 'bc' util.
+> So can someone put a final updated patch series together.  I am still not sure about Jonathans's allow parallel make change, it seemed to have the -j option since it's added with a _prepend which is not overriden by the = assignment.
 >
-> I tried to find a 'bc-native'  and couldn't find so I'd like to know if it
-> is a known issue and if someone is already working in a 'bc-native' recipe
-> to proper fix the issue.
+> Sau!
 
-Following up on this thread late (I was on a plane all day), this
-hasn't popped up on
-my builders, but then again, all of mine have bc, so I wouldn't have noticed
-for some time.
+It has make -j 16 MAKEFLAGS=.
+-j 16 adds to MAKEFLAGS, and MAKEFLAGS= clears it. It is trivial to
+check this is the case and I have verified it both when building
+fotowall and independently on command line for building Qt projects
+outside of Yocto.
 
-If nothing has been entered bugzilla for this, we should do that now, just to
-avoid more than one person going ahead and adding bc-native!
-
-Bruce
+Regards,
+Jonathan
 
 >
-> Regards,
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://projetos.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+>>
+>> Thank you,
+>> Felipe
+>>
+>>
 
