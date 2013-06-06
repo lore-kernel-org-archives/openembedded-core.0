@@ -1,25 +1,37 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D2E6A5A8
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 89C886A5A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 21:04:58 +0000 (UTC)
-Received: from [192.168.178.101] (chello080108009040.14.11.vie.surfer.at
-	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id B7FDA20668;
-	Thu,  6 Jun 2013 23:04:58 +0200 (CEST)
-Message-ID: <51B0F987.7070600@pseudoterminal.org>
-Date: Thu, 06 Jun 2013 23:05:11 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1370027758-22849-1-git-send-email-dv@pseudoterminal.org>
-	<51B0BE87.8010807@linux.intel.com>
-	<51B0C431.3040505@pseudoterminal.org>
-	<51B0EEA9.1030903@linux.intel.com>
-In-Reply-To: <51B0EEA9.1030903@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] GStreamer 1.0 recipes
+	Thu,  6 Jun 2013 21:55:43 +0000 (UTC)
+Received: by mail-lb0-f182.google.com with SMTP id r11so2491057lbv.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Jun 2013 14:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=KVgwxWtM/ITF1oqS2ckmLREk2n1lh7m5VFoq9Mlptq0=;
+	b=dXqHkQ0x3ujMOf84QkK7Ds1wBVaEid52pvpEEobZ3qKK+AQjwwrC6wfHwA8HqXwAYA
+	zGrbEYBhQSS8HgkS5PVIir9TjVPRKSEy9xGUXT6Fpiqt6eepecak9FzT9a7+VxIMxRr3
+	p0Em5MVlUBhS2XUsugyXgliI6E4/Q2WL/mmxFWnaiqYXepyFoY2ohtFi01yXoABc34CB
+	T5lcwr9qoedyEDlIY9bYiAOZxTu8JOHlv6MRMy4aqejkkRZmP0cw7JLe//BPe0NV8D0y
+	+NtXfBoCICBRcjfIVF0CZgV2LtBxZylGXMUpt4bYmy8mxrb5nipW0DgzroLynACRlJfO
+	TXOA==
+X-Received: by 10.152.20.136 with SMTP id n8mr1099233lae.58.1370555743977;
+	Thu, 06 Jun 2013 14:55:43 -0700 (PDT)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPSA id e9sm28439101lbj.3.2013.06.06.14.55.42
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 06 Jun 2013 14:55:43 -0700 (PDT)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1Uki9m-0004Kx-BH; Fri, 07 Jun 2013 00:55:42 +0300
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2013 00:55:40 +0300
+Message-Id: <cover.1370555136.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] gnomebase.bbclass improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 21:04:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Jun 2013 21:55:44 -0000
 
-On 06.06.2013 22:18, Saul Wold wrote:
-> On 06/06/2013 10:17 AM, Carlos Rafael Giani wrote:
->> On 06.06.2013 18:53, Saul Wold wrote:
->>> On 05/31/2013 12:15 PM, Carlos Rafael Giani wrote:
->>>> These patches introduce recipes for GStreamer 1.0 . They
->>>> are copied over from my gstreamer 1.0 layer at
->>>> https://github.com/dv1/meta-gstreamer1.0 . All files except
->>>> gstreamer1.0-plugins-package.inc were copied; gst-plugins-package.inc
->>>> was patched to fix a problem with -meta packages and can be used for
->>>> both 0.10 and 1.0 now (the only difference is the value of the LIBV
->>>> variable).
->>>>
->>> So is there an update path from 0.10 to 1.0?  Also normally we replace
->>> the older version with the newer version by "git mv" in order to
->>> preserve history where possible.  I am not sure if you can do this
->>> with a move and then copy the new versions in.
->>>
->>> Since the packages are renamed, and I don's see any
->>> RPROVIDES/RREPLACES or RCONFLICTS to cover the upgrade path.
->>>
->>
->> Replace? Why do you want to replace? 1.0 is designed to be able to
->> coexist with 1.0 in the same rootfs (you cannot use both at the same
->> time in a process; however, this isn't a concern for OE, but for
->> application developers). In essence, simply adding the new files from
->> the patch to recipes-multimedia/gstreamer/ should be sufficient. The old
->> 0.10 ones can be left unchanged.
->>
->>
-> One of the core tenants of OE-Core is to only maintain the latest 
-> version of a given recipe and have an upgrade path from existing 
-> version to the latest version.
->
-> What I am not sure about is the programs that rely on gstream if all 
-> of them are ready for the 1.0.
->
-> But back to the orignal question, is the gstreamer 1.0 an upgrade path 
-> for 0.10 or a completely new gstreamer?  Is there an upgrade path? If 
-> so, then the packaging needs to reflect that.
->
-> Sau!
->
+A couple of gnomebase.bbclass changes from the tree where I've been
+working to include recipe for latest (gtk3-only) vte version in addition
+to older gtk2-compatible one.
 
-While 1.0 inherited a lot from 0.10, it is not a simple upgrade. It is 
-ABI and API incompatible with 0.10. The featureset is also not 100% the 
-same. This situation is comparable to Qt3 vs. Qt4 vs. Qt5, or Gtk2 vs. 
-Gtk3 etc. This is why it is not a good idea to get rid of the 0.10 
-recipes - you cannot simply build applications that use 0.10 with 1.0 
-libraries and expect it to compile.
+trim_version() -patch should't be any way controversial.
+GNOMEBN -patch is one you may want to apply now, or to wait if there
+is going to be any users for the feature and apply only when
+actually needed.
 
-Carlos
+The following changes since commit 8a2ac668d99f7d64c2acffc3a39cedb2d152be6e:
+
+  lrzsz: check locale.h in configure (2013-06-04 15:53:45 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
+
+Marko Lindqvist (2):
+  gnomebase.bbclass: implement gnome_verdir() using trim_version()
+  gnomebase.bbclass: add support for archive name different from BPN
+
+ meta/classes/gnomebase.bbclass |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+-- 
+1.7.10.4
+
 
