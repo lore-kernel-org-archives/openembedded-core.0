@@ -1,42 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F3D86A689
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A0666A689
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 15:47:14 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r56FqAgr005557; Thu, 6 Jun 2013 16:52:11 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id L4FwtG2RIrES; Thu,  6 Jun 2013 16:52:10 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r56Fq4Wq005542
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 6 Jun 2013 16:52:06 +0100
-Message-ID: <1370533615.6864.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>, Otavio Salvador
-	<otavio@ossystems.com.br>
-Date: Thu, 06 Jun 2013 16:46:55 +0100
-In-Reply-To: <20130605205801.GI10298@denix.org>
-References: <CAP71WjzSHWmKYLTs3_Ao6Mt_sKnUdNCHM3dSMSs8FpKbVyuCoQ@mail.gmail.com>
-	<51AF6E2F.8040309@linux.intel.com>
-	<CAP9ODKrxMh3PGGwVHdVFcUL2-Ag4vA2bAKr+3PGKGNDzwMJnpg@mail.gmail.com>
-	<51AF7336.8050802@linux.intel.com>
-	<CAP71WjxL2g=k5hcgAo70Linsf-Occ-tdh1jM+ppYmghALDsq3w@mail.gmail.com>
-	<CAP9ODKqiVaF3njGCLXHhT7n03d-QyESQAdw3S+HF2-JNEazCMw@mail.gmail.com>
-	<20130605200740.GF10298@denix.org>
-	<CAP9ODKr+SnNDEZJ4ON-fDpyZdjOTdVu+9=trCyEpmvHZa5AiwA@mail.gmail.com>
-	<51AFA565.3040607@linux.intel.com>
-	<CAP9ODKrzy+L9mptVFwNT5VvsxQt42igrQbE2m=yTzAw2Me3txg@mail.gmail.com>
-	<20130605205801.GI10298@denix.org>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH dylan, master] Fix meta-toolchain-qte SDK build for x11-less DISTRO
+	Thu,  6 Jun 2013 16:09:31 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jun 2013 09:09:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,816,1363158000"; d="scan'208";a="251540430"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.19])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Jun 2013 09:08:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2013 09:08:37 -0700
+Message-Id: <cover.1370534726.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [CONSOLIDATED PULL 00/37] Post M1 Updates and Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,152 +27,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 15:47:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Jun 2013 16:09:31 -0000
 
-On Wed, 2013-06-05 at 16:58 -0400, Denys Dmytriyenko wrote:
-> On Wed, Jun 05, 2013 at 05:56:31PM -0300, Otavio Salvador wrote:
-> > On Wed, Jun 5, 2013 at 5:53 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > 
-> > > On 06/05/2013 01:10 PM, Otavio Salvador wrote:
-> > >
-> > >>
-> > >>
-> > >>
-> > >> On Wed, Jun 5, 2013 at 5:07 PM, Denys Dmytriyenko <denis@denix.org
-> > >> <mailto:denis@denix.org>> wrote:
-> > >>
-> > >>     On Wed, Jun 05, 2013 at 02:43:07PM -0300, Otavio Salvador wrote:
-> > >>      > On Wed, Jun 5, 2013 at 2:23 PM, Nicolas Dechesne <
-> > >>      > nicolas.dechesne@linaro.org <mailto:nicolas.dechesne@**linaro.org<nicolas.dechesne@linaro.org>
-> > >> >>
-> > >>
-> > >>     wrote:
-> > >>      >
-> > >>      > >
-> > >>      > >
-> > >>      > >
-> > >>      > > On Wed, Jun 5, 2013 at 7:19 PM, Saul Wold <sgw@linux.intel.com
-> > >>     <mailto:sgw@linux.intel.com>> wrote:
-> > >>      > >
-> > >>      > >> On 06/05/2013 10:12 AM, Otavio Salvador wrote:
-> > >>      > >>
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >>> On Wed, Jun 5, 2013 at 1:58 PM, Saul Wold
-> > >>     <sgw@linux.intel.com <mailto:sgw@linux.intel.com>
-> > >>      > >>> <mailto:sgw@linux.intel.com <mailto:sgw@linux.intel.com>>>
-> > >> wrote:
-> > >>      > >>>
-> > >>      > >>>     On 06/05/2013 09:32 AM, Nicolas Dechesne wrote:
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >>>         On Wed, Jun 5, 2013 at 6:30 PM, Saul Wold
-> > >>     <sgw@linux.intel.com <mailto:sgw@linux.intel.com>
-> > >>      > >>>         <mailto:sgw@linux.intel.com <mailto:
-> > >> sgw@linux.intel.com>>
-> > >>      > >>>         <mailto:sgw@linux.intel.com
-> > >>     <mailto:sgw@linux.intel.com> <mailto:sgw@linux.intel.com
-> > >>     <mailto:sgw@linux.intel.com>>>**>
-> > >>      > >>> wrote:
-> > >>      > >>>
-> > >>      > >>>              You could just directly put the nativesdk-libx11
-> > >>     in place
-> > >>      > >>>         of the
-> > >>      > >>>              variable, no need to have the variable there.
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >>>         yes, that's what I had initially, but found it was
-> > >>     less easy to
-> > >>      > >>>         read...
-> > >>      > >>>         with X11DEPENDS it's more 'obvious' that there is
-> > >>     something
-> > >>      > >>>         special..
-> > >>      > >>>         that said, i can make the change if that's really
-> > >> needed.
-> > >>      > >>>
-> > >>      > >>>     We do use the X11DEPENDS elsewhere when there are multiple
-> > >>      > >>>     dependencies, but I also found cases where we just
-> > >>     include the
-> > >>      > >>>     dependency directly in the test. I was trying pick a
-> > >>     direction:
-> > >>      > >>>     single entry no X11DEPENDS, multiple entries use
-> > >> X11DEPENDS.
-> > >>      > >>>
-> > >>      > >>>     Comments, flames, ...
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >>> Yes; I sent this patch in Febuary:
-> > >>      > >>>
-> > >>     http://patchwork.openembedded.****org/patch/44759/<http://**
-> > >> patchwork.openembedded.org/**patch/44759/<http://patchwork.openembedded.org/patch/44759/>
-> > >> >
-> > >>      > >>>
-> > >>      > >>> Please use this one instead of the recent one.
-> > >>      > >>>
-> > >>      > >>>
-> > >>      > >> Well reading back on that, it looks like I was waiting for an
-> > >>      > >> EXTRA_OECONF or related change to the autoconf scripts.
-> > >>      > >>
-> > >>      > >> Sau!
-> > >>      > >
-> > >>      > >
-> > >>      > > hmm. ok, sorry Otavio, i missed the other patch. I will check
-> > >>     on my side
-> > >>      > > too about EXTRA_OECONF.
-> > >>      > >
-> > >>      >
-> > >>      > Nicolas, don't worry. It is normal to end redoing some stuff.
-> > >>      >
-> > >>      > Last time I checked it had no support in Qt build system; I am
-> > >>     not sure if
-> > >>      > it uses or not the host headers (in case they exist) but it needs
-> > >>     testing
-> > >>      > to be sure.
-> > >>
-> > >>     I can confirm that it does not link against host X11 when built w/o
-> > >> that
-> > >>     dependency and nativesdk has no x11 libs/headers. As I previously
-> > >>     mentioned,
-> > >>     we've been using this fix for over 6 months on several releases built
-> > >> on
-> > >>     different machines w/o problems...
-> > >>
-> > >>
-> > >> In this case the patch can be merged 'as is'.
-> > >>
-> > >>
-> > > I am still concerned about a floating dependency here, imagine the
-> > > following:
-> > >
-> > > Build the toolchain with X11 enabled, nativesdk-libx11 is build, now
-> > > rebuild with X11 disabled, the dependency is gone, but the libraries and
-> > > headers still exist in the sysroot and thus the configure will still enable
-> > > x11 in qte, bad things happen.
-> > >
-> > 
-> > I expect different distro features to have different build dirs. No?
-> > 
-> > 
-> > > We need to have a disable flag to autotools.
-> > >
-> > 
-> > The qmake based system does not provide this; so to support it, it will
-> > need to be a hack ...
-> 
-> I agree with Otavio here - seems like you are after a rare corner case here...
+Richard,
 
-We need determinism in the builds. Yes in this case it might be hard to
-achieve but I do think we need to achieve it.
+Here is a set of patches that I have tested and reviewed.
 
-So this patch isn't going in until we can avoid this option magically
-floating, sorry. I've said this before and I've not changed my mind.
+Robert's changes for insane/package checks look good, but could your eyes 
+as a final check.
 
-Cheers,
+Thanks
+	Sau!
 
-Richard
 
+Mostly Updates
+The following changes since commit 8a2ac668d99f7d64c2acffc3a39cedb2d152be6e:
+
+  lrzsz: check locale.h in configure (2013-06-04 15:53:45 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andrea Adami (1):
+  image_types.bbclass: add ubifs to IMAGE_TYPES
+
+Andrei Dinu (2):
+  linuxdoc-tools-native : upgrade to 0.9.69
+  libpng : upgrade to 1.6.2
+
+Andy Voltz (2):
+  tune-cortexa.inc: create a common include for cortex-a armv7a tuning
+  tune-cortexa5.inc: Add tune file for cortex-a5
+
+Bogdan Marinescu (4):
+  diffstat: upgraded to 1.57
+  libpcre: upgraded to 8.33
+  subversion: upgraded to 1.7.10
+  bdwgc: enable full version name in recipe name
+
+Cristian Iorga (2):
+  iptables: upgrade to 1.4.19.1
+  libpcap: upgrade to 1.4.0
+
+Dan McGregor (1):
+  python: enable IPv6 based on DISTRO_FEATURES
+
+Ionut Radu (1):
+  matchbox-terminal: Update to git HEAD
+    452bca253492a97a587f440289b9ab27d217353e
+
+Jack Mitchell (1):
+  connman: update to 1.15
+
+Jackie Huang (1):
+  grub-0.97: fix the objcopy error in configure
+
+Marko Lindqvist (3):
+  icu: update to upstream version 51.2
+  pixman: update to upstream version 0.30.0
+  zlib: update to upstream version 1.2.8
+
+Robert Yang (4):
+  insane/package: let package.bbclass inherit insane.bbclass
+  defaultsetup.conf: remove INHERIT_INSANE
+  insane/package: refactor packaging sanity tests
+  multilib.bbclass: fix the PACKAGEFUNCS_append
+
+Ross Burton (12):
+  weston-init: basic init script to start Weston on KMS/DRM
+  core-image-weston: basic image that boots directly to Weston
+  weston: install the examples into weston-examples
+  weston: add a weston-launch group
+  weston: clean up and add comments
+  gdk-pixbuf: upgrade to 2.28.1
+  test-utils: handle import bb failing and skip the test
+  test_utils: import functions directly for conciseness
+  mesa: upgrade to 9.1.3
+  mesa: update git recipe to 9.1.3 release
+  wayland: update to 1.1.0
+  weston: update to 1.1.0
+
+Saul Wold (2):
+  self-hosted: Add libssp libraries to packagegroup/image
+  libxi: Add libxfixes as dependency
+
+Yi Zhao (1):
+  kernel.bbclass: Fix link for modules-${MACHINE}.tgz
+
+ meta/classes/image_types.bbclass                   |   2 +-
+ meta/classes/insane.bbclass                        |  39 +-
+ meta/classes/kernel.bbclass                        |   2 +-
+ meta/classes/multilib.bbclass                      |   2 +-
+ meta/classes/package.bbclass                       |  41 +-
+ meta/conf/distro/defaultsetup.conf                 |   3 +-
+ meta/conf/machine/include/arm/README               |   3 +
+ meta/conf/machine/include/tune-cortexa.inc         |  35 ++
+ meta/conf/machine/include/tune-cortexa15.inc       |  35 +-
+ meta/conf/machine/include/tune-cortexa5.inc        |   5 +
+ meta/conf/machine/include/tune-cortexa7.inc        |  35 +-
+ meta/conf/machine/include/tune-cortexa8.inc        |  35 +-
+ meta/conf/machine/include/tune-cortexa9.inc        |  35 +-
+ meta/lib/oe/tests/test_utils.py                    |  14 +-
+ .../grub/grub-0.97/objcopy-absolute.patch          |  40 ++
+ meta/recipes-bsp/grub/grub_0.97.bb                 |   1 +
+ .../connman/{connman_1.14.bb => connman_1.15.bb}   |   4 +-
+ .../libpcap-1.3.0/0001-Fix-disable-canusb.patch    |  30 -
+ ...-The-leading-comma-looked-weird-remove-it.patch |  54 --
+ .../libpcap-1.3.0/0001-canusb-needs-lpthread.patch |  32 --
+ .../{libpcap-1.3.0 => libpcap}/aclocal.patch       |   0
+ .../ieee80215-arphrd.patch                         |   0
+ .../libpcap/{libpcap_1.3.0.bb => libpcap_1.4.0.bb} |  13 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   3 +
+ .../remove.ldconfig.call.patch                     |   0
+ .../zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb}          |  11 +-
+ .../diffstat/diffstat/aclocal.patch                |  37 ++
+ .../{diffstat_1.55.bb => diffstat_1.57.bb}         |   8 +-
+ .../linuxdoc-tools-native/disable_sgml2rtf.patch   |  47 +-
+ ...e_0.9.66.bb => linuxdoc-tools-native_0.9.69.bb} |  10 +-
+ meta/recipes-devtools/python/python.inc            |   1 +
+ .../fix-install-depends.patch                      |   0
+ .../libtool2.patch                                 |   0
+ .../{subversion_1.7.9.bb => subversion_1.7.10.bb}  |   4 +-
+ .../fix-iptables-extensions-build-error.patch      |  44 --
+ .../{iptables_1.4.18.bb => iptables_1.4.19.1.bb}   |   5 +-
+ .../gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch  |  23 -
+ .../configure_fix.patch                            |   0
+ .../extending-libinstall-dependencies.patch        |   0
+ .../hardcoded_libtool.patch                        |   0
+ .../{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} |  11 +-
+ meta/recipes-graphics/images/core-image-weston.bb  |   9 +
+ meta/recipes-graphics/mesa/mesa-9.0.2.inc          |  13 -
+ meta/recipes-graphics/mesa/mesa-git.inc            |   9 +-
+ .../mesa/mesa/0002-cross-compile.patch             |  94 ---
+ ...ate-NativeDisplayType-depending-on-config.patch | 358 ++++++++++++
+ meta/recipes-graphics/mesa/mesa/cross-glsl.patch   | 632 ---------------------
+ .../mesa/dont-fail-if-libX11-isnt-installed.patch  |  36 --
+ .../fix-egl-compilation-without-x11-headers.patch  |  32 --
+ .../mesa/mesa/fix-glsl-cross.patch                 |  43 ++
+ meta/recipes-graphics/mesa/mesa_9.0.2.bb           |   4 -
+ meta/recipes-graphics/mesa/mesa_9.1.3.bb           |  14 +
+ .../wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} |   6 +-
+ meta/recipes-graphics/wayland/weston-init.bb       |  17 +
+ meta/recipes-graphics/wayland/weston-init/init     |  56 ++
+ .../wayland/weston/install-examples.patch          |  18 +
+ .../wayland/{weston_1.0.6.bb => weston_1.1.0.bb}   |  38 +-
+ meta/recipes-graphics/xorg-lib/libxi_1.7.1.bb      |   2 +-
+ .../{pixman_0.29.4.bb => pixman_0.30.0.bb}         |   4 +-
+ .../libpng/libpng/transform.patch                  |  46 --
+ .../libpng/{libpng_1.6.1.bb => libpng_1.6.2.bb}    |   9 +-
+ .../matchbox-terminal/matchbox-terminal_git.bb     |   3 +-
+ .../bdwgc/{bdwgc_7.2.bb => bdwgc_7.2d.bb}          |   9 +-
+ meta/recipes-support/icu/icu.inc                   |   1 +
+ meta/recipes-support/icu/icu_50.1.2.bb             |  11 -
+ meta/recipes-support/icu/icu_51.2.bb               |  11 +
+ .../libpcre/{libpcre_8.32.bb => libpcre_8.33.bb}   |   7 +-
+ 67 files changed, 841 insertions(+), 1305 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-cortexa.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
+ create mode 100644 meta/recipes-bsp/grub/grub-0.97/objcopy-absolute.patch
+ rename meta/recipes-connectivity/connman/{connman_1.14.bb => connman_1.15.bb} (73%)
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-1.3.0/0001-Fix-disable-canusb.patch
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-1.3.0/0001-The-leading-comma-looked-weird-remove-it.patch
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap-1.3.0/0001-canusb-needs-lpthread.patch
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.3.0 => libpcap}/aclocal.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.3.0 => libpcap}/ieee80215-arphrd.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.3.0.bb => libpcap_1.4.0.bb} (56%)
+ rename meta/recipes-core/zlib/{zlib-1.2.7 => zlib-1.2.8}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-core/zlib/{zlib_1.2.7.bb => zlib_1.2.8.bb} (73%)
+ create mode 100644 meta/recipes-devtools/diffstat/diffstat/aclocal.patch
+ rename meta/recipes-devtools/diffstat/{diffstat_1.55.bb => diffstat_1.57.bb} (76%)
+ rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-native_0.9.66.bb => linuxdoc-tools-native_0.9.69.bb} (70%)
+ rename meta/recipes-devtools/subversion/{subversion-1.7.9 => subversion-1.7.10}/fix-install-depends.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion-1.7.9 => subversion-1.7.10}/libtool2.patch (100%)
+ rename meta/recipes-devtools/subversion/{subversion_1.7.9.bb => subversion_1.7.10.bb} (88%)
+ delete mode 100644 meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch
+ rename meta/recipes-extended/iptables/{iptables_1.4.18.bb => iptables_1.4.19.1.bb} (90%)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/pngversion.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/configure_fix.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/extending-libinstall-dependencies.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.26.5 => gdk-pixbuf}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.26.5.bb => gdk-pixbuf_2.28.1.bb} (89%)
+ create mode 100644 meta/recipes-graphics/images/core-image-weston.bb
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-9.0.2.inc
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0002-cross-compile.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/cross-glsl.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/dont-fail-if-libX11-isnt-installed.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/fix-glsl-cross.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa_9.0.2.bb
+ create mode 100644 meta/recipes-graphics/mesa/mesa_9.1.3.bb
+ rename meta/recipes-graphics/wayland/{wayland_1.0.6.bb => wayland_1.1.0.bb} (91%)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ create mode 100644 meta/recipes-graphics/wayland/weston/install-examples.patch
+ rename meta/recipes-graphics/wayland/{weston_1.0.6.bb => weston_1.1.0.bb} (63%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.29.4.bb => pixman_0.30.0.bb} (89%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng/transform.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.1.bb => libpng_1.6.2.bb} (61%)
+ rename meta/recipes-support/bdwgc/{bdwgc_7.2.bb => bdwgc_7.2d.bb} (92%)
+ delete mode 100644 meta/recipes-support/icu/icu_50.1.2.bb
+ create mode 100644 meta/recipes-support/icu/icu_51.2.bb
+ rename meta/recipes-support/libpcre/{libpcre_8.32.bb => libpcre_8.33.bb} (90%)
+
+-- 
+1.8.1.4
 
 
