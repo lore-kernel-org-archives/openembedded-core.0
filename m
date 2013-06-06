@@ -1,23 +1,21 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D73206A68E
+	by mail.openembedded.org (Postfix) with ESMTP id 205006A60F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 07:41:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2013 00:39:03 -0700
+	Thu,  6 Jun 2013 07:58:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2013 00:56:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,813,1363158000"; d="scan'208";a="325104374"
+X-IronPort-AV: E=Sophos;i="4.87,813,1363158000"; d="scan'208";a="349065567"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jun 2013 00:41:12 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2013 00:58:30 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jun 2013 10:41:11 +0300
-Message-Id: <cover.1370502833.git.laurentiu.palcu@intel.com>
+Date: Thu,  6 Jun 2013 10:58:29 +0300
+Message-Id: <1370505509-20264-1-git-send-email-laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1369313581.git.laurentiu.palcu@intel.com>
-References: <cover.1369313581.git.laurentiu.palcu@intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v2 0/7] run-postinsts refactoring
+Subject: [dylan][PATCH] menu-cache: Fix segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +28,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 07:41:14 -0000
+X-List-Received-Date: Thu, 06 Jun 2013 07:58:31 -0000
 
-(cover letter only)
+[YOCTO #4353]
 
-Changes in v2:
- * addressed an RPM issue that happened on AB. Interestingly, it happened only on
-   certain distros. Our internal AB (running on Ubuntu server 12.04), didn't show
-   any issues. So, what was the problem? We use a scriptlet wrapper to run the
-   pre/post install scriptlets. What I missed in the previous patchset was that I
-   didn't use the scriptlet wrapper when running the pre/post remove scriptlets
-   and the context in which they ran was not correct. Hence, the update-rc.d used
-   was the host's...
- * addresses Ross's request to move run-postinsts recipe out of dpkg directory,
-   since it's generic now;
+(From OE-Core rev: 8c9c6155e6d83675a94b4eaae4ffc6dfeca399ee)
 
-Paul, Mark would you please review the RPM changes please?
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+Hi Paul,
+
+This needs to go in dylan too.
 
 Thanks,
 Laurentiu
 
-Changes in v1:
-Hi all,
+ .../menu-cache/files/Fix-segfault.patch            |   31 ++++++++++++++++++++
+ .../menu-cache/menu-cache_0.4.1.bb                 |    4 ++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
 
-My work at #4484 revealed that the package managers deb/ipk/rpm handle removal
-of PM meta-data (when the PM is not deployed) and the delayed postinstalls
-execution in their own way. Currently we have:
- * run-postinsts (for deb/ipk) and rpm-postinsts (for rpm) for running the delayed
-   postinstalls on target when the PM is not part of the image;
- * opkg removes the meta-data and some uneeded packages whilst deb/rpm remove
-   only the meta-data;
- * both opkg and deb have no way of running the delayed postinstalls on target,
-   if package-management is not part of IMAGE_FEATURES, because the meta-data
-   was deleted (and it would have been useless anyway since the PM is not installed);
-
-That being said, this patchset tries to create a more unified solution for all
-PM backends.
-
-rpm-postinsts recipe is replaced by run-postinsts but I'll keep it in oe-core
-for a while (a couple of weeks maybe), just in case the current solution does not
-satisfy the RPM users (I doubt it though).
-
-I did tests with core-image-minimal using sysvinit/systemd and with/without delayed
-postinstalls. The results are as expected.
-
-Thanks,
-Laurentiu
-
-The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
-
-  lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/run_postinsts_refactor_v2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/run_postinsts_refactor_v2
-
-Laurentiu Palcu (7):
-  rootfs_*.bbclass: add some helper functions
-  image.bbclass: remove unneeded files from the image
-  core-image-minimal: do not remove packaging files in the rootfs
-    postprocess
-  run-postinsts: make it generic
-  rootfs_rpm.bbclass: switch to using run-postinsts
-  package_rpm.bbclass: handle pre/post remove scriptlets
-  rpm: replace rpm-postinsts dependency with run-postinsts
-
- meta/classes/image.bbclass                         |   33 ++++++++++++++
- meta/classes/package_rpm.bbclass                   |   16 ++++---
- meta/classes/rootfs_deb.bbclass                    |   23 +++++++++-
- meta/classes/rootfs_ipk.bbclass                    |   39 ++++++++--------
- meta/classes/rootfs_rpm.bbclass                    |   29 ++++++++++--
- meta/recipes-core/images/core-image-minimal.bb     |    2 -
- .../dpkg/run-postinsts/run-postinsts               |   36 ---------------
- .../dpkg/run-postinsts/run-postinsts.awk           |   30 -------------
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    2 +-
- .../run-postinsts/run-postinsts/run-postinsts      |   47 ++++++++++++++++++++
- .../{dpkg => run-postinsts}/run-postinsts_1.0.bb   |    7 ++-
- 11 files changed, 159 insertions(+), 105 deletions(-)
- delete mode 100755 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts
- delete mode 100644 meta/recipes-devtools/dpkg/run-postinsts/run-postinsts.awk
- create mode 100755 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
- rename meta/recipes-devtools/{dpkg => run-postinsts}/run-postinsts_1.0.bb (68%)
-
+diff --git a/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+new file mode 100644
+index 0000000..74a0407
+--- /dev/null
++++ b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+@@ -0,0 +1,31 @@
++From a497ea6aae3994b7f6527ef7599dd95baf2ad841 Mon Sep 17 00:00:00 2001
++From: Laurentiu Palcu <laurentiu.palcu@intel.com>
++Date: Mon, 29 Apr 2013 12:04:20 +0300
++Subject: [PATCH] Fix segfault
++
++Apparently, g_io_channel_unref() was called twice: once in the
++menu-cache's on_client_closed() callback and once from the finalize
++function, g_io_unix_finalize()/g_io_win32_finalize(), which is called
++anyway when the source is removed.
++
++Upstream-Status: Pending
++Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++---
++ menu-cache-daemon/menu-cached.c |    1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/menu-cache-daemon/menu-cached.c b/menu-cache-daemon/menu-cached.c
++index e246bb4..a10b6db 100644
++--- a/menu-cache-daemon/menu-cached.c
+++++ b/menu-cache-daemon/menu-cached.c
++@@ -579,7 +579,6 @@ static void on_client_closed(gpointer user_data)
++         }
++     }
++     /* DEBUG("client closed"); */
++-    g_io_channel_unref(ch);
++ }
++ 
++ static gboolean on_client_data_in(GIOChannel* ch, GIOCondition cond, gpointer user_data)
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+index d0c5340..2aabd4a 100644
+--- a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
++++ b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SECTION = "x11/libs"
+ DEPENDS = "glib-2.0 zlib"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz"
++SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz \
++           file://Fix-segfault.patch \
++          "
+ 
+ SRC_URI[md5sum] = "20fed982f5d8e6ec8a56a5b48894ecf0"
+ SRC_URI[sha256sum] = "4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e"
 -- 
 1.7.9.5
 
