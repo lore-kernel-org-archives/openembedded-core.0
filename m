@@ -1,26 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CBAC36A60F
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B116A65D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 06:31:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r566VMQC009867
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  6 Jun 2013 06:41:09 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lf10so1063905pab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Jun 2013 23:31:22 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.146) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 5 Jun 2013 23:31:21 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Jun 2013 14:31:17 +0800
-Message-ID: <da30ef6b6b7439554a46d3500e751444f04e8a78.1370499356.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1370499356.git.hongxu.jia@windriver.com>
-References: <cover.1370499356.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] init-live.sh: fix media automount failed after booting from usb-drive
+	Wed, 05 Jun 2013 23:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ngin4L3oGN9H5tlieMV8VMjSUef50OoWHrjxRxKaBVM=;
+	b=qioGDmxLERdUPKk5CCw1GP7kCW0HeQCYflZ+BIj3UUcfvJLD0FzL+rI5d3GXX6EIrl
+	8V7hIuT6LAzdrnonweRYTg0ZtYbD+s5846HahOJNhS0lbFzj6EhnYtCiV+ITynfW2qYr
+	INyPELmYcyW2/uAP9sJaRhND/MIZqcuiF+tdhQpHcdE+8SMPVSvpqa7kHz3b839UoT10
+	q3DH5NuZhy5RnBYFZTujDpXyGOufbQ1/gJPJp05ZTxl1GibMW2LCuVmNXzQVOzT0wnzH
+	VHXIJGD20cdcxJlg8yvUh9DlKa3QroM4TBy8/6oshTtqf/hNpuvMTzbsm9MYX0Lg7lLb
+	tSfg==
+X-Received: by 10.68.129.100 with SMTP id nv4mr36688321pbb.178.1370500869983; 
+	Wed, 05 Jun 2013 23:41:09 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id 6sm18463846pbn.45.2013.06.05.23.41.07
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Jun 2013 23:41:09 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2013 16:54:44 +1000
+Message-Id: <1370501684-26590-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] classes/qmake2: export QMAKEPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 06:31:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Jun 2013 06:41:09 -0000
 
-1, This issue happens to BSP only.
-After a BSP board is booted with Yocto linux from USB drive, "cat /proc/mounts" shows:
-...
-/dev/sda3 /media/sda3 ext3 rw,relatime,errors=continue,user_xattr,acl,barrier=1,data=ordered 0 0
-/dev/sda1 /media/sda1 ext3 rw,relatime,errors=continue,barrier=1,data=ordered 0 0
-/dev/sda2 /media/sda2 ext3 rw,relatime,errors=continue,user_xattr,acl,barrier=1,data=ordered 0 0
-...
+QMAKEPATH is exported so that qmake is able to detect the webkit module,
+load it and add it to the QT_CONFIG variable. The detection is done in
+mkspecs/features/qt_config.prf which reads the qmake QMAKE_MKSPECS
+builtin. qmake will read QMAKEPATH, append /mkspecs to it and prepend it
+to the QMAKE_MKSPECS list builtin returned. qt_config.prf will then load
+modules matching modules/qt_*.pri inside each directory in QMAKE_MKSPECS.
 
-but actually the directory /media/sda1 doesn't exist at all, "df" shows:
-...
-df: /media/sda3: No such file or directory
-df: /media/sda1: No such file or directory
-df: /media/sda2: No such file or directory
-...
-
-2, This is because the mount data comes from proc setup during early boot
-before the change root, which then uses a different root filesystem, the
-media is not in the new root filesystem.
-
-3, During early boot before switch_root, use `mount --move' to move all
-medias to the new root filesystem could also fix this issue.
-
-[YOCTO #2064]
-[YOCTO #3705]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/qmake2.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 4bd1b52..804e16e 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -79,11 +79,13 @@ boot_live_root() {
+diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+index 8b9861c..03ad2f1 100644
+--- a/meta/classes/qmake2.bbclass
++++ b/meta/classes/qmake2.bbclass
+@@ -5,6 +5,7 @@ inherit qmake_base
  
-     # Move the mount points of some filesystems over to
-     # the corresponding directories under the real root filesystem.
-+    for dir in `awk '/\/dev.* \/media/{print $2}' /proc/mounts`; do
-+        mkdir -p  ${ROOT_MOUNT}/$dir
-+        mount -n --move $dir ${ROOT_MOUNT}/$dir
-+    done
-     mount -n --move /proc ${ROOT_MOUNT}/proc
-     mount -n --move /sys ${ROOT_MOUNT}/sys
-     mount -n --move /dev ${ROOT_MOUNT}/dev
--    # Move /media/$i over to the real root filesystem
--    mount -n --move /media/$i ${ROOT_MOUNT}/media/realroot
+ DEPENDS_prepend = "qt4-tools-native "
  
-     cd $ROOT_MOUNT
-     exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
++export QMAKEPATH = "${STAGING_DATADIR}/qt4"
+ export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
+ export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+ export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
 -- 
-1.7.10.4
+1.8.2.3
 
 
