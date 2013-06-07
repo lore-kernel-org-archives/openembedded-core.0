@@ -1,33 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 217406A8CB
+Return-Path: <eu@felipetonello.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 397916A88F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 17:22:57 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57HS3hr002854 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 18:28:03 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bDhMNAG5oxGC
+	Fri,  7 Jun 2013 17:35:08 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id eh20so6777328obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 18:28:02 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57HRuqX002846
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 18:27:58 +0100
-Message-ID: <1370625762.6864.67.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Jun 2013 18:22:42 +0100
-In-Reply-To: <1370625553.6864.64.camel@ted>
-References: <1370625553.6864.64.camel@ted>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] scripts/buildenv-internal/sanity: Update to python 2.7.3 as a minimum
+	Fri, 07 Jun 2013 10:35:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=JLIpWtsK7aJbfcTxRE2Vd9gulgM3i7ExcL+AQfI1VUo=;
+	b=okVUoCRjlw/0ZALUTZjRArQHWg9UDx9egmbn9Ok4ACughTXFvpoWQIE7Q2WJuL95iH
+	rgllp24o1USQBhaJZRZ5MoARSrVYIi4lpWUR9AXlcdkQAJa0LFUsOa86wX5Qgl2g2BSH
+	e6Fi96CG07+XCU9eqj6uTHUOyTth76Asg6Ft8B0kTk1Us/iv34tTpEjSTm3pk/WHL9T2
+	XAjBF/Tr3DsI+PsLNzcKLvxKKCIlSv4uaoE+SmSNLolShdlPkFbyEa2Bh/LuMgcFcW1H
+	BoryZ5iag6LG8kqjbt2wIZTYpPHpnTOjHbeBBCNCKZ3UnsBodDATTu9k3zUtCKxIqDrY
+	sW/g==
+X-Received: by 10.182.134.231 with SMTP id pn7mr21733804obb.11.1370626508829; 
+	Fri, 07 Jun 2013 10:35:08 -0700 (PDT)
+Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPSA id i2sm34454702obz.11.2013.06.07.10.35.07
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 07 Jun 2013 10:35:08 -0700 (PDT)
+From: eu@felipetonello.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2013 10:35:02 -0700
+Message-Id: <1370626502-5233-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.8.1.4
+X-Gm-Message-State: ALoCoQlGoaZGF3CB9ZbWhOhj7NYv//gJLKXJVBLyCAS6+LtjvLGxyuOxHbD3W3swxDvqruDkkHNe
+Subject: [PATCH] valgrind: added perl dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 17:22:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Jun 2013 17:35:08 -0000
 
-On Fri, 2013-06-07 at 18:19 +0100, Richard Purdie wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-I should add that I'm aware that some of these commit messages are
-missing full explaintions. I will add those before they get merged, I
-just ran out of time today yet wanted to post them for others to see.
-Its pretty clear what the patches are doing and why is covered in other
-emails I've written today.
+This is necessary since the valgrind package depends on /usr/bin/perl.
 
-This series does depend on the bitbake series which I've posted to
-bitbake-devel.
+This patch will fix this error while installing into rootfs:
+Computing transaction...error: Can't install valgrind-3.8.1-r8@armv7a_vfp_neon: no package provides /usr/bin/perl
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/t8
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+---
+ meta/recipes-devtools/valgrind/valgrind_3.8.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-is the series (ignore the top two commits).
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+index 3520d49..ae2c5a2 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+                     file://COPYING.DOCS;md5=8fdeb5abdb235a08e76835f8f3260215"
+ 
+ X11DEPENDS = "virtual/libx11"
+-DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+-PR = "r8"
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)} perl"
++PR = "r9"
+ 
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ 	   file://fix_issue_caused_by_ccache.patch \
+-- 
+1.8.1.4
 
 
