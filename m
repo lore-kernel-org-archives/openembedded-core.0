@@ -1,33 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DC32621CA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CA4D56A88D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 15:50:00 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57Fsn0H029820; Fri, 7 Jun 2013 16:54:49 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id k5t7CtPhT4Lo; Fri,  7 Jun 2013 16:54:49 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57FshG8029797
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 7 Jun 2013 16:54:45 +0100
-Message-ID: <1370620169.6864.48.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 07 Jun 2013 16:49:29 +0100
-In-Reply-To: <51B0BF5F.4040305@linux.intel.com>
-References: <cover.1370534726.git.sgw@linux.intel.com>
-	<51B0BF5F.4040305@linux.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/37] Post M1 Updates and Fixes
+	Fri,  7 Jun 2013 16:35:41 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2013 09:35:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,823,1363158000"; d="scan'208";a="252034844"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.224])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Jun 2013 09:35:20 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2013 17:35:18 +0100
+Message-Id: <1370622918-26073-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] classes/buildhistory: split SDK data by IMAGE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,19 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 15:50:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Jun 2013 16:35:42 -0000
 
-On Thu, 2013-06-06 at 09:57 -0700, Saul Wold wrote:
-> Otavio, Darren, Nitin:
-> 
-> Your BSPs may need .bbappends for mesa, see below
+Data from SDKs produced from different images or different
+meta-toolchain style recipes should go into separate directories,
+since SDK_NAME doesn't include anything to differentiate these by
+default (only pieces for the distro name and architectures).
 
-I've merged this series FWIW, thanks Saul.
+Note you should delete or move existing data under the buildhistory/sdk/
+directory manually after this change.
 
-Cheers,
+Fixes [YOCTO #4622].
 
-Richard
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/buildhistory.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index b12da4a..450eb7c 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -11,7 +11,7 @@ BUILDHISTORY_FEATURES ?= "image package sdk"
+ BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
+ BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
+ BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
+-BUILDHISTORY_DIR_SDK = "${BUILDHISTORY_DIR}/sdk/${SDK_NAME}"
++BUILDHISTORY_DIR_SDK = "${BUILDHISTORY_DIR}/sdk/${SDK_NAME}/${IMAGE_BASENAME}"
+ BUILDHISTORY_IMAGE_FILES ?= "/etc/passwd /etc/group"
+ BUILDHISTORY_COMMIT ?= "0"
+ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+-- 
+1.8.1.2
 
 
