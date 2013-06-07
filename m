@@ -1,20 +1,28 @@
-Return-Path: <andrei.adrianx.dinu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AA5661EEB
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66B1061EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 14:51:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Jun 2013 07:49:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,822,1363158000"; d="scan'208";a="325828161"
-Received: from adinu-vostro-460.rb.intel.com ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jun 2013 07:51:57 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jun 2013 17:52:53 +0300
-Message-Id: <1370616773-12603-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] sudo : upgrade to 1.8.6p8
+	Fri,  7 Jun 2013 15:06:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r57F64xq018516
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Jun 2013 08:06:04 -0700 (PDT)
+Received: from msp-dhcp18.wrs.com (172.25.34.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 7 Jun 2013 08:06:03 -0700
+Message-ID: <51B1F6E1.8050901@windriver.com>
+Date: Fri, 7 Jun 2013 10:06:09 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1370602058.6864.24.camel@ted>
+In-Reply-To: <1370602058.6864.24.camel@ted>
+Subject: Re: OE-Core and Bitbake wrapper changes (min 2.7.3 python version)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,150 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 14:51:58 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 15:06:03 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-upgrade from 1.8.6p7 -> 1.8.6p8
+On 6/7/13 5:47 AM, Richard Purdie wrote:
+> Its not secret that I hate the current bitbake wrapper script and want
+> to remove it for 101 different reasons.
+>
+> I now have code which removes the need for the double execution of
+> bitbake which was the only fundamental reason we had it. The question
+> therefore remains, what to do with the other pieces of the wrapper,
+> specifically the tar and git versions checks.
+>
+> As a reminder for those who don't remember the problem here, the git
+> version is checked since we use certain parameters in the git fetcher
+> which need certain versions of git and git is in ASSUME_PROVIDED these
+> days. Its possible to trigger git operations at part time to resolve
+> revisions. tar is even more ugly since the wrong version has issues
+> extracting sstate archives. These issues mean injecting building them
+> into the dependency chain at the right point is hard.
+>
+> Personally, I think we carry around a bit too much legacy these days and
+> its starting to hurt us. I would therefore like to propose that we take
+> this opportunity to do some spring cleaning and simply error on:
+>
+> * broken tar versions
+> * too old versions of git
+> * python < 2.7.3
+>
+> The python version check would move to the oe-init-build-env script, the
+> git/tar versions to sanity.bbclass.
 
- - removed crypt.patch because it was contained upstream
+Can we also add the python check to bitbake as well?  My concern is not everyone 
+uses the oe-init-build-env script, so ensuring that bitbake stops immediately 
+and tells the user what's wrong is important.
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- meta/recipes-extended/sudo/files/crypt.patch       |  100 --------------------
- .../sudo/{sudo_1.8.6p7.bb => sudo_1.8.6p8.bb}      |    5 +-
- 2 files changed, 2 insertions(+), 103 deletions(-)
- delete mode 100644 meta/recipes-extended/sudo/files/crypt.patch
- rename meta/recipes-extended/sudo/{sudo_1.8.6p7.bb => sudo_1.8.6p8.bb} (81%)
+> The recommendation for anyone with these older versions would be to
+> install our standalone tools tarball which would have python 2.7.3 and
+> working versions of tar/git.
+>
+> The reason for the python version change is so we can embrace the
+> unittest improvements in 2.7 and drop all of the workarounds for pre
+> 2.7.3 bugs in bitbake. This starts to move us towards python 3, if this
+> tarball works well, we'd use the same approach to move to python 3.
+>
+> Any objections?
 
-diff --git a/meta/recipes-extended/sudo/files/crypt.patch b/meta/recipes-extended/sudo/files/crypt.patch
-deleted file mode 100644
-index d0622d3..0000000
---- a/meta/recipes-extended/sudo/files/crypt.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--# HG changeset patch
--# User Todd C. Miller <Todd.Miller@courtesan.com>
--# Date 1365700240 14400
--# Node ID 887b9df243df5254e56c467a016f1b0a7a8507dd
--# Parent  fd7eda53cdd76aaf8336800c61005ae93de95ac7
--Check for crypt() returning NULL.  Traditionally, crypt() never returned
--NULL but newer versions of eglibc have a crypt() that does.  Bug #598
--
--diff -r fd7eda53cdd7 -r 887b9df243df plugins/sudoers/auth/passwd.c
----- a/plugins/sudoers/auth/passwd.c	Thu Apr 11 09:09:53 2013 -0400
--+++ b/plugins/sudoers/auth/passwd.c	Thu Apr 11 13:10:40 2013 -0400
--@@ -68,15 +68,15 @@
--     char sav, *epass;
--     char *pw_epasswd = auth->data;
--     size_t pw_len;
---    int error;
--+    int matched = 0;
--     debug_decl(sudo_passwd_verify, SUDO_DEBUG_AUTH)
-- 
--     pw_len = strlen(pw_epasswd);
-- 
-- #ifdef HAVE_GETAUTHUID
--     /* Ultrix shadow passwords may use crypt16() */
---    error = strcmp(pw_epasswd, (char *) crypt16(pass, pw_epasswd));
---    if (!error)
--+    epass = (char *) crypt16(pass, pw_epasswd);
--+    if (epass != NULL && strcmp(pw_epasswd, epass) == 0)
-- 	debug_return_int(AUTH_SUCCESS);
-- #endif /* HAVE_GETAUTHUID */
-- 
--@@ -95,12 +95,14 @@
--      */
--     epass = (char *) crypt(pass, pw_epasswd);
--     pass[8] = sav;
---    if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
---	error = strncmp(pw_epasswd, epass, DESLEN);
---    else
---	error = strcmp(pw_epasswd, epass);
--+    if (epass != NULL) {
--+	if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
--+	    matched = !strncmp(pw_epasswd, epass, DESLEN);
--+	else
--+	    matched = !strcmp(pw_epasswd, epass);
--+    }
-- 
---    debug_return_int(error ? AUTH_FAILURE : AUTH_SUCCESS);
--+    debug_return_int(matched ? AUTH_SUCCESS : AUTH_FAILURE);
-- }
-- 
-- int
--diff -r fd7eda53cdd7 -r 887b9df243df plugins/sudoers/auth/secureware.c
----- a/plugins/sudoers/auth/secureware.c	Thu Apr 11 09:09:53 2013 -0400
--+++ b/plugins/sudoers/auth/secureware.c	Thu Apr 11 13:10:40 2013 -0400
--@@ -73,30 +73,28 @@
-- sudo_secureware_verify(struct passwd *pw, char *pass, sudo_auth *auth)
-- {
--     char *pw_epasswd = auth->data;
--+    char *epass = NULL;
--     debug_decl(sudo_secureware_verify, SUDO_DEBUG_AUTH)
-- #ifdef __alpha
--     {
-- 	extern int crypt_type;
-- 
---#  ifdef HAVE_DISPCRYPT
---	if (strcmp(pw_epasswd, dispcrypt(pass, pw_epasswd, crypt_type)) == 0)
---	    debug_return_int(AUTH_SUCCESS);
---#  else
---	if (crypt_type == AUTH_CRYPT_BIGCRYPT) {
---	    if (strcmp(pw_epasswd, bigcrypt(pass, pw_epasswd)) == 0)
---		debug_return_int(AUTH_SUCCESS);
---	} else if (crypt_type == AUTH_CRYPT_CRYPT16) {
---	    if (strcmp(pw_epasswd, crypt(pass, pw_epasswd)) == 0)
---		debug_return_int(AUTH_SUCCESS);
---	}
--+# ifdef HAVE_DISPCRYPT
--+	epass = dispcrypt(pass, pw_epasswd, crypt_type);
--+# else
--+	if (crypt_type == AUTH_CRYPT_BIGCRYPT)
--+	    epass = bigcrypt(pass, pw_epasswd);
--+	else if (crypt_type == AUTH_CRYPT_CRYPT16)
--+	    epass = crypt(pass, pw_epasswd);
--     }
---#  endif /* HAVE_DISPCRYPT */
--+# endif /* HAVE_DISPCRYPT */
-- #elif defined(HAVE_BIGCRYPT)
---    if (strcmp(pw_epasswd, bigcrypt(pass, pw_epasswd)) == 0)
---	debug_return_int(AUTH_SUCCESS);
--+    epass = bigcrypt(pass, pw_epasswd);
-- #endif /* __alpha */
-- 
---	debug_return_int(AUTH_FAILURE);
--+    if (epass != NULL && strcmp(pw_epasswd, epass) == 0)
--+	debug_return_int(AUTH_SUCCESS);
--+    debug_return_int(AUTH_FAILURE);
-- }
-- 
-- int
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.6p7.bb b/meta/recipes-extended/sudo/sudo_1.8.6p8.bb
-similarity index 81%
-rename from meta/recipes-extended/sudo/sudo_1.8.6p7.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.6p8.bb
-index 7198fd3..00602c0 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.6p7.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.6p8.bb
-@@ -4,13 +4,12 @@ PR = "r0"
- 
- SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
-            file://libtool.patch \
--           file://crypt.patch \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "126abfa2e841139e774d4c67d80f0e5b"
--SRC_URI[sha256sum] = "301089edb22356f59d097f6abbe1303f03927a38691b02959d618546c2125036"
-+SRC_URI[md5sum] = "6dac48c73c8e0932980efcddafa569af"
-+SRC_URI[sha256sum] = "c0baaa87f59153967b650a0dde2f7d4147d358fa15f3fdabb47e84d0282fe625"
- 
- DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-1.7.9.5
+No objection, this seems fine.  It would be nice if there was a simple way (for 
+the tar and git cases) to be able to build them as a user step and then be able 
+to use them, but that "nice experience" can easily be handled by documentation 
+as well.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
