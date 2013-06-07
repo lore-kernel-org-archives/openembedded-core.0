@@ -1,35 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-vb0-f48.google.com (mail-vb0-f48.google.com
-	[209.85.212.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CED16A456
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FEA96A456
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 02:05:51 +0000 (UTC)
-Received: by mail-vb0-f48.google.com with SMTP id w15so200710vbf.21
+	Fri,  7 Jun 2013 02:07:24 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lf10so1726472pab.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2013 19:05:51 -0700 (PDT)
+	Thu, 06 Jun 2013 19:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=eZUj6cy7jPzqAa3dhB6kMAewZJ36/hgjlCmUsNPXtDc=;
-	b=bNJB7ILHkcTjZFK2daGkX52aN8waVUuV5GA60W/3yyqpJ/mZJdJI5gF2dnQzSIGpdq
-	9rNOsWCDNQX21wF+7/raaSlKw3k4N5bUxt81pYeFSQ4cDvBmTBbUfYYQT8XOCCKA30SM
-	7hpUtdB4RyyEHUcmM74jXFSqr0/P5dKQoAF4de1OQXK3z0qgllvBLwRjFwDwV7b8mMbF
-	nkX7hANvO3wv66VUpQ3F6A5EoEMOGbIY3e3Vuswxs2Lwh53Bw2eZKywultaYwnyE3zR2
-	U9ZjuxR3A6Ovco+Ahztn/87/LqNWLZtrjXaebf69h+SAynECtTzIH9W8OdP0IhUAc/3U
-	xnjg==
-MIME-Version: 1.0
-X-Received: by 10.52.68.11 with SMTP id r11mr19445839vdt.93.1370570751641;
-	Thu, 06 Jun 2013 19:05:51 -0700 (PDT)
-Received: by 10.58.34.132 with HTTP; Thu, 6 Jun 2013 19:05:51 -0700 (PDT)
-In-Reply-To: <CANwerB3Ha-dUVEGrzW8FkSpRD13qRqfbZrxSy9pftYR793s9yg@mail.gmail.com>
-References: <1370501684-26590-1-git-send-email-net147@gmail.com>
-	<CANwerB3Ha-dUVEGrzW8FkSpRD13qRqfbZrxSy9pftYR793s9yg@mail.gmail.com>
-Date: Fri, 7 Jun 2013 12:05:51 +1000
-Message-ID: <CANwerB0_VVfnuwFtTubxckhgvpSLzr-1MDb154eUg9ow+0V8+g@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=C8GXhnwv2vPUhDDx1vRbkXNqGvL7r1HBTXd2XdVSq9g=;
+	b=S6TmHwNmbfYGnHJrzdOjIxLdG+8yiE+jQq60w2GxaU50TbCAchgpm/rwrvPrnRBcG9
+	lV4V8eFMv7MiYK5IAkVlcvGvKmwHDfWSduLuAdhrNe2o8Pga3lZqUHjqNaolG03iFVgL
+	UGXEIVzVE7n9L+XyYRidLG3lOKYyqWyeTgAomHzVaQTslLbGBadGMUVz12IeFlI2br3U
+	KTNDNvDZkwD5zKQGQFpJxGqk+wnAn5je8HUDhhnbTMlKUohxIZzOF4G8UB/5+hRjIks8
+	hHZHkCVkjzpmlUAZYQfeEqqrdtoe+aMXkmt9N8Z65nKJfQXYJE8r1XBMYk+fBYaYO4kY
+	pw5g==
+X-Received: by 10.68.17.8 with SMTP id k8mr22943123pbd.102.1370570845640;
+	Thu, 06 Jun 2013 19:07:25 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id nt6sm46739422pbb.4.2013.06.06.19.07.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 06 Jun 2013 19:07:24 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/qmake2: export QMAKEPATH
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2013 12:21:08 +1000
+Message-Id: <1370571668-22560-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] qt4-native: update configure paths to match target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +42,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 02:05:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Jun 2013 02:07:24 -0000
 
-On 6 June 2013 17:34, Jonathan Liu <net147@gmail.com> wrote:
-> On 6 June 2013 16:54, Jonathan Liu <net147@gmail.com> wrote:
->> QMAKEPATH is exported so that qmake is able to detect the webkit module,
->> load it and add it to the QT_CONFIG variable. The detection is done in
->> mkspecs/features/qt_config.prf which reads the qmake QMAKE_MKSPECS
->> builtin. qmake will read QMAKEPATH, append /mkspecs to it and prepend it
->> to the QMAKE_MKSPECS list builtin returned. qt_config.prf will then load
->> modules matching modules/qt_*.pri inside each directory in QMAKE_MKSPECS.
->>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/classes/qmake2.bbclass | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
->> index 8b9861c..03ad2f1 100644
->> --- a/meta/classes/qmake2.bbclass
->> +++ b/meta/classes/qmake2.bbclass
->> @@ -5,6 +5,7 @@ inherit qmake_base
->>
->>  DEPENDS_prepend = "qt4-tools-native "
->>
->> +export QMAKEPATH = "${STAGING_DATADIR}/qt4"
->>  export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
->>  export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
->>  export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
->> --
->> 1.8.2.3
->>
-> This may be causing some packaging QA problems. I am investigating...
+qmake2 was being built with paths different to the target Qt.
 
-Please disregard this patch. I will submit a different patch to fix.
+The incorrect paths can be seen by running qmake2 -query:
+QT_INSTALL_DOCS:${STAGING_DIR_NATIVE}/usr/doc
+  should be /usr/share/doc/qt4
+QT_INSTALL_PLUGINS:${STAGING_DIR_NATIVE}/usr/plugins
+  should be /usr/lib/qt4/plugins
+QT_INSTALL_IMPORTS:${STAGING_DIR_NATIVE}/usr/imports
+  should be /usr/lib/qt4/imports
+QT_INSTALL_TRANSLATIONS:${STAGING_DIR_NATIVE}/usr/translations
+  should be /usr/share/qt4/translations
+QT_INSTALL_EXAMPLES:${STAGING_DIR_NATIVE}/usr/examples
+  should be /usr/bin/qt4/examples
+QT_INSTALL_DEMOS:${STAGING_DIR_NATIVE}/usr/demos
+  should be /usr/bin/qt4/demos
+QMAKE_MKSPECS:${STAGING_DIR_NATIVE}/usr/mkspecs
+  should be /usr/share/qt4/mkspecs
 
-Regards,
-Jonathan
+Use the same paths as target Qt for consistency. As the mkspecs are
+installed to /usr/share/qt4/mkspecs not /usr/mkspecs, qmake2 was
+unable to detect and load the webkit module (it is detected by loading
+modules/qt_*.pri inside the mkspecs directory) so webkit was missing
+from QT_CONFIG if a qmake project reads the QT_CONFIG variable.
+
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-qt/qt4/qt4-native.inc | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
+index 59c8ab5..cd6092a 100644
+--- a/meta/recipes-qt/qt4/qt4-native.inc
++++ b/meta/recipes-qt/qt4/qt4-native.inc
+@@ -25,6 +25,17 @@ SRC_URI = "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-sr
+ S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
+ 
+ EXTRA_OECONF = "-prefix ${prefix} \
++                -bindir ${bindir} \
++                -libdir ${libdir} \
++                -datadir ${datadir}/qt4 \
++                -sysconfdir ${sysconfdir}/qt4 \
++                -docdir ${docdir}/qt4 \
++                -headerdir ${includedir}/qt4 \
++                -plugindir ${libdir}/qt4/plugins \
++                -importdir ${libdir}/qt4/imports \
++                -translationdir ${datadir}/qt4/translations \
++                -examplesdir ${bindir}/qt4/examples \
++                -demosdir ${bindir}/qt4/demos \
+                 -L ${STAGING_LIBDIR_NATIVE} \
+                 -I ${STAGING_INCDIR_NATIVE} \
+                 -qt-libjpeg -system-zlib \
+@@ -34,7 +45,6 @@ EXTRA_OECONF = "-prefix ${prefix} \
+                 -no-nas-sound \
+                 -no-nis -no-openssl \
+                 -verbose -release \
+-                -headerdir ${includedir}/qt4 \
+                 -embedded -no-freetype -no-glib -no-iconv \
+                 -exceptions -xmlpatterns \
+                 -qt3support \
+-- 
+1.8.2.3
+
 
