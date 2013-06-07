@@ -1,46 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DD81A6041D
+Return-Path: <net147@gmail.com>
+Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A7B66A456
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2013 23:31:08 +0000 (UTC)
-Received: by mail-ea0-f175.google.com with SMTP id d15so3093361eaj.34
+	Fri,  7 Jun 2013 01:37:54 +0000 (UTC)
+Received: by mail-vc0-f178.google.com with SMTP id id13so2415397vcb.37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2013 16:31:09 -0700 (PDT)
+	Thu, 06 Jun 2013 18:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=dYMAM6a/LG5e/VZgTB+h3Mn/lxnNPjvt71Rho3du/ro=;
-	b=lVx8KA43IHZfwJe9BFqvBSiVe3qS2Er06X2wnb5BdvXGueWezT8UI/HCgDXzvG9TDZ
-	DbJP9rGukG9og5AQJDEUJ2ejbdnpuUsaGm1OoU0+QUxiKCvHyaiCPGugnK1jaC/TeeMf
-	0BvqstziFQvnw2QTdRyYZIpecbft1/9Bv2r2OF7x6SFZJrSFDEFSJJOaFL2DxV1iJEyw
-	otQ55AYyLYyHBBHrEwGneKEMS8uFirjcCLtn2FrEfB20lneNL7qRtHR5fLyvvSTOO+31
-	HM6OYUKbpUvP4SDca0zrfuyUr4hiI0YzUfnNs7FPh5Yj5GzgLPzPEITVWIvbksyYgwh9
-	DViw==
-X-Received: by 10.14.10.9 with SMTP id 9mr36522200eeu.75.1370561468982;
-	Thu, 06 Jun 2013 16:31:08 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n42sm4872693eeh.15.2013.06.06.16.31.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 06 Jun 2013 16:31:08 -0700 (PDT)
-Date: Fri, 7 Jun 2013 01:31:26 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Message-ID: <20130606233126.GF22710@jama>
-References: <1370422910-24366-1-git-send-email-net147@gmail.com>
-	<2054363.UxqkIOrzAJ@helios> <51AF6ED5.4010500@linux.intel.com>
-	<14899581.O0scG6jzAS@helios>
-	<CAGrhNMzSY-ow4PNzscD31qSW8st1tv9Fjmc9Xxx_Oqa2CjsuJA@mail.gmail.com>
-	<51B0EBE2.3020909@linux.intel.com>
-	<3011112518438126591@unknownmsgid>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=688xydNa/Atdu7rSvqMcWf4cQQFagbQ8nTzI809B2/k=;
+	b=P55pcAo8XbDcUdvTrvX9HUZmeAPS1/mu3Rnsxqv3Q8mSa7ahThnQb6N2lw2S7jfZpR
+	whmyBZhxIk7feR3Wml5DVVtm53QARcSCgCzU1DZLD0mSnScZNzwMJrd5f+rGeTY6jzG3
+	2cm8WHkSshK1LWcVS8xHnK41LCa5SoJAphneFiNF7gEfpNB+4SMLqrymn2VQsWwr1fEG
+	L8XUGRcYiDP4bKZa12sdXCeITROK9a7v95tTo9EPhdghfvbyuBSlvLLM6p8k/zNV4uhD
+	7qx1MvWPPBOv3mkGOEau6dCeCQeVdalK3Q7bTVyW4VU4u9zPd+6/WWS2KbNKIaqR9+Sh
+	PW5Q==
 MIME-Version: 1.0
-In-Reply-To: <3011112518438126591@unknownmsgid>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
+X-Received: by 10.52.164.98 with SMTP id yp2mr6125037vdb.111.1370569074746;
+	Thu, 06 Jun 2013 18:37:54 -0700 (PDT)
+Received: by 10.58.34.132 with HTTP; Thu, 6 Jun 2013 18:37:54 -0700 (PDT)
+In-Reply-To: <51ADD851.50700@communistcode.co.uk>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130604115851.GD3279@jama> <51ADD851.50700@communistcode.co.uk>
+Date: Fri, 7 Jun 2013 11:37:54 +1000
+Message-ID: <CANwerB2ioD3Ajxt_jk=K8g6jd1T9thHvi0uwQhJLzFA8F7+RDg@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: ml@communistcode.co.uk
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,104 +47,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2013 23:31:09 -0000
-X-Groupsio-MsgNum: 40267
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="6lXr1rPCNTf1w0X8"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Jun 2013 01:37:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
---6lXr1rPCNTf1w0X8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4 June 2013 22:06, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> On 04/06/13 12:58, Martin Jansa wrote:
+>>
+>> On Mon, Jun 03, 2013 at 05:10:08PM +0200, Martin Jansa wrote:
+>>>
+>>> On Mon, May 20, 2013 at 03:06:35PM +0200, Martin Jansa wrote:
+>>>>
+>>>> Couple of issues from last email were fixed, so here is updated status:
+>>>>
+>>>> qemuarm Summary: 14 tasks failed:
+>>>>
+>>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_090009.log
+>>>> qemux86 Summary: 19 tasks failed:
+>>>>
+>>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130519_170509.log
+>>>> qemux86-64 Summary: 20 tasks failed:
+>>>>
+>>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130520_005747.log
+>>>
+>>>
+>>> Hi,
+>>>
+>>> updated status, still building with gcc-4.8
+>>> shr-version issue already fixed
+>>> llvm2.9 also fixed
+>>> so if we don't count these 3 failures it's a bit better than last status
+>>>
+>>> qemuarm Summary: 15 tasks failed:
+>>>
+>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130601_225651.log
+>>>
+>>> qemux86 Summary: 18 tasks failed:
+>>>
+>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130603_011743.log/
+>>>
+>>> qemux86-64: Summary: 21 tasks failed:
+>>>
+>>> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130602_103752.log
+>>>
+>>> common (13):
+>>>
+>>> meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb,
+>>> do_compile
+>>>
+>>> virtual:native:meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb,
+>>> do_compile
+>>>
+>>> meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb,
+>>> do_compile
+>>>
+>>> meta-openembedded/meta-oe/recipes-connectivity/gnuradio/gnuradio_git.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-gnome/recipes-gnome/gthumb/gthumb_2.12.4.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.5.8.bb,
+>>> do_configure
+>>>
+>>> meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb,
+>>> do_compile
+>>>
+>>> meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb,
+>>> do_compile
+>>>    meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb, do_configure
+>>>    meta-smartphone/meta-shr/recipes-shr/shr/shr-version.bb,
+>>> do_populate_lic
+>>>
+>>> qemuarm (2):
+>>>    meta-openembedded/meta-oe/recipes-support/libunwind/libunwind_1.1.bb,
+>>> do_compile
+>>>    openembedded-core/meta/recipes-devtools/qemu/qemu_1.4.1.bb, do_compile
+>>>
+>>> qemux86* common (3):
+>>>
+>>> openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.6.bb,
+>>> do_compile
+>>>    meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+>>>    openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+>>>
+>>> qemux86 (2):
+>>>    meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb,
+>>> do_compile
+>>>
+>>> meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2.11.14.bb,
+>>> do_compile
+>>>
+>>> qemux86-64 (5):
+>>>    meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+>>>
+>>> meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobiledevice_1.1.4.bb,
+>>> do_configure
+>>>
+>>> meta-openembedded/meta-gnome/recipes-gnome/gnome-session/gnome-session_2.32.1.bb,
+>>> do_compile
+>>>    meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb,
+>>> do_compile
+>>>
+>>> meta-openembedded/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.26.bb,
+>>> do_configure
+>>
+>>
+>> I forgot to mention that many packages now detect /run directory and
+>> install unshipped files, causing many new QA warnings, this isn't complete
+>> list,
+>> because some packages were reused from sstate-cache:
+>>
+>> usbmuxd-git: usbmuxd: Files/directories were installed but not shipped
+>>    /usr/lib64
+>>    /usr/lib64/libusbmuxd.so
+>>    /usr/lib64/libusbmuxd.so.1.0.8
+>>    /usr/lib64/libusbmuxd.so.2
+>>    /usr/lib64/pkgconfig
+>>    /usr/lib64/.debug
+>>    /usr/lib64/pkgconfig/libusbmuxd.pc
+>>    /usr/lib64/.debug/libusbmuxd.so.1.0.8
+>> openldap-2.4.23: openldap: Files/directories were installed but not
+>> shipped
+>>    /run
+>> networkmanager-0.9.8.0: networkmanager: Files/directories were installed
+>> but not shipped
+>>    /run
+>>    /run/NetworkManager
+>> cherokee-1.2.98: cherokee: Files/directories were installed but not
+>> shipped
+>>    /run
+>> nostromo-1.9.5: nostromo: Files/directories were installed but not shipped
+>>    /run
+>>    /run/nostromo
+>> gdm-2.32.2: gdm: Files/directories were installed but not shipped
+>>    /run
+>>    /run/gdm
+>>    /run/gdm/greeter
+>> collectd-5.2.2: collectd: Files/directories were installed but not shipped
+>>    /run
+>>
+>>
+>
+> What is the best way to go about fixing these?
 
-On Fri, Jun 07, 2013 at 09:17:09AM +1000, Jonathan Liu wrote:
-> On 07/06/2013, at 6:07 AM, Saul Wold <sgw@linux.intel.com> wrote:
->=20
-> > On 06/06/2013 12:18 PM, Felipe Tonello wrote:
-> >> On Thu, Jun 6, 2013 at 2:54 AM, Paul Eggleton
-> >> <paul.eggleton@linux.intel.com> wrote:
-> >>> On Wednesday 05 June 2013 10:01:09 Saul Wold wrote:
-> >>>> On 06/05/2013 09:57 AM, Paul Eggleton wrote:
-> >>>>> On Wednesday 05 June 2013 09:46:49 Saul Wold wrote:
-> >>>>>> On 06/05/2013 02:30 AM, Martin Jansa wrote:
-> >>>>>>> On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
-> >>>>>>>> qconfig.pri was not being loaded by qmake properly. This means Qt
-> >>>>>>>> qmake projects are unable to query QT_ARCH, QT_VERSION and other
-> >>>>>>>> variables defined in qconfig.pri.
-> >>>>>>>>
-> >>>>>>>> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig=
-=2Epri
-> >>>>>>>> so that it can be located by qmake.
-> >>>>>>>
-> >>>>>>> There is such patch already:
-> >>>>>>> http://lists.openembedded.org/pipermail/openembedded-core/2013-Ma=
-y/07831
-> >>>>>>> 4.
-> >>>>>>> html
-> >>>>>>
-> >>>>>> Got lost in my queue, adding it for the next MUT.
-> >>>>>
-> >>>>> FWIW I am still concerned by the assertion in the commit message ab=
-out it
-> >>>>> causing undesirable behaviour. I'd want that checked out and the no=
-te
-> >>>>> removed before we look at merging this.
-> >>>>
-> >>>> OK, I will shelf this until I hear more about the testing of this ch=
-ange
-> >>>> regarding the original patch's note.
-> >>>
-> >>> So I tested a rebuild of qt4-x11-free with Felipe's patch and two of
-> >>> Jonathan's ("qt4: fix QMAKE_QT_CONFIG being overwritten with empty va=
-lue" and
-> >>> "classes/qmake_base: allow parallel make"), and did not observe any u=
-nexpected
-> >>> behaviour and buildhistory looks clean for qt itself and fotowall/qui=
-cky. So
-> >>> I'd say feel free to throw these into MUT, but I think we need to dro=
-p the
-> >>> note.
-> >>
-> >> Awesome.
-> >
-> > So can someone put a final updated patch series together.  I am still n=
-ot sure about Jonathans's allow parallel make change, it seemed to have the=
- -j option since it's added with a _prepend which is not overriden by the =
-=3D assignment.
-> >
-> > Sau!
->=20
-> It has make -j 16 MAKEFLAGS=3D.
-> -j 16 adds to MAKEFLAGS, and MAKEFLAGS=3D clears it. It is trivial to
-> check this is the case and I have verified it both when building
-> fotowall and independently on command line for building Qt projects
-> outside of Yocto.
+Fix guide for unshipped files in run directory:
 
-disadvantage of this (at least in qt5) is that it starts independent
-make processes which all inherit MAKEFLAGS, so instead of 16 processes
-you can get a lot more - I've seen something like 40 when building
-qtwebkit with -j 8.
+- If package just installs empty run directory, remove it by adding
+the following to do_install_append():
+rmdir "${D}${localstatedir}/run"
+rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+Reference: http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=2aa350acca1c6b6ada6a4508611ce25e9f9576ab
 
-But on other hand it's faster then -j1.
-https://github.com/meta-qt5/meta-qt5/commit/e9c61a9e6f51f500df349f8fe569ec0=
-95a1b8d2b
-https://github.com/meta-qt5/meta-qt5/commit/f76e45b5a8c59b1b8e4b806d2a2a09e=
-6baf4d4e2
+- If the package creates folders inside the run directory, stop the
+service, rename to something else and try starting it again. If the
+service recreates the folders with the same permissions and still
+starts correctly, these folders can be removed in do_install_append()
+with:
+rm -fr "${D}${localstatedir}/run"
+Reference: http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=aa6408b05c5eb17b6e9fc280069f3b15eafbdab0
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+- If the package actually requires folders inside run directory to
+start up properly and doesn't create them automatically, a file
+listing them needs to be added to tmpfiles.d (for systemd) and
+volatiles (for sysvinit).
+Reference: http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=9623ccf70221f81861a42cac1eb372d77ea40ba9
 
---6lXr1rPCNTf1w0X8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Regards,
+Jonathan
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGxG84ACgkQN1Ujt2V2gBz1IACgqnZpiCIxYZAbbSk4Ppzzh8Bs
-cdgAn0JKvz/TMOuJdc7m01QIleGb/Mfa
-=armi
------END PGP SIGNATURE-----
-
---6lXr1rPCNTf1w0X8--
