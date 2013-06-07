@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 931FC6A66B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F1A236A543
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 06:13:30 +0000 (UTC)
+	Fri,  7 Jun 2013 06:13:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r576DVAF001822
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r576DY9q001694
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Jun 2013 23:13:31 -0700 (PDT)
+	Thu, 6 Jun 2013 23:13:34 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 6 Jun 2013 23:13:31 -0700
+	14.2.342.3; Thu, 6 Jun 2013 23:13:32 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Jun 2013 14:13:56 +0800
-Message-ID: <b5688fe465a6f4fd3e21ce9eae41ce5fc8eb84db.1370585547.git.Qi.Chen@windriver.com>
+Date: Fri, 7 Jun 2013 14:13:57 +0800
+Message-ID: <c27d0a321216d09f6bfc7bac11aaadaffbac82c9.1370585547.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1370585547.git.Qi.Chen@windriver.com>
 References: <cover.1370585547.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: qingtao.cao@windriver.com
-Subject: [PATCH 2/8] busybox: add support for CONFIG_FEATURE_INDIVIDUAL
+Subject: [PATCH 3/8] busybox: add a config fragment to enable login utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 06:13:30 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 06:13:32 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Previously, if CONFIG_FEATURE_INDIVIDUAL was enabled for busybox,
-yocto-based systems could start correctly.
+Create a config fragment to enable the login/passwd utilities of busybox.
 
-This is because if busybox is built as individual apps, '/bin/busybox'
-may not be present, so setting the default ALTERNATIVE_TARGET to
-'/bin/busybox' is not appropriate and could lead to errors.
-
-This patch fixes this problem by checking the existence of '/bin/busybox'
-before setting the ALTERNATIVE_TARGET to '/bin/busybox'.
-
-After this change, if busybox is built as individual apps, we'll have
-links like '/bin/ls -> /bin/ls.busybox', otherwise, we'll have links
-like '/bin/ls -> /bin/busybox'.
-
-Note there's a grep expression change in this patch. The old expression
-doesn't work well, it has an unwanted underscore, so I changed it to make
-it work.
-
-[YOCTO #4570]
+[YOCTO #4207]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/busybox/busybox.inc |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../busybox/busybox-1.20.2/login-utilities.cfg     |   13 +++++++++++++
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    3 ++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/login-utilities.cfg
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index f4efeb8..99d4e99 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -171,7 +171,7 @@ do_install () {
- 			install -m 0755 "0_lib/$NAME" "${D}$FILE.${BPN}"
- 		done
- 		# add suid bit where needed
--		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
-+		for i in `grep -E "APPLET.*BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
- 			find ${D} -name $i.${BPN} -exec chmod a+s {} \;
- 		done
- 		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
-@@ -242,8 +242,6 @@ ALTERNATIVE_TARGET[syslog-init] = "${sysconfdir}/init.d/syslog.${BPN}"
- ALTERNATIVE_LINK_NAME[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf"
- ALTERNATIVE_TARGET[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf.${BPN}"
+diff --git a/meta/recipes-core/busybox/busybox-1.20.2/login-utilities.cfg b/meta/recipes-core/busybox/busybox-1.20.2/login-utilities.cfg
+new file mode 100644
+index 0000000..cc9b2db
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.20.2/login-utilities.cfg
+@@ -0,0 +1,13 @@
++CONFIG_FEATURE_SHADOWPASSWDS=y
++CONFIG_ADDUSER=y
++CONFIG_FEATURE_ADDUSER_LONG_OPTIONS=y
++CONFIG_ADDGROUP=y
++CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS=y
++CONFIG_DELUSER=y
++CONFIG_DELGROUP=y
++CONFIG_GETTY=y
++CONFIG_LOGIN=y
++CONFIG_PASSWD=y
++CONFIG_SU=y
++CONFIG_SULOGIN=y
++CONFIG_VLOCK=y
+diff --git a/meta/recipes-core/busybox/busybox_1.20.2.bb b/meta/recipes-core/busybox/busybox_1.20.2.bb
+index 07d722d..3ff8a88 100644
+--- a/meta/recipes-core/busybox/busybox_1.20.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
+@@ -35,7 +35,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://fail_on_no_media.patch \
+            file://busybox-sulogin-empty-root-password.patch \
+            file://inetd.conf \
+-           file://inetd"
++           file://inetd \
++           file://login-utilities.cfg"
  
--ALTERNATIVE_TARGET = "/bin/busybox"
--
- python do_package_prepend () {
-     # We need to load the full set of busybox provides from the /etc/busybox.links
-     # Use this to see the update-alternatives with the right information
-@@ -252,6 +250,9 @@ python do_package_prepend () {
-     pn = d.getVar('PN', True)
-     f = open('%s/etc/busybox.links' % (dvar), 'r')
- 
-+    if os.path.exists('%s/bin/busybox' % (dvar)):
-+        d.setVar('ALTERNATIVE_TARGET', "/bin/busybox")
-+
-     for alt_link_name in f:
-         alt_link_name = alt_link_name.strip()
-         alt_name = os.path.basename(alt_link_name)
+ SRC_URI[tarball.md5sum] = "e025414bc6cd79579cc7a32a45d3ae1c"
+ SRC_URI[tarball.sha256sum] = "eb13ff01dae5618ead2ef6f92ba879e9e0390f9583bd545d8789d27cf39b6882"
 -- 
 1.7.9.5
 
