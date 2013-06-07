@@ -1,26 +1,27 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6446E6A5AF
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2376A5AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 23:28:25 +0000 (UTC)
+	Fri,  7 Jun 2013 23:31:14 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2013 16:28:25 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 07 Jun 2013 16:31:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,825,1363158000"; d="scan'208";a="349936046"
+X-IronPort-AV: E=Sophos;i="4.87,825,1363158000"; d="scan'208";a="349937425"
 Received: from unknown (HELO envy.home) ([10.255.12.182])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2013 16:28:24 -0700
-Message-ID: <51B26C98.1030002@linux.intel.com>
-Date: Fri, 07 Jun 2013 16:28:24 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2013 16:31:15 -0700
+Message-ID: <51B26D43.4050909@linux.intel.com>
+Date: Fri, 07 Jun 2013 16:31:15 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130110 Thunderbird/17.0.2
 MIME-Version: 1.0
 To: Jonathan Liu <net147@gmail.com>
-References: <1369283514-8837-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1369283514-8837-1-git-send-email-net147@gmail.com>
+References: <1368069844-13706-1-git-send-email-net147@gmail.com>
+	<1368069844-13706-2-git-send-email-net147@gmail.com>
+In-Reply-To: <1368069844-13706-2-git-send-email-net147@gmail.com>
 X-Enigmail-Version: 1.5.1
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boot-directdisk: mount root by MBR disk signature for Linux 3.8+
+Subject: Re: [PATCH 2/3] boot-directdisk: Scope HDDDIR and HDDIMG variables to avoid conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +34,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 23:28:26 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 23:31:15 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-Hi Jon,
 
-Please include a complete commit message. For specifics on contributing
-patches, please see:
 
-https://wiki.yoctoproject.org/wiki/Contribution_Guidelines
+On 05/08/2013 08:24 PM, Jonathan Liu wrote:
+> These variables should not be shared with other image classes.
+> The bootimg class also has an HDDDIR variable that could be overwritten
+> if executing concurrently in the same image recipe.
+> 
 
-What is the problem? What is the cause? How are you addressing it? How
-was it tested?
+Nice catch. Would you considering sending a patch against the bootimg
+class as well?
 
-Is this 3.8 feature you are referring to something must be configured
-into the kernel? Or is it always present?
+Thanks,
 
-There is also the concern with dual kernel systems (but that perhaps can
-wait until that is commonplace and the infrastructure is in place).
+Darren
 
-See inline for additional comments:
-
-On 05/22/2013 09:31 PM, Jonathan Liu wrote:
 > Signed-off-by: Jonathan Liu <net147@gmail.com>
 > ---
->  meta/classes/boot-directdisk.bbclass | 21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
+>  meta/classes/boot-directdisk.bbclass | 25 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 13 deletions(-)
 > 
 > diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index 3169043..736bee0 100644
+> index aa172c6..9673760 100644
 > --- a/meta/classes/boot-directdisk.bbclass
 > +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -23,7 +23,8 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
->                                 syslinux:do_populate_sysroot \
->                                 syslinux-native:do_populate_sysroot \
->                                 parted-native:do_populate_sysroot \
-> -                               mtools-native:do_populate_sysroot "
-> +                               mtools-native:do_populate_sysroot \
-> +                               util-linux-native:do_populate_sysroot "
->  
+> @@ -28,9 +28,6 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
 >  PACKAGES = " "
 >  EXCLUDE_FROM_WORLD = "1"
-> @@ -58,6 +59,22 @@ build_boot_dd() {
+>  
+> -HDDDIR = "${S}/hdd/boot"
+> -HDDIMG = "${S}/hdd.image"
+> -
+>  BOOTDD_VOLUME_ID   ?= "boot"
+>  BOOTDD_EXTRA_SPACE ?= "16384"
+>  
+> @@ -43,14 +40,16 @@ SYSLINUX_TIMEOUT ?= "10"
+>  inherit syslinux
+>  		
+>  build_boot_dd() {
+> +	HDDDIR="${S}/hdd/boot"
+> +	HDDIMG="${S}/hdd.image"
+>  	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
+>  
+> -	install -d ${HDDDIR}
+> -	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${HDDDIR}/vmlinuz
+> -	install -m 0644 ${S}/syslinux.cfg ${HDDDIR}/syslinux.cfg
+> -	install -m 444 ${STAGING_DATADIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
+> +	install -d $HDDDIR
+> +	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $HDDDIR/vmlinuz
+> +	install -m 0644 ${S}/syslinux.cfg $HDDDIR/syslinux.cfg
+> +	install -m 444 ${STAGING_DATADIR}/syslinux/ldlinux.sys $HDDDIR/ldlinux.sys
+>  
+> -	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
+> +	BLOCKS=`du -bks $HDDDIR | cut -f 1`
+>  	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
+>  
+>  	# Ensure total sectors is an integral number of sectors per
+> @@ -59,11 +58,11 @@ build_boot_dd() {
 >  	# done in blocks, thus the mod by 16 instead of 32.
 >  	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
 >  
-> +	KERNEL_VERSION=$(grep '^VERSION\s*=' ${STAGING_KERNEL_DIR}/Makefile | grep -o '[0-9]*$')
-> +	KERNEL_PATCHLEVEL=$(grep '^PATCHLEVEL\s*=' ${STAGING_KERNEL_DIR}/Makefile | grep -o '[0-9]*$')
-
-
-Could you use LINUX_VERSION here and void delving into the Linux sources
-directly?
-
-
-> +
-> +	rm -rf $IMAGE
-> +	dd if=/dev/zero of=$IMAGE bs=512 seek=1 count=0
-> +	parted $IMAGE mklabel msdos
-> +
-> +	# If using Linux 3.8 or later, mount root by MBR disk signature
-> +	if [[ $KERNEL_VERSION -eq 3 && $KERNEL_PATCHLEVEL -ge 8 ]] || [ $KERNEL_VERSION -gt 3 ]; then
-
-
-[[ is a bashism, use portable tests please, for example:
-
-if ([ $KERNEL_VERSION -eq 3 ] && [$KERNEL_PATCHLEVEL -ge 8 ]) || [
-$KERNEL_VERSION -gt 3 ]; then
-
-This is easily tested by writing test.sh and executing with bash and
-dash and ensuring consistent behavior.
-
-Is the version sufficient? No CONFIG_ value to test for?
-
-> +		# The disk signature generated by GNU Parted isn't really random, so regenerate it
-> +		echo -ne "$(uuidgen | sed 's/-//g;s/\(..\)/\\x&/g')" | dd of=$IMAGE bs=1 seek=440 count=4 conv=notrunc
-> +
-> +		DISK_SIGNATURE=$(hexdump -s 440 -n 4 -e '4 1 "%02x\n" "\n"' $IMAGE | tac | paste -sd '')
-
-Seems like it would be more efficient to just store this in a variable
-initially
-rather than opening, seeking, and dumping the value that you just wrote
-in...
-
-> +		sed -i "s|\broot=[^ ]*|root=PARTUUID=$DISK_SIGNATURE-02|" $HDDDIR/syslinux.cfg
-
-
-In bootimg.bbclass I have been abstracting out the boot loader so it is
-not explicitly referenced. Something like that is in order here. For
-example, an EFI boot-directdisk (which admittedly doesn't exist yet)
-would not have a syslinux.cfg but would still need the change. Consider
-using the syslinux class to abstract this necessary change. Then I can
-add the gummiboot change when EFI support is added.
-
---
-Darren
-
-> +	fi
-> +
->  	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
->  	mcopy -i $HDDIMG -s $HDDDIR/* ::/
+> -	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C ${HDDIMG} $BLOCKS 
+> -	mcopy -i ${HDDIMG} -s ${HDDDIR}/* ::/
+> +	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
+> +	mcopy -i $HDDIMG -s $HDDDIR/* ::/
 >  
-> @@ -71,10 +88,8 @@ build_boot_dd() {
->  	END3=`expr \( $ROOTFSBLOCKS \* 1024 \) + $END1`
+> -	syslinux ${HDDIMG}
+> -	chmod 644 ${HDDIMG}
+> +	syslinux $HDDIMG
+> +	chmod 644 $HDDIMG
 >  
->  	echo $ROOTFSBLOCKS $TOTALSIZE $END1 $END2 $END3
-> -	rm -rf $IMAGE
->  	dd if=/dev/zero of=$IMAGE bs=1024 seek=$TOTALSIZE count=1
+>  	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
+>  	TOTALSIZE=`expr $BLOCKS + $ROOTFSBLOCKS`
+> @@ -83,7 +82,7 @@ build_boot_dd() {
 >  
-> -	parted $IMAGE mklabel msdos
->  	parted $IMAGE mkpart primary fat16 0 ${END1}B
->  	parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
->  	parted $IMAGE set 1 boot on 
+>  	OFFSET=`expr $END2 / 512`
+>  	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+> -	dd if=${HDDIMG} of=$IMAGE conv=notrunc seek=1 bs=512
+> +	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+>  	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
+>  
+>  	cd ${DEPLOY_DIR_IMAGE}
 > 
 
 -- 
